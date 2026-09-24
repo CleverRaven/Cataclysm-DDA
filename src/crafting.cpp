@@ -52,7 +52,6 @@
 #include "handle_liquid.h"
 #include "input_popup.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -86,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -115,7 +115,9 @@ static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_pickaxe( "pickaxe" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_shovel( "shovel" );
 static const itype_id itype_water_faucet( "water_faucet" );
 
 static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
@@ -132,6 +134,8 @@ static const skill_id skill_tailor( "tailor" );
 
 static const ter_str_id ter_t_brick_oven( "t_brick_oven" );
 
+static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -634,7 +638,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
 bool Character::can_make( const recipe *r, int batch_size ) const
 {
-    const inventory &crafting_inv = crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = crafting_inventory();
 
     if( !has_recipe( r ) ) {
         return false;
@@ -661,23 +665,25 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
         return false;
     }
 
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
     return rec->deduped_requirements().can_make_with_inventory(
                this, inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &Character::crafting_inventory( bool clear_path ) const
+const temp_crafting_inventory &Character::crafting_inventory( bool clear_path ) const
 {
     return crafting_inventory( tripoint_bub_ms::zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, int radius,
+const temp_crafting_inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos,
+        int radius,
         bool clear_path ) const
 {
     return Character::crafting_inventory( &get_map(), src_pos, radius, clear_path );
 }
 
-const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms &src_pos,
+const temp_crafting_inventory &Character::crafting_inventory( map *here,
+        const tripoint_bub_ms &src_pos,
         int radius,
         bool clear_path ) const
 {
@@ -685,45 +691,55 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     if( src_pos == tripoint_bub_ms::zero ) {
         inv_pos = pos_bub( *here );
     }
+    const uint64_t reservation_generation = get_craft_reservations().generation();
     if( crafting_cache.valid
         && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
         && inv_pos == crafting_cache.position
+        && reservation_generation == crafting_cache.reservation_generation
       ) {
         return *crafting_cache.crafting_inventory;
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( here, inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( here, inv_pos, radius, this, clear_path );
     }
 
     std::map<itype_id, int> tmp_liq_list;
-    // TODO: Add a const overload of all_items_loc() that returns something like
-    // vector<const_item_location> in order to get rid of the const_cast here.
-    for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
-        // add containers separately from their contents
+
+    visit_items(
+    [&]( item * it, item * parent ) {
+        // Only roots: a reserved provider takes the container carrying it along.
+        if( parent == nullptr && craft_reservation::contains_reserved( *it ) ) {
+            return VisitResponse::SKIP;
+        }
         if( !it->empty_container() ) {
             // is the non-empty container used for BOIL?
             if( !it->is_watertight_container() || it->get_quality( qual_BOIL, false ) <= 0 ) {
                 item tmp = item( it->typeId(), it->birthday() );
                 tmp.is_favorite = it->is_favorite;
-                *crafting_cache.crafting_inventory += tmp;
+                crafting_cache.crafting_inventory->add_item_copy( tmp );
             }
-            continue;
+            return VisitResponse::NEXT;
         } else if( it->is_watertight_container() ) {
             const int count = it->count_by_charges() ? it->charges : 1;
             tmp_liq_list[it->typeId()] += count;
         }
-        crafting_cache.crafting_inventory->add_item( *it );
+        crafting_cache.crafting_inventory->add_item_copy( *it );
+        return VisitResponse::SKIP;
     }
+    );
     crafting_cache.crafting_inventory->replace_liq_container_count( tmp_liq_list, true );
 
-    for( const item &i : crafting_pseudo_items() ) {
-        *crafting_cache.crafting_inventory += i;
+
+    if( has_trait( trait_BURROW ) || has_trait( trait_BURROWLARGE ) ) {
+        crafting_cache.crafting_inventory->add_pseudo_item( itype_pickaxe );
+        crafting_cache.crafting_inventory->add_pseudo_item( itype_shovel );
     }
 
     crafting_cache.valid = true;
+    crafting_cache.reservation_generation = reservation_generation;
     crafting_cache.moves = moves;
     crafting_cache.time = calendar::turn;
     crafting_cache.position = inv_pos;
@@ -807,7 +823,9 @@ static item_location set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
-        p.inv->assign_empty_invlet( newit, p );
+        if( p.is_avatar() ) {
+            p.as_avatar()->assign_empty_invlet( newit );
+        }
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
@@ -1315,7 +1333,7 @@ static bool env_qualities_satisfied_for_step( const recipe_step &step, const ite
     map &m = get_map();
     const step_source_context src = resolve_step_source( craft, loc );
 
-    inventory inv;
+    temp_crafting_inventory inv;
     if( src.present_char != nullptr ) {
         inv = src.present_char->crafting_inventory( src.origin, src.radius );
     } else {
@@ -3767,7 +3785,6 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
 
     recoil = MAX_RECOIL;
 
-    inv->restack( *this );
     // Positive morale bonuses only happen on completion, to avoid the player repeatedly re-crafting to spam morale
     making.apply_positive_morale_mods( *this );
 
@@ -3849,7 +3866,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             use_favorite_filter = false;
         }
 
-        inventory map_inv;
+        temp_crafting_inventory map_inv;
         map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         auto filter = [&]( const item & it ) {
@@ -3929,7 +3946,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        inventory map_inv;
+        temp_crafting_inventory map_inv;
         map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
         if( rec.has_steps() ) {
@@ -4022,7 +4039,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 }
 const requirement_data *Character::select_requirements(
     const std::vector<const requirement_data *> &alternatives, int batch,
-    const read_only_visitable &inv,
+    const temp_crafting_inventory &inv,
     const std::function<bool( const item & )> &filter ) const
 {
     cata_assert( !alternatives.empty() );
@@ -4056,7 +4073,7 @@ const requirement_data *Character::select_requirements(
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
-        int batch, read_only_visitable &map_inv, bool can_cancel,
+        int batch, temp_crafting_inventory &map_inv, bool can_cancel,
         const std::function<bool( const item & )> &filter, bool player_inv, bool npc_query,
         const recipe *rec )
 {
@@ -4357,10 +4374,15 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         const std::vector<tripoint_bub_ms> &reachable_pts,
         bool select_ind, bool disable_preference )
 {
-    std::function<bool( const item & )> active_preferred_filter = [&filter]( const item & it ) {
-        return filter( it ) && is_preferred_component( it );
+    // Selection stores itype_id, and consumption re-resolves it. So a free instance
+    // could be cleared and a reserved one destroyed in its place.
+    std::function<bool( const item & )> unreserved = [&filter]( const item & it ) {
+        return filter( it ) && unreserved_filter( it );
     };
-    std::function<bool( const item & )> preferred_filter = disable_preference ? filter :
+    std::function<bool( const item & )> active_preferred_filter = [&unreserved]( const item & it ) {
+        return unreserved( it ) && is_preferred_component( it );
+    };
+    std::function<bool( const item & )> preferred_filter = disable_preference ? unreserved :
             active_preferred_filter;
 
     std::list<item> ret;
@@ -4463,7 +4485,7 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
         const std::function<bool( const itype_id & )> &select_ind,
         const bool can_cancel, const bool disable_preference )
 {
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     comp_selection<item_comp> sel = select_item_component( components, batch, map_inv, can_cancel,
                                     filter );
@@ -4490,7 +4512,7 @@ bool Character::consume_software_container( const itype_id &software_id )
 
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
-                                  read_only_visitable &map_inv, bool can_cancel, bool player_inv, bool npc_query,
+                                  temp_crafting_inventory &map_inv, bool can_cancel, bool player_inv, bool npc_query,
                                   const std::function<int( int )> &charges_required_modifier )
 {
 
@@ -4658,7 +4680,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         }
     }
 
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
 
     for( const comp_selection<tool_comp> &tool_sel : cached_tool_selections ) {
@@ -4734,16 +4756,9 @@ static int step_buckets_for_fraction( double f )
 bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &targets,
         const tripoint_bub_ms &origin, int radius, bool pin_to_map )
 {
+    const craft_reservation::scoped_own_claims own_claims( craft );
     std::vector<std::vector<step_tool_alloc>> allocs = craft.get_step_tool_allocs();
 
-    struct pending_debit {
-        comp_selection<tool_comp> sel;
-        usage_from eff_use = usage_from::none;
-        int units = 0;
-        int step_idx = 0;
-        int alloc_idx = 0;
-        int new_count = 0;
-    };
     // A selected non-charged tool drains nothing but must still be present, or
     // the step would advance free using a tool the crafter no longer has.
     struct pending_presence {
@@ -4785,8 +4800,8 @@ bool Character::consume_step_tool_targets( item &craft, const std::vector<int> &
     // form_from_map is expensive in dense areas; defer it until a map-sourced
     // check actually needs it.  Active crafts with player-held tools never hit
     // need_map and pin_to_map=false, so the inventory is never built.
-    std::optional<inventory> map_inv;
-    const auto get_map_inv = [&]() -> const inventory & {
+    std::optional<temp_crafting_inventory> map_inv;
+    const auto get_map_inv = [&]() -> const temp_crafting_inventory & {
         if( !map_inv )
         {
             map_inv.emplace();
@@ -4858,8 +4873,8 @@ bool Character::verify_step_tools( item &craft, int step_idx,
     if( step_idx < 0 || step_idx >= static_cast<int>( allocs.size() ) ) {
         return true;
     }
-    std::optional<inventory> map_inv;
-    const auto get_map_inv = [&]() -> const inventory & {
+    std::optional<temp_crafting_inventory> map_inv;
+    const auto get_map_inv = [&]() -> const temp_crafting_inventory & {
         if( !map_inv )
         {
             map_inv.emplace();
@@ -5106,14 +5121,14 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
     const itype *tmp = item::find_type( tool.comp.type );
     int quantity = tool.comp.count * batch * tmp->charge_factor();
     if( tool.use_from == usage_from::both ) {
-        use_charges( tool.comp.type, quantity, radius );
+        use_charges( tool.comp.type, quantity, radius, unreserved_filter );
     } else if( tool.use_from == usage_from::player ) {
-        use_charges( tool.comp.type, quantity );
+        use_charges( tool.comp.type, quantity, unreserved_filter );
     } else if( tool.use_from == usage_from::map ) {
-        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item>, bcp );
+        m.use_charges( origin, radius, tool.comp.type, quantity, unreserved_filter, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
-            use_charges( tool.comp.type, quantity, radius );
+            use_charges( tool.comp.type, quantity, radius, unreserved_filter );
         }
     }
 
@@ -5130,10 +5145,10 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
     int quantity = tool.comp.count * batch * tmp->charge_factor();
 
     if( tool.use_from == usage_from::player || tool.use_from == usage_from::both ) {
-        use_charges( tool.comp.type, quantity );
+        use_charges( tool.comp.type, quantity, unreserved_filter );
     }
     if( tool.use_from == usage_from::map || tool.use_from == usage_from::both ) {
-        m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
+        m.use_charges( reachable_pts, tool.comp.type, quantity, unreserved_filter, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
             m.consume_ups( reachable_pts, units::from_kilojoule( static_cast<std::int64_t>( quantity ) ) );
@@ -5148,12 +5163,13 @@ In that case, consider using select_tool_component with 1 pre-created map invent
 to consume_tools */
 void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
 {
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( pos_bub(), PICKUP_RANGE, this );
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
-ret_val<void> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
+ret_val<void> Character::can_disassemble( const item &obj,
+        const temp_crafting_inventory &inv ) const
 {
     if( !obj.is_disassemblable() ) {
         return ret_val<void>::make_failure( _( "You cannot disassemble this." ) );

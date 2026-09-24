@@ -23,6 +23,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -130,6 +131,52 @@ TEST_CASE( "map_bounds_checking" )
                     CHECK( m.ter( tripoint_bub_ms{ x, y, z } ) );
                 }
             }
+        }
+    }
+}
+
+static std::vector<tripoint_bub_ms> points_in_radius_of( const map &here,
+        const tripoint_bub_ms &center, const int radius )
+{
+    std::vector<tripoint_bub_ms> visited;
+    for( const tripoint_bub_ms &p : here.points_in_radius( center, radius ) ) {
+        visited.push_back( p );
+    }
+    return visited;
+}
+
+TEST_CASE( "map_points_in_radius_with_center_outside_map", "[map]" )
+{
+    const map &here = get_map();
+    const int radius = 6;
+
+    SECTION( "center past the low x and y edges by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( -100, -50, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the low x edge by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( -100, 20, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the high x edge by more than the radius" ) {
+        const std::vector<tripoint_bub_ms> visited =
+            points_in_radius_of( here, tripoint_bub_ms( MAPSIZE_X + 100, 20, 0 ), radius );
+        CAPTURE( visited );
+        CHECK( visited.empty() );
+    }
+    SECTION( "center past the low x edge by less than the radius" ) {
+        const tripoint_bub_ms center( -2, 20, 0 );
+        const std::vector<tripoint_bub_ms> visited = points_in_radius_of( here, center, radius );
+        // x in [0, 4], y in [14, 26]
+        CHECK( visited.size() == 5 * 13 );
+        for( const tripoint_bub_ms &p : visited ) {
+            CAPTURE( p );
+            CHECK( here.inbounds( p ) );
+            CHECK( square_dist( center, p ) <= radius );
         }
     }
 }

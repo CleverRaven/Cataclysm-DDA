@@ -111,6 +111,22 @@ void zone_manager::clear()
     // Do not clear types since it is needed for the next games.
     area_cache.clear();
     vzone_cache.clear();
+    filter_cache.clear();
+}
+
+const std::function<bool( const item & )> &zone_manager::cached_item_filter(
+    const std::string &filter ) const
+{
+    if( const int cur_lang_ver = detail::get_current_language_version();
+        cur_lang_ver != filter_cache_lang_version ) {
+        filter_cache_lang_version = cur_lang_ver;
+        filter_cache.clear();
+    }
+    auto iter = filter_cache.find( filter );
+    if( iter == filter_cache.end() ) {
+        iter = filter_cache.emplace( filter, item_filter_from_string( filter ) ).first;
+    }
+    return iter->second;
 }
 
 std::string zone_type::name() const
@@ -1264,7 +1280,8 @@ std::vector<zone_data const *> zone_manager::get_zones_at( const tripoint_abs_ms
 
 bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it,
                                     const zone_type_id &ztype, const faction_id &fac,
-                                    std::optional<bool> from_vehicle ) const
+                                    std::optional<bool> from_vehicle,
+                                    std::unordered_map<const zone_data *, bool> *memo ) const
 {
     std::vector<zone_data const *> const zones = get_zones_at( where, ztype, fac );
     if( zones.empty() || !it ) {
@@ -1278,12 +1295,21 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         if( from_vehicle && zone->get_is_vehicle() != *from_vehicle ) {
             continue;
         }
+        if( memo ) {
+            const auto cached = memo->find( zone );
+            if( cached != memo->end() ) {
+                if( cached->second ) {
+                    return true;
+                }
+                continue;
+            }
+        }
 
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
-            auto const z = item_filter_from_string( filter_string );
+            const std::function<bool( const item & )> &z = cached_item_filter( filter_string );
             has = z( *check_it ) || ( check_it != it && z( *it ) );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
             has = item_group::group_contains_item( item_group_id( filter_string ),
@@ -1291,6 +1317,9 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
                   ( check_it != it &&
                     item_group::group_contains_item( item_group_id( filter_string ),
                             it->typeId() ) );
+        }
+        if( memo ) {
+            memo->emplace( zone, has );
         }
         if( has ) {
             return true;
@@ -1305,11 +1334,15 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
 {
     const auto &point_set = get_point_set( type, fac );
     std::unordered_set<tripoint_abs_ms> near_point_set;
+    // filtered zone answers the same for every tile it covers, and one zone can
+    // cover hundreds of them
+    std::unordered_map<const zone_data *, bool> filter_memo;
 
     for( const tripoint_abs_ms &point : point_set ) {
         if( square_dist( point, where ) <= range ) {
             if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
-                ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
+                ( it != nullptr && custom_loot_has( point, it, type, fac, std::nullopt,
+                                                    &filter_memo ) ) ) {
                 near_point_set.insert( point );
             }
         }
@@ -1320,7 +1353,8 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
                 if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
-                    ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
+                    ( it != nullptr && custom_loot_has( point, it, type, fac, std::nullopt,
+                                                        &filter_memo ) ) ) {
                     near_point_set.insert( point );
                 }
             }

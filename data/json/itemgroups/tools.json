@@ -524,6 +524,7 @@
       { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "dremel", "prob": 15 },
       { "item": "grinder_cutoff_disc", "prob": 2 },
       { "item": "welder", "prob": 10 },
       { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ], "charges": [ 1000, 3000 ] },
@@ -1028,6 +1029,7 @@
       { "item": "multitool", "prob": 20 },
       { "item": "vac_mold", "prob": 2 },
       { "item": "screwdriver_set", "prob": 20 },
+      { "item": "dremel", "prob": 40 },
       { "item": "socket_screwdriver_set", "prob": 20 },
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       { "item": "memory_card_science", "prob": 40 },
@@ -1070,6 +1072,7 @@
       { "item": "pin_reamer", "prob": 10 },
       { "item": "metal_file", "prob": 10 },
       { "item": "clamp", "prob": 20 },
+      { "item": "dremel", "prob": 20 },
       { "item": "bench_vise", "prob": 30 }
     ]
   },
@@ -1090,6 +1093,7 @@
       { "item": "cordless_drill", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "corded_powerdrill", "prob": 30 },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "dremel", "prob": 40 },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "corded_demolition_hammer", "prob": 20 },
       { "item": "grinder_cutoff_disc", "prob": 10 },

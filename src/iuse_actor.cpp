@@ -46,7 +46,6 @@
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "input_popup.h"
 #include "item.h"
 #include "item_components.h"
@@ -86,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -174,6 +174,7 @@ static const skill_id skill_traps( "traps" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_SORCERER( "SORCERER" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -493,8 +494,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
-    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
+    temp_crafting_inventory inv;
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -1615,8 +1616,8 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
     }
 
     std::map<quality_id, int> unmet_reqs;
-    inventory inv;
-    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
+    temp_crafting_inventory inv;
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -1985,11 +1986,13 @@ static std::optional<recipe> find_uncraft_recipe( const item &x )
     return std::nullopt;
 }
 
-void salvage_actor::cut_up( Character &p, item_location &cut ) const
+std::map<itype_id, int> salvage_actor::salvage_results( item_location cut, double efficiency )
 {
-    map &here = get_map();
+    if( efficiency > 1.0 ) {
+        debugmsg( "Salvaging for more materials than exists in item.  Salvage eff %f%% item %s",
+                  efficiency * 100.0, cut.get_item()->tname() );
+    }
 
-    // Map of salvaged items (id, count)
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
@@ -1997,24 +2000,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         mat_set.insert( mat.first );
     }
 
-    // Calculate efficiency losses
-    float efficiency = 1.0;
-    // Higher fabrication, less chance of entropy, but still a chance.
-    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 0,
-                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        efficiency *= 0.9;
-    }
-
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.get_dex() ) {
-        efficiency *= 0.95;
-    }
-
-    // If the item being cut is damaged, additional losses will be incurred.
-    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         for( const auto &type : x.made_of() )
@@ -2099,15 +2084,43 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
 
-    // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
-
     // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
         if( const std::optional<itype_id> id = iter.first->salvaged_into() ) {
             salvage[*id] += iter.second / id->obj().weight;
         }
     }
+
+    return salvage;
+}
+
+void salvage_actor::cut_up( Character &p, item_location &cut ) const
+{
+    map &here = get_map();
+
+    // Calculate efficiency losses
+    float efficiency = 1.0;
+    // Higher fabrication, less chance of entropy, but still a chance.
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+    int entropy_threshold = std::max( 0,
+                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
+    if( rng( 1, 10 ) <= entropy_threshold ) {
+        efficiency *= 0.9;
+    }
+
+    // Fail dex roll, potentially lose more parts.
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    if( dice( 3, 4 ) > p.get_dex() ) {
+        efficiency *= 0.95;
+    }
+
+    // If the item being cut is damaged, additional losses will be incurred.
+    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
+
+    // Not much practice, and you won't get very far ripping things up.
+    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+
+    std::map<itype_id, int> salvage = salvage_results( cut, efficiency );
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
              cut.get_item()->tname() );
@@ -2733,6 +2746,10 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, map *,
         p->add_msg_if_player( m_bad, _( "You can't read." ) );
         return std::nullopt;
     }
+    if( p->has_trait( trait_SORCERER ) ) {
+        p->add_msg_if_player( m_bad, _( "Sorcerers cannot learn spells from books or scrolls." ) );
+        return std::nullopt;
+    }
     if( !p->has_morale_to_read() ) {
         p->add_msg_if_player( m_bad, _( "What's the point of studying?  (Your morale is too low!)" ) );
         return std::nullopt;
@@ -3161,7 +3178,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         return false;
     }
 
-    const inventory &crafting_inv = pl.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = pl.crafting_inventory();
 
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
@@ -5746,7 +5763,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     // Cache available materials
     std::map< itype_id, bool > has_enough;
     const int items_needed = mod.base_volume() / 750_ml + 1;
-    const inventory &crafting_inv = p->crafting_inventory( here );
+    const temp_crafting_inventory &crafting_inv = p->crafting_inventory( here );
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
     // Go through all discovered repair items and see if we have any of them available

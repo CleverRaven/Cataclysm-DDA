@@ -29,7 +29,6 @@
 #include "game_inventory.h"
 #include "gun_mode.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -64,6 +63,7 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_berserk( "berserk" );
 static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -241,6 +241,37 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
         dest_loc.z() -= 1;
         via_ramp = true;
+    }
+
+    // Berserk creatures cannot voluntarily move farther away from visible hostiles.
+    if( you.has_effect( effect_berserk ) ) {
+        bool retreating = false;
+
+        get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
+            if( retreating || critter == &you ) {
+                return;
+            }
+
+            if( !you.sees( here, *critter ) ) {
+                return;
+            }
+
+            if( critter->attitude_to( you ) != Creature::Attitude::HOSTILE ) {
+                return;
+            }
+
+            const int current_dist = rl_dist( you_pos, critter->pos_bub() );
+            const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
+
+            if( new_dist > current_dist ) {
+                retreating = true;
+            }
+        } );
+
+        if( retreating ) {
+            add_msg( m_info, _( "You are too enraged to retreat!" ) );
+            return false;
+        }
     }
 
     item_location weapon = you.get_wielded_item();
@@ -701,7 +732,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
         m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
-    you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );

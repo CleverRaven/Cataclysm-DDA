@@ -135,8 +135,8 @@ struct overmap_draw_data_t {
     bool debug_info = false;
     // darken explored tiles
     bool show_explored = true;
-    // currently fast traveling
-    bool fast_traveling = false;
+    // currently auto traveling with overmap-only mode on
+    bool overmap_only_auto_travel = false;
     // message to display while using the map
     std::string message;
     // if there is a distance limit to pick the OMT

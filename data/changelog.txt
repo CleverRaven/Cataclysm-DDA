@@ -113,6 +113,10 @@ Allow future contributors to easily tune weary maluses in combat
 Monsters can block attacks for reduced damage
 Deliver fetch quest items via truck
 Swap `req_flag` in martial effects tech effects to `condition`
+Morale deadening, doing horrible things will inure you to hardship, and pleasures.
+Weather can have a defined color tint
+Support for graphical NPC portraits during dialogue
+Berserk Rage Prevents fleeing hostile enemies
 
 
 ## Content:
@@ -211,6 +215,7 @@ Add CANNOT_SLEEP flag
 Highland Crypts
 Add serum-specific microlabs
 Add "serum ferals" to serum labs
+A moving, trans-dimensional event - the Scarlet Storm
 
 
 ## Interface:
@@ -265,6 +270,7 @@ Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE
 Show item fault severity with inventory and sidebar colors
 Migrate dialogue window to imgui
 Migrate appliance rename popup to ImGui
+Imguify help menu
 
 
 ## Mods:
@@ -362,6 +368,12 @@ Aftershock: Origin Hobbies
 [Xedra Evolved] Challenge Scenario - Undying Vengeance
 You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
 [MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
+Sky Island: Override dimension travel so it takes you to the island
+[Xedra Evolved] Add Dreamworker workshops to XE portal labs
+Aftershock: Remove multiverse references in high tech scrap.
+[Mods] The Exodii don't buy magic items
+[MoM] Oubliette destination: shoggothed world
+[Xedra Evolved] The Exodii won't talk to the Fair Folk
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -425,6 +437,8 @@ Add faults to melee weapons lacking them
 Add faults to mainly magyclism melee weapons
 Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
 Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
+Decayed zombies smell horrific
+Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -622,6 +636,9 @@ Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
 Requirement checks judge the character being checked instead of the player
 Fix monsters not being slowed by snow
+Fix getting perma-stuck in the Imperial Road
+Can create Characters again
+Fix an out of bounds write when looking for items around a position outside the map
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -640,6 +657,9 @@ Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
 Improve several per-turn performance bottlenecks
 Fix O(N^2) performance degradation in form_from_map
+Improving performance in the crafting ui
+Draw the pixel minimap with batched geometry instead of per-submap render targets
+Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders draw
 
 
 ## Infrastructure:
@@ -757,6 +777,8 @@ Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 generic factory dimensions, multi-region support
 more region layouts + Voronoi library
+remove obsolete DEFAULT_REGION external option
+move all crafting_inventory operations to temp_crafting_inventory class
 
 
 ## Build:
@@ -774,11 +796,13 @@ Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
 Remove SDL2 support
 Run tests in CI for multiple sets of mods
+Fix SDL3 CMake build on MSVC
+Address warnings on possible loss of data
 
 
 ## I18N and A11Y:
 Add documentation for C++ translation context comments
-add missing translation
+Add missing translation
 
 
 # 0.I

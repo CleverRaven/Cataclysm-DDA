@@ -297,8 +297,13 @@
     "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
     "resist_effects": [ "relative_physics" ],
-    "blood_analysis_description": "Hallucinations"
+    "blood_analysis_description": "Hallucinations",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -506,7 +511,10 @@
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": [
-      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.", "bad" ],
+      [
+        "You feel the blood rushing from the wound and then a pressure that reminds you of backwash as a liquid that feels heavier than normal blood is forced through the wound into your body.",
+        "bad"
+      ],
       [ "Your iris slowly turns red from the outside in.", "bad" ],
       [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
     ],
@@ -2982,34 +2990,34 @@
         "values": [
           {
             "value": "DODGE_CHANCE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('deduction') * 0.25) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('gramarye') * 0.25) )" ] }
           },
           {
             "value": "BONUS_DODGE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('deduction') * 0.2) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('gramarye') * 0.2) )" ] }
           },
           {
             "value": "THROW_STR",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('deduction') * 0.35) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('gramarye') * 0.35) )" ] }
           },
           {
             "value": "RANGE_DODGE",
             "add": {
               "math": [
-                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('deduction') * 0.02) )), 0.98)"
+                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('gramarye') * 0.02) )), 0.98)"
               ]
             }
           },
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           },
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           }
         ]

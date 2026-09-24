@@ -92,5 +92,12 @@
     "desc": [ "" ],
     "show_in_info": true,
     "base_mods": { "dodge_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_feral_dreamer_dream_dagger",
+    "name": [ "Dream Dagger" ],
+    "desc": [ "" ],
+    "show_in_info": true
   }
 ]

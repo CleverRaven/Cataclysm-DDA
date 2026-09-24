@@ -3,6 +3,7 @@
 #define CATA_SRC_MAPGEN_POST_PROCESS_H
 
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -25,6 +26,7 @@ enum class sub_generator_type : int {
     pre_burn,
     place_blood,
     aftershock_ruin,
+    ter_furn_transform,
     last
 };
 
@@ -52,7 +54,6 @@ struct enum_traits<pp_sub_generator_scope> {
 // A single sub-generator entry within a pp_generator.
 // Not a generic_factory type -- loaded as an embedded sub-object of pp_generator.
 struct pp_sub_generator {
-    sub_generator_type type = sub_generator_type::bash_damage;
     int attempts = 0;
     int chance = 0;           // per-attempt probability; meaning is type-dependent
     // (percent [0-100] for bash/move, permille [0-1000] for blood,
@@ -61,7 +62,11 @@ struct pp_sub_generator {
     int max_intensity = 0;
     int scaling_days_start = 0;
     int scaling_days_end = 0;
+    sub_generator_type type = sub_generator_type::bash_damage;
     pp_sub_generator_scope scope = pp_sub_generator_scope::omt;
+
+    // only used in sub_generator_type::ter_furn_transform
+    std::optional<ter_furn_transform_id> ter_furn_transform_used;
 
     void load( const JsonObject &jo );
     void check( const std::string &ctx ) const;

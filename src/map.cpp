@@ -76,6 +76,7 @@
 #include "mission.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "mondeath.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
@@ -1260,7 +1261,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
             veh.handle_trap( this, wheel_p, vp_wheel );
             // dont use vp_wheel or vp_wheel_idx below this - handle_trap might've removed it from parts
 
-            if( has_items( wheel_p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
+            if( has_items( wheel_p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) &&
+                !has_flag( ter_furn_flag::TFLAG_DEEP_WATER, wheel_p ) ) {
                 // Damage is calculated based on the weight of the vehicle,
                 // The area of it's wheels, and the area of the wheel running over the items.
                 // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
@@ -4283,6 +4285,56 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
             continue;
         }
 
+        if( veh && vp_wheel ) {
+            const double relative_mass = static_cast<double>( i->weight().value() ) / static_cast<double>
+                                         ( veh->total_mass( *this ).value() );
+            // Make sure our velocity doesn't flip signs. i.e. we don't "bounce" off an object, even one that's more than 2.0x as heavy as our vehicle.
+            const double remaining_velocity_factor = std::clamp( ( 1.0 - ( relative_mass / 2.0 ) ), 0.0, 1.0 );
+            // Wheel runs over object --> Vehicle loses some speed
+            veh->velocity = veh->velocity * remaining_velocity_factor;
+
+            // Always reduce power of remaining wheel damage.
+            power -= material_factor;
+
+            // Wheels running over items can do one of three things to the item:
+            // For non-pulped corpses, they can gib the corpse.
+            // For salvageable items, they salvage them, at extreme loss. e.g. a pile of sticks can be turned into scattered "splintered wood"
+            // For all other items they are either ejected (rarely) or the wheels roll over them (do nothing).
+            if( i->is_corpse() && i->can_revive() ) {
+                damaged_item_name = i->tname();
+                items_damaged++;
+                items_destroyed++;
+                // Remove the corpse first, to make sure we have space for the resulting gibs.
+                i = i_rem( p, i );
+                // Extremely funny implementation: Making a fake monster and splattering it.
+                monster mon( i->get_corpse_mon()->id );
+                mon.set_hp( mon.get_hp_max() * -2 );
+                mon.setpos( get_abs( p ) );
+                mdeath::splatter( this, mon );
+                continue;
+            } else if( i->is_salvageable() ) {
+                item_location there( map_cursor( p ), &*i );
+                std::map<itype_id, int> salvage = salvage_actor::salvage_results( there, /*efficiency =*/ 0.1 );
+                i = i_rem( p, i ); // Remove item we just fake "cut up" and preserve our iterator
+                for( std::pair<const itype_id, int> pair : salvage ) {
+                    add_item_or_charges( p, item( pair.first ), pair.second );
+                }
+            } else {
+                // Small chance: Eject item away from wheel
+                if( one_in( 5 ) ) {
+                    point_rel_ms move_to( rng( 0, 1 ), rng( 0, 1 ) );
+                    if( move_to != point_rel_ms() ) {  // Don't "move" to the same tile, always an adjacent one
+                        add_item( p + move_to, *i );
+                        i = i_rem( p, i );
+                        continue;
+                    }
+                }
+                // Nothing happens! Item stays where it is, vehicle keeps rolling with its remaining velocity.
+                i++;
+            }
+            continue;
+        }
+
         // The volume check here pretty much only influences corpses and very large items
         const float volume_factor = std::max<float>( 40, i->volume() / 250_ml );
         float damage_chance = 10.0f * power / volume_factor;
@@ -5603,7 +5655,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
     }
 
 
-    if( flags & Access_Map_All || flags & Access_EVERYTHING )  {
+    if( flags & Access_Map_All )  {
         for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
             for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
                 for( item &it : i_at( pt ) ) {
@@ -5640,7 +5692,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
         }
     }
 
-    if( flags & Access_Vehicle || flags & Access_EVERYTHING )  {
+    if( flags & Access_Vehicle )  {
         for( wrapped_vehicle &v : get_vehicles() ) {
             vehicle *veh = v.v;
             if( veh ) {
@@ -6756,6 +6808,12 @@ static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int 
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
+        // item::use_amount flattens contents before the filter sees anything, so a
+        // reserved provider has to be pruned here, where the root is still one thing.
+        if( craft_reservation::contains_reserved( *a ) ) {
+            ++a;
+            continue;
+        }
         if( a->use_amount( type, quantity, ret, filter ) ) {
             a = stack.erase( a );
         } else {
@@ -6900,6 +6958,11 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 }
             } );
             if( iter != stack.end() ) {
+                // pseudo tools are per-call and have no uid, so an item filter can
+                // never reject them.  guard on the tile they come from instead.
+                if( get_craft_reservations().provider_tile_reserved( m->get_abs( p ) ) ) {
+                    return;
+                }
                 item furn_item( itt, calendar::turn_zero );
                 furn_item.ammo_set( ammo, iter->charges );
 

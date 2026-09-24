@@ -160,6 +160,66 @@
     ]
   },
   {
+    "id": "xe_lab_dreamsmith_dreamdross",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap_dreamdross", "prob": 50, "count": [ 3, 20 ] },
+      { "item": "dreamdross_lump", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "forged_dreamstuff_ingot", "prob": 5 }
+    ]
+  },
+  {
+    "id": "xe_lab_dreamsmith_dream_gear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "xe_lab_dreamsmith_dream_weapons", "prob": 1 }, { "group": "xe_lab_dreamsmith_dream_armor", "prob": 1 } ]
+  },
+  {
+    "id": "xe_lab_dreamsmith_dream_weapons",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "dreamforged_q_staff_ench", "prob": 1 },
+      { "group": "dreamforged_longsword_ench", "prob": 1 },
+      { "group": "dreamforged_warhammer_ench", "prob": 1 },
+      { "group": "dreamforged_spear_ench", "prob": 1 },
+      { "group": "dreamforged_halberd_ench", "prob": 1 },
+      { "group": "dreamforged_glaive_ench", "prob": 1 },
+      { "group": "dreamforged_naginata_ench", "prob": 1 },
+      { "group": "dreamforged_mace_ench", "prob": 1 },
+      { "group": "dreamforged_morningstar_ench", "prob": 1 },
+      { "group": "dreamforged_estoc_ench", "prob": 1 },
+      { "group": "dreamforged_arming_sword_ench", "prob": 1 },
+      { "group": "dreamforged_arming_sword_ench", "prob": 1 },
+      { "group": "dreamforged_battleaxe_ench", "prob": 1 },
+      { "group": "dreamforged_knife_combat_ench", "prob": 1 },
+      { "group": "dreamforged_kris_ench", "prob": 1 },
+      { "group": "dreamforged_kukri_ench", "prob": 1 },
+      { "group": "dreamforged_nodachi_ench", "prob": 1 },
+      { "group": "dreamforged_rapier_ench", "prob": 1 },
+      { "group": "dreamforged_tanto_ench", "prob": 1 },
+      { "group": "dreamforged_wakizashi_ench", "prob": 1 },
+      { "group": "dreamforged_zweihander_ench", "prob": 1 },
+      { "group": "dreamforged_khopesh_ench", "prob": 1 },
+      { "group": "dreamforged_lucerne_ench", "prob": 1 }
+    ]
+  },
+  {
+    "id": "xe_lab_dreamsmith_dream_armor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "dreamforged_fullhelmet_ench", "prob": 1 },
+      { "group": "dreamforged_helmet_ench", "prob": 1 },
+      { "group": "dreamforged_plate_armor_ench", "prob": 1 },
+      { "group": "dreamforged_armguard_plate_ench", "prob": 1 },
+      { "group": "dreamforged_boots_ench", "prob": 1 },
+      { "group": "dreamforged_khopesh_ench", "prob": 1 },
+      { "group": "dreamforged_khopesh_ench", "prob": 1 }
+    ]
+  },
+  {
     "id": "deduction_books",
     "type": "item_group",
     "//": "Lies should only spawn by hand in specific mapgen, not randomly",

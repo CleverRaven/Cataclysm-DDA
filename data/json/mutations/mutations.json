@@ -7565,5 +7565,16 @@
     "purifiable": false,
     "valid": false,
     "description": "The ends of your appendages are covered in an inky, shadowy substance.  It does not impede you at all, and you can feel it slowly shrinking away."
+  },
+  {
+    "type": "mutation",
+    "id": "RM13_ENVIRONMENTAL",
+    "name": { "str": "Heatsink" },
+    "description": "Your armor makes you immune to many environmental threats.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": false,
+    "player_display": false,
+    "flags": [ "HEATSINK", "ACID_IMMUNE", "IRRITANT_IMMUNE" ]
   }
 ]

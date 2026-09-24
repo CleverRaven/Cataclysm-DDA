@@ -305,6 +305,8 @@ Two rules decide how many providers a quality requirement sees.  Both can change
 - A quality requirement's `"amount"` counts **distinct providers**.  A qualifying tool inside a container counts once, not twice.  A stack of a charge-counted qualifying item counts once, not once per charge.
 - Liquids that a crafting inventory would merge into one stack are **one provider**.  Water carried in a canteen merges with equivalent water on the map, and a lake counts once, not once per tile.
 
+A component can also supply a quality the recipe needs.  When the `"amount"` is one, that check counts items rather than providers.  A stack survives losing a charge, so one spare item is one surviving provider.  One rock cannot be both the hammer and the material.  Two can, even in the same stack.  Above an `"amount"` of one the check counts providers again, because a stack is one tool whatever its charge count.
+
 A quality is measured against the character the check is about.  A charged quality reads that character's power, not the avatar's.  A mutation or body part that grants a quality without an item counts for that character too.
 
 ### Reservations
@@ -313,6 +315,12 @@ A live unattended step reserves what it depends on, so a second craft cannot qui
 
 - The **providers** covering the step's quality groups and its presence tools, whether those are items, furniture, a vehicle part, a nearby fire, or the crafter's own bionics and mutations.  Charged tools are not reserved, because charges drain from a pool by type rather than from one instance, but the pool is filtered so a reserved tool is never drained by anything else.
 - The **tile the craft sits on**, and any tile supplying it a provider.  Construction, including deconstruction, is refused on both.
+
+A reserved provider is invisible to every crafting inventory, including the owning crafter's own.  The craft validates through its reservations instead of searching for them.
+
+Automation and NPCs skip it too.  Zone sorting, fetching, auto-pickup and NPC pickup all pass over a reserved provider.  An NPC will not path through a tile it would have to smash to reach one.  A live unattended craft stays where it was placed rather than being hauled to a loot zone.  Reserved items are shown as `(in use)` and say so in their description.
+
+An NPC will also not wield, throw, consume or burn a reserved provider.  A follower may therefore fight with a worse weapon while one of your crafts holds the better one.
 
 Manual actions are never blocked.  Picking up, wielding, throwing or smashing a reserved item all work exactly as before; the craft notices at its next check, up to a minute later, and pauses.  Because picking an item up gives it a new identity, putting the same item back down does not resume the craft: use the explicit resume, which re-resolves against whatever is present.
 

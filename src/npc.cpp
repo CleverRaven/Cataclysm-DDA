@@ -22,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -127,7 +128,14 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const itype_id itype_acetaminophen( "acetaminophen" );
+static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_molotov( "molotov" );
+static const itype_id itype_oxycodone( "oxycodone" );
+static const itype_id itype_tramadol( "tramadol" );
 
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
@@ -644,7 +652,6 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     portrait_filename = type->class_portrait_filename;
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
-    inv->clear();
     randomize_personality();
     moves = 100;
     mission = NPC_MISSION_NULL;
@@ -986,12 +993,26 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 }
 
+// vector or list, they both have iterators so just template it so i can reuse
+template <typename T>
+static bool add_or_stash_item_list( npc &who, const T &item_list )
+{
+    bool ret = false;
+    for( const item &it : item_list ) {
+        item_location loc = who.i_add( it, true, nullptr, nullptr, false, false );
+        if( loc.where() == item_location::type::invalid ) {
+            ret = true;
+            who.stash_temporary_load_item( it );
+        }
+    }
+    return ret;
+}
+
 void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    who.inv->clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        *who.inv += item_group::items_from( type->carry_override );
+        add_or_stash_item_list( who, item_group::items_from( type->carry_override ) );
         return;
     }
 
@@ -1025,7 +1046,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     for( item &it : res ) {
         it.set_owner( who );
     }
-    *who.inv += res;
+
+    add_or_stash_item_list( who, res );
 }
 
 /**
@@ -2468,16 +2490,6 @@ int npc::minimum_item_value() const
     return ret;
 }
 
-void npc::update_worst_item_value()
-{
-    worst_item_value = 99999;
-    // TODO: Cache this
-    int inv_val = inv->worst_item_value( this );
-    if( inv_val < worst_item_value ) {
-        worst_item_value = inv_val;
-    }
-}
-
 double npc::value( const item &it ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
@@ -2655,9 +2667,56 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
     return *best;
 }
 
-bool npc::has_painkiller()
+bool npc::has_painkiller() const
 {
-    return inv->has_enough_painkiller( get_pain() );
+    const int pain = get_pain();
+    bool has_enough = false;
+    visit_items(
+    [&pain, &has_enough]( item * node, item * ) {
+        const itype_id id = node->typeId();
+        if( ( pain <= 35 && ( id == itype_aspirin || id == itype_acetaminophen ||
+                              id == itype_ibuprofen ) ) ||
+            ( pain >= 50 && id == itype_oxycodone ) ||
+            id == itype_tramadol || id == itype_codeine ) {
+            has_enough = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return has_enough;
+}
+
+item *npc::most_appropriate_painkiller()
+{
+    const int pain = get_pain();
+
+    int difference = INT_MAX;
+    item *ret = &null_item_reference();
+    visit_items(
+    [&pain, &difference, &ret]( item * node, item * ) {
+        int diff = INT_MAX;
+        itype_id type = node->typeId();
+        if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
+            diff = std::abs( pain - 15 );
+        } else if( type == itype_codeine ) {
+            diff = std::abs( pain - 30 );
+        } else if( type == itype_oxycodone ) {
+            diff = std::abs( pain - 60 );
+        } else if( type == itype_heroin ) {
+            diff = std::abs( pain - 100 );
+        } else if( type == itype_tramadol ) {
+            diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
+        }
+
+        if( diff < difference ) {
+            difference = diff;
+            ret = node;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
 }
 
 bool npc::took_painkiller() const
@@ -3794,6 +3853,11 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( sees_dangerous_field( p ) ) {
+            return true;
+        }
+        // pathfinder prices bashing itself. guarding only movement functions would
+        // repath into the same wall every turn.
+        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
             return true;
         }
         return false;

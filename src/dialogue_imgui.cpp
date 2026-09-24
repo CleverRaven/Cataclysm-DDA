@@ -143,8 +143,24 @@ static float horizontal_separator_pos_y( const float window_height )
     return window_height * 0.6;
 }
 
+// Hacky basic stuff, really meant for objects that would only ever take up one line.
+static void set_cursor_for_center_draw( float width_of_thing_to_draw )
+{
+    const float avail_width = ImGui::GetContentRegionAvail().x;
+    if( width_of_thing_to_draw >= avail_width ) {
+        // Very bad! But we don't want to throw a debugmsg, that will blow up most imgui contexts.
+        ImGui::SetCursorPosX( 0 );
+        return;
+    }
+    ImGui::SetCursorPosX( ( avail_width / 2.0f ) - ( width_of_thing_to_draw / 2.0f ) );
+}
+
 static void print_ASCII_portrait()
 {
+    // First line of the ASCII. Should be basically the same width as the next lines.
+    set_cursor_for_center_draw( ImGui::CalcTextSize( "|--------------------------|" ).x );
+    // This aligns our multi-line text!
+    ImGui::BeginGroup();
     // This is a masterpiece, especially with the double backslashes to escape it. Anybody who disagrees is automatically sentenced to 10 months of converting windows to Dear ImGui.
     // -Renech "The Greatest" CDDA
     std::string my_beautiful_NPC_ASCII_portait = string_format(
@@ -162,6 +178,7 @@ static void print_ASCII_portrait()
                 "|--------------------------|"
             );
     cataimgui::draw_colored_text( my_beautiful_NPC_ASCII_portait );
+    ImGui::EndGroup();
 }
 
 float dialogue_imgui_impl::sidebar_width() const
@@ -272,7 +289,6 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
     ImGui::PushStyleVar( ImGuiStyleVar_ChildBorderSize, border_size() );
     ImGuiChildFlags child_flags = ImGuiChildFlags_Borders;
     ImVec2 child_size = {sidebar_width(), ImGui::GetWindowHeight() - ( border_size() * 2 )};
-    // TODO: Some of these (portrait, name) want to be centered.
     if( ImGui::BeginChild( "##DIALOGUE_SIDEBAR", child_size, child_flags ) ) {
 #ifdef TILES
         std::optional<character_portrait_id> portrait = conversation->portrait_or_nullopt();
@@ -280,6 +296,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
             if( debug_mode ) {
                 cataimgui::draw_colored_text( "Portrait filename: " + portrait.value().str() );
             }
+            set_cursor_for_center_draw( portrait_tilecontext->get_tile_width() );
             // We can pass a dummy tripoint because portrait drawing doesn't need or use that information.
             cataimgui::draw_texture( portrait.value(), tripoint_bub_ms() );
         } else {
@@ -291,6 +308,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
 
         // Name of who we're talking to (in big letter)
         cataimgui::PushGuiFont1_5x();
+        set_cursor_for_center_draw( ImGui::CalcTextSize( conversation->speaker_name( *this ).c_str() ).x );
         cataimgui::draw_colored_text( conversation->speaker_name( *this ) );
         cataimgui::PopGuiFont1_5x();
 
@@ -301,7 +319,7 @@ void dialogue_imgui_impl::draw_dialogue_sidebar() const
         if( conversation->actor( false )->can_see() ) {
             cataimgui::TextColoredParagraph( c_blue, conversation->actor( true )->short_description() );
         } else {
-            cataimgui::TextColoredParagraph( c_blue, string_format( _( "&You're blind and can't look at %s." ),
+            cataimgui::TextColoredParagraph( c_blue, string_format( _( "You're blind and can't look at %s." ),
                                              conversation->actor( true )->disp_name() ) );
         }
 

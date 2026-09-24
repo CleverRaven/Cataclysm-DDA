@@ -143,6 +143,7 @@
       [ "swimming_kickboard", 5 ],
       [ "diving_watch", 5 ],
       [ "wristwatch", 5 ],
+      [ "scuba_regulator", 5 ],
       [ "small_scuba_tank", 5 ],
       [ "scuba_tank", 5 ],
       [ "whistle", 3 ],
@@ -390,7 +391,8 @@
       [ "dry_bag_large", 15 ],
       [ "diving_watch", 25 ],
       [ "small_scuba_tank", 25 ],
-      [ "scuba_tank", 25 ]
+      [ "scuba_tank", 25 ],
+      [ "scuba_regulator", 25 ]
     ]
   }
 ]

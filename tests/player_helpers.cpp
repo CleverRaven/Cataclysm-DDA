@@ -18,7 +18,6 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -35,6 +34,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "stomach.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -47,7 +47,7 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
-    const inventory crafting_inv = get_player_character().crafting_inventory();
+    const temp_crafting_inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == tool_id;
@@ -61,7 +61,7 @@ int get_remaining_charges( const itype_id &tool_id )
 
 bool player_has_item_of_type( const itype_id &id )
 {
-    std::vector<item *> matching_items = get_player_character().inv->items_with(
+    std::vector<item *> matching_items = get_player_character().items_with(
     [&]( const item & i ) {
         return i.typeId() == id;
     } );
@@ -89,7 +89,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
-    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
     // clear_mutations() removes traits but does not rebuild bodypart topology.
@@ -239,7 +238,6 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.clear_worn();
-    shooter.inv->clear();
     for( const itype_id &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
@@ -256,6 +254,23 @@ void process_activity( Character &dummy, bool pass_time )
             }
         }
     } while( dummy.activity );
+}
+
+bool process_activity_bounded( Character &dummy, const int max_turns, const int max_dispatches )
+{
+    int turns = 0;
+    int dispatches = 0;
+    while( dummy.activity && turns < max_turns ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+            if( ++dispatches >= max_dispatches ) {
+                return false;
+            }
+        }
+        ++turns;
+    }
+    return !dummy.activity;
 }
 
 npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )

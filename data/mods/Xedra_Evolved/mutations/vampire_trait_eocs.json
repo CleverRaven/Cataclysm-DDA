@@ -440,7 +440,7 @@
         "math": [
           "u_max_blood_amount_for_graph",
           "=",
-          "5400 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
+          "5600 + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD') * 2300) + (u_has_trait('VAMPIRE_STORE_MORE_BLOOD_UPGRADE') * 5600)"
         ]
       },
       { "run_eocs": "EOC_VAMPIRE_BLOOD_MAX_LIMIT" }
@@ -1890,12 +1890,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_TORPOR_activated",
+    "condition": { "not": "u_is_outside" },
     "effect": [
-      { "math": [ "u_val('sleepiness') = 0" ] },
-      { "math": [ "u_val('sleep_deprivation') = 0" ] },
-      { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "8 hours" },
-      { "u_add_effect": "effect_vampire_torpor", "duration": "8 hours" }
-    ]
+      {
+        "if": { "u_query": "Enter torpor?", "default": false },
+        "then": [
+          { "math": [ "u_val('sleepiness') = 0" ] },
+          { "math": [ "u_val('sleep_deprivation') = 0" ] },
+          { "u_message": "You enter torpor.", "type": "info" },
+          { "u_assign_activity": "ACT_VAMPIRE_TORPOR", "duration": "8 hours" },
+          { "u_add_effect": "effect_vampire_torpor", "duration": "8 hours" }
+        ],
+        "else": { "u_message": "You decide to not enter torpor.", "type": "info" }
+      }
+    ],
+    "false_effect": [ { "u_message": "Entering torpor outdoors would only result in you dying from the sun's rays.", "type": "bad" } ]
   },
   {
     "id": "ACT_VAMPIRE_TORPOR",

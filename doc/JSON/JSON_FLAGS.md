@@ -418,6 +418,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
+- ```INFECTION_RECOVERY``` You can recover from infections easier to the same degree as the Infection Resistant mutation (which it stacks with)
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INSTANT_BLEED``` You bleed corpses in 1 second each.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
@@ -1393,6 +1394,8 @@ See [Character](#character)
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 - ```PP_GENERATE_RIOT_DAMAGE``` **Deprecated.**  Use `"post_process_generators": ["riot_damage"]` on the overmap terrain instead.  See [Post-Process Generators](OVERMAP.md#post-process-generators).  Applies randomized riot damage to the local map as a last stage in generating it.  Furniture and terrain will be bashed, items moved around, blood spatters are placed, and rarely spawns fires.
+- ```RAVINE``` Terrain is part of a ravine, used to properly carve out the terrain for ravine floors.
+- ```RAVINE_EDGE``` Terrain is part of a ravine, used to properly carve out the terrain for ravine edges
 - ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
 - ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
 - ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.
@@ -1588,7 +1591,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
-- ```DIVE_TANK``` Use compressed air tank to breathe.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
 - ```EXTINGUISHER``` Put out fires.
@@ -1631,6 +1633,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
 - ```ROADMAP``` Learn of local common points-of-interest and show roads.
 - ```SCISSORS``` Cut up clothing.
+- ```SCBA_MASK_ACTIVATE``` Prep SCBA regulator for breathing.  Transforms into an item with string <item_id>_scba_on.
+- ```SCBA_TANK_ACTIVATE``` Prep SCBA air source for breathing.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.

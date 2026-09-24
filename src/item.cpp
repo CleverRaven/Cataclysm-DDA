@@ -1477,6 +1477,7 @@ void item::on_pickup( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
+
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
@@ -3983,7 +3984,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::NEXT;
+            // A reserved item hides its whole subtree, matching how the inventory guards
+            // prune roots.  Other filters keep descending.
+            return craft_reservation::contains_reserved( *e )
+                   ? VisitResponse::SKIP
+                   : VisitResponse::NEXT;
         }
 
         if( e->is_tool() || e->is_gun() ) {

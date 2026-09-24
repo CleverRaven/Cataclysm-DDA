@@ -39,6 +39,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 
+#include "atlas_bake_plan.h"
 #include "cata_shader.h"
 
 namespace cata_shader
@@ -57,6 +58,7 @@ class monster;
 class nc_color;
 class pixel_minimap;
 struct sprite_screen_bounds;
+struct tile_tint;
 struct tint_sprite_record;
 enum class direction : unsigned int;
 enum class lit_level : uint8_t;
@@ -198,6 +200,9 @@ enum class atlas_upload_interrupt {
     paused,
     texture_resources_invalidated,
     renderer_invalidated,
+    // Shader pass reported lost renderer boundary before upload allocated
+    // anything. Must replace renderer (device_lost).
+    shader_boundary_lost,
 };
 // Polled between atlas chunks. Returns the reason to stop, or none.
 using atlas_upload_poll = std::function<atlas_upload_interrupt()>;
@@ -329,6 +334,11 @@ class tileset
         // Memory-map mode the atlases were uploaded with, retained so a
         // device-reset replay regenerates the memory tiles identically.
         std::string memory_map_mode_at_upload;
+        // which variants the atlases were uploaded with, and filter fingerprint
+        // they were uploaded under, so a stale bundle can be told from a valid
+        // one
+        atlas_bake_plan bake_plan_at_upload;
+        uint64_t filter_fingerprint_at_upload = 0;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -434,6 +444,18 @@ class tileset
         void set_memory_map_mode_at_upload( const std::string &mode ) {
             memory_map_mode_at_upload = mode;
         }
+        const atlas_bake_plan &get_bake_plan_at_upload() const {
+            return bake_plan_at_upload;
+        }
+        void set_bake_plan_at_upload( const atlas_bake_plan &plan ) {
+            bake_plan_at_upload = plan;
+        }
+        uint64_t get_filter_fingerprint_at_upload() const {
+            return filter_fingerprint_at_upload;
+        }
+        void set_filter_fingerprint_at_upload( uint64_t fingerprint ) {
+            filter_fingerprint_at_upload = fingerprint;
+        }
         // Drop the per-variant atlas textures. Safe to call repeatedly; the
         // descriptors and metadata are retained for a later replay.
         void release_gpu_atlases() {
@@ -485,18 +507,6 @@ struct tileset_cache_key {
     }
 };
 
-struct tileset_cache_key_hash {
-    std::size_t operator()( const tileset_cache_key &key ) const noexcept {
-        const std::size_t h1 = std::hash<std::string> {}( key.tileset_id );
-        const std::size_t h2 = std::hash<std::string> {}( key.memory_preset );
-        const std::size_t h3 = std::hash<uint64_t> {}( key.filter_fingerprint );
-        std::size_t h = h1;
-        h ^= h2 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
-        h ^= h3 + 0x9e3779b97f4a7c15ULL + ( h << 6 ) + ( h >> 2 );
-        return h;
-    }
-};
-
 class tileset_cache
 {
     public:
@@ -522,24 +532,53 @@ class tileset_cache
         void release_live_atlases();
 
         // Re-upload atlases over every live cached tileset against `renderer`
-        // and the given generations, replaying each bundle's descriptors and
-        // memory-map mode. poll is consulted between entries and chunks; on
-        // interrupt the upload stops, candidates quarantine, and the reason returns.
+        // and the given generations, replaying each bundle's descriptors under
+        // the applied atlas configuration and re-keying it in place. poll is
+        // consulted between entries and chunks; on interrupt the upload stops,
+        // candidates quarantine, and the reason returns.
         atlas_upload_interrupt replay_live_atlases( const SDL_Renderer_Ptr &renderer,
                 uint64_t renderer_instance_gen, uint64_t gpu_textures_gen,
                 const atlas_upload_poll &poll, atlas_replay_quarantine &quarantine );
+
+        // True if any live uploaded bundle fails bundle_needs_repair against
+        // applied mode and fingerprint and shader availability. Also visits
+        // superseded entries: their holders still draw them.
+        bool any_live_bundle_needs_repair( const std::string &applied_mode,
+                                           uint64_t applied_fingerprint,
+                                           bool shader_variants_available ) const;
     private:
         class loader;
         friend struct renderer_recovery_test_support;
 
-        // Return the cached bundle at key when it is present and its recorded
-        // generations match the current ones; null on a miss or a stale entry.
-        // The single freshness predicate behind the fetch path's cache hit.
+        // return the latest live bundle at the key that no later publish superseded,
+        // when its recorded generations match the current ones; null on a miss
+        // or a stale entry. The single freshness predicate behind the fetch
+        // path's cache hit.
         std::shared_ptr<tileset> find_fresh_cached( const tileset_cache_key &key,
                 uint64_t current_renderer_instance_gen, uint64_t current_gpu_textures_gen ) const;
 
-        std::unordered_map<tileset_cache_key, std::weak_ptr<tileset>, tileset_cache_key_hash>
-        tilesets_;
+        // 1 tracked bundle
+        // and the key it was published under.
+        // superseded is set when a later publish used an equal key
+        // and removes the entry from lookup only
+        struct live_entry {
+            tileset_cache_key key;
+            std::weak_ptr<tileset> bundle;
+            bool superseded = false;
+        };
+
+        // Track a newly published bundle. Always appends, and marks every older
+        // entry with an equal key superseded: another context may still draw
+        // that object, so release and replay keep reaching it, but lookup must
+        // not hand it out again. Prunes expired entries first.
+        void track_bundle( const tileset_cache_key &key, const std::shared_ptr<tileset> &bundle );
+        // Remove entries with expired bundles. Never called mid-walk.
+        void prune_expired();
+
+        // every live published bundle, in publish order
+        // the one collection behind lookup, release and replay
+        // equal keys may repeat
+        std::vector<live_entry> live_;
 };
 
 
@@ -768,6 +807,9 @@ class cata_tiles
         bool draw_zombie_revival_indicators( const tripoint_bub_ms &pos, lit_level ll, int &height_3d,
                                              const std::array<bool, 5> &invisible, bool memorize_only );
         void draw_zlevel_overlay( const tripoint_bub_ms &p, lit_level ll, int &height_3d );
+        // unbind any sprite shader before an untextured draw. throws after
+        // latching recovery when the flush is refused
+        void flush_sprite_shader_for_untextured_draw();
         void draw_entity_with_overlays( const Character &ch, const tripoint_bub_ms &p, lit_level ll,
                                         int &height_3d, FacingDirection facing_override = FacingDirection::NONE );
         void draw_entity_with_overlays( const Character &ch, const tripoint_abs_omt &p, lit_level ll,
@@ -972,10 +1014,16 @@ class cata_tiles
 
         // During the layer loop, these point to the current tile's tint tracking
         // state. draw_sprite_at uses them to accumulate screen bounds and record
-        // sprites for later silhouette replay. Only set for ortho tiles that need
-        // tinting; null for iso tiles, UI overlays, and non-tinted tiles.
+        // sprites for later silhouette replay. Only set on the mask path for
+        // ortho tiles that need tinting; null otherwise.
         sprite_screen_bounds *m_cur_bounds = nullptr;
         small_literal_vector<tint_sprite_record, 4> *m_cur_tint_sprites = nullptr;
+        // Tint of the tile being drawn on the shader tint path; null for
+        // untinted tiles, UI overlays and the mask path
+        const tile_tint *m_cur_tint = nullptr;
+        // true while a z-level binds tint.frag for NORMAL sprites, so untinted
+        // NORMAL sprites keep the same state and the batch holds
+        bool m_zlev_tint_bound = false;
 
         // Scratch render target for the ortho silhouette mask tint path. Sized
         // to fit the largest batched sprite region; reused across tiles/frames.

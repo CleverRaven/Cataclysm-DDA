@@ -28,6 +28,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "atlas_bake_plan.h"
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
@@ -501,6 +502,68 @@ static bool SDLCALL renderer_event_watch( void *userdata, SDL_Event *event )
     return true;
 }
 
+static tile_atlas_config applied_atlas_config;
+static std::optional<bool> test_shader_variants_override;
+
+static void select_applied_memory_preset()
+{
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->select_memory_preset(
+            cata_shader::memory_preset_from_option_value( applied_atlas_config.mode ) );
+    }
+}
+
+void apply_tile_atlas_options()
+{
+    // CreateTexture stamps this default on every texture, and the filter
+    // fingerprint folds SCALING_MODE. Change both together, so a replay never
+    // records a fingerprint its textures do not carry.
+    SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
+    applied_atlas_config.mode = get_option<std::string>( "MEMORY_MAP_MODE" );
+    applied_atlas_config.fingerprint =
+        compute_tileset_filter_fingerprint( applied_atlas_config.mode );
+    select_applied_memory_preset();
+}
+
+const tile_atlas_config &applied_tile_atlas_config()
+{
+    return applied_atlas_config;
+}
+
+std::optional<atlas_bake_plan> resolve_atlas_bake_plan( const std::string &memory_map_mode )
+{
+    if( std::getenv( "CATA_FORCE_ATLAS_VARIANTS" ) ) {
+        return atlas_bake_plan{};
+    }
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    bool shader_variants = false;
+    if( vp ) {
+        switch( vp->ensure_probed() ) {
+            case cata_shader::probe_state::unsafe:
+                display_buffer_scope_signal_recovery_required();
+                return std::nullopt;
+            case cata_shader::probe_state::available:
+                shader_variants = true;
+                break;
+            case cata_shader::probe_state::unavailable:
+                break;
+        }
+        if( vp->shader_fault() ) {
+            // Faulted session bakes full whatever the test override claims
+            return atlas_bake_plan{};
+        }
+    }
+    if( test_shader_variants_override ) {
+        shader_variants = *test_shader_variants_override;
+    }
+    // override stands in for the variant probe only; tint shader is read from
+    // the live pass
+    const bool tint_shader = vp && vp->tint_available();
+    return compute_atlas_bake_plan( shader_variants,
+                                    cata_shader::memory_preset_from_option_value( memory_map_mode ),
+                                    tint_shader );
+}
+
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
@@ -509,9 +572,9 @@ static void WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SetDefaultTextureScaleQuality( get_option<std::string>( "SCALING_MODE" ) );
-    }
+    // Before the first texture: SetupRenderTarget below creates the display
+    // buffer under the scale default this sets.
+    apply_tile_atlas_options();
 
     // Track desired fullscreen mode separately; applied after window creation
     FullscreenMode desired_fullscreen = FullscreenMode::windowed;
@@ -679,6 +742,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 
@@ -870,6 +934,49 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
 
 static void draw_gamepad_radial_menu();
 
+// Whether the variant shaders can serve a skipped bake right now. A sticky
+// fault wins; the test override stands in for the probe on the software fixture.
+static bool shader_variants_available_now()
+{
+    const cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && vp->shader_fault() ) {
+        return false;
+    }
+    if( test_shader_variants_override ) {
+        return *test_shader_variants_override;
+    }
+    return vp && vp->available();
+}
+
+// Returns true when a recovery was requested because a live bundle no longer
+// matches the applied atlas configuration or shader availability
+static bool request_tile_repair_if_needed()
+{
+    if( !ts_cache.any_live_bundle_needs_repair( applied_atlas_config.mode,
+            applied_atlas_config.fingerprint, shader_variants_available_now() ) ) {
+        return false;
+    }
+    renderer_coordinator.request_recovery( renderer_recovery_severity::device_reset );
+    return true;
+}
+
+// whether this frame may present. re-arms needupdate and returns false while a
+// recovery is pending, or while a live bundle cannot be drawn correctly, so
+// nothing (clear, copy, overlays, present) runs against a renderer about to be
+// rebuilt and no frame drawn from a stale bundle is shown.
+static bool present_gate()
+{
+    if( renderer_coordinator.should_abort_frame() ) {
+        needupdate = true;
+        return false;
+    }
+    if( request_tile_repair_if_needed() ) {
+        needupdate = true;
+        return false;
+    }
+    return true;
+}
+
 void refresh_display()
 {
     needupdate = false;
@@ -879,11 +986,8 @@ void refresh_display()
         return;
     }
 
-    if( renderer_coordinator.should_abort_frame() ) {
-        // Skip the whole present so nothing (clear, copy, overlays, present) runs
-        // against a renderer about to be rebuilt or a buffer about to be resized.
-        // Re-arm needupdate so the present retries after the next drain.
-        needupdate = true;
+    if( !present_gate() ) {
+        // skip whole present, it will retry after next drain
         return;
     }
 
@@ -1325,6 +1429,17 @@ static void for_each_unique_tile_context( const std::function<void( cata_tiles &
         seen[n++] = c;
         fn( *c );
     }
+}
+
+void on_tiles_options_changed()
+{
+    apply_tile_atlas_options();
+    for_each_unique_tile_context( []( cata_tiles & ctx ) {
+        ctx.on_options_changed();
+    } );
+    // queue the repair now, next input poll drains it, present gate refuses
+    // frames until replay commits
+    request_tile_repair_if_needed();
 }
 
 static void reset_context_minimaps()
@@ -1860,6 +1975,7 @@ atlas_upload_interrupt renderer_resource_coordinator::mode2_upload_poll()
                     request_recovery( renderer_recovery_severity::device_reset );
                     break;
                 case atlas_upload_interrupt::renderer_invalidated:
+                case atlas_upload_interrupt::shader_boundary_lost:
                     request_recovery( renderer_recovery_severity::device_lost );
                     break;
                 case atlas_upload_interrupt::none:
@@ -1907,6 +2023,7 @@ recipe_result renderer_resource_coordinator::map_replay_interrupt(
         case atlas_upload_interrupt::texture_resources_invalidated:
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_reset };
         case atlas_upload_interrupt::renderer_invalidated:
+        case atlas_upload_interrupt::shader_boundary_lost:
             return { recipe_outcome::restart_required, renderer_recovery_severity::device_lost };
         case atlas_upload_interrupt::none:
             break;
@@ -2036,6 +2153,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     if( renderer || window ) {
         return false;
     }
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
     const char *const prior = SDL_getenv( "SDL_VIDEODRIVER" );
     test_fixture_had_prior_driver = prior != nullptr;
     test_fixture_prior_driver = prior != nullptr ? prior : std::string();
@@ -2078,6 +2197,8 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    // also restores the scale default a previous test might have changed
+    apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
     if( !SetupRenderTarget() ) {
         teardown_software_renderer();
@@ -2104,6 +2225,9 @@ void renderer_recovery_test_support::teardown_software_renderer()
     reset_coordinator();
     geometry.reset();
     shared_variant_pass.reset();
+    cata_shader::test_reset_seams();
+    cata_shader::clear_reprobe();
+    test_shader_variants_override.reset();
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2135,6 +2259,20 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
 {
+    const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( memory_map_mode );
+    if( !plan ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::device_lost );
+        return nullptr;
+    }
+    return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                     gpu_textures_generation, *plan );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+    const atlas_bake_plan &plan, const bool with_highlight )
+{
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
     atlas_replay_descriptor desc;
@@ -2144,8 +2282,15 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
     ts->append_atlas_descriptor( desc );
+    if( with_highlight ) {
+        // highlight texture takes the tile size
+        ts->tile_width = 1;
+        ts->tile_height = 1;
+        ts->set_default_item_highlight_index( 1 );
+    }
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
+                                           compute_tileset_filter_fingerprint( memory_map_mode ), plan,
                                            ts->get_atlas_descriptors(),
                                            renderer_instance_generation,
                                            gpu_textures_generation, false );
@@ -2153,8 +2298,17 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const tileset_cache_key key {
         tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
-    ts_cache.tilesets_.insert_or_assign( key, ts );
+    ts_cache.track_bundle( key, ts );
     return ts;
+}
+
+std::shared_ptr<const tileset>
+renderer_recovery_test_support::install_synthetic_bundle_with_highlight(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation )
+{
+    return install_synthetic_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                     gpu_textures_generation, atlas_bake_plan{}, true );
 }
 
 atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_quarantine(
@@ -2178,7 +2332,8 @@ atlas_replay_quarantine::gate renderer_recovery_test_support::populate_mode2_qua
                : atlas_upload_interrupt::none;
     };
     tileset_cache::loader::upload_atlases( ts, renderer, "color_pixel_sepia_light",
-                                           ts.get_atlas_descriptors(),
+                                           compute_tileset_filter_fingerprint( "color_pixel_sepia_light" ),
+                                           atlas_bake_plan{}, ts.get_atlas_descriptors(),
                                            renderer_coordinator.instance_generation(),
                                            renderer_coordinator.textures_generation(),
                                            false, poll, &quarantine );
@@ -2236,6 +2391,51 @@ void renderer_recovery_test_support::arm_mode2_interrupt( const int poll_countdo
     cata_assert( poll_countdown > 0 );
     renderer_coordinator.test_mode2_interrupt_countdown_ = poll_countdown;
     renderer_coordinator.test_mode2_interrupt_ = interrupt;
+}
+
+void renderer_recovery_test_support::arm_probe_unsafe( const int count )
+{
+    cata_assert( count > 0 );
+    cata_shader::test_arm_probe_unsafe( count );
+}
+
+int renderer_recovery_test_support::probe_unsafe_remaining()
+{
+    return cata_shader::test_probe_unsafe_remaining();
+}
+
+void renderer_recovery_test_support::arm_flush_failure()
+{
+    cata_shader::test_arm_flush_failure();
+}
+
+void renderer_recovery_test_support::mark_shader_fault()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->shader_fault_ = true;
+}
+
+void renderer_recovery_test_support::simulate_draw_bind_failure()
+{
+    cata_assert( shared_variant_pass );
+    shared_variant_pass->note_draw_bind_failure( false );
+    display_buffer_scope_signal_recovery_required();
+}
+
+int renderer_recovery_test_support::variant_probe_count()
+{
+    return cata_shader::test_probe_runs();
+}
+
+bool renderer_recovery_test_support::run_present_gate()
+{
+    return present_gate();
+}
+
+void renderer_recovery_test_support::override_shader_variants_available(
+    const std::optional<bool> available )
+{
+    test_shader_variants_override = available;
 }
 
 bool renderer_recovery_test_support::replay_quarantine_empty()
@@ -2829,8 +3029,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     avatar &you = get_avatar();
     const tripoint_abs_omt avatar_pos = you.pos_abs_omt();
     tripoint_abs_omt center_pos = center_abs_omt;
-    const bool fast_traveling = g->overmap_data.fast_traveling;
-    if( fast_traveling ) {
+    const bool overmap_only_auto_travel = g->overmap_data.overmap_only_auto_travel;
+    if( overmap_only_auto_travel ) {
         center_pos = you.pos_abs_omt();
     }
     const tripoint_abs_omt origin = center_pos - point( s.x / 2, s.y / 2 );
@@ -2851,7 +3051,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool show_map_revealed = uistate.overmap_show_revealed_omts;
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
-    const bool draw_overlays = blink || fast_traveling;
+    const bool draw_overlays = blink || overmap_only_auto_travel;
     o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
@@ -3078,7 +3278,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     draw_entity_with_overlays( get_player_character(),
                                global_omt_to_draw_position( avatar_pos ),
                                lit_level::LIT, height_3d );
-    if( !fast_traveling ) {
+    if( !overmap_only_auto_travel ) {
         draw_from_id_string( "cursor", global_omt_to_draw_position( center_pos ), 0, 0, lit_level::LIT,
                              false );
     }
@@ -3158,9 +3358,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
 
-    if( fast_traveling ) {
+    if( overmap_only_auto_travel ) {
         // We hijack this to avoid repeating code just for this simple notice. Notes will still display normally
-        notes_window_text.emplace_back( c_yellow, _( "FAST TRAVELING" ) );
+        notes_window_text.emplace_back( c_yellow, _( "AUTO TRAVELING" ) );
     }
 
     if( viewing_weather ) {
@@ -4363,13 +4563,10 @@ void remove_stale_inventory_quick_shortcuts()
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
-                in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
-                if( !in_inventory ) {
-                    // We couldn't find this item in the inventory, let's check worn items
-                    std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
-                    if( item ) {
-                        in_inventory = true;
-                    }
+                // let's check worn items first
+                std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                if( item ) {
+                    in_inventory = true;
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
@@ -4515,13 +4712,11 @@ void draw_quick_shortcuts()
         show_hint = hovered &&
                     GetTicks() - finger_down_time > static_cast<uint32_t>
                     ( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
-        std::string hint_text;
+        std::string hint_text = "none";
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
-                                key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );

@@ -548,7 +548,7 @@ void veh_app_interact::remove( map &here )
     const vpart_info &vpinfo = vp->info();
     const requirement_data reqs = vpinfo.removal_requirements();
     Character &you = get_player_character();
-    const inventory &inv = you.crafting_inventory();
+    const temp_crafting_inventory &inv = you.crafting_inventory();
     std::string msg;
     bool can_remove = reqs.can_make_with_inventory( &you, inv, is_crafting_component );
     if( !can_remove ) {

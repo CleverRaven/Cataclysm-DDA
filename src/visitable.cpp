@@ -16,11 +16,12 @@
 #include "character_attire.h"
 #include "colony.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "flag.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
@@ -113,19 +114,19 @@ static T sum_no_wrap( T a, T b )
     return a + b;
 }
 
-// `measure` decides what quality an item supplies and `tally` how many providers it
-// counts as.  Empty falls back to get_quality and item::count().
+// `measure` decides what quality an item supplies, `count` how many providers it is worth.
+// Empty falls back to get_quality and item::count().
 template <typename T>
 static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit,
                                  const std::function<int( const item & )> &measure = {},
-                                 const std::function<int( const item & )> &tally = {} )
+                                 const std::function<int( const item & )> &count = {} )
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty, &measure, &tally]( item * e, item * ) {
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item * e, item * ) {
         const int supplied = measure ? measure( *e ) : e->get_quality( qual );
         if( supplied >= level ) {
-            qty = sum_no_wrap( qty, tally ? tally( *e ) : static_cast<int>( e->count() ) );
+            qty = sum_no_wrap( qty, count ? count( *e ) : static_cast<int>( e->count() ) );
             if( qty >= limit ) {
                 // found sufficient items
                 return VisitResponse::ABORT;
@@ -164,33 +165,21 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 }
 
 bool read_only_visitable::has_provider_quality( const quality_id &qual, int level, int qty,
-        const Character *who ) const
+        const Character *who, const quality_count mode ) const
 {
+    const provider_quality_key key{ qual, level, qty, who, mode };
+    if( const std::optional<bool> known = recall_provider_quality( key ) ) {
+        return *known;
+    }
     const std::function<int( const item & )> measure = [&qual, who]( const item & it ) {
         return provider_quality_level( it, qual, who, true );
     };
-    const std::function<int( const item & )> tally = []( const item & ) {
-        return 1;
+    const std::function<int( const item & )> count = [mode]( const item & it ) {
+        return mode == quality_count::units ? it.count() : 1;
     };
-    return has_quality_internal( *this, qual, level, qty, measure, tally ) == qty;
-}
-
-/** @relates visitable */
-bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
-{
-    const quality_query query{ qual, level, qty };
-
-    if( qualities_cache.find( query ) == qualities_cache.end() ) {
-        int res = 0;
-        for( const auto &stack : this->items ) {
-            res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
-            if( res >= qty ) {
-                qualities_cache[query] = true;
-            }
-        }
-    }
-
-    return qualities_cache[query];
+    const bool found = has_quality_internal( *this, qual, level, qty, measure, count ) == qty;
+    remember_provider_quality( key, found );
+    return found;
 }
 
 /** @relates visitable */
@@ -248,6 +237,55 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     }
 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+bool Character::has_unreserved_quality( const quality_id &qual, int level, int qty ) const
+{
+    // intrinsic branches are not filtered: a bionic or mutation is shared, so no craft can
+    // take one.  only the item walk is, and per item rather than by ancestry, since the
+    // selector returns one item and the action is node-local.
+    for( const bionic &bio : *this->my_bionics ) {
+        // Crafter-aware, or a charged bionic quality resolves through the avatar.
+        if( provider_quality_level( bio.get_weapon(), qual, this,
+                                    false ) >= level ) {
+            if( qty <= 1 ) {
+                return true;
+            }
+            qty--;
+        }
+    }
+
+    // level/qty are deliberately ignored on this branch, matching Character::has_quality. an
+    // automation caller must answer as that function does when no reservation is involved,
+    // or converting a call site silently changes what an NPC will do. the crafting gate
+    // counts occurrences instead, through has_intrinsic_quality
+    for( const trait_id &mut : get_functioning_mutations() ) {
+        const auto &q = mut->provided_qualities.find( qual );
+        if( q != mut->provided_qualities.end() ) {
+            return true;
+        }
+    }
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bp_qualities_provided &bp_q : bp->qualities ) {
+            if( bp_q.quality == qual && bp_q.level >= level &&
+                float( get_part_hp_cur( bp ) ) / float( get_part_hp_max( bp ) ) >= bp_q.disable_percent ) {
+                return true;
+            }
+        }
+    }
+
+    if( qty <= 0 ) {
+        return true;
+    }
+    // Nonrecursive, so a container is not credited for a tool inside it that the
+    // selector would then decline to return.
+    const auto measure = [&qual, this]( const item & it ) {
+        return craft_reservation::usable_by_automation( it )
+               ? provider_quality_level( it, qual, this, false )
+               : INT_MIN;
+    };
+    return has_quality_internal( *this, qual, level, qty, measure ) == qty;
 }
 
 bool Character::has_intrinsic_quality( const quality_id &qual, int level, int qty ) const
@@ -467,24 +505,24 @@ VisitResponse item::visit_items(
 }
 
 /** @relates visitable */
-VisitResponse inventory::visit_items(
-    const std::function<VisitResponse( item *, item * )> &func ) const
-{
-    for( const auto &stack : items ) {
-        for( const item &it : stack ) {
-            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
-                return VisitResponse::ABORT;
-            }
-        }
-    }
-    return VisitResponse::NEXT;
-}
-
-/** @relates visitable */
 VisitResponse temp_crafting_inventory::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     for( item *it : items ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    for( item *it : item_copies ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    for( const item_location &loc : items_loc ) {
+        const item *it = loc.get_item();
+        if( it == nullptr ) {
+            continue;
+        }
         if( visit_internal( func, it ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -521,8 +559,7 @@ const
             return VisitResponse::ABORT;
         }
     }
-
-    return inv->visit_items( func );
+    return VisitResponse::NEXT;
 }
 
 static VisitResponse visit_items_internal( map *here,
@@ -652,10 +689,12 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     return res;
 }
 
-/** @relates visitable */
-std::list<item> inventory::remove_items_with( const
+// note this doesn't remove items from the copy list - this list will just contain extra items
+// until the temp_crafting_inventory goes away (since this is an ephemeral class
+std::list<item> temp_crafting_inventory::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
+    drop_caches();
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -663,37 +702,63 @@ std::list<item> inventory::remove_items_with( const
         return res;
     }
 
-    for( auto stack = items.begin(); stack != items.end() && count > 0; ) {
-        std::list<item> &istack = *stack;
-        const char original_invlet = istack.front().invlet;
-
-        for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
-            if( filter( *istack_iter ) ) {
-                count--;
-                res.splice( res.end(), istack, istack_iter++ );
-                // The non-first items of a stack may have different invlets, the code
-                // in inventory only ever checks the invlet of the first item. This
-                // ensures that the first item of a stack always has the same invlet, even
-                // after the original first item was removed.
-                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
-                    istack_iter->invlet = original_invlet;
-                }
-
-            } else {
-                istack_iter->remove_internal( filter, count, res );
-                ++istack_iter;
-            }
-        }
-
-        if( istack.empty() ) {
-            stack = items.erase( stack );
+    for( auto iter = items.begin(); iter != items.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items.erase( iter );
+            count -= c;
         } else {
-            ++stack;
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many items" );
+            }
+            return res;
         }
     }
 
-    // Invalidate binning cache
-    binned = false;
+    for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
+        if( filter( *iter ) ) {
+            const int c = iter->count();
+            res.push_back( *iter );
+            for( auto it = item_copies.begin(); it != item_copies.end(); ) {
+                if( *it == &*iter ) {
+                    item_copies.erase( it );
+                    break;
+                }
+                ++it;
+            }
+            iter = temp_owned_items.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item copies" );
+            }
+            return res;
+        }
+    }
+
+    for( auto iter = items_loc.begin(); iter != items_loc.end(); ) {
+        if( filter( **iter ) ) {
+            const int c = ( *iter )->count();
+            res.push_back( **iter );
+            iter = items_loc.erase( iter );
+            count -= c;
+        } else {
+            ++iter;
+        }
+        if( count <= 0 ) {
+            if( count < 0 ) {
+                debugmsg( "temp_crafting_inventory::remove_items_with removed too many item locs" );
+            }
+            return res;
+        }
+    }
 
     return res;
 }
@@ -732,13 +797,6 @@ std::list<item> Character::remove_items_with( const
     }
 
     invalidate_weight_carried_cache();
-
-    // first try and remove items from the inventory
-    res = inv->remove_items_with( filter, count );
-    count -= res.size();
-    if( count == 0 ) {
-        return res;
-    }
 
     // then try any worn items
     std::list<item> worn_res = worn.remove_items_with( *this, filter, count );
@@ -931,10 +989,9 @@ static void scan_tool_charges( const T &self, const itype_id &id,
 {
     map &here = get_map();
     self.visit_items( [&]( const item * e, item * ) {
-        if( filter( *e ) &&
-            ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
+        if( ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
               ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
-            !e->is_broken() ) {
+            filter( *e ) && !e->is_broken() ) {
             if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
                 raw_ups_charges = sum_no_wrap( raw_ups_charges,
                                                e->ammo_remaining_linked( here, nullptr ) );
@@ -1115,12 +1172,6 @@ std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
-std::pair<int, int> inventory::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character ) const
-{
-    return kcal_range_of_internal( *this, id, filter, player_character );
-}
-
 std::pair<int, int> Character::kcal_range( const itype_id &id,
         const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
@@ -1133,30 +1184,6 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<void( int )> &visitor, bool in_tools ) const
 {
     return charges_of_internal( *this, *this, what, limit, filter, visitor, in_tools );
-}
-
-/** @relates visitable */
-int inventory::charges_of( const itype_id &what, int limit,
-                           const std::function<bool( const item & )> &filter,
-                           const std::function<void( int )> &visitor, bool in_tools ) const
-{
-    const itype_bin &binned = get_binned_items();
-    const auto iter = std::find_if( binned.begin(),
-    binned.end(), [&what]( itype_bin::value_type const & it ) {
-        return it.first == what || ( what == itype_UPS && it.first->has_flag( flag_IS_UPS ) );
-    } );
-    if( iter == binned.end() ) {
-        return 0;
-    }
-
-    // Scan every matching item into one entry list so apply_external_pools can
-    // dedup the shared UPS / bionic pool across tools (legacy and multimag).
-    std::vector<tool_stock_entry> entries;
-    int raw_ups_charges = 0;
-    for( const item *it : iter->second ) {
-        scan_tool_charges( *it, what, filter, in_tools, entries, raw_ups_charges );
-    }
-    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
 }
 
 /** @relates visitable */
@@ -1181,8 +1208,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e, item * ) {
-        if( !e->has_flag( json_flag_ITEM_BROKEN ) &&
-            ( id == itype_any || e->typeId() == id ) && filter( *e ) &&
+        if( ( id == itype_any || e->typeId() == id ) &&
+            !e->has_flag( json_flag_ITEM_BROKEN ) && filter( *e ) &&
             ( pseudo || !e->has_flag( json_flag_PSEUDO ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
@@ -1199,29 +1226,64 @@ int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit
 }
 
 /** @relates visitable */
-int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
-                          const std::function<bool( const item & )> &filter ) const
+int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
+        const std::function<bool( const item & )> &filter,
+        const std::function<void( int )> &visitor, bool in_tools ) const
 {
-    const itype_bin &binned = get_binned_items();
-    const auto iter = binned.find( what );
-    if( iter == binned.end() && what != itype_any ) {
+    // Loaded ammo and `any` have no index entry, so those queries walk live
+    if( in_tools || what == itype_any ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
+    }
+    const std::vector<root_ref> *roots = nullptr;
+    if( what == itype_UPS ) {
+        roots = &idx->ups;
+    } else {
+        const auto found = idx->by_type.find( what );
+        if( found == idx->by_type.end() ) {
+            return 0;
+        }
+        roots = &found->second;
+    }
+    std::vector<tool_stock_entry> entries;
+    int raw_ups_charges = 0;
+    for( const root_ref &ref : *roots ) {
+        if( const item *root = ref.get() ) {
+            scan_tool_charges( *root, what, filter, in_tools, entries, raw_ups_charges );
+        }
+    }
+    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
+}
+
+/** @relates visitable */
+int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int limit,
+                                        const std::function<bool( const item & )> &filter ) const
+{
+    // at limit zero the live walk stops early on a mismatch, which the index can't mirror
+    if( what == itype_any || limit <= 0 ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const type_index *idx = cached_index();
+    if( idx == nullptr ) {
+        return read_only_visitable::amount_of( what, pseudo, limit, filter );
+    }
+    const auto found = idx->by_type.find( what );
+    if( found == idx->by_type.end() ) {
         return 0;
     }
-
-    int res = 0;
-    if( what == itype_any ) {
-        for( const auto &kv : binned ) {
-            for( const item *it : kv.second ) {
-                res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
-            }
+    int qty = 0;
+    for( const root_ref &ref : found->second ) {
+        if( qty >= limit ) {
+            break;
         }
-    } else {
-        for( const item *it : iter->second ) {
-            res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+        if( const item *root = ref.get() ) {
+            qty = sum_no_wrap( qty, root->amount_of( what, pseudo, limit - qty, filter ) );
         }
     }
-
-    return std::min( limit, res );
+    return std::min( qty, limit );
 }
 
 /** @relates visitable */

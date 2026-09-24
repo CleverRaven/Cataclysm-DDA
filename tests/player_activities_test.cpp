@@ -17,7 +17,6 @@
 #include "enums.h"
 #include "flag.h"
 #include "handle_liquid.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -31,7 +30,6 @@
 #include "monster.h"
 #include "monster_helpers.h"
 #include "options_helpers.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -2013,7 +2011,6 @@ static const std::vector<std::function<player_activity()>> test_activities {
 
 static void cleanup( avatar &dummy )
 {
-    dummy.inv->clear();
     clear_map_without_vision();
 
     REQUIRE( dummy.activity.get_distractions().empty() );

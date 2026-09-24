@@ -1,7 +1,9 @@
 #include <climits>
+#include <cstddef>
 #include <functional>
 #include <initializer_list>
 #include <list>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -16,6 +18,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "character.h"
 #include "character_attire.h"
 #include "clone_ptr.h"
 #include "clzones.h"
@@ -27,6 +30,7 @@
 #include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -41,6 +45,8 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
+
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_556( "556" );
@@ -49,6 +55,7 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_belt223( "belt223" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_chem_washing_soda( "chem_washing_soda" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_test_apple( "test_apple" );
 static const itype_id itype_test_bitter_almond( "test_bitter_almond" );
 static const itype_id itype_test_heavy_boulder( "test_heavy_boulder" );
@@ -66,6 +73,7 @@ static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart
 static const vproto_id vehicle_prototype_test_turret_rig( "test_turret_rig" );
 
 static const zone_type_id zone_type_LOOT_CHEMICAL( "LOOT_CHEMICAL" );
+static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
 static const zone_type_id zone_type_LOOT_DEFAULT( "LOOT_DEFAULT" );
 static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
@@ -3376,5 +3384,501 @@ TEST_CASE( "vehicle_zone_refresh_preserves_personal_zone_positions",
     const tripoint_abs_ms shifted_food = here.get_abs( moved_pos ) + tripoint( 2, 0, 0 );
     if( shifted_food != food_abs ) {
         CHECK_FALSE( zm.has( zone_type_LOOT_FOOD, shifted_food, faction_your_followers ) );
+    }
+}
+
+// loads the cart until one more boulder is still draggable but two are not.
+// that is the state where the sorter takes one item then refuses every item
+// after it
+static bool load_cart_to_drag_edge( avatar &dummy, map &here, vehicle &cart,
+                                    const tripoint_bub_ms &cart_pos,
+                                    const tripoint_abs_ms &dest_abs )
+{
+    const std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    CAPTURE( cargo.has_value() );
+    if( !cargo ) {
+        return false;
+    }
+    const std::vector<tripoint_abs_ms> dropoffs = { dest_abs };
+    const int arm_str = dummy.get_arm_str();
+    for( int loaded = 0; loaded < 200; loaded++ ) {
+        // Worst tile moves as load grows, sorter refuses destination it can't
+        // route cart to, so re-check both here.
+        const std::optional<tripoint_bub_ms> worst =
+            zone_sorting::worst_drag_tile_on_route( dummy, dropoffs );
+        if( !worst ) {
+            CAPTURE( loaded );
+            return false;
+        }
+        const units::mass mass = cart.total_mass( here );
+        const int req_one = cart.drag_str_req_at( here, *worst, mass + 10_kilogram );
+        const int req_two = cart.drag_str_req_at( here, *worst, mass + 20_kilogram );
+        if( req_one <= arm_str && req_two > arm_str ) {
+            return true;
+        }
+        if( req_one > arm_str ) {
+            CAPTURE( loaded );
+            CAPTURE( req_one );
+            CAPTURE( mass.value() );
+            return false;
+        }
+        if( !cart.add_item( here, cargo->part(), item( itype_test_heavy_boulder ) ) ) {
+            CAPTURE( loaded );
+            CAPTURE( mass.value() );
+            return false;
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "zone_sorting_adjacent_sources_do_not_oscillate",
+           "[zones][items][activities][sorting][batching][vehicle]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    // low strength, grass everywhere except the tiles set below, so the cart's
+    // drag limit is reachable with a handful of boulders
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+    dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::east;
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::east );
+
+    // Two unsorted tiles, each next to the avatar and to the other, so each one
+    // is a batching candidate while the sorter stands at the other.
+    const tripoint_bub_ms src_a = start_pos + tripoint::south;
+    const tripoint_bub_ms src_b = src_a + tripoint::west;
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    for( const tripoint_bub_ms &p : {
+             start_pos, src_a, src_b, dest_pos
+         } ) {
+        here.ter_set( p, ter_t_floor );
+    }
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted A", zone_type_LOOT_UNSORTED, here.get_abs( src_a ) );
+    create_tile_zone( "Unsorted B", zone_type_LOOT_UNSORTED, here.get_abs( src_b ) );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+
+    const int per_tile = 4;
+    for( int i = 0; i < per_tile; i++ ) {
+        here.add_item_or_charges( src_a, item( itype_test_heavy_boulder ) );
+        here.add_item_or_charges( src_b, item( itype_test_heavy_boulder ) );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    CAPTURE( dummy.get_arm_str() );
+    REQUIRE( load_cart_to_drag_edge( dummy, here, *cart, cart_pos, dest_abs ) );
+    CAPTURE( cart->total_mass( here ).value() );
+
+    dummy.assign_activity( zone_sort_activity_actor() );
+    // bounded on purpose: a sorter that keeps trading the two sources as each
+    // other's batch target spends no moves, and an unbounded runner sits in
+    // that loop forever
+    REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+}
+
+TEST_CASE( "zone_custom_filter_query_spans_the_whole_zone",
+           "[zones][items][sorting]" )
+{
+    clear_map_without_vision();
+    map &here = get_map();
+    zone_manager &zmgr = zone_manager::get_manager();
+    zmgr.clear();
+
+    const int zone_width = 4;
+    const tripoint_abs_ms zone_start = here.get_abs( tripoint_bub_ms{ 5, 5, 0 } );
+    const tripoint_abs_ms zone_end = zone_start + tripoint( zone_width - 1, 0, 0 );
+    const tripoint_abs_ms where = here.get_abs( tripoint_bub_ms::zero );
+
+    const item hammer( itype_hammer );
+    const item apple( itype_test_apple );
+
+    auto tiles_for = [&zmgr, &where]( const item & it ) {
+        return zmgr.get_near( zone_type_LOOT_CUSTOM, where, MAX_VIEW_DISTANCE, &it );
+    };
+
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "hammer" );
+
+    const std::unordered_set<tripoint_abs_ms> hammer_tiles = tiles_for( hammer );
+    CHECK( hammer_tiles.size() == static_cast<size_t>( zone_width ) );
+    for( int i = 0; i < zone_width; i++ ) {
+        CAPTURE( i );
+        CHECK( hammer_tiles.count( zone_start + tripoint( i, 0, 0 ) ) == 1 );
+    }
+    CHECK( tiles_for( apple ).empty() );
+
+    // repeat queries answer from the compiled filter instead of rebuilding it
+    CHECK( tiles_for( hammer ) == hammer_tiles );
+    CHECK( tiles_for( apple ).empty() );
+
+    // same filter text, fresh manager state
+    zmgr.clear();
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "hammer" );
+    CHECK( tiles_for( hammer ).size() == static_cast<size_t>( zone_width ) );
+
+    // different filter on same tiles answers differently
+    zmgr.clear();
+    mapgen_place_zone( zone_start, zone_end, zone_type_LOOT_CUSTOM, faction_your_followers, {},
+                       "apple" );
+    CHECK( tiles_for( hammer ).empty() );
+    CHECK( tiles_for( apple ).size() == static_cast<size_t>( zone_width ) );
+}
+
+// builds the sort fixture the drag gate tests share: weak avatar, grabbed cart
+// at its drag edge, one unsorted tile of boulders, a food zone to the south.
+// returns the cart
+static vehicle *setup_drag_limited_sort( avatar &dummy, map &here,
+        const tripoint_bub_ms &start_pos, int boulders )
+{
+    dummy.set_str_base( 4 );
+    dummy.set_str_bonus( 0 );
+    dummy.setpos( here, start_pos );
+    dummy.clear_destination();
+
+    const tripoint_bub_ms cart_pos = start_pos + tripoint::east;
+    vehicle *cart = setup_grabbed_cart( dummy, here, start_pos, tripoint_rel_ms::east );
+
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+    here.ter_set( start_pos, ter_t_floor );
+    here.ter_set( src_pos, ter_t_floor );
+    here.ter_set( dest_pos, ter_t_floor );
+    const tripoint_abs_ms dest_abs = here.get_abs( dest_pos );
+    create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+    create_tile_zone( "Food", zone_type_LOOT_FOOD, dest_abs );
+    for( int i = 0; i < boulders; i++ ) {
+        here.add_item_or_charges( src_pos, item( itype_test_heavy_boulder ) );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+
+    REQUIRE( load_cart_to_drag_edge( dummy, here, *cart, cart_pos, dest_abs ) );
+    return cart;
+}
+
+static int count_carried( const Character &who, const itype_id &id )
+{
+    int carried = 0;
+    who.visit_items( [&carried, &id]( const item * it, const item * ) {
+        if( it->typeId() == id ) {
+            carried++;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return carried;
+}
+
+TEST_CASE( "zone_sorting_drag_refused_items_reach_the_inventory",
+           "[zones][items][activities][sorting][vehicle][weight]" )
+{
+    avatar &dummy = get_avatar();
+    map &here = get_map();
+
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    const tripoint_bub_ms start_pos( 60, 60, 0 );
+    const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+    const int boulders = 3;
+
+    SECTION( "into a worn container" ) {
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                              std::nullopt );
+        const int carried = count_carried( dummy, itype_test_heavy_boulder );
+        CAPTURE( at_source );
+        CAPTURE( carried );
+        // cart takes one before it hits its limit; the rest have to go
+        // somewhere the character can hold them
+        CHECK( carried > 0 );
+        CHECK( at_source < boulders - 1 );
+    }
+
+    SECTION( "by wielding when there is no container" ) {
+        REQUIRE( dummy.worn.empty() );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+        REQUIRE_FALSE( dummy.can_stash( item( itype_test_heavy_boulder ) ) );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        const int at_source = count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                              std::nullopt );
+        CAPTURE( at_source );
+        CHECK( at_source < boulders - 1 );
+    }
+
+    SECTION( "but not past the carry limit" ) {
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+        setup_drag_limited_sort( dummy, here, start_pos, boulders );
+        // load the character over weight_capacity. i_add spills to the ground
+        // once the pockets are full, so stop when carried weight stops rising
+        for( int i = 0; i < 100 && dummy.weight_carried() <= dummy.weight_capacity(); i++ ) {
+            const units::mass before = dummy.weight_carried();
+            dummy.i_add( item( itype_test_heavy_boulder ) );
+            if( dummy.weight_carried() <= before ) {
+                break;
+            }
+        }
+        REQUIRE( dummy.weight_carried() > dummy.weight_capacity() );
+        const int carried_before = count_carried( dummy, itype_test_heavy_boulder );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        REQUIRE( process_activity_bounded( dummy, 100, 2000 ) );
+
+        CHECK( count_carried( dummy, itype_test_heavy_boulder ) == carried_before );
+        CHECK( count_items_or_charges( src_pos, itype_test_heavy_boulder,
+                                       std::nullopt ) == boulders - 1 );
+    }
+}
+
+namespace
+{
+// stands in for any DO implementation that returns without spending a move or
+// changing state. without the dispatch bound this spins inside do_turn until
+// the game is killed
+class stalling_zone_actor : public zone_activity_actor
+{
+    public:
+        stalling_zone_actor() : zone_activity_actor( 0 ) {}
+
+        const activity_id &get_type() const override {
+            return ACT_MOVE_LOOT;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<stalling_zone_actor>( *this );
+        }
+
+        void stage_init( player_activity &, Character & ) override {
+            stage = DO;
+        }
+        bool stage_think( player_activity &, Character & ) override {
+            stage = DO;
+            return true;
+        }
+        void stage_do( player_activity &, Character & ) override {
+            // does nothing deliberately (no move, no state change)
+        }
+        void on_no_progress( Character & ) override {
+            recovered = true;
+            recovery_stage = stage;
+        }
+
+        bool recovered = false;
+        zone_activity_stage recovery_stage = UNINIT;
+};
+
+stalling_zone_actor *stalling_actor_of( player_activity &act )
+{
+    return dynamic_cast<stalling_zone_actor *>( act.actor.get() );
+}
+
+// replaces the activity from inside stage_do, which destroys this actor before
+// do_turn regains control. zone sorting reaches that state through
+// zone_sorting::unload_item, which calls Character::gunmod_remove
+class replacing_zone_actor : public zone_activity_actor
+{
+    public:
+        replacing_zone_actor() : zone_activity_actor( 0 ) {}
+
+        const activity_id &get_type() const override {
+            return ACT_MOVE_LOOT;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<replacing_zone_actor>( *this );
+        }
+
+        void stage_init( player_activity &, Character & ) override {
+            stage = DO;
+        }
+        bool stage_think( player_activity &, Character & ) override {
+            stage = DO;
+            return true;
+        }
+        void stage_do( player_activity &, Character &you ) override {
+            you.assign_activity( stalling_zone_actor() );
+        }
+};
+
+// sorts normally, but pretends a run of stalled passes happened earlier this
+// turn. routing copies the activity, so the copy is only clean if stage_do
+// clears the count before it routes
+class stall_count_probe_actor : public zone_sort_activity_actor
+{
+    public:
+        static constexpr int preset_count = 5;
+
+        const activity_id &get_type() const override {
+            return ACT_MOVE_LOOT;
+        }
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<stall_count_probe_actor>( *this );
+        }
+
+        void stage_do( player_activity &act, Character &you ) override {
+            zero_move_dispatches = preset_count;
+            zone_sort_activity_actor::stage_do( act, you );
+        }
+
+        int stall_count() const {
+            return zero_move_dispatches;
+        }
+};
+} // namespace
+
+TEST_CASE( "zone_activity_zero_move_passes_are_bounded",
+           "[zones][activities][sorting]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_map_without_vision();
+    zone_manager::get_manager().clear();
+
+    // budget with empty coord_set, matching zone_activity_actor
+    const int budget = 8;
+
+    SECTION( "recovery runs while the stage is still DO" ) {
+        player_activity act{ stalling_zone_actor{} };
+        REQUIRE( stalling_actor_of( act ) != nullptr );
+        dummy.set_moves( 100 );
+        const int moves_before = dummy.get_moves();
+
+        for( int i = 0; i < budget + 2; i++ ) {
+            act.do_turn( dummy );
+        }
+
+        const stalling_zone_actor *actor = stalling_actor_of( act );
+        REQUIRE( actor != nullptr );
+        CHECK( actor->recovered );
+        CHECK( actor->recovery_stage == DO );
+        CHECK( dummy.get_moves() < moves_before );
+    }
+
+    SECTION( "a staged batch goes back to its source" ) {
+        map &here = get_map();
+        const tripoint_bub_ms start_pos( 60, 60, 0 );
+        dummy.setpos( here, start_pos );
+        dummy.clear_destination();
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+        const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+        const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+        build_open_area( here, start_pos, 12 );
+        create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+        create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( dest_pos ) );
+        here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+        here.invalidate_map_cache( 0 );
+        here.build_map_cache( 0, true );
+
+        dummy.assign_activity( zone_sort_activity_actor() );
+        // one move per dispatch, so the pickup ends the pass before the sorter
+        // routes to the destination and hands the activity to auto-movement
+        zone_sort_activity_actor *actor = nullptr;
+        for( int i = 0; i < 20 && dummy.activity; i++ ) {
+            dummy.set_moves( 1 );
+            dummy.activity.do_turn( dummy );
+            actor = dynamic_cast<zone_sort_activity_actor *>( dummy.activity.actor.get() );
+            if( actor != nullptr && !actor->get_dropoff_coords().empty() &&
+                dummy.has_amount( itype_test_apple, 1 ) ) {
+                break;
+            }
+        }
+        REQUIRE( actor != nullptr );
+        REQUIRE( !actor->get_dropoff_coords().empty() );
+        REQUIRE( dummy.has_amount( itype_test_apple, 1 ) );
+        REQUIRE( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 0 );
+
+        actor->on_no_progress( dummy );
+
+        CHECK( count_items_or_charges( src_pos, itype_test_apple, std::nullopt ) == 1 );
+        CHECK_FALSE( dummy.has_amount( itype_test_apple, 1 ) );
+    }
+
+    SECTION( "a pass that swaps in another activity is not followed up" ) {
+        dummy.set_moves( 100 );
+        dummy.assign_activity( replacing_zone_actor() );
+        REQUIRE( dummy.activity.id() == ACT_MOVE_LOOT );
+        const activity_actor *const dispatched = dummy.activity.actor.get();
+
+        // actor is gone once stage_do returns, so don't read anything it owned
+        dummy.activity.do_turn( dummy );
+
+        CHECK( dummy.activity.actor.get() != dispatched );
+        CHECK( dynamic_cast<stalling_zone_actor *>( dummy.activity.actor.get() ) != nullptr );
+    }
+
+    SECTION( "routing hands over a cleared count" ) {
+        map &here = get_map();
+        const tripoint_bub_ms start_pos( 60, 60, 0 );
+        dummy.setpos( here, start_pos );
+        dummy.clear_destination();
+        dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
+
+        const tripoint_bub_ms src_pos = start_pos + tripoint::south;
+        const tripoint_bub_ms dest_pos = start_pos + tripoint( 0, 8, 0 );
+        build_open_area( here, start_pos, 12 );
+        create_tile_zone( "Unsorted", zone_type_LOOT_UNSORTED, here.get_abs( src_pos ) );
+        create_tile_zone( "Food", zone_type_LOOT_FOOD, here.get_abs( dest_pos ) );
+        here.add_item_or_charges( src_pos, item( itype_test_apple ) );
+        here.invalidate_map_cache( 0 );
+        here.build_map_cache( 0, true );
+
+        dummy.assign_activity( stall_count_probe_actor() );
+        for( int i = 0; i < 40 && dummy.activity && !dummy.has_destination(); i++ ) {
+            dummy.mod_moves( dummy.get_speed() );
+            while( dummy.get_moves() > 0 && dummy.activity ) {
+                dummy.activity.do_turn( dummy );
+            }
+        }
+
+        // routing stores a copy of the actor for when the walk finishes
+        REQUIRE( dummy.has_destination() );
+        REQUIRE_FALSE( dummy.peek_destination_activity().is_null() );
+        const stall_count_probe_actor *saved =
+            dynamic_cast<const stall_count_probe_actor *>(
+                dummy.peek_destination_activity().actor.get() );
+        REQUIRE( saved != nullptr );
+        CHECK( saved->stall_count() == 0 );
+    }
+
+    SECTION( "count does not persist between turns" ) {
+        player_activity act{ stalling_zone_actor{} };
+        dummy.set_moves( 100 );
+
+        for( int i = 0; i < budget - 2; i++ ) {
+            act.do_turn( dummy );
+        }
+        REQUIRE( stalling_actor_of( act ) != nullptr );
+        REQUIRE_FALSE( stalling_actor_of( act )->recovered );
+
+        calendar::turn += 1_turns;
+        for( int i = 0; i < budget - 2; i++ ) {
+            act.do_turn( dummy );
+        }
+
+        const stalling_zone_actor *actor = stalling_actor_of( act );
+        REQUIRE( actor != nullptr );
+        CHECK_FALSE( actor->recovered );
     }
 }

@@ -1,6 +1,4 @@
 #include <cstddef>
-#include <map>
-#include <memory>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -21,7 +19,6 @@
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options_helpers.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -228,13 +225,13 @@ static void assign_invlet( avatar &you, item &it, const char invlet, const invle
     }
 }
 
-static invlet_state check_invlet( Character &you, item &it, const char invlet )
+static invlet_state check_invlet( avatar &you, item &it, const char invlet )
 {
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( you.inv->assigned_invlet.find( invlet ) != you.inv->assigned_invlet.end() &&
-            you.inv->assigned_invlet[invlet] == it.typeId() ) {
+        if( you.invlet_is_assigned( invlet ) &&
+            you.get_itype_by_invlet( invlet ) == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
@@ -466,7 +463,6 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         invlet_state expected_second_invlet_state = second_invlet_state;
 
         // remove all items
-        dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos_bub() );
@@ -525,6 +521,7 @@ static void invlet_test( avatar &dummy, const inventory_location from, const inv
         INFO( test_action_desc( action, from, to, first_invlet_state, second_invlet_state,
                                 expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,
                                 final_second_invlet_state ) );
+
         REQUIRE( final_first->typeId() == tshirt.typeId() );
         REQUIRE( final_second->typeId() == jeans.typeId() );
         CHECK( final_first_invlet_state == expected_first_invlet_state );
@@ -548,7 +545,6 @@ static void stack_invlet_test( avatar &dummy, inventory_location from, inventory
     }
 
     // remove all items
-    dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos_bub() );
@@ -601,7 +597,6 @@ static void swap_invlet_test( avatar &dummy, inventory_location loc )
     REQUIRE( loc != GROUND );
 
     // remove all items
-    dummy.inv->clear();
     dummy.clear_worn();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos_bub() );
@@ -686,7 +681,6 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
                                       invlet_2 : 0;
 
         // remove all items
-        dummy.inv->clear();
         dummy.clear_worn();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos_bub() );
