@@ -107,7 +107,7 @@ class temp_crafting_inventory : public visitable
         void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl );
         // does not delete items that do not belong to the inventory
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
+                                           int count = INT_MAX ) override;
         // deletes the item with the same pointer. only searches the copy list.
         item remove_item( item &it );
 
