@@ -148,7 +148,7 @@ std::list<item> item_stack::use_charges( const itype_id &type, int &quantity,
 {
     std::list<item> ret;
     for( auto a = this->begin(); a != this->end() && quantity > 0; ) {
-        if( craft_reservation::contains_reserved( *a ) ) {
+        if( craft_reservation::contains_reserved( item_location(map_cursor(pos), &*a) ) ) {
             ++a;
             continue;
         }

@@ -2604,7 +2604,7 @@ void npc::evaluate_best_attack( const Creature *target )
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
     visit_items( [&compare, this, &here]( item_location it ) {
-        if( craft_reservation::contains_reserved( *it ) ) {
+        if( craft_reservation::contains_reserved( it ) ) {
             return VisitResponse::SKIP;
         }
         if( can_wield( *it ).success() ) {
@@ -4350,7 +4350,7 @@ void npc::find_item()
     bool declined_dynamically = false;
     const auto consider_item =
         [&best_value, this, &declined_dynamically]
-    ( const item & it, const tripoint_bub_ms & p ) {
+    ( const item_location & it, const tripoint_bub_ms & p ) {
         // Targets whole stack entries, so an exact-uid test would send the NPC after a
         // container holding a reserved provider.
         if( craft_reservation::contains_reserved( it ) ||
@@ -4358,9 +4358,9 @@ void npc::find_item()
             declined_dynamically = true;
             return false;
         }
-        if( ::good_for_pickup( it, *this, p ) ) {
+        if( ::good_for_pickup( *it, *this, p ) ) {
             wanted_item_pos = p;
-            best_value = has_item_whitelist() ? 1000 : value( it );
+            best_value = has_item_whitelist() ? 1000 : value( *it );
             return true;
         } else {
             return false;
@@ -4423,7 +4423,7 @@ void npc::find_item()
         if( here.sees_some_items( p, *this ) && sees( here, p ) ) {
             can_see = true;
             for( item &it : m_stack ) {
-                if( consider_item( it, p ) ) {
+                if( consider_item( item_location( map_cursor( p ), &it), p) ) {
                     wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
@@ -4454,7 +4454,7 @@ void npc::find_item()
         }
 
         for( item &it : cargo->items() ) {
-            if( consider_item( it, p ) ) {
+            if( consider_item( item_location( vehicle_cursor(vp->vehicle(), vp->part_index()), &it), p ) ) {
                 wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
             }
         }
@@ -4613,8 +4613,8 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
         const item &it = *iter;
         // This erases all wanted items on the tile, otherwise one free item would
         // sweep up the reserved ones next to it
-        const bool off_limits = craft_reservation::contains_reserved( it ) ||
-                                craft_reservation::contains_live_craft( it );
+        const bool off_limits = craft_reservation::contains_reserved( item_location( who, &it ) ) ||
+            craft_reservation::contains_live_craft( item_location( who, &it() ));
         if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
@@ -4888,7 +4888,7 @@ item *npc::evaluate_best_weapon() const
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, &weap, &best_value, &best]( item_location node ) {
-        if( craft_reservation::contains_reserved( *node ) ) {
+        if( craft_reservation::contains_reserved( node ) ) {
             return VisitResponse::SKIP;
         }
         if( node.get_item() == &weap ) {
@@ -5035,8 +5035,8 @@ bool npc::alt_attack()
     };
 
     check_alt_item( &*get_wielded_item() );
-    const auto inv_all = items_with( []( const item & itm ) {
-        return !craft_reservation::contains_reserved( itm );
+    const auto inv_all = items_with( [&]( const item & itm ) {
+        return !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) );
     } );
     for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
@@ -5560,7 +5560,7 @@ void npc::mug_player( Character &mark )
     std::vector<const item *> pseudo_items = mark.get_pseudo_items();
     const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
         return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
-               !craft_reservation::contains_reserved( itm ) &&
+            !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) ) &&
                !itm.has_flag( flag_INTEGRATED ) && !itm.has_flag( flag_NO_TAKEOFF ) && value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {
@@ -6896,7 +6896,7 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
         {
             return VisitResponse::NEXT;
         }
-        if( craft_reservation::contains_reserved( *it ) )
+        if( craft_reservation::contains_reserved( it ) )
         {
             return VisitResponse::SKIP;
         }
@@ -7146,7 +7146,7 @@ npc::need_result npc::execute_seek_warmth()
                 {
                     return VisitResponse::NEXT;
                 }
-                if( craft_reservation::contains_reserved( *it ) )
+                if( craft_reservation::contains_reserved( it ) )
                 {
                     return VisitResponse::SKIP;
                 }

@@ -3999,7 +3999,7 @@ bool item::use_charges( item_location self, const itype_id &what, int &qty, std:
         if( !filter( *e ) ) {
             // A reserved item hides its whole subtree, matching how the inventory guards
             // prune roots.  Other filters keep descending.
-            return craft_reservation::contains_reserved( *e )
+            return craft_reservation::contains_reserved( e )
                    ? VisitResponse::SKIP
                    : VisitResponse::NEXT;
         }

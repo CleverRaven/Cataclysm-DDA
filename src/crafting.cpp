@@ -711,7 +711,7 @@ const temp_crafting_inventory &Character::crafting_inventory( map *here,
     visit_items(
     [&]( item_location it ) {
         // Only roots: a reserved provider takes the container carrying it along.
-        if( !it.has_parent() && craft_reservation::contains_reserved( *it ) ) {
+        if( !it.has_parent() && craft_reservation::contains_reserved( it ) ) {
             return VisitResponse::SKIP;
         }
         if( !it->empty_container() ) {

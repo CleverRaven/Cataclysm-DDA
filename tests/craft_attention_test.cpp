@@ -3015,7 +3015,7 @@ TEST_CASE( "reservation_predicates_differ_on_ancestry", "[craft][attention][rese
         idx.set( rec );
 
         THEN( "the ancestry predicate hides the whole container" ) {
-            CHECK( craft_reservation::contains_reserved( on_map ) );
+            CHECK( craft_reservation::contains_reserved(item_location(map_cursor(origin), &on_map ) ));
         }
     }
 }
@@ -6629,10 +6629,10 @@ TEST_CASE( "automation_leaves_a_container_holding_a_live_craft",
         // site-only recipe binds nothing, so contains_reserved can't stand in for
         // craft check here.
         REQUIRE( nested->get_reservations().empty() );
-        REQUIRE_FALSE( craft_reservation::contains_reserved( bag_on_map ) );
+        REQUIRE_FALSE( craft_reservation::contains_reserved( bag_loc ) );
 
         THEN( "the container reads as holding a live craft" ) {
-            CHECK( craft_reservation::contains_live_craft( bag_on_map ) );
+            CHECK( craft_reservation::contains_live_craft( bag_loc ) );
         }
 
         THEN( "zone sorting leaves the container where it is" ) {
@@ -6646,7 +6646,7 @@ TEST_CASE( "automation_leaves_a_container_holding_a_live_craft",
         REQUIRE( nested->get_passive_started_at() == calendar::before_time_starts );
 
         THEN( "nothing about it is off limits" ) {
-            CHECK_FALSE( craft_reservation::contains_live_craft( bag_on_map ) );
+            CHECK_FALSE( craft_reservation::contains_live_craft( bag_loc ) );
             std::vector<item_location> no_activity_items;
             CHECK_FALSE( zone_sorting::sort_skip_item( u, &bag_on_map, no_activity_items, false,
                          here.get_abs( bag_pos ), nullptr ) );

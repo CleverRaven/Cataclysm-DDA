@@ -3978,7 +3978,9 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             info.emplace_back( "DESCRIPTION",
                                _( "* Its <bad>UPS charge is not protected</bad> and may be drained by anything." ) );
         }
-    } else if( craft_reservation::contains_reserved( *this ) ) {
+        // item_location hack!
+    }
+    else if( craft_reservation::contains_reserved( item_location( get_player_character(), const_cast<item *>( this ) ) ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This holds an item <info>reserved</info> by a craft, so it cannot be used for crafting." ) );
     }

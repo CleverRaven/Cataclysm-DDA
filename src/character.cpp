@@ -5634,7 +5634,7 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
-    if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
+    if( quantity > 0 && !craft_reservation::contains_reserved( get_wielded_item() ) &&
         weapon.use_amount( get_wielded_item(), it, quantity, ret, filter ) ) {
         remove_weapon();
     }
@@ -5783,7 +5783,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item_location e ) {
             // Only roots: this callback sees every descendant, and item::use_charges
             // descends again, so a reserved root must prune its subtree here.
-            if( !e.has_parent() && craft_reservation::contains_reserved( *e ) ) {
+            if( !e.has_parent() && craft_reservation::contains_reserved( e ) ) {
                 return VisitResponse::SKIP;
             }
             if( e->use_charges( e, what, qty, res, pos_bub(), filter, in_tools ) ) {

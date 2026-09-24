@@ -83,7 +83,7 @@ bool merge_equivalent( const item &lhs, const item &rhs );
 // planning keeps offering what execution refuses.
 
 // For callers whose action carries a whole subtree.
-bool contains_reserved( const item &it );
+bool contains_reserved( const item_location &it );
 
 // Per-item, for callers whose action touches only the item it names.
 bool usable_by_automation( const item &it );
@@ -91,10 +91,10 @@ bool usable_by_automation( const item &it );
 // True when `it` or anything under it is a craft with a live passive step.  Automation
 // that copies a whole subtree re-keys every craft in it, and a craft holding no bindings
 // is invisible to contains_reserved.
-bool contains_live_craft( const item &it );
+bool contains_live_craft( const item_location &it );
 
 // both of the above in one walk, for the automation scans that ask both of every item
-bool contains_reserved_or_live_craft( const item &it );
+bool contains_reserved_or_live_craft( const item_location &it );
 
 // True when reaching `p` would require breaking something a live craft has claimed.
 // map::bash destroys tile locks and the tile's items alike, hence the union.
