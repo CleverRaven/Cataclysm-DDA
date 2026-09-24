@@ -47,7 +47,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
-#include "gates.h"
 #include "gun_mode.h"
 #include "help.h"
 #include "input_context.h"

@@ -5899,6 +5899,7 @@ void open_tile_activity_actor::finish( player_activity &act, Character &who )
 
     if( open_success == open_tile_result::OPEN_FAIL ) {
         debugmsg( "invalid open_tile_activity_actor finish state" );
+        act.set_to_null();
         return;
     }
 
@@ -5921,6 +5922,8 @@ void open_tile_activity_actor::finish( player_activity &act, Character &who )
                 veh->open_all_at( here, opened_vehicle_part );
                 break;
             }
+            default:
+                debugmsg( "invalid open_tile_activity_actor finish state" );
         }
     }
     act.set_to_null();
@@ -6043,6 +6046,7 @@ void close_tile_activity_actor::finish( player_activity &act, Character &who )
 
     if( close_success == close_tile_result::CLOSE_FAIL ) {
         debugmsg( "invalid close_tile_activity_actor finish state" );
+        act.set_to_null();
         return;
     }
 

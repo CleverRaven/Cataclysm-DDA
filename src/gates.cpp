@@ -42,8 +42,6 @@
 
 static const fault_id fault_broken_window( "fault_broken_window" );
 
-static const furn_str_id furn_f_safe_o( "f_safe_o" );
-
 static const material_id material_glass( "glass" );
 
 // Gates namespace

@@ -1841,7 +1841,7 @@ class open_tile_activity_actor : public activity_actor
 {
     public:
         open_tile_activity_actor() = default;
-        open_tile_activity_actor( std::optional<tripoint_bub_ms> tile_location ) : tile_location(
+        explicit open_tile_activity_actor( std::optional<tripoint_bub_ms> tile_location ) : tile_location(
                 tile_location ) {}
 
         const activity_id &get_type() const override {
@@ -1870,7 +1870,7 @@ class close_tile_activity_actor : public activity_actor
 {
     public:
         close_tile_activity_actor() = default;
-        close_tile_activity_actor( tripoint_bub_ms tile_location ) : tile_location(
+        explicit close_tile_activity_actor( tripoint_bub_ms tile_location ) : tile_location(
                 tile_location ) {}
 
         const activity_id &get_type() const override {
@@ -1879,8 +1879,8 @@ class close_tile_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &act, Character &who ) override {};
-        void finish( player_activity &, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<close_tile_activity_actor>( *this );

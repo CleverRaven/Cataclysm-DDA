@@ -24,6 +24,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "behavior.h"
