@@ -1733,7 +1733,7 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( !craft_reservation::contains_reserved(item_location(wearer, &*a) ) &&
+        if( !craft_reservation::contains_reserved( item_location( wearer, &*a ) ) &&
             a->use_amount( item_location( wearer, &*a ), it, quantity, used, filter ) ) {
             a->on_takeoff( wearer );
             a = worn.erase( a );

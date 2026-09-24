@@ -412,7 +412,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
                 }
                 // crafting query walks the whole tree under each entry, so a container holding
                 // a reserved provider is hidden with it. before the liquid count too
-                if( craft_reservation::contains_reserved( item_location(map_cursor(p), &i) ) ) {
+                if( craft_reservation::contains_reserved( item_location( map_cursor( p ), &i ) ) ) {
                     continue;
                 }
                 if( !i.made_of( phase_id::LIQUID ) ) {

@@ -187,7 +187,7 @@ bool bashing_would_break_reservation( map &here, const Creature &who,
     }
 
     for( item &stack_item : here.i_at( p ) ) {
-        if( contains_reserved( item_location(map_cursor(p),&stack_item )) ) {
+        if( contains_reserved( item_location( map_cursor( p ), &stack_item ) ) ) {
             return true;
         }
     }

@@ -4423,7 +4423,7 @@ void npc::find_item()
         if( here.sees_some_items( p, *this ) && sees( here, p ) ) {
             can_see = true;
             for( item &it : m_stack ) {
-                if( consider_item( item_location( map_cursor( p ), &it), p) ) {
+                if( consider_item( item_location( map_cursor( p ), &it ), p ) ) {
                     wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
@@ -4454,7 +4454,7 @@ void npc::find_item()
         }
 
         for( item &it : cargo->items() ) {
-            if( consider_item( item_location( vehicle_cursor(vp->vehicle(), vp->part_index()), &it), p ) ) {
+            if( consider_item( item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it ), p ) ) {
                 wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
             }
         }
@@ -4610,11 +4610,12 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
-        const item &it = *iter;
+        item &it = *iter;
+        item_location loc( who, &it );
         // This erases all wanted items on the tile, otherwise one free item would
         // sweep up the reserved ones next to it
-        const bool off_limits = craft_reservation::contains_reserved( item_location( who, &it ) ) ||
-            craft_reservation::contains_live_craft( item_location( who, &it() ));
+        const bool off_limits = craft_reservation::contains_reserved( loc ) ||
+                                craft_reservation::contains_live_craft( loc );
         if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
@@ -5560,7 +5561,7 @@ void npc::mug_player( Character &mark )
     std::vector<const item *> pseudo_items = mark.get_pseudo_items();
     const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
         return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
-            !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) ) &&
+               !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) ) &&
                !itm.has_flag( flag_INTEGRATED ) && !itm.has_flag( flag_NO_TAKEOFF ) && value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {

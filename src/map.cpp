@@ -6812,7 +6812,7 @@ static std::list<item> use_amount_stack( const veh_or_map_cursor &cur, Stack sta
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
         // item::use_amount flattens contents before the filter sees anything, so a
         // reserved provider has to be pruned here, where the root is still one thing.
-        if( craft_reservation::contains_reserved(item_location( cur, &*a ) ) ) {
+        if( craft_reservation::contains_reserved( item_location( cur, &*a ) ) ) {
             ++a;
             continue;
         }

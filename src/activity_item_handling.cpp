@@ -970,7 +970,8 @@ bool sort_skip_item( Character &you, const item *it,
 
     // don't move a provider a live unattended step has claimed, and don't copy a live
     // craft, which would strand its schedule under a dead uid
-    if( craft_reservation::contains_reserved_or_live_craft( item_location( you, const_cast<item *>( it ) ) ) ) {
+    if( craft_reservation::contains_reserved_or_live_craft( item_location( you,
+            const_cast<item *>( it ) ) ) ) {
         return true;
     }
 
@@ -1956,7 +1957,8 @@ bool are_requirements_nearby(
         if( !in_loot_zones ) {
             if( const std::optional<vpart_reference> ovp = here.veh_at( elem ).cargo() ) {
                 for( item &it : ovp->items() ) {
-                    if( craft_reservation::contains_reserved( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) ) ) {
+                    if( craft_reservation::contains_reserved( item_location( vehicle_cursor( ovp->vehicle(),
+                            ovp->part_index() ), &it ) ) ) {
                         continue;
                     }
                     temp_inv.add_item_loc( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) );
@@ -3031,7 +3033,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
         for( item &stack_elem : here.i_at( point_elem ) ) {
-            if( craft_reservation::contains_reserved( item_location(map_cursor(point_elem), &stack_elem )) ) {
+            if( craft_reservation::contains_reserved( item_location( map_cursor( point_elem ),
+                    &stack_elem ) ) ) {
                 continue;
             }
             for( std::vector<item_comp> &elem : req_comps ) {
@@ -3316,7 +3319,8 @@ bool fetch_required_activity_actor::fetch_activity(
         for( item &veh_elem : ovp->items() ) {
             // These loops match by itype_id alone, so a reserved instance would be
             // fetched in place of the free one planning cleared.
-            if( craft_reservation::contains_reserved(item_location(vehicle_cursor(ovp->vehicle(),ovp->part_index()), &veh_elem )) ) {
+            if( craft_reservation::contains_reserved( item_location( vehicle_cursor( ovp->vehicle(),
+                    ovp->part_index() ), &veh_elem ) ) ) {
                 continue;
             }
             for( auto elem : mental_item_map ) {
@@ -3334,7 +3338,7 @@ bool fetch_required_activity_actor::fetch_activity(
     }
     for( auto item_iter = items_there.begin(); item_iter != items_there.end(); item_iter++ ) {
         item &it = *item_iter;
-        if( craft_reservation::contains_reserved(item_location(map_cursor(src_loc), &it )) ) {
+        if( craft_reservation::contains_reserved( item_location( map_cursor( src_loc ), &it ) ) ) {
             continue;
         }
         for( auto elem : mental_item_map ) {

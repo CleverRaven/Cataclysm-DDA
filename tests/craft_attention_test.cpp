@@ -3015,7 +3015,7 @@ TEST_CASE( "reservation_predicates_differ_on_ancestry", "[craft][attention][rese
         idx.set( rec );
 
         THEN( "the ancestry predicate hides the whole container" ) {
-            CHECK( craft_reservation::contains_reserved(item_location(map_cursor(origin), &on_map ) ));
+            CHECK( craft_reservation::contains_reserved( item_location( map_cursor( origin ), &on_map ) ) );
         }
     }
 }

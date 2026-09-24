@@ -1356,6 +1356,11 @@ item_location::type item_location::where() const
     return ptr->where();
 }
 
+bool item_location::valid() const
+{
+    return ptr->valid();
+}
+
 item_location::type item_location::where_recursive() const
 {
     return ptr->where_recursive();
