@@ -38,10 +38,10 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template <typename T, typename Output>
-static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested,
+static void find_ammo_helper( T &, const item &obj, bool empty, Output out, bool nested,
                               bool now = true )
 {
-    src.visit_items( [&src, &nested, &out, &obj, empty, now]( item_location node ) {
+    src.visit_items( [&nested, &out, &obj, empty, now]( item_location node ) {
 
         // This stops containers and magazines counting *themselves* as ammo sources
         if( node.get_item() == &obj ) {
@@ -82,7 +82,7 @@ static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, b
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
             if( obj.can_reload_with( *node, now ) ) {
-                if( !node.has_parent() ) {
+                if( node.has_parent() ) {
                     out = item_location( node.parent_item(), node.get_item() );
                 } else {
                     out = node;

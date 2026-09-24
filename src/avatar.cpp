@@ -1815,7 +1815,7 @@ void avatar::reassign_item( item &it, int invlet )
     bool remove_old = true;
     if( invlet ) {
         item_location prev = invlet_to_item( invlet );
-        if( !prev.valid() ) {
+        if( prev.valid() ) {
             remove_old = it.typeId() != prev->typeId();
             reassign_item_cache( *prev, it.invlet, remove_old );
         }
@@ -1958,7 +1958,7 @@ char avatar::find_usable_cached_invlet( const itype_id &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( !invlet_to_item( invlet ).valid() ) {
+        if( invlet_to_item( invlet ).valid() ) {
             continue;
         }
         return invlet;
@@ -2014,7 +2014,7 @@ void avatar::update_invlet( item &newit, const item *ignore_invlet_collision_wit
         newit.invlet = '\0';
         item_location collidingItem = invlet_to_item( tmp_invlet );
 
-        if( collidingItem.valid() || collidingItem.get_item() == ignore_invlet_collision_with ) {
+        if( !collidingItem.valid() || collidingItem.get_item() == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }

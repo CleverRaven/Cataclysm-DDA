@@ -101,7 +101,7 @@ static void empty_autopickup_target( item_location what, tripoint_bub_ms where )
         // rigid containers want to keep as much items as possible so drop only blacklisted items
         // non-rigid containers want to drop as much items as possible so keep only whitelisted items
         if( is_rigid ? ap_rule == rule_state::BLACKLISTED : ap_rule != rule_state::WHITELISTED ) {
-            item nitem( *what );
+            item nitem( *entry );
             what.remove_item( *entry );
             // drop the items on the same tile the container is on
             get_map().add_item( where, nitem );

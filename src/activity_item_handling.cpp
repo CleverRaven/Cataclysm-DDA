@@ -1911,13 +1911,13 @@ bool are_requirements_nearby(
     you.visit_items(
     [&]( item_location node ) {
         if( craft_reservation::contains_reserved( node ) ) {
-            return VisitResponse::NEXT;
+            return VisitResponse::SKIP;
         }
         if( node.has_quality( qual_WELD ) ) {
             found_welder = true;
         }
         temp_inv.add_item_loc( node );
-        return VisitResponse::NEXT;
+        return VisitResponse::SKIP;
     }
     );
     map &here = get_map();

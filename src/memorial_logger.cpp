@@ -384,7 +384,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     u.visit_items(
     [&file, &indent]( item_location node ) {
         // your "inventory" is all items inside of other items.
-        if( !node.has_parent() && !node->is_gunmod() && !node->is_magazine() && !node->is_ammo() &&
+        if( node.has_parent() && !node->is_gunmod() && !node->is_magazine() && !node->is_ammo() &&
             !node->made_of( phase_id::LIQUID ) ) {
             file << indent << node->invlet << " - " << node->tname();
             if( node->charges > 0 ) {

@@ -235,7 +235,7 @@ std::vector<item_location> Character::find_reloadables()
 {
     std::vector<item_location> reloadables;
 
-    visit_items( [this, &reloadables]( item_location node ) {
+    visit_items( [&reloadables]( item_location node ) {
         if( node->is_reloadable() ) {
             reloadables.emplace_back( node );
         }

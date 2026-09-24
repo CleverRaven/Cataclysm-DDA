@@ -800,12 +800,13 @@ item temp_crafting_inventory::remove_item( item &it )
 {
     for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
         if( &it == &*iter ) {
-            item it( *iter );
+            item erase_it( *iter );
             temp_owned_items.erase( iter );
-            return it;
+            return erase_it;
         }
         ++iter;
     }
+    return item();
 }
 
 std::list<item> temp_crafting_inventory::remove_items_with( const

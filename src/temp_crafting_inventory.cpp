@@ -285,7 +285,7 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
     }
     for( const root_ref &ref : found->second ) {
         const item_location root = ref.get();
-        if( !root.valid() && root.visit_items( func ) == VisitResponse::ABORT ) {
+        if( root.valid() && root.visit_items( func ) == VisitResponse::ABORT ) {
             return;
         }
     }

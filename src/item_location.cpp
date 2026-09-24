@@ -936,7 +936,7 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
             return !!what && !!inv;
         }
 
-        type where() const {
+        type where() const override {
             return type::crafting_inventory;
         }
 
@@ -958,7 +958,7 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
             return item_location();
         }
 
-        tripoint_bub_ms pos_bub( const map &here ) const override {
+        tripoint_bub_ms pos_bub( const map & ) const override {
             return tripoint_bub_ms::zero;
         }
 
