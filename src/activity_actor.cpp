@@ -11329,8 +11329,9 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
 
         const std::unordered_set<tripoint_abs_ms> dest_set;
 
+        item_location loc( map_cursor( src ), it->first );
         zone_sorting::unload_item( you, src,
-                                   zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set,
+                                   zone_unload_options, it->second ? vp : std::nullopt, loc, dest_set,
                                    num_processed );
 
         if( you.get_moves() <= 0 ) {
@@ -14307,8 +14308,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
 
+        item_location loc( map_cursor( src ), it->first );
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
-                                             zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set, num_processed );
+                                             zone_unload_options, it->second ? vp : std::nullopt, loc, dest_set, num_processed );
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
