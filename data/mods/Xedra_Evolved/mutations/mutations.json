@@ -38,6 +38,7 @@
     "points": -1,
     "starting_trait": true,
     "valid": false,
+    "purifiable": false,
     "description": "What dreams you have are hollow and unfufilling to the fae."
   },
   {
