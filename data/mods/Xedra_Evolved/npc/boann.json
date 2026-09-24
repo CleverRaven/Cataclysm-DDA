@@ -371,7 +371,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BOANN_JOIN",
-    "dynamic_line": "Well you can't just join by asking, you need to accomplish a series of progressively more difficult quests, bringing me trophies and relics proving your worth to join our ranks.",
+    "dynamic_line": "You cannot simply walk through our gates and claim a place among our ranks. First, you must prove your worth. A series of trials awaits you, each more perilous than the last. Return to me with trophies of triumph and relics of renown, the hard-won proof of your deeds, and then shall your deeds proclaim your worth.",
     "responses": [
       {
         "text": "Do you have a quest for me now?",
@@ -386,14 +386,14 @@
     "id": "TALK_QUEST_LIST",
     "dynamic_line": {
       "math": [ "Boann_Quests_Accepted == 10" ],
-      "yes": "I have no other quests for you.  Once you'll have completed them all, you'll become part of my court and allowed to move offworld when you will wish so.",
+      "yes": "I have no further quests for you.  Once you've completed them all, you'll become part of my court and be allowed to move offworld when you will wish so.",
       "no": {
         "math": [ "Boann_Quests_Completed >= 6" ],
-        "yes": "(Boann hands you a list) Here is a list of the quests to complete to become part of my court.  They are very difficult, but their rewards will be worth it.",
+        "yes": "(Boann hands you a list) Here is a list of the quests to complete to become part of my court.  They are quite perilous, but their rewards are worth it.",
         "no": {
           "math": [ "Boann_Quests_Accepted == 6" ],
-          "yes": "I have no new quests for now.  Once you'll have completed them, you'll become one of my knights and able to accomplish the quests that will make you a member of my court.",
-          "no": "(Boann hands you a list) Here is a list of the quests to complete to become one of my knights.  Take your time, they can be accomplished when you want."
+          "yes": "I have no new quests for now.  Once you've completed them, you'll become one of my knights and able to accomplish the quests that will make you a member of my court.",
+          "no": "(Boann hands you a list) Here is a list of the quests to complete to become one of my knights.  Take your time, they can be accomplished at your prerogative."
         }
       }
     },
@@ -545,7 +545,7 @@
   {
     "id": "TALK_BRING_BOANN_JABBERWOCK_HEART_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "You will need incredible melee skills to handle this or an impressive gun.  Otherwise it do not have hidden tricks or notable intelligence so it'll be a straightforward fight.",
+    "dynamic_line": "You will need incredible melee skills to handle this or an impressive gun.  Otherwise it does not have hidden tricks or notable intelligence so it'll be a straightforward fight.",
     "responses": [
       {
         "text": "I'll do it.  Where's the Jabberwock?",
@@ -579,7 +579,7 @@
   {
     "id": [ "TALK_KILL_TWO_MARCH_LORDS_OFFER" ],
     "type": "talk_topic",
-    "dynamic_line": "Prove your allegiance to me.  Kill two March Lords so all will know which side you fight.",
+    "dynamic_line": "Prove your allegiance to me.  Kill two March Lords so all will see your defense of this world.",
     "responses": [
       {
         "text": "I'll do it.",
@@ -619,7 +619,7 @@
   {
     "id": [ "TALK_KILL_TWO_MARCH_LORDS_COMPLETED" ],
     "type": "talk_topic",
-    "dynamic_line": "I'm pleased to grant you the right to call upon the daffodil warriors.",
+    "dynamic_line": "I'm pleased to grant you the right to call upon daffodil warriors.  They bloom into a life of combat.",
     "responses": [
       { "text": "Can I talk about something else?", "topic": "TALK_BOANN_1" },
       { "text": "Thank you.", "topic": "TALK_DONE" }
@@ -839,7 +839,7 @@
   {
     "id": "TALK_GET_TRIFFID_HEART_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "Tear gas is deadly to them.  In addition, they don't go along with anything that isn't a triffid.",
+    "dynamic_line": "Tear gas is deadly to them.  In addition, they don't get along with anything that isn't a triffid.",
     "responses": [
       {
         "text": "I'll do it.  Where's the triffids?",
@@ -873,7 +873,7 @@
   {
     "id": [ "TALK_KILL_TITAN_BEETLE_OFFER" ],
     "type": "talk_topic",
-    "dynamic_line": "A knight must be able to triumph of all beasts.  Kill a titan stag beetle and you'll receive a magical musical instrument.",
+    "dynamic_line": "A knight must be able to triumph over all beasts.  Kill a titan stag beetle and you'll receive a magical musical instrument.",
     "responses": [
       {
         "text": "I'll do it.  Where's the beetle?",
@@ -986,7 +986,7 @@
   {
     "id": "TALK_KILL_STAR_CROWN_HOUND_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "It is strong but slow, so disengaging is possible.  It will summon hounds, but they quickly fade away so they aren't that much of an issue compared to it.  Stand away from corners in walls as it can teleport to them.  It has no armor against fire, electricity and blunt weapons but it quickly heal all its wounds so continuous heavy damage is the key to kill it.  If you cannot manage to injure it, do not hesitate to withdraw and try another way to kill it.",
+    "dynamic_line": "It is strong but slow, so disengaging is possible.  It will summon hounds, but they quickly fade away so they aren't that much of an issue compared to it.  Stand away from corners in walls as it can teleport to them.  It has no armor against fire, electricity and blunt weapons but it quickly heals all its wounds so continuous heavy damage is the key to kill it.  If you cannot manage to injure it, do not hesitate to withdraw and try another way to kill it.",
     "responses": [
       {
         "text": "I'll do it.  Where's the hound?",
