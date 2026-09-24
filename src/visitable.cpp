@@ -778,7 +778,7 @@ std::list<item> item_location::remove_items_with( const std::function<bool( cons
 {
     std::list<item> res;
 
-    if( count <= 0 || where() != type::invalid ) {
+    if( count <= 0 || !valid() ) {
         // nothing to do
         return res;
     }
