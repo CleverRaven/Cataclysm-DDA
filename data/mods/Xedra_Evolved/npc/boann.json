@@ -371,7 +371,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BOANN_JOIN",
-    "dynamic_line": "You cannot simply walk through our gates and claim a place among our ranks. First, you must prove your worth. A series of trials awaits you, each more perilous than the last. Return to me with trophies of triumph and relics of renown, the hard-won proof of your deeds, and then shall your deeds proclaim your worth.",
+    "dynamic_line": "You cannot simply walk through our gates and claim a place among our ranks. First, you must prove your worth.  A series of trials awaits you, each more perilous than the last.  Return to me with trophies of triumph and relics of renown, the hard-won proof of your deeds, and then shall your deeds proclaim your worth.",
     "responses": [
       {
         "text": "Do you have a quest for me now?",
