@@ -34,7 +34,6 @@
     "grab_strength": 60,
     "special_attacks": [
       { "id": "grab" },
-      { "id": "smash", "throw_strength": 12, "cooldown": 3 },
       { "id": "smash", "throw_strength": 66, "cooldown": 15 },
       { "id": "bio_op_takedown", "cooldown": 15 },
       { "id": "bio_op_impale", "cooldown": 15 }
