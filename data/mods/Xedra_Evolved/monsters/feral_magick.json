@@ -256,7 +256,7 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_inventor_drone_spawn",
+    "id": "mon_inventor_spider_drone_spawn",
     "name": { "str": "Summon Drones" },
     "description": "Summons many inventor drones.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
