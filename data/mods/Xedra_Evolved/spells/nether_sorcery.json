@@ -153,5 +153,47 @@
     "aoe_increment": 0.25,
     "base_energy_cost": 4500,
     "base_casting_time": 225
+  },
+  {
+    "id": "xe_nether_sorcery_wind_dodge_shell",
+    "type": "SPELL",
+    "name": "Shell of the Four Winds",
+    "description": "Summon a swirling shell of air around yourself, helping you avoid attacks.",
+    "message": "You intone the words of the spell.",
+    "valid_targets": [ "self" ],
+    "flags": [ "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "spell_class": "XE_NETHER_SORCERY",
+    "magic_type": "xe_nether_sorcery",
+    "skill": "deduction",
+    "difficulty": 60,
+    "max_level": 15,
+    "effect": "attack",
+    "effect_str": "effect_xe_nether_sorcery_wind_dodge_shell",
+    "shape": "blast",
+    "min_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_wind_dodge_shell') * 2132) + 15243" ] },
+    "max_duration": { "math": [ "(u_spell_level('xe_nether_sorcery_wind_dodge_shell') * 8167) + 38216" ] },
+    "base_energy_cost": 4000,
+    "base_casting_time": 350
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GETTING_HIT_WHILE_USING_NETHER_SORCERY_WIND_DODGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_xe_nether_sorcery_wind_dodge_shell" },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": 3 } },
+        "then": [
+          {
+            "u_spawn_monster": "mon_flying_polyp",
+            "real_count": 1,
+            "max_radius": 3,
+            "lifespan": [ "30 days", "60 days" ],
+            "spawn_message": "You hear a tuneless piping sound!"
+          }
+        ]
+      }
+    ]
   }
 ]
