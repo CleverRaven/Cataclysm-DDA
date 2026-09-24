@@ -183,7 +183,7 @@
     "condition": { "u_has_effect": "effect_xe_nether_sorcery_wind_dodge_shell" },
     "effect": [
       {
-        "if": { "x_in_y_chance": { "x": 1, "y": 3 } },
+        "if": { "x_in_y_chance": { "x": 1, "y": 4 } },
         "then": [
           {
             "u_spawn_monster": "mon_flying_polyp",
