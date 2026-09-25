@@ -459,6 +459,9 @@ std::vector<item *> read_only_visitable::items_with(
 static VisitResponse visit_internal( const std::function<VisitResponse( item_location )> &func,
                                      const item_location &node )
 {
+    if( !node.valid() ) {
+        return VisitResponse::NEXT;
+    }
     switch( func( node ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
@@ -509,7 +512,7 @@ static VisitResponse visit_internal_legacy( const std::function<VisitResponse( i
 
 bool item::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    return has_quality_internal_item( *this, qual, level, qty ) == qty
+    return has_quality_internal_item( *this, qual, level, qty ) == qty;
 }
 
 std::vector<const item *> item::items_with( const item_filter &filter ) const
