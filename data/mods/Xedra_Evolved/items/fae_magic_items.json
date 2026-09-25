@@ -4,7 +4,7 @@
     "category": "other",
     "id": "spoon_of_full_belly",
     "ascii_picture": "spoon",
-    "name": { "str": "silver spoon of the full belly" },
+    "name": { "str": "silver spoon of the full belly", "str_pl": "silver spoons of the full belly" },
     "description": "An engraved silver spoon.  On it are the words 'I will spare you from hunger'.",
     "weight": "43 g",
     "volume": "70 ml",
