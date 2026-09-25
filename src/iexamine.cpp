@@ -4770,7 +4770,7 @@ void trap::examine( const tripoint_bub_ms &examp ) const
 
 void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
 {
-    prompt_partial_construction(you, examp );
+    prompt_partial_construction( you, examp );
 }
 
 void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
