@@ -25,7 +25,6 @@
 #include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "construction_group.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting.h"
