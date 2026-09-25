@@ -22,11 +22,8 @@
     }
   },
   {
-  "type": "effect_on_condition",
-  "id": "EOC_FULL_BELLY",
-  "effect": [
-    { "math": [ "u_val('hunger') = 0" ] },
-    { "math": [ "u_val('thirst') = 0" ] }
-  		]
-	}
+    "type": "effect_on_condition",
+    "id": "EOC_FULL_BELLY",
+    "effect": [ { "math": [ "u_val('hunger') = 0" ] }, { "math": [ "u_val('thirst') = 0" ] } ]
+  }
 ]
