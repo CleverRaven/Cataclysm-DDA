@@ -1725,6 +1725,16 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
     };
 }
 
+conditional_t::func f_map_is_passable( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_object( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        return !here.impassable( loc );
+    };
+}
+
 conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view member )
 {
     str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -2559,6 +2569,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_is_passable", jarg::object, &conditional_fun::f_map_is_passable },
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
