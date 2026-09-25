@@ -73,11 +73,7 @@
     "effect": [
       { "math": [ "updating_zapatosaurus = 1" ] },
       { "run_eocs": "eoc_update_zapatosaurus", "time_in_future": 1 },
-      {
-        "u_run_monster_eocs": [ "eoc_zauropod" ],
-        "monster_range": 3,
-        "mtype_ids": [ "mon_zapatosaurus" ]
-      }
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zapatosaurus" ] }
     ],
     "false_effect": [ { "math": [ "updating_zapatosaurus = 0" ] } ]
   },
