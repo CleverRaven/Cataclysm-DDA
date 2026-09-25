@@ -658,7 +658,12 @@
     "flags": [ "MORPHIC", "MUNDANE", "INVENTOR_CRAFTED" ],
     "armor": [
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 3 },
-      { "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 7 }
+      {
+        "covers": [ "mouth", "muzzle", "beak", "insect_proboscis" ],
+        "rigid_layer_only": true,
+        "coverage": 100,
+        "encumbrance": 7
+      }
     ],
     "pocket_data": [
       {
