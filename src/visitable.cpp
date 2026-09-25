@@ -692,7 +692,7 @@ static VisitResponse visit_items_internal( map *here,
         itype_id it_id = here->furn( p )->crafting_pseudo_item;
         if( it_id.is_valid() ) {
             item it( it_id );
-            if( visit_internal( func, item_location( map_cursor( p ), &it ) ) == VisitResponse::ABORT ) {
+            if( visit_internal( func, item_location( map_cursor( here, p ), &it ) ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
