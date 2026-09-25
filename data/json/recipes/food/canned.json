@@ -1105,8 +1105,6 @@
     "activity_level": "NO_EXERCISE",
     "result": "veggy_pickled",
     "id_suffix": "jarred",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
     "byproducts": [ [ "water_clean", 2 ] ],
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
