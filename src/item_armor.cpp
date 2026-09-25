@@ -29,6 +29,7 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "material.h"

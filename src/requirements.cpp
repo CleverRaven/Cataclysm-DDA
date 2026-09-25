@@ -28,6 +28,7 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"

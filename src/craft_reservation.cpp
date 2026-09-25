@@ -12,6 +12,7 @@
 #include "item_uid.h"
 #include "json.h"
 #include "map.h"
+#include "map_selector.h"
 #include "visitable.h"
 
 namespace craft_reservation

@@ -32,6 +32,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_tname.h"
 #include "itype.h"
 #include "json.h"

@@ -30,6 +30,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "mapgen.h"
 #include "math_parser_type.h"

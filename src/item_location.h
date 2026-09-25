@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <climits>
 #include <cstddef>
 #include <cstdint>
 #include <functional>

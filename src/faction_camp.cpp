@@ -60,6 +60,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
