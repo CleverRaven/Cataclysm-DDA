@@ -850,7 +850,7 @@
     "id": "chem_chromium_oxide",
     "category": "chems",
     "price": "5 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "chromium oxide powder" },
     "symbol": "=",
     "color": "green",
