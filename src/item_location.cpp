@@ -1442,7 +1442,7 @@ void item_location::make_active()
         }
         case type::invalid:
         case type::crafting_inventory:
-            // crafting inventory doesn't cache active items
+        // crafting inventory doesn't cache active items
         case type::character: {
             // NOOP: characters don't cache active items
             break;
