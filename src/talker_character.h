@@ -204,6 +204,7 @@ class talker_character_const: virtual public const_talker
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
+        int get_daily_health() const override;
         units::temperature get_body_temp() const override;
         units::temperature_delta get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
@@ -302,6 +303,7 @@ class talker_character: virtual public talker
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void set_hunger( int ) override;
         void mod_livestyle( int ) override;
         void set_fac_relation( const Character *guy, npc_factions::relationship rule,
                                bool should_set_value ) override;

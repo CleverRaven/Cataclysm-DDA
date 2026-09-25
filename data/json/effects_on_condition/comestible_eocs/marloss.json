@@ -1,0 +1,419 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_BERRY_CONSUME",
+    "effect": {
+      "run_eocs": "EOC_MARLOSS_CONSUME",
+      "variables": {
+        "marloss_item": "marloss_berry",
+        "marloss_color": "MARLOSS",
+        "marloss_addiction": "marloss_r",
+        "marloss_other_addiction_1": "marloss_b",
+        "marloss_other_addiction_2": "marloss_y"
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_WINE_CONSUME",
+    "effect": {
+      "run_eocs": "EOC_MARLOSS_CONSUME",
+      "variables": {
+        "marloss_item": "wine_marloss",
+        "marloss_color": "MARLOSS",
+        "marloss_addiction": "marloss_r",
+        "marloss_other_addiction_1": "marloss_b",
+        "marloss_other_addiction_2": "marloss_y"
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_SEED_CONSUME",
+    "effect": {
+      "run_eocs": "EOC_MARLOSS_CONSUME",
+      "variables": {
+        "marloss_item": "marloss_seed",
+        "marloss_color": "MARLOSS_BLUE",
+        "marloss_addiction": "marloss_b",
+        "marloss_other_addiction_1": "marloss_r",
+        "marloss_other_addiction_2": "marloss_y"
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_GEL_CONSUME",
+    "effect": {
+      "run_eocs": "EOC_MARLOSS_CONSUME",
+      "variables": {
+        "marloss_item": "marloss_gel",
+        "marloss_color": "MARLOSS_YELLOW",
+        "marloss_addiction": "marloss_y",
+        "marloss_other_addiction_1": "marloss_r",
+        "marloss_other_addiction_2": "marloss_b"
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_CONSUME",
+    "//": "Character::can_eat rejects Marloss before consumption.  Keep these guards for direct EOC calls too.",
+    "condition": {
+      "and": [
+        { "not": "u_is_npc" },
+        { "not": { "or": [ { "u_has_trait": "MARLOSS_AVOID" }, { "u_has_trait": "THRESH_MYCUS" } ] } },
+        {
+          "expects_vars": [ "marloss_item", "marloss_color", "marloss_addiction", "marloss_other_addiction_1", "marloss_other_addiction_2" ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_set_talker": { "context_val": "marloss_character" } },
+      {
+        "trigger_event": "consumes_marloss_item",
+        "args": [ { "context_val": "marloss_character" }, { "context_val": "marloss_item" } ]
+      },
+      {
+        "if": { "or": [ { "u_has_trait": { "context_val": "marloss_color" } }, { "u_has_trait": "THRESH_MARLOSS" } ] },
+        "then": { "run_eocs": "EOC_MARLOSS_REPEAT_CONSUMPTION" },
+        "else": {
+          "weighted_list_eocs": [
+            [ "EOC_MARLOSS_RANDOM_MUTATION", 3 ],
+            [ "EOC_MARLOSS_RANDOM_PAINKILLER", 2 ],
+            [ "EOC_MARLOSS_RANDOM_RADIATION_CLEANSE", 1 ],
+            [ "EOC_MARLOSS_RANDOM_SATIATION", 1 ],
+            [ "EOC_MARLOSS_RANDOM_VOMIT", 1 ],
+            [ "EOC_MARLOSS_GAIN_COMPONENT", 4 ]
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_REPEAT_CONSUMPTION",
+    "//": "Keep a running spore count while checking nearby tiles, then clear it.",
+    "condition": { "expects_vars": [ "marloss_other_addiction_1", "marloss_other_addiction_2" ] },
+    "effect": [
+      {
+        "u_message": "As you eat the <npc_name>, you have a near-religious experience, feeling at one with your surroundings…",
+        "type": "good"
+      },
+      { "u_add_morale": "morale_marloss", "bonus": 100, "max_bonus": 1000 },
+      { "u_add_addiction": { "context_val": "marloss_other_addiction_1" }, "strength": 50 },
+      { "u_add_addiction": { "context_val": "marloss_other_addiction_2" }, "strength": 50 },
+      { "math": [ "u_hunger() = -10" ] },
+      { "math": [ "u_marloss_spores_spawned = 0" ] },
+      {
+        "u_map_run_eocs": "EOC_MARLOSS_SPORE_TILE",
+        "range": 4,
+        "store_coordinates_in": { "context_val": "marloss_tile" },
+        "condition": { "map_is_passable": { "context_val": "marloss_tile" } },
+        "stop_at_first": false
+      },
+      { "u_lose_var": "marloss_spores_spawned" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_SPORE_TILE",
+    "condition": { "expects_vars": [ "marloss_tile" ] },
+    "effect": [
+      {
+        "if": { "x_in_y_chance": { "x": 1, "y": { "math": [ "distance('u', _marloss_tile)" ] } } },
+        "then": { "u_marlossify": { "context_val": "marloss_tile" } }
+      },
+      {
+        "if": {
+          "and": [
+            { "one_in_chance": { "math": [ "10 + 5 * distance('u', _marloss_tile)" ] } },
+            { "one_in_chance": { "math": [ "u_marloss_spores_spawned * 2" ] } }
+          ]
+        },
+        "then": {
+          "u_spawn_monster": "mon_spore",
+          "real_count": 1,
+          "min_radius": 0,
+          "max_radius": 0,
+          "target_var": { "context_val": "marloss_tile" },
+          "friendly": true,
+          "open_air_allowed": true,
+          "true_eocs": { "id": "EOC_MARLOSS_COUNT_SPORE", "effect": { "math": [ "u_marloss_spores_spawned++" ] } }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_RANDOM_MUTATION",
+    "//": "Mutation pain still respects pain resistance and sensitivity.",
+    "effect": [
+      { "u_message": "It tastes extremely strange!" },
+      { "u_mutate": 1, "use_vitamins": false },
+      { "math": [ "u_pain('type': 'perceived') = 2 * (1 + rand(4))" ] },
+      { "math": [ "u_calories() -= 87" ] },
+      { "math": [ "u_val('thirst') += 10" ] },
+      { "math": [ "u_val('sleepiness') += 5" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_RANDOM_PAINKILLER",
+    "effect": [
+      { "u_message": "You feel better all over.", "type": "good" },
+      { "math": [ "u_val('pkill') += 30" ] },
+      { "math": [ "u_pain('type': 'perceived') = -40" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_RANDOM_RADIATION_CLEANSE",
+    "effect": [ { "run_eocs": "EOC_MARLOSS_RANDOM_PAINKILLER" }, { "math": [ "u_val('rad') = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_RANDOM_SATIATION",
+    "effect": {
+      "u_fill_stomach": 0.125,
+      "calories_per_ml": 6,
+      "true_eocs": {
+        "id": "EOC_MARLOSS_SATIATION_SUCCESS",
+        "effect": { "u_message": "It is delicious, and very filling!", "type": "good" }
+      },
+      "false_eocs": {
+        "id": "EOC_MARLOSS_SATIATION_FAILURE",
+        "effect": { "u_message": "It is delicious, but you can't eat any more.", "type": "bad" }
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_RANDOM_VOMIT",
+    "effect": [
+      { "u_message": "You take one bite, and immediately vomit!", "type": "bad" },
+      { "run_eocs": "EOC_MARLOSS_VOMIT_AFTER_CONSUMPTION", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_VOMIT_AFTER_CONSUMPTION",
+    "//": "Wait until the food reaches the stomach so it gets thrown up too.",
+    "effect": "u_vomit"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_GAIN_COMPONENT",
+    "condition": { "expects_vars": [ "marloss_color", "marloss_addiction", "marloss_other_addiction_1", "marloss_other_addiction_2" ] },
+    "effect": [
+      {
+        "if": { "u_has_flag": "MUTATION_THRESHOLD" },
+        "then": { "run_eocs": "EOC_MARLOSS_REJECTION" },
+        "else": {
+          "if": { "math": [ "u_has_trait('MARLOSS') + u_has_trait('MARLOSS_BLUE') + u_has_trait('MARLOSS_YELLOW') >= 2" ] },
+          "then": { "run_eocs": "EOC_MARLOSS_CROSS_THRESHOLD" },
+          "else": [
+            { "u_message": "You feel a strange warmth spreading throughout your body…" },
+            { "u_add_trait": { "context_val": "marloss_color" } },
+            { "u_lose_addiction": { "context_val": "marloss_addiction" } },
+            { "u_add_addiction": { "context_val": "marloss_other_addiction_1" }, "strength": 60 },
+            { "u_add_addiction": { "context_val": "marloss_other_addiction_2" }, "strength": 60 }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_CLEAR_COMPONENTS",
+    "effect": [
+      { "u_lose_trait": "MARLOSS" },
+      { "u_lose_trait": "MARLOSS_BLUE" },
+      { "u_lose_trait": "MARLOSS_YELLOW" },
+      { "u_lose_addiction": "marloss_r" },
+      { "u_lose_addiction": "marloss_b" },
+      { "u_lose_addiction": "marloss_y" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_REJECTION",
+    "effect": [
+      {
+        "u_message": "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…",
+        "type": "bad"
+      },
+      {
+        "u_add_memorial": { "str": "Suffered Marloss Rejection.", "ctxt": "memorial_male" },
+        "female": { "str": "Suffered Marloss Rejection.", "ctxt": "memorial_female" }
+      },
+      { "math": [ "u_pain('type': 'perceived') = 90" ] },
+      { "u_hurt_all": { "math": [ "40 + rand(25)" ] } },
+      { "run_eocs": "EOC_MARLOSS_REJECTION_AFTER_CONSUMPTION", "time_in_future": 0 },
+      { "run_eocs": "EOC_MARLOSS_CLEAR_COMPONENTS" },
+      { "u_add_trait": "MARLOSS_AVOID" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_REJECTION_AFTER_CONSUMPTION",
+    "//": "Let consumption finish before sleep cancels its activity.  Vomit the ingested food before sleeping, so vomiting cannot wake the character from the blackout.",
+    "effect": [ "u_vomit", { "u_fall_asleep": { "math": [ "36000 - 60 * u_val('intelligence')" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_CROSS_THRESHOLD",
+    "effect": [
+      {
+        "u_message": "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_MARLOSS_THRESHOLD_SLEEP", "time_in_future": 0 },
+      { "run_eocs": "EOC_MARLOSS_CLEAR_COMPONENTS" },
+      { "u_add_trait": "THRESH_MARLOSS" },
+      { "u_location_variable": { "context_val": "marloss_location" } },
+      { "set_terrain": "t_marloss", "location": { "context_val": "marloss_location" }, "radius": 0 },
+      { "u_set_talker": { "context_val": "marloss_character" } },
+      { "trigger_event": "crosses_marloss_threshold", "args": [ { "context_val": "marloss_character" } ] },
+      {
+        "u_message": "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you.",
+        "type": "good"
+      },
+      {
+        "u_message": "unity.  together we have reached the door.  we provide the final key.  now to pass through…",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MARLOSS_THRESHOLD_SLEEP",
+    "//": "Let the consume activity finish before falling asleep cancels it.",
+    "effect": { "u_fall_asleep": { "math": [ "2400 - 30 * u_val('intelligence')" ] } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MYCUS_CONSUME",
+    "condition": { "not": "u_is_npc" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "THRESH_MARLOSS" },
+        "then": { "run_eocs": "EOC_MYCUS_CROSS_THRESHOLD" },
+        "else": {
+          "if": { "u_has_trait": "THRESH_MYCUS" },
+          "then": {
+            "if": { "u_has_trait": "M_DEPENDENT" },
+            "then": [ { "math": [ "u_val('pkill') += 5" ] }, { "math": [ "u_val('stim') += 5" ] } ],
+            "else": {
+              "if": { "not": { "one_in_chance": 3 } },
+              "then": [
+                { "u_mutate_category": "MYCUS", "use_vitamins": false, "true_random": true },
+                { "math": [ "u_calories() -= 87" ] },
+                { "math": [ "u_val('thirst') += 10" ] },
+                { "math": [ "u_val('sleepiness') += 5" ] },
+                { "u_add_morale": "morale_marloss", "bonus": 25, "max_bonus": 200 }
+              ]
+            }
+          },
+          "else": { "run_eocs": "EOC_MYCUS_UNADAPTED" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MYCUS_UNADAPTED",
+    "effect": [
+      { "u_message": "This tastes really weird!  You're not sure it's good for you…" },
+      { "u_mutate": 1, "use_vitamins": false },
+      { "math": [ "u_pain('type': 'perceived') = 2 * (1 + rand(4))" ] },
+      { "math": [ "u_calories() -= 87" ] },
+      { "math": [ "u_val('thirst') += 10" ] },
+      { "math": [ "u_val('sleepiness') += 5" ] },
+      { "run_eocs": "EOC_MARLOSS_VOMIT_AFTER_CONSUMPTION", "time_in_future": 0 },
+      { "math": [ "u_daily_health('cap': -50) -= 8" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MYCUS_CROSS_THRESHOLD",
+    "effect": [
+      { "u_set_talker": { "context_val": "mycus_character" } },
+      { "trigger_event": "crosses_mycus_threshold", "args": [ { "context_val": "mycus_character" } ] },
+      { "u_message": "It tastes amazing, and you finish it quickly." },
+      { "u_message": "You feel better all over.", "type": "good" },
+      { "math": [ "u_val('pkill') += 30" ] },
+      { "math": [ "u_val('rad') = 0" ] },
+      { "u_heal_all": 4 },
+      {
+        "u_message": "As it settles in, you feel ecstasy radiating through every part of your body…",
+        "type": "good"
+      },
+      { "u_add_morale": "morale_marloss", "bonus": 1000, "max_bonus": 1000 },
+      {
+        "u_message": "Your eyes roll back in your head.  Everything dissolves into a blissful haze…",
+        "type": "good"
+      },
+      { "run_eocs": "EOC_MYCUS_THRESHOLD_SLEEP", "time_in_future": 0 },
+      { "u_lose_trait": "THRESH_MARLOSS" },
+      { "u_add_trait": "THRESH_MYCUS" },
+      { "u_message": "we welcome into us.  we have endured long in this forbidding world.", "popup": true },
+      { "u_message": " " },
+      {
+        "u_message": "A sea of white caps, waving gently.  A haze of spores wafting silently over a forest.",
+        "type": "good"
+      },
+      { "u_message": "the natives have a saying: \"e pluribus unum.\"  out of many, one.", "popup": true },
+      { "u_message": " " },
+      {
+        "u_message": "The blazing pink redness of the berry.  The juices spreading across our tongue, the warmth draping over us like a lover's embrace.",
+        "type": "good"
+      },
+      {
+        "u_message": "we welcome the union of our lines in our local guide.  we will prosper, and unite this world.  even now, our fruits adapt to better serve local physiology.",
+        "popup": true
+      },
+      { "u_message": " " },
+      {
+        "u_message": "The sky-blue of the seed.  The nutty, creamy flavors intermingling with the berry, a memory that will never leave us.",
+        "type": "good"
+      },
+      { "u_message": "as, in time, shall we adapt to better welcome those who have not received us.", "popup": true },
+      { "u_message": " " },
+      {
+        "u_message": "The amber-yellow of the sap.  Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"",
+        "type": "good"
+      },
+      { "u_message": "we are the Mycus.", "popup": true },
+      {
+        "u_map_run_eocs": "EOC_MYCUS_MARLOSSIFY_TILE",
+        "range": 3,
+        "store_coordinates_in": { "context_val": "mycus_tile" },
+        "condition": {
+          "and": [
+            { "map_is_passable": { "context_val": "mycus_tile" } },
+            { "map_furniture_id": "f_null", "loc": { "context_val": "mycus_tile" } },
+            { "not": { "map_terrain_with_flag": "DEEP_WATER", "loc": { "context_val": "mycus_tile" } } },
+            { "not": { "map_terrain_with_flag": "NO_FLOOR", "loc": { "context_val": "mycus_tile" } } }
+          ]
+        },
+        "stop_at_first": false
+      },
+      { "u_lose_addiction": "marloss_r" },
+      { "u_lose_addiction": "marloss_b" },
+      { "u_lose_addiction": "marloss_y" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MYCUS_THRESHOLD_SLEEP",
+    "//": "Let the consume activity finish before falling asleep cancels it.",
+    "effect": { "u_fall_asleep": { "math": [ "18000 - 60 * u_val('intelligence')" ] } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MYCUS_MARLOSSIFY_TILE",
+    "condition": { "expects_vars": [ "mycus_tile" ] },
+    "effect": { "u_marlossify": { "context_val": "mycus_tile" } }
+  }
+]
