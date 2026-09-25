@@ -275,16 +275,23 @@
     "type": "shopkeeper_blacklist",
     "entries": [
       { "group": "NC_ROBOFAC_gear", "message": "Will not buy back their own gear" },
-      { "category": "clothing" },
-      { "group": "SUS_bathroom_sink" },
-      { "group": "SUS_bathroom_medicine" },
-      { "group": "SUS_toilet" },
-      { "group": "SUS_bathroom_cabinet" },
-      { "group": "SUS_dishes" },
-      { "group": "SUS_cookware" },
-      { "group": "SUS_utensils" },
-      { "group": "SUS_junk_drawer" },
-      { "group": "SUS_kitchen_sink" }
+      { "category": "clothing", "message": "The Hub has no interest in this" },
+      { "group": "homebooks", "message": "The Hub has no interest in this" },
+      { "item": "novels", "message": "The Hub has no interest in this" },
+      { "item": "literature", "message": "The Hub has no interest in this" },
+      { "item": "games", "message": "The Hub has no interest in this" },
+      { "group": "SUS_bathroom_sink", "message": "The Hub has no interest in this" },
+      { "group": "SUS_bathroom_medicine", "message": "The Hub has no interest in this" },
+      { "group": "SUS_toilet", "message": "The Hub has no interest in this" },
+      { "group": "SUS_bathroom_cabinet", "message": "The Hub has no interest in this" },
+      { "group": "SUS_dishes", "message": "The Hub has no interest in this" },
+      { "group": "SUS_cookware", "message": "The Hub has no interest in this" },
+      { "group": "SUS_utensils", "message": "The Hub has no interest in this" },
+      { "group": "SUS_junk_drawer", "message": "The Hub has no interest in this" },
+      { "group": "SUS_kitchen_sink", "message": "The Hub has no interest in this" },
+      { "group": "stoner", "message": "The Hub has no interest in this" },
+      { "group": "SUS_oven", "message": "The Hub has no interest in this" },
+      { "group": "garden_shed", "message": "The Hub has no interest in this" }
     ]
   },
   {
