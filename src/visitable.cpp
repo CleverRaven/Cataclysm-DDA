@@ -848,7 +848,7 @@ std::list<item> temp_crafting_inventory::remove_items_with( const
             const int c = ( *iter )->count();
             res.push_back( **iter );
             iter->remove_item();
-            iter = items_loc.erase( iter );
+            iter = item_copies.erase( iter );
             count -= c;
         } else {
             ++iter;
