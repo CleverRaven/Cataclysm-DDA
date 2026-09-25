@@ -41,15 +41,6 @@
             "id": "zapatosaurus_setup",
             "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "avatar_sees_zapatosaurus_setup",
-                    "condition": "player_see_u",
-                    "effect": [ { "message": "You see the zombie sauropod." } ]
-                  }
-                ]
-              },
               { "math": [ "_zauropod_uid = rand(1200)" ] },
               { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
