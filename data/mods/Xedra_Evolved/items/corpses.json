@@ -40,6 +40,19 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_inventor_spider_drone",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken spider drone",
+    "category": "other",
+    "description": "A broken spider drone.  Total scrap, but some stuff is still useful.",
+    "material": [ "lc_steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "ITEM",
     "id": "broken_bitebot",
     "symbol": "x",
     "color": "brown",

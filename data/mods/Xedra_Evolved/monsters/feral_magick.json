@@ -274,7 +274,7 @@
     "copy-from": "mon_meleebot",
     "type": "MONSTER",
     "name": { "str": "inventor drone" },
-    "description": "With menacing buzz, this copter rapidly approaches you, throwing sparks and electric charges around.",
+    "description": "With a metallic skittering, this mechanical spider approaches you with bladed limbs.",
     "default_faction": "zombie",
     "species": [ "ROBOT" ]
   }
