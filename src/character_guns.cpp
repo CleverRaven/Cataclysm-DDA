@@ -38,7 +38,7 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 template <typename T, typename Output>
-static void find_ammo_helper( T &, const item &obj, bool empty, Output out, bool nested,
+static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested,
                               bool now = true )
 {
     src.visit_items( [&nested, &out, &obj, empty, now]( item_location node ) {
