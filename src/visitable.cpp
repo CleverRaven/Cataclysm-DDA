@@ -798,6 +798,13 @@ std::list<item> item_location::remove_items_with( const std::function<bool( cons
 
 item temp_crafting_inventory::remove_item( item &it )
 {
+    for( auto iter = item_copies.begin(); iter != item_copies.end(); ) {
+        if( iter->get_item() == &it ) {
+            item_copies.erase( iter );
+            break;
+        }
+        ++iter;
+    }
     for( auto iter = temp_owned_items.begin(); iter != temp_owned_items.end(); ) {
         if( &it == &*iter ) {
             item erase_it( *iter );
