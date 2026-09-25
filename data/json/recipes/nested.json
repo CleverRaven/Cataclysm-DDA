@@ -7301,7 +7301,13 @@
     "subcategory": "CSC_FOOD_MEAT",
     "name": "Canned Liver(Jars and Tins)",
     "description": "Recipes related to putting canned liver in jars and tins.",
-    "nested_category_data": [ "canned_liver_jarred", "canned_liver_jarred_3l", "canned_liver", "canned_liver_canned_medium", "canned_liver_canned_big" ]
+    "nested_category_data": [
+      "canned_liver_jarred",
+      "canned_liver_jarred_3l",
+      "canned_liver",
+      "canned_liver_canned_medium",
+      "canned_liver_canned_big"
+    ]
   },
   {
     "id": "nested_canned_heart",
@@ -7361,7 +7367,13 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "name": "Cranberry Juice(Jars and Canned)",
     "description": "Recipes related to putting cranberry juice in jars and tins.",
-    "nested_category_data": [ "cranberry_juice_jarred", "cranberry_juice_jarred_3l", "cranberry_juice_canned", "cranberry_juice_canned_small", "cranberry_juice_canned_big" ]
+    "nested_category_data": [
+      "cranberry_juice_jarred",
+      "cranberry_juice_jarred_3l",
+      "cranberry_juice_canned",
+      "cranberry_juice_canned_small",
+      "cranberry_juice_canned_big"
+    ]
   },
   {
     "id": "nested_juice",
@@ -7391,7 +7403,13 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "name": "Apple Cider(Jars and Canned)",
     "description": "Recipes related to putting apple cider in jars and tins.",
-    "nested_category_data": [ "apple_cider_jarred", "apple_cider_jarred_3l", "apple_cider_canned", "apple_cider_canned_small", "apple_cider_canned_big" ]
+    "nested_category_data": [
+      "apple_cider_jarred",
+      "apple_cider_jarred_3l",
+      "apple_cider_canned",
+      "apple_cider_canned_small",
+      "apple_cider_canned_big"
+    ]
   },
   {
     "id": "nested_jam_fruit",
@@ -7411,6 +7429,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "name": "Canned Fruit(Jars and Canned)",
     "description": "Recipes related to putting canned fruit in jars and tins.",
-    "nested_category_data": [ "apple_canned_jarred", "apple_canned_jarred_3l", "apple_canned", "apple_canned_canned_medium", "apple_canned_canned_big" ]
+    "nested_category_data": [
+      "apple_canned_jarred",
+      "apple_canned_jarred_3l",
+      "apple_canned",
+      "apple_canned_canned_medium",
+      "apple_canned_canned_big"
+    ]
   }
 ]
