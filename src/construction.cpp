@@ -1423,7 +1423,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     // This shouldn't normally happen, unless it's a spike pit being built on a pit for example.
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
-        prompt_partial_construction(player_character, pnt);
+        prompt_partial_construction( player_character, pnt );
         return;
     }
     std::list<item> used;
@@ -2609,7 +2609,7 @@ void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
             return;
         }
         //All this does is invoke a static set of behavior prompting the user for what to do with the partial construction.
-        //It's worth considering making this more complex, 
+        //It's worth considering making this more complex,
         //e.g. if they invoke "Deconstruct Terrain/Furniture" on a partially constructed thing, presumably they want to cancel the construction.
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
