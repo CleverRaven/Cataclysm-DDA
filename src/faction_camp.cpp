@@ -5684,7 +5684,7 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item_location it
             if( from_item.has_value() ) {
                 // we perform a magic act here and remove the item that's preserving it while keeping it preserved
                 to_remove.push_back( content );
-                add_consumed_nutrients( consumed, rot_time( *content, container ), *from_item );
+                add_consumed_nutrients( consumed, rot_time( *content, content.has_parent() ? content.parent_item().get_item() : container ), *from_item );
                 return VisitResponse::SKIP;
             }
             return VisitResponse::NEXT;
