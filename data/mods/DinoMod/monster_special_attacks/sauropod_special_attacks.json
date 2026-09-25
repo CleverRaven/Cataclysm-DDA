@@ -28,15 +28,6 @@
             "id": "moabosaurus_setup",
             "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "avatar_sees_moabosaurus_setup",
-                    "condition": "player_see_u",
-                    "effect": [ { "message": "You see the moabosaurus." } ]
-                  }
-                ]
-              },
               { "math": [ "_sauropod_uid = rand(1200)" ] },
               { "math": [ "u_sauropod_uid = _sauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
@@ -93,15 +84,6 @@
             "id": "haplocanthosaurus_setup",
             "condition": { "math": [ "u_setup != 1" ] },
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "avatar_sees_haplocanthosaurus_setup",
-                    "condition": "player_see_u",
-                    "effect": [ { "message": "You see the haplocanthosaurus." } ]
-                  }
-                ]
-              },
               { "math": [ "_sauropod_uid = rand(1200)" ] },
               { "math": [ "u_sauropod_uid = _sauropod_uid" ] },
               { "math": [ "u_setup = 1" ] },
@@ -128,6 +110,48 @@
       { "u_run_monster_eocs": [ "eoc_sauropod" ], "monster_range": 3, "mtype_ids": [ "mon_haplocanthosaurus" ] }
     ],
     "false_effect": [ { "math": [ "updating_haplocanthosaurus = 0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AMARGASAURUS_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_amargasaurus",
+            "condition": { "math": [ "updating_amargasaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_amargasaurus" } ]
+          },
+          {
+            "id": "amargasaurus_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_sauropod_uid = rand(1200)" ] },
+              { "math": [ "u_sauropod_uid = _sauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_sauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "amargasaurus_leg_assign", "effect": [ { "math": [ "u_sauropod_id = _sauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_sauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_amargasaurus",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_amargasaurus', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_amargasaurus = 1" ] },
+      { "run_eocs": "eoc_update_amargasaurus", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_sauropod" ], "monster_range": 3, "mtype_ids": [ "mon_amargasaurus" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_amargasaurus = 0" ] } ]
   },
   {
     "type": "SPELL",
