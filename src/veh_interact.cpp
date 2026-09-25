@@ -827,8 +827,8 @@ bool veh_interact::update_part_requirements( map &here )
 
     if( sel_vpart_info->min_vehicle_mass > 0_gram &&
         veh->unloaded_mass() < sel_vpart_info->min_vehicle_mass ) {
-        //~ %1$s is the part name, %2$.0f and %4$.0f are masses and %3$s is their unit
         msg = string_format(
+                  //~ %1$s is the part name, %2$.0f and %4$.0f are masses and %3$s is their unit
                   _( "A %1$s needs a vehicle of at least %2$.0f %3$s to carry it; this one weighs %4$.0f %3$s." ),
                   sel_vpart_info->name(), convert_weight( sel_vpart_info->min_vehicle_mass ),
                   weight_units(), convert_weight( veh->unloaded_mass() ) );
