@@ -137,6 +137,27 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
     return std::min( qty, limit );
 }
 
+static int has_quality_internal_item( const item &self, const quality_id &qual, int level,
+                                      int limit,
+                                      const std::function<int( const item & )> &measure = {},
+                                      const std::function<int( const item & )> &count = {} )
+{
+    int qty = 0;
+
+    self.visit_items( [&qual, level, &limit, &qty, &measure, &count]( item * e, item * ) {
+        const int supplied = measure ? measure( *e ) : e->get_quality( qual );
+        if( supplied >= level ) {
+            qty = sum_no_wrap( qty, count ? count( *e ) : static_cast<int>( e->count() ) );
+            if( qty >= limit ) {
+                // found sufficient items
+                return VisitResponse::ABORT;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return std::min( qty, limit );
+}
+
 static int has_quality_from_vpart( const vehicle &veh, int part, const quality_id &qual, int level,
                                    int limit )
 {
@@ -488,15 +509,7 @@ static VisitResponse visit_internal_legacy( const std::function<VisitResponse( i
 
 bool item::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    bool found = false;
-    visit_items( [&qual, level, &qty, &found]( const item * e, const item * ) {
-        if( e->get_quality( qual ) > 0 ) {
-            found = true;
-            return VisitResponse::SKIP;
-        }
-        return VisitResponse::NEXT;
-    } );
-    return found;
+    return has_quality_internal_item( *this, qual, level, qty ) == qty
 }
 
 std::vector<const item *> item::items_with( const item_filter &filter ) const
