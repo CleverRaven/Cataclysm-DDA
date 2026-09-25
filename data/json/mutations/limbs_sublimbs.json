@@ -55,50 +55,64 @@
   },
   {
     "id": "head_slime_forehead",
-    "copy-from": "head_forehead",
     "type": "sub_body_part",
+    "max_coverage": 15,
     "parent": "head_slime",
-    "opposite": "head_slime_forehead",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "forehead?",
     "similar_bodypart": "head_forehead"
   },
   {
     "id": "head_slime_crown",
-    "copy-from": "head_crown",
     "type": "sub_body_part",
+    "max_coverage": 25,
     "parent": "head_slime",
-    "opposite": "head_slime_crown",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "crown?",
     "similar_bodypart": "head_crown"
   },
   {
     "id": "head_slime_nape",
-    "copy-from": "head_nape",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "parent": "head_slime",
-    "opposite": "head_slime_nape",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "nape?",
     "similar_bodypart": "head_nape"
   },
   {
     "id": "head_slime_throat",
-    "copy-from": "head_throat",
     "type": "sub_body_part",
+    "max_coverage": 20,
     "parent": "head_slime",
-    "opposite": "head_slime_throat",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "throat?",
     "similar_bodypart": "head_throat"
   },
   {
     "id": "head_slime_ear_r",
-    "copy-from": "head_ear_r",
     "type": "sub_body_part",
+    "max_coverage": 10,
     "parent": "head_slime",
     "opposite": "head_slime_ear_l",
+    "side": "right",
+    "name": "right ear?",
+    "name_multiple": "ears?",
     "similar_bodypart": "head_ear_r"
   },
   {
     "id": "head_slime_ear_l",
-    "copy-from": "head_ear_l",
     "type": "sub_body_part",
+    "max_coverage": 10,
     "parent": "head_slime",
-    "opposite": "head_slime_ear_r",
+    "opposite": "head_ear_r",
+    "side": "left",
+    "name": "left ear?",
+    "name_multiple": "ears?",
     "similar_bodypart": "head_ear_l"
   },
   {
@@ -361,16 +375,24 @@
   },
   {
     "id": "eyes_slime_left",
-    "copy-from": "eyes_left",
     "type": "sub_body_part",
+    "max_coverage": 50,
     "parent": "head_slime",
+    "side": "left",
+    "opposite": "eyes_slime_right",
+    "name_multiple": "eyes?",
+    "name": "left eye?",
     "similar_bodypart": "eyes_left"
   },
   {
     "id": "eyes_slime_right",
-    "copy-from": "eyes_right",
     "type": "sub_body_part",
+    "max_coverage": 50,
     "parent": "head_slime",
+    "side": "right",
+    "opposite": "eyes_slime_left",
+    "name_multiple": "eyes?",
+    "name": "right eye?",
     "similar_bodypart": "eyes_right"
   },
   {
@@ -807,30 +829,42 @@
   },
   {
     "id": "mouth_slime_lips",
-    "copy-from": "mouth_lips",
     "type": "sub_body_part",
+    "max_coverage": 15,
     "parent": "head_slime",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "lips?",
     "similar_bodypart": "mouth_lips"
   },
   {
     "id": "mouth_slime_nose",
-    "copy-from": "mouth_nose",
     "type": "sub_body_part",
+    "max_coverage": 15,
+    "opposite": "sub_limb_debug",
     "parent": "head_slime",
+    "side": "both",
+    "name": "nose?",
     "similar_bodypart": "mouth_nose"
   },
   {
     "id": "mouth_slime_cheeks",
-    "copy-from": "mouth_cheeks",
     "type": "sub_body_part",
+    "max_coverage": 30,
     "parent": "head_slime",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "cheeks?",
     "similar_bodypart": "mouth_cheeks"
   },
   {
     "id": "mouth_slime_chin",
-    "copy-from": "mouth_chin",
     "type": "sub_body_part",
+    "max_coverage": 40,
     "parent": "head_slime",
+    "opposite": "sub_limb_debug",
+    "side": "both",
+    "name": "chin?",
     "similar_bodypart": "mouth_chin"
   },
   {
