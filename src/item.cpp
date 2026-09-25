@@ -3804,6 +3804,9 @@ bool item::use_amount( item_location self, const itype_id &it, int &quantity, st
     std::map<int, std::list<item_location>> contained_list; // int is how many parents deep it is
     self.visit_items(
     [&]( item_location node ) {
+        if( node == self ) {
+            return VisitResponse::NEXT;
+        }
         contained_list[num_parents( node )].push_back( node );
         return VisitResponse::NEXT;
     }
