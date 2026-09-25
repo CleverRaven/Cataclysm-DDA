@@ -33,6 +33,7 @@ class JsonObject;
 class JsonOut;
 class effect_source;
 class item;
+class item_location;
 class map;
 enum class mon_trigger : int;
 enum class phase_id : int;

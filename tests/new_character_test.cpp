@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "item_location.h"
 #include "mutation.h"
 #include "player_helpers.h"
 #include "profession.h"

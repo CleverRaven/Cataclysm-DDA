@@ -61,6 +61,7 @@ class JsonOut;
 class monster;
 class veh_menu;
 class vehicle;
+class vehicle_cursor;
 class vpart_info;
 class vpart_variant;
 enum class ter_furn_flag : int;

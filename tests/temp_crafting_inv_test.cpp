@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"

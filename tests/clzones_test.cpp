@@ -31,6 +31,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
