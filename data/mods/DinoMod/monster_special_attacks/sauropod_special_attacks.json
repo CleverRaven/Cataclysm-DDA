@@ -60,11 +60,7 @@
     "effect": [
       { "math": [ "updating_moabosaurus = 1" ] },
       { "run_eocs": "eoc_update_moabosaurus", "time_in_future": 1 },
-      {
-        "u_run_monster_eocs": [ "eoc_sauropod" ],
-        "monster_range": 3,
-        "mtype_ids": [ "mon_moabosaurus" ]
-      }
+      { "u_run_monster_eocs": [ "eoc_sauropod" ], "monster_range": 3, "mtype_ids": [ "mon_moabosaurus" ] }
     ],
     "false_effect": [ { "math": [ "updating_moabosaurus = 0" ] } ]
   },
@@ -129,11 +125,7 @@
     "effect": [
       { "math": [ "updating_haplocanthosaurus = 1" ] },
       { "run_eocs": "eoc_update_haplocanthosaurus", "time_in_future": 1 },
-      {
-        "u_run_monster_eocs": [ "eoc_sauropod" ],
-        "monster_range": 3,
-        "mtype_ids": [ "mon_haplocanthosaurus" ]
-      }
+      { "u_run_monster_eocs": [ "eoc_sauropod" ], "monster_range": 3, "mtype_ids": [ "mon_haplocanthosaurus" ] }
     ],
     "false_effect": [ { "math": [ "updating_haplocanthosaurus = 0" ] } ]
   },
