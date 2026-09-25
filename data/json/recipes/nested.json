@@ -7401,7 +7401,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "name": "Fruit Jam(Jars)",
     "description": "Recipes related to putting fruit jam in jars and tins.",
-    "nested_category_data": [ "jam_fruit_jarred", "jam_fruit_jarred_3l" ]
+    "nested_category_data": [ "jam_fruit_jarred", "jam_fruit_jarred_3L" ]
   },
   {
     "id": "nested_apple_canned",
