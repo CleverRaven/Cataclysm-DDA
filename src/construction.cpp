@@ -2609,7 +2609,7 @@ void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
             return;
         }
         //All this does is invoke a static set of behavior prompting the user for what to do with the partial construction.
-        //It's worth considering making this more complex, 
+        //It's worth considering making this more complex,
         //e.g. if they invoke "Deconstruct Terrain/Furniture" on a partially constructed thing, presumably they want to cancel the construction.
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
