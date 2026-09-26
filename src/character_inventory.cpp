@@ -489,7 +489,7 @@ item_location Character::i_add( item it, int &copies_remaining,
             added = added ? added : item_location( *this, &weapon );
         }
         if( allow_drop && copies_remaining > 0 ) {
-            item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
+            item &map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
             added = added ? added : item_location( map_cursor( pos_abs() ), &map_added );
         }
     }
