@@ -988,7 +988,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "round( u_val('mana_percentage') ) == 3" ] }
       },
-      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger') == 26" ] } },
+      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_hunger() == 26" ] } },
       { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst') == 27" ] } },
       {
         "text": "Stored kcal is 118'169.",
