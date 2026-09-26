@@ -2470,6 +2470,9 @@ void crafting_ui_impl::recalculate_unread()
                     if( !include_hidden && uistate.hidden_recipes.count( rcp_id ) ) {
                         continue;
                     }
+                    if( rcp->is_nested() && !available_recipes->has_available_child( rcp ) ) {
+                        continue;
+                    }
                     if( uistate.read_recipes.count( rcp_id ) ) {
                         continue;
                     }
@@ -2484,6 +2487,9 @@ void crafting_ui_impl::recalculate_unread()
         for( const recipe *const rcp : current ) {
             const recipe_id &rcp_id = rcp->ident();
             if( uistate.hidden_recipes.count( rcp_id ) ) {
+                continue;
+            }
+            if( rcp->is_nested() && !available_recipes->has_available_child( rcp ) ) {
                 continue;
             }
             if( uistate.read_recipes.count( rcp_id ) ) {
