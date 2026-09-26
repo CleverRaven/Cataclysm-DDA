@@ -1157,6 +1157,12 @@ void item_location::deserialize( const JsonObject &obj )
             ptr = std::make_shared<impl::nowhere>();
         }
     }
+    else if( type == "in_inventory" ) {
+        // read in inventory pointer??
+        // finish this part before the pr gets out of draft!!
+        // for now it needs to be "something"
+        ptr = std::make_shared<impl::nowhere>();
+    }
 }
 
 item_location item_location::parent_item() const
