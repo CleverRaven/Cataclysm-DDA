@@ -135,21 +135,17 @@
     "effect": [ { "u_add_var": "dialogue_exodii_seen_jotunn", "value": "yes" } ]
   },
   {
-  "type": "effect_on_condition",
-  "id": "eoc_poppy_intensity_changed",
-  "eoc_type": "EVENT",
-  "required_event": "character_effect_intensity_changed",
-  "condition": {
-    "and": [
-      { "compare_string": [ "opiate_eff", { "context_val": "effect" } ] },
-      { "compare_int": [ 0, { "context_val": "intensity" }, ">" ] },
-      { "u_has_effect": "consumed_minoan_orchid" }
-    ]
-  },
-  "effect": [
-      {
-        "u_gain_effect": "minoan_orchid_effect", "intensity": { "math": [ "u_effect_intensity('opiate_eff')" ] }
-      }
-    ]
+    "type": "effect_on_condition",
+    "id": "eoc_poppy_intensity_changed",
+    "eoc_type": "EVENT",
+    "required_event": "character_effect_intensity_changed",
+    "condition": {
+      "and": [
+        { "compare_string": [ "opiate_eff", { "context_val": "effect" } ] },
+        { "compare_int": [ 0, { "context_val": "intensity" }, ">" ] },
+        { "u_has_effect": "consumed_minoan_orchid" }
+      ]
+    },
+    "effect": [ { "u_gain_effect": "minoan_orchid_effect", "intensity": { "math": [ "u_effect_intensity('opiate_eff')" ] } } ]
   }
 ]
