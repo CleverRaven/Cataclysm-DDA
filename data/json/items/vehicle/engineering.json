@@ -85,5 +85,35 @@
     "price_postapoc": "1 USD",
     "volume": "500 ml",
     "qualities": [ [ "SELF_JACK", 1 ] ]
+  },
+  {
+    "id": "v_loader_bucket_item",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "loader bucket section" },
+    "description": "One section of the bucket off a wheel loader: a shell of hardened steel with its share of the lift linkage still bolted to it.  Far too heavy to carry by hand, and far too heavy for anything lighter than the machine it came off.",
+    "weight": "600 kg",
+    "volume": "300 L",
+    "longest_side": "150 cm",
+    "price": "4000 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "ch_steel" ],
+    "symbol": "/",
+    "color": "yellow"
+  },
+  {
+    "id": "v_loader_ballast_item",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "ballast block" },
+    "description": "A cast steel block the size of a chest freezer, with lifting eyes on top and bolt holes down one face.  It was made to hang off the back of one particular machine and do nothing but weigh two and a half tons.",
+    "weight": "2500 kg",
+    "volume": "320 L",
+    "longest_side": "150 cm",
+    "price": "3500 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "ch_steel" ],
+    "symbol": "=",
+    "color": "dark_gray"
   }
 ]
