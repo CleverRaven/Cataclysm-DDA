@@ -25,7 +25,6 @@
 #include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "construction_group.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting.h"
@@ -302,7 +301,6 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CANNOT_GAIN_PSIONICS( "CANNOT_GAIN_PSIONICS" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -4770,27 +4768,7 @@ void trap::examine( const tripoint_bub_ms &examp ) const
 
 void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
 {
-    map &here = get_map();
-    if( partial_con *const pc = here.partial_con_at( examp ) ) {
-        if( you.fine_detail_vision_mod() > 4 &&
-            !you.has_trait( trait_DEBUG_HS ) ) {
-            add_msg( m_info, _( "It is too dark to construct right now." ) );
-            return;
-        }
-        const construction &built = pc->id.obj();
-        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.group->name(), pc->counter / 100000 ) ) {
-            if( query_yn( _( "Cancel construction?" ) ) ) {
-                for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos_bub(), it );
-                }
-                here.partial_con_remove( examp );
-            }
-        } else {
-            you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
-        }
-        return;
-    }
+    prompt_partial_construction( you, examp );
 }
 
 void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
