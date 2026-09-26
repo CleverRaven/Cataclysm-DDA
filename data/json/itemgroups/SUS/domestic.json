@@ -461,7 +461,8 @@
           { "item": "plastic_spoon_kids", "count": [ 1, 4 ] }
         ],
         "prob": 60
-      }
+      },
+      { "group": "plastic_organizer_stack_medium", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -511,7 +512,16 @@
       { "item": "chem_methanol", "prob": 5, "charges": [ 1, -1 ] },
       { "item": "chem_washing_soda", "prob": 50, "count": [ 1, -1 ] },
       { "group": "bleach_jug_part", "prob": 75 },
-      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 65 }
+      { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 65 },
+      {
+        "collection": [
+          { "item": "plastic_organizer_large", "prob": 16 },
+          { "item": "plastic_organizer_medium", "prob": 30, "count": [ 1, 3 ] },
+          { "item": "plastic_organizer_small", "prob": 30 },
+          { "item": "plastic_organizer_tiny", "prob": 40 }
+        ],
+        "prob": 50
+      }
     ]
   },
   {
@@ -533,7 +543,9 @@
       { "item": "garlic", "prob": 66, "count": [ 1, 3 ] },
       { "item": "onion", "prob": 66, "count": [ 1, 3 ] },
       { "item": "potato", "prob": 30, "count": [ 2, 12 ] },
-      { "group": "pet_food_in_container", "prob": 50 }
+      { "group": "pet_food_in_container", "prob": 50 },
+      { "group": "plastic_organizer_stack_large", "prob": 40 },
+      { "group": "plastic_organizer_stack_medium", "prob": 30 }
     ]
   },
   {
@@ -657,6 +669,7 @@
       { "item": "oatmeal", "entry-wrapper": "box_small", "container-item": "null", "count": [ 2, 16 ], "prob": 80 },
       { "group": "breakfast_cereal_in_box" },
       { "group": "breakfast_cereal_in_box", "prob": 75 },
+      { "group": "breakfast_cereal_in_organizer_large", "prob": 60 },
       {
         "distribution": [
           {
@@ -758,7 +771,7 @@
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
       { "prob": 25, "group": "curry_powder_various" },
       { "prob": 25, "group": "garlic_powder_various" },
-      { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" },
+      { "prob": 10, "group": "sprinkles_various" },
       { "item": "thyme", "prob": 65 },
       { "prob": 50, "group": "seasoning_italian_various" },
       { "prob": 50, "group": "seasoning_salt_various" }
@@ -1222,5 +1235,22 @@
     "subtype": "collection",
     "container-item": "box_small",
     "entries": [ { "item": "chem_baking_soda", "container-item": "null", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "plastic_organizer_stack_large",
+    "subtype": "distribution",
+    "container-item": "plastic_organizer_large",
+    "entries": [
+      { "prob": 66, "item": "plastic_organizer_medium", "container-item": "null", "count": 1 },
+      { "prob": 33, "group": "plastic_organizer_stack_medium", "container-item": "null", "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "plastic_organizer_stack_medium",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_medium",
+    "entries": [ { "prob": 50, "item": "plastic_organizer_small", "container-item": "null", "count": 1 } ]
   }
 ]
