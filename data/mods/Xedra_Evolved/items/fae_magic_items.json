@@ -1,0 +1,29 @@
+[
+  {
+    "type": "ITEM",
+    "category": "other",
+    "id": "spoon_of_full_belly",
+    "ascii_picture": "spoon",
+    "name": { "str": "silver spoon of the full belly", "str_pl": "silver spoons of the full belly" },
+    "description": "An engraved silver spoon.  On it are the words 'I will spare you from hunger'.",
+    "weight": "43 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": "69 cent",
+    "copy-from": "spoon",
+    "material": "silver",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": false,
+      "description": "Pantomine eating with the spoon.",
+      "effect_on_conditions": [ "EOC_FULL_BELLY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FULL_BELLY",
+    "effect": [ { "math": [ "u_hunger() = 0" ] }, { "math": [ "u_val('thirst') = 0" ] } ]
+  }
+]
