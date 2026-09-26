@@ -9,7 +9,7 @@
     "volume": "2800 ml",
     "longest_side": "17 cm",
     "price": "3398 cent",
-    "price_postapoc": "15 cent",
+    "price_postapoc": "8 cent",
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "light_blue",
@@ -86,7 +86,7 @@
     "proportional": { "weight": 2.0, "volume": 2.0 },
     "longest_side": "23 cm",
     "price": "3398 cent",
-    "price_postapoc": "20 cent",
+    "price_postapoc": "5 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
