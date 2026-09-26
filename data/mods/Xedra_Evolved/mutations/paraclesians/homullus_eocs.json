@@ -437,7 +437,7 @@
       "and": [
         { "not": { "u_has_flag": "NIGHTMARE" } },
         { "not": { "u_has_flag": "IRONWROUGHT" } },
-        { "not": { "u_has_effect": "effect_homullus_rebuilt_mind" } }
+        { "not": { "u_has_effect": "effect_homullus_rebuilt_mindS" } }
       ]
     },
     "effect": [ { "run_eocs": "EOC_HOMULLUS_REBUILD_MIND_HANDLING_2" } ],
