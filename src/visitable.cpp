@@ -56,6 +56,8 @@ static const itype_id itype_apparatus( "apparatus" );
 
 static const quality_id qual_SMOKE_PIPE( "SMOKE_PIPE" );
 
+using item_filter = std::function<bool( const item & )>;
+
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
 {
