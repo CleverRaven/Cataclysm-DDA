@@ -941,7 +941,10 @@ class item_location::impl::item_in_crafting_inventory : public item_location::im
         }
 
         std::string describe( const Character *ch ) const override {
-            return "crafting inventory of " + ch->disp_name();
+            if( !ch ) {
+                return _( "crafting inventory somewhere" );
+            }
+            return _( "crafting inventory of " ) + ch->disp_name();
         }
 
         Character *carrier() const override {
