@@ -28,17 +28,15 @@ Debate sidesteps all the nasty problems around deciding who gets to vote and enf
 
 A good **reason** to make a change has more impact than any number of votes. A lot of the issues in this thread are good examples of this
 
-The project is run by Kevin Granade (“owns” the project, final say on features), a small group of core developers who review and merge changes, and a much larger group of contributors who make pull requests on GitHub. There are also translators who are effectively independent and a handful of people with moderation rights on the forums and Discord. Mod authors who host their own mods are also independent.
+The project is run by Maya Granade (“owns” the project, final say on features), a small group of core developers who review and merge changes, and a much larger group of contributors who make pull requests on GitHub. There are also translators who are effectively independent and a handful of people with moderation rights on the forums and Discord. Mod authors who host their own mods are also independent.
 
 While we (the core contributors) ask for feedback and discuss issues on the forums pretty regularly, we aren’t asking for a vote or community consensus, just feedback and discussion.
 
-Places where votes and popular support are important are which parts of the game are in most need of bugfixes or new features, sometimes a dev (Kevin included) finds themselves between projects and is just looking for something to improve, that’s when making it clear what needs improvement the most can make things happen.
+Places where votes and popular support are important are which parts of the game are in most need of bugfixes or new features, sometimes a dev (Maya included) finds themselves between projects and is just looking for something to improve, that’s when making it clear what needs improvement the most can make things happen.
 
 **Steam, other app stores: not opposed, but we aren’t doing it or endorsing it either.**
 
 Regarding Steam, this [Steam Store page](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) respects the project license.
-
-The game is also available from the [Play Store](https://play.google.com/store/apps/details?id=com.cleverraven.cataclysmdda) for Android.
 
 In general, it’s just a ton of work for not that much benefit from the project’s point of view. If someone wants to integrate with some packaging system, they can feel free to PR it, but we're not generally going to be pursuing app store inclusion as a project priority.
 
@@ -54,7 +52,7 @@ The FMS list is here because some ideas have complicated reasons why they're not
 
 #### Improving Performance via Multithreading: Not just no, but hell no.
 
-Several key developers (including Kevin) already have horror stories about debugging threadlock races that have a 3+ hour run time to reproduce for their day jobs and are extremely insistent that they do not want to take on that kind of debugging for their free time hobby. So adding multithreading is a non-starter, because it will substantially shrink the pool of talented developers who will contribute code changes.
+Several key developers (including Maya) already have horror stories about debugging threadlock races that have a 3+ hour run time to reproduce for their day jobs and are extremely insistent that they do not want to take on that kind of debugging for their free time hobby. So adding multithreading is a non-starter, because it will substantially shrink the pool of talented developers who will contribute code changes.
 
 Multithreading massively increases the overhead of maintaining the game. That's an ongoing overhead that just never goes away, it worms its way into every part of the system. For example, if anything but thread #1 wants to touch a data structure, that data structure must now be threading-safe and/or protected by locks
 
@@ -76,7 +74,7 @@ That's the worst thing about multithreading IMO, as soon as you have multiple th
 
 We are in the process of removing charges, that's a fact that won't be changed.  We should have made this decision much earlier or never started implementing them in the first place, but it is what it is.
 
-The main reason we are doing this, contrary to popular belief, is to resolve technical debt. To handle both items and charges, every function of the code that interacts with them in any way needs to be effectively duplicated - each function in the code works by their own rules, each interacts with items in their own way, and usually have to be maintained separately. It introduces a tremendous amount of difficulty for any contributor, for even the most basic of tasks.
+The main reason we are doing this is to resolve technical debt and a dumpster truck full of bugs that charges have introduced. To handle both items and charges, every function of the code that interacts with them in any way needs to be effectively duplicated - each function in the code works by their own rules, each interacts with items in their own way, and usually have to be maintained separately. It introduces a tremendous amount of difficulty for any contributor, for even the most basic of tasks.
 
 Some examples:
 If you define an item without charges, its weight and volume would be equal according to the `weight` and `volume` fields:
@@ -120,7 +118,7 @@ Can we afford the massive development costs these options would bring? No. All n
 
 Do we WANT these options to disable features? No! Features which make it into the game are desired features which contribute to the game's intended direction. We don't want to turn off the game we're making.
 
-There are some existing "toggle/disable feature" options which are legacy leftovers (e.g. wandering hordes, no NPC needs, railways mod). Experience has shown that making these options are a mistake, despite the intention in making these optional being to avoid major issues with their implementations. 
+There are some existing "toggle/disable feature" options which are legacy leftovers (e.g. no NPC needs, railways mod). Experience has shown that making these options are a mistake, despite the intention in making these optional being to avoid major issues with their implementations. 
 
 The presence of those major issues precludes removing the option, and the fact it's an option precludes people from working on it ("oh I heard it has issues, I'll disable it" --> nobody actually uses it --> resolved issues or not, nobody would see their changes). This is a catch-22 for development, and the solution is simply not to make desired features optional.
 
@@ -176,48 +174,48 @@ Currently there are no extra effects from this besides the changing of the playe
 
 Currently it’s way too easy to accumulate NPC followers and end up becoming effectively immortal.  Thus trivializes a lot of aspects of the game and encouraging even more reckless behavior. In the future, there may be limits on the NPC followers that you could switch to when you died, or differences in who would continue to follow the new leader.
 
-#### Psychic powers: mod only
-
-Not happening, it simply doesn’t fit the theme of the game.
-However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](JSON/MAGIC.md) for more info.
-
 #### Magic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](JSON/MAGIC.md) for more info.
+
+There exists a "spell" and "spell effects" system for mods to accomodate magic of various types, with huge JSON flexibility to support classical depictions of supernatural powers including 'Vancian magic', 'channeled spells', psychic powers, werewolf transformations, and others.
+
+'Magiclysm' is a mod distributed with the game and is usually what people are imagining when it comes to magic fantasy.
+
+#### Psychic powers: mod only
+
+Not happening, it simply doesn’t fit the theme of the game. See also the above question regarding magic powers.
+
+'Mind Over Matter' is an existing mod distributed with the game, based around psychic powers.
 
 #### Remove skill rust: no
 
-First things first: 99% of people ask to remove skill rust because their informations is based on very outdated information. Skill rust is a very old mechanic; it was added before Cataclysm DDA, by Whales, in Cataclysm. While I do not know why it was added in the first place, it was pretty terrible - you could level your skill now, but not being able to use it in crafting a few hours after, purely because the skill was rusted.
-But not now. Skill rust was changed over the years to be a **purely positive mechanic**:
-- Skills were divided into theoretical and practical levels, and a lot of functions were revisited to use the theoretical level, and increasing the practical level while having theory brings additional xp. Rust, meanwhile, is limited by only 1 ***practical*** level and grants even more free xp when restored;
-- Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
-- The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
-and skill rust impact (and benefit) would be even stronger once [#67580](https://github.com/CleverRaven/Cataclysm-DDA/issues/67580) is implemented fully.
-This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors from people not familiar with the changes, that are based themselves either on their outdated experience or from incorrect rumors they were told.
-- To further clarify, if someone uses a mod to remove skill rust their character will level skills slower than a character experiencing skill rust.
+Skill rust provides a small amount of bonus experience for no downside, and has been in this current form since well before the release of 0.G 'Gaiman' in February of 2023.
+
+We are not interested in taking away this bonus exp.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
 
 Hygiene facilities may become an issue with larger faction bases, and there may be some kind of *optional* furniture to allow collecting urine and manure for use in crafting and farming.
 
-#### Bathing/accumulating scent: mostly no
+#### Bathing/accumulating scent: No
 
 Every way we look at it, this seems like it would mostly be a pain to deal with for the player and not fun if it simply accumulated over time.
-One approach that might work would be specific monster attacks that make your scent stronger that you’d have to deal with somehow.
 
-#### Craftable Automatic Weapons: mostly no
+The only approach that might work would be specific monster attacks that make your scent stronger that you’d have to deal with somehow. (In which case it's not really "scent", but some sort of general case of monsters being attracted to your position.)
+
+We're not interested in any implementation that adds pointless busywork.
+
+#### Craftable Automatic Weapons: Already implemented where reasonable
 
 We limit crafting for the most part (exception, see cars) to things a single survivor with limited tools can create, and every reasonable plan for automatic action guns I’ve seen has required rather extensive tooling that’s not available to the survivor (metal folding/rolling machines, presses, drill presses).
 
-The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second. This currently exists ingame as the "12-gauge Gatling gun" (id: `bigun`).
-
-At some point in the future we might build up tooling to the point where automatic weapons manufacture becomes feasible, at that point we can revisit this.
-
 For further discussion on the subject, see https://github.com/CleverRaven/Cataclysm-DDA/issues/10787
 
-Addendum, the Luty-pattern SMG, which should be craftable in DDA: https://github.com/CleverRaven/Cataclysm-DDA/issues/22688
+The absolute closest thing to an automatic weapon I’ve been able to come up with that would be reasonable to craft is an old-school Gatling gun, and a motor for same to up the rounds per second. This currently exists ingame as the "12-gauge Gatling gun" (id: `bigun`).
+
+There already exists the kind of (inferior) homemade automatic weapons that you could reasonably expect one person with a machine shop to be able to make, including the 'Luty' submachine gun.
 
 #### Crafting Smokeless powder and primers: yes but needs work
 
@@ -259,13 +257,11 @@ For more ground substances like sand or gravel, the potential way to obtain more
 
 It doesn't apply to mods, they just need to be sure their attempt will bring more fun than tediousness.
 
-#### Recover liquids from the ground: Partially implemented
+#### Recover liquids from the ground: Already implemented where reasonable
 
-This keeps being suggested, but it’s just not reasonable to recover spilled liquids from the ground and then get any kind of use out of them, since in general they’d be so adulterated by whatever would get mixed in with them that they wouldn’t be fit for any purpose.
+This keeps being suggested, but it’s just not reasonable to recover spilled liquids from the ground and then get any kind of use out of them, since in general they’d be so adulterated by whatever would get mixed in with them that they wouldn’t be fit for any purpose. Trying to scoop a thin layer of gasoline off the dirt and putting it in your car engine would just result in a dead engine, so we simply don't let you try.
 
-Recovering specific liquids with specific properties might be acceptable, if there is some ultra-valuable liquid that gets spilled and had some special method of recovery and filtering.
-
-Spilled liquids are recoverable only if they are spilled on terrain with specific flag, like bathtubs.
+Liquids are always recoverable on terrains with specific containing flag, like bathtubs, wooden kegs, or other places which hold liquids.
 
 #### Dual-wielding weapons: Not practical
 
@@ -299,11 +295,13 @@ Even for simple stuff, like opening a door, if you have both hands occupied, it 
 
 When this happens (which will be a while, it’s pretty invasive and complicated), we will be VERY careful to not cause disruptions to doing things simply, with the extra actions just costing in-game time. If you’re in a hurry though and need to make every second count, it will be better to think ahead about a sequence of actions and try to minimize this sort of overhead.
 
-#### Playing as a robot/playing as an intelligent dog: Planned, no release set
+#### Playing as a robot/playing as an intelligent dog: Largely implemented
 
 Some people want to play as a robot, or an android, or a brain in a jar piloting a robotic body, or as a dog.  The developers want to allow people to do all of that.  Unfortunately, there's a lot of changes that need to be made to get from the current state of the code to that highly desirable end-point.  Some changes have already been made, but there's nothing really visible yet.
 
-As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
+As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms.
+
+Work has continued over the years, and now you can slither around on tentacles, glide with wings, and in general transform wholly or partially into a variety of monstrous non-human creatures.
 
 #### Losing limb in combat: sure, but the character is gonna die (almost always)
 
@@ -323,13 +321,13 @@ NB: This talks specifically about average human experience; mutants are less lim
 
 NB2: Please do not try to make it via EoC.
 
-#### Bring back ICBM launch: Mod only
+#### Bring back ICBM launch: No
 
 There used to be a partially implemented feature where you could break into an ICBM silo and hack the computer systems, then launch a missile at some target on the overmap. The results were incredibly underwhelming and didn't remotely represent the damage a many-kt warhead would cause, and was a frequent source of bugs, so it was removed.
 
 It's not a valid idea to bring it back for a number of reasons.  One, the very large scale map destruction it would require would be a lot of work to implement, for incredibly low tangible benefit. Two, the feasibility of a survivor breaking into a nuclear silo and successfully launching a missile is negligible, the most likely situation is that the silo would have been put into some kind of lockdown or even destroyed once the staff deemed it infeasible to continue standing by, rendering a launch literally impossible. Even if that didn't happen, navigating the security mechanisms and failsafes the launch system would be expected to have is so difficult as to be effectively impossible, and that assumes that the launch systems are still accessible let alone operational. Three, the impact of an ICBM launch is the wrong scale for the game, if the desired feature is "destroy an area 150m across from a distance", which is what the previous feature amounted to, there are numerous options for achieving that without the ludicrous and impossible overkill embodied in a nuclear strike.  For example, an artillery or even mortar barrage has the capability of leveling a 100m or even larger area, and is a million times more feasible to acquire than a nuclear launch.
 
-Code for ICBM launch is restored (with several bugfixes) and used in No Hope mod which is shipped with the game.
+Working mortars are already in the game. Acquiring mortars and dropping WP rounds on your enemies is far more exciting and interesting than pressing a fake "launch" button ever could have been.
 
 #### Add a lance charge for massive damage bonuses: yes, but not the way most people imagine it
 
@@ -357,7 +355,7 @@ I'd expect the impact a bicycle rider can sustain without knocking themselves of
 
 I'd buy a lightly modified motorcycle allowing effective lance attacks, but see above regarding the shortcomings of lance attacks in general.
 
-#### Storing blood for later to cure hypovolemia - Not realistic
+#### Storing blood for later to cure hypovolemia - Doesn't work
 
 Storing blood for later is far outside the reach of the survivor even if they knew how to. Blood needs to be heavily processed and stored in precise conditions, otherwise you'd end up with a bag of coagulated dried clot. The sorts of facilities necessary for this and the technical and medical knowhow is outside the scope of even a moderately size settlement, and that's assuming they even have a phlebotomist. Not to mention, drawing enough of your own blood to make a noticeable difference when reinjected later would leave you weakened for about as long as it would take to recover from hypovolemia anyway.
 
@@ -398,7 +396,7 @@ In addition to "appliances", there may also be "facilities".  Again, under the h
 
 ### User interface
 
-#### Bring back points pool in character generation: there is a reason we moved away from it
+#### Bring back points pool in character generation: There is a reason it's gone.
 
 The main reason would be that it was not a fun system. To quote Venera3:
 
@@ -410,10 +408,6 @@ Points are a bad tool for balance. How many points is a bad back trait worth? 3?
 
 Luckily for us, a smart person coded a smarter solution to this, named Survivor mode, which is, put simply, "let's put the character against multiple in-game simulations and see how it would behave". Instead of assuming "dense bones = two points", we apply dense bones mutation to the test character and calculate how many blows it can take against a zombie. Is it more than average? It will help you in your game, so be "strong". Such evaluation will ensure the system will always work without much maintenance burden.
 
-Is it a perfect system? No, even now, when this text is written, it still has a lot of rough edges. Is it a good system? Yes, very. Is it possible to make a good system out of a pool system? Probably, but no one did.
-
-Nota Bene, having a version of survivor mode with restrictions, a-la "you can't get traits that would make your defense higher than X" is desirable and would cover the niche of players who feel the open pool is too much for them, and want some sort of restriction.
-
 #### The ability to select MP3s to play while listening to music: Too complicated
 
 CDDA runs across a wide variety of platforms, each of which has their own special code for finding files on the local filesystem.  They also each have their own way to play an MP3, and generally they have multiple ways to play an MP3.  Adding support for selecting MP3s to play from inside the game requires that CDDA present a way to browse the local filesystem to find the MP3 files and a way to play them.  This code would be different for each platform and for each MP3 player; supporting it would be a maintenance nightmare full of weird and obscure bugs.
@@ -424,7 +418,7 @@ It might be possible for a really talented developer to come up some way to spec
 
 #### Separate limbs for monsters: not useful
 
-The suggestion is usually along the lines of, “add limbs to monsters so they can be crippled”. The problem with this approach is you can add crippling attacks much more easily by just applying a crippling effect to the monster, there’s no need to track per-limb HP for monsters to make it happen. Also, a limb system for monsters would be much more complicated than the one for players, since monsters have a more variable number of limbs, so we couldn’t even just use the code from the player-based system.
+The suggestion is usually along the lines of, “add limbs to monsters so they can be crippled”. Monsters already have "weakpoints" which allow them to be crippled. For example: Attacking a giant mutated wasp can damage its wings, preventing it from flying.
 
 #### Targeted attacks on monster body parts: not useful
 
@@ -436,11 +430,9 @@ For a better outline on what we DO want to do, see https://github.com/CleverRave
 
 From a game balance perspective zombies are very abundant and should only be used under limited lore-friendly circumstances in consumables, trivial early items or with lasting risks and drawbacks.
 
-#### Conversations with monsters and other things: Partially implemented
+#### Conversations with monsters and other things: Implemented for all reasonable cases
 
-This is partially implemented already with monsters, items, furniture, as the player character can have conversations with them via NPC-style dialogue. However, support for dialogue functions is limited; you can't trade with monsters, and a significant quantity of edge cases for oddball functions remain unsupported for non-NPC talkers. Conversations with vehicles are entirely unsupported, meaning you can't talk with your car or some super-intelligent AI inside it.
-
-Work is being done to enable all these conversations.  It's not hard work at this point, it's just tedious bits that need to get done.
+Monsters can have conversations with you, have their own graphical portraits, apply branching effects based on how the conversation goes, and so forth. There are some functions which monsters cannot do (monsters do not have a real `inventory` and thus can't trade), but these few features can be added if needed.
 
 #### Multi-tile monsters: desired but difficult
 
@@ -471,6 +463,12 @@ Things that need to be implemented before treads proper are:
 * Traction system, where there’s a trade-off between amount of traction and amount of friction, so higher traction means you have more grip, especially on loose surfaces like mud or sand, but you have higher friction, so it reduces your top speed and fuel efficiency.  This is mostly implemented.
 * A way to handle installing and destroying multi-tile components in vehicles.  This is partially implemented.
 
+#### Just rename wheels and pretend they're tracks: Absolutely not
+
+None of our regular contributors want this, it would make the game less fun for us.
+
+The names of items are JSON data and [can be easily modified](MODDING.md) for your own personal use.
+
 #### Walker legs: mod only, if someone can figure out how to make it work
 
 This doesn’t really fit in the game, vehicle sized robotics balancing and walking around is too far fantasy scifi for the game.
@@ -497,7 +495,7 @@ For this to happen, we need code to detect significant changes in aircraft, code
 
 As of this writing, a variety of 'simple parts' can be added or removed from helicopters at will without rendering them non-airworthy. This is controlled by a simple JSON flag and can be easily changed as needed, if a good argument can be made that the addition/removal of such a part would never seriously impact a helicopter.
 
-#### We should be able to make autogyros/hot air balloons/blimps/submarines/simple airplanes: Yes
+#### We should be able to make autogyros/hot air balloons/blimps/simple submarines/simple airplanes: Yes
 
 All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.
 
@@ -537,11 +535,11 @@ This would not be applicable to most rounds, including basically all rounds smal
 
 ### Environment
 
-#### Bring back acid melting items: Grossly unrealistic
+#### Bring back acid melting items: Grossly impossible
 
-There’s no level of acid strength where it makes sense for it to dissolve large volumes of items on the ground, but isn’t invariably fatal on contact with a survivor. If someone has some actual facts about how acids work when in contact with large volumes of various substances, including flesh, that contradict my understanding of this, we can talk, but referring to the previous state of the game or other games isn’t going to get you anywhere.
+Yes, we have also seen the film 'Alien'. Yes, it is a very cool film. No, we're not making a game based on it.
 
-The previous mechanic where it was sort of dangerous to the survivor but massively damaging to items was a game-ism, and it’s most likely not coming back. The popularity point of view seems to be a wash as well, because there seem to be at least as many people strongly in support of removing item-melting as there are who want it back.
+There’s no level of acid strength where it makes sense for it to dissolve huge items, but leaves a survivor alive. Similarly, anyone who has played some of the Alien/AVP series spinoff games with the lethal acid knows how unfun it is. We're not interested in adding unfun things.
 
 #### Bring back acid rain: Partially
 
