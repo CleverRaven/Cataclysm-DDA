@@ -24,6 +24,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FULL_BELLY",
-    "effect": [ { "math": [ "u_val('hunger') = 0" ] }, { "math": [ "u_val('thirst') = 0" ] } ]
+    "effect": [ { "math": [ "u_hunger() = 0" ] } }, { "math": [ "u_val('thirst') = 0" ] } ]
   }
 ]
