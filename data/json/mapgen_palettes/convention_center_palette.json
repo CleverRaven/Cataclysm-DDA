@@ -75,6 +75,7 @@
       "A": "f_dumpster",
       "a": "f_trashcan"
     },
+    "monster": { "A": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "items": {
       "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
       "é": { "item": "fast_fridge", "chance": 80, "repeat": [ 4, 10 ] },

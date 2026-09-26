@@ -58,6 +58,7 @@
       "Y": "f_brazier",
       "5": "f_sink"
     },
+    "monster": { "&": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "vendingmachines": { "v": { "lootable": true } },
     "toilets": { "x": {  } },
     "item": { "g": { "item": "sandbox_kit", "chance": 5 } },
@@ -140,6 +141,7 @@
       "h": "f_chair",
       "O": "f_brazier"
     },
+    "monster": { "&": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "items": {
       "&": { "item": "SUS_trash_trashcan_public" },
       "b": { "item": "SUS_trash_floor_light", "chance": 4 },
