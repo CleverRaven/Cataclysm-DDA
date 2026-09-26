@@ -112,6 +112,20 @@
     "false_effect": [ { "math": [ "updating_haplocanthosaurus = 0" ] } ]
   },
   {
+    "id": "amargasaurus_control",
+    "type": "SPELL",
+    "name": { "str": "amargasaurus control", "//~": "NO_I18N" },
+    "description": { "str": "amargasaurus control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AMARGASAURUS_CONTROL"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_AMARGASAURUS_CONTROL",
     "effect": [
