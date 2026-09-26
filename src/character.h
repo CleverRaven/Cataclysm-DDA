@@ -138,7 +138,8 @@ extern int character_max_dex;
 extern int character_max_per;
 extern int character_max_int;
 
-constexpr int MAX_CLAIRVOYANCE = 40;
+// No reason for it to be anything lower. Only achievable with debug.
+constexpr int MAX_CLAIRVOYANCE = INT_MAX;
 // kcal in a kilogram of fat, used to convert stored kcal into body weight. 3500kcal/lb * 2.20462lb/kg = 7716.17
 constexpr float KCAL_PER_KG = 3500 * 2.20462;
 
@@ -892,7 +893,9 @@ class Character : public Creature, public visitable
         /** Returns the distance the player can see on the overmap, modified by zoom & height */
         int overmap_modified_sight_range( float light_level ) const;
         /** Returns the distance the player can see through walls */
-        int  clairvoyance() const;
+        int clairvoyance() const;
+        /** Returns true if we're debugging and want to see everything on all loaded submaps */
+        bool has_super_clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
         bool sight_impaired() const;
         /** Returns true if the player or their vehicle has an alarm clock */
