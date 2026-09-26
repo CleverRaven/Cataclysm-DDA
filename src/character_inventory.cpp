@@ -2320,7 +2320,9 @@ void Character::add_to_inv_search_caches( item_location it ) const
                 ++iter;
             }
         }
-
+        // param it may not be true item location, TODO: follow up the chain
+        item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), *it );
+        cache.second.items.push_back( cache_loc );
         cache.second.items.push_back( it );
     }
 }
