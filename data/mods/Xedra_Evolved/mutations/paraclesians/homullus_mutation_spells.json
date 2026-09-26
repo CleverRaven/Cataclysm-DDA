@@ -64,7 +64,7 @@
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -8,
-    "targeted_monster_species": [ "FERAL" ]
+    "targeted_monster_species": [ "RENFIELD", "HUMAN", "FERAL" ]
   },
   {
     "id": "homullus_summon_feral_spell",
