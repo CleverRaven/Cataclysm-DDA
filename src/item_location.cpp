@@ -1156,8 +1156,7 @@ void item_location::deserialize( const JsonObject &obj )
             debugmsg( "contents index greater than contents size" );
             ptr = std::make_shared<impl::nowhere>();
         }
-    }
-    else if( type == "in_inventory" ) {
+    } else if( type == "in_inventory" ) {
         // read in inventory pointer??
         // finish this part before the pr gets out of draft!!
         // for now it needs to be "something"
