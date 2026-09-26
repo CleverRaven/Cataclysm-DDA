@@ -222,6 +222,18 @@ int _trading_price( Character const &buyer, Character const &seller, item_locati
                                    -1 );
         }
     }
+    if( it->is_gun() ) {
+        for( const item *mod : it->gunmods() ) {
+            ret += _trading_price( buyer, seller, item_location{ it, const_cast<item *>( mod ) },
+                                   -1 );
+        }
+    } else if( it->is_tool() ) {
+        for( const item *mod : it->toolmods() ) {
+            ret += _trading_price( buyer, seller, item_location{ it, const_cast<item *>( mod ) },
+                                   -1 );
+        }
+    }
+
     return ret;
 }
 } // namespace
