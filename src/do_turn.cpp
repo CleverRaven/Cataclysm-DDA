@@ -612,9 +612,7 @@ bool game::do_turn()
     perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
 
     // process avatar activities (ignoring user input)
-    while( u.get_moves() > 0 && u.activity ) {
-        u.activity.do_turn( u );
-    }
+    u.process_activity();
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
@@ -675,9 +673,7 @@ bool game::do_turn()
                 }
 
                 // avatar processes moves for activities started by handle_action()
-                while( u.get_moves() > 0 && u.activity ) {
-                    u.activity.do_turn( u );
-                }
+                u.process_activity();
             }
             // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.
