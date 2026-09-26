@@ -82,21 +82,13 @@ static void find_ammo_helper( T &src, const item &obj, bool empty, Output out, b
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
             if( obj.can_reload_with( *node, now ) ) {
-                if( node.has_parent() ) {
-                    out = item_location( node.parent_item(), node.get_item() );
-                } else {
-                    out = node;
-                }
+                out = node;
             }
             return VisitResponse::SKIP;
         }
 
         if( obj.can_reload_with( *node, now ) ) {
-            if( node.has_parent() ) {
-                out = item_location( node.parent_item(), node.get_item() );
-            } else {
-                out = node;
-            }
+            out = node;
         }
 
         // Not-nested checks only top level containers and their immediate contents.
