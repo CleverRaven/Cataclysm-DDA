@@ -38,6 +38,7 @@
 #include "item_uid.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
@@ -67,7 +68,6 @@ class optional_vpart_position;
 class recipe;
 class relic;
 class vehicle;
-enum class pocket_type;
 struct armor_portion_data;
 struct islot_comestible;
 struct itype;

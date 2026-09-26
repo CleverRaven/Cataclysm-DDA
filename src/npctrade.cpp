@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <climits>
 #include <functional>
 #include <iterator>
 #include <list>
