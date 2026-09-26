@@ -53,6 +53,23 @@
   },
   {
     "type": "ITEM",
+    "id": "broken_feral_inventor_drone",
+    "symbol": ",",
+    "color": "light_green",
+    "name": { "str": "broken inventor quadcopter" },
+    "category": "other",
+    "description": "A broken inventor quadcopter.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "aluminum", "plastic" ],
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "to_hit": { "grip": "none", "length": "short", "surface": "line", "balance": "uneven" },
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "type": "ITEM",
     "id": "broken_bitebot",
     "symbol": "x",
     "color": "brown",
