@@ -33,6 +33,18 @@
     ]
   },
   {
+    "id": "switch_off_heat_oven",
+    "type": "requirement",
+    "name": "Switch-off oven",
+    "//": "Same as surface heat, but only ones that have timers or sensors for switching these off (Fire and gas cooking appilances don't have these)",
+    "//1": "This is for cooking recipes that can be left unattended with absolute zero supervision",
+    "//2": "This leaves only microwaves, ovens and crockpots for cooking most foods this way, unless they have machines dedicated to them for this purpose (Such as toasters for making toast or coffeemakers for making hot beverages)",
+    "//3": "Other kinds of electric appliances or methods for cooking have been left out, because",
+    "//4": "1) There are cooking appliances or cookwares that can't handle constant exposure to heat without ending up damaged (Hotplates, saucepans or anything that breaks the same way)",
+    "//5": "2) Every food that's boiled needs to be strained as soon as possible",
+    "tools": [ [ [ "microwave", 25 ], [ "oven", 125 ] ] ]
+  },
+  {
     "id": "smoking_heat",
     "type": "requirement",
     "name": "Smoking heat",
