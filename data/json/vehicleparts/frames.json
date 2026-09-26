@@ -292,7 +292,7 @@
     "copy-from": "frame",
     "item": "frame",
     "name": { "str": "improvised frame" },
-    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size. This one was crudely improvised by a survivor, resulting in worse durability.",
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely improvised by a survivor, resulting in worse durability.",
     "proportional": { "durability": 0.6 },
     "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
   },
@@ -302,7 +302,7 @@
     "copy-from": "hdframe",
     "item": "hdframe",
     "name": { "str": "improvised heavy-duty frame" },
-    "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions. This one was crudely improvised by a survivor, resulting in worse durability.",
+    "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.  This one was crudely improvised by a survivor, resulting in worse durability.",
     "proportional": { "durability": 0.6 },
     "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
   },
@@ -312,7 +312,7 @@
     "copy-from": "xlframe",
     "item": "xlframe",
     "name": { "str": "improvised extra-light frame" },
-    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size. This one was crudely improvised by a survivor, resulting in worse durability.",
+    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely improvised by a survivor, resulting in worse durability.",
     "proportional": { "durability": 0.6 },
     "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
   }
