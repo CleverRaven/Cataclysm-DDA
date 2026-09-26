@@ -1431,6 +1431,19 @@
     "attack_cost": 80,
     "zombify_into": "mon_zoabosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a long tail and sturdy build.",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "moabosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
+    ],
     "reproduction": { "baby_type": { "baby_egg": "egg_moabosaurus" }, "baby_count": 3, "baby_timer": 24 }
   },
   {
@@ -1447,7 +1460,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
+        "spell_data": { "id": "haplocanthosaurus_control", "min_level": 1, "hit_self": true },
         "allow_no_target": true,
         "monster_message": "",
         "cooldown": 3
@@ -1470,6 +1483,19 @@
     "hp": 230,
     "zombify_into": "mon_zamargasaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and two rows of tall spines running down the neck and back.",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "amargasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
+    ],
     "reproduction": { "baby_type": { "baby_egg": "egg_amargasaurus" }, "baby_count": 3, "baby_timer": 24 },
     "armor": { "bash": 6, "bullet": 2, "cut": 8 }
   },
@@ -1502,7 +1528,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "sauropod_control", "min_level": 1, "hit_self": true },
+        "spell_data": { "id": "apatosaurus_control", "min_level": 1, "hit_self": true },
         "allow_no_target": true,
         "monster_message": "",
         "cooldown": 3
