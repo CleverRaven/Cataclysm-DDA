@@ -47,7 +47,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
-#include "gates.h"
 #include "gun_mode.h"
 #include "help.h"
 #include "input_context.h"
@@ -605,96 +604,6 @@ static void pldrive( point_rel_ms d )
     pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
-static void open( const std::optional<tripoint_bub_ms> &p = std::nullopt )
-{
-    map &here = get_map();
-
-    avatar &player_character = get_avatar();
-    std::optional<tripoint_bub_ms> openp_ = p;
-    if( !openp_ ) {
-        openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
-    }
-
-    if( !openp_ ) {
-        return;
-    }
-    const tripoint_bub_ms openp = *openp_;
-
-    player_character.mod_moves( -to_moves<int>( 1_seconds ) );
-
-    // Is a vehicle part here?
-    if( const optional_vpart_position vp = here.veh_at( openp ) ) {
-        vehicle *const veh = &vp->vehicle();
-        // Check for potential thievery, and restore moves if action is canceled
-        if( !veh->handle_potential_theft( player_character ) ) {
-            player_character.mod_moves( to_moves<int>( 1_seconds ) );
-            return;
-        }
-        // Check if vehicle has a part here that can be opened
-        int openable = veh->next_part_to_open( vp->part_index() );
-        if( openable >= 0 ) {
-            // If player is inside vehicle, open the door/window/curtain
-            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos_bub() ) );
-            const std::string part_name = veh->part( openable ).name();
-            bool outside = !player_veh || player_veh != veh;
-            if( !outside ) {
-                veh->open( here, openable );
-                //~ %1$s - vehicle name, %2$s - part name
-                player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
-            } else {
-                // Outside means we check if there's anything in that tile outside-openable.
-                // If there is, we open everything on tile. This means opening a closed,
-                // curtained door from outside is possible, but it will magically open the
-                // curtains as well.
-                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
-                if( outside_openable == -1 ) {
-                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
-                    player_character.mod_moves( to_moves<int>( 1_seconds ) );
-                } else {
-                    veh->open_all_at( here, openable );
-                    //~ %1$s - vehicle name, %2$s - part name
-                    player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
-                }
-            }
-        } else {
-            // If there are any OPENABLE parts here, they must be already open or locked
-            if( const std::optional<vpart_reference> openable_part = vp.part_with_feature( "OPENABLE",
-                    true ); openable_part.has_value() ) {
-                const std::string name = openable_part->info().name();
-                if( vp->vehicle().part( openable_part->part_index() ).locked ) {
-                    add_msg( m_info, _( "That %s is locked." ), name );
-                } else {
-                    add_msg( m_info, _( "That %s is already open." ), name );
-                }
-            }
-            player_character.mod_moves( to_moves<int>( 1_seconds ) );
-        }
-        return;
-    }
-    // Not a vehicle part, just a regular door
-    bool didit = here.open_door( player_character, openp,
-                                 !here.is_outside( player_character.pos_bub() ) );
-    if( didit ) {
-        player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
-    } else {
-        const ter_str_id tid = here.ter( openp ).id();
-
-        if( here.has_flag( ter_furn_flag::TFLAG_LOCKED, openp ) ) {
-            add_msg( m_info, _( "The door is locked!" ) );
-            return;
-        } else if( tid.obj().close ) {
-            // if the following message appears unexpectedly, the prior check was for t_door_o
-            add_msg( m_info, _( "The door is already open." ) );
-            player_character.mod_moves( to_moves<int>( 1_seconds ) );
-            return;
-        }
-        add_msg( m_info, _( "No door there." ) );
-        player_character.mod_moves( to_moves<int>( 1_seconds ) );
-    }
-}
-
 static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
 {
     map &here = get_map();
@@ -708,7 +617,7 @@ static void close( const std::optional<tripoint_bub_ms> &p = std::nullopt )
     }
 
     if( pnt ) {
-        doors::close_door( here, get_player_character(), *pnt );
+        get_player_character().assign_activity( close_tile_activity_actor( *pnt ) );
     }
 }
 
@@ -2636,7 +2545,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            open( mouse_target );
+            player_character.assign_activity( open_tile_activity_actor( std::nullopt ) );
             break;
 
         case ACTION_CLOSE:

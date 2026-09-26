@@ -42,9 +42,6 @@
 
 static const fault_id fault_broken_window( "fault_broken_window" );
 
-static const furn_str_id furn_f_crate_o( "f_crate_o" );
-static const furn_str_id furn_f_safe_o( "f_safe_o" );
-
 static const material_id material_glass( "glass" );
 
 // Gates namespace
@@ -294,98 +291,6 @@ bool doors::check_mon_blocking_door( const Creature &who, const tripoint_abs_ms 
         return true;
     }
     return false;
-}
-
-void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
-{
-    bool didit = false;
-    const bool inside = !m.is_outside( who.pos_bub() );
-
-    if( check_mon_blocking_door( who, m.get_abs( closep ) ) ) {
-        return;
-    }
-
-    if( optional_vpart_position vp = m.veh_at( closep ) ) {
-        // There is a vehicle part here; see if it has anything that can be closed
-        vehicle *const veh = &vp->vehicle();
-        const int vpart = vp->part_index();
-        const int closable = veh->next_part_to_close( vpart,
-                             veh_pointer_or_null( m.veh_at( who.pos_bub() ) ) != veh );
-        const int inside_closable = veh->next_part_to_close( vpart );
-        const int openable = veh->next_part_to_open( vpart );
-        if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( get_avatar() ) ) {
-                return;
-            }
-            Character *ch = who.as_character();
-            if( ch && veh->can_close( closable, *ch ) ) {
-                veh->close( m, closable );
-                //~ %1$s - vehicle name, %2$s - part name
-                who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
-                didit = true;
-            }
-        } else if( inside_closable >= 0 ) {
-            who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
-                                   veh->part( inside_closable ).name() );
-        } else if( openable >= 0 ) {
-            who.add_msg_if_player( m_info, _( "That %s is already closed." ),
-                                   veh->part( openable ).name() );
-        } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->part( vpart ).name() );
-        }
-    } else if( m.furn( closep ) == furn_f_crate_o ) {
-        who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
-    } else if( !m.close_door( closep, inside, true ) ) {
-        if( m.close_door( closep, true, true ) ) {
-            who.add_msg_if_player( m_info,
-                                   _( "You cannot close the %s from outside.  You must be inside the building." ),
-                                   m.name( closep ) );
-        } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), m.name( closep ) );
-        }
-    } else {
-        map_stack items_in_way = m.i_at( closep );
-        // Scoot up to 25 liters of items out of the way
-        if( m.furn( closep ) != furn_f_safe_o && !items_in_way.empty() ) {
-            const units::volume max_nudge = 25_liter;
-
-            const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
-            [&max_nudge]( const item & it ) {
-                return it.volume() > max_nudge;
-            } );
-            if( toobig != items_in_way.end() ) {
-                who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
-                                       toobig->tname() );
-            } else if( items_in_way.stored_volume() > max_nudge ) {
-                who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
-            } else {
-                m.close_door( closep, inside, false );
-                didit = true;
-                who.add_msg_if_player( m_info, _( "You push the %s out of the way." ),
-                                       items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
-                who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
-
-                if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, closep ) ) {
-                    // Just plopping items back on their origin square will displace them to adjacent squares
-                    // since the door is closed now.
-                    for( item &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, elem );
-                    }
-                    m.i_clear( closep );
-                }
-            }
-        } else {
-            const std::string door_name = m.obstacle_name( closep );
-            m.close_door( closep, inside, false );
-            who.add_msg_if_player( _( "You close the %s." ), door_name );
-            didit = true;
-        }
-    }
-
-    if( didit ) {
-        // TODO: Vary this? Based on strength, broken legs, and so on.
-        who.mod_moves( -90 );
-    }
 }
 
 bool doors::forced_door_closing( const tripoint_bub_ms &p,
