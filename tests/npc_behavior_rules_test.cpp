@@ -150,6 +150,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
     int turns_taken = 0;
     while( turns_taken++ < 100 && test_subject->pos_bub() != chair_target ) {
         test_subject->set_moves( 100 );
+        test_subject->process_activity();
         test_subject->move();
     }
 

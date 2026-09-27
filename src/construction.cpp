@@ -1423,8 +1423,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     // This shouldn't normally happen, unless it's a spike pit being built on a pit for example.
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
-        add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
+        prompt_partial_construction( player_character, pnt );
         return;
     }
     std::list<item> used;
@@ -2597,6 +2596,35 @@ void finalize_constructions()
     }
 
     construction_factory.finalize();
+}
+
+
+void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
+{
+    map &here = get_map();
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
+        if( you.fine_detail_vision_mod() > 4 &&
+            !you.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
+            return;
+        }
+        //All this does is invoke a static set of behavior prompting the user for what to do with the partial construction.
+        //It's worth considering making this more complex,
+        //e.g. if they invoke "Deconstruct Terrain/Furniture" on a partially constructed thing, presumably they want to cancel the construction.
+        const construction &built = pc->id.obj();
+        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                       built.group->name(), pc->counter / 100000 ) ) {
+            if( query_yn( _( "Cancel construction?" ) ) ) {
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( you.pos_bub(), it );
+                }
+                here.partial_con_remove( examp );
+            }
+        } else {
+            you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
+        }
+        return;
+    }
 }
 
 void construction::finalize()

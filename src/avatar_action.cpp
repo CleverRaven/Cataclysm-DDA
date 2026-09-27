@@ -604,6 +604,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
+    //TODO: use open_tile_activity_actor
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
