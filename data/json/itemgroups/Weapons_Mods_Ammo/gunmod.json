@@ -55,7 +55,8 @@
       [ "mounted_flashlight", 80 ],
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
-      [ "muzzle_weight", 10 ]
+      [ "muzzle_weight", 10 ],
+      [ "muzzle_pistol_weight", 10 ]
     ]
   },
   {
