@@ -141,8 +141,7 @@
     "required_event": "character_effect_intensity_changed",
     "condition": {
       "and": [
-        { "compare_string": [ "opiate_eff", { "context_val": "effect" } ] },
-        { "compare_int": [ 0, { "context_val": "intensity" }, ">" ] },
+        { "u_has_effect": "opiate_eff" },
         { "u_has_effect": "consumed_minoan_orchid" }
       ]
     },
