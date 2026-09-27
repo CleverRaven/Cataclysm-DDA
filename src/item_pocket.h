@@ -135,6 +135,7 @@ class item_pocket
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
         bool is_type( pocket_type ptype ) const;
+        bool is_type( const std::set<pocket_type> &ptype ) const;
         bool is_ablative() const;
         bool is_holster() const;
         // checks if the pocket is a holster and if it has something in it
@@ -270,7 +271,7 @@ class item_pocket
         int ammo_capacity( const ammotype &ammo ) const;
         int remaining_ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
-        bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
+        bool use_amount( item_location &parent, const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
         bool item_has_uses_recursive() const;
         // will the items inside this pocket fall out of this pocket if it is placed into another item?
@@ -380,8 +381,11 @@ class item_pocket
         bool remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
         // @relates visitable
-        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
-                                      item *parent = nullptr );
+        // the "parent is the item location who's contents you're visiting.
+        VisitResponse visit_contents( const std::function<VisitResponse( item_location )> &func,
+                                      item_location parent );
+        VisitResponse visit_contents_legacy( const std::function<VisitResponse( item *, item * )> &func,
+                                             item *parent, const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;

@@ -12,6 +12,7 @@
 #include "item_uid.h"
 #include "json.h"
 #include "map.h"
+#include "map_selector.h"
 #include "visitable.h"
 
 namespace craft_reservation
@@ -74,7 +75,7 @@ bool merge_equivalent( const item &lhs, const item &rhs )
            static_cast<bool>( lhs.stacks_with( rhs ) );
 }
 
-bool contains_reserved( const item &it )
+bool contains_reserved( const item_location &it )
 {
     const craft_reservation_index &idx = get_craft_reservations();
     // The common state is an empty index, and this runs per item in every inventory
@@ -83,7 +84,7 @@ bool contains_reserved( const item &it )
         return false;
     }
     bool found = false;
-    it.visit_items( [&idx, &found]( const item * node, const item * ) {
+    it.visit_items( [&idx, &found]( const item_location node ) {
         if( idx.is_reserved_uid( node->uid().get_value() ) ) {
             found = true;
             return VisitResponse::ABORT;
@@ -98,10 +99,10 @@ bool usable_by_automation( const item &it )
     return !get_craft_reservations().is_reserved_uid( it.uid().get_value() );
 }
 
-bool contains_live_craft( const item &it )
+bool contains_live_craft( const item_location &it )
 {
     bool found = false;
-    it.visit_items( [&found]( const item * node, const item * ) {
+    it.visit_items( [&found]( const item_location & node ) {
         if( node->is_craft() &&
             node->get_passive_started_at() != calendar::before_time_starts ) {
             found = true;
@@ -112,12 +113,12 @@ bool contains_live_craft( const item &it )
     return found;
 }
 
-bool contains_reserved_or_live_craft( const item &it )
+bool contains_reserved_or_live_craft( const item_location &it )
 {
     const craft_reservation_index &idx = get_craft_reservations();
     const bool any_claims = idx.any_item_claims();
     bool found = false;
-    it.visit_items( [&idx, any_claims, &found]( const item * node, const item * ) {
+    it.visit_items( [&idx, any_claims, &found]( const item_location & node ) {
         if( ( any_claims && idx.is_reserved_uid( node->uid().get_value() ) ) ||
             ( node->is_craft() &&
               node->get_passive_started_at() != calendar::before_time_starts ) ) {
@@ -186,8 +187,8 @@ bool bashing_would_break_reservation( map &here, const Creature &who,
         return true;
     }
 
-    for( const item &stack_item : here.i_at( p ) ) {
-        if( contains_reserved( stack_item ) ) {
+    for( item &stack_item : here.i_at( p ) ) {
+        if( contains_reserved( item_location( map_cursor( p ), &stack_item ) ) ) {
             return true;
         }
     }

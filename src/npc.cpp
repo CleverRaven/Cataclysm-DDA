@@ -1672,7 +1672,7 @@ bool npc::wield( item &it )
 
     item_location wielded = get_wielded_item();
     if( has_wield_conflicts( it ) ) {
-        if( wielded && wielded->has_item( it ) ) {
+        if( wielded && wielded.has_item( it ) ) {
             // Item is inside the wielded container. Check wieldability
             // before extracting - once extracted, reinsertion is not
             // guaranteed (container may be stowed into a different pocket).
@@ -1684,7 +1684,7 @@ bool npc::wield( item &it )
             // speed, matching wield_contents semantics.
             int retrieve_mv = item_retrieve_cost( it, *wielded );
             extracted = it;
-            wielded->remove_item( it );
+            wielded.remove_item( it );
             stow_item( *get_wielded_item() );
             if( !Character::wield( extracted, retrieve_mv ) ) {
                 // can_wield passed above, so this should not happen.
@@ -2604,7 +2604,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
+    visit_items( [&fix_p, try_to_fix]( item_location node ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -2643,7 +2643,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
+    visit_items( [&best, try_to_fix, first_best]( item_location node ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -2655,7 +2655,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
             ( try_to_fix.bite && actor.bite > 0 ) ||
             ( try_to_fix.infect && actor.infect > 0 ) ) {
-            best = node;
+            best = node.get_item();
             if( first_best ) {
                 return VisitResponse::ABORT;
             }
@@ -2672,7 +2672,7 @@ bool npc::has_painkiller() const
     const int pain = get_pain();
     bool has_enough = false;
     visit_items(
-    [&pain, &has_enough]( item * node, item * ) {
+    [&pain, &has_enough]( item_location node ) {
         const itype_id id = node->typeId();
         if( ( pain <= 35 && ( id == itype_aspirin || id == itype_acetaminophen ||
                               id == itype_ibuprofen ) ) ||
@@ -2694,7 +2694,7 @@ item *npc::most_appropriate_painkiller()
     int difference = INT_MAX;
     item *ret = &null_item_reference();
     visit_items(
-    [&pain, &difference, &ret]( item * node, item * ) {
+    [&pain, &difference, &ret]( item_location node ) {
         int diff = INT_MAX;
         itype_id type = node->typeId();
         if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
@@ -2711,7 +2711,7 @@ item *npc::most_appropriate_painkiller()
 
         if( diff < difference ) {
             difference = diff;
-            ret = node;
+            ret = node.get_item();
         }
         return VisitResponse::NEXT;
     }

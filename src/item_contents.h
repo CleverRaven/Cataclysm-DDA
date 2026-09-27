@@ -447,8 +447,11 @@ class item_contents
          * @relates visitable
          * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
          */
-        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
-                                      item *parent = nullptr );
+        VisitResponse visit_contents( const std::function<VisitResponse( item_location )> &func,
+                                      item_location parent, const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
+        VisitResponse visit_contents_legacy( const std::function<VisitResponse( item *, item * )> &func,
+                                             item *parent,
+                                             const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
 

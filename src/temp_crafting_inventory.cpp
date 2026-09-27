@@ -67,9 +67,9 @@ temp_crafting_inventory::query_cache_scope::~query_cache_scope()
     }
 }
 
-const item *temp_crafting_inventory::root_ref::get() const
+item_location temp_crafting_inventory::root_ref::get() const
 {
-    return raw != nullptr ? raw : loc->get_item();
+    return raw.valid() ? raw : loc;
 }
 
 bool temp_crafting_inventory::prepare_query_cache() const
@@ -92,12 +92,12 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
     if( !index ) {
         type_index &idx = index.emplace();
         const auto add_root = [&idx]( const root_ref & ref ) {
-            const item *root = ref.get();
-            if( root == nullptr ) {
+            const item_location root = ref.get();
+            if( !root.valid() ) {
                 return;
             }
             bool holds_ups = false;
-            root->visit_items( [&]( const item * node, item * ) {
+            root.visit_items( [&]( const item_location & node ) {
                 std::vector<root_ref> &roots = idx.by_type[node->typeId()];
                 if( roots.empty() || !( roots.back() == ref ) ) {
                     roots.push_back( ref );
@@ -109,14 +109,11 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
                 idx.ups.push_back( ref );
             }
         };
-        for( item *it : items ) {
-            add_root( { it, nullptr } );
-        }
-        for( item *it : item_copies ) {
-            add_root( { it, nullptr } );
+        for( const item_location &it : item_copies ) {
+            add_root( { it, item_location()} );
         }
         for( const item_location &loc : items_loc ) {
-            add_root( { nullptr, &loc } );
+            add_root( { item_location(), loc} );
         }
     }
     return &*index;
@@ -151,8 +148,7 @@ void temp_crafting_inventory::remember_provider_quality( const provider_quality_
 
 temp_crafting_inventory::temp_crafting_inventory( const temp_crafting_inventory &v )
 {
-    items = v.items;
-    for( item *it : v.item_copies ) {
+    for( const item_location &it : v.item_copies ) {
         add_item_copy( *it );
     }
     items_loc = v.items_loc;
@@ -165,8 +161,7 @@ temp_crafting_inventory &temp_crafting_inventory::operator=( const temp_crafting
         return *this;
     }
     clear();
-    items = v.items;
-    for( item *it : v.item_copies ) {
+    for( const item_location &it : v.item_copies ) {
         add_item_copy( *it );
     }
     items_loc = v.items_loc;
@@ -176,24 +171,17 @@ temp_crafting_inventory &temp_crafting_inventory::operator=( const temp_crafting
 
 size_t temp_crafting_inventory::size() const
 {
-    return items.size() + items_loc.size() + item_copies.size();
+    return items_loc.size() + item_copies.size();
 }
 
 void temp_crafting_inventory::clear()
 {
     drop_caches();
-    items.clear();
     items_loc.clear();
     item_copies.clear();
     temp_owned_items.clear();
     max_empty_liq_cont.clear();
     pseudo_items.clear();
-}
-
-void temp_crafting_inventory::add_item_ref( item &item )
-{
-    drop_caches();
-    items.insert( &item );
 }
 
 void temp_crafting_inventory::add_item_loc( const item_location &loc )
@@ -206,7 +194,7 @@ item &temp_crafting_inventory::add_item_copy( const item &item )
 {
     drop_caches();
     const auto iter = temp_owned_items.insert( item );
-    item_copies.insert( &( *iter ) );
+    item_copies.insert( item_location( *this, &*iter ) );
     return *iter;
 }
 
@@ -245,8 +233,8 @@ item &temp_crafting_inventory::add_pseudo_item( const item &it )
 
 void temp_crafting_inventory::add_all_ref( const read_only_visitable &v )
 {
-    v.visit_items( [&]( item * it, item * ) {
-        add_item_ref( *it );
+    v.visit_items( [&]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     } );
 }
@@ -266,8 +254,8 @@ void temp_crafting_inventory::add_all_ref( const Character &guy )
 void temp_crafting_inventory::add_all_ref( const map_cursor &cur )
 {
     cur.visit_items(
-    [ & ]( item * node, item * ) {
-        add_item_loc( item_location( cur, node ) );
+    [ & ]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     }
     );
@@ -276,15 +264,15 @@ void temp_crafting_inventory::add_all_ref( const map_cursor &cur )
 void temp_crafting_inventory::add_all_ref( const vehicle_cursor &cur )
 {
     cur.visit_items(
-    [ & ]( item * node, item * ) {
-        add_item_loc( item_location( cur, node ) );
+    [ & ]( item_location node ) {
+        add_item_loc( node );
         return VisitResponse::SKIP;
     }
     );
 }
 
 void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
-        const std::function<VisitResponse( item *, item * )> &func ) const
+        const std::function<VisitResponse( item_location )> &func ) const
 {
     const type_index *idx = cached_index();
     if( idx == nullptr ) {
@@ -296,8 +284,8 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
         return;
     }
     for( const root_ref &ref : found->second ) {
-        const item *root = ref.get();
-        if( root != nullptr && root->visit_items( func ) == VisitResponse::ABORT ) {
+        const item_location root = ref.get();
+        if( root.valid() && root.visit_items( func ) == VisitResponse::ABORT ) {
             return;
         }
     }
@@ -306,7 +294,7 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
 int temp_crafting_inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
-    visit_roots_holding( item_type, [&]( const item * node, item * ) {
+    visit_roots_holding( item_type, [&]( const item_location & node ) {
         if( node->typeId() == item_type ) {
             num += node->count();
         }
@@ -424,7 +412,7 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
                 }
                 // crafting query walks the whole tree under each entry, so a container holding
                 // a reserved provider is hidden with it. before the liquid count too
-                if( craft_reservation::contains_reserved( i ) ) {
+                if( craft_reservation::contains_reserved( item_location( map_cursor( p ), &i ) ) ) {
                     continue;
                 }
                 if( !i.made_of( phase_id::LIQUID ) ) {
@@ -469,8 +457,8 @@ void temp_crafting_inventory::form_from_map( map &m, std::vector<tripoint_bub_ms
 void temp_crafting_inventory::dump( std::vector<item *> &dest ) const
 {
     visit_items(
-    [&]( item * node, item * ) {
-        dest.push_back( node );
+    [&]( item_location node ) {
+        dest.push_back( node.get_item() );
         return VisitResponse::NEXT;
     }
     );
@@ -496,7 +484,7 @@ bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_
 {
     const int total = count_item( id );
     int bad = 0;
-    visit_roots_holding( id, [&]( item * node, item * ) {
+    visit_roots_holding( id, [&]( const item_location & node ) {
         const item &it = *node;
         if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
                                    it.has_flag( flag_HIDDEN_HALLU ) ) ) {

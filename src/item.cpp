@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <set>
@@ -446,7 +447,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier && carrier->has_item( *this ) ) {
-        carrier->on_item_acquire( *this );
+        carrier->on_item_acquire( item_location( *carrier, this ) );
     }
 
     item_counter = 0;
@@ -1481,7 +1482,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.on_item_acquire( *this );
+    p.on_item_acquire( item_location( p, this ) );
 }
 
 void item::update_inherited_flags()
@@ -3783,7 +3784,16 @@ int item::getlight_emit() const
     return lumint;
 }
 
-bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+static int num_parents( item_location node )
+{
+    if( !node.has_parent() ) {
+        return 0;
+    } else {
+        return 1 + num_parents( node.parent_item() );
+    }
+}
+
+bool item::use_amount( item_location self, const itype_id &it, int &quantity, std::list<item> &used,
                        const std::function<bool( const item & )> &filter )
 {
     if( is_null() ) {
@@ -3791,29 +3801,37 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
-    std::vector<item *> removed_items;
-    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
-    std::list<item *> contained_list;
-    // Reverse the list, as it's created from the top down, but we have to remove items
-    // from the bottom up in order for the references to remain valid until used.
-    for( item *contained : temp_contained_list ) {
-        contained_list.emplace_front( contained );
+    std::vector<item_location> removed_items;
+    std::map<int, std::list<item_location>> contained_list; // int is how many parents deep it is
+    self.visit_items(
+    [&]( item_location node ) {
+        if( node == self ) {
+            return VisitResponse::NEXT;
+        }
+        contained_list[num_parents( node )].push_back( node );
+        return VisitResponse::NEXT;
     }
-    for( item *contained : contained_list ) {
-        if( contained->use_amount_internal( it, quantity, used, filter ) ) {
-            removed_items.push_back( contained );
+    );
+
+    // we have to remove items from the bottom up in order for the references to remain valid until used.
+    for( auto iter = contained_list.rbegin(); iter != contained_list.rend(); ++iter ) {
+        for( item_location loc : iter->second ) {
+            if( loc->use_amount_internal( it, quantity, used, filter ) ) {
+                removed_items.push_back( loc );
+            }
         }
     }
 
-    for( item *removed : removed_items ) {
+    for( item_location removed : removed_items ) {
         // Handle cases where items are removed but the pocket isn't emptied
-        item *parent = this->find_parent( *removed );
-        for( item_pocket *pocket : parent->get_standard_pockets() ) {
-            if( pocket->has_item( *removed ) ) {
-                pocket->unseal();
+        if( removed.has_parent() ) {
+            for( item_pocket *pocket : removed.parent_item()->get_standard_pockets() ) {
+                if( pocket->has_item( *removed ) ) {
+                    pocket->unseal();
+                }
             }
         }
-        this->remove_item( *removed );
+        removed.remove_item();
     }
 
     if( quantity != old_quantity ) {
@@ -3970,14 +3988,13 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter,
-                        Character *carrier, bool in_tools )
+bool item::use_charges( item_location self, const itype_id &what, int &qty, std::list<item> &used,
+                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter, bool in_tools )
 {
-    std::vector<item *> del;
+    std::vector<item_location> del;
 
-    visit_items(
-    [&what, &qty, &used, &pos, &del, &filter, &carrier, &in_tools]( item * e, item * parent ) {
+    self.visit_items(
+    [&what, &qty, &used, &pos, &del, &filter, &in_tools]( item_location e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -3986,7 +4003,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         if( !filter( *e ) ) {
             // A reserved item hides its whole subtree, matching how the inventory guards
             // prune roots.  Other filters keep descending.
-            return craft_reservation::contains_reserved( *e )
+            return craft_reservation::contains_reserved( e )
                    ? VisitResponse::SKIP
                    : VisitResponse::NEXT;
         }
@@ -4006,10 +4023,10 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                         return VisitResponse::NEXT;
                     }
                     const int wanted_uses = qty / factor;
-                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, carrier );
+                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, e.carrier() );
                     n = got_uses * factor;
-                } else if( carrier ) {
-                    n = e->ammo_consume( qty, pos, carrier );
+                } else if( e.carrier() ) {
+                    n = e->ammo_consume( qty, pos, e.carrier() );
                 } else {
                     n = e->ammo_consume( qty, pos, nullptr );
                 }
@@ -4027,9 +4044,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
-                if( parent ) {
-                    parent->contained_where( *e )->on_contents_changed();
-                    parent->on_contents_changed();
+                if( e.has_parent() ) {
+                    e.parent_item()->contained_where( *e )->on_contents_changed();
+                    e.parent_item()->on_contents_changed();
                 }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
@@ -4050,11 +4067,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     } );
 
     bool destroy = false;
-    for( item *e : del ) {
-        if( e == this ) {
+    for( item_location e : del ) {
+        if( e.get_item() == this ) {
             destroy = true; // cannot remove ourselves...
         } else {
-            remove_item( *e );
+            e.remove_item();
         }
     }
 

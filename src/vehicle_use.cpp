@@ -1908,7 +1908,8 @@ void vpart_position::form_inventory( map &here, temp_crafting_inventory &inv,
         for( item &it : vp_cargo->items() ) {
             // crafting query walks the whole tree under each entry, so a container
             // holding a reserved provider is hidden with it
-            if( craft_reservation::contains_reserved( it ) ) {
+            if( craft_reservation::contains_reserved( item_location( vehicle_cursor( vp_cargo->vehicle(),
+                    vp_cargo->part_index() ), &it ) ) ) {
                 continue;
             }
             if( it.empty_container() && it.is_watertight_container() ) {

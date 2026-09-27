@@ -2822,7 +2822,7 @@ void game_menus::inv::swap_letters()
         [ &you ]( const std::string::value_type & elem ) {
             if( you.invlet_is_assigned( elem ) ) {
                 return c_yellow;
-            } else if( you.invlet_to_item( elem ) != nullptr ) {
+            } else if( you.invlet_to_item( elem ).valid() ) {
                 return c_white;
             } else {
                 return c_dark_gray;
@@ -2856,7 +2856,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         } else {
             const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_quality( qual_ANESTHESIA );
+                return it.get_quality( qual_ANESTHESIA ) > 0;
             } );
             for( const item *anesthesia_item : a_filter ) {
                 if( anesthesia_item->ammo_remaining( ) >= 1 ) {

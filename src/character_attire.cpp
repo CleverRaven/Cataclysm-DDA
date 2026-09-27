@@ -1733,8 +1733,8 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
                                     Character &wearer )
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( !craft_reservation::contains_reserved( *a ) &&
-            a->use_amount( it, quantity, used, filter ) ) {
+        if( !craft_reservation::contains_reserved( item_location( wearer, &*a ) ) &&
+            a->use_amount( item_location( wearer, &*a ), it, quantity, used, filter ) ) {
             a->on_takeoff( wearer );
             a = worn.erase( a );
         } else {
@@ -2035,7 +2035,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
     for( item &clothing : worn ) {
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
+        std::vector<item *> guns = item_location( guy, &clothing ).items_with( []( const item & it ) {
             return it.is_gun();
         } );
 

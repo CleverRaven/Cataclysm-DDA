@@ -58,7 +58,7 @@ static void check_reload_time( const itype_id &weapon, const itype_id &ammo,
 
     CAPTURE( opt.moves() );
     CAPTURE( opt.ammo.obtain_cost( shooter, 1 ) );
-    CAPTURE( shooter.item_reload_cost( *shooter.used_weapon(), *opt.ammo, 1 ) );
+    CAPTURE( shooter.item_reload_cost( *shooter.used_weapon(), opt.ammo, 1 ) );
     CAPTURE( shooter.used_weapon()->get_reload_time() );
     CAPTURE( shooter.item_handling_cost( *shooter.used_weapon(), true, 0 ) );
     CAPTURE( shooter.used_weapon()->get_reload_time() );

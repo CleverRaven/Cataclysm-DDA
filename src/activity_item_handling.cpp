@@ -970,7 +970,8 @@ bool sort_skip_item( Character &you, const item *it,
 
     // don't move a provider a live unattended step has claimed, and don't copy a live
     // craft, which would strand its schedule under a dead uid
-    if( craft_reservation::contains_reserved_or_live_craft( *it ) ) {
+    if( craft_reservation::contains_reserved_or_live_craft( item_location( you,
+            const_cast<item *>( it ) ) ) ) {
         return true;
     }
 
@@ -1291,7 +1292,7 @@ void remove_item( const std::optional<vpart_reference> &vp,
 
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  unload_sort_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
-                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 item_location it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -1309,7 +1310,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
     // TODO: less egregious than teleporting over a distance, but still not good
     auto unload_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
         move_item( you, *contained, contained->count(), src_bub, src_bub, vpr_src );
-        it->remove_item( *contained );
+        it.remove_item( *contained );
     };
 
     if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
@@ -1363,7 +1364,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 
                     // destroy fully unloaded magazines
                     if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
-                        zone_sorting::remove_item( vpr_src, src_bub, it );
+                        zone_sorting::remove_item( vpr_src, src_bub, it.get_item() );
                         num_processed = std::max( num_processed - 1, 0 );
                         return std::nullopt;
                     }
@@ -1907,17 +1908,18 @@ bool are_requirements_nearby(
     }
 
     bool found_welder = false;
-    for( item *elem : you.inv_dump() ) {
-        // temp_crafting_inventory holds references, so visit_items would still reach a
-        // reserved provider inside an added container
-        if( craft_reservation::contains_reserved( *elem ) ) {
-            continue;
+    you.visit_items(
+    [&]( item_location node ) {
+        if( craft_reservation::contains_reserved( node ) ) {
+            return VisitResponse::SKIP;
         }
-        if( elem->has_quality( qual_WELD ) ) {
+        if( node.has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv.add_item_ref( *elem );
+        temp_inv.add_item_loc( node );
+        return VisitResponse::SKIP;
     }
+    );
     map &here = get_map();
     for( const tripoint_bub_ms &elem : loot_spots ) {
         // if we are searching for things to fetch, we can skip certain things.
@@ -1946,19 +1948,20 @@ bool are_requirements_nearby(
                     }
                 }
             }
-            if( craft_reservation::contains_reserved( elem2 ) ) {
+            if( craft_reservation::contains_reserved( item_location( map_cursor( elem ), &elem2 ) ) ) {
                 continue;
             }
-            temp_inv.add_item_ref( elem2 );
+            temp_inv.add_item_loc( item_location( map_cursor( elem ), &elem2 ) );
         }
 
         if( !in_loot_zones ) {
             if( const std::optional<vpart_reference> ovp = here.veh_at( elem ).cargo() ) {
                 for( item &it : ovp->items() ) {
-                    if( craft_reservation::contains_reserved( it ) ) {
+                    if( craft_reservation::contains_reserved( item_location( vehicle_cursor( ovp->vehicle(),
+                            ovp->part_index() ), &it ) ) ) {
                         continue;
                     }
-                    temp_inv.add_item_ref( it );
+                    temp_inv.add_item_loc( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) );
                 }
             }
         }
@@ -3029,8 +3032,9 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     // will be filtered for amounts/charges afterwards.
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( const item &stack_elem : here.i_at( point_elem ) ) {
-            if( craft_reservation::contains_reserved( stack_elem ) ) {
+        for( item &stack_elem : here.i_at( point_elem ) ) {
+            if( craft_reservation::contains_reserved( item_location( map_cursor( point_elem ),
+                    &stack_elem ) ) ) {
                 continue;
             }
             for( std::vector<item_comp> &elem : req_comps ) {
@@ -3073,7 +3077,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
                 for( quality_requirement &comp_elem : elem ) {
                     const quality_id tool_qual = comp_elem.type;
                     const int qual_level = comp_elem.level;
-                    if( stack_elem.has_quality( tool_qual, qual_level ) ) {
+                    if( item_location( map_cursor( point_elem ),
+                                       const_cast<item *>( &stack_elem ) ).has_quality( tool_qual, qual_level ) ) {
                         if( !pickup_task &&
                             std::find( already_there_spots.begin(), already_there_spots.end(),
                                        point_elem ) != already_there_spots.end() ) {
@@ -3228,7 +3233,7 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
                 tripoint_bub_ms pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
                 item test_item = item( item_here, calendar::turn_zero );
-                if( test_item.has_quality( tool_qual, qual_level ) ) {
+                if( item_location( map_cursor( pos_here ), &test_item ).has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.emplace_back( pos_here, item_here, 1 );
                     line_found = true;
@@ -3314,7 +3319,8 @@ bool fetch_required_activity_actor::fetch_activity(
         for( item &veh_elem : ovp->items() ) {
             // These loops match by itype_id alone, so a reserved instance would be
             // fetched in place of the free one planning cleared.
-            if( craft_reservation::contains_reserved( veh_elem ) ) {
+            if( craft_reservation::contains_reserved( item_location( vehicle_cursor( ovp->vehicle(),
+                    ovp->part_index() ), &veh_elem ) ) ) {
                 continue;
             }
             for( auto elem : mental_item_map ) {
@@ -3332,7 +3338,7 @@ bool fetch_required_activity_actor::fetch_activity(
     }
     for( auto item_iter = items_there.begin(); item_iter != items_there.end(); item_iter++ ) {
         item &it = *item_iter;
-        if( craft_reservation::contains_reserved( it ) ) {
+        if( craft_reservation::contains_reserved( item_location( map_cursor( src_loc ), &it ) ) ) {
             continue;
         }
         for( auto elem : mental_item_map ) {

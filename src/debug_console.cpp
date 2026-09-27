@@ -3206,8 +3206,8 @@ void tab_items_view::draw_body( debug_console &host )
                 }
             }
             if( target ) {
-                target->visit_items( [&]( const item * it, item * parent ) {
-                    const std::string loc = parent ? parent->tname( 1, false )
+                target->visit_items( [&]( const item_location it ) {
+                    const std::string loc = it.has_parent() ? it.parent_item()->tname( 1, false )
                                             : std::string( "self" );
                     add( *it, remove_color_tags( loc ) );
                     return VisitResponse::NEXT;
@@ -3231,8 +3231,8 @@ void tab_items_view::draw_body( debug_console &host )
             }
             break;
         case item_source_ref::kind::avatar:
-            you.visit_items( [&]( const item * it, item * parent ) {
-                const std::string loc = parent ? parent->tname( 1, false )
+            you.visit_items( [&]( const item_location & it ) {
+                const std::string loc = it.has_parent() ? it.parent_item()->tname( 1, false )
                                         : std::string( "self" );
                 add( *it, remove_color_tags( loc ) );
                 return VisitResponse::NEXT;

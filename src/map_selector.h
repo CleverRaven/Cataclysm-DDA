@@ -28,7 +28,7 @@ class map_cursor : public visitable
         tripoint_abs_ms pos_abs() const;
 
         // inherited from visitable
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
@@ -86,7 +86,7 @@ class map_selector : public visitable
         }
 
         // inherited from visitable
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;

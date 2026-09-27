@@ -924,7 +924,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     temp_crafting_inventory tinv;
     tinv.add_all_ref( dummy );
     if( ups_on_ground ) {
-        tinv.add_item_ref( *ups_loc );
+        tinv.add_item_loc( ups_loc );
     }
     REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
 }
@@ -2948,9 +2948,9 @@ static item *get_pseudo_item_by_type( const temp_crafting_inventory &crafting_in
 {
     item *ret = nullptr;
     crafting_inv.visit_items(
-    [&id, &ret]( item * node, item * ) {
+    [&id, &ret]( item_location node ) {
         if( node->typeId() == id ) {
-            ret = node;
+            ret = node.get_item();
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;

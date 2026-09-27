@@ -276,6 +276,8 @@ static item_locator_hint hint_from_location( const item_location &loc )
             }
             break;
         }
+        case item_location::type::crafting_inventory:
+        // this isn't really a "place" per se
         case item_location::type::container:
         case item_location::type::invalid:
             break;

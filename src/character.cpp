@@ -2754,31 +2754,31 @@ bool Character::enough_power_for( const bionic_id &bid ) const
 }
 
 std::vector<item_location> Character::nearby( const
-        std::function<bool( const item *, const item * )> &func, int radius ) const
+        std::function<bool( const item_location & )> &func, int radius ) const
 {
     map &here = get_map();
     std::vector<item_location> res;
 
-    visit_items( [&]( const item * e, const item * parent ) {
-        if( func( e, parent ) ) {
-            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+    visit_items( [&]( item_location e ) {
+        if( func( e ) ) {
+            res.emplace_back( e );
         }
         return VisitResponse::NEXT;
     } );
 
     for( const map_cursor &cur : map_selector( pos_bub( here ), radius ) ) {
-        cur.visit_items( [&]( const item * e, const item * parent ) {
-            if( func( e, parent ) ) {
-                res.emplace_back( cur, const_cast<item *>( e ) );
+        cur.visit_items( [&]( item_location e ) {
+            if( func( e ) ) {
+                res.emplace_back( e );
             }
             return VisitResponse::NEXT;
         } );
     }
 
     for( const vehicle_cursor &cur : vehicle_selector( here, pos_bub( here ), radius ) ) {
-        cur.visit_items( [&]( const item * e, const item * parent ) {
-            if( func( e, parent ) ) {
-                res.emplace_back( cur, const_cast<item *>( e ) );
+        cur.visit_items( [&]( const item_location e ) {
+            if( func( e ) ) {
+                res.emplace_back( e );
             }
             return VisitResponse::NEXT;
         } );
@@ -3873,7 +3873,7 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     int amount = container->all_pockets_rigid() ? max_remaining_capacity :
                  std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
 
-    const bool desired_liquid_is_in = container->has_item_with( [&liquid]( const item & it ) {
+    const bool desired_liquid_is_in = container.has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
     } );
 
@@ -5636,14 +5636,15 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+            if( tmp[imenu.ret]->use_amount( item_location( *this, tmp[imenu.ret] ), it, quantity, ret,
+                                            filter ) ) {
                 remove_item( *tmp[imenu.ret] );
             }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
-    if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
-        weapon.use_amount( it, quantity, ret, filter ) ) {
+    if( quantity > 0 && !craft_reservation::contains_reserved( get_wielded_item() ) &&
+        weapon.use_amount( get_wielded_item(), it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5772,11 +5773,11 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         return res;
     }
 
-    std::vector<item *> del;
+    std::vector<item_location> del;
 
     bool has_tool_with_UPS = false;
     // Detection of UPS tool
-    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e, item * ) {
+    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item_location e ) {
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
             return VisitResponse::ABORT;
@@ -5788,22 +5789,21 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         get_map().use_charges( pos_bub(), radius, what, qty, filter, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e,
-        item * parent ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item_location e ) {
             // Only roots: this callback sees every descendant, and item::use_charges
             // descends again, so a reserved root must prune its subtree here.
-            if( parent == nullptr && craft_reservation::contains_reserved( *e ) ) {
+            if( !e.has_parent() && craft_reservation::contains_reserved( e ) ) {
                 return VisitResponse::SKIP;
             }
-            if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
+            if( e->use_charges( e, what, qty, res, pos_bub(), filter, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
         } );
     }
 
-    for( item *e : del ) {
-        remove_item( *e );
+    for( item_location e : del ) {
+        e.remove_item();
     }
 
     if( has_tool_with_UPS ) {

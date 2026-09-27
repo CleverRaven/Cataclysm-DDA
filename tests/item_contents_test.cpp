@@ -90,12 +90,6 @@ TEST_CASE( "item_contents" )
     tool_belt.overflow( here, tripoint_bub_ms::zero );
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
-
-    tool_belt.remove_items_with( []( const item & it ) {
-        return it.typeId() == itype_crowbar_pocket_test;
-    } );
-    // check to see that removing an item works
-    CHECK( tool_belt.num_item_stacks() == 3 );
     tool_belt.spill_contents( tripoint_bub_ms::zero );
     CHECK( tool_belt.empty() );
 }

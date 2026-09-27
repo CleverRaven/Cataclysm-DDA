@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -75,7 +76,7 @@ TEST_CASE( "temp_crafting_inv_test_amount", "[crafting][inventory]" )
 
     item gum( itype_test_gum, calendar::turn_zero, item::default_charges_tag{} );
 
-    inv.add_item_ref( gum );
+    inv.add_item_copy( gum );
     CHECK( inv.size() == 1 );
 
     CHECK( inv.amount_of( itype_test_gum ) == 1 );
@@ -154,7 +155,7 @@ static void build_pile( temp_crafting_inventory &inv, item &loose )
     here.furn_set( pile_origin, furn_test_f_reserve_qual );
 
     inv.form_from_map( pile_origin, 0, nullptr, false );
-    inv.add_item_ref( loose );
+    inv.add_item_copy( loose );
     inv.add_item_copy( item( itype_knife_hunting ) );
 }
 
@@ -200,7 +201,7 @@ TEST_CASE( "temp_crafting_inventory_index_answers_like_a_live_walk", "[crafting]
     build_pile( inv, loose );
 
     std::set<itype_id> types{ itype_cudgel, itype_rock };
-    inv.visit_items( [&types]( const item * node, item * ) {
+    inv.visit_items( [&types]( const item_location & node ) {
         types.insert( node->typeId() );
         return VisitResponse::NEXT;
     } );

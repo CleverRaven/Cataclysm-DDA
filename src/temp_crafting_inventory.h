@@ -7,7 +7,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <unordered_map>
@@ -31,7 +30,7 @@ class vehicle_cursor;
  * A transient add-only list of item references and temporary pseudo-items, that implements `read_only_visitable`
  * and thus can answer crafting queries (see crafting.cpp and requirement_data::can_make_with_inventory).
  */
-class temp_crafting_inventory : public read_only_visitable
+class temp_crafting_inventory : public visitable
 {
     public:
         /**
@@ -62,7 +61,6 @@ class temp_crafting_inventory : public read_only_visitable
          * Adds item reference to this container.
          * @note container doesn't own the added reference, meaning added item should outlive this container.
          */
-        void add_item_ref( item &item );
         void add_item_loc( const item_location &loc );
 
         /**
@@ -85,7 +83,7 @@ class temp_crafting_inventory : public read_only_visitable
         item &add_pseudo_item( const item &item );
 
         // inherited from visitable. note: temp_owned_items are copied into items
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
         override;
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
@@ -106,8 +104,11 @@ class temp_crafting_inventory : public read_only_visitable
                             const Character *pl = nullptr,
                             bool clear_path = true );
         void form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const Character *pl );
+        // does not delete items that do not belong to the inventory
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
+                                           int count = INT_MAX ) override;
+        // deletes the item with the same pointer. only searches the copy list.
+        item remove_item( item &it );
 
         void dump( std::vector<item *> &dest ) const;
 
@@ -120,9 +121,9 @@ class temp_crafting_inventory : public read_only_visitable
     private:
         // Single top-level entry, resolved at query time.
         struct root_ref {
-            item *raw = nullptr;
-            const item_location *loc = nullptr;
-            const item *get() const;
+            item_location raw;
+            item_location loc;
+            item_location get() const;
             bool operator==( const root_ref &rhs ) const {
                 return raw == rhs.raw && loc == rhs.loc;
             }
@@ -140,7 +141,7 @@ class temp_crafting_inventory : public read_only_visitable
         const type_index *cached_index() const;
         // walks entries whose subtree holds `id` inside a scope, and every entry outside one
         void visit_roots_holding( const itype_id &id,
-                                  const std::function<VisitResponse( item *, item * )> &func ) const;
+                                  const std::function<VisitResponse( item_location )> &func ) const;
         void drop_caches() const;
 
         std::optional<bool> recall_provider_quality( const provider_quality_key &key ) const override;
@@ -150,12 +151,10 @@ class temp_crafting_inventory : public read_only_visitable
         mutable std::map<provider_quality_key, bool> provider_quality_answers;
         mutable uint64_t cache_epoch = 0;
 
-        // list of all items in this container that don't know their parent
-        cata::colony<item *> items;
         // list of all items in this crafting inventory that know their parent
         cata::colony<item_location> items_loc;
         // copies of "owned" items added by `add_item_copy`
-        cata::colony<item *> item_copies;
+        cata::colony<item_location> item_copies;
         // this is only walked in visitable for tool qualities!
         cata::colony<item> temp_owned_items;
 

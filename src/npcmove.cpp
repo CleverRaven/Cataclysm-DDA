@@ -2605,8 +2605,8 @@ void npc::evaluate_best_attack( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
-    visit_items( [&compare, this, &here]( item * it, item * ) {
-        if( craft_reservation::contains_reserved( *it ) ) {
+    visit_items( [&compare, this, &here]( item_location it ) {
+        if( craft_reservation::contains_reserved( it ) ) {
             return VisitResponse::SKIP;
         }
         if( can_wield( *it ).success() ) {
@@ -2724,7 +2724,7 @@ item_location npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item_location reloadable;
-    visit_items( [this, &reloadable]( item * node, item * ) {
+    visit_items( [this, &reloadable]( item_location node ) {
         if( !craft_reservation::usable_by_automation( *node ) ||
             !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
@@ -3529,7 +3529,9 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const map &here = get_map();
 
     const std::optional<ammotype> at = item::ammotype_of( gun.ammo_default() );
-    int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
+    item temp_ammo( gun.ammo_default() );
+    item_location loc( const_cast<npc &>( *this ), &temp_ammo );
+    int rltime = item_reload_cost( gun, loc,
                                    at ? gun.ammo_capacity( *at ) : 0 );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
@@ -4350,7 +4352,7 @@ void npc::find_item()
     bool declined_dynamically = false;
     const auto consider_item =
         [&best_value, this, &declined_dynamically]
-    ( const item & it, const tripoint_bub_ms & p ) {
+    ( const item_location & it, const tripoint_bub_ms & p ) {
         // Targets whole stack entries, so an exact-uid test would send the NPC after a
         // container holding a reserved provider.
         if( craft_reservation::contains_reserved( it ) ||
@@ -4358,9 +4360,9 @@ void npc::find_item()
             declined_dynamically = true;
             return false;
         }
-        if( ::good_for_pickup( it, *this, p ) ) {
+        if( ::good_for_pickup( *it, *this, p ) ) {
             wanted_item_pos = p;
-            best_value = has_item_whitelist() ? 1000 : value( it );
+            best_value = has_item_whitelist() ? 1000 : value( *it );
             return true;
         } else {
             return false;
@@ -4423,7 +4425,7 @@ void npc::find_item()
         if( here.sees_some_items( p, *this ) && sees( here, p ) ) {
             can_see = true;
             for( item &it : m_stack ) {
-                if( consider_item( it, p ) ) {
+                if( consider_item( item_location( map_cursor( p ), &it ), p ) ) {
                     wanted_item = item_location{ map_cursor{tripoint_bub_ms( p )}, &it };
                 }
             }
@@ -4454,7 +4456,7 @@ void npc::find_item()
         }
 
         for( item &it : cargo->items() ) {
-            if( consider_item( it, p ) ) {
+            if( consider_item( item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &it ), p ) ) {
                 wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
             }
         }
@@ -4610,11 +4612,12 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
-        const item &it = *iter;
+        item &it = *iter;
+        item_location loc( who, &it );
         // This erases all wanted items on the tile, otherwise one free item would
         // sweep up the reserved ones next to it
-        const bool off_limits = craft_reservation::contains_reserved( it ) ||
-                                craft_reservation::contains_live_craft( it );
+        const bool off_limits = craft_reservation::contains_reserved( loc ) ||
+                                craft_reservation::contains_live_craft( loc );
         if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
@@ -4889,11 +4892,11 @@ item *npc::evaluate_best_weapon() const
     }
 
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
-    visit_items( [this, &weap, &best_value, &best]( item * node, item * ) {
-        if( craft_reservation::contains_reserved( *node ) ) {
+    visit_items( [this, &weap, &best_value, &best]( item_location node ) {
+        if( craft_reservation::contains_reserved( node ) ) {
             return VisitResponse::SKIP;
         }
-        if( node == &weap ) {
+        if( node.get_item() == &weap ) {
             // Weapon is already evaluated above with danger multiplier.
             // Return NEXT to visit its contents (items inside containers
             // that might be better weapons). CONTAINER pockets only -
@@ -4903,13 +4906,13 @@ item *npc::evaluate_best_weapon() const
         if( can_wield( *node ).success() ) {
             double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                                 && node != &weap
+                                                 && node.get_item() != &weap
                                                  && node->type->get_id() == weap.type->get_id();
 
             if( node->is_melee() || node->is_gun() ) {
                 weapon_value = evaluate_weapon( *node );
                 if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                    best = const_cast<item *>( node );
+                    best = node.get_item();
                     best_value = weapon_value;
                 }
                 return VisitResponse::SKIP;
@@ -5037,8 +5040,8 @@ bool npc::alt_attack()
     };
 
     check_alt_item( &*get_wielded_item() );
-    const auto inv_all = items_with( []( const item & itm ) {
-        return !craft_reservation::contains_reserved( itm );
+    const auto inv_all = items_with( [&]( const item & itm ) {
+        return !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) );
     } );
     for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
@@ -5559,7 +5562,7 @@ void npc::mug_player( Character &mark )
     std::vector<const item *> pseudo_items = mark.get_pseudo_items();
     const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
         return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
-               !craft_reservation::contains_reserved( itm ) &&
+               !craft_reservation::contains_reserved( item_location( *this, const_cast<item *>( &itm ) ) ) &&
                !itm.has_flag( flag_INTEGRATED ) && !itm.has_flag( flag_NO_TAKEOFF ) && value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {
@@ -6229,7 +6232,7 @@ void npc::do_reload( const item_location &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = reload_opt.qty();
-    int reload_time = item_reload_cost( *it, *usable_ammo, qty );
+    int reload_time = item_reload_cost( *it, usable_ammo, qty );
     // TODO: Consider printing this info to player too
     // TODO(multimag): pocket_index defaults to -1 (first compatible well).
     // NPCs cannot pick a specific well on multi-well guns yet.
@@ -6869,7 +6872,7 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
 {
     // Check that the NPC has a usable firestarter tool.
     bool found_tool = false;
-    visit_items( [this, &found_tool]( item * it, item * ) -> VisitResponse {
+    visit_items( [this, &found_tool]( item_location it ) -> VisitResponse {
         if( craft_reservation::usable_by_automation( *it ) &&
             is_usable_npc_firestarter( *this, *it ) )
         {
@@ -6890,12 +6893,12 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     // doesn't drop its own weapon into the fire.
     const item *wielded_ptr = get_wielded_item().get_item();
     bool has_firewood = false;
-    visit_items( [&has_firewood, wielded_ptr]( item * it, item * ) -> VisitResponse {
-        if( it == wielded_ptr )
+    visit_items( [&has_firewood, wielded_ptr]( item_location it ) -> VisitResponse {
+        if( it.get_item() == wielded_ptr )
         {
             return VisitResponse::NEXT;
         }
-        if( craft_reservation::contains_reserved( *it ) )
+        if( craft_reservation::contains_reserved( it ) )
         {
             return VisitResponse::SKIP;
         }
@@ -7119,7 +7122,7 @@ npc::need_result npc::execute_seek_warmth()
         // shared helper, then call the real firestarter hook.
         item *fire_tool = nullptr;
         const firestarter_actor *actor = nullptr;
-        visit_items( [this, &fire_tool, &actor]( item * it, item * ) -> VisitResponse {
+        visit_items( [this, &fire_tool, &actor]( item_location it ) -> VisitResponse {
             if( !craft_reservation::usable_by_automation( *it ) ||
                 !is_usable_npc_firestarter( *this, *it ) )
             {
@@ -7127,7 +7130,7 @@ npc::need_result npc::execute_seek_warmth()
             }
             const use_function *usef = it->type->get_use( "firestarter" );
             const auto *a = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            fire_tool = it;
+            fire_tool = it.get_item();
             actor = a;
             return VisitResponse::ABORT;
         } );
@@ -7140,18 +7143,18 @@ npc::need_result npc::execute_seek_warmth()
         if( !here.is_flammable( target_bub ) ) {
             item *fuel = nullptr;
             const item *wielded_ptr = get_wielded_item().get_item();
-            visit_items( [&fuel, wielded_ptr]( item * it, item * ) -> VisitResponse {
-                if( it == wielded_ptr )
+            visit_items( [&fuel, wielded_ptr]( item_location it ) -> VisitResponse {
+                if( it.get_item() == wielded_ptr )
                 {
                     return VisitResponse::NEXT;
                 }
-                if( craft_reservation::contains_reserved( *it ) )
+                if( craft_reservation::contains_reserved( it ) )
                 {
                     return VisitResponse::SKIP;
                 }
                 if( it->has_flag( flag_FIREWOOD ) )
                 {
-                    fuel = it;
+                    fuel = it.get_item();
                     return VisitResponse::ABORT;
                 }
                 return VisitResponse::NEXT;

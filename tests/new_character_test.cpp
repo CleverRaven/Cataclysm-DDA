@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "item_location.h"
 #include "mutation.h"
 #include "player_helpers.h"
 #include "profession.h"
@@ -165,8 +166,8 @@ TEST_CASE( "starting_items", "[slow]" )
 
                     player_character.add_profession_items();
                     std::set<const item *> items_visited;
-                    const auto visitable_counter = [&items_visited]( const item * it, auto ) {
-                        items_visited.emplace( it );
+                    const auto visitable_counter = [&items_visited]( const item_location it ) {
+                        items_visited.emplace( it.get_item() );
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );

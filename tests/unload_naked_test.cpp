@@ -1,4 +1,3 @@
-#include <functional>
 #include <vector>
 
 #include "avatar.h"

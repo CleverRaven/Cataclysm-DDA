@@ -854,11 +854,12 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
     }
 }
 
-bool item_pocket::use_amount( const itype_id &it, int &quantity, std::list<item> &used )
+bool item_pocket::use_amount( item_location &parent, const itype_id &it, int &quantity,
+                              std::list<item> &used )
 {
     bool used_item = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, used ) ) {
+        if( a->use_amount( item_location( parent, &*a ), it, quantity, used ) ) {
             used_item = true;
             a = contents.erase( a );
         } else {
@@ -2324,6 +2325,11 @@ int item_pocket::obtain_cost( const item &it ) const
 bool item_pocket::is_type( pocket_type ptype ) const
 {
     return ptype == data->type;
+}
+
+bool item_pocket::is_type( const std::set<pocket_type> &ptype ) const
+{
+    return ptype.count( data->type ) == 1;
 }
 
 bool item_pocket::is_ablative() const

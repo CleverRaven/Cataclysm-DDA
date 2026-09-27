@@ -287,13 +287,13 @@ void game::item_action_menu( item_location loc )
         if( loc.get_item()->type->has_use() ) {
             pseudos.push_back( const_cast< item * >( loc.get_item() ) );
         }
-        loc.get_item()->visit_contents( [&pseudos]( item * node, item * ) {
+        loc.get_item()->visit_contents( [&pseudos]( item_location node ) {
             if( node->type->use_methods.empty() ) {
                 return VisitResponse::NEXT;
             }
-            pseudos.push_back( const_cast<item *>( node ) );
+            pseudos.push_back( const_cast<item *>( node.get_item() ) );
             return VisitResponse::NEXT;
-        } );
+        }, loc );
     }
     item_action_map iactions = gen.map_actions_to_items( u, pseudos, use_player_inventory );
     if( iactions.empty() ) {

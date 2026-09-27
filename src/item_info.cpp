@@ -51,6 +51,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_uid.h"
 #include "iteminfo_query.h"
@@ -1141,7 +1142,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             // clear out empty magazines so put_in below doesn't error
             for( item *i : tmp.contents.all_items_top() ) {
                 if( i->is_magazine() ) {
-                    tmp.remove_item( *i );
+                    // item_location hack warning!
+                    item_location( get_player_character(), &tmp ).remove_item( *i );
                     tmp.on_contents_changed();
                 }
             }
@@ -3977,7 +3979,9 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             info.emplace_back( "DESCRIPTION",
                                _( "* Its <bad>UPS charge is not protected</bad> and may be drained by anything." ) );
         }
-    } else if( craft_reservation::contains_reserved( *this ) ) {
+        // item_location hack!
+    } else if( craft_reservation::contains_reserved( item_location( get_player_character(),
+               const_cast<item *>( this ) ) ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This holds an item <info>reserved</info> by a craft, so it cannot be used for crafting." ) );
     }

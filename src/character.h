@@ -2125,7 +2125,7 @@ class Character : public Creature, public visitable
                            const itype_id &device_id = itype_id::NULL_ID() ) const;
 
         /** Returns nearby items which match the provided predicate */
-        std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
+        std::vector<item_location> nearby( const std::function<bool( const item_location & )> &func,
                                            int radius = 1 ) const;
 
         /**
@@ -2145,7 +2145,7 @@ class Character : public Creature, public visitable
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        item *invlet_to_item( int invlet ) const;
+        item_location invlet_to_item( int invlet ) const;
 
         // Returns the item with a given inventory position.
         item &i_at( int position );
@@ -2314,7 +2314,7 @@ class Character : public Creature, public visitable
          * @param ammo either ammo or magazine to use when reloading the item
          * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
-        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
+        int item_reload_cost( const item &it, const item_location &loc, int qty ) const;
 
         projectile thrown_item_projectile( const item &thrown ) const;
         int thrown_item_adjusted_damage( const item &thrown ) const;
@@ -3085,7 +3085,7 @@ class Character : public Creature, public visitable
         /**
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
-        void add_to_inv_search_caches( item &it ) const;
+        void add_to_inv_search_caches( item_location it ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const override;
@@ -3339,7 +3339,7 @@ class Character : public Creature, public visitable
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
-        void on_item_acquire( const item &it );
+        void on_item_acquire( const item_location &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_id &bp = bodypart_str_id::NULL_ID() ) override;
@@ -3572,7 +3572,7 @@ class Character : public Creature, public visitable
          * the first of its contents (if it's consumable) or null item otherwise.
          * WARNING: consumable does not necessarily guarantee the comestible type.
          */
-        item &get_consumable_from( item &it ) const;
+        item_location get_consumable_from( item_location it ) const;
 
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
@@ -4073,7 +4073,7 @@ class Character : public Creature, public visitable
         item &best_unreserved_item_with_quality( const quality_id &qid );
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        VisitResponse visit_items( const std::function<VisitResponse( item_location )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;

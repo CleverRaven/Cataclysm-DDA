@@ -3925,8 +3925,9 @@ bool monster::is_nemesis() const
     return has_flag( mon_flag_NEMESIS );
 }
 
-void monster::init_from_item( item &itm )
+void monster::init_from_item( item_location loc )
 {
+    item &itm = *loc;
     if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
@@ -3959,12 +3960,12 @@ void monster::init_from_item( item &itm )
                 }
             }
             inv.push_back( *it );
-            itm.remove_item( *it );
+            loc.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
         for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
-            itm.remove_item( *dissectable );
+            loc.remove_item( *dissectable );
         }
     } else {
         // must be a robot

@@ -60,6 +60,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
@@ -5670,19 +5671,21 @@ static void add_consumed_nutrients( std::map<time_point, nutrients> &into, time_
 // returns success if the item should be removed
 // Checks the contents of the item for nutrients, and removes ones with nutrients
 // nutrients gained from this item and it's contents are the value of the ret_val
-static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *const container,
+static ret_val<std::map<time_point, nutrients>> nutrients_from( item_location it,
+        item *const container,
         bool distribute_vitamins )
 {
     // nutrients consumed and when they will rot
     std::map<time_point, nutrients> consumed;
-    if( it.is_food_container() ) {
-        std::vector<item *> to_remove;
-        it.visit_items( [&]( item * content, item * const container ) {
+    if( it->is_food_container() ) {
+        std::vector<item_location> to_remove;
+        it.visit_items( [&]( item_location content ) {
             std::optional<nutrients> from_item = nutrients_if_distributable( *content, distribute_vitamins );
             if( from_item.has_value() ) {
                 // we perform a magic act here and remove the item that's preserving it while keeping it preserved
                 to_remove.push_back( content );
-                add_consumed_nutrients( consumed, rot_time( *content, container ), *from_item );
+                add_consumed_nutrients( consumed, rot_time( *content,
+                                        content.has_parent() ? content.parent_item().get_item() : container ), *from_item );
                 return VisitResponse::SKIP;
             }
             return VisitResponse::NEXT;
@@ -5691,17 +5694,17 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
         if( to_remove.empty() ) {
             return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
         }
-        for( item *const food : to_remove ) {
+        for( item_location food : to_remove ) {
             it.remove_item( *food );
         }
-        it.on_contents_changed();
+        it->on_contents_changed();
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    std::optional<nutrients> from_this = nutrients_if_distributable( it, distribute_vitamins );
+    std::optional<nutrients> from_this = nutrients_if_distributable( *it, distribute_vitamins );
     if( !from_this.has_value() ) {
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
+    add_consumed_nutrients( consumed, rot_time( *it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
 }
 
@@ -5740,8 +5743,9 @@ bool basecamp::distribute_food( bool player_command )
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
-            ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                  distribute_vitamins );
+            ret_val<std::map<time_point, nutrients>> ret =
+                    nutrients_from( item_location( map_cursor( p_food_stock ), &*iter ), nullptr,
+                                    distribute_vitamins );
             if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
@@ -5755,8 +5759,9 @@ bool basecamp::distribute_food( bool player_command )
         if( const std::optional<vpart_reference> ovp = here.veh_at( p_food_stock ).cargo() ) {
             vehicle_stack items = ovp->items();
             for( auto iter = items.begin(); iter != items.end(); ) {
-                ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                      distribute_vitamins );
+                ret_val<std::map<time_point, nutrients>> ret =
+                        nutrients_from( item_location( map_cursor( p_food_stock ), &*iter ), nullptr,
+                                        distribute_vitamins );
                 if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {

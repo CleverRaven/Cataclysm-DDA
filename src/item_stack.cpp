@@ -6,7 +6,9 @@
 #include "craft_reservation.h"
 #include "enums.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "output.h"
 #include "units.h"
@@ -148,7 +150,7 @@ std::list<item> item_stack::use_charges( const itype_id &type, int &quantity,
 {
     std::list<item> ret;
     for( auto a = this->begin(); a != this->end() && quantity > 0; ) {
-        if( craft_reservation::contains_reserved( *a ) ) {
+        if( craft_reservation::contains_reserved( item_location( map_cursor( pos ), &*a ) ) ) {
             ++a;
             continue;
         }
@@ -156,7 +158,8 @@ std::list<item> item_stack::use_charges( const itype_id &type, int &quantity,
         if( ( !a->made_of( phase_id::LIQUID ) ||
               ( a->made_of( phase_id::LIQUID ) &&
                 get_map().has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) ) ) &&
-            a->use_charges( type, quantity, ret, pos, filter, nullptr, in_tools ) ) {
+            a->use_charges( item_location( map_cursor( pos ), &*a ), type, quantity, ret, pos, filter,
+                            in_tools ) ) {
             a = this->erase( a );
         } else {
             ++a;

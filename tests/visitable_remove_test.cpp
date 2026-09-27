@@ -44,7 +44,7 @@ template <typename T>
 static int count_items( const T &src, const itype_id &id )
 {
     int n = 0;
-    src.visit_items( [&n, &id]( const item * e, item * ) {
+    src.visit_items( [&n, &id]( const item_location & e ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );
@@ -209,7 +209,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
                             REQUIRE( p.get_wielded_item()->num_item_stacks() == 1 );
-                            REQUIRE( p.get_wielded_item()->has_item_with( has_liquid_filter ) );
+                            REQUIRE( p.get_wielded_item().has_item_with( has_liquid_filter ) );
                         }
                     }
                 }
@@ -251,7 +251,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
-                        REQUIRE( p.visit_items( [&container_id]( const item * e, item * ) {
+                        REQUIRE( p.visit_items( [&container_id]( const item_location & e ) {
                             return ( e->typeId() != container_id || e->empty() ) ?
                                    VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );
