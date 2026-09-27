@@ -73,7 +73,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
                     // need some lvalues to pass into this function
                     int all = INT_MAX;
                     std::list<item> res{};
-                    it->remove_internal( [it]( const item & other ) {
+                    gift.remove_internal( [it]( const item & other ) {
                         return &other == it;
                     }, all, res );
                 }
