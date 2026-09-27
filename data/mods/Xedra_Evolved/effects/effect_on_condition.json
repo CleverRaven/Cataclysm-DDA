@@ -139,12 +139,7 @@
     "id": "eoc_poppy_intensity_changed",
     "eoc_type": "EVENT",
     "required_event": "character_effect_intensity_changed",
-    "condition": {
-      "and": [
-        { "u_has_effect": "opiate_eff" },
-        { "u_has_effect": "consumed_minoan_orchid" }
-      ]
-    },
+    "condition": { "and": [ { "u_has_effect": "opiate_eff" }, { "u_has_effect": "consumed_minoan_orchid" } ] },
     "effect": [ { "u_gain_effect": "minoan_orchid_effect", "intensity": { "math": [ "u_effect_intensity('opiate_eff')" ] } } ]
   }
 ]
