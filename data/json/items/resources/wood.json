@@ -40,8 +40,8 @@
     "id": "stick",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "stick" },
-    "description": "A respectable length of wood, just big enough to wrap your hand around.  Makes a decent melee weapon.",
+    "name": { "str": "straight stick" },
+    "description": "A respectable length of wood, just big enough to wrap your hand around.  Relatively straight and makes a decent melee weapon.",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "TRADER_AVOID", "FIREWOOD" ],
@@ -52,6 +52,16 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "category": "spare_parts",
     "melee_damage": { "bash": 14 }
+  },
+  {
+    "type": "ITEM",
+    "id": "stick_common",
+    "copy-from": "stick",
+    "name": { "str": "stick" },
+    "description": "A respectable length of wood, just big enough to wrap your hand around.  It's a little bent, and that makes it useless for most things you'd want to make with it.  Also makes it a little harder to hit things with it.",
+    "//COMMENT": "We should use relative here with -1 bash damage, but it doesn't seem to be working. Oh well.",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 13 }
   },
   {
     "type": "ITEM",

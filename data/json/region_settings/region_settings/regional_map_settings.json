@@ -154,7 +154,7 @@
     "sparseness_adjacency_factor": 3,
     "item_group": "forest",
     "item_group_chance": 60,
-    "item_spawn_iterations": 1,
+    "item_spawn_iterations": 30,
     "groundcover": [ [ "t_region_groundcover_forest", 1 ] ],
     "components": [ "trees_forest", "shrubs_and_flowers_forest", "clutter_forest", "water_forest" ]
   },
@@ -213,7 +213,7 @@
     "sparseness_adjacency_factor": 4,
     "item_group": "forest",
     "item_group_chance": 60,
-    "item_spawn_iterations": 1,
+    "item_spawn_iterations": 100,
     "groundcover": [ [ "t_region_groundcover_forest", 1 ] ],
     "components": [ "trees_forest_thick", "shrubs_and_flowers_forest_thick", "clutter_forest_thick", "water_forest" ]
   },
