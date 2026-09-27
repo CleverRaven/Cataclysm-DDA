@@ -1957,6 +1957,7 @@
     "subtypes": [ "TOOL" ],
     "name": { "str": "dremel" },
     "description": "A rotating tool that can be used with various bits for a large amount of applications.",
+    "longest_side": "23 cm",
     "weight": "544 g",
     "volume": "800 ml",
     "price": "200 USD",
@@ -1970,8 +1971,7 @@
       { "id": "SAW_M", "level": 1, "speed": 0.8 },
       { "id": "SAW_M_FINE", "level": 2, "speed": 0.5 },
       { "id": "SAW_W", "level": 1, "speed": 0.5 },
-      { "id": "BUTCHER", "level": 11 },
-      { "id": "FABRIC_CUT", "level": 1 },
+      { "id": "FILE", "level": 2, "speed": 0.3 },
       { "id": "CUT", "level": 1, "speed": 0.5 }
     ],
     "charges_per_use": 1,
