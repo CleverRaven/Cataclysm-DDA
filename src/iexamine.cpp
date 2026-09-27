@@ -375,7 +375,7 @@ void iexamine::change_appearance( Character &you, const tripoint_bub_ms & )
     }
 }
 
-void iexamine::iso_recycler( Character &you, const tripoint_bub_ms &examp )
+void iexamine::iso_recycler( Character &, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
     map_cursor cur = map_cursor( examp );
