@@ -571,6 +571,8 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::character_effect_intensity_changed:
+            break;
         case event_type::character_kills_character: {
             character_id ch = e.get<character_id>( "killer" );
             if( ch == avatar_id ) {
