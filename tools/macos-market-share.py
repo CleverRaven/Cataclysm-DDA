@@ -36,7 +36,8 @@ replacement = {
     'macOS Ventura': (13, 7),
     'macOS Monterey': (12, 7),
     'macOS 11': (11, 7),
-    # webkit#216593: Apple are incorrectly reporting all macOS releases since Catalina 10.15 as Catalina 10.15
+    # webkit#216593: Apple are incorrectly reporting all macOS releases
+    # since Catalina 10.15 as Catalina 10.15
     'macOS 19': (10, 15),
     'macOS Catalina': (10, 15),
     'macOS Mojave': (10, 14),
@@ -74,12 +75,13 @@ dicts = []
 for row in rows:
     summed = defaultdict(float)
     for h, v in zip(headers, row):
-        if h is 'Date':
+        if h == 'Date':
             summed[h] = v
         else:
             summed[h] += float(v)
     row = [summed[h] for h in u_headers]
-    dicts.append({field_name: field for field_name, field in zip(u_headers, row)})
+    dicts.append({field_name: field for field_name,
+                  field in zip(u_headers, row)})
 
 headers = u_headers
 
