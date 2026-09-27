@@ -57,5 +57,32 @@
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_experimental_crafter_terminal",
+    "name": "Advanced Recycling and Manufacturing terminal",
+    "description": "An ethereal blue glow highlights a command line. Awaiting input.",
+    "symbol": "0",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "coverage": 50,
+    "flags": [ "NOITEM", "INDOORS" ],
+    "crafting_pseudo_item": "pseudo_experimental_crafter",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_talk_iso_crafter" ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_experimental_crafter",
+    "name": "Advanced Recycling and Manufacturing Ouroboros",
+    "description": "A smooth metal casing, icy cold to the touch. The whirrs of complex machinery hasten as you approach.",
+    "symbol": "A",
+    "examine_action": "iso_recycler",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "coverage": 50,
+    "flags": [ "INDOORS" ]
   }
 ]
