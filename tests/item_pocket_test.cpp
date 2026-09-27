@@ -3014,18 +3014,19 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
             item mod_it( pocket_mod_data.second.mod_item );
 
             base_it.put_in( mod_it, pocket_type::MOD );
+            clear_avatar();
             Character &guy = get_player_character();
             item_location base_loc = guy.i_add( base_it );
 
             SECTION( "after inserting the mod" ) {
-                compare_pockets( base_it, pocket_mod_data.second, true );
+                compare_pockets( *base_loc, pocket_mod_data.second, true );
             }
 
             SECTION( "after removing the mod" ) {
                 base_loc.remove_items_with( [mod_it]( const item & it ) {
                     return mod_it.type == it.type;
                 } );
-                compare_pockets( base_it, pocket_mod_data.second, false );
+                compare_pockets( *base_loc, pocket_mod_data.second, false );
             }
         }
     }
