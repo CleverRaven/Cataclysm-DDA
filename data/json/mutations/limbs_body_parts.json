@@ -368,7 +368,6 @@
     "opposite_part": "eyes_slime",
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
-    "env_protection": 16,
     "limb_types": "sensor",
     "side": "both",
     "squeamish_penalty": 0,
