@@ -1,0 +1,16 @@
+[
+	{
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "amphora_plum_juice",
+    "copy-from": "oj",
+    "looks_like": "oj",
+    "name": { "str_sp": "fresh amphora plum juice" },
+    "spoils_in": "3 days",
+    "comestible_type": "DRINK",
+    "//": "Calories shouldn't matter since it won't spawn - should only be craftable.",
+    "description": "Freshly-squeezed from real amphora plums!  Tasty, nutritious and highly alcoholic.",
+    "display_type": "BY_VOLUME",
+    "vitamins": [ [ "vitC", "252 mg" ], [ "iron", "40 μg" ], [ "calcium", "3 mg" ], [ "fruit_allergen", 1 ], [ "ethanol", 28 ] ]
+  }
+]

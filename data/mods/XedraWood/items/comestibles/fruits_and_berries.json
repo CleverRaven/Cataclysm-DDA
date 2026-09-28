@@ -1,0 +1,42 @@
+[
+	{
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "amphora_plums",
+    "name": { "str": "plum" },
+    "weight": "66 g",
+    "color": "magenta",
+    "spoils_in": "3 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 60,
+    "description": "A large bright red amphora plum.  These plums ferment while still on the branch.  Each fruit is roughly similar in alcohol to a glass of wine.  Cannot be dried.",
+    "price_postapoc": "19 cent",
+    "material": [ "fruit" ],
+    "volume": "82 ml",
+    "fun": 3,
+    "vitamins": [ [ "vitC", "630 μg" ], [ "iron", "10 μg" ], [ "calcium", "1 mg" ], [ "fruit_allergen", 1 ], [ "ethanol", 7 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "id": "oxblood_apple",
+    "name": { "str": "oxblood apple" },
+    "weight": "182 g",
+    "color": "cyan",
+    "spoils_in": "2 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "calories": 165,
+    "description": "A bruised blue skin covers this fruit with a blood red meat.  The uncooked fruit is too bitter for humans to eat and must be cooked into a stew or paste.  Cannot be dried.",
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
+    "material": [ "fruit" ],
+    "volume": "232 ml",
+    "fun": -3,
+    "flags": [ "INEDIBLE", "RAT", "BIRD", "MOUSE" ],
+    "vitamins": [ [ "vitC", "840 μg" ], [ "iron", "800 μg" ], [ "calcium", "1090 μg" ], [ "fruit_allergen", 1 ] ]
+  }
+]
