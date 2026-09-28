@@ -151,7 +151,7 @@
     "price_postapoc": "0 cent",
     "material": [ "leather" ],
     "ammo_type": "rock",
-    "flags": [ "NPC_THROWN" ],
+    "flags": [ "NPC_THROWN", "BATTABLE" ],
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",

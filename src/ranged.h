@@ -37,7 +37,8 @@ trajectory mode_select_only( avatar &you, int range );
 trajectory mode_fire( avatar &you, aim_activity_actor &activity );
 
 /** Throwing item */
-trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
+trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing,
+                       bool from_ground = false );
 
 /** Reach attacking */
 trajectory mode_reach( avatar &you, item_location weapon );

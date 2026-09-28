@@ -86,7 +86,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "BATTING" ],
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
@@ -116,7 +116,7 @@
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "BATTING" ],
     "volume": "1750 ml",
     "price": "160 USD",
     "melee_damage": { "bash": 22 },
@@ -703,7 +703,7 @@
     "volume": "1 L",
     "longest_side": "110 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE" ],
+    "flags": [ "SHEATH_GOLF", "FRAGILE_MELEE", "BATTING", "BATTING_FROM_GROUND" ],
     "melee_damage": { "bash": 11 }
   },
   {

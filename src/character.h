@@ -2322,9 +2322,13 @@ class Character : public Creature, public visitable
         int thrown_item_total_damage_raw( const item &thrown ) const;
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
+        /** Wielded weapon batting the given item instead of throwing it by hand, or nullptr. */
+        const item *batting_weapon( const item &thrown ) const;
+        /** Whether batting the given item off the ground is awkward with the wielded weapon. */
+        bool batting_off_ground_is_awkward( const item &thrown ) const;
         /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
         int throwing_dispersion( const item &to_throw, Creature *critter = nullptr,
-                                 bool is_blind_throw = false ) const;
+                                 bool is_blind_throw = false, bool from_ground = false ) const;
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
@@ -3324,9 +3328,10 @@ class Character : public Creature, public visitable
          */
         int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
                       item_location ammo = item_location() );
-        /** Execute a throw */
+        /** Execute a throw, from_ground if the item is batted where it lies */
         dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
-                                            const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
+                                            const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt,
+                                            bool from_ground = false );
 
     protected:
         void on_damage_of_type( const effect_source &source, int adjusted_damage,

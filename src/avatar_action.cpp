@@ -1065,8 +1065,17 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
 
     if( !loc ) {
-        loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
-                                            _( "You don't have any items to throw." ) );
+        const item_location wielded = you.get_wielded_item();
+        if( wielded && wielded->has_flag( flag_BATTING ) ) {
+            // Battable items lying next to us can be batted where they lie
+            loc = game_menus::inv::titled_filter_menu( [&you]( const item_location & it ) {
+                return it.carrier() == &you ||
+                       ( you.batting_weapon( *it ) != nullptr && !it.has_parent() );
+            }, you, _( "Throw item" ), 1, _( "You don't have any items to throw." ) );
+        } else {
+            loc = game_menus::inv::titled_menu( you,  _( "Throw item" ),
+                                                _( "You don't have any items to throw." ) );
+        }
     }
 
     if( !loc ) {
@@ -1115,9 +1124,12 @@ void avatar_action::plthrow( avatar &you, item_location loc,
             return;
         }
     }
-    // you must wield the item to throw it
+    // Batted items are tossed up straight from the inventory, the bat stays wielded
+    const bool batting = you.batting_weapon( *orig ) != nullptr;
+    const bool from_ground = batting && loc.carrier() == nullptr;
+    // otherwise you must wield the item to throw it
     // if we're in the mech, let's assume the mech wields the item
-    if( !in_mech ) {
+    if( !in_mech && !batting ) {
         if( !you.is_wielding( *orig ) ) {
             if( !you.wield( *orig ) ) {
                 return;
@@ -1135,9 +1147,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    item_location weapon = in_mech ? loc : you.get_wielded_item();
+    item_location weapon = in_mech || batting ? loc : you.get_wielded_item();
     target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
-                                            blind_throw_from_pos.has_value() );
+                                            blind_throw_from_pos.has_value(), from_ground );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
@@ -1152,13 +1164,13 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        if( in_mech ) {
+        if( in_mech || batting ) {
             loc.remove_item();
         } else {
             you.remove_weapon();
         }
     }
-    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
+    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos, from_ground );
     g->reenter_fullscreen();
 }
 

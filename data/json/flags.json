@@ -170,6 +170,22 @@
     "info": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
   },
   {
+    "id": "BATTABLE",
+    "type": "json_flag",
+    "//": "Any small, solid, rigid item can be batted, this makes the others battable too (like the leather baseball).",
+    "info": "Throwing this while wielding a bat or similar weapon will <info>bat</info> it, sending it <good>further and harder</good>."
+  },
+  {
+    "id": "BATTING",
+    "type": "json_flag",
+    "info": "Throwing a small, hard object (a ball, a rock, a can…) while wielding this will <info>bat</info> it, sending it <good>further and harder</good>.  You can also bat them where they lie on the ground."
+  },
+  {
+    "id": "BATTING_FROM_GROUND",
+    "type": "json_flag",
+    "info": "This is made to <good>hit things lying on the ground</good> without clipping the ground."
+  },
+  {
     "id": "BELT_CLIP",
     "type": "json_flag",
     "restriction": "Item must clip onto a belt loop",

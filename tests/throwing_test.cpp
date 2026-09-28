@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -13,9 +15,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
@@ -25,9 +29,16 @@
 #include "test_statistics.h"
 #include "type_id.h"
 
+static const itype_id itype_apple( "apple" );
+static const itype_id itype_baseball( "baseball" );
+static const itype_id itype_bat( "bat" );
+static const itype_id itype_golf_ball( "golf_ball" );
+static const itype_id itype_golf_club( "golf_club" );
 static const itype_id itype_grenade( "grenade" );
 static const itype_id itype_javelin_iron( "javelin_iron" );
+static const itype_id itype_nailbat( "nailbat" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_socks( "socks" );
 static const itype_id itype_throwing_stick_with_charges( "throwing_stick_with_charges" );
 
 static const skill_id skill_throw( "throw" );
@@ -335,5 +346,134 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing] [ba
             CHECK( initial_moves == cost );
         }
         thrown.charges--;
+    }
+}
+
+TEST_CASE( "batting_sends_items_further_and_harder", "[throwing]" )
+{
+    avatar &you = get_avatar();
+    clear_avatar();
+
+    const item ball( itype_baseball );
+    REQUIRE( you.batting_weapon( ball ) == nullptr );
+    const int thrown_range = you.throw_range( ball );
+    const int thrown_damage = you.thrown_item_total_damage_raw( ball );
+
+    SECTION( "a bat bats balls" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        REQUIRE( you.batting_weapon( ball ) != nullptr );
+        CHECK( you.throw_range( ball ) == 2 * thrown_range );
+        CHECK( you.thrown_item_total_damage_raw( ball ) > thrown_damage );
+        CHECK( throw_cost( you, ball ) == you.attack_speed( *you.get_wielded_item() ) );
+    }
+
+    SECTION( "items copied from a bat bat too" ) {
+        item nailbat( itype_nailbat );
+        you.wield( nailbat );
+        CHECK( you.batting_weapon( ball ) != nullptr );
+    }
+
+    SECTION( "any small, solid, rigid item is battable" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        CHECK( you.batting_weapon( item( itype_apple ) ) != nullptr );
+        CHECK( you.batting_weapon( item( itype_rock ) ) != nullptr );
+    }
+
+    SECTION( "items that are not battable are thrown by hand" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        // Too big and heavy
+        CHECK( you.batting_weapon( item( itype_javelin_iron ) ) == nullptr );
+        // Too soft
+        CHECK( you.batting_weapon( item( itype_socks ) ) == nullptr );
+    }
+}
+
+static bool has_message( const std::string &msg )
+{
+    for( const std::pair<std::string, std::string> &entry : Messages::recent_messages( 0 ) ) {
+        if( entry.second.find( msg ) != std::string::npos ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "batting_a_baseball_far_is_a_home_run", "[throwing]" )
+{
+    avatar &you = get_avatar();
+    clear_map_without_vision();
+    const tripoint_bub_ms start( 30, 30, 0 );
+    // Max skill for a (nearly) straight flight
+    reset_player( you, hi_skill_athlete_stats, start );
+    const item ball( itype_baseball );
+    Messages::clear_messages();
+
+    SECTION( "batted far away" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        you.throw_item( tripoint_bub_ms( 90, 30, 0 ), ball );
+        CHECK( has_message( "You toss the baseball up and hit it with your" ) );
+        CHECK( has_message( "Home run!" ) );
+    }
+
+    SECTION( "batted close by" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        you.throw_item( tripoint_bub_ms( 40, 30, 0 ), ball );
+        CHECK_FALSE( has_message( "Home run!" ) );
+    }
+
+    SECTION( "thrown by hand far away" ) {
+        you.throw_item( tripoint_bub_ms( 90, 30, 0 ), ball );
+        CHECK_FALSE( has_message( "Home run!" ) );
+    }
+
+    SECTION( "a golf ball is set down to be hit and is never a home run" ) {
+        item club( itype_golf_club );
+        you.wield( club );
+        you.throw_item( tripoint_bub_ms( 90, 30, 0 ), item( itype_golf_ball ) );
+        CHECK( has_message( "You set the golf ball down and swing your" ) );
+        CHECK_FALSE( has_message( "toss" ) );
+        CHECK_FALSE( has_message( "Home run!" ) );
+    }
+}
+
+TEST_CASE( "batting_items_off_the_ground", "[throwing]" )
+{
+    avatar &you = get_avatar();
+    clear_map_without_vision();
+    const tripoint_bub_ms start( 30, 30, 0 );
+    const tripoint_bub_ms target( 40, 30, 0 );
+    reset_player( you, hi_skill_athlete_stats, start );
+    const item ball( itype_golf_ball );
+    Messages::clear_messages();
+
+    SECTION( "a bat is awkward off the ground" ) {
+        item bat( itype_bat );
+        you.wield( bat );
+        CHECK( you.throwing_dispersion( ball, nullptr, false, true ) ==
+               2 * you.throwing_dispersion( ball, nullptr, false, false ) );
+        // One in four swings clips the ground: 30 clean swings in a row is ~0.02%
+        for( int i = 0; i < 30; ++i ) {
+            you.throw_item( target, ball, std::nullopt, true );
+        }
+        CHECK( has_message( "at the golf ball on the ground!" ) );
+        CHECK( has_message( "clips the ground!" ) );
+    }
+
+    SECTION( "a golf club is made for it" ) {
+        item club( itype_golf_club );
+        you.wield( club );
+        CHECK( you.throwing_dispersion( ball, nullptr, false, true ) ==
+               you.throwing_dispersion( ball, nullptr, false, false ) );
+        for( int i = 0; i < 30; ++i ) {
+            you.throw_item( target, ball, std::nullopt, true );
+        }
+        CHECK( has_message( "at the golf ball on the ground!" ) );
+        CHECK_FALSE( has_message( "clips the ground!" ) );
+        CHECK( you.get_wielded_item()->damage() == 0 );
     }
 }

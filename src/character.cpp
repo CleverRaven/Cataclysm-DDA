@@ -3765,16 +3765,54 @@ int Character::throw_range( const item &it ) const
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( ferric ) ) {
         ret *= 2;
     }
+    // Cap at triple of our strength + skill
+    const int range_cap = round( str * 3 + get_skill_level( skill_throw ) + ench_bonus );
     if( ret < 1 ) {
-        return 1;
+        ret = 1;
+    } else if( ret > range_cap ) {
+        ret = range_cap;
     }
 
-    // Cap at triple of our strength + skill
-    if( ret > round( str * 3 + get_skill_level( skill_throw ) + ench_bonus ) ) {
-        return round( str * 3 + get_skill_level( skill_throw ) + ench_bonus );
+    // Batting sends the item about twice as far as a throw
+    if( batting_weapon( tmp ) != nullptr ) {
+        ret *= 2;
     }
 
     return ret;
+}
+
+// Any small, solid, rigid item can be batted, BATTABLE forces it for the others (leather baseball)
+static bool is_battable( const item &it )
+{
+    if( it.has_flag( flag_BATTABLE ) ) {
+        return true;
+    }
+    units::mass weight = it.weight();
+    units::volume volume = it.volume();
+    if( it.count_by_charges() && it.charges > 1 ) {
+        weight /= it.charges;
+        volume /= it.charges;
+    }
+    return it.made_of( phase_id::SOLID ) && !it.is_soft() &&
+           weight >= 30_gram && weight <= 1_kilogram && volume <= 500_ml && it.length() <= 15_cm;
+}
+
+const item *Character::batting_weapon( const item &thrown ) const
+{
+    if( !is_battable( thrown ) || is_mounted() ) {
+        return nullptr;
+    }
+    const item_location weapon = get_wielded_item();
+    if( !weapon || !weapon->has_flag( flag_BATTING ) ) {
+        return nullptr;
+    }
+    return weapon.get_item();
+}
+
+bool Character::batting_off_ground_is_awkward( const item &thrown ) const
+{
+    const item *bat = batting_weapon( thrown );
+    return bat != nullptr && !bat->has_flag( flag_BATTING_FROM_GROUND );
 }
 
 const std::vector<material_id> Character::fleshy = { material_flesh, material_hflesh };

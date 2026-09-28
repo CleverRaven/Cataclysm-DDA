@@ -805,6 +805,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BAD_TASTE``` This comestible gives -5 to taste, that can't be covered through cooking.
 - ```BANK_NOTE_SHAPED``` This item fits into the folded sleeve of wallets, like a bank note.
 - ```BANK_NOTE_STRAP_SHAPED``` This item fits into pockets intended for money straps (like a cash register).
+- ```BATTABLE``` This item can be batted with a `BATTING` weapon even if it isn't small, solid and rigid enough to be battable by default (30 g to 1 kg, at most 500 ml and 15 cm, not made only of soft materials).  Batting an item means throwing it while wielding a `BATTING` weapon: the wielded weapon stays in hand, and the item flies twice as far and deals extra bash damage.
 - ```BATTERY_HEAVY``` This item is a tool battery, and can be put in pockets that have tool battery restriction.
 - ```BATTERY_LIGHT``` This item is a light battery, and can be put in pockets that have light battery restriction.
 - ```BATTERY_MEDIUM``` This item is a medium battery, and can be put in pockets that have medium battery restriction.
@@ -1118,6 +1119,8 @@ Melee flags are fully compatible with [tool flags](#tools), and vice versa.
 
 - ```ALLOWS_BODY_BLOCK``` Allows body blocks (arms and legs blocks) to trigger even while wielding the item with the flag.  Used with small items like knives and pistols that do not interfere with the ability to block with your body.  Only works if your current martial art allows body blocks too.
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands.  Without this, the items volume and weight are used to calculate this.
+- ```BATTING``` While wielding this item, throwing a `BATTABLE` item bats it instead, costing a swing of this weapon.  See `BATTABLE`.
+- ```BATTING_FROM_GROUND``` With `BATTING`, the weapon is made to hit things off the ground (like a golf club): batted items are set down instead of tossed up.  Any `BATTING` weapon can bat `BATTABLE` items lying next to the wielder, but without this flag it is less accurate and may clip the ground, slightly damaging the weapon.
 - ```BIONIC_WEAPON``` Cannot wield this item normally.  It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage.
 - ```MESSY``` Creates more mess when pulping.

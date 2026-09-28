@@ -655,7 +655,9 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
 {
-    if( !source.is_wielding( thrown_item ) ) {
+    // Batted items are tossed up straight from the inventory, the bat stays wielded
+    const bool batting = source.batting_weapon( thrown_item ) != nullptr;
+    if( !batting && !source.is_wielding( thrown_item ) ) {
         if( !source.wield( thrown_item ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
@@ -673,13 +675,15 @@ void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    item_location weapon = source.get_wielded_item();
+    // Unless batting, the thrown item is the wielded one at this point
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   weapon->display_name() );
-    item thrown( *weapon );
-    if( weapon->count_by_charges() && weapon->charges > 1 ) {
-        weapon->mod_charges( -1 );
+                   thrown_item.display_name() );
+    item thrown( thrown_item );
+    if( thrown_item.count_by_charges() && thrown_item.charges > 1 ) {
+        thrown_item.mod_charges( -1 );
         thrown.charges = 1;
+    } else if( batting ) {
+        source.i_rem( &thrown_item );
     } else {
         source.remove_weapon();
     }

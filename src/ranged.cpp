@@ -165,6 +165,8 @@ static const flag_id json_flag_LEVER_ACTION( "LEVER_ACTION" );
 static const flag_id json_flag_PUMP_ACTION( "PUMP_ACTION" );
 static const flag_id json_flag_SINGLE_ACTION( "SINGLE_ACTION" );
 
+static const itype_id itype_baseball( "baseball" );
+
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_glass( "glass" );
 static const material_id material_hardened_steel( "hardened_steel" );
@@ -199,6 +201,17 @@ static const std::set<material_id> ferric = { material_iron, material_steel, mat
 
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
+
+// Fraction of the bat's bash damage added to a batted item
+static constexpr float BATTING_DAMAGE_FRACTION = 0.25f;
+// A batted baseball landing at least this far away is a home run
+static constexpr int HOME_RUN_DISTANCE = 40;
+// Batting an item off the ground with a weapon not made for it (unlike a golf club)
+// multiplies dispersion, and one swing in this many clips the ground, slightly
+// damaging the weapon
+static constexpr int AWKWARD_GROUND_BATTING_DISPERSION_MULT = 2;
+static constexpr int AWKWARD_GROUND_BATTING_MISHIT_ONE_IN = 4;
+static constexpr int AWKWARD_GROUND_BATTING_MISHIT_DAMAGE = itype::damage_scale / 4;
 
 static projectile make_gun_projectile( const item &gun, Character &guy );
 static int time_to_attack( const Character &p, const itype &firing );
@@ -236,6 +249,8 @@ class target_ui
         TargetMode mode = TargetMode::Fire;
         // Weapon being fired/thrown
         item *relevant = nullptr;
+        // Thrown item is batted where it lies on the ground
+        bool from_ground = false;
         // Cached selection range from player's position
         int range = 0;
         // Cached current ammo to display
@@ -502,12 +517,13 @@ target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_
 }
 
 target_handler::trajectory target_handler::mode_throw( avatar &you, item &relevant,
-        bool blind_throwing )
+        bool blind_throwing, bool from_ground )
 {
     target_ui ui = target_ui();
     ui.you = &you;
     ui.mode = blind_throwing ? target_ui::TargetMode::ThrowBlind : target_ui::TargetMode::Throw;
     ui.relevant = &relevant;
+    ui.from_ground = from_ground;
     ui.range = you.throw_range( relevant );
 
     restore_on_out_of_scope view_offset_prev( you.view_offset );
@@ -1397,6 +1413,10 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
 int throw_cost( const Character &c, const item &to_throw )
 {
+    // Batting the item takes a swing of the bat
+    if( const item *bat = c.batting_weapon( to_throw ) ) {
+        return c.attack_speed( *bat );
+    }
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
     // Differences:
@@ -1491,7 +1511,7 @@ int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 // Perfect situation gives us 1000 dispersion at lvl 0
 // This goes down linearly to 250  dispersion at lvl 10
 int Character::throwing_dispersion( const item &to_throw, Creature *critter,
-                                    bool is_blind_throw ) const
+                                    bool is_blind_throw, bool from_ground ) const
 {
     units::mass weight = to_throw.weight();
     units::volume volume = to_throw.volume();
@@ -1531,6 +1551,10 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // accuracy of a normal throw.
     if( is_blind_throw ) {
         dispersion *= 4;
+    }
+
+    if( from_ground && batting_off_ground_is_awkward( to_throw ) ) {
+        dispersion *= AWKWARD_GROUND_BATTING_DISPERSION_MULT;
     }
 
     return std::max( 0, dispersion );
@@ -1585,6 +1609,11 @@ projectile Character::thrown_item_projectile( const item &thrown ) const
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
     proj.speed = 10 + round( throwing_skill_adjusted( *this ) );
+    // Part of the bat's momentum goes into the batted item
+    if( const item *bat = batting_weapon( thrown ) ) {
+        proj.impact.add_damage( damage_bash,
+                                bat->damage_melee( damage_bash ) * BATTING_DAMAGE_FRACTION );
+    }
     return proj;
 }
 
@@ -1616,7 +1645,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
 }
 
 dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, const item &to_throw,
-        const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
+        const std::optional<tripoint_bub_ms> &blind_throw_from_pos, bool from_ground )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -1629,10 +1658,39 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
     const std::optional<int> throw_assist = character_throw_assist( *this );
+    const item *bat = batting_weapon( to_throw );
+    const bool batting = bat != nullptr;
 
     if( !throw_assist ) {
-        const int stamina_cost = get_standard_stamina_cost( &thrown );
+        // Batting is as tiring as a swing of the bat
+        const int stamina_cost = get_standard_stamina_cost( batting ? bat : &thrown );
         mod_stamina( stamina_cost + throwing_skill );
+    }
+
+    if( batting && from_ground ) {
+        add_msg_player_or_npc( _( "You swing your %2$s at the %1$s on the ground!" ),
+                               _( "<npcname> swings their %2$s at the %1$s on the ground!" ),
+                               to_throw.tname(), bat->tname() );
+    } else if( batting && bat->has_flag( flag_BATTING_FROM_GROUND ) ) {
+        add_msg_player_or_npc( _( "You set the %1$s down and swing your %2$s at it!" ),
+                               _( "<npcname> sets the %1$s down and swings their %2$s at it!" ),
+                               to_throw.tname(), bat->tname() );
+    } else if( batting ) {
+        add_msg_player_or_npc( _( "You toss the %1$s up and hit it with your %2$s!" ),
+                               _( "<npcname> tosses the %1$s up and hits it with their %2$s!" ),
+                               to_throw.tname(), bat->tname() );
+    }
+
+    if( from_ground && batting_off_ground_is_awkward( to_throw ) &&
+        one_in( AWKWARD_GROUND_BATTING_MISHIT_ONE_IN ) ) {
+        item_location weapon = get_wielded_item();
+        add_msg_player_or_npc( m_bad, _( "Your %s clips the ground!" ),
+                               _( "<npcname>'s %s clips the ground!" ), weapon->tname() );
+        if( weapon->mod_damage( AWKWARD_GROUND_BATTING_MISHIT_DAMAGE, this ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s breaks!" ), _( "<npcname>'s %s breaks!" ),
+                                   weapon->tname() );
+            remove_weapon();
+        }
     }
 
     const float skill_level = throwing_skill_adjusted( *this );
@@ -1717,7 +1775,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     Creature *critter = get_creature_tracker().creature_at( target, true );
     const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
-                                         blind_throw_from_pos.has_value() ) );
+                                         blind_throw_from_pos.has_value(), from_ground ) );
     const itype *thrown_type = thrown.type;
 
     // Put the item into the projectile
@@ -1747,6 +1805,10 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     dealt_projectile_attack dealt_attack;
     projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
                        this, nullptr, wp_attack );
+    if( batting && to_throw_id == itype_baseball &&
+        rl_dist( throw_from, dealt_attack.end_point ) >= HOME_RUN_DISTANCE ) {
+        add_msg_player_or_npc( m_good, _( "Home run!" ), _( "Home run for <npcname>!" ) );
+    }
     for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : dealt_attack.targets_hit ) {
         if( hit_entry.second.first == 0 ) {
             continue;
@@ -2336,7 +2398,8 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
         target = nullptr;
     }
 
-    const dispersion_sources dispersion( you.throwing_dispersion( weapon, target, is_blind_throw ) );
+    const dispersion_sources dispersion( you.throwing_dispersion( weapon, target, is_blind_throw,
+                                         ui.from_ground ) );
     const double range = rl_dist( you.pos_bub(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
@@ -4144,8 +4207,14 @@ std::string target_ui::uitext_title() const
         case TargetMode::TurretManual:
             return string_format( _( "Firing %s" ), relevant->tname() );
         case TargetMode::Throw:
+            if( you->batting_weapon( *relevant ) != nullptr ) {
+                return string_format( _( "Batting %s" ), relevant->tname() );
+            }
             return string_format( _( "Throwing %s" ), relevant->tname() );
         case TargetMode::ThrowBlind:
+            if( you->batting_weapon( *relevant ) != nullptr ) {
+                return string_format( _( "Blind batting %s" ), relevant->tname() );
+            }
             return string_format( _( "Blind throwing %s" ), relevant->tname() );
         default:
             return _( "Set target" );
