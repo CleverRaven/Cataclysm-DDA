@@ -221,11 +221,6 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
-add dremel
-Change .45 acp default ammo to be the same as other pistol cartriges
-Added 20 gauge shotguns. No, bigger number do not mean better
-Exodii farthings are in the currency category
-Improve some text descriptions in items and interface
 
 
 ## Interface:
@@ -283,7 +278,6 @@ Migrate appliance rename popup to ImGui
 Imguify help menu
 Convert canning and tinning recipes to use nested system
 Show environmental protection in bodygraph
-Convert canning and tinning recipes to use nested system, part 2
 
 
 ## Mods:
@@ -387,10 +381,8 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Mods] The Exodii don't buy magic items
 [MoM] Oubliette destination: shoggothed world
 [Xedra Evolved] The Exodii won't talk to the Fair Folk
-[XE] Swap remaining uses of deduction in changeling spells.
 [Xedra Evolved] More changeling seasonal glamours
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
-[Xedra Evolved] Wolf's Mask for wolves (and others)
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -457,8 +449,6 @@ Brutes cannot smash Huge characters, hulk smashes are less effective against Hug
 Decayed zombies smell horrific
 Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 More efficient sugar and rum from sugar beets
-Smaller beet syrup charges
-Add more items to the Hub-01 merchant blacklist
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 
 ## Bugfixes:
@@ -661,14 +651,6 @@ Fix getting perma-stuck in the Imperial Road
 Can create Characters again
 Fix an out of bounds write when looking for items around a position outside the map
 Make device really optional in _has_software condition
-Iron and calcium vitamins in porkbelly
-Fix a hang when sorting loot while dragging a loaded cart
-Update plural names for various grain items, adding sheaves and handfuls
-Wrong temperature displayed on body status screen
-Prevent dimension switching from nuking placed_unique_specials
-Overmap weather-info is not on newline
-Powder price fixes
-Potato becomes 4 cut sections of potato, not 1
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
