@@ -9,6 +9,7 @@
 #include "point.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_quad_batch.h"
 
 class pixel_minimap_projector;
 
@@ -72,8 +73,8 @@ class pixel_minimap
 
         std::unique_ptr<pixel_minimap_projector> projector;
 
-        minimap_vertex_batch terrain_batch_;
-        minimap_vertex_batch beacon_batch_;
+        quad_batch terrain_batch_;
+        quad_batch beacon_batch_;
 
         bool has_blinking_beacons_ = false;
 };

@@ -270,8 +270,8 @@ void pixel_minimap::present()
                                static_cast<Uint8>( pixel_minimap_g ),
                                static_cast<Uint8>( pixel_minimap_b ),
                                static_cast<Uint8>( pixel_minimap_a ) } );
-    render_batch( renderer, terrain_batch_ );
-    render_batch( renderer, beacon_batch_ );
+    render_quad_batch( renderer, terrain_batch_ );
+    render_quad_batch( renderer, beacon_batch_ );
 
     RenderSetClipRect( renderer, had_clip ? &prior_clip : nullptr );
     SetRenderDrawBlendMode( renderer, prior_blend );
