@@ -131,6 +131,9 @@ static Font_Ptr font;
 static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
+// Font and SDL_ttf ownership of the renderer test fixture; empty in the game.
+static Font_Ptr fixture_font;
+static bool test_fixture_acquired_ttf = false;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -2214,6 +2217,13 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
 void renderer_recovery_test_support::teardown_software_renderer()
 {
+    // font's textures go while renderer lives; its TTF_Font closes before
+    // TTF_Quit
+    fixture_font.reset();
+    if( test_fixture_acquired_ttf ) {
+        TTF_Quit();
+        test_fixture_acquired_ttf = false;
+    }
     ts_cache.release_live_atlases();
     // Every draw scope must have unwound; clear the full scope state so an
     // injected boundary failure cannot leave invalid/aborted set for a later
@@ -3632,6 +3642,43 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w,
     // font used for this window.
     return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ),
                         force_full );
+}
+
+bool renderer_recovery_test_support::install_test_font( const std::string &typeface,
+        const int w, const int h, const int size, const bool blending,
+        const Uint32 font_pixel_format )
+{
+    if( !renderer ) {
+        return false;
+    }
+    if( TTF_WasInit() == 0 ) {
+        if( !TTF_Init() ) {
+            return false;
+        }
+        test_fixture_acquired_ttf = true;
+    }
+    // teardown restores both from test_fixture_saved
+    fontwidth = w;
+    fontheight = h;
+    const Uint32 format = font_pixel_format == SDL_PIXELFORMAT_UNKNOWN ? pixel_format :
+                          font_pixel_format;
+    fixture_font = Font::load_font( renderer, format, typeface, size, w, h, windowsPalette,
+                                    blending );
+    return static_cast<bool>( fixture_font );
+}
+
+bool renderer_recovery_test_support::draw_test_window( const catacurses::window &w )
+{
+    if( !fixture_font ) {
+        return false;
+    }
+    draw_window( fixture_font, w, true );
+    return true;
+}
+
+Font *renderer_recovery_test_support::test_font()
+{
+    return fixture_font.get();
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
