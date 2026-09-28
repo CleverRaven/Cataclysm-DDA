@@ -60,28 +60,28 @@
     "parent": "head_slime",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "forehead?",
-    "similar_bodypart": "head_forehead"
+    "similar_bodypart": "head_forehead",
+    "name": "forehead?"
   },
   {
-    "id": "head_slime_crown",
+    "id": "head_slime_nape",
     "type": "sub_body_part",
     "max_coverage": 25,
     "parent": "head_slime",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "crown?",
-    "similar_bodypart": "head_crown"
+    "similar_bodypart": "head_nape",
+    "name": "nape?"
   },
   {
-    "id": "head_slime_nape",
+    "id": "head_slime_crown",
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head_slime",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "nape?",
-    "similar_bodypart": "head_nape"
+    "similar_bodypart": "head_crown",
+    "name": "crown?"
   },
   {
     "id": "head_slime_throat",
@@ -90,30 +90,30 @@
     "parent": "head_slime",
     "opposite": "sub_limb_debug",
     "side": "both",
-    "name": "throat?",
-    "similar_bodypart": "head_throat"
+    "similar_bodypart": "head_throat",
+    "name": "throat?"
   },
   {
     "id": "head_slime_ear_r",
     "type": "sub_body_part",
     "max_coverage": 10,
-    "parent": "head_slime",
+    "parent": "head_bionic_basic",
     "opposite": "head_slime_ear_l",
     "side": "right",
+    "similar_bodypart": "head_ear_r",
     "name": "right ear?",
-    "name_multiple": "ears?",
-    "similar_bodypart": "head_ear_r"
+    "name_multiple": "ears?"
   },
   {
     "id": "head_slime_ear_l",
     "type": "sub_body_part",
     "max_coverage": 10,
-    "parent": "head_slime",
-    "opposite": "head_ear_r",
+    "parent": "head_bionic_basic",
+    "opposite": "head_slime_ear_r",
     "side": "left",
+    "similar_bodypart": "head_ear_l",
     "name": "left ear?",
-    "name_multiple": "ears?",
-    "similar_bodypart": "head_ear_l"
+    "name_multiple": "ears?"
   },
   {
     "id": "eyes_bulging_l",
