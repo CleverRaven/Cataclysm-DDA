@@ -4900,23 +4900,22 @@ item *npc::evaluate_best_weapon() const
             // gun mags/mods are in non-CONTAINER pockets, not visited.
             return VisitResponse::NEXT;
         }
+        // only weapons get scored, everything else (including holsters) is descended into.
+        // test that before can_wield, which is much more expensive and runs per node
+        if( !node->is_melee() && !node->is_gun() ) {
+            return VisitResponse::NEXT;
+        }
         if( can_wield( *node ).success() ) {
-            double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
                                                  && node != &weap
                                                  && node->type->get_id() == weap.type->get_id();
 
-            if( node->is_melee() || node->is_gun() ) {
-                weapon_value = evaluate_weapon( *node );
-                if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                    best = const_cast<item *>( node );
-                    best_value = weapon_value;
-                }
-                return VisitResponse::SKIP;
-            } else if( node->get_use( "holster" ) && !node->empty() ) {
-                // we just recur to the next farther down
-                return VisitResponse::NEXT;
+            const double weapon_value = evaluate_weapon( *node );
+            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                best = const_cast<item *>( node );
+                best_value = weapon_value;
             }
+            return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
