@@ -1,0 +1,29 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_monster_genetwist_armor",
+    "name": [ "Genetwist Armor" ],
+    "desc": [ "Your skin pinches into interlocking scutes." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -7 },
+          { "type": "stab", "add": -4 },
+          { "type": "cut", "add": -10 },
+          { "type": "bullet", "add": -8 },
+          { "type": "acid", "add": -12 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_migo_extra_limbs",
+    "name": [ "Extra Limbs" ],
+    "desc": [ "You have grown extra legs and became faster." ],
+    "show_in_info": true,
+    "removes_effects": [ "staggered", "maimed_leg" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 0.17 } ] } ]
+  }
+]
