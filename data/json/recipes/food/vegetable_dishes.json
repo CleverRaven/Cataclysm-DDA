@@ -521,7 +521,7 @@
     "//": "potatoes microwave in about 3-7 minutes, faster if diced.  even just cutting it in half makes a big difference",
     "steps": [
       {
-        "name": "Preparing",
+        "name": "Preparation",
         "time": "1 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -547,7 +547,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "autolearn": true,
-    "//": "baked potatoes made with switch off timers",
+    "//": "baked potatoes that uses appliances that can switch themselves off",
     "steps": [
       {
         "name": "Preparation",
@@ -609,7 +609,7 @@
     "//": "Carrot crudely chopped (so it cooks faster) and roasted on a skewer, the carrot needs some time to cook and soften up so batch-making these, aka having multiple batches of carrots roast simultaneously, is way more efficient",
     "steps": [
       {
-        "name": "Preparing",
+        "name": "Preparation",
         "time": "1 m",
         "activity_level": "LIGHT_EXERCISE",
         "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -636,7 +636,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "autolearn": true,
-    "//": "Crudely chopped, oven-baked carrots. It uses appliances that can switch themselves off when the timer runs out",
+    "//": "Crudely chopped, oven-baked carrots. It uses appliances that can switch themselves off",
     "steps": [
       {
         "name": "Preparation",
