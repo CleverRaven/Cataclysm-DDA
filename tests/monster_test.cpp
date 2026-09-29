@@ -138,7 +138,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     REQUIRE( g->num_creatures() == 1 ); // the player
     Character &test_player = get_player_character();
     // Strip off any potentially encumbering clothing.
-    test_player.remove_worn_items_with( []( item & ) {
+    test_player.remove_worn_items_with( []( const item & ) {
         return true;
     } );
 

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <list>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -601,7 +602,9 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         wear_item( tmparmor, false, true, true, true );
     }
 
-    remove_worn_items_with( [&]( item & armor ) {
+    const bool will_destroy_items = branch.destroys_gear && !worn_destroyed_override;
+    std::vector<int64_t> keep_rigid_armors;
+    std::list<item> removed_items = remove_worn_items_with( [&]( const item & armor ) {
         // Check for exceptions first
         if( armor.has_flag( json_flag_OVERSIZE ) ) {
             return false;
@@ -612,13 +615,12 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
         if( armor.has_flag( json_flag_UNRESTRICTED ) ) {
             return false;
         }
+
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
         if( branch.conflicts_with_item_rigid( armor ) ) {
-            add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is pushed off!" ),
-                                   _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname() );
-            here.add_item_or_charges( pos_bub(), armor );
+            if( will_destroy_items ) {
+                keep_rigid_armors.push_back( armor.uid().get_value() );
+            }
             return true;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -641,7 +643,14 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                 }
             }
         }
-        if( !worn_destroyed_override && branch.destroys_gear ) {
+
+        return true;
+    } );
+
+    for( item &armor : removed_items ) {
+        if( will_destroy_items &&
+            std::find( keep_rigid_armors.begin(), keep_rigid_armors.end(),
+                       armor.uid().get_value() ) == keep_rigid_armors.end() ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
@@ -654,8 +663,8 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    armor.tname() );
             here.add_item_or_charges( pos_bub(), armor );
         }
-        return true;
-    } );
+    }
+
 
     for( const std::pair<const mtype_id, int> &moncam : branch.moncams ) {
         add_moncam( moncam );
@@ -690,9 +699,15 @@ void Character::mutation_loss_effect( const trait_id &mut )
     const mutation_branch &branch = mut.obj();
 
     for( const itype_id &popped_armor : branch.integrated_armor ) {
-        remove_worn_items_with( [&]( item & armor ) {
+        std::list<item> removed_items = remove_worn_items_with( [&]( const item & armor ) {
             return armor.typeId() == popped_armor;
         } );
+
+        for( item &armor : removed_items ) {
+            if( armor.can_unload() ) {
+                armor.spill_contents( *this );
+            }
+        }
     }
 
     if( !branch.enchantments.empty() ) {
