@@ -530,6 +530,11 @@ struct renderer_recovery_test_support {
     static bool draw_test_window( const catacurses::window &w );
     // installed test font, or null
     static Font *test_font();
+    // cata_tiles in fixture renderer drawing with `ts`, scaled as load_tileset
+    // leaves it
+    static std::unique_ptr<cata_tiles> make_test_tiles( const std::shared_ptr<const tileset> &ts );
+    // one w_terrain frame of `tiles`: w x h tiles centred on `center`
+    static void draw_test_map( cata_tiles &tiles, const tripoint_bub_ms &center, int w, int h );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

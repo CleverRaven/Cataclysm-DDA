@@ -619,6 +619,7 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
         friend class cata_tiles_test_helper;
+        friend struct renderer_recovery_test_support;
 
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry,

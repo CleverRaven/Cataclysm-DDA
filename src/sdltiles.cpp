@@ -2154,6 +2154,24 @@ void renderer_recovery_test_support::reset_coordinator()
     c.test_mode2_interrupt_ = atlas_upload_interrupt::none;
 }
 
+std::unique_ptr<cata_tiles> renderer_recovery_test_support::make_test_tiles(
+    const std::shared_ptr<const tileset> &ts )
+{
+    std::unique_ptr<cata_tiles> tiles = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    tiles->tileset_ptr = ts;
+    tiles->set_draw_scale( 16 );
+    return tiles;
+}
+
+void renderer_recovery_test_support::draw_test_map( cata_tiles &tiles,
+        const tripoint_bub_ms &center, const int w, const int h )
+{
+    std::multimap<point, formatted_text> overlay_strings;
+    color_block_overlay_container color_blocks;
+    tiles.draw( point::zero, center, w * tiles.tile_width, h * tiles.tile_height, overlay_strings,
+                color_blocks );
+}
+
 bool renderer_recovery_test_support::setup_software_renderer()
 {
     if( renderer || window ) {
