@@ -2605,7 +2605,9 @@ void npc::evaluate_best_attack( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
-    visit_items( [&compare, this, &here]( item * it, item * ) {
+    // evaluate_best_weapon walks the whole inventory, so per-candidate call would be quadratic
+    const item *best_weapon = evaluate_best_weapon();
+    visit_items( [&compare, this, &here, best_weapon]( item * it, item * ) {
         if( craft_reservation::contains_reserved( *it ) ) {
             return VisitResponse::SKIP;
         }
@@ -2613,7 +2615,8 @@ void npc::evaluate_best_attack( const Creature *target )
             // you can theoretically melee with anything.
             compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
             if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
-                compare( std::make_shared<npc_attack_throw>( *it ), "(as THROWN) " + it->display_name() );
+                compare( std::make_shared<npc_attack_throw>( *it, best_weapon ),
+                         "(as THROWN) " + it->display_name() );
             }
             if( !it->type->use_methods.empty() ) {
                 compare( std::make_shared<npc_attack_activate_item>( *it ),
