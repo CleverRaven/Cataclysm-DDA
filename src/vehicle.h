@@ -36,6 +36,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "item_stack_use_charges.h" // IWYU pragma: keep
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -61,6 +62,7 @@ class JsonOut;
 class monster;
 class veh_menu;
 class vehicle;
+class vehicle_cursor;
 class vpart_info;
 class vpart_variant;
 enum class ter_furn_flag : int;
@@ -351,7 +353,8 @@ struct vehicle_part {
          * @param wanted_energy Energy to consume
          * @return Energy actually consumed
          */
-        units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
+        units::energy consume_energy( const vehicle_cursor &cur, const itype_id &ftype,
+                                      units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;

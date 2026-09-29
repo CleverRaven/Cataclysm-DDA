@@ -2640,8 +2640,13 @@ TEST_CASE( "requirement_gate_counting_rules",
     GIVEN( "two loose qualifying tools" ) {
         here.add_item( origin, item( itype_test_reserve_tool_a ) );
         here.add_item( origin, item( itype_test_reserve_tool_a ) );
+        const item_filter match_tool = []( const item & it ) {
+            return it.typeId() == itype_test_reserve_tool_a;
+        };
+        REQUIRE( map_cursor( &here, origin ).items_with( match_tool ).size() == 2 );
         u.invalidate_crafting_inventory();
         const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
+        REQUIRE( crafting_inv.items_with( match_tool ).size() == 2 );
 
         THEN( "two genuine providers satisfy the requirement" ) {
             CHECK( req.can_make_with_inventory( &u, crafting_inv, return_true<item> ) );
@@ -3718,6 +3723,7 @@ TEST_CASE( "craft_relocation_rekeys_its_schedule_and_site_lock",
             item worn_backpack( itype_backpack );
             u.worn.wear_item( u, worn_backpack, false, false );
             item &worn_pack = u.worn.front();
+            item_location worn_pack_loc( u, &worn_pack );
             item craft_copy = boiling;
             boil_loc.remove_item();
             item_location put_loc = u.i_add( craft_copy );
@@ -3726,9 +3732,9 @@ TEST_CASE( "craft_relocation_rekeys_its_schedule_and_site_lock",
 
             THEN( "the nested craft is re-keyed even though the hook saw the container" ) {
                 item *nested = nullptr;
-                worn_pack.visit_items( [&nested]( item * node, item * ) {
+                worn_pack_loc.visit_items( [&nested]( item_location node ) {
                     if( node->is_craft() ) {
-                        nested = node;
+                        nested = node.get_item();
                         return VisitResponse::ABORT;
                     }
                     return VisitResponse::NEXT;
@@ -3756,9 +3762,9 @@ TEST_CASE( "craft_relocation_rekeys_its_schedule_and_site_lock",
 
             THEN( "the craft inside polls under its new identity" ) {
                 item *nested = nullptr;
-                wielded->visit_items( [&nested]( item * node, item * ) {
+                wielded.visit_items( [&nested]( item_location node ) {
                     if( node->is_craft() ) {
-                        nested = node;
+                        nested = node.get_item();
                         return VisitResponse::ABORT;
                     }
                     return VisitResponse::NEXT;
@@ -5105,14 +5111,15 @@ TEST_CASE( "reservation_pool_and_root_claims_span_the_whole_unit",
         bag.put_in( item( itype_test_reserve_tool_a ), pocket_type::CONTAINER );
         bag.put_in( item( itype_test_reserve_tool_a ), pocket_type::CONTAINER );
         item &on_ground = here.add_item( origin, bag );
+        item_location on_ground_loc( map_cursor( origin ), &on_ground );
         item powered( itype_test_reserve_charged_tool );
         powered.ammo_set( itype_battery, 100 );
         here.add_item( origin, powered );
 
         std::vector<const item *> nested;
-        on_ground.visit_items( [&nested]( const item * node, const item * parent ) {
-            if( parent != nullptr ) {
-                nested.push_back( node );
+        on_ground_loc.visit_items( [&nested]( const item_location & node ) {
+            if( node.has_parent() ) {
+                nested.push_back( node.get_item() );
             }
             return VisitResponse::NEXT;
         } );

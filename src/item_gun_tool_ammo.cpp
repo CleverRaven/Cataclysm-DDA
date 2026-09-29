@@ -658,7 +658,7 @@ void item::on_wield( Character &you, bool combat )
     // Update encumbrance and discomfort in case we were wearing it
     you.flag_encumbrance();
     you.calc_discomfort();
-    you.on_item_acquire( *this );
+    you.on_item_acquire( item_location( you, this ) );
 }
 
 std::string item::dirt_symbol() const
@@ -3392,7 +3392,7 @@ bool item::reload( Character &u, item_location ammo, int qty, int pocket_index )
         return false;
     }
 
-    if( !ammo ) {
+    if( !ammo.valid() ) {
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
@@ -3551,7 +3551,7 @@ bool item::reload( Character &u, item_location ammo, int qty, int pocket_index )
             allow_wield = ( !u.is_wielding( *ammo ) && !u.is_wielding( *this ) );
             // Defer placing the magazine into inventory until new magazine is installed.
             magazine_removed = *magazine_current();
-            remove_item( *magazine_current() );
+            item_location( u, this ).remove_item( *magazine_current() );
         }
 
         put_in( *ammo, pocket_type::MAGAZINE_WELL );

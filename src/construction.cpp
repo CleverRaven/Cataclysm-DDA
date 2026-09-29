@@ -41,6 +41,7 @@
 #include "input_popup.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
 #include "map.h"

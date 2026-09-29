@@ -69,15 +69,15 @@ static std::string get_id( const item &it )
 template <typename T>
 static item *retrieve_item( const T &sel, const std::string &id )
 {
-    item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e, item * ) {
+    item_location obj;
+    sel.visit_items( [&id, &obj]( const item_location & e ) {
         if( get_id( *e ) == id ) {
-            obj = const_cast<item *>( e );
+            obj = e;
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
     } );
-    return obj;
+    return obj.get_item();
 }
 
 static std::string location_desc( const inventory_location loc )
