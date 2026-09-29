@@ -42,7 +42,7 @@
     "//3": "Other kinds of electric appliances or methods for cooking have been left out, because",
     "//4": "1) There are cooking appliances or cookwares that can't handle constant exposure to heat without ending up damaged (Hotplates, saucepans or anything that breaks the same way)",
     "//5": "2) Every food that's boiled needs to be strained as soon as possible",
-    "tools": [ [ [ "microwave", 25 ], [ "oven", 125 ] ] ]
+    "tools": [ [ [ "microwave", 25 ], [ "oven_tool", 125 ] ] ]
   },
   {
     "id": "smoking_heat",
