@@ -393,10 +393,11 @@
     "id": "EOC_PLAYABLE_CHANGELING_ADVANCEMENT_REACH_LEVEL_SEVEN_DEDUCTION",
     "eoc_type": "EVENT",
     "required_event": "gains_skill_level",
+    "//": "Keeping the same EOC and lock variable names to not make updating the game a way to get another deed.",
     "condition": {
       "and": [
         { "test_eoc": "EOC_CONDITIONS_YOU_ARE_A_PLAYABLE_CHANGELING" },
-        { "compare_string": [ { "context_val": "skill" }, "deduction" ] },
+        { "compare_string": [ { "context_val": "skill" }, "gramarye" ] },
         { "math": [ "_new_level >= 7" ] },
         { "math": [ "u_changeling_advancement_condition_reach_level_seven_deduction != 1" ] }
       ]

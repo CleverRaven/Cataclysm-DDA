@@ -5,10 +5,10 @@
 #include <climits>
 #include <cmath>
 #include <iterator>
-#include <memory>
 #include <numeric>
 #include <ostream>
 
+#include "avatar.h"
 #include "avatar_action.h"
 #include "bodygraph.h"
 #include "calendar.h"
@@ -28,7 +28,6 @@
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -39,7 +38,6 @@
 #include "messages.h"
 #include "mutation.h"
 #include "output.h"
-#include "pimpl.h"
 #include "pocket_type.h"
 #include "relic.h"
 #include "rng.h"
@@ -410,8 +408,9 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
     if( do_sort_items ) {
         new_item_it->on_wear( guy );
 
-        guy.inv->update_invlet( *new_item_it );
-        guy.inv->update_cache_with_item( *new_item_it );
+        if( guy.is_avatar() ) {
+            guy.as_avatar()->add_invlet_to_new_item( *new_item_it );
+        }
     }
 
     if( do_calc_encumbrance ) {
@@ -2205,6 +2204,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
     // general body part stats
     info.part_hp_cur = person.get_part_hp_cur( bp );
     info.part_hp_max = person.get_part_hp_max( bp );
+    info.avg_env_protection = person.get_env_resist( bp );
     info.wetness = person.get_part_wetness_percentage( bp );
     info.temperature = { units::to_legacy_bodypart_temp( person.get_part_temp_conv( bp ) ), display::bodytemp_color( person, bp ) };
     std::pair<std::string, nc_color> tmp_approx = display::temp_text_color( person, bp.id() );

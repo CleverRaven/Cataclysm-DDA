@@ -815,7 +815,8 @@ conditional_t::func f_has_software( const JsonObject &jo, std::string_view membe
 
     str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
     dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
-    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+    str_or_var device_id;
+    optional( has_software, false, "device", device_id );
 
     return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
@@ -1724,6 +1725,16 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
     };
 }
 
+conditional_t::func f_map_is_passable( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_object( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        return !here.impassable( loc );
+    };
+}
+
 conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view member )
 {
     str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -2558,6 +2569,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_is_passable", jarg::object, &conditional_fun::f_map_is_passable },
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },

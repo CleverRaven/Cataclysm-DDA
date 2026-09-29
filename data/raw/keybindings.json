@@ -1439,9 +1439,9 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_FAST_TRAVEL",
+    "id": "TOGGLE_OVERMAP_ONLY_TRAVEL",
     "category": "OVERMAP",
-    "name": "Toggle fast travel",
+    "name": "Toggle overmap-only auto travel",
     "bindings": [
       { "input_method": "keyboard_char", "key": "x" },
       { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] },

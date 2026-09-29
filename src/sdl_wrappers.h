@@ -283,6 +283,9 @@ const char *GetRenderDriverName( int index );
 
 // Name via SDL_GetRendererName, capabilities via SDL_GetRendererProperties.
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
+// Name of the SDL GPU backend under a gpu renderer, such as "vulkan", or "none"
+// off the gpu driver
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer );
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
 bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
 
@@ -332,6 +335,8 @@ void GetWindowSizeInPixels( SDL_Window *window, int *w, int *h );
 void SetTextureScaleQuality( const SDL_Texture_Ptr &texture, const std::string &quality );
 // Store a default scale quality applied by CreateTexture/CreateTextureFromSurface.
 void SetDefaultTextureScaleQuality( const std::string &quality );
+// SDL_GetTextureScaleMode. SDL_SCALEMODE_INVALID for a null texture or on failure.
+SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture );
 
 // Text input is window-scoped; all three take the target SDL_Window*.
 void StartTextInput( SDL_Window *window );

@@ -1001,6 +1001,32 @@ void SetDefaultTextureScaleQuality( const std::string &quality )
     g_default_texture_scale_quality = quality;
 }
 
+SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture )
+{
+    SDL_ScaleMode mode = SDL_SCALEMODE_INVALID;
+    if( !texture ) {
+        return mode;
+    }
+    if( printErrorIf( !SDL_GetTextureScaleMode( texture.get(), &mode ),
+                      "SDL_GetTextureScaleMode failed" ) ) {
+        return SDL_SCALEMODE_INVALID;
+    }
+    return mode;
+}
+
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        return "none";
+    }
+    SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer.get() );
+    if( !device ) {
+        return "none";
+    }
+    const char *const name = SDL_GetGPUDeviceDriver( device );
+    return name ? name : "none";
+}
+
 
 void StartTextInput( SDL_Window *window )
 {

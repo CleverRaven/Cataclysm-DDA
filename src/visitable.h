@@ -5,6 +5,8 @@
 #include <climits>
 #include <functional>
 #include <list>
+#include <optional>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -19,6 +21,10 @@ enum class VisitResponse : int {
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
     SKIP   // Skip any child nodes and move directly to the next sibling
 };
+
+// Providers are separate tools, which is what a reservation binds, so a stack of charges is
+// one.  Units are the items themselves, so that stack is its charge count.
+enum class quality_count : int { providers, units };
 
 /**
  * Read-only interface for the "container of items".
@@ -63,11 +69,12 @@ class read_only_visitable
         /** Returns true if instance has amount (or more) items of at least quality level */
         virtual bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
 
-        // Counts distinct providers: a container is not credited for a tool inside it and
-        // a charge stack counts once.  `who` decides charged qualities and may be null,
-        // which drops character-owned power.
+        // non-recursive. container doesn't get credit for tool inside it. `mode`: charge
+        // stack answers once or once per charge. `who`: charged qualities (can be null,
+        // drops character-owned power).
         bool has_provider_quality( const quality_id &qual, int level, int qty,
-                                   const Character *who ) const;
+                                   const Character *who,
+                                   quality_count mode = quality_count::providers ) const;
 
         /** Return maximum tool quality level provided by instance or INT_MIN if not found */
         virtual int max_quality( const quality_id &qual ) const;
@@ -115,6 +122,28 @@ class read_only_visitable
         virtual bool has_charges( const itype_id &it, int quantity,
                                   const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
+    protected:
+        struct provider_quality_key {
+            quality_id qual;
+            int level = 0;
+            int qty = 0;
+            const Character *who = nullptr;
+            quality_count mode = quality_count::providers;
+            bool operator<( const provider_quality_key &rhs ) const {
+                if( std::tie( qual, level, qty, mode ) != std::tie( rhs.qual, rhs.level, rhs.qty,
+                        rhs.mode ) ) {
+                    return std::tie( qual, level, qty, mode ) <
+                           std::tie( rhs.qual, rhs.level, rhs.qty, rhs.mode );
+                }
+                return std::less<>()( who, rhs.who );
+            }
+        };
+        // storage for has_provider_quality answers, for containers whose items are fixed
+        // between mutations
+        virtual std::optional<bool> recall_provider_quality( const provider_quality_key & ) const {
+            return std::nullopt;
+        }
+        virtual void remember_provider_quality( const provider_quality_key &, bool ) const {}
 };
 
 /**

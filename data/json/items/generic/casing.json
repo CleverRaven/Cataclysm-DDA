@@ -940,6 +940,20 @@
     "color": "red"
   },
   {
+    "id": "20shot_hull",
+    "type": "ITEM",
+    "copy-from": "shot_hull",
+    "name": { "str": "20 gauge hull" },
+    "description": "An empty hull from a 20 gauge shotgun shell."
+  },
+  {
+    "id": "unprimed_20shot_hull",
+    "type": "ITEM",
+    "copy-from": "unprimed_shot_hull",
+    "name": { "str": "primerless 20 gauge hull" },
+    "description": "An empty hull from a 20 gauge shotgun shell, with its primer removed."
+  },
+  {
     "id": "410shot_hull",
     "type": "ITEM",
     "category": "spare_parts",

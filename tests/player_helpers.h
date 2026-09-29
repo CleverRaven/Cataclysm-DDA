@@ -19,6 +19,11 @@ bool character_has_item_with_var_val( const Character &they, const std::string &
 void clear_character( Character &, bool skip_nutrition = false );
 void clear_avatar();
 void process_activity( Character &dummy, bool pass_time = false );
+// same as process_activity, but gives up after max_turns turns or max_dispatches
+// activity calls. for tests whose failure mode is an activity that never ends:
+// the inner loop of process_activity spins forever when no moves are spent.
+// returns true only when the activity ended inside both budgets
+bool process_activity_bounded( Character &dummy, int max_turns, int max_dispatches );
 
 npc &spawn_npc( const point_bub_ms &, const std::string &npc_class );
 

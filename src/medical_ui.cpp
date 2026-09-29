@@ -30,13 +30,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "output.h"
-#include "pimpl.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "skill.h"
@@ -588,7 +586,6 @@ void medical_ui::summary_tab() const
         cataimgui::draw_colored_text( "Debug:", c_red );
         std::string txt;
         txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
-        txt += string_format( "inventory: %.2f kg\n", units::to_kilogram( you->inv->weight() ) );
         const units::mass wornWeight = you->worn.weight();
         txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
 

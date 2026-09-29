@@ -16,13 +16,13 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
+#include "activity_handlers.h"
 #include "addiction.h"
-#include "bonuses.h"
-#include "clone_ptr.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bonuses.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -30,6 +30,7 @@
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
+#include "clone_ptr.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
@@ -53,7 +54,6 @@
 #include "game_constants.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -245,6 +245,7 @@ static const json_character_flag json_flag_DEAF( "DEAF" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
+static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_GLIDING( "GLIDING" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -2232,12 +2233,32 @@ int Character::move_mode_switch_cost( const move_mode_id &old_mode,
     return move_cost;
 }
 
+void Character::add_temporary_load_items()
+{
+    if( !temporary_load_items.empty() ) {
+        for( const item &it : temporary_load_items ) {
+            item_location loc = i_add( it, true, nullptr, nullptr, false, false );
+            if( loc.where() == item_location::type::invalid ) {
+                // failed to insert into inventory
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
+            }
+        }
+        temporary_load_items.clear();
+    }
+}
+
+void Character::stash_temporary_load_item( const item &it )
+{
+    temporary_load_items.push_back( it );
+}
+
 void Character::process_turn()
 {
     map &here = get_map();
     // Has to happen before reset_stats
     clear_miss_reasons();
-    migrate_items_to_storage( false );
+
+    add_temporary_load_items();
 
     for( bionic &i : *my_bionics ) {
         if( i.incapacitated_time > 0_turns ) {
@@ -3127,7 +3148,6 @@ units::mass Character::get_weight() const
     units::mass wornWeight = worn.weight();
 
     ret += bodyweight();       // The base weight of the player's body
-    ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
@@ -3900,7 +3920,6 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
     }
 
     liquid.charges -= container->fill_with( liquid, amount, false, false, ignore_settings );
-    inv->unsort();
 
     if( liquid.charges > 0 && !silent ) {
         add_msg_if_player( _( "There's some left over!" ) );
@@ -5327,7 +5346,8 @@ void Character::assign_activity( const player_activity &act )
 
     activity.start_or_resume( *this, resuming );
 
-    if( is_npc() ) {
+    // only set if the activity started without being set to null
+    if( is_npc() && activity ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
         guy->set_attitude( NPCATT_ACTIVITY );
@@ -5396,6 +5416,13 @@ void Character::resume_backlog_activity()
         }
         activity.allow_distractions();
         backlog.pop_front();
+    }
+}
+
+void Character::process_activity()
+{
+    while( get_moves() > 0 && activity ) {
+        activity.do_turn( *this );
     }
 }
 
@@ -5621,11 +5648,6 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
 
-    if( quantity <= 0 ) {
-        return ret;
-    }
-    std::list<item> tmp = inv->use_amount( it, quantity, filter );
-    ret.splice( ret.end(), tmp );
     return ret;
 }
 
@@ -6615,6 +6637,10 @@ std::string Character::short_description() const
 
 void Character::process_one_effect( effect &it, bool is_new )
 {
+    if( has_flag( json_flag_FREEZE_EFFECTS ) ) {
+        return;
+    }
+
     bool reduced = resists_effect( it );
     double mod = 1;
     const bodypart_id &bp = it.get_bp();
@@ -7261,7 +7287,7 @@ void Character::abort_automove()
     }
 
     clear_destination();
-    if( g->overmap_data.fast_traveling && is_avatar() ) {
+    if( g->overmap_data.overmap_only_auto_travel && is_avatar() ) {
         ui::omap::force_quit();
     }
 }

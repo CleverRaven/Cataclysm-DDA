@@ -24,7 +24,7 @@ class JsonObject;
 class JsonValue;
 class mapgendata;
 
-static const oter_str_id oter_ravine_floor( "ravine_floor" );
+const oter_str_id oter_ravine_floor( "ravine_floor" );
 
 const region_settings_id DEFAULT_REGION( "default" );
 

@@ -45,7 +45,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -475,7 +474,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 }
 
 // Actual player death is mostly handled in game::is_game_over
-void Character::die( map *, Creature *nkiller )
+void Character::die( map *here, Creature *nkiller )
 {
     g->set_critter_died();
     set_all_parts_hp_cur( 0 );
@@ -483,11 +482,11 @@ void Character::die( map *, Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
-        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_rope_6, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }

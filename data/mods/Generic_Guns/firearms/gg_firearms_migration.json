@@ -423,7 +423,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "pipe_shotgun", "winchester_1897", "browning_citori_20" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -445,6 +445,7 @@
       "srm_1216",
       "shotgun_triple",
       "ar12_shotgun",
+      "savage_model_220",
       "gfy_1",
       "aa_12",
       "benelli_tsa",
@@ -460,6 +461,8 @@
   {
     "id": [
       "mossberg_500_410",
+      "mossberg_500_20",
+      "remington_870_20",
       "benelli_sa",
       "ksg",
       "mossberg_500",

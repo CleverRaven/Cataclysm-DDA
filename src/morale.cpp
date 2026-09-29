@@ -721,7 +721,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
         deaden_display_msg = _( "Shits given:" );
     }
     bottom_lines.emplace_back(
-        deaden_display_msg, ( who.get_modifier_for_ALL_morale() * 100.0 ),
+        deaden_display_msg, static_cast<int>( who.get_modifier_for_ALL_morale() * 100.0 ),
         morale_line::number_format::percent,
         morale_line::line_color::normal
     );

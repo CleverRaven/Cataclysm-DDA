@@ -37,7 +37,6 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "lightmap.h"
@@ -328,7 +327,8 @@ void suffer::while_underwater( Character &you )
     if( !you.has_flag( json_flag_GILLS ) ) {
         you.oxygen--;
     }
-    if( you.oxygen < 12 && you.worn_with_flag( flag_REBREATHER ) ) {
+    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) ||
+                             ( you.worn_with_flag( flag_SCBA_ON ) && you.has_item_with_flag( flag_SCBA_TANK_ON ) ) ) ) {
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
@@ -1815,11 +1815,6 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             it->irradiation += delta;
-
-            // If in inventory (not worn), don't print anything.
-            if( inv->has_item( *it ) ) {
-                continue;
-            }
 
             // If the color hasn't changed, don't print anything.
             const std::string &col_before = rad_badge_color( before ).first;

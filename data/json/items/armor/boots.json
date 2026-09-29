@@ -3342,14 +3342,19 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "MUTATED_ANATOMY_ONLY" ],
     "armor": [
-      { "encumbrance": 10, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
       {
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
+        "encumbrance": 8,
         "coverage": 100,
-        "encumbrance": 6
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ]
       }
     ]
   },

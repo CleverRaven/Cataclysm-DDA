@@ -1011,16 +1011,18 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
     if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
-        if( ammo.recovery_chance <= 75 ) {
+        if( ammo.recovery_chance == 0 ) {
+            // do nothing
+        } else if( ammo.recovery_chance <= 25 ) {
             fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 80 ) {
+        } else if( ammo.recovery_chance <= 50 ) {
             fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 90 ) {
+        } else if( ammo.recovery_chance <= 75 ) {
             fx.emplace_back( _( "Stands a <bad>somewhat low</bad> chance of remaining intact once fired." ) );
-        } else if( ammo.recovery_chance <= 95 ) {
+        } else if( ammo.recovery_chance <= 99 ) {
             fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
-        } else {
-            fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
+        } else  if( ammo.recovery_chance == 100 ) {
+            fx.emplace_back( _( "Will remaining intact once fired." ) );
         }
     }
     if( ( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) ||
@@ -1120,12 +1122,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 insert_separation_line( info );
                 if( default_bore_type_id != itype_id::NULL_ID() ) {
                     info.emplace_back( "GUN",
-                                       _( "Weapon is <bad>not attached a bore mod</bad>, so stats below assume the default bore mod: " ),
+                                       _( "Weapon is <bad>missing a bore mod</bad>, stats below assume the default bore mod: " ),
                                        string_format( "<stat>%s</stat>",
                                                       default_bore_type_id->nname( 1 ) ) );
                 } else {
                     info.emplace_back( "GUN",
-                                       _( "Weapon is <bad>not attached a bore mod</bad>. " ) );
+                                       _( "Weapon is <bad>missing a bore mod</bad>. " ) );
                     return;
                 }
 
@@ -2000,7 +2002,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
-        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
+        if( type->can_use( "GASMASK" ) || type->can_use( "PAPR_MASK_ACTIVATE" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s</bold>:",
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",

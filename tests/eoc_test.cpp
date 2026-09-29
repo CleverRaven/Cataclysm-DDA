@@ -8,13 +8,17 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clone_ptr.h"
 #include "computer.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -23,11 +27,13 @@
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "effect_on_condition.h"
+#include "enums.h"
 #include "field_type.h"
 #include "game.h"
 #include "global_vars.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -46,10 +52,14 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "stomach.h"
 #include "talker.h"
 #include "timed_event.h"
 #include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 #if defined(LOCALIZE)
 #include "translation_manager.h"
@@ -64,6 +74,22 @@ static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_BERRY_CONSUME( "EOC_MARLOSS_BERRY_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_CONSUME( "EOC_MARLOSS_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT( "EOC_MARLOSS_GAIN_COMPONENT" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_GEL_CONSUME( "EOC_MARLOSS_GEL_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_REPEAT_CONSUMPTION( "EOC_MARLOSS_REPEAT_CONSUMPTION" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_SEED_CONSUME( "EOC_MARLOSS_SEED_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MARLOSS_WINE_CONSUME( "EOC_MARLOSS_WINE_CONSUME" );
+static const effect_on_condition_id
+effect_on_condition_EOC_MYCUS_CONSUME( "EOC_MYCUS_CONSUME" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
 static const effect_on_condition_id
@@ -181,6 +207,9 @@ effect_on_condition_run_eocs_talker_mixes_loc( "run_eocs_talker_mixes_loc" );
 static const effect_on_condition_id
 effect_on_condition_run_eocs_variable_types( "run_eocs_variable_types" );
 
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_sleep( "sleep" );
+
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
@@ -188,15 +217,24 @@ static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_marloss_berry( "marloss_berry" );
+static const itype_id itype_marloss_gel( "marloss_gel" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_mycus_fruit( "mycus_fruit" );
+static const itype_id itype_mycus_juice( "mycus_juice" );
 static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
 static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
+static const itype_id itype_wine_marloss( "wine_marloss" );
+static const itype_id itype_wine_mycus( "wine_mycus" );
 
 static const matype_id style_aikido( "style_aikido" );
 static const matype_id style_none( "style_none" );
+
+static const morale_type morale_marloss( "morale_marloss" );
 
 static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -211,7 +249,16 @@ static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
 
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
 static const trait_id trait_purifiability_first( "purifiability_first" );
@@ -250,7 +297,187 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     }
 }
 
+void set_marloss_context( dialogue &d, const std::string &color, const std::string &addiction,
+                          const std::string &other_addiction_1,
+                          const std::string &other_addiction_2 )
+{
+    d.set_value( "marloss_color", color );
+    d.set_value( "marloss_addiction", addiction );
+    d.set_value( "marloss_other_addiction_1", other_addiction_1 );
+    d.set_value( "marloss_other_addiction_2", other_addiction_2 );
+}
+
 } // namespace
+
+TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    effect_on_conditions::clear( get_avatar() );
+    on_out_of_scope reset_character( []() {
+        effect_on_conditions::clear( get_avatar() );
+        // Clear sleep before resetting the character, which includes feeding them.
+        get_avatar().clear_effects();
+        clear_avatar();
+    } );
+    avatar &you = get_avatar();
+    dialogue d( get_talker_for( you ), nullptr );
+
+    SECTION( "first_marloss_component" ) {
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS ) );
+    }
+
+    SECTION( "another_marloss_component" ) {
+        you.set_mutation( trait_MARLOSS );
+        set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS ) );
+        CHECK( you.has_trait( trait_MARLOSS_BLUE ) );
+    }
+
+    SECTION( "complete_marloss_components" ) {
+        you.set_mutation( trait_MARLOSS );
+        you.set_mutation( trait_MARLOSS_BLUE );
+        set_marloss_context( d, "MARLOSS_YELLOW", "marloss_y", "marloss_r", "marloss_b" );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
+        CHECK( you.has_trait( trait_THRESH_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_YELLOW ) );
+        CHECK( get_map().ter( you.pos_bub() ).id() == ter_t_marloss );
+        CHECK_FALSE( you.has_effect( effect_sleep ) );
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
+        effect_on_conditions::process_effect_on_conditions( you );
+        CHECK( you.get_effect_dur( effect_sleep ) == 40_minutes - you.get_int() * 30_seconds );
+    }
+
+    SECTION( "marloss_rejection_at_another_threshold" ) {
+        you.set_mutation( trait_THRESH_LUPINE );
+        you.set_mutation( trait_MARLOSS );
+        set_marloss_context( d, "MARLOSS_BLUE", "marloss_b", "marloss_r", "marloss_y" );
+        effect_on_condition_EOC_MARLOSS_GAIN_COMPONENT->activate( d );
+        CHECK( you.has_trait( trait_MARLOSS_AVOID ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS_BLUE ) );
+        CHECK_FALSE( you.has_effect( effect_sleep ) );
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
+        effect_on_conditions::process_effect_on_conditions( you );
+        CHECK( you.stomach.contains() == 0_ml );
+        CHECK( you.get_effect_dur( effect_sleep ) == 10_hours - you.get_int() * 1_minutes );
+    }
+
+    SECTION( "marloss_avoid_prevents_component_effects" ) {
+        you.set_mutation( trait_MARLOSS_AVOID );
+        d.set_value( "marloss_item", "marloss_berry" );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+        effect_on_condition_EOC_MARLOSS_CONSUME->activate( d );
+        CHECK_FALSE( you.has_trait( trait_MARLOSS ) );
+    }
+
+    SECTION( "marloss_consume_dispatches_repeat_consumption" ) {
+        you.set_mutation( trait_MARLOSS );
+        you.set_hunger( 100 );
+        d.set_value( "marloss_item", "marloss_berry" );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+
+        effect_on_condition_EOC_MARLOSS_CONSUME->activate( d );
+
+        CHECK( you.get_hunger() == -10 );
+        CHECK( you.has_morale( morale_marloss ) == 100 );
+    }
+
+    SECTION( "repeat_marloss_consumption" ) {
+        you.set_hunger( 100 );
+        set_marloss_context( d, "MARLOSS", "marloss_r", "marloss_b", "marloss_y" );
+
+        effect_on_condition_EOC_MARLOSS_REPEAT_CONSUMPTION->activate( d );
+
+        CHECK( you.get_hunger() == -10 );
+        CHECK( you.has_morale( morale_marloss ) == 100 );
+        CHECK_FALSE( you.maybe_get_value( "marloss_spores_spawned" ) );
+    }
+
+    SECTION( "mycus_consumption_activity_finishes_before_sleep" ) {
+        you.set_mutation( trait_THRESH_MARLOSS );
+        item fruit( itype_mycus_fruit );
+        REQUIRE( you.can_eat( fruit ).success() );
+        you.activity = player_activity( consume_activity_actor( fruit ) );
+
+        // Exercise the real actor: synchronous sleep used to destroy it inside
+        // consume(), before finish() could read reprompt_consume_menu.
+        you.activity.actor->finish( you.activity, you );
+        CHECK( you.activity.is_null() );
+        CHECK( you.has_trait( trait_THRESH_MYCUS ) );
+        CHECK_FALSE( you.has_effect( effect_sleep ) );
+
+        // Keep normal sleep processing from immediately waking the rested test avatar.
+        you.add_effect( effect_narcosis, 1_turns );
+        effect_on_conditions::process_effect_on_conditions( you );
+        CHECK( you.get_effect_dur( effect_sleep ) == 5_hours - you.get_int() * 1_minutes );
+    }
+
+    SECTION( "mycus_after_assimilation" ) {
+        you.set_mutation( trait_THRESH_MYCUS );
+        you.set_mutation( trait_M_DEPENDENT );
+        effect_on_condition_EOC_MYCUS_CONSUME->activate( d );
+        CHECK( you.get_painkiller() == 5 );
+        CHECK( you.get_stim() == 5 );
+    }
+}
+
+TEST_CASE( "marloss_refusal_prevents_consumption", "[eoc][marloss][can_eat]" )
+{
+    avatar you;
+    you.set_body();
+    const itype_id food_id = GENERATE( itype_marloss_berry, itype_marloss_seed,
+                                       itype_marloss_gel, itype_wine_marloss );
+    const trait_id refusal_trait = GENERATE( trait_MARLOSS_AVOID, trait_THRESH_MYCUS );
+    item food( food_id );
+    CAPTURE( food_id, refusal_trait );
+
+    REQUIRE( you.can_eat( food ).success() );
+    you.set_mutation( refusal_trait );
+    CHECK( you.can_eat( food ).value() == INEDIBLE_MUTATION );
+    CHECK_FALSE( you.will_eat( food ).success() );
+
+    const int charges = food.charges;
+    const int calories = you.stomach.get_calories();
+    const int morale = you.get_morale_level();
+    CHECK( you.consume( food, /*force=*/true ) == trinary::NONE );
+    CHECK( food.charges == charges );
+    CHECK( you.stomach.get_calories() == calories );
+    CHECK( you.get_morale_level() == morale );
+    CHECK( you.addictions.empty() );
+
+    // The restriction is on Marloss, not Mycus food.
+    CHECK( you.can_eat( item( itype_mycus_fruit ) ).success() );
+    standard_npc other;
+    CHECK_FALSE( other.can_eat( food ).success() );
+}
+
+TEST_CASE( "marloss_consumables_reference_consumption_eocs", "[eoc][marloss]" )
+{
+    const std::vector<std::pair<itype_id, effect_on_condition_id>> expected = {
+        { itype_marloss_berry, effect_on_condition_EOC_MARLOSS_BERRY_CONSUME },
+        { itype_marloss_seed, effect_on_condition_EOC_MARLOSS_SEED_CONSUME },
+        { itype_marloss_gel, effect_on_condition_EOC_MARLOSS_GEL_CONSUME },
+        { itype_mycus_fruit, effect_on_condition_EOC_MYCUS_CONSUME },
+        { itype_mycus_juice, effect_on_condition_EOC_MYCUS_CONSUME },
+        { itype_wine_marloss, effect_on_condition_EOC_MARLOSS_WINE_CONSUME },
+        { itype_wine_mycus, effect_on_condition_EOC_MYCUS_CONSUME }
+    };
+
+    for( const auto &[item_id, eoc_id] : expected ) {
+        const cata::value_ptr<islot_comestible> &comestible = item::find_type( item_id )->comestible;
+        REQUIRE( comestible );
+        REQUIRE( comestible->consumption_eocs.size() == 1 );
+        CHECK( comestible->consumption_eocs.front() == eoc_id );
+    }
+}
 
 TEST_CASE( "EOC_teleport", "[eoc]" )
 {

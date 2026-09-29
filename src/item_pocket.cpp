@@ -1196,7 +1196,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             to_print.end(), []( const translation & t ) {
                 return t.translated();
             } );
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>." ),
                                bps ) );
         }
     }

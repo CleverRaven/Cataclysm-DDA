@@ -127,6 +127,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "20shot",
+    "name": "20 gauge",
+    "default": "20shot_buck"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410",
     "default": "410shot_000"
@@ -213,7 +219,7 @@
     "type": "ammunition_type",
     "id": "45",
     "name": ".45 ACP",
-    "default": "45_acp"
+    "default": "45_jhp"
   },
   {
     "type": "ammunition_type",

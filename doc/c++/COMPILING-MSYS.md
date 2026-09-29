@@ -20,12 +20,7 @@ This guide contains instructions for compiling Cataclysm-DDA on Windows under MS
 
 ## Prerequisites:
 
-**Note:** Windows XP is unsupported!
-
-### MINGW64
-* Windows 7, 8, 8.1
-* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
-* 64-bit version of MSYS2
+**Note:** Windows 7/8/8.1 is unsupported!
 
 ### UCRT64
 * Windows 10 and later
@@ -37,13 +32,9 @@ This guide contains instructions for compiling Cataclysm-DDA on Windows under MS
 
 2. Run the installer. It is suggested that you install to a dev-specific folder (C:\dev\msys64\ or similar), but it's not strictly necessary.
 
-3. After installation, run MSYS2 64bit now.
+3. After installation, run MSYS2 UCRT64 now.
 
 When working from Microsoft Terminal default MSYS2 profile, run:
-```
-MSYSTEM=MINGW64 bash -l
-```
-or
 ```
 MSYSTEM=UCRT64 bash -l
 ```
@@ -56,7 +47,7 @@ MSYSTEM=UCRT64 bash -l
 pacman -Syyu
 ```
 
-2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
+2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 UCRT 64-bit menu item.
 
 3. Update remaining packages:
 
@@ -109,4 +100,4 @@ This will compile a release version with Sound and Tiles support and all localiz
 ./cataclysm-tiles
 ```
 
-**Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update your user or system `PATH` variable with the path to MSYS2's runtime binaries (e.g. `C:\dev\msys64\mingw64\bin`).
+**Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update your user or system `PATH` variable with the path to MSYS2's runtime binaries (e.g. `C:\dev\msys64\ucrt64\bin`).

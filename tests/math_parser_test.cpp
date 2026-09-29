@@ -12,6 +12,8 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "cata_variant.h"
+#include "character.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -22,7 +24,11 @@
 #include "math_parser_type.h"
 #include "npc.h"
 #include "point.h"
+#include "stats_tracker.h"
 #include "talker.h"
+#include "type_id.h"
+
+static const event_statistic_id event_statistic_num_avatar_wake_ups( "num_avatar_wake_ups" );
 
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_parsing", "[math_parser]" )
@@ -319,6 +325,84 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     } );
 }
 
+TEST_CASE( "math_parser_hunger_and_daily_health", "[math_parser]" )
+{
+    avatar you;
+    standard_npc other;
+    dialogue d( get_talker_for( you ), get_talker_for( &other ) );
+    const bool beta = GENERATE( false, true );
+    Character &target = beta ? static_cast<Character &>( other ) : you;
+    const std::string scope = beta ? "n_" : "u_";
+    math_exp expression;
+    const auto eval = [&]( const std::string & text ) {
+        REQUIRE( expression.parse( scope + text ) );
+        return expression.eval( d );
+    };
+    CAPTURE( scope );
+    target.set_daily_health( 0 );
+    const int health = target.get_lifestyle();
+
+    SECTION( "hunger_read_and_write" ) {
+        eval( "hunger() = -10" );
+        CHECK( target.get_hunger() == -10 );
+        CHECK( eval( "hunger()" ) == -10 );
+        eval( "hunger() += 20" );
+        CHECK( target.get_hunger() == 10 );
+    }
+
+    SECTION( "daily_health_without_cap" ) {
+        eval( "daily_health() = 20" );
+        CHECK( target.get_daily_health() == 20 );
+        CHECK( eval( "daily_health()" ) == 20 );
+        eval( "daily_health() -= 28" );
+        CHECK( target.get_daily_health() == -8 );
+        eval( "daily_health() = 300" );
+        CHECK( target.get_daily_health() == 200 );
+        eval( "daily_health() = -300" );
+        CHECK( target.get_daily_health() == -200 );
+    }
+
+    SECTION( "negative_directional_cap" ) {
+        target.set_daily_health( -45 );
+        eval( "daily_health('cap': -50) -= 8" );
+        CHECK( target.get_daily_health() == -50 );
+        eval( "daily_health('cap': -50) -= 8" );
+        CHECK( target.get_daily_health() == -50 );
+        target.set_daily_health( -60 );
+        eval( "daily_health('cap': -50) -= 8" );
+        CHECK( target.get_daily_health() == -60 );
+    }
+
+    SECTION( "positive_directional_cap" ) {
+        target.set_daily_health( 45 );
+        eval( "daily_health('cap': 50) += 8" );
+        CHECK( target.get_daily_health() == 50 );
+        eval( "daily_health('cap': 50) += 8" );
+        CHECK( target.get_daily_health() == 50 );
+        target.set_daily_health( 60 );
+        eval( "daily_health('cap': 50) += 8" );
+        CHECK( target.get_daily_health() == 60 );
+    }
+
+    SECTION( "cap_can_have_the_opposite_sign_to_the_change" ) {
+        target.set_daily_health( -60 );
+        eval( "daily_health('cap': -50) += 20" );
+        CHECK( target.get_daily_health() == -50 );
+        target.set_daily_health( 60 );
+        eval( "daily_health('cap': 50) -= 20" );
+        CHECK( target.get_daily_health() == 50 );
+    }
+
+    SECTION( "explicit_zero_cap_disables_the_change" ) {
+        eval( "daily_health('cap': 0) += 8" );
+        CHECK( target.get_daily_health() == 0 );
+        eval( "daily_health('cap': 0) -= 8" );
+        CHECK( target.get_daily_health() == 0 );
+    }
+
+    CHECK( target.get_lifestyle() == health );
+}
+
 // NOLINTNEXTLINE(readability-function-cognitive-complexity): false positive
 TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
 {
@@ -435,8 +519,10 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( get_avatar().get_stamina() == 459 );
 
     // event_statistic lookup
+    // Other tests may already have recorded wake-ups.
+    const int wake_ups = get_stats().value_of( event_statistic_num_avatar_wake_ups ).get<int>();
     CHECK( testexp.parse( "event_statistic('num_avatar_wake_ups')" ) );
-    CHECK( testexp.eval( d ) == 0 );
+    CHECK( testexp.eval( d ) == wake_ups );
 
     // invalid event_statistic should throw
     CHECK( testexp.parse( "event_statistic('nonexistent_stat_blorg')" ) );

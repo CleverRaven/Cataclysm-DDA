@@ -52,7 +52,6 @@
 #include "handle_liquid.h"
 #include "input_popup.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -824,7 +823,9 @@ static item_location set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
-        p.inv->assign_empty_invlet( newit, p );
+        if( p.is_avatar() ) {
+            p.as_avatar()->assign_empty_invlet( newit );
+        }
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
@@ -3784,7 +3785,6 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
 
     recoil = MAX_RECOIL;
 
-    inv->restack( *this );
     // Positive morale bonuses only happen on completion, to avoid the player repeatedly re-crafting to spam morale
     making.apply_positive_morale_mods( *this );
 

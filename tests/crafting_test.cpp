@@ -26,7 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -42,7 +41,6 @@
 #include "options_helpers.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -467,7 +465,6 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
     Character &player_character = get_player_character();
     player_character.clear_worn();
     player_character.calc_encumbrance();
-    player_character.inv->clear();
     player_character.remove_weapon();
     const item backpack( itype_debug_backpack );
     player_character.worn.wear_item( player_character, backpack, false, false );

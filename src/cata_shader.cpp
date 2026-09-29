@@ -3,6 +3,8 @@
 #include "cata_shader.h"
 
 #include <array>
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
@@ -10,6 +12,7 @@
 
 #include "debug.h"
 #include "path_info.h"
+#include "tile_tint.h"
 
 namespace cata_shader
 {
@@ -17,6 +20,9 @@ namespace cata_shader
 namespace
 {
 bool g_reprobe_requested = false;
+int test_probe_unsafe_countdown = 0;
+bool test_flush_failure_armed = false;
+int test_probe_run_count = 0;
 } // namespace
 
 void request_reprobe()
@@ -32,6 +38,33 @@ bool reprobe_requested()
 void clear_reprobe()
 {
     g_reprobe_requested = false;
+}
+
+void test_arm_probe_unsafe( const int count )
+{
+    test_probe_unsafe_countdown = count;
+}
+
+int test_probe_unsafe_remaining()
+{
+    return test_probe_unsafe_countdown;
+}
+
+void test_arm_flush_failure()
+{
+    test_flush_failure_armed = true;
+}
+
+int test_probe_runs()
+{
+    return test_probe_run_count;
+}
+
+void test_reset_seams()
+{
+    test_probe_unsafe_countdown = 0;
+    test_flush_failure_armed = false;
+    test_probe_run_count = 0;
 }
 
 namespace
@@ -162,8 +195,7 @@ render_state render_state::create( SDL_Renderer *renderer, const shader &fragmen
     SDL_GPURenderStateCreateInfo info{};
     info.fragment_shader = fragment_shader.get();
     // No additional sampler/storage bindings: the atlas sampler comes from the
-    // renderer's normal textured-draw path, and uniforms (when present) are
-    // uploaded per draw via SDL_SetGPURenderStateFragmentUniforms.
+    // renderer's normal textured-draw path, and the shaders take no uniforms
     info.num_sampler_bindings = 0;
     info.num_storage_textures = 0;
     info.num_storage_buffers = 0;
@@ -284,6 +316,21 @@ bool cool_predicate( int r, int /*g*/, int b )
     return b > r + 5;
 }
 
+// red at strength 128/255, applied to the probe's mid-gray source
+constexpr tint_texture_mod tint_probe_mod{ 255, 0, 0, 127 };
+
+bool tint_predicate( int r, int g, int b )
+{
+    // identity shader returns source gray and fails
+    const auto expected = []( const uint8_t mod_channel ) {
+        return static_cast<int>( std::lround( tint_mix_channel( 128.0f, mod_channel,
+                                              tint_probe_mod.a ) ) );
+    };
+    return std::abs( r - expected( tint_probe_mod.r ) ) <= 4 &&
+           std::abs( g - expected( tint_probe_mod.g ) ) <= 4 &&
+           std::abs( b - expected( tint_probe_mod.b ) ) <= 4;
+}
+
 probe_predicate predicate_for( variant_kind v )
 {
     switch( v ) {
@@ -317,6 +364,11 @@ probe_predicate predicate_for( memory_preset p )
 }
 
 } // namespace
+
+bool variant_takes_tint( const variant_kind v )
+{
+    return v == variant_kind::NORMAL || v == variant_kind::SHADOW;
+}
 
 std::optional<memory_preset> memory_preset_from_option_value(
     const std::string &mode )
@@ -364,7 +416,7 @@ struct probe_result {
 // Mid-gray (128,128,128,255) gives each variant a distinctive output, so a
 // passing predicate distinguishes "shader ran" from "bind silently ignored".
 probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
-                         probe_predicate pred )
+                         probe_predicate pred, const std::optional<tint_texture_mod> &mod )
 {
     probe_result res;
     SDL_Surface *src_surf = SDL_CreateSurface( 1, 1, SDL_PIXELFORMAT_RGBA32 );
@@ -377,6 +429,11 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
     SDL_DestroySurface( src_surf );
     if( !src ) {
         return res;
+    }
+    if( mod ) {
+        // src is local to the probe, so nothing else sees the mod
+        SDL_SetTextureColorMod( src, mod->r, mod->g, mod->b );
+        SDL_SetTextureAlphaMod( src, mod->a );
     }
     SDL_Texture *rt = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32,
                                          SDL_TEXTUREACCESS_TARGET, 1, 1 );
@@ -478,7 +535,8 @@ enum class load_outcome {
 // destructors do not release SDL handles the renderer may still reference.
 load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
                              const char *basename, probe_predicate pred,
-                             shader &out_shader, render_state &out_state )
+                             shader &out_shader, render_state &out_state,
+                             const std::optional<tint_texture_mod> &mod = std::nullopt )
 {
     shader frag = shader::load_fragment( device, basename, 1, 0 );
     if( !frag.is_valid() ) {
@@ -494,7 +552,7 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
                 << basename << "; shader variant path disabled";
         return load_outcome::failed_clean;
     }
-    const probe_result res = draw_probe( renderer, state.get(), pred );
+    const probe_result res = draw_probe( renderer, state.get(), pred, mod );
     if( !res.boundary_safe ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: probe left renderer in undefined "
@@ -518,18 +576,74 @@ load_outcome load_and_probe( SDL_GPUDevice *device, SDL_Renderer *renderer,
 
 } // namespace
 
+probe_state variant_pass::ensure_probed()
+{
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        return probe_state::unsafe;
+    }
+    if( reprobe_requested() ) {
+        reset();
+        clear_reprobe();
+        if( boundary_lost_ ) {
+            return probe_state::unsafe;
+        }
+    }
+    if( shader_fault_ ) {
+        return probe_state::unavailable;
+    }
+    if( !probe_attempted_ ) {
+        probe();
+        if( boundary_lost_ ) {
+            return probe_state::unsafe;
+        }
+    }
+    return available() ? probe_state::available : probe_state::unavailable;
+}
+
 void variant_pass::reset()
 {
     const bool flushed = flush();
     clear_state_arrays( !flushed );
+    if( !flushed ) {
+        // renderer might still hold the bind, keep probe_attempted_ so nothing
+        // probes against it
+        boundary_lost_ = true;
+        shader_fault_ = true;
+        return;
+    }
     probe_attempted_ = false;
     probed_ok_ = false;
-    // On flush failure leave session_disabled_ set so callers refuse the
-    // boundary; the rebuild driving reset() decides when to clear it.
-    if( flushed ) {
-        session_disabled_ = false;
-        unbind_required_ = false;
+    session_disabled_ = false;
+    unbind_required_ = false;
+    shader_fault_ = false;
+}
+
+void variant_pass::mark_probe_unsafe()
+{
+    unbind_required_ = true;
+    session_disabled_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
+}
+
+void variant_pass::mark_flush_failed()
+{
+    session_disabled_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
+}
+
+void variant_pass::note_draw_bind_failure( const bool log_error )
+{
+    if( log_error ) {
+        DebugLog( D_ERROR, DC_ALL )
+                << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
+                << SDL_GetError();
     }
+    session_disabled_ = true;
+    unbind_required_ = true;
+    boundary_lost_ = true;
+    shader_fault_ = true;
 }
 
 void variant_pass::clear_state_arrays( bool abandon_handles )
@@ -547,19 +661,36 @@ void variant_pass::clear_state_arrays( bool abandon_handles )
         for( render_state &s : memory_states_ ) {
             s.abandon();
         }
+        tint_shader_.abandon();
+        tint_state_.abandon();
     }
     // Render states reference their fragment shader; clear states before
     // shaders so SDL does not see a dangling reference on the clean path.
     states_ = {};
     memory_states_ = {};
+    tint_state_ = {};
     shaders_ = {};
     memory_shaders_ = {};
+    tint_shader_ = {};
 }
 
 void variant_pass::probe()
 {
     probe_attempted_ = true;
+    ++test_probe_run_count;
     if( !renderer_ ) {
+        return;
+    }
+    if( std::getenv( "CATA_DISABLE_SPRITE_SHADERS" ) ) {
+        DebugLog( D_INFO, DC_ALL )
+                << "cata_shader::variant_pass: CATA_DISABLE_SPRITE_SHADERS set; "
+                "shader variant path disabled";
+        return;
+    }
+    if( test_probe_unsafe_countdown > 0 ) {
+        --test_probe_unsafe_countdown;
+        DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: armed unsafe probe";
+        mark_probe_unsafe();
         return;
     }
     SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer_ );
@@ -578,8 +709,7 @@ void variant_pass::probe()
         const load_outcome o = load_and_probe( device, renderer_, basename,
                                                predicate_for( v ), shaders_[i], states_[i] );
         if( o == load_outcome::failed_unsafe ) {
-            unbind_required_ = true;
-            session_disabled_ = true;
+            mark_probe_unsafe();
             return;
         }
         if( o == load_outcome::failed_clean ) {
@@ -595,19 +725,30 @@ void variant_pass::probe()
         const load_outcome o = load_and_probe( device, renderer_, basename,
                                                predicate_for( p ), memory_shaders_[i], memory_states_[i] );
         if( o == load_outcome::failed_unsafe ) {
-            unbind_required_ = true;
-            session_disabled_ = true;
+            mark_probe_unsafe();
             return;
         }
         if( o == load_outcome::failed_clean ) {
             return;
         }
     }
+    const load_outcome tint = load_and_probe( device, renderer_, "tint.frag", tint_predicate,
+                              tint_shader_, tint_state_, tint_probe_mod );
+    if( tint == load_outcome::failed_unsafe ) {
+        mark_probe_unsafe();
+        return;
+    }
+    if( tint == load_outcome::failed_clean ) {
+        return;
+    }
     probed_ok_ = true;
 }
 
-SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
+SDL_GPURenderState *variant_pass::state_for( variant_kind v, const bool tinted ) const
 {
+    if( v == variant_kind::NORMAL && tinted ) {
+        return tint_state_.get();
+    }
     if( v == variant_kind::MEMORY ) {
         if( !active_memory_preset_ ) {
             return nullptr;
@@ -617,20 +758,23 @@ SDL_GPURenderState *variant_pass::state_for( variant_kind v ) const
     return states_[static_cast<size_t>( v )].get();
 }
 
-variant_pass::begin_result variant_pass::try_begin( variant_kind v )
+variant_pass::begin_result variant_pass::try_begin( variant_kind v, const bool tinted )
 {
-    if( abandoned_pending_rebind_ ) {
-        // Embargo raised: refuse without calling SDL until rebind.
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        // embargo or lost boundary: refuse without calling SDL until rebind
         return begin_result::abort_frame;
     }
     if( reprobe_requested() ) {
         reset();
         clear_reprobe();
+        if( boundary_lost_ ) {
+            return begin_result::abort_frame;
+        }
     }
-    if( session_disabled_ ) {
-        // Drop any held bind so the disabled session does not leave shader
-        // state on subsequent draws. If flush fails the renderer is undefined
-        // -- signal abort.
+    if( shader_fault_ || session_disabled_ ) {
+        // Drop held bind so that a faulted or disabled session doesn't leave
+        // any shader state on later draws. A failed flush leaves the renderer
+        // undefined.
         if( !flush() ) {
             return begin_result::abort_frame;
         }
@@ -638,38 +782,23 @@ variant_pass::begin_result variant_pass::try_begin( variant_kind v )
     }
     if( !probe_attempted_ ) {
         probe();
-        if( unbind_required_ ) {
-            // probe() observed a boundary-loss probe failure and latched
-            // unbind_required_. Renderer state is undefined.
+        if( boundary_lost_ ) {
             return begin_result::abort_frame;
         }
     }
     if( !probed_ok_ ) {
         return begin_result::use_atlas;
     }
-    SDL_GPURenderState *target = state_for( v );
-    SDL_GPURenderState *current = currently_bound_
-                                  ? state_for( *currently_bound_ )
-                                  : nullptr;
-    if( target == current ) {
+    SDL_GPURenderState *target = state_for( v, tinted );
+    if( target == bound_state_ ) {
         return target != nullptr ? begin_result::bound : begin_result::use_atlas;
     }
     if( !SDL_SetGPURenderState( renderer_, target ) ) {
-        DebugLog( D_ERROR, DC_ALL )
-                << "cata_shader::variant_pass: SDL_SetGPURenderState failed: "
-                << SDL_GetError();
-        session_disabled_ = true;
-        // Bind state undefined after the failure: assume still held. Keep
-        // currently_bound_ so operator== rejects the boundary, and force the
-        // next flush() to call null-state even if currently_bound_ was empty.
-        unbind_required_ = true;
+        // bind state is undefined after failure, treat as held
+        note_draw_bind_failure();
         return begin_result::abort_frame;
     }
-    if( target ) {
-        currently_bound_ = v;
-    } else {
-        currently_bound_.reset();
-    }
+    bound_state_ = target;
     unbind_required_ = false;
     return target != nullptr ? begin_result::bound : begin_result::use_atlas;
 }
@@ -681,21 +810,30 @@ bool variant_pass::end()
 
 bool variant_pass::flush()
 {
-    if( abandoned_pending_rebind_ ) {
-        // Embargo raised: refuse without SDL. false signals the boundary loss.
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        // Refuse without SDL: false tells every caller not to cross a render
+        // target boundary until rebind_renderer.
         return false;
     }
-    if( !currently_bound_ && !unbind_required_ ) {
+    if( test_flush_failure_armed ) {
+        // stands in for a failed SDL_SetGPURenderState(NULL) even with nothing
+        // bound; the software fixture never binds
+        test_flush_failure_armed = false;
+        DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: armed flush failure";
+        mark_flush_failed();
+        return false;
+    }
+    if( !bound_state_ && !unbind_required_ ) {
         return true;
     }
     if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
         DebugLog( D_ERROR, DC_ALL )
                 << "cata_shader::variant_pass: SDL_SetGPURenderState(NULL) failed: "
                 << SDL_GetError();
-        session_disabled_ = true;
+        mark_flush_failed();
         return false;
     }
-    currently_bound_.reset();
+    bound_state_ = nullptr;
     unbind_required_ = false;
     return true;
 }
@@ -714,11 +852,11 @@ void variant_pass::release_gpu_resources()
     // flush() returns false on an undefined bind; abandon the handles in that
     // case rather than let their destructors touch a still-referenced resource.
     bool flushed = true;
-    if( currently_bound_ || unbind_required_ ) {
+    if( bound_state_ || unbind_required_ || boundary_lost_ ) {
         flushed = flush();
     }
     clear_state_arrays( !flushed );
-    currently_bound_.reset();
+    bound_state_ = nullptr;
     probe_attempted_ = false;
     probed_ok_ = false;
     // active_memory_preset_ is logical config, not a GPU handle; keep it.
@@ -734,7 +872,7 @@ void variant_pass::release_gpu_resources()
 void variant_pass::force_abandon_gpu_resources()
 {
     clear_state_arrays( true );
-    currently_bound_.reset();
+    bound_state_ = nullptr;
     probe_attempted_ = false;
     probed_ok_ = false;
     session_disabled_ = true;
@@ -748,12 +886,13 @@ void variant_pass::rebind_renderer( SDL_Renderer *renderer )
     // renderer_, already destroyed on a LOST recovery. Callers release against
     // the OLD renderer first, so the arrays are already empty by now.
     clear_state_arrays( true );
-    currently_bound_.reset();
+    bound_state_ = nullptr;
     unbind_required_ = false;
     probe_attempted_ = false;
     probed_ok_ = false;
     session_disabled_ = false;
     abandoned_pending_rebind_ = false;
+    boundary_lost_ = false;
     renderer_ = renderer;
 }
 

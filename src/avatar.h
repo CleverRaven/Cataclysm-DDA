@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "magic_teleporter_list.h"
@@ -296,6 +297,7 @@ class avatar : public Character
         void steal( npc &target );
         /** Reassign letter. */
         void reassign_item( item &it, int invlet );
+        void reassign_item_cache( item &it, char invlet, bool remove_old );
 
         teleporter_list translocators;
 
@@ -369,6 +371,18 @@ class avatar : public Character
                           int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
+        // invlets
+
+        void update_cache_with_item( item &newit );
+        // this used to just be a block of code in inventory::add_item
+        void add_invlet_to_new_item( item &newit );
+        void update_invlet( item &newit, const item *ignore_invlet_collision_with = nullptr );
+        void assign_empty_invlet( item &it, bool force = false );
+        char free_assigned_invlet( const itype_id &id );
+        invlets_bitset allocated_invlets() const;
+        bool invlet_is_assigned( char invlet ) const;
+        itype_id get_itype_by_invlet( char invlet ) const;
+
         monster_visible_info &get_mon_visible() {
             return mon_visible;
         }
@@ -433,6 +447,10 @@ class avatar : public Character
         bool is_waiting_to_change_mode_mode();
 
     private:
+        std::map<char, itype_id> assigned_invlet;
+        invlet_favorites invlet_cache;
+        char find_usable_cached_invlet( const itype_id &item_type );
+
         npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.

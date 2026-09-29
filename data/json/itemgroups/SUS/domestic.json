@@ -358,6 +358,7 @@
       { "item": "ear_plugs", "prob": 40 },
       { "item": "screwdriver", "prob": 40 },
       { "item": "hammer", "prob": 40 },
+      { "item": "dremel", "prob": 40 },
       { "item": "multitool", "prob": 35 },
       { "item": "can_opener", "prob": 35 },
       { "item": "hinge", "prob": 30, "count": 3 },

@@ -2495,6 +2495,44 @@
     ]
   },
   {
+    "id": "nested_mossberg_500_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "mossberg_500_20", "charges": [ 0, 5 ] }, { "group": "on_hand_20shot" } ]
+  },
+  {
+    "id": "nested_remington_870_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington_870_20", "charges": [ 0, 4 ] }, { "group": "on_hand_20shot" } ]
+  },
+  {
+    "id": "nested_savage_model_220",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "savage_model_220", "charges": [ 0, 2 ] },
+      { "item": "savage_220_magazine" },
+      { "item": "savage_220_magazine", "prob": 50 },
+      { "item": "savage_220_magazine", "prob": 50 },
+      { "group": "on_hand_20shot" }
+    ]
+  },
+  {
+    "id": "nested_browning_citori_20",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "browning_citori_20", "charges": [ 0, 2 ] }, { "group": "on_hand_20shot" } ]
+  },
+  {
     "id": "nested_fn_ps90",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

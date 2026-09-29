@@ -77,7 +77,7 @@
     "material_thickness": 2,
     "flags": [ "BELTED" ],
     "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "deduction", "add": 1 } ] } ]
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "skills": [ { "value": "gramarye", "add": 1 } ] } ]
   },
   {
     "type": "enchantment",
