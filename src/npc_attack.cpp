@@ -853,7 +853,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
         return npc_attack_rating( std::nullopt, location );
     }
 
-    const float throw_mult = throw_cost( source, single_item ) * source.speed_rating() / 100.0f;
+    const float throw_mult = throw_cost( source, single_item ) * source_speed_rating / 100.0f;
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos_bub() );
