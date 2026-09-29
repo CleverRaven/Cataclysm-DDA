@@ -25,8 +25,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price": "10 cent"
   },
   {
     "id": "denat_alcohol",
@@ -35,8 +34,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price": "10 cent"
   },
   {
     "id": "chem_methanol",
@@ -45,8 +43,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "High-purity methanol suitable for use in chemical reactions.  Could also be used as fuel in an alcohol-burning stove.  Very toxic.",
-    "price": "5 cent",
-    "price_postapoc": "1 USD"
+    "price": "5 cent"
   },
   {
     "id": "chem_methanol_fuelcell",
