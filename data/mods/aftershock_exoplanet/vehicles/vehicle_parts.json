@@ -303,5 +303,47 @@
       { "item": "mc_steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] }
     ]
+  },
+  {
+    "id": "aerodyne_engine",
+    "copy-from": "helicopter_rotors",
+    "type": "vehicle_part",
+    "item": "afs_aerodyne_engine",
+    "description": "A multi-axis aerodyne engine, powered by chemical fuel.  Allows flight within the atmosphere.",
+    "rotor_diameter": 1,
+    "bonus": 9,
+    "durability": 450,
+    "damage_modifier": 80,
+    "flags": [ "ROTOR", "NO_REPAIR", "SMASH_REMOVE" ],
+    "requirements": { "removal": { "skills": [ [ "mechanics", 8 ] ], "time": "1 h", "using": "vehicle_weld_removal" } },
+    "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "ch_steel_chunk", "count": [ 8, 16 ] } ],
+    "damage_reduction": { "all": 66 }
+  },
+  {
+    "id": "engine_turbine_large",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "afs_aerodyne_powerplant",
+    "description": "A massive turbine engine, used to power aerodynes.  Has a prodigiously high rate of fuel consumption.",
+    "durability": 400,
+    "epower": "-10 W",
+    "power": "4400000 W",
+    "energy_consumption": "6600000 W",
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 4, 6 ] },
+      { "item": "ch_steel_lump", "count": [ 100, 120 ] },
+      { "item": "ch_steel_chunk", "count": [ 100, 120 ] },
+      { "item": "scrap", "count": [ 100, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 10 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 7 ], [ "repair_welding_alloys", 5 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 70 }
   }
 ]

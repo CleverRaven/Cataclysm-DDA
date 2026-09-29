@@ -1,5 +1,33 @@
 [
   {
+    "id": "afs_aerodyne_engine",
+    "type": "ITEM",
+    "category": "veh_parts",
+    "name": { "str": "multi-axis aerodyne engine" },
+    "description": "A self-contained multi-axis aerodyne engine, powered by chemical fuel.  Reinstalling it is no trivial matter, it'll probably be best to just sell it if removed.",
+    "price": "15 kUSD",
+    "price_postapoc": "15 kUSD",
+    "weight": "300 kg",
+    "volume": "200 L",
+    "looks_like": "m202_flash",
+    "material": [ "mc_steel" ],
+    "symbol": "X",
+    "color": "dark_gray"
+  },
+  {
+    "id": "afs_aerodyne_powerplant",
+    "copy-from": "engine_gasoline",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
+    "name": { "str": "aerodyne power plant" },
+    "description": "A massive turbine engine, used to power aerodynes.  Has a prodigiously high power output.",
+    "material": [ "qt_steel" ],
+    "weight": "900 kg",
+    "volume": "900 L",
+    "price": "9 kUSD 600 USD",
+    "price_postapoc": "75 USD"
+  },
+  {
     "type": "ITEM",
     "id": "afs_titanium_frame",
     "name": { "str": "ultralight frame" },
