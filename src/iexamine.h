@@ -71,6 +71,7 @@ bool harvestable_now( const tripoint_bub_ms &examp );
 void gaspump( Character &you, const tripoint_bub_ms &examp );
 void atm( Character &you, const tripoint_bub_ms &examp );
 void vending( Character &you, const tripoint_bub_ms &examp );
+void iso_recycler( Character &you, const tripoint_bub_ms &examp );
 void elevator( Character &you, const tripoint_bub_ms &examp );
 void genemill( Character &you, const tripoint_bub_ms &examp );
 void nanofab( Character &you, const tripoint_bub_ms &examp );
