@@ -1908,8 +1908,8 @@
     "ammo": 100,
     "entries": [
       { "item": "iwi_tavor_x95_300blk", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -1947,8 +1947,8 @@
     "ammo": 100,
     "entries": [
       { "item": "scar_l", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -1960,8 +1960,8 @@
     "ammo": 100,
     "entries": [
       { "item": "scar_16s", "charges": [ 0, 30 ] },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2795,8 +2795,8 @@
     "ammo": 100,
     "entries": [
       { "item": "rdb_223", "charges": [ 0, 30 ], "contents-group": "sights_rifle" },
-      { "group": "stanag_30_random" },
-      { "group": "stanag_30_random", "prob": 50 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
