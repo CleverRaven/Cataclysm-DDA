@@ -167,6 +167,33 @@ const tripoint &direction_to_tripoint( direction dir )
     }
 }
 
+bool is_vertical( direction dir )
+{
+    switch( dir ) {
+        case direction::ABOVECENTER:
+        case direction::ABOVEEAST:
+        case direction::ABOVESOUTHEAST:
+        case direction::ABOVESOUTH:
+        case direction::ABOVESOUTHWEST:
+        case direction::ABOVEWEST:
+        case direction::ABOVENORTHWEST:
+        case direction::ABOVENORTH:
+        case direction::ABOVENORTHEAST:
+        case direction::BELOWCENTER:
+        case direction::BELOWEAST:
+        case direction::BELOWSOUTHEAST:
+        case direction::BELOWSOUTH:
+        case direction::BELOWSOUTHWEST:
+        case direction::BELOWWEST:
+        case direction::BELOWNORTHWEST:
+        case direction::BELOWNORTH:
+        case direction::BELOWNORTHEAST:
+            return true;
+        default:
+            return false;
+    }
+}
+
 bool is_cardinal( direction dir )
 {
     switch( dir ) {
@@ -312,97 +339,27 @@ constexpr int cost_z_half( const int base_cost )
 }
 
 // rounded
-constexpr int cost_diagonal( const int base_cost )
-{
-    // sqrt(2) ~= 99 / 70
-    return ( base_cost * 99 + 35 ) / 70;
-}
-
-// rounded
 constexpr int cost_diagonal_half( const int base_cost )
 {
     // sqrt(2) ~= 99 / 70
     return ( base_cost * 99 + 70 ) / 140;
 }
 
-// Calculate the cost to cross an OMT based on entry and exit directions
-// TODO: memoize the results
-int omt_cost_to_cross( int base_cost, direction dir_in, direction dir_out )
+/** Calculate the cost to travel between OMT centers
+  * @param cost1 cost to cross first OMT, e.g. 24 for fields and roads
+  * @param cost2 cost to cross second OMT, e.g. 24 for fields and roads
+  * @param dir direction from omt1 to omt2
+  */
+int omt_travel_cost( int cost1, int cost2, direction dir )
 {
-
-    // Assumptions:
-    // dir_out != CENTER, although that is conceptually valid
-    // dir_in != dir_out, which the pathfinder should prevent
-
-    if( dir_in == direction::CENTER || dir_in == direction::ABOVECENTER ||
-        dir_in == direction::BELOWCENTER || dir_out == direction::ABOVECENTER ||
-        dir_out == direction::BELOWCENTER ) {
-        // some Z travel involved
-        if( ( dir_in == direction::CENTER || dir_in == direction::ABOVECENTER ||
-              dir_in == direction::BELOWCENTER ) && ( dir_out == direction::ABOVECENTER ||
-                      dir_out == direction::BELOWCENTER ) ) {
-            if( dir_in == direction::CENTER ) {
-                // center to vertical
-                return cost_z_half( base_cost );
-            }
-            // vertical to vertical
-            return cost_z( base_cost );
-        }
-        if( dir_in == direction::ABOVECENTER || dir_in == direction::BELOWCENTER ) {
-            if( is_cardinal( dir_out ) ) {
-                // vertical to edge
-                return cost_z_half( base_cost ) + cost_half( base_cost );
-            }
-            // vertical to corner
-            return cost_z_half( base_cost ) + cost_diagonal_half( base_cost );
-        }
-        if( dir_out == direction::ABOVECENTER || dir_out == direction::BELOWCENTER ) {
-            if( is_cardinal( dir_in ) ) {
-                // edge to vertical
-                return cost_half( base_cost ) + cost_z_half( base_cost );
-            }
-            // corner to vertical
-            return cost_diagonal_half( base_cost ) + cost_z_half( base_cost );
-        }
-        if( is_cardinal( dir_out ) ) {
-            // center to edge
-            return cost_half( base_cost );
-        }
-        // center to corner
-        return cost_diagonal_half( base_cost );
+    // pathfinding does not support vertical+cardinal or vertical+diagonal moves
+    if( is_vertical( dir ) ) {
+        return cost_z_half( cost1 ) + cost_z_half( cost2 );
     }
-    // this crossing does not start or end at the center or vertical
-    if( is_cardinal( dir_in ) && is_cardinal( dir_out ) ) {
-        if( dir_in == reverse_direction( dir_out ) ) {
-            return base_cost; // directly across
-        }
-        // edge to adjacent edge
-        return cost_diagonal_half( base_cost );
+    if( is_cardinal( dir ) ) {
+        return cost_half( cost1 ) + cost_half( cost2 );
     }
-    if( dir_in == reverse_direction( dir_out ) ) {
-        return cost_diagonal( base_cost ); // directly across diagonally
-    }
-    if( !is_cardinal( dir_in ) && !is_cardinal( dir_out ) ) {
-        return base_cost; // corner to adjacent corner
-    }
-    // One of two remaining cases is travel between an edge and an adjacent
-    // corner. The cost for that case would be base_cost / 2.
-    // However, the pathfinder won't ever choose it. An orthogonal move from
-    // the previous node would be shorter. So it's safe to over-estimate the
-    // cost for that case.
-    // This logic should be updated if the pathfinder is ever updated with any
-    // possibility to avoid travel between otherwise-navigable tiles.
-    // This is forunate, because there's no cheap way to distinguish that case
-    // from the final case, travel between an edge and a far corner.
-    // This would be sqrt5 / 2 with trig_dist, but octile_dist is appropriate
-    // for character movement, which means half straight and half diagonal.
-    return cost_half( base_cost ) + cost_diagonal_half( base_cost );
-    // This is the expensive alternative that can handle both of the final two
-    // cases. Actually any non-vertical-travel case, but we do the logic tree
-    // above to avoid needing to do the conversions and math required here.
-    // It requires direction_to_point similar to direction_to_tripoint
-    // return base_cost * octile_dist_exact( direction_to_point( dir_in ), direction_to_point( dir_out ) ) / 2;
-
+    return cost_diagonal_half( cost1 ) + cost_diagonal_half( cost2 );
 }
 
 } // namespace
@@ -422,6 +379,9 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     const omt_score start_score = scorer( source );
     const omt_score end_score = scorer( dest );
     if( start_score.node_cost < 0 || end_score.node_cost < 0 ) {
+        return ret;
+    }
+    if( source == dest ) {
         return ret;
     }
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
@@ -449,27 +409,23 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt cur_point = cur_addr.to_tripoint( source );
         const navigation_node &cur_node = known_nodes.at( cur_addr );
         if( cur_point == dest ) {
-            ret.dist = omt_cost_to_cross( 24, direction::CENTER, cur_node.get_prev_dir() );
             node_address addr = cur_addr;
             const navigation_node *next_node = nullptr;
-            while( !( addr == start ) ) {
+            direction prev_dir = direction::CENTER;
+            while( true ) {
                 const navigation_node &node = known_nodes.at( addr );
                 if( next_node != nullptr ) {
-                    ret.dist += omt_cost_to_cross( 24, node.get_prev_dir(),
-                                                   reverse_direction( next_node->get_prev_dir() ) );
+                    ret.dist += is_vertical( prev_dir ) ? 1 : is_cardinal( prev_dir ) ? 24 : 34;
+                }
+                ret.points.emplace_back( addr.to_tripoint( source ) );
+                if( addr == start ) {
+                    break;
                 }
                 next_node = &node;
-                ret.points.emplace_back( addr.to_tripoint( source ) );
-                addr = addr.displace( node.get_prev_dir() );
+                prev_dir = node.get_prev_dir();
+                addr = addr.displace( prev_dir );
             }
-            ret.points.emplace_back( addr.to_tripoint( source ) );
-            if( next_node != nullptr ) {
-                ret.dist += omt_cost_to_cross( 24, direction::CENTER,
-                                               next_node->get_prev_dir() ); // this direction is reversed but that doesn't change the result
-            }
-            // total path cost is the cost to reach an edge of the final node plus the cost to reach the center of that node
-            ret.cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost, direction::CENTER,
-                       cur_node.get_prev_dir() );
+            ret.cost = cur_node.cumulative_cost;
             return ret;
         }
         for( direction dir : enumerate_directions( cur_node.allow_z_change, allow_diagonal ) ) {
@@ -478,30 +434,34 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
             }
             const direction rev_dir = reverse_direction( dir );
             const node_address next_addr = cur_addr.displace( dir );
-            const int cumulative_cost = cur_node.cumulative_cost + omt_cost_to_cross( cur_node.node_cost,
-                                        cur_node.get_prev_dir(), dir );
+            const tripoint_abs_omt next_point = next_addr.to_tripoint( source );
+            const omt_score next_score = scorer( next_point );
+            const int cumulative_cost = cur_node.cumulative_cost + omt_travel_cost( cur_node.node_cost,
+                                        next_score.node_cost, dir );
             auto iter = known_nodes.find( next_addr );
             if( iter != known_nodes.end() ) {
+                // this addr is already known
                 navigation_node &next_node = iter->second;
                 if( next_node.cumulative_cost > cumulative_cost ) {
+                    // this path to this addr is cheaper than the best known path
                     next_node.cumulative_cost = cumulative_cost;
                     next_node.prev_dir = static_cast<int8_t>( rev_dir );
                 }
             } else if( known_nodes.size() < max_search_count ) {
-                const tripoint_abs_omt next_point = next_addr.to_tripoint( source );
+                // this addr is unknown and we haven't reached the search limit
                 if( octile_dist( source_point, next_point.xy() ) > radius ) {
                     continue;
                 }
-                const omt_score next_score = scorer( next_point );
                 if( next_score.node_cost < 0 ) {
                     // TODO: add to closed set to avoid re-visiting
                     continue;
                 }
                 // TODO: pass in the 24 (default terrain cost)
                 const int xy_score = octile_dist( next_point.xy(), dest.xy(), 24 );
-                const int z_score = std::abs( next_point.z() - dest.z() ) *
-                                    4; // Z travel is much faster than X/Y travel
-                const int estimated_total_cost = cumulative_cost + next_score.node_cost + xy_score + z_score;
+                const int z_score = cost_z( std::abs( next_point.z() - dest.z() ) * 24 );
+                // estimate the total cost to reach dest if there was a cheap path
+                // from next_node to dest
+                const int estimated_total_cost = cumulative_cost + xy_score + z_score;
                 if( max_cost && estimated_total_cost > *max_cost ) {
                     continue;
                 }
