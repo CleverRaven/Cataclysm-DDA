@@ -2551,7 +2551,7 @@ void options_manager::add_options_graphics()
 
         add( "PORTRAIT_TILES", page_id, to_translation( "Choose portrait pack" ),
              to_translation( "Choose the tileset you want to use for NPC or player portraits." ),
-             build_tilesets_list( /*bool only_portraits=*/ true ), "Test_Portrait_Pack", COPT_CURSES_HIDE
+             build_tilesets_list( /*bool only_portraits=*/ true ), "MshockXottoplus_Portraits", COPT_CURSES_HIDE
            ); // populate the options dynamically
 
         get_option( "TILES" ).setPrerequisite( "USE_TILES" );
