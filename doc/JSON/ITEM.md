@@ -356,11 +356,7 @@ Armor can be defined like this:
 "environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
-"sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
-"coverage": 80,                     // What percentage of body part is covered (in general)
-"cover_melee": 60,                  // What percentage of body part is covered (against melee)
-"cover_ranged": 45,                 // What percentage of body part is covered (against ranged)
-"cover_vitals": 10,                 // What percentage of critical hit damage is mitigated
+"sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.   
 "material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false,              // If this is a power armor item (those are special).
 "max_worn": 10,                     // How many of these items can be worn.  Defaults to 2.
@@ -381,10 +377,10 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "breathability": "AVERAGE",
     "layers": [ "SKINTIGHT" ],
     "rigid_layer_only": true,
-    "coverage": 95,
-    "cover_melee": 95,
-    "cover_ranged": 50,
-    "cover_vitals": 5,
+    "coverage": 95,					// What percentage of body part is covered (in general)
+    "cover_melee": 95,				// What percentage of body part is covered (against melee)
+    "cover_ranged": 50,				// What percentage of body part is covered (against ranged)
+    "cover_vitals": 5,				// What percentage of critical hit damage is mitigated
     "covers": [ "torso" ],
     "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
     "material": [
