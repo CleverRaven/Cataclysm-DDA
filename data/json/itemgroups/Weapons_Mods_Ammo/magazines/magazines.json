@@ -11,7 +11,6 @@
       { "item": "m2010mag", "prob": 15 },
       { "item": "scarhmag", "prob": 20 },
       { "item": "stanag30", "prob": 100 },
-      { "item": "stanag30ranger", "prob": 10 },
       { "item": "hk417mag_20rd", "prob": 20 },
       { "item": "m14mag", "prob": 5 },
       { "item": "belt223", "prob": 20, "charges": [ 1, 200 ] },
@@ -72,7 +71,6 @@
       { "item": "glock40bigmag", "prob": 10, "charges": [ 0, 22 ] },
       { "item": "m9bigmag", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "mp5bigmag", "prob": 20, "charges": [ 0, 50 ] },
-      { "item": "stanag30ranger", "prob": 5, "charges": [ 0, 30 ] },
       { "item": "stanag30", "prob": 20, "charges": [ 0, 30 ] },
       { "item": "ump45mag", "prob": 20, "charges": [ 0, 25 ] },
       { "item": "usp45mag", "prob": 10, "charges": [ 0, 12 ] },
@@ -88,14 +86,14 @@
     "type": "item_group",
     "//": "one of the possible 30 round stanags",
     "subtype": "distribution",
-    "entries": [ { "item": "stanag30", "prob": 80 }, { "item": "stanag30ranger", "prob": 20 } ]
+    "entries": [ { "item": "stanag30", "prob": 80 } ]
   },
   {
     "id": "stanag_10_random",
     "type": "item_group",
     "//": "one of the possible 10 round stanags",
     "subtype": "distribution",
-    "entries": [ { "item": "stanag10", "prob": 80 }, { "item": "stanag10ranger", "prob": 20 } ]
+    "entries": [ { "item": "stanag10", "prob": 80 } ]
   },
   {
     "type": "item_group",
