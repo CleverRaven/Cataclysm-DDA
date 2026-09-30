@@ -2172,6 +2172,30 @@ void renderer_recovery_test_support::draw_test_map( cata_tiles &tiles,
                 color_blocks );
 }
 
+void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
+        const tripoint_abs_omt &center )
+{
+    // draw_om lays out labels with the global font, which the fixture leaves empty
+    const bool acquired_ttf = TTF_WasInit() == 0 && TTF_Init();
+    Font_Ptr test_font = Font::load_font( renderer, pixel_format, PATH_INFO::fontdir() + "unifont.ttf",
+                                          16, 8, 16, windowsPalette, false );
+    font.swap( test_font );
+    on_out_of_scope restore_font( [&test_font, acquired_ttf]() {
+        font.swap( test_font );
+        test_font.reset();
+        if( acquired_ttf ) {
+            TTF_Quit();
+        }
+    } );
+    tiles.draw_om( point::zero, center, false );
+}
+
+void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
+        const bool animated )
+{
+    tiles.has_animated_tiles_ = animated;
+}
+
 bool renderer_recovery_test_support::setup_software_renderer()
 {
     if( renderer || window ) {
@@ -3026,6 +3050,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( display_buffer_scope_is_invalid() || !g ) {
         return;
     }
+    has_animated_tiles_ = false;
 
 #if defined(__ANDROID__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile

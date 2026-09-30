@@ -535,6 +535,9 @@ struct renderer_recovery_test_support {
     static std::unique_ptr<cata_tiles> make_test_tiles( const std::shared_ptr<const tileset> &ts );
     // one w_terrain frame of `tiles`: w x h tiles centred on `center`
     static void draw_test_map( cata_tiles &tiles, const tripoint_bub_ms &center, int w, int h );
+    // one overmap frame of `tiles` centred on `center`
+    static void draw_test_overmap( cata_tiles &tiles, const tripoint_abs_omt &center );
+    static void set_has_animated_tiles( cata_tiles &tiles, bool animated );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.
