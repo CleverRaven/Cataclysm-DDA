@@ -35,11 +35,8 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-      
           "stanag10",
-   
           "stanag20",
-  
           "stanag40",
           "stanag50",
           "stanag60",
