@@ -18,7 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "portrait_filename": "Named_NPC_boris_borichenko"
+    "portrait_filename": "Named_NPC_boris_borichenko",
     "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the Cataclysm, and it makes it harder for them to make friends in the survivor group.",
     "bonus_str": { "rng": [ 1, 4 ] },
     "bonus_dex": { "rng": [ -1, 2 ] },
