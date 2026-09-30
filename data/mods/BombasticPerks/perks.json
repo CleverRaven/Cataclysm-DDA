@@ -8,7 +8,8 @@
     "valid": false,
     "description": "Direct access to the perk menu.",
     "active": true,
-    "activated_eocs": [ "EOC_open_perk_menu" ]
+    "activated_eocs": [ "EOC_open_perk_menu" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -19,7 +20,8 @@
     "valid": false,
     "description": "Have you been working out?  +1 Strength.",
     "changes_to": [ "perk_STR_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -30,7 +32,8 @@
     "valid": false,
     "description": "You HAVE been working out.  +2 Strength.",
     "prereqs": [ "perk_STR_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -41,7 +44,8 @@
     "valid": false,
     "description": "Have you been doing cardio?  +1 Dexterity.",
     "changes_to": [ "perk_DEX_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -52,7 +56,8 @@
     "valid": false,
     "description": "You HAVE been doing cardio.  +2 Dexterity.",
     "prereqs": [ "perk_DEX_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -63,7 +68,8 @@
     "valid": false,
     "description": "Have you been reading?  +1 Intelligence.",
     "changes_to": [ "perk_INT_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -74,7 +80,8 @@
     "valid": false,
     "description": "You HAVE been reading.  +2 Intelligence.",
     "prereqs": [ "perk_INT_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -85,7 +92,8 @@
     "valid": false,
     "description": "Have you been staring out into the middle distance?  +1 Perception.",
     "changes_to": [ "perk_PER_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -96,7 +104,8 @@
     "valid": false,
     "description": "You HAVE been staring out into the middle distance.  +2 Perception.",
     "prereqs": [ "perk_PER_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -109,7 +118,8 @@
     "activated_is_setup": true,
     "active": true,
     "activated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
-    "deactivated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ]
+    "deactivated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -129,7 +139,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your movements bring to mind a multitude of cat-based metaphors.  +5% to Balance, Footing, and Reaction limb scores.",
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_pantherish_grace", "intensity": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_pantherish_grace", "intensity": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -139,7 +150,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your sharp gazes misses little.  +25% to Vision and Night Vision limb scores.",
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_eagle_eyes", "intensity": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_eagle_eyes", "intensity": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -148,7 +160,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes."
+    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -158,7 +171,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
-    "integrated_armor": [ "integrated_holdout_pocket" ]
+    "integrated_armor": [ "integrated_holdout_pocket" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -168,7 +182,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -180,7 +195,7 @@
     "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
     "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
     "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
-    "flags": [ "BARKY", "TOUGH_FEET" ]
+    "flags": [ "PERK", "BARKY", "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -190,7 +205,8 @@
     "purifiable": false,
     "valid": false,
     "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -205,7 +221,8 @@
         "condition": "ALWAYS",
         "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -226,7 +243,8 @@
       { "part": "hand_l", "neutral": 12 },
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -235,7 +253,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage."
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -245,7 +264,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
-    "integrated_armor": [ "integrated_thick_skull" ]
+    "integrated_armor": [ "integrated_thick_skull" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -255,7 +275,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
-    "integrated_armor": [ "integrated_hand_openpalm" ]
+    "integrated_armor": [ "integrated_hand_openpalm" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -265,7 +286,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
-    "integrated_armor": [ "integrated_hand_closedfist" ]
+    "integrated_armor": [ "integrated_hand_closedfist" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -275,7 +297,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
-    "integrated_armor": [ "integrated_hand_pinchedfingers" ]
+    "integrated_armor": [ "integrated_hand_pinchedfingers" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -285,7 +308,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
-    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -295,7 +319,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Even with everything that's happened, you still find solace in nature.  Natural animals are less likely to attack you.",
-    "flags": [ "ANIMALEMPATH" ]
+    "flags": [ "PERK", "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -305,7 +329,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
-    "enchantments": [ "perk_ench_vengeful" ]
+    "enchantments": [ "perk_ench_vengeful" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -314,7 +339,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill."
+    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -326,7 +352,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes."
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
