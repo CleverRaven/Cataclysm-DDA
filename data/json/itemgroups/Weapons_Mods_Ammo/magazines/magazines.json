@@ -82,20 +82,6 @@
     ]
   },
   {
-    "id": "stanag_30_random",
-    "type": "item_group",
-    "//": "one of the possible 30 round stanags",
-    "subtype": "distribution",
-    "entries": [ { "item": "stanag30", "prob": 80 } ]
-  },
-  {
-    "id": "stanag_10_random",
-    "type": "item_group",
-    "//": "one of the possible 10 round stanags",
-    "subtype": "distribution",
-    "entries": [ { "item": "stanag10", "prob": 80 } ]
-  },
-  {
     "type": "item_group",
     "subtype": "distribution",
     "id": "uncommon_magazines",
