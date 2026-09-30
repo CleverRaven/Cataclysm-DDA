@@ -25,6 +25,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_dana_nunez"
     "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.",
     "worn_override": "REFUGEE_Dana_worn",
     "carry_override": "REFUGEE_Dana_carried",
