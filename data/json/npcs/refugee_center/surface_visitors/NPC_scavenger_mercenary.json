@@ -17,6 +17,7 @@
     "name": { "str": "Mercenary" },
     "job_description": "Fighting for the all-mighty dollar.",
     "common": false,
+    "portrait_filename": "Generic_NPC_scavenger_merc",
     "traits": [
       { "trait": "BGSS_Scavenger_Merc_1" },
       { "trait": "PSYCHOPATH" },
