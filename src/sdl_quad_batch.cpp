@@ -86,8 +86,19 @@ void render_quad_batch( const SDL_Renderer_Ptr &renderer, const quad_batch &batc
                     batch.index_data(), batch.index_count() );
 }
 
+void text_batch::begin_pass( const SDL_Renderer_Ptr &renderer, const bool immediate )
+{
+    renderer_ = &renderer;
+    immediate_ = immediate;
+}
+
 void text_batch::add_rect( const SDL_Rect &rect, const SDL_Color &color )
 {
+    if( immediate_ && renderer_ ) {
+        SetRenderDrawColor( *renderer_, color.r, color.g, color.b, color.a );
+        RenderFillRect( *renderer_, &rect );
+        return;
+    }
     rects_.append_quad( static_cast<float>( rect.x ), static_cast<float>( rect.y ),
                         static_cast<float>( rect.w ), static_cast<float>( rect.h ),
                         to_fcolor( color ) );

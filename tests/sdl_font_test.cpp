@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <vector>
@@ -16,6 +18,7 @@
 #include "options_helpers.h"
 #include "path_info.h"
 #include "point.h"
+#include "sdl_font.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
@@ -278,13 +281,19 @@ TEST_CASE( "draw_window_matches_ttf_glyph_oracle", "[tiles][sdl_font]" )
     const std::string face = GENERATE( typeface_unifont, typeface_roboto );
     const bool blending = GENERATE( false, true );
     const bool ascii_routine = GENERATE( false, true );
-    CAPTURE( face, blending, ascii_routine );
+    // software renderer draws immediately, forcing the atlas covers the batched path
+    const bool atlas = GENERATE( false, true );
+    CAPTURE( face, blending, ascii_routine, atlas );
 
     software_render_fixture fx;
     if( !fx.available() ) {
         WARN( "dummy SDL video backend unavailable; skipping" );
         return;
     }
+    override_text_atlas( atlas ? std::optional<bool>( true ) : std::nullopt );
+    on_out_of_scope restore_atlas( []() {
+        override_text_atlas( std::nullopt );
+    } );
     restore_on_out_of_scope<palette_t> restore_palette( windowsPalette );
     windowsPalette = test_palette();
     override_option ascii_lines( "USE_DRAW_ASCII_LINES_ROUTINE", ascii_routine ? "true" : "false" );
@@ -351,11 +360,17 @@ TEST_CASE( "draw_window_paints_a_npot_bitmap_font_glyph", "[tiles][sdl_font]" )
     // window format on common desktops; build_textures recolors only texels
     // that read 0xFFFFFF in it
     const Uint32 format = SDL_PIXELFORMAT_XRGB8888;
+    const bool atlas = GENERATE( false, true );
+    CAPTURE( atlas );
     software_render_fixture fx;
     if( !fx.available() ) {
         WARN( "dummy SDL video backend unavailable; skipping" );
         return;
     }
+    override_text_atlas( atlas ? std::optional<bool>( true ) : std::nullopt );
+    on_out_of_scope restore_atlas( []() {
+        override_text_atlas( std::nullopt );
+    } );
     restore_on_out_of_scope<palette_t> restore_palette( windowsPalette );
     windowsPalette = test_palette();
     GIVEN( "6x10 bitmap font from 100x170 image + two A cells" ) {

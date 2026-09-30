@@ -40,13 +40,23 @@ class quad_batch
 void render_quad_batch( const SDL_Renderer_Ptr &renderer, const quad_batch &batch,
                         SDL_Texture *texture = nullptr );
 
-// solid rects and glyph quads of one text pass. flush() draws every rect, then
-// the glyph quads grouped by texture in first-use order. callers guarantee no
-// glyph quad overlaps another texture's glyph quad or a rect appended after it,
-// and flush first where one would
+// solid rects, glyph quads of one text pass. flush() draws all rects, then
+// glyph quads grouped by texture in first-use order. callers guarantee no glyph
+// quad overlaps another texture's glyph quad or a rect appended after it, and
+// flush first where one would. immediate pass draws each rect when added, fonts
+// draw glyphs directly instead of queueing them
 class text_batch
 {
     public:
+        // start pass on `renderer`; the renderer must outlive the pass
+        void begin_pass( const SDL_Renderer_Ptr &renderer, bool immediate );
+        bool immediate() const {
+            return immediate_;
+        }
+        // renderer of the current pass; only valid after begin_pass
+        const SDL_Renderer_Ptr &renderer() const {
+            return *renderer_;
+        }
         void add_rect( const SDL_Rect &rect, const SDL_Color &color );
         void add_glyph( SDL_Texture *texture, int tex_w, int tex_h, const SDL_Rect &dst,
                         const SDL_Rect &src, const SDL_FColor &color );
@@ -54,6 +64,8 @@ class text_batch
         void flush( const SDL_Renderer_Ptr &renderer );
 
     private:
+        const SDL_Renderer_Ptr *renderer_ = nullptr;
+        bool immediate_ = false;
         quad_batch rects_;
         // groups past active_groups_ are spare: texture reset to null, buffers
         // cleared but keeping their capacity for the next pass
