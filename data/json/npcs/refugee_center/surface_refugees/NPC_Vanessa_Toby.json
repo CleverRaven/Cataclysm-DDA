@@ -18,6 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_vanessa_toby",
     "//": "Vanessa is a middle-aged hairdresser.  She doesn't want to talk about her past.",
     "bonus_str": { "rng": [ -2, 0 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },

@@ -56,6 +56,7 @@
     "work_hours": [ 9, 21 ],
     "weapon_override": "NC_FREE_MERCH_GUARD_wield_phase1",
     "worn_override": "NC_FREE_MERCH_GUARD_worn_phase1",
+    "portrait_filename": "Generic_NPC_free_merch_guard",
     "traits": [
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },

@@ -25,6 +25,7 @@
     "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_reena_sandhu",
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
     "bonus_str": { "rng": [ -6, -2 ] },
     "bonus_dex": { "rng": [ -4, -1 ] },

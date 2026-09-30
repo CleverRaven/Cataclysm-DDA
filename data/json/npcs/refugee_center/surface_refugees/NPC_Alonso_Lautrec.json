@@ -18,6 +18,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_alonso_lautrec",
     "//": "Alonso wants to be the town bicycle, but isn't getting as much interest as he'd hoped.  He'll trade a morale bonus for condoms.",
     "bonus_str": { "rng": [ -2, 1 ] },
     "bonus_dex": { "rng": [ -2, 4 ] },

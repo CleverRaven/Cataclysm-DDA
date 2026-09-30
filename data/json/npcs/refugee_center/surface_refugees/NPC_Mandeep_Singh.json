@@ -17,6 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_mandeep_singh",
     "//": "Mandeep is the father of a small family.  They've made it through this unscathed and have a lot of survivor's guilt as a result.",
     "bonus_str": { "rng": [ -2, 2 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },

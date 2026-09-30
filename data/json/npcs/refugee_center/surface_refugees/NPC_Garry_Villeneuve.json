@@ -17,6 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_gary_villeneuve",
     "//": "Garry is a Stan's older brother.  He's grateful he's made it to help support his brother, but he's very worried about Stan.",
     "bonus_str": { "rng": [ 0, 4 ] },
     "bonus_dex": { "rng": [ -1, 3 ] },

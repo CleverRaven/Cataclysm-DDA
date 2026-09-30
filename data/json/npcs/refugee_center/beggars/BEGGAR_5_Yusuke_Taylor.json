@@ -19,6 +19,7 @@
     "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_yusuke_taylor",
     "//": "This is the only beggar with some skills, sort of the leader.",
     "bonus_str": { "rng": [ -2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },

@@ -27,6 +27,7 @@
     "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
     "common": false,
+    "portrait_filename": "Named_NPC_makayla_sanchez",
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "trait": "hair_long_over_eye", "variant": "brown" },

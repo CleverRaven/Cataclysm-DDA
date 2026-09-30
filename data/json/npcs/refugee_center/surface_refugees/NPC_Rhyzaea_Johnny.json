@@ -17,6 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_rhyzaea_johnny",
     "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
     "bonus_str": { "rng": [ -1, 1 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
