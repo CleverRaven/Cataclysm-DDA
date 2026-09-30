@@ -97,9 +97,6 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "components": [
-      [ [ "oxblood_apple", 1 ] ],
-      [ [ "water", 2 ] ]
-    ]
+    "components": [ [ [ "oxblood_apple", 1 ] ], [ [ "water", 2 ] ] ]
   }
 ]
