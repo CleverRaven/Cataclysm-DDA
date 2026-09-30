@@ -2590,12 +2590,14 @@ void npc::evaluate_best_attack( const Creature *target )
 
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
+    // item's name is only built when the debug message is logged
     const auto compare = [&best_attack, &best_evaluated_attack, this, &target]
-    ( const std::shared_ptr<npc_attack> &potential_attack, const std::string & disp ) {
+    ( const std::shared_ptr<npc_attack> &potential_attack, const char *kind, const item * it ) {
         const npc_attack_rating evaluated = potential_attack->evaluate( *this, target );
         if( evaluated.value() ) {
-            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s: Item %s has effectiveness %d",
-                           this->get_name(), disp, *evaluated.value() );
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s: Item %s%s has effectiveness %d",
+                           this->get_name(), kind, it ? it->display_name() : std::string(),
+                           *evaluated.value() );
             if( evaluated > best_evaluated_attack ) {
                 best_attack = potential_attack;
                 best_evaluated_attack = evaluated;
@@ -2604,20 +2606,35 @@ void npc::evaluate_best_attack( const Creature *target )
     };
 
     // punching things is always available
-    compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded" );
-    visit_items( [&compare, this, &here]( item * it, item * ) {
+    compare( std::make_shared<npc_attack_melee>( null_item_reference() ), "barehanded", nullptr );
+    // evaluate_best_weapon walks the whole inventory, so per-candidate call would be quadratic
+    const item *best_weapon = evaluate_best_weapon();
+    const float own_speed_rating = speed_rating();
+    // identical items rate the same, so only the first of each is scored
+    std::unordered_map<itype_id, std::vector<const item *>> scored;
+    visit_items( [&compare, this, &here, best_weapon, own_speed_rating, &scored]( item * it, item * ) {
         if( craft_reservation::contains_reserved( *it ) ) {
             return VisitResponse::SKIP;
         }
+        // wielding changes the ratings, and best weapon mustn't be swapped for a copy
+        if( it != best_weapon && !is_wielding( *it ) ) {
+            std::vector<const item *> &same_type = scored[it->typeId()];
+            for( const item *other : same_type ) {
+                if( it->stacks_with( *other ) ) {
+                    return VisitResponse::NEXT;
+                }
+            }
+            same_type.push_back( it );
+        }
         if( can_wield( *it ).success() ) {
             // you can theoretically melee with anything.
-            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
+            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) ", it );
             if( !is_wielding( *it ) || !it->has_flag( flag_NO_UNWIELD ) ) {
-                compare( std::make_shared<npc_attack_throw>( *it ), "(as THROWN) " + it->display_name() );
+                compare( std::make_shared<npc_attack_throw>( *it, best_weapon, own_speed_rating ),
+                         "(as THROWN) ", it );
             }
             if( !it->type->use_methods.empty() ) {
-                compare( std::make_shared<npc_attack_activate_item>( *it ),
-                         "(as ACTIVATED) " + it->display_name() );
+                compare( std::make_shared<npc_attack_activate_item>( *it ), "(as ACTIVATED) ", it );
             }
             if( rules.has_flag( ally_rule::use_guns ) ) {
                 for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
@@ -2626,9 +2643,9 @@ void npc::evaluate_best_attack( const Creature *target )
                            ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                              !mode.second->is_silent() ) ) ) {
                         if( it->shots_remaining( here, this ) > 0 || can_reload_current() ) {
-                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ), "(as FIRED) " + it->display_name() );
+                            compare( std::make_shared<npc_attack_gun>( *it, mode.second ), "(as FIRED) ", it );
                         } else {
-                            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) " + it->display_name() );
+                            compare( std::make_shared<npc_attack_melee>( *it ), "(as MELEE) ", it );
                         }
                     }
                 }
@@ -2642,7 +2659,7 @@ void npc::evaluate_best_attack( const Creature *target )
         magic->evaluate_opens_spellbook_data();
     }
     for( const spell_id &sp : magic->spells() ) {
-        compare( std::make_shared<npc_attack_spell>( sp ), sp.c_str() );
+        compare( std::make_shared<npc_attack_spell>( sp ), sp.c_str(), nullptr );
     }
 
     ai_cache.current_attack = best_attack;
@@ -4900,23 +4917,22 @@ item *npc::evaluate_best_weapon() const
             // gun mags/mods are in non-CONTAINER pockets, not visited.
             return VisitResponse::NEXT;
         }
+        // only weapons get scored, everything else (including holsters) is descended into.
+        // test that before can_wield, which is much more expensive and runs per node
+        if( !node->is_melee() && !node->is_gun() ) {
+            return VisitResponse::NEXT;
+        }
         if( can_wield( *node ).success() ) {
-            double weapon_value = 0.0;
             bool using_same_type_bionic_weapon = is_using_bionic_weapon()
                                                  && node != &weap
                                                  && node->type->get_id() == weap.type->get_id();
 
-            if( node->is_melee() || node->is_gun() ) {
-                weapon_value = evaluate_weapon( *node );
-                if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
-                    best = const_cast<item *>( node );
-                    best_value = weapon_value;
-                }
-                return VisitResponse::SKIP;
-            } else if( node->get_use( "holster" ) && !node->empty() ) {
-                // we just recur to the next farther down
-                return VisitResponse::NEXT;
+            const double weapon_value = evaluate_weapon( *node );
+            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                best = const_cast<item *>( node );
+                best_value = weapon_value;
             }
+            return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
