@@ -115,8 +115,13 @@ class npc_attack_gun : public npc_attack
 class npc_attack_throw : public npc_attack
 {
         item &thrown_item;
+        // source npc's evaluate_best_weapon() and speed_rating() results
+        const item *best_weapon;
+        float source_speed_rating;
     public:
-        explicit npc_attack_throw( item &thrown_item ) : thrown_item( thrown_item ) {}
+        npc_attack_throw( item &thrown_item, const item *best_weapon, float source_speed_rating ) :
+            thrown_item( thrown_item ), best_weapon( best_weapon ),
+            source_speed_rating( source_speed_rating ) {}
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;

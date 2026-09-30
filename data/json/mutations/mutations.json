@@ -6926,7 +6926,37 @@
     "thirst": true,
     "visibility": 10,
     "ugliness": 10,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] },
+      {
+        "modified_bodyparts": [
+          { "lose": "head" },
+          { "gain": "head_slime" },
+          { "lose": "mouth" },
+          { "gain": "mouth_slime" },
+          { "lose": "eyes" },
+          { "gain": "eyes_slime" },
+          { "lose": "torso" },
+          { "gain": "torso_slime" },
+          { "lose": "arm_l" },
+          { "gain": "arm_slime_l" },
+          { "lose": "hand_l" },
+          { "gain": "hand_slime_complete_l" },
+          { "lose": "arm_r" },
+          { "gain": "arm_slime_r" },
+          { "lose": "hand_r" },
+          { "gain": "hand_slime_complete_r" },
+          { "lose": "leg_l" },
+          { "gain": "leg_slime_l" },
+          { "lose": "foot_l" },
+          { "gain": "foot_slime_l" },
+          { "lose": "leg_r" },
+          { "gain": "leg_slime_r" },
+          { "lose": "foot_r" },
+          { "gain": "foot_slime_r" }
+        ]
+      }
+    ],
     "flags": [ "DISTRIBUTED_DAMAGE" ]
   },
   {

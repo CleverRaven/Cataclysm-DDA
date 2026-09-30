@@ -389,7 +389,7 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
     "material": [
       { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
-      { "type": "plastic", "covered_by_mat": 15, "thickness": 0.8, "ignore_sheet_thickness": "true" }
+      { "type": "plastic", "covered_by_mat": 15, "thickness": 0.8, "ignore_sheet_thickness": true }
     ]
   },
   {

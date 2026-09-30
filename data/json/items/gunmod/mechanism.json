@@ -31,7 +31,7 @@
     "integral_volume": "0 ml",
     "integral_weight": "0 g",
     "price": "650 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "3 USD",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "red",
@@ -54,7 +54,7 @@
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "price": "240 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "3 USD",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "red",
@@ -68,7 +68,7 @@
     "//durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ]
   },
   {
     "id": "glocksear",
@@ -79,7 +79,7 @@
     "weight": "55 g",
     "volume": "20 ml",
     "price": "95 USD",
-    "price_postapoc": "3 USD",
+    "price_postapoc": "2 USD",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "red",
