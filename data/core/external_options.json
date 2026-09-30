@@ -494,6 +494,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "CHARACTER_CREATION_HARD_LIMIT",
+    "//": "If true, custom characters must be Average or weaker in all rating categories.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "ETERNAL_TIME_OF_DAY",
     "//": "Day/night cycle settings.  'normal' sets a normal cycle.  'day' sets eternal day.  'night' sets eternal night.",
     "stub": true,

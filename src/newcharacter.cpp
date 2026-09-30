@@ -3429,14 +3429,29 @@ bool character_creator_ui::handle_action( const std::string &action )
         }
     } else if( action == "NEXT_TAB" ) {
         if( cc_uistate.selected_tab == CHARCREATOR_SUMMARY ) {
-            if( you.name.empty() ) {
-                if( query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
-                    you.pick_name();
-                    cc_uistate.finished_character_creator = true;
+            bool is_overpowered = false;
+
+            std::string query = _( "Are you finished creating your character?" );
+            std::map<rating_category, OP_level> ratings_map = player_difficulty::getInstance().get_ratings();
+            for( std::pair<const rating_category, OP_level> pair : ratings_map ) {
+                query += "\n";
+                //~This is a rating when creating a new custom character. e.g. "Defense: overpowered"
+                query += string_format( _( "%1$s: %2$s" ),
+                                        io::enum_to_string( pair.first ),
+                                        player_difficulty::format_text_for( pair.second ) );
+                if( pair.second > OP_level::Average && get_option<bool>( "CHARACTER_CREATION_HARD_LIMIT" ) ) {
+                    is_overpowered = true;
                 }
-            } else {
-                if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
+            }
+            query += "\n\n"; // Extra empty lines so the (Case Sensitive) prompt doesn't appear on the same line as some of our text.
+            if( query_yn( query ) ) {
+                if( !is_overpowered ) {
                     cc_uistate.finished_character_creator = true;
+                    if( you.name.empty() ) { // This can be changed at any time ingame. Assume someone who left it at random wants random.
+                        you.pick_name();
+                    }
+                } else {
+                    popup( _( "Your character is too powerful!  Reduce your character's ratings to continue." ) );
                 }
             }
         } else {
