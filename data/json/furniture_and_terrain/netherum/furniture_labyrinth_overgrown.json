@@ -60,7 +60,7 @@
       "sound_fail": "whump!",
       "items": [
         { "item": "nl_flesh_powerbox", "count": [ 1, 5 ] },
-        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },    
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
@@ -87,7 +87,7 @@
       "sound_fail": "whump!",
       "items": [
         { "item": "nl_flesh_powerbox", "count": [ 1, 5 ] },
-        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },    
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }

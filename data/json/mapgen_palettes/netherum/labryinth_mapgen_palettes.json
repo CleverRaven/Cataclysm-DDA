@@ -194,8 +194,8 @@
       ".": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ]
     },
     "nested": {
-        "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] },
-        "#": { "chunks": [ [ "null", 199 ], [ "f_nl_powerbox_nest", 1 ] ] }
+      "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] },
+      "#": { "chunks": [ [ "null", 199 ], [ "f_nl_powerbox_nest", 1 ] ] }
     },
     "items": {
       "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] },
