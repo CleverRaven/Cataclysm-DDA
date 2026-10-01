@@ -129,6 +129,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -8771,7 +8772,8 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
     std::vector<uilist_entry> uile;
     std::vector<item_location> artifacts;
     int i = 0;
-    for( const item_location &item_loc : p->all_items_loc() ) {
+    p->visit_items(
+    [&i, &uile, &artifacts]( const item_location & item_loc ) {
         const item *tested_item = item_loc.get_item();
         if( !tested_item->get_proc_enchantments().empty() ) {
             // We've found an item with an enchantment. This doesn't guarantee it is an artifact! Prune the list to only items with resonance
@@ -8790,7 +8792,9 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
                 i++;
             }
         }
+        return VisitResponse::NEXT;
     }
+    );
 
     if( artifacts.empty() ) {
         popup( _( "The device indicates none of the items on your person resonate with registered nether phenomena." ) );
