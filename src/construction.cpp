@@ -2617,11 +2617,11 @@ void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
         uilist selectmenu;
         //~ $1 - task name, $2 - percentage complete
         selectmenu.text = string_format( _( "%1$s    %2$d%% complete" ),
-                                            built.group->name(), pc->counter / 100000 );
+                                         built.group->name(), pc->counter / 100000 );
         selectmenu.addentry( RESUME, true, MENU_AUTOASSIGN,
-                                _( "Resume %s" ), built.group->name() );
-        selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, 
-                                _( "Cancel %s" ), built.group->name() );
+                             _( "Resume %s" ), built.group->name() );
+        selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN,
+                             _( "Cancel %s" ), built.group->name() );
         selectmenu.addentry( IGNORE, true, MENU_AUTOASSIGN, _( "Ignore" ) );
         selectmenu.query();
 
