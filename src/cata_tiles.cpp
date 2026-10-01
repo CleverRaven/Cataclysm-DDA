@@ -1023,7 +1023,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     color_blocks = here.color_blocks_cache;
 
     // List all layers for a single z-level
-    const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+    static const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
             &cata_tiles::draw_terrain, &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap, &cata_tiles::draw_part_con,
             &cata_tiles::draw_field_or_item,
             &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
@@ -2624,7 +2624,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             // What about isBlink?
             const bool isBold = col.is_bold();
             const int FG = colorpair.FG + ( isBold ? 8 : 0 );
-            std::string generic_id = get_ascii_tile_id( sym, FG, -1 );
+            const int BG = get_supports_overmap_transparency() &&
+                           category == TILE_CATEGORY::OVERMAP_TERRAIN ? catacurses::black + 8 : -1;
+            std::string generic_id = get_ascii_tile_id( sym, FG, BG );
 
             // do not rotate fallback tiles for non line drawings (roads and such)
             if( !is_linear ) {

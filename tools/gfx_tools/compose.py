@@ -262,6 +262,7 @@ class Tileset:
         self.zlevel_height = 0
         self.pixelscale = 1
         self.iso = False
+        self.supports_overmap_transparency = False
         self.retract_dist_min = -1.0
         self.retract_dist_max = 1.0
         self.info = [{}]
@@ -281,6 +282,7 @@ class Tileset:
             self.retract_dist_max = self.info[0].get('retract_dist_max',
                                                      self.retract_dist_max)
             self.iso = self.info[0].get('iso', self.iso)
+            self.supports_overmap_transparency = self.info[0].get('supports_overmap_transparency', self.supports_overmap_transparency)
 
     def determine_conffile(self) -> str:
         '''
@@ -476,6 +478,7 @@ class Tileset:
                 'height': self.sprite_height,
                 'zlevel_height': self.zlevel_height,
                 'iso': self.iso,
+                'supports_overmap_transparency' : self.supports_overmap_transparency,
                 'retract_dist_min': self.retract_dist_min,
                 'retract_dist_max': self.retract_dist_max
             }],

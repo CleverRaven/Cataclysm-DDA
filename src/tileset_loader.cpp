@@ -395,6 +395,7 @@ atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_i
         ts.max_tile_extent = half_open_rectangle<point>( point::zero, { ts.tile_width, ts.tile_height } );
         ts.zlevel_height = curr_info.get_int( "zlevel_height", 0 );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
+        ts.supports_overmap_transparency = curr_info.get_bool( "supports_overmap_transparency", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.prevent_occlusion_min_dist = curr_info.get_float( "retract_dist_min", -1.0f );
         ts.prevent_occlusion_max_dist = curr_info.get_float( "retract_dist_max", 0.0f );
@@ -743,17 +744,6 @@ void tileset_cache::loader::process_variations_after_loading(
     vs.precalc();
 }
 
-void tileset_cache::loader::add_ascii_subtile( tile_type &curr_tile, const std::string &t_id,
-        int sprite_id, const std::string &s_id )
-{
-    const std::string m_id = t_id + "_" + s_id;
-    tile_type curr_subtile;
-    curr_subtile.fg.add( std::vector<int>( {sprite_id} ), 1 );
-    curr_subtile.rotates = true;
-    curr_tile.available_subtiles.push_back( s_id );
-    ts.create_tile_type( m_id, std::move( curr_subtile ) );
-}
-
 void tileset_cache::loader::load_ascii( const JsonObject &config )
 {
     if( !config.has_member( "ascii" ) ) {
@@ -810,6 +800,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
             continue;
         }
         const std::string id = get_ascii_tile_id( ascii_char, FG, -1 );
+        const std::string id_background = get_ascii_tile_id( ascii_char, FG, catacurses::black + 8 );
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
         curr_tile.offset_retracted = sprite_offset_retracted;
@@ -861,17 +852,36 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
                 sprites[0] = 180 + base_offset;
                 break;
         }
+        // Use bold black █ for overmap bg when using 3D vision. If fallback.png order is changed this will need updating.
+        static const int bg_index_in_image = 219 + ( 256 * 3 );
         if( ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C ) {
             curr_tile.rotates = false;
             curr_tile.multitile = true;
-            add_ascii_subtile( curr_tile, id, 197 + base_offset, "center" );
-            add_ascii_subtile( curr_tile, id, 218 + base_offset, "corner" );
-            add_ascii_subtile( curr_tile, id, 179 + base_offset, "edge" );
-            add_ascii_subtile( curr_tile, id, 194 + base_offset, "t_connection" );
-            add_ascii_subtile( curr_tile, id, 179 + base_offset, "end_piece" );
-            add_ascii_subtile( curr_tile, id, 197 + base_offset, "unconnected" );
+
+            auto add_ascii_subtile = [&]( const int &index_in_image, const std::string & subtile_id_suffix ) {
+                tile_type curr_subtile;
+                curr_subtile.fg.add( std::vector<int>( {index_in_image + base_offset} ), 1 );
+                curr_subtile.rotates = true;
+                curr_tile.available_subtiles.push_back( subtile_id_suffix );
+                tile_type curr_subtile_bg = curr_subtile;
+                curr_subtile_bg.bg.add( std::vector<int>( {bg_index_in_image + offset} ), 1 );
+                const std::string m_id = id + "_" + subtile_id_suffix;
+                ts.create_tile_type( m_id, std::move( curr_subtile ) );
+                const std::string m_id_background = id_background + "_" + subtile_id_suffix;
+                ts.create_tile_type( m_id_background, std::move( curr_subtile_bg ) );
+            };
+
+            add_ascii_subtile( 206, "center" );
+            add_ascii_subtile( 201, "corner" );
+            add_ascii_subtile( 186, "edge" );
+            add_ascii_subtile( 203, "t_connection" );
+            add_ascii_subtile( 210, "end_piece" );
+            add_ascii_subtile( 219, "unconnected" );
         }
+        tile_type curr_tile_bg = curr_tile;
+        curr_tile_bg.bg.add( std::vector<int>( {bg_index_in_image + offset} ), 1 );
         ts.create_tile_type( id, std::move( curr_tile ) );
+        ts.create_tile_type( id_background, std::move( curr_tile_bg ) );
     }
 }
 
