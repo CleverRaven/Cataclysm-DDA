@@ -29,6 +29,7 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "material.h"
@@ -460,7 +461,7 @@ void item::on_wear( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
-    p.on_item_acquire( *this );
+    p.on_item_acquire( item_location( p, this ) );
     p.on_item_wear( *this );
 }
 

@@ -1445,18 +1445,19 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
 
     if( cat.get_id() == item_category_food ) {
 
-        const item *it_food = nullptr;
+        item_location it_food;
         bool perishable = false;
         // Look for food, and whether any contents which will spoil if left out.
         // Food crafts and food without comestible, like MREs, will fall down to LOOT_FOOD.
-        it.visit_items( [&it_food, &perishable]( const item * node, const item * parent ) {
+        item_location( map_cursor( where ), const_cast<item *>( &it ) ).visit_items( [&it_food,
+        &perishable]( item_location node ) {
             if( node && node->is_food() ) {
                 it_food = node;
 
                 if( node->goes_bad() ) {
                     float spoil_multiplier = 1.0f;
-                    if( parent ) {
-                        const item_pocket *parent_pocket = parent->contained_where( *node );
+                    if( node.has_parent() ) {
+                        const item_pocket *parent_pocket = node.parent_item()->contained_where( *node );
                         if( parent_pocket ) {
                             spoil_multiplier = parent_pocket->spoil_multiplier();
                         }
@@ -1469,7 +1470,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return VisitResponse::NEXT;
         } );
 
-        if( it_food != nullptr ) {
+        if( it_food.valid() ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
                 if( perishable && has_near( zone_type_LOOT_PDRINK, where, range, fac ) ) {
                     if( !get_near( zone_type_LOOT_PDRINK, where, range, &it, fac ).empty() ) {

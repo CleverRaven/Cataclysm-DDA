@@ -5342,12 +5342,13 @@ std::map<itype_id, units::power> vehicle::fuel_usage() const
 units::energy vehicle::drain_energy( const itype_id &ftype, units::energy wanted_energy )
 {
     units::energy drained = 0_J;
-    for( vehicle_part &p : parts ) {
+    vehicle_cursor cur( *this, 0 );
+    for( cur.part = 0; cur.part < static_cast<ptrdiff_t>( parts.size() ); cur.part++ ) {
         if( wanted_energy <= 0_J ) {
             break;
         }
 
-        units::energy consumed = p.consume_energy( ftype, wanted_energy );
+        units::energy consumed = parts[cur.part].consume_energy( cur, ftype, wanted_energy );
         drained += consumed;
         wanted_energy -= consumed;
     }
@@ -8489,8 +8490,9 @@ std::list<item> vehicle::use_charges( map &here, const vpart_position &vp, const
     }
 
     if( const std::optional<vpart_reference> cargo_vp = vp.cargo() ) {
-        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub( here ), filter,
-                              in_tools );
+        const vehicle_cursor cur( cargo_vp->vehicle(), cargo_vp->part_index() );
+        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub( here ),
+                              cur, filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;

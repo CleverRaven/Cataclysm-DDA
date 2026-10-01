@@ -362,7 +362,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         uilist selector_menu;
         selector_menu.title = _( "Select an item from nearby" );
         get_player_character().crafting_inventory().visit_items(
-        [&]( item * node, item * ) {
+        [&]( item_location node ) {
             nearby_itypes.insert( node->typeId() );
             return VisitResponse::NEXT;
         }
