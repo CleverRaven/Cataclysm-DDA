@@ -291,6 +291,13 @@ const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
 // off the gpu driver
 const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer );
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
+// block until event is queued or `timeout_ms` passes (0 polls, -1 has no
+// timeout); the event stays queued for SDL_PollEvent. false on timeout
+bool WaitForEvent( int timeout_ms );
+// queue an empty event from any thread so a blocked WaitForEvent returns
+void PushWakeEvent();
+// posted by PushWakeEvent; SDL_EVENT_USER + 1 is the gamepad scheduler
+inline constexpr Uint32 CATA_WAKE_EVENT = SDL_EVENT_USER + 2;
 bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
 
 void RenderPresent( const SDL_Renderer_Ptr &renderer );

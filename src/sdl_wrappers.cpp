@@ -796,6 +796,24 @@ const char *GetRendererName( const SDL_Renderer_Ptr &renderer )
     return name ? name : "";
 }
 
+bool WaitForEvent( const int timeout_ms )
+{
+    return SDL_WaitEventTimeout( nullptr, timeout_ms );
+}
+
+void PushWakeEvent()
+{
+    // the Android insets hook can fire before SDL_main initializes SDL
+    if( SDL_WasInit( SDL_INIT_EVENTS ) == 0 ) {
+        return;
+    }
+    SDL_Event ev;
+    SDL_zero( ev );
+    ev.type = CATA_WAKE_EVENT;
+    // no logging: this runs on foreign threads, and a full queue wakes the waiter anyway
+    static_cast<void>( SDL_PushEvent( &ev ) );
+}
+
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer )
 {
     if( !renderer ) {
