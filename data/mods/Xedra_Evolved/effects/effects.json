@@ -239,6 +239,21 @@
   },
   {
     "type": "effect_type",
+    "id": "minoan_orchid_effect",
+    "name": [ "Minoan Joy", "Minoan Delight", "Minoan Elation", "Minoan Euphoria", "Minoan Rapture", "Minoan Ecstasy" ],
+    "desc": [
+      "The effect of the opioids in your system are increased.",
+      "As you consume more opioids your mood increases even more.",
+      "The combination of these drugs is clearly dangerously euphoric.",
+      "Your body is pairing endorphins and dopamine across every pathway.",
+      "Are you dead?  Is this heaven?",
+      "…………………………………………………………………"
+    ],
+    "rating": "neutral",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "visuals",
     "name": [ "Hallucinating" ],
     "desc": [ "You can't trust everything that you see." ],
