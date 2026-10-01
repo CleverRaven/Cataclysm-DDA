@@ -5980,33 +5980,43 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const
     } else {
         bool enough_quality = false;
         tool_type = CRUSH_DRILL_OR_HAMMER_AND_SCREW;
-        if( has_quality( qual_DRILL ) ) {
-            enough_quality = true;
-        } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
-            int num_hammer_tools = 0;
-            int num_screw_tools = 0;
-            int num_both_tools = 0;
-            for( item_location &tool : const_cast<Character *>( this )->all_items_loc() ) {
-                bool can_hammer = false;
-                bool can_screw = false;
-                if( tool->has_quality_nonrecursive( qual_HAMMER ) ) {
-                    can_hammer = true;
-                    num_hammer_tools++;
-                }
-                if( tool->has_quality_nonrecursive( qual_SCREW ) ) {
-                    can_screw = true;
-                    num_screw_tools++;
-                }
-                if( can_hammer && can_screw ) {
-                    num_both_tools++;
-                }
-            }
-            if( num_hammer_tools > 0 && num_screw_tools > 0 &&
-                // Only one tool that fulfils both requirements: can't hammer itself
-                !( num_hammer_tools == 1 && num_screw_tools == 1 && num_both_tools == 1 ) ) {
+        bool can_hammer = false;
+        bool can_screw = false;
+        bool can_both = false;
+        visit_items(
+        [&]( const item_location & node ) {
+
+            if( node->has_quality_nonrecursive( qual_DRILL ) ) {
                 enough_quality = true;
+                return VisitResponse::ABORT;
             }
+            bool local_hammer = false;
+            bool local_screw = false;
+
+            if( node->has_quality_nonrecursive( qual_HAMMER ) ) {
+                local_hammer = true;
+            }
+            if( node->has_quality_nonrecursive( qual_SCREW ) ) {
+                local_screw = true;
+            }
+            if( local_hammer && local_screw ) {
+                if( can_both ) {
+                    enough_quality = true;
+                    return VisitResponse::ABORT;
+                }
+                can_both = true;
+            } else if( local_hammer ^ local_screw ) {
+                can_hammer = can_hammer || local_hammer;
+                can_screw = can_screw || local_screw;
+            }
+            // Only one tool that fulfils both requirements: can't hammer itself
+            if( ( can_hammer && can_screw ) || ( can_both && ( can_hammer || can_screw ) ) ) {
+                enough_quality = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
         }
+        );
         success = enough_quality;
     }
     if( success ) {
