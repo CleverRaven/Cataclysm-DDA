@@ -140,6 +140,6 @@
     "eoc_type": "EVENT",
     "required_event": "character_effect_intensity_changed",
     "condition": { "and": [ { "u_has_effect": "opiate_eff" }, { "u_has_effect": "consumed_minoan_orchid" } ] },
-    "effect": [ { "u_add_effect": "minoan_orchid_effect", "intensity": { "math": [ "u_effect_intensity('opiate_eff')" ] } } ]
+    "effect": [ { "u_add_effect": "minoan_orchid_effect", "intensity": { "math": [ "u_effect_intensity('opiate_eff')", "duration": "PERMANENT" ] } } ]
   }
 ]
