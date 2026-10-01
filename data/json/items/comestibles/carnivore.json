@@ -2358,5 +2358,26 @@
     "flags": [ "RAW", "TRADER_AVOID" ],
     "smoking_result": "null",
     "vitamins": [ [ "mutagenic_slurry", 12 ], [ "meat_allergen", 1 ] ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "id": "nl_flesh_powerbox",
+    "name": { "str": "fleshy cube" },
+    "weight": "2035 g",
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 200,
+    "quench": 10,
+    "description": "A dense mound of flesh, shaped into an perfect cube.  It has an oily texture matching that of lubricated, machined parts.",
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "flesh" ],
+    "volume": "1000 ml",
+    "fun": -25,
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "flags": [ "PREDATOR_FUN" ]
   }
 ]

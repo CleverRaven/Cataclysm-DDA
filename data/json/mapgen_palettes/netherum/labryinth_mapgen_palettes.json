@@ -193,7 +193,10 @@
       " ": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ],
       ".": [ [ "f_null", 98 ], [ "f_nl_climbing_vine", 2 ] ]
     },
-    "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
+    "nested": {
+        "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] },
+        "#": { "chunks": [ [ "null", 199 ], [ "f_nl_powerbox_nest", 1 ] ] }
+    },
     "items": {
       "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] },
       "?": { "item": "LS_SUS_crate_tier1_finale_loot", "chance": 100 }
@@ -284,7 +287,8 @@
     "nested": {
       "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] },
       "2": { "chunks": [ "labyrinth_overgrown_12x12_room_square" ] },
-      "3": { "chunks": [ "labyrinth_overgrown_12x12_room_circle" ] }
+      "3": { "chunks": [ "labyrinth_overgrown_12x12_room_circle" ] },
+      "#": { "chunks": [ [ "null", 199 ], [ "f_nl_powerbox_nest", 1 ] ] }
     },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } }
   },

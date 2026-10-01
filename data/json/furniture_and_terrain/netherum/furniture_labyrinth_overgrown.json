@@ -38,5 +38,60 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_powerbox",
+    "name": "utility box",
+    "description": "This looks like a rusted metal utility box, painted dark green.  It's made up of two rectangular metal pieces, welded together in the center.  The weld itself has an organic, twisting pattern.  You cannot see what is inside, if anything.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": 14,
+    "mass": "272 kg",
+    "max_volume": "250 L",
+    "flags": [ "CONTAINER", "SEALED" ],
+    "oxytorch": { "result": "f_nl_powerbox_o", "duration": "14 seconds" },
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "nl_flesh_powerbox", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },    
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nl_powerbox_o",
+    "name": "open utility box",
+    "description": "This looks like a rusted metal utility box, painted dark green.  Its two rectangular metal pieces have been opened up.  The interior is made up of oily, fleshy meat, with interspersed wires.  Nestled in the center is a rectangular depression, with connections for some sort of electronics.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": 14,
+    "mass": "272 kg",
+    "max_volume": "250 L",
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 200,
+      "sound": "screeching metal!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "nl_flesh_powerbox", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },    
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
+    }
   }
 ]
