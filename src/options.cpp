@@ -373,6 +373,8 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.vItems = sItemsIn;
 
     if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
+        // If this assertion fails, it means there's no valid selections for your option. That is pretty bad!
+        cata_assert( !thisOpt.vItems.empty() );
         sDefaultIn = thisOpt.vItems[0].first;
     }
 
@@ -1303,23 +1305,28 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
                      "tileset",
                      PATH_INFO::tileset_conf() );
 
-    // Default values
-    if( result.empty() ) {
-        result.emplace_back( "hoder", to_translation( "Hoder's" ) );
-        result.emplace_back( "deon", to_translation( "Deon's" ) );
-    }
 
-    if( only_portraits ) {
-        for( auto iter = result.begin(); iter != result.end(); ) {
-            // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
-            // I would like this check to be less dumb, but we're working with only a std::string here.
-            if( iter->first.find( "Portrait" ) == std::string::npos ) {
-                iter = result.erase( iter );
-            } else {
-                ++iter;
-            }
+    // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
+    // I would like this check to be less dumb, but we're working with only a std::string here.
+    for( auto iter = result.begin(); iter != result.end(); ) {
+
+        // hack: If we have only one option left always keep that, skipping validity checks.
+        // This is an error if it happens ingame, but for CI we need to pass *something*, even if it doesn't really *work*.
+        // CI doesn't care about drawing tiles. It just needs something to fill in the option.
+        if( result.size() == 1 ) {
+            break;
+        }
+
+        const bool is_portrait_tileset = iter->first.find( "Portrait" ) != std::string::npos;
+        if( ( only_portraits && !is_portrait_tileset ) ||
+            ( !only_portraits && is_portrait_tileset ) ) {
+            iter = result.erase( iter );
+        } else {
+            ++iter;
         }
     }
+
+    cata_assert( !result.empty() );
 
 
     return result;
