@@ -68,6 +68,7 @@
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "sdl_quad_batch.h"
 #include "tileset_loader.h"
 #include "sdl_gamepad.h"
 #if defined(SDL_SOUND)
@@ -131,12 +132,17 @@ static Font_Ptr font;
 static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
+// Font and SDL_ttf ownership of the renderer test fixture; empty in the game.
+static Font_Ptr fixture_font;
+static bool test_fixture_acquired_ttf = false;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
+// reused across curses text passes; always flushed before a pass returns
+static text_batch curses_text_batch;
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
@@ -1459,7 +1465,7 @@ static void reset_context_tint_masks()
 }
 
 // Drop the glyph atlases on every font root. The TTF glyph cache repopulates
-// lazily on the next OutputChar; bitmap atlases need an explicit rebuild.
+// lazily on the next queue_char; bitmap atlases need an explicit rebuild
 static void release_font_roots()
 {
     for( Font_Ptr *f : {
@@ -2214,6 +2220,13 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
 void renderer_recovery_test_support::teardown_software_renderer()
 {
+    // font's textures go while renderer lives; its TTF_Font closes before
+    // TTF_Quit
+    fixture_font.reset();
+    if( test_fixture_acquired_ttf ) {
+        TTF_Quit();
+        test_fixture_acquired_ttf = false;
+    }
     ts_cache.release_live_atlases();
     // Every draw scope must have unwound; clear the full scope state so an
     // injected boundary failure cannot leave invalid/aborted set for a later
@@ -2228,6 +2241,7 @@ void renderer_recovery_test_support::teardown_software_renderer()
     cata_shader::test_reset_seams();
     cata_shader::clear_reprobe();
     test_shader_variants_override.reset();
+    override_text_atlas( std::nullopt );
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2970,19 +2984,21 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
 
 static point draw_string( Font &font,
                           const SDL_Renderer_Ptr &renderer,
-                          const GeometryRenderer_Ptr &geometry,
                           const std::string &str,
                           point p,
                           const unsigned char color )
 {
     const char *cstr = str.c_str();
     int len = str.length();
+    curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
     while( len > 0 ) {
         const uint32_t ch32 = UTF8_getch( &cstr, &len );
         const std::string ch = utf32_to_utf8( ch32 );
-        font.OutputChar( renderer, geometry, ch, p, color );
+        font.queue_char( curses_text_batch, renderer, ch, p, color );
         p.x += mk_wcwidth( ch32 ) * font.width;
     }
+    // next string's background rect might overlap this one, so flush per string
+    curses_text_batch.flush( renderer );
     return p;
 }
 
@@ -3329,7 +3345,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             geometry->rect( renderer, clipRect, SDL_Color() );
 
-            draw_string( *font, renderer, geometry, name, draw_pos, 11 );
+            draw_string( *font, renderer, name, draw_pos, 11 );
         };
 
         // the tiles on the overmap are overmap tiles, so we need to use
@@ -3405,7 +3421,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             fontheight + padding * 2
         };
         geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
-        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+        draw_string( *font, renderer, g->overmap_data.message, point( padding, padding ),
                      cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
     }
 
@@ -3417,7 +3433,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
-            return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
+            return draw_string( *font, renderer, name, draw_pos, note_fg_color );
         };
 
         // Find screen coordinates to the right of the center tile
@@ -3518,6 +3534,12 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
     static const std::string space_string = " ";
 
     const bool option_use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
+    // A row's line clear only covers its cell row when window origin maps to
+    // same y under font->height and ::fontheight. otherwise a later row's clear
+    // will overwrite glyphs from an earlier row, so flush per row to maintain
+    // that order.
+    const bool rows_aligned = win->pos.y * font->height == offset.y;
+    curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         // force_full redraws every line after a renderer rebuild, ignoring the
@@ -3531,11 +3553,13 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
         // only clearing those lines that are touched, we avoid
         // clearing lines that were already drawn in a previous
         // window but are untouched in this one.
-        geometry->rect( renderer, point( win->pos.x * font->width, ( win->pos.y + j ) * font->height ),
-                        win->width * font->width, font->height,
-                        color_as_sdl( catacurses::black ) );
+        curses_text_batch.add_rect( SDL_Rect{ win->pos.x * font->width, ( win->pos.y + j ) * font->height,
+                                              win->width * font->width, font->height },
+                                    color_as_sdl( catacurses::black ) );
         update = true;
         win->line[j].touched = false;
+        // column past the last glyph span queued in this row
+        int queued_span_end = 0;
         for( int i = 0; i < win->width; i++ ) {
             const cursecell &cell = win->line[j].chars[i];
 
@@ -3549,11 +3573,18 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                 continue; // second cell of a multi-cell character
             }
 
+            // wide glyph's right half can share its span with this cell, which
+            // draws over it; flush the queued glyph first
+            if( i < queued_span_end ) {
+                curses_text_batch.flush( renderer );
+                queued_span_end = 0;
+            }
+
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
                 if( cell.BG != catacurses::black ) {
-                    geometry->rect( renderer, draw, font->width, font->height,
-                                    color_as_sdl( cell.BG ) );
+                    curses_text_batch.add_rect( SDL_Rect{ draw.x, draw.y, font->width, font->height },
+                                                color_as_sdl( cell.BG ) );
                 }
                 continue;
             }
@@ -3609,16 +3640,21 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                     break;
             }
             if( cell.BG != catacurses::black ) {
-                geometry->rect( renderer, draw, font->width * cw, font->height,
-                                color_as_sdl( BG ) );
+                curses_text_batch.add_rect( SDL_Rect{ draw.x, draw.y, font->width * cw, font->height },
+                                            color_as_sdl( BG ) );
             }
             if( use_draw_ascii_lines_routine ) {
-                font->draw_ascii_lines( renderer, geometry, uc, draw, FG );
+                font->queue_ascii_lines( curses_text_batch, uc, draw, FG );
             } else {
-                font->OutputChar( renderer, geometry, cell.ch, draw, FG );
+                font->queue_char( curses_text_batch, renderer, cell.ch, draw, FG );
             }
+            queued_span_end = std::max( queued_span_end, i + cw );
+        }
+        if( !rows_aligned ) {
+            curses_text_batch.flush( renderer );
         }
     }
+    curses_text_batch.flush( renderer );
     win->draw = false; //We drew the window, mark it as so
 
     return update;
@@ -3632,6 +3668,43 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w,
     // font used for this window.
     return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ),
                         force_full );
+}
+
+bool renderer_recovery_test_support::install_test_font( const std::string &typeface,
+        const int w, const int h, const int size, const bool blending,
+        const Uint32 font_pixel_format )
+{
+    if( !renderer ) {
+        return false;
+    }
+    if( TTF_WasInit() == 0 ) {
+        if( !TTF_Init() ) {
+            return false;
+        }
+        test_fixture_acquired_ttf = true;
+    }
+    // teardown restores both from test_fixture_saved
+    fontwidth = w;
+    fontheight = h;
+    const Uint32 format = font_pixel_format == SDL_PIXELFORMAT_UNKNOWN ? pixel_format :
+                          font_pixel_format;
+    fixture_font = Font::load_font( renderer, format, typeface, size, w, h, windowsPalette,
+                                    blending );
+    return static_cast<bool>( fixture_font );
+}
+
+bool renderer_recovery_test_support::draw_test_window( const catacurses::window &w )
+{
+    if( !fixture_font ) {
+        return false;
+    }
+    draw_window( fixture_font, w, true );
+    return true;
+}
+
+Font *renderer_recovery_test_support::test_font()
+{
+    return fixture_font.get();
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
@@ -3709,6 +3782,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             int width = 0;
+            curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
             for( const char32_t ch : utf8_view( ft.text ) ) {
                 const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
                 const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
@@ -3720,9 +3794,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
+                map_font->queue_char( curses_text_batch, renderer, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
+            // Overlay strings can overlap each other, one flush per string keeps their order
+            curses_text_batch.flush( renderer );
 
             prev_coord = coord;
             x_offset = width;
@@ -4783,14 +4859,14 @@ void draw_quick_shortcuts()
         }
         // TODO use draw_string instead
         text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
-        font->OutputChar( renderer, geometry, text, point( text_x + 1, text_y + 1 ), 0,
+        font->OutputChar( renderer, text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-        font->OutputChar( renderer, geometry, text, point( text_x, text_y ),
+        font->OutputChar( renderer, text, point( text_x, text_y ),
                           get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
         if( hovered ) {
             // draw a second button hovering above the first one
-            font->OutputChar( renderer, geometry, text,
+            font->OutputChar( renderer, text,
                               point( text_x, text_y - ( height * 1.2f / text_scale ) ),
                               get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
             if( show_hint ) {
@@ -4807,9 +4883,9 @@ void draw_quick_shortcuts()
                 RenderSetScale( renderer, text_scale, text_scale );
                 text_x = ( WindowWidth - ( ( font->width  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
                 text_y = ( WindowHeight - font->height * text_scale ) * 0.5f / text_scale;
-                font->OutputChar( renderer, geometry, hint_text, point( text_x + 1, text_y + 1 ), 0,
+                font->OutputChar( renderer, hint_text, point( text_x + 1, text_y + 1 ), 0,
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-                font->OutputChar( renderer, geometry, hint_text, point( text_x, text_y ),
+                font->OutputChar( renderer, hint_text, point( text_x, text_y ),
                                   get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
             }
@@ -4947,10 +5023,10 @@ static void draw_gamepad_radial_menu()
 
         if( is_selected ) {
             // Draw selected item in yellow
-            font->OutputChar( renderer, geometry, label, draw,
+            font->OutputChar( renderer, label, draw,
                               11, 1.0f );
         } else {
-            font->OutputChar( renderer, geometry, label, draw,
+            font->OutputChar( renderer, label, draw,
                               15, 1.0f );
         }
     }

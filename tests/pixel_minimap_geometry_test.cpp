@@ -4,6 +4,7 @@
 
 #include "cata_catch.h"
 #include "pixel_minimap_geometry.h"
+#include "sdl_quad_batch.h"
 #include "point.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
@@ -45,7 +46,7 @@ TEST_CASE( "render_read_pixels_honors_requested_format", "[tiles][pixel_minimap]
 TEST_CASE( "minimap_batch_quad_layout", "[tiles][pixel_minimap]" )
 {
     GIVEN( "an empty batch" ) {
-        minimap_vertex_batch batch;
+        quad_batch batch;
         WHEN( "one quad is appended" ) {
             batch.append_quad( 2.0f, 3.0f, 4.0f, 5.0f, SDL_FColor{ 1.0f, 0.5f, 0.25f, 1.0f } );
             THEN( "it holds 4 vertices and 6 indices" ) {
@@ -54,19 +55,19 @@ TEST_CASE( "minimap_batch_quad_layout", "[tiles][pixel_minimap]" )
             }
             THEN( "corners are in CW fan order with the shared color" ) {
                 // (x,y) (x+w,y) (x+w,y+h) (x,y+h)
-                const float *xy = batch.xy_data();
-                CHECK( xy[0] == 2.0f );
-                CHECK( xy[1] == 3.0f );
-                CHECK( xy[2] == 6.0f );
-                CHECK( xy[3] == 3.0f );
-                CHECK( xy[4] == 6.0f );
-                CHECK( xy[5] == 8.0f );
-                CHECK( xy[6] == 2.0f );
-                CHECK( xy[7] == 8.0f );
-                const Uint32 *idx = batch.index_data();
-                const Uint32 expected[6] = { 0, 1, 2, 0, 2, 3 };
+                const SDL_Vertex *v = batch.vertex_data();
+                CHECK( v[0].position.x == 2.0f );
+                CHECK( v[0].position.y == 3.0f );
+                CHECK( v[1].position.x == 6.0f );
+                CHECK( v[1].position.y == 3.0f );
+                CHECK( v[2].position.x == 6.0f );
+                CHECK( v[2].position.y == 8.0f );
+                CHECK( v[3].position.x == 2.0f );
+                CHECK( v[3].position.y == 8.0f );
+                const int *idx = batch.index_data();
+                const int expected[6] = { 0, 1, 2, 0, 2, 3 };
                 CHECK( std::equal( idx, idx + 6, expected ) );
-                CHECK( batch.color_data()[0].g == 0.5f );
+                CHECK( v[0].color.g == 0.5f );
             }
         }
     }
@@ -77,19 +78,19 @@ TEST_CASE( "minimap_batch_index_invariants", "[tiles][pixel_minimap]" )
     // SDL_RenderGeometryRaw rejects count % 3 != 0 and OOB indices at the
     // API boundary; enforce the contract on our side.
     GIVEN( "a batch of several quads" ) {
-        minimap_vertex_batch batch;
+        quad_batch batch;
         for( int i = 0; i < 7; ++i ) {
             batch.append_quad( i * 2.0f, 0.0f, 1.0f, 1.0f, SDL_FColor{ 0, 0, 0, 1.0f } );
         }
         THEN( "index count is a triangle multiple and indices stay in range" ) {
             REQUIRE( batch.index_count() % 3 == 0 );
-            const Uint32 *idx = batch.index_data();
-            const Uint32 max_index = *std::max_element( idx, idx + batch.index_count() );
-            CHECK( max_index == static_cast<Uint32>( batch.vertex_count() - 1 ) );
+            const int *idx = batch.index_data();
+            const int max_index = *std::max_element( idx, idx + batch.index_count() );
+            CHECK( max_index == batch.vertex_count() - 1 );
         }
     }
     GIVEN( "a batch pushed past the 16-bit vertex limit" ) {
-        minimap_vertex_batch batch;
+        quad_batch batch;
         for( int i = 0; i < 16500; ++i ) {
             const int col = i % 256;
             const int row = i / 256;
@@ -98,8 +99,8 @@ TEST_CASE( "minimap_batch_index_invariants", "[tiles][pixel_minimap]" )
         }
         THEN( "the last indices exceed 65535 and still address their vertices" ) {
             REQUIRE( batch.vertex_count() == 66000 );
-            const Uint32 *idx = batch.index_data();
-            const Uint32 max_index = *std::max_element( idx, idx + batch.index_count() );
+            const int *idx = batch.index_data();
+            const int max_index = *std::max_element( idx, idx + batch.index_count() );
             CHECK( max_index == 65999 );
         }
     }
@@ -123,7 +124,7 @@ TEST_CASE( "minimap_to_fcolor_converts_channels", "[tiles][pixel_minimap]" )
 TEST_CASE( "minimap_beacon_pixel_pattern", "[tiles][pixel_minimap]" )
 {
     GIVEN( "the beacon diamond for rect {10, 20, w=2, h=2}, edge divisor 3" ) {
-        minimap_vertex_batch batch;
+        quad_batch batch;
         append_beacon( batch, SDL_Rect{ 10, 20, 2, 2 },
                        SDL_Color{ 210, 90, 30, 255 }, 3 );
 
@@ -132,19 +133,19 @@ TEST_CASE( "minimap_beacon_pixel_pattern", "[tiles][pixel_minimap]" )
             CHECK( batch.index_count() == 13 * 6 );
         }
         THEN( "the first pixel (x=-2, y=0) is on-edge: channels divided by 3" ) {
-            const SDL_FColor first = batch.color_data()[0];
+            const SDL_FColor first = batch.vertex_data()[0].color;
             CHECK( first.r == Approx( 70.0f / 255.0f ) );
             CHECK( first.g == Approx( 30.0f / 255.0f ) );
             CHECK( first.b == Approx( 10.0f / 255.0f ) );
-            const float *xy = batch.xy_data();
-            CHECK( xy[0] == 8.0f );   // rect.x + (-2)
-            CHECK( xy[1] == 20.0f );  // rect.y + 0
+            const SDL_Vertex *v = batch.vertex_data();
+            CHECK( v[0].position.x == 8.0f );   // rect.x - 2
+            CHECK( v[0].position.y == 20.0f );  // rect.y + 0
         }
         THEN( "the center pixel (x=0, y=0) keeps the undivided color" ) {
             // Emission order is x-major, y ascending: x = -2 emits 1 pixel,
             // x = -1 emits 3, then x = 0 emits y = -2, -1 before (0,0).
             // Pixels before (0,0): 1 + 3 + 2 = 6.
-            const SDL_FColor center = batch.color_data()[6 * 4];
+            const SDL_FColor center = batch.vertex_data()[6 * 4].color;
             CHECK( center.r == Approx( 210.0f / 255.0f ) );
         }
     }
@@ -240,9 +241,9 @@ TEST_CASE( "minimap_render_geometry_raw_smoke", "[tiles][pixel_minimap]" )
         WARN( "dummy SDL video backend unavailable; skipping" );
         return;
     }
-    minimap_vertex_batch batch;
+    quad_batch batch;
     batch.append_quad( 0.0f, 0.0f, 8.0f, 8.0f, SDL_FColor{ 0.2f, 0.4f, 0.6f, 1.0f } );
-    render_batch( get_sdl_renderer(), batch );
+    render_quad_batch( get_sdl_renderer(), batch );
     CHECK( true );
 }
 

@@ -234,13 +234,17 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
                    double angle, const SDL_Point *center, CataFlipMode flip );
 void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
-// Untextured per-vertex-color triangles. SDL permits the null texture/uv
-// pair, and untextured geometry blends with the renderer draw blend mode.
-void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
-                        const float *xy, int xy_stride,
-                        const SDL_FColor *color, int color_stride,
-                        int num_vertices,
-                        const Uint32 *indices, int num_indices );
+// triangles through SDL_RenderGeometry. SDL_Vertex keeps position, color and uv
+// at one stride, which the software renderer's quad detection needs: it reads
+// uv at the color stride. null texture draws untextured triangles blended with
+// the renderer draw blend mode
+void RenderGeometry( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
+                     const SDL_Vertex *vertices, int num_vertices,
+                     const int *indices, int num_indices );
+// upload `surface` into `rect` of `texture`. surface must already be in the
+// texture's pixel format.
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect &rect,
+                    const SDL_Surface_Ptr &surface );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 // Returns whether the intersection is non-empty. result is written either way.
 bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result );

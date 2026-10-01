@@ -12,6 +12,12 @@
 
 #include "cata_tiles.h"
 
+class Font;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+
 // Severity of a renderer-resource recovery, ordered so the inbox can keep
 // the maximum pending level via a monotonic-max. Android foreground maps to
 // device_reset through the lifecycle epoch rather than a distinct severity.
@@ -511,6 +517,19 @@ struct renderer_recovery_test_support {
     // bundles. nullopt restores the live pass. A sticky shader fault overrides
     // it. Cleared by teardown_software_renderer.
     static void override_shader_variants_available( std::optional<bool> available );
+
+    // install a font from `typeface` (TrueType or bitmap, as load_font picks)
+    // with w x h cells, initialising SDL_ttf if needed; the fixture's global
+    // cell size follows the font. A bitmap font converts its image to
+    // `font_pixel_format`, or to the fixture's format when that's unknown.
+    // Released by teardown
+    static bool install_test_font( const std::string &typeface, int w, int h, int size,
+                                   bool blending, Uint32 font_pixel_format = SDL_PIXELFORMAT_UNKNOWN );
+    // draw `w` through the terminal window path with every line forced, as
+    // curses_drawwindow does for a plain window
+    static bool draw_test_window( const catacurses::window &w );
+    // installed test font, or null
+    static Font *test_font();
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.
