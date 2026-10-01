@@ -28,7 +28,12 @@
     "ammo": 100,
     "magazine": 100,
     "subtype": "collection",
-    "items": [ { "item": "afs_gene_disp", "count": [ 3, 10 ] }, { "item": "afs_gene_template", "count": [ 2, 3 ] } ]
+    "items": [
+      { "item": "afs_gene_disp", "count": [ 3, 10 ] },
+      { "item": "afs_gene_template", "count": [ 2, 3 ] },
+      { "item": "afs_combat_cryo_xl", "count": [ 2, 3 ] },
+      { "group": "afs_frontier_xl_cryo_g", "count": [ 2, 3 ] }
+    ]
   },
   {
     "type": "item_group",

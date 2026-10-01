@@ -12,6 +12,7 @@
 
 #include "character.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -21,6 +22,7 @@
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -175,7 +177,7 @@ static void drop_or_embed_projectile( map *here, const dealt_projectile_attack &
 
         map &here = get_map();
         if( do_drop ) {
-            here.add_item_or_charges( attack.end_point, dropped_item );
+            craft_relocated( here.add_item_or_charges_ret_loc( attack.end_point, dropped_item ) );
         }
 
         if( effects.count( ammo_effect_HEAVY_HIT ) ) {

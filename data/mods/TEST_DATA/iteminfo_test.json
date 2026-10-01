@@ -1,0 +1,97 @@
+[
+  {
+    "id": "test_nutrient_info_item",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": "nutrient test item",
+    "description": "Result of crafting from nutrient test components",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "symbol": "~",
+    "color": "white",
+    "calories": 100,
+    "material": [ "processed_food" ],
+    "vitamins": [ [ "calcium", 100 ] ]
+  },
+  {
+    "id": "test_nutrient_info_component1",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": "nutrient test item ",
+    "description": "Result of crafting from nutrient test components",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "symbol": "~",
+    "color": "white",
+    "calories": 100,
+    "material": [ "processed_food" ],
+    "vitamins": [ [ "calcium", 100 ] ]
+  },
+  {
+    "id": "test_nutrient_info_component2",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "FOOD",
+    "name": "nutrient test item alternative component",
+    "description": "Result of crafting from nutrient test components",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "symbol": "~",
+    "color": "white",
+    "calories": 200,
+    "material": [ "processed_food" ],
+    "vitamins": [ [ "calcium", 200 ] ]
+  },
+  {
+    "result": "test_nutrient_info_item",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "components": [ [ [ "test_nutrient_info_component1", 1 ], [ "test_nutrient_info_component2", 1 ] ] ]
+  },
+  {
+    "id": "test_item_info_repair_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": "TEST item info repair tool",
+    "description": "This tests item info repair details",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "material": [ "test_item_info_repair_material" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "test_item_info_repair_material" ],
+        "skill": "fabrication",
+        "cost_scaling": 1
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "id": "test_item_info_repair_item",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "TEST repair item",
+    "category": "spare_parts",
+    "description": "A handful of small pieces of scrap cast iron, usable for crafting or repairs.",
+    "material": [ "test_item_info_repair_material" ],
+    "weight": "100 g",
+    "volume": "100 ml"
+  },
+  {
+    "type": "material",
+    "id": "test_item_info_repair_material",
+    "name": "TEST repair material",
+    "copy-from": "iron",
+    "repaired_with": "test_item_info_repair_item"
+  }
+]

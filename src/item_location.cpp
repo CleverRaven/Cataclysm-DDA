@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "character.h"
+#include "crafting.h"
 #include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
@@ -1274,7 +1275,10 @@ item_location item_location::obtain( Character &ch, int qty )
         debugmsg( "item location does not point to valid item" );
         return item_location();
     }
-    return ptr->obtain( ch, qty );
+    const item_location landed = ptr->obtain( ch, qty );
+    // Every backend copies through i_add, which re-uids the whole tree.
+    craft_relocated( landed );
+    return landed;
 }
 
 int item_location::obtain_cost( const Character &ch, int qty ) const

@@ -43,6 +43,7 @@
 #include "maptile_fwd.h"
 #include "point.h"
 #include "rng.h"
+#include "tile_tint.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -361,9 +362,7 @@ struct tile_render_info {
         sprite_screen_bounds bounds;
         small_literal_vector<tint_sprite_record, 4> tint_sprites;
         bool needs_tint = false;
-        struct {
-            uint8_t r, g, b, a;
-        } tint_color = { 0, 0, 0, 0 };
+        tile_tint tint_color;
 
         common( const tripoint_bub_ms &pos, const int height_3d )
             : pos( pos ), height_3d( height_3d ) {}
@@ -766,7 +765,7 @@ class map
          *
          */
         std::vector<tripoint_bub_ms> reachable_flood_steps( const tripoint_bub_ms &f, int range,
-                int cost_min, int cost_max ) const;
+                int cost_min = 1, int cost_max = 100 ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
@@ -1359,6 +1358,16 @@ class map
         // Returns points for all submaps with inconsistent state relative to
         // the list in map.  Used in tests.
         void check_submap_active_item_consistency();
+
+        // Get item_location for character's carried items, map items, vehicle items, depending on accessor_flags.
+        // You can get a more limited subset of items by passing specific accessor_flags.
+        // If you need something even more finely-grained than that, pass in a bool matching function as the first argument.
+        // Note that this includes items contained within other items - deleting or modifying one of these item_locations may invalidate others.
+        // This should not be used anywhere that performance is a concern
+        std::unordered_set<item_location> all_items( Character &who,
+                accessor_flags flags = Access_EVERYTHING );
+        std::unordered_set<item_location> all_items( const std::function<bool( const item & )> &filter,
+                Character &who, accessor_flags flags = Access_EVERYTHING );
         // Accessor that returns a wrapped reference to an item stack for safe modification.
         map_stack i_at( const tripoint_bub_ms &p );
         map_stack i_at( const point_bub_ms &p ) {
@@ -1974,12 +1983,22 @@ class map
         void saven( const tripoint_bub_sm &grid );
         void loadn( const point_bub_sm &grid, bool update_vehicles );
         /**
-         * Walk all items currently in the bubble (map tiles + vehicle cargo,
-         * recursing into containers) and call rebuild_for_item on each.  Run
-         * after submaps come back into range so item-targeted wakeups re-arm
-         * from authoritative item state.
+         * Whether the reservation index may be cleared before the walk.  A pass that
+         * does not walk every craft holding a record has to be additive, or it erases
+         * claims whose leases are still live.
          */
-        void reconcile_item_wakeups();
+        enum class reconcile_scope : uint8_t {
+            full_rebuild,
+            additive
+        };
+        /**
+         * Walk all items currently in the bubble (map tiles, vehicle parts and character
+         * inventories, recursing into containers) and rebuild the state that is keyed by
+         * item uid: wakeup entries and craft reservation records.  Run after submaps come
+         * back into range, so both re-arm from authoritative item state.  One walk rather
+         * than two, since both duties visit the same locations.
+         */
+        void reconcile_loaded_items( reconcile_scope scope );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.

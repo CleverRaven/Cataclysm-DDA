@@ -68,6 +68,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+    "condition": { "u_has_any_trait": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE", "CHANGELING_MAGIC" ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT",
     "condition": { "and": [ { "not": { "u_has_effect": "vampire_blind_the_sun" } } ] },
     "effect": [  ]

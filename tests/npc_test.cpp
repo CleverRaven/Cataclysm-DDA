@@ -37,7 +37,6 @@
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -722,7 +721,6 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -763,7 +761,6 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -817,7 +814,6 @@ TEST_CASE( "npc_extracts_weapon_from_wielded_container", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -949,13 +945,13 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     }
 
     SECTION( "refuses marloss berry" ) {
-        // MARLOSS iuse + MYCUS_OK flag -- fungal transformation
+        // MARLOSS and MYCUS_OK flags -- fungal transformation
         guy.i_add( item( itype_marloss_berry ) );
         CHECK_FALSE( guy.consume_food() );
     }
 
     SECTION( "refuses marloss gel" ) {
-        // MARLOSS_GEL iuse -- fungal transformation, no MYCUS_OK flag
+        // MARLOSS flag -- fungal transformation, no MYCUS_OK flag
         guy.i_add( item( itype_marloss_gel ) );
         CHECK_FALSE( guy.consume_food() );
     }

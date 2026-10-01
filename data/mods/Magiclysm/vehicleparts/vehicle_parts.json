@@ -12,6 +12,13 @@
     "entries": [ { "item": "orichalcum_lump", "count": [ 2, 3 ] }, { "item": "orichalcum_sliver", "count": [ 1, 5 ] } ]
   },
   {
+    "id": "controls_technomancer",
+    "type": "vehicle_part",
+    "copy-from": "controls",
+    "//": "These are magically conjured and should not be restricted by caster's anatomical features",
+    "flags": [ "CONTROLS" ]
+  },
+  {
     "abstract": "mana_engine",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "dimension_region_layout",
+    "id": "default_nohope",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default_nohope"
+  },
+  {
+    "type": "dimension",
+    "id": "default",
+    "region_layout": "default_nohope"
+  }
+]

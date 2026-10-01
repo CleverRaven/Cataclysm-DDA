@@ -162,6 +162,7 @@
     "skills": [ { "level": 4, "name": "speech" }, { "level": 5, "name": "metaphysics" }, { "level": 3, "name": "survival" } ],
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES", "SCHIZOPHRENIC" ],
     "spells": [
+      { "id": "clair_better_senses", "level": 6 },
       { "id": "clair_night_vision", "level": 4 },
       { "id": "clair_danger_sense", "level": 10 },
       { "id": "clair_speed_reading", "level": 9 },
@@ -170,6 +171,7 @@
       { "id": "clair_voyance", "level": 6 }
     ],
     "recipes": [
+      "practice_clair_better_senses",
       "practice_clair_night_vision",
       "practice_clair_danger_sense",
       "practice_clair_speed_reading",

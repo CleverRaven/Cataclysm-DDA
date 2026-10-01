@@ -307,6 +307,9 @@ struct dialogue: public const_dialogue {
 
         std::string dynamic_line( const talk_topic &topic );
         void apply_speaker_effects( const talk_topic &the_topic );
+
+        // FIXME: Use real null IDs not std::optional juggling :(
+        std::optional<character_portrait_id> portrait_or_nullopt() const;
         // Display name for the NPC in conversation history. Uses
         // remote_name from dialogue_window when set (intercom etc.),
         // falls back to NPC display name, empty if not a conversation.
@@ -524,6 +527,8 @@ class json_talk_topic
         dynamic_line_t dynamic_line;
         std::vector<json_dynamic_line_effect> speaker_effects;
         std::vector<json_talk_repeat_response> repeat_responses;
+        // FIXME: Use real null IDs not std::optional juggling :(
+        std::optional<character_portrait_id> portrait_override;
 
     public:
         json_talk_topic() = default;
@@ -537,6 +542,7 @@ class json_talk_topic
 
         std::string get_dynamic_line( dialogue &d ) const;
         std::vector<json_dynamic_line_effect> get_speaker_effects() const;
+        std::optional<character_portrait_id> get_portrait_override() const;
 
         void check_consistency() const;
         /**

@@ -30,9 +30,9 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
 {
     avatar &u = get_avatar();
     clear_character( u, true );
-    clear_npcs();
     u.reset_all_missions();
     mission::clear_all();
+    clear_npcs();
 
     GIVEN( "no_npc" ) {
         WHEN( "mission_origin_start" ) {
@@ -213,9 +213,9 @@ TEST_CASE( "automatic_find_item_mission_batch_processing", "[mission]" )
     avatar &dude = get_avatar();
     map &here = get_map();
     clear_character( dude, true );
-    clear_map();
     dude.reset_all_missions();
     mission::clear_all();
+    clear_map();
 
     SECTION( "missing item does not complete the mission" ) {
         const mission *m = assign_test_find_item_mission( dude );
@@ -252,9 +252,9 @@ TEST_CASE( "automatic_find_item_mission_batch_performance", "[.][performance][mi
 {
     avatar &dude = get_avatar();
     clear_character( dude, true );
-    clear_map();
     dude.reset_all_missions();
     mission::clear_all();
+    clear_map();
 
     for( int i = 0; i < 100; ++i ) {
         assign_test_find_item_mission( dude );

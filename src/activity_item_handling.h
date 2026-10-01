@@ -109,6 +109,23 @@ bool has_items_to_sort( Character &you, const tripoint_abs_ms &src,
                         bool *spillable_skipped = nullptr );
 bool dest_has_capacity( const tripoint_abs_ms &dest, const zone_type_id &ztype,
                         const item &sample, const faction_id &fac );
+
+// why the carry gate turned an item down. the pickup path reports a knock-down
+// refusal to the player and stays quiet about the others
+enum class carry_gate_result : int {
+    ok = 0,
+    // no pockets, no free hands
+    no_space,
+    // would put the character over max_pickup_capacity
+    knockdown,
+    // would put the character over weight_capacity with a batch staged
+    over_capacity,
+};
+
+// can `you` take `it` into the inventory right now? `have_staged_items` is
+// whether a batch is already waiting for dropoff; the first item of a batch is
+// always allowed, so heavy things can still be sorted one at a time
+carry_gate_result carry_gate_check( Character &you, const item &it, bool have_staged_items );
 bool can_unload( item *it );
 void add_item( const std::optional<vpart_reference> &vp, const tripoint_bub_ms &src_bub,
                const item &it );

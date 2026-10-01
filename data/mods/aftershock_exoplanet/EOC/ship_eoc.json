@@ -150,8 +150,13 @@
         "if": {
           "and": [
             { "math": [ "has_var(ship_new)" ] },
-            { "overmap_at_point": "field", "point": { "global_val": "ship_new" } },
-            { "math": [ "distance('u', ship_new) >= 190" ] }
+            { "math": [ "distance('u', ship_new) >= 190" ] },
+            {
+              "or": [
+                { "overmap_at_point": "glacial_field", "point": { "global_val": "ship_new" } },
+                { "overmap_at_point": "field", "point": { "global_val": "ship_new" } }
+              ]
+            }
           ]
         },
         "then": [ { "math": [ "ship_can_travel = 1" ] } ],

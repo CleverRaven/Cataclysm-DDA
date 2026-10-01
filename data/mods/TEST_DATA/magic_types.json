@@ -1,0 +1,14 @@
+[
+  {
+    "id": "test_magic_available",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_message": "Test magic is unavailable."
+  },
+  {
+    "id": "test_magic_unavailable",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_message": "Test magic is unavailable."
+  }
+]

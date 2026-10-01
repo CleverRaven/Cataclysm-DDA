@@ -415,7 +415,7 @@
   {
     "id": "EXPLOSIVE_ATGMHEAT",
     "type": "ammo_effect",
-    "explosion": { "power": 5985, "shrapnel": { "casing_mass": 18000, "fragment_mass": 0.5 } }
+    "explosion": { "power": 3400, "shrapnel": { "casing_mass": 2810, "fragment_mass": 0.5 } }
   },
   {
     "id": "EXPLOSIVE_120mmHEAT",

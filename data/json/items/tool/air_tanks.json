@@ -1,0 +1,131 @@
+[
+  {
+    "id": "scuba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "diving cylinder" },
+    "looks_like": "oxygen_tank",
+    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  Activate it to open it.",
+    "weight": "16000 g",
+    "volume": "12 L",
+    "price": "60 USD",
+    "price_postapoc": "5 USD",
+    "use_action": [ "SCBA_TANK_ACTIVATE" ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    ],
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK" ],
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": "nitrox"
+  },
+  {
+    "id": "scuba_tank_on",
+    "copy-from": "scuba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "diving cylinder (open)", "str_pl": "diving cylinders (open)" },
+    "description": "A high-pressure 232 bar diving tank that can contain up to 12 L of a compressed mixture of oxygen and nitrogen.  It is currently open.  Activate it to close it.",
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "scuba_tank",
+    "use_action": {
+      "target": "scuba_tank",
+      "menu_text": "Close the valve",
+      "msg": "You close the valve on the tank.",
+      "type": "transform"
+    },
+    "charges_per_use": 1,
+    "turns_per_charge": 60
+  },
+  {
+    "id": "small_scuba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "small diving cylinder" },
+    "description": "A small, high-pressure 200 bar diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  Activate it to open it.",
+    "looks_like": "smoxygen_tank",
+    "weight": "7 kg",
+    "volume": "4 L",
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "use_action": [ "SCBA_TANK_ACTIVATE" ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
+    ],
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK" ],
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": "nitrox"
+  },
+  {
+    "id": "small_scuba_tank_on",
+    "copy-from": "small_scuba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "small diving cylinder (open)", "str_pl": "small diving cylinders (open)" },
+    "description": "A small, high-pressure 200 bar backup diving tank that can contain 4 L of a compressed mixture of oxygen and nitrogen.  It is currently open.  Activate it to close it.",
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "small_scuba_tank",
+    "use_action": {
+      "target": "small_scuba_tank",
+      "menu_text": "Close the valve",
+      "msg": "You close the valve on the tank.",
+      "type": "transform"
+    },
+    "charges_per_use": 1,
+    "turns_per_charge": 60
+  },
+  {
+    "id": "firefighter_scba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "firefighter SCBA cylinder" },
+    "description": "A lightweight aluminum cylinder wrapped in carbon fiber, holding a highly compressed mixture of oxygen and nitrogen.  Activate it to open it.",
+    "looks_like": "smoxygen_tank",
+    "weight": "4 kg",
+    "volume": "6800 ml",
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "use_action": [ "SCBA_TANK_ACTIVATE" ],
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "aluminum", "carbonfiber" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 30 } }
+    ],
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK" ],
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": "nitrox"
+  },
+  {
+    "id": "firefighter_scba_tank_on",
+    "copy-from": "firefighter_scba_tank",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tool",
+    "name": { "str": "firefighter SCBA cylinder (open)", "str_pl": "firefighter SCBA cylinders (open)" },
+    "description": "A lightweight aluminum cylinder wrapped in carbon fiber, holding a highly compressed mixture of oxygen and nitrogen.  It is currently open.  Activate it to close it.",
+    "flags": [ "STURDY", "NO_UNLOAD", "NO_RELOAD", "SCBA_TANK_ON", "SPAWN_ACTIVE" ],
+    "revert_to": "firefighter_scba_tank",
+    "use_action": {
+      "target": "firefighter_scba_tank",
+      "menu_text": "Close the valve",
+      "msg": "You close the valve on the tank.",
+      "type": "transform"
+    },
+    "charges_per_use": 1,
+    "turns_per_charge": 60
+  }
+]

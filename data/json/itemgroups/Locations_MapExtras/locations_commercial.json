@@ -1753,6 +1753,7 @@
       { "group": "glue_weak_professional", "prob": 25 },
       { "group": "glue_strong_professional", "prob": 30 },
       [ "screwdriver", 60 ],
+      [ "dremel", 90 ],
       [ "motor_small", 30 ]
     ]
   },

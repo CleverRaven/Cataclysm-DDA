@@ -273,7 +273,12 @@
   {
     "type": "effect_type",
     "id": "smart_targeted",
-    "max_duration": "1 seconds"
+    "name": [ "Smart Targeted" ],
+    "desc": [ "You are being tracked by an advanced targeting system, reducing your armor effectiveness." ],
+    "max_duration": "30 seconds",
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "add": -15 } ] } ]
   },
   {
     "type": "effect_type",

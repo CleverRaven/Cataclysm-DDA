@@ -2,7 +2,6 @@
 
 #include <imgui/imgui.h>
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -19,6 +18,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -30,6 +30,7 @@
 #include "debug.h"
 #include "display.h"
 #include "enums.h"
+#include "faction.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -53,8 +54,8 @@
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
@@ -66,6 +67,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "text.h"
 #include "translation.h"
 #include "translations.h"
@@ -159,8 +161,6 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     const consume_menu_uistate &cm_uistate = uistate.consume_uistate;
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -239,8 +239,6 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -283,7 +281,6 @@ void game_menus::inv::common()
     item_location location;
     std::string filter;
     do {
-        you.inv->restack( you );
         inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
@@ -637,7 +634,8 @@ class pickup_inventory_preset : public inventory_selector_preset
 class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
-        disassemble_inventory_preset( const Character &you, const inventory &inv ) : you( you ),
+        disassemble_inventory_preset( const Character &you,
+                                      const temp_crafting_inventory &inv ) : you( you ),
             inv( inv ) {
 
             check_components = true;
@@ -686,7 +684,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
     private:
         const Character &you;
-        const inventory &inv;
+        const temp_crafting_inventory &inv;
 };
 } // namespace
 
@@ -2314,7 +2312,7 @@ class repair_inventory_preset: public inventory_selector_preset
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
                                                        std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
-                const inventory &crafting_inv = you.crafting_inventory();
+                const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
                     filter = []( const item & component ) {
@@ -2489,8 +2487,6 @@ item_location game_menus::inv::veh_tool_attach( Character &you, const std::strin
 
 drop_locations game_menus::inv::multidrop( Character &you )
 {
-    you.inv->restack( you );
-
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
         return you.can_drop( *location ).success() &&
                ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
@@ -2500,7 +2496,24 @@ drop_locations game_menus::inv::multidrop( Character &you )
     inventory_drop_selector inv_s( you, preset );
 
     inv_s.add_character_items( you );
-    inv_s.set_title( _( "Multidrop" ) );
+    std::string warning;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( you.pos_abs_omt().xy() );
+    if( bcp ) {
+        if( basecamp *actual_camp = *bcp; actual_camp ) {
+            if( !actual_camp->allowed_access_by( you, true ) ) {
+                warning = string_format(
+                              _( "<color_red>WARNING:</color> You are in the territory of %s. Items dropped and not picked up within an hour will be claimed by them!" ),
+                              actual_camp->get_owner()->get_name() );
+                popup( warning );
+            }
+        }
+    }
+    if( warning.empty() ) {
+        inv_s.set_title( _( "Multidrop" ) );
+    } else {
+        //~The string substituted here is an entire sentence warning that dropped items will be forfeited.
+        inv_s.set_title( string_format( _( "Multidrop.  %s" ), warning ) );
+    }
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 
     if( inv_s.empty() ) {
@@ -2733,7 +2746,6 @@ bool game_menus::inv::compare_item_menu::show()
 void game_menus::inv::compare( const std::optional<tripoint_rel_ms> &offset )
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
 
@@ -2793,7 +2805,6 @@ void game_menus::inv::reassign_letter( item &it )
 void game_menus::inv::swap_letters()
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
 
@@ -2809,7 +2820,7 @@ void game_menus::inv::swap_letters()
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &you ]( const std::string::value_type & elem ) {
-            if( you.inv->assigned_invlet.count( elem ) ) {
+            if( you.invlet_is_assigned( elem ) ) {
                 return c_yellow;
             } else if( you.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
@@ -2843,7 +2854,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
         } else {
-            const inventory &crafting_inv = you.crafting_inventory();
+            const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
@@ -2870,8 +2881,6 @@ static item_location autodoc_internal( Character &you, Character &patient,
     inv_s.set_display_stats( false );
 
     do {
-        you.inv->restack( you );
-
         inv_s.clear_items();
         inv_s.add_character_items( you );
         if( you.getID() != patient.getID() ) {
@@ -3129,8 +3138,6 @@ std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 
     inv_s.set_title( _( "Unload item" ) );
     inv_s.set_display_stats( false );
-
-    you.inv->restack( you );
 
     inv_s.clear_items();
 

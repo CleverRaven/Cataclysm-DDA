@@ -17,6 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_guneet_singh",
     "//": "Guneet is the Singhs' sixteen year old son.  Like his parents, he is wracked with survivor's guilt for his family having made it out intact.",
     "bonus_str": { "rng": [ -2, 2 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },

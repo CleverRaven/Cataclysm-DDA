@@ -24,6 +24,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 }, { "damage_type": "bash", "amount": 12 } ],
+    "block": { "chance": 50, "effectiveness": 30, "count": 1, "ranged": false },
     "vision_day": 50,
     "vision_night": 10,
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },

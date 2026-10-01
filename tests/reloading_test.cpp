@@ -50,7 +50,7 @@ static const itype_id itype_bigback( "bigback" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_bottle_plastic_small( "bottle_plastic_small" );
 static const itype_id itype_bottle_twoliter( "bottle_twoliter" );
-static const itype_id itype_bp_40sw( "bp_40sw" );
+static const itype_id itype_bp_40fmj( "bp_40fmj" );
 static const itype_id itype_cranberry_juice( "cranberry_juice" );
 static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_glock_19( "glock_19" );
@@ -207,7 +207,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload] [gun]" )
         }
 
         SECTION( "with one ammo of different type" ) {
-            item ammo( itype_bp_40sw );
+            item ammo( itype_bp_40fmj );
             test_reloading( gun, ammo );
         }
 

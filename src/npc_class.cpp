@@ -27,6 +27,8 @@
 
 class item;
 
+static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
+
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
@@ -280,6 +282,10 @@ void npc_class::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
     optional( jo, was_loaded, "bye_message_override", bye_message_override );
+
+    // FIXME: Use null ID
+    optional( jo, was_loaded, "portrait_filename", class_portrait_filename,
+              character_portrait_GENERIC_NPC );
 
     if( jo.has_member( "traits" ) ) {
         traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );

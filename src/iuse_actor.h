@@ -550,6 +550,13 @@ class salvage_actor : public iuse_actor
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const Character *p, const item &it ) const;
 
+        /*
+        * params:
+        * cut - thing to cut up, obviously.
+        * efficiency - percent of basic components (by mass) to return, normalized at 1.0. 1.0 == 100% returns.
+        */
+        static std::map<itype_id, int> salvage_results( item_location cut, double efficiency );
+
         explicit salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
         ~salvage_actor() override = default;

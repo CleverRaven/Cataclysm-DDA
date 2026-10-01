@@ -68,9 +68,10 @@
   {
     "id": "tools_robotics",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "tools_robotics",
     "extend": {
-      "items": [
+      "entries": [
         { "group": "afs_robotics_scrapgroup", "prob": 60 },
         { "group": "afs_advanced_circuitry_scrapgroup", "prob": 2 },
         { "group": "afs_advanced_magnet_scrapgroup", "prob": 10 },

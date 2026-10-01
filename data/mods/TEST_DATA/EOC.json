@@ -424,7 +424,7 @@
         "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
         "target_var": { "global_val": "key1" }
       },
-      { "math": [ "key2 = game_option('NPC_SPAWNTIME')" ] },
+      { "math": [ "key2 = game_option('ANIMATION_DELAY')" ] },
       { "run_eocs": "EOC_options_test_nested" }
     ]
   },

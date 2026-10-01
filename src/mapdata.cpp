@@ -826,8 +826,11 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
 std::vector<std::string> ter_t::extended_description() const
 {
     std::vector<std::string> ret;
-    ret.emplace_back( get_origin( src ) );
-    ret.emplace_back( "--" );
+
+    if( debug_mode ) {
+        ret.emplace_back( get_origin( src ) );
+        ret.emplace_back( "--" );
+    }
 
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );
@@ -853,8 +856,11 @@ std::vector<std::string> ter_t::extended_description() const
 std::vector<std::string> furn_t::extended_description() const
 {
     std::vector<std::string> ret;
-    ret.emplace_back( get_origin( src ) );
-    ret.emplace_back( "--" );
+
+    if( debug_mode ) {
+        ret.emplace_back( get_origin( src ) );
+        ret.emplace_back( "--" );
+    }
 
     std::vector<std::string> tmp = map_data_common_t::extended_description();
     ret.insert( ret.end(), tmp.begin(), tmp.end() );

@@ -81,7 +81,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 39;
+const int savegame_version = 40;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -552,16 +552,6 @@ void overmap::unserialize( const JsonObject &jsobj )
         if( name == "region_id" ) {
             std::string new_region_id;
             om_member.read( new_region_id );
-            if( settings->id.str() != new_region_id ) {
-                region_settings_id new_region_set( new_region_id );
-                //migrate old save region settings to new saves (remove in 0.J)
-                if( new_region_id == "default" ) {
-                    new_region_set = overmap_buffer.get_default_settings( pos() ).id;
-                }
-                if( new_region_set.is_valid() ) {
-                    settings = new_region_set;
-                }
-            }
         } else if( name == "mongroups" ) {
             load_legacy_monstergroups( om_member );
         } else if( name == "monster_groups" ) {
@@ -1401,7 +1391,6 @@ void overmap::serialize( std::ostream &fout ) const
     }
     json.end_array();
 
-    // temporary, to allow user to manually switch regions during play until regionmap is done.
     json.member( "region_id", settings->id );
     fout << std::endl;
 

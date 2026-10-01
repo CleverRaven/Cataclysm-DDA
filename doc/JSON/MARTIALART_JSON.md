@@ -193,7 +193,7 @@ All fields, except for the ID, type and name are optional.
       "permanent": false,                // If true the effect won't decay (default: false)
       "duration": 15,                    // Duration of the effect in turns
       "on_damage": true,                 // If true the effect will only be applied if the attack succeeded in doing damage (default: true)
-      "req_flag": "ANY",                 // A single arbitrary character flag (from traits, bionics, effects, or bodyparts) required to apply this effect
+      "condition": "ANY",                // conditions necessary for the technique to apply the effect. `u` is the martial artist, `npc` is the target
       "message": "Example"               // The message to print if you successfully apply the effect, %s can be substituted for the target's name
     }
   ]

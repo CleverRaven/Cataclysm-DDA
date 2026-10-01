@@ -10,18 +10,19 @@
     "dynamic_line": "&●◐ Tristar Heavy Industries\nTHI-14 StarCrane\n\n**Welcome Captain.**\n",
     "responses": [
       {
+        "condition": { "math": [ "your_ship_ramp_up != 1" ] },
+        "text": "> Plot a course.  <color_light_red>ERROR: BAY RAMP MUST CLOSE BEFORE TAKEOFF</color>",
+        "topic": "THI_CONTROL_START"
+      },
+      {
         "condition": { "math": [ "your_ship_ramp_up == 1" ] },
         "text": "> Plot a course to a known destination.",
-        "topic": "THI_CONTROL_PLOT_KNOWN",
-        "show_always": true,
-        "show_reason": "Bay ramp must be closed before takeoff."
+        "topic": "THI_CONTROL_PLOT_KNOWN"
       },
       {
         "condition": { "math": [ "your_ship_ramp_up == 1" ] },
         "text": "> Plot a manual course.",
         "topic": "THI_CONTROL_MANUAL_READY",
-        "show_always": true,
-        "show_reason": "Bay ramp must be closed before takeoff.",
         "effect": { "run_eocs": "EOC_SHIP_THI_MANUAL_QUERY" }
       },
       {
@@ -39,11 +40,14 @@
     "dynamic_line": "&************************************************\n\nINTEGRITY CHK : ███████████████ 100% (COMPLETE)\nNAV TRANSFER :  ███████████████ 100% (COMPLETE)\n\n************************************************\n*  Operation Successful                         *\n************************************************",
     "responses": [
       {
+        "condition": { "math": [ "ship_can_travel != 1" ] },
+        "text": "<color_light_red>Invalid course.  Destination must be clear of obstacles and at least 5 map tiles away.</color>",
+        "topic": "THI_CONTROL_START"
+      },
+      {
         "condition": { "math": [ "ship_can_travel == 1" ] },
         "text": "Pilot the ship",
         "topic": "THI_CONTROL_CONTROL_READY",
-        "show_always": true,
-        "show_reason": "Invalid course.  Destination must be clear of obstacles and at least 5 map tiles away.",
         "effect": { "run_eocs": "EOC_SHIP_THI_MANUAL_CONTROL" }
       },
       { "text": "Cancel.", "topic": "THI_CONTROL_START" }

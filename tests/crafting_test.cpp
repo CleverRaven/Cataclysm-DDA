@@ -26,7 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -42,7 +41,6 @@
 #include "options_helpers.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -61,6 +59,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather_type.h"
@@ -466,7 +465,6 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
     Character &player_character = get_player_character();
     player_character.clear_worn();
     player_character.calc_encumbrance();
-    player_character.inv->clear();
     player_character.remove_weapon();
     const item backpack( itype_debug_backpack );
     player_character.worn.wear_item( player_character, backpack, false, false );
@@ -539,7 +537,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
                                        .can_make_with_inventory( &player_character, crafting_inv, r.get_component_filter() );
@@ -1311,7 +1309,7 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
     u.set_skill_level( skill_fabrication, 10 );
     const recipe &r = recipe_cudgel_test_steps_charged.obj();
     REQUIRE( r.steps().size() == 3 );
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     bool cancelled = false;
 
     SECTION( "a full build selects the charged step's tool" ) {
@@ -2945,6 +2943,22 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
     }
 }
 
+static item *get_pseudo_item_by_type( const temp_crafting_inventory &crafting_inv,
+                                      const itype_id &id )
+{
+    item *ret = nullptr;
+    crafting_inv.visit_items(
+    [&id, &ret]( item * node, item * ) {
+        if( node->typeId() == id ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
+}
+
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 {
     clear_map_without_vision();
@@ -3008,10 +3022,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 0 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining( ) == 0 );
             }
         }
         WHEN( "the smoking rack contains charcoal" ) {
@@ -3019,10 +3032,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 200 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining() == 200 );
             }
             GIVEN( "an additional smoking rack" ) {
                 REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
@@ -3031,10 +3043,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 200 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 200 );
                     }
                 }
                 WHEN( "the second smoking rack also contains charcoal" ) {
@@ -3042,10 +3053,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 300 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 300 );
                     }
                 }
             }

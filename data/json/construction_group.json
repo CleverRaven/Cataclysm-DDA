@@ -1822,6 +1822,11 @@
   },
   {
     "type": "construction_group",
+    "id": "remove_metal_floor",
+    "name": "Remove Metal Floor"
+  },
+  {
+    "type": "construction_group",
     "id": "remove_concrete_wall",
     "name": "Remove Concrete Wall"
   },

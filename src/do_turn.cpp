@@ -26,6 +26,7 @@
 #include "cata_imgui.h"
 #endif
 #include "cata_variant.h"
+#include "craft_reservation.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -257,8 +258,9 @@ void handle_key_blocking_activity()
             u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
-        } else if( action == "help" ) {
-            get_help().display_help();
+        } else if( action == "DISPLAY_HELP" ) {
+            help_window hw;
+            hw.show();
         } else if( action != "HELP_KEYBINDINGS" ) {
             refresh = false;
         }
@@ -553,6 +555,9 @@ bool game::do_turn()
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
     get_item_wakeups().process( calendar::turn );
+    if( calendar::once_every( 1_hours ) ) {
+        get_craft_reservations().sweep_expired_records();
+    }
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
@@ -607,9 +612,7 @@ bool game::do_turn()
     perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
 
     // process avatar activities (ignoring user input)
-    while( u.get_moves() > 0 && u.activity ) {
-        u.activity.do_turn( u );
-    }
+    u.process_activity();
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
@@ -670,9 +673,7 @@ bool game::do_turn()
                 }
 
                 // avatar processes moves for activities started by handle_action()
-                while( u.get_moves() > 0 && u.activity ) {
-                    u.activity.do_turn( u );
-                }
+                u.process_activity();
             }
             // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.

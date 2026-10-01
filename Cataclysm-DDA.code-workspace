@@ -12,6 +12,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -20,6 +25,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug", "-Platform", "x86"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -28,6 +38,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Quick"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -36,6 +51,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Quick", "-Platform", "x86"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -44,6 +64,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -52,6 +77,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release", "-Platform", "x86"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -60,6 +90,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug-NoTiles"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -68,6 +103,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Debug-NoTiles", "-Platform", "x86"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -76,6 +116,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release-NoTiles"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             },
@@ -84,6 +129,11 @@
                 "type": "shell",
                 "command": "${workspaceFolder}\\.vscode\\msbuild.ps1",
                 "args": ["-SolutionPath", "${workspaceFolder}\\msvc-full-features\\Cataclysm-vcpkg-static.sln", "-Configuration", "Release-NoTiles", "-Platform", "x86"],
+                "options": {
+                    "shell": {
+                        "executable": "powershell.exe"
+                    }
+                },
                 "group": "build",
                 "problemMatcher": "$msCompile"
             }

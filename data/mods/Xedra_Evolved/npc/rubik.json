@@ -25,7 +25,16 @@
       "//~": "We brought out the armored forces early on this journey.  Specifically since this world hosts not just the undead but people who hunted us in other worlds.",
       "str": "Four-by-twos woke afore the dawn this green and blue.  Us un's prefer to duck and dive but this mudball's filth kicked it off afore our landing."
     },
-    "responses": [ { "text": "Oh well yeah, damn the man then I guess.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+    "responses": [ { "text": "Wait you are at war with someone here?.", "topic": "TALK_EXODII_MERCHANT_War" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_War",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "If you know nothing of it more the better for you.",
+      "str": "If you knah no'hin ov i' mawe 'he be''er faw you.."
+    },
+    "responses": [ { "text": "Wow you're accent got really thick there.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_XEDRA",
@@ -62,6 +71,12 @@
       "str": "The Good Folk of Aberystwyth?  Us 'ave no truck with them, the milk is spoilt, the flesh is hoofshod, the henge holds no peel.  Ye'd ken best not their seductions.  A trifle better than the enemy."
     },
     "responses": [ { "text": "I'll keep your warnings in mind.", "topic": "TALK_EXODII_MERCHANT_Talk" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Wont_Talk_To_Fair_Folk",
+    "type": "talk_topic",
+    "dynamic_line": { "str": "&No matter what you do or say, the towering mass of metal will not acknowledge you." },
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_VAMPIRE_GEAR",

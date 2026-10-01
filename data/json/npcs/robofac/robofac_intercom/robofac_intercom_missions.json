@@ -710,7 +710,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_3",
     "type": "mission_definition",
     "name": { "str": "Light retrieval" },
-    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.  They aren't sure if the safety gear they gave you is enough.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -825,7 +825,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_3_ACCEPTED",
     "type": "talk_topic",
-    "dynamic_line": "Excellent.  Thank you very much.\"  The intercom recites a series of coordinates.  \"Exercise a great deal of caution.  We do not know what the conditions on the ground are like.  Use your best judgment.  As before, we are willing to offer you protective gear, if you would like it.",
+    "dynamic_line": "Excellent.  Thank you very much.\"  The intercom recites a series of coordinates.  \"Exercise a great deal of caution.  We do not know what the conditions on the ground are like.  Use your best judgment.  As before, we are willing to offer you better protective gear, if you would like it, we can't know if this mask will be enough without direct field tests.",
     "responses": [
       { "text": "I would like that gear, yes.  Tell me about it.", "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR" },
       { "text": "Understood.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }

@@ -11,7 +11,7 @@
 
 class Character;
 class JsonObject;
-class inventory;
+class temp_crafting_inventory;
 class recipe;
 class recipe_subset;
 
@@ -25,7 +25,7 @@ class recipe_subset;
  */
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
         const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "",
-        bool camp_crafting = false, inventory *inventory_override = nullptr );
+        bool camp_crafting = false, temp_crafting_inventory *inventory_override = nullptr );
 std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
         &available_recipes, const crafting_category_id &cat, const std::string &subcat );
 

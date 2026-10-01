@@ -21,7 +21,7 @@
     "default_mods": [ "rifle_scope" ],
     "built_in_mods": [ "bipod", "high_end_folding_stock" ],
     "barrel_volume": "500 ml",
-    "flags": [ "EASY_CLEAN", "NO_TURRET" ],
+    "extend": { "flags": [ "EASY_CLEAN", "NO_TURRET", "BOLT_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ]
   },
   {
@@ -54,6 +54,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
@@ -85,6 +86,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
@@ -118,7 +120,7 @@
       [ "underbarrel", 1 ]
     ],
     "built_in_mods": [ "adjustable_stock" ],
-    "flags": [ "EASY_CLEAN", "NO_TURRET" ],
+    "extend": { "flags": [ "EASY_CLEAN", "NO_TURRET", "BOLT_ACTION" ] },
     "pocket_data": [
       {
         "magazine_well": "300 ml",

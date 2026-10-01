@@ -97,6 +97,25 @@ static light_color_rgb cached_twilight_color()
     return cached_color;
 }
 
+static light_color_rgb cached_weather_color()
+{
+    static time_point cached_turn = calendar::before_time_starts;
+    static light_color_rgb cached_color{};
+    if( cached_turn == calendar::turn ) {
+        return cached_color;
+    }
+    cached_turn = calendar::turn;
+
+    const weather_type_id &wid = get_weather().weather_id;
+    if( !wid->tint_color.is_colored() || wid->tint_strength <= 0.0f ) {
+        cached_color = {};
+        return cached_color;
+    }
+
+    cached_color = wid->tint_color * wid->tint_strength;
+    return cached_color;
+}
+
 light_color_rgb dawn_dusk_color_for_lightmap( dimension_id dimension )
 {
     if( dimension != dimension_world_default ) {
@@ -529,8 +548,15 @@ void map::generate_lightmap( const int zlev )
     // Dawn/dusk tint: color sunlit tiles during twilight. At this point lm
     // contains only sunlight (no artificial sources yet), so any excess over
     // the indoor baseline is sunlight that reached the tile.
-    const light_color_rgb ddc =
+    // Weather tint: sunlight can be tinted by active weather, respecting dawn/dusk
+    const light_color_rgb twilight_tint =
         dawn_dusk_color_for_lightmap( g->get_dimension_prefix() );
+    const light_color_rgb weather_tint = cached_weather_color();
+    const light_color_rgb ddc = {
+        std::max( twilight_tint.r, weather_tint.r ),
+        std::max( twilight_tint.g, weather_tint.g ),
+        std::max( twilight_tint.b, weather_tint.b )
+    };
     if( ddc.is_colored() ) {
         const float outside_light = g->natural_light_level( 0 );
         const float inside_light = ( zlev >= 0 && outside_light > LIGHT_SOURCE_BRIGHT )

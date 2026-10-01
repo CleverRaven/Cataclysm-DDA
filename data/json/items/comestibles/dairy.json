@@ -493,7 +493,7 @@
     "display_type": "BY_VOLUME",
     "price": "70 cent",
     "price_postapoc": "1 USD",
-    "material": [ { "type": "milk", "portion": 10 }, { "type": "junk", "portion": 1 } ],
+    "material": [ { "type": "milk", "portion": 6 }, { "type": "sugar", "portion": 4 } ],
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 20,

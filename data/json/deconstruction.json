@@ -849,7 +849,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "using": [ [ "metal_removal_standard", 1 ] ],
+    "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_c",
     "post_terrain": "t_mdoor_frame"
@@ -862,7 +862,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "using": [ [ "metal_removal_standard", 1 ] ],
+    "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": [
       { "item": "scrap", "count": [ 15, 30 ] },
       { "item": "sheet_metal", "count": [ 4, 8 ] },
@@ -893,7 +893,7 @@
     "category": "DECONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "using": [ [ "metal_removal_standard", 1 ] ],
+    "using": [ [ "metal_removal_high_standard", 1 ] ],
     "byproducts": "metal_door_deconstruction_results",
     "pre_terrain": "t_door_metal_lab_c",
     "post_terrain": "t_mdoor_frame"
@@ -1097,5 +1097,35 @@
     "byproducts": "teeth_deconstruction_result",
     "pre_terrain": "t_nm_wall_teeth",
     "post_terrain": "t_nm_wall_flesh"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_st_gangway",
+    "group": "remove_metal_floor",
+    "//": "cut up the metal frames",
+    "category": "DECONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "using": [ [ "metal_removal_high_standard", 1 ] ],
+    "byproducts": [ { "item": "lc_steel_lump", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_floor_metal_gangway",
+    "post_terrain": "t_open_air"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_wd_gangway",
+    "group": "remove_floor",
+    "//": "cut up the wood. Use bash, as we have that.",
+    "category": "DECONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "using": [ [ "wood_removal_standard", 1 ] ],
+    "byproducts": [
+      { "item": "splinter", "count": [ 2, 32 ] },
+      { "item": "2x4", "count": [ 0, 8 ] },
+      { "item": "nail", "charges": [ 5, 10 ] }
+    ],
+    "pre_terrain": "t_floor_wooden_gangway",
+    "post_terrain": "t_open_air"
   }
 ]

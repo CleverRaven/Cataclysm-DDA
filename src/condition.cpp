@@ -40,7 +40,6 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
@@ -69,6 +68,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -742,7 +742,21 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, std::string_view memb
         double charges_present;
         double total_present;
         const Character *you = d.const_actor( is_npc )->get_const_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
+        temp_crafting_inventory inventory_and_around = you->crafting_inventory( you->pos_bub(),
+                PICKUP_RANGE );
+
+        // Also add vehicles...
+        map &here = get_map();
+        std::set<vehicle *> vehicles_found;
+        for( const wrapped_vehicle &wv : here.get_vehicles() ) {
+            if( wv.v->owner == you->get_faction_id() ) {
+                for( const tripoint_abs_ms &veh_pt : wv.v->get_points() ) {
+                    if( optional_vpart_position vp = here.veh_at( veh_pt ) ) {
+                        vp->form_inventory( here, inventory_and_around, vehicles_found );
+                    }
+                }
+            }
+        }
 
         for( const auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
@@ -801,7 +815,8 @@ conditional_t::func f_has_software( const JsonObject &jo, std::string_view membe
 
     str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
     dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
-    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+    str_or_var device_id;
+    optional( has_software, false, "device", device_id );
 
     return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
@@ -1710,6 +1725,16 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
     };
 }
 
+conditional_t::func f_map_is_passable( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_object( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        return !here.impassable( loc );
+    };
+}
+
 conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view member )
 {
     str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
@@ -2275,7 +2300,6 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "intelligence", &const_talker::int_cur },
     { "mana_max", &const_talker::mana_max },
     { "mana", &const_talker::mana_cur },
-    { "morale", &const_talker::morale_cur },
     { "owed", &const_talker::debt },
     { "oxygen", &const_talker::get_oxygen },
     { "perception_base", &const_talker::get_per_max },
@@ -2370,7 +2394,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "intelligence_base", &talker::set_int_max },
     { "intelligence_bonus", &talker::set_int_bonus },
     { "mana", &talker::set_mana_cur },
-    { "morale", &talker::set_morale },
     { "oxygen", &talker::set_oxygen },
     { "perception_base", &talker::set_per_max },
     { "perception_bonus", &talker::set_per_bonus },
@@ -2546,6 +2569,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_is_passable", jarg::object, &conditional_fun::f_map_is_passable },
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },

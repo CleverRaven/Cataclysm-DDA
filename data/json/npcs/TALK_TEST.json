@@ -979,7 +979,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_val('power_percentage') == 50" ] }
       },
-      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('morale') == 23" ] } },
+      { "text": "Morale is 23.", "topic": "TALK_DONE", "condition": { "math": [ "u_morale() == 23" ] } },
       { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus') == 24" ] } },
       { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana') == 25" ] } },
       { "text": "Mana max is 900.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana_max') == 900" ] } },
@@ -988,7 +988,7 @@
         "topic": "TALK_DONE",
         "condition": { "math": [ "round( u_val('mana_percentage') ) == 3" ] }
       },
-      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger') == 26" ] } },
+      { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_hunger() == 26" ] } },
       { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst') == 27" ] } },
       {
         "text": "Stored kcal is 118'169.",

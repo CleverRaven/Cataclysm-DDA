@@ -1,9 +1,11 @@
 #include <algorithm>
+#include <climits>
 #include <functional>
 #include <list>
 #include <optional>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
@@ -11,7 +13,6 @@
 #include "character_attire.h"
 #include "coordinates.h"
 #include "enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -29,9 +30,11 @@
 #include "vpart_position.h"
 
 static const itype_id itype_backpack( "backpack" );
-static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_butane( "butane" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flask_hip( "flask_hip" );
+static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_water( "water" );
 
@@ -508,15 +511,14 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 }
 
-TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]" )
+TEST_CASE( "charges_of_in_tools_counts_ammo_loaded_in_a_tool", "[visitable]" )
 {
-    inventory inv;
-    std::list<item> items = { item( itype_bone ) };
-    inv += items;
-    CHECK( inv.amount_of( itype_bone ) == 1 );
-    inv.remove_items_with( return_true<item> );
-    CHECK( inv.size() == 0 );
-    // The following used to be a heap use-after-free due to a caching bug.
-    // Now should be safe.
-    CHECK( inv.amount_of( itype_bone ) == 0 );
+    clear_avatar();
+    Character &guy = get_avatar();
+    guy.worn.wear_item( guy, item( itype_debug_backpack ), false, false );
+    guy.i_add( tool_with_ammo( itype_lighter, 10 ) );
+    REQUIRE( guy.has_amount( itype_lighter, 1 ) );
+
+    CHECK( guy.charges_of( itype_butane, INT_MAX, return_true<item>, nullptr, true ) == 10 );
+    CHECK( guy.charges_of( itype_butane, INT_MAX, return_true<item>, nullptr, false ) == 0 );
 }

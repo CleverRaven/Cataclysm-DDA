@@ -1,8 +1,8 @@
 #include "memorial_logger.h"
 
 #include <cstddef>
+#include <functional>
 #include <istream>
-#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -24,13 +24,13 @@
 #include "debug_menu.h"
 #include "effect.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "get_version.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -49,7 +49,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
-#include "pimpl.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -59,6 +58,7 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "visitable.h"
 
 // IWYU pragma: no_forward_declare debug_menu::debug_menu_index
 
@@ -381,20 +381,20 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv->restack( u );
-    invslice slice = u.inv->slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
-        file << indent << next_item.invlet << " - " <<
-             next_item.tname( static_cast<unsigned>( elem->size() ), false );
-        if( elem->size() > 1 ) {
-            file << " [" << elem->size() << "]";
+    u.visit_items(
+    [&file, &indent]( item * node, item * parent ) {
+        // your "inventory" is all items inside of other items.
+        if( parent != nullptr && !node->is_gunmod() && !node->is_magazine() && !node->is_ammo() &&
+            !node->made_of( phase_id::LIQUID ) ) {
+            file << indent << node->invlet << " - " << node->tname();
+            if( node->charges > 0 ) {
+                file << " (" << node->charges << ')';
+            }
+            file << eol;
         }
-        if( next_item.charges > 0 ) {
-            file << " (" << next_item.charges << ")";
-        }
-        file << eol;
+        return VisitResponse::NEXT;
     }
+    );
     file << eol;
 
     //Lifetime stats

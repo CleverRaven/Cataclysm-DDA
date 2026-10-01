@@ -2505,7 +2505,7 @@
     "percent_spread": 25,
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ], "flags": [ "INHALED_TOXIN_IMMUNE" ] },
     "priority": 8,
     "half_life": "30 seconds",
     "phase": "gas"

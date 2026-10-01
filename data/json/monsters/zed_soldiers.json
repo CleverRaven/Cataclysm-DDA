@@ -21,17 +21,6 @@
     "delete": { "flags": [ "STUMBLES" ] }
   },
   {
-    "id": "mon_zombie_soldier_no_weakpoints",
-    "type": "MONSTER",
-    "name": { "str_sp": "zombie soldier test only", "//~": "NO_I18N" },
-    "description": { "str": "This zombie soldier is for testing purposes only.", "//~": "NO_I18N" },
-    "copy-from": "mon_zombie_soldier",
-    "dodge": 1,
-    "delete": {
-      "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
-    }
-  },
-  {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
     "name": { "str": "black-ops zombie" },
@@ -67,6 +56,18 @@
       "families": [ "prof_wp_syn_armored" ]
     },
     "delete": { "flags": [ "STUMBLES" ] }
+  },
+  {
+    "id": "mon_zombie_soldier_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str_sp": "zombie soldier test only", "//~": "NO_I18N" },
+    "description": { "str": "This zombie soldier is used by hardcoded dps logic and for testing purposes only.", "//~": "NO_I18N" },
+    "copy-from": "mon_zombie_soldier",
+    "dodge": 1,
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] },
+    "delete": {
+      "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ]
+    }
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
@@ -194,7 +195,8 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 },
+      { "id": "smash_equal", "throw_strength": 18, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 168, "into": "mon_zombie_kevlar_2" },
@@ -223,6 +225,7 @@
       { "id": "longswipe" },
       { "id": "cut_throat" },
       { "id": "smash", "throw_strength": 72 },
+      { "id": "smash_equal", "throw_strength": 36 },
       { "id": "hulk_wide_swing", "accuracy": 9 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
@@ -315,6 +318,8 @@
     "special_attacks": [
       { "id": "grab" },
       { "id": "smash", "throw_strength": 75, "cooldown": 30 },
+      { "id": "smash_equal", "throw_strength": 37, "cooldown": 30 },
+      { "id": "hulk_wide_swing", "accuracy": 9 },
       { "id": "scratch_humanoid", "move_cost": 150, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "bite_humanoid", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
     ]

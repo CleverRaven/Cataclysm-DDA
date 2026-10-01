@@ -49,7 +49,6 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"

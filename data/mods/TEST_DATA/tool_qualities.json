@@ -10,5 +10,11 @@
     "id": "TEST_RESERVE_B",
     "name": { "str": "test reservation B" },
     "//": "Second isolated quality, for steps with two groups satisfiable by one provider."
+  },
+  {
+    "type": "tool_quality",
+    "id": "TEST_RESERVE_C",
+    "name": { "str": "test reservation C" },
+    "//": "Third isolated quality, for the three-group backtracking fixture."
   }
 ]

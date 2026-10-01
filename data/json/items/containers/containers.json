@@ -89,7 +89,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "100 L",
-        "max_contains_weight": "250 kg"
+        "max_contains_weight": "500 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -119,7 +119,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "200 L",
-        "max_contains_weight": "500 kg"
+        "max_contains_weight": "1000 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -3111,7 +3111,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "60 L",
-        "max_contains_weight": "120 kg"
+        "max_contains_weight": "600 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -3143,7 +3143,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg"
+        "max_contains_weight": "20 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],

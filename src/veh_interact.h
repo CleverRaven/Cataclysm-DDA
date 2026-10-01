@@ -25,8 +25,8 @@
 #include "vpart_position.h"
 
 class Character;
-class inventory;
 class map;
+class temp_crafting_inventory;
 class time_duration;
 class vpart_info;
 struct requirement_data;
@@ -161,7 +161,7 @@ class veh_interact
         std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
-        const inventory *crafting_inv;
+        const temp_crafting_inventory *crafting_inv;
         input_context main_context;
 
         // maximum weight capacity of available lifting equipment (if any)

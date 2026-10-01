@@ -77,7 +77,7 @@
         },
         "then": [
           {
-            "if": { "compare_string": [ { "context_val": "closetland_paths_last_dimension" }, "" ] },
+            "if": { "compare_string": [ { "context_val": "closetland_paths_last_dimension" }, "default" ] },
             "then": [ { "run_eocs": "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND_MEMORIZE" } ],
             "else": [ { "u_message": "You can't memorize this closet, for some reason." } ]
           }

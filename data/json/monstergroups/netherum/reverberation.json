@@ -1,0 +1,11 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_radiosphere_solar_beetle",
+    "monsters": [
+      { "monster": "mon_beetle_solar_starving_reverberation", "weight": 300 },
+      { "monster": "mon_beetle_solar_starving_reverberation", "weight": 200, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_beetle_solar_reverberation", "weight": 20 }
+    ]
+  }
+]

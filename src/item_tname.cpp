@@ -18,6 +18,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -28,6 +29,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "mutation.h"
 #include "options.h"
@@ -626,6 +628,10 @@ std::string activity_occupany( item const &it, unsigned int /* quantity */,
     if( it.has_var( "activity_var" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    // Direct mark only, so a container is not labelled for what it holds.
+    if( get_craft_reservations().is_reserved_uid( it.uid().get_value() ) ) {
         return _( " (in use)" );
     }
     return {};

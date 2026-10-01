@@ -211,5 +211,55 @@
       { "copy_var": { "context_val": "this" }, "target_var": { "global_val": "this" } },
       { "copy_var": { "context_val": "pos" }, "target_var": { "global_val": "pos" } }
     ]
+  },
+  {
+    "//": "Craft reservation fixture: a furniture provider that is also bashable, so it serves both the provider-tile lock tests and the NPC pathing tests.  crafting_pseudo_item is a furniture field, which is why no mutation fixture can supply an item this way.",
+    "type": "furniture",
+    "id": "test_f_reserve_qual",
+    "name": "Reservation Test Kiln",
+    "description": "Test furniture supplying a craftable quality through a pseudo item.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "crafting_pseudo_item": "test_reserve_pseudo_kiln",
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "//": "Craft reservation fixture: a furniture charge source that can share a tile with a terrain provider, so the exclusion unit has to span both tile kinds.",
+    "type": "furniture",
+    "id": "test_f_reserve_charged",
+    "name": "Reservation Test Charged Kiln",
+    "description": "Test furniture supplying charges through a pseudo item.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "crafting_pseudo_item": "test_reserve_pseudo_kiln_charged"
+  },
+  {
+    "//": "Second provider tile carrying a DIFFERENT pseudo tool, so two provider-tile candidates are not interchangeable and the exclusion unit must cover the whole tile.",
+    "type": "furniture",
+    "id": "test_f_reserve_qual_b",
+    "name": "Reservation Test Kiln B",
+    "description": "Test furniture supplying a second craftable quality through a pseudo item.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "crafting_pseudo_item": "test_reserve_pseudo_kiln_b",
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
   }
 ]

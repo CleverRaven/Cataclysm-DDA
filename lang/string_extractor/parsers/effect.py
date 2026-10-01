@@ -91,6 +91,14 @@ def _parse_effect_entry(eff, origin, name):
         write_variable(eff.get("fail_message"), origin,
                        comment=f"Fail message in teleportation in {name}")
 
+    if "u_add_memorial" in eff or "npc_add_memorial" in eff:
+        memorial_key = "u_add_memorial" if "u_add_memorial" in eff \
+            else "npc_add_memorial"
+        write_variable(eff.get(memorial_key), origin,
+                       comment=f"Male memorial message in {name}")
+        write_variable(eff.get("female"), origin,
+                       comment=f"Female memorial message in {name}")
+
     if "u_run_inv_eocs" in eff or "u_map_run_item_eocs" in eff:
         write_variable(eff.get("title"), origin,
                        comment=f"Player inventory menu title in {name}")

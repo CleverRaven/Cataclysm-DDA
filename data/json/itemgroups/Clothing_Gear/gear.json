@@ -268,6 +268,7 @@
     "id": "fireman_gear",
     "items": [
       { "item": "extinguisher", "prob": 10, "charges": 100 },
+      { "item": "firefighter_scba_tank", "prob": 60, "charges": 30 },
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
@@ -365,6 +366,7 @@
       { "item": "wetsuit_gloves", "prob": 70 },
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
+      { "item": "scuba_regulator", "prob": 60 },
       {
         "distribution": [ { "item": "airspeargun", "prob": 20 }, { "item": "doublespeargun", "prob": 10 }, { "item": "speargun", "prob": 40 } ],
         "prob": 65

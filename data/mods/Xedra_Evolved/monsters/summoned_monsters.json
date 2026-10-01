@@ -205,5 +205,29 @@
     "copy-from": "mon_kreck",
     "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "categories": [ "XE_CLASSIC" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shifter_non_player",
+    "copy-from": "mon_shifter",
+    "default_faction": "nightmares"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shifter_feral",
+    "copy-from": "mon_shifter",
+    "default_faction": "zombie"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ophanim_non_player",
+    "copy-from": "mon_ophanim",
+    "default_faction": "nightmares"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_duplicator_non_player",
+    "copy-from": "mon_duplicator",
+    "default_faction": "nightmares"
   }
 ]

@@ -760,7 +760,7 @@
     "id": "EOC_HEDGE_PREVENT_WILD_ANIMAL_ATTACKS",
     "condition": "has_alpha",
     "effect": [
-      { "math": [ "u_val('morale') -= 50" ] },
+      { "math": [ "u_morale() -= 50" ] },
       { "math": [ "u_val('anger') -= 50" ] },
       { "u_add_effect": "effect_hedge_prevent_wild_animal_attacks", "duration": { "math": [ "rng(300, 900)" ] } }
     ]
@@ -798,6 +798,6 @@
     "id": "EOC_HEDGE_SCARE_SHABRIRI",
     "//": "Not meant to be used on anything but shabriri.",
     "condition": { "u_has_species": "SHABRIRI" },
-    "effect": [ { "math": [ "u_val('morale') -= 200" ] }, { "math": [ "u_val('anger') -= 200" ] } ]
+    "effect": [ { "math": [ "u_morale() -= 200" ] }, { "math": [ "u_val('anger') -= 200" ] } ]
   }
 ]

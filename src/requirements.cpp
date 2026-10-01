@@ -25,8 +25,8 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "item_tname.h"
@@ -36,6 +36,7 @@
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -100,7 +101,7 @@ int provider_quality_level( const item &cand, const quality_id &id, const Charac
     // screwdriver is not part of the backpack.
     for( int pk = 0; pk < static_cast<int>( pocket_type::LAST ); ++pk ) {
         const pocket_type pk_type = static_cast<pocket_type>( pk );
-        if( pk_type == pocket_type::CONTAINER ) {
+        if( pk_type == pocket_type::CONTAINER || !cand.has_pocket_type( pk_type ) ) {
             continue;
         }
         for( const item *nested : cand.all_items_ptr( pk_type ) ) {
@@ -832,7 +833,7 @@ void requirement_data::reset()
 
 std::vector<std::string> requirement_data::get_folded_components_list( const Character *actor,
         int width, nc_color col,
-        const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+        const temp_crafting_inventory &crafting_inv, const std::function<bool( const item & )> &filter,
         int batch,
         std::string_view hilite, requirement_display_flags flags ) const
 {
@@ -851,7 +852,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( const Cha
 
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( const Character *actor, int width,
-        const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+        const temp_crafting_inventory &crafting_inv, const std::function<bool( const item & )> &filter,
         const std::vector< std::vector<T> > &objs, int batch, std::string_view hilite,
         requirement_display_flags flags ) const
 {
@@ -920,7 +921,7 @@ std::vector<std::string> requirement_data::get_folded_list( const Character *act
 
 std::vector<std::string> requirement_data::get_folded_tools_list( const Character *actor, int width,
         nc_color col,
-        const read_only_visitable &crafting_inv, int batch ) const
+        const temp_crafting_inventory &crafting_inv, int batch ) const
 {
     std::vector<std::string> output_buffer;
     output_buffer.reserve( 2 );
@@ -941,7 +942,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( const Characte
 }
 
 bool requirement_data::can_make_with_inventory( const Character *actor,
-        const read_only_visitable &crafting_inv,
+        const temp_crafting_inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, craft_flags flags,
         bool restrict_volume ) const
 {
@@ -969,7 +970,7 @@ bool requirement_data::can_make_with_inventory( const Character *actor,
 
 template<typename T>
 bool requirement_data::has_comps( const Character *actor,
-                                  const read_only_visitable &crafting_inv,
+                                  const temp_crafting_inventory &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
                                   const std::function<bool( const item & )> &filter,
                                   int batch, craft_flags flags )
@@ -1012,7 +1013,7 @@ bool requirement_data::has_comps( const Character *actor,
 
 bool quality_requirement::has(
     const Character *actor,
-    const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &, int,
+    const temp_crafting_inventory &crafting_inv, const std::function<bool( const item & )> &, int,
     craft_flags, const std::function<void( int )> & ) const
 {
     if( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) {
@@ -1026,7 +1027,7 @@ bool quality_requirement::has(
 }
 
 nc_color quality_requirement::get_color( const Character *actor, bool has_one,
-        const read_only_visitable &,
+        const temp_crafting_inventory &,
         const std::function<bool( const item & )> &, int ) const
 {
     if( ( actor != nullptr && actor->has_trait( trait_DEBUG_HS ) ) ||
@@ -1037,7 +1038,7 @@ nc_color quality_requirement::get_color( const Character *actor, bool has_one,
 }
 
 bool tool_comp::has(
-    const Character *actor, const read_only_visitable &crafting_inv,
+    const Character *actor, const temp_crafting_inventory &crafting_inv,
     const std::function<bool( const item & )> &filter,
     int batch,
     craft_flags flags, const std::function<void( int )> &visitor ) const
@@ -1068,7 +1069,7 @@ bool tool_comp::has(
 }
 
 nc_color tool_comp::get_color( const Character *actor, bool has_one,
-                               const read_only_visitable &crafting_inv,
+                               const temp_crafting_inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
     if( available == available_status::a_insufficient ) {
@@ -1080,7 +1081,7 @@ nc_color tool_comp::get_color( const Character *actor, bool has_one,
 }
 
 bool item_comp::has(
-    const Character *actor, const read_only_visitable &crafting_inv,
+    const Character *actor, const temp_crafting_inventory &crafting_inv,
     const std::function<bool( const item & )> &filter,
     int batch,
     craft_flags, const std::function<void( int )> & ) const
@@ -1097,20 +1098,19 @@ bool item_comp::has(
 }
 
 nc_color item_comp::get_color( const Character *actor, bool has_one,
-                               const read_only_visitable &crafting_inv,
+                               const temp_crafting_inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
     if( available == available_status::a_insufficient ) {
         return c_brown;
     } else if( has( actor, crafting_inv, filter, batch ) ) {
-        const inventory *inv = static_cast<const inventory *>( &crafting_inv );
         // Will use non-empty liquid container
         if( std::any_of( type->pockets.begin(), type->pockets.end(), []( const pocket_data & d ) {
         return d.type == pocket_type::CONTAINER && d.watertight;
-    } ) && inv != nullptr && inv->must_use_liq_container( type, count * batch ) ) {
+    } ) &&  crafting_inv.must_use_liq_container( type, count * batch ) ) {
             return c_magenta;
         }
-        if( inv != nullptr && inv->must_use_hallu_poison( type, count * batch ) ) {
+        if( crafting_inv.must_use_hallu_poison( type, count * batch ) ) {
             return c_magenta;
         }
         // Will use favorited component
@@ -1140,7 +1140,7 @@ const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &ve
 }
 
 bool requirement_data::check_enough_materials( const Character *actor,
-        const read_only_visitable &crafting_inv,
+        const temp_crafting_inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, bool restrict_volume ) const
 {
     bool retval = true;
@@ -1175,7 +1175,7 @@ bool requirement_data::check_enough_materials( const Character *actor,
 }
 
 bool requirement_data::check_enough_materials( const Character *actor, const item_comp &comp,
-        const read_only_visitable &crafting_inv,
+        const temp_crafting_inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch ) const
 {
     if( comp.available != available_status::a_true ) {
@@ -1216,8 +1216,16 @@ bool requirement_data::check_enough_materials( const Character *actor, const ite
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_provider_quality( qr->type, qr->level,
-                                                qr->count + std::abs( comp.count ), actor ) ) {
+        // One provider outliving the craft is a question about items: the stack a component
+        // comes out of survives losing a charge, so what counts is how many rocks there are
+        // rather than how many stacks.  Two is a question about stacks, since two tools at
+        // once means two separate items.  `cnt` rather than the bare count, since a batch
+        // eats its component once per unit.
+        const quality_count mode = qr->count == 1
+                                   ? quality_count::units
+                                   : quality_count::providers;
+        if( !crafting_inv.has_provider_quality( qr->type, qr->level, qr->count + cnt, actor,
+                                                mode ) ) {
             comp.available = available_status::a_insufficient;
         }
     }
@@ -1437,8 +1445,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    temp_crafting_inventory craft_components;
+    for( const item_components::type_vector_pair &tvp : remaining_comps ) {
+        for( const item &inner : tvp.second ) {
+            craft_components.add_item_copy( inner );
+        }
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1470,7 +1482,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
-            craft_components.use_amount( comp.type, amount );
+            craft_components.remove_items_with(
+            [&comp]( const item & it ) {
+                return it.typeId() == comp.type;
+            }
+            , amount
+            );
         }
         return comp.count <= 0;
     } ), ret.components.end() );
@@ -1817,7 +1834,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
 bool deduped_requirement_data::can_make_with_inventory(
     const Character *actor,
-    const read_only_visitable &crafting_inv, const std::function<bool( const item & )> &filter,
+    const temp_crafting_inventory &crafting_inv, const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
     return std::any_of( alternatives().begin(), alternatives().end(),
@@ -1827,7 +1844,7 @@ bool deduped_requirement_data::can_make_with_inventory(
 }
 
 std::vector<const requirement_data *> deduped_requirement_data::feasible_alternatives(
-    const Character *actor, const read_only_visitable &crafting_inv,
+    const Character *actor, const temp_crafting_inventory &crafting_inv,
     const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
@@ -1848,7 +1865,7 @@ const requirement_data *deduped_requirement_data::select_alternative(
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
-    Character &crafter, const read_only_visitable &inv,
+    Character &crafter, const temp_crafting_inventory &inv,
     const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {

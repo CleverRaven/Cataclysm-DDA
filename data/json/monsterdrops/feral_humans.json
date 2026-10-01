@@ -643,7 +643,6 @@
       { "group": "shelter", "prob": 30 },
       { "group": "used_survival_kit", "prob": 80, "damage": [ 1, 4 ] },
       { "item": "stanag30", "prob": 25, "charges": 0 },
-      { "item": "stanag30ranger", "prob": 33, "charges": 0 },
       { "item": "stanag30", "prob": 50, "charges": 0 },
       { "item": "dog_tag", "prob": 20 }
     ]

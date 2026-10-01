@@ -3274,26 +3274,6 @@
     ]
   },
   {
-    "id": "nested_modified_gunmods",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "name": "modified attachments",
-    "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
-    "nested_category_data": [ "grip_mod", "nested_modified_gunmods_weapons" ]
-  },
-  {
-    "id": "nested_modified_gunmods_weapons",
-    "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "auxiliary weapons",
-    "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
-    "nested_category_data": [ "m26_mass_mod", "knife_combat", "m203_mod", "m320_mod_mod", "masterkey_mod" ]
-  },
-  {
     "id": "nested_ammo_flamethrower",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -3640,15 +3620,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "name": "attachment mounts",
     "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
-    "nested_category_data": [
-      "rail_mount",
-      "rail_bayonet_lug",
-      "sights_mount",
-      "sights_mount_launcher",
-      "sights_mount_pistol",
-      "stock_mount",
-      "underbarrel_mount"
-    ]
+    "nested_category_data": [ "rail_bayonet_lug" ]
   },
   {
     "id": "nested_bionic_practice",
@@ -6550,7 +6522,7 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "name": ".380 ACP ammo",
     "description": "Recipes related to reloading .380 ACP ammo.",
-    "nested_category_data": [ "reloaded_380_FMJ", "reloaded_380_p", "bp_380_FMJ", "matchhead_380_FMJ" ]
+    "nested_category_data": [ "reloaded_380_FMJ", "bp_380_FMJ", "matchhead_380_FMJ" ]
   },
   {
     "id": "nested_57",
@@ -6715,7 +6687,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": ".50 BMG ammo",
     "description": "Recipes related to reloading .50 BMG ammo.",
-    "nested_category_data": [ "reloaded_50bmg", "reloaded_50_incendiary", "bp_50match", "bp_50_incendiary" ]
+    "nested_category_data": [ "reloaded_50bmg", "reloaded_50_incendiary", "reloaded_50bmgfmj", "bp_50match", "bp_50_incendiary", "bp_50bmgfmj" ]
   },
   {
     "id": "nested_545",
@@ -6775,7 +6747,7 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "name": "7.7x58mm Arisaka ammo",
     "description": "Recipes related to reloading 7.7x58mm Arisaka ammo.",
-    "nested_category_data": [ "reloaded_77mm_arisaka_jsp", "bp_77mm_arisaka_jsp", "reloaded_303sp", "bp_303", "bp_303fmj", "bp_303sp" ]
+    "nested_category_data": [ "reloaded_77mm_arisaka_jsp", "bp_77mm_arisaka_jsp", "reloaded_303sp", "bp_303fmj", "bp_303sp" ]
   },
   {
     "id": "nested_30carbine",
@@ -7037,6 +7009,404 @@
       "arredondo_chute_mossberg_930_simple",
       "arredondo_chute_mossberg_590",
       "arredondo_chute_mossberg_590_simple"
+    ]
+  },
+  {
+    "id": "nested_steel_cores",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "name": "steel cores",
+    "description": "Recipes for creating steel cores for making ap ammo.",
+    "nested_category_data": [ "9x18_steel_core", "3006_steel_core", "123_steel_core", "545_steel_core", "50_steel_core" ]
+  },
+  {
+    "id": "nested_offal_canned",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Offal(Jars and Tins)",
+    "description": "Recipes related to putting canned offal in jars and tins.",
+    "nested_category_data": [
+      "offal_canned_jarred",
+      "offal_canned_jarred_3l",
+      "offal_canned_canned",
+      "offal_canned_canned_small",
+      "offal_canned_canned_big"
+    ]
+  },
+  {
+    "id": "nested_offal_pickled",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Pickled Offal(Jars)",
+    "description": "Recipes related to putting pickled offal in jars.",
+    "nested_category_data": [ "offal_pickled_jarred", "offal_pickled_jarred_3l" ]
+  },
+  {
+    "id": "nested_dogfood",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "name": "Dogfood(Jars and Tins)",
+    "description": "Recipes related to putting dog food in jars and tins.",
+    "nested_category_data": [ "dogfood_jarred", "dogfood_jarred_3l", "dogfood_canned", "dogfood_canned_big" ]
+  },
+  {
+    "id": "nested_catfood",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "name": "Catfood(Jars and Tins)",
+    "description": "Recipes related to putting cat food in jars and tins.",
+    "nested_category_data": [ "catfood_jarred", "catfood_jarred_3l", "catfood_canned", "catfood_canned_medium", "catfood_canned_big" ]
+  },
+  {
+    "id": "nested_mushroom_soup",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Mushroom Soup(Jars and Tins)",
+    "description": "Recipes related to putting mushroom soup in jars and tins.",
+    "nested_category_data": [
+      "soup_mushroom_jarred",
+      "soup_mushroom_jarred_3l",
+      "soup_mushroom_canned",
+      "soup_mushroom_canned_small",
+      "soup_mushroom_canned_big"
+    ]
+  },
+  {
+    "id": "nested_canned_meat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Meat(Jars and Tins)",
+    "description": "Recipes related to putting canned meat in jars and tins.",
+    "nested_category_data": [ "meat_canned_jarred", "meat_canned_jarred_3l", "meat_canned", "meat_canned_canned_medium", "meat_canned_canned_big" ]
+  },
+  {
+    "id": "nested_pickled_meat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Pickled Meat(Jars and Tins)",
+    "description": "Recipes related to putting pickled meat in jars and tins.",
+    "nested_category_data": [ "meat_pickled_jarred", "meat_pickled_jarred_3l" ]
+  },
+  {
+    "id": "nested_canned_fish",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Fish(Jars and Tins)",
+    "description": "Recipes related to putting canned fish in jars and tins.",
+    "nested_category_data": [ "fish_canned_jarred", "fish_canned_jarred_3l", "fish_canned", "fish_canned_canned_medium", "fish_canned_canned_big" ]
+  },
+  {
+    "id": "nested_pickled_fish",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Pickled Fish(Jars and Tins)",
+    "description": "Recipes related to putting pickled fish in jars and tins.",
+    "nested_category_data": [ "fish_pickled_jarred", "fish_pickled_jarred_3l" ]
+  },
+  {
+    "id": "nested_canned_lobster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Lobster(Jars and Tins)",
+    "description": "Recipes related to putting canned lobster in jars and tins.",
+    "nested_category_data": [
+      "lobster_canned_jarred",
+      "lobster_canned_jarred_3l",
+      "lobster_canned",
+      "lobster_canned_canned_medium",
+      "lobster_canned_canned_big"
+    ]
+  },
+  {
+    "id": "nested_canned_veggy",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Canned Veggy(Jars and Tins)",
+    "description": "Recipes related to putting canned veggy in jars and tins.",
+    "nested_category_data": [
+      "veggy_canned_jarred",
+      "veggy_canned_jarred_3l",
+      "veggy_canned",
+      "veggy_canned_canned_medium",
+      "veggy_canned_canned_big"
+    ]
+  },
+  {
+    "id": "nested_pickled_veggy",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Pickled Veggy(Jars and Tins)",
+    "description": "Recipes related to putting pickled veggy in jars and tins.",
+    "nested_category_data": [ "veggy_pickled_jarred", "veggy_pickled_jarred_3l" ]
+  },
+  {
+    "id": "nested_canned_chicken",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Chicken(Jars and Tins)",
+    "description": "Recipes related to putting canned chicken in jars and tins.",
+    "nested_category_data": [ "can_chicken_jarred", "can_chicken_jarred_3l", "can_chicken", "can_chicken_canned_medium", "can_chicken_canned_big" ]
+  },
+  {
+    "id": "nested_woods_soup",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Woods Soup(Jars and Tins)",
+    "description": "Recipes related to putting woods soup in jars and tins.",
+    "nested_category_data": [ "soup_woods_jarred", "soup_woods_jarred_3l", "soup_woods_canned", "soup_woods_canned_big" ]
+  },
+  {
+    "id": "nested_meat_soup",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Meat Soup(Jars and Tins)",
+    "description": "Recipes related to putting meat soup in jars and tins.",
+    "nested_category_data": [ "soup_meat_jarred", "soup_meat_jarred_3l", "soup_meat_canned", "soup_meat_canned_big" ]
+  },
+  {
+    "id": "nested_veggy_soup",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Veggy Soup(Jars and Tins)",
+    "description": "Recipes related to putting veggy soup in jars and tins.",
+    "nested_category_data": [ "soup_veggy_jarred", "soup_veggy_jarred_3l", "soup_veggy_canned", "soup_veggy_canned_big" ]
+  },
+  {
+    "id": "nested_fish_soup",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Fish Soup(Jars and Tins)",
+    "description": "Recipes related to putting fish soup in jars and tins.",
+    "nested_category_data": [ "soup_fish_jarred", "soup_fish_jarred_3l", "soup_fish_canned", "soup_fish_canned_big" ]
+  },
+  {
+    "id": "nested_broth",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Broth(Jars and Tins)",
+    "description": "Recipes related to putting broth in jars and tins.",
+    "nested_category_data": [ "broth_jarred", "broth_jarred_3l", "broth_canned", "broth_canned_small", "broth_canned_big" ]
+  },
+  {
+    "id": "nested_broth_meat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Meat Broth(Jars and Tins)",
+    "description": "Recipes related to putting meat broth in jars and tins.",
+    "nested_category_data": [ "broth_meat_jarred", "broth_meat_jarred_3l", "broth_meat_canned", "broth_meat_canned_small", "broth_meat_canned_big" ]
+  },
+  {
+    "id": "nested_broth_bone",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Bone Broth(Jars and Tins)",
+    "description": "Recipes related to putting bone broth in jars and tins.",
+    "nested_category_data": [ "broth_bone_jarred", "broth_bone_jarred_3l", "broth_bone_canned", "broth_bone_canned_small", "broth_bone_canned_big" ]
+  },
+  {
+    "id": "nested_canned_beans",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Canned Beans(Jars and Tins)",
+    "description": "Recipes related to putting canned beans in jars and tins.",
+    "nested_category_data": [ "can_beans_jarred", "can_beans_jarred_3l", "can_beans", "can_beans_canned_big" ]
+  },
+  {
+    "id": "nested_con_milk",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "name": "Condensed Milk(Jars and Tins)",
+    "description": "Recipes related to putting condensed milk in jars and tins.",
+    "nested_category_data": [ "con_milk_jarred", "con_milk_jarred_3l", "con_milk_canned", "con_milk_canned_small", "con_milk_canned_big" ]
+  },
+  {
+    "id": "nested_canned_liver",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Liver(Jars and Tins)",
+    "description": "Recipes related to putting canned liver in jars and tins.",
+    "nested_category_data": [
+      "canned_liver_jarred",
+      "canned_liver_jarred_3l",
+      "canned_liver",
+      "canned_liver_canned_medium",
+      "canned_liver_canned_big"
+    ]
+  },
+  {
+    "id": "nested_canned_heart",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "Canned Heart(Jars)",
+    "description": "Recipes related to putting canned heart in jars and tins.",
+    "nested_category_data": [ "canned_heart_jarred", "canned_heart_jarred_3l" ]
+  },
+  {
+    "id": "nested_v8_jarred",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "V8(Jars)",
+    "description": "Recipes related to putting V8 in jars and tins.",
+    "nested_category_data": [ "V8_jarred" ]
+  },
+  {
+    "id": "nested_sauce_red",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Red Sauce(Jars and Tins)",
+    "description": "Recipes related to putting red sauce in jars and tins.",
+    "nested_category_data": [ "sauce_red_jarred", "sauce_red_jarred_3l", "sauce_red_canned", "sauce_red_canned_small", "sauce_red_canned_big" ]
+  },
+  {
+    "id": "nested_can_tomato",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Canned Tomato(Jars)",
+    "description": "Recipes related to putting canned tomato in jars and tins.",
+    "nested_category_data": [ "can_tomato_jarred", "can_tomato_jarred_3l", "can_tomato", "can_tomato_canned_medium", "can_tomato_canned_big" ]
+  },
+  {
+    "id": "nested_kompot_jarred",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Kompot(Jars)",
+    "description": "Recipes related to putting kompot in jars and tins.",
+    "nested_category_data": [ "kompot_jarred", "kompot_jarred_3l" ]
+  },
+  {
+    "id": "nested_cranberry_juice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Cranberry Juice(Jars and Canned)",
+    "description": "Recipes related to putting cranberry juice in jars and tins.",
+    "nested_category_data": [
+      "cranberry_juice_jarred",
+      "cranberry_juice_jarred_3l",
+      "cranberry_juice_canned",
+      "cranberry_juice_canned_small",
+      "cranberry_juice_canned_big"
+    ]
+  },
+  {
+    "id": "nested_juice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Juice(Jars and Canned)",
+    "description": "Recipes related to putting juice in jars and tins.",
+    "nested_category_data": [ "juice_jarred", "juice_jarred_3l", "juice_canned", "juice_canned_small", "juice_canned_big" ]
+  },
+  {
+    "id": "nested_oj",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Orange Juice(Jars and Canned)",
+    "description": "Recipes related to putting orange juice in jars and tins.",
+    "nested_category_data": [ "oj_fresh_jarred", "oj_fresh_jarred_3l", "oj_fresh_canned", "oj_fresh_canned_small", "oj_fresh_canned_big" ]
+  },
+  {
+    "id": "nested_apple_cider",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Apple Cider(Jars and Canned)",
+    "description": "Recipes related to putting apple cider in jars and tins.",
+    "nested_category_data": [
+      "apple_cider_jarred",
+      "apple_cider_jarred_3l",
+      "apple_cider_canned",
+      "apple_cider_canned_small",
+      "apple_cider_canned_big"
+    ]
+  },
+  {
+    "id": "nested_jam_fruit",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "name": "Fruit Jam(Jars)",
+    "description": "Recipes related to putting fruit jam in jars and tins.",
+    "nested_category_data": [ "jam_fruit_jarred", "jam_fruit_jarred_3L" ]
+  },
+  {
+    "id": "nested_apple_canned",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "name": "Canned Fruit(Jars and Canned)",
+    "description": "Recipes related to putting canned fruit in jars and tins.",
+    "nested_category_data": [
+      "apple_canned_jarred",
+      "apple_canned_jarred_3l",
+      "apple_canned",
+      "apple_canned_canned_medium",
+      "apple_canned_canned_big"
     ]
   }
 ]

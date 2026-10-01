@@ -5,6 +5,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_jenny_forcette",
     "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",
     "bonus_str": { "rng": [ -4, -2 ] },
     "bonus_dex": { "rng": [ -2, 1 ] },

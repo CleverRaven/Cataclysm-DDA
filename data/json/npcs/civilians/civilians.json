@@ -2,6 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CIVILIAN_PANIC",
+    "portrait_override": "Monster_Talk_Civilian",
     "dynamic_line": "&You see this crazed fellows eyes darting around anxiously, always anticipating impending doom.  Every now and then you can even hear them whimper in fear.  Although they do not seem aggressive, they definitely are out of their mind.",
     "responses": [
       { "text": "You need to get to safety!", "topic": "TALK_CIVILIAN_PANIC_EVAC" },
@@ -11,6 +12,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CIVILIAN_PANIC_EVAC",
+    "portrait_override": "Monster_Talk_Civilian",
     "dynamic_line": "&They shriek and stumble backwards, as if you just became a threat.",
     "responses": [ { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" } ]
   },

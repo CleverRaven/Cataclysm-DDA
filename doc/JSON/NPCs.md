@@ -9,6 +9,7 @@
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
+    - [Special Custom Entries](#special-custom-entries)
   - [Talk Topics](#talk-topics)
   - [Dynamic Lines](#dynamic-lines)
   - [Speaker Effects](#speaker-effects)
@@ -35,6 +36,7 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
+  "portrait_filename": "Named_NPC_Smokes",                                 // Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
   "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
@@ -466,6 +468,18 @@ This example adds the "I'm going now!" response to all the listed topics.
     ]
 }
 ```
+
+#### `portrait_override`
+```jsonc
+  {
+    "id": "TALK_BALTHAZAR_You_Fucked_Up",
+    "type": "talk_topic",
+    "portrait_override": "portrait_balthazar_ANGERY",
+    "responses": [ { "text": "Woah calm down!  How was I supposed to know that was your favorite stuffed animal?", "topic": "TALK_BALTHAZAR_Kills_You_Anyway" } ]
+  }
+```
+
+Portrait_override will force the dialogue window to display the given portrait ID while on that topic, overriding any portrait that may normally be displayed.
 
 #### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
@@ -1296,7 +1310,7 @@ or idiomatically
 ```
 Example:
 ```jsonc
-{ "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
+{ "value": "LUMINATION", "add": { "math": [ "u_morale() * 3 - rng(0, 100)" ] } }
 ```
 The expression in `lhs` is evaluated and passed on to the parent object.
 
@@ -1406,6 +1420,8 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | limb_score(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the character limb score.<br/>Argument is limb score id.<br/><br/>Optional kwargs:<br/>`type`: `s`/`v` - Specifies the type of bodypart of which score should be picked, like `arm` or `sensor`, see the full list in [JSON_INFO.md#Body_parts](JSON_INFO.md#Body_parts).<br/><br/> Example:<br/>`{ "math": [ "_foo = u_limb_score('lift', 'type': 'arm')" ] }`|
 | encumbrance(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the characters total encumbrance of a body part.<br/>Argument is bodypart ID. <br/> For items, returns typical encumbrance of the item. <br/><br/>Example:<br/>`"condition": { "math": [ "u_encumbrance('torso') > 0"] }`|
 | health(`d`/`v`)    |  ✅   |   ✅  | u, n  | Return character current health .<br/><br/>Example:<br/>`{ "math": [ "u_health() -= 1" ] }`|
+| daily_health() | ✅ | ✅ | u, n | Read or modify the daily health modifier, not the long-term `health()` value. Assignments use the normal directional health caps. Optional kwarg `cap`: `d`/`v` sets the upper bound for increases or lower bound for decreases; a value already beyond that bound is not pulled back. Defaults to 200 for increases and -200 for decreases. An explicit cap of 0 disables the change, as with other daily-health modifiers. The cap has no effect when reading.<br/><br/>Example:<br/>`{ "math": [ "u_daily_health('cap': -50) -= 8" ] }`|
+| hunger() | ✅ | ✅ | u, n | Read or set the character's hunger. This does not change stored calories or stomach contents.<br/><br/>Example:<br/>`{ "math": [ "u_hunger() = -10" ] }`|
 | energy(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return a numeric value (in millijoules) for an energy string (see [Units](JSON_INFO.md#units)).<br/><br/>Example:<br/>`{ "math": [ "u_val('power') -= energy('25 kJ')" ] }`|
 | faction_like(`s`/`v`)<br/>faction_respect(`s`/`v`)<br/>faction_trust(`s`/`v`)<br/>faction_food_supply(`s`/`v`)<br/>faction_wealth(`s`/`v`)<br/>faction_power(`s`/`v`)<br/>faction_size(`s`/`v`)    |   ✅   |   ✅  | N/A<br/>(global)  | Return the like/respect/trust/fac_food_supply/wealth/power/size value a faction has for the avatar.<br/>Argument is faction ID.<br/>`faction_food_supply` has an optional second argument(kwarg) for getting/setting vitamins.<br/><br/>Example:<br/>`"condition": { "math": [ "faction_like('hells_raiders') < -60" ] }`<br/><br/>`{ "math": [ "calcium_amount = faction_food_supply('your_followers', 'vitamin':'calcium')" ] },`<br/>`{ "u_message": "Calcium stored is <global_val:calcium_amount>", "type": "good" },`|
 | field_strength(`s`/`v`)    |   ✅   |   ❌  | u, n, global  | Return the strength of a field on the tile.<br/>Argument is field ID.<br/><br/>Optional kwargs:<br/> `location`: `v` - center search on this location<br/><br/>The `location` kwarg is mandatory in the global scope.<br/><br/>Examples:<br/>`"condition": { "math": [ "u_field_strength('fd_blood') > 5" ] }`<br/><br/>`"condition": { "math": [ "field_strength('fd_blood_insect', 'location': u_search_loc) > 5" ] }`|
@@ -1428,6 +1444,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | mon_species_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster species |
 | mon_groups_nearby(`s`/`v`...)     |  ✅  |   ❌   | u, n, global  | Same as `monsters_nearby()`, but arguments are monster groups |
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
+| morale()     |  ✅  |   ✅*   | u, n  | Returns or sets total morale level.  Optional kwargs:<br/>`raw`: `true`/`false`/`d` - false (default) Whether to return the raw morale value without adjusting for trauma 'deadening'. Assignment only works for monsters. |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set = num_input('Playstyle Perks Cost?', 4)" ]`|
 | oxygen()   |  ✅  |   ✅   | u, n  | Return or set the characters oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() -= 1" ] }` Reduces the alpha talker's oxygen level by 1 provided it was greater than 0<br/>|
 | oxygen_max()   |  ✅  |   ❌   | u, n  | Return the characters max oxygen level.<br/><br/>Example:<br/>`{ "math": [ "u_oxygen() = max(u_oxygen(), 0.5 * u_oxygen_max())" ] }` Increases the alpha talker's oxygen level to half the max if it was below that<br/>|
@@ -1500,7 +1517,6 @@ These can be read or written to with `val()`.
 | `mana` | ✅ | Current mana. |
 | `mana_max` | ❌ | Max mana. |
 | `mana_percentage` | ❌ | Current mana as percent. |
-| `morale` | ✅* | The current morale. Assigment only works for monsters. |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Absolute coordinate of the character |

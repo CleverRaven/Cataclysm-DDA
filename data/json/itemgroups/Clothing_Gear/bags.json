@@ -164,7 +164,7 @@
           { "item": "duffelbag", "prob": 80 },
           { "group": "large_duffelbags", "prob": 10 },
           { "item": "travelpack", "prob": 25 },
-          { "item": "gobag", "prob": 1 }
+          { "group": "bugout_bag", "prob": 1 }
         ],
         "prob": 80
       }
@@ -220,7 +220,7 @@
           { "item": "backpack_denim", "prob": 5 },
           { "item": "travelpack", "prob": 25 },
           { "group": "small_gym_bags", "prob": 40 },
-          { "item": "gobag", "prob": 1 }
+          { "group": "bugout_bag", "prob": 1 }
         ],
         "prob": 80
       }

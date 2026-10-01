@@ -1,0 +1,20 @@
+[
+  {
+    "id": "Exodii_Magiclysm_no_spell_scrolls",
+    "copy-from": "Exodii_Magiclysm_no_spell_scrolls",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "group": "spellbook_loot_0", "prob": 1 },
+        { "group": "spellbook_restricted_loot_0", "prob": 1 },
+        { "group": "spellbook_loot_1", "prob": 1 },
+        { "group": "spellbook_restricted_loot_1", "prob": 1 },
+        { "group": "spellbook_loot_2", "prob": 1 },
+        { "group": "spellbook_restricted_loot_2", "prob": 1 },
+        { "group": "spellbook_mana_upgrades", "prob": 1 }
+      ]
+    }
+  }
+]

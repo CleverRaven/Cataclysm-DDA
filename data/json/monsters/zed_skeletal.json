@@ -49,7 +49,7 @@
         "id": "smash",
         "throw_strength": 56,
         "cooldown": 45,
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] }
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "math": [ "n_val('size') <= 4" ] } ] }
       },
       {
         "id": "scratch_humanoid",
@@ -115,7 +115,8 @@
     "special_attacks": [
       { "id": "grab" },
       { "id": "bite_humanoid" },
-      { "id": "smash", "throw_strength": 54 },
+      { "id": "smash", "throw_strength": 54, "condition": { "math": [ "n_val('size') <= 4" ] } },
+      { "id": "smash_equal", "throw_strength": 27, "condition": { "math": [ "n_val('size') == 5" ] } },
       { "id": "stretch_attack" },
       { "id": "longswipe" },
       { "id": "cut_throat" },

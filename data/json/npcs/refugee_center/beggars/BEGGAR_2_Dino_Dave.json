@@ -19,6 +19,7 @@
     "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_dino_dave",
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
     "bonus_str": { "rng": [ -3, -2 ] },
     "bonus_dex": { "rng": [ -5, -1 ] },

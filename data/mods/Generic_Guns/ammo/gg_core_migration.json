@@ -1,0 +1,17 @@
+[
+  {
+    "id": [ "3006_steel_core" ],
+    "type": "MIGRATION",
+    "replace": "rifle_steel_core"
+  },
+  {
+    "id": [ "123_steel_core" ],
+    "type": "MIGRATION",
+    "replace": "rifle_alien_steel_core"
+  },
+  {
+    "id": [ "50_steel_core" ],
+    "type": "MIGRATION",
+    "replace": "rifle_huge_steel_core"
+  }
+]

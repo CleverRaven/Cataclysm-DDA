@@ -35,6 +35,8 @@
     "//": "hot sauces are very salty, hence the negative quench",
     "quench": -2,
     "calories": 5,
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "symbol": "~",
     "color": "red",
     "freezing_point": -30,
@@ -99,6 +101,9 @@
     "display_type": "BY_WEIGHT",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "material": [ "salt" ],
+    "//COMMENT": "Basic salt, a little less fun than most seasonings(fun 3).",
+    "fun": 2,
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ] },
     "color": "white"
   },
   {
@@ -109,6 +114,8 @@
     "name": { "str_sp": "Italian seasoning" },
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
     "display_type": "BY_WEIGHT",
+    "fun": 3,
+    "extend": { "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ] },
     "color": "green"
   },
   {
@@ -120,6 +127,7 @@
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "display_type": "BY_WEIGHT",
     "material": [ "salt" ],
+    "fun": 3,
     "color": "brown"
   },
   {
@@ -196,7 +204,8 @@
     "container": "bottle_glass",
     "quench": -20,
     "charges": 10,
-    "fun": -15,
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "freezing_point": -30,
     "phase": "liquid"
   },

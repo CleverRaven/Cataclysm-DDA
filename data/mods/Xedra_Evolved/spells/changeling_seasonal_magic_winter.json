@@ -169,25 +169,25 @@
     "caster_condition": { "not": { "is_season": "summer" } },
     "caster_condition_fail_message": "The glamour cannot be used in the summer.",
     "teachable": false,
-    "skill": "deduction",
+    "skill": "gramarye",
     "max_level": 1,
     "shape": "blast",
     "difficulty": 2,
     "effect": "attack",
     "min_range": {
       "math": [
-        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.45) + (u_skill('deduction') * 0.85) ) ), 30)"
+        "min( ( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.45) + (u_skill('gramarye') * 0.85) ) ), 30)"
       ]
     },
     "max_range": 30,
     "min_aoe": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.25) + (u_skill('deduction') * 0.5) ) ), 13)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.25) + (u_skill('gramarye') * 0.5) ) ), 13)"
       ]
     },
     "max_aoe": 13,
     "base_energy_cost": {
-      "math": [ "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) - (u_skill('deduction') * 5)), 65)" ]
+      "math": [ "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) - (u_skill('gramarye') * 5)), 65)" ]
     },
     "base_casting_time": 50,
     "field_id": "fd_winter_magic_ice",

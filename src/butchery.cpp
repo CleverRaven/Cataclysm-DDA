@@ -27,7 +27,6 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "harvest.h"
-#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"

@@ -205,7 +205,23 @@
         "encumbrance": 2,
         "coverage": 100,
         "cover_vitals": 100,
-        "covers": [ "head", "torso", "eyes", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ]
+        "covers": [
+          "head",
+          "torso",
+          "eyes",
+          "mouth",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "tail",
+          "animal_paw_l",
+          "animal_paw_r",
+          "paw_default_l",
+          "paw_default_r"
+        ]
       },
       {
         "material": [
@@ -255,10 +271,82 @@
     "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
+    "id": "afs_frontier_cryo_xl",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "name": { "str": "uplift cryo suit" },
+    "description": "A large padded and actively heated suit made for uplifted workers in subzero environments.  It's loose fitting design and the thick insulation don't make it particularly easy to move in.",
+    "copy-from": "afs_frontier_cryo",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.5 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "afs_frontier_cryo_xl_on",
+      "need_charges": 1,
+      "need_charges_msg": "The batteries are dead."
+    },
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "paw_default_l", "paw_default_r" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "torso", "tail" ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "foot_l", "foot_r", "animal_paw_l", "animal_paw_r", "hoof_r", "hoof_l", "animal_paw_rabbit_l", "animal_paw_rabbit_r" ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "afs_heavy_suit_battery_cell"
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_NATURAL_ATTACKS" ] }
+  },
+  {
+    "id": "afs_frontier_cryo_xl_on",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "uplift cryo suit (on)", "str_pl": "uplift cryo suits (on)" },
+    "copy-from": "afs_frontier_cryo_xl",
+    "revert_to": "afs_frontier_cryo_xl",
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "You deactivate your %s.",
+      "target": "afs_frontier_cryo_xl"
+    },
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
+  },
+  {
     "id": "afs_combat_cryo_xl",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "combat cryo suit" },
+    "name": { "str": "Mercurial cryo suit" },
     "copy-from": "afs_combat_cryo",
     "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -269,15 +357,51 @@
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
     },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "armor": [
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [
+          "head",
+          "torso",
+          "eyes",
+          "mouth",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "hand_l",
+          "hand_r",
+          "tail",
+          "animal_paw_l",
+          "animal_paw_r",
+          "paw_default_l",
+          "paw_default_r",
+          "hoof_r",
+          "hoof_l"
+        ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
     "id": "afs_combat_cryo_on_xl",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
-    "copy-from": "afs_combat_cryo_on",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "name": { "str": "Mercurial cryo suit (on)", "str_pl": "Mercurial cryo suits (on)" },
+    "copy-from": "afs_combat_cryo_xl",
     "revert_to": "afs_combat_cryo_xl",
     "use_action": {
       "type": "transform",
@@ -286,7 +410,7 @@
       "msg": "You deactivate your %s.",
       "target": "afs_combat_cryo_xl"
     },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
+    "extend": { "flags": [ "ACTIVE_CRYOSUIT", "SPAWN_ACTIVE" ] }
   },
   {
     "id": "afs_cryopod_bodyglove",

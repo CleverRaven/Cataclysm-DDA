@@ -231,7 +231,7 @@
           {
             "if": { "and": [ "u_is_monster", { "math": [ "u_effect_intensity('effect_lilin_ruach_drain_side_effects') >= 2" ] } ] },
             "then": [
-              { "math": [ "u_val('morale') -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 3)" ] },
+              { "math": [ "u_morale() -= 5 + (u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 3)" ] },
               {
                 "u_deal_damage": "biological",
                 "amount": { "math": [ "max(((u_effect_intensity('effect_lilin_ruach_drain_side_effects') * 1.5 )- 3), 0 )" ] }

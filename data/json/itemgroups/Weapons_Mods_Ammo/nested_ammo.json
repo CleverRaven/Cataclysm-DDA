@@ -482,6 +482,17 @@
     ]
   },
   {
+    "id": "on_hand_20shot",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.  29Slug:36Buck:184Bird.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "boxed_20_used", "prob": 100 },
+      { "group": "20_loose", "prob": 100, "charges": [ 1, 4 ] },
+      { "group": "boxed_20", "prob": 50 }
+    ]
+  },
+  {
     "id": "on_hand_410shot",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.  29Slug:36Buck:184Bird.",

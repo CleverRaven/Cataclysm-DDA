@@ -1,0 +1,108 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_Exit_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_message": "Zworunk.", "popup": true },
+      { "run_eocs": "EOC_return_OM_teleport" },
+      { "clear_dimension": "netherum_labyrinth" }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_HIGHLANDS_RETURN",
+    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+    "effect": [ { "run_eocs": "EOC_return_OM_teleport" }, { "give_achievement": "achievement_reach_highlands" } ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "highlands" },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "36 hours", "60 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_RADIOSPHERE_RETURN",
+    "condition": {
+      "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "current_dimension": "radiosphere" } ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_return_OM_teleport" ] } ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "radiosphere" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_CABINS_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        { "not": "u_driving" },
+        { "current_dimension": "cabins" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_return_OM_teleport" ] },
+      { "alter_timed_events": "cabin_daylight_cycle" },
+      { "clear_dimension": "cabins" }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "cabins" },
+        "then": [
+          {
+            "u_message": "You feel a slight push in a direction you can't name, but soon it ceases.  You have a feeling it'll happen again later."
+          },
+          { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STRING_DIMENSION_RETURN",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
+        { "not": "u_driving" },
+        { "current_dimension": "string_dimension" }
+      ]
+    },
+    "effect": [
+      { "run_eocs": [ "EOC_return_OM_teleport" ] },
+      { "alter_timed_events": "string_dimension_lights_on" },
+      { "give_achievement": "achievement_reach_string_dimension" }
+    ],
+    "false_effect": [
+      {
+        "if": { "current_dimension": "string_dimension" },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_STRING_DIMENSION_RETURN", "time_in_future": "2 minutes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DISSOLVE_VOID_SPIDER_LAIR",
+    "global": true,
+    "effect": [
+      { "u_message": "The cavern folds itself beyond perception.", "popup": true },
+      { "run_eocs": [ "EOC_return_OM_teleport" ] }
+    ]
+  }
+]

@@ -17,6 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
+    "portrait_filename": "Named_NPC_john_clemens",
     "//": "John is a pseudonym.  This guy probably lived in a city before the Cataclysm, but now he either thinks he is or pretends to be a cowboy..",
     "bonus_str": { "rng": [ -1, 2 ] },
     "bonus_dex": { "rng": [ -3, 2 ] },

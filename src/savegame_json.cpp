@@ -55,6 +55,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -258,6 +259,17 @@ static tripoint_bub_ms read_legacy_creature_pos( const JsonObject &data )
         debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
     }
     return pos;
+}
+
+static std::list<item> json_load_inv_items( const JsonArray &ja )
+{
+    std::list<item> batch;
+    for( JsonObject jo : ja ) {
+        item tmp;
+        tmp.deserialize( jo );
+        batch.emplace_back( std::move( tmp ) );
+    }
+    return batch;
 }
 
 void item_contents::serialize( JsonOut &json ) const
@@ -703,6 +715,7 @@ void Character::load( const JsonObject &data )
 
     data.read( "name", name );
     data.read( "play_name", play_name );
+    data.read( "portrait_filename", portrait_filename );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
     if( !data.read( "blood_type", my_blood_type ) ||
@@ -1054,9 +1067,11 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    inv->clear();
+    // delete first part after 0.J
     if( data.has_member( "inv" ) ) {
-        inv->json_load_items( data.get_member( "inv" ) );
+        temporary_load_items = json_load_inv_items( data.get_array( "inv" ) );
+    } else {
+        data.read( "temporary_load_items", temporary_load_items );
     }
 
     set_wielded_item( item() );
@@ -1387,6 +1402,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "name", name );
     json.member( "play_name", play_name );
+    json.member( "portrait_filename", portrait_filename );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
@@ -1496,6 +1512,7 @@ void Character::store( JsonOut &json ) const
     json.member( "stomach", stomach );
     json.member( "guts", guts );
     json.member( "automoveroute", auto_move_route );
+    json.member( "temporary_load_items", temporary_load_items );
     json.member( "known_traps" );
     json.start_array();
     for( const auto &elem : known_traps ) {
@@ -1529,8 +1546,6 @@ void Character::store( JsonOut &json ) const
     json.member( "addictions", addictions );
     json.member( "death_eocs", death_eocs );
     json.member( "worn", worn ); // also saves contents
-    json.member( "inv" );
-    inv->json_save_items( json );
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
@@ -1600,6 +1615,42 @@ void Character::store( JsonOut &json ) const
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// avatar.h
+
+static void json_save_invcache( JsonOut &json, const invlet_favorites &invlet_cache )
+{
+    json.start_array();
+    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
+        json.start_object();
+        json.member( elem.first.str() );
+        json.start_array();
+        for( const char &_sym : elem.second ) {
+            json.write( static_cast<int>( _sym ) );
+        }
+        json.end_array();
+        json.end_object();
+    }
+    json.end_array();
+}
+
+static void json_load_invcache( const JsonValue &jsin, invlet_favorites &invlet_cache )
+{
+    try {
+        std::unordered_map<itype_id, std::string> map;
+        for( JsonObject jo : jsin.get_array() ) {
+            jo.allow_omitted_members();
+            for( const JsonMember member : jo ) {
+                std::string invlets;
+                for( const int i : member.get_array() ) {
+                    invlets.push_back( i );
+                }
+                map[itype_id( member.name() )] = invlets;
+            }
+        }
+        invlet_cache = invlet_favorites{ map };
+    } catch( const JsonError &jsonerr ) {
+        debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
+    }
+}
 
 void avatar::serialize( JsonOut &json ) const
 {
@@ -1675,7 +1726,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( const auto &iter : inv->assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -1684,7 +1735,7 @@ void avatar::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "invcache" );
-    inv->json_save_invcache( json );
+    json_save_invcache( json, invlet_cache );
 
     json.member( "calorie_diary", calorie_diary );
 
@@ -1820,12 +1871,12 @@ void avatar::load( const JsonObject &data )
     }
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
-        inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
+        assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
     }
 
     if( data.has_member( "invcache" ) ) {
-        inv->json_load_invcache( data.get_member( "invcache" ) );
+        json_load_invcache( data.get_member( "invcache" ), invlet_cache );
     }
 
     data.read( "calorie_diary", calorie_diary );
@@ -2297,7 +2348,14 @@ void npc::load( const JsonObject &data )
 
     companion_mission_inv.clear();
     if( data.has_member( "companion_mission_inv" ) ) {
-        companion_mission_inv.json_load_items( data.get_member( "companion_mission_inv" ) );
+        // deprecate after 0.J
+        if( savegame_loading_version < 40 ) {
+            for( const item &it : json_load_inv_items( data.get_member( "companion_mission_inv" ) ) ) {
+                companion_mission_inv.insert( it );
+            }
+        } else {
+            data.read( "companion_mission_inv", companion_mission_inv );
+        }
     }
 
     if( !data.read( "restock", restock ) ) {
@@ -2392,84 +2450,13 @@ void npc::store( JsonOut &json ) const
     json.member( "companion_mission_time_ret", companion_mission_time_ret );
     json.member( "companion_mission_exertion", companion_mission_exertion );
     json.member( "companion_mission_travel_time", companion_mission_travel_time );
-    json.member( "companion_mission_inv" );
-    companion_mission_inv.json_save_items( json );
+    json.member( "companion_mission_inv", companion_mission_inv );
     json.member( "restock", restock );
 
     json.member( "complaints", complaints );
     json.member( "unique_id", unique_id );
     json.member( "may_activity_occupancy_after_end_items_loc",
                  may_activity_occupancy_after_end_items_loc );
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// inventory.h
-/*
- * Save invlet cache
- */
-void inventory::json_save_invcache( JsonOut &json ) const
-{
-    json.start_array();
-    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
-        json.start_object();
-        json.member( elem.first.str() );
-        json.start_array();
-        for( const char &_sym : elem.second ) {
-            json.write( static_cast<int>( _sym ) );
-        }
-        json.end_array();
-        json.end_object();
-    }
-    json.end_array();
-}
-
-/*
- * Invlet cache: player specific, thus not wrapped in inventory::json_load/save
- */
-void inventory::json_load_invcache( const JsonValue &jsin )
-{
-    try {
-        std::unordered_map<itype_id, std::string> map;
-        for( JsonObject jo : jsin.get_array() ) {
-            jo.allow_omitted_members();
-            for( const JsonMember member : jo ) {
-                std::string invlets;
-                for( const int i : member.get_array() ) {
-                    invlets.push_back( i );
-                }
-                map[itype_id( member.name() )] = invlets;
-            }
-        }
-        invlet_cache = invlet_favorites{ map };
-    } catch( const JsonError &jsonerr ) {
-        debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
-    }
-}
-
-/*
- * save all items. Just this->items, invlet cache saved separately
- */
-void inventory::json_save_items( JsonOut &json ) const
-{
-    json.start_array();
-    for( const auto &elem : items ) {
-        for( const item &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json );
-        }
-    }
-    json.end_array();
-}
-
-void inventory::json_load_items( const JsonArray &ja )
-{
-    std::vector<item> batch;
-    batch.reserve( ja.size() );
-    for( JsonObject jo : ja ) {
-        item tmp;
-        tmp.deserialize( jo );
-        batch.emplace_back( std::move( tmp ) );
-    }
-    add_items_bulk( std::move( batch ), true, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2892,6 +2879,27 @@ void item::craft_data::serialize( JsonOut &jsout ) const
     if( awaiting_collection ) {
         jsout.member( "awaiting_collection", awaiting_collection );
     }
+    if( !reservations.empty() ) {
+        jsout.member( "reservations", reservations );
+    }
+    if( reserved_tile ) {
+        jsout.member( "reserved_tile", reserved_tile );
+    }
+    if( reservation_owner != 0 ) {
+        jsout.member( "reservation_owner", reservation_owner );
+    }
+    if( reservation_expires_at != calendar::before_time_starts ) {
+        jsout.member( "reservation_expires_at", reservation_expires_at );
+    }
+    if( reservation_search_attempts != 0 ) {
+        jsout.member( "reservation_search_attempts", reservation_search_attempts );
+    }
+    if( reservation_pool_fingerprint != 0 ) {
+        jsout.member( "reservation_pool_fingerprint", reservation_pool_fingerprint );
+    }
+    if( reservation_pause_reason != 0 ) {
+        jsout.member( "reservation_pause_reason", reservation_pause_reason );
+    }
     jsout.end_object();
 }
 
@@ -2923,6 +2931,88 @@ static bool alloc_source_valid( const step_tool_alloc &a )
 // group on each timed step, each matching a tool type and count its group still
 // offers.  Also rejects corrupt counters and units that disagree with the
 // selected count, so a recipe edit or stale save forces a rebuild instead of
+// A recipe edit can change a quality id, level, tool type or count without changing any
+// index, so the recorded demand is compared rather than just the indices.  Batch size is
+// absent because requirement_data::operator* leaves qualities alone.
+static bool bindings_fit_recipe( const recipe &making, int step_index,
+                                 const std::vector<craft_reservation::binding> &bindings )
+{
+    if( bindings.empty() ) {
+        return true;
+    }
+    if( !making.has_steps() || step_index < 0 ||
+        step_index >= static_cast<int>( making.steps().size() ) ) {
+        return false;
+    }
+    const requirement_data &step_reqs = making.steps()[step_index].requirements;
+    const std::vector<std::vector<quality_requirement>> &quals = step_reqs.get_qualities();
+    const std::vector<std::vector<tool_comp>> &tools = step_reqs.get_tools();
+
+    std::map<std::pair<int, int>, std::set<int>> slots_by_group;
+
+    for( const craft_reservation::binding &b : bindings ) {
+        if( b.group_index < 0 || b.alternative_index < 0 ) {
+            return false;
+        }
+        const bool abstract_kind = b.kind == craft_reservation::provider_kind::intrinsic ||
+                                   b.kind == craft_reservation::provider_kind::environment;
+        if( abstract_kind != ( b.occurrence_slot >= 0 ) ) {
+            return false;
+        }
+        // Keyed by capability, so a quality binding names no item type.
+        if( b.kind == craft_reservation::provider_kind::intrinsic ) {
+            const bool quality_req = b.req == craft_reservation::requirement_kind::quality;
+            if( quality_req != b.pseudo_type.is_null() ) {
+                return false;
+            }
+        }
+
+        if( b.req == craft_reservation::requirement_kind::quality ) {
+            if( b.group_index >= static_cast<int>( quals.size() ) ||
+                b.alternative_index >= static_cast<int>( quals[b.group_index].size() ) ) {
+                return false;
+            }
+            const quality_requirement &q = quals[b.group_index][b.alternative_index];
+            if( q.type != b.qual || q.level != b.level || q.count != b.group_count ) {
+                return false;
+            }
+        } else if( b.req == craft_reservation::requirement_kind::presence_tool ) {
+            // Presence groups are numbered after the quality groups and follow the
+            // step's allocation order, so the step's own tool groups come first and the
+            // recipe-root ones after them.
+            const std::vector<std::vector<tool_comp>> &root_tools =
+                    making.root_requirements().get_tools();
+            int tool_group = b.group_index - static_cast<int>( quals.size() );
+            if( tool_group < 0 ) {
+                return false;
+            }
+            const std::vector<std::vector<tool_comp>> *groups = &tools;
+            if( tool_group >= static_cast<int>( tools.size() ) ) {
+                tool_group -= static_cast<int>( tools.size() );
+                groups = &root_tools;
+            }
+            if( tool_group >= static_cast<int>( groups->size() ) ||
+                b.alternative_index >= static_cast<int>( ( *groups )[tool_group].size() ) ) {
+                return false;
+            }
+            const tool_comp &t = ( *groups )[tool_group][b.alternative_index];
+            if( t.type != b.tool_type ||
+                std::max( 1, std::abs( t.count ) ) != b.group_count ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        if( b.occurrence_slot >= 0 &&
+            !slots_by_group[ { static_cast<int>( b.req ), b.group_index } ].insert(
+                b.occurrence_slot ).second ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 // metering off an inconsistent allocation.
 static bool step_tool_allocs_fit_recipe(
     const recipe &making, int batch, const std::vector<std::vector<step_tool_alloc>> &allocs )
@@ -3025,6 +3115,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
     current_step = obj.get_int( "current_step", 0 );
     step_progress = obj.get_float( "step_progress", 0.0 );
     bool allocs_cleared = false;
+    bool bindings_stale = false;
     // Validate step index against the recipe's actual step count.
     if( making && making->has_steps() ) {
         int max_step = static_cast<int>( making->steps().size() ) - 1;
@@ -3140,6 +3231,25 @@ void item::craft_data::deserialize( const JsonObject &obj )
     passive_start_counter = obj.get_int( "passive_start_counter", 0 );
     passive_end_counter = obj.get_int( "passive_end_counter", 0 );
     awaiting_collection = obj.get_bool( "awaiting_collection", false );
+    if( obj.has_member( "reservations" ) ) {
+        obj.read( "reservations", reservations );
+    }
+    if( obj.has_member( "reserved_tile" ) ) {
+        obj.read( "reserved_tile", reserved_tile );
+    }
+    reservation_owner = 0;
+    obj.read( "reservation_owner", reservation_owner );
+    if( obj.has_member( "reservation_expires_at" ) ) {
+        obj.read( "reservation_expires_at", reservation_expires_at );
+    }
+    reservation_search_attempts = obj.get_int( "reservation_search_attempts", 0 );
+    reservation_pool_fingerprint = 0;
+    obj.read( "reservation_pool_fingerprint", reservation_pool_fingerprint );
+    reservation_pause_reason = obj.get_int( "reservation_pause_reason", 0 );
+    if( making && making->has_steps() &&
+        !bindings_fit_recipe( *making, current_step, reservations ) ) {
+        bindings_stale = true;
+    }
     // Recipe-edit migration: drop stale passive runtime on shape mismatch.
     bool stale = false;
     if( making && !disassembly ) {
@@ -3177,6 +3287,16 @@ void item::craft_data::deserialize( const JsonObject &obj )
         env_check_at = calendar::before_time_starts;
         passive_start_counter = 0;
         passive_end_counter = 0;
+    }
+    if( stale || bindings_stale ) {
+        // reservation_owner is kept so reconciliation can still find and clean this
+        // craft's index record; clearing the expiry makes that record inert.
+        reservations.clear();
+        reserved_tile.reset();
+        reservation_expires_at = calendar::before_time_starts;
+        reservation_search_attempts = 0;
+        reservation_pool_fingerprint = 0;
+        reservation_pause_reason = 0;
     }
 }
 

@@ -1002,7 +1002,7 @@
     "id": "EOC_GOBLIN_FRUIT_MOOD_CLEAR",
     "effect": [
       {
-        "switch": { "math": [ "u_val('morale')" ] },
+        "switch": { "math": [ "u_morale()" ] },
         "cases": [
           { "case": -100, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 100, "max_bonus": 100 } },
           { "case": -75, "effect": { "u_add_morale": "morale_boring_fruit", "bonus": 75, "max_bonus": 75 } },
