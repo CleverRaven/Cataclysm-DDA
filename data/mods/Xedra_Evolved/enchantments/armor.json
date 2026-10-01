@@ -172,12 +172,14 @@
     "id": "ench_sevenoclock_coat",
     "type": "enchantment",
     "has": "WORN",
-    "condition": { "or": [ { "u_has_effect": "lying_down" }, { "u_has_effect": "sleep" } ] },
-    "values": [
-      { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 },
-      { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
-      { "value": "SLEEPY", "add": 9999 }
-    ]
+    "values": [ { "value": "SLEEPY", "add": 9999 } ]
+  },
+  {
+    "id": "ench_sevenoclock_coat_climate_control",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "u_has_effect": "sleep" },
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 } ]
   },
   {
     "id": "ench_ierde_stone_fists",
