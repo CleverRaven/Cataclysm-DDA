@@ -927,13 +927,14 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
-    if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
-    }
-    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
-        return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
-    }
+
     if( consume_drug != nullptr ) { //its a drug)
+        if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+        }
+        if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
+        }
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
         for( const auto &tool : consume_drug_use->tools_needed ) {
