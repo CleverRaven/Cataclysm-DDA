@@ -45,8 +45,9 @@ void test_reset_seams();
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
 // uses the atlas directly. MEMORY dispatches by the selected memory_preset
-// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no shader
-// and falls back to the memory atlas.
+// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no classic
+// shader and falls back to the memory atlas, though the lit shaders blend into
+// it through memory_look.
 enum class variant_kind : int {
     NORMAL = 0,
     SHADOW,       // lit_level::LOW without nightvision
@@ -62,7 +63,7 @@ enum class variant_kind : int {
 bool variant_takes_tint( variant_kind v );
 
 // Memory map overlay presets that have a baked shader. Mirrors the four
-// named MEMORY_MAP_MODE values; the custom preset has no shader here and
+// named MEMORY_MAP_MODE values; the custom preset has no classic shader and
 // falls back to the memory atlas.
 enum class memory_preset : int {
     DARKEN = 0,
@@ -172,6 +173,29 @@ class render_state
         SDL_GPURenderState *ptr_ = nullptr;
 };
 
+// memory overlay look for the lit shaders: a named preset, else the custom
+// MEMORY_MAP_MODE mixer
+struct memory_look {
+    std::optional<memory_preset> preset;
+    // custom dark and light colors in 0 to 1, and gamma
+    std::array<float, 3> custom_dark = {};
+    std::array<float, 3> custom_light = {};
+    float custom_gamma = 1.0f;
+};
+
+// lit_params id of the custom look, after the named presets
+constexpr int32_t custom_memory_look = static_cast<int32_t>( memory_preset::count );
+
+struct lit_frame {
+    SDL_Texture *lightmap = nullptr;
+    memory_look memory;
+    // fade out-of-sight light into the memory look rather than darkness
+    bool blend_memory = false;
+    bool per_tile = false;
+    bool iso = false;
+    bool night_vision = false;
+};
+
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
 // brackets bind/unbind around per-sprite draws. classic variants each get their
 // own state, so dispatch is a state switch, not a uniform change. only lit
@@ -267,18 +291,17 @@ class variant_pass
         void select_memory_preset( std::optional<memory_preset> preset );
 
         // smooth lighting. when active, NORMAL and SHADOW draws run lit.frag,
-        // and NIGHT and OVEREXPOSED run nightvision_lit.frag. all shade each pixel from
-        // `lightmap` at the map coordinates provided by the caller in the
-        // vertex colors, in light map texels; see lit_sample.glsl. with
-        // `blend_into`, MEMORY draws also run
-        // lit.frag and every lit draw blends out-of-sight light into that
-        // memory preset. `per_tile` gives each tile its own light instead of
+        // and NIGHT and OVEREXPOSED run nightvision_lit.frag. all shade each
+        // pixel from `frame.lightmap` at the map coordinates provided by the
+        // caller in the vertex colors, in light map texels; see
+        // lit_sample.glsl. with `frame.blend_memory`, MEMORY draws also run
+        // lit.frag and every lit draw blends out-of-sight light into
+        // `frame.memory`. `per_tile` gives each tile its own light instead of
         // blending across tiles; `iso` picks the base line standing sprites
         // take their light from; `night_vision` blends MEMORY draws toward the
         // night vision look. false when no lit state could be made, and the
         // caller draws the classic variants.
-        bool begin_lit( SDL_Texture *lightmap, std::optional<memory_preset> blend_into,
-                        bool per_tile, bool iso, bool night_vision );
+        bool begin_lit( const lit_frame &frame );
         // back to classic variants, lit states stay for the next frame
         void end_lit();
         // drop lit states before the lightmap texture is destroyed: the states
@@ -349,7 +372,7 @@ class variant_pass
             std::array<int32_t, 4> mode = { -1, 0, 0, 0 };
             // detail flag bit, barrier flag bit, custom memory look id, unused
             std::array<int32_t, 4> flags = {};
-            // edge tone, standing marker, unused, unused
+            // shadow shade, standing marker, unused, unused
             std::array<float, 4> tone = {};
             // custom memory look: dark rgb and gamma; light rgb
             std::array<float, 4> custom_dark = {};
@@ -361,6 +384,8 @@ class variant_pass
         };
         static_assert( sizeof( lit_params ) == 6 * 16, "lit_params is a std140 block of six vec4" );
         static_assert( std::is_trivially_copyable_v<lit_params> );
+        // lit_params for `frame`
+        static lit_params make_lit_params( const lit_frame &frame );
         lit_params lit_params_;
         bool lit_active_ = false;
         bool lit_suspended_ = false;

@@ -128,6 +128,9 @@ constexpr uint8_t texel_detail = 1;
 constexpr uint8_t texel_barrier = 2;
 // added to a standing sprite's cell column in its vertex colors
 constexpr float standing_marker = 0.5f;
+// brightness of lit sprites at the vision threshold: the classic shadow
+// variant's, color_pixel_grayscale's 5/8
+constexpr float shadow_shade = 0.625f;
 
 struct lightmap_texel {
     uint8_t r = 0;

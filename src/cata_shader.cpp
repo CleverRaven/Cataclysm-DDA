@@ -895,10 +895,29 @@ void variant_pass::release_lit( const bool abandon_handles )
     lit_active_ = false;
 }
 
-bool variant_pass::begin_lit( SDL_Texture *lightmap,
-                              const std::optional<memory_preset> blend_into, const bool per_tile, const bool iso,
-                              const bool night_vision )
+variant_pass::lit_params variant_pass::make_lit_params( const lit_frame &frame )
 {
+    lit_params params;
+    params.size = { smooth_lighting::lightmap_width, smooth_lighting::lightmap_height, MAPSIZE_Y,
+                    smooth_lighting::reach_column
+                  };
+    params.mode = { frame.memory.preset ? static_cast<int32_t>( *frame.memory.preset ) : custom_memory_look,
+                    frame.per_tile ? 1 : 0, frame.blend_memory ? 1 : 0, frame.iso ? 1 : 0
+                  };
+    params.flags = { smooth_lighting::texel_detail, smooth_lighting::texel_barrier, custom_memory_look, 0 };
+    params.tone = { smooth_lighting::shadow_shade, smooth_lighting::standing_marker, 0.0f, 0.0f };
+    params.custom_dark = { frame.memory.custom_dark[0], frame.memory.custom_dark[1],
+                           frame.memory.custom_dark[2], frame.memory.custom_gamma
+                         };
+    params.custom_light = { frame.memory.custom_light[0], frame.memory.custom_light[1],
+                            frame.memory.custom_light[2], 0.0f
+                          };
+    return params;
+}
+
+bool variant_pass::begin_lit( const lit_frame &frame )
+{
+    SDL_Texture *const lightmap = frame.lightmap;
     lit_active_ = false;
     if( !available() || !lightmap || lit_failed_ || abandoned_pending_rebind_ || boundary_lost_ ) {
         return false;
@@ -946,17 +965,7 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap,
         lit_texture_ = lightmap;
         lit_failed_ = false;
     }
-    lit_params params;
-    params.size = { smooth_lighting::lightmap_width, smooth_lighting::lightmap_height, MAPSIZE_Y,
-                    smooth_lighting::reach_column
-                  };
-    params.mode = { blend_into ? static_cast<int32_t>( *blend_into ) : -1, per_tile ? 1 : 0,
-                    blend_into ? 1 : 0, iso ? 1 : 0
-                  };
-    params.flags = { smooth_lighting::texel_detail, smooth_lighting::texel_barrier,
-                     static_cast<int32_t>( memory_preset::count ), 0
-                   };
-    params.tone = { 0.0f, smooth_lighting::standing_marker, 0.0f, 0.0f };
+    const lit_params params = make_lit_params( frame );
     if( fresh || !( params == lit_params_ ) ) {
         if( !SDL_SetGPURenderStateFragmentUniforms( lit_state_.get(), 0, &params, sizeof( params ) ) ||
             !SDL_SetGPURenderStateFragmentUniforms( nv_lit_state_.get(), 0, &params,
@@ -967,7 +976,7 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap,
         }
         lit_params_ = params;
     }
-    lit_night_vision_ = night_vision;
+    lit_night_vision_ = frame.night_vision;
     lit_active_ = true;
     return true;
 }

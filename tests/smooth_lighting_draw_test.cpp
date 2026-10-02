@@ -1,6 +1,8 @@
 #if defined(TILES)
 
+#include <array>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -9,6 +11,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_shader.h"
 #include "cata_tiles.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -16,6 +19,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers_tests.h"
+#include "options_helpers.h"
 #include "path_info.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -178,6 +182,27 @@ TEST_CASE( "failed_shader_unbind_stops_the_minimap_before_it_paints",
         }
         renderer_coordinator.drain_pending();
         CHECK( renderer_coordinator.state() == renderer_recovery_state::ready );
+    }
+}
+
+TEST_CASE( "custom_memory_overlay_reaches_the_lit_shader", "[smooth_lighting]" )
+{
+    override_option mode( "MEMORY_MAP_MODE", "color_pixel_custom" );
+    override_option red( "MEMORY_RGB_DARK_RED", "51" );
+    override_option gamma( "MEMORY_GAMMA", "2.0" );
+    GIVEN( "no named preset is active" ) {
+        const cata_shader::memory_look look = cata_tiles::memory_look_from_options( std::nullopt );
+        THEN( "the look carries the custom colors and gamma" ) {
+            CHECK_FALSE( look.preset );
+            CHECK( look.custom_dark[0] == Approx( 0.2f ) );
+            CHECK( look.custom_gamma == Approx( 2.0f ) );
+        }
+    }
+    GIVEN( "a named preset is active" ) {
+        THEN( "the look is that preset" ) {
+            CHECK( cata_tiles::memory_look_from_options( cata_shader::memory_preset::SEPIA_DARK ).preset ==
+                   cata_shader::memory_preset::SEPIA_DARK );
+        }
     }
 }
 

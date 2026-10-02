@@ -1722,6 +1722,25 @@ bool smooth_lightmap::fill( const map &here,
     return true;
 }
 
+cata_shader::memory_look cata_tiles::memory_look_from_options(
+    const std::optional<cata_shader::memory_preset> active )
+{
+    cata_shader::memory_look look;
+    look.preset = active;
+    if( !active ) {
+        look.custom_dark = { get_option<int>( "MEMORY_RGB_DARK_RED" ) / 255.0f,
+                             get_option<int>( "MEMORY_RGB_DARK_GREEN" ) / 255.0f,
+                             get_option<int>( "MEMORY_RGB_DARK_BLUE" ) / 255.0f
+                           };
+        look.custom_light = { get_option<int>( "MEMORY_RGB_BRIGHT_RED" ) / 255.0f,
+                              get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ) / 255.0f,
+                              get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ) / 255.0f
+                            };
+        look.custom_gamma = get_option<float>( "MEMORY_GAMMA" );
+    }
+    return look;
+}
+
 bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
                                         const half_open_rectangle<point> &fill_area, const int min_z, const int max_z )
 {
@@ -1735,11 +1754,14 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
     if( !lightmap->ensure_texture( renderer ) ) {
         return false;
     }
-    const std::optional<cata_shader::memory_preset> blend_into =
-        get_option<bool>( "LIGHTING_MEMORY_BLEND" ) ? vp->active_memory_preset() : std::nullopt;
-    smooth_lighting_active = vp->begin_lit( lightmap->texture(), blend_into,
-                                            mode == "smooth", is_isometric(),
-                                            nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" ) );
+    cata_shader::lit_frame frame;
+    frame.lightmap = lightmap->texture();
+    frame.memory = memory_look_from_options( vp->active_memory_preset() );
+    frame.blend_memory = get_option<bool>( "LIGHTING_MEMORY_BLEND" );
+    frame.per_tile = mode == "smooth";
+    frame.iso = is_isometric();
+    frame.night_vision = nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" );
+    smooth_lighting_active = vp->begin_lit( frame );
     // texels only matter to lit draws, which begin_lit can refuse
     if( smooth_lighting_active ) {
         smooth_lighting::lightmap_fill_settings settings;

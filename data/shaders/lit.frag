@@ -14,8 +14,6 @@ layout(location = 0) out vec4 out_color;
 
 // light level from which sprites keep their full color
 const float FULL_COLOR_LIGHT = 0.75;
-// shade at the vision threshold, full light being 1
-const float THRESHOLD_SHADE = 0.35;
 
 void main()
 {
@@ -24,7 +22,7 @@ void main()
     // dim light drains color just like the shadow variant does outright
     float gray = (sample_color.r + sample_color.g + sample_color.b) / 3.0;
     vec3 lit_rgb = mix(vec3(gray), sample_color.rgb, smoothstep(0.0, FULL_COLOR_LIGHT, s.light)) * s.hue;
-    vec3 seen_rgb = lit_rgb * mix(THRESHOLD_SHADE, 1.0, s.light);
+    vec3 seen_rgb = lit_rgb * mix(u_tone.x, 1.0, s.light);
     vec3 unseen_rgb = u_mode.z != 0 ? lit_memory_rgb(sample_color.rgb) : vec3(0.0);
     out_color = vec4(mix(unseen_rgb, seen_rgb, s.visible), sample_color.a);
 }

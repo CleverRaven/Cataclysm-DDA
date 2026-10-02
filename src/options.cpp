@@ -2621,7 +2621,7 @@ void options_manager::add_options_graphics()
            );
 
         add( "LIGHTING_MEMORY_BLEND", page_id, to_translation( "Blend light into memory" ),
-             to_translation( "If true, filtered smooth lighting fades the edge of sight into the memory map overlay, and remembered tiles next to it blend back toward what you see.  If false, the edge of sight fades into darkness.  Has no effect with the custom memory overlay." ),
+             to_translation( "If true, Smooth filtered lighting fades the edge of sight into the memory map overlay, and remembered tiles next to it blend back toward what you see.  If false, the edge of sight fades into darkness." ),
              true, COPT_CURSES_HIDE
            );
 

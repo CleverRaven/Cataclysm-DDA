@@ -27,8 +27,7 @@ layout(set = 3, binding = 0) uniform lit_params {
     // x: flag of a tile seen in detail; y: flag of a light barrier;
     // z: memory look id of the custom preset
     ivec4 u_flags;
-    // x: edge tone, 0 keeps the memory look at the vision threshold, 1 is
-    // darkness; y: standing marker
+    // x: brightness at the vision threshold; y: standing marker
     vec4 u_tone;
     // custom memory look: rgb dark color, w gamma; rgb light color
     vec4 u_custom_dark;

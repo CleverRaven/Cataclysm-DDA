@@ -683,6 +683,11 @@ class cata_tiles
 
         void on_options_changed();
 
+        // the memory look smooth lighting fades into: `active` from the variant
+        // pass, else the custom MEMORY_RGB_* colors and MEMORY_GAMMA
+        static cata_shader::memory_look memory_look_from_options(
+            std::optional<cata_shader::memory_preset> active );
+
         // checks if the tileset_ptr is valid
         bool is_valid() {
             return tileset_ptr != nullptr;
