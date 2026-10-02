@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <string_view>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "character.h"
@@ -245,11 +246,6 @@ std::vector<provider_candidate> collapse_merge_classes(
     const std::vector<craft_reservation::binding> &held,
     const std::vector<craft_reservation::binding> &requests, const Character *who )
 {
-    std::vector<const provider_candidate *> order;
-    order.reserve( available.size() );
-    for( const provider_candidate &cand : available ) {
-        order.push_back( &cand );
-    }
     const auto best_score = [&requests, who]( const provider_candidate & cand ) {
         std::optional<int> best;
         for( const craft_reservation::binding &req : requests ) {
@@ -269,40 +265,73 @@ std::vector<provider_candidate> collapse_merge_classes(
         }
         return false;
     };
+
+    std::vector<std::optional<int>> scores( available.size() );
+    std::vector<char> held_flag( available.size() );
+    for( size_t i = 0; i < available.size(); ++i ) {
+        scores[i] = best_score( available[i] );
+        held_flag[i] = already_held( available[i] );
+    }
+
+    std::vector<size_t> order_idx( available.size() );
+    for( size_t i = 0; i < order_idx.size(); ++i ) {
+        order_idx[i] = i;
+    }
     // Held first, then by score, so the representative is the one binding would prefer
     // rather than whichever source happened to be enumerated first.
-    std::stable_sort( order.begin(), order.end(),
-    [&]( const provider_candidate * a, const provider_candidate * b ) {
-        if( already_held( *a ) != already_held( *b ) ) {
-            return already_held( *a );
+    // The comparator runs O(n log n) times, so it reads only the cached arrays above.
+    std::stable_sort( order_idx.begin(), order_idx.end(),
+    [&]( size_t a, size_t b ) -> bool {
+        if( held_flag[a] != held_flag[b] )
+        {
+            return held_flag[a];
         }
-        const std::optional<int> lhs = best_score( *a );
-        const std::optional<int> rhs = best_score( *b );
-        if( lhs.has_value() != rhs.has_value() ) {
+        const std::optional<int> &lhs = scores[a];
+        const std::optional<int> &rhs = scores[b];
+        if( lhs.has_value() != rhs.has_value() )
+        {
             return lhs.has_value();
         }
-        if( lhs && *lhs != *rhs ) {
+        if( lhs && *lhs != *rhs )
+        {
             return *lhs < *rhs;
         }
-        return provider_identity( *a ) < provider_identity( *b );
+        return provider_identity( available[a] ) < provider_identity( available[b] );
     } );
 
+    std::vector<const provider_candidate *> order;
+    order.reserve( available.size() );
+    for( size_t i : order_idx ) {
+        order.push_back( &available[i] );
+    }
+
+    // Only liquids can merge (see candidate_merges_with), so every other candidate is
+    // kept as its own class without pairwise checks.
     std::vector<const provider_candidate *> kept;
+    std::vector<const provider_candidate *> liquid_reps;
+    kept.reserve( available.size() );
     for( const provider_candidate *cand : order ) {
-        const bool merged = std::any_of( kept.begin(), kept.end(),
+        const item *it = candidate_item( *cand );
+        if( it == nullptr || !it->made_of( phase_id::LIQUID ) ) {
+            kept.push_back( cand );
+            continue;
+        }
+        const bool merged = std::any_of( liquid_reps.begin(), liquid_reps.end(),
         [cand]( const provider_candidate * other ) {
             return candidate_merges_with( *cand, *other );
         } );
         if( !merged ) {
+            liquid_reps.push_back( cand );
             kept.push_back( cand );
         }
     }
 
+    std::unordered_set<const provider_candidate *> kept_lookup( kept.begin(), kept.end() );
     std::vector<provider_candidate> out;
     out.reserve( kept.size() );
     // Enumeration order, which class building and the fingerprint both depend on.
     for( const provider_candidate &cand : available ) {
-        if( std::find( kept.begin(), kept.end(), &cand ) != kept.end() ) {
+        if( kept_lookup.count( &cand ) > 0 ) {
             out.push_back( cand );
         }
     }

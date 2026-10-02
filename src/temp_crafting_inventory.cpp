@@ -102,6 +102,18 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
                 if( roots.empty() || !( roots.back() == ref ) ) {
                     roots.push_back( ref );
                 }
+                type_stats &st = idx.stats[node->typeId()];
+                if( !node->is_broken() ) {
+                    st.units += 1;
+                    if( !node->has_flag( json_flag_PSEUDO ) ) {
+                        st.units_non_pseudo += 1;
+                    }
+                    if( node->count_by_charges() && !node->uses_firing_requirements() ) {
+                        st.charges += node->charges;
+                    } else {
+                        st.charges_valid = false;
+                    }
+                }
                 holds_ups = holds_ups || node->has_flag( flag_IS_UPS );
                 return VisitResponse::NEXT;
             } );

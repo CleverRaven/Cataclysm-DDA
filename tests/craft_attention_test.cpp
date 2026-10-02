@@ -5882,6 +5882,7 @@ TEST_CASE( "reservation_search_escalates_then_defers_on_an_unchanged_pool",
 
         WHEN( "the next check runs against the same pool" ) {
             craft_reservation::reset_search_expansions();
+            on_map.set_env_check_at( t0 + 1_minutes );
             craft_actualize_scheduled( on_map, item_wakeup_kind::env_check, t0 + 1_minutes, loc );
 
             THEN( "the budget doubles rather than repeating the identical search" ) {
@@ -5897,6 +5898,7 @@ TEST_CASE( "reservation_search_escalates_then_defers_on_an_unchanged_pool",
             THEN( "an untouched pool costs no expansion at all" ) {
                 craft_reservation::reset_search_expansions();
                 Messages::clear_messages();
+                on_map.set_env_check_at( t0 + 1_minutes );
                 craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
                                            t0 + 1_minutes, loc );
                 CHECK( craft_reservation::search_expansions_total() == 0 );
@@ -5913,6 +5915,7 @@ TEST_CASE( "reservation_search_escalates_then_defers_on_an_unchanged_pool",
                 here.add_item( tool_pos, extra );
                 u.invalidate_crafting_inventory();
                 craft_reservation::reset_search_expansions();
+                on_map.set_env_check_at( t0 + 1_minutes );
                 craft_actualize_scheduled( on_map, item_wakeup_kind::env_check,
                                            t0 + 1_minutes, loc );
                 CHECK( craft_reservation::search_expansions_total() > 0 );

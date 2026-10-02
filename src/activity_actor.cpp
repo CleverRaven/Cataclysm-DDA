@@ -6710,11 +6710,15 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
 
             if( plan.choice == step_choice::do_wait ) {
-                // Per-turn env check fast-path.  do_something / set_timer
-                // rely on the periodic env_check wakeup at 1-minute cadence
-                // since no actor runs for those modes.
-                craft_actualize_scheduled( craft, item_wakeup_kind::env_check,
-                                           calendar::turn, craft_item );
+                /* Per-turn env check fast-path. Paused crafts re-validate through
+                 * the minutely env_check/ready_check wakeups; calling it here every
+                 * turn would re-run the reservation pipeline per turn.
+                 * do_something/set_timer rely on the periodic env_check wakeup at 1-minute cadence
+                 * since no actor runs for those modes. */
+                if( craft.get_pause_started_at() == calendar::before_time_starts ) {
+                    craft_actualize_scheduled( craft, item_wakeup_kind::env_check,
+                                               calendar::turn, craft_item );
+                }
                 crafter.set_moves( 0 );
                 return;
             }

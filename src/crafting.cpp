@@ -2659,8 +2659,23 @@ static void craft_actualize_env( item &craft, time_point now, const item_locatio
         now >= craft.get_fail_at() ) {
         return;
     }
-    // Also on the restore branch, so a craft paused for a lost provider recovers itself.
-    const acquire_outcome reservation_result = reserve_step_resources( craft, loc, now );
+    // The do_wait fast-path runs this every turn, but reservation validation is
+    // designed for the minutely env_check cadence: arm the cursor when none is
+    // set, and re-arm after a run.  A paused craft re-validates on any tick that
+    // reaches it (recovery is decided by the world, not by the cursor).
+    const bool env_paused = craft.get_pause_started_at() != calendar::before_time_starts;
+    if( craft.get_env_check_at() == calendar::before_time_starts ) {
+        craft.set_env_check_at( now + 1_minutes );
+        get_item_wakeups().rebuild_for_item( loc );
+    }
+    const bool reserve_due = env_paused || now >= craft.get_env_check_at();
+    const acquire_outcome reservation_result = reserve_due
+            ? reserve_step_resources( craft, loc, now )
+            : acquire_outcome::ok;
+    if( reserve_due ) {
+        craft.set_env_check_at( now + 1_minutes );
+        get_item_wakeups().rebuild_for_item( loc );
+    }
     if( reservation_result != acquire_outcome::ok ) {
         craft_note_reservation_pause( craft, reservation_result );
         craft_enter_env_pause( craft, now, loc );

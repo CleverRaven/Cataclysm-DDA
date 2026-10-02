@@ -1331,6 +1331,16 @@ std::pair<int, int> Character::kcal_range( const itype_id &id,
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
+static bool is_accept_all_filter( const item_filter &filter )
+{
+    if( !filter ) {
+        return true;
+    }
+    using fn_ptr = bool ( * )( const item & );
+    const fn_ptr *target = filter.target<fn_ptr>();
+    return target != nullptr && *target == &return_true<item>;
+}
+
 /** @relates visitable */
 int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const item_filter &filter,
@@ -1416,6 +1426,13 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
     if( idx == nullptr ) {
         return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
     }
+    // Exact only for the clean count_by_charges slice; anything else falls through.
+    if( !visitor && what != itype_UPS && is_accept_all_filter( filter ) ) {
+        const auto st = idx->stats.find( what );
+        if( st != idx->stats.end() && st->second.charges_valid ) {
+            return static_cast<int>( std::min( st->second.charges, static_cast<long>( limit ) ) );
+        }
+    }
     const std::vector<root_ref> *roots = nullptr;
     if( what == itype_UPS ) {
         roots = &idx->ups;
@@ -1451,6 +1468,13 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
     const auto found = idx->by_type.find( what );
     if( found == idx->by_type.end() ) {
         return 0;
+    }
+    // Per-node counts of unbroken items; pseudo handled via units_non_pseudo.
+    if( is_accept_all_filter( filter ) ) {
+        const auto st = idx->stats.find( what );
+        const long n = st == idx->stats.end() ? 0
+                       : ( pseudo ? st->second.units : st->second.units_non_pseudo );
+        return static_cast<int>( std::min( n, static_cast<long>( limit ) ) );
     }
     int qty = 0;
     for( const root_ref &ref : found->second ) {

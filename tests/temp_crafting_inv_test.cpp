@@ -48,6 +48,7 @@ static const itype_id itype_butane( "butane" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_jug_plastic( "jug_plastic" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_pot( "pot" );
@@ -377,5 +378,63 @@ TEST_CASE( "provider_quality_memo_keeps_every_key_dimension", "[crafting][invent
                 CHECK( ask( inv, asks[i] ) == live[i] );
             }
         }
+    }
+}
+
+TEST_CASE( "temp_crafting_inventory_stats_match_live_walk", "[crafting][inventory]" )
+{
+    clear_avatar();
+    clear_map();
+    temp_crafting_inventory inv;
+
+    // One rock nested (exercises the recursive walk) and two at top level.
+    // Note: several rocks put_in the same pocket consolidate into one node,
+    // and amount_of counts nodes, not count().
+    item pack( itype_debug_backpack );
+    REQUIRE( pack.put_in( item( itype_rock ), pocket_type::CONTAINER ).success() );
+    inv.add_item_copy( pack );
+    inv.add_item_copy( item( itype_rock ) );
+    inv.add_item_copy( item( itype_rock ) );
+
+    item jug( itype_jug_plastic );
+    jug.force_insert_item( item( itype_water, calendar::turn, 40 ), pocket_type::CONTAINER );
+    inv.add_item_copy( jug );
+
+    inv.add_item_copy( item( itype_test_gum, calendar::turn, 10 ) );
+    inv.add_item_copy( item( itype_test_gum, calendar::turn, 7 ) );
+    inv.add_item_copy( item( itype_pot ) );  // not count_by_charges: charges fast path must skip it
+    item &pseudo_water = inv.add_pseudo_item( itype_water );
+    pseudo_water.charges = 25;
+
+    const std::array<itype_id, 4> types = { itype_rock, itype_water, itype_test_gum, itype_pot };
+    const std::array<int, 4> limits = { 1, 2, 40, INT_MAX };
+
+    const auto snapshot = [&inv, &types, &limits]( std::map<std::string, int> &out ) {
+        for( const itype_id &type : types ) {
+            for( const int limit : limits ) {
+                out[string_format( "amount %s p1 %d", type.str(), limit )] =
+                    inv.amount_of( type, true, limit );
+                out[string_format( "amount %s p0 %d", type.str(), limit )] =
+                    inv.amount_of( type, false, limit );
+                out[string_format( "charges %s %d", type.str(), limit )] =
+                    inv.charges_of( type, limit, return_true<item> );
+            }
+        }
+    };
+
+    // Out-of-scope calls run the unindexed walk: this is the ground truth.
+    std::map<std::string, int> live;
+    snapshot( live );
+    CHECK( live.at( "amount rock p1 " + std::to_string( INT_MAX ) ) == 3 );
+    CHECK( live.at( "charges water " + std::to_string( INT_MAX ) ) == 65 );
+
+    std::map<std::string, int> cached;
+    {
+        temp_crafting_inventory::query_cache_scope scope;
+        snapshot( cached );
+    }
+    for( const auto &[query, answer] : live ) {
+        CAPTURE( query );
+        CHECK( cached.at( query ) == answer );
     }
 }

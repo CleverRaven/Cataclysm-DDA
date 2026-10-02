@@ -128,11 +128,18 @@ class temp_crafting_inventory : public visitable
                 return raw == rhs.raw && loc == rhs.loc;
             }
         };
+        struct type_stats {
+            long units = 0;             // unbroken nodes, pseudo included
+            long units_non_pseudo = 0;  // unbroken nodes without PSEUDO
+            long charges = 0;           // exact only while charges_valid
+            bool charges_valid = true;
+        };
         // top-level entries, in visit order, under every item type in their visited subtree, and
         // in `ups` when that subtree holds an IS_UPS item
         struct type_index {
             std::unordered_map<itype_id, std::vector<root_ref>> by_type;
             std::vector<root_ref> ups;
+            std::unordered_map<itype_id, type_stats> stats;
         };
 
         // true while a query_cache_scope is alive; resets caches from an earlier scope
