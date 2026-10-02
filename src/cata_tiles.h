@@ -255,12 +255,12 @@ class atlas_replay_quarantine
 class smooth_lightmap
 {
     public:
-        // create texture on first use; false when SDL could not
-        bool ensure_texture( const SDL_Renderer_Ptr &renderer );
-        // fill and upload levels min_z to max_z for this frame; false when an
-        // upload failed, and that level is forgotten
-        bool fill( const map &here, const smooth_lighting::lightmap_fill_settings &settings,
-                   int min_z, int max_z );
+        // create the texture on first use; failure if SDL could not
+        std::optional<smooth_lighting::lit_failure> ensure_texture( const SDL_Renderer_Ptr &renderer );
+        // fill and upload levels min_z to max_z; an upload failure is returned
+        // and forgets that level
+        std::optional<smooth_lighting::lit_failure> fill( const map &here,
+                const smooth_lighting::lightmap_fill_settings &settings, int min_z, int max_z );
         SDL_Texture *texture() const {
             return texture_.get();
         }
@@ -273,7 +273,11 @@ class smooth_lightmap
         }
         // drop the texture and every key; drop lit states that hold it first
         void reset();
+        smooth_lighting::failure_policy &failures() {
+            return failures_;
+        }
     private:
+        smooth_lighting::failure_policy failures_;
         SDL_Texture_Ptr texture_;
         smooth_lighting::lightmap_keys keys_;
         // each level's texels as last uploaded; a refill that comes out the
@@ -683,6 +687,10 @@ class cata_tiles
 
         void on_options_changed();
 
+        // lighting the map drew with last frame, and why it is not smooth
+        smooth_lighting::lighting_status effective_lighting() const {
+            return lighting_status_;
+        }
         // the memory look smooth lighting fades into: `active` from the variant
         // pass, else the custom MEMORY_RGB_* colors and MEMORY_GAMMA
         static cata_shader::memory_look memory_look_from_options(
@@ -1097,8 +1105,11 @@ class cata_tiles
         int lit_level_height_3d = 0;
         // cells this frame's light map holds
         smooth_lighting::lightmap_extent lit_extent;
-        // light policy of sprites drawn now; overlay callers switch it for
-        // their draws with restore_on_out_of_scope
+        // changes are logged
+        smooth_lighting::lighting_status lighting_status_ =
+            smooth_lighting::lighting_status::classic_by_option;
+        void note_lighting_status( smooth_lighting::lighting_status s );
+        // light policy of sprites drawn now
         draw_light m_draw_light = draw_light::scene;
         // test seam: draw_sprite_at records each sprite's id and light policy
         std::vector<std::pair<std::string, draw_light>> *test_draw_light_log = nullptr;

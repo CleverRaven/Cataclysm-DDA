@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <initializer_list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -858,6 +859,45 @@ TEST_CASE( "colored_light_fades_in_without_a_jump_as_its_weight_grows", "[smooth
         }
         last = got;
         first = false;
+    }
+}
+
+TEST_CASE( "smooth_lighting_failure_policy", "[smooth_lighting]" )
+{
+    SECTION( "uploads fail on consecutive frames until the last retry latches" ) {
+        smooth_lighting::failure_policy policy;
+        policy.rebuilt( 1 );
+        for( int i = 1; i < smooth_lighting::failure_policy::upload_retries; ++i ) {
+            CHECK_FALSE( policy.fail( smooth_lighting::lit_failure::upload ) );
+        }
+        CHECK( policy.fail( smooth_lighting::lit_failure::upload ) );
+        CHECK( policy.latched_by() == smooth_lighting::lit_failure::upload );
+    }
+    SECTION( "a frame drawn lit resets the upload streak" ) {
+        smooth_lighting::failure_policy policy;
+        policy.rebuilt( 1 );
+        CHECK_FALSE( policy.fail( smooth_lighting::lit_failure::upload ) );
+        policy.succeed();
+        for( int i = 1; i < smooth_lighting::failure_policy::upload_retries; ++i ) {
+            CHECK_FALSE( policy.fail( smooth_lighting::lit_failure::upload ) );
+        }
+        CHECK_FALSE( policy.latched() );
+    }
+    SECTION( "other failures latch at once until the resources are rebuilt" ) {
+        for( const smooth_lighting::lit_failure f : {
+                 smooth_lighting::lit_failure::texture_create, smooth_lighting::lit_failure::sampler_create,
+                 smooth_lighting::lit_failure::shader_load, smooth_lighting::lit_failure::state_create,
+                 smooth_lighting::lit_failure::uniform_upload, smooth_lighting::lit_failure::probe_mismatch
+             } ) {
+            CAPTURE( smooth_lighting::to_string( f ) );
+            smooth_lighting::failure_policy p;
+            p.rebuilt( 1 );
+            CHECK( p.fail( f ) );
+            p.rebuilt( 1 );
+            CHECK( p.latched() );
+            p.rebuilt( 2 );
+            CHECK_FALSE( p.latched() );
+        }
     }
 }
 

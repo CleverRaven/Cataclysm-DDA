@@ -324,4 +324,39 @@ TEST_CASE( "lit_probe_cases_reach_each_visual_input", "[smooth_lighting]" )
     }
 }
 
+TEST_CASE( "lit_begin_outcomes_map_to_frame_actions", "[smooth_lighting]" )
+{
+    using cata_shader::lit_begin_outcome;
+    using smooth_lighting::lit_frame_action;
+    CHECK( cata_shader::action_for( lit_begin_outcome::active ) == lit_frame_action::draw_lit );
+    CHECK( cata_shader::action_for( lit_begin_outcome::classic ) == lit_frame_action::draw_classic );
+    CHECK( cata_shader::action_for( lit_begin_outcome::failed ) == lit_frame_action::draw_classic );
+    CHECK( cata_shader::action_for( lit_begin_outcome::abort_frame ) == lit_frame_action::abort_frame );
+}
+
+TEST_CASE( "smooth_lighting_frames_on_the_software_renderer", "[smooth_lighting][tiles]" )
+{
+    policy_fixture fx;
+    if( !fx.available_ ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    WHEN( "smooth lighting requested" ) {
+        override_option mode( "LIGHTING_MODE", "smooth" );
+        fx.draw();
+        THEN( "the frame draws classic, saying there is no shader path" ) {
+            CHECK( fx.tiles_->effective_lighting() ==
+                   smooth_lighting::lighting_status::classic_no_shader_path );
+            CHECK_FALSE( display_buffer_scope_recovery_pending() );
+        }
+    }
+    WHEN( "classic lighting requested" ) {
+        override_option mode( "LIGHTING_MODE", "classic" );
+        fx.draw();
+        THEN( "the frame says so" ) {
+            CHECK( fx.tiles_->effective_lighting() == smooth_lighting::lighting_status::classic_by_option );
+        }
+    }
+}
+
 #endif // TILES

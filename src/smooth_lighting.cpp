@@ -573,4 +573,72 @@ std::array<float, 3> reference_night_rgb( const look_params &look, const std::ar
     return mix3( unseen, nv, s.visible );
 }
 
+const char *to_string( const lit_failure f )
+{
+    switch( f ) {
+        case lit_failure::texture_create:
+            return "texture_create";
+        case lit_failure::upload:
+            return "upload";
+        case lit_failure::sampler_create:
+            return "sampler_create";
+        case lit_failure::shader_load:
+            return "shader_load";
+        case lit_failure::state_create:
+            return "state_create";
+        case lit_failure::uniform_upload:
+            return "uniform_upload";
+        case lit_failure::probe_mismatch:
+            return "probe_mismatch";
+    }
+    return "unknown";
+}
+
+bool failure_policy::fail( const lit_failure f )
+{
+    if( f == lit_failure::upload && ++upload_streak_ < upload_retries ) {
+        return false;
+    }
+    latched_ = f;
+    return true;
+}
+
+void failure_policy::succeed()
+{
+    upload_streak_ = 0;
+}
+
+void failure_policy::rebuilt( const uint32_t generation )
+{
+    if( generation != generation_ ) {
+        generation_ = generation;
+        reset();
+    }
+}
+
+void failure_policy::reset()
+{
+    latched_.reset();
+    upload_streak_ = 0;
+}
+
+const char *to_string( const lighting_status s )
+{
+    switch( s ) {
+        case lighting_status::classic_by_option:
+            return "classic_by_option";
+        case lighting_status::classic_no_shader_path:
+            return "classic_no_shader_path";
+        case lighting_status::classic_failed:
+            return "classic_failed";
+        case lighting_status::classic_this_frame:
+            return "classic_this_frame";
+        case lighting_status::smooth:
+            return "smooth";
+        case lighting_status::smooth_filtered:
+            return "smooth_filtered";
+    }
+    return "unknown";
+}
+
 } // namespace smooth_lighting

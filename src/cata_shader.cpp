@@ -403,8 +403,15 @@ std::optional<memory_preset> memory_preset_from_option_value(
     return std::nullopt;
 }
 
+// one count shared by all passes, so no two passes report the same generation
+static uint32_t next_resource_generation()
+{
+    static uint32_t last = 0;
+    return ++last;
+}
+
 variant_pass::variant_pass( SDL_Renderer *renderer )
-    : renderer_( renderer )
+    : renderer_( renderer ), resource_generation_( next_resource_generation() )
 {
 }
 
@@ -1033,7 +1040,7 @@ void variant_pass::clear_state_arrays( bool abandon_handles )
         tint_state_.abandon();
     }
     release_lit( abandon_handles );
-    lit_failed_ = false;
+    resource_generation_ = next_resource_generation();
     // rebuilt resources are probed again
     lit_probed_ = false;
     // Render states reference their fragment shader; clear states before
@@ -1278,26 +1285,33 @@ variant_pass::lit_params variant_pass::make_lit_params( const lit_frame &frame )
     return params;
 }
 
-bool variant_pass::begin_lit( const lit_frame &frame )
+lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
 {
+    using smooth_lighting::lit_failure;
+    const auto failed = []( const lit_failure f ) {
+        return lit_begin_result{ lit_begin_outcome::failed, f };
+    };
+    const lit_begin_result abort{ lit_begin_outcome::abort_frame, std::nullopt };
     SDL_Texture *const lightmap = frame.lightmap;
     lit_active_ = false;
-    if( !available() || !lightmap || lit_failed_ || abandoned_pending_rebind_ || boundary_lost_ ) {
-        return false;
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        return abort;
+    }
+    if( !available() || !lightmap ) {
+        return {};
     }
     const bool fresh = !lit_state_.is_valid() || lightmap != lit_texture_;
     if( fresh ) {
         drop_lit();
         if( boundary_lost_ ) {
-            return false;
+            return abort;
         }
-        lit_failed_ = true;
         SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer_ );
         SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
                                                 SDL_GetTextureProperties( lightmap ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
         if( !device || !gpu_texture ) {
             DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lightmap has no GPU texture";
-            return false;
+            return failed( lit_failure::state_create );
         }
         SDL_GPUSamplerCreateInfo sampler_info{};
         // lit_sample.glsl reads texels whole with texelFetch
@@ -1311,11 +1325,15 @@ bool variant_pass::begin_lit( const lit_frame &frame )
         if( !lit_sampler_ ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::variant_pass: SDL_CreateGPUSampler failed: " << SDL_GetError();
-            return false;
+            return failed( lit_failure::sampler_create );
         }
         lit_device_ = device;
         lit_shader_ = shader::load_fragment( device, "lit.frag", 2, 1 );
         nv_lit_shader_ = shader::load_fragment( device, "nightvision_lit.frag", 2, 1 );
+        if( !lit_shader_.is_valid() || !nv_lit_shader_.is_valid() ) {
+            release_lit( false );
+            return failed( lit_failure::shader_load );
+        }
         SDL_GPUTextureSamplerBinding binding{};
         binding.texture = gpu_texture;
         binding.sampler = lit_sampler_;
@@ -1323,7 +1341,7 @@ bool variant_pass::begin_lit( const lit_frame &frame )
         nv_lit_state_ = render_state::create( renderer_, nv_lit_shader_, &binding, 1 );
         if( !lit_state_.is_valid() || !nv_lit_state_.is_valid() ) {
             release_lit( false );
-            return false;
+            return failed( lit_failure::state_create );
         }
         if( !lit_probed_ ) {
             switch( probe_lit() ) {
@@ -1331,17 +1349,15 @@ bool variant_pass::begin_lit( const lit_frame &frame )
                     lit_probed_ = true;
                     break;
                 case lit_probe_outcome::mismatch:
-                    // lit_failed_ stays set: no retry until the resources rebuild
                     release_lit( false );
-                    return false;
+                    return failed( lit_failure::probe_mismatch );
                 case lit_probe_outcome::unsafe:
                     release_lit( true );
                     mark_probe_unsafe();
-                    return false;
+                    return abort;
             }
         }
         lit_texture_ = lightmap;
-        lit_failed_ = false;
     }
     const lit_params params = make_lit_params( frame );
     if( fresh || !( params == lit_params_ ) ) {
@@ -1350,13 +1366,27 @@ bool variant_pass::begin_lit( const lit_frame &frame )
                     sizeof( params ) ) ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::variant_pass: lit uniforms failed: " << SDL_GetError();
-            return false;
+            return failed( lit_failure::uniform_upload );
         }
         lit_params_ = params;
     }
     lit_night_vision_ = frame.night_vision;
     lit_active_ = true;
-    return true;
+    return { lit_begin_outcome::active, std::nullopt };
+}
+
+smooth_lighting::lit_frame_action action_for( const lit_begin_outcome o )
+{
+    switch( o ) {
+        case lit_begin_outcome::active:
+            return smooth_lighting::lit_frame_action::draw_lit;
+        case lit_begin_outcome::classic:
+        case lit_begin_outcome::failed:
+            return smooth_lighting::lit_frame_action::draw_classic;
+        case lit_begin_outcome::abort_frame:
+            return smooth_lighting::lit_frame_action::abort_frame;
+    }
+    return smooth_lighting::lit_frame_action::abort_frame;
 }
 
 variant_pass::lit_probe_outcome variant_pass::probe_lit()

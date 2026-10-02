@@ -253,6 +253,62 @@ std::array<float, 3> reference_lit_rgb( const look_params &look, const std::arra
 std::array<float, 3> reference_night_rgb( const look_params &look,
         const std::array<float, 3> &rgb, const lit_sample &s );
 
+// what kept smooth lighting off this frame
+enum class lit_failure : uint8_t {
+    texture_create,
+    upload,
+    sampler_create,
+    shader_load,
+    state_create,
+    uniform_upload,
+    probe_mismatch,
+};
+const char *to_string( lit_failure f );
+
+// which smooth lighting failures are retried next frame, and which keep it
+// off until the GPU resources are rebuilt
+class failure_policy
+{
+    public:
+        // consecutive frames an upload may fail before it latches
+        static constexpr int upload_retries = 3;
+        // record a failure; true when this one latched
+        bool fail( lit_failure f );
+        // a frame drew lit
+        void succeed();
+        // resources now carry `generation`; a new one clears a latch
+        void rebuilt( uint32_t generation );
+        void reset();
+        bool latched() const {
+            return latched_.has_value();
+        }
+        std::optional<lit_failure> latched_by() const {
+            return latched_;
+        }
+    private:
+        std::optional<lit_failure> latched_;
+        int upload_streak_ = 0;
+        uint32_t generation_ = 0;
+};
+
+// what lighting the map draws with, and why it is not smooth
+enum class lighting_status : uint8_t {
+    classic_by_option,
+    classic_no_shader_path,
+    classic_failed,
+    classic_this_frame,
+    smooth,
+    smooth_filtered,
+};
+const char *to_string( lighting_status s );
+
+// what a frame does after asking for lit states
+enum class lit_frame_action : uint8_t {
+    draw_lit,
+    draw_classic,
+    abort_frame,
+};
+
 // whether a sprite takes the scene's light from the light map: lighting is on,
 // the sprite asks for scene light, and the light map holds its cell
 bool lit_path_for( bool lighting_active, bool wants_scene_light, bool cell_covered );

@@ -201,6 +201,25 @@ struct lit_frame {
     bool night_vision = false;
 };
 
+// what begin_lit did; an unsafe boundary is not a fallback
+enum class lit_begin_outcome : uint8_t {
+    // lit states bound for this frame
+    active,
+    // no lit path here: draw classic
+    classic,
+    // making lit states failed: draw classic, and `failure` says why
+    failed,
+    // renderer may hold a bind this pass could not release: abort the frame
+    abort_frame,
+};
+
+struct lit_begin_result {
+    lit_begin_outcome outcome = lit_begin_outcome::classic;
+    std::optional<smooth_lighting::lit_failure> failure;
+};
+
+smooth_lighting::lit_frame_action action_for( lit_begin_outcome o );
+
 // The cases the activation probe draws through the lit shaders before they
 // are used, and the readbacks their C++ references expect.
 namespace lit_probe
@@ -300,6 +319,11 @@ class variant_pass
         bool boundary_lost() const {
             return boundary_lost_;
         }
+        // changes whenever GPU resources are dropped or rebuilt, and differs
+        // between passes
+        uint32_t resource_generation() const {
+            return resource_generation_;
+        }
         // Sticky: unsafe probe, failed flush, or draw-time bind failure happened.
         // Survives rebind_renderer; cleared only by successful explicit reset
         // (request_reprobe).
@@ -337,18 +361,16 @@ class variant_pass
 
         void select_memory_preset( std::optional<memory_preset> preset );
 
-        // smooth lighting. when active, NORMAL and SHADOW draws run lit.frag,
-        // and NIGHT and OVEREXPOSED run nightvision_lit.frag. all shade each
-        // pixel from `frame.lightmap` at the map coordinates provided by the
-        // caller in the vertex colors, in light map texels; see
-        // lit_sample.glsl. with `frame.blend_memory`, MEMORY draws also run
-        // lit.frag and every lit draw blends out-of-sight light into
-        // `frame.memory`. `per_tile` gives each tile its own light instead of
-        // blending across tiles; `iso` picks the base line standing sprites
-        // take their light from; `night_vision` blends MEMORY draws toward the
-        // night vision look. false when no lit state could be made, and the
-        // caller draws the classic variants.
-        bool begin_lit( const lit_frame &frame );
+        // smooth lighting. while active, NORMAL and SHADOW draws run lit.frag and
+        // NIGHT and OVEREXPOSED run nightvision_lit.frag, shading each pixel from
+        // `frame.lightmap` at the light map texel coordinates in the vertex colors
+        // (see lit_sample.glsl). with `frame.blend_memory`, MEMORY draws run lit.frag
+        // too and every lit draw fades out-of-sight light into `frame.memory`.
+        // `per_tile` lights each tile from its own texel rather than filtering;
+        // `iso` picks the base line standing sprites take their light from;
+        // `night_vision` makes MEMORY draws blend toward the night vision look. the
+        // result says whether to draw lit, draw classic, or abort the frame.
+        lit_begin_result begin_lit( const lit_frame &frame );
         // back to classic variants, lit states stay for the next frame
         void end_lit();
         // drop lit states before the lightmap texture is destroyed: the states
@@ -450,9 +472,7 @@ class variant_pass
         bool lit_night_vision_ = false;
         // lit shaders passed activation probe for these resources
         bool lit_probed_ = false;
-        // set when making lit states failed, so later frames don't retry and
-        // log again until the GPU resources are rebuilt
-        bool lit_failed_ = false;
+        uint32_t resource_generation_ = 0;
         SDL_GPURenderState *bound_state_ = nullptr;
         // Set after an unsafe bind transition (failed SDL_SetGPURenderState or
         // a probe boundary loss): next flush() must call null-state regardless

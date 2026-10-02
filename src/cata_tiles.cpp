@@ -1671,7 +1671,8 @@ void cata_tiles::reset_tint_mask()
     tint_mask_h = 0;
 }
 
-bool smooth_lightmap::ensure_texture( const SDL_Renderer_Ptr &renderer )
+std::optional<smooth_lighting::lit_failure> smooth_lightmap::ensure_texture(
+    const SDL_Renderer_Ptr &renderer )
 {
     if( !texture_ ) {
         texture_ = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
@@ -1679,7 +1680,10 @@ bool smooth_lightmap::ensure_texture( const SDL_Renderer_Ptr &renderer )
         keys_.forget_all();
         uploaded_ = {};
     }
-    return static_cast<bool>( texture_ );
+    if( !texture_ ) {
+        return smooth_lighting::lit_failure::texture_create;
+    }
+    return std::nullopt;
 }
 
 void smooth_lightmap::reset()
@@ -1688,10 +1692,11 @@ void smooth_lightmap::reset()
     keys_.forget_all();
     uploaded_ = {};
     extent_ = {};
+    failures_.reset();
 }
 
-bool smooth_lightmap::fill( const map &here,
-                            const smooth_lighting::lightmap_fill_settings &settings, const int min_z, const int max_z )
+std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &here,
+        const smooth_lighting::lightmap_fill_settings &settings, const int min_z, const int max_z )
 {
     keys_.begin_frame( settings );
     extent_ = { settings.area, min_z, max_z };
@@ -1700,7 +1705,7 @@ bool smooth_lightmap::fill( const map &here,
         const level_cache &ch = here.access_cache( z );
         const smooth_lighting::layer_inputs inputs{ ch.lightmap_generation, ch.visibility_generation,
                 here.seen_generation(), u.aim_generation(),
-                u.recoil < MAX_RECOIL &&u.last_target_pos.has_value() };
+                ( u.recoil < MAX_RECOIL ) &&u.last_target_pos.has_value() };
         if( !keys_.needs_fill( z, inputs ) ) {
             continue;
         }
@@ -1713,13 +1718,13 @@ bool smooth_lightmap::fill( const map &here,
                 // texture might contain some of the new texels
                 uploaded.clear();
                 keys_.forget( z );
-                return false;
+                return smooth_lighting::lit_failure::upload;
             }
             uploaded.swap( scratch_ );
         }
         keys_.mark_filled( z, inputs );
     }
-    return true;
+    return std::nullopt;
 }
 
 cata_shader::memory_look cata_tiles::memory_look_from_options(
@@ -1741,18 +1746,57 @@ cata_shader::memory_look cata_tiles::memory_look_from_options(
     return look;
 }
 
+// the shader boundary is unsafe: latch recovery and leave the frame, as
+// draw_sprite_at does on begin_result::abort_frame
+[[noreturn]] static void abort_lit_frame()
+{
+    display_buffer_scope_signal_recovery_required();
+    throw std::runtime_error(
+        "cata_tiles::begin_smooth_lighting: variant_pass left renderer in undefined shader-state bind" );
+}
+
+void cata_tiles::note_lighting_status( const smooth_lighting::lighting_status s )
+{
+    if( s != lighting_status_ ) {
+        DebugLog( D_INFO, DC_ALL ) << "smooth lighting: " << smooth_lighting::to_string( s );
+        lighting_status_ = s;
+    }
+}
+
 bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
                                         const half_open_rectangle<point> &fill_area, const int min_z, const int max_z )
 {
+    using smooth_lighting::lighting_status;
     smooth_lighting_active = false;
     const std::string &mode = get_option<std::string>( "LIGHTING_MODE" );
-    cata_shader::variant_pass *vp = get_shared_variant_pass();
-    smooth_lightmap *lightmap = get_shared_lightmap();
-    if( mode == "classic" || !vp || !vp->available() || !lightmap ) {
+    if( mode == "classic" ) {
+        note_lighting_status( lighting_status::classic_by_option );
         return false;
     }
-    if( !lightmap->ensure_texture( renderer ) ) {
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    smooth_lightmap *lightmap = get_shared_lightmap();
+    if( !vp || !vp->available() || !lightmap ) {
+        note_lighting_status( lighting_status::classic_no_shader_path );
         return false;
+    }
+    smooth_lighting::failure_policy &failures = lightmap->failures();
+    failures.rebuilt( vp->resource_generation() );
+    if( failures.latched() ) {
+        note_lighting_status( lighting_status::classic_failed );
+        return false;
+    }
+    const auto fail_frame = [&]( const smooth_lighting::lit_failure f ) {
+        if( failures.fail( f ) ) {
+            DebugLog( D_ERROR, DC_ALL ) << "smooth lighting off until the renderer is rebuilt: "
+                                        << smooth_lighting::to_string( f );
+            note_lighting_status( lighting_status::classic_failed );
+        } else {
+            note_lighting_status( lighting_status::classic_this_frame );
+        }
+        return false;
+    };
+    if( const std::optional<smooth_lighting::lit_failure> f = lightmap->ensure_texture( renderer ) ) {
+        return fail_frame( *f );
     }
     cata_shader::lit_frame frame;
     frame.lightmap = lightmap->texture();
@@ -1761,24 +1805,35 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
     frame.per_tile = mode == "smooth";
     frame.iso = is_isometric();
     frame.night_vision = nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" );
-    smooth_lighting_active = vp->begin_lit( frame );
-    // texels only matter to lit draws, which begin_lit can refuse
-    if( smooth_lighting_active ) {
-        smooth_lighting::lightmap_fill_settings settings;
-        settings.area = fill_area;
-        settings.vision_threshold = cache.vision_threshold;
-        settings.tint = !tint_overlay_disabled();
-        settings.masks = mode == "smooth_filtered";
-        if( !lightmap->fill( get_map(), settings, std::max( min_z, -OVERMAP_DEPTH ),
-                             std::min( max_z, OVERMAP_HEIGHT ) ) ) {
-            // stale texels would shade wrong, so this frame draws classic
-            vp->end_lit();
-            smooth_lighting_active = false;
-        } else {
-            lit_extent = lightmap->extent();
-        }
+    const cata_shader::lit_begin_result begun = vp->begin_lit( frame );
+    switch( cata_shader::action_for( begun.outcome ) ) {
+        case smooth_lighting::lit_frame_action::abort_frame:
+            abort_lit_frame();
+        case smooth_lighting::lit_frame_action::draw_classic:
+            if( begun.failure ) {
+                return fail_frame( *begun.failure );
+            }
+            note_lighting_status( lighting_status::classic_no_shader_path );
+            return false;
+        case smooth_lighting::lit_frame_action::draw_lit:
+            break;
     }
-    return smooth_lighting_active;
+    smooth_lighting::lightmap_fill_settings settings;
+    settings.area = fill_area;
+    settings.vision_threshold = cache.vision_threshold;
+    settings.tint = !tint_overlay_disabled();
+    settings.masks = mode == "smooth_filtered";
+    if( const std::optional<smooth_lighting::lit_failure> f = lightmap->fill( get_map(), settings,
+            std::max( min_z, -OVERMAP_DEPTH ), std::min( max_z, OVERMAP_HEIGHT ) ) ) {
+        // stale texels would shade wrong, so this frame draws classic
+        vp->end_lit();
+        return fail_frame( *f );
+    }
+    failures.succeed();
+    lit_extent = lightmap->extent();
+    smooth_lighting_active = true;
+    note_lighting_status( frame.per_tile ? lighting_status::smooth : lighting_status::smooth_filtered );
+    return true;
 }
 
 void cata_tiles::render_lit_sprite( const texture &tex, const SDL_Rect &dst,
