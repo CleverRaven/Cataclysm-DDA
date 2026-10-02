@@ -253,6 +253,17 @@ bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uin
                          "SDL_SetTextureColorMod failed" );
 }
 
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect *rect, const void *pixels,
+                    const int pitch )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to update a null texture";
+        return false;
+    }
+    return !printErrorIf( !SDL_UpdateTexture( texture.get(), rect, pixels, pitch ),
+                          "SDL_UpdateTexture failed" );
+}
+
 bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
                          Uint32 b )
 {

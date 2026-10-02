@@ -2602,6 +2602,14 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 
+        add( "LIGHTING_MODE", page_id, to_translation( "Lighting" ),
+        to_translation( "How the map shows light levels.  Classic: lit or shadowed tiles.  Smooth: more shades of light per tile.  Smooth filtered: shades blend across tiles.  The smooth modes need the GPU renderer.  Without it the map uses Classic." ), {
+            { "classic", to_translation( "Classic" ) },
+            { "smooth", to_translation( "Smooth" ) },
+            { "smooth_filtered", to_translation( "Smooth filtered" ) },
+        }, "smooth", COPT_CURSES_HIDE
+           );
+
         add( "MEMORY_MAP_MODE", page_id, to_translation( "Memory map overlay preset" ),
         to_translation( "Specify the overlay in which the memory map is drawn.  For the custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
             { "color_pixel_darken", to_translation( "Darkened" ) },
@@ -2611,6 +2619,13 @@ void options_manager::add_options_graphics()
             { "color_pixel_custom", to_translation( "Custom" ) },
         }, "color_pixel_sepia_light", COPT_CURSES_HIDE
            );
+
+        add( "LIGHTING_MEMORY_BLEND", page_id, to_translation( "Blend light into memory" ),
+             to_translation( "If true, filtered smooth lighting fades the edge of sight into the memory map overlay, and remembered tiles next to it blend back toward what you see.  If false, the edge of sight fades into darkness.  Has no effect with the custom memory overlay." ),
+             true, COPT_CURSES_HIDE
+           );
+
+        get_option( "LIGHTING_MEMORY_BLEND" ).setPrerequisite( "LIGHTING_MODE", "smooth_filtered" );
 
         add( "MEMORY_RGB_DARK_RED", page_id, to_translation( "Custom dark color RGB overlay - RED" ),
              to_translation( "Specify RGB value for color RED for dark color overlay." ),

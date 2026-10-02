@@ -507,6 +507,7 @@ void map::generate_lightmap( const int zlev )
         return;
     }
     map_cache.lightmap_dirty = false;
+    ++map_cache.lightmap_generation;
 
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;

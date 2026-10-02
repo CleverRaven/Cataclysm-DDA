@@ -77,6 +77,7 @@
 #include "sdl_utils.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
+#include "smooth_lighting.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -272,7 +273,14 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
     on_options_changed();
 }
 
-cata_tiles::~cata_tiles() = default;
+cata_tiles::~cata_tiles()
+{
+    // shared pass outlives this context; its lit states hold the light map
+    // texture
+    if( lightmap_tex ) {
+        reset_lightmap();
+    }
+}
 
 void cata_tiles::on_options_changed()
 {
@@ -1042,6 +1050,26 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         do_draw_shadow = true;
     }
 
+    // on-screen part of the view range, plus the light filter's reach
+    const half_open_rectangle<point> light_fill_area(
+        point( std::max( min_visible.x, min_mm_reg.x - smooth_lighting::filter_reach ),
+               std::max( min_visible.y, min_mm_reg.y - smooth_lighting::filter_reach ) ),
+        point( std::min( max_visible.x, max_mm_reg.x + smooth_lighting::filter_reach ) + 1,
+               std::min( max_visible.y, max_mm_reg.y + smooth_lighting::filter_reach ) + 1 ) );
+    const bool lit_this_frame = begin_smooth_lighting( cache, light_fill_area, draw_min_z,
+                                center.z(), draw_points_rebuilt );
+    // lit states must not reach the overmap or UI sprites drawn after the map
+    on_out_of_scope end_smooth_lighting( [this, lit_this_frame]() {
+        smooth_lighting_active = false;
+        lit_ground_dy = 0;
+        lit_level_height_3d = 0;
+        if( lit_this_frame ) {
+            if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+                vp->end_lit();
+            }
+        }
+    } );
+
     // Multi z-level draw mode
     // Start drawing from the lowest visible z-level (some off-screen tiles
     // are considered visible here to simplify the logic.)
@@ -1064,6 +1092,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         const bool zlev_has_color = zlev_cache.has_colored_lights && ( shader_tint || !iso ) &&
                                     !tint_overlay_disabled();
         m_zlev_tint_bound = shader_tint && zlev_has_color;
+        // lower levels draw shifted by their height, as draw_sprite_at shifts by height_3d
+        lit_ground_dy = divide_round_down( -( cur_zlevel - center.z() ) * zlevel_height * tile_width,
+                                           tileset_ptr->get_tile_width() );
+        lit_level_height_3d = ( cur_zlevel - center.z() ) * zlevel_height;
         for( int row = cur_any_tile_range.p_min.y; row < cur_any_tile_range.p_max.y; row ++ ) {
             if( renderer_should_abort_frame() ) {
                 // Abort emitting tiles mid-draw. Post-loop bookkeeping still runs
@@ -1630,6 +1662,205 @@ void cata_tiles::reset_tint_mask()
     tint_mask_tex.reset();
     tint_mask_w = 0;
     tint_mask_h = 0;
+}
+
+// how lit.frag shades a tile at the vision threshold, full light being 1
+static constexpr float threshold_shade = 0.35f;
+
+void cata_tiles::reset_lightmap()
+{
+    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->drop_lit();
+    }
+    lightmap_tex.reset();
+    lightmap_layers = {};
+    lightmap_uploaded = {};
+}
+
+bool cata_tiles::fill_lightmap_layer( const int z )
+{
+    const int layer = z + OVERMAP_DEPTH;
+    const level_cache &ch = get_map().access_cache( z );
+    lightmap_layer_key &key = lightmap_layers[layer];
+    if( key.fill_generation == lightmap_fill_generation &&
+        key.lightmap_generation == ch.lightmap_generation ) {
+        return true;
+    }
+    lightmap_layer_texels.assign( static_cast<size_t>( MAPSIZE_X ) * MAPSIZE_Y * 4, 0 );
+    for( int y = lightmap_fill_area.p_min.y; y < lightmap_fill_area.p_max.y; ++y ) {
+        for( int x = lightmap_fill_area.p_min.x; x < lightmap_fill_area.p_max.x; ++x ) {
+            const lit_level ll = ch.visibility_cache[x][y];
+            const float apparent = smooth_lighting::needs_apparent_light( ll )
+                                   ? map::apparent_light_helper( ch, tripoint_bub_ms( x, y, z ) ).apparent_light : 0.0f;
+            const smooth_lighting::light_cell cell =
+                smooth_lighting::classify_light_cell( ll, apparent, lightmap_vision_threshold );
+            if( !cell.detail ) {
+                continue;
+            }
+            const float brightness = threshold_shade + ( 1.0f - threshold_shade ) * cell.light;
+            float hue[3] = { 1.0f, 1.0f, 1.0f };
+            const light_color_rgb &lc = ch.light_color_cache[x][y];
+            if( lightmap_tint && lc.is_colored() ) {
+                if( const std::optional<tile_tint> tint = compute_tile_tint( lc, ch.lm[x][y].max() ) ) {
+                    // tint strength caps near 1/3; a multiplier needs more to read as colored
+                    const float s = std::min( 1.0f, 1.5f * tint->a / 255.0f );
+                    hue[0] = 1.0f + s * ( tint->r / 255.0f - 1.0f );
+                    hue[1] = 1.0f + s * ( tint->g / 255.0f - 1.0f );
+                    hue[2] = 1.0f + s * ( tint->b / 255.0f - 1.0f );
+                }
+            }
+            // rgb: light, a: in sight; see lit_sample.glsl
+            const size_t at = ( static_cast<size_t>( y ) * MAPSIZE_X + x ) * 4;
+            for( int c = 0; c < 3; ++c ) {
+                lightmap_layer_texels[at + c] = static_cast<Uint8>( std::lround(
+                                                    255.0f * std::min( 1.0f, brightness * hue[c] ) ) );
+            }
+            lightmap_layer_texels[at + 3] = 255;
+        }
+    }
+    std::vector<Uint8> &uploaded = lightmap_uploaded[layer];
+    if( lightmap_layer_texels != uploaded ) {
+        const SDL_Rect rect = { 0, layer * MAPSIZE_Y, MAPSIZE_X, MAPSIZE_Y };
+        if( !UpdateTexture( lightmap_tex, &rect, lightmap_layer_texels.data(), MAPSIZE_X * 4 ) ) {
+            // texture might contain some of the new texels
+            uploaded.clear();
+            key = lightmap_layer_key();
+            return false;
+        }
+        uploaded.swap( lightmap_layer_texels );
+    }
+    key.fill_generation = lightmap_fill_generation;
+    key.lightmap_generation = ch.lightmap_generation;
+    return true;
+}
+
+bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
+                                        const half_open_rectangle<point> &fill_area, const int min_z, const int max_z,
+                                        const bool rebuilt )
+{
+    smooth_lighting_active = false;
+    const std::string &mode = get_option<std::string>( "LIGHTING_MODE" );
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( mode == "classic" || !vp || !vp->available() ) {
+        return false;
+    }
+    if( !lightmap_tex ) {
+        lightmap_tex = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
+                                      MAPSIZE_X, MAPSIZE_Y * OVERMAP_LAYERS );
+        lightmap_layers = {};
+        lightmap_uploaded = {};
+        if( !lightmap_tex ) {
+            return false;
+        }
+    }
+    const bool tint = !tint_overlay_disabled();
+    if( rebuilt || tint != lightmap_tint || cache.vision_threshold != lightmap_vision_threshold ||
+        fill_area.p_min != lightmap_fill_area.p_min || fill_area.p_max != lightmap_fill_area.p_max ) {
+        // 0 marks a layer never filled
+        if( ++lightmap_fill_generation == 0 ) {
+            lightmap_fill_generation = 1;
+        }
+        lightmap_tint = tint;
+        lightmap_vision_threshold = cache.vision_threshold;
+        lightmap_fill_area = fill_area;
+    }
+    const std::optional<cata_shader::memory_preset> blend_into =
+        get_option<bool>( "LIGHTING_MEMORY_BLEND" ) ? vp->active_memory_preset() : std::nullopt;
+    const std::array<float, 2> texel = { 1.0f / MAPSIZE_X, 1.0f / ( MAPSIZE_Y * OVERMAP_LAYERS ) };
+    smooth_lighting_active = vp->begin_lit( lightmap_tex.get(), texel, blend_into,
+                                            mode == "smooth", is_isometric() );
+    // texels only matter to lit draws, which begin_lit can refuse
+    if( smooth_lighting_active ) {
+        for( int z = std::max( min_z, -OVERMAP_DEPTH ); z <= std::min( max_z, OVERMAP_HEIGHT ); ++z ) {
+            if( !fill_lightmap_layer( z ) ) {
+                // stale texels would shade wrong, so this frame draws classic
+                vp->end_lit();
+                smooth_lighting_active = false;
+                break;
+            }
+        }
+    }
+    return smooth_lighting_active;
+}
+
+void cata_tiles::render_lit_sprite( const texture &tex, const SDL_Rect &dst,
+                                    const smooth_lighting::quarter_turn turn,
+                                    const CataFlipMode flip, const tripoint_bub_ms &pos, const point &anchor,
+                                    const bool standing )
+{
+    SDL_Texture *const atlas = tex.get_texture_ptr().get();
+    const SDL_Rect &src = tex.get_srcrect();
+    float u0 = static_cast<float>( src.x ) / atlas->w;
+    float u1 = static_cast<float>( src.x + src.w ) / atlas->w;
+    float v0 = static_cast<float>( src.y ) / atlas->h;
+    float v1 = static_cast<float>( src.y + src.h ) / atlas->h;
+    if( flip & SDL_FLIP_HORIZONTAL ) {
+        std::swap( u0, u1 );
+    }
+    if( flip & SDL_FLIP_VERTICAL ) {
+        std::swap( v0, v1 );
+    }
+    const float x0 = static_cast<float>( dst.x );
+    const float y0 = static_cast<float>( dst.y );
+    const float x1 = static_cast<float>( dst.x + dst.w );
+    const float y1 = static_cast<float>( dst.y + dst.h );
+    // SDL rotates clockwise about the destination center
+    const float cx = ( x0 + x1 ) / 2.0f;
+    const float cy = ( y0 + y1 ) / 2.0f;
+    const auto place = [&]( const float x, const float y ) {
+        const float dx = x - cx;
+        const float dy = y - cy;
+        switch( turn ) {
+            case smooth_lighting::quarter_turn::clockwise:
+                return SDL_FPoint{ cx - dy, cy + dx };
+            case smooth_lighting::quarter_turn::counterclockwise:
+                return SDL_FPoint{ cx + dy, cy - dx };
+            case smooth_lighting::quarter_turn::none:
+                break;
+        }
+        return SDL_FPoint{ x, y };
+    };
+
+    const bool iso = is_isometric();
+    const float tw = static_cast<float>( tile_width );
+    const float th = static_cast<float>( tile_height );
+    const float ground_x = static_cast<float>( anchor.x );
+    // iso: the height of the diamond's left and right corners; ortho: the
+    // tile's top edge
+    const float ground_y = static_cast<float>( anchor.y + lit_ground_dy ) +
+                           ( iso ? th - tw / 4.0f : 0.0f );
+    const int layer = pos.z() + OVERMAP_DEPTH;
+    const float tex_h = static_cast<float>( MAPSIZE_Y * OVERMAP_LAYERS );
+    // a cell u past 1 marks a standing sprite; see lit_sample.glsl
+    const float cell_u = static_cast<float>( pos.x() ) / MAPSIZE_X + ( standing ? 1.0f : 0.0f );
+    const float cell_v = static_cast<float>( layer * MAPSIZE_Y + pos.y() ) / tex_h;
+    // light map position under a screen point, as a vertex color for
+    // lit_sample.glsl; the ground mapping is affine, so the renderer
+    // interpolates it exactly across the quad
+    const auto ground = [&]( const SDL_FPoint & s ) {
+        const float dx = ( s.x - ground_x ) / tw;
+        float mx = dx;
+        float my = ( s.y - ground_y ) / th;
+        if( iso ) {
+            // left (0, 0), top (1, 0), bottom (0, 1), right (1, 1)
+            const float dy = 2.0f * ( s.y - ground_y ) / tw;
+            mx = dx - dy;
+            my = dx + dy;
+        }
+        return SDL_FColor{ ( static_cast<float>( pos.x() ) + mx ) / MAPSIZE_X,
+                           ( static_cast<float>( layer * MAPSIZE_Y + pos.y() ) + my ) / tex_h,
+                           cell_u, cell_v };
+    };
+    const auto vertex = [&]( const float x, const float y, const float u, const float v ) {
+        const SDL_FPoint at = place( x, y );
+        return SDL_Vertex{ at, ground( at ), { u, v } };
+    };
+    const std::array<SDL_Vertex, 4> v = {
+        vertex( x0, y0, u0, v0 ), vertex( x1, y0, u1, v0 ),
+        vertex( x1, y1, u1, v1 ), vertex( x0, y1, u0, v1 )
+    };
+    static constexpr std::array<int, 6> idx = { 0, 1, 2, 0, 2, 3 };
+    RenderGeometry( renderer, atlas, v.data(), v.size(), idx.data(), idx.size() );
 }
 
 point cata_tiles::get_window_base_tile_counts(
@@ -2715,7 +2946,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     }
 
     //draw it!
-    const tile_render_params rp{ ll, nv_color_active };
+    const tile_render_params rp{ ll, nv_color_active, pos };
     draw_tile_at( display_tile, screen_pos, loc_rand, rota, rp,
                   retract, height_3d, offset );
 
@@ -2858,6 +3089,7 @@ bool cata_tiles::draw_sprite_at(
     // and for recording into tint_sprites (which replays the sprite as a white
     // silhouette during the tint overlay pass). Compute them once here.
     double render_angle = 0;
+    smooth_lighting::quarter_turn render_turn = smooth_lighting::quarter_turn::none;
     CataFlipMode render_flip = SDL_FLIP_NONE;
     if( rotate_sprite ) {
         if( rota == -1 ) {
@@ -2866,12 +3098,14 @@ bool cata_tiles::draw_sprite_at(
             switch( rota % 4 ) {
                 case 1:
                     render_angle = 90;
+                    render_turn = smooth_lighting::quarter_turn::clockwise;
                     break;
                 case 2:
                     render_flip = static_cast<CataFlipMode>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL );
                     break;
                 case 3:
                     render_angle = -90;
+                    render_turn = smooth_lighting::quarter_turn::counterclockwise;
                     break;
                 default:
                     break;
@@ -2890,7 +3124,11 @@ bool cata_tiles::draw_sprite_at(
 
     // only a bound sprite shader decodes the tint from the vertex color; with
     // no shader SDL would multiply the sprite by it
-    const bool apply_tint = m_cur_tint != nullptr && shader_bound &&
+    const cata_shader::variant_pass *const lit_vp = get_shared_variant_pass();
+    const bool lit_sprite = shader_bound && smooth_lighting_active && lit_vp &&
+                            lit_vp->lit_takes( variant );
+    // lit sprites carry the tint in the light map
+    const bool apply_tint = m_cur_tint != nullptr && shader_bound && !lit_sprite &&
                             cata_shader::variant_takes_tint( variant );
     if( apply_tint ) {
         const tint_texture_mod mod = tint_texture_mod_for( *m_cur_tint );
@@ -2898,7 +3136,22 @@ bool cata_tiles::draw_sprite_at(
         SetTextureAlphaMod( sprite_tex->get_texture_ptr(), mod.a );
     }
 
-    if( rotate_sprite ) {
+    if( lit_sprite ) {
+        const SDL_Rect &opq = sprite_tex->get_opaque_rect();
+        smooth_lighting::sprite_footprint footprint;
+        footprint.size = point( width, height );
+        footprint.opaque = half_open_rectangle<point>( point( opq.x, opq.y ),
+                           point( opq.x + opq.w, opq.y + opq.h ) );
+        footprint.flip_horizontal = ( render_flip & SDL_FLIP_HORIZONTAL ) != 0;
+        footprint.flip_vertical = ( render_flip & SDL_FLIP_VERTICAL ) != 0;
+        footprint.turn = render_turn;
+        footprint.pixelscale = tile.pixelscale;
+        footprint.top = tile_offset.y + offset.y - ( height_3d - lit_level_height_3d );
+        const smooth_lighting::tile_geometry geometry{ tileset_ptr->get_tile_width(),
+                tileset_ptr->get_tile_height(), iso };
+        render_lit_sprite( *sprite_tex, destination, render_turn, render_flip, rp.pos, p,
+                           smooth_lighting::sprite_stands( footprint, geometry ) );
+    } else if( rotate_sprite ) {
         if( rota == -1 ) {
             // flip horizontally
             ret = sprite_tex->render_copy_ex(

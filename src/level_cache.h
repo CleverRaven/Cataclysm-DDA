@@ -4,6 +4,7 @@
 
 #include <array>
 #include <bitset>
+#include <cstdint>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
@@ -91,6 +92,9 @@ struct level_cache : level_cache_default_zero_members {
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
         bool lightmap_dirty = true;
+        // bumped each time generate_lightmap rebuilds lm and sm, so a reader
+        // can tell the light changed without a redraw of its own
+        uint32_t lightmap_generation = 0;
         // set by any write that dirties map_memory_cache_dec or _ter on this
         // level; a tiles memorize sweep of this level is due while set
         bool map_memory_sweep_pending = true;

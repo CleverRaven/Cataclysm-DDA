@@ -1464,6 +1464,7 @@ static void reset_context_tint_masks()
 {
     for_each_unique_tile_context( []( cata_tiles & c ) {
         c.reset_tint_mask();
+        c.reset_lightmap();
     } );
 }
 
