@@ -10,8 +10,11 @@
 #include <optional>
 #include <string>
 #include <type_traits>
+#include <vector>
 
+#include "point.h"
 #include "sdl_wrappers.h"
+#include "smooth_lighting.h"
 
 struct renderer_recovery_test_support;
 
@@ -185,6 +188,8 @@ struct memory_look {
 
 // lit_params id of the custom look, after the named presets
 constexpr int32_t custom_memory_look = static_cast<int32_t>( memory_preset::count );
+static_assert( custom_memory_look == smooth_lighting::custom_look,
+               "lit shaders and their reference agree on the custom look id" );
 
 struct lit_frame {
     SDL_Texture *lightmap = nullptr;
@@ -195,6 +200,48 @@ struct lit_frame {
     bool iso = false;
     bool night_vision = false;
 };
+
+// The cases the activation probe draws through the lit shaders before they
+// are used, and the readbacks their C++ references expect.
+namespace lit_probe
+{
+struct rgb {
+    int r = 0;
+    int g = 0;
+    int b = 0;
+};
+
+// per channel; the same allowance as shader_tint_self_test
+constexpr int channel_tolerance = 4;
+
+struct probe_case {
+    std::string name;
+    // `levels` stacked z levels of light texels left of `columns`, reach
+    // masks right of it
+    std::vector<smooth_lighting::lightmap_texel> texels;
+    int columns = 0;
+    int rows_per_level = 0;
+    int levels = 3;
+    // probe sprite's single texel, RGBA; drawn blended over black
+    std::array<uint8_t, 4> source = { 128, 128, 128, 255 };
+    lit_frame frame;
+    bool night = false;
+    // target size and the quad's vertex colors at its corners: top left, top
+    // right, bottom right, bottom left
+    point size;
+    std::array<smooth_lighting::lit_coords, 4> corners;
+};
+
+smooth_lighting::lightmap_view view_of( const probe_case &c );
+std::vector<probe_case> cases();
+// per target pixel, row by row
+std::vector<rgb> expected( const probe_case &c );
+bool matches( const std::vector<rgb> &expected, const std::vector<rgb> &readback );
+// what a shader that ignores the light map would show: the source as drawn
+std::vector<rgb> readback_if_ignored( const probe_case &c );
+// what a shader that shows everything in sight and fully lit would show
+std::vector<rgb> readback_if_full_light( const probe_case &c );
+} // namespace lit_probe
 
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
 // brackets bind/unbind around per-sprite draws. classic variants each get their
@@ -364,7 +411,7 @@ class variant_pass
         SDL_GPUDevice *lit_device_ = nullptr;
         SDL_GPUSampler *lit_sampler_ = nullptr;
         SDL_Texture *lit_texture_ = nullptr;
-        // lit_params block of lit_sample.glsl, std140: six vec4
+        // lit_params block of lit_sample.glsl, std140: seven vec4
         struct lit_params {
             // light map width, height, rows per z level, reach mask column
             std::array<int32_t, 4> size = {};
@@ -372,25 +419,37 @@ class variant_pass
             std::array<int32_t, 4> mode = { -1, 0, 0, 0 };
             // detail flag bit, barrier flag bit, custom memory look id, unused
             std::array<int32_t, 4> flags = {};
-            // shadow shade, standing marker, unused, unused
+            // shadow shade, standing marker, full color light, night floor
             std::array<float, 4> tone = {};
             // custom memory look: dark rgb and gamma; light rgb
             std::array<float, 4> custom_dark = {};
             std::array<float, 4> custom_light = {};
+            // overexpose start, unused, unused, unused
+            std::array<float, 4> look = {};
             bool operator==( const lit_params &o ) const {
                 return size == o.size && mode == o.mode && flags == o.flags && tone == o.tone &&
-                       custom_dark == o.custom_dark && custom_light == o.custom_light;
+                       custom_dark == o.custom_dark && custom_light == o.custom_light && look == o.look;
             }
         };
-        static_assert( sizeof( lit_params ) == 6 * 16, "lit_params is a std140 block of six vec4" );
+        static_assert( sizeof( lit_params ) == 7 * 16, "lit_params is a std140 block of seven vec4" );
         static_assert( std::is_trivially_copyable_v<lit_params> );
         // lit_params for `frame`
         static lit_params make_lit_params( const lit_frame &frame );
+        enum class lit_probe_outcome : uint8_t {
+            ok,
+            mismatch,
+            // the renderer may hold a bind or a target the probe left
+            unsafe,
+        };
+        // compares every lit_probe case's readback with its reference
+        lit_probe_outcome probe_lit();
         lit_params lit_params_;
         bool lit_active_ = false;
         bool lit_suspended_ = false;
         // memory blends toward the night vision look, not the lit look
         bool lit_night_vision_ = false;
+        // lit shaders passed activation probe for these resources
+        bool lit_probed_ = false;
         // set when making lit states failed, so later frames don't retry and
         // log again until the GPU resources are rebuilt
         bool lit_failed_ = false;

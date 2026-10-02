@@ -27,11 +27,15 @@ layout(set = 3, binding = 0) uniform lit_params {
     // x: flag of a tile seen in detail; y: flag of a light barrier;
     // z: memory look id of the custom preset
     ivec4 u_flags;
-    // x: brightness at the vision threshold; y: standing marker
+    // x: brightness at the vision threshold; y: standing marker; z: light
+    // from which sprites keep their full color; w: share of night vision's
+    // look low light keeps
     vec4 u_tone;
     // custom memory look: rgb dark color, w gamma; rgb light color
     vec4 u_custom_dark;
     vec4 u_custom_light;
+    // x: light over which night vision hands over to the overexposed look
+    vec4 u_look;
 };
 
 // cells the cubic B-spline reads each side of the sample point, and the side

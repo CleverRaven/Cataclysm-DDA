@@ -128,9 +128,6 @@ constexpr uint8_t texel_detail = 1;
 constexpr uint8_t texel_barrier = 2;
 // added to a standing sprite's cell column in its vertex colors
 constexpr float standing_marker = 0.5f;
-// brightness of lit sprites at the vision threshold: the classic shadow
-// variant's, color_pixel_grayscale's 5/8
-constexpr float shadow_shade = 0.625f;
 
 struct lightmap_texel {
     uint8_t r = 0;
@@ -223,6 +220,38 @@ struct lit_sample {
 // lit_sample.glsl's sample_light, run on the CPU
 lit_sample reference_sample( const lightmap_view &view, const sample_params &params,
                              const lit_coords &coords );
+
+// light level from which lit sprites keep their full color
+constexpr float full_color_light = 0.75f;
+// brightness of lit sprites at the vision threshold: the classic shadow
+// variant's, color_pixel_grayscale's 5/8
+constexpr float shadow_shade = 0.625f;
+// share of night vision's look that low light keeps
+constexpr float night_floor = 0.55f;
+// light level over which night vision hands over to the overexposed look; at
+// full light classic tiles show the overexposed variant
+constexpr float overexpose_start = 0.85f;
+
+// what lit shaders' looks depend on besides the light sample
+struct look_params {
+    // memory_presets.glsl preset number, or custom_look
+    int memory_look = 0;
+    bool blend_memory = false;
+    std::array<float, 3> custom_dark = {};
+    std::array<float, 3> custom_light = {};
+    float custom_gamma = 1.0f;
+};
+// memory_look of the custom MEMORY_MAP_MODE mixer, after the named presets
+constexpr int custom_look = 4;
+
+// lit.frag, nightvision_lit.frag and the preset looks they include, run on
+// the CPU: `rgb` is the sprite pixel, 0 to 1
+std::array<float, 3> reference_memory_rgb( const look_params &look,
+        const std::array<float, 3> &rgb );
+std::array<float, 3> reference_lit_rgb( const look_params &look, const std::array<float, 3> &rgb,
+                                        const lit_sample &s );
+std::array<float, 3> reference_night_rgb( const look_params &look,
+        const std::array<float, 3> &rgb, const lit_sample &s );
 
 // whether a sprite takes the scene's light from the light map: lighting is on,
 // the sprite asks for scene light, and the light map holds its cell

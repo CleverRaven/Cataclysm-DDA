@@ -1,6 +1,8 @@
 #if defined(TILES)
 
 #include <array>
+#include <cstdlib>
+#include <initializer_list>
 #include <memory>
 #include <optional>
 #include <string>
@@ -25,6 +27,7 @@
 #include "point.h"
 #include "sdl_renderer_recovery.h"
 #include "sdltiles.h"
+#include "smooth_lighting.h"
 #include "type_id.h"
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -202,6 +205,121 @@ TEST_CASE( "custom_memory_overlay_reaches_the_lit_shader", "[smooth_lighting]" )
         THEN( "the look is that preset" ) {
             CHECK( cata_tiles::memory_look_from_options( cata_shader::memory_preset::SEPIA_DARK ).preset ==
                    cata_shader::memory_preset::SEPIA_DARK );
+        }
+    }
+}
+
+static const cata_shader::lit_probe::probe_case &probe_case_named(
+    const std::vector<cata_shader::lit_probe::probe_case> &cases, const std::string &name )
+{
+    for( const cata_shader::lit_probe::probe_case &c : cases ) {
+        if( c.name == name ) {
+            return c;
+        }
+    }
+    FAIL( "no probe case " << name );
+    return cases.front();
+}
+
+TEST_CASE( "lit_probe_rejects_broken_shaders", "[smooth_lighting]" )
+{
+    using namespace cata_shader::lit_probe;
+    bool ignored_passes = true;
+    bool full_light_passes = true;
+    for( const probe_case &c : cases() ) {
+        CAPTURE( c.name );
+        const std::vector<rgb> want = expected( c );
+        CHECK( matches( want, want ) );
+        ignored_passes = ignored_passes && matches( want, readback_if_ignored( c ) );
+        full_light_passes = full_light_passes && matches( want, readback_if_full_light( c ) );
+    }
+    THEN( "a shader that ignores the light map fails" ) {
+        CHECK_FALSE( ignored_passes );
+    }
+    THEN( "shader that shows everything fully lit fails" ) {
+        CHECK_FALSE( full_light_passes );
+    }
+}
+
+TEST_CASE( "lit_probe_tells_standing_sprites_from_ground", "[smooth_lighting]" )
+{
+    using namespace cata_shader::lit_probe;
+    const std::vector<probe_case> all = cases();
+    for( const std::string name : {
+             "ortho standing", "iso standing"
+         } ) {
+        CAPTURE( name );
+        const probe_case &standing = probe_case_named( all, name );
+        probe_case ground = standing;
+        for( smooth_lighting::lit_coords &k : ground.corners ) {
+            k.column -= smooth_lighting::standing_marker;
+        }
+        CHECK_FALSE( matches( expected( standing ), expected( ground ) ) );
+        if( standing.frame.iso ) {
+            probe_case ortho = standing;
+            ortho.frame.iso = false;
+            CHECK_FALSE( matches( expected( standing ), expected( ortho ) ) );
+        }
+    }
+}
+
+TEST_CASE( "lit_probe_seam_cases_agree", "[smooth_lighting]" )
+{
+    using namespace cata_shader::lit_probe;
+    const std::vector<probe_case> all = cases();
+    CHECK( matches( expected( probe_case_named( all, "seam, left cell" ) ),
+                    expected( probe_case_named( all, "seam, right cell" ) ) ) );
+}
+
+// `c` with every light texel of every level out of sight
+static cata_shader::lit_probe::probe_case unseen( cata_shader::lit_probe::probe_case c )
+{
+    const int width = 2 * c.columns;
+    for( int y = 0; y < c.rows_per_level * c.levels; ++y ) {
+        for( int x = 0; x < c.columns; ++x ) {
+            c.texels[static_cast<size_t>( y ) * width + x] = smooth_lighting::lightmap_texel();
+        }
+    }
+    return c;
+}
+
+TEST_CASE( "lit_probe_cases_reach_each_visual_input", "[smooth_lighting]" )
+{
+    using namespace cata_shader::lit_probe;
+    const std::vector<probe_case> all = cases();
+    GIVEN( "light varying both ways across a square quad" ) {
+        const probe_case &c = probe_case_named( all, "coordinates across a square" );
+        const std::vector<rgb> want = expected( c );
+        REQUIRE( want.size() == 16 );
+        THEN( "pixels change down a column and along a row" ) {
+            CHECK_FALSE( matches( { want[0] }, { want[12] } ) );
+            CHECK_FALSE( matches( { want[0] }, { want[3] } ) );
+        }
+    }
+    GIVEN( "quad running into the edge of sight" ) {
+        const probe_case &c = probe_case_named( all, "into the edge of sight" );
+        const std::vector<rgb> want = expected( c );
+        const std::vector<rgb> memory = expected( unseen( c ) );
+        REQUIRE( want.size() == 4 );
+        THEN( "its far end is part way between seen and memory" ) {
+            CHECK_FALSE( matches( { want[0] }, { want[3] } ) );
+            CHECK_FALSE( matches( { memory[3] }, { want[3] } ) );
+        }
+    }
+    GIVEN( "translucent colored sprite" ) {
+        const probe_case &c = probe_case_named( all, "translucent sprite" );
+        THEN( "it differs from the same sprite opaque" ) {
+            CHECK_FALSE( matches( expected( c ), expected( probe_case_named( all,
+                                  "colored sprite, half light" ) ) ) );
+        }
+    }
+    GIVEN( "corner of a full size level between red levels" ) {
+        const probe_case &c = probe_case_named( all, "corner of a packed level" );
+        const std::vector<rgb> want = expected( c );
+        REQUIRE( want.size() == 1 );
+        THEN( "none of the red reaches it" ) {
+            CHECK( std::abs( want[0].r - want[0].g ) <= 1 );
+            CHECK( std::abs( want[0].r - want[0].b ) <= 1 );
         }
     }
 }

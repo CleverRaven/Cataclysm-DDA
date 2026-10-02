@@ -2,12 +2,17 @@
 
 #include "cata_shader.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
+#include <functional>
+#include <initializer_list>
 #include <iterator>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "debug.h"
@@ -403,6 +408,326 @@ variant_pass::variant_pass( SDL_Renderer *renderer )
 {
 }
 
+namespace lit_probe
+{
+
+static constexpr int probe_columns = 8;
+static constexpr int probe_rows = 8;
+
+// light texel of a probe map character: 'o' full, 'h' half, 'f' a fifth and
+// 'z' no light, all white; 'r' and 'g' full red and green light; '#' a wall
+// lit green; '1' to '5' white at that many fifths; ' ' out of sight
+static smooth_lighting::lightmap_texel probe_texel( const char c )
+{
+    const std::array<float, 3> white = { 1.0f, 1.0f, 1.0f };
+    const std::array<float, 3> red = { 1.0f, 0.2f, 0.2f };
+    const std::array<float, 3> green = { 0.2f, 1.0f, 0.2f };
+    switch( c ) {
+        case 'o':
+            return smooth_lighting::encode_light_texel( { 1.0f, true }, white, false );
+        case 'h':
+            return smooth_lighting::encode_light_texel( { 0.5f, true }, white, false );
+        case 'f':
+            return smooth_lighting::encode_light_texel( { 0.2f, true }, white, false );
+        case 'z':
+            return smooth_lighting::encode_light_texel( { 0.0f, true }, white, false );
+        case 'r':
+            return smooth_lighting::encode_light_texel( { 1.0f, true }, red, false );
+        case 'g':
+            return smooth_lighting::encode_light_texel( { 1.0f, true }, green, false );
+        case '#':
+            return smooth_lighting::encode_light_texel( { 1.0f, true }, green, true );
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+            return smooth_lighting::encode_light_texel( { ( c - '0' ) / 5.0f, true }, white, false );
+        default:
+            return smooth_lighting::lightmap_texel();
+    }
+}
+
+namespace
+{
+// light map shape of a probe case: `levels` z levels of `columns` by `rows`
+// cells; `own` is the level the case's cell is on
+struct probe_layout {
+    int columns = probe_columns;
+    int rows = probe_rows;
+    int levels = 3;
+    int own = 1;
+};
+} // namespace
+
+// probe case: `rows` fill level layout.own, reach masks come from reach_mask,
+// and every quad corner has own cell `cell` and ground point `at`; `standing`
+// marks a standing sprite
+static probe_case make_case( const std::string &name, const std::vector<std::string> &rows,
+                             const point &cell, const std::array<float, 2> &at, const bool standing,
+                             const probe_layout &layout = probe_layout() )
+{
+    probe_case c;
+    c.name = name;
+    c.columns = layout.columns;
+    c.rows_per_level = layout.rows;
+    c.levels = layout.levels;
+    const int width = 2 * layout.columns;
+    const int top = layout.own * layout.rows;
+    c.texels.assign( static_cast<size_t>( width ) * layout.rows * layout.levels,
+                     smooth_lighting::lightmap_texel() );
+    for( size_t y = 0; y < rows.size(); ++y ) {
+        for( size_t x = 0; x < rows[y].size(); ++x ) {
+            c.texels[( top + y ) * width + x] = probe_texel( rows[y][x] );
+        }
+    }
+    const smooth_lighting::barrier_grid grid{ c.texels.data() + static_cast<size_t>( top ) *width,
+            width, layout.columns, layout.rows };
+    for( int y = 0; y < layout.rows; ++y ) {
+        for( int x = 0; x < layout.columns; ++x ) {
+            c.texels[( top + y ) * width + layout.columns + x] =
+                smooth_lighting::encode_reach_texel( smooth_lighting::reach_mask( grid, point( x, y ) ) );
+        }
+    }
+    c.frame.memory.preset = memory_preset::DARKEN;
+    c.size = point::south_east;
+    const smooth_lighting::lit_coords corner{ at[0], top + at[1],
+            cell.x + ( standing ? smooth_lighting::standing_marker : 0.0f ),
+            static_cast<float>( top + cell.y ) };
+    c.corners = { corner, corner, corner, corner };
+    return c;
+}
+
+smooth_lighting::lightmap_view view_of( const probe_case &c )
+{
+    return { c.texels.data(), 2 * c.columns, c.rows_per_level * c.levels, c.rows_per_level, c.columns };
+}
+
+std::vector<probe_case> cases()
+{
+    const std::vector<std::string> half( probe_rows, "hhhhhhhh" );
+    std::vector<probe_case> out;
+    out.push_back( make_case( "per tile, half light", half, point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+    out.back().frame.per_tile = true;
+
+    out.push_back( make_case( "per tile, no light", std::vector<std::string>( probe_rows,
+                              "zzzzzzzz" ), point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+    out.back().frame.per_tile = true;
+    out.back().frame.blend_memory = true;
+
+    out.push_back( make_case( "per tile, out of sight, memory", {}, point( 3, 3 ), { 3.5f, 3.5f },
+                              false ) );
+    out.back().frame.per_tile = true;
+    out.back().frame.blend_memory = true;
+
+    out.push_back( make_case( "per tile, out of sight, custom memory", {}, point( 3, 3 ), { 3.5f, 3.5f },
+                              false ) );
+    out.back().frame.per_tile = true;
+    out.back().frame.blend_memory = true;
+    out.back().frame.memory.preset = std::nullopt;
+    out.back().frame.memory.custom_dark = { 0.1f, 0.2f, 0.6f };
+    out.back().frame.memory.custom_light = { 0.9f, 0.5f, 0.1f };
+    out.back().frame.memory.custom_gamma = 1.6f;
+
+    // standing ortho sprite takes its light from the middle of its own row,
+    // red; at its top edge, as a ground sprite, half green
+    out.push_back( make_case( "ortho standing", {
+        "gggggggg", "gggggggg", "gggggggg", "rrrrrrrr", "rrrrrrrr", "rrrrrrrr", "rrrrrrrr", "rrrrrrrr"
+    }, point( 3, 3 ), { 3.5f, 3.0f }, true ) );
+
+    // standing iso sprite at its cell's bottom left corner takes the light of
+    // its own red cell's center; ground sampling there would read the green
+    // south and west
+    out.push_back( make_case( "iso standing", {
+        "gggrrrrr", "gggrrrrr", "gggrrrrr", "gggrrrrr", "gggggggg", "gggggggg", "gggggggg", "gggggggg"
+    }, point( 3, 3 ), { 3.0f, 4.0f }, true ) );
+    out.back().frame.iso = true;
+
+    // a wall between the cell and the green beyond it: red only
+    out.push_back( make_case( "barrier", std::vector<std::string>( probe_rows, "gg#rrrrr" ),
+                              point( 3, 3 ), { 3.0f, 3.5f }, false ) );
+
+    // both sides of a floor edge near a wall agree
+    const std::vector<std::string> seam = { "ffffffff", "frffffff", "f#ffffff", "ffffffff",
+                                            "ffffffff", "ffffffff", "ffffffff", "ffffffff"
+                                          };
+    out.push_back( make_case( "seam, left cell", seam, point( 1, 3 ), { 2.0f, 3.5f }, false ) );
+    out.push_back( make_case( "seam, right cell", seam, point( 2, 3 ), { 2.0f, 3.5f }, false ) );
+
+    // last light column; the reach masks beside it are not light
+    out.push_back( make_case( "edge of the light columns", half, point( 7, 3 ), { 7.9f, 3.5f },
+                              false ) );
+
+    // light gradient across a quad four pixels wide
+    probe_case gradient = make_case( "coordinates across a quad", std::vector<std::string>( probe_rows,
+                                     "12345555" ), point( 2, 3 ), { 2.0f, 3.5f }, false );
+    gradient.size = point( 4, 1 );
+    gradient.corners[1].x = 3.0f;
+    gradient.corners[2].x = 3.0f;
+    out.push_back( gradient );
+
+    // diagonal edge from dark to full light across a 4x4 quad
+    probe_case grid = make_case( "coordinates across a square", {
+        "zzzzzooo", "zzzzoooo", "zzzooooo", "zzoooooo", "zooooooo", "oooooooo", "oooooooo", "oooooooo"
+    }, point( 2, 2 ), { 2.0f, 2.0f }, false );
+    grid.size = point( 4, 4 );
+    grid.corners[1].x = 3.0f;
+    grid.corners[2].x = 3.0f;
+    grid.corners[2].y += 1.0f;
+    grid.corners[3].y += 1.0f;
+    out.push_back( grid );
+
+    // quad running into the sight edge, part way into the memory look
+    probe_case edge = make_case( "into the edge of sight", std::vector<std::string>( probe_rows,
+                                 "oooo    " ), point( 3, 3 ), { 3.0f, 3.5f }, false );
+    edge.size = point( 4, 1 );
+    edge.corners[1].x = 4.0f;
+    edge.corners[2].x = 4.0f;
+    edge.frame.blend_memory = true;
+    out.push_back( edge );
+
+    // colored artwork drained toward gray by half light
+    out.push_back( make_case( "colored sprite, half light", half, point( 3, 3 ), { 3.5f, 3.5f },
+                              false ) );
+    out.back().source = { 220, 120, 30, 255 };
+
+    // a translucent sprite edge blends over what is under it
+    out.push_back( make_case( "translucent sprite", half, point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+    out.back().source = { 220, 120, 30, 128 };
+
+    // corner of a full size level in the real stack, red full light on the
+    // levels above and below it
+    const probe_layout packed{ MAPSIZE_X, MAPSIZE_Y, OVERMAP_LAYERS, OVERMAP_LAYERS - 2 };
+    probe_case corner = make_case( "corner of a packed level", std::vector<std::string>( MAPSIZE_Y,
+                                   std::string( MAPSIZE_X, 'f' ) ), point( MAPSIZE_X - 1, MAPSIZE_Y - 1 ),
+    { MAPSIZE_X - 0.02f, MAPSIZE_Y - 0.02f }, false, packed );
+    const int packed_width = 2 * MAPSIZE_X;
+    for( const int level : {
+             packed.own - 1, packed.own + 1
+         } ) {
+        for( int y = 0; y < MAPSIZE_Y; ++y ) {
+            for( int x = 0; x < MAPSIZE_X; ++x ) {
+                corner.texels[( level * MAPSIZE_Y + y ) * packed_width + x] = probe_texel( 'r' );
+            }
+        }
+    }
+    out.push_back( corner );
+
+    const std::vector<std::string> full( probe_rows, "oooooooo" );
+    out.push_back( make_case( "night, full light", full, point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+    out.back().frame.per_tile = true;
+    out.back().night = true;
+
+    out.push_back( make_case( "night, half light", half, point( 3, 3 ), { 3.5f, 3.5f }, false ) );
+    out.back().frame.per_tile = true;
+    out.back().night = true;
+    return out;
+}
+
+static std::array<float, 3> source_rgb( const probe_case &c )
+{
+    return { c.source[0] / 255.0f, c.source[1] / 255.0f, c.source[2] / 255.0f };
+}
+
+// shader output blended over the black target
+static std::array<float, 3> over_black( const probe_case &c, const std::array<float, 3> &rgb )
+{
+    const float a = c.source[3] / 255.0f;
+    return { rgb[0] *a, rgb[1] *a, rgb[2] *a };
+}
+
+static smooth_lighting::look_params look_of( const lit_frame &frame )
+{
+    smooth_lighting::look_params look;
+    look.memory_look = frame.memory.preset ? static_cast<int>( *frame.memory.preset ) :
+                       smooth_lighting::custom_look;
+    look.blend_memory = frame.blend_memory;
+    look.custom_dark = frame.memory.custom_dark;
+    look.custom_light = frame.memory.custom_light;
+    look.custom_gamma = frame.memory.custom_gamma;
+    return look;
+}
+
+static rgb to_rgb( const std::array<float, 3> &c )
+{
+    const auto byte = []( const float v ) {
+        return static_cast<int>( std::lround( 255.0f * std::clamp( v, 0.0f, 1.0f ) ) );
+    };
+    return { byte( c[0] ), byte( c[1] ), byte( c[2] ) };
+}
+
+// the vertex color the rasterizer gives the center of pixel ( i, j )
+static smooth_lighting::lit_coords at_pixel( const probe_case &c, const int i, const int j )
+{
+    const float u = ( i + 0.5f ) / c.size.x;
+    const float v = ( j + 0.5f ) / c.size.y;
+    const auto lerp = [&]( const float tl, const float tr, const float br, const float bl ) {
+        return ( tl + ( tr - tl ) * u ) * ( 1.0f - v ) + ( bl + ( br - bl ) * u ) * v;
+    };
+    const std::array<smooth_lighting::lit_coords, 4> &k = c.corners;
+    return { lerp( k[0].x, k[1].x, k[2].x, k[3].x ), lerp( k[0].y, k[1].y, k[2].y, k[3].y ),
+             lerp( k[0].column, k[1].column, k[2].column, k[3].column ),
+             lerp( k[0].row, k[1].row, k[2].row, k[3].row ) };
+}
+
+static std::vector<rgb> readback_of( const probe_case &c,
+                                     const std::function<smooth_lighting::lit_sample( const smooth_lighting::lit_coords & )> &sample )
+{
+    std::vector<rgb> out;
+    const smooth_lighting::look_params look = look_of( c.frame );
+    for( int j = 0; j < c.size.y; ++j ) {
+        for( int i = 0; i < c.size.x; ++i ) {
+            const smooth_lighting::lit_sample s = sample( at_pixel( c, i, j ) );
+            const std::array<float, 3> rgb = source_rgb( c );
+            out.push_back( to_rgb( over_black( c, c.night ? smooth_lighting::reference_night_rgb( look, rgb,
+                                               s ) : smooth_lighting::reference_lit_rgb( look, rgb, s ) ) ) );
+        }
+    }
+    return out;
+}
+
+std::vector<rgb> expected( const probe_case &c )
+{
+    const smooth_lighting::lightmap_view view = view_of( c );
+    const smooth_lighting::sample_params params{ c.frame.per_tile, c.frame.iso };
+    return readback_of( c, [&]( const smooth_lighting::lit_coords & coords ) {
+        return smooth_lighting::reference_sample( view, params, coords );
+    } );
+}
+
+std::vector<rgb> readback_if_full_light( const probe_case &c )
+{
+    return readback_of( c, []( const smooth_lighting::lit_coords & ) {
+        smooth_lighting::lit_sample s;
+        s.light = 1.0f;
+        s.visible = 1.0f;
+        return s;
+    } );
+}
+
+std::vector<rgb> readback_if_ignored( const probe_case &c )
+{
+    return std::vector<rgb>( static_cast<size_t>( c.size.x ) * c.size.y, to_rgb( over_black( c,
+                             source_rgb( c ) ) ) );
+}
+
+bool matches( const std::vector<rgb> &expected, const std::vector<rgb> &readback )
+{
+    if( expected.size() != readback.size() ) {
+        return false;
+    }
+    for( size_t i = 0; i < expected.size(); ++i ) {
+        if( std::abs( expected[i].r - readback[i].r ) > channel_tolerance ||
+            std::abs( expected[i].g - readback[i].g ) > channel_tolerance ||
+            std::abs( expected[i].b - readback[i].b ) > channel_tolerance ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+} // namespace lit_probe
+
 variant_pass::~variant_pass()
 {
     const bool flushed = flush();
@@ -422,31 +747,43 @@ struct probe_result {
     bool boundary_safe = true;
 };
 
-// Renders a 1x1 mid-gray sprite via state and checks readback via pred.
-// Mid-gray (128,128,128,255) gives each variant a distinctive output, so a
-// passing predicate distinguishes "shader ran" from "bind silently ignored".
-probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
-                         probe_predicate pred, const std::optional<tint_texture_mod> &mod )
+struct target_readback {
+    // draw call ran and every pixel came back
+    bool read = false;
+    // as probe_result::boundary_safe
+    bool boundary_safe = true;
+    // RGBA per pixel, row by row
+    std::vector<std::array<Uint8, 4>> pixels;
+};
+
+// Binds a `size` render target, draws a 1x1 `source` texel through `state`
+// with `draw`, and reads the target back.
+target_readback draw_into_probe_target( SDL_Renderer *renderer, SDL_GPURenderState *state,
+                                        const point &size, const std::array<Uint8, 4> &source,
+                                        const std::optional<tint_texture_mod> &mod,
+                                        const std::function<bool( SDL_Texture * )> &draw )
 {
-    probe_result res;
+    target_readback res;
     SDL_Surface *src_surf = SDL_CreateSurface( 1, 1, SDL_PIXELFORMAT_RGBA32 );
     if( !src_surf ) {
         return res;
     }
-    // Mid-gray opaque: 0x80, 0x80, 0x80, 0xFF in RGBA32.
-    SDL_FillSurfaceRect( src_surf, nullptr, 0xFF808080u );
+    SDL_FillSurfaceRect( src_surf, nullptr, SDL_MapSurfaceRGBA( src_surf, source[0], source[1],
+                         source[2], source[3] ) );
     SDL_Texture *src = SDL_CreateTextureFromSurface( renderer, src_surf );
     SDL_DestroySurface( src_surf );
     if( !src ) {
         return res;
     }
+    // blended as sprites are, over the cleared black target
+    SDL_SetTextureBlendMode( src, SDL_BLENDMODE_BLEND );
     if( mod ) {
         // src is local to the probe, so nothing else sees the mod
         SDL_SetTextureColorMod( src, mod->r, mod->g, mod->b );
         SDL_SetTextureAlphaMod( src, mod->a );
     }
     SDL_Texture *rt = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32,
-                                         SDL_TEXTUREACCESS_TARGET, 1, 1 );
+                                         SDL_TEXTUREACCESS_TARGET, size.x, size.y );
     if( !rt ) {
         SDL_DestroyTexture( src );
         return res;
@@ -465,13 +802,12 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
         SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         SDL_RenderClear( renderer );
         if( SDL_SetGPURenderState( renderer, state ) ) {
-            const SDL_FRect dst{ 0.0f, 0.0f, 1.0f, 1.0f };
-            const bool drew = SDL_RenderTexture( renderer, src, nullptr, &dst );
+            const bool drew = draw( src );
             // Unbind shader state before any further switch/readback. On
             // failure the bind is still held, so skip rt + restore.
             const bool unbound = SDL_SetGPURenderState( renderer, nullptr );
             if( drew && unbound ) {
-                const SDL_Rect rect{ 0, 0, 1, 1 };
+                const SDL_Rect rect{ 0, 0, size.x, size.y };
                 SDL_Surface *out = SDL_RenderReadPixels( renderer, &rect );
                 if( out ) {
                     SDL_Surface *rgba = out->format == SDL_PIXELFORMAT_RGBA32
@@ -481,12 +817,13 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
                         SDL_DestroySurface( out );
                     }
                     if( rgba ) {
-                        const Uint8 *p = static_cast<const Uint8 *>( rgba->pixels );
-                        const int r = p[0];
-                        const int g = p[1];
-                        const int b = p[2];
-                        const int a = p[3];
-                        res.ok = a >= 250 && pred && pred( r, g, b );
+                        for( int y = 0; y < size.y; ++y ) {
+                            const Uint8 *row = static_cast<const Uint8 *>( rgba->pixels ) + y * rgba->pitch;
+                            for( int x = 0; x < size.x; ++x ) {
+                                res.pixels.push_back( { row[x * 4], row[x * 4 + 1], row[x * 4 + 2], row[x * 4 + 3] } );
+                            }
+                        }
+                        res.read = true;
                         SDL_DestroySurface( rgba );
                     }
                 }
@@ -495,7 +832,7 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
                 DebugLog( D_ERROR, DC_ALL )
                         << "cata_shader::draw_probe: SDL_SetGPURenderState(NULL) failed: "
                         << SDL_GetError();
-                res.ok = false;
+                res.read = false;
                 res.boundary_safe = false;
             }
         } else {
@@ -504,14 +841,13 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::draw_probe: SDL_SetGPURenderState failed: "
                     << SDL_GetError();
-            res.ok = false;
             res.boundary_safe = false;
         }
         if( res.boundary_safe && !SDL_SetRenderTarget( renderer, prior_target ) ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::draw_probe: SDL_SetRenderTarget restore failed: "
                     << SDL_GetError();
-            res.ok = false;
+            res.read = false;
             // rt is still the active target: mark unsafe so neither rt nor
             // src is destroyed and the caller refuses the still-bound state.
             res.boundary_safe = false;
@@ -525,6 +861,28 @@ probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
     } else {
         probe_texture_graveyard().add( rt );
         probe_texture_graveyard().add( src );
+    }
+    return res;
+}
+
+// Renders a 1x1 mid-gray sprite via state and checks readback via pred.
+probe_result draw_probe( SDL_Renderer *renderer, SDL_GPURenderState *state,
+                         probe_predicate pred, const std::optional<tint_texture_mod> &mod )
+{
+    // mid gray gives each variant a distinctive output, so a passing check
+    // tells "shader ran" from "bind silently ignored"
+    static constexpr std::array<Uint8, 4> mid_gray = { 128, 128, 128, 255 };
+    const target_readback rb = draw_into_probe_target( renderer, state, point::south_east, mid_gray,
+                               mod,
+    [renderer]( SDL_Texture * src ) {
+        const SDL_FRect dst{ 0.0f, 0.0f, 1.0f, 1.0f };
+        return SDL_RenderTexture( renderer, src, nullptr, &dst );
+    } );
+    probe_result res;
+    res.boundary_safe = rb.boundary_safe;
+    if( rb.read && !rb.pixels.empty() ) {
+        const std::array<Uint8, 4> &p = rb.pixels.front();
+        res.ok = p[3] >= 250 && pred && pred( p[0], p[1], p[2] );
     }
     return res;
 }
@@ -676,6 +1034,8 @@ void variant_pass::clear_state_arrays( bool abandon_handles )
     }
     release_lit( abandon_handles );
     lit_failed_ = false;
+    // rebuilt resources are probed again
+    lit_probed_ = false;
     // Render states reference their fragment shader; clear states before
     // shaders so SDL does not see a dangling reference on the clean path.
     states_ = {};
@@ -905,7 +1265,10 @@ variant_pass::lit_params variant_pass::make_lit_params( const lit_frame &frame )
                     frame.per_tile ? 1 : 0, frame.blend_memory ? 1 : 0, frame.iso ? 1 : 0
                   };
     params.flags = { smooth_lighting::texel_detail, smooth_lighting::texel_barrier, custom_memory_look, 0 };
-    params.tone = { smooth_lighting::shadow_shade, smooth_lighting::standing_marker, 0.0f, 0.0f };
+    params.tone = { smooth_lighting::shadow_shade, smooth_lighting::standing_marker, smooth_lighting::full_color_light,
+                    smooth_lighting::night_floor
+                  };
+    params.look = { smooth_lighting::overexpose_start, 0.0f, 0.0f, 0.0f };
     params.custom_dark = { frame.memory.custom_dark[0], frame.memory.custom_dark[1],
                            frame.memory.custom_dark[2], frame.memory.custom_gamma
                          };
@@ -962,6 +1325,21 @@ bool variant_pass::begin_lit( const lit_frame &frame )
             release_lit( false );
             return false;
         }
+        if( !lit_probed_ ) {
+            switch( probe_lit() ) {
+                case lit_probe_outcome::ok:
+                    lit_probed_ = true;
+                    break;
+                case lit_probe_outcome::mismatch:
+                    // lit_failed_ stays set: no retry until the resources rebuild
+                    release_lit( false );
+                    return false;
+                case lit_probe_outcome::unsafe:
+                    release_lit( true );
+                    mark_probe_unsafe();
+                    return false;
+            }
+        }
         lit_texture_ = lightmap;
         lit_failed_ = false;
     }
@@ -979,6 +1357,84 @@ bool variant_pass::begin_lit( const lit_frame &frame )
     lit_night_vision_ = frame.night_vision;
     lit_active_ = true;
     return true;
+}
+
+variant_pass::lit_probe_outcome variant_pass::probe_lit()
+{
+    for( const lit_probe::probe_case &c : lit_probe::cases() ) {
+        const smooth_lighting::lightmap_view view = lit_probe::view_of( c );
+        SDL_Texture *tex = SDL_CreateTexture( renderer_, SDL_PIXELFORMAT_RGBA32,
+                                              SDL_TEXTUREACCESS_STATIC, view.width, view.height );
+        if( !tex || !SDL_UpdateTexture( tex, nullptr, c.texels.data(), view.width * 4 ) ) {
+            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit probe texture failed: "
+                                        << SDL_GetError();
+            if( tex ) {
+                SDL_DestroyTexture( tex );
+            }
+            return lit_probe_outcome::mismatch;
+        }
+        SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
+                                                SDL_GetTextureProperties( tex ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
+        SDL_GPUTextureSamplerBinding binding{};
+        binding.texture = gpu_texture;
+        binding.sampler = lit_sampler_;
+        render_state state = gpu_texture ? render_state::create( renderer_,
+                             c.night ? nv_lit_shader_ : lit_shader_, &binding, 1 ) : render_state{};
+        lit_params params = make_lit_params( c.frame );
+        params.size = { view.width, view.height, view.rows_per_level, view.reach_column };
+        if( !state.is_valid() ||
+            !SDL_SetGPURenderStateFragmentUniforms( state.get(), 0, &params, sizeof( params ) ) ) {
+            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit probe state failed for "
+                                        << c.name << ": " << SDL_GetError();
+            state = render_state{};
+            SDL_DestroyTexture( tex );
+            return lit_probe_outcome::mismatch;
+        }
+        // one quad over the whole target, its corners carrying the case's
+        // vertex colors
+        const std::array<SDL_FPoint, 4> at = { {
+                { 0.0f, 0.0f }, { static_cast<float>( c.size.x ), 0.0f },
+                { static_cast<float>( c.size.x ), static_cast<float>( c.size.y ) },
+                { 0.0f, static_cast<float>( c.size.y ) }
+            }
+        };
+        const std::array<SDL_FPoint, 4> uv = { { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } } };
+        std::array<SDL_Vertex, 4> quad;
+        for( size_t i = 0; i < quad.size(); ++i ) {
+            const smooth_lighting::lit_coords &k = c.corners[i];
+            quad[i] = { at[i], { k.x, k.y, k.column, k.row }, uv[i] };
+        }
+        static constexpr std::array<int, 6> indices = { 0, 1, 2, 0, 2, 3 };
+        SDL_Renderer *const renderer = renderer_;
+        const target_readback rb = draw_into_probe_target( renderer_, state.get(), c.size,
+        c.source, std::nullopt, [renderer, &quad]( SDL_Texture * src ) {
+            return SDL_RenderGeometry( renderer, src, quad.data(), static_cast<int>( quad.size() ),
+                                       indices.data(), static_cast<int>( indices.size() ) );
+        } );
+        if( !rb.boundary_safe ) {
+            state.abandon();
+            probe_texture_graveyard().add( tex );
+            return lit_probe_outcome::unsafe;
+        }
+        state = render_state{};
+        SDL_DestroyTexture( tex );
+        std::vector<lit_probe::rgb> got;
+        got.reserve( rb.pixels.size() );
+        for( const std::array<Uint8, 4> &p : rb.pixels ) {
+            got.push_back( { p[0], p[1], p[2] } );
+        }
+        const std::vector<lit_probe::rgb> want = lit_probe::expected( c );
+        if( !rb.read || !lit_probe::matches( want, got ) ) {
+            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit shader probe failed: " << c.name;
+            for( size_t i = 0; i < want.size() && i < got.size(); ++i ) {
+                DebugLog( D_ERROR, DC_ALL ) << "  pixel " << i << " want " << want[i].r << "," << want[i].g <<
+                                            "," << want[i].b << " got " << got[i].r << "," << got[i].g << "," << got[i].b;
+            }
+            return lit_probe_outcome::mismatch;
+        }
+    }
+    DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: smooth lighting shaders probed";
+    return lit_probe_outcome::ok;
 }
 
 void variant_pass::end_lit()

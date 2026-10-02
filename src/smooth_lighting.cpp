@@ -483,4 +483,94 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
     return s;
 }
 
+static float mix1( const float a, const float b, const float t )
+{
+    return a + ( b - a ) * t;
+}
+
+static std::array<float, 3> mix3( const std::array<float, 3> &a, const std::array<float, 3> &b,
+                                  const float t )
+{
+    return { mix1( a[0], b[0], t ), mix1( a[1], b[1], t ), mix1( a[2], b[2], t ) };
+}
+
+static float average( const std::array<float, 3> &rgb )
+{
+    return ( rgb[0] + rgb[1] + rgb[2] ) / 3.0f;
+}
+
+// memory_presets.glsl's memory_keep_black
+static std::array<float, 3> keep_black( const std::array<float, 3> &rgb,
+                                        const std::array<float, 3> &result )
+{
+    return rgb[0] + rgb[1] + rgb[2] <= 0.0f ? rgb : result;
+}
+
+static std::array<float, 3> memory_mixer( const std::array<float, 3> &rgb,
+        const std::array<float, 3> &dark, const std::array<float, 3> &light, const float gamma )
+{
+    const float p = std::clamp( std::pow( average( rgb ), gamma ) * 1.5f, 0.0f, 1.0f );
+    return keep_black( rgb, mix3( dark, light, p ) );
+}
+
+static std::array<float, 3> by255( const float r, const float g, const float b )
+{
+    return { r / 255.0f, g / 255.0f, b / 255.0f };
+}
+
+std::array<float, 3> reference_memory_rgb( const look_params &look,
+        const std::array<float, 3> &rgb )
+{
+    switch( look.memory_look ) {
+        case 0: {
+            const float floor = 1.0f / 255.0f;
+            return keep_black( rgb, {
+                std::max( rgb[0] * 85.0f / 256.0f, floor ), std::max( rgb[1] * 85.0f / 256.0f, floor ),
+                std::max( rgb[2] * 85.0f / 256.0f, floor )
+            } );
+        }
+        case 1:
+            return memory_mixer( rgb, by255( 39, 23, 19 ), by255( 241, 220, 163 ), 1.6f );
+        case 2:
+            return memory_mixer( rgb, by255( 39, 23, 19 ), by255( 70, 66, 60 ), 1.0f );
+        case 3:
+            return memory_mixer( rgb, by255( 19, 23, 39 ), by255( 60, 66, 70 ), 1.0f );
+        default:
+            return memory_mixer( rgb, look.custom_dark, look.custom_light, look.custom_gamma );
+    }
+}
+
+static std::array<float, 3> nightvision_green( const float result )
+{
+    return { result * 0.25f, result, result * 0.125f };
+}
+
+std::array<float, 3> reference_lit_rgb( const look_params &look, const std::array<float, 3> &rgb,
+                                        const lit_sample &s )
+{
+    const float gray = average( rgb );
+    const std::array<float, 3> drained = mix3( { gray, gray, gray }, rgb,
+                                         smooth_step( 0.0f, full_color_light, s.light ) );
+    const std::array<float, 3> lit = { drained[0] *s.hue[0], drained[1] *s.hue[1], drained[2] *s.hue[2] };
+    const float shade = mix1( shadow_shade, 1.0f, s.light );
+    const std::array<float, 3> seen = { lit[0] *shade, lit[1] *shade, lit[2] *shade };
+    const std::array<float, 3> unseen = look.blend_memory ? reference_memory_rgb( look, rgb ) :
+                                        std::array<float, 3> { 0.0f, 0.0f, 0.0f };
+    return mix3( unseen, seen, s.visible );
+}
+
+std::array<float, 3> reference_night_rgb( const look_params &look, const std::array<float, 3> &rgb,
+        const lit_sample &s )
+{
+    const float av = average( rgb );
+    const float night = std::min( av * ( av * 0.75f + 64.0f / 255.0f ) + 16.0f / 255.0f, 1.0f );
+    const float over = std::min( 64.0f / 255.0f + av * ( av * 0.25f + 192.0f / 255.0f ), 1.0f );
+    const std::array<float, 3> dim = nightvision_green( night * mix1( night_floor, 1.0f, s.light ) );
+    const std::array<float, 3> nv = mix3( dim, nightvision_green( over ),
+                                          smooth_step( overexpose_start, 1.0f, s.light ) );
+    const std::array<float, 3> unseen = look.blend_memory ? reference_memory_rgb( look, rgb ) :
+                                        std::array<float, 3> { 0.0f, 0.0f, 0.0f };
+    return mix3( unseen, nv, s.visible );
+}
+
 } // namespace smooth_lighting

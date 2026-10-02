@@ -860,3 +860,42 @@ TEST_CASE( "colored_light_fades_in_without_a_jump_as_its_weight_grows", "[smooth
         first = false;
     }
 }
+
+TEST_CASE( "dim_seen_light_looks_like_the_classic_shadow_variant", "[smooth_lighting]" )
+{
+    const std::array<float, 3> rgb = { 0.8f, 0.4f, 0.2f };
+    // color_pixel_grayscale
+    const float shadow = ( rgb[0] + rgb[1] + rgb[2] ) / 3.0f * 5.0f / 8.0f;
+    smooth_lighting::lit_sample s;
+    s.visible = 1.0f;
+    for( int memory_look = 0; memory_look <= smooth_lighting::custom_look; ++memory_look ) {
+        for( const bool blend : {
+                 false, true
+             } ) {
+            CAPTURE( memory_look, blend );
+            smooth_lighting::look_params look;
+            look.memory_look = memory_look;
+            look.blend_memory = blend;
+            look.custom_dark = { 0.1f, 0.5f, 0.1f };
+            look.custom_light = { 0.9f, 0.1f, 0.9f };
+            WHEN( "light is at the vision threshold" ) {
+                s.light = 0.0f;
+                const std::array<float, 3> got = smooth_lighting::reference_lit_rgb( look, rgb, s );
+                THEN( "tile looks as classic tiles draw dim light, whatever the memory look" ) {
+                    for( const float c : got ) {
+                        CHECK( c == Approx( shadow ).margin( 1e-5 ) );
+                    }
+                }
+            }
+            WHEN( "light is full" ) {
+                s.light = 1.0f;
+                const std::array<float, 3> got = smooth_lighting::reference_lit_rgb( look, rgb, s );
+                THEN( "sprite keeps its own color" ) {
+                    for( size_t k = 0; k < 3; ++k ) {
+                        CHECK( got[k] == Approx( rgb[k] ).margin( 1e-5 ) );
+                    }
+                }
+            }
+        }
+    }
+}
