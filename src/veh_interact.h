@@ -182,6 +182,7 @@ class veh_interact
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
         task_reason cant_do( const map &here, vehicle_action mode );
         bool can_potentially_install( const vpart_info &vpart );
+        bool cached_can_make( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.
@@ -300,11 +301,21 @@ class veh_interact
         bool can_remove_part( map &here, int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements( map &here );
+        bool update_part_requirements_uncached( map &here );
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
         std::vector<const vpart_info *> can_mount;
+        /* Install-requirement verdicts against the crafting inventory.  The
+         * inventory cannot change while this menu is open. */
+        std::unordered_map<const vpart_info *, bool> install_requirements_cache;
+        bool install_requirements_cache_valid = false;
+        mutable vehicle_part *cached_most_repairable_part = nullptr;
+        mutable bool most_repairable_cache_valid = false;
+        /* Result of update_part_requirements() for the current tile. */
+        std::unordered_map<const vpart_info *, std::pair<bool, std::string>> part_requirements_cache;
+        bool part_requirements_cache_valid = false;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.
@@ -323,6 +334,7 @@ class veh_interact
         ter_t terrain_here;
 
         void cache_tool_availability();
+        void invalidate_install_caches();
         void allocate_windows();
         void do_main_loop( map &here );
 

@@ -639,6 +639,14 @@ void veh_interact::cache_tool_availability()
                                   vehicle_selector( here, player_character.pos_bub(), 2, true, *veh ).max_quality( qual_JACK )
                                 } );
     max_jack = lifting_quality_to_mass( max_quality );
+    invalidate_install_caches();
+}
+
+void veh_interact::invalidate_install_caches()
+{
+    install_requirements_cache_valid = false;
+    most_repairable_cache_valid = false;
+    part_requirements_cache_valid = false;
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos )
@@ -802,6 +810,26 @@ bool veh_interact::can_self_jack( map &here )
 }
 
 bool veh_interact::update_part_requirements( map &here )
+{
+    if( sel_vpart_info == nullptr ) {
+        return false;
+    }
+    if( !part_requirements_cache_valid ) {
+        part_requirements_cache.clear();
+        part_requirements_cache_valid = true;
+    }
+    const auto found = part_requirements_cache.find( sel_vpart_info );
+    if( found != part_requirements_cache.end() ) {
+        msg = found->second.second;
+        return found->second.first;
+    }
+    const bool ok = update_part_requirements_uncached( here );
+    part_requirements_cache.emplace( sel_vpart_info,
+                                     std::make_pair( ok, msg.value_or( std::string() ) ) );
+    return ok;
+}
+
+bool veh_interact::update_part_requirements_uncached( map &here )
 {
     if( sel_vpart_info == nullptr ) {
         return false;
@@ -1776,7 +1804,12 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repairable_part() const
 {
-    return veh_utils::most_repairable_part( *veh, get_player_character() );
+    if( !most_repairable_cache_valid ) {
+        cached_most_repairable_part = veh_utils::most_repairable_part( *veh,
+                                      get_player_character() );
+        most_repairable_cache_valid = true;
+    }
+    return cached_most_repairable_part;
 }
 
 bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
@@ -2178,6 +2211,22 @@ int veh_interact::part_at( const point_rel_ms &d )
     return veh->part_displayed_at( vd );
 }
 
+bool veh_interact::cached_can_make( const vpart_info &vpart )
+{
+    if( !install_requirements_cache_valid ) {
+        install_requirements_cache.clear();
+        install_requirements_cache_valid = true;
+    }
+    const auto it = install_requirements_cache.find( &vpart );
+    if( it != install_requirements_cache.end() ) {
+        return it->second;
+    }
+    const bool can_make = vpart.install_requirements().can_make_with_inventory(
+                              &get_player_character(), *crafting_inv, is_crafting_component, 1,
+                              craft_flags::none, false );
+    return install_requirements_cache.emplace( &vpart, can_make ).first->second;
+}
+
 /**
  * Checks to see if you can potentially install this part at current position.
  * Affects coloring in display_list() and is also used to
@@ -2186,9 +2235,7 @@ int veh_interact::part_at( const point_rel_ms &d )
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
     bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( &get_player_character(),
-                    *crafting_inv,
-                    is_crafting_component, 1, craft_flags::none, false );
+    bool can_make = cached_can_make( vpart );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
     int engines = 0;
@@ -2211,6 +2258,10 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
  */
 void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at )
 {
+    if( d != point_rel_ms::zero ) {
+        part_requirements_cache_valid = false;
+    }
+
     cursor_vp_mount += d.rotate( 3 );
     if( d != point_rel_ms::zero ) {
         start_limit = 0;
