@@ -2367,17 +2367,17 @@
     "name": { "str": "fleshy cube" },
     "color": "black_red",
     "symbol": "%",
-    "healthy": -10,
+    "healthy": -1,
     "calories": 200,
     "quench": 10,
     "description": "A dense mound of flesh, shaped into an perfect cube.  It has an oily texture matching that of lubricated, machined parts.",
     "price": "30 USD",
     "price_postapoc": "1 USD",
     "material": [ "flesh" ],
-    "weight": "1200 g",
+    "weight": "1075 g",
     "volume": "1000 ml",
     "fun": -25,
     "vitamins": [ [ "meat_allergen", 1 ] ],
-    "flags": [ "PREDATOR_FUN" ]
+    "flags": [ "RAW", "PREDATOR_FUN" ]
   }
 ]
