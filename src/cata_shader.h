@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <type_traits>
 
 #include "sdl_wrappers.h"
 
@@ -268,17 +269,16 @@ class variant_pass
         // smooth lighting. when active, NORMAL and SHADOW draws run lit.frag,
         // and NIGHT and OVEREXPOSED run nightvision_lit.frag. all shade each pixel from
         // `lightmap` at the map coordinates provided by the caller in the
-        // vertex colors; see lit_sample.glsl. `texel` is one lightmap texel in
-        // texture coordinates. with `blend_into`, MEMORY draws also run
+        // vertex colors, in light map texels; see lit_sample.glsl. with
+        // `blend_into`, MEMORY draws also run
         // lit.frag and every lit draw blends out-of-sight light into that
         // memory preset. `per_tile` gives each tile its own light instead of
         // blending across tiles; `iso` picks the base line standing sprites
         // take their light from; `night_vision` blends MEMORY draws toward the
         // night vision look. false when no lit state could be made, and the
         // caller draws the classic variants.
-        bool begin_lit( SDL_Texture *lightmap, const std::array<float, 2> &texel,
-                        std::optional<memory_preset> blend_into, bool per_tile, bool iso,
-                        bool night_vision );
+        bool begin_lit( SDL_Texture *lightmap, std::optional<memory_preset> blend_into,
+                        bool per_tile, bool iso, bool night_vision );
         // back to classic variants, lit states stay for the next frame
         void end_lit();
         // drop lit states before the lightmap texture is destroyed: the states
@@ -341,14 +341,26 @@ class variant_pass
         SDL_GPUDevice *lit_device_ = nullptr;
         SDL_GPUSampler *lit_sampler_ = nullptr;
         SDL_Texture *lit_texture_ = nullptr;
-        // lit_params block of lit_sample.glsl, std140: vec4 u_texel, ivec4 u_mode
+        // lit_params block of lit_sample.glsl, std140: six vec4
         struct lit_params {
-            std::array<float, 4> texel = {};
+            // light map width, height, rows per z level, reach mask column
+            std::array<int32_t, 4> size = {};
+            // memory look, per tile, blend out of sight into memory, iso
             std::array<int32_t, 4> mode = { -1, 0, 0, 0 };
+            // detail flag bit, barrier flag bit, custom memory look id, unused
+            std::array<int32_t, 4> flags = {};
+            // edge tone, standing marker, unused, unused
+            std::array<float, 4> tone = {};
+            // custom memory look: dark rgb and gamma; light rgb
+            std::array<float, 4> custom_dark = {};
+            std::array<float, 4> custom_light = {};
             bool operator==( const lit_params &o ) const {
-                return texel == o.texel && mode == o.mode;
+                return size == o.size && mode == o.mode && flags == o.flags && tone == o.tone &&
+                       custom_dark == o.custom_dark && custom_light == o.custom_light;
             }
         };
+        static_assert( sizeof( lit_params ) == 6 * 16, "lit_params is a std140 block of six vec4" );
+        static_assert( std::is_trivially_copyable_v<lit_params> );
         lit_params lit_params_;
         bool lit_active_ = false;
         bool lit_suspended_ = false;

@@ -278,8 +278,8 @@ class smooth_lightmap
         smooth_lighting::lightmap_keys keys_;
         // each level's texels as last uploaded; a refill that comes out the
         // same skips the upload
-        std::array<std::vector<Uint8>, OVERMAP_LAYERS> uploaded_;
-        std::vector<Uint8> scratch_;
+        std::array<std::vector<smooth_lighting::lightmap_texel>, OVERMAP_LAYERS> uploaded_;
+        std::vector<smooth_lighting::lightmap_texel> scratch_;
         smooth_lighting::lightmap_extent extent_;
 };
 

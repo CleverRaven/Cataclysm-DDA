@@ -4,7 +4,6 @@
 
 #include <array>
 #include <cmath>
-#include <cstring>
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
@@ -12,7 +11,9 @@
 #include <vector>
 
 #include "debug.h"
+#include "map_scale_constants.h"
 #include "path_info.h"
+#include "smooth_lighting.h"
 #include "tile_tint.h"
 
 namespace cata_shader
@@ -763,7 +764,7 @@ bool variant_pass::lit_takes( const variant_kind v ) const
     // memory blends back toward the lit look near the edge of sight
     return v == variant_kind::NORMAL || v == variant_kind::SHADOW || v == variant_kind::NIGHT ||
            v == variant_kind::OVEREXPOSED ||
-           ( v == variant_kind::MEMORY && lit_params_.mode[0] >= 0 );
+           ( v == variant_kind::MEMORY && lit_params_.mode[2] != 0 );
 }
 
 SDL_GPURenderState *variant_pass::state_for( variant_kind v, const bool tinted ) const
@@ -894,7 +895,7 @@ void variant_pass::release_lit( const bool abandon_handles )
     lit_active_ = false;
 }
 
-bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> &texel,
+bool variant_pass::begin_lit( SDL_Texture *lightmap,
                               const std::optional<memory_preset> blend_into, const bool per_tile, const bool iso,
                               const bool night_vision )
 {
@@ -917,8 +918,9 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> 
             return false;
         }
         SDL_GPUSamplerCreateInfo sampler_info{};
-        sampler_info.min_filter = SDL_GPU_FILTER_LINEAR;
-        sampler_info.mag_filter = SDL_GPU_FILTER_LINEAR;
+        // lit_sample.glsl reads texels whole with texelFetch
+        sampler_info.min_filter = SDL_GPU_FILTER_NEAREST;
+        sampler_info.mag_filter = SDL_GPU_FILTER_NEAREST;
         sampler_info.mipmap_mode = SDL_GPU_SAMPLERMIPMAPMODE_NEAREST;
         sampler_info.address_mode_u = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
         sampler_info.address_mode_v = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
@@ -945,15 +947,20 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> 
         lit_failed_ = false;
     }
     lit_params params;
-    params.texel = { texel[0], texel[1], 0.0f, 0.0f };
-    params.mode = { blend_into ? static_cast<int32_t>( *blend_into ) : -1, per_tile ? 1 : 0, 0, iso ? 1 : 0 };
+    params.size = { smooth_lighting::lightmap_width, smooth_lighting::lightmap_height, MAPSIZE_Y,
+                    smooth_lighting::reach_column
+                  };
+    params.mode = { blend_into ? static_cast<int32_t>( *blend_into ) : -1, per_tile ? 1 : 0,
+                    blend_into ? 1 : 0, iso ? 1 : 0
+                  };
+    params.flags = { smooth_lighting::texel_detail, smooth_lighting::texel_barrier,
+                     static_cast<int32_t>( memory_preset::count ), 0
+                   };
+    params.tone = { 0.0f, smooth_lighting::standing_marker, 0.0f, 0.0f };
     if( fresh || !( params == lit_params_ ) ) {
-        std::array < Uint8, sizeof( params.texel ) + sizeof( params.mode ) > block;
-        std::memcpy( block.data(), params.texel.data(), sizeof( params.texel ) );
-        std::memcpy( block.data() + sizeof( params.texel ), params.mode.data(), sizeof( params.mode ) );
-        if( !SDL_SetGPURenderStateFragmentUniforms( lit_state_.get(), 0, block.data(), block.size() ) ||
-            !SDL_SetGPURenderStateFragmentUniforms( nv_lit_state_.get(), 0, block.data(),
-                    block.size() ) ) {
+        if( !SDL_SetGPURenderStateFragmentUniforms( lit_state_.get(), 0, &params, sizeof( params ) ) ||
+            !SDL_SetGPURenderStateFragmentUniforms( nv_lit_state_.get(), 0, &params,
+                    sizeof( params ) ) ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::variant_pass: lit uniforms failed: " << SDL_GetError();
             return false;

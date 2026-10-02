@@ -1671,14 +1671,11 @@ void cata_tiles::reset_tint_mask()
     tint_mask_h = 0;
 }
 
-// how lit.frag shades a tile at the vision threshold, full light being 1
-static constexpr float threshold_shade = 0.35f;
-
 bool smooth_lightmap::ensure_texture( const SDL_Renderer_Ptr &renderer )
 {
     if( !texture_ ) {
         texture_ = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
-                                  MAPSIZE_X, MAPSIZE_Y * OVERMAP_LAYERS );
+                                  smooth_lighting::lightmap_width, smooth_lighting::lightmap_height );
         keys_.forget_all();
         uploaded_ = {};
     }
@@ -1691,44 +1688,6 @@ void smooth_lightmap::reset()
     keys_.forget_all();
     uploaded_ = {};
     extent_ = {};
-}
-
-// one z level's texels: rgb light, a in sight; see lit_sample.glsl
-static void fill_lightmap_level( const map &here, const int z,
-                                 const smooth_lighting::lightmap_fill_settings &settings, std::vector<Uint8> &out )
-{
-    out.assign( static_cast<size_t>( MAPSIZE_X ) * MAPSIZE_Y * 4, 0 );
-    const level_cache &ch = here.access_cache( z );
-    const half_open_rectangle<point> &area = settings.area;
-    for( int y = area.p_min.y; y < area.p_max.y; ++y ) {
-        for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
-            const lit_level ll = ch.visibility_cache[x][y];
-            const float apparent = smooth_lighting::needs_apparent_light( ll )
-                                   ? map::apparent_light_helper( ch, tripoint_bub_ms( x, y, z ) ).apparent_light : 0.0f;
-            const smooth_lighting::light_cell cell =
-                smooth_lighting::classify_light_cell( ll, apparent, settings.vision_threshold );
-            if( !cell.detail ) {
-                continue;
-            }
-            const float brightness = threshold_shade + ( 1.0f - threshold_shade ) * cell.light;
-            float hue[3] = { 1.0f, 1.0f, 1.0f };
-            const light_color_rgb &lc = ch.light_color_cache[x][y];
-            if( settings.tint && lc.is_colored() ) {
-                if( const std::optional<tile_tint> tint = compute_tile_tint( lc, ch.lm[x][y].max() ) ) {
-                    // tint strength caps near 1/3; a multiplier needs more to read as colored
-                    const float s = std::min( 1.0f, 1.5f * tint->a / 255.0f );
-                    hue[0] = 1.0f + s * ( tint->r / 255.0f - 1.0f );
-                    hue[1] = 1.0f + s * ( tint->g / 255.0f - 1.0f );
-                    hue[2] = 1.0f + s * ( tint->b / 255.0f - 1.0f );
-                }
-            }
-            const size_t at = ( static_cast<size_t>( y ) * MAPSIZE_X + x ) * 4;
-            for( int c = 0; c < 3; ++c ) {
-                out[at + c] = static_cast<Uint8>( std::lround( 255.0f * std::min( 1.0f, brightness * hue[c] ) ) );
-            }
-            out[at + 3] = 255;
-        }
-    }
 }
 
 bool smooth_lightmap::fill( const map &here,
@@ -1745,12 +1704,12 @@ bool smooth_lightmap::fill( const map &here,
         if( !keys_.needs_fill( z, inputs ) ) {
             continue;
         }
-        fill_lightmap_level( here, z, settings, scratch_ );
+        smooth_lighting::encode_lightmap_layer( here, z, settings, scratch_ );
         const int layer = z + OVERMAP_DEPTH;
-        std::vector<Uint8> &uploaded = uploaded_[layer];
+        std::vector<smooth_lighting::lightmap_texel> &uploaded = uploaded_[layer];
         if( scratch_ != uploaded ) {
-            const SDL_Rect rect = { 0, layer * MAPSIZE_Y, MAPSIZE_X, MAPSIZE_Y };
-            if( !UpdateTexture( texture_, &rect, scratch_.data(), MAPSIZE_X * 4 ) ) {
+            const SDL_Rect rect = { 0, layer * MAPSIZE_Y, smooth_lighting::lightmap_width, MAPSIZE_Y };
+            if( !UpdateTexture( texture_, &rect, scratch_.data(), smooth_lighting::lightmap_width * 4 ) ) {
                 // texture might contain some of the new texels
                 uploaded.clear();
                 keys_.forget( z );
@@ -1778,8 +1737,7 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
     }
     const std::optional<cata_shader::memory_preset> blend_into =
         get_option<bool>( "LIGHTING_MEMORY_BLEND" ) ? vp->active_memory_preset() : std::nullopt;
-    const std::array<float, 2> texel = { 1.0f / MAPSIZE_X, 1.0f / ( MAPSIZE_Y * OVERMAP_LAYERS ) };
-    smooth_lighting_active = vp->begin_lit( lightmap->texture(), texel, blend_into,
+    smooth_lighting_active = vp->begin_lit( lightmap->texture(), blend_into,
                                             mode == "smooth", is_isometric(),
                                             nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" ) );
     // texels only matter to lit draws, which begin_lit can refuse
@@ -1788,6 +1746,7 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
         settings.area = fill_area;
         settings.vision_threshold = cache.vision_threshold;
         settings.tint = !tint_overlay_disabled();
+        settings.masks = mode == "smooth_filtered";
         if( !lightmap->fill( get_map(), settings, std::max( min_z, -OVERMAP_DEPTH ),
                              std::min( max_z, OVERMAP_HEIGHT ) ) ) {
             // stale texels would shade wrong, so this frame draws classic
@@ -1846,11 +1805,14 @@ void cata_tiles::render_lit_sprite( const texture &tex, const SDL_Rect &dst,
     // tile's top edge
     const float ground_y = static_cast<float>( anchor.y + lit_ground_dy ) +
                            ( iso ? th - tw / 4.0f : 0.0f );
-    const int layer = pos.z() + OVERMAP_DEPTH;
-    const float tex_h = static_cast<float>( MAPSIZE_Y * OVERMAP_LAYERS );
-    // a cell u past 1 marks a standing sprite; see lit_sample.glsl
-    const float cell_u = static_cast<float>( pos.x() ) / MAPSIZE_X + ( standing ? 1.0f : 0.0f );
-    const float cell_v = static_cast<float>( layer * MAPSIZE_Y + pos.y() ) / tex_h;
+    // vertex colors address the light map by this cell
+    cata_assert( lit_extent.covers( pos ) );
+    const int row = ( pos.z() + OVERMAP_DEPTH ) * MAPSIZE_Y + pos.y();
+    // own cell for lit_sample.glsl, in texels: column plus the standing
+    // marker, row
+    const float cell_column = static_cast<float>( pos.x() ) +
+                              ( standing ? smooth_lighting::standing_marker : 0.0f );
+    const float cell_row = static_cast<float>( row );
     // light map position under a screen point, as a vertex color for
     // lit_sample.glsl; the ground mapping is affine, so the renderer
     // interpolates it exactly across the quad
@@ -1864,9 +1826,7 @@ void cata_tiles::render_lit_sprite( const texture &tex, const SDL_Rect &dst,
             mx = dx - dy;
             my = dx + dy;
         }
-        return SDL_FColor{ ( static_cast<float>( pos.x() ) + mx ) / MAPSIZE_X,
-                           ( static_cast<float>( layer * MAPSIZE_Y + pos.y() ) + my ) / tex_h,
-                           cell_u, cell_v };
+        return SDL_FColor{ static_cast<float>( pos.x() ) + mx, cell_row + my, cell_column, cell_row };
     };
     const auto vertex = [&]( const float x, const float y, const float u, const float v ) {
         const SDL_FPoint at = place( x, y );
