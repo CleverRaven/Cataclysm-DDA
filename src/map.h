@@ -2430,6 +2430,8 @@ class map
         point_rel_ms prev_top_left;
         point_rel_ms prev_bottom_right;
         point prev_o;
+        // bubble corner the tiles memorize sweep last covered
+        tripoint_abs_ms prev_memory_sweep_origin = tripoint_abs_ms::invalid;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
 #endif

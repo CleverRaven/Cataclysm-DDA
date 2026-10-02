@@ -654,6 +654,9 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     const int draw_min_z = std::max( you.posz() - fov_3d_z_range, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z() );
+    // read before this frame's own draw_terrain calls, which re-dirty
+    // connecting terrain on every visit
+    const bool memory_writes_pending = ch.map_memory_sweep_pending;
 
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
@@ -748,6 +751,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         }
     }
 
+    const bool draw_points_rebuilt = here.draw_points_cache_dirty;
     if( here.draw_points_cache_dirty ) {
         here.draw_points_cache_dirty = false;
         // overlay_strings and color_blocks are generated with draw_points and thus are cleared together
@@ -1463,8 +1467,16 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     void_vpart_override();
     void_monster_override();
 
-    //Memorize everything the character just saw even if it wasn't displayed.
-    for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
+    // memorize everything the character just saw, even if not displayed. the
+    // sweep reads the visibility cache (a change rebuilds the draw points), the
+    // map (its writers dirty the memory cache) and its own region; if none of
+    // those changed it memorizes nothing new. get_player_input marks draw
+    // points dirty every turn, covering changes that write no memory bit
+    const tripoint_abs_ms sweep_origin =
+        here.get_abs( tripoint_bub_ms( min_visible.x, min_visible.y, center.z() ) );
+    const bool sweep_due = draw_points_rebuilt || memory_writes_pending ||
+                           sweep_origin != here.prev_memory_sweep_origin;
+    for( int mem_y = min_visible.y; sweep_due && mem_y <= max_visible.y; mem_y++ ) {
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             const point colrow = player_to_tile( { mem_x, mem_y } );
             if( is_isometric() && top_any_tile_range.contains( colrow ) ) {
@@ -1498,6 +1510,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             }
         }
     }
+    here.prev_memory_sweep_origin = sweep_origin;
+    here.access_cache( center.z() ).map_memory_sweep_pending = false;
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||

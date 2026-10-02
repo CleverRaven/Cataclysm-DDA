@@ -91,6 +91,9 @@ struct level_cache : level_cache_default_zero_members {
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
         bool lightmap_dirty = true;
+        // set by any write that dirties map_memory_cache_dec or _ter on this
+        // level; a tiles memorize sweep of this level is due while set
+        bool map_memory_sweep_pending = true;
         // True when at least one light source on this z-level has non-white color.
         // Used to skip the color blur pass when all lights are white.
         bool has_colored_lights = false;

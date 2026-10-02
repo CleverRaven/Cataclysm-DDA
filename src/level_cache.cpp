@@ -25,6 +25,8 @@ void level_cache::clear()
     floor_cache_dirty = false;
     seen_cache_dirty = false;
     lightmap_dirty = true;
+    // the memset above marked every memory cache bit dirty
+    map_memory_sweep_pending = true;
     has_colored_lights = false;
     no_floor_gaps = false;
 

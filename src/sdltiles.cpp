@@ -50,6 +50,7 @@
 #include "horde_entity.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_wait.h"
 #include "json.h"
 #include "line.h"
 #include "loading_ui.h"
@@ -877,6 +878,8 @@ extern "C" {
         ( void )env; // unused
         ( void )jcls; // unused
         visible_frame_inbox.publish( left, top, right, bottom, visible == JNI_TRUE );
+        // inbox read by CheckMessages; wake a blocked input wait
+        PushWakeEvent();
     }
 
 } // "C"
@@ -2154,6 +2157,48 @@ void renderer_recovery_test_support::reset_coordinator()
     c.test_mode2_interrupt_ = atlas_upload_interrupt::none;
 }
 
+std::unique_ptr<cata_tiles> renderer_recovery_test_support::make_test_tiles(
+    const std::shared_ptr<const tileset> &ts )
+{
+    std::unique_ptr<cata_tiles> tiles = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    tiles->tileset_ptr = ts;
+    tiles->set_draw_scale( 16 );
+    return tiles;
+}
+
+void renderer_recovery_test_support::draw_test_map( cata_tiles &tiles,
+        const tripoint_bub_ms &center, const int w, const int h )
+{
+    std::multimap<point, formatted_text> overlay_strings;
+    color_block_overlay_container color_blocks;
+    tiles.draw( point::zero, center, w * tiles.tile_width, h * tiles.tile_height, overlay_strings,
+                color_blocks );
+}
+
+void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
+        const tripoint_abs_omt &center )
+{
+    // draw_om lays out labels with the global font, which the fixture leaves empty
+    const bool acquired_ttf = TTF_WasInit() == 0 && TTF_Init();
+    Font_Ptr test_font = Font::load_font( renderer, pixel_format, PATH_INFO::fontdir() + "unifont.ttf",
+                                          16, 8, 16, windowsPalette, false );
+    font.swap( test_font );
+    on_out_of_scope restore_font( [&test_font, acquired_ttf]() {
+        font.swap( test_font );
+        test_font.reset();
+        if( acquired_ttf ) {
+            TTF_Quit();
+        }
+    } );
+    tiles.draw_om( point::zero, center, false );
+}
+
+void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
+        const bool animated )
+{
+    tiles.has_animated_tiles_ = animated;
+}
+
 bool renderer_recovery_test_support::setup_software_renderer()
 {
     if( renderer || window ) {
@@ -3008,6 +3053,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( display_buffer_scope_is_invalid() || !g ) {
         return;
     }
+    has_animated_tiles_ = false;
 
 #if defined(__ANDROID__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile
@@ -6509,6 +6555,46 @@ void input_manager::pump_events()
 
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
+#if !defined(EMSCRIPTEN)
+// time until next android touch timer CheckMessages checks, from its file statics
+static std::optional<uint32_t> android_touch_wait_ms( const uint32_t now )
+{
+#if defined(__ANDROID__)
+    touch_timers t;
+    t.now = now;
+    t.initial_delay = static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
+    t.finger_down_time = finger_down_time;
+    t.finger_repeat_time = finger_repeat_time;
+    t.finger_repeat_delay = finger_repeat_delay;
+    t.last_tap_time = last_tap_time;
+    t.back_down_time = ac_back_down_time;
+    t.back_toggle_handled = quick_shortcuts_toggle_handled;
+    t.quick_shortcut_touch = is_quick_shortcut_touch;
+    t.multi_finger_touch = is_two_finger_touch || is_three_finger_touch;
+    t.last_present = lastupdate;
+    t.present_interval = interval;
+    return touch_wait_ms( t );
+#else
+    static_cast<void>( now );
+    return std::nullopt;
+#endif
+}
+
+// how long input loop may block before CheckMessages has work
+static int input_wait_ms( const std::optional<uint32_t> &input_ms )
+{
+    const uint32_t now = GetTicks();
+    input_wait_state s;
+    s.input_ms = input_ms;
+    if( needupdate ) {
+        // try_sdl_update presents once now - lastupdate >= interval
+        s.present_ms = ms_until_elapsed_reaches( lastupdate, now, interval );
+    }
+    s.platform_ms = android_touch_wait_ms( now );
+    return input_wait_timeout_ms( s );
+}
+#endif
+
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
     if( test_mode ) {
@@ -6549,6 +6635,8 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         try_sdl_update();
     }
 
+#if defined(EMSCRIPTEN)
+    // emscripten must yield to the browser through Asyncify, which SDL_Delay does
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
@@ -6576,6 +6664,30 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     } else {
         CheckMessages();
     }
+#else
+    if( inputdelay < 0 ) {
+        CheckMessages();
+        while( last_input.type == input_event_t::error ) {
+            WaitForEvent( input_wait_ms( std::nullopt ) );
+            CheckMessages();
+        }
+    } else if( inputdelay > 0 ) {
+        const uint32_t starttime = GetTicks();
+        const uint32_t timeout = static_cast<uint32_t>( inputdelay );
+        CheckMessages();
+        while( last_input.type == input_event_t::error ) {
+            const uint32_t left = ms_until_elapsed_reaches( starttime, GetTicks(), timeout );
+            if( left == 0 ) {
+                last_input.type = input_event_t::timeout;
+                break;
+            }
+            WaitForEvent( input_wait_ms( left ) );
+            CheckMessages();
+        }
+    } else {
+        CheckMessages();
+    }
+#endif
 
     // Sample the raw mouse position (window coords) and convert into
     // display_buffer coords so canonical gameplay picking matches the

@@ -91,6 +91,7 @@
 
 #ifdef TILES
 #include "cached_options.h"
+#include "cata_tiles.h"
 #endif // TILES
 
 enum class cube_direction : int;
@@ -2068,6 +2069,24 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     return false;
 }
 
+bool map_redraw_needed( const std::string &action, const map_view_state &drawn,
+                        const map_view_state &now, const bool animated_tiles )
+{
+    return action != "TIMEOUT" || animated_tiles || drawn.cursor != now.cursor ||
+           drawn.show_overlays != now.show_overlays;
+}
+
+// animated overmap tiles cycle frames by wall clock, so every pass draws
+static bool overmap_tiles_animated()
+{
+#if defined(TILES)
+    return use_tiles && use_tiles_overmap && overmap_tilecontext &&
+           overmap_tilecontext->has_animated_tiles();
+#else
+    return false;
+#endif
+}
+
 static tripoint_abs_omt display()
 {
     // HACK: Remove saved land use code uistate for people who might have accidentally turned it on previously, before it was debug-only
@@ -2183,9 +2202,15 @@ static tripoint_abs_omt display()
         draw( g->overmap_data );
     } );
 
+    bool map_dirty = true;
     do {
-        ui->invalidate_ui();
+        if( map_dirty ) {
+            ui->invalidate_ui();
+        }
         ui_manager::redraw();
+        const map_view_state drawn{ curs, uistate.overmap_show_overlays };
+        // a pass that leaves through `continue` redraws the map next time
+        map_dirty = true;
 #if (defined TILES || defined _WIN32 || defined WINDOWS )
         int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
         // If EDGE_SCROLL is disabled, it will have a value of -1.
@@ -2398,6 +2423,9 @@ static tripoint_abs_omt display()
             }
             last_blink = now;
         }
+        map_dirty = map_redraw_needed( action, drawn,
+                                       map_view_state{ curs, uistate.overmap_show_overlays },
+                                       overmap_tiles_animated() );
     } while( action != "QUIT" && action != "CONFIRM" );
     if( !keep_overmap_ui ) {
         ui::omap::force_quit();
