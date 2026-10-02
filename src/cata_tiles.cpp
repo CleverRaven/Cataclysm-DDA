@@ -1087,8 +1087,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         const bool iso = is_isometric();
         const level_cache &zlev_cache = here.access_cache( cur_zlevel );
         // Iso has no silhouette mask path, so only the sprite shader tints it
+        // lit sprites take tint from the light map; sprites a lit frame draws
+        // classic are overlays and take none
         const bool zlev_has_color = zlev_cache.has_colored_lights && ( shader_tint || !iso ) &&
-                                    !tint_overlay_disabled();
+                                    !tint_overlay_disabled() && !smooth_lighting_active;
         m_zlev_tint_bound = shader_tint && zlev_has_color;
         // lower levels draw shifted by their height, as draw_sprite_at shifts by height_3d
         lit_ground_dy = divide_round_down( -( cur_zlevel - center.z() ) * zlevel_height * tile_width,

@@ -273,7 +273,20 @@ bool encode_lightmap_layer( const map &here, const int z, const lightmap_fill_se
     const level_cache &ch = here.access_cache( z );
     const half_open_rectangle<point> &area = settings.area;
     static const std::array<float, 3> white = { 1.0f, 1.0f, 1.0f };
+    // detail doesn't depend on apparent light, so this pass skips
+    // map::apparent_light_helper; a level with nothing seen stays zero
     bool any_detail = false;
+    for( int y = area.p_min.y; y < area.p_max.y && !any_detail; ++y ) {
+        for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
+            if( classify_light_cell( ch.visibility_cache[x][y], 0.0f, settings.vision_threshold ).detail ) {
+                any_detail = true;
+                break;
+            }
+        }
+    }
+    if( !any_detail ) {
+        return false;
+    }
     for( int y = area.p_min.y; y < area.p_max.y; ++y ) {
         for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
             const lit_level ll = ch.visibility_cache[x][y];
@@ -281,16 +294,12 @@ bool encode_lightmap_layer( const map &here, const int z, const lightmap_fill_se
                                    ? map::apparent_light_helper( ch, tripoint_bub_ms( x, y, z ) ).apparent_light
                                    : 0.0f;
             const light_cell cell = classify_light_cell( ll, apparent, settings.vision_threshold );
-            any_detail |= cell.detail;
             const std::array<float, 3> hue = settings.tint && cell.detail
                                              ? illumination_hue( ch.light_color_cache[x][y], ch.lm[x][y].max() ) : white;
             // light barrier, so windows stay open to light
             out[light_index( point( x, y ) )] = encode_light_texel( cell, hue,
                                                 ch.transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID );
         }
-    }
-    if( !any_detail ) {
-        return false;
     }
     // per tile sampling never reads the masks
     if( !settings.masks ) {
@@ -299,7 +308,10 @@ bool encode_lightmap_layer( const map &here, const int z, const lightmap_fill_se
     const barrier_grid grid{ out.data(), lightmap_width, MAPSIZE_X, MAPSIZE_Y };
     for( int y = area.p_min.y; y < area.p_max.y; ++y ) {
         for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
-            out[reach_index( point( x, y ) )] = encode_reach_texel( reach_mask( grid, point( x, y ) ) );
+            // the filter only reads a cell's mask when the cell is seen
+            if( ( out[light_index( point( x, y ) )].a & texel_detail ) != 0 ) {
+                out[reach_index( point( x, y ) )] = encode_reach_texel( reach_mask( grid, point( x, y ) ) );
+            }
         }
     }
     return true;

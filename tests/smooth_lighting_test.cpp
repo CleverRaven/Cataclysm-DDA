@@ -54,6 +54,8 @@ static void reset_avatar_and_map( const tripoint_bub_ms &center )
     Character &you = get_player_character();
     you.clear_mutations();
     g->place_player( center );
+    // outside the middle submaps the map shifts and avatar lands elsewhere
+    REQUIRE( get_avatar().pos_bub() == center );
     clear_map_without_vision( -2, OVERMAP_HEIGHT );
     g->reset_light_level();
 }
@@ -548,10 +550,10 @@ TEST_CASE( "colored_light_fades_out_at_its_reach_under_other_light",
     }
 }
 
-// lit floor round ( 60, 60 ) at noon, avatar two tiles west of it
+// lit floor round ( 60, 60 ) at noon, avatar on it
 static void build_lit_ground()
 {
-    reset_avatar_and_map( tripoint_bub_ms( 58, 60, 0 ) );
+    reset_avatar_and_map( tripoint_bub_ms( 60, 60, 0 ) );
     calendar::turn = calendar::turn_zero + 12_hours;
     g->reset_light_level();
     map &here = get_map();
@@ -578,7 +580,11 @@ static std::vector<smooth_lighting::lightmap_texel> encode_lit_ground( const boo
 
 static uint32_t reach_at( const point &p )
 {
-    return smooth_lighting::texel_reach( encode_lit_ground( true )[smooth_lighting::reach_index( p )] );
+    const std::vector<smooth_lighting::lightmap_texel> layer = encode_lit_ground( true );
+    // only a seen cell has a mask
+    CAPTURE( get_map().access_cache( 0 ).visibility_cache[p.x][p.y] );
+    REQUIRE( ( layer[smooth_lighting::light_index( p )].a & smooth_lighting::texel_detail ) != 0 );
+    return smooth_lighting::texel_reach( layer[smooth_lighting::reach_index( p )] );
 }
 
 TEST_CASE( "light_filter_reach_stops_at_barriers", "[smooth_lighting][vision]" )
@@ -899,6 +905,45 @@ TEST_CASE( "smooth_lighting_failure_policy", "[smooth_lighting]" )
             CHECK_FALSE( p.latched() );
         }
     }
+}
+
+TEST_CASE( "levels_with_nothing_seen_fill_as_zero", "[smooth_lighting][vision]" )
+{
+    const tripoint_bub_ms center( 60, 60, 0 );
+    build_dark_room( center, 6 );
+    settle_caches( 0 );
+    const map &here = get_map();
+    smooth_lighting::lightmap_fill_settings settings;
+    settings.area = half_open_rectangle<point>( point( 40, 40 ), point( 80, 80 ) );
+    settings.vision_threshold = here.get_visibility_variables_cache().vision_threshold;
+    settings.tint = true;
+    settings.masks = true;
+    std::vector<smooth_lighting::lightmap_texel> layer;
+    // level below the room's floor is out of sight
+    CHECK_FALSE( smooth_lighting::encode_lightmap_layer( here, -1, settings, layer ) );
+    CHECK( std::all_of( layer.begin(), layer.end(), []( const smooth_lighting::lightmap_texel & t ) {
+        return t == smooth_lighting::lightmap_texel();
+    } ) );
+}
+
+TEST_CASE( "reach_masks_are_built_only_round_seen_cells", "[smooth_lighting][vision]" )
+{
+    const tripoint_bub_ms center( 60, 60, 0 );
+    build_dark_room( center, 6 );
+    settle_caches( 0 );
+    const map &here = get_map();
+    smooth_lighting::lightmap_fill_settings settings;
+    settings.area = half_open_rectangle<point>( point( 40, 40 ), point( 80, 80 ) );
+    settings.vision_threshold = here.get_visibility_variables_cache().vision_threshold;
+    settings.masks = true;
+    std::vector<smooth_lighting::lightmap_texel> layer;
+    REQUIRE( smooth_lighting::encode_lightmap_layer( here, 0, settings, layer ) );
+    // nothing's seen far outside the walled room
+    CHECK( layer[smooth_lighting::reach_index( point( 45,
+                                               45 ) )] == smooth_lighting::lightmap_texel() );
+    // avatar's own cell is seen
+    CHECK_FALSE( layer[smooth_lighting::reach_index( center.xy().raw() )] ==
+                 smooth_lighting::lightmap_texel() );
 }
 
 TEST_CASE( "dim_seen_light_looks_like_the_classic_shadow_variant", "[smooth_lighting]" )
