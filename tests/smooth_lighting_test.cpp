@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <initializer_list>
 #include <memory>
@@ -6,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -321,4 +323,145 @@ TEST_CASE( "only_scene_light_on_a_covered_cell_takes_the_lit_path", "[smooth_lig
     CHECK_FALSE( smooth_lighting::lit_path_for( true, false, true ) );
     CHECK_FALSE( smooth_lighting::lit_path_for( true, true, false ) );
     CHECK_FALSE( smooth_lighting::lit_path_for( false, true, true ) );
+}
+
+TEST_CASE( "lightmap_keys_refill_on_each_texel_input", "[smooth_lighting]" )
+{
+    smooth_lighting::lightmap_fill_settings settings;
+    settings.area = half_open_rectangle<point>( point( 5, 5 ), point( 126, 126 ) );
+    settings.vision_threshold = 1.0f;
+    settings.tint = true;
+    const smooth_lighting::layer_inputs inputs{ 3, 7, 5, 2, false };
+    smooth_lighting::lightmap_keys keys;
+    keys.begin_frame( settings );
+    REQUIRE( keys.needs_fill( 0, inputs ) );
+    keys.mark_filled( 0, inputs );
+    keys.mark_filled( -1, inputs );
+    WHEN( "nothing changes" ) {
+        keys.begin_frame( settings );
+        THEN( "no level refills" ) {
+            CHECK_FALSE( keys.needs_fill( 0, inputs ) );
+            CHECK_FALSE( keys.needs_fill( -1, inputs ) );
+        }
+    }
+    WHEN( "recompute visibility without light change" ) {
+        THEN( "that level refills" ) {
+            CHECK( keys.needs_fill( 0, smooth_lighting::layer_inputs{ 3, 8, 5, 2, false } ) );
+            CHECK_FALSE( keys.needs_fill( -1, inputs ) );
+        }
+    }
+    WHEN( "seen cache is rebuilt" ) {
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, smooth_lighting::layer_inputs{ 3, 7, 6, 2, false } ) );
+        }
+    }
+    WHEN( "light changes" ) {
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, smooth_lighting::layer_inputs{ 4, 7, 5, 2, false } ) );
+        }
+    }
+    WHEN( "aim cache is dirtied" ) {
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, smooth_lighting::layer_inputs{ 3, 7, 5, 3, false } ) );
+        }
+    }
+    WHEN( "aim cone starts to apply" ) {
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, smooth_lighting::layer_inputs{ 3, 7, 5, 2, true } ) );
+        }
+    }
+    WHEN( "tint overlay is toggled" ) {
+        settings.tint = false;
+        keys.begin_frame( settings );
+        THEN( "every level refills" ) {
+            CHECK( keys.needs_fill( 0, inputs ) );
+            CHECK( keys.needs_fill( -1, inputs ) );
+        }
+    }
+    WHEN( "the screen shows another part of the bubble" ) {
+        settings.area = half_open_rectangle<point>( point( 20, 5 ), point( 126, 126 ) );
+        keys.begin_frame( settings );
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, inputs ) );
+        }
+    }
+    WHEN( "vision threshold moves" ) {
+        settings.vision_threshold = 2.0f;
+        keys.begin_frame( settings );
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, inputs ) );
+        }
+    }
+    WHEN( "fill switches between filtered and per tile" ) {
+        settings.masks = !settings.masks;
+        keys.begin_frame( settings );
+        THEN( "the level refills" ) {
+            CHECK( keys.needs_fill( 0, inputs ) );
+        }
+    }
+    WHEN( "one level's upload failed" ) {
+        keys.forget( 0 );
+        THEN( "only that level refills" ) {
+            CHECK( keys.needs_fill( 0, inputs ) );
+            CHECK_FALSE( keys.needs_fill( -1, inputs ) );
+        }
+    }
+}
+
+TEST_CASE( "visibility_recompute_bumps_the_visibility_generation_only",
+           "[smooth_lighting][vision]" )
+{
+    const tripoint_bub_ms center( 60, 60, 0 );
+    build_dark_room( center, 6 );
+    settle_caches( 0 );
+    map &here = get_map();
+    const uint64_t light_before = here.access_cache( 0 ).lightmap_generation;
+    const uint64_t visibility_before = here.access_cache( 0 ).visibility_generation;
+    here.invalidate_visibility_cache();
+    here.update_visibility_cache( 0 );
+    CHECK( here.access_cache( 0 ).visibility_generation != visibility_before );
+    CHECK( here.access_cache( 0 ).lightmap_generation == light_before );
+}
+
+TEST_CASE( "avatar_move_on_foot_bumps_the_seen_generation", "[smooth_lighting][vision]" )
+{
+    const tripoint_bub_ms center( 60, 60, 0 );
+    build_dark_room( center, 6 );
+    settle_caches( 0 );
+    map &here = get_map();
+    // on foot: build_seen_cache returns before its vehicle mirror pass
+    REQUIRE_FALSE( here.veh_at( center ) );
+    const uint64_t seen_before = here.seen_generation();
+    g->place_player( center + tripoint::east );
+    here.build_map_cache( 0 );
+    CHECK( here.seen_generation() != seen_before );
+}
+
+TEST_CASE( "cache_generations_never_repeat_across_map_rebuilds", "[smooth_lighting][vision]" )
+{
+    const tripoint_bub_ms center( 60, 60, 0 );
+    build_dark_room( center, 6 );
+    settle_caches( 0 );
+    const level_cache &first = get_map().access_cache( 0 );
+    const uint64_t first_light = first.lightmap_generation;
+    const uint64_t first_visibility = first.visibility_generation;
+    const uint64_t first_seen = get_map().seen_generation();
+    WHEN( "map is cleared and the same room built again" ) {
+        build_dark_room( center, 6 );
+        settle_caches( 0 );
+        const level_cache &again = get_map().access_cache( 0 );
+        THEN( "no generation comes back with an earlier value" ) {
+            CHECK( again.lightmap_generation > first_light );
+            CHECK( again.visibility_generation > first_visibility );
+            CHECK( get_map().seen_generation() > first_seen );
+        }
+    }
+}
+
+TEST_CASE( "dirtying_the_aim_cache_bumps_the_aim_generation", "[smooth_lighting]" )
+{
+    avatar &u = get_avatar();
+    const uint64_t before = u.aim_generation();
+    u.mark_aim_cache_dirty();
+    CHECK( u.aim_generation() > before );
 }

@@ -101,4 +101,33 @@ bool lit_path_for( const bool lighting_active, const bool wants_scene_light,
     return lighting_active && wants_scene_light && cell_covered;
 }
 
+void lightmap_keys::begin_frame( const lightmap_fill_settings &settings )
+{
+    if( !settings_ || !( *settings_ == settings ) ) {
+        forget_all();
+        settings_ = settings;
+    }
+}
+
+bool lightmap_keys::needs_fill( const int z, const layer_inputs &inputs ) const
+{
+    const std::optional<layer_inputs> &filled = filled_[z + OVERMAP_DEPTH];
+    return !filled || !( *filled == inputs );
+}
+
+void lightmap_keys::mark_filled( const int z, const layer_inputs &inputs )
+{
+    filled_[z + OVERMAP_DEPTH] = inputs;
+}
+
+void lightmap_keys::forget( const int z )
+{
+    filled_[z + OVERMAP_DEPTH].reset();
+}
+
+void lightmap_keys::forget_all()
+{
+    filled_ = {};
+}
+
 } // namespace smooth_lighting

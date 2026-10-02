@@ -19,6 +19,10 @@
 // IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
 
+// process wide count: equal generations mean the same cache state, even
+// across map instances. 64 bits do not wrap in practice
+uint64_t next_cache_generation();
+
 // level_cache is a huge struct and some compilers need help to zero these
 // members efficiently. Break them into a separate struct which can be memset
 // in a single call instead of a bunch of fill_n which don't optimize well.
@@ -92,9 +96,12 @@ struct level_cache : level_cache_default_zero_members {
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
         bool lightmap_dirty = true;
-        // bumped each time generate_lightmap rebuilds lm and sm, so a reader
-        // can tell the light changed without a redraw of its own
-        uint32_t lightmap_generation = 0;
+        // set from next_cache_generation each time generate_lightmap rebuilds
+        // lm and sm; a reader compares it to tell the light changed
+        uint64_t lightmap_generation = 0;
+        // set from next_cache_generation each time update_visibility_cache
+        // recomputes visibility_cache
+        uint64_t visibility_generation = 0;
         // set by any write that dirties map_memory_cache_dec or _ter on this
         // level; a tiles memorize sweep of this level is due while set
         bool map_memory_sweep_pending = true;

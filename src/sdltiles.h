@@ -89,6 +89,7 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt );
 // android shortcut overlay and virtual joystick hit-test against the window.
 void convert_event_to_display_buffer_coords( SDL_Event *event );
 
+class smooth_lightmap;
 namespace cata_shader
 {
 class variant_pass;
@@ -98,6 +99,9 @@ class variant_pass;
 // WinDestroy). One shared handle so a renderer recreate updates a single pass,
 // not per-context copies.
 cata_shader::variant_pass *get_shared_variant_pass();
+// the smooth lighting map shared by every tile context; null before the
+// renderer is up
+smooth_lightmap *get_shared_lightmap();
 
 // unbind any sprite shader so the next draw uses the renderer's own. a popup
 // raised during a map draw would otherwise paint through the last sprite's

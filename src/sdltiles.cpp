@@ -146,6 +146,10 @@ static GeometryRenderer_Ptr geometry;
 // reused across curses text passes; always flushed before a pass returns
 static text_batch curses_text_batch;
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
+// the smooth lighting map every tile context draws through; its lit states
+// live in shared_variant_pass, so reset it before the pass
+static std::unique_ptr<smooth_lightmap> shared_lightmap;
+static void reset_shared_lightmap();
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -750,6 +754,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
@@ -777,6 +782,8 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     display_buffer.reset();
     renderer.reset();
@@ -1178,6 +1185,22 @@ cata_shader::variant_pass *get_shared_variant_pass()
     return shared_variant_pass.get();
 }
 
+smooth_lightmap *get_shared_lightmap()
+{
+    return shared_lightmap.get();
+}
+
+static void reset_shared_lightmap()
+{
+    if( !shared_lightmap ) {
+        return;
+    }
+    if( shared_variant_pass ) {
+        shared_variant_pass->drop_lit();
+    }
+    shared_lightmap->reset();
+}
+
 bool unbind_sprite_shader()
 {
     cata_shader::variant_pass *vp = get_shared_variant_pass();
@@ -1469,14 +1492,14 @@ static void reset_context_minimaps()
     } );
 }
 
-// The silhouette mask target only goes stale on a device reset or loss, not a
-// target reset.
+// silhouette mask targets and smooth lighting map only go stale on device reset
+// or loss, not a target reset
 static void reset_context_tint_masks()
 {
     for_each_unique_tile_context( []( cata_tiles & c ) {
         c.reset_tint_mask();
-        c.reset_lightmap();
     } );
+    reset_shared_lightmap();
 }
 
 // Drop the glyph atlases on every font root. The TTF glyph cache repopulates
@@ -2266,6 +2289,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     // also restores the scale default a previous test might have changed
     apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
@@ -2300,6 +2324,8 @@ void renderer_recovery_test_support::teardown_software_renderer()
     display_buffer_scope_recovery_required = false;
     reset_coordinator();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     cata_shader::test_reset_seams();
     cata_shader::clear_reprobe();

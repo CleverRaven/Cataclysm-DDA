@@ -7,6 +7,12 @@ level_cache::level_cache()
     clear();
 }
 
+uint64_t next_cache_generation()
+{
+    static uint64_t last = 0;
+    return ++last;
+}
+
 void level_cache::clear()
 {
     // Blast zeroes over the entire region. Some compilers, looking at you msvc, aren't smart enough

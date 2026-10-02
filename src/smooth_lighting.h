@@ -2,10 +2,13 @@
 #ifndef CATA_SRC_SMOOTH_LIGHTING_H
 #define CATA_SRC_SMOOTH_LIGHTING_H
 
+#include <array>
 #include <cstdint>
+#include <optional>
 
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
+#include "map_scale_constants.h"
 #include "point.h"
 
 enum class lit_level : uint8_t;
@@ -55,6 +58,56 @@ struct lightmap_extent {
     int min_z = 0;
     int max_z = -1;
     bool covers( const tripoint_bub_ms &p ) const;
+};
+
+// settings every level's texels are filled under
+struct lightmap_fill_settings {
+    half_open_rectangle<point> area;
+    float vision_threshold = 0.0f;
+    // colored light tints the light map
+    bool tint = false;
+    // build reach masks: only smooth_filtered reads them
+    bool masks = false;
+    bool operator==( const lightmap_fill_settings &o ) const {
+        return area.p_min == o.area.p_min && area.p_max == o.area.p_max &&
+               vision_threshold == o.vision_threshold && tint == o.tint && masks == o.masks;
+    }
+};
+
+// cache generations a level's texels were filled from; every value comes from
+// next_cache_generation, so equal values are the same mutation
+struct layer_inputs {
+    uint64_t lightmap_generation = 0;
+    uint64_t visibility_generation = 0;
+    uint64_t seen_generation = 0;
+    uint64_t aim_generation = 0;
+    // map::apparent_light_helper applies the aim cone
+    bool aim_cone = false;
+    bool operator==( const layer_inputs &o ) const {
+        return lightmap_generation == o.lightmap_generation &&
+               visibility_generation == o.visibility_generation &&
+               seen_generation == o.seen_generation && aim_generation == o.aim_generation &&
+               aim_cone == o.aim_cone;
+    }
+};
+
+// which z levels of the light map hold texels for the current inputs. a
+// level refills when its layer_inputs or the frame's fill settings change.
+// a map shift invalidates every level's map cache, so it reaches
+// lightmap_generation
+class lightmap_keys
+{
+    public:
+        // new fill settings forget every level
+        void begin_frame( const lightmap_fill_settings &settings );
+        bool needs_fill( int z, const layer_inputs &inputs ) const;
+        void mark_filled( int z, const layer_inputs &inputs );
+        // level's texels can't be trusted, e.g. after a failed upload
+        void forget( int z );
+        void forget_all();
+    private:
+        std::optional<lightmap_fill_settings> settings_;
+        std::array<std::optional<layer_inputs>, OVERMAP_LAYERS> filled_;
 };
 
 // whether a sprite takes the scene's light from the light map: lighting is on,

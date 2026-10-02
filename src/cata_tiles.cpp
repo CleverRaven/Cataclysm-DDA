@@ -44,6 +44,7 @@
 #include "field_type.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "sdl_gamepad.h"
 #include "item.h"
 #include "item_factory.h"
@@ -273,14 +274,7 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
     on_options_changed();
 }
 
-cata_tiles::~cata_tiles()
-{
-    // shared pass outlives this context; its lit states hold the light map
-    // texture
-    if( lightmap_tex ) {
-        reset_lightmap();
-    }
-}
+cata_tiles::~cata_tiles() = default;
 
 void cata_tiles::on_options_changed()
 {
@@ -1061,7 +1055,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     const half_open_rectangle<point> light_fill_area = smooth_lighting::lightmap_fill_area(
                 min_visible, max_visible, screen_min, screen_max );
     const bool lit_this_frame = begin_smooth_lighting( cache, light_fill_area, draw_min_z,
-                                center.z(), draw_points_rebuilt );
+                                center.z() );
     // lit states must not reach the overmap or UI sprites drawn after the map
     on_out_of_scope end_smooth_lighting( [this, lit_this_frame]() {
         smooth_lighting_active = false;
@@ -1680,40 +1674,46 @@ void cata_tiles::reset_tint_mask()
 // how lit.frag shades a tile at the vision threshold, full light being 1
 static constexpr float threshold_shade = 0.35f;
 
-void cata_tiles::reset_lightmap()
+bool smooth_lightmap::ensure_texture( const SDL_Renderer_Ptr &renderer )
 {
-    if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
-        vp->drop_lit();
+    if( !texture_ ) {
+        texture_ = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
+                                  MAPSIZE_X, MAPSIZE_Y * OVERMAP_LAYERS );
+        keys_.forget_all();
+        uploaded_ = {};
     }
-    lightmap_tex.reset();
-    lightmap_layers = {};
-    lightmap_uploaded = {};
+    return static_cast<bool>( texture_ );
 }
 
-bool cata_tiles::fill_lightmap_layer( const int z )
+void smooth_lightmap::reset()
 {
-    const int layer = z + OVERMAP_DEPTH;
-    const level_cache &ch = get_map().access_cache( z );
-    lightmap_layer_key &key = lightmap_layers[layer];
-    if( key.fill_generation == lightmap_fill_generation &&
-        key.lightmap_generation == ch.lightmap_generation ) {
-        return true;
-    }
-    lightmap_layer_texels.assign( static_cast<size_t>( MAPSIZE_X ) * MAPSIZE_Y * 4, 0 );
-    for( int y = lightmap_fill_area.p_min.y; y < lightmap_fill_area.p_max.y; ++y ) {
-        for( int x = lightmap_fill_area.p_min.x; x < lightmap_fill_area.p_max.x; ++x ) {
+    texture_.reset();
+    keys_.forget_all();
+    uploaded_ = {};
+    extent_ = {};
+}
+
+// one z level's texels: rgb light, a in sight; see lit_sample.glsl
+static void fill_lightmap_level( const map &here, const int z,
+                                 const smooth_lighting::lightmap_fill_settings &settings, std::vector<Uint8> &out )
+{
+    out.assign( static_cast<size_t>( MAPSIZE_X ) * MAPSIZE_Y * 4, 0 );
+    const level_cache &ch = here.access_cache( z );
+    const half_open_rectangle<point> &area = settings.area;
+    for( int y = area.p_min.y; y < area.p_max.y; ++y ) {
+        for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
             const lit_level ll = ch.visibility_cache[x][y];
             const float apparent = smooth_lighting::needs_apparent_light( ll )
                                    ? map::apparent_light_helper( ch, tripoint_bub_ms( x, y, z ) ).apparent_light : 0.0f;
             const smooth_lighting::light_cell cell =
-                smooth_lighting::classify_light_cell( ll, apparent, lightmap_vision_threshold );
+                smooth_lighting::classify_light_cell( ll, apparent, settings.vision_threshold );
             if( !cell.detail ) {
                 continue;
             }
             const float brightness = threshold_shade + ( 1.0f - threshold_shade ) * cell.light;
             float hue[3] = { 1.0f, 1.0f, 1.0f };
             const light_color_rgb &lc = ch.light_color_cache[x][y];
-            if( lightmap_tint && lc.is_colored() ) {
+            if( settings.tint && lc.is_colored() ) {
                 if( const std::optional<tile_tint> tint = compute_tile_tint( lc, ch.lm[x][y].max() ) ) {
                     // tint strength caps near 1/3; a multiplier needs more to read as colored
                     const float s = std::min( 1.0f, 1.5f * tint->a / 255.0f );
@@ -1722,77 +1722,79 @@ bool cata_tiles::fill_lightmap_layer( const int z )
                     hue[2] = 1.0f + s * ( tint->b / 255.0f - 1.0f );
                 }
             }
-            // rgb: light, a: in sight; see lit_sample.glsl
             const size_t at = ( static_cast<size_t>( y ) * MAPSIZE_X + x ) * 4;
             for( int c = 0; c < 3; ++c ) {
-                lightmap_layer_texels[at + c] = static_cast<Uint8>( std::lround(
-                                                    255.0f * std::min( 1.0f, brightness * hue[c] ) ) );
+                out[at + c] = static_cast<Uint8>( std::lround( 255.0f * std::min( 1.0f, brightness * hue[c] ) ) );
             }
-            lightmap_layer_texels[at + 3] = 255;
+            out[at + 3] = 255;
         }
     }
-    std::vector<Uint8> &uploaded = lightmap_uploaded[layer];
-    if( lightmap_layer_texels != uploaded ) {
-        const SDL_Rect rect = { 0, layer * MAPSIZE_Y, MAPSIZE_X, MAPSIZE_Y };
-        if( !UpdateTexture( lightmap_tex, &rect, lightmap_layer_texels.data(), MAPSIZE_X * 4 ) ) {
-            // texture might contain some of the new texels
-            uploaded.clear();
-            key = lightmap_layer_key();
-            return false;
+}
+
+bool smooth_lightmap::fill( const map &here,
+                            const smooth_lighting::lightmap_fill_settings &settings, const int min_z, const int max_z )
+{
+    keys_.begin_frame( settings );
+    extent_ = { settings.area, min_z, max_z };
+    const avatar &u = get_avatar();
+    for( int z = min_z; z <= max_z; ++z ) {
+        const level_cache &ch = here.access_cache( z );
+        const smooth_lighting::layer_inputs inputs{ ch.lightmap_generation, ch.visibility_generation,
+                here.seen_generation(), u.aim_generation(),
+                u.recoil < MAX_RECOIL &&u.last_target_pos.has_value() };
+        if( !keys_.needs_fill( z, inputs ) ) {
+            continue;
         }
-        uploaded.swap( lightmap_layer_texels );
+        fill_lightmap_level( here, z, settings, scratch_ );
+        const int layer = z + OVERMAP_DEPTH;
+        std::vector<Uint8> &uploaded = uploaded_[layer];
+        if( scratch_ != uploaded ) {
+            const SDL_Rect rect = { 0, layer * MAPSIZE_Y, MAPSIZE_X, MAPSIZE_Y };
+            if( !UpdateTexture( texture_, &rect, scratch_.data(), MAPSIZE_X * 4 ) ) {
+                // texture might contain some of the new texels
+                uploaded.clear();
+                keys_.forget( z );
+                return false;
+            }
+            uploaded.swap( scratch_ );
+        }
+        keys_.mark_filled( z, inputs );
     }
-    key.fill_generation = lightmap_fill_generation;
-    key.lightmap_generation = ch.lightmap_generation;
     return true;
 }
 
 bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
-                                        const half_open_rectangle<point> &fill_area, const int min_z, const int max_z,
-                                        const bool rebuilt )
+                                        const half_open_rectangle<point> &fill_area, const int min_z, const int max_z )
 {
     smooth_lighting_active = false;
     const std::string &mode = get_option<std::string>( "LIGHTING_MODE" );
     cata_shader::variant_pass *vp = get_shared_variant_pass();
-    if( mode == "classic" || !vp || !vp->available() ) {
+    smooth_lightmap *lightmap = get_shared_lightmap();
+    if( mode == "classic" || !vp || !vp->available() || !lightmap ) {
         return false;
     }
-    if( !lightmap_tex ) {
-        lightmap_tex = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING,
-                                      MAPSIZE_X, MAPSIZE_Y * OVERMAP_LAYERS );
-        lightmap_layers = {};
-        lightmap_uploaded = {};
-        if( !lightmap_tex ) {
-            return false;
-        }
-    }
-    const bool tint = !tint_overlay_disabled();
-    if( rebuilt || tint != lightmap_tint || cache.vision_threshold != lightmap_vision_threshold ||
-        fill_area.p_min != lightmap_fill_area.p_min || fill_area.p_max != lightmap_fill_area.p_max ) {
-        // 0 marks a layer never filled
-        if( ++lightmap_fill_generation == 0 ) {
-            lightmap_fill_generation = 1;
-        }
-        lightmap_tint = tint;
-        lightmap_vision_threshold = cache.vision_threshold;
-        lightmap_fill_area = fill_area;
+    if( !lightmap->ensure_texture( renderer ) ) {
+        return false;
     }
     const std::optional<cata_shader::memory_preset> blend_into =
         get_option<bool>( "LIGHTING_MEMORY_BLEND" ) ? vp->active_memory_preset() : std::nullopt;
     const std::array<float, 2> texel = { 1.0f / MAPSIZE_X, 1.0f / ( MAPSIZE_Y * OVERMAP_LAYERS ) };
-    smooth_lighting_active = vp->begin_lit( lightmap_tex.get(), texel, blend_into,
+    smooth_lighting_active = vp->begin_lit( lightmap->texture(), texel, blend_into,
                                             mode == "smooth", is_isometric(),
                                             nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" ) );
     // texels only matter to lit draws, which begin_lit can refuse
     if( smooth_lighting_active ) {
-        lit_extent = { fill_area, std::max( min_z, -OVERMAP_DEPTH ), std::min( max_z, OVERMAP_HEIGHT ) };
-        for( int z = lit_extent.min_z; z <= lit_extent.max_z; ++z ) {
-            if( !fill_lightmap_layer( z ) ) {
-                // stale texels would shade wrong, so this frame draws classic
-                vp->end_lit();
-                smooth_lighting_active = false;
-                break;
-            }
+        smooth_lighting::lightmap_fill_settings settings;
+        settings.area = fill_area;
+        settings.vision_threshold = cache.vision_threshold;
+        settings.tint = !tint_overlay_disabled();
+        if( !lightmap->fill( get_map(), settings, std::max( min_z, -OVERMAP_DEPTH ),
+                             std::min( max_z, OVERMAP_HEIGHT ) ) ) {
+            // stale texels would shade wrong, so this frame draws classic
+            vp->end_lit();
+            smooth_lighting_active = false;
+        } else {
+            lit_extent = lightmap->extent();
         }
     }
     return smooth_lighting_active;

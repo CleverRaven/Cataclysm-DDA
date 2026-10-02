@@ -507,7 +507,7 @@ void map::generate_lightmap( const int zlev )
         return;
     }
     map_cache.lightmap_dirty = false;
-    ++map_cache.lightmap_generation;
+    map_cache.lightmap_generation = next_cache_generation();
 
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
@@ -1306,6 +1306,9 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
         directions_to_cast );
     seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
+    // set here too: the early return below skips the final set after the
+    // mirror pass
+    seen_cache_generation = next_cache_generation();
 
     const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
@@ -1371,6 +1374,7 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
+    seen_cache_generation = next_cache_generation();
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
