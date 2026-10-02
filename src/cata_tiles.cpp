@@ -654,6 +654,11 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     const int draw_min_z = std::max( you.posz() - fov_3d_z_range, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z() );
+    // If we're debugging, then try to draw everything that is loaded.
+    // We use this bool to selectively call map::inbounds() before checking/setting various map memory objects,
+    // which would otherwise call errors when called on out of bounds positions.
+    // Calling map::inbounds() can be expensive, so this is just a simple bool that turns on *only* when debugging.
+    const bool needs_inline_bounds_check = you.has_super_clairvoyance();
 
     // Map memory should be at least the size of the view range
     // so that new tiles can be memorized, and at least the size of the display
@@ -797,7 +802,9 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                     std::array<bool, 5> invisible;
                     invisible[0] = false;
 
-                    if( y < min_visible.y || y > max_visible.y || x < min_visible.x || x > max_visible.x ) {
+                    if( !needs_inline_bounds_check &&
+                        ( y < min_visible.y || y > max_visible.y ||
+                          x < min_visible.x || x > max_visible.x ) ) {
                         if( you.has_memory_at( pos_global ) ) {
                             ll = lit_level::MEMORIZED;
                             invisible[0] = true;
@@ -1448,7 +1455,9 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                 }
             }
             if( !var->invisible[0] ) {
-                here.memory_cache_ter_set_dirty( p.com.pos, false );
+                if( !needs_inline_bounds_check || here.inbounds( p.com.pos ) ) {
+                    here.memory_cache_ter_set_dirty( p.com.pos, false );
+                }
             }
         }
     }
@@ -1487,7 +1496,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
             //calling draw to memorize (and only memorize) everything.
             //bypass cache check in case we learn something new about the terrain's connections
             draw_terrain( p, lighting, height_3d, invisible, true );
-            if( here.memory_cache_dec_is_dirty( p ) ) {
+            if( ( !needs_inline_bounds_check || here.inbounds( p ) ) && here.memory_cache_dec_is_dirty( p ) ) {
                 you.memorize_clear_decoration( here.get_abs( p ), "" );
                 draw_furniture( p, lighting, height_3d, invisible, true );
                 draw_trap( p, lighting, height_3d, invisible, true );
