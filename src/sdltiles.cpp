@@ -17,6 +17,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <functional>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -1177,6 +1178,16 @@ cata_shader::variant_pass *get_shared_variant_pass()
     return shared_variant_pass.get();
 }
 
+bool unbind_sprite_shader()
+{
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && !vp->flush() ) {
+        display_buffer_scope_signal_recovery_required();
+        return false;
+    }
+    return true;
+}
+
 namespace
 {
 // Draw-scope state. depth counts nested scopes. aborted lets an inner
@@ -2194,6 +2205,12 @@ void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
     tiles.draw_om( point::zero, center, false );
 }
 
+void renderer_recovery_test_support::log_draw_light( cata_tiles &tiles,
+        std::vector<std::pair<std::string, draw_light>> *log )
+{
+    tiles.test_draw_light_log = log;
+}
+
 void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
         const bool animated )
 {
@@ -2331,10 +2348,15 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
-    const atlas_bake_plan &plan, const bool with_highlight )
+    const atlas_bake_plan &plan, const bool with_highlight, const std::vector<std::string> &tile_ids )
 {
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
+    for( const std::string &id : tile_ids ) {
+        tile_type tile;
+        tile.fg.add( std::vector<int> { 0 }, 1 );
+        ts->create_tile_type( id, std::move( tile ) );
+    }
     atlas_replay_descriptor desc;
     desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";
     desc.sprite_width = 1;
@@ -3570,6 +3592,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
                          const bool force_full = false )
 {
+    if( !unbind_sprite_shader() ) {
+        return false;
+    }
     if( scaling_factor > 1 ) {
         const point buffer_dims = compute_display_buffer_dims();
         RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
@@ -3754,6 +3779,36 @@ Font *renderer_recovery_test_support::test_font()
     return fixture_font.get();
 }
 
+// pixel minimap window: draw its text, clear its area, then `paint`; false
+// when draw_window's shader unbind failed and invalidated `draw_scope`
+static bool draw_minimap_window( Font_Ptr &font, const catacurses::window &w, const bool force_full,
+                                 const display_buffer_draw_scope &draw_scope, const std::function<void()> &paint )
+{
+    draw_window( font, w, force_full );
+    if( !draw_scope.should_draw() ) {
+        return false;
+    }
+    clear_window_area( w );
+    paint();
+    return true;
+}
+
+bool renderer_recovery_test_support::draw_test_minimap_window( const catacurses::window &w,
+        const bool fail_unbind, int &paints )
+{
+    display_buffer_draw_scope draw_scope;
+    if( !fixture_font || !draw_scope.should_draw() ) {
+        return false;
+    }
+    // after scope's own bind, so draw_window's unbind is the one that fails
+    if( fail_unbind ) {
+        cata_shader::test_arm_flush_failure();
+    }
+    return draw_minimap_window( fixture_font, w, true, draw_scope, [&paints]() {
+        ++paints;
+    } );
+}
+
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
     display_buffer_draw_scope draw_scope;
@@ -3889,15 +3944,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
-        draw_window( font, w, force_full );
-
-        // Make sure the entire minimap window is black before drawing.
-        clear_window_area( w );
-        tilecontext->draw_minimap(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-        { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
-        win->width * font->width, win->height * font->height );
-        update = true;
+        update = draw_minimap_window( font, w, force_full, draw_scope, [&]() {
+            tilecontext->draw_minimap(
+                point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+            { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
+            win->width * font->width, win->height * font->height );
+        } );
 
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.

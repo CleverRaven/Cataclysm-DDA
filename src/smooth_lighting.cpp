@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "cata_assert.h"
+#include "coordinates.h"
 #include "lightmap.h"
 
 namespace smooth_lighting
@@ -77,6 +78,27 @@ bool sprite_stands( const sprite_footprint &f, const tile_geometry &g )
     const float ground = g.iso ? static_cast<float>( g.height ) - static_cast<float>( g.width ) / 2.0f
                          : 0.0f;
     return opaque_top < ground - standing_rise * static_cast<float>( g.width );
+}
+
+half_open_rectangle<point> lightmap_fill_area( const point &view_min, const point &view_max,
+        const point &screen_min, const point &screen_max )
+{
+    return half_open_rectangle<point>(
+               point( std::max( view_min.x, screen_min.x - filter_reach ),
+                      std::max( view_min.y, screen_min.y - filter_reach ) ),
+               point( std::min( view_max.x, screen_max.x + filter_reach ) + 1,
+                      std::min( view_max.y, screen_max.y + filter_reach ) + 1 ) );
+}
+
+bool lightmap_extent::covers( const tripoint_bub_ms &p ) const
+{
+    return p.z() >= min_z && p.z() <= max_z && area.contains( p.xy().raw() );
+}
+
+bool lit_path_for( const bool lighting_active, const bool wants_scene_light,
+                   const bool cell_covered )
+{
+    return lighting_active && wants_scene_light && cell_covered;
 }
 
 } // namespace smooth_lighting

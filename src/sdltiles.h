@@ -99,6 +99,12 @@ class variant_pass;
 // not per-context copies.
 cata_shader::variant_pass *get_shared_variant_pass();
 
+// unbind any sprite shader so the next draw uses the renderer's own. a popup
+// raised during a map draw would otherwise paint through the last sprite's
+// shader. false when the bind boundary is lost: recovery is latched and the
+// caller skips its draw.
+bool unbind_sprite_shader();
+
 // True while the active scope failed to bind the buffer target. Per-scope;
 // consult before drawing so nothing paints onto an unknown SDL target.
 bool display_buffer_scope_is_invalid();

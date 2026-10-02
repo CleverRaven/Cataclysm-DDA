@@ -4,6 +4,7 @@
 
 #include <cstdint>
 
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "point.h"
 
@@ -40,6 +41,25 @@ enum class quarter_turn : uint8_t {
 
 // support of the cubic B-spline in lit_sample.glsl, in cells each side
 constexpr int filter_reach = 2;
+
+// map tiles the light map is filled for: the view range on screen, plus the
+// filter's reach, from the view range's and the screen's corner tiles
+half_open_rectangle<point> lightmap_fill_area( const point &view_min, const point &view_max,
+        const point &screen_min, const point &screen_max );
+
+// the cells a frame's light map holds. a lit sprite's own cell must be one:
+// its vertex colors address the light map by it, and a cell outside would
+// read another column, row or z level. every other sprite draws classic
+struct lightmap_extent {
+    half_open_rectangle<point> area;
+    int min_z = 0;
+    int max_z = -1;
+    bool covers( const tripoint_bub_ms &p ) const;
+};
+
+// whether a sprite takes the scene's light from the light map: lighting is on,
+// the sprite asks for scene light, and the light map holds its cell
+bool lit_path_for( bool lighting_active, bool wants_scene_light, bool cell_covered );
 
 // how far above its tile's ground line, in tile widths, a sprite's opaque top
 // must reach for the sprite to stand on the tile rather than lie on it

@@ -35,6 +35,7 @@
 #include "point.h"
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
+#include "smooth_lighting.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
@@ -47,10 +48,6 @@ namespace cata_shader
 {
 class variant_pass;
 } // namespace cata_shader
-namespace smooth_lighting
-{
-enum class quarter_turn : uint8_t;
-} // namespace smooth_lighting
 
 // Maps draw-dispatch inputs to the variant_kind enum the GPU shader path
 // consumes.
@@ -255,11 +252,21 @@ class atlas_replay_quarantine
  * decisions in one place. Future fields (light color tint, per-tile
  * brightness) extend this struct without adding parameters to every function.
  */
+// what light a sprite takes under smooth lighting
+enum class draw_light : uint8_t {
+    // the scene's light at its tile, from the light map
+    scene,
+    // as its lit_level says whatever the light map holds: overlays, indicators,
+    // vision effects, draw overrides, creatures shown by special vision
+    fixed,
+};
+
 struct tile_render_params {
     lit_level ll;
     bool use_night_vision_tiles = false;
     // the sprite's map tile, for smooth lighting
     tripoint_bub_ms pos;
+    draw_light light = draw_light::scene;
 };
 
 /**
@@ -1066,6 +1073,14 @@ class cata_tiles
         int lit_ground_dy = 0;
         // height_3d of the z level being drawn, as lit_ground_dy in tileset pixels
         int lit_level_height_3d = 0;
+        // cells this frame's light map holds
+        smooth_lighting::lightmap_extent lit_extent;
+        // light policy of sprites drawn now; overlay callers switch it for
+        // their draws with restore_on_out_of_scope
+        draw_light m_draw_light = draw_light::scene;
+        // test seam: draw_sprite_at records each sprite's id and light policy
+        std::vector<std::pair<std::string, draw_light>> *test_draw_light_log = nullptr;
+        const std::string *test_draw_id = nullptr;
         // false when upload failed and texels are not to be trusted
         bool fill_lightmap_layer( int z );
         // fill and bind the light map for this frame's sprites when

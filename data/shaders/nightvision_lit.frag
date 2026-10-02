@@ -1,10 +1,12 @@
-// Night vision scaled by the smooth lighting light, so night vision keeps
-// some of the light falloff it amplifies.
+// night vision for the smooth lighting modes: the night look in low light,
+// turning into the overexposed look as the light passes the lit threshold, so a
+// light's edge is a gradient rather than a tile staircase
 
 #version 450
 #extension GL_GOOGLE_include_directive : require
 
 #include "memory_presets.glsl"
+#include "nightvision_presets.glsl"
 #include "lit_sample.glsl"
 
 layout(set = 2, binding = 0) uniform sampler2D u_atlas;
@@ -16,13 +18,13 @@ layout(location = 0) out vec4 out_color;
 void main()
 {
     vec4 sample_color = texture(u_atlas, v_uv);
-    float av = (sample_color.r + sample_color.g + sample_color.b) / 3.0;
-    float result = min(av * (av * 0.75 + 64.0 / 255.0) + 16.0 / 255.0, 1.0);
-    vec3 nv_rgb = vec3(result * 0.25, result, result * 0.125);
-
     lit_sample s = sample_light(v_vertex_color);
     float level = max(s.light.r, max(s.light.g, s.light.b));
-    nv_rgb *= mix(0.55, 1.0, clamp(level / 0.8, 0.0, 1.0));
+
+    // low light keeps some falloff; lit threshold is 0.8, see
+    // smooth_light_brightness
+    vec3 night_rgb = nightvision_rgb(sample_color.rgb) * mix(0.55, 1.0, clamp(level / 0.8, 0.0, 1.0));
+    vec3 nv_rgb = mix(night_rgb, overexposed_rgb(sample_color.rgb), smoothstep(0.7, 0.9, level));
 
     if (u_mode.x < 0) {
         out_color = vec4(nv_rgb * s.visible, sample_color.a);

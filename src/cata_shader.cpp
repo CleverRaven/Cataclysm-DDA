@@ -757,11 +757,12 @@ void variant_pass::probe()
 
 bool variant_pass::lit_takes( const variant_kind v ) const
 {
-    if( !lit_active_ ) {
+    if( !lit_active_ || lit_suspended_ ) {
         return false;
     }
     // memory blends back toward the lit look near the edge of sight
     return v == variant_kind::NORMAL || v == variant_kind::SHADOW || v == variant_kind::NIGHT ||
+           v == variant_kind::OVEREXPOSED ||
            ( v == variant_kind::MEMORY && lit_params_.mode[0] >= 0 );
 }
 
@@ -769,7 +770,10 @@ SDL_GPURenderState *variant_pass::state_for( variant_kind v, const bool tinted )
 {
     if( lit_takes( v ) ) {
         // light carries the tint, so tinted doesn't matter
-        return v == variant_kind::NIGHT ? nv_lit_state_.get() : lit_state_.get();
+        const bool night = v == variant_kind::NIGHT || v == variant_kind::OVEREXPOSED ||
+                           ( v == variant_kind::MEMORY && lit_night_vision_ );
+        return night ? nv_lit_state_.get() :
+               lit_state_.get();
     }
     if( v == variant_kind::NORMAL && tinted ) {
         return tint_state_.get();
@@ -891,7 +895,8 @@ void variant_pass::release_lit( const bool abandon_handles )
 }
 
 bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> &texel,
-                              const std::optional<memory_preset> blend_into, const bool per_tile, const bool iso )
+                              const std::optional<memory_preset> blend_into, const bool per_tile, const bool iso,
+                              const bool night_vision )
 {
     lit_active_ = false;
     if( !available() || !lightmap || lit_failed_ || abandoned_pending_rebind_ || boundary_lost_ ) {
@@ -955,6 +960,7 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> 
         }
         lit_params_ = params;
     }
+    lit_night_vision_ = night_vision;
     lit_active_ = true;
     return true;
 }
@@ -962,6 +968,7 @@ bool variant_pass::begin_lit( SDL_Texture *lightmap, const std::array<float, 2> 
 void variant_pass::end_lit()
 {
     lit_active_ = false;
+    lit_suspended_ = false;
 }
 
 void variant_pass::drop_lit()

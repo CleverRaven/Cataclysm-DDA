@@ -277,3 +277,48 @@ TEST_CASE( "lighting_mode_defaults_to_smooth", "[smooth_lighting]" )
 {
     CHECK( get_options().get_option( "LIGHTING_MODE" ).getDefaultValue() == "smooth" );
 }
+
+TEST_CASE( "lightmap_extent_covers_the_view_range_on_screen", "[smooth_lighting]" )
+{
+    // avatar at bubble ( 65, 65 ): view range 5 to 125, screen wider than the
+    // bubble, as at far zoom
+    const point view_min( 5, 5 );
+    const point view_max( 125, 125 );
+    const smooth_lighting::lightmap_extent extent{
+        smooth_lighting::lightmap_fill_area( view_min, view_max, point( -40, -40 ), point( 170, 170 ) ),
+        -1, 0 };
+    for( const tripoint_bub_ms &p : {
+             tripoint_bub_ms( 5, 60, 0 ), tripoint_bub_ms( 125, 60, 0 ),
+             tripoint_bub_ms( 60, 5, 0 ), tripoint_bub_ms( 60, 125, -1 )
+         } ) {
+        CAPTURE( p );
+        CHECK( extent.covers( p ) );
+    }
+    for( const tripoint_bub_ms &p : {
+             tripoint_bub_ms( 4, 60, 0 ), tripoint_bub_ms( 126, 60, 0 ),
+             tripoint_bub_ms( 60, 4, 0 ), tripoint_bub_ms( 60, 126, 0 ),
+             tripoint_bub_ms( -1, 60, 0 ), tripoint_bub_ms( 140, 60, 0 ),
+             tripoint_bub_ms( 60, 60, 1 ), tripoint_bub_ms( 60, 60, -2 )
+         } ) {
+        CAPTURE( p );
+        CHECK_FALSE( extent.covers( p ) );
+    }
+}
+
+TEST_CASE( "lightmap_fill_area_keeps_filter_margin_round_the_screen", "[smooth_lighting]" )
+{
+    const half_open_rectangle<point> area = smooth_lighting::lightmap_fill_area(
+            point( 5, 5 ), point( 125, 125 ), point( 40, 50 ), point( 80, 90 ) );
+    CHECK( area.p_min == point( 40 - smooth_lighting::filter_reach,
+                                50 - smooth_lighting::filter_reach ) );
+    CHECK( area.p_max == point( 80 + smooth_lighting::filter_reach + 1,
+                                90 + smooth_lighting::filter_reach + 1 ) );
+}
+
+TEST_CASE( "only_scene_light_on_a_covered_cell_takes_the_lit_path", "[smooth_lighting]" )
+{
+    CHECK( smooth_lighting::lit_path_for( true, true, true ) );
+    CHECK_FALSE( smooth_lighting::lit_path_for( true, false, true ) );
+    CHECK_FALSE( smooth_lighting::lit_path_for( true, true, false ) );
+    CHECK_FALSE( smooth_lighting::lit_path_for( false, true, true ) );
+}

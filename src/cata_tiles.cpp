@@ -671,6 +671,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     // since at farthest zoom displayed area may be bigger than view range.
     point min_mm_reg = min_visible;
     point max_mm_reg = max_visible;
+    // map tiles the screen shows, over every z level drawn; the view range
+    // when the screen corners fall off the map
+    point screen_min = min_visible;
+    point screen_max = max_visible;
     if( is_isometric() ) {
         std::optional<point> northmost = tile_to_player( { min_col, min_row } );
         if( !northmost.has_value() ) {
@@ -694,11 +698,15 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                                 std::min( min_mm_reg.y, northmost->y ) );
             max_mm_reg = point( std::max( max_mm_reg.x, eastmost->x ),
                                 std::max( max_mm_reg.y, southmost->y ) );
+            screen_min = point( westmost->x, northmost->y );
+            screen_max = point( eastmost->x, southmost->y );
         }
     } else {
         std::optional<point> northwest = tile_to_player( { min_col, min_row } );
         std::optional<point> southeast = tile_to_player( { max_col, max_row } );
         if( northwest.has_value() && southeast.has_value() ) {
+            screen_min = *northwest;
+            screen_max = *southeast;
             min_mm_reg = point( std::min( min_mm_reg.x, northwest->x ),
                                 std::min( max_mm_reg.y, northwest->y ) );
             max_mm_reg = point( std::max( max_mm_reg.x, southeast->x ),
@@ -1050,12 +1058,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
         do_draw_shadow = true;
     }
 
-    // on-screen part of the view range, plus the light filter's reach
-    const half_open_rectangle<point> light_fill_area(
-        point( std::max( min_visible.x, min_mm_reg.x - smooth_lighting::filter_reach ),
-               std::max( min_visible.y, min_mm_reg.y - smooth_lighting::filter_reach ) ),
-        point( std::min( max_visible.x, max_mm_reg.x + smooth_lighting::filter_reach ) + 1,
-               std::min( max_visible.y, max_mm_reg.y + smooth_lighting::filter_reach ) + 1 ) );
+    const half_open_rectangle<point> light_fill_area = smooth_lighting::lightmap_fill_area(
+                min_visible, max_visible, screen_min, screen_max );
     const bool lit_this_frame = begin_smooth_lighting( cache, light_fill_area, draw_min_z,
                                 center.z(), draw_points_rebuilt );
     // lit states must not reach the overmap or UI sprites drawn after the map
@@ -1545,6 +1549,15 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
     here.prev_memory_sweep_origin = sweep_origin;
     here.access_cache( center.z() ).map_memory_sweep_pending = false;
 
+    // cursors, targeting, hit effects, weather and scrolling text draw over
+    // the map whatever its light
+    if( smooth_lighting_active ) {
+        smooth_lighting_active = false;
+        if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+            vp->end_lit();
+        }
+    }
+
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
                    do_draw_bullet || do_draw_hit || do_draw_line ||
                    do_draw_cursor || do_draw_highlight || do_draw_weather ||
@@ -1768,10 +1781,12 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
         get_option<bool>( "LIGHTING_MEMORY_BLEND" ) ? vp->active_memory_preset() : std::nullopt;
     const std::array<float, 2> texel = { 1.0f / MAPSIZE_X, 1.0f / ( MAPSIZE_Y * OVERMAP_LAYERS ) };
     smooth_lighting_active = vp->begin_lit( lightmap_tex.get(), texel, blend_into,
-                                            mode == "smooth", is_isometric() );
+                                            mode == "smooth", is_isometric(),
+                                            nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" ) );
     // texels only matter to lit draws, which begin_lit can refuse
     if( smooth_lighting_active ) {
-        for( int z = std::max( min_z, -OVERMAP_DEPTH ); z <= std::min( max_z, OVERMAP_HEIGHT ); ++z ) {
+        lit_extent = { fill_area, std::max( min_z, -OVERMAP_DEPTH ), std::min( max_z, OVERMAP_HEIGHT ) };
+        for( int z = lit_extent.min_z; z <= lit_extent.max_z; ++z ) {
             if( !fill_lightmap_layer( z ) ) {
                 // stale texels would shade wrong, so this frame draws classic
                 vp->end_lit();
@@ -2946,7 +2961,9 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     }
 
     //draw it!
-    const tile_render_params rp{ ll, nv_color_active, pos };
+    const tile_render_params rp{ ll, nv_color_active, pos, m_draw_light };
+    // test seam: draw_sprite_at logs under this id
+    test_draw_id = test_draw_light_log ? &id : nullptr;
     draw_tile_at( display_tile, screen_pos, loc_rand, rota, rp,
                   retract, height_3d, offset );
 
@@ -2999,7 +3016,22 @@ bool cata_tiles::draw_sprite_at(
     // fragment shader. On unsupported variant (untinted NORMAL, custom MEMORY
     // preset, clean session-disable) try_begin reports use_atlas; abort_frame
     // means undefined shader state -- latch recovery and throw.
+    const bool scene_lit = smooth_lighting::lit_path_for( smooth_lighting_active,
+                           rp.light == draw_light::scene, lit_extent.covers( rp.pos ) );
+    // sprites that keep their lit_level's look draw classic while lighting is on
+    const bool shown_unlit = smooth_lighting_active && !scene_lit;
+    if( test_draw_light_log && test_draw_id ) {
+        test_draw_light_log->emplace_back( *test_draw_id, rp.light );
+    }
+    on_out_of_scope end_unlit( [shown_unlit]() {
+        if( shown_unlit ) {
+            if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+                vp->set_lit_suspended( false );
+            }
+        }
+    } );
     if( cata_shader::variant_pass *vp = get_shared_variant_pass() ) {
+        vp->set_lit_suspended( shown_unlit );
         const cata_shader::variant_pass::begin_result br = vp->try_begin( variant, m_zlev_tint_bound );
         if( br == cata_shader::variant_pass::begin_result::abort_frame ) {
             display_buffer_scope_signal_recovery_required();
@@ -3282,6 +3314,8 @@ bool cata_tiles::apply_vision_effects( const tripoint_bub_ms &pos,
     }
 
     // lighting is never rotated, though, could possibly add in random rotation?
+    restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+    m_draw_light = draw_light::fixed;
     draw_from_id_string( light_name, TILE_CATEGORY::LIGHTING, empty_string, pos, 0, 0,
                          lit_level::LIT, false, height_3d );
 
@@ -3433,6 +3467,10 @@ bool cata_tiles::draw_terrain( const tripoint_bub_ms &p, const lit_level ll, int
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            if( overridden ) {
+                m_draw_light = draw_light::fixed;
+            }
             return memorize_only
                    ? false
                    : draw_from_id_string( tname, TILE_CATEGORY::TERRAIN, empty_string, p, subtile,
@@ -3534,6 +3572,10 @@ bool cata_tiles::draw_furniture( const tripoint_bub_ms &p, const lit_level ll, i
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            if( overridden ) {
+                m_draw_light = draw_light::fixed;
+            }
             return memorize_only
                    ? false
                    : draw_from_id_string( fname, TILE_CATEGORY::FURNITURE, empty_string, p, subtile,
@@ -3620,6 +3662,10 @@ bool cata_tiles::draw_trap( const tripoint_bub_ms &p, const lit_level ll, int &h
             // tile overrides are always shown with full visibility
             const lit_level lit = overridden ? lit_level::LIT : ll;
             const bool nv = overridden ? false : nv_goggles_activated;
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            if( overridden ) {
+                m_draw_light = draw_light::fixed;
+            }
             return memorize_only
                    ? false
                    : draw_from_id_string( trname, TILE_CATEGORY::TRAP, empty_string, p, subtile,
@@ -3673,6 +3719,10 @@ bool cata_tiles::draw_graffiti( const tripoint_bub_ms &p, const lit_level ll, in
     }
     const lit_level lit = overridden ? lit_level::LIT : ll;
     const int rotation = here.passable( p ) ? 1 : 0;
+    restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+    if( overridden ) {
+        m_draw_light = draw_light::fixed;
+    }
     const std::string tile = "graffiti_" +
                              to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ) ), " ",
                                             "_" ) ).substr( 0, 32 );
@@ -3839,6 +3889,8 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
         const field_type_id &fld = fld_override->second;
         if( fld.obj().display_field ) {
             const lit_level lit = lit_level::LIT;
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            m_draw_light = draw_light::fixed;
 
             auto field_at = [&]( const tripoint_bub_ms & q, const bool invis ) -> field_type_id {
                 const auto it = field_override.find( q );
@@ -3922,6 +3974,10 @@ bool cata_tiles::draw_field_or_item( const tripoint_bub_ms &p, const lit_level l
                 const std::string it_category = it_type->get_item_type_string();
                 const lit_level lit = it_overridden ? lit_level::LIT : ll;
                 const bool nv = it_overridden ? false : nv_goggles_activated;
+                restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+                if( it_overridden ) {
+                    m_draw_light = draw_light::fixed;
+                }
 
                 ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
                                                       0, lit, nv, height_3d, 0, variant );
@@ -4006,6 +4062,8 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             int height_3d_temp = height_3d;
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            m_draw_light = draw_light::fixed;
             const bool ret = memorize_only
                              ? false
                              : draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
@@ -4080,9 +4138,16 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
         const std::string &chosen_id = id.str();
         const std::string &ent_subcategory = id.obj().species.empty() ?
                                              empty_string : id.obj().species.begin()->str();
+        restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+        m_draw_light = draw_light::fixed;
         result = draw_from_id_string( chosen_id, TILE_CATEGORY::MONSTER, ent_subcategory, p,
                                       corner, 0, lit_level::LIT, false, height_3d );
     } else if( !invisible[0] || always_visible ) {
+        // always visible creature on a tile out of sight
+        restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+        if( invisible[0] ) {
+            m_draw_light = draw_light::fixed;
+        }
         if( pcritter == nullptr ) {
             return false;
         }
@@ -4094,6 +4159,8 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
             if( !sees_with_special.is_empty() ) {
                 const enchant_cache::special_vision_descriptions special_vis_desc =
                     you.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+                m_draw_light = draw_light::fixed;
                 return draw_from_id_string( special_vis_desc.id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
                                             lit_level::LIT, false, height_3d );
             }
@@ -4184,6 +4251,8 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
             if( !scope_is_blocking ) {
                 const enchant_cache::special_vision_descriptions special_vis_desc =
                     you.enchantment_cache->get_vision_description_struct( sees_with_special, d );
+                restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+                m_draw_light = draw_light::fixed;
                 return draw_from_id_string( special_vis_desc.id, TILE_CATEGORY::NONE, empty_string, p,
                                             0, 0, lit_level::LIT, false, height_3d );
             } else {
@@ -4208,6 +4277,8 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
             draw_id += "_sees_player";
         }
         if( tileset_ptr->find_tile_type( draw_id ) ) {
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            m_draw_light = draw_light::fixed;
             draw_from_id_string( draw_id, TILE_CATEGORY::NONE, empty_string, p, 0, 0,
                                  lit_level::LIT, false, height_3d );
         }
@@ -4251,6 +4322,8 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
     m_cur_bounds = nullptr;
     m_cur_tint_sprites = nullptr;
     m_cur_tint = nullptr;
+    restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+    m_draw_light = draw_light::fixed;
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
@@ -4324,6 +4397,8 @@ bool cata_tiles::draw_zone_mark( const tripoint_bub_ms &p, lit_level ll, int &he
         const mark_option *option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
         if( option && !option->get_mark().empty() ) {
+            restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+            m_draw_light = draw_light::fixed;
             return draw_from_id_string( option->get_mark(), TILE_CATEGORY::NONE, empty_string, p,
                                         0, 0, ll, nv_goggles_activated, height_3d );
         }
@@ -4345,6 +4420,8 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint_bub_ms &pos, con
         here.could_see_items( pos, get_player_character() ) ) {
         for( item &i : here.i_at( pos ) ) {
             if( i.can_revive() ) {
+                restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+                m_draw_light = draw_light::fixed;
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, TILE_CATEGORY::NONE,
                                             empty_string, pos, 0, 0, lit_level::LIT, false, height_3d );
             }
@@ -4358,9 +4435,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint_bub_ms &pos, con
 // shader. next sprite's try_begin rebinds
 void cata_tiles::flush_sprite_shader_for_untextured_draw()
 {
-    cata_shader::variant_pass *vp = get_shared_variant_pass();
-    if( vp && !vp->flush() ) {
-        display_buffer_scope_signal_recovery_required();
+    if( !unbind_sprite_shader() ) {
         throw std::runtime_error(
             "cata_tiles::flush_sprite_shader_for_untextured_draw: variant_pass flush failed; renderer in undefined state" );
     }
@@ -4510,6 +4585,8 @@ void cata_tiles::draw_entity_with_overlays( const monster &mon, const tripoint_b
 
 bool cata_tiles::draw_item_highlight( const tripoint_bub_ms &pos, int &height_3d )
 {
+    restore_on_out_of_scope<draw_light> restore_light( m_draw_light );
+    m_draw_light = draw_light::fixed;
     return draw_from_id_string( ITEM_HIGHLIGHT, TILE_CATEGORY::NONE, empty_string, pos, 0, 0,
                                 lit_level::LIT, false, height_3d );
 }

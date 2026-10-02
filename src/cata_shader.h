@@ -266,17 +266,19 @@ class variant_pass
         void select_memory_preset( std::optional<memory_preset> preset );
 
         // smooth lighting. when active, NORMAL and SHADOW draws run lit.frag,
-        // and NIGHT runs nightvision_lit.frag. both shade each pixel from
+        // and NIGHT and OVEREXPOSED run nightvision_lit.frag. all shade each pixel from
         // `lightmap` at the map coordinates provided by the caller in the
         // vertex colors; see lit_sample.glsl. `texel` is one lightmap texel in
         // texture coordinates. with `blend_into`, MEMORY draws also run
         // lit.frag and every lit draw blends out-of-sight light into that
         // memory preset. `per_tile` gives each tile its own light instead of
         // blending across tiles; `iso` picks the base line standing sprites
-        // take their light from. false when no lit state could be made, and the
+        // take their light from; `night_vision` blends MEMORY draws toward the
+        // night vision look. false when no lit state could be made, and the
         // caller draws the classic variants.
         bool begin_lit( SDL_Texture *lightmap, const std::array<float, 2> &texel,
-                        std::optional<memory_preset> blend_into, bool per_tile, bool iso );
+                        std::optional<memory_preset> blend_into, bool per_tile, bool iso,
+                        bool night_vision );
         // back to classic variants, lit states stay for the next frame
         void end_lit();
         // drop lit states before the lightmap texture is destroyed: the states
@@ -288,6 +290,11 @@ class variant_pass
         // whether a draw of `v` runs a lit state now, and so wants map
         // coordinates in its vertex colors
         bool lit_takes( variant_kind v ) const;
+        // while set, draws use the classic variants even though lighting is
+        // active; for sprites that show whatever the light at their tile
+        void set_lit_suspended( bool suspended ) {
+            lit_suspended_ = suspended;
+        }
 
         // Drop all GPU resources, flushing held state first; idempotent. On
         // flush failure the handles are abandoned and the embargo raised (see
@@ -344,6 +351,9 @@ class variant_pass
         };
         lit_params lit_params_;
         bool lit_active_ = false;
+        bool lit_suspended_ = false;
+        // memory blends toward the night vision look, not the lit look
+        bool lit_night_vision_ = false;
         // set when making lit states failed, so later frames don't retry and
         // log again until the GPU resources are rebuilt
         bool lit_failed_ = false;
