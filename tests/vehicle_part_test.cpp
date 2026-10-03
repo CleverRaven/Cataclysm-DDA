@@ -48,6 +48,7 @@ static const ammotype ammo_water( "water" );
 static const damage_type_id damage_bash( "bash" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_duct_tape( "duct_tape" );
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_gasoline( "gasoline" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
@@ -67,6 +68,8 @@ static const itype_id itype_wrench( "wrench" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
+static const skill_id skill_mechanics( "mechanics" );
+
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -78,6 +81,7 @@ static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 static const vpart_id vpart_tank_test( "tank_test" );
 static const vpart_id vpart_test_enchant( "test_enchant" );
 static const vpart_id vpart_water_faucet( "water_faucet" );
+static const vpart_id vpart_wing_mirror( "wing_mirror" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -878,6 +882,58 @@ TEST_CASE( "install_candidates_respect_the_higher_skill_engine_limit", "[vehicle
             THEN( "third is allowed" ) {
                 CHECK( engine_installable() );
             }
+        }
+    }
+}
+
+TEST_CASE( "most_repairable_part_needs_the_repair_materials", "[vehicle][veh_utils]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+    Character &you = get_player_character();
+    you.set_skill_level( skill_mechanics, 1 );
+    vehicle &veh = *spawn_frames( here, 1 );
+    const int mirror_idx = veh.install_part( here, point_rel_ms( 1, 0 ), vpart_wing_mirror );
+    REQUIRE( mirror_idx != -1 );
+    vehicle_part &mirror = veh.part( mirror_idx );
+    item damaged = mirror.get_base();
+    damaged.set_damage( damaged.max_damage() / 2 );
+    mirror.set_base( std::move( damaged ) );
+    REQUIRE( mirror.is_repairable() );
+
+    int tape_needed = 0;
+    const requirement_data reqs = mirror.info().repair_requirements() *
+                                  mirror.get_base().repairable_levels();
+    for( const std::vector<item_comp> &alternatives : reqs.get_components() ) {
+        for( const item_comp &comp : alternatives ) {
+            if( comp.type == itype_duct_tape ) {
+                tape_needed = comp.count;
+            }
+        }
+    }
+    REQUIRE( tape_needed > 0 );
+    const auto most_repairable = [&]() {
+        you.invalidate_crafting_inventory();
+        return veh_utils::most_repairable_part( veh, you );
+    };
+
+    GIVEN( "no tape" ) {
+        THEN( "nothing repairable" ) {
+            CHECK( most_repairable() == nullptr );
+        }
+    }
+    GIVEN( "exactly the tape repair needs" ) {
+        you.i_add( item( itype_duct_tape, calendar::turn, tape_needed ) );
+        THEN( "mirror repairable" ) {
+            CHECK( most_repairable() == &mirror );
+        }
+    }
+    GIVEN( "one tape charge short" ) {
+        you.i_add( item( itype_duct_tape, calendar::turn, tape_needed - 1 ) );
+        THEN( "nothing repairable" ) {
+            CHECK( most_repairable() == nullptr );
         }
     }
 }
