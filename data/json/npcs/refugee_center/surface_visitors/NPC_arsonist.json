@@ -12,6 +12,7 @@
     "name_unique": "Makayla Sanchez",
     "name_suffix": "Arsonist",
     "gender": "female",
+    "portrait_filename": "Named_NPC_makayla_sanchez",
     "class": "NC_ARSONIST",
     "attitude": 0,
     "mission": "SHOPKEEP",
@@ -27,7 +28,6 @@
     "name": { "str": "Arsonist" },
     "job_description": "I'm just watching the world burn.",
     "common": false,
-    "portrait_filename": "Named_NPC_makayla_sanchez",
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "trait": "hair_long_over_eye", "variant": "brown" },
