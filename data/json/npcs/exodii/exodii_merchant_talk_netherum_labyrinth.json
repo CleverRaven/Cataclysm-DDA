@@ -107,6 +107,7 @@
         "text": "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
         "effect": [
           { "u_add_var": "rubik_told_about_labyrinth", "value": "yes" },
+          { "math": [ "labyrinth_access_points = 1" ] },
           { "assign_mission": "MISSION_EXODII_LABYRINTHS_INTRO" }
         ],
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_how2"
@@ -149,9 +150,82 @@
         "text": "So there's a terminal downstairs?  I can just stand on the metal ring and use the terminal, but only once every five days or so?  Sounds too easy.  Sure, thanks Rubik.",
         "effect": [
           { "u_add_var": "rubik_told_about_labyrinth", "value": "yes" },
+          { "math": [ "labyrinth_access_points = 1" ] },
           { "assign_mission": "MISSION_EXODII_LABYRINTHS_INTRO" }
         ],
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Well, that'll happen.  The entrances to those places aren't particularly stable.  Like I said, we only spotted it and recorded its location on its way in.  It's likely to have moved.  But, I'll say, I'm surprised to see you back after you went in.  Maybe you've got some promise in you, yet.  You sure you want to go back?",
+      "str": "Ah, well now, at'll happen.  The apples n' pears - the ol' wobbly stairs to labyrinths - that is to say, how you got in, aren't stable.  Like this'n yarked, we only spotted the one on our way in.  She's likely moved.  But, I'm chuffed as a squeek to see you back after divin' in.  Maybe ye've some promise, yet.  Sure ye'll be keen to go back to the Labyrinths?  S'not a good idea."
+    },
+    "responses": [
+      {
+        "text": "So the way in has shut?  Or, moved, rather?  Yes, I want to go back.",
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_2"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_EXODII_MERCHANT_Jobs" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_2",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik considers you a very moment, their metal finger tapping the counter.  Then, Rubik produces a dusty electronic device.  In juxtoposition to the stare just moments ago, Rubik unceremoniously gives you the device.  \"This was mine, some time ago.  I also found that place pretty curious, and spent too much time delving into it.  We have Exodii who do it, now and again, when we need the supplies.  Not in places like this, so rich in plastics and metals, but in others, like the one we just came from.  Anyhow, I've not used this in a long time.  It's yours now.\"",
+      "str": "&Rubik considers you a very moment, their metal finger tapping the counter.  Then, Rubik produces a dusty electronic device.  In juxtoposition to the stare just moments ago, Rubik unceremoniously gives you the device.  \"This'n was ol' Rubiks, some time gone by.  Also found the Labyrinths curious, and spent a lick and a split delving.  In fact, we got Exodii'll do it, now and then, when we need it.  But ken, not places like this'n - green and brown, rich in plastic n' trinkets.  But others.  Darker places.  Anyhow, this'n hasn't used that there in  a spell.  S'yours, now.\""
+    },
+    "responses": [ { "text": "What is this thing?", "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_3" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_3",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "&Rubik leans in and starts to tap the device's screen, showing you how it works.  \"Right, I guess you can't read it.  It's a computer.  Has a few uses, but only two of use to you.  First is a radio - should work just find here.  Second is to detect wobbles - that is, entrances to labyrinths.  It won't point them out properly to you, but keep it toggled on, and it'll record passively, as you go.  Then bring the data back to the terminal here, and you might use to to delve back into a Labyrinth, for better or worse.\"",
+      "str": "&Rubik leans in and starts to tap the device's screen, showing you how it works.  \"Right, guess it's all scribbles to ya'.  It's a click-clack paddywack.  A tippidy-type.  A computer.  Has a few jobs, but only a pair for you.  First, is a talk-box - a radio.  Should work, still.  Second is fer wobbles - that is, it can wibble out Labyrinths, and where they're at.  It won't finger'em to you properly, but keep it turnt on, and it'll record'em'if'it'finds'em, aye?  Then, bring'er back to the terminal downstairs.  Might use'em to delve back into a Labyrinth, for better'er'worse.\""
+    },
+    "responses": [
+      {
+        "text": "Where should I look for these wobbles?  These entrances to labyrinths?",
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_4"
+      },
+      {
+        "text": "So I turn this on, and just leave it on, and if I get close to a \"wobble\", that is, an entrance to a Labyrinth, it'll record the location?  Then take it back to the computer.  Well, thanks, I guess.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_add_var": "rubik_told_about_exodii_wrist_computer", "value": "yes" },
+          { "u_spawn_item": "exodii_wrist_computer" },
+          {
+            "u_message": "Rubik shows you how to operate the Exodii wrist computer.  Turn it on, and leave it on, to run the \"wobble door scanner\" -- some sort of program that tries to locate Labyrinths, through some unknown dimension in space.  Who knows where you may find them?",
+            "popup": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer_4",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Anywhere the fabric of  space, time, and reality are thin.  When the sky cracks, or the earth glows.  You'll know it when you see it.",
+      "str": "Anyplace the fabric'a space, time, reality, n' all the bits between grows thin.  When the sky cracks, or the earth glows.  Ye'll ken it.  No doubt."
+    },
+    "responses": [
+      {
+        "text": "That's cryptic.  So I turn this on, and just leave it on -- especially in places where \"reality grows thin\", AND if I get close to a \"wobble\" it'll record the location?  Then take it back to the computer?  THEN I can get back to the Labyrinths?  Well, thanks, I guess.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "u_add_var": "rubik_told_about_exodii_wrist_computer", "value": "yes" },
+          { "u_spawn_item": "exodii_wrist_computer" },
+          {
+            "u_message": "Rubik shows you how to operate the Exodii wrist computer.  Turn it on, and leave it on, to run the \"wobble door scanner\" -- some sort of program that tries to locate Labyrinths, through some unknown dimension in space.  Who knows where you may find them?",
+            "popup": true
+          }
+        ]
       }
     ]
   }
