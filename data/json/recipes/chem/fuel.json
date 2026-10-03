@@ -119,13 +119,13 @@
     "charges": 250,
     "result_mult": 11,
     "time": "5 s",
-    "book_learn": [ [ "textbook_biodiesel", 2 ], [ "atomic_survival", 0 ], [ "book_icef", 3 ], [ "adv_chemistry", 4 ] , [ "textbook_chemistry", 4 ] ],
-    "components": [
-      [ [ "gasoline", 2500 ] ],
-      [
-        [ "cooking_oil", 10 ],
-        [ "motor_oil", 250 ]
-      ]
-    ]
+    "book_learn": [
+      [ "textbook_biodiesel", 2 ],
+      [ "atomic_survival", 0 ],
+      [ "book_icef", 3 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ]
+    ],
+    "components": [ [ [ "gasoline", 2500 ] ], [ [ "cooking_oil", 10 ], [ "motor_oil", 250 ] ] ]
   }
 ]
