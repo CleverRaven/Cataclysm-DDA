@@ -176,6 +176,14 @@ lit_sample sample_light(vec4 coords)
     vec2 st = vec2(cell) + local - 0.5;
     ivec2 base = ivec2(floor(st));
     vec2 f = st - vec2(base);
+    // kernel weights depend only on the point and the tap, so each axis takes
+    // four
+    float wx[4];
+    float wy[4];
+    for (int k = 0; k < 4; ++k) {
+        wx[k] = bspline(st.x - float(base.x + k - 1));
+        wy[k] = bspline(st.y - float(base.y + k - 1));
+    }
     lit_texel taps[16];
     for (int j = 0; j < 4; ++j) {
         for (int i = 0; i < 4; ++i) {
@@ -223,7 +231,7 @@ lit_sample sample_light(vec4 coords)
                     if (!t.detail || !reaches(mask, tap - c)) {
                         continue;
                     }
-                    float w = bspline(st.x - float(tap.x)) * bspline(st.y - float(tap.y));
+                    float w = wx[i + 1] * wy[j + 1];
                     w_sum += w;
                     l_sum += w * t.light;
                     // chroma by filter weight alone: weighting it by light

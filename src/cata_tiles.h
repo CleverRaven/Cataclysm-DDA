@@ -1117,6 +1117,9 @@ class cata_tiles
 
         // this frame's lit sprites draw through the light map
         bool smooth_lighting_active = false;
+        // lit sprites take each tile's own light, the same whether a sprite
+        // stands or not
+        bool lit_per_tile = false;
         // screen offset of the z level being drawn from the tile anchor
         int lit_ground_dy = 0;
         // height_3d of the z level being drawn, as lit_ground_dy in tileset pixels

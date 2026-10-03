@@ -448,6 +448,14 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
     const point base( static_cast<int>( std::floor( stx ) ), static_cast<int>( std::floor( sty ) ) );
     const float fx = stx - base.x;
     const float fy = sty - base.y;
+    // kernel weights depend only on the point and the tap, so each axis takes
+    // four
+    std::array<float, 4> wx = {};
+    std::array<float, 4> wy = {};
+    for( int k = 0; k < 4; ++k ) {
+        wx[k] = bspline( stx - static_cast<float>( base.x + k - 1 ) );
+        wy[k] = bspline( sty - static_cast<float>( base.y + k - 1 ) );
+    }
     float light_sum = 0.0f;
     std::array<float, 3> chroma_sum = {};
     float blend_weight = 0.0f;
@@ -493,7 +501,7 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
                     if( !t.detail ) {
                         continue;
                     }
-                    const float w = bspline( stx - tap.x ) * bspline( sty - tap.y );
+                    const float w = wx[i + 1] * wy[j + 1];
                     w_sum += w;
                     l_sum += w * t.light;
                     // chroma by filter weight alone: weighting it by light

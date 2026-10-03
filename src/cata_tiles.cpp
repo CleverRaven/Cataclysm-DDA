@@ -1715,7 +1715,12 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &he
         const int layer = z + OVERMAP_DEPTH;
         std::vector<smooth_lighting::lightmap_texel> &uploaded = uploaded_[layer];
         if( scratch_ != uploaded ) {
-            const SDL_Rect rect = { 0, layer * MAPSIZE_Y, smooth_lighting::lightmap_width, MAPSIZE_Y };
+            // per tile sampling never reads the reach masks, so only the light
+            // columns go up
+            const SDL_Rect rect = { 0, layer * MAPSIZE_Y,
+                                    settings.masks ? smooth_lighting::lightmap_width : smooth_lighting::reach_column,
+                                    MAPSIZE_Y
+                                  };
             if( !UpdateTexture( texture_, &rect, scratch_.data(), smooth_lighting::lightmap_width * 4 ) ) {
                 // texture might contain some of the new texels
                 uploaded.clear();
@@ -1851,6 +1856,7 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
     failures.succeed();
     lit_extent = lightmap->extent();
     smooth_lighting_active = true;
+    lit_per_tile = frame.per_tile;
     note_lighting_status( frame.per_tile ? lighting_status::smooth : lighting_status::smooth_filtered );
     return true;
 }
@@ -2714,9 +2720,10 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
                 m_shown_anchor );
     if( !m_anchor_decided ) {
         m_anchor_decided = true;
-        // smooth lighting needs it, and the test seam records it
-        m_shown_anchor = smooth_lighting_active || test_draw_light_log != nullptr ?
-                         default_light_anchor( category, id ) : std::nullopt;
+        // filtered lighting needs it, and the test seam records it
+        const bool filtered = smooth_lighting_active && !lit_per_tile;
+        m_shown_anchor = filtered || test_draw_light_log != nullptr ? default_light_anchor( category, id ) :
+                         std::nullopt;
     }
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
@@ -3237,22 +3244,25 @@ bool cata_tiles::draw_sprite_at(
     }
 
     if( lit_sprite ) {
-        const std::optional<smooth_lighting::light_anchor> anchor =
-            smooth_lighting::chosen_light_anchor( tile.light_anchor, rp.anchor );
-        const SDL_Rect &opq = sprite_tex->get_opaque_rect();
-        smooth_lighting::sprite_footprint footprint;
-        footprint.size = point( width, height );
-        footprint.opaque = half_open_rectangle<point>( point( opq.x, opq.y ),
-                           point( opq.x + opq.w, opq.y + opq.h ) );
-        footprint.flip_horizontal = ( render_flip & SDL_FLIP_HORIZONTAL ) != 0;
-        footprint.flip_vertical = ( render_flip & SDL_FLIP_VERTICAL ) != 0;
-        footprint.turn = render_turn;
-        footprint.pixelscale = tile.pixelscale;
-        footprint.top = tile_offset.y + offset.y - ( height_3d - lit_level_height_3d );
-        const smooth_lighting::tile_geometry geometry{ tileset_ptr->get_tile_width(),
-                tileset_ptr->get_tile_height(), iso };
-        const bool standing = anchor ? *anchor == smooth_lighting::light_anchor::base :
-                              smooth_lighting::sprite_stands( footprint, geometry );
+        bool standing = false;
+        if( !lit_per_tile ) {
+            const std::optional<smooth_lighting::light_anchor> anchor =
+                smooth_lighting::chosen_light_anchor( tile.light_anchor, rp.anchor );
+            const SDL_Rect &opq = sprite_tex->get_opaque_rect();
+            smooth_lighting::sprite_footprint footprint;
+            footprint.size = point( width, height );
+            footprint.opaque = half_open_rectangle<point>( point( opq.x, opq.y ),
+                               point( opq.x + opq.w, opq.y + opq.h ) );
+            footprint.flip_horizontal = ( render_flip & SDL_FLIP_HORIZONTAL ) != 0;
+            footprint.flip_vertical = ( render_flip & SDL_FLIP_VERTICAL ) != 0;
+            footprint.turn = render_turn;
+            footprint.pixelscale = tile.pixelscale;
+            footprint.top = tile_offset.y + offset.y - ( height_3d - lit_level_height_3d );
+            const smooth_lighting::tile_geometry geometry{ tileset_ptr->get_tile_width(),
+                    tileset_ptr->get_tile_height(), iso };
+            standing = anchor ? *anchor == smooth_lighting::light_anchor::base :
+                       smooth_lighting::sprite_stands( footprint, geometry );
+        }
         render_lit_sprite( *sprite_tex, destination, render_turn, render_flip, rp.pos, p, standing );
     } else if( rotate_sprite ) {
         if( rota == -1 ) {
