@@ -403,7 +403,7 @@
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "improvised diesel" },
     "display_type": "BY_VOLUME",
-    "description": "Improvised diesel fuel made by mixing mainly a gasoline with addition of oil to alter its properties closer to that of a real diesel fuel.  Althouh it allows you to fuel a car, it is not healthy for a diesel engine.",
+    "description": "Improvised diesel fuel made by mixing mainly a gasoline with addition of oil to alter its properties closer to that of a real diesel fuel.  Although it allows you to fuel the car, it is not healthy for a diesel engine.",
     "//": "The engine health impact reffering here is an extended wear of high-pressure fuel pump due to gasoline is not a lubricant, and even if its mixed with oil it still will impact, tough less. In future(require new game mechanic) runing diesel on this stuff should progresively damage fuel pump or develop a flaw. For now its just a plcebo warning.",
     "category": "fuel",
     "weight": "768 mg",
