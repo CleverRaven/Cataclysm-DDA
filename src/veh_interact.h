@@ -22,6 +22,7 @@
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_utils.h"
 #include "vpart_position.h"
 
 class Character;
@@ -162,6 +163,8 @@ class veh_interact
 
         vehicle *veh;
         const temp_crafting_inventory *crafting_inv;
+        // install candidates for crafting_inv, refreshed with it; move_cursor filters them per tile
+        veh_utils::install_candidates install_options;
         input_context main_context;
 
         // maximum weight capacity of available lifting equipment (if any)

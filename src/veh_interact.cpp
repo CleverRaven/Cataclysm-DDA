@@ -13,6 +13,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_actor_definitions.h"
@@ -573,6 +574,7 @@ void veh_interact::do_main_loop( map &here )
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
+                    move_cursor( here, point_rel_ms::zero );
                 }
             }
         } else if( action == "UNLOAD" ) {
@@ -627,6 +629,7 @@ void veh_interact::cache_tool_availability()
 
     Character &player_character = get_player_character();
     crafting_inv = &player_character.crafting_inventory();
+    install_options = veh_utils::list_install_candidates( player_character, *crafting_inv, *veh );
 
     cache_tool_availability_update_lifting( player_character.pos_bub() );
     int mech_jack = 0;
@@ -2206,9 +2209,7 @@ void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at 
 
     can_mount.clear();
     if( !obstruct ) {
-        const veh_utils::install_candidates candidates =
-            veh_utils::list_install_candidates( get_player_character(), *crafting_inv, *veh );
-        std::copy_if( candidates.parts.begin(), candidates.parts.end(),
+        std::copy_if( install_options.parts.begin(), install_options.parts.end(),
         std::back_inserter( can_mount ), [has_critter]( const vpart_info * vpi ) {
             return !( has_critter && vpi->has_flag( VPFLAG_OBSTACLE ) );
         } );
@@ -2728,8 +2729,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         const vpart_variant &vv = info.variants.at( info.variant_default );
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, point( 1, y ), info.color, vv.get_symbol_curses( 0_degrees, false ) );
-        nc_color col = veh_utils::can_install_anywhere( get_player_character(), *crafting_inv, *veh,
-                       info ) ? c_white : c_dark_gray;
+        nc_color col = install_options.installable.count( &info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );
     }

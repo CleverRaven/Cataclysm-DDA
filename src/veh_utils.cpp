@@ -193,6 +193,8 @@ bool can_install_anywhere( const Character &who, const temp_crafting_inventory &
 install_candidates list_install_candidates( const Character &who,
         const temp_crafting_inventory &inv, const vehicle &veh )
 {
+    // no inventory-backed item or power changes while the list is built, so query caches hold
+    temp_crafting_inventory::query_cache_scope cache_scope;
     install_candidates ret;
     std::vector<const vpart_info *> req_missing;
     for( const vpart_info &vpi : vehicles::parts::get_all() ) {
