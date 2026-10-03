@@ -436,6 +436,15 @@ struct renderer_recovery_test_support {
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
         const atlas_bake_plan &plan, bool with_highlight = false,
         const std::vector<std::string> &tile_ids = {} );
+    // bundle of the atlas at `image_path`, cut into `tilecount` sprites of
+    // `sprite_size`, uploaded through tileset_cache::loader::upload_atlases
+    static std::shared_ptr<const tileset> install_atlas_bundle( const std::string &tileset_id,
+            const std::string &image_path, const point &sprite_size, int tilecount );
+    // upload `ts` with `desc` as its one atlas and track it in the cache
+    static std::shared_ptr<const tileset> upload_test_bundle( std::shared_ptr<tileset> ts,
+            const atlas_replay_descriptor &desc, const std::string &memory_map_mode,
+            uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+            const atlas_bake_plan &plan );
     // install_synthetic_bundle with a full plan and the synthetic item highlight.
     static std::shared_ptr<const tileset> install_synthetic_bundle_with_highlight(
         const std::string &tileset_id, const std::string &memory_map_mode,

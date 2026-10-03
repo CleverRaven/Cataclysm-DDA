@@ -12,6 +12,7 @@
 #include "cata_tiles.h"
 #include "options.h"
 #include "options_helpers.h"
+#include "point.h"
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
@@ -880,4 +881,29 @@ TEST_CASE( "synthetic_item_highlight_has_no_silhouette_and_is_not_invalid",
     // atlas sprite has its silhouette, so mask replay never classifies it
     CHECK( bundle->get_silhouette_tile( 0 ) != nullptr );
 }
+
+TEST_CASE( "sprites_in_every_chunk_of_a_split_atlas_keep_their_opaque_bounds", "[tiles]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    // software renderer makes one chunk per sprite; each 4x4 sprite has one
+    // opaque pixel
+    const std::shared_ptr<const tileset> ts = renderer_recovery_test_support::install_atlas_bundle(
+                "opaque_bounds_ts", "tests/data/opaque_bounds_atlas.png", point( 4, 4 ), 16 );
+    REQUIRE( ts );
+    for( int i = 0; i < 16; ++i ) {
+        CAPTURE( i );
+        const texture *tex = ts->get_tile( i );
+        REQUIRE( tex );
+        const SDL_Rect &opaque = tex->get_opaque_rect();
+        CHECK( opaque.x == i % 4 );
+        CHECK( opaque.y == ( i / 4 + i ) % 4 );
+        CHECK( opaque.w == 1 );
+        CHECK( opaque.h == 1 );
+    }
+}
+
 #endif // TILES

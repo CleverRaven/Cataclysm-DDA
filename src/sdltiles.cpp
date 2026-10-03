@@ -2403,13 +2403,39 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_tiles_bun
     desc.sprite_height = 1;
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
-    ts->append_atlas_descriptor( desc );
     if( with_highlight ) {
         // highlight texture takes the tile size
         ts->tile_width = 1;
         ts->tile_height = 1;
         ts->set_default_item_highlight_index( 1 );
     }
+    return upload_test_bundle( std::move( ts ), desc, memory_map_mode, renderer_instance_generation,
+                               gpu_textures_generation, plan );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_atlas_bundle(
+    const std::string &tileset_id, const std::string &image_path, const point &sprite_size,
+    const int tilecount )
+{
+    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
+    ts->tileset_id = tileset_id;
+    atlas_replay_descriptor desc;
+    desc.image_path_u8 = image_path;
+    desc.sprite_width = sprite_size.x;
+    desc.sprite_height = sprite_size.y;
+    desc.atlas_offset = 0;
+    desc.expected_tilecount = tilecount;
+    return upload_test_bundle( std::move( ts ), desc, "color_pixel_darken",
+                               renderer_coordinator.instance_generation(), renderer_coordinator.textures_generation(),
+                               atlas_bake_plan{} );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::upload_test_bundle(
+    std::shared_ptr<tileset> ts, const atlas_replay_descriptor &desc,
+    const std::string &memory_map_mode, const uint64_t renderer_instance_generation,
+    const uint64_t gpu_textures_generation, const atlas_bake_plan &plan )
+{
+    ts->append_atlas_descriptor( desc );
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
                                            compute_tileset_filter_fingerprint( memory_map_mode ), plan,
@@ -2418,7 +2444,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_tiles_bun
                                            gpu_textures_generation, false );
     ts->set_upload_generations( renderer_instance_generation, gpu_textures_generation );
     const tileset_cache_key key {
-        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+        ts->tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
     ts_cache.track_bundle( key, ts );
     return ts;
