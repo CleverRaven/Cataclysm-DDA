@@ -92,6 +92,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -832,6 +833,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
+        // no inventory-backed item or power changes until this block ends, so query caches hold
+        temp_crafting_inventory::query_cache_scope cache_scope;
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
 
         std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,

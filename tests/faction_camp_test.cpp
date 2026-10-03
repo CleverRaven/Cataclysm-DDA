@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -34,11 +35,15 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const itype_id itype_hacksaw( "hacksaw" );
+static const itype_id itype_metal_tank( "metal_tank" );
+static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_test_100_kcal( "test_100_kcal" );
 static const itype_id itype_test_200_kcal( "test_200_kcal" );
 static const itype_id itype_test_500_kcal( "test_500_kcal" );
 
 static const recipe_id recipe_fbmh_2_room_1_1( "fbmh_2_room_1_1" );
+static const recipe_id recipe_test_base_stove_1( "test_base_stove_1" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
@@ -253,6 +258,63 @@ TEST_CASE( "camp_upgrade_missions_show_blueprint_and_parameter_names", "[camp]" 
             const std::string name = camp.name_display_of( room );
             CAPTURE( name );
             CHECK( string_ends_with( name, "<No longer valid construction>" ) );
+        }
+    }
+}
+TEST_CASE( "camp_upgrade_offers_follow_the_camp_storage", "[camp]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    map &here = get_map();
+    tripoint_abs_omt camp_omt;
+    basecamp &camp = place_test_camp( "faction_base_bare_bones_NPC_camp_0", camp_omt );
+    faction *camp_faction = get_player_character().get_faction();
+    on_out_of_scope cleanup( [&camp_omt, camp_faction]() {
+        overmap_buffer.clear_camps( camp_omt.xy() );
+        camp_faction->empty_food_supply();
+    } );
+    camp_faction->empty_food_supply();
+    std::map<time_point, nutrients> food;
+    food[calendar::turn_zero].calories = 10000 * 1000;
+    camp_faction->add_to_food_supply( food );
+
+    const tripoint_bub_ms storage{ MAPSIZE_X / 2 + 1, MAPSIZE_Y / 2, 0 };
+    camp.set_storage_tiles( { here.get_abs( storage ) } );
+    here.i_clear( storage );
+
+    const auto stove_offer = [&]() {
+        camp.form_crafting_inventory( here );
+        mission_data missions;
+        camp.get_available_missions_by_dir( missions, base_camps::base_dir );
+        const std::vector<mission_entry> upgrades = offered_upgrades( missions );
+        const auto stove = std::find_if( upgrades.begin(), upgrades.end(),
+        []( const mission_entry & e ) {
+            return e.id.id.parameters == recipe_test_base_stove_1.str();
+        } );
+        REQUIRE( stove != upgrades.end() );
+        CAPTURE( stove->name_display );
+        return stove->possible;
+    };
+
+    WHEN( "storage: hacksaw, metal tank, pipe" ) {
+        here.add_item_or_charges( storage, item( itype_hacksaw ) );
+        here.add_item_or_charges( storage, item( itype_metal_tank ) );
+        here.add_item_or_charges( storage, item( itype_pipe ) );
+        THEN( "stove can be built" ) {
+            CHECK( stove_offer() );
+        }
+    }
+    WHEN( "storage: tank + pipe, no saw" ) {
+        here.add_item_or_charges( storage, item( itype_metal_tank ) );
+        here.add_item_or_charges( storage, item( itype_pipe ) );
+        THEN( "stove can't be built" ) {
+            CHECK_FALSE( stove_offer() );
+        }
+    }
+    WHEN( "storage only has the hacksaw" ) {
+        here.add_item_or_charges( storage, item( itype_hacksaw ) );
+        THEN( "stove can't be built" ) {
+            CHECK_FALSE( stove_offer() );
         }
     }
 }
