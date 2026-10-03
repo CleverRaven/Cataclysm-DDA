@@ -170,9 +170,6 @@ void lightmap_keys::forget_all()
     filled_ = {};
 }
 
-// a colored light's tint shows this much stronger as a multiplier than as the
-// overlay compute_tile_tint sizes it for, which caps near 1/3
-static constexpr float tint_strength_gain = 1.5f;
 // sight edge fades over this band of the in-sight fraction
 static constexpr float sight_edge_start = 0.3f;
 static constexpr float sight_edge_end = 0.7f;
@@ -246,7 +243,8 @@ std::array<float, 3> illumination_hue( const light_color_rgb &lc, const float sc
     const float t = std::clamp( ( colored - LIGHT_AMBIENT_LOW ) /
                                 ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_LOW ), 0.0f, 1.0f );
     const float fade = t * t * ( 3.0f - 2.0f * t );
-    const float s = fade * std::min( 1.0f, tint_strength_gain * tint->a / 255.0f );
+    // colored share of the light, 0 to 1
+    const float s = fade * std::min( 1.0f, tint->a / tint_max_alpha );
     hue[0] = 1.0f + s * ( tint->r / 255.0f - 1.0f );
     hue[1] = 1.0f + s * ( tint->g / 255.0f - 1.0f );
     hue[2] = 1.0f + s * ( tint->b / 255.0f - 1.0f );
@@ -590,13 +588,31 @@ static std::array<float, 3> nightvision_green( const float result )
     return { result * 0.25f, result, result * 0.125f };
 }
 
+// lit_sample.glsl's mix_in_hue
+static std::array<float, 3> mix_in_hue( const std::array<float, 3> &rgb,
+                                        const std::array<float, 3> &hue )
+{
+    const float strength = 1.0f - std::min( { hue[0], hue[1], hue[2] } );
+    if( strength <= 0.0f ) {
+        return rgb;
+    }
+    const std::array<float, 3> color = { ( hue[0] - 1.0f + strength ) / strength,
+                                         ( hue[1] - 1.0f + strength ) / strength,
+                                         ( hue[2] - 1.0f + strength ) / strength
+                                       };
+    // the pixel's brightness in the light's color, as far as that fits on
+    // screen: color's brightest channel is 1, so a scale over 1 would clip
+    const float scale = std::min( average( rgb ) / std::max( average( color ), min_weight ), 1.0f );
+    return mix3( rgb, { color[0] *scale, color[1] *scale, color[2] *scale }, tint_mix * strength );
+}
+
 std::array<float, 3> reference_lit_rgb( const look_params &look, const std::array<float, 3> &rgb,
                                         const lit_sample &s )
 {
     const float gray = average( rgb );
     const std::array<float, 3> drained = mix3( { gray, gray, gray }, rgb,
                                          smooth_step( 0.0f, full_color_light, s.light ) );
-    const std::array<float, 3> lit = { drained[0] *s.hue[0], drained[1] *s.hue[1], drained[2] *s.hue[2] };
+    const std::array<float, 3> lit = mix_in_hue( drained, s.hue );
     const float shade = mix1( shadow_shade, 1.0f, s.light );
     const std::array<float, 3> seen = { lit[0] *shade, lit[1] *shade, lit[2] *shade };
     const std::array<float, 3> unseen = look.blend_memory ? reference_memory_rgb( look, rgb ) :

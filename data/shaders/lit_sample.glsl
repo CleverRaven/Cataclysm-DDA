@@ -34,7 +34,8 @@ layout(set = 3, binding = 0) uniform lit_params {
     // custom memory look: rgb dark color, w gamma; rgb light color
     vec4 u_custom_dark;
     vec4 u_custom_light;
-    // x: light over which night vision hands over to the overexposed look
+    // x: light over which night vision hands over to the overexposed look;
+    // y: how far a fully colored light mixes a pixel toward its color
     vec4 u_look;
 };
 
@@ -118,6 +119,22 @@ float bspline(float x)
 vec3 chroma_hue(vec3 chroma)
 {
     return chroma / max(max(chroma.r, chroma.g), max(chroma.b, MIN_WEIGHT));
+}
+
+// `rgb` mixed toward the light's color at its own brightness, or as near it
+// as the screen shows; `hue` is 1 - w + w * color, w the light's colored share
+vec3 mix_in_hue(vec3 rgb, vec3 hue)
+{
+    float strength = 1.0 - min(min(hue.r, hue.g), hue.b);
+    if (strength <= 0.0) {
+        return rgb;
+    }
+    vec3 color = (hue - 1.0 + strength) / strength;
+    // the pixel's brightness in the light's color, as far as that fits on
+    // screen: color's brightest channel is 1, so a scale over 1 would clip
+    float scale = min((rgb.r + rgb.g + rgb.b) / max(color.r + color.g + color.b, 3.0 * MIN_WEIGHT),
+                      1.0);
+    return mix(rgb, color * scale, u_look.y * strength);
 }
 
 // memory overlay look out-of-sight light fades into

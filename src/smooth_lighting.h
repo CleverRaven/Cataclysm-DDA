@@ -154,11 +154,11 @@ uint32_t texel_reach( const lightmap_texel &t );
 // bit of the cell `d` from the own cell, both coordinates within filter_reach
 uint32_t reach_bit( const point &d );
 
-// how a colored light tints what it shines on, as a channel multiplier with
-// its brightest channel 1. `scalar_light` is the tile's light, not what the
-// avatar sees of it, so special vision does not change the hue. the tint
-// fades to white as the colored light itself falls from LIGHT_AMBIENT_LIT to
-// LIGHT_AMBIENT_LOW
+// a colored light's color at its strength w, as 1 - w + w * color with the
+// color's brightest channel 1: w is the colored share of the light.
+// `scalar_light` is the tile's light, not what the avatar sees of it, so
+// special vision does not change the hue. the tint fades to white as the
+// colored light itself falls from LIGHT_AMBIENT_LIT to LIGHT_AMBIENT_LOW
 std::array<float, 3> illumination_hue( const light_color_rgb &lc, float scalar_light );
 
 // barrier flags of one strip's light texels
@@ -225,6 +225,9 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
 
 // light level from which lit sprites keep their full color
 constexpr float full_color_light = 0.75f;
+// how far a fully colored light mixes a lit pixel toward its own color, at
+// the pixel's brightness or as near it as the screen shows
+constexpr float tint_mix = 0.4f;
 // brightness of lit sprites at the vision threshold: the classic shadow
 // variant's, color_pixel_grayscale's 5/8
 constexpr float shadow_shade = 0.625f;

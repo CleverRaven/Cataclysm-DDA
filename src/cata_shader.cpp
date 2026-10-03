@@ -1275,7 +1275,7 @@ variant_pass::lit_params variant_pass::make_lit_params( const lit_frame &frame )
     params.tone = { smooth_lighting::shadow_shade, smooth_lighting::standing_marker, smooth_lighting::full_color_light,
                     smooth_lighting::night_floor
                   };
-    params.look = { smooth_lighting::overexpose_start, 0.0f, 0.0f, 0.0f };
+    params.look = { smooth_lighting::overexpose_start, smooth_lighting::tint_mix, 0.0f, 0.0f };
     params.custom_dark = { frame.memory.custom_dark[0], frame.memory.custom_dark[1],
                            frame.memory.custom_dark[2], frame.memory.custom_gamma
                          };

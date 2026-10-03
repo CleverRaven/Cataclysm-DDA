@@ -1033,3 +1033,83 @@ TEST_CASE( "a_tilesets_own_anchor_beats_the_default", "[smooth_lighting]" )
            light_anchor::base );
     CHECK_FALSE( smooth_lighting::chosen_light_anchor( std::nullopt, std::nullopt ) );
 }
+
+TEST_CASE( "colored_light_mixes_its_hue_in_at_the_pixels_brightness",
+           "[smooth_lighting][light_color]" )
+{
+    // brown wood, with almost no blue of its own, under full magenta light
+    const std::array<float, 3> brown = { 0.5f, 0.3f, 0.1f };
+    smooth_lighting::lit_sample s;
+    s.light = 1.0f;
+    s.visible = 1.0f;
+    const smooth_lighting::look_params look;
+    const std::array<float, 3> plain = smooth_lighting::reference_lit_rgb( look, brown, s );
+    s.hue = { 1.0f, 0.0f, 1.0f };
+    const std::array<float, 3> tinted = smooth_lighting::reference_lit_rgb( look, brown, s );
+    CAPTURE( tinted[0], tinted[1], tinted[2] );
+    THEN( "gains light's blue, loses green" ) {
+        CHECK( tinted[2] > plain[2] + 0.1f );
+        CHECK( tinted[1] < plain[1] );
+    }
+    THEN( "its brightness stays" ) {
+        CHECK( tinted[0] + tinted[1] + tinted[2] == Approx( plain[0] + plain[1] + plain[2] ).margin(
+                   1e-5 ) );
+    }
+    THEN( "mix goes tint_mix of the way to the light's color" ) {
+        const float brightness = ( plain[0] + plain[1] + plain[2] ) / 3.0f;
+        const float target_blue = brightness / ( 2.0f / 3.0f );
+        CHECK( tinted[2] == Approx( plain[2] + ( target_blue - plain[2] ) *
+                                    smooth_lighting::tint_mix ).margin(
+                   1e-5 ) );
+    }
+}
+
+TEST_CASE( "colored_light_mixing_stays_on_screen", "[smooth_lighting][light_color]" )
+{
+    smooth_lighting::lit_sample s;
+    s.light = 1.0f;
+    s.visible = 1.0f;
+    const smooth_lighting::look_params look;
+    GIVEN( "white pixel under full red light" ) {
+        s.hue = { 1.0f, 0.0f, 0.0f };
+        const std::array<float, 3> got = smooth_lighting::reference_lit_rgb( look, { 1.0f, 1.0f, 1.0f },
+                                         s );
+        CAPTURE( got[0], got[1], got[2] );
+        THEN( "red stays at full, others drop, none past what the screen shows" ) {
+            CHECK( got[0] == Approx( 1.0f ) );
+            CHECK( got[1] == Approx( 1.0f - smooth_lighting::tint_mix ) );
+            CHECK( got[2] == Approx( 1.0f - smooth_lighting::tint_mix ) );
+        }
+    }
+    GIVEN( "pixels of every brightness under saturated lights" ) {
+        for( const std::array<float, 3> &hue : {
+                 std::array<float, 3> { 1.0f, 0.0f, 0.0f }, std::array<float, 3> { 0.0f, 1.0f, 0.0f },
+                 std::array<float, 3> { 1.0f, 0.0f, 1.0f }
+             } ) {
+            for( int r = 0; r <= 4; ++r ) {
+                for( int g = 0; g <= 4; ++g ) {
+                    const std::array<float, 3> rgb = { r / 4.0f, g / 4.0f, 0.5f };
+                    s.hue = hue;
+                    const std::array<float, 3> got = smooth_lighting::reference_lit_rgb( look, rgb, s );
+                    CAPTURE( hue[0], hue[1], hue[2], rgb[0], rgb[1], got[0], got[1], got[2] );
+                    for( const float c : got ) {
+                        CHECK( c <= 1.0f + 1e-6f );
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "a_fully_colored_light_tints_at_full_strength", "[smooth_lighting][light_color]" )
+{
+    // pure magenta light as all the light there is, at full strength
+    light_color_rgb magenta;
+    magenta.r = LIGHT_AMBIENT_LIT;
+    magenta.g = 0.0f;
+    magenta.b = LIGHT_AMBIENT_LIT;
+    const std::array<float, 3> hue = smooth_lighting::illumination_hue( magenta, LIGHT_AMBIENT_LIT );
+    CHECK( hue[0] == Approx( 1.0f ) );
+    CHECK( hue[1] == Approx( 0.0f ).margin( 0.01 ) );
+    CHECK( hue[2] == Approx( 1.0f ) );
+}

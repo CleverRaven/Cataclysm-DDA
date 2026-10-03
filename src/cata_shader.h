@@ -446,7 +446,7 @@ class variant_pass
             // custom memory look: dark rgb and gamma; light rgb
             std::array<float, 4> custom_dark = {};
             std::array<float, 4> custom_light = {};
-            // overexpose start, unused, unused, unused
+            // overexpose start, tint mix, unused, unused
             std::array<float, 4> look = {};
             bool operator==( const lit_params &o ) const {
                 return size == o.size && mode == o.mode && flags == o.flags && tone == o.tone &&
