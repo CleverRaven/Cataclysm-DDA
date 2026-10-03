@@ -16,7 +16,9 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "json_loader.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "map.h"
@@ -36,11 +38,16 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
 
 static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_shrub( "t_shrub" );
+static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_utility_light( "t_utility_light" );
+static const ter_str_id ter_t_window( "t_window" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
@@ -983,4 +990,46 @@ TEST_CASE( "dim_seen_light_looks_like_the_classic_shadow_variant", "[smooth_ligh
             }
         }
     }
+}
+
+TEST_CASE( "terrain_that_rises_takes_light_along_its_base", "[smooth_lighting]" )
+{
+    for( const ter_str_id &t : {
+             ter_t_brick_wall, ter_t_tree, ter_t_shrub, ter_t_door_c, ter_t_window
+         } ) {
+        CAPTURE( t );
+        CHECK( smooth_lighting::terrain_light_anchor( t.obj() ) == smooth_lighting::light_anchor::base );
+    }
+    // data calls an open door flat, and so does the rule
+    for( const ter_str_id &t : {
+             ter_t_floor, ter_t_dirt, ter_t_grass, ter_t_door_o
+         } ) {
+        CAPTURE( t );
+        CHECK( smooth_lighting::terrain_light_anchor( t.obj() ) == smooth_lighting::light_anchor::ground );
+    }
+}
+
+TEST_CASE( "tile_entries_read_light_anchor", "[smooth_lighting]" )
+{
+    const auto read = []( const std::string & json ) {
+        JsonObject entry = json_loader::from_string( json );
+        entry.allow_omitted_members();
+        return smooth_lighting::read_light_anchor( entry );
+    };
+    CHECK_FALSE( read( R"({ "id": "t_dirt" })" ) );
+    CHECK( read( R"({ "id": "t_wall", "light_anchor": "base" })" ) ==
+           smooth_lighting::light_anchor::base );
+    CHECK( read( R"({ "id": "f_rug", "light_anchor": "ground" })" ) ==
+           smooth_lighting::light_anchor::ground );
+    CHECK_THROWS_AS( read( R"({ "id": "t_wall", "light_anchor": "up" })" ), JsonError );
+}
+
+TEST_CASE( "a_tilesets_own_anchor_beats_the_default", "[smooth_lighting]" )
+{
+    using smooth_lighting::light_anchor;
+    CHECK( smooth_lighting::chosen_light_anchor( light_anchor::ground, light_anchor::base ) ==
+           light_anchor::ground );
+    CHECK( smooth_lighting::chosen_light_anchor( std::nullopt, light_anchor::base ) ==
+           light_anchor::base );
+    CHECK_FALSE( smooth_lighting::chosen_light_anchor( std::nullopt, std::nullopt ) );
 }

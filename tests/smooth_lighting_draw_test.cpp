@@ -29,6 +29,7 @@
 #include "sdltiles.h"
 #include "smooth_lighting.h"
 #include "type_id.h"
+#include "weighted_list.h"
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -41,7 +42,24 @@ namespace
 const tripoint_bub_ms player_pos( 65, 65, 0 );
 constexpr int view_tiles = 9;
 
-using light_log = std::vector<std::pair<std::string, draw_light>>;
+using light_log = std::vector<drawn_sprite_record>;
+
+tile_type atlas_sprite_tile()
+{
+    tile_type tile;
+    tile.fg.add( std::vector<int> { 0 }, 1 );
+    return tile;
+}
+
+std::vector<std::pair<std::string, tile_type>> plain_tiles( const std::vector<std::string> &ids )
+{
+    std::vector<std::pair<std::string, tile_type>> tiles;
+    tiles.reserve( ids.size() );
+    for( const std::string &id : ids ) {
+        tiles.emplace_back( id, atlas_sprite_tile() );
+    }
+    return tiles;
+}
 
 // `center` and its eight neighbours; the small test view draws only some of them
 std::vector<tripoint_bub_ms> around( const tripoint_bub_ms &center )
@@ -57,7 +75,10 @@ std::vector<tripoint_bub_ms> around( const tripoint_bub_ms &center )
 
 // draws a grass map on the software renderer, logging each sprite's light policy
 struct policy_fixture {
-    policy_fixture() : available_( fx_.available() ) {
+    explicit policy_fixture( const std::vector<std::pair<std::string, tile_type>> &tiles =
+    plain_tiles( {
+        ter_t_grass.str(), ter_t_wall.str(), mon_zombie.str(), "lighting_hidden"
+    } ) ) : available_( fx_.available() ) {
         if( !available_ ) {
             return;
         }
@@ -66,11 +87,8 @@ struct policy_fixture {
         build_test_map( ter_t_grass.id() );
         set_time_to_day();
         refresh_caches();
-        const std::shared_ptr<const tileset> ts =
-            renderer_recovery_test_support::install_synthetic_bundle( "policy_ts", "color_pixel_darken",
-        1, 1, atlas_bake_plan{}, true, {
-            ter_t_grass.str(), ter_t_wall.str(), mon_zombie.str(), "lighting_hidden"
-        } );
+        const std::shared_ptr<const tileset> ts = renderer_recovery_test_support::install_tiles_bundle(
+                    "policy_ts", "color_pixel_darken", 1, 1, atlas_bake_plan{}, true, tiles );
         REQUIRE( ts );
         tiles_ = renderer_recovery_test_support::make_test_tiles( ts );
         renderer_recovery_test_support::log_draw_light( *tiles_, &log_ );
@@ -96,8 +114,8 @@ struct policy_fixture {
         renderer_recovery_test_support::draw_test_map( *tiles_, player_pos, view_tiles, view_tiles );
     }
     bool drew( const std::string &id, const draw_light light ) const {
-        for( const std::pair<std::string, draw_light> &e : log_ ) {
-            if( e.first == id && e.second == light ) {
+        for( const drawn_sprite_record &e : log_ ) {
+            if( e.id == id && e.light == light ) {
                 return true;
             }
         }
@@ -186,6 +204,104 @@ TEST_CASE( "failed_shader_unbind_stops_the_minimap_before_it_paints",
         renderer_coordinator.drain_pending();
         CHECK( renderer_coordinator.state() == renderer_recovery_state::ready );
     }
+}
+
+// grass, and a wall drawn through subtiles that take `subtile_anchor`
+static std::vector<std::pair<std::string, tile_type>> wall_tiles(
+            const std::optional<smooth_lighting::light_anchor> &subtile_anchor )
+{
+    std::vector<std::pair<std::string, tile_type>> tiles = plain_tiles( { ter_t_grass.str() } );
+    tile_type wall = atlas_sprite_tile();
+    wall.multitile = true;
+    wall.rotates = true;
+    for( const std::string key : {
+             "center", "corner", "edge", "t_connection", "end_piece", "unconnected"
+         } ) {
+        wall.available_subtiles.push_back( key );
+        tile_type subtile = atlas_sprite_tile();
+        subtile.rotates = true;
+        subtile.light_anchor = subtile_anchor;
+        tiles.emplace_back( ter_t_wall.str() + "_" + key, subtile );
+    }
+    tiles.emplace_back( ter_t_wall.str(), wall );
+    return tiles;
+}
+
+static std::vector<std::optional<smooth_lighting::light_anchor>> wall_subtile_anchors(
+            const light_log &log )
+{
+    std::vector<std::optional<smooth_lighting::light_anchor>> anchors;
+    for( const drawn_sprite_record &e : log ) {
+        if( e.id.rfind( ter_t_wall.str() + "_", 0 ) == 0 ) {
+            anchors.push_back( e.anchor );
+        }
+    }
+    return anchors;
+}
+
+TEST_CASE( "connected_walls_keep_their_anchor_through_subtiles", "[smooth_lighting][tiles]" )
+{
+    const auto draw_walls = []( policy_fixture & fx ) {
+        // a ring round the avatar, in the part of the map the small view draws
+        map &here = get_map();
+        for( const tripoint_bub_ms &p : around( player_pos ) ) {
+            if( p != player_pos ) {
+                here.ter_set( p, ter_t_wall.id() );
+            }
+        }
+        policy_fixture::refresh_caches();
+        fx.draw();
+    };
+    GIVEN( "a wall whose subtiles say nothing of their anchor" ) {
+        policy_fixture fx( wall_tiles( std::nullopt ) );
+        if( !fx.available_ ) {
+            WARN( "dummy SDL video backend unavailable; skipping" );
+            return;
+        }
+        draw_walls( fx );
+        THEN( "its subtiles take the base anchor of walls" ) {
+            const std::vector<std::optional<smooth_lighting::light_anchor>> anchors =
+                        wall_subtile_anchors( fx.log_ );
+            REQUIRE_FALSE( anchors.empty() );
+            for( const std::optional<smooth_lighting::light_anchor> &a : anchors ) {
+                CHECK( a == smooth_lighting::light_anchor::base );
+            }
+        }
+    }
+    GIVEN( "the wall whose subtiles the tileset lights as ground" ) {
+        policy_fixture fx( wall_tiles( smooth_lighting::light_anchor::ground ) );
+        if( !fx.available_ ) {
+            WARN( "dummy SDL video backend unavailable; skipping" );
+            return;
+        }
+        draw_walls( fx );
+        THEN( "tileset's anchor wins" ) {
+            const std::vector<std::optional<smooth_lighting::light_anchor>> anchors =
+                        wall_subtile_anchors( fx.log_ );
+            REQUIRE_FALSE( anchors.empty() );
+            for( const std::optional<smooth_lighting::light_anchor> &a : anchors ) {
+                CHECK( a == smooth_lighting::light_anchor::ground );
+            }
+        }
+    }
+}
+
+TEST_CASE( "what_a_sprite_shows_sets_where_it_takes_its_light", "[smooth_lighting]" )
+{
+    using smooth_lighting::light_anchor;
+    CHECK( cata_tiles::default_light_anchor( TILE_CATEGORY::TERRAIN, ter_t_wall.str() ) ==
+           light_anchor::base );
+    CHECK( cata_tiles::default_light_anchor( TILE_CATEGORY::TERRAIN, ter_t_grass.str() ) ==
+           light_anchor::ground );
+    CHECK( cata_tiles::default_light_anchor( TILE_CATEGORY::FURNITURE, "f_chair" ) ==
+           light_anchor::base );
+    CHECK( cata_tiles::default_light_anchor( TILE_CATEGORY::MONSTER, mon_zombie.str() ) ==
+           light_anchor::base );
+    CHECK( cata_tiles::default_light_anchor( TILE_CATEGORY::VEHICLE_PART, "vp_frame" ) ==
+           light_anchor::base );
+    // other categories and unknown ids have no default; the sprite's shape decides
+    CHECK_FALSE( cata_tiles::default_light_anchor( TILE_CATEGORY::ITEM, "rock" ) );
+    CHECK_FALSE( cata_tiles::default_light_anchor( TILE_CATEGORY::TERRAIN, "t_no_such_terrain" ) );
 }
 
 TEST_CASE( "custom_memory_overlay_reaches_the_lit_shader", "[smooth_lighting]" )

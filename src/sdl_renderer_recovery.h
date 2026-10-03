@@ -547,10 +547,14 @@ struct renderer_recovery_test_support {
     // one overmap frame of `tiles` centred on `center`
     static void draw_test_overmap( cata_tiles &tiles, const tripoint_abs_omt &center );
     static void set_has_animated_tiles( cata_tiles &tiles, bool animated );
-    // record every sprite `tiles` draws, with its light policy, into `log`;
-    // null stops
-    static void log_draw_light( cata_tiles &tiles,
-                                std::vector<std::pair<std::string, draw_light>> *log );
+    // record every sprite `tiles` draws, with its light policy and anchor,
+    // into `log`; null stops
+    static void log_draw_light( cata_tiles &tiles, std::vector<drawn_sprite_record> *log );
+    // install_synthetic_bundle with `tiles` as its tile types
+    static std::shared_ptr<const tileset> install_tiles_bundle( const std::string &tileset_id,
+            const std::string &memory_map_mode, uint64_t renderer_instance_generation,
+            uint64_t gpu_textures_generation, const atlas_bake_plan &plan, bool with_highlight,
+            const std::vector<std::pair<std::string, tile_type>> &tiles );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

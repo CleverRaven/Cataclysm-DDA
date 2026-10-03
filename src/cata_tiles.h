@@ -80,6 +80,7 @@ struct tile_type {
     point offset = point::zero;
     point offset_retracted = point::zero;
     float pixelscale = 1.0;
+    std::optional<smooth_lighting::light_anchor> light_anchor;
 
     std::vector<std::string> available_subtiles;
 };
@@ -296,6 +297,14 @@ enum class draw_light : uint8_t {
     fixed,
 };
 
+// a sprite draw_sprite_at was asked to draw, for tests
+struct drawn_sprite_record {
+    std::string id;
+    draw_light light = draw_light::scene;
+    // light anchor it took: its tile's, else the default for what it shows
+    std::optional<smooth_lighting::light_anchor> anchor;
+};
+
 /**
  * Bundles per-tile rendering state so the draw path carries all lighting
  * decisions in one place. Future fields (light color tint, per-tile
@@ -307,6 +316,9 @@ struct tile_render_params {
     // the sprite's map tile, for smooth lighting
     tripoint_bub_ms pos;
     draw_light light = draw_light::scene;
+    // where what the sprite shows takes its smooth light from when its tile
+    // doesn't say; nullopt leaves it to the sprite's shape
+    std::optional<smooth_lighting::light_anchor> anchor;
 };
 
 /**
@@ -691,6 +703,12 @@ class cata_tiles
         smooth_lighting::lighting_status effective_lighting() const {
             return lighting_status_;
         }
+        // where sprites of `category` with `id` take their smooth light from
+        // when their tile doesn't say: terrain by terrain_light_anchor,
+        // furniture, monsters and vehicle parts on their base; nullopt leaves
+        // the rest to their shape
+        static std::optional<smooth_lighting::light_anchor> default_light_anchor(
+            TILE_CATEGORY category, const std::string &id );
         // the memory look smooth lighting fades into: `active` from the variant
         // pass, else the custom MEMORY_RGB_* colors and MEMORY_GAMMA
         static cata_shader::memory_look memory_look_from_options(
@@ -1111,8 +1129,14 @@ class cata_tiles
         void note_lighting_status( smooth_lighting::lighting_status s );
         // light policy of sprites drawn now
         draw_light m_draw_light = draw_light::scene;
-        // test seam: draw_sprite_at records each sprite's id and light policy
-        std::vector<std::pair<std::string, draw_light>> *test_draw_light_log = nullptr;
+        // default light anchor of the sprite being drawn: the outermost
+        // draw_from_id_string_internal call decides it from what it shows, and
+        // its subtile and fallback calls reuse it
+        bool m_anchor_decided = false;
+        std::optional<smooth_lighting::light_anchor> m_shown_anchor;
+        // test seam: draw_sprite_at records each sprite's id, light policy and
+        // anchor
+        std::vector<drawn_sprite_record> *test_draw_light_log = nullptr;
         const std::string *test_draw_id = nullptr;
         // fill and bind the shared light map for this frame's sprites when
         // LIGHTING_MODE asks for it; false leaves the classic variants

@@ -42,6 +42,7 @@
 #include "sdl_version_wrappers.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
+#include "smooth_lighting.h"
 #include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -890,6 +891,7 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
         }
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
+            curr_tile.light_anchor = smooth_lighting::read_light_anchor( entry );
             curr_tile.offset = sprite_offset;
             curr_tile.offset_retracted = sprite_offset_retracted;
             curr_tile.pixelscale = sprite_pixelscale;
@@ -902,6 +904,9 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
+                    // a subtile takes its entry's anchor unless it names its own
+                    curr_subtile.light_anchor = smooth_lighting::read_light_anchor(
+                                                    subentry.has_member( "light_anchor" ) ? subentry : entry );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.offset_retracted = sprite_offset_retracted;
                     curr_subtile.pixelscale = sprite_pixelscale;

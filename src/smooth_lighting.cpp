@@ -3,12 +3,15 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <string>
 
 #include "cata_assert.h"
 #include "coordinates.h"
+#include "flexbuffer_json.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "map.h"
+#include "mapdata.h"
 #include "mdarray.h"
 #include "shadowcasting.h"
 #include "tile_tint.h"
@@ -85,6 +88,36 @@ bool sprite_stands( const sprite_footprint &f, const tile_geometry &g )
     const float ground = g.iso ? static_cast<float>( g.height ) - static_cast<float>( g.width ) / 2.0f
                          : 0.0f;
     return opaque_top < ground - standing_rise * static_cast<float>( g.width );
+}
+
+std::optional<light_anchor> read_light_anchor( const JsonObject &entry )
+{
+    if( !entry.has_member( "light_anchor" ) ) {
+        return std::nullopt;
+    }
+    const std::string value = entry.get_string( "light_anchor" );
+    if( value == "ground" ) {
+        return light_anchor::ground;
+    }
+    if( value == "base" ) {
+        return light_anchor::base;
+    }
+    entry.throw_error_at( "light_anchor", R"(light_anchor must be "ground" or "base")" );
+}
+
+light_anchor terrain_light_anchor( const ter_t &t )
+{
+    return t.has_flag( ter_furn_flag::TFLAG_WALL ) ||
+           t.has_flag( ter_furn_flag::TFLAG_CONNECT_WITH_WALL ) ||
+           t.has_flag( ter_furn_flag::TFLAG_TREE ) || t.has_flag( ter_furn_flag::TFLAG_SHRUB ) ||
+           t.has_flag( ter_furn_flag::TFLAG_DOOR ) || t.has_flag( ter_furn_flag::TFLAG_WINDOW ) ?
+           light_anchor::base : light_anchor::ground;
+}
+
+std::optional<light_anchor> chosen_light_anchor( const std::optional<light_anchor> tile_anchor,
+        const std::optional<light_anchor> default_anchor )
+{
+    return tile_anchor ? tile_anchor : default_anchor;
 }
 
 half_open_rectangle<point> lightmap_fill_area( const point &view_min, const point &view_max,

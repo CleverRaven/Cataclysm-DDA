@@ -2229,7 +2229,7 @@ void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
 }
 
 void renderer_recovery_test_support::log_draw_light( cata_tiles &tiles,
-        std::vector<std::pair<std::string, draw_light>> *log )
+        std::vector<drawn_sprite_record> *log )
 {
     tiles.test_draw_light_log = log;
 }
@@ -2376,12 +2376,26 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
     const atlas_bake_plan &plan, const bool with_highlight, const std::vector<std::string> &tile_ids )
 {
-    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
-    ts->tileset_id = tileset_id;
+    std::vector<std::pair<std::string, tile_type>> tiles;
     for( const std::string &id : tile_ids ) {
         tile_type tile;
         tile.fg.add( std::vector<int> { 0 }, 1 );
-        ts->create_tile_type( id, std::move( tile ) );
+        tiles.emplace_back( id, std::move( tile ) );
+    }
+    return install_tiles_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                 gpu_textures_generation, plan, with_highlight, tiles );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_tiles_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+    const atlas_bake_plan &plan, const bool with_highlight,
+    const std::vector<std::pair<std::string, tile_type>> &tiles )
+{
+    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
+    ts->tileset_id = tileset_id;
+    for( const std::pair<std::string, tile_type> &t : tiles ) {
+        ts->create_tile_type( t.first, tile_type( t.second ) );
     }
     atlas_replay_descriptor desc;
     desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";

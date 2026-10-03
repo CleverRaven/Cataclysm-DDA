@@ -1729,6 +1729,23 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &he
     return std::nullopt;
 }
 
+std::optional<smooth_lighting::light_anchor> cata_tiles::default_light_anchor(
+    const TILE_CATEGORY category, const std::string &id )
+{
+    if( category == TILE_CATEGORY::TERRAIN ) {
+        const ter_str_id ter( id );
+        if( ter.is_valid() ) {
+            return smooth_lighting::terrain_light_anchor( ter.obj() );
+        }
+        return std::nullopt;
+    }
+    if( category == TILE_CATEGORY::FURNITURE || category == TILE_CATEGORY::MONSTER ||
+        category == TILE_CATEGORY::VEHICLE_PART ) {
+        return smooth_lighting::light_anchor::base;
+    }
+    return std::nullopt;
+}
+
 cata_shader::memory_look cata_tiles::memory_look_from_options(
     const std::optional<cata_shader::memory_preset> active )
 {
@@ -2692,6 +2709,15 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         int intensity_level, const std::string &variant,
         const point &offset )
 {
+    restore_on_out_of_scope<bool> restore_decided( m_anchor_decided );
+    restore_on_out_of_scope<std::optional<smooth_lighting::light_anchor>> restore_anchor(
+                m_shown_anchor );
+    if( !m_anchor_decided ) {
+        m_anchor_decided = true;
+        // smooth lighting needs it, and the test seam records it
+        m_shown_anchor = smooth_lighting_active || test_draw_light_log != nullptr ?
+                         default_light_anchor( category, id ) : std::nullopt;
+    }
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -3002,7 +3028,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     }
 
     //draw it!
-    const tile_render_params rp{ ll, nv_color_active, pos, m_draw_light };
+    const tile_render_params rp{ ll, nv_color_active, pos, m_draw_light, m_shown_anchor };
     // test seam: draw_sprite_at logs under this id
     test_draw_id = test_draw_light_log ? &id : nullptr;
     draw_tile_at( display_tile, screen_pos, loc_rand, rota, rp,
@@ -3062,7 +3088,8 @@ bool cata_tiles::draw_sprite_at(
     // sprites that keep their lit_level's look draw classic while lighting is on
     const bool shown_unlit = smooth_lighting_active && !scene_lit;
     if( test_draw_light_log && test_draw_id ) {
-        test_draw_light_log->emplace_back( *test_draw_id, rp.light );
+        test_draw_light_log->push_back( { *test_draw_id, rp.light,
+                                          smooth_lighting::chosen_light_anchor( tile.light_anchor, rp.anchor ) } );
     }
     on_out_of_scope end_unlit( [shown_unlit]() {
         if( shown_unlit ) {
@@ -3210,6 +3237,8 @@ bool cata_tiles::draw_sprite_at(
     }
 
     if( lit_sprite ) {
+        const std::optional<smooth_lighting::light_anchor> anchor =
+            smooth_lighting::chosen_light_anchor( tile.light_anchor, rp.anchor );
         const SDL_Rect &opq = sprite_tex->get_opaque_rect();
         smooth_lighting::sprite_footprint footprint;
         footprint.size = point( width, height );
@@ -3222,8 +3251,9 @@ bool cata_tiles::draw_sprite_at(
         footprint.top = tile_offset.y + offset.y - ( height_3d - lit_level_height_3d );
         const smooth_lighting::tile_geometry geometry{ tileset_ptr->get_tile_width(),
                 tileset_ptr->get_tile_height(), iso };
-        render_lit_sprite( *sprite_tex, destination, render_turn, render_flip, rp.pos, p,
-                           smooth_lighting::sprite_stands( footprint, geometry ) );
+        const bool standing = anchor ? *anchor == smooth_lighting::light_anchor::base :
+                              smooth_lighting::sprite_stands( footprint, geometry );
+        render_lit_sprite( *sprite_tex, destination, render_turn, render_flip, rp.pos, p, standing );
     } else if( rotate_sprite ) {
         if( rota == -1 ) {
             // flip horizontally

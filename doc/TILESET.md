@@ -184,6 +184,29 @@ e.g. for an item with the id `item1`, with variants `orange` and `pear`, to spec
 
 You can add `"rotates": true` to allow sprites to be rotated by the game automatically. Alternatively, `fg` and `bg` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
 
+#### Smooth lighting anchor
+
+In the "Smooth filtered" lighting mode, each sprite takes its light from one of two places:
+
+- `"ground"`: each pixel takes the light of the ground under it.  Use this for flat things: floors, rugs, puddles and debris.
+- `"base"`: the whole sprite takes the light from one line across its own tile, the same all the way up.  Use this for things that rise out of the ground: walls, trees, creatures and furniture.
+
+The game picks the anchor from what the sprite shows:
+
+- Terrain with the `WALL`, `CONNECT_WITH_WALL`, `TREE`, `SHRUB`, `DOOR` or `WINDOW` flag takes `"base"`.  Other terrain takes `"ground"`.
+- Furniture, monsters and vehicle parts take `"base"`.  This includes flat ones, such as rugs and vehicle floors.  Give those `"ground"` when their light should follow the floor.
+- Other sprites take `"base"` when they rise above their tile by more than an eighth of the tile width.  Otherwise they take `"ground"`.
+
+To override the game's choice for one tile entry, add `"light_anchor"`:
+
+```json
+{ "id": "f_rug", "fg": "f_rug", "light_anchor": "ground" }
+```
+
+An entry in `additional_tiles` takes the anchor of its parent entry, unless it has its own `"light_anchor"`.
+
+Only "Smooth filtered" reads this field.  "Smooth" lights each sprite from its own tile.  Classic lighting shades whole tiles.  Neither uses an anchor.  A value other than `"ground"` or `"base"` is a load error.
+
 #### Random variations
 
 `fg` and `bg` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:

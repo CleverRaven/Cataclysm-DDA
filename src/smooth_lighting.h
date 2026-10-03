@@ -13,8 +13,10 @@
 #include "map_scale_constants.h"
 #include "point.h"
 
+class JsonObject;
 class map;
 enum class lit_level : uint8_t;
+struct ter_t;
 struct light_color_rgb;
 
 namespace smooth_lighting
@@ -343,6 +345,27 @@ struct tile_geometry {
 // whether the sprite's opaque pixels, flipped and turned as drawn, rise above
 // its tile's ground line by standing_rise of a tile; zoom plays no part
 bool sprite_stands( const sprite_footprint &f, const tile_geometry &g );
+
+// where a sprite takes its smooth light from
+enum class light_anchor : uint8_t {
+    // per pixel, from the ground under it
+    ground,
+    // along base line, the same all the way up
+    base,
+};
+
+// a tile entry's "light_anchor", nullopt when absent; throws JsonError on an
+// unknown value
+std::optional<light_anchor> read_light_anchor( const JsonObject &entry );
+
+// base for terrain that rises out of the ground: walls, trees, shrubs, doors
+// and windows; ground for the rest
+light_anchor terrain_light_anchor( const ter_t &t );
+
+// tileset's anchor for the tile, else the default for what it shows; nullopt
+// leaves it to sprite_stands
+std::optional<light_anchor> chosen_light_anchor( std::optional<light_anchor> tile_anchor,
+        std::optional<light_anchor> default_anchor );
 
 } // namespace smooth_lighting
 
