@@ -17,7 +17,8 @@
         [ "jp8", 1 ],
         [ "avgas", 1 ],
         [ "chem_turpentine", 1 ],
-        [ "camphine", 1 ]
+        [ "camphine", 1 ],
+        [ "improvised_diesel", 1 ]
       ]
     ]
   },
