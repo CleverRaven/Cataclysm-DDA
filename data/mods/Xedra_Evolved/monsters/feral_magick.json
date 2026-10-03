@@ -20,7 +20,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab" }, { "id": "smash", "throw_strength": 12, "cooldown": 8 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS" ]
   },
   {
     "id": "mon_feral_eater_melee",
