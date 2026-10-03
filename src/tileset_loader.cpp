@@ -42,6 +42,7 @@
 #include "sdl_version_wrappers.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
+#include "smooth_lighting.h"
 #include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -238,8 +239,10 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
                              ( tile_atlas_width / sprite_width );
         cata_assert( index < target.size() );
         cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
-        const SDL_Rect &opaque = index < opaque_bounds.size()
-                                 ? opaque_bounds[index]
+        const size_t in_chunk = ( rect.x / sprite_width ) + ( rect.y / sprite_height ) *
+                                ( surf->w / sprite_width );
+        const SDL_Rect &opaque = in_chunk < opaque_bounds.size()
+                                 ? opaque_bounds[in_chunk]
                                  : SDL_Rect{ 0, 0, rect.w, rect.h };
         target[index] = texture( texture_ptr, rect, opaque );
     }
@@ -266,18 +269,13 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
     const rect_range<SDL_Rect> scan_range( sprite_width, sprite_height,
                                            point( tile_atlas->w / sprite_width,
                                                    tile_atlas->h / sprite_height ) );
-    // Pre-size to accommodate the maximum index this chunk can produce.
-    const int cols = tile_atlas_width / sprite_width;
-    const size_t max_index = this->offset +
-                             static_cast<size_t>( cols ) * ( tile_atlas->h / sprite_height );
-    std::vector<SDL_Rect> opaque_bounds( max_index + cols, SDL_Rect{ 0, 0, 0, 0 } );
+    // one entry per sprite of this chunk, however far down the atlas it sits
+    const int chunk_cols = tile_atlas->w / sprite_width;
+    std::vector<SDL_Rect> opaque_bounds( static_cast<size_t>( chunk_cols ) *
+                                         ( tile_atlas->h / sprite_height ), SDL_Rect{ 0, 0, 0, 0 } );
     for( const SDL_Rect rect : scan_range ) {
-        const point pos( offset + point( rect.x, rect.y ) );
-        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
-                             cols;
-        if( index < opaque_bounds.size() ) {
-            opaque_bounds[index] = compute_opaque_rect( scan_surf, rect );
-        }
+        opaque_bounds[( rect.x / sprite_width ) + ( rect.y / sprite_height ) * chunk_cols] =
+            compute_opaque_rect( scan_surf, rect );
     }
 
     /** perform color filter conversion here */
@@ -890,6 +888,7 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
         }
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
+            curr_tile.light_anchor = smooth_lighting::read_light_anchor( entry );
             curr_tile.offset = sprite_offset;
             curr_tile.offset_retracted = sprite_offset_retracted;
             curr_tile.pixelscale = sprite_pixelscale;
@@ -902,6 +901,9 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
+                    // a subtile takes its entry's anchor unless it names its own
+                    curr_subtile.light_anchor = smooth_lighting::read_light_anchor(
+                                                    subentry.has_member( "light_anchor" ) ? subentry : entry );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.offset_retracted = sprite_offset_retracted;
                     curr_subtile.pixelscale = sprite_pixelscale;

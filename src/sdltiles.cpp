@@ -17,6 +17,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <functional>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -145,6 +146,10 @@ static GeometryRenderer_Ptr geometry;
 // reused across curses text passes; always flushed before a pass returns
 static text_batch curses_text_batch;
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
+// the smooth lighting map every tile context draws through; its lit states
+// live in shared_variant_pass, so reset it before the pass
+static std::unique_ptr<smooth_lightmap> shared_lightmap;
+static void reset_shared_lightmap();
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -749,6 +754,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
@@ -776,6 +782,8 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     display_buffer.reset();
     renderer.reset();
@@ -1177,6 +1185,32 @@ cata_shader::variant_pass *get_shared_variant_pass()
     return shared_variant_pass.get();
 }
 
+smooth_lightmap *get_shared_lightmap()
+{
+    return shared_lightmap.get();
+}
+
+static void reset_shared_lightmap()
+{
+    if( !shared_lightmap ) {
+        return;
+    }
+    if( shared_variant_pass ) {
+        shared_variant_pass->drop_lit();
+    }
+    shared_lightmap->reset();
+}
+
+bool unbind_sprite_shader()
+{
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && !vp->flush() ) {
+        display_buffer_scope_signal_recovery_required();
+        return false;
+    }
+    return true;
+}
+
 namespace
 {
 // Draw-scope state. depth counts nested scopes. aborted lets an inner
@@ -1458,13 +1492,14 @@ static void reset_context_minimaps()
     } );
 }
 
-// The silhouette mask target only goes stale on a device reset or loss, not a
-// target reset.
+// silhouette mask targets and smooth lighting map only go stale on device reset
+// or loss, not a target reset
 static void reset_context_tint_masks()
 {
     for_each_unique_tile_context( []( cata_tiles & c ) {
         c.reset_tint_mask();
     } );
+    reset_shared_lightmap();
 }
 
 // Drop the glyph atlases on every font root. The TTF glyph cache repopulates
@@ -2193,6 +2228,12 @@ void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
     tiles.draw_om( point::zero, center, false );
 }
 
+void renderer_recovery_test_support::log_draw_light( cata_tiles &tiles,
+        std::vector<drawn_sprite_record> *log )
+{
+    tiles.test_draw_light_log = log;
+}
+
 void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
         const bool animated )
 {
@@ -2248,6 +2289,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     // also restores the scale default a previous test might have changed
     apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
@@ -2282,6 +2324,8 @@ void renderer_recovery_test_support::teardown_software_renderer()
     display_buffer_scope_recovery_required = false;
     reset_coordinator();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     cata_shader::test_reset_seams();
     cata_shader::clear_reprobe();
@@ -2330,23 +2374,68 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
-    const atlas_bake_plan &plan, const bool with_highlight )
+    const atlas_bake_plan &plan, const bool with_highlight, const std::vector<std::string> &tile_ids )
+{
+    std::vector<std::pair<std::string, tile_type>> tiles;
+    for( const std::string &id : tile_ids ) {
+        tile_type tile;
+        tile.fg.add( std::vector<int> { 0 }, 1 );
+        tiles.emplace_back( id, std::move( tile ) );
+    }
+    return install_tiles_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                 gpu_textures_generation, plan, with_highlight, tiles );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_tiles_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+    const atlas_bake_plan &plan, const bool with_highlight,
+    const std::vector<std::pair<std::string, tile_type>> &tiles )
 {
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
+    for( const std::pair<std::string, tile_type> &t : tiles ) {
+        ts->create_tile_type( t.first, tile_type( t.second ) );
+    }
     atlas_replay_descriptor desc;
     desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";
     desc.sprite_width = 1;
     desc.sprite_height = 1;
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
-    ts->append_atlas_descriptor( desc );
     if( with_highlight ) {
         // highlight texture takes the tile size
         ts->tile_width = 1;
         ts->tile_height = 1;
         ts->set_default_item_highlight_index( 1 );
     }
+    return upload_test_bundle( std::move( ts ), desc, memory_map_mode, renderer_instance_generation,
+                               gpu_textures_generation, plan );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_atlas_bundle(
+    const std::string &tileset_id, const std::string &image_path, const point &sprite_size,
+    const int tilecount )
+{
+    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
+    ts->tileset_id = tileset_id;
+    atlas_replay_descriptor desc;
+    desc.image_path_u8 = image_path;
+    desc.sprite_width = sprite_size.x;
+    desc.sprite_height = sprite_size.y;
+    desc.atlas_offset = 0;
+    desc.expected_tilecount = tilecount;
+    return upload_test_bundle( std::move( ts ), desc, "color_pixel_darken",
+                               renderer_coordinator.instance_generation(), renderer_coordinator.textures_generation(),
+                               atlas_bake_plan{} );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::upload_test_bundle(
+    std::shared_ptr<tileset> ts, const atlas_replay_descriptor &desc,
+    const std::string &memory_map_mode, const uint64_t renderer_instance_generation,
+    const uint64_t gpu_textures_generation, const atlas_bake_plan &plan )
+{
+    ts->append_atlas_descriptor( desc );
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
                                            compute_tileset_filter_fingerprint( memory_map_mode ), plan,
@@ -2355,7 +2444,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
                                            gpu_textures_generation, false );
     ts->set_upload_generations( renderer_instance_generation, gpu_textures_generation );
     const tileset_cache_key key {
-        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+        ts->tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
     ts_cache.track_bundle( key, ts );
     return ts;
@@ -3569,6 +3658,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
                          const bool force_full = false )
 {
+    if( !unbind_sprite_shader() ) {
+        return false;
+    }
     if( scaling_factor > 1 ) {
         const point buffer_dims = compute_display_buffer_dims();
         RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
@@ -3753,6 +3845,36 @@ Font *renderer_recovery_test_support::test_font()
     return fixture_font.get();
 }
 
+// pixel minimap window: draw its text, clear its area, then `paint`; false
+// when draw_window's shader unbind failed and invalidated `draw_scope`
+static bool draw_minimap_window( Font_Ptr &font, const catacurses::window &w, const bool force_full,
+                                 const display_buffer_draw_scope &draw_scope, const std::function<void()> &paint )
+{
+    draw_window( font, w, force_full );
+    if( !draw_scope.should_draw() ) {
+        return false;
+    }
+    clear_window_area( w );
+    paint();
+    return true;
+}
+
+bool renderer_recovery_test_support::draw_test_minimap_window( const catacurses::window &w,
+        const bool fail_unbind, int &paints )
+{
+    display_buffer_draw_scope draw_scope;
+    if( !fixture_font || !draw_scope.should_draw() ) {
+        return false;
+    }
+    // after scope's own bind, so draw_window's unbind is the one that fails
+    if( fail_unbind ) {
+        cata_shader::test_arm_flush_failure();
+    }
+    return draw_minimap_window( fixture_font, w, true, draw_scope, [&paints]() {
+        ++paints;
+    } );
+}
+
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 {
     display_buffer_draw_scope draw_scope;
@@ -3888,15 +4010,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
-        draw_window( font, w, force_full );
-
-        // Make sure the entire minimap window is black before drawing.
-        clear_window_area( w );
-        tilecontext->draw_minimap(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-        { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
-        win->width * font->width, win->height * font->height );
-        update = true;
+        update = draw_minimap_window( font, w, force_full, draw_scope, [&]() {
+            tilecontext->draw_minimap(
+                point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+            { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
+            win->width * font->width, win->height * font->height );
+        } );
 
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.

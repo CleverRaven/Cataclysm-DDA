@@ -9,6 +9,8 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_tiles.h"
 
@@ -427,11 +429,22 @@ struct renderer_recovery_test_support {
     // As install_synthetic_bundle, uploading under an explicit bake plan
     // instead of the resolver's decision. with_highlight adds the synthetic
     // item highlight the loader reserves for a tileset without its own: 1x1
-    // tile size and the highlight in the slot after the atlas sprite
+    // tile size and the highlight in the slot after the atlas sprite. each of
+    // `tile_ids` gets a tile drawing the atlas sprite
     static std::shared_ptr<const tileset> install_synthetic_bundle(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
-        const atlas_bake_plan &plan, bool with_highlight = false );
+        const atlas_bake_plan &plan, bool with_highlight = false,
+        const std::vector<std::string> &tile_ids = {} );
+    // bundle of the atlas at `image_path`, cut into `tilecount` sprites of
+    // `sprite_size`, uploaded through tileset_cache::loader::upload_atlases
+    static std::shared_ptr<const tileset> install_atlas_bundle( const std::string &tileset_id,
+            const std::string &image_path, const point &sprite_size, int tilecount );
+    // upload `ts` with `desc` as its one atlas and track it in the cache
+    static std::shared_ptr<const tileset> upload_test_bundle( std::shared_ptr<tileset> ts,
+            const atlas_replay_descriptor &desc, const std::string &memory_map_mode,
+            uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+            const atlas_bake_plan &plan );
     // install_synthetic_bundle with a full plan and the synthetic item highlight.
     static std::shared_ptr<const tileset> install_synthetic_bundle_with_highlight(
         const std::string &tileset_id, const std::string &memory_map_mode,
@@ -528,6 +541,11 @@ struct renderer_recovery_test_support {
     // draw `w` through the terminal window path with every line forced, as
     // curses_drawwindow does for a plain window
     static bool draw_test_window( const catacurses::window &w );
+    // draw `w` as curses_drawwindow draws the pixel minimap window, counting
+    // minimap paints in `paints`; false when the draw was skipped.
+    // `fail_unbind` makes the shader unbind inside the draw scope fail
+    static bool draw_test_minimap_window( const catacurses::window &w, bool fail_unbind,
+                                          int &paints );
     // installed test font, or null
     static Font *test_font();
     // cata_tiles in fixture renderer drawing with `ts`, scaled as load_tileset
@@ -538,6 +556,14 @@ struct renderer_recovery_test_support {
     // one overmap frame of `tiles` centred on `center`
     static void draw_test_overmap( cata_tiles &tiles, const tripoint_abs_omt &center );
     static void set_has_animated_tiles( cata_tiles &tiles, bool animated );
+    // record every sprite `tiles` draws, with its light policy and anchor,
+    // into `log`; null stops
+    static void log_draw_light( cata_tiles &tiles, std::vector<drawn_sprite_record> *log );
+    // install_synthetic_bundle with `tiles` as its tile types
+    static std::shared_ptr<const tileset> install_tiles_bundle( const std::string &tileset_id,
+            const std::string &memory_map_mode, uint64_t renderer_instance_generation,
+            uint64_t gpu_textures_generation, const atlas_bake_plan &plan, bool with_highlight,
+            const std::vector<std::pair<std::string, tile_type>> &tiles );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

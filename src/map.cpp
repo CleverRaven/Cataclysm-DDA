@@ -7737,6 +7737,7 @@ void map::update_visibility_cache( const int zlev )
 
     cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
 
+    get_cache( zlev ).visibility_generation = next_cache_generation();
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
     tripoint_bub_ms p;

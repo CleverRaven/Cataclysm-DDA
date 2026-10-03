@@ -583,7 +583,7 @@ void cataimgui::client::end_frame()
     ImGui::Render();
     // A watcher write can land after the outer-boundary drain passed but before
     // this paint. The draw list is finalized; skip only the backend paint.
-    if( !renderer_should_abort_frame() ) {
+    if( !renderer_should_abort_frame() && unbind_sprite_shader() ) {
         ImGui_ImplSDLRenderer3_RenderDrawData( ImGui::GetDrawData(), sdl_renderer.get() );
     }
     ImGuiIO &io = ImGui::GetIO();

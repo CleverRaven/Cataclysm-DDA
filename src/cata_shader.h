@@ -5,11 +5,16 @@
 #if defined(TILES)
 
 #include <array>
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
+#include <type_traits>
+#include <vector>
 
+#include "point.h"
 #include "sdl_wrappers.h"
+#include "smooth_lighting.h"
 
 struct renderer_recovery_test_support;
 
@@ -43,8 +48,9 @@ void test_reset_seams();
 
 // Sprite-variant kinds for the GPU shader path. NORMAL has no shader and
 // uses the atlas directly. MEMORY dispatches by the selected memory_preset
-// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no shader
-// and falls back to the memory atlas.
+// (see select_memory_preset); the custom MEMORY_MAP_MODE preset has no classic
+// shader and falls back to the memory atlas, though the lit shaders blend into
+// it through memory_look.
 enum class variant_kind : int {
     NORMAL = 0,
     SHADOW,       // lit_level::LOW without nightvision
@@ -60,7 +66,7 @@ enum class variant_kind : int {
 bool variant_takes_tint( variant_kind v );
 
 // Memory map overlay presets that have a baked shader. Mirrors the four
-// named MEMORY_MAP_MODE values; the custom preset has no shader here and
+// named MEMORY_MAP_MODE values; the custom preset has no classic shader and
 // falls back to the memory atlas.
 enum class memory_preset : int {
     DARKEN = 0,
@@ -138,6 +144,10 @@ class render_state
         // the renderer's normal textured-draw path and SetGPURenderStateFragmentUniforms.
         static render_state create( SDL_Renderer *renderer,
                                     const shader &fragment_shader );
+        // as above, with `bindings` bound after the draw's own texture, from
+        // fragment sampler slot 1 on. SDL copies them at creation.
+        static render_state create( SDL_Renderer *renderer, const shader &fragment_shader,
+                                    const SDL_GPUTextureSamplerBinding *bindings, int num_bindings );
 
         render_state() = default;
         ~render_state();
@@ -166,11 +176,96 @@ class render_state
         SDL_GPURenderState *ptr_ = nullptr;
 };
 
+// memory overlay look for the lit shaders: a named preset, else the custom
+// MEMORY_MAP_MODE mixer
+struct memory_look {
+    std::optional<memory_preset> preset;
+    // custom dark and light colors in 0 to 1, and gamma
+    std::array<float, 3> custom_dark = {};
+    std::array<float, 3> custom_light = {};
+    float custom_gamma = 1.0f;
+};
+
+// lit_params id of the custom look, after the named presets
+constexpr int32_t custom_memory_look = static_cast<int32_t>( memory_preset::count );
+static_assert( custom_memory_look == smooth_lighting::custom_look,
+               "lit shaders and their reference agree on the custom look id" );
+
+struct lit_frame {
+    SDL_Texture *lightmap = nullptr;
+    memory_look memory;
+    // fade out-of-sight light into the memory look rather than darkness
+    bool blend_memory = false;
+    bool per_tile = false;
+    bool iso = false;
+    bool night_vision = false;
+};
+
+// what begin_lit did; an unsafe boundary is not a fallback
+enum class lit_begin_outcome : uint8_t {
+    // lit states bound for this frame
+    active,
+    // no lit path here: draw classic
+    classic,
+    // making lit states failed: draw classic, and `failure` says why
+    failed,
+    // renderer may hold a bind this pass could not release: abort the frame
+    abort_frame,
+};
+
+struct lit_begin_result {
+    lit_begin_outcome outcome = lit_begin_outcome::classic;
+    std::optional<smooth_lighting::lit_failure> failure;
+};
+
+smooth_lighting::lit_frame_action action_for( lit_begin_outcome o );
+
+// The cases the activation probe draws through the lit shaders before they
+// are used, and the readbacks their C++ references expect.
+namespace lit_probe
+{
+struct rgb {
+    int r = 0;
+    int g = 0;
+    int b = 0;
+};
+
+// per channel; the same allowance as shader_tint_self_test
+constexpr int channel_tolerance = 4;
+
+struct probe_case {
+    std::string name;
+    // `levels` stacked z levels of light texels left of `columns`, reach
+    // masks right of it
+    std::vector<smooth_lighting::lightmap_texel> texels;
+    int columns = 0;
+    int rows_per_level = 0;
+    int levels = 3;
+    // probe sprite's single texel, RGBA; drawn blended over black
+    std::array<uint8_t, 4> source = { 128, 128, 128, 255 };
+    lit_frame frame;
+    bool night = false;
+    // target size and the quad's vertex colors at its corners: top left, top
+    // right, bottom right, bottom left
+    point size;
+    std::array<smooth_lighting::lit_coords, 4> corners;
+};
+
+smooth_lighting::lightmap_view view_of( const probe_case &c );
+std::vector<probe_case> cases();
+// per target pixel, row by row
+std::vector<rgb> expected( const probe_case &c );
+bool matches( const std::vector<rgb> &expected, const std::vector<rgb> &readback );
+// what a shader that ignores the light map would show: the source as drawn
+std::vector<rgb> readback_if_ignored( const probe_case &c );
+// what a shader that shows everything in sight and fully lit would show
+std::vector<rgb> readback_if_full_light( const probe_case &c );
+} // namespace lit_probe
+
 // Owns one SDL_GPUShader + SDL_GPURenderState per supported variant and
-// brackets bind/unbind around per-sprite draws. SDL_SetGPURenderStateFragmentUniforms
-// is not used: per-call uploads leak host memory on the GPU renderer
-// without recycling, so each variant gets its own state and the dispatch
-// is a state switch rather than a uniform mutation.
+// brackets bind/unbind around per-sprite draws. classic variants each get their
+// own state, so dispatch is a state switch, not a uniform change. only lit
+// states carry fragment uniforms, set when their parameters change.
 //
 // try_begin holds the bound state across runs of sprites that select the same
 // state, only calling SDL_SetGPURenderState when the state changes. flush() at
@@ -224,6 +319,11 @@ class variant_pass
         bool boundary_lost() const {
             return boundary_lost_;
         }
+        // changes whenever GPU resources are dropped or rebuilt, and differs
+        // between passes
+        uint32_t resource_generation() const {
+            return resource_generation_;
+        }
         // Sticky: unsafe probe, failed flush, or draw-time bind failure happened.
         // Survives rebind_renderer; cleared only by successful explicit reset
         // (request_reprobe).
@@ -261,6 +361,33 @@ class variant_pass
 
         void select_memory_preset( std::optional<memory_preset> preset );
 
+        // smooth lighting. while active, NORMAL and SHADOW draws run lit.frag and
+        // NIGHT and OVEREXPOSED run nightvision_lit.frag, shading each pixel from
+        // `frame.lightmap` at the light map texel coordinates in the vertex colors
+        // (see lit_sample.glsl). with `frame.blend_memory`, MEMORY draws run lit.frag
+        // too and every lit draw fades out-of-sight light into `frame.memory`.
+        // `per_tile` lights each tile from its own texel rather than filtering;
+        // `iso` picks the base line standing sprites take their light from;
+        // `night_vision` makes MEMORY draws blend toward the night vision look. the
+        // result says whether to draw lit, draw classic, or abort the frame.
+        lit_begin_result begin_lit( const lit_frame &frame );
+        // back to classic variants, lit states stay for the next frame
+        void end_lit();
+        // drop lit states before the lightmap texture is destroyed: the states
+        // hold it, and destroying them flushes queued draws
+        void drop_lit();
+        bool lit_active() const {
+            return lit_active_;
+        }
+        // whether a draw of `v` runs a lit state now, and so wants map
+        // coordinates in its vertex colors
+        bool lit_takes( variant_kind v ) const;
+        // while set, draws use the classic variants even though lighting is
+        // active; for sprites that show whatever the light at their tile
+        void set_lit_suspended( bool suspended ) {
+            lit_suspended_ = suspended;
+        }
+
         // Drop all GPU resources, flushing held state first; idempotent. On
         // flush failure the handles are abandoned and the embargo raised (see
         // abandoned_pending_rebind_). Run before the owning renderer dies.
@@ -288,6 +415,7 @@ class variant_pass
         // destructors normally to release the SDL handles.
         void clear_state_arrays( bool abandon_handles );
         SDL_GPURenderState *state_for( variant_kind v, bool tinted ) const;
+        void release_lit( bool abandon_handles );
 
         SDL_Renderer *renderer_ = nullptr;
         std::array<shader, static_cast<size_t>( variant_kind::count )> shaders_;
@@ -298,6 +426,53 @@ class variant_pass
         shader tint_shader_;
         render_state tint_state_;
         std::optional<memory_preset> active_memory_preset_;
+        shader lit_shader_;
+        shader nv_lit_shader_;
+        render_state lit_state_;
+        render_state nv_lit_state_;
+        SDL_GPUDevice *lit_device_ = nullptr;
+        SDL_GPUSampler *lit_sampler_ = nullptr;
+        SDL_Texture *lit_texture_ = nullptr;
+        // lit_params block of lit_sample.glsl, std140: seven vec4
+        struct lit_params {
+            // light map width, height, rows per z level, reach mask column
+            std::array<int32_t, 4> size = {};
+            // memory look, per tile, blend out of sight into memory, iso
+            std::array<int32_t, 4> mode = { -1, 0, 0, 0 };
+            // detail flag bit, barrier flag bit, custom memory look id, unused
+            std::array<int32_t, 4> flags = {};
+            // shadow shade, standing marker, full color light, night floor
+            std::array<float, 4> tone = {};
+            // custom memory look: dark rgb and gamma; light rgb
+            std::array<float, 4> custom_dark = {};
+            std::array<float, 4> custom_light = {};
+            // overexpose start, tint mix, unused, unused
+            std::array<float, 4> look = {};
+            bool operator==( const lit_params &o ) const {
+                return size == o.size && mode == o.mode && flags == o.flags && tone == o.tone &&
+                       custom_dark == o.custom_dark && custom_light == o.custom_light && look == o.look;
+            }
+        };
+        static_assert( sizeof( lit_params ) == 7 * 16, "lit_params is a std140 block of seven vec4" );
+        static_assert( std::is_trivially_copyable_v<lit_params> );
+        // lit_params for `frame`
+        static lit_params make_lit_params( const lit_frame &frame );
+        enum class lit_probe_outcome : uint8_t {
+            ok,
+            mismatch,
+            // the renderer may hold a bind or a target the probe left
+            unsafe,
+        };
+        // compares every lit_probe case's readback with its reference
+        lit_probe_outcome probe_lit();
+        lit_params lit_params_;
+        bool lit_active_ = false;
+        bool lit_suspended_ = false;
+        // memory blends toward the night vision look, not the lit look
+        bool lit_night_vision_ = false;
+        // lit shaders passed activation probe for these resources
+        bool lit_probed_ = false;
+        uint32_t resource_generation_ = 0;
         SDL_GPURenderState *bound_state_ = nullptr;
         // Set after an unsafe bind transition (failed SDL_SetGPURenderState or
         // a probe boundary loss): next flush() must call null-state regardless
