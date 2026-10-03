@@ -1113,3 +1113,108 @@ TEST_CASE( "a_fully_colored_light_tints_at_full_strength", "[smooth_lighting][li
     CHECK( hue[1] == Approx( 0.0f ).margin( 0.01 ) );
     CHECK( hue[2] == Approx( 1.0f ) );
 }
+
+// 32x32 ortho tile at screen ( 100, 200 ), its sprite filling it
+static smooth_lighting::lit_quad_params tile_quad( const tripoint_bub_ms &pos )
+{
+    smooth_lighting::lit_quad_params q;
+    q.screen = { 100.0f, 200.0f, 132.0f, 232.0f };
+    q.uv = { 0.25f, 0.5f, 0.5f, 0.75f };
+    q.tile_width = 32.0f;
+    q.tile_height = 32.0f;
+    q.ground_x = 100.0f;
+    q.ground_y = 200.0f;
+    q.pos = pos;
+    return q;
+}
+
+static float row_of( const tripoint_bub_ms &pos )
+{
+    return static_cast<float>( ( pos.z() + OVERMAP_DEPTH ) * MAPSIZE_Y + pos.y() );
+}
+
+TEST_CASE( "lit_sprite_corners_address_their_tile_in_the_light_map", "[smooth_lighting]" )
+{
+    const tripoint_bub_ms pos( 10, 20, 0 );
+    GIVEN( "flat sprite filling its ortho tile" ) {
+        const std::array<smooth_lighting::lit_vertex, 4> v = smooth_lighting::lit_quad( tile_quad( pos ) );
+        THEN( "its corners fall on its cell's corners and carry its own cell" ) {
+            CHECK( v[0].light.x == Approx( 10.0f ) );
+            CHECK( v[0].light.y == Approx( row_of( pos ) ) );
+            CHECK( v[2].light.x == Approx( 11.0f ) );
+            CHECK( v[2].light.y == Approx( row_of( pos ) + 1.0f ) );
+            for( const smooth_lighting::lit_vertex &c : v ) {
+                CHECK( c.light.column == Approx( 10.0f ) );
+                CHECK( c.light.row == Approx( row_of( pos ) ) );
+            }
+        }
+    }
+    GIVEN( "same sprite standing" ) {
+        smooth_lighting::lit_quad_params q = tile_quad( pos );
+        q.standing = true;
+        THEN( "its column carries the standing marker" ) {
+            CHECK( smooth_lighting::lit_quad( q )[0].light.column ==
+                   Approx( 10.0f + smooth_lighting::standing_marker ) );
+        }
+    }
+    GIVEN( "tile on the level below, drawn lower on screen" ) {
+        const tripoint_bub_ms below = pos + tripoint::below;
+        smooth_lighting::lit_quad_params q = tile_quad( below );
+        q.screen[1] += 16.0f;
+        q.screen[3] += 16.0f;
+        q.ground_y += 16.0f;
+        const std::array<smooth_lighting::lit_vertex, 4> v = smooth_lighting::lit_quad( q );
+        THEN( "it addresses the same cell in that level's rows" ) {
+            CHECK( v[0].light.x == Approx( 10.0f ) );
+            CHECK( v[0].light.y == Approx( row_of( below ) ) );
+            CHECK( v[0].light.row == Approx( row_of( below ) ) );
+        }
+    }
+}
+
+TEST_CASE( "lit_sprite_texture_follows_turns_and_flips", "[smooth_lighting]" )
+{
+    const tripoint_bub_ms pos( 10, 20, 0 );
+    WHEN( "sprite turned clockwise" ) {
+        smooth_lighting::lit_quad_params q = tile_quad( pos );
+        q.turn = smooth_lighting::quarter_turn::clockwise;
+        const std::array<smooth_lighting::lit_vertex, 4> v = smooth_lighting::lit_quad( q );
+        THEN( "bottom-left texel lands at top-left of the tile" ) {
+            CHECK( v[3].x == Approx( 100.0f ) );
+            CHECK( v[3].y == Approx( 200.0f ) );
+            CHECK( v[3].u == Approx( 0.25f ) );
+            CHECK( v[3].v == Approx( 0.75f ) );
+            // and takes the light of where it lands
+            CHECK( v[3].light.x == Approx( 10.0f ) );
+            CHECK( v[3].light.y == Approx( row_of( pos ) ) );
+        }
+    }
+    WHEN( "sprite is flipped horizontally" ) {
+        smooth_lighting::lit_quad_params q = tile_quad( pos );
+        q.flip_horizontal = true;
+        const std::array<smooth_lighting::lit_vertex, 4> v = smooth_lighting::lit_quad( q );
+        THEN( "its left corners take the right texture edge" ) {
+            CHECK( v[0].u == Approx( 0.5f ) );
+            CHECK( v[1].u == Approx( 0.25f ) );
+            CHECK( v[0].x == Approx( 100.0f ) );
+        }
+    }
+}
+
+TEST_CASE( "lit_sprite_corners_map_the_iso_diamond", "[smooth_lighting]" )
+{
+    const tripoint_bub_ms pos( 10, 20, 0 );
+    // 32 wide, 32 tall iso tile: its diamond's left corner sits 24 down
+    smooth_lighting::lit_quad_params q = tile_quad( pos );
+    q.iso = true;
+    q.screen = { 100.0f, 216.0f, 116.0f, 224.0f };
+    const std::array<smooth_lighting::lit_vertex, 4> v = smooth_lighting::lit_quad( q );
+    THEN( "the diamond's top corner is the cell's top right" ) {
+        CHECK( v[1].light.x == Approx( 11.0f ) );
+        CHECK( v[1].light.y == Approx( row_of( pos ) ) );
+    }
+    THEN( "the diamond's left corner is the cell's top left" ) {
+        CHECK( v[3].light.x == Approx( 10.0f ) );
+        CHECK( v[3].light.y == Approx( row_of( pos ) ) );
+    }
+}

@@ -410,6 +410,64 @@ static std::array<float, 3> chroma_hue( const std::array<float, 3> &c )
     return { c[0] / m, c[1] / m, c[2] / m };
 }
 
+std::array<lit_vertex, 4> lit_quad( const lit_quad_params &p )
+{
+    const auto [x0, y0, x1, y1] = p.screen;
+    float u0 = p.uv[0];
+    float v0 = p.uv[1];
+    float u1 = p.uv[2];
+    float v1 = p.uv[3];
+    if( p.flip_horizontal ) {
+        std::swap( u0, u1 );
+    }
+    if( p.flip_vertical ) {
+        std::swap( v0, v1 );
+    }
+    const float cx = ( x0 + x1 ) / 2.0f;
+    const float cy = ( y0 + y1 ) / 2.0f;
+    const auto place = [&]( const float x, const float y ) {
+        const float dx = x - cx;
+        const float dy = y - cy;
+        switch( p.turn ) {
+            case quarter_turn::clockwise:
+                return std::array<float, 2> { cx - dy, cy + dx };
+            case quarter_turn::counterclockwise:
+                return std::array<float, 2> { cx + dy, cy - dx };
+            case quarter_turn::none:
+                break;
+        }
+        return std::array<float, 2> { x, y };
+    };
+    // iso: the height of the diamond's left and right corners; ortho: the
+    // tile's top edge
+    const float ground_y = p.ground_y + ( p.iso ? p.tile_height - p.tile_width / 4.0f : 0.0f );
+    const int row = ( p.pos.z() + OVERMAP_DEPTH ) * MAPSIZE_Y + p.pos.y();
+    // own cell for lit_sample.glsl, in texels: column plus the standing
+    // marker, row
+    const float cell_column = static_cast<float>( p.pos.x() ) + ( p.standing ? standing_marker : 0.0f );
+    const float cell_row = static_cast<float>( row );
+    // light map position under a screen point; the ground mapping is affine,
+    // so the renderer interpolates it exactly across the quad
+    const auto ground = [&]( const std::array<float, 2> &s ) {
+        const float dx = ( s[0] - p.ground_x ) / p.tile_width;
+        float mx = dx;
+        float my = ( s[1] - ground_y ) / p.tile_height;
+        if( p.iso ) {
+            // left (0, 0), top (1, 0), bottom (0, 1), right (1, 1)
+            const float dy = 2.0f * ( s[1] - ground_y ) / p.tile_width;
+            mx = dx - dy;
+            my = dx + dy;
+        }
+        return lit_coords{ static_cast<float>( p.pos.x() ) + mx, cell_row + my, cell_column, cell_row };
+    };
+    const auto vertex = [&]( const float x, const float y, const float u, const float v ) {
+        const std::array<float, 2> at = place( x, y );
+        return lit_vertex{ at[0], at[1], ground( at ), u, v };
+    };
+    return { vertex( x0, y0, u0, v0 ), vertex( x1, y0, u1, v0 ), vertex( x1, y1, u1, v1 ),
+             vertex( x0, y1, u0, v1 ) };
+}
+
 lit_sample reference_sample( const lightmap_view &view, const sample_params &params,
                              const lit_coords &coords )
 {

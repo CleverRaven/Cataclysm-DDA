@@ -8,7 +8,7 @@
 #include <optional>
 #include <vector>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "map_scale_constants.h"
 #include "point.h"
@@ -199,6 +199,38 @@ struct lit_coords {
     float column = 0.0f;
     float row = 0.0f;
 };
+
+// one corner of a lit sprite's quad: where it goes on screen, its vertex
+// color, and its texture coordinates
+struct lit_vertex {
+    float x = 0.0f;
+    float y = 0.0f;
+    lit_coords light;
+    float u = 0.0f;
+    float v = 0.0f;
+};
+
+// lit sprite as drawn: its screen box and texture box before any turn or flip,
+// the tile it stands for and the tile's ground on screen
+struct lit_quad_params {
+    std::array<float, 4> screen = {};
+    std::array<float, 4> uv = {};
+    bool flip_horizontal = false;
+    bool flip_vertical = false;
+    quarter_turn turn = quarter_turn::none;
+    bool iso = false;
+    float tile_width = 0.0f;
+    float tile_height = 0.0f;
+    // screen position of the tile's top left corner on its z level's ground
+    float ground_x = 0.0f;
+    float ground_y = 0.0f;
+    tripoint_bub_ms pos;
+    bool standing = false;
+};
+
+// the four corners of a lit sprite, top left first and clockwise as drawn
+// before the turn; SDL turns about the box's center
+std::array<lit_vertex, 4> lit_quad( const lit_quad_params &p );
 
 struct sample_params {
     bool per_tile = false;

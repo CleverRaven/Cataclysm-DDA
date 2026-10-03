@@ -1868,76 +1868,31 @@ void cata_tiles::render_lit_sprite( const texture &tex, const SDL_Rect &dst,
 {
     SDL_Texture *const atlas = tex.get_texture_ptr().get();
     const SDL_Rect &src = tex.get_srcrect();
-    float u0 = static_cast<float>( src.x ) / atlas->w;
-    float u1 = static_cast<float>( src.x + src.w ) / atlas->w;
-    float v0 = static_cast<float>( src.y ) / atlas->h;
-    float v1 = static_cast<float>( src.y + src.h ) / atlas->h;
-    if( flip & SDL_FLIP_HORIZONTAL ) {
-        std::swap( u0, u1 );
-    }
-    if( flip & SDL_FLIP_VERTICAL ) {
-        std::swap( v0, v1 );
-    }
-    const float x0 = static_cast<float>( dst.x );
-    const float y0 = static_cast<float>( dst.y );
-    const float x1 = static_cast<float>( dst.x + dst.w );
-    const float y1 = static_cast<float>( dst.y + dst.h );
-    // SDL rotates clockwise about the destination center
-    const float cx = ( x0 + x1 ) / 2.0f;
-    const float cy = ( y0 + y1 ) / 2.0f;
-    const auto place = [&]( const float x, const float y ) {
-        const float dx = x - cx;
-        const float dy = y - cy;
-        switch( turn ) {
-            case smooth_lighting::quarter_turn::clockwise:
-                return SDL_FPoint{ cx - dy, cy + dx };
-            case smooth_lighting::quarter_turn::counterclockwise:
-                return SDL_FPoint{ cx + dy, cy - dx };
-            case smooth_lighting::quarter_turn::none:
-                break;
-        }
-        return SDL_FPoint{ x, y };
-    };
-
-    const bool iso = is_isometric();
-    const float tw = static_cast<float>( tile_width );
-    const float th = static_cast<float>( tile_height );
-    const float ground_x = static_cast<float>( anchor.x );
-    // iso: the height of the diamond's left and right corners; ortho: the
-    // tile's top edge
-    const float ground_y = static_cast<float>( anchor.y + lit_ground_dy ) +
-                           ( iso ? th - tw / 4.0f : 0.0f );
     // vertex colors address the light map by this cell
     cata_assert( lit_extent.covers( pos ) );
-    const int row = ( pos.z() + OVERMAP_DEPTH ) * MAPSIZE_Y + pos.y();
-    // own cell for lit_sample.glsl, in texels: column plus the standing
-    // marker, row
-    const float cell_column = static_cast<float>( pos.x() ) +
-                              ( standing ? smooth_lighting::standing_marker : 0.0f );
-    const float cell_row = static_cast<float>( row );
-    // light map position under a screen point, as a vertex color for
-    // lit_sample.glsl; the ground mapping is affine, so the renderer
-    // interpolates it exactly across the quad
-    const auto ground = [&]( const SDL_FPoint & s ) {
-        const float dx = ( s.x - ground_x ) / tw;
-        float mx = dx;
-        float my = ( s.y - ground_y ) / th;
-        if( iso ) {
-            // left (0, 0), top (1, 0), bottom (0, 1), right (1, 1)
-            const float dy = 2.0f * ( s.y - ground_y ) / tw;
-            mx = dx - dy;
-            my = dx + dy;
-        }
-        return SDL_FColor{ static_cast<float>( pos.x() ) + mx, cell_row + my, cell_column, cell_row };
-    };
-    const auto vertex = [&]( const float x, const float y, const float u, const float v ) {
-        const SDL_FPoint at = place( x, y );
-        return SDL_Vertex{ at, ground( at ), { u, v } };
-    };
-    const std::array<SDL_Vertex, 4> v = {
-        vertex( x0, y0, u0, v0 ), vertex( x1, y0, u1, v0 ),
-        vertex( x1, y1, u1, v1 ), vertex( x0, y1, u0, v1 )
-    };
+    smooth_lighting::lit_quad_params q;
+    q.screen = { static_cast<float>( dst.x ), static_cast<float>( dst.y ),
+                 static_cast<float>( dst.x + dst.w ), static_cast<float>( dst.y + dst.h )
+               };
+    q.uv = { static_cast<float>( src.x ) / atlas->w, static_cast<float>( src.y ) / atlas->h,
+             static_cast<float>( src.x + src.w ) / atlas->w, static_cast<float>( src.y + src.h ) / atlas->h
+           };
+    q.flip_horizontal = ( flip & SDL_FLIP_HORIZONTAL ) != 0;
+    q.flip_vertical = ( flip & SDL_FLIP_VERTICAL ) != 0;
+    q.turn = turn;
+    q.iso = is_isometric();
+    q.tile_width = static_cast<float>( tile_width );
+    q.tile_height = static_cast<float>( tile_height );
+    q.ground_x = static_cast<float>( anchor.x );
+    q.ground_y = static_cast<float>( anchor.y + lit_ground_dy );
+    q.pos = pos;
+    q.standing = standing;
+    std::array<SDL_Vertex, 4> v;
+    const std::array<smooth_lighting::lit_vertex, 4> corners = smooth_lighting::lit_quad( q );
+    for( size_t k = 0; k < v.size(); ++k ) {
+        const smooth_lighting::lit_vertex &c = corners[k];
+        v[k] = { { c.x, c.y }, { c.light.x, c.light.y, c.light.column, c.light.row }, { c.u, c.v } };
+    }
     static constexpr std::array<int, 6> idx = { 0, 1, 2, 0, 2, 3 };
     RenderGeometry( renderer, atlas, v.data(), v.size(), idx.data(), idx.size() );
 }
