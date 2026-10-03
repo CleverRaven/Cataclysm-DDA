@@ -181,7 +181,6 @@ class veh_interact
         int part_at( const point_rel_ms &d );
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
         task_reason cant_do( const map &here, vehicle_action mode );
-        bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.

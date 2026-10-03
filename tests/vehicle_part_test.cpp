@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -14,12 +15,14 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
@@ -48,7 +51,9 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_fridge_test( "fridge_test" );
 static const itype_id itype_gasoline( "gasoline" );
 static const itype_id itype_metal_tank_test( "metal_tank_test" );
+static const itype_id itype_motor( "motor" );
 static const itype_id itype_oatmeal( "oatmeal" );
+static const itype_id itype_test_enchant( "test_enchant" );
 static const itype_id itype_test_multimag_direct_battery( "test_multimag_direct_battery" );
 static const itype_id itype_test_multimag_mixed_battery( "test_multimag_mixed_battery" );
 static const itype_id itype_test_multimag_two_battery( "test_multimag_two_battery" );
@@ -58,16 +63,20 @@ static const itype_id itype_test_multimag_well_fluid( "test_multimag_well_fluid"
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
+static const itype_id itype_wrench( "wrench" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
+static const vpart_id vpart_engine_electric( "engine_electric" );
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_halfboard( "halfboard" );
 static const vpart_id vpart_small_storage_battery( "small_storage_battery" );
 static const vpart_id vpart_tank_test( "tank_test" );
+static const vpart_id vpart_test_enchant( "test_enchant" );
 static const vpart_id vpart_water_faucet( "water_faucet" );
 
 static const vproto_id vehicle_prototype_none( "none" );
@@ -744,5 +753,131 @@ TEST_CASE( "consume_inventory_finds_nearby_vehicle_tanks", "[inventory][vehicle]
         selector.add_vehicle_tank_items();
         // The adjacent faucet must not expose the tank under the character.
         CHECK( selector.item_entry_count() == 1 );
+    }
+}
+
+// "none" vehicle with a frame on each of the first `frames` mounts in a row
+static vehicle *spawn_frames( map &here, int frames )
+{
+    const tripoint_bub_ms origin( 60, 60, 0 );
+    REQUIRE_FALSE( here.veh_at( origin ).has_value() );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, origin, 0_degrees, 0,
+                                     veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    for( int x = 0; x < frames; x++ ) {
+        REQUIRE( veh->install_part( here, point_rel_ms( x, 0 ), vpart_frame ) != -1 );
+    }
+    return veh;
+}
+
+static bool offered_in_menu( const vpart_info &vpi )
+{
+    return !vpi.has_flag( "NO_INSTALL_HIDDEN" ) && !vpi.has_flag( VPFLAG_APPLIANCE );
+}
+
+TEST_CASE( "install_candidates_offer_every_eligible_part_once", "[vehicle][veh_utils]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+    Character &you = get_player_character();
+    const vehicle &veh = *spawn_frames( here, 1 );
+
+    GIVEN( "empty inventory" ) {
+        you.invalidate_crafting_inventory();
+        const veh_utils::install_candidates list =
+            veh_utils::list_install_candidates( you, you.crafting_inventory(), veh );
+
+        THEN( "every offerable part is listed once" ) {
+            std::set<vpart_id> expected;
+            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+                if( offered_in_menu( vpi ) ) {
+                    expected.insert( vpi.id );
+                }
+            }
+            std::set<vpart_id> listed;
+            for( const vpart_info *vpi : list.parts ) {
+                listed.insert( vpi->id );
+            }
+            CHECK( listed == expected );
+            CHECK( list.parts.size() == expected.size() );
+        }
+        THEN( "installable parts first, each half sorted by name" ) {
+            for( const vpart_info *vpi : list.installable ) {
+                CHECK( std::find( list.parts.begin(), list.parts.end(), vpi ) != list.parts.end() );
+            }
+            const auto installable = [&list]( const vpart_info * vpi ) {
+                return list.installable.count( vpi ) > 0;
+            };
+            CHECK( std::is_partitioned( list.parts.begin(), list.parts.end(), installable ) );
+            const auto split = std::partition_point( list.parts.begin(), list.parts.end(), installable );
+            const auto by_name = []( const vpart_info * a, const vpart_info * b ) {
+                return localized_compare( a->name(), b->name() );
+            };
+            CHECK( std::is_sorted( list.parts.begin(), split, by_name ) );
+            CHECK( std::is_sorted( split, list.parts.end(), by_name ) );
+            CHECK_FALSE( installable( &*vpart_test_enchant ) );
+        }
+    }
+    GIVEN( "carrying enchant test part's base item" ) {
+        you.i_add( item( itype_test_enchant ) );
+        you.invalidate_crafting_inventory();
+        REQUIRE( vpart_test_enchant->install_requirements().can_make_with_inventory( &you,
+                 you.crafting_inventory(), is_crafting_component, 1, craft_flags::none, false ) );
+        THEN( "part is installable" ) {
+            CHECK( veh_utils::can_install_anywhere( you, you.crafting_inventory(), veh,
+                                                    *vpart_test_enchant ) );
+            const veh_utils::install_candidates list =
+                veh_utils::list_install_candidates( you, you.crafting_inventory(), veh );
+            CHECK( list.installable.count( &*vpart_test_enchant ) == 1 );
+        }
+    }
+}
+
+TEST_CASE( "install_candidates_respect_the_higher_skill_engine_limit", "[vehicle][veh_utils]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    clear_vehicles();
+    map &here = get_map();
+    Character &you = get_player_character();
+    vehicle &veh = *spawn_frames( here, 2 );
+    you.i_add( item( itype_motor ) );
+    you.i_add( item( itype_wrench ) );
+    you.invalidate_crafting_inventory();
+    REQUIRE( vpart_engine_electric->install_requirements().can_make_with_inventory( &you,
+             you.crafting_inventory(), is_crafting_component, 1, craft_flags::none, false ) );
+    const auto engine_installable = [&]() {
+        const veh_utils::install_candidates list =
+            veh_utils::list_install_candidates( you, you.crafting_inventory(), veh );
+        for( const vpart_info *vpi : list.parts ) {
+            CHECK( offered_in_menu( *vpi ) );
+        }
+        return list.installable.count( &*vpart_engine_electric ) > 0;
+    };
+
+    WHEN( "vehicle has no higher-skill engine" ) {
+        THEN( "engine is installable" ) {
+            CHECK( engine_installable() );
+        }
+    }
+    WHEN( "vehicle has two higher-skill engines" ) {
+        REQUIRE( veh.install_part( here, point_rel_ms( 0, 0 ), vpart_engine_electric ) != -1 );
+        REQUIRE( veh.install_part( here, point_rel_ms( 1, 0 ), vpart_engine_electric ) != -1 );
+        int engines = 0;
+        for( const vpart_reference &vp : veh.get_avail_parts( "ENGINE" ) ) {
+            engines += vp.has_feature( "E_HIGHER_SKILL" ) ? 1 : 0;
+        }
+        REQUIRE( engines == 2 );
+        THEN( "third one refused despite materials" ) {
+            CHECK_FALSE( engine_installable() );
+        }
+        AND_WHEN( "installer has debug hammerspace" ) {
+            you.set_mutation( trait_DEBUG_HS );
+            THEN( "third is allowed" ) {
+                CHECK( engine_installable() );
+            }
+        }
     }
 }

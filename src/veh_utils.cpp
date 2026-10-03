@@ -15,6 +15,7 @@
 #include "cata_imgui.h"
 #include "character.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -22,6 +23,7 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "item.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "memory_fast.h"
 #include "point.h"
@@ -35,6 +37,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 namespace veh_utils
 {
@@ -165,6 +169,50 @@ bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who )
                                veh.name, partname, startdurability );
     }
     return true;
+}
+
+bool can_install_anywhere( const Character &who, const temp_crafting_inventory &inv,
+                           const vehicle &veh, const vpart_info &vpart )
+{
+    bool engine_reqs_met = true;
+    const bool can_make = vpart.install_requirements().can_make_with_inventory( &who, inv,
+                          is_crafting_component, 1, craft_flags::none, false );
+    const bool hammerspace = who.has_trait( trait_DEBUG_HS );
+    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
+        int engines = 0;
+        for( const vpart_reference &vp : veh.get_avail_parts( "ENGINE" ) ) {
+            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
+                engines++;
+            }
+        }
+        engine_reqs_met = engines < 2;
+    }
+    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
+}
+
+install_candidates list_install_candidates( const Character &who,
+        const temp_crafting_inventory &inv, const vehicle &veh )
+{
+    install_candidates ret;
+    std::vector<const vpart_info *> req_missing;
+    for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+        if( vpi.has_flag( "NO_INSTALL_HIDDEN" ) || vpi.has_flag( VPFLAG_APPLIANCE ) ) {
+            continue;
+        }
+        if( can_install_anywhere( who, inv, veh, vpi ) ) {
+            ret.parts.push_back( &vpi );
+            ret.installable.insert( &vpi );
+        } else {
+            req_missing.push_back( &vpi );
+        }
+    }
+    const auto by_name = []( const vpart_info * a, const vpart_info * b ) {
+        return localized_compare( a->name(), b->name() );
+    };
+    std::sort( ret.parts.begin(), ret.parts.end(), by_name );
+    std::sort( req_missing.begin(), req_missing.end(), by_name );
+    ret.parts.insert( ret.parts.end(), req_missing.cbegin(), req_missing.cend() );
+    return ret;
 }
 
 } // namespace veh_utils
