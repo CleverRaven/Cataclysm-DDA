@@ -3385,5 +3385,17 @@
     ],
     "resist": { "bash": 0.5, "cut": 0.1, "acid": 4, "heat": 0, "bullet": 0 },
     "repair_difficulty": 4
+  },
+  {
+    "type": "material",
+    "id": "improvised_diesel",
+    "name": "Gasoline Mix",
+    "density": 0.768,
+    "copy-from": "hydrocarbons",
+    "//": "Its 10 parts of gasoline mixed with 1 part of an oil, specs are interpolated and mostly remines for the gasoline, it still volitile and highly flamable, bit heavier and less energy dense.",
+    "fuel_data": {
+      "energy": "33455 kJ",
+      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
+    }
   }
 ]
