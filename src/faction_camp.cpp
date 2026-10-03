@@ -475,6 +475,17 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
     }
 }
 
+// blueprint name, then each chosen argument's name in parentheses
+static std::string upgrade_mission_name( const mission_id &miss_id, const translation &bldg_name )
+{
+    std::string result = mission_ui_activity_of( miss_id ) + bldg_name;
+    const recipe &rec = *recipe_id( miss_id.parameters );
+    for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
+        result += string_format( " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
+    }
+    return result;
+}
+
 static std::map<std::string, comp_list> companion_per_recipe_building_type( comp_list &npc_list )
 {
     std::map<std::string, comp_list> result;
@@ -833,7 +844,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             comp_list npc_list = get_mission_workers( miss_id );
 
             if( npc_list.empty() ) {
-                std::string display_name = name_display_of( miss_id );
+                std::string display_name = upgrade_mission_name( miss_id, upgrade.name );
                 const recipe &making = *recipe_id( miss_id.parameters );
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
@@ -6019,14 +6030,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
             if( upgrade_it == upgrades.end() ) {
                 return mission_ui_activity_of( miss_id ) + _( "<No longer valid construction>" );
             }
-            std::string result = mission_ui_activity_of( miss_id ) + upgrade_it->name;
-            const recipe &rec = *recipe_id( upgrade_it->bldg );
-            for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
-                result +=
-                    string_format(
-                        " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
-            }
-            return result;
+            return upgrade_mission_name( miss_id, upgrade_it->name );
         }
         case Camp_Crafting: {
             const std::string dir_id = base_camps::all_directions.at( miss_id.dir.value() ).id;
