@@ -7703,7 +7703,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 }
 
 static const std::string missing_update_operation =
-    "missing update operation (not vehicle/appliance)";
+    translate_marker( "missing update operation (not vehicle/appliance)" );
 
 ret_val<void> run_mapgen_update_func(
     const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos,
