@@ -2781,12 +2781,12 @@ double Character::evaluate_weapon_internal( const item &maybe_weapon, bool can_u
                                           std::max( maybe_weapon.shots_remaining( here, this ), pretend_ammo )
                                         ) : 0;
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
+                   "Weapon %s for %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
+                   maybe_weapon.type->get_id().str(), disp_name(), val_gun );
     double val_melee = melee_value( maybe_weapon );
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                   maybe_weapon.type->get_id().str(), val_melee );
+                   "Weapon %s for %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.",
+                   maybe_weapon.type->get_id().str(), disp_name(), val_melee );
     double val = std::max( val_gun, val_melee );
 
 
