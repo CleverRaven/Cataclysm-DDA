@@ -5866,7 +5866,7 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
         craft( loc, goto_recipe );
     } else {
         uilist menu;
-        menu.text = "Craft what?";
+        menu.text = _( "Craft what?" );
         menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Craft new item" ) );
         menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Work on craft" ) );
         menu.query();
@@ -5878,10 +5878,10 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
             uilist item_selection;
             do {
                 item_selection.init();
-                item_selection.text = "Craft what?";
+                item_selection.text = _( "Craft what?" );
                 item_selection.selected = selected;
-                item_selection.addentry( 0, true, MENU_AUTOASSIGN, "Start crafting" );
-                item_selection.addentry( 1, true, MENU_AUTOASSIGN, "Select all" );
+                item_selection.addentry( 0, true, MENU_AUTOASSIGN, _( "Start crafting" ) );
+                item_selection.addentry( 1, true, MENU_AUTOASSIGN, _( "Select all" ) );
                 int index = 2;
 
                 for( item_location &itm : craft_item_list ) {
