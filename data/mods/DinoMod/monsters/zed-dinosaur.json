@@ -2273,6 +2273,7 @@
       "eoc": "EOC_ZAUROPOD_HURT"
     },
     "weakpoint_sets": [ "wps_sauropod_leg" ],
-    "extend": { "flags": [ "DESTROYS" ] }
+    "extend": { "flags": [ "DESTROYS" ] },
+    "upgrades": false
   }
 ]
