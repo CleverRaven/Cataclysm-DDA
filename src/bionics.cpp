@@ -2141,7 +2141,15 @@ bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, b
     }
 
     if( bio.id->cant_remove_reason.has_value() ) {
-        popup( string_format( bio.id->cant_remove_reason.value().translated(), disp_name( true ),
+        std::string possessive_name;
+        if( is_avatar() ) {
+            possessive_name = _( "your" );
+        } else {
+            const std::string profession = disp_profession();
+            possessive_name = profession.empty() ? string_format( _( "%1$s's" ), get_name() ) :
+                              string_format( _( "%1$s, %2$s's" ), get_name(), profession );
+        }
+        popup( string_format( bio.id->cant_remove_reason.value().translated(), possessive_name,
                               disp_name() ) );
         return false;
     }
@@ -2578,7 +2586,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
         return true;
     }
     const std::string installer_name = installer.has_trait( trait_PROF_MED ) ||
-                                       installer.has_trait( trait_PROF_AUTODOC ) ? installer.disp_name( true ) : "NOT_MED";
+                                       installer.has_trait( trait_PROF_AUTODOC ) ? installer.disp_name() : "NOT_MED";
 
     assign_activity( bionic_operation_activity_actor( true, success, autodoc, pl_skill,
                      difficulty, bioid, upbio_uid, installer_name ) );
@@ -2655,8 +2663,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
 
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
-        add_msg( m_neutral, _( "%s training helps to minimize the complications." ),
-                 installer );
+        add_msg( m_neutral, _( "Medical training helps to minimize the complications." ) );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
         // Take MD and be immune to faulty bionics.
         if( fail_type > 3 ) {

@@ -1541,7 +1541,7 @@ void build_construction_activity_actor::complete_construction( player_activity &
                           calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( true ),
              built.group->name() );
     // clear the activity
     act.set_to_null();

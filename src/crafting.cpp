@@ -5511,7 +5511,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     } else {
         add_msg_if_player_sees( *this, _( "%1s disassembles the %2s into its components." ),
-                                this->disp_name( false, true ), dis_item.tname() );
+                                this->disp_name( true ), dis_item.tname() );
     }
 
     // Get rid of the disassembled item
@@ -5652,7 +5652,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         } else {
             //~ %1$s: NPC name, %2$d: quantity destroyed, %2$s: pluralized name of destroyed item
             add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$d %3$s." ),
-                                    this->disp_name( false, true ), destroyed.second, it_name );
+                                    this->disp_name( true ), destroyed.second, it_name );
         }
     }
 
@@ -5667,7 +5667,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         } else {
             //~ %1$s: NPC name, %2$d: quantity recovered, %2$s: pluralized name of recovered item
             add_msg_if_player_sees( *this, m_good, _( "%1$s recovers %2$d %3$s." ),
-                                    this->disp_name( false, true ), recovered.second, it_name );
+                                    this->disp_name( true ), recovered.second, it_name );
         }
     }
 

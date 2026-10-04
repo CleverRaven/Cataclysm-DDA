@@ -1112,10 +1112,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             time_duration duration = rng( 6_turns, 8_turns );
             target.add_effect( effect_source( source ), effect_stunned, duration );
             target.add_effect( effect_source( source ), effect_sensor_stun, duration );
-            add_msg( source->is_avatar() ?
-                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
-                     _( "The %1$s is stunned!" ),
-                     target.disp_name( true ) );
+            if( source->is_avatar() ) {
+                add_msg( _( "You land a clean shot on %1$s's sensors, stunning it." ), target.disp_name() );
+            } else {
+                add_msg( _( "%1$s is stunned!" ), target.disp_name( true ) );
+            }
         }
     }
 
@@ -1275,8 +1276,8 @@ void Creature::messaging_projectile_attack( const Creature *source,
             }
         } else if( total_damage == 0 ) {
             if( hit_selection.wp_hit.empty() ) {
-                //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-                add_msg( m_bad, _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                //~ 1$ - creature name, 2$ - character's bodypart or monster's skin/armor
+                add_msg( m_bad, _( "The shot reflects off the %2$s of %1$s!" ), disp_name(),
                          is_monster() ?
                          skin_name() :
                          body_part_name_accusative( hit_selection.bp_hit ) );
@@ -1348,9 +1349,10 @@ void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view ) con
     if( source != nullptr && player_view.sees( here, *source ) ) {
         add_msg_player_or_npc(
             m_warning,
-            _( "You avoid %s projectile!" ),
-            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
-            source->disp_name( true ) );
+            _( "You avoid the projectile from %s!" ),
+            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids the projectile from %s." ) :
+            "",
+            source->disp_name() );
     } else {
         add_msg_player_or_npc(
             m_warning,
@@ -1648,17 +1650,17 @@ void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
         add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
                            name );
         if( c->is_avatar() ) {
-            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( false, true ), name );
+            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( true ), name );
         }
         c->move_to( tripoint_abs_ms( line_to( pos_abs().raw(), c->pos_abs().raw(), 0,
                                               0 ).front() ) );
         c->add_effect( effect_stunned, 1_seconds );
         sounds::sound( c->pos_bub( here ), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
     } else {
-        add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
-                           c->disp_name( true, true ) );
+        add_msg_if_player( m_bad, _( "%s is too heavy to pull towards you." ),
+                           c->disp_name( true ) );
         if( c->is_avatar() ) {
-            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( false, true ) );
+            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( true ) );
         }
     }
 }
@@ -1676,8 +1678,8 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     }
     if( stumblemsg ) {
         const bool player_sees = player.sees( here, *this );
-        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
-                 true ) : _( "Something" ) );
+        add_msg( m_bad, _( "%s stumbles into you!" ),
+                 player_sees ? this->disp_name( true ) : _( "Something" ) );
     }
     add_effect( effect_stumbled_into_invisible, 6_seconds );
     // Mark last known location, or extend duration if exists
@@ -1718,7 +1720,7 @@ bool Creature::attack_air( const tripoint_bub_ms &p )
     }
 
     add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
-                            disp_name( false, true ) );
+                            disp_name( true ) );
     return true;
 }
 

@@ -173,7 +173,7 @@ static float get_avg_bullet_dmg( const itype_id &clothing_id )
     }
     CAPTURE( dude->is_dead() );
     INFO( string_format( "%s landed %d hits on character, causing %d damage total.",
-                         badguy->disp_name( false, true ), num_hits, dam_acc ) );
+                         badguy->disp_name( true ), num_hits, dam_acc ) );
     num_hits = num_hits ? num_hits : 1;
     return static_cast<float>( dam_acc ) / num_hits;
 }
