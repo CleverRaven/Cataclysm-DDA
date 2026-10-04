@@ -82,6 +82,7 @@
 #include "string_id_utils.h"
 #include "subbodypart.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -129,7 +130,6 @@ static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
-class temp_crafting_inventory;
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
@@ -4260,6 +4260,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( item_recipes.empty() ) {
             info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
+            // no inventory-backed item or power changes in this loop, so query caches hold
+            temp_crafting_inventory::query_cache_scope cache_scope;
             std::vector<std::string> crafts;
             crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {
