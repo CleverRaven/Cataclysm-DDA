@@ -96,20 +96,20 @@
       {
         "if": {
           "or": [
-            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x < 1200" ] },
-            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x > 1900" ] }
+            { "math": [ "scarlet_storm_focus_a1.y - scarlet_storm_focus_a2.y < 1200" ] },
+            { "math": [ "scarlet_storm_focus_a1.y - scarlet_storm_focus_a2.y > 1900" ] }
           ]
         },
-        "then": { "math": [ "scarlet_storm_focus_a2.x = scarlet_storm_focus_a1.x + 1500" ] }
+        "then": { "math": [ "scarlet_storm_focus_a2.y = scarlet_storm_focus_a1.y + 1500" ] }
       },
       {
         "if": {
           "or": [
-            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x < 1200" ] },
-            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x > 1900" ] }
+            { "math": [ "scarlet_storm_focus_b1.y - scarlet_storm_focus_b2.y < 1200" ] },
+            { "math": [ "scarlet_storm_focus_b1.y - scarlet_storm_focus_b2.y > 1900" ] }
           ]
         },
-        "then": { "math": [ "scarlet_storm_focus_b2.x = scarlet_storm_focus_b1.x + 1500" ] }
+        "then": { "math": [ "scarlet_storm_focus_b2.y = scarlet_storm_focus_b1.y + 1500" ] }
       },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 730" ] },
