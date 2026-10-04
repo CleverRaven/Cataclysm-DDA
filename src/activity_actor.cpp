@@ -3786,6 +3786,74 @@ std::string enum_to_string<zone_activity_stage>( zone_activity_stage stage )
     }
 }
 template<>
+std::string enum_to_string<do_activity_reason>( do_activity_reason reason )
+{
+    switch( reason ) {
+        case do_activity_reason::CAN_DO_CONSTRUCTION:
+            return _( "The construction can be performed." );
+        case do_activity_reason::CAN_DO_FETCH:
+            return _( "The needed items are being fetched." );
+        case do_activity_reason::NO_COMPONENTS:
+            return _( "The required components or tools are missing." );
+        case do_activity_reason::DONT_HAVE_SKILL:
+            return _( "The required skill is missing." );
+        case do_activity_reason::NO_ZONE:
+            return _( "The required zone could not be found." );
+        case do_activity_reason::NO_VEHICLE:
+            return _( "No accessible vehicle was found at this location." );
+        case do_activity_reason::ALREADY_DONE:
+            return _( "The work has already been completed." );
+        case do_activity_reason::UNKNOWN_ACTIVITY:
+            return _( "The activity could not be identified." );
+        case do_activity_reason::NEEDS_CLEARING:
+            return _( "This tile can be cleared." );
+        case do_activity_reason::NEEDS_HARVESTING:
+            return _( "This tile can be harvested." );
+        case do_activity_reason::NEEDS_PLANTING:
+            return _( "This tile can be planted." );
+        case do_activity_reason::NEEDS_TILLING:
+            return _( "This tile can be tilled." );
+        case do_activity_reason::NEEDS_FERTILIZING:
+            return _( "This tile can be fertilized." );
+        case do_activity_reason::BLOCKING_TILE:
+            return _( "Something is blocking this tile." );
+        case do_activity_reason::NEEDS_BOOK_TO_LEARN:
+            return _( "There is a book here to learn from." );
+        case do_activity_reason::NEEDS_CHOPPING:
+            return _( "There is wood here to chop." );
+        case do_activity_reason::NEEDS_TREE_CHOPPING:
+            return _( "There is a tree here to chop." );
+        case do_activity_reason::NEEDS_BIG_BUTCHERING:
+            return _( "There is a large corpse here to butcher." );
+        case do_activity_reason::NEEDS_BUTCHERING:
+            return _( "There is a corpse here to butcher." );
+        case do_activity_reason::NEEDS_CUT_HARVESTING:
+            return _( "This plant needs a grass-cutting tool to harvest." );
+        case do_activity_reason::ALREADY_WORKING:
+            return _( "Someone is already working here." );
+        case do_activity_reason::NEEDS_VEH_DECONST:
+            return _( "There is a vehicle part here to deconstruct." );
+        case do_activity_reason::NEEDS_VEH_REPAIR:
+            return _( "There is a vehicle part here to repair." );
+        case do_activity_reason::WOULD_PREVENT_VEH_FLYING:
+            return _( "This work would prevent the vehicle from flying." );
+        case do_activity_reason::NEEDS_MINING:
+            return _( "This spot can be mined with the right tool." );
+        case do_activity_reason::NEEDS_MOP:
+            return _( "This spot can be mopped." );
+        case do_activity_reason::NEEDS_FISHING:
+            return _( "This spot can be fished with the right tool." );
+        case do_activity_reason::NEEDS_CRAFT:
+            return _( "There is at least one item to craft." );
+        case do_activity_reason::NEEDS_DISASSEMBLE:
+            return _( "There is at least one item to disassemble." );
+        case do_activity_reason::REFUSES_THIS_WORK:
+            return _( "The character refuses to do this work." );
+        default:
+            cata_fatal( "Invalid do_activity_reason in enum_to_string" );
+    }
+}
+template<>
 std::string enum_to_string<efile_action>( efile_action data )
 {
     return efile_activity_actor::efile_action_name( data );
@@ -5485,8 +5553,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
             you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
             you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
-                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
-                                       current_activity.c_str() );
+                                       _( "%s aborts the \"%s\" activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.obj().verb().translated() );
             return false;
         }
 
@@ -5566,12 +5634,14 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         if( you.is_npc() ) {
             if( zone ) {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\" in zone %3$s. %4$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(), zone->get_name(),
+                                        io::enum_to_string( reason ) );
             } else {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\". %3$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(),
+                                        io::enum_to_string( reason ) );
             }
         }
 
