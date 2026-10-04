@@ -149,6 +149,7 @@
     },
     "item": { "T": { "item": "toilet_paper", "chance": 33 }, "/": { "item": "american_flag", "chance": 100 } },
     "toilets": { "T": {  } },
+    "monster": { "A": { "monster": "mon_raccoon", "chance": 25, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "vehicles": {
       "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
       "2": { "vehicle": "ice_cream_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
