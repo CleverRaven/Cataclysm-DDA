@@ -814,8 +814,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamarasaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -835,8 +843,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrachiosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -856,8 +872,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zastrodon_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -877,8 +901,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zalamosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -5551,5 +5583,26 @@
       "RANGED_ATTACKER"
     ],
     "armor": { "bash": 4, "cut": 5, "bullet": 2 }
+  },
+    {
+    "id": "mon_zauropod_brute_leg",
+    "type": "MONSTER",
+    "name": { "str": "huge zombie brute leg" },
+    "description": "A huge fleshy appendage holding up a much larger dinosaur, part of a larger putrid shambling corpse.  It twists and bulges with distended muscles and swollen, festering wounds.",
+    "copy-from": "mon_zapatosaurus_brute",
+    "symbol": "(",
+    "hp": 300,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 7,
+    "melee_dice_sides": 18,
+    "melee_skill": 3,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ] }, [ "SMASH", 30 ] ],
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The sauropod zombie brute stumbles as one of its legs is badly hurt and collapses.",
+      "eoc": "EOC_ZAUROPOD_BRUTE_HURT"
+    },
+    "weakpoint_sets": [ "wps_sauropod_leg" ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "DESTROYS" ] }
   }
 ]
