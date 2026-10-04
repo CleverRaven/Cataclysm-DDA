@@ -7,6 +7,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <stdint.h>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -27,6 +28,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "item.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "magic.h"
 #include "magic_enchantment.h"
