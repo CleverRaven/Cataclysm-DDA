@@ -99,6 +99,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -1305,12 +1306,15 @@ static void sleep()
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
-    for( item_location &it : player_character.all_items_loc() ) {
+    player_character.visit_items(
+    [&active, &player_character]( const item_location & it ) {
         if( it->has_flag( flag_LITCIG ) || ( it->active && it->ammo_sufficient( &player_character ) &&
                                              it->is_tool() && !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
+        return VisitResponse::NEXT;
     }
+    );
     for( int i = 0; i < player_character.num_bionics(); i++ ) {
         const bionic &bio = player_character.bionic_at_index( i );
         if( !bio.powered ) {

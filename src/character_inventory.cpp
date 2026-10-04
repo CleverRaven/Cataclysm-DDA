@@ -219,18 +219,21 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     }
 }
 
-int Character::count_softwares( const itype_id &id )
+int Character::count_softwares( const itype_id &id ) const
 {
     int count = 0;
-    for( const item_location &it_loc : all_items_loc() ) {
-        if( it_loc->is_estorage() ) {
-            for( const item *soft : it_loc->softwares() ) {
+    visit_items(
+    [&id, &count]( const item_location & node ) {
+        if( node->is_estorage() ) {
+            for( const item *soft : node->softwares() ) {
                 if( soft->typeId() == id ) {
                     count++;
                 }
             }
         }
+        return VisitResponse::NEXT;
     }
+    );
     return count;
 }
 
