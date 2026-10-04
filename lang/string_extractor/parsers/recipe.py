@@ -47,6 +47,9 @@ def parse_recipe(json, origin):
         for i, step in enumerate(json["steps"], start=1):
             write_text(step.get("name"), origin,
                        comment=f"Recipe crafting '{hint}' step {i}")
+            write_text(step.get("unattend_message"), origin,
+                       comment=("Unattended message for recipe "
+                                f"crafting '{hint}' step {i}"))
 
     for eoc in json.get("result_eocs", []):
         parse_effect_on_condition(eoc, origin,
