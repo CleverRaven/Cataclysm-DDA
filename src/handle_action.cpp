@@ -457,12 +457,21 @@ input_context game::get_player_input( std::string &action )
             }
 
             ui_manager::redraw_invalidated();
+
+            if( const std::optional<action_id> bridge_action = cata3d_bridge::poll_action() ) {
+                action = action_ident( *bridge_action );
+                return ctxt;
+            }
         } while( handle_mouseview( ctxt, action ) && uquit != QUIT_WATCH
                  && ( action != "TIMEOUT" || !current_turn.has_timeout_elapsed() ) );
         ctxt.reset_timeout();
     } else {
         ctxt.set_timeout( 125 );
         while( handle_mouseview( ctxt, action ) ) {
+            if( const std::optional<action_id> bridge_action = cata3d_bridge::poll_action() ) {
+                action = action_ident( *bridge_action );
+                return ctxt;
+            }
             if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
