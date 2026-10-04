@@ -10,6 +10,11 @@
     "terrains": [ "outer_space" ]
   },
   {
+    "type": "overmap_location",
+    "id": "urban",
+    "terrains": [ "hab_unit", "hab_unit_central", "outer_space" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": "outer_space",
     "vision_levels": "large_building",
