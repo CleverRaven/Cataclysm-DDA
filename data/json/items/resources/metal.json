@@ -1443,5 +1443,41 @@
     "copy-from": "small_steel_bar_flat",
     "name": { "str_sp": "small low steel flat bar stock" },
     "material": [ "lc_steel" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "steel_section_long",
+    "name": { "str": "pipe" },
+    "description": "A long section of carbon structural steel. Maybe if you shorten it, you coul use it to craft your own steel vehicle frames.",
+    "category": "spare_parts",
+    "weight": "31 kg",
+    "longest_side": "100 cm",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "mc_steel" ],
+    "volume": "10 l",
+    "price": "10 USD",
+    "price_postapoc": "5 cent",
+    "melee_damage": { "bash": 20 },
+    "//": "Based on https://www.constructionknowledge.net/metal/images_metal/hss%20rect%20Steel%20section%20tables%20080307.pdf HSS4X4X1/2"
+  },
+  {
+    "type": "ITEM",
+    "id": "steel_section_short",
+    "name": { "str": "pipe" },
+    "description": "A section of carbon structural steel. Maybe you could weld a few of these together to make your own steel frame.",
+    "category": "spare_parts",
+    "weight": "15 kg",
+    "longest_side": "50 cm",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "mc_steel" ],
+    "volume": "5 l",
+    "price": "5 USD",
+    "price_postapoc": "2 cent",
+    "melee_damage": { "bash": 10 },
+    "//": "Based on https://www.constructionknowledge.net/metal/images_metal/hss%20rect%20Steel%20section%20tables%20080307.pdf HSS4X4X1/2"
   }
 ]
