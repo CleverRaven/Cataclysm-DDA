@@ -48,6 +48,7 @@
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_pure( "pure" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -1306,9 +1307,11 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
         }
     }
 
-    if( deflects_bodies ) {
-        const int speed_mph = std::abs( prev_velocity ) / 100;
-        const int wear = speed_mph * static_cast<int>( mass2 ) / 25;
+    if( deflects_bodies && vpi.impact_energy_per_hp > 0_J ) {
+        const double vel_normal = vmiph_to_mps( std::abs( prev_velocity ) ) * deflect_normal;
+        const double impact_joules = 0.5 * mass2 * vel_normal * vel_normal;
+        const int wear = static_cast<int>( ( impact_joules - units::to_joule(
+                vpi.min_impact_energy ) ) / units::to_joule( vpi.impact_energy_per_hp ) );
         if( wear > 0 ) {
             pending_blade_wear.emplace_back( ret.part, wear );
         }
@@ -1332,7 +1335,7 @@ void vehicle::apply_blade_wear( map &here )
         if( vp.removed || !vp.info().has_flag( "SNOWPLOW" ) ) {
             continue;
         }
-        damage( here, entry.first, entry.second, damage_bash, false );
+        damage( here, entry.first, entry.second, damage_pure, false );
     }
 }
 
