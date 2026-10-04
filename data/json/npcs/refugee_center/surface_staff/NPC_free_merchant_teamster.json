@@ -4,6 +4,7 @@
     "id": "evac_teamster",
     "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
     "name_suffix": "Teamster",
+    "portrait_filename": "Generic_NPC_teamster",
     "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": "GUARD",
@@ -16,7 +17,6 @@
     "id": "NC_TEAMSTER",
     "name": { "str": "Scavenger" },
     "job_description": "I'm just trying to survive.",
-    "portrait_filename": "Generic_NPC_teamster",
     "traits": [
       { "group": "BG_survival_story_EVACUEE" },
       { "group": "NPC_starting_traits" },

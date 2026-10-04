@@ -365,6 +365,9 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
             tem.gender_override = gender::female;
         }
     }
+    if( jsobj.has_string( "portrait_filename" ) ) {
+        tem.unique_portrait_filename = character_portrait_id( jsobj.get_string( "portrait_filename" ) );
+    }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
     }
@@ -650,7 +653,6 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
-    portrait_filename = type->class_portrait_filename;
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     randomize_personality();
     moves = 100;
@@ -666,6 +668,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     if( tem_id.is_valid() ) {
         const npc_template &tem = tem_id.obj();
+        portrait_filename = tem.unique_portrait_filename;
         if( tem.personality.has_value() ) {
             personality.aggression = tem.personality->aggression;
             personality.bravery = tem.personality->bravery;
@@ -4339,8 +4342,8 @@ void npc::ensure_portrait_valid()
 {
     if( !portrait_filename.is_valid() ) {
         DebugLog( D_INFO, DC_ALL ) << disp_name() << " invalid portrait " << portrait_filename.c_str();
-        if( myclass->class_portrait_filename.is_valid() ) {
-            portrait_filename = myclass->class_portrait_filename;
+        if( idz->unique_portrait_filename.is_valid() ) {
+            portrait_filename = idz->unique_portrait_filename;
         } else {
             pick_random_portrait( this );
         }
