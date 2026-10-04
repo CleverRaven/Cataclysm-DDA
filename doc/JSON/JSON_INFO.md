@@ -2793,6 +2793,14 @@ Vehicle components when installed on a vehicle.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
+"min_impact_energy": "500 J", // (Optional, default = 0) Impact energy a SNOWPLOW part shoves
+                              // aside without wearing at all.  Only the velocity into the face
+                              // of the part counts, so raking it further back lowers the load
+                              // for the same road speed.
+"impact_energy_per_hp": "150 J", // (Optional, default = 0) Impact energy past the minimum that
+                              // costs the part one point of durability.  Zero never wears, and
+                              // the wear ignores the part's damage reduction: this is where a
+                              // plow's resistance to shoving bodies is stated.
 "collision_deflection": 60,    // (Optional, default = 60, range 0-85) Angle in degrees between
                               // the direction of travel (0) and the face of the part (90).
                               // Bodies struck are thrown this far off to the side rather than

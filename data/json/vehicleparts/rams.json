@@ -314,6 +314,8 @@
     "broken_color": "brown",
     "damage_modifier": 150,
     "collision_deflection": 60,
+    "min_impact_energy": "500 J",
+    "impact_energy_per_hp": "150 J",
     "durability": 800,
     "min_vehicle_mass": "8000 kg",
     "description": "A meter of steel moldboard, raked well back from the direction of travel and hung across the front of the vehicle.  Mount a row of them to span its width.  The rake of the face throws aside any body the vehicle is heavy enough to shove past, keeping its momentum instead of bogging down, though it hits far too softly to put anything down for good.  Its mounts are made to give way before the blade does, so a bad enough knock tears it off the vehicle rather than wrecking it.",
