@@ -667,8 +667,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zoabosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -688,8 +696,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zaplocanthosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -709,8 +725,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamargasaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -730,8 +754,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zapatosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -751,8 +783,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrontosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -772,8 +812,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "ziplodocus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -793,8 +841,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zarosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -5603,6 +5659,7 @@
       "eoc": "EOC_ZAUROPOD_BRUTE_HURT"
     },
     "weakpoint_sets": [ "wps_sauropod_leg" ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "DESTROYS" ] }
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "DESTROYS" ] },
+    "upgrades": false
   }
 ]
