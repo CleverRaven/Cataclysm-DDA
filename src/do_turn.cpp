@@ -741,10 +741,6 @@ bool game::do_turn()
     // process monster and npc turn
     monmove();
 
-    // Publish after monsters/NPCs have moved and the map/field state is current.
-    // Cata3D is only a presentation/input client; CDDA remains authoritative.
-    cata3d_bridge::publish_state();
-
     if( calendar::once_every( time_between_npc_OM_moves ) ) {
         overmap_npc_move();
     }
@@ -806,5 +802,10 @@ bool game::do_turn()
 #endif
 
     debug_menu::debug_capture::tick_if_active();
+
+    // Publish only after the full simulation tick has completed.
+    // Cata3D is presentation/input only; CDDA remains authoritative.
+    cata3d_bridge::publish_state();
+
     return false;
 }
