@@ -655,7 +655,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                     add_msg( m_good, _( "Your wounds are closing up!" ) );
                 } else {
                     add_msg_if_player_sees( cr->pos_bub(), m_good, _( "%s begins to heal!" ),
-                                            cr->disp_name( false, true ) );
+                                            cr->disp_name( true ) );
                 }
             } else {
                 caster.add_msg_if_player( m_bad, _( "Your healing spell has no effect!" ) );
