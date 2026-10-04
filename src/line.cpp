@@ -333,28 +333,26 @@ unsigned make_xyz( const tripoint &p )
     }
     // Get the arctan of the angle and divide by approximately 22.5 deg to get the octant.
     // the angle is in, then truncate it and map to the right direction.
-    // You can read 'octant' as being "number of 22.5 degree sections away from due south".
-    // FIXME: atan2 normally takes arguments in ( y, x ) order.  This is
-    // passing ( x, y ).
-    int octant = atan2( p.x, p.y ) / sixteenth_arc;
+    // You can read 'octant' as being "number of 22.5 degree sections away from due east".
+    int octant = atan2( p.y, p.x ) / sixteenth_arc;
     switch( octant ) {
         case 0:
-            return direction::SOUTH + vertical_position;
+            return direction::EAST + vertical_position;
         case 1:
         case 2:
             return direction::SOUTHEAST + vertical_position;
         case 3:
         case 4:
-            return direction::EAST + vertical_position;
+            return direction::SOUTH + vertical_position;
         case 5:
         case 6:
-            return direction::NORTHEAST + vertical_position;
+            return direction::SOUTHWEST + vertical_position;
         case -1:
         case -2:
-            return direction::SOUTHWEST + vertical_position;
+            return direction::NORTHEAST + vertical_position;
         case -3:
         case -4:
-            return direction::WEST + vertical_position;
+            return direction::NORTH + vertical_position;
         case -5:
         case -6:
             return direction::NORTHWEST + vertical_position;
@@ -363,7 +361,7 @@ unsigned make_xyz( const tripoint &p )
         case -7:
         case -8:
         default:
-            return direction::NORTH + vertical_position;
+            return direction::WEST + vertical_position;
     }
 }
 
