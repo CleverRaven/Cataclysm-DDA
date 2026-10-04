@@ -18,6 +18,7 @@
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_stack.h"
 #include "json.h"
 #include "magic_ter_furn_transform.h"
@@ -28,6 +29,8 @@
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
@@ -97,6 +100,7 @@ std::string enum_to_string<sub_generator_type>( sub_generator_type data )
         case sub_generator_type::pre_burn: return "pre_burn";
         case sub_generator_type::place_blood: return "place_blood";
         case sub_generator_type::aftershock_ruin: return "aftershock_ruin";
+        case sub_generator_type::modify_items: return "modify_items";
         case sub_generator_type::ter_furn_transform: return "ter_furn_transform";
         // *INDENT-ON*
         case sub_generator_type::last:
@@ -119,6 +123,16 @@ std::string enum_to_string<pp_sub_generator_scope>( pp_sub_generator_scope data 
     cata_fatal( "Invalid pp_sub_generator_scope" );
 }
 } // namespace io
+
+void generator_item_filter::load( const JsonObject &jo )
+{
+    optional( jo, false, "category", category );
+}
+
+void generator_item_modification::load( const JsonObject &jo )
+{
+    optional( jo, false, "delete_chance", delete_chance, numeric_bound_reader<int> { 0, 100 } );
+}
 
 void pp_generator::load( const JsonObject &jo, std::string_view )
 {
@@ -144,6 +158,8 @@ void pp_sub_generator::load( const JsonObject &jo )
     optional( jo, false, "max_intensity", max_intensity, 0 );
     optional( jo, false, "scaling_days_start", scaling_days_start, 0 );
     optional( jo, false, "scaling_days_end", scaling_days_end, 0 );
+    optional( jo, false, "filter", filter );
+    optional( jo, false, "mod", mod );
     optional( jo, false, "scope", scope, pp_sub_generator_scope::omt );
 }
 
@@ -260,6 +276,8 @@ void pp_sub_generator::check( const std::string &ctx ) const
                 debugmsg( "pp_generator '%s' %s: attempts, min_intensity, max_intensity, scaling_days_start and scaling_days_end are not used for this type",
                           ctx, tname );
             }
+            break;
+        case sub_generator_type::modify_items:
             break;
         case sub_generator_type::last:
             debugmsg( "pp_generator '%s': invalid sub_generator_type 'last'", ctx );
@@ -773,6 +791,80 @@ static void execute_aftershock_ruin( map &md, const tripoint_abs_omt &p,
     }
 }
 
+// return false if item do not match
+static bool filter_item( const item &it, std::optional<generator_item_filter> filter )
+{
+    if( !filter.has_value() ) {
+        return true;
+    }
+
+    const generator_item_filter f = filter.value();
+
+    if( f.category.has_value() || f.category.value() != it.get_category_of_contents().id ) {
+        return false;
+    }
+
+    return true;
+}
+
+// return true if item is erased
+static bool modify_item( generator_item_modification mod )
+{
+    if( x_in_y( mod.delete_chance, 100 ) ) {
+        return true;
+    }
+    return false;
+}
+
+static void execute_modify_items( const std::list<tripoint_bub_ms> &all_points_in_map,
+                                  const pp_sub_generator &sg )
+{
+    map &here = get_map();
+
+    for( const tripoint_bub_ms &current_tile : all_points_in_map ) {
+
+        map_stack::iterator iter;
+        map_stack mstack = here.i_at( current_tile );
+        for( iter = mstack.begin(); iter != mstack.end(); ) {
+
+            // skip values that do not fit
+            if( !filter_item( *iter, sg.filter ) ) {
+                iter++;
+            }
+
+            // process with items that do fit
+            if( modify_item( sg.mod ) ) {
+                iter = mstack.erase( iter );
+            } else {
+                iter++;
+            }
+        }
+
+        // repeat the same as above, but for vehicles
+        const std::optional<vpart_reference> vp = here.veh_at( current_tile ).cargo();
+        if( !vp ) {
+            continue;
+        }
+
+        vehicle_stack::iterator iter_veh;
+        vehicle_stack vstack = vp->items();
+        for( iter_veh = vstack.begin(); iter_veh != vstack.end(); ) {
+
+            // skip values that do not fit
+            if( !filter_item( *iter_veh, sg.filter ) ) {
+                iter_veh++;
+            }
+
+            // process with items that do fit
+            if( modify_item( sg.mod ) ) {
+                iter_veh = vstack.erase( iter_veh );
+            } else {
+                iter_veh++;
+            }
+        }
+    }
+}
+
 static void execute_ter_furn_transform( map &md,
                                         const std::list<tripoint_bub_ms> &all_points_in_map,
                                         const pp_sub_generator &sg )
@@ -926,6 +1018,9 @@ void pp_generator::execute( map &md, const tripoint_abs_omt &p,
                 break;
             case sub_generator_type::ter_furn_transform:
                 execute_ter_furn_transform( md, all_points_in_map, sg );
+                break;
+            case sub_generator_type::modify_items:
+                execute_modify_items( all_points_in_map, sg );
                 break;
             case sub_generator_type::last:
                 debugmsg( "Invalid sub_generator_type in pp_generator '%s'", id.str() );
