@@ -3187,8 +3187,15 @@ bool game::handle_action()
         open_menu_tmp.value()();
         return false;
     } else {
-        // No auto-move, ask player for input
-        ctxt = get_player_input( action );
+        // Cata3D is an external first-person client.  When it is connected,
+        // consume exactly one pending command and feed the resulting action
+        // through the normal CDDA action pipeline below.
+        if( const std::optional<action_id> bridge_action = cata3d_bridge::poll_action() ) {
+            act = *bridge_action;
+        } else {
+            // No external action: fall back to normal CDDA input.
+            ctxt = get_player_input( action );
+        }
     }
 
     // Remove asynchronous animations if any action taken before the input timeout
