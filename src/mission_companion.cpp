@@ -166,7 +166,7 @@ static const std::string omt_evac_center_18 = "evac_center_18";
 static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
 static const std::string return_ally_question_string =
-    "\n\nDo you wish to bring your allies back into your party?";
+    translate_marker( "\n\nDo you wish to bring your allies back into your party?" );
 
 //  Legacy faction camp mission strings used to translate tasks in progress when upgrading.
 static const std::string camp_upgrade_npc_string = "_faction_upgrade_camp";
