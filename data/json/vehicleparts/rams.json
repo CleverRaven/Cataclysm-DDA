@@ -316,11 +316,9 @@
     "collision_deflection": 60,
     "durability": 800,
     "min_vehicle_mass": "8000 kg",
-    "description": "A meter of steel moldboard, raked well back from the direction of travel and hung across the front of the vehicle.  Mount a row of them to span its width.  Use the vehicle controls to raise or lower it.  Raised or lowered, the rake of the face throws aside any body the vehicle is heavy enough to shove past, keeping its momentum instead of bogging down, though it hits far too softly to put anything down for good.  Lowered, it also drags clear whatever loose junk on the road is big enough for the blade to catch, and scrapes along the road while it does.  Its mounts are made to give way before the blade does, so a bad enough knock tears it off the vehicle rather than wrecking it.",
+    "description": "A meter of steel moldboard, raked well back from the direction of travel and hung across the front of the vehicle.  Mount a row of them to span its width.  The rake of the face throws aside any body the vehicle is heavy enough to shove past, keeping its momentum instead of bogging down, though it hits far too softly to put anything down for good.  Its mounts are made to give way before the blade does, so a bad enough knock tears it off the vehicle rather than wrecking it.",
     "//": "moldboard on a push frame, bolted and welded along two edges = 200 cm weld to install.",
     "extend": { "flags": [ "SNOWPLOW", "UNMOUNT_ON_DAMAGE" ] },
-    "power": "-1000 W",
-    "//2": "slowdown() subtracts these watts straight from a vmiph/s figure, so a five tile blade comes to a little less than the one tile farming plow's 6000: wider, but scraping a road is lighter work than turning soil.",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
