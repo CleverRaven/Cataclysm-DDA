@@ -1206,15 +1206,12 @@ bool outfit::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
     return false;
 }
 
-std::list<item> outfit::remove_worn_items_with( const std::function<bool( item & )> &filter,
+std::list<item> outfit::remove_worn_items_with( const std::function<bool( const item & )> &filter,
         Character &guy )
 {
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
-            if( iter->can_unload() ) {
-                iter->spill_contents( guy );
-            }
             iter->on_takeoff( guy );
             result.splice( result.begin(), worn, iter++ );
         } else {

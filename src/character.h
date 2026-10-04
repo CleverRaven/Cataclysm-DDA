@@ -2133,7 +2133,7 @@ class Character : public Creature, public visitable
          * content (@ref item::contents is not checked).
          * If the filter function returns true, the item is removed.
          */
-        std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter );
+        std::list<item> remove_worn_items_with( const std::function<bool( const item & )> &filter );
 
         void clear_worn();
 
