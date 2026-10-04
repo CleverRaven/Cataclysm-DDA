@@ -1448,7 +1448,7 @@
     "type": "ITEM",
     "id": "steel_section_long",
     "name": { "str": "long structural steel section" },
-    "description": "A long section of carbon structural steel. Maybe if you shorten it, you coul use it to craft your own steel vehicle frames.",
+    "description": "A long section of carbon structural steel. Maybe if you shorten it, you could use it to craft your own steel vehicle frames.",
     "category": "spare_parts",
     "weight": "31 kg",
     "longest_side": "100 cm",
