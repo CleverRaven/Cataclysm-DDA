@@ -9612,7 +9612,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     if( !playstr.empty() ) {
-        who.add_msg_if_player( m_good, playstr, pet_name );
+        who.add_msg_if_player( m_good, _( playstr ), pet_name );
     }
 
     if( !who.has_flag( json_flag_PSYCHOPATH ) && !who.has_flag( json_flag_NUMB ) ) {

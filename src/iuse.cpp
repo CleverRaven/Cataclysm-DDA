@@ -1288,7 +1288,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
         } else {
-            p->add_msg_if_player( m_good, petfood.feed, mon->get_name() );
+            p->add_msg_if_player( m_good, _( petfood.feed ), mon->get_name() );
         }
 
         mon->friendly = -1;
