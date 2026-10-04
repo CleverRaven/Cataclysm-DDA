@@ -5,14 +5,22 @@
 #include <optional>
 #include <string>
 
-#include "action.h"
+#include "action.h"\n#include "coordinates.h"
 
 // Lightweight localhost bridge used by the external Cata3D first-person client.
 // The bridge never owns game state: CDDA remains the source of truth.
 namespace cata3d_bridge {
 
+struct bridge_command {
+    action_id action = ACTION_NULL;
+    std::optional<tripoint_rel_ms> target_offset;
+};
+
 // Poll a pending command from the Cata3D client. Non-blocking.
-// Returns an action when a valid command is waiting.
+// Returns the action plus an optional target relative to the player.
+std::optional<bridge_command> poll_command();
+
+// Compatibility helper for callers that only need the action.
 std::optional<action_id> poll_action();
 
 // Publish the current CDDA world snapshot to the Cata3D client.
