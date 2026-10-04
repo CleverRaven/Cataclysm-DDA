@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <list>
 #include <memory>
-#include <stdint.h>
 #include <unordered_map>
 #include <unordered_set>
 
