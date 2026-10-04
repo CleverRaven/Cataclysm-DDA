@@ -285,7 +285,7 @@
   {
     "id": "structured_focus",
     "type": "widget",
-    "label": "F",
+    "label": { "str": "F", "ctxt": "Label for focus" },
     "copy-from": "focus_num"
   },
   {
