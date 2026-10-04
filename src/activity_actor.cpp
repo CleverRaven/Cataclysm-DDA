@@ -5583,12 +5583,12 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
             const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task at zone %s." ),
-                                            act_id.c_str(), zone->get_name() ) );
+                                            _( "The required items are not available to complete the \"%1$s\" task at zone %2$s." ),
+                                            act_id.obj().verb().translated(), zone->get_name() ) );
             } else {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task." ),
-                                            act_id.c_str() ) );
+                                            _( "The required items are not available to complete the \"%s\" task." ),
+                                            act_id.obj().verb().translated() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
