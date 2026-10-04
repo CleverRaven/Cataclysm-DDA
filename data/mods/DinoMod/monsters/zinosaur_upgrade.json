@@ -5640,7 +5640,7 @@
     ],
     "armor": { "bash": 4, "cut": 5, "bullet": 2 }
   },
-    {
+  {
     "id": "mon_zauropod_brute_leg",
     "type": "MONSTER",
     "name": { "str": "huge zombie brute leg" },
