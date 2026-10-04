@@ -2653,6 +2653,91 @@
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
   },
   {
+    "id": "fd_scarlet_storm_lightning",
+    "//": "ionized gas from the strange lightning - glows a bit, and that's all",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "scarlet twinkle", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] },
+      { "name": "scarlet sparkle", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] },
+      { "name": "scarlet aruroa", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "1 minutes",
+    "phase": "gas",
+    "accelerated_decay": true,
+    "display_items": false,
+    "display_field": false
+  },
+  {
+    "id": "fd_scarlet_fog",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "scarlet fog",
+        "color": "light_red",
+        "light_emitted": 20,
+        "light_color": [ 180, 0, 0 ],
+        "transparent": false,
+        "effects": [
+          {
+            "effect_id": "scarlet_storm_lungs",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "scarlet fog",
+        "color": "light_red",
+        "light_emitted": 30,
+        "light_color": [ 190, 0, 0 ],
+        "transparent": false,
+        "effects": [
+          {
+            "effect_id": "scarlet_storm_lungs",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false
+          }
+        ]
+      },
+      {
+        "name": "scarlet fog",
+        "color": "light_red",
+        "light_emitted": 40,
+        "light_color": [ 200, 0, 0 ],
+        "transparent": false,
+        "effects": [
+          {
+            "effect_id": "scarlet_storm_lungs",
+            "intensity": 1,
+            "min_duration": "1s",
+            "max_duration": "1s",
+            "is_environmental": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": false,
+    "gas_absorption_factor": "80m",
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+  },
+  {
     "id": "fd_portal_cracked_mirror",
     "type": "field_type",
     "looks_like": "fd_fatigue",
