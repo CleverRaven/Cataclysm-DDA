@@ -2793,6 +2793,25 @@ Vehicle components when installed on a vehicle.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
                               // creature struck
+"min_impact_energy": "500 J", // (Optional, default = 0) Impact energy a SNOWPLOW part shoves
+                              // aside without wearing at all.  Only the velocity into the face
+                              // of the part counts, so raking it further back lowers the load
+                              // for the same road speed.
+"impact_energy_per_hp": "150 J", // (Optional, default = 0) Impact energy past the minimum that
+                              // costs the part one point of durability.  Zero never wears, and
+                              // the wear ignores the part's damage reduction: this is where a
+                              // plow's resistance to shoving bodies is stated.
+"collision_deflection": 60,    // (Optional, default = 60, range 0-85) Angle in degrees between
+                              // the direction of travel (0) and the face of the part (90).
+                              // Bodies struck are thrown this far off to the side rather than
+                              // forwards, and both the damage dealt and the speed the vehicle
+                              // loses scale with the cosine squared of the angle, so 0 behaves
+                              // like an ordinary ram and 60 costs a quarter as much as one.
+"min_vehicle_mass": "8000 kg", // (Optional, default = 0) Least the vehicle may weigh, unloaded,
+                              // for a character to install this part.  Use it for parts heavy
+                              // enough that only a purpose-built machine can carry them.
+                              // Vehicle prototypes are not held to it, so a definition may
+                              // mount the part whatever its author intends.
 "durability": 200,            // How much damage the part can take before breaking
 "description": "A wheel.",    // A description of this vehicle part when installing it
 "fuel_type": "diesel",        // (Optional, default = "NULL") Type of fuel/ammo the part consumes,

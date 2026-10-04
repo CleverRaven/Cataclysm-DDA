@@ -131,5 +131,21 @@
     "color": "light_gray",
     "symbol": "]",
     "category": "veh_parts"
+  },
+  {
+    "type": "ITEM",
+    "id": "machine_frame",
+    "category": "veh_parts",
+    "name": { "str": "machine frame" },
+    "description": "A meter of the box-section chassis of a heavy machine: steel plate a finger thick, welded into a beam, with mounting faces machined along it.  Far too heavy to shift by hand.",
+    "weight": "450 kg",
+    "volume": "55 L",
+    "longest_side": "150 cm",
+    "price": "800 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "ch_steel" ],
+    "symbol": "-",
+    "color": "dark_gray",
+    "melee_damage": { "bash": 30 }
   }
 ]
