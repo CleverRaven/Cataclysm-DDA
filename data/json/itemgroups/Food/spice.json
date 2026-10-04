@@ -9,7 +9,7 @@
       { "prob": 50, "group": "yeast_various" },
       { "prob": 40, "group": "sugar_various" },
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
-      { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
+      { "prob": 5, "group": "sprinkles_various" },
       { "prob": 40, "group": "salt_various" },
       { "prob": 30, "group": "pepper_various" },
       { "prob": 15, "group": "cinnamon_various" },
@@ -47,7 +47,10 @@
       { "prob": 2, "group": "sugar_pound" },
       { "prob": 2, "group": "sugar_bottle_glass" },
       { "prob": 4, "group": "sugar_bag_plastic" },
-      { "prob": 1, "group": "sugar_bag_paper" }
+      { "prob": 1, "group": "sugar_bag_paper" },
+      { "prob": 8, "group": "sugar_organizer_medium" },
+      { "prob": 2, "group": "sugar_organizer_small" },
+      { "prob": 5, "group": "sugar_organizer_large" }
     ]
   },
   {
@@ -72,7 +75,9 @@
       { "prob": 5, "group": "sugar_bag_plastic" },
       { "prob": 42, "group": "sugar_bag_paper" },
       { "prob": 16, "group": "sugar_bag_paper_bulk" },
-      { "prob": 2, "group": "sugar_bag_paper_50lb" }
+      { "prob": 2, "group": "sugar_bag_paper_50lb" },
+      { "prob": 10, "group": "sugar_organizer_medium" },
+      { "prob": 16, "group": "sugar_organizer_large" }
     ]
   },
   {
@@ -198,6 +203,33 @@
   },
   {
     "type": "item_group",
+    "id": "sugar_organizer_large",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_large",
+    "entries": [
+      { "prob": 99, "item": "sugar", "container-item": "null", "count": [ 36, 834 ] },
+      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_organizer_medium",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_medium",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 36, 430 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_organizer_small",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_small",
+    "entries": [
+      { "prob": 99, "item": "sugar", "container-item": "null", "count": [ 10, 250 ] },
+      { "prob": 5, "item": "spoon", "container-item": "null", "count": [ 10, 250 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "salt_various",
     "subtype": "distribution",
     "entries": [
@@ -206,7 +238,8 @@
       { "prob": 2, "group": "salt_bottle_plastic" },
       { "prob": 2, "group": "salt_bottle_glass" },
       { "prob": 4, "group": "salt_bag_plastic" },
-      { "prob": 1, "group": "salt_bag_paper" }
+      { "prob": 1, "group": "salt_bag_paper" },
+      { "prob": 1, "group": "salt_organizer_small" }
     ]
   },
   {
@@ -231,7 +264,9 @@
       { "prob": 5, "group": "salt_bag_plastic" },
       { "prob": 17, "group": "salt_bag_paper" },
       { "prob": 9, "group": "salt_bag_paper_bulk" },
-      { "prob": 3, "group": "salt_bag_paper_50lb" }
+      { "prob": 3, "group": "salt_bag_paper_50lb" },
+      { "prob": 8, "group": "salt_organizer_medium" },
+      { "prob": 5, "group": "salt_organizer_small" }
     ]
   },
   {
@@ -327,6 +362,23 @@
   },
   {
     "type": "item_group",
+    "id": "salt_organizer_small",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_small",
+    "entries": [
+      { "prob": 99, "item": "salt", "container-item": "null", "count": [ 8, 302 ] },
+      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_organizer_medium",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_medium",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 18, 504 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "seasoning_salt_various",
     "subtype": "distribution",
     "entries": [
@@ -335,7 +387,8 @@
       { "prob": 6, "group": "seasoning_salt_bottle_plastic" },
       { "prob": 6, "group": "seasoning_salt_bottle_glass" },
       { "prob": 2, "group": "seasoning_salt_bag_plastic" },
-      { "prob": 2, "group": "seasoning_salt_bag_paper" }
+      { "prob": 2, "group": "seasoning_salt_bag_paper" },
+      { "prob": 2, "group": "seasoning_salt_organizer_small" }
     ]
   },
   {
@@ -360,7 +413,8 @@
       { "prob": 20, "group": "seasoning_salt_bottle_glass" },
       { "prob": 5, "group": "seasoning_salt_bag_plastic" },
       { "prob": 10, "group": "seasoning_salt_bag_paper" },
-      { "prob": 1, "group": "seasoning_salt_bag_paper_bulk" }
+      { "prob": 1, "group": "seasoning_salt_bag_paper_bulk" },
+      { "prob": 8, "group": "seasoning_salt_organizer_small" }
     ]
   },
   {
@@ -456,6 +510,16 @@
   },
   {
     "type": "item_group",
+    "id": "seasoning_salt_organizer_small",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_small",
+    "entries": [
+      { "prob": 99, "item": "seasoning_salt", "container-item": "null", "count": [ 40, 300 ] },
+      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "seasoning_italian_various",
     "subtype": "distribution",
     "entries": [
@@ -464,7 +528,8 @@
       { "prob": 6, "group": "seasoning_italian_bottle_plastic" },
       { "prob": 6, "group": "seasoning_italian_bottle_glass" },
       { "prob": 2, "group": "seasoning_italian_bag_plastic" },
-      { "prob": 2, "group": "seasoning_italian_bag_paper" }
+      { "prob": 2, "group": "seasoning_italian_bag_paper" },
+      { "prob": 2, "group": "seasoning_italian_organizer_tiny" }
     ]
   },
   {
@@ -488,7 +553,8 @@
       { "prob": 20, "group": "seasoning_italian_bottle_glass" },
       { "prob": 5, "group": "seasoning_italian_bag_plastic" },
       { "prob": 10, "group": "seasoning_italian_bag_paper" },
-      { "prob": 1, "group": "seasoning_italian_bag_paper_bulk" }
+      { "prob": 1, "group": "seasoning_italian_bag_paper_bulk" },
+      { "prob": 5, "group": "seasoning_italian_organizer_tiny" }
     ]
   },
   {
@@ -577,6 +643,13 @@
   },
   {
     "type": "item_group",
+    "id": "seasoning_italian_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 50, 190 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "curry_powder_various",
     "subtype": "distribution",
     "entries": [
@@ -585,7 +658,8 @@
       { "prob": 2, "group": "curry_powder_bottle_plastic" },
       { "prob": 2, "group": "curry_powder_bottle_glass" },
       { "prob": 4, "group": "curry_powder_bag_plastic" },
-      { "prob": 1, "group": "curry_powder_bag_paper" }
+      { "prob": 1, "group": "curry_powder_bag_paper" },
+      { "prob": 1, "group": "curry_powder_organizer_tiny" }
     ]
   },
   {
@@ -676,6 +750,13 @@
     "subtype": "collection",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 20, 190 ] } ]
   },
   {
     "type": "item_group",
@@ -815,7 +896,8 @@
       { "prob": 2, "group": "chilly-p_bottle_plastic" },
       { "prob": 2, "group": "chilly-p_bottle_glass" },
       { "prob": 4, "group": "chilly-p_bag_plastic" },
-      { "prob": 1, "group": "chilly-p_bag_paper" }
+      { "prob": 1, "group": "chilly-p_bag_paper" },
+      { "prob": 1, "group": "chilly-p_organizer_tiny" }
     ]
   },
   {
@@ -869,6 +951,13 @@
   },
   {
     "type": "item_group",
+    "id": "chilly-p_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 25, 190 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "garlic_powder_various",
     "subtype": "distribution",
     "entries": [
@@ -877,7 +966,8 @@
       { "prob": 2, "group": "garlic_powder_bottle_plastic" },
       { "prob": 2, "group": "garlic_powder_bottle_glass" },
       { "prob": 4, "group": "garlic_powder_bag_plastic" },
-      { "prob": 1, "group": "garlic_powder_bag_paper" }
+      { "prob": 1, "group": "garlic_powder_bag_paper" },
+      { "prob": 1, "group": "garlic_powder_organizer_tiny" }
     ]
   },
   {
@@ -931,6 +1021,13 @@
   },
   {
     "type": "item_group",
+    "id": "garlic_powder_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 192 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "cinnamon_various",
     "subtype": "distribution",
     "entries": [
@@ -939,7 +1036,8 @@
       { "prob": 2, "group": "cinnamon_bottle_plastic" },
       { "prob": 2, "group": "cinnamon_bottle_glass" },
       { "prob": 4, "group": "cinnamon_bag_plastic" },
-      { "prob": 1, "group": "cinnamon_bag_paper" }
+      { "prob": 1, "group": "cinnamon_bag_paper" },
+      { "prob": 2, "group": "cinnamon_organizer_tiny" }
     ]
   },
   {
@@ -1040,10 +1138,30 @@
   },
   {
     "type": "item_group",
+    "id": "cinnamon_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 25, 190 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sprinkles_various",
+    "subtype": "distribution",
+    "entries": [ { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" }, { "prob": 10, "group": "sprinkles_organizer_tiny" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sprinkles_bottle_plastic_small_62",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
     "entries": [ { "item": "sprinkles", "container-item": "null", "count": 62 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sprinkles_organizer_tiny",
+    "subtype": "collection",
+    "container-item": "plastic_organizer_tiny",
+    "entries": [ { "item": "sprinkles", "container-item": "null", "count": [ 9, 180 ] } ]
   },
   {
     "id": "thyme_bowl_plastic_full",

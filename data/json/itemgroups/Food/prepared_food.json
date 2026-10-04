@@ -103,6 +103,24 @@
   },
   {
     "type": "item_group",
+    "id": "breakfast_cereal_in_organizer_large",
+    "subtype": "distribution",
+    "container-item": "plastic_organizer_large",
+    "entries": [
+      { "prob": 30, "item": "cereal", "count": [ 1, 50 ] },
+      { "prob": 30, "item": "cereal2", "count": [ 1, 50 ] },
+      { "prob": 30, "item": "cereal3", "count": [ 1, 50 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "snicker", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "brantastic", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "honey", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "fructose", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp1", "variant": "foodios", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp2", "count": [ 1, 49 ] },
+      { "prob": 1, "item": "cereal_fp4", "count": [ 1, 49 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "breakfast_cereal_in_box_full",
     "subtype": "distribution",
     "container-item": "box_small",
