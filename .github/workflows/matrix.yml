@@ -185,6 +185,7 @@ jobs:
             title: GCC 16, Ubuntu, Curses
             ccache_limit: 6.5G
             ccache_key: linux-gcc-16
+            extra_package: g++-16
 
           - compiler: g++-9
             os: ubuntu-24.04
