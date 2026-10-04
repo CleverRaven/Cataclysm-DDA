@@ -34,7 +34,7 @@ runs:
       id: sdl
       uses: libsdl-org/setup-sdl@4ebea449684c989388fe6bcea0460e300d13a5ae # main
       with:
-        version: 3.4.10
+        version: 3.4.16
         cmake-generator: Ninja
         install-linux-dependencies: true
 

@@ -61,7 +61,7 @@ You'll need to have these libraries and their development headers installed in o
   * `ncurses`
 * Tiles
   * `SDL`                       >= 3.4.0 (enforced by the build)
-  * `SDL_image`                 3.4.4 tested
+  * `SDL_image`                 3.4.6 tested
     * `jpeg`
     * `png`
     * `tiff`
