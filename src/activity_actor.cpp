@@ -4067,9 +4067,38 @@ void efile_activity_actor::completed_processing_current_efile( player_activity &
         }
     };
 
-    add_msg_if_player_sees( who, m_info, string_format( _( "%s %s %s." ),
-                            who.disp_name( false, true ), efile_action_name( action_type, true, false ),
-                            current_efile->display_name() ) );
+    const auto add_completion_message = [&]( const std::string & player_message,
+    const std::string & npc_message ) {
+        who.add_msg_player_or_npc( m_info, player_message, npc_message,
+                                   current_efile->display_name() );
+    };
+    switch( action_type ) {
+        case EF_BROWSE:
+            add_completion_message( _( "You finish browsing a file: %s." ),
+                                    _( "<npcname> finishes browsing a file: %s." ) );
+            break;
+        case EF_READ:
+            add_completion_message( _( "You finish reading a file: %s." ),
+                                    _( "<npcname> finishes reading a file: %s." ) );
+            break;
+        case EF_MOVE_FROM_THIS:
+        case EF_MOVE_ONTO_THIS:
+            add_completion_message( _( "You finish moving a file: %s." ),
+                                    _( "<npcname> finishes moving a file: %s." ) );
+            break;
+        case EF_COPY_FROM_THIS:
+        case EF_COPY_ONTO_THIS:
+            add_completion_message( _( "You finish copying a file: %s." ),
+                                    _( "<npcname> finishes copying a file: %s." ) );
+            break;
+        case EF_WIPE:
+            add_completion_message( _( "You finish wiping a file: %s." ),
+                                    _( "<npcname> finishes wiping a file: %s." ) );
+            break;
+        case EF_INVALID:
+        case EF_ACTION_COUNT:
+            break;
+    }
     switch( action_type ) {
         case EF_BROWSE:
             if( current_efile->typeId() == itype_efile_junk ) {
