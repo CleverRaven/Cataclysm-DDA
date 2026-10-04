@@ -87,14 +87,14 @@
             "effect": "nausea",
             "permanent": true,
             "chance": 10,
-            "message": "You have ripped the %s bowels!  The %s is retching.",
+            "message": "The %s starts retching after its bowels are ruptured.",
             "damage_required": [ 5, 25 ]
           },
           {
             "effect": "winded",
             "permanent": true,
             "chance": 10,
-            "message": "You have punctured the %s lungs!  The %s has trouble breathing.",
+            "message": "The %s has trouble breathing after its lungs are punctured.",
             "damage_required": [ 5, 25 ]
           }
         ]
