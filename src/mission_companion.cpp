@@ -165,7 +165,7 @@ static const std::string omt_evac_center_18 = "evac_center_18";
 static const std::string omt_ranch_camp_63 = "ranch_camp_63";
 
 static const std::string return_ally_question_string =
-    "\n\nDo you wish to bring your allies back into your party?";
+    translate_marker( "\n\nDo you wish to bring your allies back into your party?" );
 
 static const std::string caravan_commune_center_job_assign_parameter = "Assign";
 static const std::string caravan_commune_center_job_active_parameter = "Active";
