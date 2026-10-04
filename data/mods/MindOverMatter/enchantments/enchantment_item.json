@@ -33,5 +33,14 @@
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ]
+  },
+  {
+    "id": "ench_fifth_sun_exo_strength",
+    "type": "enchantment",
+    "name": { "str": "Pochetecpatl Enhancement" },
+    "description": "Your Pochetecpatl battle suit is enhancing your strength.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "STRENGTH", "add": 10 } ]
   }
 ]
