@@ -453,6 +453,13 @@ class vpart_info
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
 
+        /**
+         * Impact energy a SNOWPLOW part shoves aside without wearing, and the energy past
+         * that which costs it one point of durability.  A zero rate never wears.
+         */
+        units::energy min_impact_energy = 0_J;
+        units::energy impact_energy_per_hp = 0_J;
+
         /** Angle in degrees between the direction of travel and the face of a SNOWPLOW part */
         int collision_deflection = 60;
 
