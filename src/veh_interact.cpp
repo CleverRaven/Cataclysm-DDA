@@ -380,6 +380,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const temp_crafting_inventory &inv = player_character.crafting_inventory();
+    // no inventory-backed item or power changes while the text is built, so query caches hold
+    temp_crafting_inventory::query_cache_scope cache_scope;
     bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
                                             craft_flags::none, false );
 
