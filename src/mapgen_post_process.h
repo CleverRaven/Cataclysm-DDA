@@ -26,6 +26,7 @@ enum class sub_generator_type : int {
     pre_burn,
     place_blood,
     aftershock_ruin,
+    modify_items,
     ter_furn_transform,
     last
 };
@@ -51,7 +52,27 @@ struct enum_traits<pp_sub_generator_scope> {
     static constexpr pp_sub_generator_scope last = pp_sub_generator_scope::last;
 };
 
-// A single sub-generator entry within a pp_generator.
+struct generator_item_filter {
+    std::optional<item_category_id> category;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &obj ) {
+        load( obj );
+    }
+};
+
+// in theory can be combined with Item_modifier class from item_group?
+struct generator_item_modification {
+    // chance to remove the item
+    int delete_chance;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &obj ) {
+        load( obj );
+    }
+};
+
+// A single sub-generator entry within a pp_ generator.
 // Not a generic_factory type -- loaded as an embedded sub-object of pp_generator.
 struct pp_sub_generator {
     int attempts = 0;
@@ -64,6 +85,10 @@ struct pp_sub_generator {
     int scaling_days_end = 0;
     sub_generator_type type = sub_generator_type::bash_damage;
     pp_sub_generator_scope scope = pp_sub_generator_scope::omt;
+
+    // stuff related to sub_generator_type::modify_items
+    std::optional<generator_item_filter> filter;
+    generator_item_modification mod;
 
     // only used in sub_generator_type::ter_furn_transform
     std::optional<ter_furn_transform_id> ter_furn_transform_used;
