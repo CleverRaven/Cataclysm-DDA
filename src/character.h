@@ -761,7 +761,7 @@ class Character : public Creature, public visitable
 
         /** Displays character name with an npc_class/profession suffix
         **/
-        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        std::string disp_name( bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
         * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
         **/

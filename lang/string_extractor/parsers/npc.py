@@ -88,6 +88,8 @@ def parse_npc(json, origin):
                comment=[f"Unique name of {gender} NPC", comment])
     write_text(json.get("name_suffix"), origin,
                comment=[f"Name suffix of {gender} NPC", comment])
+    write_text(json.get("temp_suffix"), origin,
+               comment=[f"Temporary profession of {gender} NPC", comment])
 
     for snip in chatbin_snippets:
         write_text(json.get(snip), origin,

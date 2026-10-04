@@ -556,7 +556,8 @@ const Character *Character::get_book_reader( const item &book,
                                               elem->disp_name() ) );
         } else if( condition & read_condition_result::MORALE_LOW ) {
             // Low morale still permits skimming
-            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
+            reasons.push_back( string_format( _( "%s has too low morale!" ),
+                                              elem->disp_name( true ) ) );
         } else if( condition & read_condition_result::BLIND ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {

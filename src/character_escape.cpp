@@ -325,15 +325,15 @@ bool Character::try_remove_grab( bool attacking )
                     add_msg_if_player( m_info, martial_arts_data->get_grab_break( *this ).avatar_message.translated(),
                                        grabber->disp_name() );
                 } else {
-                    add_msg_player_or_npc( m_good, _( "You break %s grab on your %s!" ),
-                                           _( "<npcname> breaks %s grab on their %s!" ), grabber->disp_name( true ),
+                    add_msg_player_or_npc( m_good, _( "You break the grab %s had on your %s!" ),
+                                           _( "<npcname> breaks the grab %s had on their %s!" ), grabber->disp_name(),
                                            eff.get_bp()->name );
                 }
                 // Remove only this one grab
                 remove_effect( eff.get_id(), eff.get_bp() );
             } else {
-                add_msg_player_or_npc( m_bad, _( "You try to break %s grab on your %s, but fail!" ),
-                                       _( "<npcname> tries to break out of the grab, but fails!" ), grabber->disp_name( true ),
+                add_msg_player_or_npc( m_bad, _( "You try to break the grab %s has on your %s, but fail!" ),
+                                       _( "<npcname> tries to break the grab %s has on their %s, but fails!" ), grabber->disp_name(),
                                        eff.get_bp()->name );
             }
         }

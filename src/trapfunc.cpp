@@ -363,7 +363,7 @@ static void mount_step_on_trap_make_slow_give_msg( monster *z, const tripoint_bu
         add_msg( m_warning, _( "Your %s stepped on a %s!" ), z->get_name(), here.tr_at( p ).name() );
     } else {
         //~NPC with an animal mount. e.g. "Jane's horse stepped on a spiked board!"
-        add_msg_if_player_sees( p, _( "%s %s stepped on a %s!" ), rider->disp_name( true ),
+        add_msg_if_player_sees( p, _( "%1$s's %2$s stepped on a %3$s!" ), rider->disp_name( true ),
                                 z->get_name(), here.tr_at( p ).name() );
     }
     rider->mod_moves( -z->get_speed() * 0.8 );
@@ -391,7 +391,7 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_if_player( m_bad, _( "You step on a %s!" ), trap_name );
-    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( false, true ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a %s!" ), c->disp_name( true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -409,7 +409,7 @@ bool trapfunc::board( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), trap_name );
+                                    c->disp_name( true ), trap_name );
         } else {
             add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
@@ -432,7 +432,7 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), trap_name );
-    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ), trap_name );
+    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( true ), trap_name );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();
         mount_step_on_trap_make_slow_give_msg( z, p );
@@ -450,7 +450,7 @@ bool trapfunc::caltrops( const tripoint_bub_ms &p, Creature *c, item * )
         here.remove_trap( p );
         if( !c->is_avatar() ) {
             add_msg_if_player_sees( p, _( "%s destroys a %s as they move over it!" ),
-                                    c->disp_name( false, true ), trap_name );
+                                    c->disp_name( true ), trap_name );
         } else {
             add_msg( _( "You destroy the %s as you step on it!" ), trap_name );
         }
@@ -473,7 +473,7 @@ bool trapfunc::caltrops_glass( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     c->add_msg_if_player( m_bad, _( "You step on a sharp %s!" ), here.tr_at( p ).name() );
-    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( false, true ),
+    c->add_msg_if_npc( _( "%s steps on a sharp %s!" ), c->disp_name( true ),
                        here.tr_at( p ).name() );
     if( c->has_effect( effect_ridden ) ) {
         monster *z = c->as_monster();

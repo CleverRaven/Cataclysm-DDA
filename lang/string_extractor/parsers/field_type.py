@@ -10,6 +10,8 @@ def parse_field_type(json, origin):
         field_names.append(name)
 
         write_text(fd.get("name"), origin, comment="Field intensity level")
+        write_text(fd.get("radiation_hurt_message"), origin,
+                   comment=f"Radiation damage message of field '{name}'")
 
         for eff in fd.get("effects", []):
             write_text(eff.get("message"), origin,

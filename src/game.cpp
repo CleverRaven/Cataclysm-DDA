@@ -9059,14 +9059,19 @@ void game::water_affect_items( Character &ch ) const
         }
         // check flag first because its cheaper
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                    ch.disp_name( true, true ), loc->display_name() );
+            ch.add_msg_player_or_npc( m_bad,
+                                      _( "One of your items dissolves in the water: %s!" ),
+                                      _( "<npcname> loses an item as it dissolves "
+                                         "in the water: %s!" ),
+                                      loc->display_name() );
             loc.remove_item();
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
 
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                    ch.disp_name( true ), loc->display_name() );
+            ch.add_msg_player_or_npc( m_bad,
+                                      _( "The water destroys one of your items: %s!" ),
+                                      _( "<npcname> loses an item to water damage: %s!" ),
+                                      loc->display_name() );
             loc->deactivate();
             // TODO: Maybe different types of wet faults? But I can't think of any.
             // This just means it's still too wet to use.

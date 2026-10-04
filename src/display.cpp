@@ -668,26 +668,22 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
     if( !u.needs_food() ) {
         return std::make_pair( _( "Without Hunger" ), c_white );
     }
-    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
-    // like all of the effect_* string_id variables which are const string_id, then it fails to
-    // initialize the array with tuples successfully complaining that
-    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
-    // returns a tuple consisting of correctly implcitly copyable types.
-    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
-            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
-            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
-            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
-            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Peckish" ), c_light_gray ),
-            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Hungry" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
-            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
-            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
+    static const std::array<std::tuple<const efftype_id *, translation, nc_color>, 9> hunger_states{ {
+            { &effect_hunger_engorged, to_translation( "Engorged" ), c_red },
+            { &effect_hunger_full, to_translation( "hunger state", "Full" ), c_yellow },
+            { &effect_hunger_satisfied, to_translation( "Satisfied" ), c_green },
+            { &effect_hunger_blank, no_translation( "" ), c_white },
+            { &effect_hunger_hungry, to_translation( "Peckish" ), c_light_gray },
+            { &effect_hunger_very_hungry, to_translation( "Hungry" ), c_yellow },
+            { &effect_hunger_near_starving, to_translation( "Near starving" ), c_red },
+            { &effect_hunger_starving, to_translation( "Starving!" ), c_red },
+            { &effect_hunger_famished, to_translation( "Famished" ), c_light_red }
         }
     };
     for( const auto &hunger_state : hunger_states ) {
-        if( u.has_effect( std::get<0>( hunger_state ) ) ) {
-            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
+        if( u.has_effect( *std::get<0>( hunger_state ) ) ) {
+            return std::make_pair( std::get<1>( hunger_state ).translated(),
+                                   std::get<2>( hunger_state ) );
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );

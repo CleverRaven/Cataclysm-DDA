@@ -779,10 +779,9 @@ creature_size Character::get_size() const
     return size_class;
 }
 
-std::string Character::disp_name( bool possessive, bool capitalize_first ) const
+std::string Character::disp_name( bool capitalize_first ) const
 {
-    return is_avatar() ? as_avatar()->display_name( possessive,
-            capitalize_first ) : as_npc()->display_name( possessive );
+    return is_avatar() ? as_avatar()->display_name( capitalize_first ) : as_npc()->display_name();
 }
 
 std::string Character::disp_profession() const
@@ -803,7 +802,7 @@ std::string Character::disp_profession() const
 
 std::string Character::name_and_maybe_activity() const
 {
-    return disp_name( false, true );
+    return disp_name( true );
 }
 
 std::string Character::skin_name() const

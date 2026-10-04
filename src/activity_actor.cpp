@@ -1343,8 +1343,8 @@ static void tool_out_of_charges( Character &who, const std::string &tool_name )
     if( who.is_avatar() ) {
         who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool_name );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                true ), tool_name );
+        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ),
+                                who.disp_name( true ), tool_name );
     }
     who.cancel_activity();
 }
@@ -2184,10 +2184,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
-        add_msg_if_player_sees(
-            who,
-            _( "%1$s %2$s ran out of batteries." ),
-            who.disp_name( true, true ),
+        who.add_msg_player_or_npc(
+            _( "Your %s ran out of batteries." ),
+            _( "<npcname>'s %s ran out of batteries." ),
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
@@ -3665,10 +3664,9 @@ void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
     // only consume charges every pages_per_charge pages
     if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
-            add_msg_if_player_sees(
-                who,
-                _( "%1$s %2$s ran out of batteries." ),
-                who.disp_name( true, true ),
+            who.add_msg_player_or_npc(
+                _( "Your %s ran out of batteries." ),
+                _( "<npcname>'s %s ran out of batteries." ),
                 item::nname( ereader->typeId() ) );
             who.cancel_activity();
             return;
@@ -3717,11 +3715,11 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
         completed_scanning_current_book( act, who );
     }
     if( who.is_avatar() ) {
-        add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
+        add_msg( m_info, _( "You scan %1$d %2$s into your device." ), handled_books,
                  n_gettext( "book", "books", handled_books ) );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who, _( "%s scans %d %s into their device." ),
-                                who.disp_name( false, true ), handled_books, n_gettext( "book", "books", handled_books ) );
+        add_msg_if_player_sees( who, _( "%1$s scans %2$d %3$s into their device." ),
+                                who.disp_name( true ), handled_books, n_gettext( "book", "books", handled_books ) );
     }
     act.set_to_null();
 }
@@ -3732,7 +3730,7 @@ void ebooksave_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop scanning the remaining books." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s stops scanning books." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -3785,6 +3783,74 @@ std::string enum_to_string<zone_activity_stage>( zone_activity_stage stage )
         };
         default:
             return "LAST";
+    }
+}
+template<>
+std::string enum_to_string<do_activity_reason>( do_activity_reason reason )
+{
+    switch( reason ) {
+        case do_activity_reason::CAN_DO_CONSTRUCTION:
+            return _( "The construction can be performed." );
+        case do_activity_reason::CAN_DO_FETCH:
+            return _( "The needed items are being fetched." );
+        case do_activity_reason::NO_COMPONENTS:
+            return _( "The required components or tools are missing." );
+        case do_activity_reason::DONT_HAVE_SKILL:
+            return _( "The required skill is missing." );
+        case do_activity_reason::NO_ZONE:
+            return _( "The required zone could not be found." );
+        case do_activity_reason::NO_VEHICLE:
+            return _( "No accessible vehicle was found at this location." );
+        case do_activity_reason::ALREADY_DONE:
+            return _( "The work has already been completed." );
+        case do_activity_reason::UNKNOWN_ACTIVITY:
+            return _( "The activity could not be identified." );
+        case do_activity_reason::NEEDS_CLEARING:
+            return _( "This tile can be cleared." );
+        case do_activity_reason::NEEDS_HARVESTING:
+            return _( "This tile can be harvested." );
+        case do_activity_reason::NEEDS_PLANTING:
+            return _( "This tile can be planted." );
+        case do_activity_reason::NEEDS_TILLING:
+            return _( "This tile can be tilled." );
+        case do_activity_reason::NEEDS_FERTILIZING:
+            return _( "This tile can be fertilized." );
+        case do_activity_reason::BLOCKING_TILE:
+            return _( "Something is blocking this tile." );
+        case do_activity_reason::NEEDS_BOOK_TO_LEARN:
+            return _( "There is a book here to learn from." );
+        case do_activity_reason::NEEDS_CHOPPING:
+            return _( "There is wood here to chop." );
+        case do_activity_reason::NEEDS_TREE_CHOPPING:
+            return _( "There is a tree here to chop." );
+        case do_activity_reason::NEEDS_BIG_BUTCHERING:
+            return _( "There is a large corpse here to butcher." );
+        case do_activity_reason::NEEDS_BUTCHERING:
+            return _( "There is a corpse here to butcher." );
+        case do_activity_reason::NEEDS_CUT_HARVESTING:
+            return _( "This plant needs a grass-cutting tool to harvest." );
+        case do_activity_reason::ALREADY_WORKING:
+            return _( "Someone is already working here." );
+        case do_activity_reason::NEEDS_VEH_DECONST:
+            return _( "There is a vehicle part here to deconstruct." );
+        case do_activity_reason::NEEDS_VEH_REPAIR:
+            return _( "There is a vehicle part here to repair." );
+        case do_activity_reason::WOULD_PREVENT_VEH_FLYING:
+            return _( "This work would prevent the vehicle from flying." );
+        case do_activity_reason::NEEDS_MINING:
+            return _( "This spot can be mined with the right tool." );
+        case do_activity_reason::NEEDS_MOP:
+            return _( "This spot can be mopped." );
+        case do_activity_reason::NEEDS_FISHING:
+            return _( "This spot can be fished with the right tool." );
+        case do_activity_reason::NEEDS_CRAFT:
+            return _( "There is at least one item to craft." );
+        case do_activity_reason::NEEDS_DISASSEMBLE:
+            return _( "There is at least one item to disassemble." );
+        case do_activity_reason::REFUSES_THIS_WORK:
+            return _( "The character refuses to do this work." );
+        default:
+            cata_fatal( "Invalid do_activity_reason in enum_to_string" );
     }
 }
 template<>
@@ -4067,9 +4133,38 @@ void efile_activity_actor::completed_processing_current_efile( player_activity &
         }
     };
 
-    add_msg_if_player_sees( who, m_info, string_format( _( "%s %s %s." ),
-                            who.disp_name( false, true ), efile_action_name( action_type, true, false ),
-                            current_efile->display_name() ) );
+    const auto add_completion_message = [&]( const std::string & player_message,
+    const std::string & npc_message ) {
+        who.add_msg_player_or_npc( m_info, player_message, npc_message,
+                                   current_efile->display_name() );
+    };
+    switch( action_type ) {
+        case EF_BROWSE:
+            add_completion_message( _( "You finish browsing a file: %s." ),
+                                    _( "<npcname> finishes browsing a file: %s." ) );
+            break;
+        case EF_READ:
+            add_completion_message( _( "You finish reading a file: %s." ),
+                                    _( "<npcname> finishes reading a file: %s." ) );
+            break;
+        case EF_MOVE_FROM_THIS:
+        case EF_MOVE_ONTO_THIS:
+            add_completion_message( _( "You finish moving a file: %s." ),
+                                    _( "<npcname> finishes moving a file: %s." ) );
+            break;
+        case EF_COPY_FROM_THIS:
+        case EF_COPY_ONTO_THIS:
+            add_completion_message( _( "You finish copying a file: %s." ),
+                                    _( "<npcname> finishes copying a file: %s." ) );
+            break;
+        case EF_WIPE:
+            add_completion_message( _( "You finish wiping a file: %s." ),
+                                    _( "<npcname> finishes wiping a file: %s." ) );
+            break;
+        case EF_INVALID:
+        case EF_ACTION_COUNT:
+            break;
+    }
     switch( action_type ) {
         case EF_BROWSE:
             if( current_efile->typeId() == itype_efile_junk ) {
@@ -4271,7 +4366,7 @@ void efile_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop processing the remaining devices." ) );
     } else {
         add_msg_if_player_sees( who, _( "%s stops processing devices." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -5458,8 +5553,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
             you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
             you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
-                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
-                                       current_activity.c_str() );
+                                       _( "%s aborts the \"%s\" activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.obj().verb().translated() );
             return false;
         }
 
@@ -5539,12 +5634,14 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         if( you.is_npc() ) {
             if( zone ) {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\" in zone %3$s. %4$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(), zone->get_name(),
+                                        io::enum_to_string( reason ) );
             } else {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\". %3$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(),
+                                        io::enum_to_string( reason ) );
             }
         }
 
@@ -5583,12 +5680,12 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
             const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task at zone %s." ),
-                                            act_id.c_str(), zone->get_name() ) );
+                                            _( "The required items are not available to complete the \"%1$s\" task at zone %2$s." ),
+                                            act_id.obj().verb().translated(), zone->get_name() ) );
             } else {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task." ),
-                                            act_id.c_str() ) );
+                                            _( "The required items are not available to complete the \"%s\" task." ),
+                                            act_id.obj().verb().translated() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
@@ -8723,8 +8820,8 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( false,
-                                       true ) : mon->unique_name;
+    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( true ) :
+                                       mon->unique_name;
 
     if( !mon->shearable() ) {
         add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
@@ -8738,7 +8835,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     const int shearing_quality = who.max_quality( qual_SHEAR );
     if( !( shearing_quality > 0 ) ) {
         if( who.is_avatar() ) {
-            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
+            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( true ) );
         } else { // who.is_npc
             // npcs can't shear monsters yet, this is for when they are able to
             add_msg_if_player_sees( who, _( "%1$s doesn't have a shearing tool." ), who.disp_name(),
@@ -8757,7 +8854,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 
     if( who.is_avatar() ) {
         add_msg( m_info,
-                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+                 _( "%1$s start shearing %2$s." ), who.disp_name( true ), mon->disp_name() );
     } else { // who.is_npc
         // npcs can't shear monsters yet, this is for when they are able to
         add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
@@ -8775,7 +8872,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
             add_msg(
                 m_bad,
                 _( "%1$s don't have a shearing tool anymore." ),
-                who.disp_name( false, true ) );
+                who.disp_name( true ) );
         } else {
             add_msg_if_player_sees(
                 who,
@@ -8810,7 +8907,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
     add_msg_if_player_sees( who,
                             string_format(
                                 _( "%1$s finished shearing %2$s and got:" ),
-                                who.disp_name( false, true ),
+                                who.disp_name( true ),
                                 mon->unique_name.empty() ? mon->disp_name() : mon->unique_name ) );
 
     const std::vector<shearing_roll> shear_roll = shear_data.roll_all( *mon );
@@ -9612,7 +9709,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     if( !playstr.empty() ) {
-        who.add_msg_if_player( m_good, playstr, pet_name );
+        who.add_msg_if_player( m_good, _( playstr ), pet_name );
     }
 
     if( !who.has_flag( json_flag_PSYCHOPATH ) && !who.has_flag( json_flag_NUMB ) ) {
@@ -14031,7 +14128,7 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
         return;
     }
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
+    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( true ) );
     if( you.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &you );
         guy->revert_after_activity();
