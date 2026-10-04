@@ -75,6 +75,7 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "temp_crafting_inventory.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -2675,19 +2676,21 @@ requirement_check_result requirement_fail( Character &you, const do_activity_rea
     // we can discount this tile, the work can't be done.
     if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
         if( zone ) {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for the %1$s task at zone %2$s." ),
-                                   act_id.c_str(), zone->get_name() );
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the \"%1$s\" task at zone %2$s." ),
+                                   act_id.obj().verb().translated(), zone->get_name() );
         } else {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the \"%s\" task." ),
+                                   act_id.obj().verb().translated() );
         }
     } else if( reason == do_activity_reason::BLOCKING_TILE ) {
         if( zone ) {
             you.add_msg_if_player( m_info,
-                                   _( "There is something blocking the location for the %1$s task at zone %2$s." ), act_id.c_str(),
+                                   _( "There is something blocking the location for the \"%1$s\" task at zone %2$s." ),
+                                   act_id.obj().verb().translated(),
                                    zone->get_name() );
         } else {
-            you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
-                                   act_id.c_str() );
+            you.add_msg_if_player( m_info, _( "There is something blocking the location for the \"%s\" task." ),
+                                   act_id.obj().verb().translated() );
         }
     }
     if( you.is_npc() ) {
@@ -3626,8 +3629,9 @@ void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &
     }
 
     // if all pruned locations were too dark
-    if( !src_set_empty && src_set.empty() ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
+    if( !src_set_empty && src_set.empty() && you.is_avatar() ) {
+        you.add_msg_if_player( m_info, _( "It is too dark to do the \"%s\" activity." ),
+                               act_id.obj().verb().translated() );
     }
 }
 
@@ -4117,41 +4121,42 @@ void activity_failure_message( Character &you, activity_id new_activity,
 
     if( no_locations ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no suitable locations were found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no suitable locations were found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.no_path ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no path to a suitable location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no path to a suitable location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_zone ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no required zone was found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no required zone was found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_blocking ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because the target location is blocked or cannot be reached." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because the target location is blocked or cannot be reached." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_skill ) {
-        add_msg( m_neutral, _( "%1$s failed to perform the %2$s activity because of insufficient skills." ),
-                 you.disp_name(), new_activity.c_str() );
+        add_msg( m_neutral,
+                 _( "%1$s failed to perform the \"%2$s\" activity because of insufficient skills." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_unknown_activity ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because the activity couldn't be found.  This is probably an error." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because the activity couldn't be found.  This is probably an error." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_location ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no suitable location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no suitable location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_match ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no criteria could be matched." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no criteria could be matched." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location ) {
         // Assumed to have been reported already.
     } else if( fail_reason.no_craft_disassembly_location_route_found ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no path to a suitable crafting/disassembly location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no path to a suitable crafting/disassembly location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     }
 }
 
