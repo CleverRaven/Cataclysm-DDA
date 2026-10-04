@@ -37,7 +37,7 @@ namespace {
 
 constexpr int COMMAND_PORT = 7777;
 constexpr int STATE_PORT = 7778;
-constexpr int RADIUS = 12;
+constexpr int RADIUS = 8;
 constexpr int MIN_MONSTER_RADIUS = 20;
 
 cata3d_socket_t command_socket = CATA3D_INVALID_SOCKET;
@@ -264,8 +264,6 @@ bool parse_command( std::string_view cmd, action_id &result ) {
         result = ACTION_MOVE_UP;
     } else if( cmd == "MOVE_DOWN" ) {
         result = ACTION_MOVE_DOWN;
-    } else if( cmd == "QUIT" ) {
-        result = ACTION_QUIT;
     } else {
         return false;
     }
