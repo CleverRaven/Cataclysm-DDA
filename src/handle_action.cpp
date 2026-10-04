@@ -10,7 +10,7 @@
 #include <string>
 #include <utility>
 
-#include "action.h"
+#include "action.h"\n#include "cata3d_bridge.h"
 #include "activity_actor_definitions.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
