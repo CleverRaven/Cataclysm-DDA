@@ -20,7 +20,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
-#include "cached_options.h"
+#include "cached_options.h"\n#include "cata3d_bridge.h"
 #include "calendar.h"
 #ifdef TILES
 #include "cata_imgui.h"
@@ -740,6 +740,10 @@ bool game::do_turn()
 
     // process monster and npc turn
     monmove();
+
+    // Publish after monsters/NPCs have moved and the map/field state is current.
+    // Cata3D is only a presentation/input client; CDDA remains authoritative.
+    cata3d_bridge::publish_state();
 
     if( calendar::once_every( time_between_npc_OM_moves ) ) {
         overmap_npc_move();
