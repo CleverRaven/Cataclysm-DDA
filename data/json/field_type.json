@@ -2659,7 +2659,7 @@
     "intensity_levels": [
       { "name": "scarlet twinkle", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] },
       { "name": "scarlet sparkle", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] },
-      { "name": "scarlet aruroa", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] }
+      { "name": "scarlet aurora", "color": "light_red", "light_emitted": 160, "light_color": [ 110, 0, 0 ] }
     ],
     "decay_amount_factor": 5,
     "percent_spread": 20,
