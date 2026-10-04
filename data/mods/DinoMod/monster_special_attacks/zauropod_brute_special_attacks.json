@@ -1,0 +1,719 @@
+[
+  {
+    "id": "zoabosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zoabosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zoabosaurus brutes control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZOABOSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZOABOSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zoabosaurus_brute",
+            "condition": { "math": [ "updating_zoabosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zoabosaurus_brute" } ]
+          },
+          {
+            "id": "zoabosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zoabosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zoabosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zoabosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zoabosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zoabosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zoabosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zoabosaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zaplocanthosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zaplocanthosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zaplocanthosaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAPLOCANTHOSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAPLOCANTHOSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zaplocanthosaurus_brute",
+            "condition": { "math": [ "updating_zaplocanthosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zaplocanthosaurus_brute" } ]
+          },
+          {
+            "id": "zaplocanthosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zaplocanthosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zaplocanthosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zaplocanthosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zaplocanthosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zaplocanthosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zaplocanthosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zaplocanthosaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zamargasaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zamargasaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zamargasaurus brutes control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAMARGASAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAMARGASAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zamargasaurus_brute",
+            "condition": { "math": [ "updating_zamargasaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zamargasaurus_brute" } ]
+          },
+          {
+            "id": "zamargasaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zamargasaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zamargasaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zamargasaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zamargasaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zamargasaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zamargasaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zamargasaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zapatosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zapatosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "Zombie apatosaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAPATOSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAPATOSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zapatosaurus_brute",
+            "condition": { "math": [ "updating_zapatosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zapatosaurus_brute" } ]
+          },
+          {
+            "id": "zapatosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zapatosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_uid = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zapatosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zapatosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zapatosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zapatosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zapatosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zapatosauru_brute = 0" ] } ]
+  },
+  {
+    "id": "zrontosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zrontosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zrontosaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZRONTOSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZRONTOSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zrontosaurus_brute",
+            "condition": { "math": [ "updating_zrontosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zrontosaurus_brute" } ]
+          },
+          {
+            "id": "zrontosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zrontosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zrontosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zrontosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zrontosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zrontosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zrontosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zrontosaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "ziplodocus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "ziplodocus brute control", "//~": "NO_I18N" },
+    "description": { "str": "ziplodocus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZIPLODOCUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZIPLODOCUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_ziplodocus_brute",
+            "condition": { "math": [ "updating_ziplodocus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_ziplodocus_brute" } ]
+          },
+          {
+            "id": "ziplodocus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "ziplodocus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_ziplodocus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_ziplodocus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_ziplodocus_brute = 1" ] },
+      { "run_eocs": "eoc_update_ziplodocus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_ziplodocus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_ziplodocus_brute = 0" ] } ]
+  },
+  {
+    "id": "zarosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zarosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zarosaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAROSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAROSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zarosaurus_brute",
+            "condition": { "math": [ "updating_zarosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zarosaurus_brute" } ]
+          },
+          {
+            "id": "zarosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zarosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zarosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zarosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zarosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zarosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zarosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zarosaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zamarasaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zamarasaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zamarasaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAMARASAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAMARASAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zamarasaurus_brute",
+            "condition": { "math": [ "updating_zamarasaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zamarasaurus_brute" } ]
+          },
+          {
+            "id": "zamarasaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zamarasaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zamarasaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zamarasaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zamarasaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zamarasaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zamarasaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zamarasaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zrachiosaurus_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zrachiosaurus brute control", "//~": "NO_I18N" },
+    "description": { "str": "zrachiosaurus brutes control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZRACHIOSAURUS_BRUTE_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZRACHIOSAURUS_BRUTE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zrachiosaurus_brute",
+            "condition": { "math": [ "updating_zrachiosaurus_brute != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zrachiosaurus_brute" } ]
+          },
+          {
+            "id": "zrachiosaurus_brute_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zrachiosaurus_brute_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zrachiosaurus_brute",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zrachiosaurus_brute', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zrachiosaurus_brute = 1" ] },
+      { "run_eocs": "eoc_update_zrachiosaurus_brute", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zrachiosaurus_brute" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zrachiosaurus_brute = 0" ] } ]
+  },
+  {
+    "id": "zastrodon_brute_control",
+    "type": "SPELL",
+    "name": { "str": "zastrodon control", "//~": "NO_I18N" },
+    "description": { "str": "zastrodon control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZASTRODON_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZASTRODON_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zastrodon",
+            "condition": { "math": [ "updating_zastrodon != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zastrodon" } ]
+          },
+          {
+            "id": "zastrodon_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zastrodon_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zastrodon",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zastrodon', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zastrodon = 1" ] },
+      { "run_eocs": "eoc_update_zastrodon", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zastrodon" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zastrodon = 0" ] } ]
+  },
+  {
+    "id": "zalamosaurus_control",
+    "type": "SPELL",
+    "name": { "str": "zalamosaurus control", "//~": "NO_I18N" },
+    "description": { "str": "zalamosaurus control themselves using this.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZALAMOSAURUS_CONTROL"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZALAMOSAURUS_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zalamosaurus",
+            "condition": { "math": [ "updating_zalamosaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zalamosaurus" } ]
+          },
+          {
+            "id": "zalamosaurus_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zalamosaurus_leg_assign", "effect": [ { "math": [ "u_zauropod_id = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zalamosaurus",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zalamosaurus', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zalamosaurus = 1" ] },
+      { "run_eocs": "eoc_update_zalamosaurus", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zalamosaurus" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zalamosaurus = 0" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "zauropod_hurt_self",
+    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1200,
+    "max_damage": 1500,
+    "damage_type": "pure",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "eoc_zauropod",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "u_zauropod_id = _zauropod_uid" ] },
+      { "u_location_variable": { "context_val": "zauropod_pos_1" }, "x_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_2" }, "x_adjust": -1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_3" }, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_4" }, "y_adjust": -1 },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_tp",
+            "condition": { "math": [ "u_zauropod_id == _zauropod_uid" ] },
+            "effect": [
+              { "u_teleport": { "context_val": "zauropod_pos_1" } },
+              { "u_teleport": { "context_val": "zauropod_pos_2" } },
+              { "u_teleport": { "context_val": "zauropod_pos_3" } },
+              { "u_teleport": { "context_val": "zauropod_pos_4" } }
+            ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [ "mon_zauropod_leg" ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_ZAUROPOD_HURT",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_zauropod_id" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_hurt",
+            "condition": { "math": [ "u_zauopod_uid == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "zauropod_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [
+          "mon_zoabosaurus",
+          "mon_zaplocanthosaurus",
+          "mon_zamargasaurus",
+          "mon_zapatosaurus",
+          "mon_zrontosaurus",
+          "mon_ziplodocus",
+          "mon_zarosaurus",
+          "mon_zamarasaurus",
+          "mon_zrachiosaurus",
+          "mon_zastrodon",
+          "mon_zalamosaurus",
+          "mon_zoabosaurus_scorched",
+          "mon_zaplocanthosaurus_scorched",
+          "mon_zamargasaurus_scorched",
+          "mon_zapatosaurus_scorched",
+          "mon_zrontosaurus_scorched",
+          "mon_ziplodocus_scorched",
+          "mon_zarosaurus_scorched",
+          "mon_zamarasaurus_scorched",
+          "mon_zrachiosaurus_scorched",
+          "mon_zastrodon_scorched",
+          "mon_zalamosaurus_scorched"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_ZAUROPOD_DIES",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_zauropod_uid" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_dies",
+            "condition": { "math": [ "u_zauropod_id == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "zauropod_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [ "mon_zauropod_leg" ]
+      }
+    ]
+  }
+]
