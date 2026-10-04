@@ -1271,7 +1271,7 @@
     "type": "material",
     "id": "junk",
     "name": "Junk Food",
-    "density": 1.1,
+    "density": 1.59,
     "specific_heat_liquid": 3.3,
     "specific_heat_solid": 2.05,
     "latent_heat": 220,
