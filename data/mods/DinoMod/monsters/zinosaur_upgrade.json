@@ -5653,7 +5653,11 @@
     "melee_dice_sides": 18,
     "melee_skill": 3,
     "special_attacks": [ 
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ] }, 
+      { 
+        "id": "stomp_DinoMod", 
+        "cooldown": 10, 
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ] 
+      }, 
       [ "SMASH", 30 ] 
     ],
     "death_function": {
