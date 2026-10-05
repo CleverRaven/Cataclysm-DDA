@@ -20,7 +20,7 @@
     "type": "ITEM",
     "id": "xlframe",
     "name": { "str": "extra-light unibody frame" },
-    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "description": "A small, lightweight frame made from pipework, part of a unibody vehicle.  Other vehicle components were mounted on it, but it is now deeply integrated with them.",
     "material": [ "aluminum" ],
     "weight": "1677 g",
     "copy-from": "foldframe"
@@ -35,8 +35,8 @@
   {
     "type": "ITEM",
     "id": "frame",
-    "name": { "str": "steel frame" },
-    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "name": { "str": "steel unibody frame" },
+    "description": "A metal framework part of a unibody vehicle.  Other vehicle components were mounted on it, but it is now deeply integrated with them.",
     "material": [ "lc_steel" ],
     "weight": "20000 g",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
