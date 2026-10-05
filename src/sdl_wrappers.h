@@ -288,6 +288,9 @@ bool GetDesktopDisplayMode( int displayIndex, SDL_DisplayMode *mode );
 // SDL_GetRenderDriver returns the driver name directly.
 int GetNumRenderDrivers();
 const char *GetRenderDriverName( int index );
+// GPU drivers compiled into SDL, like "vulkan" or "direct3d12"
+int GetNumGPUDrivers();
+const char *GetGPUDriverName( int index );
 
 // Name via SDL_GetRendererName, capabilities via SDL_GetRendererProperties.
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer );

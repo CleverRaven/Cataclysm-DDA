@@ -2797,6 +2797,10 @@ void options_manager::add_options_graphics()
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
              default_renderer, COPT_ALWAYS_HIDE );
+
+        add( "GPU_BACKEND", page_id, to_translation( "GPU backend" ),
+             to_translation( "Sets which graphics API the GPU renderer uses.  Try another one if the game crashes or draws wrongly.  An SDL_GPU_DRIVER environment variable overrides this.  Requires restart." ),
+             cata_tiles::build_gpu_backend_list(), "auto", COPT_CURSES_HIDE );
 #   endif
 
 #else

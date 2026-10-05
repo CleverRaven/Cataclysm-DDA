@@ -175,7 +175,7 @@ class outfit
         bool check_item_encumbrance_flag( bool update_required );
         // creates a list of items dependent upon @it
         void add_dependent_item( std::list<item *> &dependent, const item &it );
-        std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
+        std::list<item> remove_worn_items_with( const std::function<bool( const item & )> &filter,
                                                 Character &guy );
         // takeoff item from character
         // return true mean takeoff item successfully

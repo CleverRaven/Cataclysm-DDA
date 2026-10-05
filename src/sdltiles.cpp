@@ -127,7 +127,6 @@ std::shared_ptr<cata_tiles> portrait_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
-static bool need_invalidate_framebuffers = false;
 palette_array windowsPalette;
 
 static Font_Ptr font;
@@ -385,6 +384,15 @@ void refresh_mouse_config()
             HideCursor();
         }
     }
+}
+
+std::optional<std::string> gpu_backend_hint( const std::string &option_value,
+        const bool env_override )
+{
+    if( env_override || option_value.empty() || option_value == "auto" ) {
+        return std::nullopt;
+    }
+    return option_value;
 }
 
 #if defined(_WIN32)
@@ -678,6 +686,16 @@ static void WinCreate()
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
+#endif
+
+#if !defined(__ANDROID__)
+    const bool gpu_driver_from_env = std::getenv( "SDL_GPU_DRIVER" ) != nullptr;
+    const std::string gpu_backend = get_option<std::string>( "GPU_BACKEND" );
+    if( const std::optional<std::string> hint = gpu_backend_hint( gpu_backend, gpu_driver_from_env ) ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, hint->c_str() );
+    }
+    DebugLog( D_INFO, DC_ALL ) << "GPU backend option: " << gpu_backend << " (env override: "
+                               << ( gpu_driver_from_env ? "yes" : "no" ) << ")";
 #endif
 
 #  if defined(_WIN32)
@@ -4415,7 +4433,6 @@ static bool apply_resize_layout( int w, int h )
         // ignore the minimum size so we clamp the terminal size here for safety.
         TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
         TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
-        need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
     }
     return logical_changed;

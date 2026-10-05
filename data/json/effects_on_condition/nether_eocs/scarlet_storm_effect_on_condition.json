@@ -175,12 +175,18 @@
   {
     "type": "effect_on_condition",
     "id": "scarlet_thunder",
-    "recurrence": 1,
+    "recurrence": 60,
     "global": true,
     "condition": {
       "and": [
         {
-          "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+          "or": [
+            { "current_dimension": "scarlet" },
+            { "is_weather": "scarlet_storm_3" },
+            { "is_weather": "scarlet_storm_4" },
+            { "is_weather": "scarlet_storm_5" },
+            { "is_weather": "scarlet_dimension_storm" }
+          ]
         },
         { "one_in_chance": 100 },
         { "math": [ "u_val('pos_z') >= 0" ] }
@@ -188,7 +194,13 @@
     },
     "deactivate_condition": {
       "not": {
-        "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+        "or": [
+          { "current_dimension": "scarlet" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" },
+          { "is_weather": "scarlet_storm_5" },
+          { "is_weather": "scarlet_dimension_storm" }
+        ]
       }
     },
     "effect": [
@@ -203,17 +215,111 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
+        {
+          "or": [
+            { "is_weather": "scarlet_storm_4" },
+            { "is_weather": "scarlet_storm_5" },
+            { "is_weather": "scarlet_dimension_storm" }
+          ]
+        },
         { "one_in_chance": 200 },
         { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_4" },
+          { "is_weather": "scarlet_storm_5" },
+          { "is_weather": "scarlet_dimension_storm" }
+        ]
+      }
+    },
     "effect": [
-      { "u_message": "A flash of lightning illuminates the scarlet sky!" },
+      {
+        "if": "u_is_outside",
+        "then": { "u_message": "A flash of lightning illuminates the scarlet sky!" },
+        "else": { "u_message": "You hear a loud crack of thunder!" }
+      },
+      { "u_set_field": "fd_scarlet_storm_lightning", "outdoor_only": true, "radius": 150 },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
       { "custom_light_level": 100, "length": [ "1 seconds", "12 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM_FOG_GENERARATOR",
+    "recurrence": 1,
+    "global": true,
+    "condition": {
+      "or": [
+        { "is_weather": "scarlet_storm_1" },
+        { "is_weather": "scarlet_storm_2" },
+        { "is_weather": "scarlet_storm_3" },
+        { "is_weather": "scarlet_storm_4" }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_1" },
+          { "is_weather": "scarlet_storm_2" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" }
+        ]
+      }
+    },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 3,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM_FOG_GENERARATOR_2",
+    "recurrence": 1,
+    "global": true,
+    "condition": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc_2" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 6,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc_2" }
+      },
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc_3" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 6,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc_3" }
+      }
     ]
   },
   {

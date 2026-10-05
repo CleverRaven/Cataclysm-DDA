@@ -12,6 +12,7 @@
 #include <cstring>
 #include <functional>
 #include <iterator>
+#include <map>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -5888,6 +5889,28 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     }, enumeration_conjunction::none );
 
     return renderer_names.empty() ? default_renderer_names : renderer_names;
+}
+
+std::vector<options_manager::id_and_option> cata_tiles::build_gpu_backend_list()
+{
+    static const std::map<std::string, translation> known_names = {
+        { "direct3d12", to_translation( "GPU backend", "Direct3D 12" ) },
+        { "metal", to_translation( "GPU backend", "Metal" ) },
+        { "vulkan", to_translation( "GPU backend", "Vulkan" ) },
+    };
+    std::vector<options_manager::id_and_option> backends = {
+        { "auto", to_translation( "GPU backend", "Automatic" ) }
+    };
+    const int num_drivers = GetNumGPUDrivers();
+    for( int i = 0; i < num_drivers; i++ ) {
+        const std::string name = GetGPUDriverName( i );
+        if( name.empty() ) {
+            continue;
+        }
+        const auto known = known_names.find( name );
+        backends.emplace_back( name, known != known_names.end() ? known->second : no_translation( name ) );
+    }
+    return backends;
 }
 
 std::vector<options_manager::id_and_option> cata_tiles::build_display_list()

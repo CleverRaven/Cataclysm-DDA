@@ -1165,7 +1165,8 @@ std::vector<intrinsic_quality_source> Character::intrinsic_quality_sources(
     return ret;
 }
 
-std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
+std::list<item> Character::remove_worn_items_with( const std::function<bool( const item & )>
+        &filter )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();

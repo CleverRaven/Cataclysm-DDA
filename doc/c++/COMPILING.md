@@ -160,6 +160,7 @@ Install the SDL3 libraries from your package manager or build them from the upst
 Runtime shader switches, read when they are used:
 
   * `SDL_RENDER_DRIVER` selects the SDL renderer instead of the game's default driver list.
+  * `SDL_GPU_DRIVER` selects the graphics API under the GPU renderer, for example `vulkan` or `direct3d12`. It overrides the "GPU backend" option in Graphics settings.
   * `CATA_FORCE_ATLAS_VARIANTS=1` bakes all six atlas variants. Sprites still draw through the shaders.
   * `CATA_DISABLE_SPRITE_SHADERS=1` turns the sprite shaders off. Sprites draw from fully baked atlases.
   * `CATA_DISABLE_TINT_OVERLAY=1` turns colored-light tint off on every renderer. Lighting still draws.

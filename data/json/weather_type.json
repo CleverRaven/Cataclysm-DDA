@@ -471,24 +471,52 @@
   {
     "id": "scarlet_day",
     "type": "weather_type",
-    "name": "Scarlet Day",
+    "name": "scarlet day",
     "color": "light_gray",
     "map_color": "dark_gray_white",
     "sym": "~",
     "sun_sym": "⛅",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -100,
+    "light_modifier": -40,
     "sun_multiplier": 0.01,
     "sound_attn": 0,
     "dangerous": false,
     "precip": "none",
     "rains": false,
     "sound_category": "cloudy",
-    "tint_color": [ 110, 0, 0 ],
+    "tint_color": [ 210, 0, 0 ],
     "tint_strength": 1.0,
     "priority": 1,
     "condition": { "current_dimension": "scarlet" }
+  },
+  {
+    "id": "scarlet_dimension_storm",
+    "type": "weather_type",
+    "name": "scarlet clouds",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "%",
+    "sun_sym": "⛈",
+    "ranged_penalty": 7,
+    "sight_penalty": 4.0,
+    "light_modifier": -60,
+    "sun_multiplier": 0.01,
+    "temperature_modifier": -20,
+    "sound_attn": 8,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "thunder",
+    "priority": 120,
+    "tint_color": [ 180, 15, 25 ],
+    "tint_strength": 1.0,
+    "condition": {
+      "and": [
+        { "current_dimension": "scarlet" },
+        { "or": [ { "math": [ "weather('humidity') >= 96" ] }, { "math": [ "weather('pressure') < 1003" ] } ] }
+      ]
+    }
   },
   {
     "id": "scarlet_storm_1",
@@ -510,7 +538,7 @@
     "sound_category": "silent",
     "priority": 13,
     "tint_color": [ 125, 100, 30 ],
-    "tint_strength": 0.7,
+    "tint_strength": 0.8,
     "condition": {
       "and": [
         { "current_dimension": "default" },
@@ -551,8 +579,8 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 14,
-    "tint_color": [ 125, 100, 30 ],
-    "tint_strength": 0.8,
+    "tint_color": [ 125, 60, 30 ],
+    "tint_strength": 0.9,
     "condition": {
       "and": [
         { "current_dimension": "default" },
@@ -572,17 +600,7 @@
         { "math": [ "distance(_weather_location, scarlet_storm_focus_b1) > 0" ] },
         { "math": [ "distance(_weather_location, scarlet_storm_focus_b2) > 0" ] }
       ]
-    },
-    "passive_effects": [
-      {
-        "effect_id": "scarlet_storm_lungs",
-        "intensity": 1,
-        "min_duration": "1s",
-        "max_duration": "1s",
-        "is_environmental": false,
-        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 1 ] ] }
-      }
-    ]
+    }
   },
   {
     "id": "scarlet_storm_3",
@@ -593,8 +611,8 @@
     "sym": "~",
     "sun_sym": "🌫",
     "ranged_penalty": 7,
-    "sight_penalty": 2.0,
-    "light_modifier": -65,
+    "sight_penalty": 3.0,
+    "light_modifier": -40,
     "sun_multiplier": 0.01,
     "temperature_modifier": -10,
     "sound_attn": 8,
@@ -603,7 +621,7 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 45,
-    "tint_color": [ 100, 15, 30 ],
+    "tint_color": [ 160, 15, 30 ],
     "tint_strength": 1.0,
     "condition": {
       "and": [
@@ -632,7 +650,7 @@
         "min_duration": "1s",
         "max_duration": "1s",
         "is_environmental": false,
-        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] }
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 1 ] ] }
       }
     ]
   },
@@ -645,8 +663,8 @@
     "sym": "%",
     "sun_sym": "🌫",
     "ranged_penalty": 7,
-    "sight_penalty": 2.0,
-    "light_modifier": -75,
+    "sight_penalty": 4.0,
+    "light_modifier": -40,
     "sun_multiplier": 0.01,
     "temperature_modifier": -20,
     "sound_attn": 8,
@@ -655,7 +673,7 @@
     "rains": false,
     "sound_category": "thunder",
     "priority": 120,
-    "tint_color": [ 140, 15, 25 ],
+    "tint_color": [ 180, 15, 25 ],
     "tint_strength": 1.0,
     "condition": {
       "and": [
@@ -698,10 +716,10 @@
     "sym": "%",
     "sun_sym": "⛈",
     "ranged_penalty": 7,
-    "sight_penalty": 2.0,
-    "light_modifier": -85,
+    "sight_penalty": 4.0,
+    "light_modifier": -60,
     "sun_multiplier": 0.01,
-    "temperature_modifier": -20,
+    "temperature_modifier": -30,
     "sound_attn": 8,
     "dangerous": true,
     "precip": "heavy",
@@ -720,6 +738,16 @@
         { "math": [ "distance(_weather_location, scarlet_storm_focus_a1) > 0" ] },
         { "or": [ { "math": [ "weather('humidity') >= 97" ] }, { "math": [ "weather('pressure') < 1000" ] } ] }
       ]
-    }
+    },
+    "passive_effects": [
+      {
+        "effect_id": "scarlet_storm_lungs",
+        "intensity": 1,
+        "min_duration": "1s",
+        "max_duration": "1s",
+        "is_environmental": false,
+        "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] }
+      }
+    ]
   }
 ]

@@ -2976,9 +2976,15 @@ void Character::remove_bionic( const bionic &bio )
     }
 
     for( const itype_id &popped_armor : bio.id->passive_pseudo_items ) {
-        remove_worn_items_with( [&]( item & armor ) {
+        std::list<item> removed_items = remove_worn_items_with( [&]( const item & armor ) {
             return armor.typeId() == popped_armor;
         } );
+
+        for( item &armor : removed_items ) {
+            if( armor.can_unload() ) {
+                armor.spill_contents( *this );
+            }
+        }
     }
 
     const bool has_enchantments = !bio.id->enchantments.empty();

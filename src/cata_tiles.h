@@ -1040,6 +1040,8 @@ class cata_tiles
             const point &win_size, const point_bub_ms &center,
             bool iso );
         static std::vector<options_manager::id_and_option> build_renderer_list();
+        // "auto", then every GPU driver SDL was built with
+        static std::vector<options_manager::id_and_option> build_gpu_backend_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
         std::pair<std::string, bool> get_omt_id_rotation_and_subtile( const tripoint_abs_omt &omp,

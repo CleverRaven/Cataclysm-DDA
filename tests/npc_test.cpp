@@ -615,7 +615,7 @@ TEST_CASE( "npc-movement" )
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 guy->normalize();
                 guy->randomize();
-                guy->remove_worn_items_with( [&]( item & armor ) {
+                guy->remove_worn_items_with( [&]( const item & armor ) {
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
                 REQUIRE( !guy->is_immune_field( fd_acid ) );
