@@ -51,7 +51,7 @@
   {
     "type": "ITEM",
     "id": "hdframe",
-    "name": { "str": "heavy-duty unibody frame" },
+    "name": { "str": "heavy-duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "weight": "100000 g",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
