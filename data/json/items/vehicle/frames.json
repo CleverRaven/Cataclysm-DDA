@@ -19,7 +19,7 @@
   {
     "type": "ITEM",
     "id": "xlframe",
-    "name": { "str": "extra-light frame" },
+    "name": { "str": "extra-light unibody frame" },
     "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "material": [ "aluminum" ],
     "weight": "1677 g",
@@ -51,7 +51,7 @@
   {
     "type": "ITEM",
     "id": "hdframe",
-    "name": { "str": "heavy-duty frame" },
+    "name": { "str": "heavy-duty unibody frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "weight": "100000 g",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
@@ -131,5 +131,21 @@
     "color": "light_gray",
     "symbol": "]",
     "category": "veh_parts"
+  },
+  {
+    "type": "ITEM",
+    "id": "improvised_frame",
+    "name": { "str": "tubular steel frame" },
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely welded together from structural steel by a survivor, resulting in a massive increase in weight.",
+    "material": [ "mc_steel" ],
+    "weight": "45 kg",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "color": "cyan",
+    "volume": "15 L",
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "copy-from": "foldframe",
+    "faults": [ { "fault": "fault_broken_window" } ],
+    "melee_damage": { "bash": 20 }
   }
 ]

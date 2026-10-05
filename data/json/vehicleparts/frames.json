@@ -221,7 +221,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "18 m", "using": [ [ "repair_welding_lc_steel", 10 ] ] }
     },
-    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ],
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 30 }
   },
   {
@@ -290,30 +290,9 @@
     "id": "improvised_frame",
     "type": "vehicle_part",
     "copy-from": "frame",
-    "item": "frame",
-    "name": { "str": "improvised frame" },
-    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely improvised by a survivor, resulting in worse durability.",
-    "proportional": { "durability": 0.6 },
-    "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
-  },
-  {
-    "id": "improvised_hdframe",
-    "type": "vehicle_part",
-    "copy-from": "hdframe",
-    "item": "hdframe",
-    "name": { "str": "improvised heavy-duty frame" },
-    "description": "A large, reinforced steel frame, used in military vehicle construction.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.  This one was crudely improvised by a survivor, resulting in worse durability.",
-    "proportional": { "durability": 0.6 },
-    "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
-  },
-  {
-    "id": "improvised_xlframe",
-    "type": "vehicle_part",
-    "copy-from": "xlframe",
-    "item": "xlframe",
-    "name": { "str": "improvised extra-light frame" },
-    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely improvised by a survivor, resulting in worse durability.",
-    "proportional": { "durability": 0.6 },
+    "item": "improvised_frame",
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely welded together from structural steel by a survivor, resulting in a massive increase in weight.",
+    "proportional": { "durability": 1.2 },
     "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
   }
 ]
