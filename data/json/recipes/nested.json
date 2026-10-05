@@ -3001,18 +3001,6 @@
     "name": "bundle of items",
     "description": "Recipes related to tying items into compact bundles for transport or storage.",
     "nested_category_data": [
-      "bundle_rag",
-      "bundle_cotton",
-      "bundle_leather",
-      "bundle_wool",
-      "bundle_nylon",
-      "bundle_plank",
-      "bundle_rebar",
-      "bundle_pipe",
-      "bundle_copper_pipe",
-      "bundle_branch",
-      "bundle_branch_long",
-      "bundle_javelin",
       "seaweed_pile",
       "dry_seaweed_pile"
     ]
