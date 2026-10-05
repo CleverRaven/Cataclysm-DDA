@@ -72,6 +72,52 @@ struct bodygraph {
     void check() const;
 };
 
+using part_tuple =
+    std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
+
+struct bodygraph_display {
+    const Character *u;
+    bodygraph_id id;
+    input_context ctxt;
+    weak_ptr_fast<ui_adaptor> ui;
+    border_helper bh_borders;
+    catacurses::window w_border;
+    catacurses::window w_partlist;
+    catacurses::window w_graph;
+    catacurses::window w_info;
+    // For each tuple:
+    //   0 = bodypart or parent of subpart
+    //   1 = subpart (if viewing a sub part)
+    //   2 = bodygraph data for this part
+    //   3 = part is present on character
+    std::vector<part_tuple> partlist;
+    bodygraph_info info;
+    std::vector<std::string> info_txt;
+    int all_height = 0;
+    int all_width = 0;
+    int partlist_width = 0;
+    int info_width = 0;
+    int sel_part = 0;
+    int top_part = 0;
+    int top_info = 0;
+
+    bodygraph_display() = delete;
+    bodygraph_display( const bodygraph_display & ) = delete;
+    bodygraph_display( const bodygraph_display && ) = delete;
+    explicit bodygraph_display( const Character *u, const bodygraph_id &id );
+
+    shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+    void prepare_partlist();
+    void prepare_infolist();
+    void prepare_infotext( bool reset_pos );
+    void init_ui_windows();
+    void draw_borders();
+    void draw_partlist();
+    void draw_graph();
+    void draw_info();
+    void display();
+};
+
 // Draws the bodygraph UI for the given character and bodygraph (defaults to Full Body graph)
 void display_bodygraph( const Character &u, const bodygraph_id &id = bodygraph_id::NULL_ID() );
 
