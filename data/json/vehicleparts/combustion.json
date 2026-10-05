@@ -31,7 +31,7 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
-    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8", "improvised_diesel" ],
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8" ],
     "m2c": 65,
     "extend": { "flags": [ "E_COLD_START", "E_DIESEL_FUEL" ] },
     "//": "40% energy efficiency",
@@ -66,6 +66,7 @@
     "epower": "-350 W",
     "power": "223800 W",
     "energy_consumption": "559500 W",
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8", "improvised_diesel" ],
     "breaks_into": [
       { "item": "ch_steel_lump", "count": [ 30, 40 ] },
       { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
@@ -169,6 +170,7 @@
     "epower": "-350 W",
     "power": "242450 W",
     "energy_consumption": "606250 W",
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8", "improvised_diesel" ],
     "breaks_into": [
       { "item": "ch_steel_lump", "count": [ 30, 40 ] },
       { "item": "ch_steel_chunk", "count": [ 30, 40 ] },
@@ -384,6 +386,7 @@
     "epower": "-400 W",
     "power": "447600 W",
     "energy_consumption": "1119000 W",
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8", "improvised_diesel" ],
     "breaks_into": [
       { "item": "ch_steel_lump", "count": [ 45, 58 ] },
       { "item": "ch_steel_chunk", "count": [ 45, 58 ] },
