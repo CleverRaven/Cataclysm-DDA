@@ -797,6 +797,17 @@ const char *GetRenderDriverName( const int index )
     return name ? name : "";
 }
 
+int GetNumGPUDrivers()
+{
+    return SDL_GetNumGPUDrivers();
+}
+
+const char *GetGPUDriverName( const int index )
+{
+    const char *name = SDL_GetGPUDriver( index );
+    return name ? name : "";
+}
+
 
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer )
 {
