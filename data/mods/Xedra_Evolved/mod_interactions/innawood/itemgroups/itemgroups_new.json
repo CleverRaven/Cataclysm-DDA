@@ -76,7 +76,7 @@
       { "item": "wicker_backpack", "prob": 2 },
       { "group": "tools_common_small", "prob": 25, "entry-wrapper": "makeshift_sling" },
       { "item": "bandages_birchbark", "prob": 5 },
-      { "group": "trash_forest", "prob": 80 },
+      { "group": "SUS_trash_forest_no_manmade", "prob": 80 },
       { "group": "renfield_food", "prob": 30, "count": [ 1, 3 ] },
       { "item": "water_clean", "prob": 50 },
       { "item": "straw_doll", "prob": 3 },
