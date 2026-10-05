@@ -2129,7 +2129,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "name": "vehicle frames",
     "description": "Recipes related to constructing different kinds of vehicle frames.",
-    "nested_category_data": [ "foldxlframe", "foldwoodframe", "xlframe", "foldframe", "hdframe", "frame", "frame_wood", "frame_wood_light" ]
+    "nested_category_data": [ "foldxlframe", "foldwoodframe", "improvised_frame", "foldframe", "hdframe", "frame_wood", "frame_wood_light" ]
   },
   {
     "id": "nested_flours",

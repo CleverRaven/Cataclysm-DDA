@@ -1440,8 +1440,8 @@
   },
   {
     "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "activity_level": "MODERATE_EXERCISE",
     "result": "improvised_frame",
     "difficulty": 3,
