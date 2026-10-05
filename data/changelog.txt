@@ -121,6 +121,12 @@ Military & firefighter respirators work with SCBA
 Colored light tint inside the sprite shader, so isometric tilesets get it too
 Vehicle wheels gib corpses, smash stuff, throw items around
 Better 'Resume Construction' behavior
+Slime has redundant omnicellular parts
+Partial (De)construction prompt now uses UIList
+Event for effect intensity change
+Updated prompt_partial_construction to use more beautiful uilist
+Exodii labyrinth requires finding entrances; AltarOS safehouse is a reward, not a given
+Smooth lighting
 
 
 ## Content:
@@ -221,6 +227,9 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
+obsolete gunsmith and firearm repairkits
+Small power-box features in overgrown labyrinths
+add structural steel sections
 
 
 ## Interface:
@@ -383,6 +392,12 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] The Exodii won't talk to the Fair Folk
 [Xedra Evolved] More changeling seasonal glamours
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
+[DinoMod] Reattach sauropod legs
+extends #88829 to Innawoods and Xedrawoods
+New Crafting System for Isolation Protocol
+Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
+[Bombastic Perks] Perks have their own color
+[Magiclysm] Force Armor for small characters
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -651,6 +666,12 @@ Fix getting perma-stuck in the Imperial Road
 Can create Characters again
 Fix an out of bounds write when looking for items around a position outside the map
 Make device really optional in _has_software condition
+Alarm will make sound and prompt you when awake even when something else is making noise
+Steel tanks hold more weight
+Fix broken looks_like on wine of Marsala
+Remove useless stanag itemgroup
+Fix CANNOT_CONSUME_DRUGS
+[Xedra Evolved] Fix Coat of the Timely Sleeper enchant
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -673,6 +694,10 @@ Improving performance in the crafting ui
 Draw the pixel minimap with batched geometry instead of per-submap render targets
 Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders draw
 Speed up the crafting menu near large piles of items
+Fix multi-minute turns when NPCs in combat carry lots of small items
+Draw text from a glyph atlas in batched draws on hardware renderers
+Cut idle CPU use on menus, the map and the overmap
+Speed up the camp bulletin board, vehicle examine and item info near large item piles
 
 
 ## Infrastructure:
@@ -795,6 +820,7 @@ move all crafting_inventory operations to temp_crafting_inventory class
 deprecate inventory class structure
 Moved the dead marloss code to eoc
 move open/close action to activity_actor
+change visitable to use item_location
 
 
 ## Build:
@@ -817,6 +843,7 @@ Address warnings on possible loss of data
 Fix GCC 9 tiles build error in cataimgui::draw_texture
 Android apk with sounds
 MSVC C used to build third-party libs
+Fix `Parameter format not correct - -Command` error
 
 
 ## I18N and A11Y:
