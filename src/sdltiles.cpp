@@ -387,6 +387,15 @@ void refresh_mouse_config()
     }
 }
 
+std::optional<std::string> gpu_backend_hint( const std::string &option_value,
+        const bool env_override )
+{
+    if( env_override || option_value.empty() || option_value == "auto" ) {
+        return std::nullopt;
+    }
+    return option_value;
+}
+
 #if defined(_WIN32)
 // True if data/shaders contains .spv but no .dxil. Used to bias the GPU
 // device toward Vulkan when a local Windows build skipped SDL_shadercross
@@ -678,6 +687,16 @@ static void WinCreate()
 #else
     bool software_renderer = get_option<bool>( "SOFTWARE_RENDERING" );
     std::string renderer_name = software_renderer ? "software" : "";
+#endif
+
+#if !defined(__ANDROID__)
+    const bool gpu_driver_from_env = std::getenv( "SDL_GPU_DRIVER" ) != nullptr;
+    const std::string gpu_backend = get_option<std::string>( "GPU_BACKEND" );
+    if( const std::optional<std::string> hint = gpu_backend_hint( gpu_backend, gpu_driver_from_env ) ) {
+        SDL_SetHint( SDL_HINT_GPU_DRIVER, hint->c_str() );
+    }
+    DebugLog( D_INFO, DC_ALL ) << "GPU backend option: " << gpu_backend << " (env override: "
+                               << ( gpu_driver_from_env ? "yes" : "no" ) << ")";
 #endif
 
 #  if defined(_WIN32)
