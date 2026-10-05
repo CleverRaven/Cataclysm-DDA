@@ -68,6 +68,8 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::FOREST: return "forest";
+        case relic_recharge_type::UNDERGROUND: return "underground";
+        case relic_recharge_type::PORTAL_STORM: return "portal_storm";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -553,6 +555,15 @@ static bool can_recharge_forest( const tripoint_bub_ms &pos )
            !overmap_buffer.is_in_city( omt_were_at );
 }
 
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_portal_storm( const item &it, Character *carrier,
+                                       const tripoint_bub_ms &pos )
+{
+    return carrier == nullptr ||
+           carrier->is_worn( it ) || carrier->is_wielding( it );
+}
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_ms &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -613,6 +624,20 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
             if( can_recharge_forest( pos ) ) {
                 charge.accumulate_charge( parent );
             }
+            return;
+        }
+        case relic_recharge_type::UNDERGROUND: {
+            if( pos.z() < 0 &&
+                ( carrier == nullptr ||
+                carrier->is_worn( parent ) || carrier->is_wielding( parent ) ) ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::PORTAL_STORM: {
+            if( get_weather().weather_id == weather_type_id( "portal_storm" ) ) {
+                charge.accumulate_charge( parent );
+            }   
             return;
         }
         case relic_recharge_type::NUM: {
