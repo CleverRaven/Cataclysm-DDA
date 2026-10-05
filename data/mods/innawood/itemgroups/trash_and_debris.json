@@ -2,7 +2,13 @@
   {
     "type": "item_group",
     "id": "innawoods_chunk_random",
-    "items": [ [ "chunk_feldspar", 10 ], [ "chunk_copper", 1 ], [ "chunk_cassiterite", 1 ], [ "chunk_hematite", 2 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chunk_feldspar", "prob": 10 },
+      { "item": "chunk_copper", "prob": 1 },
+      { "item": "chunk_cassiterite", "prob": 1 },
+      { "item": "chunk_hematite", "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
