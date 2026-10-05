@@ -30,6 +30,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "mapgen.h"
 #include "math_parser_type.h"
@@ -326,7 +327,7 @@ std::vector<const recipe *> recipe_subset::search(
 
                 bool found = false;
                 crafting_inventory.visit_items(
-                [&]( item * node, item * ) {
+                [&]( const item_location & node ) {
                     for( const auto &recipe : node->get_available_recipes( crafter_ref ) ) {
                         if( recipe.first == r && ( lcmatch( node->display_name(), txt ) ||
                                                    lcmatch( item::nname( node->typeId() ), txt ) ) ) {

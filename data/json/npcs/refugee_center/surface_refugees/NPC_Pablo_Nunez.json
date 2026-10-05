@@ -5,6 +5,7 @@
     "name_unique": "Pablo Nunez",
     "gender": "male",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_pablo_nunez",
     "class": "NC_REFUGEE_Pablo",
     "attitude": 0,
     "mission": "GUARD",

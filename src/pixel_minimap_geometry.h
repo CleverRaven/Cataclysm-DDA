@@ -4,34 +4,10 @@
 
 #if defined(TILES)
 
-#include <vector>
-
 #include "sdl_wrappers.h"
 
+class quad_batch;
 struct point;
-
-// CPU-side vertex accumulator for one untextured SDL_RenderGeometryRaw
-// call. A beacon-heavy frame exceeds 65535 vertices, hence 32-bit indices.
-class minimap_vertex_batch
-{
-    public:
-        void append_quad( float x, float y, float w, float h, const SDL_FColor &color );
-        void clear();
-        bool empty() const;
-        int vertex_count() const;
-        int index_count() const;
-        const float *xy_data() const;
-        const SDL_FColor *color_data() const;
-        const Uint32 *index_data() const;
-        void reserve_quads( int quads );
-
-    private:
-        std::vector<float> xy_;
-        std::vector<SDL_FColor> colors_;
-        std::vector<Uint32> indices_;
-};
-
-SDL_FColor to_fcolor( const SDL_Color &color );
 
 // The screen mapping of the minimap: screen = origin + scale * native,
 // per axis, clipped to dest_rect. Axis scales differ because
@@ -51,10 +27,8 @@ minimap_transform compute_minimap_transform( const point &native,
 int snap_to_pixel( float origin, float scale, int native );
 
 // One 1x1 quad per diamond pixel; outline pixels are darkened by edge_divisor.
-void append_beacon( minimap_vertex_batch &batch, const SDL_Rect &rect,
+void append_beacon( quad_batch &batch, const SDL_Rect &rect,
                     const SDL_Color &color, int edge_divisor );
-
-void render_batch( const SDL_Renderer_Ptr &renderer, const minimap_vertex_batch &batch );
 
 #endif // TILES
 #endif // CATA_SRC_PIXEL_MINIMAP_GEOMETRY_H

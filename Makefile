@@ -1098,7 +1098,7 @@ endif
 
 ifeq ($(TILES), 1)
   SHADERS_DIR := data/shaders
-  SHADERS_SRC := $(wildcard $(SHADERS_DIR)/*.frag $(SHADERS_DIR)/*.vert)
+  SHADERS_SRC := $(wildcard $(SHADERS_DIR)/*.frag $(SHADERS_DIR)/*.vert $(SHADERS_DIR)/*.glsl)
   # Default the shader format set to whatever the local GPU backend can
   # consume: Vulkan on Linux (SPIR-V), Metal on macOS (MSL), D3D12 on
   # Windows (DXIL). MSL and DXIL require shadercross; if it is missing the

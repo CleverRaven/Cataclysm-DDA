@@ -41,6 +41,7 @@
 #include "input_popup.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
 #include "map.h"
@@ -2608,22 +2609,43 @@ void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
             add_msg( m_info, _( "It is too dark to construct right now." ) );
             return;
         }
-        //All this does is invoke a static set of behavior prompting the user for what to do with the partial construction.
-        //It's worth considering making this more complex,
-        //e.g. if they invoke "Deconstruct Terrain/Furniture" on a partially constructed thing, presumably they want to cancel the construction.
         const construction &built = pc->id.obj();
-        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.group->name(), pc->counter / 100000 ) ) {
-            if( query_yn( _( "Cancel construction?" ) ) ) {
+        // lower case: windows.h defines IGNORE
+        enum options {
+            resume,
+            cancel,
+            ignore,
+        };
+        uilist selectmenu;
+        //~ $1 - task name, $2 - percentage complete
+        selectmenu.text = string_format( _( "%1$s    %2$d%% complete" ),
+                                         built.group->name(), pc->counter / 100000 );
+        selectmenu.addentry( resume, true, MENU_AUTOASSIGN,
+                             _( "Resume %s" ), built.group->name() );
+        selectmenu.addentry( cancel, true, MENU_AUTOASSIGN,
+                             _( "Cancel %s" ), built.group->name() );
+        selectmenu.addentry( ignore, true, MENU_AUTOASSIGN, _( "Ignore" ) );
+        selectmenu.query();
+
+        switch( selectmenu.ret ) {
+            case resume: {
+                you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
+                return;
+            }
+
+            case cancel: {
                 for( const item &it : pc->components ) {
                     here.add_item_or_charges( you.pos_bub(), it );
                 }
                 here.partial_con_remove( examp );
+                return;
             }
-        } else {
-            you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
+
+            case ignore:
+                [[fallthrough]];
+            default:
+                return;
         }
-        return;
     }
 }
 

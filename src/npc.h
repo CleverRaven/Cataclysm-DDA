@@ -1718,6 +1718,7 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        character_portrait_id unique_portrait_filename;
         dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;

@@ -838,6 +838,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_LEARN_CORNMEAL_AND_FLOUR",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "BROWNIE_THRESH_CORN_AND_WHEAT", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "cornmeal_brownie" }, { "u_learn_recipe": "flour_brownie" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BROWNIE_INDOOR_BLINK",
     "condition": { "not": "u_is_outside" },
     "effect": [

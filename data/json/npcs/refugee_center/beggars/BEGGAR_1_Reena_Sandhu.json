@@ -13,6 +13,7 @@
     "gender": "female",
     "name_suffix": "Teacher",
     "temp_suffix": "Beggar",
+    "portrait_filename": "Named_NPC_reena_sandhu",
     "class": "NC_BEGGAR_1",
     "attitude": 0,
     "mission": "GUARD",

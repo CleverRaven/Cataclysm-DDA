@@ -36,7 +36,6 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
-  "portrait_filename": "Named_NPC_Smokes",                                 // Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
   "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
@@ -174,6 +173,7 @@ Format:
   "id": "examplicious",
   "//": "The luckiest NPC to never experience the Cataclysm.",
   "name_suffix": "examplar",
+  "portrait_filename": "Named_NPC_Smokes",
   "class": "NC_EXAMPLE",
   "attitude": 0,
   "mission": 7,
@@ -200,6 +200,7 @@ This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen
 |---    | ---
 | `name_unique` | Set name of NPC.
 | `name_suffix` | Set name suffix of NPC.
+| `portrait_filename` | Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
 | `attitude`    | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
 | `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `NULL`, `SHOPKEEP`, `GUARD`, and `GUARD_PATROL`.
 | `chat`        | _(mandatory)_ Covered in the dialogue examples below.

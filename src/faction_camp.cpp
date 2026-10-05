@@ -60,6 +60,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
@@ -91,6 +92,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -99,6 +101,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -473,6 +476,17 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
     }
 }
 
+// blueprint name, then each chosen argument's name in parentheses
+static std::string upgrade_mission_name( const mission_id &miss_id, const translation &bldg_name )
+{
+    std::string result = mission_ui_activity_of( miss_id ) + bldg_name;
+    const recipe &rec = *recipe_id( miss_id.parameters );
+    for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
+        result += string_format( " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
+    }
+    return result;
+}
+
 static std::map<std::string, comp_list> companion_per_recipe_building_type( comp_list &npc_list )
 {
     std::map<std::string, comp_list> result;
@@ -819,6 +833,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
+        // no inventory-backed item or power changes until this block ends, so query caches hold
+        temp_crafting_inventory::query_cache_scope cache_scope;
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
 
         std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
@@ -831,7 +847,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             comp_list npc_list = get_mission_workers( miss_id );
 
             if( npc_list.empty() ) {
-                std::string display_name = name_display_of( miss_id );
+                std::string display_name = upgrade_mission_name( miss_id, upgrade.name );
                 const recipe &making = *recipe_id( miss_id.parameters );
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
@@ -5670,19 +5686,21 @@ static void add_consumed_nutrients( std::map<time_point, nutrients> &into, time_
 // returns success if the item should be removed
 // Checks the contents of the item for nutrients, and removes ones with nutrients
 // nutrients gained from this item and it's contents are the value of the ret_val
-static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *const container,
+static ret_val<std::map<time_point, nutrients>> nutrients_from( item_location it,
+        item *const container,
         bool distribute_vitamins )
 {
     // nutrients consumed and when they will rot
     std::map<time_point, nutrients> consumed;
-    if( it.is_food_container() ) {
-        std::vector<item *> to_remove;
-        it.visit_items( [&]( item * content, item * const container ) {
+    if( it->is_food_container() ) {
+        std::vector<item_location> to_remove;
+        it.visit_items( [&]( item_location content ) {
             std::optional<nutrients> from_item = nutrients_if_distributable( *content, distribute_vitamins );
             if( from_item.has_value() ) {
                 // we perform a magic act here and remove the item that's preserving it while keeping it preserved
                 to_remove.push_back( content );
-                add_consumed_nutrients( consumed, rot_time( *content, container ), *from_item );
+                add_consumed_nutrients( consumed, rot_time( *content,
+                                        content.has_parent() ? content.parent_item().get_item() : container ), *from_item );
                 return VisitResponse::SKIP;
             }
             return VisitResponse::NEXT;
@@ -5691,17 +5709,17 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
         if( to_remove.empty() ) {
             return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
         }
-        for( item *const food : to_remove ) {
+        for( item_location food : to_remove ) {
             it.remove_item( *food );
         }
-        it.on_contents_changed();
+        it->on_contents_changed();
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    std::optional<nutrients> from_this = nutrients_if_distributable( it, distribute_vitamins );
+    std::optional<nutrients> from_this = nutrients_if_distributable( *it, distribute_vitamins );
     if( !from_this.has_value() ) {
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
+    add_consumed_nutrients( consumed, rot_time( *it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
 }
 
@@ -5740,8 +5758,9 @@ bool basecamp::distribute_food( bool player_command )
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
-            ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                  distribute_vitamins );
+            ret_val<std::map<time_point, nutrients>> ret =
+                    nutrients_from( item_location( map_cursor( p_food_stock ), &*iter ), nullptr,
+                                    distribute_vitamins );
             if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
@@ -5755,8 +5774,8 @@ bool basecamp::distribute_food( bool player_command )
         if( const std::optional<vpart_reference> ovp = here.veh_at( p_food_stock ).cargo() ) {
             vehicle_stack items = ovp->items();
             for( auto iter = items.begin(); iter != items.end(); ) {
-                ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                      distribute_vitamins );
+                ret_val<std::map<time_point, nutrients>> ret = nutrients_from( item_location( vehicle_cursor(
+                        ovp->vehicle(), ovp->part_index() ), &*iter ), nullptr, distribute_vitamins );
                 if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {
@@ -6014,14 +6033,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
             if( upgrade_it == upgrades.end() ) {
                 return mission_ui_activity_of( miss_id ) + _( "<No longer valid construction>" );
             }
-            std::string result = mission_ui_activity_of( miss_id ) + upgrade_it->name;
-            const recipe &rec = *recipe_id( upgrade_it->bldg );
-            for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
-                result +=
-                    string_format(
-                        " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
-            }
-            return result;
+            return upgrade_mission_name( miss_id, upgrade_it->name );
         }
         case Camp_Crafting: {
             const std::string dir_id = base_camps::all_directions.at( miss_id.dir.value() ).id;

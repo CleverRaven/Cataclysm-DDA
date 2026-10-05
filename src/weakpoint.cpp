@@ -21,6 +21,7 @@
 #include "map.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_location.h"
 #include "magic_enchantment.h"
 #include "messages.h"
 #include "monster.h"

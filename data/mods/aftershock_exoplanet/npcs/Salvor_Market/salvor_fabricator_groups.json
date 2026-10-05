@@ -121,7 +121,7 @@
       { "item": "crash_axe", "prob": 20 },
       { "item": "crowbar", "prob": 20 },
       { "item": "geiger_off", "prob": 20 },
-      { "item": "small_repairkit", "prob": 10 },
+      { "group": "guns_toolbox", "prob": 10 },
       { "item": "hacksaw", "prob": 10 },
       { "item": "chisel", "prob": 5 },
       { "item": "hammer_sledge", "prob": 20 },

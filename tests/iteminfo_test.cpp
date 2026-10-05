@@ -11,6 +11,7 @@
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
@@ -105,6 +106,7 @@ static const itype_id itype_test_matches( "test_matches" );
 static const itype_id itype_test_meower_armor( "test_meower_armor" );
 static const itype_id itype_test_multimag_gun_integral_ammo( "test_multimag_gun_integral_ammo" );
 static const itype_id itype_test_nuclear_carafe( "test_nuclear_carafe" );
+static const itype_id itype_test_nutrient_info_component1( "test_nutrient_info_component1" );
 static const itype_id itype_test_nutrient_info_item( "test_nutrient_info_item" );
 static const itype_id itype_test_pants_faux_fur( "test_pants_faux_fur" );
 static const itype_id itype_test_pine_nuts( "test_pine_nuts" );
@@ -135,6 +137,7 @@ static const itype_id itype_zentai( "zentai" );
 static const material_id material_wool( "wool" );
 
 static const recipe_id recipe_pur_tablets( "pur_tablets" );
+static const recipe_id recipe_test_nutrient_info_item( "test_nutrient_info_item" );
 
 static const skill_id skill_survival( "survival" );
 
@@ -2846,6 +2849,21 @@ TEST_CASE( "show_available_recipes_with_item_as_an_ingredient", "[iteminfo][reci
 
     // FIXME: Factor out of final_info
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
+
+    GIVEN( "character carries the only component of a known recipe" ) {
+        player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );
+        player_character.learn_recipe( &recipe_test_nutrient_info_item.obj() );
+        item_location component = player_character.i_add( item( itype_test_nutrient_info_component1 ) );
+        player_character.invalidate_crafting_inventory();
+        // can_craft_recipe answers are cached per turn
+        restore_on_out_of_scope restore_turn( calendar::turn );
+        calendar::turn += 7_days;
+
+        THEN( "recipe listed as craftable" ) {
+            CHECK( item_info_str( *component, crafting ) ==
+                   "--\nYou could use it to craft: nutrient test item\n" );
+        }
+    }
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         player_character.worn.wear_item( player_character, item( itype_backpack ), false, false );

@@ -15,6 +15,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+static const itype_id itype_backpack( "backpack" );
 // *INDENT-OFF*
 static const itype_id itype_test_liquid_1ml( "test_liquid_1ml" );
 static const itype_id itype_test_watertight_open_sealed_container_250ml( "test_watertight_open_sealed_container_250ml" );
@@ -79,6 +80,8 @@ TEST_CASE( "on_pickup_spillable_container_handles_all_liquid",
     map &here = get_map();
 
     clear_avatar();
+    dummy.clear_worn();
+    dummy.i_add( item( itype_backpack ) );
     clear_map_without_vision();
 
     restore_on_out_of_scope<test_mode_spilling_action_t> restore_spill( test_mode_spilling_action );
@@ -91,11 +94,13 @@ TEST_CASE( "on_pickup_spillable_container_handles_all_liquid",
     REQUIRE( container.put_in( liquid, pocket_type::CONTAINER ).success() );
     REQUIRE( container.is_bucket_nonempty() );
 
+    item_location container_loc = dummy.i_add( container, true, nullptr, nullptr, false, false );
+    container_loc->set_owner( dummy );
     // Call the real on_pickup path
-    container.on_pickup( dummy );
+    container_loc->on_pickup( dummy );
 
     // All liquid should have been handled (spilled to ground in test mode)
-    CHECK( container.is_container_empty() );
+    CHECK( container_loc->is_container_empty() );
 
     // Liquid should be on the ground at player position
     bool found_liquid = false;

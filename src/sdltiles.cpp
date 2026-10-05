@@ -17,6 +17,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <functional>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -50,6 +51,7 @@
 #include "horde_entity.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_wait.h"
 #include "json.h"
 #include "line.h"
 #include "loading_ui.h"
@@ -68,6 +70,7 @@
 #include "sdl_renderer_recovery.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "sdl_quad_batch.h"
 #include "tileset_loader.h"
 #include "sdl_gamepad.h"
 #if defined(SDL_SOUND)
@@ -131,13 +134,22 @@ static Font_Ptr font;
 static Font_Ptr gui_font;
 static Font_Ptr map_font;
 static Font_Ptr overmap_font;
+// Font and SDL_ttf ownership of the renderer test fixture; empty in the game.
+static Font_Ptr fixture_font;
+static bool test_fixture_acquired_ttf = false;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static Uint32 pixel_format = SDL_PIXELFORMAT_UNKNOWN;
 static SDL_Texture_Ptr display_buffer;
 static GeometryRenderer_Ptr geometry;
+// reused across curses text passes; always flushed before a pass returns
+static text_batch curses_text_batch;
 static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
+// the smooth lighting map every tile context draws through; its lit states
+// live in shared_variant_pass, so reset it before the pass
+static std::unique_ptr<smooth_lightmap> shared_lightmap;
+static void reset_shared_lightmap();
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -742,6 +754,7 @@ static void WinCreate()
     rebuild_geometry_strategy( software_renderer );
 
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     select_applied_memory_preset();
 
     imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
@@ -769,6 +782,8 @@ static void WinDestroy()
     tilecontext.reset();
     gamepad::quit();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     display_buffer.reset();
     renderer.reset();
@@ -871,6 +886,8 @@ extern "C" {
         ( void )env; // unused
         ( void )jcls; // unused
         visible_frame_inbox.publish( left, top, right, bottom, visible == JNI_TRUE );
+        // inbox read by CheckMessages; wake a blocked input wait
+        PushWakeEvent();
     }
 
 } // "C"
@@ -1168,6 +1185,32 @@ cata_shader::variant_pass *get_shared_variant_pass()
     return shared_variant_pass.get();
 }
 
+smooth_lightmap *get_shared_lightmap()
+{
+    return shared_lightmap.get();
+}
+
+static void reset_shared_lightmap()
+{
+    if( !shared_lightmap ) {
+        return;
+    }
+    if( shared_variant_pass ) {
+        shared_variant_pass->drop_lit();
+    }
+    shared_lightmap->reset();
+}
+
+bool unbind_sprite_shader()
+{
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( vp && !vp->flush() ) {
+        display_buffer_scope_signal_recovery_required();
+        return false;
+    }
+    return true;
+}
+
 namespace
 {
 // Draw-scope state. depth counts nested scopes. aborted lets an inner
@@ -1449,17 +1492,18 @@ static void reset_context_minimaps()
     } );
 }
 
-// The silhouette mask target only goes stale on a device reset or loss, not a
-// target reset.
+// silhouette mask targets and smooth lighting map only go stale on device reset
+// or loss, not a target reset
 static void reset_context_tint_masks()
 {
     for_each_unique_tile_context( []( cata_tiles & c ) {
         c.reset_tint_mask();
     } );
+    reset_shared_lightmap();
 }
 
 // Drop the glyph atlases on every font root. The TTF glyph cache repopulates
-// lazily on the next OutputChar; bitmap atlases need an explicit rebuild.
+// lazily on the next queue_char; bitmap atlases need an explicit rebuild
 static void release_font_roots()
 {
     for( Font_Ptr *f : {
@@ -2148,6 +2192,54 @@ void renderer_recovery_test_support::reset_coordinator()
     c.test_mode2_interrupt_ = atlas_upload_interrupt::none;
 }
 
+std::unique_ptr<cata_tiles> renderer_recovery_test_support::make_test_tiles(
+    const std::shared_ptr<const tileset> &ts )
+{
+    std::unique_ptr<cata_tiles> tiles = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    tiles->tileset_ptr = ts;
+    tiles->set_draw_scale( 16 );
+    return tiles;
+}
+
+void renderer_recovery_test_support::draw_test_map( cata_tiles &tiles,
+        const tripoint_bub_ms &center, const int w, const int h )
+{
+    std::multimap<point, formatted_text> overlay_strings;
+    color_block_overlay_container color_blocks;
+    tiles.draw( point::zero, center, w * tiles.tile_width, h * tiles.tile_height, overlay_strings,
+                color_blocks );
+}
+
+void renderer_recovery_test_support::draw_test_overmap( cata_tiles &tiles,
+        const tripoint_abs_omt &center )
+{
+    // draw_om lays out labels with the global font, which the fixture leaves empty
+    const bool acquired_ttf = TTF_WasInit() == 0 && TTF_Init();
+    Font_Ptr test_font = Font::load_font( renderer, pixel_format, PATH_INFO::fontdir() + "unifont.ttf",
+                                          16, 8, 16, windowsPalette, false );
+    font.swap( test_font );
+    on_out_of_scope restore_font( [&test_font, acquired_ttf]() {
+        font.swap( test_font );
+        test_font.reset();
+        if( acquired_ttf ) {
+            TTF_Quit();
+        }
+    } );
+    tiles.draw_om( point::zero, center, false );
+}
+
+void renderer_recovery_test_support::log_draw_light( cata_tiles &tiles,
+        std::vector<drawn_sprite_record> *log )
+{
+    tiles.test_draw_light_log = log;
+}
+
+void renderer_recovery_test_support::set_has_animated_tiles( cata_tiles &tiles,
+        const bool animated )
+{
+    tiles.has_animated_tiles_ = animated;
+}
+
 bool renderer_recovery_test_support::setup_software_renderer()
 {
     if( renderer || window ) {
@@ -2197,6 +2289,7 @@ bool renderer_recovery_test_support::setup_software_renderer()
     detect_renderer_backend();
     pixel_format = SDL_PIXELFORMAT_ARGB8888;
     shared_variant_pass = std::make_unique<cata_shader::variant_pass>( renderer.get() );
+    shared_lightmap = std::make_unique<smooth_lightmap>();
     // also restores the scale default a previous test might have changed
     apply_tile_atlas_options();
     geometry = std::make_unique<DefaultGeometryRenderer>();
@@ -2214,6 +2307,13 @@ bool renderer_recovery_test_support::setup_software_renderer()
 
 void renderer_recovery_test_support::teardown_software_renderer()
 {
+    // font's textures go while renderer lives; its TTF_Font closes before
+    // TTF_Quit
+    fixture_font.reset();
+    if( test_fixture_acquired_ttf ) {
+        TTF_Quit();
+        test_fixture_acquired_ttf = false;
+    }
     ts_cache.release_live_atlases();
     // Every draw scope must have unwound; clear the full scope state so an
     // injected boundary failure cannot leave invalid/aborted set for a later
@@ -2224,10 +2324,13 @@ void renderer_recovery_test_support::teardown_software_renderer()
     display_buffer_scope_recovery_required = false;
     reset_coordinator();
     geometry.reset();
+    reset_shared_lightmap();
+    shared_lightmap.reset();
     shared_variant_pass.reset();
     cata_shader::test_reset_seams();
     cata_shader::clear_reprobe();
     test_shader_variants_override.reset();
+    override_text_atlas( std::nullopt );
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -2271,23 +2374,68 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
 std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic_bundle(
     const std::string &tileset_id, const std::string &memory_map_mode,
     const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
-    const atlas_bake_plan &plan, const bool with_highlight )
+    const atlas_bake_plan &plan, const bool with_highlight, const std::vector<std::string> &tile_ids )
+{
+    std::vector<std::pair<std::string, tile_type>> tiles;
+    for( const std::string &id : tile_ids ) {
+        tile_type tile;
+        tile.fg.add( std::vector<int> { 0 }, 1 );
+        tiles.emplace_back( id, std::move( tile ) );
+    }
+    return install_tiles_bundle( tileset_id, memory_map_mode, renderer_instance_generation,
+                                 gpu_textures_generation, plan, with_highlight, tiles );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_tiles_bundle(
+    const std::string &tileset_id, const std::string &memory_map_mode,
+    const uint64_t renderer_instance_generation, const uint64_t gpu_textures_generation,
+    const atlas_bake_plan &plan, const bool with_highlight,
+    const std::vector<std::pair<std::string, tile_type>> &tiles )
 {
     std::shared_ptr<tileset> ts = std::make_shared<tileset>();
     ts->tileset_id = tileset_id;
+    for( const std::pair<std::string, tile_type> &t : tiles ) {
+        ts->create_tile_type( t.first, tile_type( t.second ) );
+    }
     atlas_replay_descriptor desc;
     desc.image_path_u8 = "tests/data/renderer_recovery_atlas.png";
     desc.sprite_width = 1;
     desc.sprite_height = 1;
     desc.atlas_offset = 0;
     desc.expected_tilecount = 1;
-    ts->append_atlas_descriptor( desc );
     if( with_highlight ) {
         // highlight texture takes the tile size
         ts->tile_width = 1;
         ts->tile_height = 1;
         ts->set_default_item_highlight_index( 1 );
     }
+    return upload_test_bundle( std::move( ts ), desc, memory_map_mode, renderer_instance_generation,
+                               gpu_textures_generation, plan );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::install_atlas_bundle(
+    const std::string &tileset_id, const std::string &image_path, const point &sprite_size,
+    const int tilecount )
+{
+    std::shared_ptr<tileset> ts = std::make_shared<tileset>();
+    ts->tileset_id = tileset_id;
+    atlas_replay_descriptor desc;
+    desc.image_path_u8 = image_path;
+    desc.sprite_width = sprite_size.x;
+    desc.sprite_height = sprite_size.y;
+    desc.atlas_offset = 0;
+    desc.expected_tilecount = tilecount;
+    return upload_test_bundle( std::move( ts ), desc, "color_pixel_darken",
+                               renderer_coordinator.instance_generation(), renderer_coordinator.textures_generation(),
+                               atlas_bake_plan{} );
+}
+
+std::shared_ptr<const tileset> renderer_recovery_test_support::upload_test_bundle(
+    std::shared_ptr<tileset> ts, const atlas_replay_descriptor &desc,
+    const std::string &memory_map_mode, const uint64_t renderer_instance_generation,
+    const uint64_t gpu_textures_generation, const atlas_bake_plan &plan )
+{
+    ts->append_atlas_descriptor( desc );
     ts->set_memory_map_mode_at_upload( memory_map_mode );
     tileset_cache::loader::upload_atlases( *ts, renderer, memory_map_mode,
                                            compute_tileset_filter_fingerprint( memory_map_mode ), plan,
@@ -2296,7 +2444,7 @@ std::shared_ptr<const tileset> renderer_recovery_test_support::install_synthetic
                                            gpu_textures_generation, false );
     ts->set_upload_generations( renderer_instance_generation, gpu_textures_generation );
     const tileset_cache_key key {
-        tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
+        ts->tileset_id, memory_map_mode, compute_tileset_filter_fingerprint( memory_map_mode )
     };
     ts_cache.track_bundle( key, ts );
     return ts;
@@ -2970,19 +3118,21 @@ std::pair<std::string, bool> cata_tiles::get_omt_id_rotation_and_subtile(
 
 static point draw_string( Font &font,
                           const SDL_Renderer_Ptr &renderer,
-                          const GeometryRenderer_Ptr &geometry,
                           const std::string &str,
                           point p,
                           const unsigned char color )
 {
     const char *cstr = str.c_str();
     int len = str.length();
+    curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
     while( len > 0 ) {
         const uint32_t ch32 = UTF8_getch( &cstr, &len );
         const std::string ch = utf32_to_utf8( ch32 );
-        font.OutputChar( renderer, geometry, ch, p, color );
+        font.queue_char( curses_text_batch, renderer, ch, p, color );
         p.x += mk_wcwidth( ch32 ) * font.width;
     }
+    // next string's background rect might overlap this one, so flush per string
+    curses_text_batch.flush( renderer );
     return p;
 }
 
@@ -2992,6 +3142,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( display_buffer_scope_is_invalid() || !g ) {
         return;
     }
+    has_animated_tiles_ = false;
 
 #if defined(__ANDROID__)
     // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile
@@ -3329,7 +3480,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             geometry->rect( renderer, clipRect, SDL_Color() );
 
-            draw_string( *font, renderer, geometry, name, draw_pos, 11 );
+            draw_string( *font, renderer, name, draw_pos, 11 );
         };
 
         // the tiles on the overmap are overmap tiles, so we need to use
@@ -3405,7 +3556,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             fontheight + padding * 2
         };
         geometry->rect( renderer, message_background_rect, SDL_Color{ 0, 0, 0, 175 } );
-        draw_string( *font, renderer, geometry, g->overmap_data.message, point( padding, padding ),
+        draw_string( *font, renderer, g->overmap_data.message, point( padding, padding ),
                      cata_cursesport::colorpairs[c_white.to_color_pair_index()].FG );
     }
 
@@ -3417,7 +3568,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
-            return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
+            return draw_string( *font, renderer, name, draw_pos, note_fg_color );
         };
 
         // Find screen coordinates to the right of the center tile
@@ -3507,6 +3658,9 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset,
                          const bool force_full = false )
 {
+    if( !unbind_sprite_shader() ) {
+        return false;
+    }
     if( scaling_factor > 1 ) {
         const point buffer_dims = compute_display_buffer_dims();
         RenderSetLogicalSize( renderer, buffer_dims.x, buffer_dims.y );
@@ -3518,6 +3672,12 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
     static const std::string space_string = " ";
 
     const bool option_use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
+    // A row's line clear only covers its cell row when window origin maps to
+    // same y under font->height and ::fontheight. otherwise a later row's clear
+    // will overwrite glyphs from an earlier row, so flush per row to maintain
+    // that order.
+    const bool rows_aligned = win->pos.y * font->height == offset.y;
+    curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         // force_full redraws every line after a renderer rebuild, ignoring the
@@ -3531,11 +3691,13 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
         // only clearing those lines that are touched, we avoid
         // clearing lines that were already drawn in a previous
         // window but are untouched in this one.
-        geometry->rect( renderer, point( win->pos.x * font->width, ( win->pos.y + j ) * font->height ),
-                        win->width * font->width, font->height,
-                        color_as_sdl( catacurses::black ) );
+        curses_text_batch.add_rect( SDL_Rect{ win->pos.x * font->width, ( win->pos.y + j ) * font->height,
+                                              win->width * font->width, font->height },
+                                    color_as_sdl( catacurses::black ) );
         update = true;
         win->line[j].touched = false;
+        // column past the last glyph span queued in this row
+        int queued_span_end = 0;
         for( int i = 0; i < win->width; i++ ) {
             const cursecell &cell = win->line[j].chars[i];
 
@@ -3549,11 +3711,18 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                 continue; // second cell of a multi-cell character
             }
 
+            // wide glyph's right half can share its span with this cell, which
+            // draws over it; flush the queued glyph first
+            if( i < queued_span_end ) {
+                curses_text_batch.flush( renderer );
+                queued_span_end = 0;
+            }
+
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
                 if( cell.BG != catacurses::black ) {
-                    geometry->rect( renderer, draw, font->width, font->height,
-                                    color_as_sdl( cell.BG ) );
+                    curses_text_batch.add_rect( SDL_Rect{ draw.x, draw.y, font->width, font->height },
+                                                color_as_sdl( cell.BG ) );
                 }
                 continue;
             }
@@ -3609,16 +3778,21 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                     break;
             }
             if( cell.BG != catacurses::black ) {
-                geometry->rect( renderer, draw, font->width * cw, font->height,
-                                color_as_sdl( BG ) );
+                curses_text_batch.add_rect( SDL_Rect{ draw.x, draw.y, font->width * cw, font->height },
+                                            color_as_sdl( BG ) );
             }
             if( use_draw_ascii_lines_routine ) {
-                font->draw_ascii_lines( renderer, geometry, uc, draw, FG );
+                font->queue_ascii_lines( curses_text_batch, uc, draw, FG );
             } else {
-                font->OutputChar( renderer, geometry, cell.ch, draw, FG );
+                font->queue_char( curses_text_batch, renderer, cell.ch, draw, FG );
             }
+            queued_span_end = std::max( queued_span_end, i + cw );
+        }
+        if( !rows_aligned ) {
+            curses_text_batch.flush( renderer );
         }
     }
+    curses_text_batch.flush( renderer );
     win->draw = false; //We drew the window, mark it as so
 
     return update;
@@ -3632,6 +3806,73 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w,
     // font used for this window.
     return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ),
                         force_full );
+}
+
+bool renderer_recovery_test_support::install_test_font( const std::string &typeface,
+        const int w, const int h, const int size, const bool blending,
+        const Uint32 font_pixel_format )
+{
+    if( !renderer ) {
+        return false;
+    }
+    if( TTF_WasInit() == 0 ) {
+        if( !TTF_Init() ) {
+            return false;
+        }
+        test_fixture_acquired_ttf = true;
+    }
+    // teardown restores both from test_fixture_saved
+    fontwidth = w;
+    fontheight = h;
+    const Uint32 format = font_pixel_format == SDL_PIXELFORMAT_UNKNOWN ? pixel_format :
+                          font_pixel_format;
+    fixture_font = Font::load_font( renderer, format, typeface, size, w, h, windowsPalette,
+                                    blending );
+    return static_cast<bool>( fixture_font );
+}
+
+bool renderer_recovery_test_support::draw_test_window( const catacurses::window &w )
+{
+    if( !fixture_font ) {
+        return false;
+    }
+    draw_window( fixture_font, w, true );
+    return true;
+}
+
+Font *renderer_recovery_test_support::test_font()
+{
+    return fixture_font.get();
+}
+
+// pixel minimap window: draw its text, clear its area, then `paint`; false
+// when draw_window's shader unbind failed and invalidated `draw_scope`
+static bool draw_minimap_window( Font_Ptr &font, const catacurses::window &w, const bool force_full,
+                                 const display_buffer_draw_scope &draw_scope, const std::function<void()> &paint )
+{
+    draw_window( font, w, force_full );
+    if( !draw_scope.should_draw() ) {
+        return false;
+    }
+    clear_window_area( w );
+    paint();
+    return true;
+}
+
+bool renderer_recovery_test_support::draw_test_minimap_window( const catacurses::window &w,
+        const bool fail_unbind, int &paints )
+{
+    display_buffer_draw_scope draw_scope;
+    if( !fixture_font || !draw_scope.should_draw() ) {
+        return false;
+    }
+    // after scope's own bind, so draw_window's unbind is the one that fails
+    if( fail_unbind ) {
+        cata_shader::test_arm_flush_failure();
+    }
+    return draw_minimap_window( fixture_font, w, true, draw_scope, [&paints]() {
+        ++paints;
+    } );
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
@@ -3709,6 +3950,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             int width = 0;
+            curses_text_batch.begin_pass( renderer, !text_atlas_enabled( renderer ) );
             for( const char32_t ch : utf8_view( ft.text ) ) {
                 const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
                 const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
@@ -3720,9 +3962,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
+                map_font->queue_char( curses_text_batch, renderer, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
+            // Overlay strings can overlap each other, one flush per string keeps their order
+            curses_text_batch.flush( renderer );
 
             prev_coord = coord;
             x_offset = width;
@@ -3766,15 +4010,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
-        draw_window( font, w, force_full );
-
-        // Make sure the entire minimap window is black before drawing.
-        clear_window_area( w );
-        tilecontext->draw_minimap(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-        { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
-        win->width * font->width, win->height * font->height );
-        update = true;
+        update = draw_minimap_window( font, w, force_full, draw_scope, [&]() {
+            tilecontext->draw_minimap(
+                point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+            { get_player_character().pos_bub().xy(), g->ter_view_p.z() },
+            win->width * font->width, win->height * font->height );
+        } );
 
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
@@ -4783,14 +5024,14 @@ void draw_quick_shortcuts()
         }
         // TODO use draw_string instead
         text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
-        font->OutputChar( renderer, geometry, text, point( text_x + 1, text_y + 1 ), 0,
+        font->OutputChar( renderer, text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-        font->OutputChar( renderer, geometry, text, point( text_x, text_y ),
+        font->OutputChar( renderer, text, point( text_x, text_y ),
                           get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
         if( hovered ) {
             // draw a second button hovering above the first one
-            font->OutputChar( renderer, geometry, text,
+            font->OutputChar( renderer, text,
                               point( text_x, text_y - ( height * 1.2f / text_scale ) ),
                               get_option<int>( "ANDROID_SHORTCUT_COLOR" ) );
             if( show_hint ) {
@@ -4807,9 +5048,9 @@ void draw_quick_shortcuts()
                 RenderSetScale( renderer, text_scale, text_scale );
                 text_x = ( WindowWidth - ( ( font->width  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
                 text_y = ( WindowHeight - font->height * text_scale ) * 0.5f / text_scale;
-                font->OutputChar( renderer, geometry, hint_text, point( text_x + 1, text_y + 1 ), 0,
+                font->OutputChar( renderer, hint_text, point( text_x + 1, text_y + 1 ), 0,
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
-                font->OutputChar( renderer, geometry, hint_text, point( text_x, text_y ),
+                font->OutputChar( renderer, hint_text, point( text_x, text_y ),
                                   get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_FG" ) * 0.01f );
             }
@@ -4947,10 +5188,10 @@ static void draw_gamepad_radial_menu()
 
         if( is_selected ) {
             // Draw selected item in yellow
-            font->OutputChar( renderer, geometry, label, draw,
+            font->OutputChar( renderer, label, draw,
                               11, 1.0f );
         } else {
-            font->OutputChar( renderer, geometry, label, draw,
+            font->OutputChar( renderer, label, draw,
                               15, 1.0f );
         }
     }
@@ -6433,6 +6674,46 @@ void input_manager::pump_events()
 
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
+#if !defined(EMSCRIPTEN)
+// time until next android touch timer CheckMessages checks, from its file statics
+static std::optional<uint32_t> android_touch_wait_ms( const uint32_t now )
+{
+#if defined(__ANDROID__)
+    touch_timers t;
+    t.now = now;
+    t.initial_delay = static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) );
+    t.finger_down_time = finger_down_time;
+    t.finger_repeat_time = finger_repeat_time;
+    t.finger_repeat_delay = finger_repeat_delay;
+    t.last_tap_time = last_tap_time;
+    t.back_down_time = ac_back_down_time;
+    t.back_toggle_handled = quick_shortcuts_toggle_handled;
+    t.quick_shortcut_touch = is_quick_shortcut_touch;
+    t.multi_finger_touch = is_two_finger_touch || is_three_finger_touch;
+    t.last_present = lastupdate;
+    t.present_interval = interval;
+    return touch_wait_ms( t );
+#else
+    static_cast<void>( now );
+    return std::nullopt;
+#endif
+}
+
+// how long input loop may block before CheckMessages has work
+static int input_wait_ms( const std::optional<uint32_t> &input_ms )
+{
+    const uint32_t now = GetTicks();
+    input_wait_state s;
+    s.input_ms = input_ms;
+    if( needupdate ) {
+        // try_sdl_update presents once now - lastupdate >= interval
+        s.present_ms = ms_until_elapsed_reaches( lastupdate, now, interval );
+    }
+    s.platform_ms = android_touch_wait_ms( now );
+    return input_wait_timeout_ms( s );
+}
+#endif
+
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
     if( test_mode ) {
@@ -6473,6 +6754,8 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         try_sdl_update();
     }
 
+#if defined(EMSCRIPTEN)
+    // emscripten must yield to the browser through Asyncify, which SDL_Delay does
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
@@ -6500,6 +6783,30 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     } else {
         CheckMessages();
     }
+#else
+    if( inputdelay < 0 ) {
+        CheckMessages();
+        while( last_input.type == input_event_t::error ) {
+            WaitForEvent( input_wait_ms( std::nullopt ) );
+            CheckMessages();
+        }
+    } else if( inputdelay > 0 ) {
+        const uint32_t starttime = GetTicks();
+        const uint32_t timeout = static_cast<uint32_t>( inputdelay );
+        CheckMessages();
+        while( last_input.type == input_event_t::error ) {
+            const uint32_t left = ms_until_elapsed_reaches( starttime, GetTicks(), timeout );
+            if( left == 0 ) {
+                last_input.type = input_event_t::timeout;
+                break;
+            }
+            WaitForEvent( input_wait_ms( left ) );
+            CheckMessages();
+        }
+    } else {
+        CheckMessages();
+    }
+#endif
 
     // Sample the raw mouse position (window coords) and convert into
     // display_buffer coords so canonical gameplay picking matches the

@@ -477,7 +477,9 @@ void map::memory_cache_dec_set_dirty( const tripoint_bub_ms &p, bool value ) con
         debugmsg( "memory_cache_dec_set_dirty called on out of bounds position" );
         return;
     }
-    get_cache( p.z() ).map_memory_cache_dec[p.x() + p.y() * MAPSIZE_Y] = !value;
+    level_cache &ch = get_cache( p.z() );
+    ch.map_memory_cache_dec[p.x() + p.y() * MAPSIZE_Y] = !value;
+    ch.map_memory_sweep_pending |= value;
 }
 
 bool map::memory_cache_ter_is_dirty( const tripoint_bub_ms &p ) const
@@ -495,7 +497,9 @@ void map::memory_cache_ter_set_dirty( const tripoint_bub_ms &p, bool value ) con
         debugmsg( "memory_cache_ter_set_dirty called on out of bounds position" );
         return;
     }
-    get_cache( p.z() ).map_memory_cache_ter[p.x() + p.y() * MAPSIZE_Y] = !value;
+    level_cache &ch = get_cache( p.z() );
+    ch.map_memory_cache_ter[p.x() + p.y() * MAPSIZE_Y] = !value;
+    ch.map_memory_sweep_pending |= value;
 }
 
 void map::memory_clear_vehicle_points( const vehicle &veh ) const
@@ -4313,7 +4317,7 @@ void map::smash_items( const tripoint_bub_ms &p, int power, const std::string &c
                 mdeath::splatter( this, mon );
                 continue;
             } else if( i->is_salvageable() ) {
-                item_location there( map_cursor( p ), &*i );
+                item_location there( map_cursor( this, p ), &*i );
                 std::map<itype_id, int> salvage = salvage_actor::salvage_results( there, /*efficiency =*/ 0.1 );
                 i = i_rem( p, i ); // Remove item we just fake "cut up" and preserve our iterator
                 for( std::pair<const itype_id, int> pair : salvage ) {
@@ -5629,16 +5633,15 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
 
     auto recursive_add_contained_items = [&]( const std::function<bool( const item & )> &filter,
     item_location & it ) {
-        it->visit_items( [&]( item * content_item, item * parent ) {
-            if( !parent ) {
+        it.visit_items( [&]( const item_location & content_item ) {
+            if( !content_item.has_parent() ) {
                 // This is itself the top-level item.
                 // E.g. Calling visit_items() on a backpack > 2 soaps would first visit the backpack, which has no parent (it is not contained in itself)
                 // So just skip to the actual contents, rather than trying to say the backpack is in itself.
                 return VisitResponse::NEXT;
             }
             if( filter( *content_item ) ) {
-                item_location content_loc = form_loc_recursive( it, *content_item );
-                ret.emplace( content_loc );
+                ret.emplace( content_item );
             }
             return VisitResponse::NEXT;
         } );
@@ -5660,7 +5663,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
             for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
                 for( item &it : i_at( pt ) ) {
                     // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
-                    item_location there( map_cursor( pt ), &it );
+                    item_location there( map_cursor( this, pt ), &it );
                     recursive_add_contained_items( filter, there );
                     if( filter( it ) ) {
                         ret.emplace( there );
@@ -5672,7 +5675,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
         for( const tripoint_bub_ms &pt : points_on_zlevel( who.posz() ) ) {
             for( item &it : i_at( pt ) ) {
                 // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
-                item_location there( map_cursor( pt ), &it );
+                item_location there( map_cursor( this, pt ), &it );
                 recursive_add_contained_items( filter, there );
                 if( filter( it ) ) {
                     ret.emplace( there );
@@ -5683,7 +5686,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
         for( const tripoint_bub_ms &pt : reachable_flood_steps( who.pos_bub(), PICKUP_RANGE ) ) {
             for( item &it : i_at( pt ) ) {
                 // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
-                item_location there( map_cursor( pt ), &it );
+                item_location there( map_cursor( this, pt ), &it );
                 recursive_add_contained_items( filter, there );
                 if( filter( it ) ) {
                     ret.emplace( there );
@@ -6179,8 +6182,9 @@ void map::update_lum( item_location &loc, bool add )
     set_lightmap_cache_dirty( loc.pos_bub( *this ).z() );
 }
 
+template <typename veh_or_map_cursor>
 static bool process_map_items( map &here, item_stack &items, safe_reference<item> &item_ref,
-                               item *parent, const tripoint_bub_ms &location, float insulation,
+                               item *parent, const tripoint_bub_ms &location, const veh_or_map_cursor &cur, float insulation,
                                temperature_flag flag, float spoil_multiplier, bool watertight_container )
 {
     if( item_ref->process( here, nullptr, location, insulation, flag, spoil_multiplier,
@@ -6190,7 +6194,7 @@ static bool process_map_items( map &here, item_stack &items, safe_reference<item
         if( item_ref ) {
             item_ref->spill_contents( location );
             if( parent != nullptr ) {
-                parent->remove_item( *item_ref );
+                item_location( cur, parent ).remove_item( *item_ref );
             } else {
                 items.erase( items.get_iterator_from_pointer( item_ref.get() ) );
             }
@@ -6602,10 +6606,10 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
         bool furniture_is_sealed = has_flag( ter_furn_flag::TFLAG_SEALED, map_location );
 
         map_stack items = i_at( map_location );
-        process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                           map_location, active_item_ref.insulation(), flag,
-                           spoil_multiplier * active_item_ref.spoil_multiplier(),
-                           furniture_is_sealed || active_item_ref.has_watertight_container() );
+        process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent, map_location,
+                           map_cursor( this, map_location ), active_item_ref.insulation(), flag,
+                           spoil_multiplier * active_item_ref.spoil_multiplier(), furniture_is_sealed ||
+                           active_item_ref.has_watertight_container() );
     }
 }
 
@@ -6686,6 +6690,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint_bub_ms item_loc = it->pos_bub( *this );
+        const vehicle_cursor item_cur( it->vehicle(), it->part_index() );
         vehicle_stack items = cur_veh.get_items( pt );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
@@ -6709,9 +6714,9 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
             }
         }
         bool in_tank = pt.info().has_flag( VPFLAG_FLUIDTANK );
-        if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent,
-                                item_loc, it_insulation, flag,
-                                active_item_ref.spoil_multiplier(), in_tank || active_item_ref.has_watertight_container() ) ) {
+        if( !process_map_items( *this, items, active_item_ref.item_ref, active_item_ref.parent, item_loc,
+                                item_cur, it_insulation, flag, active_item_ref.spoil_multiplier(), in_tank ||
+                                active_item_ref.has_watertight_container() ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -6802,9 +6807,9 @@ bool map::only_liquid_in_liquidcont( const tripoint_bub_ms &p )
     return false;
 }
 
-template <typename Stack>
-static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
-        const std::function<bool( const item & )> &filter )
+template <typename Stack, typename veh_or_map_cursor>
+static std::list<item> use_amount_stack( const veh_or_map_cursor &cur, Stack stack,
+        const itype_id &type, int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
@@ -6814,7 +6819,7 @@ static std::list<item> use_amount_stack( Stack stack, const itype_id &type, int 
             ++a;
             continue;
         }
-        if( a->use_amount( type, quantity, ret, filter ) ) {
+        if( a->use_amount( item_location( cur, &*a ), type, quantity, ret, filter ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -6836,10 +6841,12 @@ std::list<item> map::use_amount_square( const tripoint_bub_ms &p, const itype_id
     }
 
     if( const std::optional<vpart_reference> ovp = veh_at( p ).cargo() ) {
-        std::list<item> tmp = use_amount_stack( ovp->items(), type, quantity, filter );
+        const vehicle_cursor cur( ovp->vehicle(), ovp->part_index() );
+        std::list<item> tmp = use_amount_stack( cur, ovp->items(), type, quantity, filter );
         ret.splice( ret.end(), tmp );
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, filter );
+    map_cursor cur( p );
+    std::list<item> tmp = use_amount_stack( cur, i_at( p ), type, quantity, filter );
     ret.splice( ret.end(), tmp );
     return ret;
 }
@@ -6857,7 +6864,7 @@ std::list<item_location> map::items_with( const tripoint_bub_ms &p,
     }
     for( item &it : i_at( p ) ) {
         if( filter( it ) ) {
-            ret.emplace_back( map_cursor( p ), &it );
+            ret.emplace_back( map_cursor( this, p ), &it );
         }
     }
     return ret;
@@ -6887,7 +6894,7 @@ std::list<item> map::use_amount( const std::vector<tripoint_bub_ms> &reachable_p
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= locs.size() ) {
                 break;
             }
-            locs[imenu.ret]->use_amount( type, quantity, ret, filter );
+            locs[imenu.ret]->use_amount( locs[imenu.ret], type, quantity, ret, filter );
             locs[imenu.ret].remove_item();
             locs.erase( locs.begin() + imenu.ret );
         }
@@ -6969,7 +6976,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 if( !filter( furn_item ) ) {
                     return;
                 }
-                if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
+                item_location loc( map_cursor( m, p ), &furn_item );
+                if( furn_item.use_charges( loc, type, quantity, ret, p, return_true<item>, in_tools ) ) {
                     stack.erase( iter );
                 } else {
                     iter->charges = furn_item.ammo_remaining( );
@@ -7008,7 +7016,9 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
 
     for( const tripoint_bub_ms &p : reachable_pts ) {
         if( accessible_items( p ) ) {
-            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, filter, in_tools );
+            const map_cursor cur( this, p );
+            std::list<item> tmp = i_at( p ).use_charges( type, quantity, p, cur, filter,
+                                  in_tools );
             ret.splice( ret.end(), tmp );
             if( quantity <= 0 ) {
                 return ret;
@@ -7727,6 +7737,7 @@ void map::update_visibility_cache( const int zlev )
 
     cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
 
+    get_cache( zlev ).visibility_generation = next_cache_generation();
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
     tripoint_bub_ms p;
@@ -8942,7 +8953,7 @@ void map::reconcile_loaded_items( const reconcile_scope scope )
                         for( item &it : sm->get_items( { sx, sy } ) ) {
                             const tripoint_bub_ms p( sx + gridx * SEEX,
                                                      sy + gridy * SEEY, gridz );
-                            item_location loc( map_cursor( get_abs( p ) ), &it );
+                            item_location loc( map_cursor( this, p ), &it );
                             walk_recursive( walk_recursive, loc );
                         }
                     }
@@ -9133,6 +9144,7 @@ void map::shift( const point_rel_sm &sp )
         if( cache ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_cache_dec, sp );
             shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_cache_ter, sp );
+            cache->map_memory_sweep_pending = true;
             shift_bitset_cache<MAPSIZE, 1>( cache->field_cache, sp );
         }
     }
@@ -11605,7 +11617,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint_bub_ms 
             }
 
             if( elem.item_ref ) {
-                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
+                result.emplace_back( map_cursor( this, pos ), elem.item_ref.get() );
             }
         }
     }
@@ -11988,7 +12000,7 @@ std::vector<item_location> map::get_haulable_items( const tripoint_bub_ms &pos )
     target_items.reserve( items.size() );
     for( item &it : items ) {
         if( is_haulable( it ) ) {
-            target_items.emplace_back( map_cursor( pos ), &it );
+            target_items.emplace_back( map_cursor( this, pos ), &it );
         }
     }
     return target_items;

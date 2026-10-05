@@ -26,6 +26,7 @@
 #include "calendar.h"
 #include "cata_small_literal_vector.h"
 #include "coordinates.h"
+#include "map_scale_constants.h"
 #include "creature.h"
 #include "cuboid_rectangle.h"
 #include "mapdata.h"
@@ -34,6 +35,7 @@
 #include "point.h"
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
+#include "smooth_lighting.h"
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
@@ -53,6 +55,7 @@ enum class lit_level : uint8_t;
 cata_shader::variant_kind compute_variant_kind( lit_level ll, bool use_nv_tiles );
 
 class Character;
+class map;
 class memorized_tile;
 class monster;
 class nc_color;
@@ -60,6 +63,7 @@ class pixel_minimap;
 struct sprite_screen_bounds;
 struct tile_tint;
 struct tint_sprite_record;
+struct visibility_variables;
 enum class direction : unsigned int;
 enum class lit_level : uint8_t;
 enum class visibility_type : int;
@@ -76,6 +80,7 @@ struct tile_type {
     point offset = point::zero;
     point offset_retracted = point::zero;
     float pixelscale = 1.0;
+    std::optional<smooth_lighting::light_anchor> light_anchor;
 
     std::vector<std::string> available_subtiles;
 };
@@ -244,6 +249,62 @@ class atlas_replay_quarantine
         std::vector<batch> batches_;
 };
 
+// smooth lighting map shared by every tile context, so lit states keep their
+// texture across zoom context switches. lit_sample.glsl samples it, one
+// texel per reality bubble tile, z levels stacked from the lowest down;
+// texels outside the fill area stay 0
+class smooth_lightmap
+{
+    public:
+        // create the texture on first use; failure if SDL could not
+        std::optional<smooth_lighting::lit_failure> ensure_texture( const SDL_Renderer_Ptr &renderer );
+        // fill and upload levels min_z to max_z; an upload failure is returned
+        // and forgets that level
+        std::optional<smooth_lighting::lit_failure> fill( const map &here,
+                const smooth_lighting::lightmap_fill_settings &settings, int min_z, int max_z );
+        SDL_Texture *texture() const {
+            return texture_.get();
+        }
+        const smooth_lighting::lightmap_extent &extent() const {
+            return extent_;
+        }
+        // refill every level next frame
+        void invalidate() {
+            keys_.forget_all();
+        }
+        // drop the texture and every key; drop lit states that hold it first
+        void reset();
+        smooth_lighting::failure_policy &failures() {
+            return failures_;
+        }
+    private:
+        smooth_lighting::failure_policy failures_;
+        SDL_Texture_Ptr texture_;
+        smooth_lighting::lightmap_keys keys_;
+        // each level's texels as last uploaded; a refill that comes out the
+        // same skips the upload
+        std::array<std::vector<smooth_lighting::lightmap_texel>, OVERMAP_LAYERS> uploaded_;
+        std::vector<smooth_lighting::lightmap_texel> scratch_;
+        smooth_lighting::lightmap_extent extent_;
+};
+
+// what light a sprite takes under smooth lighting
+enum class draw_light : uint8_t {
+    // the scene's light at its tile, from the light map
+    scene,
+    // as its lit_level says whatever the light map holds: overlays, indicators,
+    // vision effects, draw overrides, creatures shown by special vision
+    fixed,
+};
+
+// a sprite draw_sprite_at was asked to draw, for tests
+struct drawn_sprite_record {
+    std::string id;
+    draw_light light = draw_light::scene;
+    // light anchor it took: its tile's, else the default for what it shows
+    std::optional<smooth_lighting::light_anchor> anchor;
+};
+
 /**
  * Bundles per-tile rendering state so the draw path carries all lighting
  * decisions in one place. Future fields (light color tint, per-tile
@@ -252,6 +313,12 @@ class atlas_replay_quarantine
 struct tile_render_params {
     lit_level ll;
     bool use_night_vision_tiles = false;
+    // the sprite's map tile, for smooth lighting
+    tripoint_bub_ms pos;
+    draw_light light = draw_light::scene;
+    // where what the sprite shows takes its smooth light from when its tile
+    // doesn't say; nullopt leaves it to the sprite's shape
+    std::optional<smooth_lighting::light_anchor> anchor;
 };
 
 /**
@@ -619,6 +686,7 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
         friend class cata_tiles_test_helper;
+        friend struct renderer_recovery_test_support;
 
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry,
@@ -630,6 +698,21 @@ class cata_tiles
         void set_draw_scale( int scale );
 
         void on_options_changed();
+
+        // lighting the map drew with last frame, and why it is not smooth
+        smooth_lighting::lighting_status effective_lighting() const {
+            return lighting_status_;
+        }
+        // where sprites of `category` with `id` take their smooth light from
+        // when their tile doesn't say: terrain by terrain_light_anchor,
+        // furniture, monsters and vehicle parts on their base; nullopt leaves
+        // the rest to their shape
+        static std::optional<smooth_lighting::light_anchor> default_light_anchor(
+            TILE_CATEGORY category, const std::string &id );
+        // the memory look smooth lighting fades into: `active` from the variant
+        // pass, else the custom MEMORY_RGB_* colors and MEMORY_GAMMA
+        static cata_shader::memory_look memory_look_from_options(
+            std::optional<cata_shader::memory_preset> active );
 
         // checks if the tileset_ptr is valid
         bool is_valid() {
@@ -1031,6 +1114,44 @@ class cata_tiles
         int tint_mask_w = 0;
         int tint_mask_h = 0;
         void ensure_tint_mask_texture( int w, int h );
+
+        // this frame's lit sprites draw through the light map
+        bool smooth_lighting_active = false;
+        // lit sprites take each tile's own light, the same whether a sprite
+        // stands or not
+        bool lit_per_tile = false;
+        // screen offset of the z level being drawn from the tile anchor
+        int lit_ground_dy = 0;
+        // height_3d of the z level being drawn, as lit_ground_dy in tileset pixels
+        int lit_level_height_3d = 0;
+        // cells this frame's light map holds
+        smooth_lighting::lightmap_extent lit_extent;
+        // changes are logged
+        smooth_lighting::lighting_status lighting_status_ =
+            smooth_lighting::lighting_status::classic_by_option;
+        void note_lighting_status( smooth_lighting::lighting_status s );
+        // light policy of sprites drawn now
+        draw_light m_draw_light = draw_light::scene;
+        // default light anchor of the sprite being drawn: the outermost
+        // draw_from_id_string_internal call decides it from what it shows, and
+        // its subtile and fallback calls reuse it
+        bool m_anchor_decided = false;
+        std::optional<smooth_lighting::light_anchor> m_shown_anchor;
+        // test seam: draw_sprite_at records each sprite's id, light policy and
+        // anchor
+        std::vector<drawn_sprite_record> *test_draw_light_log = nullptr;
+        const std::string *test_draw_id = nullptr;
+        // fill and bind the shared light map for this frame's sprites when
+        // LIGHTING_MODE asks for it; false leaves the classic variants
+        bool begin_smooth_lighting( const visibility_variables &cache,
+                                    const half_open_rectangle<point> &fill_area, int min_z, int max_z );
+        // draw sprite at `dst`, rotated and flipped as SDL_RenderTextureRotated
+        // would, as a quad with ground-relative vertices under the tile
+        // anchored at `anchor`; a `standing` sprite takes its light along its
+        // base line instead
+        void render_lit_sprite( const texture &tex, const SDL_Rect &dst, smooth_lighting::quarter_turn turn,
+                                CataFlipMode flip, const tripoint_bub_ms &pos, const point &anchor,
+                                bool standing );
 
         bool in_animation = false;
 

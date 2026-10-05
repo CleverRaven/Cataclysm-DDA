@@ -60,6 +60,7 @@
     "name_unique": "Jenny Forcette",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_jenny_forcette",
     "class": "NC_REFUGEE_Jenny",
     "attitude": 0,
     "mission": "GUARD",

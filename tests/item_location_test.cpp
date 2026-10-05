@@ -54,9 +54,9 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( itype_jeans ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i, item * ) {
+    cursor.visit_items( [&tshirt]( item_location i ) {
         if( i->typeId() == itype_tshirt ) {
-            tshirt = i;
+            tshirt = i.get_item();
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
@@ -286,7 +286,7 @@ TEST_CASE( "item_location_in_container_survives_removal", "[item][item_location]
     std::string json_str = serialize_item_location( tshirt_loc );
 
     // Remove jeans (shifts indices)
-    placed_backpack.remove_item( *jeans_ptr );
+    backpack_loc.remove_item( *jeans_ptr );
 
     // Deserialize - should find tshirt by UID despite index shift
     item_location loaded = deserialize_item_location( json_str );
@@ -326,7 +326,7 @@ TEST_CASE( "item_location_in_container_uid_miss_becomes_nowhere",
     std::string json_str = serialize_item_location( tshirt_loc );
 
     // Remove the target item entirely
-    placed_backpack.remove_item( *tshirt_ptr );
+    backpack_loc.remove_item( *tshirt_ptr );
 
     // Put a different item so index 0 exists but is wrong
     item jeans_replacement( itype_jeans );

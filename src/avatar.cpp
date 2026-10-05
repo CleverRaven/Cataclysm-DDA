@@ -46,6 +46,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "level_cache.h"
 #include "map.h"
 #include "map_memory.h"
 #include "map_scale_constants.h"
@@ -1214,6 +1215,12 @@ bool avatar::cant_see( const tripoint_bub_ms &p ) const
     return aim_cache[p.x()][p.y()];
 }
 
+void avatar::mark_aim_cache_dirty()
+{
+    aim_cache_dirty = true;
+    aim_cache_generation = next_cache_generation();
+}
+
 void avatar::rebuild_aim_cache() const
 {
     map &here = get_map();
@@ -1814,8 +1821,8 @@ void avatar::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
     if( invlet ) {
-        item *prev = invlet_to_item( invlet );
-        if( prev != nullptr ) {
+        item_location prev = invlet_to_item( invlet );
+        if( prev.valid() ) {
             remove_old = it.typeId() != prev->typeId();
             reassign_item_cache( *prev, it.invlet, remove_old );
         }
@@ -1958,7 +1965,7 @@ char avatar::find_usable_cached_invlet( const itype_id &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( invlet_to_item( invlet ) != nullptr ) {
+        if( invlet_to_item( invlet ).valid() ) {
             continue;
         }
         return invlet;
@@ -2012,9 +2019,9 @@ void avatar::update_invlet( item &newit, const item *ignore_invlet_collision_wit
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        item *collidingItem = invlet_to_item( tmp_invlet );
+        item_location collidingItem = invlet_to_item( tmp_invlet );
 
-        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
+        if( !collidingItem.valid() || collidingItem.get_item() == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }
@@ -2091,7 +2098,7 @@ void avatar::assign_empty_invlet( item &it, const bool force )
     bool found = false;
     // No free hotkey exist, re-use some of the existing ones
     visit_items(
-    [&it, &found]( item * node, item * ) {
+    [&it, &found]( item_location node ) {
         if( node->invlet != 0 ) {
             it.invlet = node->invlet;
             node->invlet = 0;
@@ -2111,7 +2118,7 @@ invlets_bitset avatar::allocated_invlets() const
     invlets_bitset invlets;
 
     visit_items(
-    [&invlets]( item * node, item * ) {
+    [&invlets]( item_location node ) {
         invlets.set( node->invlet );
         return VisitResponse::NEXT;
     }

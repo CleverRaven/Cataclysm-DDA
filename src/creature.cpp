@@ -1881,6 +1881,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             e.clamp_intensity();
             if( e.get_intensity() != prev_int ) {
                 on_effect_int_change( eff_id, e.get_intensity(), bp );
+
+                if( Character *ch = as_character() ) {
+                    get_event_bus().send<event_type::character_effect_intensity_changed>(
+                        ch->getID(), bp.id(), eff_id, e.get_intensity()
+                    );
+                }
             }
         }
     }

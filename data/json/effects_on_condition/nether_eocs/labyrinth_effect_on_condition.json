@@ -6,11 +6,239 @@
     "effect": [
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
-        "then": { "u_message": "Zwoink.", "popup": true },
-        "else": {
-          "u_message": "The world around you folds in on itself - zwoink.  Then, you hear three soft chimes, and find yourself standing in a metal ring.  A tall, bulbous computer screen looms before you, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
-          "popup": true
-        }
+        "then": [
+          { "u_message": "Zwoink.", "popup": true },
+          { "u_location_variable": { "u_val": "player_location_home_before_labyrinth" } },
+          { "u_add_var": "traveled_home_to_labyrinth", "value": "yes" },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none"
+          },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          {
+            "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
+            "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+          }
+        ],
+        "else": [
+          { "u_message": "Zwoink.", "popup": true },
+          { "u_location_variable": { "u_val": "player_location_home_before_labyrinth" } },
+          { "u_add_var": "traveled_home_to_labyrinth", "value": "yes" },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "Nope!",
+            "success_message": "Zwoink."
+          },
+          {
+            "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
+            "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
+            "furniture": "f_scrap_antenna",
+            "target_max_radius": 24,
+            "x_adjust": 1
+          },
+          { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+          { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_SD_Teleport_to_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
+        "then": [
+          { "u_message": "Zwoink.", "popup": true },
+          { "u_location_variable": { "u_val": "player_location_string_dimension_before_labyrinth" } },
+          { "u_add_var": "traveled_string_dimension_to_labyrinth", "value": "yes" },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none"
+          },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          { "alter_timed_events": "string_dimension_lights_on" },
+          {
+            "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
+            "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+          }
+        ],
+        "else": [
+          { "u_message": "Zwoink.", "popup": true },
+          { "u_location_variable": { "u_val": "player_location_string_dimension_before_labyrinth" } },
+          { "u_add_var": "traveled_string_dimension_to_labyrinth", "value": "yes" },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "Nope!",
+            "success_message": "Zwoink."
+          },
+          {
+            "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
+            "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
+            "furniture": "f_scrap_antenna",
+            "target_max_radius": 24,
+            "x_adjust": 1
+          },
+          { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+          { "alter_timed_events": "string_dimension_lights_on" },
+          { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_scarlet_Teleport_to_labyrinth",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
+        "then": [
+          { "u_message": "Zwoink.", "popup": true },
+          { "u_location_variable": { "u_val": "player_location_scarlet_before_labyrinth" } },
+          { "u_add_var": "traveled_scarlet_to_labyrinth", "value": "yes" },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none"
+          },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          {
+            "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
+            "then": [
+              {
+                "if": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+                "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth" } },
+                "else": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
+            "then": [
+              {
+                "u_message": "As you place your hand in the depression the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop - your senses go black, as if you've entered a deep sleep.\n\nYou awake to three soft chimes and a stiff neck.  You find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
+                "popup": true
+              },
+              { "u_location_variable": { "u_val": "player_location_scarlet_before_labyrinth" } },
+              { "u_add_var": "traveled_scarlet_to_labyrinth", "value": "yes" },
+              {
+                "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+                "npc_travel_radius": 0,
+                "npc_travel_filter": "none"
+              },
+              {
+                "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+                "then": {
+                  "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+                  "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+                  "furniture": "f_exodii_floor_portal_enclosure",
+                  "target_max_radius": 250
+                }
+              },
+              { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+              { "u_add_bionic": "bio_nl_collar" },
+              { "u_add_trait": "NL_CBM_Interface" },
+              { "finish_mission": "MISSION_FIND_LABYRINTH_SPIRE", "success": true },
+              {
+                "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth" }
+              }
+            ],
+            "else": [
+              {
+                "u_message": "As you place your hand in the depression the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop.\n\nSuddenly, you hear three soft chimes.  You find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
+                "popup": true
+              },
+              { "u_location_variable": { "u_val": "player_location_scarlet_before_labyrinth" } },
+              { "u_add_var": "traveled_scarlet_to_labyrinth", "value": "yes" },
+              {
+                "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+                "npc_travel_radius": 0,
+                "npc_travel_filter": "none"
+              },
+              {
+                "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+                "then": {
+                  "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+                  "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+                  "furniture": "f_exodii_floor_portal_enclosure",
+                  "target_max_radius": 250
+                }
+              },
+              { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+              { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "transform_LS_teleport_default_dimension_spire_to_safehouse",
+    "terrain": [
+      {
+        "result": "t_nl_obelisk_earth_broken",
+        "valid_terrain": [ "t_nl_obelisk_earth" ],
+        "message": "You hear a resounding CRACK!",
+        "message_good": false
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_teleport_default_dimension_spire_to_safehouse",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_transform_radius": 20, "ter_furn_transform": "transform_LS_teleport_default_dimension_spire_to_safehouse" },
+      {
+        "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
+        "then": [
+          {
+            "u_message": "As you place your hand in the depression the world you know fades in a dizzying pinch of your senses.  Then everything folds inward - pop - your senses go black.\n\nYou hear three soft chimes.  You find yourself standing in a metal ring.  Where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
+            "popup": true
+          }
+        ],
+        "else": { "u_message": "Zwoink.", "popup": true }
       },
       { "u_location_variable": { "u_val": "player_location_home_before_labyrinth" } },
       { "u_add_var": "traveled_home_to_labyrinth", "value": "yes" },
@@ -28,95 +256,6 @@
       {
         "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
         "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
-      }
-    ],
-    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LS_SD_Teleport_to_labyrinth",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
-    "effect": [
-      {
-        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
-        "then": { "u_message": "Zwoink.", "popup": true },
-        "else": {
-          "u_message": "The world around you folds in on itself - zwoink.  Then, you hear three soft chimes, and find yourself standing in a metal ring.  A tall, bulbous computer screen looms before you, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
-          "popup": true
-        }
-      },
-      { "u_location_variable": { "u_val": "player_location_string_dimension_before_labyrinth" } },
-      { "u_add_var": "traveled_string_dimension_to_labyrinth", "value": "yes" },
-      { "u_travel_to_dimension": "netherum_labyrinth_safehouse", "npc_travel_radius": 0, "npc_travel_filter": "none" },
-      {
-        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
-        "then": {
-          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
-          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-          "furniture": "f_exodii_floor_portal_enclosure",
-          "target_max_radius": 250
-        }
-      },
-      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
-      { "alter_timed_events": "string_dimension_lights_on" },
-      {
-        "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
-        "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
-      }
-    ],
-    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LS_scarlet_Teleport_to_labyrinth",
-    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
-    "effect": [
-      {
-        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
-        "then": { "u_message": "Zwoink.", "popup": true },
-        "else": [
-          {
-            "if": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
-            "then": [
-              {
-                "u_message": "As you place your hand in the depression the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop - your senses go black, as if you've entered a deep sleep.\n\nYou awake to three soft chimes and a stiff neck.  You find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
-                "popup": true
-              },
-              { "u_add_bionic": "bio_nl_collar" },
-              { "u_add_trait": "NL_CBM_Interface" },
-              { "finish_mission": "MISSION_FIND_LABYRINTH_SPIRE", "success": true }
-            ],
-            "else": [
-              {
-                "u_message": "As you place your hand in the depression the scarlet light fades in a dizzying pinch of your senses.  Then the world itself folds inward - pop.\n\nYou hear three soft chimes, and find yourself standing in a metal ring.  The air around you is clean, and where the obelisk once stood is now a tall, bulbous computer screen, slightly too tall to comfortably look at without craning your neck.  It's certainly more home-like than the place you just came from, but alien in its own right.  Text starts to populate the screen.",
-                "popup": true
-              }
-            ]
-          }
-        ]
-      },
-      { "u_location_variable": { "u_val": "player_location_scarlet_before_labyrinth" } },
-      { "u_add_var": "traveled_scarlet_to_labyrinth", "value": "yes" },
-      { "u_travel_to_dimension": "netherum_labyrinth_safehouse", "npc_travel_radius": 0, "npc_travel_filter": "none" },
-      {
-        "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
-        "then": {
-          "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
-          "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
-          "furniture": "f_exodii_floor_portal_enclosure",
-          "target_max_radius": 250
-        }
-      },
-      { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
-      {
-        "if": { "not": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] } },
-        "then": [
-          {
-            "if": { "compare_string": [ "yes", { "u_val": "scenario_trapped_in_labyrinth" } ] },
-            "then": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting_scenario_trapped_in_labyrinth" } },
-            "else": { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
-          }
-        ]
       }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -244,16 +383,40 @@
     "id": "EOC_LS_SAFEHOUSE_Exit_labyrinth",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_message": "Zworunk.", "popup": true },
       {
-        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "Your surroundings warp and fold into a familiar place."
-      },
-      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
-      { "clear_dimension": "netherum_labyrinth" }
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "then": [
+          { "u_message": "Zworunk.", "popup": true },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You feel a prickle at the edge of your senses.",
+            "success_message": "Your surroundings warp and fold into a familiar place."
+          },
+          { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+          { "clear_dimension": "netherum_labyrinth" },
+          { "clear_dimension": "netherum_labyrinth2" }
+        ],
+        "else": [
+          { "u_travel_to_dimension": "netherum_labyrinth_safehouse", "npc_travel_radius": 0, "npc_travel_filter": "none" },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          {
+            "u_message": "The world around you folds in on itself - zwoink.  Then, you hear three soft chimes, and find yourself standing in a metal ring.  A tall, bulbous computer screen looms before you, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
+            "popup": true
+          },
+          { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+        ]
+      }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
@@ -281,18 +444,39 @@
     "id": "EOC_LS_Exit_labyrinth_sparkling_chasm",
     "effect": [
       {
-        "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases, and you black out.  When you come to, you're back in your home away from home: disoriented but unharmed.",
-        "popup": true
-      },
-      {
-        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "Your surroundings warp and fold into a familiar place."
-      },
-      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
-      { "clear_dimension": "netherum_labyrinth" }
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_to_labyrinth_safehouse" } ] },
+        "then": [
+          {
+            "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases.  You black out.  When you come to, you're back in your home away from home: disoriented but unharmed.",
+            "popup": true
+          },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You feel a prickle at the edge of your senses.",
+            "success_message": "Your surroundings warp and fold into a familiar place."
+          },
+          { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+          { "clear_dimension": "netherum_labyrinth" },
+          { "clear_dimension": "netherum_labyrinth2" }
+        ],
+        "else": [
+          {
+            "u_message": "As you fall into the chasm, you see a multitude of stars, spots, and other shapes.  It's like you're sinking ever further into quicksand, yet falling through the air at the same time.  Your head throbs with pain as the pressure increases.  You black out.  When you come to, you're back in a place that seems familiar: disoriented but unharmed.",
+            "popup": true
+          },
+          {
+            "u_travel_to_dimension": "default",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You feel a prickle at the edge of your senses.",
+            "success_message": "Your surroundings warp and fold into the recesses of the world you know."
+          },
+          { "clear_dimension": "netherum_labyrinth" },
+          { "clear_dimension": "netherum_labyrinth2" }
+        ]
+      }
     ]
   },
   {
@@ -1428,5 +1612,76 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_exodii_wrist_computer_record_labyrinth_location",
+    "condition": { "and": [ "u_exists", "u_is_avatar", { "current_dimension": "default" } ] },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            {
+              "or": [
+                { "and": [ { "is_weather": "distant_portal_storm" }, { "one_in_chance": 7200 } ] },
+                { "and": [ { "is_weather": "close_portal_storm" }, { "one_in_chance": 1200 } ] },
+                { "and": [ { "is_weather": "portal_storm" }, { "one_in_chance": 1200 } ] },
+                { "one_in_chance": 604800 }
+              ]
+            },
+            "u_is_outside"
+          ]
+        },
+        "then": [
+          { "math": [ "labyrinth_access_points++" ] },
+          {
+            "u_message": "Your Exodii wrist computer beeps and displays an unintelligible word.  It has recorded the extradimensional location of a Labyrinth.",
+            "type": "info"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_teleport_t_nl2_obelisk_altaros",
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
+    "effect": [
+      {
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "then": [
+          { "u_message": "Zworunk.", "popup": true },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You feel a prickle at the edge of your senses.",
+            "success_message": "Your surroundings warp and fold into a familiar place."
+          },
+          { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+          { "clear_dimension": "netherum_labyrinth" },
+          { "clear_dimension": "netherum_labyrinth2" }
+        ],
+        "else": [
+          { "u_travel_to_dimension": "netherum_labyrinth_safehouse", "npc_travel_radius": 0, "npc_travel_filter": "none" },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          {
+            "u_message": "The maze around you folds in on itself - zwoink.  Then, you hear three soft chimes, and find yourself standing in a metal ring.  A tall, bulbous computer screen looms before you, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
+            "popup": true
+          },
+          { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   }
 ]

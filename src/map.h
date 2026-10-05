@@ -2344,6 +2344,7 @@ class map
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
+        uint64_t seen_cache_generation = 0;
 
         // caches the highest zlevel above which all zlevels are uniform
         // !value || value->first != map::abs_sub means cache is invalid
@@ -2373,6 +2374,10 @@ class map
         void update_visibility_cache( int zlev );
         void invalidate_visibility_cache();
         const visibility_variables &get_visibility_variables_cache() const;
+        // changes each time build_seen_cache rewrites seen_cache or camera_cache
+        uint64_t seen_generation() const {
+            return seen_cache_generation;
+        }
 
         void update_submaps_with_active_items();
 
@@ -2430,6 +2435,8 @@ class map
         point_rel_ms prev_top_left;
         point_rel_ms prev_bottom_right;
         point prev_o;
+        // bubble corner the tiles memorize sweep last covered
+        tripoint_abs_ms prev_memory_sweep_origin = tripoint_abs_ms::invalid;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
 #endif

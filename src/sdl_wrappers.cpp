@@ -253,6 +253,17 @@ bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uin
                          "SDL_SetTextureColorMod failed" );
 }
 
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect *rect, const void *pixels,
+                    const int pitch )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to update a null texture";
+        return false;
+    }
+    return !printErrorIf( !SDL_UpdateTexture( texture.get(), rect, pixels, pitch ),
+                          "SDL_UpdateTexture failed" );
+}
+
 bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
                          Uint32 b )
 {
@@ -484,11 +495,9 @@ void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const 
                   "SDL_SetRenderClipRect failed" );
 }
 
-void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
-                        const float *const xy, const int xy_stride,
-                        const SDL_FColor *const color, const int color_stride,
-                        const int num_vertices,
-                        const Uint32 *const indices, const int num_indices )
+void RenderGeometry( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
+                     const SDL_Vertex *const vertices, const int num_vertices,
+                     const int *const indices, const int num_indices )
 {
     if( !renderer ) {
         dbg( D_ERROR ) << "Tried to render geometry to a null renderer";
@@ -497,14 +506,27 @@ void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
     if( num_vertices <= 0 || num_indices <= 0 ) {
         return;
     }
-    printErrorIf( !SDL_RenderGeometryRaw( renderer.get(), nullptr,
-                                          xy, xy_stride,
-                                          color, color_stride,
-                                          nullptr, 0,
-                                          num_vertices,
-                                          indices, num_indices,
-                                          static_cast<int>( sizeof( Uint32 ) ) ),
-                  "SDL_RenderGeometryRaw failed" );
+    printErrorIf( !SDL_RenderGeometry( renderer.get(), texture, vertices, num_vertices,
+                                       indices, num_indices ),
+                  "SDL_RenderGeometry failed" );
+}
+
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect &rect,
+                    const SDL_Surface_Ptr &surface )
+{
+    if( !texture || !surface ) {
+        dbg( D_ERROR ) << "Tried to update a texture from a null handle";
+        return false;
+    }
+    const bool must_lock = SDL_MUSTLOCK( surface.get() );
+    if( must_lock && printErrorIf( !SDL_LockSurface( surface.get() ), "SDL_LockSurface failed" ) ) {
+        return false;
+    }
+    const bool ok = SDL_UpdateTexture( texture.get(), &rect, surface->pixels, surface->pitch );
+    if( must_lock ) {
+        SDL_UnlockSurface( surface.get() );
+    }
+    return !printErrorIf( !ok, "SDL_UpdateTexture failed" );
 }
 
 bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result )
@@ -783,6 +805,24 @@ const char *GetRendererName( const SDL_Renderer_Ptr &renderer )
     }
     const char *name = SDL_GetRendererName( renderer.get() );
     return name ? name : "";
+}
+
+bool WaitForEvent( const int timeout_ms )
+{
+    return SDL_WaitEventTimeout( nullptr, timeout_ms );
+}
+
+void PushWakeEvent()
+{
+    // the Android insets hook can fire before SDL_main initializes SDL
+    if( SDL_WasInit( SDL_INIT_EVENTS ) == 0 ) {
+        return;
+    }
+    SDL_Event ev;
+    SDL_zero( ev );
+    ev.type = CATA_WAKE_EVENT;
+    // no logging: this runs on foreign threads, and a full queue wakes the waiter anyway
+    static_cast<void>( SDL_PushEvent( &ev ) );
 }
 
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer )

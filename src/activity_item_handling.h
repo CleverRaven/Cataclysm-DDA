@@ -134,7 +134,7 @@ void remove_item( const std::optional<vpart_reference> &vp, const tripoint_bub_m
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  zone_sorting::unload_sort_options zone_unload_options,
                                  const std::optional<vpart_reference> &vpr_src,
-                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 item_location it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed );
 void move_item( Character &you, const std::optional<vpart_reference> &vpr_src,
                 const tripoint_bub_ms &src_bub, const std::unordered_set<tripoint_abs_ms> &dest_set,

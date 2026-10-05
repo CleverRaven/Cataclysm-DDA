@@ -7,6 +7,12 @@ level_cache::level_cache()
     clear();
 }
 
+uint64_t next_cache_generation()
+{
+    static uint64_t last = 0;
+    return ++last;
+}
+
 void level_cache::clear()
 {
     // Blast zeroes over the entire region. Some compilers, looking at you msvc, aren't smart enough
@@ -25,6 +31,8 @@ void level_cache::clear()
     floor_cache_dirty = false;
     seen_cache_dirty = false;
     lightmap_dirty = true;
+    // the memset above marked every memory cache bit dirty
+    map_memory_sweep_pending = true;
     has_colored_lights = false;
     no_floor_gaps = false;
 

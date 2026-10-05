@@ -28,6 +28,7 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
@@ -1463,22 +1464,17 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             int qty = craft_components.charges_of( comp.type, comp.count );
             comp.count -= qty;
             // This is terrible but inventory doesn't have a use_charges() function so...
-            std::vector<item *> del;
-            craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
+            std::vector<item_location> del;
+            craft_components.visit_items( [&comp, &qty, &del]( item_location e ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
+                if( e->use_charges( e, comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
             } );
-            craft_components.remove_items_with( [&del]( const item & e ) {
-                for( const item *it : del ) {
-                    if( it == &e ) {
-                        return true;
-                    }
-                }
-                return false;
-            } );
+            for( item_location &loc : del ) {
+                loc.remove_item();
+            }
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
