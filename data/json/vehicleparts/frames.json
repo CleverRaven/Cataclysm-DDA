@@ -282,5 +282,26 @@
     "breaks_into": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 5, 25 ] } ],
     "extend": { "flags": [ "NO_INSTALL_HIDDEN", "CABLE_PORTS" ] },
     "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "machine_frame",
+    "type": "vehicle_part",
+    "copy-from": "frame_abstract",
+    "item": "machine_frame",
+    "color": "yellow",
+    "durability": 1100,
+    "description": "A section of the box-section chassis of a heavy machine, the kind an axle and a hydraulic ram bolt straight onto.  Nearly half a ton of it to the meter, which is where a machine of this sort keeps most of its weight.",
+    "breaks_into": "ig_vp_hdframe",
+    "//": "450 kg a meter.  Heavier than a heavy-duty frame by as much again as that is heavier than a standard one, and welded accordingly.",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "180 m",
+        "using": [ [ "welding_standard", 600 ], [ "vehicle_bolt_install", 6 ] ]
+      },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_weld_removal", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 8 ] ] }
+    },
+    "damage_reduction": { "all": 40 }
   }
 ]

@@ -697,7 +697,9 @@
       [ "pickup", 20 ],
       [ "road_roller", 80 ],
       [ "tatra_truck", 20 ],
-      [ "trencher", 40 ]
+      [ "trencher", 40 ],
+      [ "wheel_loader_bucket", 60 ],
+      [ "wheel_loader_plow", 40 ]
     ]
   },
   {

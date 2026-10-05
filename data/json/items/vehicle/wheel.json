@@ -815,5 +815,24 @@
     "weight": "5444 g",
     "volume": "5500 ml",
     "width": 6
+  },
+  {
+    "id": "wheel_earthmover",
+    "type": "ITEM",
+    "subtypes": [ "WHEEL" ],
+    "category": "veh_parts",
+    "name": { "str": "earthmover wheel" },
+    "description": "A wheel off a heavy machine, chest high on the survivor looking at it: a deep-lugged tire on a multi-piece rim, the whole thing a third of a ton.  Rolling it anywhere is a job for two people and a slope.",
+    "weight": "300 kg",
+    "volume": "240 L",
+    "longest_side": "1220 mm",
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "lc_steel", "rubber" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 48,
+    "width": 22,
+    "melee_damage": { "bash": 30 }
   }
 ]
