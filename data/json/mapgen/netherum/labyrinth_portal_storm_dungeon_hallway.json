@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_portal_storm_hallway",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": 0,
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-,,-                    ",
+        "-,,-   ---             -",
+        "-&&-----?---------------",
+        "-&&&&&&@,,,,,,,,,,,,,,,,",
+        "-&&&&&&%,,,,,,,,,,,,,,,,",
+        "-&&-----?---------------",
+        "-,,-   ---             -",
+        "-,,-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "-..-                    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "-": "t_wall_warped",
+        "?": "t_floor_warped",
+        ",": "t_floor_warped",
+        "@": "t_floor_warped_nl_n",
+        "%": "t_floor_warped_nl_s",
+        "&": "t_floor_warped_nl_glow",
+        ".": [ [ "t_floor_warped", 1 ], [ "t_nl_metal_floor", 1 ] ]
+      },
+      "furniture": { "?": "f_nl_exodii_lamp" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

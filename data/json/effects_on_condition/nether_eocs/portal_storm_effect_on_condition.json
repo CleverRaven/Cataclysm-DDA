@@ -1013,7 +1013,8 @@
         "u_message": "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
         "type": "info"
       },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" }
     ]
   },
   {
@@ -1202,7 +1203,6 @@
         }
       },
       { "clear_dimension": "portal_storm_dungeon_dimension" },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
       { "math": [ "portal_dungeon_level = 0" ] },
       { "alter_timed_events": "portal_dungeon" }
     ],
@@ -1211,7 +1211,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM",
-    "effect": [ { "u_remove_item_with": "item_portal_storm_dimension_returner" } ]
+    "condition": { "current_dimension": "default" },
+    "effect": { "u_remove_item_with": "item_portal_storm_dimension_returner" },
+    "false_effect": { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM", "time_in_future": 1 }
   },
   {
     "type": "effect_on_condition",

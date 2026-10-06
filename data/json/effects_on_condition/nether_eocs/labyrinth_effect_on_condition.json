@@ -1683,5 +1683,53 @@
       }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_portal_dungeon_to_labyrinth_teleporter_n",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth2",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "This hallway feels different.  Somehow, more stable."
+      },
+      { "u_location_variable": { "context_val": "labyrinth_portal_loc" } },
+      { "mapgen_update": "labyrinth_portal_storm_hallway", "target_var": { "context_val": "labyrinth_portal_loc" } },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "terrain": "t_floor_warped_nl_n",
+        "target_max_radius": 1000
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "clear_dimension": "portal_storm_dungeon_dimension" },
+      { "math": [ "portal_dungeon_level = 0" ] },
+      { "alter_timed_events": "portal_dungeon" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_portal_dungeon_to_labyrinth_teleporter_s",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth2",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "This hallway feels different.  Somehow, more stable."
+      },
+      { "u_location_variable": { "context_val": "labyrinth_portal_loc" } },
+      { "mapgen_update": "labyrinth_portal_storm_hallway", "target_var": { "context_val": "labyrinth_portal_loc" } },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "terrain": "t_floor_warped_nl_s",
+        "target_max_radius": 1000
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "clear_dimension": "portal_storm_dungeon_dimension" },
+      { "math": [ "portal_dungeon_level = 0" ] },
+      { "alter_timed_events": "portal_dungeon" }
+    ]
   }
 ]
