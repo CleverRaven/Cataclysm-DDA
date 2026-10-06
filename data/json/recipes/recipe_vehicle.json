@@ -1019,10 +1019,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-  },
-  {
-    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "frame_wood",
     "category": "CC_*",
