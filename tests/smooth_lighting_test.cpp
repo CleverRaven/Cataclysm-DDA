@@ -875,6 +875,681 @@ TEST_CASE( "colored_light_fades_in_without_a_jump_as_its_weight_grows", "[smooth
     }
 }
 
+namespace
+{
+struct filter_fixture {
+    std::string name;
+    test_lightmap map;
+};
+} // namespace
+
+// light maps with every kind of filter edge: seam beside a wall, walled
+// diagonal, sight edge with walls, steep sight ratio, colored fade from
+// darkness, lit wall beside dim floor
+static std::vector<filter_fixture> filter_fixtures()
+{
+    std::vector<filter_fixture> out;
+    out.push_back( { "seam", build_test_lightmap( {
+            "oooooooo",
+            "oToooooo",
+            "o#oooooo",
+            "oooooooo",
+        }, 0.2f, 1.0f )
+    } );
+    out.push_back( { "walled diagonal", build_test_lightmap( {
+            "o#oooooo",
+            "#Toooooo",
+            "oooooooo",
+        }, 0.2f, 1.0f )
+    } );
+    out.push_back( { "sight edge", build_test_lightmap( {
+            "ooo#    ",
+            "oTo#    ",
+            "ooo#    ",
+            "oooo    ",
+        }, 0.4f, 1.0f )
+    } );
+    out.push_back( { "steep sight ratio", build_test_lightmap( {
+            "o o o o ",
+            "#o#o#o#o",
+            "To To To",
+            " o o o o",
+        }, 0.6f, 0.9f )
+    } );
+    out.push_back( { "colored fade", build_test_lightmap( {
+            "oooooooo",
+            "oToooooo",
+            "oooooooo",
+        }, 0.0f, 0.05f )
+    } );
+    out.push_back( { "lit wall", build_test_lightmap( {
+            "ooXooooo",
+            "ooXooooo",
+            "oooooooo",
+        }, 0.3f, 1.0f )
+    } );
+    return out;
+}
+
+// layout of the middle level's whole test area
+static smooth_lighting::prefilter_layout test_layout( const int grid )
+{
+    smooth_lighting::prefilter_layout layout;
+    layout.area = half_open_rectangle<point>( point::zero, point( test_columns, test_rows ) );
+    layout.first_level = 1;
+    layout.levels = 1;
+    layout.grid = grid;
+    return layout;
+}
+
+// layout the game would derive for the middle level of `m`: its seen cells
+// grown by one
+static smooth_lighting::prefilter_layout seen_layout( const test_lightmap &m, const int grid )
+{
+    const half_open_rectangle<point> whole( point::zero, point( test_columns, test_rows ) );
+    smooth_lighting::prefilter_layout layout = smooth_lighting::prefilter_layout_for(
+                smooth_lighting::seen_box( m.texels.data() + static_cast<size_t>( test_rows ) * 2 * test_columns,
+                                           2 * test_columns, whole ), whole, 1, 1 );
+    layout.grid = grid;
+    return layout;
+}
+
+TEST_CASE( "point_filter_is_the_finished_raw_filter", "[smooth_lighting]" )
+{
+    const smooth_lighting::sample_params filtered{ false, false };
+    for( const filter_fixture &f : filter_fixtures() ) {
+        for( int cy = 0; cy < 4; ++cy ) {
+            for( int cx = 0; cx < test_columns; ++cx ) {
+                // steps exact in binary, so the reference's local position is d
+                for( const float d : {
+                         0.0f, 0.25f, 0.5f, 0.75f, 1.0f
+                     } ) {
+                    CAPTURE( f.name, cx, cy, d );
+                    const smooth_lighting::lit_sample point_sample = smooth_lighting::reference_sample(
+                                f.map.view, filtered, ground_at( point( cx, cy ), cx + d, cy + 1.0f - d ) );
+                    const smooth_lighting::lit_sample finished = smooth_lighting::finish_filter(
+                                smooth_lighting::reference_filter( f.map.view, point( cx, test_rows + cy ), 1, d,
+                                        1.0f - d ) );
+                    CHECK( finished.light == point_sample.light );
+                    CHECK( finished.hue == point_sample.hue );
+                    CHECK( finished.in_sight == point_sample.in_sight );
+                    CHECK( finished.visible == point_sample.visible );
+                    CHECK( finished.weight == point_sample.weight );
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "prefiltered_light_matches_the_filter_at_grid_points", "[smooth_lighting]" )
+{
+    const int grid = smooth_lighting::prefilter_grid;
+    const smooth_lighting::sample_params filtered{ false, false };
+    for( const filter_fixture &f : filter_fixtures() ) {
+        const smooth_lighting::prefilter_table table = smooth_lighting::build_prefilter_table( f.map.view,
+                test_layout( grid ) );
+        for( const point &cell : {
+                 point::south_east, point( 2, 2 ), point( 3, 1 ), point( 7, 3 )
+             } ) {
+            for( int j = 0; j <= grid; ++j ) {
+                for( int i = 0; i <= grid; ++i ) {
+                    const float lx = static_cast<float>( i ) / grid;
+                    const float ly = static_cast<float>( j ) / grid;
+                    CAPTURE( f.name, cell, i, j );
+                    const smooth_lighting::filter_result raw = smooth_lighting::reference_filter( f.map.view,
+                            cell + point( 0, test_rows ), 1, lx, ly );
+                    smooth_lighting::filter_result stored = raw;
+                    stored.light = smooth_lighting::half_round( raw.light );
+                    stored.chroma = { smooth_lighting::half_round( raw.chroma[0] ),
+                                      smooth_lighting::half_round( raw.chroma[1] ),
+                                      std::max( 1.0f - smooth_lighting::half_round( raw.chroma[0] ) -
+                                                smooth_lighting::half_round( raw.chroma[1] ), 0.0f )
+                                    };
+                    stored.in_sight = smooth_lighting::half_round( raw.in_sight );
+                    const smooth_lighting::lit_sample want = smooth_lighting::finish_filter( stored );
+                    const smooth_lighting::lit_sample got = smooth_lighting::reference_prefiltered_sample( table,
+                                                            f.map.view, filtered, ground_at( cell, cell.x + lx, cell.y + ly ) );
+                    CHECK( got.light == Approx( want.light ).margin( 1e-5 ) );
+                    CHECK( got.in_sight == Approx( want.in_sight ).margin( 1e-5 ) );
+                    for( int k = 0; k < 3; ++k ) {
+                        CHECK( got.hue[k] == Approx( want.hue[k] ).margin( 1e-5 ) );
+                    }
+                }
+            }
+        }
+    }
+}
+
+namespace
+{
+struct look_case {
+    std::string name;
+    smooth_lighting::look_params look;
+    bool night = false;
+};
+} // namespace
+
+static std::vector<look_case> look_cases()
+{
+    smooth_lighting::look_params plain;
+    smooth_lighting::look_params blended;
+    blended.blend_memory = true;
+    blended.memory_look = 1;
+    smooth_lighting::look_params custom;
+    custom.blend_memory = true;
+    custom.memory_look = smooth_lighting::custom_look;
+    custom.custom_dark = { 0.26f, 0.09f, 0.07f };
+    custom.custom_light = { 0.95f, 0.86f, 0.64f };
+    custom.custom_gamma = 1.6f;
+    return {
+        { "plain", plain, false },
+        { "memory preset", blended, false },
+        { "custom memory", custom, false },
+        { "night", plain, true },
+        { "night, memory preset", blended, true },
+    };
+}
+
+// largest per channel difference, in 0..255 steps, between the prefilter and
+// point filter over every fixture, look, sprite color and own or standing
+// pixel; `quantize_weights` rounds the bilinear weights to 1/16 as the coarsest
+// hardware filter may
+static float max_prefilter_error( const int grid, const bool quantize_weights )
+{
+    static const std::array<std::array<float, 3>, 4> colors = { {
+            { 0.5f, 0.5f, 0.5f }, { 220.0f / 255, 40.0f / 255, 30.0f / 255 },
+            { 60.0f / 255, 40.0f / 255, 20.0f / 255 }, { 1.0f, 1.0f, 1.0f }
+        }
+    };
+    const std::vector<look_case> looks = look_cases();
+    float worst = 0.0f;
+    for( const filter_fixture &f : filter_fixtures() ) {
+        smooth_lighting::prefilter_table table = smooth_lighting::build_prefilter_table( f.map.view,
+                seen_layout( f.map, grid ) );
+        table.quantize_weights = quantize_weights;
+        for( const smooth_lighting::sample_params &params : {
+                 smooth_lighting::sample_params{ false, false }, smooth_lighting::sample_params{ false, true }
+             } ) {
+            for( const bool standing : {
+                     false, true
+                 } ) {
+                // every row, so cells outside the seen box take the dark
+                // constant
+                for( int cy = 0; cy < test_rows; ++cy ) {
+                    for( int cx = 0; cx < test_columns; ++cx ) {
+                        for( int j = 0; j <= 15; ++j ) {
+                            for( int i = 0; i <= 15; ++i ) {
+                                smooth_lighting::lit_coords at = ground_at( point( cx, cy ), cx + i / 15.0f,
+                                                                 cy + j / 15.0f );
+                                if( standing ) {
+                                    at.column += smooth_lighting::standing_marker;
+                                }
+                                const smooth_lighting::lit_sample want = smooth_lighting::reference_sample(
+                                            f.map.view, params, at );
+                                const smooth_lighting::lit_sample got =
+                                    smooth_lighting::reference_prefiltered_sample( table, f.map.view, params, at );
+                                for( const look_case &l : looks ) {
+                                    for( const std::array<float, 3> &rgb : colors ) {
+                                        const std::array<float, 3> a = l.night ?
+                                                                       smooth_lighting::reference_night_rgb( l.look, rgb, got ) :
+                                                                       smooth_lighting::reference_lit_rgb( l.look, rgb, got );
+                                        const std::array<float, 3> b = l.night ?
+                                                                       smooth_lighting::reference_night_rgb( l.look, rgb, want ) :
+                                                                       smooth_lighting::reference_lit_rgb( l.look, rgb, want );
+                                        for( int k = 0; k < 3; ++k ) {
+                                            worst = std::max( worst, 255.0f * std::abs( a[k] - b[k] ) );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return worst;
+}
+
+TEST_CASE( "prefiltered_light_stays_within_its_error_budget", "[smooth_lighting]" )
+{
+    const int grid = smooth_lighting::prefilter_grid;
+    const float error = max_prefilter_error( grid, false );
+    CAPTURE( grid, error );
+    CHECK( error <= smooth_lighting::prefilter_error_budget );
+    if( grid > 2 ) {
+        // coarsest grid that fits the budget
+        const float coarser = max_prefilter_error( grid - 2, false );
+        CAPTURE( coarser );
+        CHECK( coarser > smooth_lighting::prefilter_error_budget );
+    }
+}
+
+// not run by default: prints the error of every candidate grid, exact and
+// with the coarsest hardware filter weights
+TEST_CASE( "prefilter_error_per_grid", "[.][smooth_lighting_report]" )
+{
+    for( const int grid : {
+             2, 4, 6, 8, 10, 12, 16
+         } ) {
+        WARN( "grid " << grid << ": exact " << max_prefilter_error( grid, false ) <<
+              ", 1/16 weights " << max_prefilter_error( grid, true ) );
+    }
+}
+
+TEST_CASE( "light_is_dark_two_cells_from_anything_seen", "[smooth_lighting]" )
+{
+    for( const filter_fixture &f : filter_fixtures() ) {
+        const smooth_lighting::lightmap_texel *level = f.map.texels.data() + static_cast<size_t>
+                ( test_rows ) * 2 * test_columns;
+        const auto seen = [&]( const point & p ) {
+            return ( level[p.y * 2 * test_columns + p.x].a & smooth_lighting::texel_detail ) != 0;
+        };
+        for( int cy = 0; cy < test_rows; ++cy ) {
+            for( int cx = 0; cx < test_columns; ++cx ) {
+                bool near = false;
+                for( int y = std::max( cy - 1, 0 ); y <= std::min( cy + 1, test_rows - 1 ); ++y ) {
+                    for( int x = std::max( cx - 1, 0 ); x <= std::min( cx + 1, test_columns - 1 ); ++x ) {
+                        near = near || seen( point( x, y ) );
+                    }
+                }
+                if( near ) {
+                    continue;
+                }
+                for( const float lx : {
+                         0.0f, 0.5f, 1.0f
+                     } ) {
+                    for( const float ly : {
+                             0.0f, 0.5f, 1.0f
+                         } ) {
+                        CAPTURE( f.name, cx, cy, lx, ly );
+                        const smooth_lighting::filter_result r = smooth_lighting::reference_filter( f.map.view,
+                                point( cx, test_rows + cy ), 1, lx, ly );
+                        const smooth_lighting::filter_result dark;
+                        CHECK( r.light == dark.light );
+                        CHECK( r.in_sight == dark.in_sight );
+                        CHECK( r.chroma == dark.chroma );
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "prefilter_layout_covers_seen_cells_grown_by_one", "[smooth_lighting]" )
+{
+    const half_open_rectangle<point> clip( point( 2, 2 ), point( 12, 10 ) );
+    GIVEN( "seen box inside the clip" ) {
+        const smooth_lighting::prefilter_layout l = smooth_lighting::prefilter_layout_for(
+                    half_open_rectangle<point>( point( 4, 5 ), point( 6, 7 ) ), clip, 3, 2 );
+        THEN( "it grows by one cell each side" ) {
+            CHECK( l.area.p_min == point( 3, 4 ) );
+            CHECK( l.area.p_max == point( 7, 8 ) );
+            CHECK( l.first_level == 3 );
+            CHECK( l.levels == 2 );
+        }
+    }
+    GIVEN( "seen box at the clip's edge" ) {
+        const smooth_lighting::prefilter_layout l = smooth_lighting::prefilter_layout_for(
+                    half_open_rectangle<point>( point( 2, 2 ), point( 12, 10 ) ), clip, 0, 1 );
+        THEN( "growth stops at the clip" ) {
+            CHECK( l.area.p_min == clip.p_min );
+            CHECK( l.area.p_max == clip.p_max );
+        }
+    }
+    GIVEN( "nothing seen" ) {
+        const smooth_lighting::prefilter_layout l = smooth_lighting::prefilter_layout_for( std::nullopt,
+                clip, 0, 1 );
+        THEN( "layout is empty, fits any GPU, holds no cell" ) {
+            CHECK( l.size() == point::zero );
+            CHECK( smooth_lighting::prefilter_fits( l, 1, true ) );
+            CHECK_FALSE( l.holds( point( 5, 5 ), 0 ) );
+        }
+    }
+    GIVEN( "level strip with two seen cells" ) {
+        std::vector<smooth_lighting::lightmap_texel> strip( static_cast<size_t>( 2 * test_columns ) *
+                test_rows );
+        strip[2 * 2 * test_columns + 1].a = smooth_lighting::texel_detail;
+        strip[5 * 2 * test_columns + 6].a = smooth_lighting::texel_detail | smooth_lighting::texel_barrier;
+        const std::optional<half_open_rectangle<point>> box = smooth_lighting::seen_box( strip.data(),
+                2 * test_columns, half_open_rectangle<point>( point::zero, point( test_columns, test_rows ) ) );
+        THEN( "the seen box spans them" ) {
+            REQUIRE( box );
+            CHECK( box->p_min == point( 1, 2 ) );
+            CHECK( box->p_max == point( 7, 6 ) );
+        }
+    }
+}
+
+TEST_CASE( "prefilter_layout_puts_each_level_in_its_own_block", "[smooth_lighting]" )
+{
+    smooth_lighting::prefilter_layout layout;
+    layout.area = half_open_rectangle<point>( point( 2, 1 ), point( 5, 4 ) );
+    layout.first_level = 3;
+    layout.levels = 2;
+    layout.grid = 4;
+    REQUIRE( layout.size() == point( 3 * 5, 3 * 5 * 2 ) );
+    std::vector<int> owner( static_cast<size_t>( layout.size().x ) * layout.size().y, -1 );
+    int block = 0;
+    for( int level = 3; level < 5; ++level ) {
+        for( int y = 1; y < 4; ++y ) {
+            for( int x = 2; x < 5; ++x ) {
+                const point origin = layout.block_origin( point( x, y ), level );
+                CAPTURE( x, y, level, origin );
+                for( int j = 0; j <= layout.grid; ++j ) {
+                    for( int i = 0; i <= layout.grid; ++i ) {
+                        const point t = origin + point( i, j );
+                        REQUIRE( t.x >= 0 );
+                        REQUIRE( t.y >= 0 );
+                        REQUIRE( t.x < layout.size().x );
+                        REQUIRE( t.y < layout.size().y );
+                        int &o = owner[static_cast<size_t>( t.y ) * layout.size().x + t.x];
+                        CHECK( o == -1 );
+                        o = block;
+                    }
+                }
+                ++block;
+            }
+        }
+    }
+    CHECK( std::count( owner.begin(), owner.end(), -1 ) == 0 );
+}
+
+TEST_CASE( "prefilter_fits_only_a_supported_format_within_the_size_limit", "[smooth_lighting]" )
+{
+    smooth_lighting::prefilter_layout layout;
+    layout.area = half_open_rectangle<point>( point::zero, point( 10, 4 ) );
+    layout.first_level = 0;
+    layout.levels = 2;
+    layout.grid = 4;
+    REQUIRE( layout.size() == point( 50, 40 ) );
+    CHECK( smooth_lighting::prefilter_fits( layout, 50, true ) );
+    CHECK_FALSE( smooth_lighting::prefilter_fits( layout, 50, false ) );
+    CHECK_FALSE( smooth_lighting::prefilter_fits( layout, 49, true ) );
+    layout.levels = 3;
+    CHECK_FALSE( smooth_lighting::prefilter_fits( layout, 50, true ) );
+}
+
+TEST_CASE( "prefilter_manual_lookup_stays_inside_the_last_block", "[smooth_lighting]" )
+{
+    smooth_lighting::prefilter_layout layout;
+    layout.area = half_open_rectangle<point>( point( 3, 2 ), point( 6, 5 ) );
+    layout.first_level = 0;
+    layout.levels = 2;
+    layout.grid = 4;
+    const point last_cell( 5, 4 );
+    const point origin = layout.block_origin( last_cell, 1 );
+    for( const std::array<float, 2> &local : {
+             std::array<float, 2> { 1.0f, 0.5f }, std::array<float, 2> { 0.5f, 1.0f },
+             std::array<float, 2> { 1.0f, 1.0f }
+         } ) {
+        CAPTURE( local[0], local[1] );
+        const smooth_lighting::prefilter_lookup l = smooth_lighting::prefilter_lookup_texels( layout,
+                last_cell, 1, local[0], local[1] );
+        for( const point &t : l.texels ) {
+            CAPTURE( t );
+            CHECK( t.x >= origin.x );
+            CHECK( t.y >= origin.y );
+            CHECK( t.x <= origin.x + layout.grid );
+            CHECK( t.y <= origin.y + layout.grid );
+            CHECK( t.x < layout.size().x );
+            CHECK( t.y < layout.size().y );
+        }
+    }
+}
+
+TEST_CASE( "lit_capability_keeps_per_tile_when_filtered_fails", "[smooth_lighting]" )
+{
+    using smooth_lighting::probe_group_result;
+    using smooth_lighting::lookup;
+    const probe_group_result pass = probe_group_result::passed;
+    const probe_group_result mismatch = probe_group_result::mismatch;
+    const probe_group_result unsafe = probe_group_result::unsafe;
+    const probe_group_result skipped = probe_group_result::skipped;
+    GIVEN( "per tile cases mismatch" ) {
+        const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( mismatch,
+                skipped, skipped );
+        THEN( "nothing available, frame safe" ) {
+            CHECK_FALSE( c.unsafe );
+            CHECK_FALSE( c.per_tile );
+            CHECK_FALSE( c.filtered );
+        }
+    }
+    GIVEN( "per tile cases pass, filtered ones were skipped" ) {
+        const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( pass, skipped,
+                skipped );
+        THEN( "only per tile light is available" ) {
+            CHECK( c.per_tile );
+            CHECK_FALSE( c.filtered );
+        }
+    }
+    GIVEN( "hardware lookup passes" ) {
+        const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( pass, pass,
+                skipped );
+        THEN( "filtered light uses it" ) {
+            CHECK( c.per_tile );
+            CHECK( c.filtered == lookup::hardware );
+        }
+    }
+    GIVEN( "hardware lookup mismatches, manual one passes" ) {
+        const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( pass, mismatch,
+                pass );
+        THEN( "filtered light uses the manual lookup" ) {
+            CHECK( c.filtered == lookup::manual );
+        }
+    }
+    GIVEN( "both lookups mismatch" ) {
+        const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( pass, mismatch,
+                mismatch );
+        THEN( "per tile light stays" ) {
+            CHECK( c.per_tile );
+            CHECK_FALSE( c.filtered );
+            CHECK_FALSE( c.unsafe );
+        }
+    }
+    GIVEN( "any group left the renderer unsafe" ) {
+        for( const std::array<probe_group_result, 3> &g : {
+                 std::array<probe_group_result, 3> { unsafe, skipped, skipped },
+                 std::array<probe_group_result, 3> { pass, unsafe, skipped },
+                 std::array<probe_group_result, 3> { pass, mismatch, unsafe }
+             } ) {
+            const smooth_lighting::lit_capability c = smooth_lighting::decide_lit_capability( g[0], g[1],
+                    g[2] );
+            CAPTURE( static_cast<int>( g[0] ), static_cast<int>( g[1] ), static_cast<int>( g[2] ) );
+            CHECK( c.unsafe );
+            CHECK_FALSE( c.per_tile );
+            CHECK_FALSE( c.filtered );
+        }
+    }
+}
+
+TEST_CASE( "hardware_lookup_needs_the_linear_sampler", "[smooth_lighting]" )
+{
+    smooth_lighting::lit_capability probed;
+    probed.per_tile = true;
+    GIVEN( "a probe that chose the hardware lookup" ) {
+        probed.filtered = smooth_lighting::lookup::hardware;
+        WHEN( "linear sampler is gone" ) {
+            const smooth_lighting::lit_capability c = smooth_lighting::with_linear_sampler( probed, false );
+            THEN( "filtered light unavailable, per tile light stays" ) {
+                CHECK( c.per_tile );
+                CHECK_FALSE( c.filtered );
+            }
+        }
+        WHEN( "linear sampler is there" ) {
+            THEN( "hardware lookup stays" ) {
+                CHECK( smooth_lighting::with_linear_sampler( probed, true ).filtered ==
+                       smooth_lighting::lookup::hardware );
+            }
+        }
+    }
+    GIVEN( "a probe that chose the manual lookup" ) {
+        probed.filtered = smooth_lighting::lookup::manual;
+        THEN( "it needs no linear sampler" ) {
+            CHECK( smooth_lighting::with_linear_sampler( probed, false ).filtered ==
+                   smooth_lighting::lookup::manual );
+        }
+    }
+}
+
+TEST_CASE( "filtered_failures_latch_without_turning_off_per_tile_light", "[smooth_lighting]" )
+{
+    using smooth_lighting::lighting_status;
+    smooth_lighting::failure_policy main;
+    smooth_lighting::failure_policy filtered( smooth_lighting::lit_failure::prefilter );
+    main.rebuilt( 1 );
+    filtered.rebuilt( 1 );
+    smooth_lighting::lit_capability capable;
+    capable.per_tile = true;
+    capable.filtered = smooth_lighting::lookup::hardware;
+    GIVEN( "a prefilter that fails every frame" ) {
+        for( int i = 1; i < smooth_lighting::failure_policy::upload_retries; ++i ) {
+            CHECK_FALSE( filtered.fail( smooth_lighting::lit_failure::prefilter ) );
+        }
+        WHEN( "last retry fails too" ) {
+            CHECK( filtered.fail( smooth_lighting::lit_failure::prefilter ) );
+            const smooth_lighting::lit_mode m = smooth_lighting::choose_lit_mode( true, capable,
+                                                filtered.latched(), true );
+            THEN( "filtered light is off, per tile light stays on" ) {
+                CHECK( m.per_tile );
+                CHECK( m.status == lighting_status::smooth_filtered_unavailable );
+                CHECK_FALSE( main.latched() );
+            }
+            AND_WHEN( "resources are rebuilt" ) {
+                filtered.rebuilt( 2 );
+                const smooth_lighting::lit_mode again = smooth_lighting::choose_lit_mode( true, capable,
+                                                        filtered.latched(), true );
+                THEN( "filtered light comes back" ) {
+                    CHECK_FALSE( again.per_tile );
+                    CHECK( again.status == lighting_status::smooth_filtered );
+                }
+            }
+        }
+    }
+    GIVEN( "a prefilter too large for the GPU" ) {
+        const smooth_lighting::lit_mode m = smooth_lighting::choose_lit_mode( true, capable, false,
+                                            false );
+        THEN( "frame draws per tile" ) {
+            CHECK( m.per_tile );
+            CHECK( m.status == lighting_status::smooth_filtered_unavailable );
+        }
+    }
+    GIVEN( "smooth asked for" ) {
+        const smooth_lighting::lit_mode m = smooth_lighting::choose_lit_mode( false, capable, false,
+                                            true );
+        THEN( "the frame draws per tile as smooth" ) {
+            CHECK( m.per_tile );
+            CHECK( m.status == lighting_status::smooth );
+        }
+    }
+}
+
+TEST_CASE( "prefilter_cache_publishes_only_after_a_clean_pass", "[smooth_lighting]" )
+{
+    smooth_lighting::prefilter_inputs in;
+    in.upload_generation = 4;
+    in.layout = test_layout( smooth_lighting::prefilter_grid );
+    in.mode = smooth_lighting::lookup::hardware;
+    in.resource_generation = 7;
+    smooth_lighting::prefilter_cache cache;
+    CHECK( cache.needs_run( in ) );
+    GIVEN( "a pass that failed after it began writing" ) {
+        cache.publish( in );
+        cache.begin_write();
+        THEN( "next frame runs it again" ) {
+            CHECK( cache.needs_run( in ) );
+        }
+    }
+    GIVEN( "a clean pass" ) {
+        cache.begin_write();
+        cache.publish( in );
+        THEN( "equal inputs run no pass" ) {
+            CHECK_FALSE( cache.needs_run( in ) );
+        }
+        THEN( "any input change runs it again" ) {
+            smooth_lighting::prefilter_inputs uploaded = in;
+            ++uploaded.upload_generation;
+            CHECK( cache.needs_run( uploaded ) );
+            smooth_lighting::prefilter_inputs moved = in;
+            moved.layout.area = half_open_rectangle<point>( point::south_east, point( test_columns,
+                                test_rows ) );
+            CHECK( cache.needs_run( moved ) );
+            smooth_lighting::prefilter_inputs manual = in;
+            manual.mode = smooth_lighting::lookup::manual;
+            CHECK( cache.needs_run( manual ) );
+            smooth_lighting::prefilter_inputs rebuilt = in;
+            ++rebuilt.resource_generation;
+            CHECK( cache.needs_run( rebuilt ) );
+        }
+    }
+}
+
+TEST_CASE( "prefilter_texture_headroom_stays_within_the_gpu_limit", "[smooth_lighting]" )
+{
+    GIVEN( "a request well under the limit" ) {
+        THEN( "a quarter more is allocated" ) {
+            CHECK( smooth_lighting::prefilter_texture_size( point( 400, 200 ), point::zero,
+                    4096 ) == point( 500, 250 ) );
+        }
+    }
+    GIVEN( "a request whose headroom would pass the limit" ) {
+        THEN( "headroom stops at the limit" ) {
+            CHECK( smooth_lighting::prefilter_texture_size( point( 3432, 100 ), point::zero,
+                    4096 ) == point( 4096, 125 ) );
+        }
+    }
+    GIVEN( "a request exactly at the limit" ) {
+        THEN( "it's allocated as asked" ) {
+            CHECK( smooth_lighting::prefilter_texture_size( point( 4096, 4096 ), point::zero,
+                    4096 ) == point( 4096, 4096 ) );
+        }
+    }
+    GIVEN( "a texture already larger on one side" ) {
+        THEN( "that side keeps its size" ) {
+            CHECK( smooth_lighting::prefilter_texture_size( point( 100, 900 ), point( 800, 10 ),
+                    4096 ) == point( 800, 1125 ) );
+        }
+    }
+    GIVEN( "nothing to store" ) {
+        THEN( "texture is still one texel" ) {
+            CHECK( smooth_lighting::prefilter_texture_size( point::zero, point::zero,
+                    4096 ) == point::south_east );
+        }
+    }
+}
+
+TEST_CASE( "failures_of_filtered_resources_turn_off_only_filtered_light", "[smooth_lighting]" )
+{
+    using smooth_lighting::failure_scope;
+    using smooth_lighting::lit_failure;
+    GIVEN( "frame that filters" ) {
+        THEN( "failing to bind, upload to or store its filtered light turns off only that" ) {
+            for( const lit_failure f : {
+                     lit_failure::prefilter, lit_failure::state_create, lit_failure::uniform_upload,
+                     lit_failure::texture_create, lit_failure::sampler_create
+                 } ) {
+                CAPTURE( smooth_lighting::to_string( f ) );
+                CHECK( smooth_lighting::scope_of( f, true ) == failure_scope::filtered );
+            }
+        }
+        THEN( "broken shaders or upload turn off all smooth light" ) {
+            for( const lit_failure f : {
+                     lit_failure::shader_load, lit_failure::probe_mismatch, lit_failure::upload
+                 } ) {
+                CAPTURE( smooth_lighting::to_string( f ) );
+                CHECK( smooth_lighting::scope_of( f, true ) == failure_scope::all );
+            }
+        }
+    }
+    GIVEN( "frame per tile" ) {
+        THEN( "all failures except prefilter turn off all smooth light" ) {
+            CHECK( smooth_lighting::scope_of( lit_failure::state_create, false ) == failure_scope::all );
+            CHECK( smooth_lighting::scope_of( lit_failure::texture_create, false ) == failure_scope::all );
+            CHECK( smooth_lighting::scope_of( lit_failure::prefilter, false ) == failure_scope::filtered );
+        }
+    }
+}
+
 TEST_CASE( "smooth_lighting_failure_policy", "[smooth_lighting]" )
 {
     SECTION( "uploads fail on consecutive frames until the last retry latches" ) {

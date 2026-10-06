@@ -253,6 +253,14 @@ class atlas_replay_quarantine
 // texture across zoom context switches. lit_sample.glsl samples it, one
 // texel per reality bubble tile, z levels stacked from the lowest down;
 // texels outside the fill area stay 0
+// what growing the prefiltered light's texture did; unsafe means the
+// renderer may still read the old texture, so the frame must abort
+enum class prefilter_texture_result : uint8_t {
+    ok,
+    failed,
+    unsafe,
+};
+
 class smooth_lightmap
 {
     public:
@@ -272,18 +280,47 @@ class smooth_lightmap
         void invalidate() {
             keys_.forget_all();
         }
-        // drop the texture and every key; drop lit states that hold it first
+        // grow prefiltered light's texture to at least `size` within
+        // `max_texture_size`; `release_readers` drops what reads the old one
+        // and says whether that was safe
+        prefilter_texture_result ensure_prefilter_texture( const SDL_Renderer_Ptr &renderer,
+                const point &size, int max_texture_size, const std::function<bool()> &release_readers );
+        SDL_Texture *prefilter_texture() const {
+            return prefilter_texture_.get();
+        }
+        // changes with every texel the light map texture takes
+        uint64_t upload_generation() const {
+            return upload_generation_;
+        }
+        // prefilter layout over the cells levels min_z to max_z show in detail
+        smooth_lighting::prefilter_layout prefilter_layout( const half_open_rectangle<point> &fill_area,
+                int min_z, int max_z ) const;
+        smooth_lighting::prefilter_cache &prefilter() {
+            return prefilter_;
+        }
+        // drop textures and all keys; drop lit states that hold them first
         void reset();
         smooth_lighting::failure_policy &failures() {
             return failures_;
         }
+        // failures that turn off only smooth_filtered
+        smooth_lighting::failure_policy &filtered_failures() {
+            return filtered_failures_;
+        }
     private:
         smooth_lighting::failure_policy failures_;
+        smooth_lighting::failure_policy filtered_failures_{ smooth_lighting::lit_failure::prefilter };
         SDL_Texture_Ptr texture_;
+        uint64_t upload_generation_ = 0;
+        SDL_Texture_Ptr prefilter_texture_;
+        point prefilter_size_;
+        smooth_lighting::prefilter_cache prefilter_;
         smooth_lighting::lightmap_keys keys_;
         // each level's texels as last uploaded; a refill that comes out the
         // same skips the upload
         std::array<std::vector<smooth_lighting::lightmap_texel>, OVERMAP_LAYERS> uploaded_;
+        // each level's cells seen in detail as last filled
+        std::array<std::optional<half_open_rectangle<point>>, OVERMAP_LAYERS> seen_boxes_;
         std::vector<smooth_lighting::lightmap_texel> scratch_;
         smooth_lighting::lightmap_extent extent_;
 };

@@ -1616,8 +1616,8 @@ class item
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
             point_rel_ms t_mount = point_rel_ms::zero;
-            /// Reality bubble position of the link's source cable item.
-            tripoint_bub_ms s_bub_pos = tripoint_bub_ms::invalid; // NOLINT(cata-serialize)
+            /// Absolute position of the link's source cable item when the length was last checked.
+            tripoint_abs_ms s_abs_pos = tripoint_abs_ms::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.

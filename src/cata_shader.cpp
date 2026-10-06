@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "map_scale_constants.h"
 #include "path_info.h"
@@ -510,6 +511,19 @@ smooth_lighting::lightmap_view view_of( const probe_case &c )
     return { c.texels.data(), 2 * c.columns, c.rows_per_level * c.levels, c.rows_per_level, c.columns };
 }
 
+smooth_lighting::prefilter_layout layout_of( const probe_case &c )
+{
+    const smooth_lighting::lit_coords &k = c.corners[0];
+    const int row = static_cast<int>( std::floor( k.row + 0.5f ) );
+    const int level = row / c.rows_per_level;
+    const point own( static_cast<int>( std::floor( k.column + 0.5f *
+                                       smooth_lighting::standing_marker ) ),
+                     row - level * c.rows_per_level );
+    return smooth_lighting::prefilter_layout_for( half_open_rectangle<point>( own,
+            own + point::south_east ),
+            half_open_rectangle<point>( point::zero, point( c.columns, c.rows_per_level ) ), level, 1 );
+}
+
 std::vector<probe_case> cases()
 {
     const std::vector<std::string> half( probe_rows, "hhhhhhhh" );
@@ -620,6 +634,27 @@ std::vector<probe_case> cases()
     }
     out.push_back( corner );
 
+    // a cell joined to an unseen neighbour and, past a wall, to a seen
+    // diagonal: its sight fraction is a ratio that changes fastest here
+    probe_case steep = make_case( "steep sight ratio", {
+        "o o o o ", "#o#o#o#o", "o o o o ", "#o#o#o#o", "o o o o ", "#o#o#o#o", "o o o o ", "#o#o#o#o"
+    }, point( 2, 2 ), { 2.0f, 2.0f }, false );
+    steep.size = point( 4, 4 );
+    steep.corners[1].x = 3.0f;
+    steep.corners[2].x = 3.0f;
+    steep.corners[2].y += 1.0f;
+    steep.corners[3].y += 1.0f;
+    out.push_back( steep );
+
+    // filtered night vision from full light, overexposed, out of sight
+    probe_case night_edge = make_case( "night, filtered, edge of sight",
+                                       std::vector<std::string>( probe_rows, "oooo    " ), point( 3, 3 ), { 3.0f, 3.5f }, false );
+    night_edge.size = point( 4, 1 );
+    night_edge.corners[1].x = 4.0f;
+    night_edge.corners[2].x = 4.0f;
+    night_edge.night = true;
+    out.push_back( night_edge );
+
     const std::vector<std::string> full( probe_rows, "oooooooo" );
     out.push_back( make_case( "night, full light", full, point( 3, 3 ), { 3.5f, 3.5f }, false ) );
     out.back().frame.per_tile = true;
@@ -697,8 +732,15 @@ std::vector<rgb> expected( const probe_case &c )
 {
     const smooth_lighting::lightmap_view view = view_of( c );
     const smooth_lighting::sample_params params{ c.frame.per_tile, c.frame.iso };
+    if( c.frame.per_tile ) {
+        return readback_of( c, [&]( const smooth_lighting::lit_coords & coords ) {
+            return smooth_lighting::reference_sample( view, params, coords );
+        } );
+    }
+    const smooth_lighting::prefilter_table table = smooth_lighting::build_prefilter_table( view,
+            layout_of( c ) );
     return readback_of( c, [&]( const smooth_lighting::lit_coords & coords ) {
-        return smooth_lighting::reference_sample( view, params, coords );
+        return smooth_lighting::reference_prefiltered_sample( table, view, params, coords );
     } );
 }
 
@@ -1042,7 +1084,7 @@ void variant_pass::clear_state_arrays( bool abandon_handles )
     release_lit( abandon_handles );
     resource_generation_ = next_resource_generation();
     // rebuilt resources are probed again
-    lit_probed_ = false;
+    lit_capability_.reset();
     // Render states reference their fragment shader; clear states before
     // shaders so SDL does not see a dangling reference on the clean path.
     states_ = {};
@@ -1245,19 +1287,31 @@ void variant_pass::release_lit( const bool abandon_handles )
     if( abandon_handles ) {
         lit_state_.abandon();
         nv_lit_state_.abandon();
+        prefilter_state_.abandon();
         lit_shader_.abandon();
         nv_lit_shader_.abandon();
+        prefilter_shader_.abandon();
     }
     lit_state_ = {};
     nv_lit_state_ = {};
+    prefilter_state_ = {};
     lit_shader_ = {};
     nv_lit_shader_ = {};
-    if( lit_sampler_ && lit_device_ && !abandon_handles ) {
-        SDL_ReleaseGPUSampler( lit_device_, lit_sampler_ );
+    prefilter_shader_ = {};
+    if( lit_device_ && !abandon_handles ) {
+        for( SDL_GPUSampler *sampler : {
+                 lit_sampler_, lit_linear_sampler_
+             } ) {
+            if( sampler ) {
+                SDL_ReleaseGPUSampler( lit_device_, sampler );
+            }
+        }
     }
     lit_sampler_ = nullptr;
+    lit_linear_sampler_ = nullptr;
     lit_device_ = nullptr;
     lit_texture_ = nullptr;
+    lit_bound_sampler_ = nullptr;
     lit_params_ = lit_params();
     lit_active_ = false;
 }
@@ -1282,82 +1336,166 @@ variant_pass::lit_params variant_pass::make_lit_params( const lit_frame &frame )
     params.custom_light = { frame.memory.custom_light[0], frame.memory.custom_light[1],
                             frame.memory.custom_light[2], 0.0f
                           };
+    const smooth_lighting::prefilter_layout &layout = frame.layout;
+    params.prefilter = { layout.area.p_min.x, layout.area.p_min.y,
+                         layout.area.p_max.y - layout.area.p_min.y, layout.first_level
+                       };
+    params.prefilter_grid = { layout.grid, layout.area.p_max.x - layout.area.p_min.x, layout.levels,
+                              frame.lookup == smooth_lighting::lookup::manual ? 1 : 0
+                            };
     return params;
 }
 
-lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
+static SDL_GPUSampler *create_lit_sampler( SDL_GPUDevice *device, const SDL_GPUFilter filter )
+{
+    SDL_GPUSamplerCreateInfo info{};
+    info.min_filter = filter;
+    info.mag_filter = filter;
+    info.mipmap_mode = SDL_GPU_SAMPLERMIPMAPMODE_NEAREST;
+    info.address_mode_u = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+    info.address_mode_v = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+    info.address_mode_w = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
+    return SDL_CreateGPUSampler( device, &info );
+}
+
+static SDL_GPUTexture *gpu_texture_of( SDL_Texture *texture )
+{
+    return static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty( SDL_GetTextureProperties( texture ),
+                                          SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
+}
+
+SDL_Texture *create_prefilter_target( SDL_Renderer *renderer, const point &size )
+{
+    const SDL_PropertiesID props = SDL_CreateProperties();
+    if( !props ) {
+        return nullptr;
+    }
+    SDL_SetNumberProperty( props, SDL_PROP_TEXTURE_CREATE_FORMAT_NUMBER, SDL_PIXELFORMAT_RGBA64_FLOAT );
+    SDL_SetNumberProperty( props, SDL_PROP_TEXTURE_CREATE_ACCESS_NUMBER, SDL_TEXTUREACCESS_TARGET );
+    SDL_SetNumberProperty( props, SDL_PROP_TEXTURE_CREATE_WIDTH_NUMBER, size.x );
+    SDL_SetNumberProperty( props, SDL_PROP_TEXTURE_CREATE_HEIGHT_NUMBER, size.y );
+    SDL_SetNumberProperty( props, SDL_PROP_TEXTURE_CREATE_COLORSPACE_NUMBER, SDL_COLORSPACE_SRGB );
+    SDL_Texture *texture = SDL_CreateTextureWithProperties( renderer, props );
+    SDL_DestroyProperties( props );
+    if( texture ) {
+        // texels are light values the sprites interpolate, never scaled
+        SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_NONE );
+    }
+    return texture;
+}
+
+lit_prepare_result variant_pass::prepare_lit()
 {
     using smooth_lighting::lit_failure;
     const auto failed = []( const lit_failure f ) {
-        return lit_begin_result{ lit_begin_outcome::failed, f };
+        return lit_prepare_result{ lit_begin_outcome::failed, f, {} };
     };
-    const lit_begin_result abort{ lit_begin_outcome::abort_frame, std::nullopt };
-    SDL_Texture *const lightmap = frame.lightmap;
-    lit_active_ = false;
+    const lit_prepare_result abort{ lit_begin_outcome::abort_frame, std::nullopt, {} };
     if( abandoned_pending_rebind_ || boundary_lost_ ) {
         return abort;
     }
-    if( !available() || !lightmap ) {
+    if( !available() ) {
         return {};
     }
-    const bool fresh = !lit_state_.is_valid() || lightmap != lit_texture_;
-    if( fresh ) {
-        drop_lit();
-        if( boundary_lost_ ) {
-            return abort;
-        }
+    if( !lit_shader_.is_valid() ) {
         SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer_ );
-        SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
-                                                SDL_GetTextureProperties( lightmap ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
-        if( !device || !gpu_texture ) {
-            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lightmap has no GPU texture";
+        if( !device ) {
+            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: renderer has no GPU device";
             return failed( lit_failure::state_create );
         }
-        SDL_GPUSamplerCreateInfo sampler_info{};
-        // lit_sample.glsl reads texels whole with texelFetch
-        sampler_info.min_filter = SDL_GPU_FILTER_NEAREST;
-        sampler_info.mag_filter = SDL_GPU_FILTER_NEAREST;
-        sampler_info.mipmap_mode = SDL_GPU_SAMPLERMIPMAPMODE_NEAREST;
-        sampler_info.address_mode_u = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-        sampler_info.address_mode_v = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-        sampler_info.address_mode_w = SDL_GPU_SAMPLERADDRESSMODE_CLAMP_TO_EDGE;
-        lit_sampler_ = SDL_CreateGPUSampler( device, &sampler_info );
+        lit_device_ = device;
+        // lit_sample.glsl reads light map texels whole with texelFetch; the
+        // hardware lookup filters the prefiltered light
+        lit_sampler_ = create_lit_sampler( device, SDL_GPU_FILTER_NEAREST );
         if( !lit_sampler_ ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::variant_pass: SDL_CreateGPUSampler failed: " << SDL_GetError();
+            release_lit( false );
             return failed( lit_failure::sampler_create );
         }
-        lit_device_ = device;
+        // without it filtered light takes the manual lookup
+        lit_linear_sampler_ = create_lit_sampler( device, SDL_GPU_FILTER_LINEAR );
+        if( !lit_linear_sampler_ ) {
+            DebugLog( D_WARNING, DC_ALL )
+                    << "cata_shader::variant_pass: linear SDL_CreateGPUSampler failed: " << SDL_GetError();
+        }
         lit_shader_ = shader::load_fragment( device, "lit.frag", 2, 1 );
         nv_lit_shader_ = shader::load_fragment( device, "nightvision_lit.frag", 2, 1 );
         if( !lit_shader_.is_valid() || !nv_lit_shader_.is_valid() ) {
             release_lit( false );
             return failed( lit_failure::shader_load );
         }
+        // without it filtered light is unavailable, per tile light still draws
+        prefilter_shader_ = shader::load_fragment( device, "lit_prefilter.frag", 1, 1 );
+        if( prefilter_shader_.is_valid() ) {
+            prefilter_state_ = render_state::create( renderer_, prefilter_shader_ );
+        }
+    }
+    if( !lit_capability_ ) {
+        const smooth_lighting::lit_capability capability = probe_lit();
+        if( capability.unsafe ) {
+            release_lit( true );
+            mark_probe_unsafe();
+            return abort;
+        }
+        if( !capability.per_tile ) {
+            release_lit( false );
+            return failed( lit_failure::probe_mismatch );
+        }
+        lit_capability_ = capability;
+    }
+    return { lit_begin_outcome::active, std::nullopt,
+             smooth_lighting::with_linear_sampler( *lit_capability_, lit_linear_sampler_ != nullptr ) };
+}
+
+lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
+{
+    using smooth_lighting::lit_failure;
+    const lit_begin_result abort{ lit_begin_outcome::abort_frame, std::nullopt };
+    lit_active_ = false;
+    const lit_prepare_result prepared = prepare_lit();
+    if( prepared.outcome != lit_begin_outcome::active ) {
+        return { prepared.outcome, prepared.failure };
+    }
+    SDL_Texture *const bound = frame.per_tile ? frame.lightmap : frame.prefiltered;
+    SDL_GPUSampler *const sampler = frame.per_tile ||
+                                    frame.lookup == smooth_lighting::lookup::manual ? lit_sampler_ : lit_linear_sampler_;
+    if( !bound ) {
+        return {};
+    }
+    if( !sampler ) {
+        return { lit_begin_outcome::failed, lit_failure::sampler_create };
+    }
+    const bool fresh = !lit_state_.is_valid() || bound != lit_texture_ ||
+                       sampler != lit_bound_sampler_;
+    if( fresh ) {
+        if( lit_state_.is_valid() ) {
+            // queued draws still run the old states
+            if( !flush() ) {
+                return abort;
+            }
+            lit_state_ = {};
+            nv_lit_state_ = {};
+        }
+        lit_texture_ = nullptr;
+        lit_bound_sampler_ = nullptr;
+        SDL_GPUTexture *const gpu_texture = gpu_texture_of( bound );
+        if( !gpu_texture ) {
+            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit texture has no GPU texture";
+            return { lit_begin_outcome::failed, lit_failure::state_create };
+        }
         SDL_GPUTextureSamplerBinding binding{};
         binding.texture = gpu_texture;
-        binding.sampler = lit_sampler_;
+        binding.sampler = sampler;
         lit_state_ = render_state::create( renderer_, lit_shader_, &binding, 1 );
         nv_lit_state_ = render_state::create( renderer_, nv_lit_shader_, &binding, 1 );
         if( !lit_state_.is_valid() || !nv_lit_state_.is_valid() ) {
-            release_lit( false );
-            return failed( lit_failure::state_create );
+            lit_state_ = {};
+            nv_lit_state_ = {};
+            return { lit_begin_outcome::failed, lit_failure::state_create };
         }
-        if( !lit_probed_ ) {
-            switch( probe_lit() ) {
-                case lit_probe_outcome::ok:
-                    lit_probed_ = true;
-                    break;
-                case lit_probe_outcome::mismatch:
-                    release_lit( false );
-                    return failed( lit_failure::probe_mismatch );
-                case lit_probe_outcome::unsafe:
-                    release_lit( true );
-                    mark_probe_unsafe();
-                    return abort;
-            }
-        }
-        lit_texture_ = lightmap;
+        lit_texture_ = bound;
+        lit_bound_sampler_ = sampler;
     }
     const lit_params params = make_lit_params( frame );
     if( fresh || !( params == lit_params_ ) ) {
@@ -1366,13 +1504,87 @@ lit_begin_result variant_pass::begin_lit( const lit_frame &frame )
                     sizeof( params ) ) ) {
             DebugLog( D_ERROR, DC_ALL )
                     << "cata_shader::variant_pass: lit uniforms failed: " << SDL_GetError();
-            return failed( lit_failure::uniform_upload );
+            return { lit_begin_outcome::failed, lit_failure::uniform_upload };
         }
         lit_params_ = params;
     }
     lit_night_vision_ = frame.night_vision;
     lit_active_ = true;
     return { lit_begin_outcome::active, std::nullopt };
+}
+
+prefilter_outcome variant_pass::prefilter_lit( const lit_frame &frame )
+{
+    if( abandoned_pending_rebind_ || boundary_lost_ ) {
+        return prefilter_outcome::unsafe;
+    }
+    if( !frame.lightmap || !frame.prefiltered || !prefilter_state_.is_valid() ) {
+        return prefilter_outcome::failed;
+    }
+    const point size = frame.layout.size();
+    if( size.x <= 0 || size.y <= 0 ) {
+        // nothing seen: every sprite takes the dark constant
+        return prefilter_outcome::ok;
+    }
+    // a held sprite state must not cross the target switch
+    if( !flush() ) {
+        return prefilter_outcome::unsafe;
+    }
+    return run_prefilter( frame.lightmap, frame.prefiltered, make_lit_params( frame ),
+                          frame.layout.size() );
+}
+
+prefilter_outcome variant_pass::run_prefilter( SDL_Texture *lightmap, SDL_Texture *target,
+        const lit_params &params, const point &size )
+{
+    SDL_Texture *const prior_target = SDL_GetRenderTarget( renderer_ );
+    if( !SDL_SetRenderTarget( renderer_, target ) ) {
+        DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: prefilter target bind failed: "
+                                    << SDL_GetError();
+        mark_probe_unsafe();
+        return prefilter_outcome::unsafe;
+    }
+    bool clean = SDL_SetGPURenderStateFragmentUniforms( prefilter_state_.get(), 0, &params,
+                 sizeof( params ) );
+    clean = clean && SDL_SetRenderDrawColor( renderer_, 0, 0, 0, 0 ) && SDL_RenderClear( renderer_ );
+    if( clean ) {
+        if( !SDL_SetGPURenderState( renderer_, prefilter_state_.get() ) ) {
+            // bind is undefined: leave target as is
+            note_draw_bind_failure();
+            return prefilter_outcome::unsafe;
+        }
+        // light map alpha is flags; drawn blended would scale the stored light
+        SDL_SetTextureBlendMode( lightmap, SDL_BLENDMODE_NONE );
+        const float w = static_cast<float>( size.x );
+        const float h = static_cast<float>( size.y );
+        // vertex colors carry target pixel coordinates
+        const std::array<SDL_Vertex, 4> quad = { {
+                { { 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
+                { { w, 0.0f }, { w, 0.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
+                { { w, h }, { w, h, 0.0f, 0.0f }, { 1.0f, 1.0f } },
+                { { 0.0f, h }, { 0.0f, h, 0.0f, 0.0f }, { 0.0f, 1.0f } }
+            }
+        };
+        static constexpr std::array<int, 6> indices = { 0, 1, 2, 0, 2, 3 };
+        clean = SDL_RenderGeometry( renderer_, lightmap, quad.data(), static_cast<int>( quad.size() ),
+                                    indices.data(), static_cast<int>( indices.size() ) );
+        if( !SDL_SetGPURenderState( renderer_, nullptr ) ) {
+            note_draw_bind_failure();
+            return prefilter_outcome::unsafe;
+        }
+    }
+    if( !SDL_SetRenderTarget( renderer_, prior_target ) ) {
+        DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: prefilter target restore failed: "
+                                    << SDL_GetError();
+        mark_probe_unsafe();
+        return prefilter_outcome::unsafe;
+    }
+    if( !clean ) {
+        DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: prefilter pass failed: "
+                                    << SDL_GetError();
+        return prefilter_outcome::failed;
+    }
+    return prefilter_outcome::ok;
 }
 
 smooth_lighting::lit_frame_action action_for( const lit_begin_outcome o )
@@ -1389,9 +1601,14 @@ smooth_lighting::lit_frame_action action_for( const lit_begin_outcome o )
     return smooth_lighting::lit_frame_action::abort_frame;
 }
 
-variant_pass::lit_probe_outcome variant_pass::probe_lit()
+smooth_lighting::probe_group_result variant_pass::probe_lit_group( const bool filtered,
+        const smooth_lighting::lookup lookup )
 {
+    using smooth_lighting::probe_group_result;
     for( const lit_probe::probe_case &c : lit_probe::cases() ) {
+        if( c.frame.per_tile == filtered ) {
+            continue;
+        }
         const smooth_lighting::lightmap_view view = lit_probe::view_of( c );
         SDL_Texture *tex = SDL_CreateTexture( renderer_, SDL_PIXELFORMAT_RGBA32,
                                               SDL_TEXTUREACCESS_STATIC, view.width, view.height );
@@ -1401,24 +1618,63 @@ variant_pass::lit_probe_outcome variant_pass::probe_lit()
             if( tex ) {
                 SDL_DestroyTexture( tex );
             }
-            return lit_probe_outcome::mismatch;
+            return probe_group_result::mismatch;
         }
-        SDL_GPUTexture *const gpu_texture = static_cast<SDL_GPUTexture *>( SDL_GetPointerProperty(
-                                                SDL_GetTextureProperties( tex ), SDL_PROP_TEXTURE_GPU_TEXTURE_POINTER, nullptr ) );
+        lit_frame frame = c.frame;
+        frame.lookup = lookup;
+        lit_params params;
+        SDL_Texture *prefiltered = nullptr;
+        const auto destroy = [&]() {
+            SDL_DestroyTexture( tex );
+            if( prefiltered ) {
+                SDL_DestroyTexture( prefiltered );
+            }
+        };
+        const auto graveyard = [&]() {
+            probe_texture_graveyard().add( tex );
+            if( prefiltered ) {
+                probe_texture_graveyard().add( prefiltered );
+            }
+        };
+        if( filtered ) {
+            frame.layout = lit_probe::layout_of( c );
+            prefiltered = create_prefilter_target( renderer_, frame.layout.size() );
+            if( !prefiltered ) {
+                DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: prefilter target failed: "
+                                            << SDL_GetError();
+                destroy();
+                return probe_group_result::mismatch;
+            }
+            params = make_lit_params( frame );
+            params.size = { view.width, view.height, view.rows_per_level, view.reach_column };
+            switch( run_prefilter( tex, prefiltered, params, frame.layout.size() ) ) {
+                case prefilter_outcome::ok:
+                    break;
+                case prefilter_outcome::failed:
+                    destroy();
+                    return probe_group_result::mismatch;
+                case prefilter_outcome::unsafe:
+                    graveyard();
+                    return probe_group_result::unsafe;
+            }
+        } else {
+            params = make_lit_params( frame );
+            params.size = { view.width, view.height, view.rows_per_level, view.reach_column };
+        }
+        SDL_GPUTexture *const gpu_texture = gpu_texture_of( filtered ? prefiltered : tex );
         SDL_GPUTextureSamplerBinding binding{};
         binding.texture = gpu_texture;
-        binding.sampler = lit_sampler_;
+        binding.sampler = filtered &&
+                          lookup == smooth_lighting::lookup::hardware ? lit_linear_sampler_ : lit_sampler_;
         render_state state = gpu_texture ? render_state::create( renderer_,
                              c.night ? nv_lit_shader_ : lit_shader_, &binding, 1 ) : render_state{};
-        lit_params params = make_lit_params( c.frame );
-        params.size = { view.width, view.height, view.rows_per_level, view.reach_column };
         if( !state.is_valid() ||
             !SDL_SetGPURenderStateFragmentUniforms( state.get(), 0, &params, sizeof( params ) ) ) {
             DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit probe state failed for "
                                         << c.name << ": " << SDL_GetError();
             state = render_state{};
-            SDL_DestroyTexture( tex );
-            return lit_probe_outcome::mismatch;
+            destroy();
+            return probe_group_result::mismatch;
         }
         // one quad over the whole target, its corners carrying the case's
         // vertex colors
@@ -1443,11 +1699,11 @@ variant_pass::lit_probe_outcome variant_pass::probe_lit()
         } );
         if( !rb.boundary_safe ) {
             state.abandon();
-            probe_texture_graveyard().add( tex );
-            return lit_probe_outcome::unsafe;
+            graveyard();
+            return probe_group_result::unsafe;
         }
         state = render_state{};
-        SDL_DestroyTexture( tex );
+        destroy();
         std::vector<lit_probe::rgb> got;
         got.reserve( rb.pixels.size() );
         for( const std::array<Uint8, 4> &p : rb.pixels ) {
@@ -1455,16 +1711,49 @@ variant_pass::lit_probe_outcome variant_pass::probe_lit()
         }
         const std::vector<lit_probe::rgb> want = lit_probe::expected( c );
         if( !rb.read || !lit_probe::matches( want, got ) ) {
-            DebugLog( D_ERROR, DC_ALL ) << "cata_shader::variant_pass: lit shader probe failed: " << c.name;
+            DebugLog( filtered ? D_WARNING : D_ERROR,
+                      DC_ALL ) << "cata_shader::variant_pass: lit shader probe failed: "
+                               << c.name << ( filtered ? lookup == smooth_lighting::lookup::hardware ? " (hardware lookup)" :
+                                              " (manual lookup)" : "" );
             for( size_t i = 0; i < want.size() && i < got.size(); ++i ) {
-                DebugLog( D_ERROR, DC_ALL ) << "  pixel " << i << " want " << want[i].r << "," << want[i].g <<
-                                            "," << want[i].b << " got " << got[i].r << "," << got[i].g << "," << got[i].b;
+                DebugLog( filtered ? D_WARNING : D_ERROR, DC_ALL ) << "  pixel " << i << " want " << want[i].r <<
+                        "," << want[i].g << "," << want[i].b << " got " << got[i].r << "," << got[i].g << "," << got[i].b;
             }
-            return lit_probe_outcome::mismatch;
+            return probe_group_result::mismatch;
         }
     }
-    DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: smooth lighting shaders probed";
-    return lit_probe_outcome::ok;
+    return probe_group_result::passed;
+}
+
+smooth_lighting::lit_capability variant_pass::probe_lit()
+{
+    using smooth_lighting::probe_group_result;
+    using smooth_lighting::lookup;
+    const probe_group_result per_tile = probe_lit_group( false, lookup::hardware );
+    probe_group_result hardware = probe_group_result::skipped;
+    probe_group_result manual = probe_group_result::skipped;
+    const bool storable = lit_device_ && prefilter_state_.is_valid() &&
+                          SDL_GPUTextureSupportsFormat( lit_device_, SDL_GPU_TEXTUREFORMAT_R16G16B16A16_FLOAT,
+                                  SDL_GPU_TEXTURETYPE_2D, SDL_GPU_TEXTUREUSAGE_SAMPLER | SDL_GPU_TEXTUREUSAGE_COLOR_TARGET );
+    if( per_tile == probe_group_result::passed && storable ) {
+        const char *forced = std::getenv( "CATA_PREFILTER_LOOKUP" );
+        const bool force_manual = forced && std::string( forced ) == "manual";
+        if( !force_manual && lit_linear_sampler_ ) {
+            hardware = probe_lit_group( true, lookup::hardware );
+        }
+        if( force_manual || !lit_linear_sampler_ || hardware == probe_group_result::mismatch ) {
+            manual = probe_lit_group( true, lookup::manual );
+        }
+    }
+    const smooth_lighting::lit_capability capability = smooth_lighting::decide_lit_capability(
+                per_tile, hardware, manual );
+    if( !capability.unsafe ) {
+        DebugLog( D_INFO, DC_ALL ) << "cata_shader::variant_pass: smooth lighting shaders probed: per tile "
+                                   << ( capability.per_tile ? "ok" : "failed" ) << ", filtered " << ( !capability.filtered ?
+                                           storable ? "failed" : "unavailable" : *capability.filtered == lookup::hardware ?
+                                           "hardware lookup" : "manual lookup" );
+    }
+    return capability;
 }
 
 void variant_pass::end_lit()
@@ -1473,13 +1762,33 @@ void variant_pass::end_lit()
     lit_suspended_ = false;
 }
 
-void variant_pass::drop_lit()
+bool variant_pass::drop_lit_states()
 {
-    if( !lit_state_.is_valid() && !lit_sampler_ ) {
-        return;
+    if( !lit_state_.is_valid() && !nv_lit_state_.is_valid() ) {
+        return true;
+    }
+    const bool flushed = flush();
+    if( !flushed ) {
+        // renderer might still hold them
+        lit_state_.abandon();
+        nv_lit_state_.abandon();
+    }
+    lit_state_ = {};
+    nv_lit_state_ = {};
+    lit_texture_ = nullptr;
+    lit_bound_sampler_ = nullptr;
+    lit_active_ = false;
+    return flushed;
+}
+
+bool variant_pass::drop_lit()
+{
+    if( !lit_state_.is_valid() && !lit_sampler_ && !prefilter_state_.is_valid() ) {
+        return true;
     }
     const bool flushed = flush();
     release_lit( !flushed );
+    return flushed;
 }
 
 void variant_pass::release_gpu_resources()

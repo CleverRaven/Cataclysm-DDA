@@ -3743,7 +3743,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().t_veh = veh.get_safe_reference();
         link().t_abs_pos = link().t_veh->pos_abs();
         link().t_mount = mount;
-        link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
+        link().s_abs_pos = tripoint_abs_ms::min; // Forces item to check length during process_link
 
         update_link_traits();
         return ret_val<void>::make_success();
@@ -3857,8 +3857,8 @@ void item::update_link_traits()
                                     ( get_use( "link_up" )->get_actor_ptr() );
     link().max_length = it_actor->cable_length == -1 ? type->maximum_charges() : it_actor->cable_length;
     link().efficiency = it_actor->efficiency < MIN_LINK_EFFICIENCY ? 0.0f : it_actor->efficiency;
-    // Reset s_bub_pos to force the item to check the length during process_link.
-    link().s_bub_pos = tripoint_bub_ms::min;
+    // reset s_abs_pos to force a length check in process_link
+    link().s_abs_pos = tripoint_abs_ms::min;
     link().last_processed = calendar::turn;
 
     for( const item *cable : cables() ) {
@@ -3965,10 +3965,11 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
         return false;
     };
 
-    // Check if the item has moved positions this turn.
+    // check if the item moved since last length check
     bool length_check_needed = false;
-    if( link().s_bub_pos != pos ) {
-        link().s_bub_pos = pos;
+    const tripoint_abs_ms abs_pos = here.get_abs( pos );
+    if( link().s_abs_pos != abs_pos ) {
+        link().s_abs_pos = abs_pos;
         length_check_needed = true;
     }
 
@@ -4000,8 +4001,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
         if( !length_check_needed ) {
             return false;
         }
-        link().length = rl_dist( here.get_abs( pos ), link().t_abs_pos ) +
-                        link().t_mount.abs().x() + link().t_mount.abs().y();
+        link().length = rl_dist( abs_pos,
+                                 link().t_abs_pos + t_veh->coord_translate( link().t_mount ) );
         if( check_length() ) {
             return reset_link( true, carrier );
         }

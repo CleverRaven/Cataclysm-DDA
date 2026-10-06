@@ -1,6 +1,7 @@
-// light for the smooth lighting shaders, from the map-space light map the CPU
-// fills each frame. smooth_lighting.h holds the C++ side of this contract, and
-// smooth_lighting::reference_sample is this file's sample_light in C++.
+// light for the smooth lighting sprite shaders, per pixel: the tile's own
+// light, or the filtered light lit_prefilter.frag stored round the pixel.
+// smooth_lighting::reference_prefiltered_sample is this file's sample_light in
+// C++.
 //
 // include memory_presets.glsl before this file: lit_memory_rgb calls into it.
 //
@@ -8,46 +9,8 @@
 // whole stacked texture: xy is where the vertex falls on the ground plane, z
 // the column of the sprite's own cell plus the standing marker for a standing
 // sprite, w the row of its own cell.
-//
-// light texels, left of u_size.w: r light, 0 at the vision threshold to 1 at
-// full light; g and b red and green shares of the illumination color; a flag
-// bits, see u_flags. reach texels, from u_size.w on: the 25 bit mask of cells
-// within two of a cell its light may be filtered from, little endian.
 
-layout(set = 2, binding = 1) uniform sampler2D u_lightmap;
-
-layout(set = 3, binding = 0) uniform lit_params {
-    // x, y: light map size in texels; z: rows per z level; w: first reach column
-    ivec4 u_size;
-    // x: memory look, 0 to 3 the named presets, u_flags.z custom;
-    // y: 1 to take each tile's own light rather than filter;
-    // z: 1 to fade out of sight into the memory look, 0 into darkness;
-    // w: 1 for iso
-    ivec4 u_mode;
-    // x: flag of a tile seen in detail; y: flag of a light barrier;
-    // z: memory look id of the custom preset
-    ivec4 u_flags;
-    // x: brightness at the vision threshold; y: standing marker; z: light
-    // from which sprites keep their full color; w: share of night vision's
-    // look low light keeps
-    vec4 u_tone;
-    // custom memory look: rgb dark color, w gamma; rgb light color
-    vec4 u_custom_dark;
-    vec4 u_custom_light;
-    // x: light over which night vision hands over to the overexposed look;
-    // y: how far a fully colored light mixes a pixel toward its color
-    vec4 u_look;
-};
-
-// cells the cubic B-spline reads each side of the sample point, and the side
-// of the square the reach masks cover
-const int FILTER_REACH = 2;
-const int FILTER_WINDOW = 2 * FILTER_REACH + 1;
-// sight edge fades over this band of the in-sight fraction
-const float SIGHT_EDGE_START = 0.3;
-const float SIGHT_EDGE_END = 0.7;
-// filter weights below this count as nothing admitted
-const float MIN_WEIGHT = 1.0e-4;
+#include "lit_common.glsl"
 
 struct lit_sample {
     // 0 at vision threshold to 1 at full light
@@ -57,64 +20,6 @@ struct lit_sample {
     // how far in sight, 0 to 1
     float visible;
 };
-
-struct lit_texel {
-    bool valid;
-    float light;
-    vec3 chroma;
-    bool detail;
-    bool barrier;
-};
-
-// light texel at `cell`, empty outside the light columns or the rows of
-// z level `level`: a sample never leaves its own level
-lit_texel fetch_light(ivec2 cell, int level)
-{
-    lit_texel o;
-    o.valid = false;
-    o.light = 0.0;
-    o.chroma = vec3(0.0);
-    o.detail = false;
-    o.barrier = false;
-    int top = level * u_size.z;
-    if (cell.x < 0 || cell.x >= u_size.w || cell.y < top || cell.y >= top + u_size.z) {
-        return o;
-    }
-    vec4 t = texelFetch(u_lightmap, cell, 0);
-    int flags = int(t.a * 255.0 + 0.5);
-    o.valid = true;
-    o.light = t.r;
-    o.chroma = vec3(t.g, t.b, max(1.0 - t.g - t.b, 0.0));
-    o.detail = (flags & u_flags.x) != 0;
-    o.barrier = (flags & u_flags.y) != 0;
-    return o;
-}
-
-// reach mask of a cell fetch_light found valid
-uint fetch_reach(ivec2 cell)
-{
-    uvec4 b = uvec4(texelFetch(u_lightmap, ivec2(cell.x + u_size.w, cell.y), 0) * 255.0 + 0.5);
-    return b.r | (b.g << 8) | (b.b << 16) | (b.a << 24);
-}
-
-bool reaches(uint mask, ivec2 d)
-{
-    return (mask & (1u << uint((d.y + FILTER_REACH) * FILTER_WINDOW + d.x + FILTER_REACH))) != 0u;
-}
-
-// cubic B-spline kernel, zero from two texels out
-float bspline(float x)
-{
-    x = abs(x);
-    if (x >= 2.0) {
-        return 0.0;
-    }
-    if (x >= 1.0) {
-        float a = 2.0 - x;
-        return a * a * a / 6.0;
-    }
-    return (4.0 - 6.0 * x * x + 3.0 * x * x * x) / 6.0;
-}
 
 vec3 chroma_hue(vec3 chroma)
 {
@@ -146,6 +51,32 @@ vec3 lit_memory_rgb(vec3 rgb)
     return memory_preset(u_mode.x, rgb);
 }
 
+// prefiltered light at `local` in light map cell `cell` on `level`; the
+// manual lookup clamps its second texel to the block, as
+// smooth_lighting::prefilter_lookup_texels does
+vec4 prefiltered(ivec2 cell, int level, vec2 local)
+{
+    // outside the layout no anchor is seen: dark, neutral chroma
+    ivec2 at = ivec2(cell.x, cell.y - level * u_size.z) - u_prefilter.xy;
+    if (level < u_prefilter.w || level >= u_prefilter.w + u_prefilter_grid.z || at.x < 0 ||
+        at.x >= u_prefilter_grid.y || at.y < 0 || at.y >= u_prefilter.z) {
+        return vec4(0.0, 1.0 / 3.0, 1.0 / 3.0, 0.0);
+    }
+    int grid = u_prefilter_grid.x;
+    ivec2 origin = ivec2(at.x, (level - u_prefilter.w) * u_prefilter.z + at.y) * (grid + 1);
+    vec2 q = vec2(origin) + local * float(grid);
+    if (u_prefilter_grid.w == 0) {
+        // texel centers sit at half steps, and q stays inside its block
+        return texture(u_light, (q + 0.5) / vec2(textureSize(u_light, 0)));
+    }
+    ivec2 i0 = ivec2(floor(q));
+    vec2 w = q - vec2(i0);
+    ivec2 i1 = min(i0 + 1, origin + grid);
+    return mix(mix(texelFetch(u_light, i0, 0), texelFetch(u_light, ivec2(i1.x, i0.y), 0), w.x),
+               mix(texelFetch(u_light, ivec2(i0.x, i1.y), 0), texelFetch(u_light, i1, 0), w.x),
+               w.y);
+}
+
 lit_sample sample_light(vec4 coords)
 {
     float column = coords.z + 0.5 * u_tone.y;
@@ -164,93 +95,21 @@ lit_sample sample_light(vec4 coords)
         }
     }
     local = clamp(local, 0.0, 1.0);
-    lit_texel own = fetch_light(cell, level);
     lit_sample s;
     if (u_mode.y != 0) {
+        lit_texel own = fetch_light(cell, level);
         s.light = own.light;
         s.hue = chroma_hue(own.chroma);
         s.visible = own.detail ? 1.0 : 0.0;
         return s;
     }
-    // texel space: centers at whole numbers
-    vec2 st = vec2(cell) + local - 0.5;
-    ivec2 base = ivec2(floor(st));
-    vec2 f = st - vec2(base);
-    // kernel weights depend only on the point and the tap, so each axis takes
-    // four
-    float wx[4];
-    float wy[4];
-    for (int k = 0; k < 4; ++k) {
-        wx[k] = bspline(st.x - float(base.x + k - 1));
-        wy[k] = bspline(st.y - float(base.y + k - 1));
-    }
-    lit_texel taps[16];
-    for (int j = 0; j < 4; ++j) {
-        for (int i = 0; i < 4; ++i) {
-            taps[j * 4 + i] = fetch_light(base + ivec2(i - 1, j - 1), level);
-        }
-    }
-    float light_sum = 0.0;
-    vec3 chroma_sum = vec3(0.0);
-    float blend_weight = 0.0;
-    float sight_sum = 0.0;
-    float sight_weight = 0.0;
-    // 2x2 cells around the sample point that join the own cell through cells of
-    // its class: a diagonal walled on both sides is not joined
-    bool joined[4];
-    for (int k = 0; k < 4; ++k) {
-        lit_texel ct = taps[(k / 2 + 1) * 4 + k % 2 + 1];
-        joined[k] = ct.valid && ct.barrier == own.barrier;
-    }
-    int own_k = (cell.y - base.y) * 2 + cell.x - base.x;
-    // diagonal joins through either side cell
-    joined[3 - own_k] = joined[3 - own_k] && (joined[own_k ^ 1] || joined[own_k ^ 2]);
-    // each joined cell filters with its own mask and their results blend
-    // bilinearly, so neighbours of one class agree
-    for (int cj = 0; cj <= 1; ++cj) {
-        for (int ci = 0; ci <= 1; ++ci) {
-            if (!joined[cj * 2 + ci]) {
-                continue;
-            }
-            lit_texel ct = taps[(cj + 1) * 4 + ci + 1];
-            float bw = (ci == 1 ? f.x : 1.0 - f.x) * (cj == 1 ? f.y : 1.0 - f.y);
-            sight_weight += bw;
-            if (!ct.detail) {
-                continue;
-            }
-            sight_sum += bw;
-            ivec2 c = base + ivec2(ci, cj);
-            uint mask = fetch_reach(c);
-            float w_sum = 0.0;
-            float l_sum = 0.0;
-            vec3 ch_sum = vec3(0.0);
-            for (int j = -1; j <= 2; ++j) {
-                for (int i = -1; i <= 2; ++i) {
-                    lit_texel t = taps[(j + 1) * 4 + i + 1];
-                    ivec2 tap = base + ivec2(i, j);
-                    if (!t.detail || !reaches(mask, tap - c)) {
-                        continue;
-                    }
-                    float w = wx[i + 1] * wy[j + 1];
-                    w_sum += w;
-                    l_sum += w * t.light;
-                    // chroma by filter weight alone: weighting it by light
-                    // would give a faint colored cell its full hue
-                    ch_sum += w * t.chroma;
-                }
-            }
-            // a detail cell admits itself, at most one cell from the point
-            light_sum += bw * l_sum / w_sum;
-            chroma_sum += bw * ch_sum / w_sum;
-            blend_weight += bw;
-        }
-    }
-    s.light = blend_weight > MIN_WEIGHT ? light_sum / blend_weight : 0.0;
-    s.hue = chroma_hue(blend_weight > MIN_WEIGHT ? chroma_sum / blend_weight : vec3(1.0 / 3.0));
+    // light, red, green chroma shares, in_sight
+    vec4 r = prefiltered(cell, level, local);
+    s.light = r.x;
+    s.hue = chroma_hue(vec3(r.y, r.z, max(1.0 - r.y - r.z, 0.0)));
     // sight is per tile, so its edge is a staircase; the half contour of its
     // bilinear over same class cells cuts the corners, and a narrow band around
     // it fades the edge without dimming whole tiles
-    float in_sight = sight_weight > MIN_WEIGHT ? sight_sum / sight_weight : 0.0;
-    s.visible = smoothstep(SIGHT_EDGE_START, SIGHT_EDGE_END, in_sight);
+    s.visible = smoothstep(SIGHT_EDGE_START, SIGHT_EDGE_END, r.w);
     return s;
 }

@@ -606,7 +606,7 @@
     "durability": 20,
     "description": "A tall floor lamp that provides illumination when turned on.",
     "epower": "-10 W",
-    "bonus": 200,
+    "bonus": 50,
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",
     "breaks_into": [

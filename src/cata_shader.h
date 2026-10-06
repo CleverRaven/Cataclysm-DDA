@@ -193,6 +193,11 @@ static_assert( custom_memory_look == smooth_lighting::custom_look,
 
 struct lit_frame {
     SDL_Texture *lightmap = nullptr;
+    // what sprites read when not per tile: the light lit_prefilter.frag
+    // stored at `layout`'s grid points
+    SDL_Texture *prefiltered = nullptr;
+    smooth_lighting::prefilter_layout layout;
+    smooth_lighting::lookup lookup = smooth_lighting::lookup::hardware;
     memory_look memory;
     // fade out-of-sight light into the memory look rather than darkness
     bool blend_memory = false;
@@ -219,6 +224,25 @@ struct lit_begin_result {
 };
 
 smooth_lighting::lit_frame_action action_for( lit_begin_outcome o );
+
+// what prepare_lit did; `capability` holds only when the outcome is active
+struct lit_prepare_result {
+    lit_begin_outcome outcome = lit_begin_outcome::classic;
+    std::optional<smooth_lighting::lit_failure> failure;
+    smooth_lighting::lit_capability capability;
+};
+
+// what a prefilter pass did; failed leaves the renderer safe and the
+// target's texels undefined
+enum class prefilter_outcome : uint8_t {
+    ok,
+    failed,
+    unsafe,
+};
+
+// a float render target for the prefiltered light; its colorspace is sRGB
+// so SDL passes the pass's coordinate vertex colors through unconverted
+SDL_Texture *create_prefilter_target( SDL_Renderer *renderer, const point &size );
 
 // The cases the activation probe draws through the lit shaders before they
 // are used, and the readbacks their C++ references expect.
@@ -252,6 +276,9 @@ struct probe_case {
 };
 
 smooth_lighting::lightmap_view view_of( const probe_case &c );
+// prefilter layout of a filtered case: its own cell and the cells round it,
+// on its own level
+smooth_lighting::prefilter_layout layout_of( const probe_case &c );
 std::vector<probe_case> cases();
 // per target pixel, row by row
 std::vector<rgb> expected( const probe_case &c );
@@ -361,21 +388,31 @@ class variant_pass
 
         void select_memory_preset( std::optional<memory_preset> preset );
 
+        // load lit shaders and run activation probe once per resources: per
+        // tile cases, filtered ones with each lookup
+        lit_prepare_result prepare_lit();
         // smooth lighting. while active, NORMAL and SHADOW draws run lit.frag and
-        // NIGHT and OVEREXPOSED run nightvision_lit.frag, shading each pixel from
-        // `frame.lightmap` at the light map texel coordinates in the vertex colors
-        // (see lit_sample.glsl). with `frame.blend_memory`, MEMORY draws run lit.frag
-        // too and every lit draw fades out-of-sight light into `frame.memory`.
-        // `per_tile` lights each tile from its own texel rather than filtering;
-        // `iso` picks the base line standing sprites take their light from;
-        // `night_vision` makes MEMORY draws blend toward the night vision look. the
-        // result says whether to draw lit, draw classic, or abort the frame.
+        // NIGHT and OVEREXPOSED run nightvision_lit.frag, shading each pixel at
+        // the light map texel coordinates in the vertex colors (see
+        // lit_sample.glsl): from `frame.lightmap` with `per_tile`, else from
+        // `frame.prefiltered`. with `frame.blend_memory`, MEMORY draws run
+        // lit.frag too and every lit draw fades out-of-sight light into
+        // `frame.memory`. `iso` picks the base line standing sprites take their
+        // light from; `night_vision` makes MEMORY draws blend toward the night
+        // vision look. the result says whether to draw lit, draw classic, or
+        // abort the frame.
         lit_begin_result begin_lit( const lit_frame &frame );
+        // fill `frame.prefiltered` from `frame.lightmap` over `frame.layout`
+        prefilter_outcome prefilter_lit( const lit_frame &frame );
         // back to classic variants, lit states stay for the next frame
         void end_lit();
-        // drop lit states before the lightmap texture is destroyed: the states
-        // hold it, and destroying them flushes queued draws
-        void drop_lit();
+        // drop lit states before a texture they read is destroyed: the states
+        // hold it, and destroying them flushes queued draws. false when the
+        // flush failed: the renderer may still read the texture
+        bool drop_lit();
+        // drop only the lit states that read the bound texture; shaders,
+        // samplers and probed capability stay. false as drop_lit
+        bool drop_lit_states();
         bool lit_active() const {
             return lit_active_;
         }
@@ -430,10 +467,16 @@ class variant_pass
         shader nv_lit_shader_;
         render_state lit_state_;
         render_state nv_lit_state_;
+        // reads light map as the draw's own texture, no extra binding
+        shader prefilter_shader_;
+        render_state prefilter_state_;
         SDL_GPUDevice *lit_device_ = nullptr;
         SDL_GPUSampler *lit_sampler_ = nullptr;
+        SDL_GPUSampler *lit_linear_sampler_ = nullptr;
+        // what lit_state_ and nv_lit_state_ read
         SDL_Texture *lit_texture_ = nullptr;
-        // lit_params block of lit_sample.glsl, std140: seven vec4
+        SDL_GPUSampler *lit_bound_sampler_ = nullptr;
+        // lit_params block of lit_common.glsl, std140: nine vec4
         struct lit_params {
             // light map width, height, rows per z level, reach mask column
             std::array<int32_t, 4> size = {};
@@ -448,30 +491,36 @@ class variant_pass
             std::array<float, 4> custom_light = {};
             // overexpose start, tint mix, unused, unused
             std::array<float, 4> look = {};
+            // prefilter layout: first cell x and y, cells per level, first level
+            std::array<int32_t, 4> prefilter = {};
+            // grid steps per cell side, the layout's width in cells and its
+            // level count, 1 for the manual lookup
+            std::array<int32_t, 4> prefilter_grid = {};
             bool operator==( const lit_params &o ) const {
                 return size == o.size && mode == o.mode && flags == o.flags && tone == o.tone &&
-                       custom_dark == o.custom_dark && custom_light == o.custom_light && look == o.look;
+                       custom_dark == o.custom_dark && custom_light == o.custom_light && look == o.look &&
+                       prefilter == o.prefilter && prefilter_grid == o.prefilter_grid;
             }
         };
-        static_assert( sizeof( lit_params ) == 7 * 16, "lit_params is a std140 block of seven vec4" );
+        static_assert( sizeof( lit_params ) == 9 * 16, "lit_params is a std140 block of nine vec4" );
         static_assert( std::is_trivially_copyable_v<lit_params> );
         // lit_params for `frame`
         static lit_params make_lit_params( const lit_frame &frame );
-        enum class lit_probe_outcome : uint8_t {
-            ok,
-            mismatch,
-            // the renderer may hold a bind or a target the probe left
-            unsafe,
-        };
-        // compares every lit_probe case's readback with its reference
-        lit_probe_outcome probe_lit();
+        // compares readback of every `filtered` lit_probe case with its
+        // reference
+        smooth_lighting::probe_group_result probe_lit_group( bool filtered,
+                smooth_lighting::lookup lookup );
+        smooth_lighting::lit_capability probe_lit();
+        // draw prefilter of `lightmap` into `target`, `size` pixels
+        prefilter_outcome run_prefilter( SDL_Texture *lightmap, SDL_Texture *target,
+                                         const lit_params &params, const point &size );
         lit_params lit_params_;
         bool lit_active_ = false;
         bool lit_suspended_ = false;
         // memory blends toward the night vision look, not the lit look
         bool lit_night_vision_ = false;
-        // lit shaders passed activation probe for these resources
-        bool lit_probed_ = false;
+        // what the lit shaders' activation probe found for these resources
+        std::optional<smooth_lighting::lit_capability> lit_capability_;
         uint32_t resource_generation_ = 0;
         SDL_GPURenderState *bound_state_ = nullptr;
         // Set after an unsafe bind transition (failed SDL_SetGPURenderState or

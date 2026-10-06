@@ -1682,6 +1682,8 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::ensure_texture(
                                   smooth_lighting::lightmap_width, smooth_lighting::lightmap_height );
         keys_.forget_all();
         uploaded_ = {};
+        seen_boxes_ = {};
+        ++upload_generation_;
     }
     if( !texture_ ) {
         return smooth_lighting::lit_failure::texture_create;
@@ -1689,13 +1691,45 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::ensure_texture(
     return std::nullopt;
 }
 
+prefilter_texture_result smooth_lightmap::ensure_prefilter_texture(
+    const SDL_Renderer_Ptr &renderer, const point &size, const int max_texture_size,
+    const std::function<bool()> &release_readers )
+{
+    if( prefilter_texture_ && size.x <= prefilter_size_.x && size.y <= prefilter_size_.y ) {
+        return prefilter_texture_result::ok;
+    }
+    if( !release_readers() ) {
+        return prefilter_texture_result::unsafe;
+    }
+    prefilter_texture_.reset();
+    prefilter_.begin_write();
+    // headroom, so a seen area that grows a little does not drop the lit
+    // states every turn
+    const point grown = smooth_lighting::prefilter_texture_size( size, prefilter_size_,
+                        max_texture_size );
+    prefilter_texture_.reset( cata_shader::create_prefilter_target( renderer.get(), grown ) );
+    if( !prefilter_texture_ ) {
+        DebugLog( D_ERROR, DC_ALL ) << "smooth lighting: prefilter texture failed: " << SDL_GetError();
+        prefilter_size_ = point::zero;
+        return prefilter_texture_result::failed;
+    }
+    prefilter_size_ = grown;
+    return prefilter_texture_result::ok;
+}
+
 void smooth_lightmap::reset()
 {
     texture_.reset();
+    prefilter_texture_.reset();
+    prefilter_size_ = point::zero;
+    prefilter_.begin_write();
     keys_.forget_all();
     uploaded_ = {};
+    seen_boxes_ = {};
+    ++upload_generation_;
     extent_ = {};
     failures_.reset();
+    filtered_failures_.reset();
 }
 
 std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &here,
@@ -1714,6 +1748,8 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &he
         }
         smooth_lighting::encode_lightmap_layer( here, z, settings, scratch_ );
         const int layer = z + OVERMAP_DEPTH;
+        seen_boxes_[layer] = smooth_lighting::seen_box( scratch_.data(), smooth_lighting::lightmap_width,
+                             settings.area );
         std::vector<smooth_lighting::lightmap_texel> &uploaded = uploaded_[layer];
         if( scratch_ != uploaded ) {
             // per tile sampling never reads the reach masks, so only the light
@@ -1722,6 +1758,8 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &he
                                     settings.masks ? smooth_lighting::lightmap_width : smooth_lighting::reach_column,
                                     MAPSIZE_Y
                                   };
+            // the prefiltered light is stale from here, even if the upload fails
+            ++upload_generation_;
             if( !UpdateTexture( texture_, &rect, scratch_.data(), smooth_lighting::lightmap_width * 4 ) ) {
                 // texture might contain some of the new texels
                 uploaded.clear();
@@ -1733,6 +1771,32 @@ std::optional<smooth_lighting::lit_failure> smooth_lightmap::fill( const map &he
         keys_.mark_filled( z, inputs );
     }
     return std::nullopt;
+}
+
+smooth_lighting::prefilter_layout smooth_lightmap::prefilter_layout(
+    const half_open_rectangle<point> &fill_area, const int min_z, const int max_z ) const
+{
+    std::optional<half_open_rectangle<point>> seen;
+    int first = 0;
+    int last = -1;
+    for( int z = min_z; z <= max_z; ++z ) {
+        const std::optional<half_open_rectangle<point>> &box = seen_boxes_[z + OVERMAP_DEPTH];
+        if( !box ) {
+            continue;
+        }
+        if( !seen ) {
+            seen = box;
+            first = z;
+        } else {
+            seen->p_min = point( std::min( seen->p_min.x, box->p_min.x ), std::min( seen->p_min.y,
+                                 box->p_min.y ) );
+            seen->p_max = point( std::max( seen->p_max.x, box->p_max.x ), std::max( seen->p_max.y,
+                                 box->p_max.y ) );
+        }
+        last = z;
+    }
+    return smooth_lighting::prefilter_layout_for( seen, fill_area, first + OVERMAP_DEPTH,
+            last - first + 1 );
 }
 
 std::optional<smooth_lighting::light_anchor> cata_tiles::default_light_anchor(
@@ -1805,7 +1869,9 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
         return false;
     }
     smooth_lighting::failure_policy &failures = lightmap->failures();
+    smooth_lighting::failure_policy &filtered_failures = lightmap->filtered_failures();
     failures.rebuilt( vp->resource_generation() );
+    filtered_failures.rebuilt( vp->resource_generation() );
     if( failures.latched() ) {
         note_lighting_status( lighting_status::classic_failed );
         return false;
@@ -1820,45 +1886,124 @@ bool cata_tiles::begin_smooth_lighting( const visibility_variables &cache,
         }
         return false;
     };
+    const auto fail_filtered = [&]( const smooth_lighting::lit_failure f ) {
+        if( filtered_failures.fail( f ) ) {
+            DebugLog( D_ERROR, DC_ALL ) << "smooth filtered lighting off until the renderer is rebuilt: "
+                                        << smooth_lighting::to_string( f );
+        }
+    };
+    const auto begin = [&]( const cata_shader::lit_begin_result & begun ) {
+        switch( cata_shader::action_for( begun.outcome ) ) {
+            case smooth_lighting::lit_frame_action::abort_frame:
+                abort_lit_frame();
+            case smooth_lighting::lit_frame_action::draw_classic:
+                if( begun.failure ) {
+                    return fail_frame( *begun.failure );
+                }
+                note_lighting_status( lighting_status::classic_no_shader_path );
+                return false;
+            case smooth_lighting::lit_frame_action::draw_lit:
+                break;
+        }
+        return true;
+    };
     if( const std::optional<smooth_lighting::lit_failure> f = lightmap->ensure_texture( renderer ) ) {
         return fail_frame( *f );
     }
-    cata_shader::lit_frame frame;
-    frame.lightmap = lightmap->texture();
-    frame.memory = memory_look_from_options( vp->active_memory_preset() );
-    frame.blend_memory = get_option<bool>( "LIGHTING_MEMORY_BLEND" );
-    frame.per_tile = mode == "smooth";
-    frame.iso = is_isometric();
-    frame.night_vision = nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" );
-    const cata_shader::lit_begin_result begun = vp->begin_lit( frame );
-    switch( cata_shader::action_for( begun.outcome ) ) {
-        case smooth_lighting::lit_frame_action::abort_frame:
-            abort_lit_frame();
-        case smooth_lighting::lit_frame_action::draw_classic:
-            if( begun.failure ) {
-                return fail_frame( *begun.failure );
-            }
-            note_lighting_status( lighting_status::classic_no_shader_path );
-            return false;
-        case smooth_lighting::lit_frame_action::draw_lit:
-            break;
+    const cata_shader::lit_prepare_result prepared = vp->prepare_lit();
+    if( !begin( { prepared.outcome, prepared.failure } ) ) {
+        return false;
     }
+    const int fill_min_z = std::max( min_z, -OVERMAP_DEPTH );
+    const int fill_max_z = std::min( max_z, OVERMAP_HEIGHT );
+    const bool want_filtered = mode == "smooth_filtered";
     smooth_lighting::lightmap_fill_settings settings;
     settings.area = fill_area;
     settings.vision_threshold = cache.vision_threshold;
     settings.tint = !tint_overlay_disabled();
-    settings.masks = mode == "smooth_filtered";
+    // reach masks only matter if this frame can filter
+    settings.masks = want_filtered && prepared.capability.filtered && !filtered_failures.latched();
     if( const std::optional<smooth_lighting::lit_failure> f = lightmap->fill( get_map(), settings,
-            std::max( min_z, -OVERMAP_DEPTH ), std::min( max_z, OVERMAP_HEIGHT ) ) ) {
+            fill_min_z, fill_max_z ) ) {
         // stale texels would shade wrong, so this frame draws classic
-        vp->end_lit();
         return fail_frame( *f );
+    }
+    // only the seen cells and their neighbours take filtered light
+    const smooth_lighting::prefilter_layout layout = lightmap->prefilter_layout( fill_area,
+            fill_min_z, fill_max_z );
+    int max_texture_size = 0;
+    GetRendererMaxTextureSize( renderer, &max_texture_size, nullptr );
+    smooth_lighting::lit_mode lit = smooth_lighting::choose_lit_mode( want_filtered,
+                                    prepared.capability, filtered_failures.latched(),
+                                    smooth_lighting::prefilter_fits( layout, max_texture_size,
+                                            prepared.capability.filtered.has_value() ) );
+    if( !lit.per_tile ) {
+        switch( lightmap->ensure_prefilter_texture( renderer, layout.size(), max_texture_size, [vp]() {
+            return vp->drop_lit_states();
+        } ) ) {
+        case prefilter_texture_result::ok:
+            break;
+        case prefilter_texture_result::failed:
+            fail_filtered( smooth_lighting::lit_failure::texture_create );
+            lit = { true, lighting_status::smooth_filtered_unavailable };
+            break;
+        case prefilter_texture_result::unsafe:
+            abort_lit_frame();
+        }
+    }
+    cata_shader::lit_frame frame;
+    frame.lightmap = lightmap->texture();
+    frame.prefiltered = lightmap->prefilter_texture();
+    frame.layout = layout;
+    frame.lookup = prepared.capability.filtered.value_or( smooth_lighting::lookup::hardware );
+    frame.memory = memory_look_from_options( vp->active_memory_preset() );
+    frame.blend_memory = get_option<bool>( "LIGHTING_MEMORY_BLEND" );
+    frame.per_tile = lit.per_tile;
+    frame.iso = is_isometric();
+    frame.night_vision = nv_goggles_activated && get_option<bool>( "NV_GREEN_TOGGLE" );
+    cata_shader::lit_begin_result begun = vp->begin_lit( frame );
+    if( !frame.per_tile && begun.outcome == cata_shader::lit_begin_outcome::failed && begun.failure &&
+        smooth_lighting::scope_of( *begun.failure, true ) == smooth_lighting::failure_scope::filtered ) {
+        // filtered binding failed safely: this frame reads each tile's own
+        // light instead
+        fail_filtered( *begun.failure );
+        frame.per_tile = true;
+        lit = { true, lighting_status::smooth_filtered_unavailable };
+        begun = vp->begin_lit( frame );
+    }
+    if( !begin( begun ) ) {
+        return false;
+    }
+    if( !frame.per_tile ) {
+        const smooth_lighting::prefilter_inputs inputs{ lightmap->upload_generation(), layout,
+                frame.lookup, vp->resource_generation() };
+        smooth_lighting::prefilter_cache &prefilter = lightmap->prefilter();
+        if( prefilter.needs_run( inputs ) ) {
+            prefilter.begin_write();
+            switch( vp->prefilter_lit( frame ) ) {
+                case cata_shader::prefilter_outcome::ok:
+                    prefilter.publish( inputs );
+                    filtered_failures.succeed();
+                    break;
+                case cata_shader::prefilter_outcome::failed:
+                    fail_filtered( smooth_lighting::lit_failure::prefilter );
+                    // this frame reads each tile's own light instead
+                    frame.per_tile = true;
+                    lit = { true, lighting_status::smooth_filtered_unavailable };
+                    if( !begin( vp->begin_lit( frame ) ) ) {
+                        return false;
+                    }
+                    break;
+                case cata_shader::prefilter_outcome::unsafe:
+                    abort_lit_frame();
+            }
+        }
     }
     failures.succeed();
     lit_extent = lightmap->extent();
     smooth_lighting_active = true;
     lit_per_tile = frame.per_tile;
-    note_lighting_status( frame.per_tile ? lighting_status::smooth : lighting_status::smooth_filtered );
+    note_lighting_status( lit.status );
     return true;
 }
 

@@ -1,6 +1,7 @@
 #if defined(TILES)
 
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <memory>
@@ -17,6 +18,7 @@
 #include "cata_tiles.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "game.h"
 #include "map.h"
@@ -438,6 +440,69 @@ TEST_CASE( "lit_probe_cases_reach_each_visual_input", "[smooth_lighting]" )
             CHECK( std::abs( want[0].r - want[0].b ) <= 1 );
         }
     }
+    GIVEN( "filtered night vision quad running from full light out of sight" ) {
+        const probe_case &c = probe_case_named( all, "night, filtered, edge of sight" );
+        REQUIRE_FALSE( c.frame.per_tile );
+        REQUIRE( c.night );
+        const std::vector<rgb> want = expected( c );
+        REQUIRE( want.size() == 4 );
+        THEN( "its lit end differs from its unseen end" ) {
+            CHECK_FALSE( matches( { want[0] }, { want[3] } ) );
+        }
+    }
+    GIVEN( "a cell whose sight fraction is a steep ratio" ) {
+        const probe_case &c = probe_case_named( all, "steep sight ratio" );
+        REQUIRE_FALSE( c.frame.per_tile );
+        const std::vector<rgb> want = expected( c );
+        REQUIRE( want.size() == 16 );
+        THEN( "fade shows across the quad" ) {
+            // pattern is symmetric, so fade runs in from the corners
+            bool varies = false;
+            for( const rgb &p : want ) {
+                varies = varies || !matches( { want[0] }, { p } );
+            }
+            CHECK( varies );
+            CHECK_FALSE( matches( want, readback_if_full_light( c ) ) );
+        }
+    }
+}
+
+TEST_CASE( "filtered_probe_cases_prefilter_their_cell_and_its_neighbours", "[smooth_lighting]" )
+{
+    using namespace cata_shader::lit_probe;
+    int filtered = 0;
+    for( const probe_case &c : cases() ) {
+        if( c.frame.per_tile ) {
+            continue;
+        }
+        ++filtered;
+        CAPTURE( c.name );
+        const smooth_lighting::prefilter_layout layout = layout_of( c );
+        const int level = static_cast<int>( std::floor( c.corners[0].row + 0.5f ) ) / c.rows_per_level;
+        const point own( static_cast<int>( std::floor( c.corners[0].column + 0.25f ) ),
+                         static_cast<int>( std::floor( c.corners[0].row + 0.5f ) ) - level * c.rows_per_level );
+        CHECK( layout.first_level == level );
+        CHECK( layout.levels == 1 );
+        CHECK( layout.area.contains( own ) );
+        CHECK( layout.area.p_min.x >= 0 );
+        CHECK( layout.area.p_min.y >= 0 );
+        CHECK( layout.area.p_max.x <= c.columns );
+        CHECK( layout.area.p_max.y <= c.rows_per_level );
+        // own cell's neighbours are in, so a lookup that leaves its block would
+        // read them
+        for( const point &d : {
+                 point::west, point::east, point::north, point::south
+             } ) {
+            const point n = own + d;
+            if( n.x >= 0 && n.y >= 0 && n.x < c.columns && n.y < c.rows_per_level ) {
+                CHECK( layout.area.contains( n ) );
+            }
+        }
+        // a small target, not the case's whole map
+        CHECK( layout.size().x <= 3 * ( layout.grid + 1 ) );
+        CHECK( layout.size().y <= 3 * ( layout.grid + 1 ) );
+    }
+    CHECK( filtered >= 12 );
 }
 
 TEST_CASE( "lit_begin_outcomes_map_to_frame_actions", "[smooth_lighting]" )
@@ -448,6 +513,51 @@ TEST_CASE( "lit_begin_outcomes_map_to_frame_actions", "[smooth_lighting]" )
     CHECK( cata_shader::action_for( lit_begin_outcome::classic ) == lit_frame_action::draw_classic );
     CHECK( cata_shader::action_for( lit_begin_outcome::failed ) == lit_frame_action::draw_classic );
     CHECK( cata_shader::action_for( lit_begin_outcome::abort_frame ) == lit_frame_action::abort_frame );
+}
+
+TEST_CASE( "prefilter_texture_survives_an_unsafe_release_of_its_readers",
+           "[smooth_lighting][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    smooth_lightmap lightmap;
+    const auto released = []() {
+        return true;
+    };
+    const auto release_failed = []() {
+        return false;
+    };
+    REQUIRE( lightmap.ensure_prefilter_texture( get_sdl_renderer(), point( 4, 4 ), 4096,
+             released ) == prefilter_texture_result::ok );
+    SDL_Texture *const first = lightmap.prefilter_texture();
+    REQUIRE( first != nullptr );
+    WHEN( "larger texture needed, releasing its readers fails" ) {
+        const prefilter_texture_result r = lightmap.ensure_prefilter_texture( get_sdl_renderer(),
+                                           point( 64, 64 ), 4096, release_failed );
+        THEN( "frame must abort, old texture stays for recovery" ) {
+            CHECK( r == prefilter_texture_result::unsafe );
+            CHECK( lightmap.prefilter_texture() == first );
+        }
+    }
+    WHEN( "larger texture needed, its readers release" ) {
+        const prefilter_texture_result r = lightmap.ensure_prefilter_texture( get_sdl_renderer(),
+                                           point( 64, 64 ), 4096, released );
+        THEN( "replaced with a new texture" ) {
+            CHECK( r == prefilter_texture_result::ok );
+            CHECK( lightmap.prefilter_texture() != nullptr );
+        }
+    }
+    WHEN( "size still fits" ) {
+        const prefilter_texture_result r = lightmap.ensure_prefilter_texture( get_sdl_renderer(),
+                                           point( 4, 4 ), 4096, release_failed );
+        THEN( "nothing released, texture stays" ) {
+            CHECK( r == prefilter_texture_result::ok );
+            CHECK( lightmap.prefilter_texture() == first );
+        }
+    }
 }
 
 TEST_CASE( "smooth_lighting_frames_on_the_software_renderer", "[smooth_lighting][tiles]" )

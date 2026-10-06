@@ -468,17 +468,35 @@ std::array<lit_vertex, 4> lit_quad( const lit_quad_params &p )
              vertex( x0, y1, u0, v1 ) };
 }
 
-lit_sample reference_sample( const lightmap_view &view, const sample_params &params,
+static float mix1( const float a, const float b, const float t )
+{
+    return a + ( b - a ) * t;
+}
+
+namespace
+{
+// own cell, level and local position of a lit pixel, as sample_light finds
+// them
+struct located_pixel {
+    point own;
+    int level = 0;
+    float lx = 0.0f;
+    float ly = 0.0f;
+};
+} // namespace
+
+static located_pixel locate( const lightmap_view &view, const sample_params &params,
                              const lit_coords &coords )
 {
     const float marker_half = 0.5f * standing_marker;
     const float column = coords.column + marker_half;
-    const point own( static_cast<int>( std::floor( column ) ),
-                     static_cast<int>( std::floor( coords.row + 0.5f ) ) );
+    located_pixel p;
+    p.own = point( static_cast<int>( std::floor( column ) ),
+                   static_cast<int>( std::floor( coords.row + 0.5f ) ) );
     const bool standing = column - std::floor( column ) >= standing_marker;
-    const int level = own.y / view.rows_per_level;
-    float lx = coords.x - own.x;
-    float ly = coords.y - own.y;
+    p.level = p.own.y / view.rows_per_level;
+    float lx = coords.x - p.own.x;
+    float ly = coords.y - p.own.y;
     if( standing ) {
         // light along the sprite's base line, the same all the way up
         if( params.iso ) {
@@ -488,18 +506,28 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
             ly = 0.5f;
         }
     }
-    lx = std::clamp( lx, 0.0f, 1.0f );
-    ly = std::clamp( ly, 0.0f, 1.0f );
-    const decoded_texel own_texel = fetch_light( view, own, level );
+    p.lx = std::clamp( lx, 0.0f, 1.0f );
+    p.ly = std::clamp( ly, 0.0f, 1.0f );
+    return p;
+}
+
+static lit_sample per_tile_sample( const lightmap_view &view, const located_pixel &p )
+{
+    const decoded_texel own_texel = fetch_light( view, p.own, p.level );
     lit_sample s;
-    if( params.per_tile ) {
-        s.light = own_texel.light;
-        s.hue = chroma_hue( own_texel.chroma );
-        s.in_sight = own_texel.detail ? 1.0f : 0.0f;
-        s.visible = s.in_sight;
-        s.weight = s.in_sight;
-        return s;
-    }
+    s.light = own_texel.light;
+    s.hue = chroma_hue( own_texel.chroma );
+    s.in_sight = own_texel.detail ? 1.0f : 0.0f;
+    s.visible = s.in_sight;
+    s.weight = s.in_sight;
+    return s;
+}
+
+filter_result reference_filter( const lightmap_view &view, const point &own, const int level,
+                                const float lx, const float ly )
+{
+    const decoded_texel own_texel = fetch_light( view, own, level );
+    filter_result r;
     // texel space: centers at whole numbers
     const float stx = own.x + lx - 0.5f;
     const float sty = own.y + ly - 0.5f;
@@ -576,25 +604,210 @@ lit_sample reference_sample( const lightmap_view &view, const sample_params &par
                 chroma_sum[k] += bw * ch_sum[k] / w_sum;
             }
             blend_weight += bw;
-            s.weight += bw * w_sum;
+            r.weight += bw * w_sum;
         }
     }
-    s.light = blend_weight > min_weight ? light_sum / blend_weight : 0.0f;
-    std::array<float, 3> chroma = { 1.0f / 3.0f, 1.0f / 3.0f, 1.0f / 3.0f };
+    r.light = blend_weight > min_weight ? light_sum / blend_weight : 0.0f;
     if( blend_weight > min_weight ) {
         for( int k = 0; k < 3; ++k ) {
-            chroma[k] = chroma_sum[k] / blend_weight;
+            r.chroma[k] = chroma_sum[k] / blend_weight;
         }
     }
-    s.hue = chroma_hue( chroma );
-    s.in_sight = sight_weight > min_weight ? sight_sum / sight_weight : 0.0f;
-    s.visible = smooth_step( sight_edge_start, sight_edge_end, s.in_sight );
+    r.in_sight = sight_weight > min_weight ? sight_sum / sight_weight : 0.0f;
+    return r;
+}
+
+lit_sample finish_filter( const filter_result &r )
+{
+    lit_sample s;
+    s.light = r.light;
+    s.hue = chroma_hue( r.chroma );
+    s.in_sight = r.in_sight;
+    s.visible = smooth_step( sight_edge_start, sight_edge_end, r.in_sight );
+    s.weight = r.weight;
     return s;
 }
 
-static float mix1( const float a, const float b, const float t )
+lit_sample reference_sample( const lightmap_view &view, const sample_params &params,
+                             const lit_coords &coords )
 {
-    return a + ( b - a ) * t;
+    const located_pixel p = locate( view, params, coords );
+    if( params.per_tile ) {
+        return per_tile_sample( view, p );
+    }
+    return finish_filter( reference_filter( view, p.own, p.level, p.lx, p.ly ) );
+}
+
+point prefilter_layout::size() const
+{
+    const int side = grid + 1;
+    return point( ( area.p_max.x - area.p_min.x ) * side,
+                  ( area.p_max.y - area.p_min.y ) * side * levels );
+}
+
+point prefilter_layout::block_origin( const point &cell, const int level ) const
+{
+    const int side = grid + 1;
+    const int height = area.p_max.y - area.p_min.y;
+    return point( ( cell.x - area.p_min.x ) * side,
+                  ( ( level - first_level ) * height + cell.y - area.p_min.y ) * side );
+}
+
+bool prefilter_layout::holds( const point &cell, const int level ) const
+{
+    return level >= first_level && level < first_level + levels && area.contains( cell );
+}
+
+bool prefilter_layout::operator==( const prefilter_layout &other ) const
+{
+    return area.p_min == other.area.p_min && area.p_max == other.area.p_max &&
+           first_level == other.first_level && levels == other.levels && grid == other.grid;
+}
+
+bool prefilter_fits( const prefilter_layout &layout, const int max_texture_size,
+                     const bool format_supported )
+{
+    const point s = layout.size();
+    if( s.x <= 0 || s.y <= 0 ) {
+        return true;
+    }
+    return format_supported && s.x <= max_texture_size && s.y <= max_texture_size;
+}
+
+point prefilter_texture_size( const point &requested, const point &current,
+                              const int max_texture_size )
+{
+    const auto side = [&]( const int want, const int have ) {
+        const int grown = std::max( { want + want / 4, have, 1 } );
+        return std::max( std::min( grown, std::max( max_texture_size, have ) ), want );
+    };
+    return point( side( requested.x, current.x ), side( requested.y, current.y ) );
+}
+
+std::optional<half_open_rectangle<point>> seen_box( const lightmap_texel *level, const int stride,
+                                       const half_open_rectangle<point> &area )
+{
+    std::optional<half_open_rectangle<point>> box;
+    for( int y = area.p_min.y; y < area.p_max.y; ++y ) {
+        for( int x = area.p_min.x; x < area.p_max.x; ++x ) {
+            if( ( level[static_cast<size_t>( y ) * stride + x].a & texel_detail ) == 0 ) {
+                continue;
+            }
+            if( !box ) {
+                box = half_open_rectangle<point>( point( x, y ), point( x + 1, y + 1 ) );
+            } else {
+                box->p_min = point( std::min( box->p_min.x, x ), std::min( box->p_min.y, y ) );
+                box->p_max = point( std::max( box->p_max.x, x + 1 ), std::max( box->p_max.y, y + 1 ) );
+            }
+        }
+    }
+    return box;
+}
+
+prefilter_layout prefilter_layout_for( const std::optional<half_open_rectangle<point>> &seen,
+                                       const half_open_rectangle<point> &clip, const int first_level, const int levels )
+{
+    prefilter_layout layout;
+    if( !seen || levels <= 0 ) {
+        layout.area = half_open_rectangle<point>( clip.p_min, clip.p_min );
+        layout.first_level = first_level;
+        return layout;
+    }
+    layout.area = half_open_rectangle<point>(
+                      point( std::max( seen->p_min.x - 1, clip.p_min.x ), std::max( seen->p_min.y - 1, clip.p_min.y ) ),
+                      point( std::min( seen->p_max.x + 1, clip.p_max.x ), std::min( seen->p_max.y + 1, clip.p_max.y ) ) );
+    layout.first_level = first_level;
+    layout.levels = levels;
+    return layout;
+}
+
+float half_round( const float x )
+{
+    if( x == 0.0f || !std::isfinite( x ) ) {
+        return x;
+    }
+    int exponent = 0;
+    std::frexp( x, &exponent );
+    // a half keeps 11 significant bits; below 2^-14 its steps stay 2^-24
+    const float step = std::ldexp( 1.0f, std::max( exponent - 11, -24 ) );
+    return std::nearbyint( x / step ) * step;
+}
+
+prefilter_lookup prefilter_lookup_texels( const prefilter_layout &layout, const point &cell,
+        const int level, const float lx, const float ly )
+{
+    const point origin = layout.block_origin( cell, level );
+    const float qx = static_cast<float>( origin.x ) + lx * static_cast<float>( layout.grid );
+    const float qy = static_cast<float>( origin.y ) + ly * static_cast<float>( layout.grid );
+    const point i0( static_cast<int>( std::floor( qx ) ), static_cast<int>( std::floor( qy ) ) );
+    const point i1( std::min( i0.x + 1, origin.x + layout.grid ),
+                    std::min( i0.y + 1, origin.y + layout.grid ) );
+    prefilter_lookup l;
+    l.texels = { i0, point( i1.x, i0.y ), point( i0.x, i1.y ), i1 };
+    l.wx = qx - static_cast<float>( i0.x );
+    l.wy = qy - static_cast<float>( i0.y );
+    return l;
+}
+
+prefilter_table build_prefilter_table( const lightmap_view &view, const prefilter_layout &layout )
+{
+    prefilter_table table;
+    table.layout = layout;
+    const point size = layout.size();
+    const int side = layout.grid + 1;
+    const int height = layout.area.p_max.y - layout.area.p_min.y;
+    table.texels.resize( static_cast<size_t>( size.x ) * size.y );
+    for( int ty = 0; ty < size.y; ++ty ) {
+        for( int tx = 0; tx < size.x; ++tx ) {
+            const point block( tx / side, ty / side );
+            const int level = layout.first_level + block.y / height;
+            const point own( layout.area.p_min.x + block.x,
+                             level * view.rows_per_level + layout.area.p_min.y + block.y % height );
+            const filter_result r = reference_filter( view, own, level,
+                                    static_cast<float>( tx % side ) / layout.grid,
+                                    static_cast<float>( ty % side ) / layout.grid );
+            table.texels[static_cast<size_t>( ty ) * size.x + tx] = { half_round( r.light ),
+                                                                      half_round( r.chroma[0] ), half_round( r.chroma[1] ), half_round( r.in_sight )
+                                                                    };
+        }
+    }
+    return table;
+}
+
+lit_sample reference_prefiltered_sample( const prefilter_table &table, const lightmap_view &view,
+        const sample_params &params, const lit_coords &coords )
+{
+    const located_pixel p = locate( view, params, coords );
+    if( params.per_tile ) {
+        return per_tile_sample( view, p );
+    }
+    const prefilter_layout &layout = table.layout;
+    const point cell = p.own - point( 0, p.level * view.rows_per_level );
+    if( !layout.holds( cell, p.level ) ) {
+        return finish_filter( filter_result() );
+    }
+    const prefilter_lookup l = prefilter_lookup_texels( layout, cell, p.level, p.lx, p.ly );
+    const int width = layout.size().x;
+    const auto texel = [&]( const point & t ) {
+        return table.texels[static_cast<size_t>( t.y ) * width + t.x];
+    };
+    const auto weight = [&]( const float w ) {
+        return table.quantize_weights ? std::round( w * 16.0f ) / 16.0f : w;
+    };
+    const float wx = weight( l.wx );
+    const float wy = weight( l.wy );
+    std::array<float, 4> v = {};
+    for( int k = 0; k < 4; ++k ) {
+        const float top = mix1( texel( l.texels[0] )[k], texel( l.texels[1] )[k], wx );
+        const float bottom = mix1( texel( l.texels[2] )[k], texel( l.texels[3] )[k], wx );
+        v[k] = mix1( top, bottom, wy );
+    }
+    filter_result r;
+    r.light = v[0];
+    r.chroma = { v[1], v[2], std::max( 1.0f - v[1] - v[2], 0.0f ) };
+    r.in_sight = v[3];
+    r.weight = reference_filter( view, p.own, p.level, p.lx, p.ly ).weight;
+    return finish_filter( r );
 }
 
 static std::array<float, 3> mix3( const std::array<float, 3> &a, const std::array<float, 3> &b,
@@ -717,13 +930,33 @@ const char *to_string( const lit_failure f )
             return "uniform_upload";
         case lit_failure::probe_mismatch:
             return "probe_mismatch";
+        case lit_failure::prefilter:
+            return "prefilter";
     }
     return "unknown";
 }
 
+failure_scope scope_of( const lit_failure f, const bool frame_filtered )
+{
+    switch( f ) {
+        case lit_failure::prefilter:
+            return failure_scope::filtered;
+        case lit_failure::texture_create:
+        case lit_failure::sampler_create:
+        case lit_failure::state_create:
+        case lit_failure::uniform_upload:
+            return frame_filtered ? failure_scope::filtered : failure_scope::all;
+        case lit_failure::upload:
+        case lit_failure::shader_load:
+        case lit_failure::probe_mismatch:
+            return failure_scope::all;
+    }
+    return failure_scope::all;
+}
+
 bool failure_policy::fail( const lit_failure f )
 {
-    if( f == lit_failure::upload && ++upload_streak_ < upload_retries ) {
+    if( f == retried_ && ++upload_streak_ < upload_retries ) {
         return false;
     }
     latched_ = f;
@@ -764,8 +997,72 @@ const char *to_string( const lighting_status s )
             return "smooth";
         case lighting_status::smooth_filtered:
             return "smooth_filtered";
+        case lighting_status::smooth_filtered_unavailable:
+            return "smooth_filtered_unavailable";
     }
     return "unknown";
+}
+
+lit_capability decide_lit_capability( const probe_group_result per_tile,
+                                      const probe_group_result filtered_hardware, const probe_group_result filtered_manual )
+{
+    lit_capability c;
+    if( per_tile == probe_group_result::unsafe || filtered_hardware == probe_group_result::unsafe ||
+        filtered_manual == probe_group_result::unsafe ) {
+        c.unsafe = true;
+        return c;
+    }
+    if( per_tile != probe_group_result::passed ) {
+        return c;
+    }
+    c.per_tile = true;
+    if( filtered_hardware == probe_group_result::passed ) {
+        c.filtered = lookup::hardware;
+    } else if( filtered_manual == probe_group_result::passed ) {
+        c.filtered = lookup::manual;
+    }
+    return c;
+}
+
+lit_capability with_linear_sampler( lit_capability probed, const bool linear_sampler )
+{
+    if( probed.filtered == lookup::hardware && !linear_sampler ) {
+        probed.filtered.reset();
+    }
+    return probed;
+}
+
+lit_mode choose_lit_mode( const bool want_filtered, const lit_capability &capability,
+                          const bool filtered_latched, const bool prefilter_fits )
+{
+    if( !want_filtered ) {
+        return { true, lighting_status::smooth };
+    }
+    if( capability.filtered && !filtered_latched && prefilter_fits ) {
+        return { false, lighting_status::smooth_filtered };
+    }
+    return { true, lighting_status::smooth_filtered_unavailable };
+}
+
+bool prefilter_inputs::operator==( const prefilter_inputs &other ) const
+{
+    return upload_generation == other.upload_generation && layout == other.layout &&
+           mode == other.mode && resource_generation == other.resource_generation;
+}
+
+bool prefilter_cache::needs_run( const prefilter_inputs &in ) const
+{
+    return !published_ || !( *published_ == in );
+}
+
+void prefilter_cache::begin_write()
+{
+    published_.reset();
+}
+
+void prefilter_cache::publish( const prefilter_inputs &in )
+{
+    published_ = in;
 }
 
 } // namespace smooth_lighting
