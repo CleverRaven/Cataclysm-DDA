@@ -200,12 +200,14 @@
       { "math": [ "portal_dungeon_carry_strength = 0" ] },
       { "math": [ "portal_dungeon_reflect_strength = 0" ] },
       "next_weather",
-      {
-        "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
-        "type": "good"
+      { "if": { "current_dimension": "default" },
+        "then": {
+          "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
+          "type": "good"
+        }
       },
       { "u_add_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" },
-      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
+      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
