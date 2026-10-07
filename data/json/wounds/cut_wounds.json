@@ -1,0 +1,231 @@
+[
+  {
+    "id": "scratch_small",
+    "type": "wound",
+    "name": { "str": "light scratch", "str_pl": "light scratches" },
+    "description": "You have been scratched lightly, you should probably clean it.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 1, 12 ],
+    "pain": [ 2, 5 ],
+    "healing_time": [ "3 days", "5 days" ],
+    "wound_progression": [ { "id": "scratch_medium", "chance": 10 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.04 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "scratch_medium",
+    "type": "wound",
+    "name": { "str": "scratch", "str_pl": "scratches" },
+    "description": "You have been scratched, you should at least clean it.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 10, 20 ],
+    "pain": [ 7, 10 ],
+    "healing_time": [ "7 days", "10 days" ],
+    "wound_progression": [ { "id": "scratch_bad", "chance": 10 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.7 }, { "score": "grip", "value": 0.04 }, { "score": "lift", "value": 0.6 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_scratch_bad",
+    "type": "wound",
+    "name": { "str": "bleeding bad scratch", "str_pl": "bleeding bad scratches" },
+    "description": "You have been scratched badly, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 15, 20 ],
+    "pain": [ 17, 24 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.15 },
+      { "score": "grip", "value": 0.15 },
+      { "score": "lift", "value": 0.15 },
+      { "score": "move_speed", "value": 0.15 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "5 seconds", "amount": 10 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -8 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -8 }
+    ],
+    "periodic_message": { "message": "Your scratch on your %s is bleeding!", "rate": "60 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_cut_medium",
+    "type": "wound",
+    "name": { "str": "bleeding cut" },
+    "description": "You have been cut, you should stop the bleeding.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 15, 25 ],
+    "pain": [ 10, 14 ],
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 20 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.15 },
+      { "score": "grip", "value": 0.1 },
+      { "score": "lift", "value": 0.15 },
+      { "score": "move_speed", "value": 0.1 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "5 seconds", "amount": 8 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -8 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -8 }
+    ],
+    "periodic_message": { "message": "Your cut on your %s is bleeding!", "rate": "60 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_cut_bad",
+    "type": "wound",
+    "name": { "str": "bleeding deep cut" },
+    "description": "You have been deeply cut, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 20, 60 ],
+    "//0": "change the max damage required after more wounds are added that have a higher min damage",
+    "pain": [ 15, 19 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.25 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.2 },
+      { "score": "lift", "value": 0.25 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "2 seconds", "amount": 15 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -15 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -15 }
+    ],
+    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "scratch_bad",
+    "copy-from": "bleeding_scratch_bad",
+    "type": "wound",
+    "name": { "str": "bad scratch", "str_pl": "bad scratches" },
+    "description": "You have been scratched badly, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 45 } ]
+  },
+  {
+    "id": "cut_medium",
+    "copy-from": "bleeding_cut_medium",
+    "type": "wound",
+    "name": { "str": "cut" },
+    "description": "You have been cut, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 40 } ]
+  },
+  {
+    "id": "cut_bad",
+    "copy-from": "bleeding_cut_bad",
+    "type": "wound",
+    "name": { "str": "deep cut" },
+    "description": "You have been cut, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 45 } ]
+  },
+  {
+    "id": "clean_scratch_small",
+    "copy-from": "scratch_small",
+    "type": "wound",
+    "name": { "str": "clean light scratch", "str_pl": "clean light scratches" },
+    "description": "You have been scratched lightly.",
+    "weight": 0,
+    "healing_time": [ "2 days", "4 days" ],
+    "wound_progression": [ { "id": "scratch_small", "chance": 35 } ]
+  },
+  {
+    "id": "clean_scratch_medium",
+    "copy-from": "scratch_medium",
+    "type": "wound",
+    "name": { "str": "clean scratch", "str_pl": "clean scratches" },
+    "description": "You have been scratched.",
+    "weight": 0,
+    "healing_time": [ "3 days", "5 days" ],
+    "wound_progression": [ { "id": "scratch_medium", "chance": 40 } ]
+  },
+  {
+    "id": "clean_scratch_bad",
+    "copy-from": "scratch_bad",
+    "type": "wound",
+    "name": { "str": "clean bad scratch", "str_pl": "clean bad scratches" },
+    "description": "You have been badly scratched, you should probably bandage it.",
+    "healing_time": [ "4 days", "7 days" ]
+  },
+  {
+    "id": "clean_cut_medium",
+    "copy-from": "cut_medium",
+    "type": "wound",
+    "name": { "str": "clean cut" },
+    "description": "You have been cut you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_cut_bad",
+    "copy-from": "cut_bad",
+    "type": "wound",
+    "name": { "str": "clean deep cut" },
+    "description": "You have been badly cut, you should probably bandage it.",
+    "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "bandaged_scratch_small",
+    "copy-from": "clean_scratch_small",
+    "type": "wound",
+    "name": { "str": "bandaged light scratch", "str_pl": "bandaged scratches" },
+    "description": "Your light scratch is bandaged.",
+    "healing_time": [ "1 days", "2 days" ]
+  },
+  {
+    "id": "bandaged_scratch_medium",
+    "copy-from": "clean_scratch_medium",
+    "type": "wound",
+    "name": { "str": "bandaged scratch", "str_pl": "bandaged scratches" },
+    "description": "You have been scratched, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_scratch_bad",
+    "copy-from": "scratch_bad",
+    "type": "wound",
+    "name": { "str": "bandaged bad scratch", "str_pl": "bandaged bad scratches" },
+    "description": "You have been badly scratched, you should wait till it heals.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "bandaged_cut_medium",
+    "copy-from": "cut_medium",
+    "type": "wound",
+    "name": { "str": "bandaged cut" },
+    "description": "You have been cut, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_cut_bad",
+    "copy-from": "cut_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep cut" },
+    "description": "You have been badly cut, you should wait till it heals.",
+    "healing_time": [ "3 days", "5 days" ]
+  }
+]
