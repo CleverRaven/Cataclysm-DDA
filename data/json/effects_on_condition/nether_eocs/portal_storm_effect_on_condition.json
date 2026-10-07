@@ -200,7 +200,8 @@
       { "math": [ "portal_dungeon_carry_strength = 0" ] },
       { "math": [ "portal_dungeon_reflect_strength = 0" ] },
       "next_weather",
-      { "if": { "current_dimension": "default" },
+      {
+        "if": { "current_dimension": "default" },
         "then": {
           "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
           "type": "good"
