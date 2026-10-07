@@ -14,6 +14,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "calendar.h"
 #include "cata_imgui.h"
 #include "catacharset.h"
@@ -66,72 +67,11 @@ template <typename T> struct enum_traits;
 
 class temp_crafting_inventory;
 
-namespace
-{
-enum class medical_tab_mode {
-    TAB_LIMBS,
-    TAB_SUMMARY,
-    last
-};
-} // namespace
-
 template<>
 struct enum_traits<medical_tab_mode> {
     static constexpr medical_tab_mode last = medical_tab_mode::last;
     static constexpr medical_tab_mode first = medical_tab_mode::TAB_LIMBS;
 };
-
-namespace
-{
-class medical_ui : public cataimgui::window
-{
-    public:
-        explicit medical_ui( Character *guy ) : cataimgui::window( _( "Medical" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
-            you = guy;
-        };
-
-        bool execute();
-        std::string get_limb_effects( const bodypart_id &part ) const;
-        std::string get_limb_wounds( const bodypart_id &part ) const;
-        std::string get_limb_scores_and_modifiers( const bodypart_id &part ) const;
-        std::string get_modified_limb_name( const bodypart_id &part ) const;
-
-        void draw_limbs_list( const std::vector<bodypart_id> &bodyparts );
-        void summary_tab() const;
-        void limb_tab( const std::vector<bodypart_id> &bodyparts );
-
-        void draw_hint_section();
-
-        std::string last_action;
-    protected:
-
-        void draw_controls() override;
-        cataimgui::bounds get_bounds() override {
-
-            const float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
-                                                   ImGui::GetMainViewport()->Size.x / 2,
-                                                   ImGui::GetMainViewport()->Size.x );
-            const float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
-                                                    ImGui::GetMainViewport()->Size.y / 2,
-                                                    ImGui::GetMainViewport()->Size.y );
-
-            const cataimgui::bounds bounds{ -1.f, -1.f, window_width, window_height };
-            return bounds;
-        }
-
-    private:
-        Character *you;
-        bodypart_id bp;
-        input_context ctxt;
-        cataimgui::scroll s = cataimgui::scroll::none;
-        medical_tab_mode selected_tab = medical_tab_mode::TAB_LIMBS;
-
-        float get_table_column_width() const {
-            return ImGui::GetWindowSize().x / 2;
-        }
-};
-} // namespace
 
 bool Character::disp_medical()
 {
