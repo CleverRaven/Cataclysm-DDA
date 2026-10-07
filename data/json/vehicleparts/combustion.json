@@ -666,7 +666,7 @@
   },
   {
     "id": "diesel_engine_multifuel_i6",
-    "copy-from": "diesel_engine_v6",
+    "copy-from": "diesel_engine_i6",
     "type": "vehicle_part",
     "item": "i6_diesel_multifuel",
     "description": "An old military diesel engine designed to run with extended list of fuel options, including even gasoline.  Extensively heavy and not as efficient as modern engines, but very sturdy.",
@@ -676,6 +676,7 @@
     "power": "104397 W",
     "energy_consumption": "367712 W",
     "//": "~28.4% energy efficiency, calculated",
+    "//2": "As a reference for specs were used real life LDT-465-1C multifuel engine.",
     "breaks_into": [
       { "item": "ch_steel_lump", "count": [ 40, 50 ] },
       { "item": "ch_steel_chunk", "count": [ 40, 50 ] },
