@@ -802,20 +802,6 @@ static void execute_aftershock_ruin( map &md, const tripoint_abs_omt &p,
     }
 }
 
-// return false if item do not match
-static bool filter_item( const item &it, const std::optional<generator_item_filter> &filter )
-{
-    if( !filter.has_value() ) {
-        return true;
-    }
-
-    if( filter->category && *filter->category != it.get_category_of_contents().id ) {
-        return false;
-    }
-
-    return true;
-}
-
 // return true if item is erased
 // todo expand with new filters?
 static bool filter_item( const item &it, const generator_item_filter &f )
