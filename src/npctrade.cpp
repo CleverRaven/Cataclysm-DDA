@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <climits>
 #include <functional>
 #include <iterator>
 #include <list>
@@ -69,9 +70,15 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
                     trading_price( giver, receiver, { item_location{ giver, it }, 1 } );
                 if( !f_wants( item_location{ ip.first, it }, price ) ) {
                     giver.i_add_or_drop( *it, 1, ip.first.get_item() );
-                    gift.remove_item( *it );
+                    // need some lvalues to pass into this function
+                    int all = INT_MAX;
+                    std::list<item> res{};
+                    gift.remove_internal( [it]( const item & other ) {
+                        return &other == it;
+                    }, all, res );
                 }
             }
+            gift.on_contents_changed();
         }
 
         gift.set_owner( receiver );

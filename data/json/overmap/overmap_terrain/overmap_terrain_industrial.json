@@ -188,9 +188,9 @@
   {
     "type": "overmap_terrain",
     "id": "lumbermill_dforest",
-    "vision_levels": "forested",
+    "vision_levels": "first_glance_forest",
     "name": "forest",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_forest",
     "sym": "L",
     "color": "green",
     "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]

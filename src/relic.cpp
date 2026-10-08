@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "item_location.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"

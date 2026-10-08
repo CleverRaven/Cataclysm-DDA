@@ -22,6 +22,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -89,6 +90,10 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
+
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -123,7 +128,14 @@ static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" 
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
 
+static const itype_id itype_acetaminophen( "acetaminophen" );
+static const itype_id itype_aspirin( "aspirin" );
+static const itype_id itype_codeine( "codeine" );
+static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_molotov( "molotov" );
+static const itype_id itype_oxycodone( "oxycodone" );
+static const itype_id itype_tramadol( "tramadol" );
 
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
@@ -352,6 +364,9 @@ void npc_template::load( const JsonObject &jsobj, std::string_view src )
         } else {
             tem.gender_override = gender::female;
         }
+    }
+    if( jsobj.has_string( "portrait_filename" ) ) {
+        tem.unique_portrait_filename = character_portrait_id( jsobj.get_string( "portrait_filename" ) );
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -639,7 +654,6 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
 
     set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
-    inv->clear();
     randomize_personality();
     moves = 100;
     mission = NPC_MISSION_NULL;
@@ -654,6 +668,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     if( tem_id.is_valid() ) {
         const npc_template &tem = tem_id.obj();
+        portrait_filename = tem.unique_portrait_filename;
         if( tem.personality.has_value() ) {
             personality.aggression = tem.personality->aggression;
             personality.bravery = tem.personality->bravery;
@@ -981,12 +996,26 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
 }
 
+// vector or list, they both have iterators so just template it so i can reuse
+template <typename T>
+static bool add_or_stash_item_list( npc &who, const T &item_list )
+{
+    bool ret = false;
+    for( const item &it : item_list ) {
+        item_location loc = who.i_add( it, true, nullptr, nullptr, false, false );
+        if( loc.where() == item_location::type::invalid ) {
+            ret = true;
+            who.stash_temporary_load_item( it );
+        }
+    }
+    return ret;
+}
+
 void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    who.inv->clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        *who.inv += item_group::items_from( type->carry_override );
+        add_or_stash_item_list( who, item_group::items_from( type->carry_override ) );
         return;
     }
 
@@ -1020,7 +1049,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     for( item &it : res ) {
         it.set_owner( who );
     }
-    *who.inv += res;
+
+    add_or_stash_item_list( who, res );
 }
 
 /**
@@ -1645,7 +1675,7 @@ bool npc::wield( item &it )
 
     item_location wielded = get_wielded_item();
     if( has_wield_conflicts( it ) ) {
-        if( wielded && wielded->has_item( it ) ) {
+        if( wielded && wielded.has_item( it ) ) {
             // Item is inside the wielded container. Check wieldability
             // before extracting - once extracted, reinsertion is not
             // guaranteed (container may be stowed into a different pocket).
@@ -1657,7 +1687,7 @@ bool npc::wield( item &it )
             // speed, matching wield_contents semantics.
             int retrieve_mv = item_retrieve_cost( it, *wielded );
             extracted = it;
-            wielded->remove_item( it );
+            wielded.remove_item( it );
             stow_item( *get_wielded_item() );
             if( !Character::wield( extracted, retrieve_mv ) ) {
                 // can_wield passed above, so this should not happen.
@@ -2463,16 +2493,6 @@ int npc::minimum_item_value() const
     return ret;
 }
 
-void npc::update_worst_item_value()
-{
-    worst_item_value = 99999;
-    // TODO: Cache this
-    int inv_val = inv->worst_item_value( this );
-    if( inv_val < worst_item_value ) {
-        worst_item_value = inv_val;
-    }
-}
-
 double npc::value( const item &it ) const
 {
     if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
@@ -2587,7 +2607,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
+    visit_items( [&fix_p, try_to_fix]( item_location node ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -2626,7 +2646,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
+    visit_items( [&best, try_to_fix, first_best]( item_location node ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -2638,7 +2658,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
             ( try_to_fix.bite && actor.bite > 0 ) ||
             ( try_to_fix.infect && actor.infect > 0 ) ) {
-            best = node;
+            best = node.get_item();
             if( first_best ) {
                 return VisitResponse::ABORT;
             }
@@ -2650,9 +2670,56 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
     return *best;
 }
 
-bool npc::has_painkiller()
+bool npc::has_painkiller() const
 {
-    return inv->has_enough_painkiller( get_pain() );
+    const int pain = get_pain();
+    bool has_enough = false;
+    visit_items(
+    [&pain, &has_enough]( item_location node ) {
+        const itype_id id = node->typeId();
+        if( ( pain <= 35 && ( id == itype_aspirin || id == itype_acetaminophen ||
+                              id == itype_ibuprofen ) ) ||
+            ( pain >= 50 && id == itype_oxycodone ) ||
+            id == itype_tramadol || id == itype_codeine ) {
+            has_enough = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return has_enough;
+}
+
+item *npc::most_appropriate_painkiller()
+{
+    const int pain = get_pain();
+
+    int difference = INT_MAX;
+    item *ret = &null_item_reference();
+    visit_items(
+    [&pain, &difference, &ret]( item_location node ) {
+        int diff = INT_MAX;
+        itype_id type = node->typeId();
+        if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
+            diff = std::abs( pain - 15 );
+        } else if( type == itype_codeine ) {
+            diff = std::abs( pain - 30 );
+        } else if( type == itype_oxycodone ) {
+            diff = std::abs( pain - 60 );
+        } else if( type == itype_heroin ) {
+            diff = std::abs( pain - 100 );
+        } else if( type == itype_tramadol ) {
+            diff = std::abs( pain - 40 ) / 2; // Bonus since it's long-acting
+        }
+
+        if( diff < difference ) {
+            difference = diff;
+            ret = node.get_item();
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
 }
 
 bool npc::took_painkiller() const
@@ -3791,6 +3858,11 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
         if( sees_dangerous_field( p ) ) {
             return true;
         }
+        // pathfinder prices bashing itself. guarding only movement functions would
+        // repath into the same wall every turn.
+        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
+            return true;
+        }
         return false;
     };
 }
@@ -4258,6 +4330,31 @@ std::string npc::get_current_activity() const
         return _( "nothing" );
     }
 }
+
+#if defined(TILES)
+static void pick_random_portrait( npc *guy )
+{
+    std::unordered_set<std::string> all = portrait_tilecontext->get_all_portrait_tile_ids( guy->male );
+    guy->portrait_filename = character_portrait_id( random_entry( all ) );
+}
+
+void npc::ensure_portrait_valid()
+{
+    if( !portrait_filename.is_valid() ) {
+        DebugLog( D_INFO, DC_ALL ) << disp_name() << " invalid portrait " << portrait_filename.c_str();
+        if( idz->unique_portrait_filename.is_valid() ) {
+            portrait_filename = idz->unique_portrait_filename;
+        } else {
+            pick_random_portrait( this );
+        }
+    }
+}
+#else
+void npc::ensure_portrait_valid()
+{
+    // Dummied out function for the compiler's sake.
+}
+#endif
 
 std::string npc::get_current_status() const
 {

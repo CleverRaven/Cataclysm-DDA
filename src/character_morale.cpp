@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <list>
 #include <map>
@@ -15,8 +16,10 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
+#include "game.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "kill_tracker.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
@@ -32,6 +35,11 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+
+static const json_character_flag json_flag_NUMB( "NUMB" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 
 static const morale_type morale_perm_fpmode_on( "morale_perm_fpmode_on" );
 static const morale_type morale_perm_hoarder( "morale_perm_hoarder" );
@@ -160,8 +168,54 @@ void Character::apply_persistent_morale()
     }
 }
 
-int Character::get_morale_level() const
+void Character::clamp_trauma()
 {
+    trauma_counter = std::clamp( trauma_counter, 0, 1000 );
+}
+
+int Character::get_trauma() const
+{
+    return trauma_counter;
+}
+
+void Character::mod_trauma( int amt )
+{
+    trauma_counter += amt;
+    clamp_trauma();
+}
+
+void Character::set_trauma( int amt )
+{
+    trauma_counter = amt;
+    clamp_trauma();
+}
+
+double Character::get_modifier_for_ALL_morale() const
+{
+    if( has_flag( json_flag_NUMB ) ) {
+        return 0.0; // I just don't care about anything anymore... (medical mutant)
+    }
+
+    // Only player is bothered by guilt kills, because only player tracks them.
+    if( !is_avatar() || has_flag( json_flag_PSYCHOPATH ) ||
+        has_flag( json_flag_PRED3 ) || has_flag( json_flag_PRED4 ) ) {
+        // No guilt.
+        return 1.0;
+    }
+
+    // Sanity check, at 1000 kills we're down to all morale modifiers being ~5% of max.
+    const int num_kills = std::clamp( g->get_kill_tracker().guilt_kill_count(), 0, 1000 );
+    const int trauma_experiences = get_trauma();
+    const int total_trauma = num_kills + trauma_experiences;
+    return std::pow( 0.997, total_trauma );
+}
+
+int Character::get_morale_level( bool raw ) const
+{
+    if( !raw ) {
+        return std::round( get_modifier_for_ALL_morale() * morale->get_level() );
+    }
+    // For the unusual case that needs it, direct access to raw level for comparison purposes
     return morale->get_level();
 }
 
@@ -254,5 +308,5 @@ void Character::disp_morale()
         pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty, *this );
 }

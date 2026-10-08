@@ -7,6 +7,8 @@
 #include <ostream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
+#include <utility>
 
 #include "cata_assert.h"
 #include "cata_shader.h"
@@ -251,6 +253,17 @@ bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uin
                          "SDL_SetTextureColorMod failed" );
 }
 
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect *rect, const void *pixels,
+                    const int pitch )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to update a null texture";
+        return false;
+    }
+    return !printErrorIf( !SDL_UpdateTexture( texture.get(), rect, pixels, pitch ),
+                          "SDL_UpdateTexture failed" );
+}
+
 bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
                          Uint32 b )
 {
@@ -480,6 +493,45 @@ void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const 
     }
     printErrorIf( !SDL_SetRenderClipRect( renderer.get(), rect ),
                   "SDL_SetRenderClipRect failed" );
+}
+
+void RenderGeometry( const SDL_Renderer_Ptr &renderer, SDL_Texture *const texture,
+                     const SDL_Vertex *const vertices, const int num_vertices,
+                     const int *const indices, const int num_indices )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to render geometry to a null renderer";
+        return;
+    }
+    if( num_vertices <= 0 || num_indices <= 0 ) {
+        return;
+    }
+    printErrorIf( !SDL_RenderGeometry( renderer.get(), texture, vertices, num_vertices,
+                                       indices, num_indices ),
+                  "SDL_RenderGeometry failed" );
+}
+
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect &rect,
+                    const SDL_Surface_Ptr &surface )
+{
+    if( !texture || !surface ) {
+        dbg( D_ERROR ) << "Tried to update a texture from a null handle";
+        return false;
+    }
+    const bool must_lock = SDL_MUSTLOCK( surface.get() );
+    if( must_lock && printErrorIf( !SDL_LockSurface( surface.get() ), "SDL_LockSurface failed" ) ) {
+        return false;
+    }
+    const bool ok = SDL_UpdateTexture( texture.get(), &rect, surface->pixels, surface->pitch );
+    if( must_lock ) {
+        SDL_UnlockSurface( surface.get() );
+    }
+    return !printErrorIf( !ok, "SDL_UpdateTexture failed" );
+}
+
+bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result )
+{
+    return SDL_GetRectIntersection( &a, &b, &result );
 }
 
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *const rect )
@@ -745,6 +797,17 @@ const char *GetRenderDriverName( const int index )
     return name ? name : "";
 }
 
+int GetNumGPUDrivers()
+{
+    return SDL_GetNumGPUDrivers();
+}
+
+const char *GetGPUDriverName( const int index )
+{
+    const char *name = SDL_GetGPUDriver( index );
+    return name ? name : "";
+}
+
 
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer )
 {
@@ -753,6 +816,24 @@ const char *GetRendererName( const SDL_Renderer_Ptr &renderer )
     }
     const char *name = SDL_GetRendererName( renderer.get() );
     return name ? name : "";
+}
+
+bool WaitForEvent( const int timeout_ms )
+{
+    return SDL_WaitEventTimeout( nullptr, timeout_ms );
+}
+
+void PushWakeEvent()
+{
+    // the Android insets hook can fire before SDL_main initializes SDL
+    if( SDL_WasInit( SDL_INIT_EVENTS ) == 0 ) {
+        return;
+    }
+    SDL_Event ev;
+    SDL_zero( ev );
+    ev.type = CATA_WAKE_EVENT;
+    // no logging: this runs on foreign threads, and a full queue wakes the waiter anyway
+    static_cast<void>( SDL_PushEvent( &ev ) );
 }
 
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer )
@@ -839,10 +920,18 @@ bool RenderReadPixels( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect,
     if( !renderer ) {
         return false;
     }
-    ( void )format;
     SDL_Surface *surf = SDL_RenderReadPixels( renderer.get(), rect );
     if( !surf ) {
         return false;
+    }
+    if( surf->format != static_cast<SDL_PixelFormat>( format ) ) {
+        SDL_Surface *converted =
+            SDL_ConvertSurface( surf, static_cast<SDL_PixelFormat>( format ) );
+        SDL_DestroySurface( surf );
+        if( !converted ) {
+            return false;
+        }
+        surf = converted;
     }
     const int copy_h = surf->h;
     const int copy_pitch = std::min( pitch, surf->pitch );
@@ -961,6 +1050,32 @@ void SetTextureScaleQuality( const SDL_Texture_Ptr &texture, const std::string &
 void SetDefaultTextureScaleQuality( const std::string &quality )
 {
     g_default_texture_scale_quality = quality;
+}
+
+SDL_ScaleMode GetTextureScaleMode( const std::shared_ptr<SDL_Texture> &texture )
+{
+    SDL_ScaleMode mode = SDL_SCALEMODE_INVALID;
+    if( !texture ) {
+        return mode;
+    }
+    if( printErrorIf( !SDL_GetTextureScaleMode( texture.get(), &mode ),
+                      "SDL_GetTextureScaleMode failed" ) ) {
+        return SDL_SCALEMODE_INVALID;
+    }
+    return mode;
+}
+
+const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer )
+{
+    if( !renderer ) {
+        return "none";
+    }
+    SDL_GPUDevice *const device = SDL_GetGPURendererDevice( renderer.get() );
+    if( !device ) {
+        return "none";
+    }
+    const char *const name = SDL_GetGPUDeviceDriver( device );
+    return name ? name : "none";
 }
 
 

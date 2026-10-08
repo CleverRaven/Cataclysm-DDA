@@ -1,0 +1,8 @@
+[
+  {
+    "//": "Craft reservation fixture: a presence-only welder requirement, so a planning check turns entirely on whether the synthetic vehicle welder was offered.",
+    "id": "test_reserve_vehicle_weld",
+    "type": "requirement",
+    "tools": [ [ [ "welder", -1 ] ] ]
+  }
+]

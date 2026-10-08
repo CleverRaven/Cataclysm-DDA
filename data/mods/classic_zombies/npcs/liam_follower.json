@@ -57,7 +57,7 @@
     "responses": [
       {
         "text": "I'm glad to see you too, Liam.  Wish it was a better situation.  Let's do this.",
-        "effect": [ "follow", "stop_guard" ],
+        "effect": "follow",
         "topic": "TALK_DONE"
       }
     ]

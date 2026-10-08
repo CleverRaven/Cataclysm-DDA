@@ -177,7 +177,6 @@ bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
                       has_colliding_vehicle.str() );
         }
         set_queued_points();
-        here.set_seen_cache_dirty( examp );
         here.set_transparency_cache_dirty( examp.z() );
     } else {
         open = false;

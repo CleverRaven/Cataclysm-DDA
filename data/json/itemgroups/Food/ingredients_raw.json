@@ -150,7 +150,7 @@
     "id": "dry_beans_bag_plastic_full",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "dry_beans", "container-item": "null", "count": 12 } ]
+    "entries": [ { "item": "dry_beans", "container-item": "null", "count": -1 } ]
   },
   {
     "type": "item_group",

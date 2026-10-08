@@ -1,0 +1,21 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_dirt_cracked",
+    "looks_like": "t_sand",
+    "name": "scorched earth",
+    "description": "Cracked and dry soil that doesn't look like it will be capable of supporting anything in your lifetime.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_dirt_cracked",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "bash_below": true
+    }
+  }
+]

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -38,8 +39,10 @@
 #include "path_info.h"
 #include "rect_range.h"
 #include "sdl_utils.h"
+#include "sdl_version_wrappers.h"
 #include "sdl_wrappers.h"
 #include "sdltiles.h"
+#include "smooth_lighting.h"
 #include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -223,6 +226,8 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
     const std::shared_ptr<SDL_Texture> texture_ptr =
         make_gated_atlas_texture( CreateTextureFromSurface( renderer, surf ), abandon_gate );
     cata_assert( texture_ptr );
+    ++texture_count;
+    atlas_payload_bytes += static_cast<uint64_t>( surf->w ) * static_cast<uint64_t>( surf->h ) * 4;
 
     for( const SDL_Rect rect : input_range ) {
         cata_assert( offset.x % sprite_width == 0 );
@@ -234,8 +239,10 @@ void tileset_cache::loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf
                              ( tile_atlas_width / sprite_width );
         cata_assert( index < target.size() );
         cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
-        const SDL_Rect &opaque = index < opaque_bounds.size()
-                                 ? opaque_bounds[index]
+        const size_t in_chunk = ( rect.x / sprite_width ) + ( rect.y / sprite_height ) *
+                                ( surf->w / sprite_width );
+        const SDL_Rect &opaque = in_chunk < opaque_bounds.size()
+                                 ? opaque_bounds[in_chunk]
                                  : SDL_Rect{ 0, 0, rect.w, rect.h };
         target[index] = texture( texture_ptr, rect, opaque );
     }
@@ -262,32 +269,30 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
     const rect_range<SDL_Rect> scan_range( sprite_width, sprite_height,
                                            point( tile_atlas->w / sprite_width,
                                                    tile_atlas->h / sprite_height ) );
-    // Pre-size to accommodate the maximum index this chunk can produce.
-    const int cols = tile_atlas_width / sprite_width;
-    const size_t max_index = this->offset +
-                             static_cast<size_t>( cols ) * ( tile_atlas->h / sprite_height );
-    std::vector<SDL_Rect> opaque_bounds( max_index + cols, SDL_Rect{ 0, 0, 0, 0 } );
+    // one entry per sprite of this chunk, however far down the atlas it sits
+    const int chunk_cols = tile_atlas->w / sprite_width;
+    std::vector<SDL_Rect> opaque_bounds( static_cast<size_t>( chunk_cols ) *
+                                         ( tile_atlas->h / sprite_height ), SDL_Rect{ 0, 0, 0, 0 } );
     for( const SDL_Rect rect : scan_range ) {
-        const point pos( offset + point( rect.x, rect.y ) );
-        const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
-                             cols;
-        if( index < opaque_bounds.size() ) {
-            opaque_bounds[index] = compute_opaque_rect( scan_surf, rect );
-        }
+        opaque_bounds[( rect.x / sprite_width ) + ( rect.y / sprite_height ) * chunk_cols] =
+            compute_opaque_rect( scan_surf, rect );
     }
 
     /** perform color filter conversion here */
-    using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
+    using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string, bool>;
     std::array<tiles_pixel_color_entry, 6> tile_values_data = {{
-            { std::make_tuple( targets.normal, "color_pixel_none" ) },
-            { std::make_tuple( targets.shadow, "color_pixel_grayscale" ) },
-            { std::make_tuple( targets.night, "color_pixel_nightvision" ) },
-            { std::make_tuple( targets.overexposed, "color_pixel_overexposed" ) },
-            { std::make_tuple( targets.memory, memory_map_mode ) },
-            { std::make_tuple( targets.silhouette, "color_pixel_silhouette" ) }
+            { std::make_tuple( targets.normal, "color_pixel_none", bake_plan.normal ) },
+            { std::make_tuple( targets.shadow, "color_pixel_grayscale", bake_plan.shadow ) },
+            { std::make_tuple( targets.night, "color_pixel_nightvision", bake_plan.night ) },
+            { std::make_tuple( targets.overexposed, "color_pixel_overexposed", bake_plan.overexposed ) },
+            { std::make_tuple( targets.memory, memory_map_mode, bake_plan.memory ) },
+            { std::make_tuple( targets.silhouette, "color_pixel_silhouette", bake_plan.silhouette ) }
         }
     };
     for( tiles_pixel_color_entry &entry : tile_values_data ) {
+        if( !std::get<2>( entry ) ) {
+            continue;
+        }
         std::vector<texture> *tile_values = std::get<0>( entry );
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
@@ -505,9 +510,13 @@ atlas_upload_interrupt tileset_cache::loader::load( const std::string &tileset_i
         load_layers( layer_config );
     }
 
-    return upload_atlases( ts, renderer, memory_map_mode, ts.get_atlas_descriptors(),
-                           renderer_instance_generation, gpu_textures_generation,
-                           pump_events, poll, quarantine );
+    const std::optional<atlas_bake_plan> plan = resolve_atlas_bake_plan( memory_map_mode );
+    if( !plan ) {
+        return atlas_upload_interrupt::shader_boundary_lost;
+    }
+    return upload_atlases( ts, renderer, memory_map_mode, filter_fingerprint, *plan,
+                           ts.get_atlas_descriptors(), renderer_instance_generation,
+                           gpu_textures_generation, pump_events, poll, quarantine );
 }
 
 void tileset_cache::loader::parse_atlases( const JsonObject &config,
@@ -879,6 +888,7 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
         }
         for( const std::string &t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id );
+            curr_tile.light_anchor = smooth_lighting::read_light_anchor( entry );
             curr_tile.offset = sprite_offset;
             curr_tile.offset_retracted = sprite_offset_retracted;
             curr_tile.pixelscale = sprite_pixelscale;
@@ -891,6 +901,9 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
+                    // a subtile takes its entry's anchor unless it names its own
+                    curr_subtile.light_anchor = smooth_lighting::read_light_anchor(
+                                                    subentry.has_member( "light_anchor" ) ? subentry : entry );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.offset_retracted = sprite_offset_retracted;
                     curr_subtile.pixelscale = sprite_pixelscale;
@@ -1002,6 +1015,8 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
 atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         const SDL_Renderer_Ptr &renderer,
         const std::string &memory_map_mode,
+        const uint64_t filter_fingerprint,
+        const atlas_bake_plan &plan,
         const std::vector<atlas_replay_descriptor> &descriptors,
         const uint64_t renderer_instance_generation,
         const uint64_t gpu_textures_generation,
@@ -1009,6 +1024,7 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         const atlas_upload_poll &poll,
         atlas_replay_quarantine *const quarantine )
 {
+    const std::chrono::steady_clock::time_point upload_started = std::chrono::steady_clock::now();
     int total = 0;
     for( const atlas_replay_descriptor &d : descriptors ) {
         total += d.expected_tilecount;
@@ -1018,13 +1034,14 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
 
     // Variant vectors size to the atlas tilecount; the synthetic highlight
     // adds a slot only to the normal vector so the draw path's range check
-    // returns nullptr for variants at that index and falls back to normal.
+    // returns nullptr for variants at that index and falls back to normal. A
+    // variant the plan skips gets an empty vector, which reads the same way.
     std::vector<texture> cand_normal( total + highlight_extra );
-    std::vector<texture> cand_shadow( total );
-    std::vector<texture> cand_night( total );
-    std::vector<texture> cand_overexposed( total );
-    std::vector<texture> cand_memory( total );
-    std::vector<texture> cand_silhouette( total );
+    std::vector<texture> cand_shadow( plan.shadow ? total : 0 );
+    std::vector<texture> cand_night( plan.night ? total : 0 );
+    std::vector<texture> cand_overexposed( plan.overexposed ? total : 0 );
+    std::vector<texture> cand_memory( plan.memory ? total : 0 );
+    std::vector<texture> cand_silhouette( plan.silhouette ? total : 0 );
 
     // Candidates are built against this gate; on success they commit and destroy
     // normally, on abnormal exit they are adopted into the graveyard (below).
@@ -1061,7 +1078,8 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
         }
     } );
 
-    loader uploader( ts, renderer, memory_map_mode );
+    loader uploader( ts, renderer, memory_map_mode, filter_fingerprint );
+    uploader.bake_plan = plan;
     tile_value_targets targets;
     targets.normal = &cand_normal;
     targets.shadow = &cand_shadow;
@@ -1124,6 +1142,23 @@ atlas_upload_interrupt tileset_cache::loader::upload_atlases( tileset &ts,
 
     ts.set_upload_generations( renderer_instance_generation, gpu_textures_generation );
     ts.set_memory_map_mode_at_upload( memory_map_mode );
+    ts.set_bake_plan_at_upload( plan );
+    ts.set_filter_fingerprint_at_upload( filter_fingerprint );
+    const int64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                   std::chrono::steady_clock::now() - upload_started ).count();
+    const SDLVersionInfo sdl_version = GetLinkedSDLVersion();
+    DebugLog( D_INFO, DC_ALL ) << "atlas upload: tileset=" << ts.get_tileset_id()
+                               << " renderer=" << GetRendererName( renderer )
+                               << " gpu_backend=" << GetGPUBackendName( renderer )
+                               << " sdl=" << sdl_version.major << "." << sdl_version.minor
+                               << "." << sdl_version.patch
+                               << " textures=" << uploader.texture_count
+                               << " atlas_payload_bytes=" << uploader.atlas_payload_bytes
+                               << " baked=" << bake_plan_summary( plan )
+                               << " mode=" << memory_map_mode
+                               << " gen=" << renderer_instance_generation << "/"
+                               << gpu_textures_generation
+                               << " ms=" << elapsed_ms;
     committed = true;
     return atlas_upload_interrupt::none;
 }

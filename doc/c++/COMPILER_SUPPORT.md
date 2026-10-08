@@ -5,7 +5,7 @@
 | [GCC](https://gcc.gnu.org)                           | [9.3](https://gcc.gnu.org/onlinedocs/gcc-9.3.0/gcc/) |
 | [clang](https://clang.llvm.org)                      | [13.0](https://releases.llvm.org/13.0.0/docs/index.html) |
 | [MinGW-w64](https://www.mingw-w64.org)               | [UCRT 14.2.0](https://www.mingw-w64.org/downloads/)  |
-| [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
+| [Visual Studio](https://visualstudio.microsoft.com/) | [2022](COMPILING-VS-VCPKG.md) |
 | [XCode](https://developer.apple.com/xcode)           | [11.4](https://developer.apple.com/documentation/xcode-release-notes/xcode-11_4-release-notes) <br/> [macOS 10.15](https://en.wikipedia.org/wiki/MacOS_Catalina) |
 
 Our goal with compiler support is to make it as easy as possible for new

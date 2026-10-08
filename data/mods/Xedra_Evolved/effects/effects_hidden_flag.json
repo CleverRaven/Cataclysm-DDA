@@ -82,6 +82,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_hidden_infection_recovery",
+    "//": "Hidden effect, used to allow easier infection recovery",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "flags": [ "INFECTION_RECOVERY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_nonhuman_super_soldier_serum_immune",
     "//": "Hidden effect, makes full vampires and shapeshifters unable to use serums",
     "name": [ "" ],

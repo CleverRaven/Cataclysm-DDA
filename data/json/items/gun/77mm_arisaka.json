@@ -41,6 +41,7 @@
       [ "stock accessory", 1 ],
       [ "stock mount", 1 ]
     ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

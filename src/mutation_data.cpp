@@ -31,6 +31,7 @@
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_HERITAGE( "HERITAGE" );
+static const json_character_flag json_flag_PERK( "PERK" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -802,6 +803,8 @@ nc_color mutation_branch::get_display_color() const
         return c_light_green;
     } else if( points < 0 ) {
         return c_light_red;
+    } else if( flags.count( json_flag_PERK ) ) {
+        return c_light_gray;
     } else {
         return c_yellow;
     }

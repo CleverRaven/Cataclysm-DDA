@@ -18,6 +18,7 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "body_part_set.h"
 #include "bodypart.h"
@@ -25,6 +26,8 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
+#include "craft_reservation.h"
+#include "crafting.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -39,7 +42,6 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -63,7 +65,6 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "profession.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -306,12 +307,11 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
-    const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv->assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
-            it.invlet = iter.first;
+    if( is_avatar() ) {
+        const char invlet = as_avatar()->free_assigned_invlet( item_type_id );
+        if( invlet != 0 ) {
             keep_invlet = true;
-            break;
+            it.invlet = invlet;
         }
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
@@ -328,8 +328,8 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
         // this will set ret to either it, or to stack where it was placed
         item *newit = nullptr;
         pocket.second->add( it, &newit );
-        if( !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
-            inv->update_invlet( *newit, true, original_inventory_item );
+        if( is_avatar() && !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
+            as_avatar()->update_invlet( *newit, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
@@ -357,12 +357,8 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
 
     // if there's a desired invlet for this item type, try to use it
     char invlet = 0;
-    const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv->assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
-            invlet = iter.first;
-            break;
-        }
+    if( is_avatar() ) {
+        invlet = as_avatar()->free_assigned_invlet( item_type_id );
     }
 
     //item copy for test can contain
@@ -404,8 +400,8 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
                 first_item_added->invlet = invlet;
             }
         }
-        if( !invlet ) {
-            inv->update_invlet( *newits.front(), true, original_inventory_item );
+        if( is_avatar() && !invlet ) {
+            as_avatar()->update_invlet( *newits.front(), original_inventory_item );
         }
 
         copies_remaining -= max_copies;
@@ -493,7 +489,7 @@ item_location Character::i_add( item it, int &copies_remaining,
             added = added ? added : item_location( *this, &weapon );
         }
         if( allow_drop && copies_remaining > 0 ) {
-            item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
+            item &map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
             added = added ? added : item_location( map_cursor( pos_abs() ), &map_added );
         }
     }
@@ -539,7 +535,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
     }
 }
 
-// Negative positions indicate weapon/clothing, 0 & positive indicate inventory
+// Negative positions indicate weapon/clothing, >=0 is obsolete
 const item &Character::i_at( int position ) const
 {
     if( position == -1 ) {
@@ -549,7 +545,7 @@ const item &Character::i_at( int position ) const
         return worn.i_at( worn_position_to_index( position ) );
     }
 
-    return inv->find_item( position );
+    return null_item_reference();
 }
 
 item &Character::i_at( int position )
@@ -581,7 +577,9 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv->assign_empty_invlet( it, *this );
+    if( is_avatar() ) {
+        as_avatar()->assign_empty_invlet( it );
+    }
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, false ) || !can_pickVolume( it );
@@ -663,22 +661,22 @@ std::vector<item_location> Character::top_items_loc()
     return worn.top_items_loc( *this );
 }
 
-item *Character::invlet_to_item( const int linvlet ) const
+item_location Character::invlet_to_item( const int linvlet ) const
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
     // of type int and they can become valid, but different characters when casted to char.
     // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
     // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
     if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
-        return nullptr;
+        return item_location();
     }
     const char invlet = static_cast<char>( linvlet );
     if( is_npc() ) {
         DebugLog( D_WARNING, D_GAME ) << "Why do you need to call Character::invlet_to_position on npc " <<
                                       get_name();
     }
-    item *invlet_item = nullptr;
-    visit_items( [&invlet, &invlet_item]( item * it, item * ) {
+    item_location invlet_item;
+    visit_items( [&invlet, &invlet_item]( item_location it ) {
         if( it->invlet == invlet ) {
             invlet_item = it;
             return VisitResponse::ABORT;
@@ -698,8 +696,7 @@ int Character::get_item_position( const item *it ) const
     if( pos ) {
         return worn_position_to_index( *pos );
     }
-
-    return inv->position_by_item( it );
+    return INT_MIN;
 }
 
 void Character::drop( item_location loc, const tripoint_bub_ms &where )
@@ -770,20 +767,6 @@ void Character::pick_up( const drop_locations &what, Pickup::pick_info &info )
     assign_activity( pickup_activity_actor( items, quantities, pos_bub(), false, info ) );
 }
 
-invlets_bitset Character::allocated_invlets() const
-{
-    invlets_bitset invlets = inv->allocated_invlets();
-
-    visit_items( [&invlets]( item * i, item * ) -> VisitResponse {
-        invlets.set( i->invlet );
-        return VisitResponse::NEXT;
-    } );
-
-    invlets[0] = false;
-
-    return invlets;
-}
-
 bool Character::has_active_item( const itype_id &id ) const
 {
     return has_item_with( [id]( const item & it ) {
@@ -805,19 +788,6 @@ void Character::drop_invalid_inventory()
 
     if( cache_inventory_is_valid ) {
         return;
-    }
-    bool dropped_liquid = false;
-    for( const std::list<item> *stack : inv->const_slice() ) {
-        const item &it = stack->front();
-        if( it.made_of( phase_id::LIQUID ) ) {
-            dropped_liquid = true;
-            here.add_item_or_charges( pos_bub( here ), it );
-            // must be last
-            i_rem( &it );
-        }
-    }
-    if( dropped_liquid ) {
-        add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
     item_location weap = get_wielded_item();
@@ -898,7 +868,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
             }
 
             mod_moves( -item_handling_cost( *obj ) );
-            this->i_add( *obj, true, &*obj, &*obj );
+            craft_relocated( this->i_add( *obj, true, &*obj, &*obj ) );
             obj.remove_item();
             return true;
         }
@@ -923,7 +893,12 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
             item it = *obj;
             obj.remove_item();
-            return !!wear_item( it );
+            const std::optional<std::list<item>::iterator> worn_it = wear_item( it );
+            if( worn_it )
+            {
+                craft_relocated( item_location( *this, & **worn_it ) );
+            }
+            return !!worn_it;
         }
     } );
 
@@ -1190,7 +1165,8 @@ std::vector<intrinsic_quality_source> Character::intrinsic_quality_sources(
     return ret;
 }
 
-std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
+std::list<item> Character::remove_worn_items_with( const std::function<bool( const item & )>
+        &filter )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -1259,7 +1235,7 @@ units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<i
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+    const std::map<const item *, int> &without = tweaks.without_items ? *tweaks.without_items :
             empty;
 
     // Worn items
@@ -1662,8 +1638,6 @@ bool Character::unwield()
         return false;
     }
 
-    inv->unsort();
-
     return true;
 }
 
@@ -1835,7 +1809,6 @@ std::vector<item *> Character::inv_dump()
         ret.push_back( &weapon );
     }
     worn.inv_dump( ret );
-    inv->dump( ret );
     return ret;
 }
 
@@ -1846,7 +1819,6 @@ std::vector<const item *> Character::inv_dump() const
         ret.push_back( &weapon );
     }
     worn.inv_dump( ret );
-    inv->dump( ret );
     return ret;
 }
 
@@ -2012,29 +1984,6 @@ bool Character::trim_haul_list( const std::vector<item_location> &valid_items )
     return qty_before != haul_list.size();
 }
 
-void Character::migrate_items_to_storage( bool disintegrate )
-{
-    inv->visit_items( [&]( const item * it, item * ) {
-        if( disintegrate ) {
-            if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
-                std::string profession_id = prof->ident().str();
-                debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
-                          "profession (%s) has enough space.",
-                          it->tname(), it->typeId().str(), profession_id );
-                return VisitResponse::ABORT;
-            }
-        } else {
-            item_location added = i_add( *it, true, /*avoid=*/nullptr,
-                                         it, /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
-            if( added == item_location::nowhere ) {
-                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
-            }
-        }
-        return VisitResponse::SKIP;
-    } );
-    inv->clear();
-}
-
 std::string Character::is_snuggling() const
 {
     map &here = get_map();
@@ -2110,7 +2059,8 @@ void Character::cache_visit_items_with( const flag_id &type_flag,
     cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
-void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+void Character::cache_visit_items_with( const std::string &key,
+                                        bool( item::*filter_func )() const,
                                         const std::function<void( item_location & )> &do_func )
 {
     cache_visit_items_with( key, {}, {}, filter_func, do_func );
@@ -2137,14 +2087,13 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
         inv_search_caches[key].type = type;
         inv_search_caches[key].type_flag = type_flag;
         inv_search_caches[key].filter_func = filter_func;
-        visit_items( [&]( item * it, item * ) {
+        visit_items( [&]( item_location it ) {
             if( ( !type.is_valid() || it->typeId() == type ) &&
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
-                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+                ( filter_func == nullptr || ( ( *it ).*filter_func )() ) ) {
 
-                item_location cache_loc = form_loc_recursive( *this, *it );
-                inv_search_caches[key].items.push_back( cache_loc );
-                do_func( cache_loc );
+                inv_search_caches[key].items.push_back( it );
+                do_func( it );
             }
             return VisitResponse::NEXT;
         } );
@@ -2163,7 +2112,8 @@ void Character::cache_visit_items_with( const flag_id &type_flag,
     cache_visit_items_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, do_func );
 }
 
-void Character::cache_visit_items_with( const std::string &key, bool( item::*filter_func )() const,
+void Character::cache_visit_items_with( const std::string &key,
+                                        bool( item::*filter_func )() const,
                                         const std::function<void( const item_location & )> &do_func ) const
 {
     cache_visit_items_with( key, {}, {}, filter_func, do_func );
@@ -2190,14 +2140,13 @@ void Character::cache_visit_items_with( const std::string &key, const itype_id &
         inv_search_caches[key].type = type;
         inv_search_caches[key].type_flag = type_flag;
         inv_search_caches[key].filter_func = filter_func;
-        visit_items( [&]( item * it, item * ) {
+        visit_items( [&]( const item_location & it ) {
             if( ( !type.is_valid() || it->typeId() == type ) &&
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
-                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+                ( filter_func == nullptr || ( ( *it ).*filter_func )() ) ) {
 
-                item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), *it );
-                inv_search_caches[key].items.push_back( cache_loc );
-                do_func( cache_loc );
+                inv_search_caches[key].items.push_back( it );
+                do_func( it );
             }
             return VisitResponse::NEXT;
         } );
@@ -2216,7 +2165,8 @@ bool Character::cache_has_item_with( const flag_id &type_flag,
     return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr, check_func );
 }
 
-bool Character::cache_has_item_with( const std::string &key, bool( item::*filter_func )() const,
+bool Character::cache_has_item_with( const std::string &key,
+                                     bool( item::*filter_func )() const,
                                      const std::function<bool( const item & )> &check_func ) const
 {
     return cache_has_item_with( key, {}, {}, filter_func, check_func );
@@ -2248,13 +2198,12 @@ bool Character::cache_has_item_with( const std::string &key, const itype_id &typ
         inv_search_caches[key].type = type;
         inv_search_caches[key].type_flag = type_flag;
         inv_search_caches[key].filter_func = filter_func;
-        visit_items( [&]( item * it, item * ) {
+        visit_items( [&]( const item_location & it ) {
             if( ( !type.is_valid() || it->typeId() == type ) &&
                 ( !type_flag.is_valid() || it->type->has_flag( type_flag ) ) &&
-                ( filter_func == nullptr || ( it->*filter_func )() ) ) {
+                ( filter_func == nullptr || ( ( *it ).*filter_func )() ) ) {
 
-                item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), *it );
-                inv_search_caches[key].items.push_back( cache_loc );
+                inv_search_caches[key].items.push_back( it );
                 // If check_func returns true, stop running it but keep populating the cache.
                 if( !aborted && check_func( *it ) ) {
                     aborted = true;
@@ -2351,26 +2300,24 @@ std::vector<item_location> Character::cache_get_items_with( const std::string &k
     return ret;
 }
 
-void Character::add_to_inv_search_caches( item &it ) const
+void Character::add_to_inv_search_caches( const item_location &it ) const
 {
     for( auto &cache : inv_search_caches ) {
-        if( ( cache.second.type.is_valid() && it.typeId() != cache.second.type ) ||
-            ( cache.second.type_flag.is_valid() && !it.type->has_flag( cache.second.type_flag ) ) ||
-            ( cache.second.filter_func && !( it.*cache.second.filter_func )() ) ) {
+        if( ( cache.second.type.is_valid() && it->typeId() != cache.second.type ) ||
+            ( cache.second.type_flag.is_valid() && !it->type->has_flag( cache.second.type_flag ) ) ||
+            ( cache.second.filter_func && !( ( *it ).*cache.second.filter_func )( ) ) ) {
             continue;
         }
 
         // If item is already in the cache, remove it so it can be re-added in its current state.
         for( auto iter = cache.second.items.begin(); iter != cache.second.items.end(); ) {
-            if( *iter && iter->get_item() == &it ) {
+            if( *iter && iter->get_item() == &*it ) {
                 iter = inv_search_caches[cache.first].items.erase( iter );
             } else {
                 ++iter;
             }
         }
-
-        item_location cache_loc = form_loc_recursive( *const_cast<Character *>( this ), it );
-        cache.second.items.push_back( cache_loc );
+        cache.second.items.push_back( it );
     }
 }
 
@@ -2453,13 +2400,13 @@ void Character::on_item_takeoff( const item &it )
     morale->on_item_takeoff( it );
 }
 
-void Character::on_item_acquire( const item &it )
+void Character::on_item_acquire( const item_location &it )
 {
     bool check_for_zoom = is_avatar();
     bool update_overmap_seen = false;
 
-    it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( item * cont_it, item * ) {
-        add_to_inv_search_caches( *cont_it );
+    it.visit_items( [this, &check_for_zoom, &update_overmap_seen]( const item_location & cont_it ) {
+        add_to_inv_search_caches( cont_it );
         if( check_for_zoom && !update_overmap_seen && cont_it->has_flag( flag_ZOOM ) ) {
             update_overmap_seen = true;
         }
@@ -2471,6 +2418,27 @@ void Character::on_item_acquire( const item &it )
     if( update_overmap_seen ) {
         g->update_overmap_seen();
     }
+}
+
+item &Character::best_unreserved_item_with_quality( const quality_id &qid )
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<item *> items = items_with( [qid, &max_lvl_found, this]( const item & it ) {
+        if( !craft_reservation::usable_by_automation( it ) ) {
+            return false;
+        }
+        // same metric has_unreserved_quality plans with, so the two can't disagree
+        const int qlvl = provider_quality_level( it, qid, this, false );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
 }
 
 item &Character::best_item_with_quality( const quality_id &qid )
@@ -2688,10 +2656,14 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             unload_activity_actor::unload( *this, targloc );
         } else {
             int mv = 0;
-            for( const item *content : target->all_items_top() ) {
+            target->visit_contents(
+            [&]( item_location node ) {
                 // We use the same cost for both reloading and unloading
-                mv += this->item_reload_cost( it, *content, content->charges );
-            }
+                mv += this->item_reload_cost( it, *node, node->charges );
+                return VisitResponse::SKIP;
+            },
+            targloc, { pocket_type::CONTAINER, pocket_type::MAGAZINE, pocket_type::MAGAZINE_WELL }
+            );
             if( it.is_ammo_belt() ) {
                 // Disassembling ammo belts is easier than assembling them
                 mv /= 2;
@@ -2777,7 +2749,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             // Eject magazine consuming half as much time as required to insert it
             this->mod_moves( -this->item_reload_cost( *target, *mag, -1 ) / 2 );
 
-            target->remove_items_with( [mag]( const item & e ) {
+            targloc.remove_items_with( [mag]( const item & e ) {
                 return &e == mag;
             } );
         }
@@ -2802,7 +2774,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
                 to_remove.push_back( e );
             }
             if( rep != nullptr ) {
-                this->mod_moves( -this->item_reload_cost( *target, *rep, src.total_qty ) / 2 );
+                this->mod_moves( -this->item_reload_cost( *target, *rep,
+                                 src.total_qty ) / 2 );
             }
             for( item *e : to_remove ) {
                 src.pocket->remove_item( *e );
@@ -3022,7 +2995,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
             return false;
         }
 
-        if( !is_unwielding && wielded->has_item( it ) ) {
+        if( !is_unwielding && wielded.has_item( it ) ) {
             add_msg_if_player( m_info,
                                _( "You need to put the bag away before trying to wield something from it." ) );
             return false;
@@ -3081,14 +3054,19 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     wielded = get_wielded_item();
+    // Copy-assigned into the weapon slot, so every uid under it is fresh.
+    if( wielded ) {
+        craft_relocated( wielded );
+    }
     recoil = MAX_RECOIL;
 
     // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
     if( wielded ) {
         last_item = wielded->typeId();
         wielded->on_wield( *this, combat );
-        inv->update_invlet( *wielded );
-        inv->update_cache_with_item( *wielded );
+        if( is_avatar() ) {
+            as_avatar()->add_invlet_to_new_item( *wielded );
+        }
         cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
         get_event_bus().send_with_talker( this, &wielded, e );
     } else {
@@ -3129,7 +3107,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
         return false;
     }
 
-    if( !container.has_item( *internal_item ) ) {
+    item_location il = item_location( *this, &container );
+
+    if( !il.has_item( *internal_item ) ) {
         debugmsg( "Tried to wield non-existent item from container (Character::wield_contents)" );
         return false;
     }
@@ -3146,13 +3126,11 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
         if( !unwield() ) {
             return false;
         }
-        inv->unsort();
     }
 
     // for holsters, we should not include the cost of wielding the holster itself
     // The cost of wielding the holster was already added earlier in avatar_action::use_item.
     // As we couldn't make sure back then what action was going to be used, we remove the cost now.
-    item_location il = item_location( *this, &container );
     mv -= il.obtain_cost( *this );
     mv += item_retrieve_cost( *internal_item, container, penalties, base_cost );
 
@@ -3161,11 +3139,12 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
     } else {
         weapon = std::move( *internal_item );
     }
-    container.remove_item( *internal_item );
+    il.remove_item( *internal_item );
     container.on_contents_changed();
 
-    inv->update_invlet( weapon );
-    inv->update_cache_with_item( weapon );
+    if( is_avatar() ) {
+        as_avatar()->add_invlet_to_new_item( weapon );
+    }
     last_item = weapon.typeId();
 
     mod_moves( -mv );
@@ -3182,6 +3161,9 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 void Character::store( item &container, item &put, bool penalties, int base_cost,
                        pocket_type pk_type, bool check_best_pkt )
 {
+    // Correct only while every caller passes a destination this character holds; one
+    // with a destination elsewhere must thread in its own location.
+    const item_location container_loc( *this, &container );
     mod_moves( -item_store_cost( put, container, penalties, base_cost ) );
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
         container.get_container_pockets().size() > 1 ) {
@@ -3191,6 +3173,7 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     } else {
         container.put_in( i_rem( &put ), pk_type, false, this );
     }
+    craft_relocated( container_loc );
     calc_encumbrance();
 }
 
@@ -3210,5 +3193,6 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
                           pocket->obtain_cost( put ) ) );
     ret_val<item *> result = pocket->insert_item( i_rem( &put ) );
     result.value()->on_pickup( *this );
+    craft_relocated( item_location( *this, result.value() ) );
     calc_encumbrance();
 }

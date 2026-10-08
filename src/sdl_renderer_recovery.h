@@ -7,9 +7,18 @@
 #include <atomic>
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_tiles.h"
+
+class Font;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
 
 // Severity of a renderer-resource recovery, ordered so the inbox can keep
 // the maximum pending level via a monotonic-max. Android foreground maps to
@@ -409,10 +418,35 @@ struct renderer_recovery_test_support {
     // state, draining any quarantine on the still-live renderer first.
     static void reset_coordinator();
 
-    // Build a one-descriptor 1x1 bundle, upload it once at the given generations,
-    // and insert it into the global cache. Returns the held bundle so the weak
-    // cache entry stays live and the recorded generations are readable.
+    // make one-descriptor 1x1 bundle, upload it once at the given generations
+    // under resolve_atlas_bake_plan, then track it in global cache, and return the
+    // held bundle so that the weak cache entry stays live and the recorded
+    // generations are readable; null, with device_lost queued, when the probe
+    // lost the renderer boundary
     static std::shared_ptr<const tileset> install_synthetic_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
+    // As install_synthetic_bundle, uploading under an explicit bake plan
+    // instead of the resolver's decision. with_highlight adds the synthetic
+    // item highlight the loader reserves for a tileset without its own: 1x1
+    // tile size and the highlight in the slot after the atlas sprite. each of
+    // `tile_ids` gets a tile drawing the atlas sprite
+    static std::shared_ptr<const tileset> install_synthetic_bundle(
+        const std::string &tileset_id, const std::string &memory_map_mode,
+        uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+        const atlas_bake_plan &plan, bool with_highlight = false,
+        const std::vector<std::string> &tile_ids = {} );
+    // bundle of the atlas at `image_path`, cut into `tilecount` sprites of
+    // `sprite_size`, uploaded through tileset_cache::loader::upload_atlases
+    static std::shared_ptr<const tileset> install_atlas_bundle( const std::string &tileset_id,
+            const std::string &image_path, const point &sprite_size, int tilecount );
+    // upload `ts` with `desc` as its one atlas and track it in the cache
+    static std::shared_ptr<const tileset> upload_test_bundle( std::shared_ptr<tileset> ts,
+            const atlas_replay_descriptor &desc, const std::string &memory_map_mode,
+            uint64_t renderer_instance_generation, uint64_t gpu_textures_generation,
+            const atlas_bake_plan &plan );
+    // install_synthetic_bundle with a full plan and the synthetic item highlight.
+    static std::shared_ptr<const tileset> install_synthetic_bundle_with_highlight(
         const std::string &tileset_id, const std::string &memory_map_mode,
         uint64_t renderer_instance_generation, uint64_t gpu_textures_generation );
 
@@ -472,6 +506,64 @@ struct renderer_recovery_test_support {
     // on the stack, then close it. Reports whether the display buffer was bound
     // inside the scope and whether the target returned to NULL after it.
     static void pause_during_draw_scope( bool &bound_during, bool &null_after );
+
+    // next N variant_pass probes report unsafe boundary without touching SDL.
+    // countdown like arm_replay_pause
+    static void arm_probe_unsafe( int count = 1 );
+    static int probe_unsafe_remaining();
+    // next variant_pass flush fails without touching SDL, whether or not
+    // anything is bound
+    static void arm_flush_failure();
+    // Set the sticky shader fault alone: the state a shader-caused device_lost
+    // recovery leaves after rebind_renderer restored the boundary.
+    static void mark_shader_fault();
+    // Reproduce draw_sprite_at's bind-failure path: the pass flags plus the
+    // display latch, so the next drain promotes to device_lost.
+    static void simulate_draw_bind_failure();
+    // number of variant_pass probe runs since fixture setup
+    static int variant_probe_count();
+    // run refresh_display's presentation decision that refresh_display can't
+    // reach under test_mode
+    static bool run_present_gate();
+    // Force "shader variants available" for bake-plan resolver and present gate
+    // without touching variant_pass, so software fixture can exercise skipped
+    // bundles. nullopt restores the live pass. A sticky shader fault overrides
+    // it. Cleared by teardown_software_renderer.
+    static void override_shader_variants_available( std::optional<bool> available );
+
+    // install a font from `typeface` (TrueType or bitmap, as load_font picks)
+    // with w x h cells, initialising SDL_ttf if needed; the fixture's global
+    // cell size follows the font. A bitmap font converts its image to
+    // `font_pixel_format`, or to the fixture's format when that's unknown.
+    // Released by teardown
+    static bool install_test_font( const std::string &typeface, int w, int h, int size,
+                                   bool blending, Uint32 font_pixel_format = SDL_PIXELFORMAT_UNKNOWN );
+    // draw `w` through the terminal window path with every line forced, as
+    // curses_drawwindow does for a plain window
+    static bool draw_test_window( const catacurses::window &w );
+    // draw `w` as curses_drawwindow draws the pixel minimap window, counting
+    // minimap paints in `paints`; false when the draw was skipped.
+    // `fail_unbind` makes the shader unbind inside the draw scope fail
+    static bool draw_test_minimap_window( const catacurses::window &w, bool fail_unbind,
+                                          int &paints );
+    // installed test font, or null
+    static Font *test_font();
+    // cata_tiles in fixture renderer drawing with `ts`, scaled as load_tileset
+    // leaves it
+    static std::unique_ptr<cata_tiles> make_test_tiles( const std::shared_ptr<const tileset> &ts );
+    // one w_terrain frame of `tiles`: w x h tiles centred on `center`
+    static void draw_test_map( cata_tiles &tiles, const tripoint_bub_ms &center, int w, int h );
+    // one overmap frame of `tiles` centred on `center`
+    static void draw_test_overmap( cata_tiles &tiles, const tripoint_abs_omt &center );
+    static void set_has_animated_tiles( cata_tiles &tiles, bool animated );
+    // record every sprite `tiles` draws, with its light policy and anchor,
+    // into `log`; null stops
+    static void log_draw_light( cata_tiles &tiles, std::vector<drawn_sprite_record> *log );
+    // install_synthetic_bundle with `tiles` as its tile types
+    static std::shared_ptr<const tileset> install_tiles_bundle( const std::string &tileset_id,
+            const std::string &memory_map_mode, uint64_t renderer_instance_generation,
+            uint64_t gpu_textures_generation, const atlas_bake_plan &plan, bool with_highlight,
+            const std::vector<std::pair<std::string, tile_type>> &tiles );
 };
 
 // RAII wrapper around setup/teardown for use as a Catch2 fixture local.

@@ -33,6 +33,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
+    "block": { "chance": 25, "effectiveness": 5, "count": 1, "ranged": false },
     "upgrades": { "half_life": 180, "into": "mon_feral_human_bio2" },
     "extend": {
       "special_attacks": [
@@ -70,6 +71,7 @@
     "attack_cost": 80,
     "death_drops": "feral_humans_death_drops_bio",
     "zombify_into": "mon_zombie_survivor",
+    "block": { "chance": 45, "effectiveness": 10, "count": 1, "ranged": false },
     "upgrades": { "half_life": 180, "into": "mon_feral_human_bio3" },
     "extend": {
       "special_attacks": [
@@ -131,6 +133,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
     "attack_cost": 75,
     "death_drops": "feral_humans_death_drops_bio",
+    "block": { "chance": 65, "effectiveness": 15, "count": 2, "ranged": false },
     "zombify_into": "mon_zombie_survivor",
     "extend": {
       "special_attacks": [

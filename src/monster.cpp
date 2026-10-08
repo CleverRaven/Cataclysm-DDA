@@ -341,8 +341,7 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
-    if( has_effect( effect_onfire ) ||
-        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+    if( has_effect( effect_onfire ) || luminance() > 0 ) {
         map &here = get_map();
         here.set_lightmap_cache_dirty( old_pos.z() );
         here.set_lightmap_cache_dirty( pos_bub().z() );
@@ -356,6 +355,11 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
     }
+}
+
+float monster::luminance() const
+{
+    return calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true );
 }
 
 void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/,
@@ -865,7 +869,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Therefore the header is intentionally *neutral* on the language.
     mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
 
-    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    if( debug_mode ) {
+        oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    }
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -976,8 +982,9 @@ void monster::print_info_imgui() const
 {
     const map &here = get_map();
 
-    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
-
+    if( debug_mode ) {
+        ImGui::TextUnformatted( get_origin( type->src ).c_str() );
+    }
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
     }
@@ -1071,11 +1078,11 @@ std::vector<std::string> monster::extended_description() const
     // exponential growth.
     tmp.reserve( 12 );
 
-    tmp.emplace_back( get_origin( type->src ) );
-    tmp.emplace_back( "--" );
-
     if( debug_mode ) {
+        tmp.emplace_back( get_origin( type->src ) );
+        tmp.emplace_back( "--" );
         tmp.emplace_back( colorize( type->id.str(), c_white ) );
+
         const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
         const std::string overlay_str = enumerate_as_string(
                                             overlays.begin(), overlays.end(),
@@ -2184,7 +2191,7 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
     }
 
     if( blocked ) {
-        add_msg( m_info, _( "%s blocks the attack!" ), disp_name() );
+        add_msg_if_player_sees( *this, m_warning, _( "The %s blocks the attack!" ), name() );
     }
 
     return blocked;
@@ -3922,8 +3929,9 @@ bool monster::is_nemesis() const
     return has_flag( mon_flag_NEMESIS );
 }
 
-void monster::init_from_item( item &itm )
+void monster::init_from_item( item_location loc )
 {
+    item &itm = *loc;
     if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
@@ -3956,12 +3964,12 @@ void monster::init_from_item( item &itm )
                 }
             }
             inv.push_back( *it );
-            itm.remove_item( *it );
+            loc.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
         for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
-            itm.remove_item( *dissectable );
+            loc.remove_item( *dissectable );
         }
     } else {
         // must be a robot

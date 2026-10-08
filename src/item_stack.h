@@ -87,7 +87,9 @@ class item_stack
         * @param filter Must return true for use to occur.
         * @return Duplicates of each item that provided consumed charges
         */
+        template <typename veh_or_map_cursor>
         std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint_bub_ms &pos,
+                                     const veh_or_map_cursor &cur,
                                      const std::function<bool( const item & )> &filter, bool in_tools = false );
 };
 

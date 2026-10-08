@@ -1592,7 +1592,7 @@ The following are recommended for use when making houses or similar domestic env
 | [`construction_general_palette`](/data/json/mapgen_palettes/construction.json)    | A palette for buildings that are under construction, for a more concrete example of using this palette, look at [house_02](/data/json/mapgen/house/house02.json)
 | [`commercial`](/data/json/mapgen_palettes/commercial.json)  | For having randomized fridges/freezers **You will still need to add the parameters to your own symbols**
 | Any in [basement.json](/data/json/mapgen_palettes/basement.json)   | Palettes for usage within basements
-| [`roof_palette`](/data/json/mapgen_palettes/roof_palette.json)   | Palette that is be used in every roof
+| [`roof_palette`](/data/json/mapgen_palettes/roof_palette.json)   | Palette that is used in every roof
 
 There are many more within [`/data/json/mapgen_palettes`](/data/json/mapgen_palettes/) but these are the most important ones and will be used in many buildings.
 

@@ -49,6 +49,9 @@ using bodygraph_id = string_id<bodygraph>;
 struct character_modifier;
 using character_modifier_id = string_id<character_modifier>;
 
+struct character_portrait;
+using character_portrait_id = string_id<character_portrait>;
+
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
 

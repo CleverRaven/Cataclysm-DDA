@@ -66,18 +66,16 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
+#include "fungal_effects.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "gun_mode.h"
-#include "help.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
@@ -100,6 +98,7 @@
 #include "math_parser_diag_value.h"
 #include "math_parser_type.h"
 #include "memory_fast.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -127,12 +126,12 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_groups.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "skill.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
@@ -1859,18 +1858,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
                 return _( "&You yell." );
             }
         }
-    } else if( topic == "TALK_SIZE_UP" ) {
-        return actor( true )->evaluation_by( *actor( false ) );
-    } else if( topic == "TALK_ASSESS_PERSON" ) {
-        return actor( true )->view_personality_traits();
-    } else if( topic == "TALK_LOOK_AT" ) {
-        if( actor( false )->can_see() ) {
-            return "&" + actor( true )->short_description();
-        } else {
-            return string_format( _( "&You're blind and can't look at %s." ), actor( true )->disp_name() );
-        }
-    } else if( topic == "TALK_OPINION" ) {
-        return "&" + actor( true )->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
         if( actor( true )->enslave_mind() ) {
             return _( "YES, MASTER!" );
@@ -1893,6 +1880,25 @@ void dialogue::apply_speaker_effects( const talk_topic &the_topic )
             npc_effect.apply( *this );
         }
     }
+}
+
+std::optional<character_portrait_id> dialogue::portrait_or_nullopt()
+const
+{
+    if( !topic_stack.empty() ) {
+        const std::string &topic = topic_stack.back().id;
+        const auto iter = json_talk_topics.find( topic );
+        if( iter != json_talk_topics.end() && iter->second.get_portrait_override().has_value() ) {
+            return iter->second.get_portrait_override();
+        }
+    }
+
+    Character *partner = actor( true )->get_character();
+    if( partner ) {
+        return partner->portrait_filename;
+    }
+
+    return std::nullopt;
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
@@ -4197,42 +4203,42 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
 
         itype_id item_to_remove;
-        double percent = 0.0f;
-        double ratio = 0.0f;
         double amount_desired = 0.0f;
-        int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
-        std::vector<item_comp> items_to_remove_vector;
+        auto legal_to_consume = [&]( const item & it ) {
+            return it.is_owned_by( *you );
+        };
+        std::unordered_set<item_location> all_items = get_map().all_items( legal_to_consume,
+                *you,
+                Access_Inventory | Access_Map_Around | Access_Vehicle );
 
         for( const auto &pair : item_and_amount ) {
-            int amount_to_remove = 0;
             item_to_remove = itype_id( pair.first.evaluate( d ) );
             amount_desired = pair.second.evaluate( d );
-            count_present = inventory_and_around.count_item( item_to_remove );
-
-            if( count_present == 0 ) {
-                continue;
-            }
-
-            percent += count_present / amount_desired;
-
-            if( percent <= 1.0 ) {
-                // either lack or just right amount of items to consume
-                items_to_remove_vector = { { item_to_remove, static_cast<int>( count_present ) } };
-                you->consume_items( items_to_remove_vector );
-
-            } else {
-                // too much items to consume, consuming only to hit 1.00 percent
-                percent -= count_present / amount_desired;
-                ratio = count_present / amount_desired;
-
-                while( percent < 1.0 ) {
-                    percent += ratio / count_present;
-                    ++amount_to_remove;
+            auto iter = all_items.begin();
+            while( iter != all_items.end() && amount_desired > 0 ) {
+                item_location it = *iter;
+                if( it && it->typeId() == item_to_remove ) {
+                    if( it->count_by_charges() ) {
+                        if( it->charges <= amount_desired ) {
+                            amount_desired -= it->charges;
+                            it->spill_contents( it.pos_bub( get_map() ) );
+                            it.remove_item();
+                            iter = all_items.erase( iter );
+                        } else {
+                            amount_desired = 0;
+                            it->mod_charges( -amount_desired );
+                            iter++;
+                        }
+                    } else {
+                        it->spill_contents( it.pos_bub( get_map() ) );
+                        it.remove_item();
+                        iter = all_items.erase( iter );
+                        amount_desired--;
+                    }
+                } else {
+                    iter++; // Not an item we're looking for. NEXT!
                 }
-                items_to_remove_vector = { { item_to_remove, amount_to_remove } };
-                you->consume_items( items_to_remove_vector );
             }
         }
     };
@@ -5218,13 +5224,14 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
         int number_to_transfer = dov_quantity.evaluate( d );
 
         // Use a set! No duplicates! Duplicate pointers will be bad(crash) when we try to remove the item later.
-        std::set<item *> items_to_transfer;
+        std::set<item_location> items_to_transfer;
 
-        seller->get_character()->visit_items( [&]( item * visited, item * parent ) {
+        seller->get_character()->visit_items( [&]( item_location visited ) {
             if( visited->typeId() == traded_itype_id ) {
-                if( parent && ( parent->all_pockets_sealed() || visited->made_of( phase_id::LIQUID ) ||
-                                parent->has_flag( json_flag_NO_UNLOAD ) ) ) {
-                    items_to_transfer.emplace( parent );
+                if( visited.has_parent() && ( visited.parent_item()->all_pockets_sealed() ||
+                                              visited->made_of( phase_id::LIQUID ) ||
+                                              visited.parent_item()->has_flag( json_flag_NO_UNLOAD ) ) ) {
+                    items_to_transfer.emplace( visited.parent_item() );
                 } else {
                     items_to_transfer.emplace( visited );
                 }
@@ -5235,7 +5242,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
         if( seller->get_character()->is_avatar() ) {
             std::string warning = _( "Really continue?  You will hand over the following items:" );
             int num_warnings = 0;
-            for( item *checked_item : items_to_transfer ) {
+            for( const item_location &checked_item : items_to_transfer ) {
                 warning += "\n" + checked_item->tname();
                 num_warnings++;
                 if( !is_trade && num_warnings >= number_to_transfer ) {
@@ -5298,13 +5305,13 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
             d.actor( true )->add_debt( price );
 
             // Now let's actually transfer the items!
-            for( item *transferred : items_to_transfer ) {
+            for( const item_location &transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
                 transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
 
                 auto remove_items_filter = [&]( const item & it ) {
-                    return &it == const_cast<const item *>( transferred );
+                    return &it == transferred.get_item();
                 };
 
                 seller->remove_items_with( remove_items_filter );
@@ -5314,7 +5321,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
         } else { // u_bulk_donate
 
             int number_transferred = 0;
-            for( item *transferred : items_to_transfer ) {
+            for( const item_location &transferred : items_to_transfer ) {
                 item transfer_copy( *transferred );
                 transfer_copy.set_owner( *buyer->get_character() );
                 buyer->i_add_or_drop( transfer_copy );
@@ -5323,9 +5330,9 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
                 if( transferred->typeId() != traded_itype_id ) {
                     // Container traded over
                     if( item( traded_itype_id ).count_by_charges() ) {
-                        number_transferred += transferred->charges_of( traded_itype_id );
+                        number_transferred += transferred.charges_of( traded_itype_id );
                     } else {
-                        number_transferred += transferred->amount_of( traded_itype_id );
+                        number_transferred += transferred.amount_of( traded_itype_id );
                     }
                 } else {
                     // Loose items traded over
@@ -5337,7 +5344,7 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
                 }
 
                 auto remove_items_filter = [&]( const item & it ) {
-                    return &it == const_cast<const item *>( transferred );
+                    return &it == transferred.get_item();
                 };
 
                 seller->remove_items_with( remove_items_filter );
@@ -7412,6 +7419,139 @@ talk_effect_fun_t::func f_lose_morale( const JsonObject &jo, std::string_view me
     };
 }
 
+talk_effect_fun_t::func f_add_addiction( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    str_or_var addiction = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var strength = get_dbl_or_var( jo, "strength" );
+    return [is_npc, addiction, strength]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->add_addiction( addiction_id( addiction.evaluate( d ) ), strength.evaluate( d ) );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_lose_addiction( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    str_or_var addiction = get_str_or_var( jo.get_member( member ), member, true );
+    return [is_npc, addiction]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->rem_addiction( addiction_id( addiction.evaluate( d ) ) );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_vomit( bool is_npc )
+{
+    return [is_npc]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->vomit();
+        }
+    };
+}
+
+talk_effect_fun_t::func f_fall_asleep( const JsonObject &jo, std::string_view member,
+                                       std::string_view, bool is_npc )
+{
+    duration_or_var duration = get_duration_or_var( jo, member, true );
+    return [is_npc, duration]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->fall_asleep( duration.evaluate( d ) );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_heal_all( const JsonObject &jo, std::string_view member,
+                                    std::string_view, bool is_npc )
+{
+    dbl_or_var amount = get_dbl_or_var( jo, member );
+    return [is_npc, amount]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->healall( amount.evaluate( d ) );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_hurt_all( const JsonObject &jo, std::string_view member,
+                                    std::string_view, bool is_npc )
+{
+    dbl_or_var amount = get_dbl_or_var( jo, member );
+    return [is_npc, amount]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target ) {
+            target->hurtall( amount.evaluate( d ), nullptr );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_fill_stomach( const JsonObject &jo, std::string_view member,
+                                        std::string_view src, bool is_npc )
+{
+    dbl_or_var capacity_fraction = get_dbl_or_var( jo, member );
+    dbl_or_var calories_per_ml = get_dbl_or_var( jo, "calories_per_ml" );
+    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs", src );
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
+    return [is_npc, capacity_fraction, calories_per_ml, true_eocs,
+            false_eocs]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( !target ) {
+            return;
+        }
+        const int desired_ml = static_cast<int>(
+                                   units::to_milliliter( target->stomach.capacity( *target ) ) *
+                                   capacity_fraction.evaluate( d ) );
+        const int amount_ml = std::max( desired_ml -
+                                        units::to_milliliter( target->stomach.contains() ), 0 );
+        const units::volume amount = units::from_milliliter( amount_ml );
+        if( amount > 0_ml ) {
+            target->stomach.mod_calories( static_cast<int>( amount_ml *
+                                          calories_per_ml.evaluate( d ) ) );
+            target->stomach.mod_contents( amount );
+            run_eoc_vector( true_eocs, d );
+        } else {
+            run_eoc_vector( false_eocs, d );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_marlossify( bool is_npc,
+                                      const std::optional<var_info> &target_var = std::nullopt )
+{
+    return [is_npc, target_var]( dialogue & d ) {
+        map &here = get_map();
+        const tripoint_bub_ms target = target_var.has_value() ?
+                                       here.get_bub( read_var_value( *target_var, d ).tripoint() ) :
+                                       d.actor( is_npc )->pos_bub( here );
+        fungal_effects().marlossify( target );
+    };
+}
+
+talk_effect_fun_t::func f_marlossify_location( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    return f_marlossify( is_npc, read_var_info( jo.get_object( member ) ) );
+}
+
+talk_effect_fun_t::func f_add_memorial( const JsonObject &jo, std::string_view member,
+                                        std::string_view, bool is_npc )
+{
+    translation_or_var male = get_translation_or_var( jo.get_member( member ), member, true );
+    translation_or_var female = male;
+    optional( jo, false, "female", female );
+    return [is_npc, male, female]( dialogue & d ) {
+        Character *target = d.actor( is_npc )->get_character();
+        if( target && target->is_avatar() ) {
+            get_memorial().add( male.evaluate( d ).translated(), female.evaluate( d ).translated() );
+        }
+    };
+}
+
 talk_effect_fun_t::func f_add_faction_trust( const JsonObject &jo, std::string_view member,
         std::string_view )
 {
@@ -8455,6 +8595,14 @@ parsers = {
     { "u_set_fac_relation", "npc_set_fac_relation", jarg::member, &talk_effect_fun::f_set_fac_relation },
     { "u_add_morale", "npc_add_morale", jarg::member, &talk_effect_fun::f_add_morale },
     { "u_lose_morale", "npc_lose_morale", jarg::member, &talk_effect_fun::f_lose_morale },
+    { "u_add_addiction", "npc_add_addiction", jarg::member, &talk_effect_fun::f_add_addiction },
+    { "u_lose_addiction", "npc_lose_addiction", jarg::member, &talk_effect_fun::f_lose_addiction },
+    { "u_fall_asleep", "npc_fall_asleep", jarg::member | jarg::array, &talk_effect_fun::f_fall_asleep },
+    { "u_heal_all", "npc_heal_all", jarg::member | jarg::array, &talk_effect_fun::f_heal_all },
+    { "u_hurt_all", "npc_hurt_all", jarg::member | jarg::array, &talk_effect_fun::f_hurt_all },
+    { "u_fill_stomach", "npc_fill_stomach", jarg::member | jarg::array, &talk_effect_fun::f_fill_stomach },
+    { "u_marlossify", "npc_marlossify", jarg::object, &talk_effect_fun::f_marlossify_location },
+    { "u_add_memorial", "npc_add_memorial", jarg::member, &talk_effect_fun::f_add_memorial },
     { "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun::f_add_bionic },
     { "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun::f_lose_bionic },
     { "u_attack", "npc_attack", jarg::member, &talk_effect_fun::f_attack },
@@ -8683,6 +8831,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
 
     if( effect_id == "lightning" ) {
         set_effect( talk_effect_fun_t( talk_effect_fun::f_lightning() ) );
+        return;
+    }
+
+    if( effect_id == "u_vomit" || effect_id == "npc_vomit" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_vomit( effect_id == "npc_vomit" ) ) );
+        return;
+    }
+
+    if( effect_id == "u_marlossify" || effect_id == "npc_marlossify" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_marlossify( effect_id == "npc_marlossify" ) ) );
         return;
     }
 
@@ -9235,6 +9393,12 @@ void json_talk_topic::load( const JsonObject &jo, std::string_view src )
             }
         }
     }
+    if( jo.has_member( "portrait_override" ) ) {
+        portrait_override = character_portrait_id( jo.get_member( "portrait_override" ) );
+    } else {
+        // FIXME: Use real null IDs not std::optional juggling :(
+        portrait_override = std::nullopt;
+    }
     bool insert_above_bottom = false;
     if( jo.has_bool( "insert_before_standard_exits" ) ) {
         insert_above_bottom = jo.get_bool( "insert_before_standard_exits" );
@@ -9341,6 +9505,11 @@ std::string json_talk_topic::get_dynamic_line( dialogue &d ) const
 std::vector<json_dynamic_line_effect> json_talk_topic::get_speaker_effects() const
 {
     return speaker_effects;
+}
+
+std::optional<character_portrait_id> json_talk_topic::get_portrait_override() const
+{
+    return portrait_override;
 }
 
 void json_talk_topic::check_consistency() const
@@ -9481,4 +9650,3 @@ std::vector<std::string> get_all_talk_topic_ids()
     }
     return dialogue_ids;
 }
-

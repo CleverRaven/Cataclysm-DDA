@@ -4,7 +4,7 @@
     "type": "vehicle_part",
     "location": "structure",
     "durability": 400,
-    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "description": "A metal framework part of a unibody vehicle.  Other vehicle components were mounted on it, but it is now deeply integrated with them.",
     "breaks_into": "ig_vp_frame",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
@@ -123,7 +123,8 @@
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "9 m", "using": [ [ "repair_welding_lc_steel", 5 ] ] }
-    }
+    },
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ]
   },
   {
     "id": "frame_wood",
@@ -220,6 +221,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "18 m", "using": [ [ "repair_welding_lc_steel", 10 ] ] }
     },
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 30 }
   },
   {
@@ -228,7 +230,7 @@
     "copy-from": "frame_abstract",
     "item": "xlframe",
     "durability": 150,
-    "description": "A small, lightweight frame made from pipework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "description": "A small, lightweight frame made from pipework, part of a unibody vehicle.  Other vehicle components were mounted on it, but it is now deeply integrated with them.",
     "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
@@ -244,6 +246,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ],
     "damage_reduction": { "all": 7 }
   },
   {
@@ -282,5 +285,14 @@
     "breaks_into": [ { "item": "lc_steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 5, 25 ] } ],
     "extend": { "flags": [ "NO_INSTALL_HIDDEN", "CABLE_PORTS" ] },
     "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "improvised_frame",
+    "type": "vehicle_part",
+    "copy-from": "frame",
+    "item": "improvised_frame",
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  This one was crudely welded together from structural steel by a survivor, resulting in a massive increase in weight with a mild increase in durability.",
+    "proportional": { "durability": 1.2 },
+    "delete": { "flags": [ "NO_INSTALL_PLAYER" ] }
   }
 ]

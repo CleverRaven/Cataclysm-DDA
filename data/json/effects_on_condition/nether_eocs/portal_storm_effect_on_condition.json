@@ -201,11 +201,14 @@
       { "math": [ "portal_dungeon_reflect_strength = 0" ] },
       "next_weather",
       {
-        "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
-        "type": "good"
+        "if": { "current_dimension": "default" },
+        "then": {
+          "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
+          "type": "good"
+        }
       },
       { "u_add_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" },
-      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
+      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
@@ -680,12 +683,14 @@
         "then": { "run_eocs": "EOC_YRAX_WARP_IN", "time_in_future": [ "3 seconds", "6 seconds" ] }
       },
       { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "3 hours", "48 hours" ] },
-      { "math": [ "u_ire -= 5" ] }
+      { "math": [ "u_ire -= 5" ] },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HIGHLANDS_RETURN",
+    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
     "effect": [
       {
         "u_travel_to_dimension": "default",
@@ -694,7 +699,17 @@
         "fail_message": "Nothing seems to change.",
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
-      { "give_achievement": "achievement_reach_highlands" }
+      { "give_achievement": "achievement_reach_highlands" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
+    ],
+    "false_effect": [
+      {
+        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "36 hours", "60 hours" ] }
+        ]
+      }
     ]
   },
   {
@@ -1003,7 +1018,9 @@
         "u_message": "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
         "type": "info"
       },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ]
   },
   {
@@ -1192,16 +1209,18 @@
         }
       },
       { "clear_dimension": "portal_storm_dungeon_dimension" },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
       { "math": [ "portal_dungeon_level = 0" ] },
-      { "alter_timed_events": "portal_dungeon" }
+      { "alter_timed_events": "portal_dungeon" },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ],
     "false_effect": { "u_message": "You feel a prickle at the edge of your senses.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM",
-    "effect": [ { "u_remove_item_with": "item_portal_storm_dimension_returner" } ]
+    "condition": { "current_dimension": "default" },
+    "effect": { "u_remove_item_with": "item_portal_storm_dimension_returner" },
+    "false_effect": { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM", "time_in_future": 1 }
   },
   {
     "type": "effect_on_condition",

@@ -1,0 +1,159 @@
+[
+  {
+    "id": "zapatosaurus_control",
+    "type": "SPELL",
+    "name": { "str": "zapatosaurus control", "//~": "NO_I18N" },
+    "description": { "str": "Zombie apatosaurus control themselves using this one.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "message": "",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ZAPATOSAURUS_CONTROL"
+  },
+  {
+    "type": "SPELL",
+    "id": "zauropod_hurt_self",
+    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1200,
+    "max_damage": 1500,
+    "damage_type": "pure",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZAPATOSAURUS_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_zapatosaurus",
+            "condition": { "math": [ "updating_zapatosaurus != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_zapatosaurus" } ]
+          },
+          {
+            "id": "zapatosaurus_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_zauropod_uid = rand(1200)" ] },
+              { "math": [ "u_zauropod_uid = _zauropod_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_zauropod_leg", "real_count": 4, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "zapatosaurus_leg_assign", "effect": [ { "math": [ "u_zauropod_uid = _zauropod_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_zauropod_leg" ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_zapatosaurus",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_zapatosaurus', 'radius': 3) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_zapatosaurus = 1" ] },
+      { "run_eocs": "eoc_update_zapatosaurus", "time_in_future": 1 },
+      { "u_run_monster_eocs": [ "eoc_zauropod" ], "monster_range": 3, "mtype_ids": [ "mon_zapatosaurus" ] }
+    ],
+    "false_effect": [ { "math": [ "updating_zapatosaurus = 0" ] } ]
+  },
+  {
+    "id": "eoc_zauropod",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "u_zauropod_id = _zauropod_uid" ] },
+      { "u_location_variable": { "context_val": "zauropod_pos_1" }, "x_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_2" }, "x_adjust": -1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_3" }, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "zauropod_pos_4" }, "y_adjust": -1 },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_tp",
+            "condition": { "math": [ "u_zauropod_id == _zauropod_uid" ] },
+            "effect": [
+              { "u_teleport": { "context_val": "zauropod_pos_1" } },
+              { "u_teleport": { "context_val": "zauropod_pos_2" } },
+              { "u_teleport": { "context_val": "zauropod_pos_3" } },
+              { "u_teleport": { "context_val": "zauropod_pos_4" } }
+            ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [ "mon_zauropod_leg" ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_ZAUROPOD_HURT",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_zauropod_id" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_hurt",
+            "condition": { "math": [ "u_zauopod_uid == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "zauropod_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [
+          "mon_zoabosaurus",
+          "mon_zaplocanthosaurus",
+          "mon_zamargasaurus",
+          "mon_zapatosaurus",
+          "mon_zrontosaurus",
+          "mon_ziplodocus",
+          "mon_zarosaurus",
+          "mon_zamarasaurus",
+          "mon_zrachiosaurus",
+          "mon_zastrodon",
+          "mon_zalamosaurus",
+          "mon_zoabosaurus_scorched",
+          "mon_zaplocanthosaurus_scorched",
+          "mon_zamargasaurus_scorched",
+          "mon_zapatosaurus_scorched",
+          "mon_zrontosaurus_scorched",
+          "mon_ziplodocus_scorched",
+          "mon_zarosaurus_scorched",
+          "mon_zamarasaurus_scorched",
+          "mon_zrachiosaurus_scorched",
+          "mon_zastrodon_scorched",
+          "mon_zalamosaurus_scorched"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_ZAUROPOD_DIES",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_zauropod_uid" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "zauropod_leg_dies",
+            "condition": { "math": [ "u_zauropod_id == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "sauropod_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 3,
+        "mtype_ids": [ "mon_zauropod_leg" ]
+      }
+    ]
+  }
+]

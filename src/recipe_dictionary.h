@@ -6,7 +6,6 @@
 #include <cstddef>
 #include <functional>
 #include <map>
-#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -178,7 +177,7 @@ class recipe_subset
         /** Find recipes matching query (left anchored partial matches are supported). Character is not necessarily needed in all searches */
         std::vector<const recipe *> search(
             std::string_view txt, search_type key = search_type::name,
-            std::optional<std::reference_wrapper<const Character>> crafter = std::nullopt,
+            const Character *crafter = nullptr,
             const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
         recipe_subset reduce(

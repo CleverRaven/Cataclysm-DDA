@@ -3645,7 +3645,7 @@
           { "item": "fire_gauntlets" },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
-          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
+          { "item": "mask_bunker" },
           { "item": "mbag" },
           { "item": "nomex_socks" },
           { "item": "water_clean" },
@@ -4567,7 +4567,7 @@
           { "item": "boots_bunker" },
           { "item": "nomex_gloves" },
           { "item": "fire_gauntlets" },
-          { "item": "mask_bunker", "ammo-item": "gasfilter_med", "charges": 100 },
+          { "item": "mask_bunker" },
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
@@ -4680,6 +4680,7 @@
     "description": "You were a serial killer, ready to walk the green mile, but in a twist of fate you're one of the few still alive.  True death comes only from your hands, so you're in for a job.",
     "npc_background": "BG_survival_story_PRISONER",
     "points": 1,
+    "starting_trauma": 250,
     "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "stabbing" }, { "level": 2, "name": "unarmed" } ],
     "items": {
@@ -5350,7 +5351,7 @@
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
+          { "group": "guardsman_profession_bag", "custom-flags": [ "FIT" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -7003,6 +7004,7 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "npc_background": "BG_survival_story_MEDICAL",
     "points": 3,
+    "starting_trauma": 100,
     "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" } ],
     "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_burn_care", "prof_driver" ],
     "vehicle": "ambulance",

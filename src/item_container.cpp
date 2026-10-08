@@ -42,8 +42,6 @@
 #include "iuse_actor.h"
 #include "pocket_type.h"
 #include "ret_val.h"
-#include "string_formatter.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -747,11 +745,11 @@ units::volume item::get_biggest_pocket_capacity() const
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
-        std::string *err ) const
+        rem_cap_return *err ) const
 {
-    const auto error = [ &err ]( const std::string & message ) {
+    const auto error = [ &err ]( const rem_cap_return & type ) {
         if( err != nullptr ) {
-            *err = message;
+            *err = type;
         }
         return 0;
     };
@@ -760,25 +758,22 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 
     if( can_contain_partial( liquid ).success() ) {
         if( !contents.can_contain_liquid( allow_bucket ) ) {
-            return error( string_format( _( "That %s must be on the ground or held to hold contents!" ),
-                                         tname() ) );
+            return error( rem_cap_return::BUCKET_FAIL );
         }
         remaining_capacity = contents.remaining_capacity_for_liquid( liquid );
     } else {
-        return error( string_format( _( "That %1$s won't hold %2$s." ), tname(),
-                                     liquid.tname() ) );
+        return error( rem_cap_return::ANOTHER_LIQUID_INSIDE );
     }
 
     if( remaining_capacity <= 0 ) {
-        return error( string_format( _( "Your %1$s can't hold any more %2$s." ), tname(),
-                                     liquid.tname() ) );
+        return error( rem_cap_return::NO_SPACE );
     }
 
     return remaining_capacity;
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
-        std::string *err ) const
+        rem_cap_return *err ) const
 {
     const bool allow_bucket = ( p.get_wielded_item() && this == &*p.get_wielded_item() ) ||
                               !p.has_item( *this );
@@ -788,7 +783,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
         res = std::min( contents.remaining_capacity_for_liquid( liquid ), res );
 
         if( res == 0 && err != nullptr ) {
-            *err = string_format( _( "That %s doesn't have room to expand." ), tname() );
+            *err = rem_cap_return::NO_SPACE_IN_PARENT;
         }
     }
 

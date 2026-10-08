@@ -373,6 +373,8 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.vItems = sItemsIn;
 
     if( thisOpt.getItemPos( sDefaultIn ) == -1 ) {
+        // If this assertion fails, it means there's no valid selections for your option. That is pretty bad!
+        cata_assert( !thisOpt.vItems.empty() );
         sDefaultIn = thisOpt.vItems[0].first;
     }
 
@@ -1294,7 +1296,8 @@ void options_manager::search_resource(
     }
 }
 
-std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
+std::vector<options_manager::id_and_option> options_manager::build_tilesets_list(
+    bool only_portraits )
 {
     std::vector<id_and_option> result;
 
@@ -1302,11 +1305,30 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
                      "tileset",
                      PATH_INFO::tileset_conf() );
 
-    // Default values
-    if( result.empty() ) {
-        result.emplace_back( "hoder", to_translation( "Hoder's" ) );
-        result.emplace_back( "deon", to_translation( "Deon's" ) );
+
+    // Portrait packs must contain the string "Portrait" (case-sensitive) somewhere in their ID.
+    // I would like this check to be less dumb, but we're working with only a std::string here.
+    for( auto iter = result.begin(); iter != result.end(); ) {
+
+        // hack: If we have only one option left always keep that, skipping validity checks.
+        // This is an error if it happens ingame, but for CI we need to pass *something*, even if it doesn't really *work*.
+        // CI doesn't care about drawing tiles. It just needs something to fill in the option.
+        if( result.size() == 1 ) {
+            break;
+        }
+
+        const bool is_portrait_tileset = iter->first.find( "Portrait" ) != std::string::npos;
+        if( ( only_portraits && !is_portrait_tileset ) ||
+            ( !only_portraits && is_portrait_tileset ) ) {
+            iter = result.erase( iter );
+        } else {
+            ++iter;
+        }
     }
+
+    cata_assert( !result.empty() );
+
+
     return result;
 }
 
@@ -2094,7 +2116,14 @@ void options_manager::add_options_interface()
          * Example 3: Press → while holding Shift and ← results in input rejection
 
          */
-    to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
+         to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured.  See the movement category in the help menu for full descriptions of the options." ),
+    {
+        { "none", to_translation( "None" ) },
+        { "mode1", to_translation( "Mode 1: Numpad Emulation" ) },
+        { "mode2", to_translation( "Mode 2: CW/CCW" ) },
+        { "mode3", to_translation( "Mode 3: L/R Tilt" ) },
+        { "mode4", to_translation( "Mode 4: Diagonal Lock" ) }
+    },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -2527,7 +2556,13 @@ void options_manager::add_options_graphics()
              1, 4, 2, COPT_CURSES_HIDE
            ); // populate the options dynamically
 
+        add( "PORTRAIT_TILES", page_id, to_translation( "Choose portrait pack" ),
+             to_translation( "Choose the tileset you want to use for NPC or player portraits." ),
+             build_tilesets_list( /*bool only_portraits=*/ true ), "MshockXottoplus_Portraits", COPT_CURSES_HIDE
+           ); // populate the options dynamically
+
         get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+        get_option( "PORTRAIT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
         get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
         get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
@@ -2567,8 +2602,16 @@ void options_manager::add_options_graphics()
              true, COPT_CURSES_HIDE
            );
 
+        add( "LIGHTING_MODE", page_id, to_translation( "Lighting" ),
+        to_translation( "How the map shows light levels.  Classic: lit or shadowed tiles.  Smooth: more shades of light per tile.  Smooth filtered: shades blend across tiles.  The smooth modes need the GPU renderer.  Without it the map uses Classic." ), {
+            { "classic", to_translation( "Classic" ) },
+            { "smooth", to_translation( "Smooth" ) },
+            { "smooth_filtered", to_translation( "Smooth filtered" ) },
+        }, "smooth", COPT_CURSES_HIDE
+           );
+
         add( "MEMORY_MAP_MODE", page_id, to_translation( "Memory map overlay preset" ),
-        to_translation( "Specify the overlay in which the memory map is drawn.  The custom overlay needs a restart to take effect; for it, define RGB values for dark and bright colors as well as gamma." ), {
+        to_translation( "Specify the overlay in which the memory map is drawn.  For the custom overlay, define RGB values for dark and bright colors as well as gamma." ), {
             { "color_pixel_darken", to_translation( "Darkened" ) },
             { "color_pixel_sepia_light", to_translation( "Sepia" ) },
             { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
@@ -2576,6 +2619,13 @@ void options_manager::add_options_graphics()
             { "color_pixel_custom", to_translation( "Custom" ) },
         }, "color_pixel_sepia_light", COPT_CURSES_HIDE
            );
+
+        add( "LIGHTING_MEMORY_BLEND", page_id, to_translation( "Blend light into memory" ),
+             to_translation( "If true, Smooth filtered lighting fades the edge of sight into the memory map overlay, and remembered tiles next to it blend back toward what you see.  If false, the edge of sight fades into darkness." ),
+             true, COPT_CURSES_HIDE
+           );
+
+        get_option( "LIGHTING_MEMORY_BLEND" ).setPrerequisite( "LIGHTING_MODE", "smooth_filtered" );
 
         add( "MEMORY_RGB_DARK_RED", page_id, to_translation( "Custom dark color RGB overlay - RED" ),
              to_translation( "Specify RGB value for color RED for dark color overlay." ),
@@ -2747,6 +2797,10 @@ void options_manager::add_options_graphics()
         add( "RENDERER", page_id, to_translation( "Renderer" ),
              to_translation( "Set which renderer to use.  Requires restart." ), renderer_list,
              default_renderer, COPT_ALWAYS_HIDE );
+
+        add( "GPU_BACKEND", page_id, to_translation( "GPU backend" ),
+             to_translation( "Sets which graphics API the GPU renderer uses.  Try another one if the game crashes or draws wrongly.  An SDL_GPU_DRIVER environment variable overrides this.  Requires restart." ),
+             cata_tiles::build_gpu_backend_list(), "auto", COPT_CURSES_HIDE );
 #   endif
 
 #else
@@ -2826,10 +2880,6 @@ void options_manager::add_options_world_default()
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translation(), translation(), 0.01, 10.0, 1.0, 0.01,
-         COPT_ALWAYS_HIDE
-       );
-
-    add( "NPC_SPAWNTIME", "world_default", translation(), translation(), 0.0, 100.0, 4.0, 0.01,
          COPT_ALWAYS_HIDE
        );
 
@@ -3297,6 +3347,18 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
                 use_tiles = false;
                 use_tiles_overmap = false;
             }
+        }
+        try {
+            portrait_tilecontext->reinit();
+            portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                                /*precheck=*/false, /*force=*/false,
+                                                /*pump_events=*/true, /*terrain=*/true );
+            //game_ui::init_ui is called when zoom is changed
+            g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
+            use_tiles = false;
         }
         try {
             overmap_tilecontext->reinit();
@@ -4054,7 +4116,7 @@ void options_manager::deserialize( const JsonArray &ja )
         // yay hardcoded list! remove after 0.J
         std::vector<std::string> removed_options = { "DISTANCE_INITIAL_VISIBILITY", "FOV_3D_Z_RANGE", "SAFEMODE",
                                                      "INITIAL_STAT_POINTS", "INITIAL_TRAIT_POINTS", "INITIAL_SKILL_POINTS", "MAX_TRAIT_POINTS",
-                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE"
+                                                     "SKILL_TRAINING_SPEED", "PROFICIENCY_TRAINING_SPEED", "CITY_SPACING", "CITY_SIZE", "NPC_SPAWNTIME"
                                                    };
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );

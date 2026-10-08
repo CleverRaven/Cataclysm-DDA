@@ -335,7 +335,7 @@
         "    ..####..~          ,",
         "   ...###T#..~         ,",
         "    ...#####..~        ,",
-        "     ...a##f#..~       ,",
+        "     ...a#@f#..~       ,",
         "      ...#####..~      ,",
         "       ...####a..~     ,",
         "        ........       ,",
@@ -360,6 +360,7 @@
       "furniture": { "T": "f_xedra_mobile_weather_station", "a": "f_xedra_antenna", "f": "f_foot_locker_aluminum" },
       "terrain": {
         "#": "t_sand_scarlet",
+        "@": "t_sand_scarlet",
         ",": "t_water_sh_scarlet",
         "T": "t_sand_scarlet",
         "a": "t_sand_scarlet",
@@ -367,6 +368,7 @@
         ".": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet", 40 ] ],
         "~": [ [ "t_sand_scarlet", 60 ], [ "t_water_sh_scarlet_wave", 40 ] ]
       },
+      "place_monster": [ { "monster": "mon_zombie_xedra_scarlet_sea", "x": 10, "y": 7, "chance": 100 } ],
       "place_loot": [
         { "item": "folded_inflatable_boat", "x": 11, "y": 7, "chance": 100 },
         { "item": "hand_pump", "x": 11, "y": 7, "chance": 100 },

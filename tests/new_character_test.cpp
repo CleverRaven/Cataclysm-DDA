@@ -1,7 +1,6 @@
 #include <cstddef>
 #include <functional>
 #include <map>
-#include <memory>
 #include <set>
 #include <sstream>
 #include <string>
@@ -10,10 +9,9 @@
 
 #include "avatar.h"
 #include "cata_catch.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "mutation.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "profession.h"
 #include "scenario.h"
@@ -163,18 +161,16 @@ TEST_CASE( "starting_items", "[slow]" )
                 for( int i = 0; i < 2; i++ ) {
                     player_character.clear_worn();
                     player_character.remove_weapon();
-                    player_character.inv->clear();
                     player_character.calc_encumbrance();
                     player_character.male = i == 0;
 
                     player_character.add_profession_items();
                     std::set<const item *> items_visited;
-                    const auto visitable_counter = [&items_visited]( const item * it, auto ) {
-                        items_visited.emplace( it );
+                    const auto visitable_counter = [&items_visited]( const item_location & it ) {
+                        items_visited.emplace( it.get_item() );
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );
-                    player_character.inv->visit_items( visitable_counter );
                     const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 

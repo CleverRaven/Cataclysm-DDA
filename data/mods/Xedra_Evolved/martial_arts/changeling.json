@@ -1,0 +1,53 @@
+[
+  {
+    "type": "technique",
+    "id": "CHANGELING_RIASTRAD_KNOCKBACK",
+    "name": "Ríastrad Knockback",
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "messages": [
+      "You smash %s with a brutal strike, knocking them to the ground",
+      "<npcname> smashes %swith a brutal strike, knocking them to the ground"
+    ],
+    "weighting": -2,
+    "reach_ok": false,
+    "condition": { "math": [ "u_val('size') + 1 >= n_val('size') " ] },
+    "condition_desc": "Needs X",
+    "attack_vectors": [ "vector_null" ],
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "knockback_follow": true,
+    "down_dur": 2,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "CHANGELING_RIASTRAD_STUN",
+    "name": "Ríastrad Stun",
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] }
+      ]
+    },
+    "weighting": -2,
+    "condition_desc": "* Only works on a <info>non-stunned humanoid</info> target of <info>similar or smaller</info> size",
+    "messages": [ "You strike a mighty blow at %s", "<npcname> strikes a mighty blow at %s" ],
+    "stun_dur": 2,
+    "attack_vectors": [ "vector_null" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  }
+]

@@ -2008,6 +2008,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
     "description": "This is an example profession.",           // In-game description
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "starting_trauma": 250,                                    // (optional, integer) A counter for how much trauma the character has been exposed to. Values are clamped to the range [0-1000].
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
 	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)

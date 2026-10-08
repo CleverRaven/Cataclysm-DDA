@@ -29,7 +29,6 @@
 #include "game_inventory.h"
 #include "gun_mode.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -64,6 +63,7 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_berserk( "berserk" );
 static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -72,7 +72,6 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
-static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -198,16 +197,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         return false;
     }
 
-    //TODO: Replace with dirtying vision_transparency_cache
-    //TODO: Really ugly bc we're not sure we're moving anywhere yet
-    const bool is_crouching = you.is_crouching();
-    const bool low_profile = you.has_effect( effect_quadruped_full ) &&
-                             you.is_running();
-    const bool is_prone = you.is_prone();
-    if( is_crouching || is_prone || low_profile ) {
-        m.set_transparency_cache_dirty( d.z() );
-    }
-
     // If any leg broken without crutches and not already on the ground topple over
     if( ( !you.enough_working_legs() && !you.is_prone() &&
           !( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) ) ) {
@@ -241,6 +230,37 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
         dest_loc.z() -= 1;
         via_ramp = true;
+    }
+
+    // Berserk creatures cannot voluntarily move farther away from visible hostiles.
+    if( you.has_effect( effect_berserk ) ) {
+        bool retreating = false;
+
+        get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
+            if( retreating || critter == &you ) {
+                return;
+            }
+
+            if( !you.sees( here, *critter ) ) {
+                return;
+            }
+
+            if( critter->attitude_to( you ) != Creature::Attitude::HOSTILE ) {
+                return;
+            }
+
+            const int current_dist = rl_dist( you_pos, critter->pos_bub() );
+            const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
+
+            if( new_dist > current_dist ) {
+                retreating = true;
+            }
+        } );
+
+        if( retreating ) {
+            add_msg( m_info, _( "You are too enraged to retreat!" ) );
+            return false;
+        }
     }
 
     item_location weapon = you.get_wielded_item();
@@ -573,6 +593,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
+    //TODO: use open_tile_activity_actor
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
@@ -701,7 +722,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
         m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
-    you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );

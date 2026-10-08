@@ -122,6 +122,7 @@
     "subtypes": [ "TOOL", "ARMOR" ],
     "copy-from": "fake_item",
     "name": { "str": "Integrated AR System" },
+    "material": [ "plastic" ],
     "description": "Extremely thin lenses provide user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
@@ -307,6 +308,16 @@
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "oven_tool",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "oven" },
+    "copy-from": "fake_appliance_tool",
+    "//": "charges_per_use was kept to prevent qualities from always being avaliable to the player",
+    "charges_per_use": 25,
+    "charged_qualities": [ { "id": "OVEN", "level": 2 }, { "id": "TEMPER", "level": 1 } ]
   },
   {
     "id": "drill_press_tool",

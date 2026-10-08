@@ -850,6 +850,41 @@
   },
   {
     "type": "MIGRATION",
+    "id": "stanag20ranger_beowulf",
+    "replace": "stanag20_beowulf"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag30ranger_beowulf",
+    "replace": "stanag30_beowulf"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag10ranger",
+    "replace": "stanag10"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag5ranger",
+    "replace": "stanag5"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag20ranger",
+    "replace": "stanag20"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag30ranger",
+    "replace": "stanag30"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "stanag40ranger",
+    "replace": "stanag40"
+  },
+  {
+    "type": "MIGRATION",
     "id": "button_steel",
     "replace": "button_plastic",
     "variant": "steel"
@@ -901,5 +936,55 @@
     "type": "MIGRATION",
     "id": "mc_rapier",
     "replace": "rapier"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperhuman",
+    "replace": "human_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermutant_human",
+    "replace": "mutant_human_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermeat",
+    "replace": "meat_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperfat",
+    "replace": "meat_fatty_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperscrap",
+    "replace": "meat_scrap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "peppermutant",
+    "replace": "mutant_meat"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperscrap_mutant",
+    "replace": "mutant_meat_scrap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "pepperbone",
+    "replace": "cooked_marrow"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "poultry_pepper",
+    "replace": "poultry_cooked"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "poultry_scrap_pepper",
+    "replace": "poultry_scrap"
   }
 ]

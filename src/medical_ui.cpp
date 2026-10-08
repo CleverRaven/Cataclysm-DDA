@@ -30,13 +30,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "output.h"
-#include "pimpl.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "skill.h"
@@ -63,6 +61,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
+
+class temp_crafting_inventory;
 
 namespace
 {
@@ -586,7 +586,6 @@ void medical_ui::summary_tab() const
         cataimgui::draw_colored_text( "Debug:", c_red );
         std::string txt;
         txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
-        txt += string_format( "inventory: %.2f kg\n", units::to_kilogram( you->inv->weight() ) );
         const units::mass wornWeight = you->worn.weight();
         txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
 
@@ -726,7 +725,7 @@ struct healing_option {
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     std::vector<healing_option> healing_options;
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     bodypart *bp = get_part( bp_id );
     const std::vector<wound> wounds = bp->get_wounds();

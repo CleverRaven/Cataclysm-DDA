@@ -26,7 +26,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "//": "Project PHAVIAN / COLD BELOW research",
     "weight": 750,
     "object": {
@@ -88,7 +88,7 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "//": "Project PHAVIAN teleportation research",
     "weight": 750,
     "object": {
@@ -166,9 +166,9 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_tile",
+    "nested_mapgen_id": "microlab_generic_special_tile",
     "//": "Project PHAVIAN teleportation Osiris Chamber",
-    "weight": 500,
+    "weight": 750,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

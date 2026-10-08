@@ -780,10 +780,6 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "hp": 400,
-    "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ]
-    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.",
     "burn_into": "mon_zaplocanthosaurus_scorched",
     "fungalize_into": "mon_zaplocanthosaurus_fungus",
@@ -821,7 +817,13 @@
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 480,
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      {
+        "type": "spell",
+        "spell_data": { "id": "zapatosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
@@ -858,10 +860,6 @@
     "attack_cost": 50,
     "melee_dice": 4,
     "melee_dice_sides": 4,
-    "special_attacks": [
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_long_DinoMod", 30 ]
-    ],
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.",
     "burn_into": "mon_ziplodocus_scorched",
     "fungalize_into": "mon_ziplodocus_fungus",
@@ -875,10 +873,6 @@
     "copy-from": "mon_ziplodocus",
     "looks_like": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 16000 L and 16000 kg",
-    "special_attacks": [
-      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "cut", "amount": 14 } ] },
-      [ "tailsmash_DinoMod", 50 ]
-    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  There is a large claw on each foreleg.",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
@@ -2159,5 +2153,26 @@
     "fungalize_into": "mon_zalamosaurus_fungus",
     "upgrades": { "half_life": 120, "into": "mon_zalamosaurus" },
     "armor": { "bash": 7, "cut": 9, "bullet": 2 }
+  },
+  {
+    "id": "mon_zauropod_leg",
+    "type": "MONSTER",
+    "name": { "str": "huge zombie leg" },
+    "description": "A huge fleshy appendage holding up a much larger dinosaur, part of larger putrid shambling corpse.",
+    "copy-from": "mon_zapatosaurus",
+    "symbol": "(",
+    "hp": 250,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 7,
+    "melee_dice_sides": 15,
+    "melee_skill": 3,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 16 } ] } ],
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The sauropod zombie stumbles as one of its legs is badly hurt and collapses.",
+      "eoc": "EOC_ZAUROPOD_HURT"
+    },
+    "weakpoint_sets": [ "wps_sauropod_leg" ],
+    "extend": { "flags": [ "DESTROYS" ] }
   }
 ]

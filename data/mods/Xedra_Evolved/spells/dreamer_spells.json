@@ -624,6 +624,20 @@
     "max_duration": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)*100" ] }
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_GETTING_HIT_WHILE_USING_ETHEREAL_WINGS",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "ethereal_wings" },
+    "effect": [
+      {
+        "if": { "not": { "x_in_y_chance": { "x": { "math": [ "min( (u_spell_level('spell_ethereal_wings') ),40)" ] }, "y": 50 } } },
+        "then": [ { "u_lose_trait": "ethereal_wings" }, { "u_message": "The wings behind you fade out of existence!", "type": "bad" } ],
+        "else": [ { "u_message": "Your ethereal wings flicker out of existence for just a moment.", "type": "mixed" } ]
+      }
+    ]
+  },
+  {
     "id": "spell_karma_arms",
     "type": "SPELL",
     "name": "Karma Arms",
