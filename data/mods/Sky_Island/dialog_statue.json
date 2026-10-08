@@ -1395,7 +1395,8 @@
           { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"
-      }
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" }
     ]
   },
   {
