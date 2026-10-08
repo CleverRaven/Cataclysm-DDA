@@ -257,6 +257,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_challenge_mode" } },
+            { "math": [ "challenge_mode_available < 1" ] },
             { "math": [ "bonusmissions >= 5" ] },
             { "math": [ "hardestmissions > 0" ] },
             { "math": [ "bonuspulses >= 6" ] },
