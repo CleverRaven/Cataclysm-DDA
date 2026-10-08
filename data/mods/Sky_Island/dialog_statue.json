@@ -513,7 +513,6 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } },
-            { "math": [ "scouting_clairvoyance == 1" ] },
             { "math": [ "scoutingclairvoyancetime == 20" ] }
           ]
         },
