@@ -1,6 +1,7 @@
 #include "mapgen_post_process.h"
 
 #include <algorithm>
+#include <climits>
 #include <cstddef>
 #include <functional>
 #include <list>
