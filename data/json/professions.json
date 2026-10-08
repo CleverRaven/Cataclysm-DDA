@@ -8751,5 +8751,20 @@
       "ANTIWHEAT",
       "UGLY"
     ]
+  },
+  {
+    "type": "profession",
+    "id": "awakened_feral_standard",
+    "name": "Former Rioter",
+    "description": "The riots were brutal, and you were part of the reason why. Now, the world is over, and the guilt of what you've done is crushing.",
+    "npc_background": "BG_survival_story_CRIMINAL",
+    "points": -2,
+    "items": {
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "age_lower": 16,
+    "traits": [ "SCHIZOPHRENIC" ]
   }
 ]
