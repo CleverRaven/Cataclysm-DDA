@@ -410,6 +410,7 @@
     "starting_ammo": { "556": 100 },
     "aggression": -10,
     "aggro_character": false,
+    "luminance": 35.0,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "armor": { "bash": 20, "cut": 22, "bullet": 20, "stab": 22 },
     "special_attacks": [
