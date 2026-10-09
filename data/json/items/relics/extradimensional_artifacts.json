@@ -84,8 +84,8 @@
     "subtypes": [ "AMMO", "TOOL" ],
     "id": "rock_electric",
     "copy-from": "rock",
-    "name": { "str": "electric rock", "str_pl": "electric rocks" },
-    "description": "A shiny black rock, periodically emits electricity. Handle with care.",
+    "name": "electric rock",
+    "description": "A shiny black rock, periodically emits electricity.  Handle with care.",
     "material": [ "stone" ],
     "extend": { "flags": [ "SPAWN_ACTIVE" ] },
     "tick_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_ELECTRIC_ROCK" ] }
