@@ -65,5 +65,37 @@
     "result": "ammunition_box_carlgustav_hedp",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 24 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "engine_container_lid",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "130 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "//": "even with all this piles of materials, it still only around 200kg recovered out of 326kg",
+    "components": [
+      [ [ "sheet_metal_small", 550 ] ], 
+      [ [ "scrap", 360 ] ], 
+      [ [ "steel_chunk", 110 ] ], 
+      [ [ "steel_lump", 22 ] ] 
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "engine_container_base",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "110 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "//": "same as with the lid, not all mass acounted in output materials",
+    "components": [
+      [ [ "sheet_metal_small", 470 ] ], 
+      [ [ "scrap", 310 ] ], 
+      [ [ "steel_chunk", 95 ] ], 
+      [ [ "steel_lump", 18 ] ] 
+    ]
   }
 ]
