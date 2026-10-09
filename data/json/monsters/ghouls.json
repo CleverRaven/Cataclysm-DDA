@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "default ghoul", "//~": "NO_I18N" },
     "description": {
-      "str": "Some sort of post-zombie living being that has even infested the JSON. Is NOTHING safe from the depredations of the Enemy?",
+      "str": "Some sort of post-zombie living being that has even infested the JSON.  Is NOTHING safe from the depredations of the Enemy?",
       "//~": "NO_I18N"
     },
     "default_faction": "zombie",
@@ -91,7 +91,7 @@
     "id": "mon_ghoul_lab_adult",
     "type": "MONSTER",
     "name": { "str": "mature lab ghoul" },
-    "description": "An uncannily humanlike creature about the size of a very large dog, with pallid, leathery skin. Vicious fangs jut from an extended muzzle set below flat black eyes.  Its arms are unnaturally long, giving it an almost gorilla-like stance, and end in long claws that click on the floor as it moves.  This will definitely be a problem.",
+    "description": "An uncannily humanlike creature about the size of a very large dog, with pallid, leathery skin.  Vicious fangs jut from an extended muzzle set below flat black eyes.  Its arms are unnaturally long, giving it an almost gorilla-like stance, and end in long claws that click on the floor as it moves.  This will definitely be a problem.",
     "copy-from": "mon_ghoul_base",
     "volume": "48600 ml",
     "weight": "80500 g",
