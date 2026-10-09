@@ -11,6 +11,10 @@
     "bodytype": "human",
     "species": [ "GHOUL" ],
     "material": [ "flesh" ],
+    "volume": "48600 ml",
+    "weight": "80500 g",
+    "symbol": "g",
+    "color": "light_gray",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_wp_ghoul" ],
     "harvest": "zombie_humanoid",
@@ -18,7 +22,6 @@
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "path_settings": { "max_dist": 45, "avoid_traps": true, "avoid_sharp": true, "allow_open_doors": true },
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_drops": "mon_ghoul_death_drops",
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -31,7 +34,7 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY",
-      "PATH_AVOID_DANGER_1"
+      "PATH_AVOID_DANGER"
     ]
   },
   {
@@ -70,7 +73,7 @@
     "hp": 90,
     "speed": 110,
     "symbol": "g",
-    "color": "white_gray",
+    "color": "light_gray",
     "aggression": 80,
     "morale": 80,
     "melee_skill": 4,
@@ -95,7 +98,7 @@
     "hp": 105,
     "speed": 115,
     "symbol": "g",
-    "color": "white_gray",
+    "color": "light_gray",
     "aggression": 80,
     "morale": 80,
     "melee_skill": 4,
