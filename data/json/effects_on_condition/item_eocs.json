@@ -638,7 +638,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTRIC_ROCK",
-    "global": true,
     "effect": {
       "if": { "math": [ "has_var(n_timer)" ] },
       "then": {
