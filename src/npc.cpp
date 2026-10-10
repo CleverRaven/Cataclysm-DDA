@@ -89,6 +89,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -2124,7 +2125,8 @@ int npc::indoor_voice() const
     Character &player = get_player_character();
     const int distance_to_player = rl_dist( pos_abs(), player.pos_abs() );
     if( is_following() || is_ally( player ) ) {
-        wanted_volume = distance_to_player;
+        // heard only when volume beats distance plus the weather's sound_attn
+        wanted_volume = distance_to_player + get_weather().weather_id->sound_attn + 1;
     } else if( is_enemy() && sees( here, player ) ) {
         // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
         wanted_volume = max_volume;
