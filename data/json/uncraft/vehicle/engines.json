@@ -362,12 +362,18 @@
       [ [ "motor_tiny", 1 ] ],
       [ [ "well_pump", 1 ] ],
       [ [ "pump_complex", 1 ] ],
-      [ [ "compressor", 1 ] ],
-      [ [ "cable", 8 ] ],
+      [ [ "hd_compressor", 1 ] ],
+      [ [ "cable", 16 ] ],
       [ [ "glowplug", 1 ] ],
-      [ [ "engine_block_medium", 1 ] ],
+      [ [ "engine_block_massive", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
-      [ [ "motor_oil", 18500 ] ]
+      [ [ "motor_oil", 19000 ] ], 
+      [ [ "scrap", 855 ] ], 
+      [ [ "steel_chunk", 830 ] ], 
+      [ [ "steel_lump", 256 ] ], 
+      [ [ "material_aluminium_ingot", 30 ] ],
+      [ [ "hd_pipe", 6 ] ],
+      [ [ "pipe", 4 ] ]
     ]
   }
 ]
