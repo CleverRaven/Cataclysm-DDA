@@ -127,6 +127,7 @@ static const efftype_id effect_telepathic_ignorance( "telepathic_ignorance" );
 static const efftype_id effect_telepathic_ignorance_self( "telepathic_ignorance_self" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
+static const efftype_id effect_bloody_feet( "bloody_feet" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
@@ -320,7 +321,11 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
     location = loc;
 }
 
-void Creature::on_move( const tripoint_abs_ms & ) {}
+void Creature::on_move( const tripoint_abs_ms &old_pos )
+{
+    leave_bloody_footprint(old_pos);
+    check_bloody_feet(old_pos);
+}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -342,6 +347,7 @@ void Creature::normalize()
 
 void Creature::reset()
 {
+    if( old_pos == pos_abs() ) return;
     reset_bonuses();
     reset_stats();
 }
@@ -349,6 +355,79 @@ void Creature::reset()
 void Creature::bleed( map &here ) const
 {
     here.add_splatter( bloodType(), pos_bub( here ) );
+}
+
+void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos )
+{
+    if( has_effect( effect_bloody_feet ) == false ) return;
+
+    map &here = get_map();
+
+    // Check if there is already blood or a footprint on the tile
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+    if( blood != nullptr ||
+        fields.find_field( fd_blood_footprint_n ) != nullptr ||
+        fields.find_field( fd_blood_footprint_w ) != nullptr ||
+        fields.find_field( fd_blood_footprint_s ) != nullptr ||
+        fields.find_field( fd_blood_footprint_e ) != nullptr ) {
+        return;
+    }
+
+    // Choose footprint direction
+    direction dir = direction_from( old_pos, pos_abs() );
+
+    field_type_str_id footprint = fd_blood_footprint_s;
+    switch( dir ) {
+        case direction::NORTH:
+            footprint = fd_blood_footprint_n;
+            break;
+        case direction::NORTHWEST:
+        case direction::SOUTHWEST:
+        case direction::WEST:
+            footprint = fd_blood_footprint_w;
+            break;
+        case direction::SOUTH:
+            footprint = fd_blood_footprint_s;
+            break;
+        case direction::NORTHEAST:
+        case direction::SOUTHEAST:
+        case direction::EAST:
+            footprint = fd_blood_footprint_e;
+            break;
+        default:
+            break;
+    }
+
+    // Place footprint
+    here.add_field( here.get_bub( old_pos ), footprint, 1 );
+    //get_effect( effect_bloody_feet ).set_duration(get_effect( effect_bloody_feet ).get_duration() - 1_turns);
+}
+
+void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
+{
+    if( has_effect( effect_bloody_feet ) ) return;
+    map &here = get_map();
+
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+
+    if( blood != nullptr ) {
+        time_duration dur = 3_turns;
+        if( blood->get_field_intensity() <= 1)
+        {
+            return;
+        }
+        else if( blood->get_field_intensity() == 2 )
+        {
+            dur = 4_turns;
+        }
+        else if( blood->get_field_intensity() >= 3 )
+        {
+            dur = 6_turns;
+        }
+        add_effect( effect_bloody_feet, dur );
+    }
 }
 
 void Creature::reset_bonuses()
