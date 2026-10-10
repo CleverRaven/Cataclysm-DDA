@@ -323,6 +323,10 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
 
 void Creature::on_move( const tripoint_abs_ms &old_pos )
 {
+    if( old_pos == pos_abs() ) {
+        return;
+    }
+
     leave_bloody_footprint( old_pos );
     check_bloody_feet( old_pos );
 }
@@ -347,9 +351,6 @@ void Creature::normalize()
 
 void Creature::reset()
 {
-    if( old_pos == pos_abs() ) {
-        return;
-    }
     reset_bonuses();
     reset_stats();
 }
@@ -423,9 +424,9 @@ void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
         if( blood->get_field_intensity() <= 1 ) {
             return;
         } else if( blood->get_field_intensity() == 2 ) {
-            dur = 4_turns;
+            dur = 3_turns;
         } else if( blood->get_field_intensity() >= 3 ) {
-            dur = 6_turns;
+            dur = 5_turns;
         }
         add_effect( effect_bloody_feet, dur );
     }
