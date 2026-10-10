@@ -624,7 +624,7 @@
       {
         "u_run_monster_eocs": [
           {
-            "id": "zauropod_leg_hurt",
+            "id": "zauropod_brute_leg_hurt",
             "condition": { "math": [ "u_zauopod_uid == _uid" ] },
             "effect": [ { "u_cast_spell": { "id": "zauropod_hurt_self" } } ]
           }
