@@ -577,6 +577,13 @@ struct npc_short_term_cache {
         float next_floor = 0.0f;
     };
     rest_cooldown no_rest_option;
+    // one settling decision per turn, shared by the lying_down effect and review_rest();
+    // keyed on the turn only, so whoever starts a new settle resets it
+    struct rest_review_memo {
+        std::optional<time_point> turn;
+        std::optional<npc_challenger> interruption;
+    };
+    mutable rest_review_memo rest_review;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1556,6 +1563,13 @@ class npc : public Character
         bool may_walk_to( const npc_trip_spec &spec ) const;
         // failed sleep search still holds; see arm_rest_cooldown()
         bool rest_cooldown_active() const;
+        // what gets a settling NPC (lying down, not asleep yet) back up this turn, if anything
+        std::optional<npc_challenger> rest_interruption() const;
+        // each turn after npc_update_body(): gets a settler up, or records a new override
+        void review_rest();
+        // stop lying down without falling asleep
+        void stop_settling();
+        bool sees_hostile_within( int radius ) const;
         std::optional<time_point> last_complaint( const std::string &issue ) const;
         npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
         // also ends the lying down or activity the pursuit started

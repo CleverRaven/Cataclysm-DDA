@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
+#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -22,6 +23,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "item.h"
 #include "json.h"
 #include "json_loader.h"
@@ -29,6 +31,7 @@
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_arbitration.h"
 #include "npc_trip.h"
@@ -49,6 +52,7 @@
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 
+static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_your_followers( "your_followers" );
@@ -60,6 +64,8 @@ static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_orange( "orange" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const npc_class_id NC_ROBOFAC_INTERCOM_DAY( "NC_ROBOFAC_INTERCOM_DAY" );
 
@@ -1636,5 +1642,190 @@ TEST_CASE( "sleep_target_becomes_impassable_is_dropped", "[npc][needs][sleep]" )
         CAPTURE( turn );
         CHECK( guy.get_sleep_plan().target != here.get_abs( bed ) );
         CHECK( guy.pos_bub() != bed );
+    }
+}
+
+// awake on a bed: stim makes the executor's roll fail, so it lies down and settles
+static void make_settling( npc &guy )
+{
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 300 );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    REQUIRE_FALSE( guy.has_effect( effect_sleep ) );
+}
+
+static npc &spawn_stranger( const tripoint_bub_ms &pos )
+{
+    npc &guy = spawn_npc( pos.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( get_map(), pos );
+    settle_body( guy, 0 );
+    REQUIRE_FALSE( guy.is_player_ally() );
+    return guy;
+}
+
+static const monster &zombie_in_view( const npc &guy )
+{
+    map &here = get_map();
+    const monster *zed = g->place_critter_at( mon_zombie, guy.pos_bub() + tripoint( 3, 0, 0 ) );
+    REQUIRE( zed != nullptr );
+    here.build_map_cache( 0 );
+    REQUIRE( guy.sees( here, *zed ) );
+    return *zed;
+}
+
+static void check_got_up( const npc &guy )
+{
+    CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+    CHECK_FALSE( guy.has_effect( effect_sleep ) );
+    CHECK_FALSE( guy.get_sleep_plan().active() );
+}
+
+TEST_CASE( "settling_npc_gets_up_for_new_interruptions", "[npc][needs][sleep]" )
+{
+    clear_map_with_vision();
+    clear_avatar();
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    map &here = get_map();
+    get_avatar().setpos( here, leader_pos );
+
+    SECTION( "critical thirst with water at hand" ) {
+        npc &guy = spawn_stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_settling( guy );
+        guy.set_thirst( 1000 );
+        guy.i_add( item( itype_orange ) );
+        run_npc_turn( guy );
+        check_got_up( guy );
+    }
+    SECTION( "hostile in view" ) {
+        npc &guy = spawn_stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_settling( guy );
+        zombie_in_view( guy );
+        run_npc_turn( guy );
+        check_got_up( guy );
+    }
+    SECTION( "an order to move" ) {
+        put_leader_to_sleep();
+        on_out_of_scope wake( wake_leader );
+        npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
+        make_settling( guy );
+        guy.goto_to_this_pos = here.get_abs( leader_pos + tripoint( -3, 0, 0 ) );
+        run_npc_turn( guy );
+        check_got_up( guy );
+    }
+    SECTION( "leader wakes and walks off" ) {
+        put_leader_to_sleep();
+        npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
+        make_settling( guy );
+        wake_leader();
+        get_avatar().setpos( here, leader_pos + tripoint( -10, 0, 0 ) );
+        run_npc_turn( guy );
+        check_got_up( guy );
+    }
+}
+
+TEST_CASE( "settling_npc_records_a_new_override", "[npc][needs][sleep][obligation]" )
+{
+    clear_map_with_vision();
+    clear_avatar();
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    map &here = get_map();
+    get_avatar().setpos( here, leader_pos );
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
+    make_settling( guy );
+    REQUIRE( guy.get_intention().verdict.permission == npc_permission::allowed );
+
+    SECTION( "leader wakes nearby while it's dead tired" ) {
+        guy.set_sleepiness( 450 );
+        wake_leader();
+        run_npc_turn( guy );
+        CHECK( guy.has_effect( effect_lying_down ) );
+        CHECK( guy.get_intention().verdict.permission == npc_permission::discouraged );
+        CHECK( guy.get_intention().verdict.by == npc_obligation::accompany );
+        const std::optional<time_point> said = guy.last_complaint( "need_override_sleep" );
+        CHECK( said );
+        run_npc_turn( guy );
+        CHECK( guy.last_complaint( "need_override_sleep" ) == said );
+    }
+    SECTION( "an order to move while it is exhausted" ) {
+        guy.set_sleepiness( 600 );
+        guy.goto_to_this_pos = here.get_abs( leader_pos + tripoint( -3, 0, 0 ) );
+        run_npc_turn( guy );
+        CHECK( guy.has_effect( effect_lying_down ) );
+        CHECK( guy.get_intention().verdict.permission == npc_permission::emergency_only );
+        CHECK( guy.get_intention().verdict.by == npc_obligation::goto_order );
+    }
+}
+
+TEST_CASE( "interrupted_settler_does_not_fall_asleep", "[npc][needs][sleep]" )
+{
+    clear_map_with_vision();
+    clear_avatar();
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    map &here = get_map();
+    get_avatar().setpos( here, leader_pos );
+    npc &guy = spawn_stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_settling( guy );
+    // next roll is certain: f_bed, sleepiness 600, no stim, past the settle cadence
+    guy.set_stim( 0 );
+    guy.set_sleepiness( 600 );
+    calendar::turn += 31_minutes;
+    here.build_map_cache( 0 );
+
+    GIVEN( "nothing to get up for" ) {
+        run_npc_turn( guy );
+        THEN( "it falls asleep" ) {
+            CHECK( guy.has_effect( effect_sleep ) );
+        }
+    }
+    GIVEN( "zombie in view on the turn the roll would succeed" ) {
+        zombie_in_view( guy );
+        run_npc_turn( guy );
+        THEN( "it doesn't fall asleep and gets up in that turn" ) {
+            CHECK_FALSE( guy.has_effect( effect_sleep ) );
+            CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+        }
+    }
+}
+
+TEST_CASE( "rest_review_gets_a_settler_up_and_leaves_sleepers_alone", "[npc][needs][sleep]" )
+{
+    clear_map_with_vision();
+    clear_avatar();
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    map &here = get_map();
+    get_avatar().setpos( here, leader_pos );
+    npc &guy = spawn_stranger( leader_pos + tripoint( 0, -20, 0 ) );
+
+    SECTION( "settling, interrupted" ) {
+        make_settling( guy );
+        zombie_in_view( guy );
+        guy.review_rest();
+        check_got_up( guy );
+        CHECK( guy.failed_targets_for( npc::need_goal_id::go_to_sleep ).empty() );
+        CHECK( guy.get_committed_goal().empty() );
+    }
+    SECTION( "asleep" ) {
+        guy.add_effect( effect_sleep, 1_hours );
+        guy.set_committed_goal( "go_to_sleep" );
+        zombie_in_view( guy );
+        CHECK_FALSE( guy.rest_interruption() );
+        guy.review_rest();
+        CHECK( guy.has_effect( effect_sleep ) );
+        CHECK( guy.get_committed_goal() == "go_to_sleep" );
     }
 }

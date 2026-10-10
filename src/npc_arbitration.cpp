@@ -25,14 +25,24 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class Creature;
+
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_CRAFT_WAIT( "ACT_CRAFT_WAIT" );
+
+static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sleep( "sleep" );
+
+static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );
 
 namespace
 {
 // a guard can walk this far from the post for something quick
 constexpr int post_reach = 4;
 constexpr float preempt_margin = 0.15f;
+// how far someone lying down notices trouble walking up
+constexpr int rest_watch_radius = 6;
 // failed sleep search holds sleep back this long unless what it was judged on changes
 constexpr time_duration rest_cooldown_duration = 1_minutes;
 // NPC may drift this far from where search failed without ending cooldown
@@ -430,6 +440,77 @@ bool npc::complaint_due( const std::string &issue, const time_duration &dur ) co
 {
     const std::optional<time_point> last = last_complaint( issue );
     return !last || *last < calendar::turn - dur;
+}
+
+bool npc::sees_hostile_within( const int radius ) const
+{
+    for( const Creature *critter : get_visible_creatures( radius ) ) {
+        if( attitude_to( *critter ) == Attitude::HOSTILE ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::optional<npc_challenger> npc::rest_interruption() const
+{
+    if( is_dead() || !has_effect( effect_lying_down ) || has_effect( effect_sleep ) ||
+        has_effect( effect_npc_suspend ) ) {
+        return std::nullopt;
+    }
+    npc_short_term_cache::rest_review_memo &memo = ai_cache.rest_review;
+    if( memo.turn == calendar::turn ) {
+        return memo.interruption;
+    }
+    memo.turn = calendar::turn;
+    memo.interruption = std::nullopt;
+
+    npc_pursuit current;
+    current.goal = "go_to_sleep";
+    current.cost = interrupt_cost( need_goal_id::go_to_sleep );
+    const npc_need_view rest = need_view( need_goal_id::go_to_sleep, rest_option_cost( pos_abs() ) );
+    current.selection = rest.selection;
+    current.permitted = rest.eligible();
+
+    std::vector<npc_challenger> challengers;
+    if( sees_hostile_within( rest_watch_radius ) ) {
+        challengers.push_back( { "fight", 1.0f } );
+    }
+    behavior::character_oracle_t oracle( this );
+    behavior::tree needs;
+    needs.add( &behavior_node_t_npc_needs.obj() );
+    const std::pair<std::string, float> picked = needs.tick_full( &oracle );
+    if( picked.first != "idle" ) {
+        challengers.push_back( { picked.first, picked.second } );
+    }
+    // wins only once resting here is no longer allowed
+    challengers.push_back( { "idle", 0.0f } );
+    for( const npc_challenger &c : challengers ) {
+        if( should_interrupt( current, c ) ) {
+            add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: gets up for %s, rest %s by %s",
+                           get_name(), c.goal, permission_name( rest.verdict.permission ),
+                           obligation_name( rest.verdict.by ) );
+            memo.interruption = c;
+            break;
+        }
+    }
+    return memo.interruption;
+}
+
+void npc::review_rest()
+{
+    if( rest_interruption() ) {
+        stop_settling();
+        return;
+    }
+    // still settling, maybe now as an override: say so like a walk would; move() is
+    // skipped while lying down, so no executor records it
+    if( !is_dead() && has_effect( effect_lying_down ) && !has_effect( effect_sleep ) &&
+        !has_effect( effect_npc_suspend ) ) {
+        if( const std::optional<npc_option_cost> rest = rest_option_cost( pos_abs() ) ) {
+            record_selected_option( need_goal_id::go_to_sleep, *rest );
+        }
+    }
 }
 
 void npc::review_self_care_activity()

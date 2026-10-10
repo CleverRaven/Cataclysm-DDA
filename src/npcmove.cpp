@@ -7186,6 +7186,16 @@ std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id )
     return npc_option_cost::in_place( pos_abs() );
 }
 
+void npc::stop_settling()
+{
+    if( get_committed_goal() == "go_to_sleep" ) {
+        clear_committed_goal();
+    } else {
+        // lay down through address_needs(), without a commitment
+        end_need_pursuit( need_goal_id::go_to_sleep );
+    }
+}
+
 void npc::clear_committed_goal()
 {
     if( const std::optional<need_goal_id> gid = goal_id_for( ai_cache.intention.goal ) ) {
@@ -7320,8 +7330,7 @@ npc::need_result npc::execute_go_to_sleep()
         return need_result::satisfied;
     }
 
-    // Lying down but not asleep yet. Return holding so same-category
-    // preemption can interrupt if food/water becomes critical.
+    // lying down but not asleep yet; review_rest() handles getting up
     // Note: in_sleep_state() includes effect_lying_down, so we must
     // check effect_sleep specifically above.
     if( has_effect( effect_lying_down ) ) {
@@ -7404,6 +7413,9 @@ npc::need_result npc::execute_go_to_sleep()
                                         get_name() );
             }
             add_effect( effect_lying_down, 30_minutes, false, 1 );
+            // adding the effect already asked rest_interruption(); the review later this
+            // turn mustn't reuse that answer
+            ai_cache.rest_review = {};
             // holding, not progressed: allows preemption by urgent needs.
             plan.last_result = need_result::holding;
             return need_result::holding;

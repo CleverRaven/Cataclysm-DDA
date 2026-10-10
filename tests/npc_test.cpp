@@ -58,6 +58,7 @@
 #include "npc_arbitration.h"
 #include "npctrade.h"
 #include "npc_class.h"
+#include "npc_turn_helpers.h"
 #include "npc_trip.h"
 #include "npctalk.h"
 #include "options_helpers.h"
@@ -6843,7 +6844,6 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     clear_map_without_vision();
     clear_avatar();
     get_player_character().camps.clear();
-    get_player_character().setpos( get_map(), tripoint_bub_ms{ 50, 55, 0 } );
     get_weather().forced_temperature = 20_C;
     set_time_to_day();
 
@@ -6851,43 +6851,45 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     clear_character( guy, true );
     guy.set_fac( faction_your_followers );
     guy.set_attitude( NPCATT_FOLLOW );
+    guy.rules.set_flag( ally_rule::follow_close );
     guy.set_stored_kcal( 55000 );
     guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
     guy.set_all_parts_temp_conv( BODYTEMP_NORM );
     guy.set_all_parts_temp_cur( BODYTEMP_NORM );
-    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    map &here = get_map();
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
+    get_player_character().add_effect( effect_sleep, 2_hours );
+    on_out_of_scope wake( [] {
+        get_player_character().remove_effect( effect_sleep );
+    } );
 
-    // Moderate sleepiness so sleep urgency is moderate.
+    // settling on a bed: stim makes the executor's roll fail, so it lies down
+    here.furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 400 );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    // lying down now: drop the stimulant, which can bring on nausea and stop it drinking
+    guy.set_stim( 0 );
 
-    // Extreme thirst so drink urgency is very high.
+    // extreme thirst with water at hand
     guy.set_thirst( 1100 );
     const item_group::ItemList water_items = item_group::items_from(
-                Item_spawn_data_test_bottle_water );
+                Item_spawn_data_test_bottle_water, calendar::turn );
     guy.i_add( water_items.front() );
 
-    map &here = get_map();
-    here.build_map_cache( 0 );
-
-    // Pre-commit go_to_sleep with holding state (lying down).
-    // Apply effect_lying_down with deferred=true to avoid
-    // process_one_effect -> can_sleep() -> fall_asleep().
-    guy.set_committed_goal( "go_to_sleep" );
-    npc::need_plan &sp = guy.plan_for( npc::need_goal_id::go_to_sleep );
-    sp.goal = "go_to_sleep";
-    sp.last_result = npc::need_result::holding;
-    guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
-    REQUIRE( guy.has_effect( effect_lying_down ) );
-
-    guy.set_moves( 100 );
-    guy.move();
-
-    // Thirst urgency (1100/1200 = 0.92) should preempt sleep
-    // urgency (400/1000 = 0.40) with margin.
-    CHECK( guy.get_committed_goal() != "go_to_sleep" );
-    // Preemption must remove lying_down so process_one_effect
-    // doesn't re-trigger can_sleep() -> fall_asleep().
+    run_npc_turn( guy );
     CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+    CHECK_FALSE( guy.has_effect( effect_sleep ) );
+    CHECK_FALSE( guy.get_sleep_plan().active() );
+    CHECK( guy.get_committed_goal().empty() );
+    run_npc_turns( guy, 3, []( const npc & n ) {
+        return n.stomach.get_water() > 0_ml;
+    } );
+    CHECK( guy.stomach.get_water() > 0_ml );
 }
 
 // Foraging/harvesting NPCs must react to danger instead of blindly
