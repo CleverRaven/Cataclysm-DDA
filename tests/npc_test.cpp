@@ -61,6 +61,7 @@
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
@@ -68,6 +69,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sounds.h"
 #include "stomach.h"
 #include "test_data.h"
 #include "text_snippets.h"
@@ -172,6 +174,9 @@ static const vpart_id vpart_trunk_floor( "trunk_floor" );
 static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
+
+static const weather_type_id weather_clear( "clear" );
+static const weather_type_id weather_rainstorm( "rainstorm" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
@@ -7394,4 +7399,35 @@ TEST_CASE( "npc_trade_test", "[npc][trade]" )
         // dropped the unwanted item
         REQUIRE( map_cursor( you.pos_abs() ).has_item_with( has_filthy ) );
     }
+}
+
+TEST_CASE( "follower_speech_reaches_the_player", "[npc][sound]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    // rainstorm's sound_attn must be covered by the speech volume
+    const weather_type_id sky = GENERATE( weather_clear, weather_rainstorm );
+    CAPTURE( sky.str() );
+    scoped_weather_override weather( sky );
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int distance = GENERATE( 1, 3, 6 );
+    CAPTURE( distance );
+    player.setpos( here, guy.pos_bub() + tripoint( distance, 0, 0 ) );
+    REQUIRE( rl_dist( guy.pos_bub(), player.pos_bub() ) == distance );
+
+    sounds::reset_sounds();
+    Messages::clear_messages();
+    guy.say( "Can we stop for water?" );
+    sounds::process_sound_markers( &player );
+
+    const std::vector<std::pair<std::string, std::string>> log = Messages::recent_messages( 0 );
+    CHECK( std::any_of( log.begin(), log.end(), []( const std::pair<std::string, std::string> &m ) {
+        return m.second.find( "Can we stop for water?" ) != std::string::npos;
+    } ) );
 }
