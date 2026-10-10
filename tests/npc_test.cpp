@@ -56,6 +56,7 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "npc_class.h"
+#include "npc_trip.h"
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
@@ -1684,7 +1685,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         tripoint_bub_ms target = guy.pos_bub() + tripoint( 3, 0, 0 );
         REQUIRE( here.passable( target ) );
         const int dist_before = rl_dist( guy.pos_bub(), target );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < dist_before );
     }
 
@@ -1693,7 +1694,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         here.ter_set( target, ter_t_wall_glass );
         REQUIRE( here.impassable( target ) );
         REQUIRE( here.passable( target + tripoint::west ) );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() != target );
         CHECK( here.passable( guy.pos_bub() ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < 3 );
@@ -1708,7 +1709,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         }
         REQUIRE( here.impassable( target + tripoint::west ) );
         const tripoint_bub_ms before = guy.pos_bub();
-        CHECK_FALSE( guy.move_to_and_verify( target ) );
+        CHECK_FALSE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() == before );
     }
 }
