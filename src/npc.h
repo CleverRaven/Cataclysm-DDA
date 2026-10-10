@@ -31,6 +31,7 @@
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
+#include "npc_arbitration.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
 #include "npc_trip.h"
@@ -1528,6 +1529,13 @@ class npc : public Character
         // Recompute the urgency score for an executor need using the
         // same oracle functions the BT's score predicates use.
         float current_need_urgency( need_goal_id id ) const;
+        // false while walking with the player
+        bool is_on_shift() const;
+        std::optional<npc_reach> obligation_reach() const;
+        npc_permission_verdict judge_option( const npc_option_cost &cost ) const;
+        npc_need_view need_view( need_goal_id id, const npc_option_cost &cost ) const;
+        // nullopt (unreachable) gives kind none
+        npc_need_view need_view( need_goal_id id, const std::optional<npc_option_cost> &cost ) const;
 
         // Execute the concrete action for a needs-category goal.
         // Owns target selection and progress tracking.
