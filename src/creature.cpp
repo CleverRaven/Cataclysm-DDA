@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game.h"
