@@ -1335,7 +1335,7 @@
     "name": { "str": "centrifuge" },
     "description": "A centrifuge, a liquid separating device with an automated analyzer unit.",
     "weight": "124 kg",
-    "volume": "157.65 L",
+    "volume": "158 L",
     "use_action": [
       { "type": "link_up", "cable_length": 2, "charge_rate": "2000 W" },
       { "type": "deploy_furn", "furn_type": "f_centrifuge" }
