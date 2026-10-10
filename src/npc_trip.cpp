@@ -12,8 +12,19 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
+#include "npc_arbitration.h"
 #include "pathfinding.h"
 #include "point.h"
+#include "vpart_position.h"
+
+bool npc_reach::contains( const tripoint_abs_ms &p ) const
+{
+    if( aboard != nullptr ) {
+        const optional_vpart_position vp = get_map().veh_at( p );
+        return vp && &vp->vehicle() == aboard;
+    }
+    return p.z() == center.z() && rl_dist( p, center ) <= radius;
+}
 
 std::optional<tripoint_bub_ms> nearest_passable( const tripoint_bub_ms &p,
         const tripoint_bub_ms &closest_to )
