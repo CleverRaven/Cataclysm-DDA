@@ -100,6 +100,7 @@ static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloody_feet( "bloody_feet" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
 static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
@@ -127,7 +128,6 @@ static const efftype_id effect_telepathic_ignorance( "telepathic_ignorance" );
 static const efftype_id effect_telepathic_ignorance_self( "telepathic_ignorance_self" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
-static const efftype_id effect_bloody_feet( "bloody_feet" );
 
 static const field_type_str_id field_fd_last_known( "fd_last_known" );
 
@@ -360,7 +360,7 @@ void Creature::bleed( map &here ) const
     here.add_splatter( bloodType(), pos_bub( here ) );
 }
 
-void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos )
+void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos ) const
 {
     if( has_effect( effect_bloody_feet ) == false ) {
         return;
