@@ -16,38 +16,24 @@
   {
     "id": "fd_blood_footprint_n",
     "type": "field_type",
+    "copy-from": "fd_blood",
     "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
-    "half_life": "1 days",
-    "phase": "liquid",
-    "accelerated_decay": true,
-    "display_field": true
+    "half_life": "1 days"
   },
   {
     "id": "fd_blood_footprint_w",
     "type": "field_type",
-    "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
-    "half_life": "1 days",
-    "phase": "liquid",
-    "accelerated_decay": true,
-    "display_field": true
+    "copy-from": "fd_blood_footprint_n"
   },
   {
     "id": "fd_blood_footprint_s",
     "type": "field_type",
-    "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
-    "half_life": "1 days",
-    "phase": "liquid",
-    "accelerated_decay": true,
-    "display_field": true
+    "copy-from": "fd_blood_footprint_n"
   },
   {
     "id": "fd_blood_footprint_e",
     "type": "field_type",
-    "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
-    "half_life": "1 days",
-    "phase": "liquid",
-    "accelerated_decay": true,
-    "display_field": true
+    "copy-from": "fd_blood_footprint_n"
   },
   {
     "id": "fd_bile",
