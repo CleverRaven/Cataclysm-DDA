@@ -2149,9 +2149,6 @@ class Character : public Creature, public visitable
 
         void clear_worn();
 
-        // returns a list of all item_location the character has, including items contained in other items.
-        // only for CONTAINER pocket type; does not look for magazines
-        std::vector<item_location> all_items_loc();
         // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if

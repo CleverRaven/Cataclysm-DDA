@@ -3338,7 +3338,7 @@ struct item_eoc_runner {
                      const item_menu &f, const item_menu_mul &f_mul, const std::string &option, bool is_npc ) :
         d( d ), data( data ), true_eocs( true_eocs ), false_eocs( false_eocs ), f( f ), f_mul( f_mul ),
         option( option ), is_npc( is_npc ) {
-        Character *guy = d.actor( is_npc )->get_character();
+        guy = d.actor( is_npc )->get_character();
         guy = guy ? guy : &get_player_character();
     }
 
