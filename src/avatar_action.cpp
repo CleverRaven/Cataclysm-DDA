@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -61,7 +60,6 @@
 #include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "visitable.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
@@ -88,7 +86,6 @@ static const itype_id itype_underbrush( "underbrush" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_FLOTATION( "FLOTATION" );
-static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -120,28 +117,10 @@ static bool check_water_affect_items( avatar &you )
         return true;
     }
 
-    std::vector<item_location> dissolved;
-    std::vector<item_location> destroyed;
-    std::vector<item_location> wet;
+    wet_items wet_items_list = visit_water_affect_items( you );
 
-
-    if( !you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
-        you.visit_items( [&dissolved, &destroyed, &wet]( const item_location & loc ) {
-            if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
-                dissolved.emplace_back( loc );
-            } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
-                destroyed.emplace_back( loc );
-            } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
-                wet.emplace_back( loc );
-            }
-            if( loc->is_watertight_container() && !loc->will_spill() ) {
-                return VisitResponse::SKIP;
-            }
-            return VisitResponse::NEXT;
-        } );
-    }
-
-    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
+    if( wet_items_list.dissolved.empty() && wet_items_list.destroyed.empty() &&
+        wet_items_list.wet.empty() ) {
         return query_yn( _( "Dive into the water?" ) );
     }
 
@@ -159,23 +138,23 @@ static bool check_water_affect_items( avatar &you )
         menu.entries.push_back( header );
     };
 
-    if( !dissolved.empty() ) {
+    if( !wet_items_list.dissolved.empty() ) {
         add_header( _( "Will be dissolved:" ) );
-        for( item_location &it : dissolved ) {
+        for( item_location &it : wet_items_list.dissolved ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
 
-    if( !destroyed.empty() ) {
+    if( !wet_items_list.destroyed.empty() ) {
         add_header( _( "Will be destroyed:" ) );
-        for( item_location &it : destroyed ) {
+        for( item_location &it : wet_items_list.destroyed ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
 
-    if( !wet.empty() ) {
+    if( !wet_items_list.wet.empty() ) {
         add_header( _( "Will get wet:" ) );
-        for( item_location &it : wet ) {
+        for( item_location &it : wet_items_list.wet ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
