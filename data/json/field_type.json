@@ -16,9 +16,14 @@
   {
     "id": "fd_blood_footprint_n",
     "type": "field_type",
-    "copy-from": "fd_blood",
     "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
-    "half_life": "1 days"
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "1 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true
   },
   {
     "id": "fd_blood_footprint_w",
