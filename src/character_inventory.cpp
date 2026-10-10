@@ -642,18 +642,6 @@ std::vector<item_location> outfit::all_items_loc( Character &guy )
     return ret;
 }
 
-std::vector<item_location> Character::all_items_loc()
-{
-    std::vector<item_location> ret;
-    item_location weap_loc( *this, &weapon );
-    std::vector<item_location> weapon_internal_items;
-    recur_internal_locations( weap_loc, weapon_internal_items );
-    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
-    std::vector<item_location> outfit_items = worn.all_items_loc( *this );
-    ret.insert( ret.end(), outfit_items.begin(), outfit_items.end() );
-    return ret;
-}
-
 std::vector<item_location> outfit::top_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
