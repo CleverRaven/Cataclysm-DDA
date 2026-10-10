@@ -29,6 +29,7 @@
 #include "clzones.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -71,6 +72,7 @@
 #include "point.h"
 #include "sounds.h"
 #include "stomach.h"
+#include "talker.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -83,7 +85,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-class Creature;
 enum npc_action : int;
 
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -7430,4 +7431,43 @@ TEST_CASE( "follower_speech_reaches_the_player", "[npc][sound]" )
     CHECK( std::any_of( log.begin(), log.end(), []( const std::pair<std::string, std::string> &m ) {
         return m.second.find( "Can we stop for water?" ) != std::string::npos;
     } ) );
+}
+
+TEST_CASE( "npc_tiredness_reading_matches_the_threshold", "[npc][talk]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int tired = static_cast<int>( sleepiness_levels::TIRED );
+    const auto reading_at = [&guy]( const int sleepiness ) {
+        guy.set_sleepiness( sleepiness );
+        return get_const_talker_for( guy )->evaluation_by( *get_const_talker_for( get_avatar() ) );
+    };
+
+    SECTION( "just below tired: a countdown that hasn't run out" ) {
+        const std::string info = reading_at( tired - 1 );
+        CAPTURE( info );
+        CHECK( info.find( "Not tired" ) != std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) != std::string::npos );
+        CHECK( info.find( "0 seconds" ) == std::string::npos );
+    }
+    SECTION( "at tired: no countdown" ) {
+        const std::string info = reading_at( tired );
+        CAPTURE( info );
+        CHECK( info.find( "Tired" ) != std::string::npos );
+        CHECK( info.find( "Not tired" ) == std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) == std::string::npos );
+    }
+    SECTION( "dead tired and exhausted also start at their level" ) {
+        const int dead_tired = static_cast<int>( sleepiness_levels::DEAD_TIRED );
+        const int exhausted = static_cast<int>( sleepiness_levels::EXHAUSTED );
+        CHECK( reading_at( dead_tired - 1 ).find( "Dead tired" ) == std::string::npos );
+        CHECK( reading_at( dead_tired ).find( "Dead tired" ) != std::string::npos );
+        CHECK( reading_at( exhausted - 1 ).find( "Exhausted" ) == std::string::npos );
+        CHECK( reading_at( exhausted ).find( "Exhausted" ) != std::string::npos );
+    }
 }
