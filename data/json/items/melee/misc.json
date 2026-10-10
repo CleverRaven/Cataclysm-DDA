@@ -7,7 +7,7 @@
     "name": { "str": "bullwhip" },
     "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
     "weight": "599 g",
-    "//": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9533004/#s2 Source for weight."
+    "//": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9533004/#s2 Source for weight.",
     "volume": "2 L",
     "price": "35 USD",
     "price_postapoc": "5 USD",
