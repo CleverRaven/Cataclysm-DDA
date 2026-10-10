@@ -28,6 +28,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "limit", limit, 0 );
 
     optional( jo, was_loaded, "wound_progression", wound_progression );
+    optional( jo, was_loaded, "progress_timer", progress_timer );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
@@ -37,7 +38,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
 wound::wound( wound_type_id wd ) :
     type( wd ),
     healing_time( wd->evaluate_healing_time() ),
-    pain( wd->evaluate_pain() )
+    pain( wd->evaluate_pain() ),
+    wound_progress_timer( wd->evaluate_progress_timer() )
 {}
 
 namespace
@@ -213,6 +215,13 @@ void wound_proficiency::deserialize( const JsonObject &jo )
     optional( jo, false, "is_mandatory", is_mandatory, false );
 }
 
+void wound_type_progress_timer::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    mandatory( jo, false, "time", time );
+    optional( jo, false, "message", message );
+}
+
 void wound_fix::load( const JsonObject &jo, const std::string_view & )
 {
     mandatory( jo, was_loaded, "name", name );
@@ -303,6 +312,21 @@ time_duration wound_type::evaluate_healing_time() const
     return rng( healing_time_.first, healing_time_.second );
 }
 
+std::optional<std::pair<wound_type_id, time_duration>> wound_type::evaluate_progress_timer() const
+{
+    if( progress_timer.has_value() ) {
+        return std::make_pair( progress_timer->id, rng( progress_timer->time.first,
+                               progress_timer->time.second ) );
+    } else {
+        return std::nullopt;
+    }
+}
+
+std::string wound_type::get_progress_timer_message() const
+{
+    return progress_timer->message.translated();
+}
+
 int wound_type::get_limit() const
 {
     return limit;
@@ -329,6 +353,7 @@ void wound::serialize( JsonOut &jsout ) const
     jsout.member( "type", type );
     jsout.member( "healing_time", healing_time );
     jsout.member( "healing_progress", healing_progress );
+    jsout.member( "wound_progress_timer", wound_progress_timer );
     jsout.member( "pain", pain );
     jsout.end_object();
 }
@@ -338,6 +363,7 @@ void wound::deserialize( const JsonObject &jsin )
     jsin.read( "type", type );
     jsin.read( "healing_time", healing_time );
     jsin.read( "healing_progress", healing_progress );
+    jsin.read( "wound_progress_timer", wound_progress_timer );
     jsin.read( "pain", pain );
 }
 
@@ -356,8 +382,20 @@ time_duration wound::get_healing_time() const
     return healing_time;
 }
 
-bool wound::update_wound( const time_duration time_passed )
+time_duration wound::get_healing_progress() const
+{
+    return healing_progress;
+}
+
+wound_update_ret wound::update_wound( const time_duration time_passed )
 {
     healing_progress += time_passed;
-    return healing_progress >= healing_time;
+
+    if( wound_progress_timer && wound_progress_timer->second <= healing_progress ) {
+        return wound_update_ret::ADVANCE;
+    } else if( healing_progress >= healing_time ) {
+        return wound_update_ret::REMOVE;
+    }
+
+    return wound_update_ret::DO_NOTHING;
 }

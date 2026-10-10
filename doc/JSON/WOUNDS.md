@@ -19,6 +19,11 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
             // Default infinite duration
     "wound_progression": [ { "id": "deep_scratch", "chance": 10 } ], // taking damage on bodypart with this limb may worsen it. chance is range from 0% to 100%
     "limb_scores": [ { "score": "lift", "value": 0.25 } ], // if wounded part has this limb score, it will be decreased by this amount
+    "progress_timer": {   // this wound may transform into another wound over time
+      "id": "scratch_medium",
+      "time": [ "2 minutes", "4 minutes" ],
+      "message": "Suddenly your scratch got wider!"
+    },
     "whitelist_body_part_types": [ "leg", "arm" ], // if used, this wound can be applied only at bodyparts of this type. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other
     "blacklist_body_part_types": [ "torso", "sensor" ], // if used, this wound cannot be applied on bodyparts of this type.
     "whitelist_bp_with_flag": [ "LIMB_UPPER" ], // only body parts with this flags can receive the wound.
