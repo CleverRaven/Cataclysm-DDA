@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "behavior.h"
 #include "calendar.h"
@@ -17,6 +18,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_oracle.h"
+#include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
@@ -31,13 +33,17 @@
 #include "npc_arbitration.h"
 #include "npc_trip.h"
 #include "npc_turn_helpers.h"
+#include "options_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "stomach.h"
 #include "type_id.h"
 #include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -48,6 +54,9 @@ static const efftype_id effect_sleep( "sleep" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const field_type_str_id field_fd_fire( "fd_fire" );
+
+static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_orange( "orange" );
@@ -61,7 +70,11 @@ static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
+static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
+static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 
 static const tripoint_bub_ms leader_pos( 50, 50, 0 );
 
@@ -949,6 +962,7 @@ TEST_CASE( "follower_outside_moving_vehicle_holds_back", "[npc][needs][water][ve
     REQUIRE( veh != nullptr );
     here.board_vehicle( pc.pos_bub(), &pc );
     REQUIRE( pc.in_vehicle );
+    clear_creatures();
     veh->velocity = 1000;
     npc &guy = spawn_follower( tripoint_bub_ms( 58, 50, 0 ) );
     put_water( guy.pos_bub() + tripoint( 0, 3, 0 ) );
@@ -1070,5 +1084,557 @@ TEST_CASE( "harvesting_npc_answers_order_and_leader_departure", "[npc][needs][wa
                 CHECK_FALSE( guy.activity.id() == ACT_FORAGE );
             }
         }
+    }
+}
+
+static void sleep_setup()
+{
+    // time first: placing the leader starts its time_since_relocated clock
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+    get_avatar().setpos( get_map(), leader_pos );
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+}
+
+static npc &tired_follower( const tripoint_bub_ms &pos, const int sleepiness )
+{
+    npc &guy = spawn_follower( pos );
+    settle_body( guy, 0 );
+    guy.set_sleepiness( sleepiness );
+    return guy;
+}
+
+static int dist_to( const npc &guy, const tripoint_bub_ms &p )
+{
+    return rl_dist( guy.pos_bub(), p );
+}
+
+static bool settles_within( npc &guy, const int max_turns )
+{
+    run_npc_turns( guy, max_turns, []( const npc & n ) {
+        return n.in_sleep_state();
+    } );
+    return guy.in_sleep_state();
+}
+
+static bool never_settles( npc &guy, const int turns )
+{
+    for( int turn = 0; turn < turns; ++turn ) {
+        run_npc_turn( guy );
+        if( guy.in_sleep_state() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static void put_leader_to_sleep()
+{
+    get_avatar().add_effect( effect_sleep, 2_hours );
+}
+
+static void wake_leader()
+{
+    get_avatar().remove_effect( effect_sleep );
+}
+
+static void forbid_area( const npc &guy, const tripoint_abs_ms &center, const int radius )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.add( "no_rest", zone_type_NPC_NO_GO, guy.get_fac_id(), false, true,
+             center + tripoint( -radius, -radius, 0 ), center + tripoint( radius, radius, 0 ) );
+    mgr.cache_data();
+}
+
+TEST_CASE( "tired_follower_stays_with_walking_leader", "[npc][needs][sleep][behavior]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = tired_follower( leader_pos + tripoint::east, 250 );
+    here.furn_set( leader_pos + tripoint( 15, 0, 0 ), furn_f_bed );
+
+    SECTION( "leader awake and walking" ) {
+        for( int turn = 0; turn < 40; ++turn ) {
+            if( turn % 2 == 1 ) {
+                get_avatar().setpos( here, get_avatar().pos_bub() + tripoint::east );
+            }
+            run_npc_turn( guy );
+            CAPTURE( turn );
+            CHECK_FALSE( guy.in_sleep_state() );
+            CHECK( guy.get_committed_goal() != "go_to_sleep" );
+            CHECK_FALSE( guy.get_sleep_plan().active() );
+        }
+        CHECK( dist_to_leader( guy ) <= 6 );
+    }
+    SECTION( "leader asleep" ) {
+        put_leader_to_sleep();
+        on_out_of_scope wake( wake_leader );
+        int farthest = 0;
+        run_npc_turns( guy, 20, [&farthest]( const npc & n ) {
+            farthest = std::max( farthest, dist_to_leader( n ) );
+            return n.in_sleep_state();
+        } );
+        CHECK( guy.in_sleep_state() );
+        CHECK( farthest <= 4 );
+    }
+}
+
+TEST_CASE( "stay_awake_rule_thresholds_follow_leader_state", "[npc][needs][sleep][behavior]" )
+{
+    sleep_setup();
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
+    guy.rules.clear_flag( ally_rule::allow_sleep );
+
+    SECTION( "leader asleep" ) {
+        put_leader_to_sleep();
+        on_out_of_scope wake( wake_leader );
+        WHEN( "tired but not dead tired" ) {
+            guy.set_sleepiness( 300 );
+            THEN( "it keeps watch" ) {
+                CHECK( never_settles( guy, 20 ) );
+            }
+        }
+        WHEN( "dead tired" ) {
+            guy.set_sleepiness( 400 );
+            THEN( "it lies down to sleep" ) {
+                CHECK( settles_within( guy, 20 ) );
+            }
+        }
+    }
+    SECTION( "leader awake" ) {
+        WHEN( "dead tired but not exhausted" ) {
+            guy.set_sleepiness( 500 );
+            THEN( "it stays awake" ) {
+                CHECK( never_settles( guy, 20 ) );
+            }
+        }
+        WHEN( "exhausted" ) {
+            guy.set_sleepiness( 600 );
+            THEN( "it lies down to sleep" ) {
+                CHECK( settles_within( guy, 20 ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "emergency_sleep_overrides_with_explanation", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+
+    SECTION( "follower told to stay awake, leader awake" ) {
+        npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 600 );
+        guy.rules.clear_flag( ally_rule::allow_sleep );
+        CHECK( settles_within( guy, 20 ) );
+        CHECK( dist_to_leader( guy ) <= 4 );
+        CHECK( guy.last_complaint( "need_override_sleep" ) );
+    }
+    SECTION( "24/7 guard" ) {
+        const tripoint_bub_ms post( 30, 30, 0 );
+        npc &guy = spawn_npc( post.xy(), "test_talker" );
+        clear_character( guy, true );
+        guy.setpos( here, post );
+        guy.set_mission( NPC_MISSION_GUARD );
+        guy.set_guard_pos( guy.pos_abs() );
+        settle_body( guy, 0 );
+        guy.set_sleepiness( 600 );
+        REQUIRE( guy.is_on_shift() );
+        here.furn_set( post + tripoint( 8, 0, 0 ), furn_f_bed );
+        CHECK( settles_within( guy, 20 ) );
+        CHECK( dist_to( guy, post ) <= 4 );
+        CHECK( guy.last_complaint( "need_override_sleep" ) );
+    }
+}
+
+TEST_CASE( "adopted_sleep_records_its_override", "[npc][needs][sleep][obligation]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = tired_follower( leader_pos + tripoint( 6, 0, 0 ), 0 );
+    guy.rules.clear_flag( ally_rule::allow_sleep );
+    here.furn_set( leader_pos + tripoint::east, furn_f_bed );
+    run_npc_turn( guy );
+    REQUIRE( guy.get_committed_goal() == "follow_player" );
+
+    guy.set_sleepiness( 600 );
+    run_npc_turn( guy );
+    CHECK( guy.get_committed_goal() == "go_to_sleep" );
+    CHECK( guy.get_intention().verdict.permission == npc_permission::emergency_only );
+    CHECK( guy.get_intention().verdict.by == npc_obligation::stay_awake_rule );
+    CHECK( guy.last_complaint( "need_override_sleep" ) );
+}
+
+TEST_CASE( "boarding_interrupts_bed_seeking", "[npc][behavior][vehicle][sleep]" )
+{
+    sleep_setup();
+    clear_vehicles();
+    map &here = get_map();
+    const tripoint_bub_ms veh_pos = leader_pos + tripoint( 0, -6, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 100,
+                                     veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    veh->velocity = 0;
+    const tripoint_bub_ms bed = leader_pos + tripoint( 3, 0, 0 );
+    here.furn_set( bed, furn_f_bed );
+    npc &guy = tired_follower( leader_pos + tripoint( -3, 0, 0 ), 400 );
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    run_npc_turn( guy );
+    REQUIRE( guy.get_committed_goal() == "go_to_sleep" );
+    REQUIRE( guy.get_sleep_plan().target == here.get_abs( bed ) );
+    REQUIRE_FALSE( guy.in_sleep_state() );
+
+    WHEN( "the leader only wakes" ) {
+        wake_leader();
+        run_npc_turn( guy );
+        THEN( "the bed still clears the floor at this tiredness" ) {
+            CHECK( guy.get_committed_goal() == "go_to_sleep" );
+            CHECK( guy.get_sleep_plan().target == here.get_abs( bed ) );
+        }
+    }
+    WHEN( "leader wakes and boards" ) {
+        wake_leader();
+        Character &pc = get_player_character();
+        pc.setpos( here, veh_pos );
+        here.board_vehicle( veh_pos, &pc );
+        REQUIRE( pc.in_vehicle );
+        // boarding recenters the map; new submaps can bring monsters it'd flee
+        clear_creatures();
+        run_npc_turns( guy, 15, []( const npc & n ) {
+            return n.in_vehicle;
+        } );
+        THEN( "it gives up the bed and gets in" ) {
+            CHECK( guy.get_committed_goal() != "go_to_sleep" );
+            CHECK_FALSE( guy.get_sleep_plan().active() );
+            CHECK( guy.in_vehicle );
+        }
+    }
+}
+
+TEST_CASE( "shift_worker_does_not_seek_bed_on_shift", "[npc][schedule][sleep]" )
+{
+    sleep_setup();
+    calendar::turn = calendar::turn_zero + 12_hours;
+    map &here = get_map();
+    const tripoint_bub_ms post( 30, 30, 0 );
+    npc &guy = spawn_npc( post.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( here, post );
+    guy.myclass = NC_ROBOFAC_INTERCOM_DAY;
+    guy.set_mutation( trait_RETURN_TO_START_POS );
+    guy.set_mission( NPC_MISSION_SHOPKEEP );
+    guy.set_guard_pos( guy.pos_abs() );
+    settle_body( guy, 0 );
+    guy.set_sleepiness( 600 );
+    REQUIRE( guy.is_on_shift() );
+    here.furn_set( post + tripoint( 3, 0, 0 ), furn_f_bed );
+    for( int turn = 0; turn < 10; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        CHECK( guy.pos_bub() == post );
+        CHECK_FALSE( guy.in_sleep_state() );
+    }
+}
+
+TEST_CASE( "sleep_on_own_bed_with_unreachable_anchor", "[npc][needs][sleep][obligation]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    // no route reaches the leader
+    for( const tripoint_bub_ms &p : here.points_in_radius( leader_pos, 1 ) ) {
+        if( p != leader_pos ) {
+            here.ter_set( p, ter_t_wall_glass );
+        }
+    }
+    const tripoint_bub_ms bed = leader_pos + tripoint( 3, 0, 0 );
+    here.furn_set( bed, furn_f_bed );
+    npc &guy = tired_follower( bed, 600 );
+    guy.set_stim( 0 );
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    REQUIRE( calendar::turn > calendar::turn_zero + 1_hours );
+    run_npc_turns( guy, 20, []( const npc & n ) {
+        return n.has_effect( effect_sleep );
+    } );
+    CHECK( guy.has_effect( effect_sleep ) );
+    CHECK( guy.pos_bub() == bed );
+}
+
+TEST_CASE( "permitted_worse_bed_beats_impermissible_better_bed", "[npc][needs][sleep][obligation]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    // bed A walled in, only way in is from outside the spacing
+    const tripoint_bub_ms bed_a = leader_pos + tripoint( 3, 0, 0 );
+    const tripoint_bub_ms gap = bed_a + tripoint::east;
+    for( const tripoint_bub_ms &p : here.points_in_radius( bed_a, 1 ) ) {
+        if( p != bed_a && p != gap ) {
+            here.ter_set( p, ter_t_wall_glass );
+        }
+    }
+    here.furn_set( bed_a, furn_f_bed );
+    const tripoint_bub_ms bed_b = leader_pos + tripoint( 1, 2, 0 );
+    here.furn_set( bed_b, furn_f_makeshift_bed );
+    npc &guy = tired_follower( leader_pos + tripoint::south_east, 300 );
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    const int comfort_a = guy.evaluate_sleep_spot( bed_a );
+    const int comfort_b = guy.evaluate_sleep_spot( bed_b );
+    REQUIRE( comfort_a > comfort_b );
+
+    const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
+    const auto listed = [&]( const tripoint_bub_ms & p ) {
+        return std::any_of( candidates.begin(), candidates.end(),
+        [&]( const npc::need_candidate & c ) {
+            return c.target == here.get_abs( p );
+        } );
+    };
+    CHECK( listed( bed_b ) );
+    CHECK_FALSE( listed( bed_a ) );
+    CHECK( settles_within( guy, 20 ) );
+    CHECK( guy.pos_bub() == bed_b );
+}
+
+TEST_CASE( "no_needs_follower_naps_only_when_leader_rests", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ),
+                               static_cast<int>( sleepiness_levels::TIRED ) );
+    override_option no_needs( "NO_NPC_FOOD", "true" );
+    REQUIRE_FALSE( guy.needs_food() );
+
+    SECTION( "leader walking" ) {
+        for( int turn = 0; turn < 40; ++turn ) {
+            if( turn % 2 == 1 ) {
+                get_avatar().setpos( here, get_avatar().pos_bub() + tripoint::east );
+            }
+            run_npc_turn( guy );
+            CAPTURE( turn );
+            CHECK_FALSE( guy.in_sleep_state() );
+        }
+    }
+    SECTION( "leader waits" ) {
+        get_avatar().assign_activity( wait_activity_actor( 1_hours ) );
+        REQUIRE( get_avatar().can_use_floor_warmth() );
+        CHECK( settles_within( guy, 20 ) );
+        CHECK( dist_to_leader( guy ) <= 4 );
+    }
+    SECTION( "told to stay awake, leader asleep" ) {
+        guy.rules.clear_flag( ally_rule::allow_sleep );
+        put_leader_to_sleep();
+        on_out_of_scope wake( wake_leader );
+        CHECK( never_settles( guy, 40 ) );
+    }
+}
+
+TEST_CASE( "passenger_rests_in_far_seat_while_moving", "[npc][needs][sleep][vehicle]" )
+{
+    sleep_setup();
+    clear_vehicles();
+    map &here = get_map();
+    Character &pc = get_player_character();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, leader_pos, 0_degrees, 100,
+                                     veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    here.board_vehicle( leader_pos, &pc );
+    REQUIRE( pc.in_vehicle );
+    // the boardable part farthest from the driver
+    tripoint_bub_ms seat = leader_pos;
+    for( const vpart_reference &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+        const tripoint_bub_ms p = veh->bub_part_pos( here, part.part() );
+        if( rl_dist( p, leader_pos ) > rl_dist( seat, leader_pos ) ) {
+            seat = p;
+        }
+    }
+    REQUIRE( rl_dist( seat, leader_pos ) >= 3 );
+    // spawned off the vehicle, then seated
+    npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 400 );
+    guy.rules.set_flag( ally_rule::follow_distance_2 );
+    guy.setpos( here, seat );
+    if( !guy.in_vehicle ) {
+        here.board_vehicle( seat, &guy );
+    }
+    REQUIRE( guy.in_vehicle );
+    veh->velocity = 1000;
+    const std::optional<npc_reach> reach = guy.obligation_reach();
+    REQUIRE( reach );
+    REQUIRE( reach->aboard == veh );
+
+    CHECK( settles_within( guy, 20 ) );
+    CHECK( reach->contains( guy.pos_abs() ) );
+}
+
+TEST_CASE( "vehicle_reach_forbids_ground_shortcut", "[npc][movement][obligation][vehicle]" )
+{
+    place_leader();
+    clear_vehicles();
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, leader_pos, 0_degrees, 100,
+                                     veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    veh->velocity = 0;
+    // front row of the cab: seat, aisle, seat, with an outside door at each end
+    const auto at_mount = [&]( const point_rel_ms & mount ) {
+        return veh->mount_to_tripoint( &here, mount );
+    };
+    Character &pc = get_player_character();
+    pc.setpos( here, at_mount( point_rel_ms( -2, 0 ) ) );
+    here.board_vehicle( pc.pos_bub(), &pc );
+    REQUIRE( pc.in_vehicle );
+    npc &guy = spawn_follower( leader_pos + tripoint( 0, 10, 0 ) );
+    guy.setpos( here, at_mount( point_rel_ms( 0, 2 ) ) );
+    if( !guy.in_vehicle ) {
+        here.board_vehicle( guy.pos_bub(), &guy );
+    }
+    REQUIRE( guy.in_vehicle );
+    REQUIRE( guy.obligation_reach()->aboard == veh );
+    const npc_trip_spec to_seat = npc_trip_spec::stand_on( at_mount( point_rel_ms( 0, 0 ) ), true );
+
+    SECTION( "aisle is free: walk stays aboard" ) {
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost = guy.trip_cost( to_seat, false );
+        REQUIRE( cost );
+        CHECK( cost->route_in_reach );
+    }
+    SECTION( "aisle blocked: going round outside leaves the reach" ) {
+        // internal door behind the aisle is the other way through; open it so it can
+        // be blocked too
+        const std::optional<vpart_reference> inner_door =
+            here.veh_at( at_mount( point_rel_ms( -1, 1 ) ) ).part_with_feature( VPFLAG_OPENABLE, true );
+        REQUIRE( inner_door );
+        veh->open( here, inner_door->part_index() );
+        int spare = 12;
+        for( const tripoint_bub_ms &p : {
+                 at_mount( point_rel_ms( 0, 1 ) ), at_mount( point_rel_ms( -1, 1 ) )
+             } ) {
+            // spawned off the vehicle, then moved in
+            npc &blocker = spawn_npc( ( leader_pos + tripoint( 0, spare++, 0 ) ).xy(), "test_talker" );
+            blocker.setpos( here, p );
+        }
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost = guy.trip_cost( to_seat, false );
+        REQUIRE( cost );
+        CHECK_FALSE( cost->route_in_reach );
+    }
+}
+
+TEST_CASE( "rest_cooldown_arms_when_no_spot_is_eligible", "[npc][needs][sleep][obligation]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
+    // the whole reach, own tile included, is NPC_NO_GO
+    forbid_area( guy, here.get_abs( leader_pos ), 4 );
+    behavior::character_oracle_t oracle( &guy );
+    REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
+    REQUIRE( guy.find_sleep_candidates().empty() );
+
+    guy.set_moves( 100 );
+    CHECK( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::impossible );
+    CHECK_FALSE( guy.get_sleep_plan().active() );
+    CHECK( guy.rest_cooldown_active() );
+    CHECK( oracle.can_sleep( "" ) == behavior::status_t::failure );
+}
+
+TEST_CASE( "rest_cooldown_reached_through_normal_dispatch", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
+    forbid_area( guy, here.get_abs( leader_pos ), 4 );
+    run_npc_turn( guy );
+    CHECK( guy.rest_cooldown_active() );
+    CHECK( guy.get_committed_goal().empty() );
+    for( int turn = 0; turn < 5; ++turn ) {
+        run_npc_turn( guy );
+        CHECK_FALSE( guy.get_sleep_plan().active() );
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+    }
+}
+
+TEST_CASE( "rest_cooldown_clears_when_its_inputs_change", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
+    forbid_area( guy, here.get_abs( leader_pos ), 4 );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::impossible );
+    REQUIRE( guy.rest_cooldown_active() );
+
+    SECTION( "spot becomes usable: waits out the minute" ) {
+        zone_manager::get_manager().clear();
+        zone_manager::get_manager().cache_data();
+        CHECK( guy.rest_cooldown_active() );
+        calendar::turn += 1_minutes;
+        CHECK_FALSE( guy.rest_cooldown_active() );
+        CHECK( settles_within( guy, 5 ) );
+    }
+    SECTION( "leader steps" ) {
+        get_avatar().setpos( here, leader_pos + tripoint::south );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+    SECTION( "leader wakes" ) {
+        wake_leader();
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+    SECTION( "an order" ) {
+        guy.goto_to_this_pos = here.get_abs( leader_pos + tripoint( -3, 0, 0 ) );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+    SECTION( "NPC drifts one tile" ) {
+        guy.setpos( here, guy.pos_bub() + tripoint::south );
+        CHECK( guy.rest_cooldown_active() );
+    }
+    SECTION( "NPC moves three tiles" ) {
+        guy.setpos( here, guy.pos_bub() + tripoint( 0, 3, 0 ) );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+    SECTION( "tiredness crosses the next level" ) {
+        guy.set_sleepiness( 400 );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+    SECTION( "a parked vehicle appears under the leader" ) {
+        // leader stays put: only the reach turns into the vehicle
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, leader_pos, 0_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
+        REQUIRE( veh != nullptr );
+        veh->velocity = 0;
+        here.board_vehicle( leader_pos, &get_player_character() );
+        REQUIRE( get_player_character().in_vehicle );
+        REQUIRE( guy.obligation_reach()->aboard == veh );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+    }
+}
+
+TEST_CASE( "sleep_target_becomes_impassable_is_dropped", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    const tripoint_bub_ms bed = leader_pos + tripoint( 3, 0, 0 );
+    here.furn_set( bed, furn_f_bed );
+    npc &guy = tired_follower( leader_pos + tripoint::west, 400 );
+    put_leader_to_sleep();
+    on_out_of_scope wake( wake_leader );
+    run_npc_turn( guy );
+    REQUIRE( guy.get_sleep_plan().target == here.get_abs( bed ) );
+    REQUIRE( guy.pos_bub() != bed );
+
+    here.ter_set( bed, ter_t_wall_glass );
+    here.build_map_cache( 0 );
+    for( int turn = 0; turn < 5; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        CHECK( guy.get_sleep_plan().target != here.get_abs( bed ) );
+        CHECK( guy.pos_bub() != bed );
     }
 }

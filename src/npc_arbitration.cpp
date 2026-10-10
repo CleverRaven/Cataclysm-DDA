@@ -33,6 +33,10 @@ namespace
 // a guard can walk this far from the post for something quick
 constexpr int post_reach = 4;
 constexpr float preempt_margin = 0.15f;
+// failed sleep search holds sleep back this long unless what it was judged on changes
+constexpr time_duration rest_cooldown_duration = 1_minutes;
+// NPC may drift this far from where search failed without ending cooldown
+constexpr int rest_cooldown_drift = 2;
 
 struct need_levels {
     float insist;
@@ -314,6 +318,9 @@ void npc::explain_override( const need_goal_id id )
             speech = _( "I really need some water.  I'll be right back." );
             break;
         case need_goal_id::go_to_sleep:
+            issue = "need_override_sleep";
+            speech = _( "I can't stay awake any longer." );
+            break;
         case need_goal_id::eat_food:
         case need_goal_id::seek_warmth:
             return;
@@ -347,7 +354,48 @@ npc_need_view npc::best_need_view( const need_goal_id id )
         }
         return held;
     }
+    if( id == need_goal_id::go_to_sleep ) {
+        if( rest_cooldown_active() ) {
+            npc_need_view none;
+            none.raw = current_need_urgency( id );
+            return none;
+        }
+        // the executor judges the spot it finds
+        return need_view( id, rest_option_best_case() );
+    }
     return need_view( id, in_place );
+}
+
+void npc::arm_rest_cooldown()
+{
+    const Character &leader = get_player_character();
+    const float raw = current_need_urgency( need_goal_id::go_to_sleep );
+    const need_levels levels = levels_for( need_goal_id::go_to_sleep );
+    npc_short_term_cache::rest_cooldown &cd = ai_cache.no_rest_option;
+    cd.until = calendar::turn + rest_cooldown_duration;
+    cd.leader_asleep = leader.in_sleep_state();
+    cd.leader_resting = leader_is_resting( leader );
+    cd.reach = npc_reach_snapshot::of( obligation_reach() );
+    cd.goto_target = goto_to_this_pos;
+    cd.pos = pos_abs();
+    // next level where a stricter verdict gives way; none above emergency
+    cd.next_floor = raw < levels.insist ? levels.insist : raw < levels.emergency ?
+                    levels.emergency : std::numeric_limits<float>::infinity();
+}
+
+bool npc::rest_cooldown_active() const
+{
+    const npc_short_term_cache::rest_cooldown &cd = ai_cache.no_rest_option;
+    if( calendar::turn >= cd.until ) {
+        return false;
+    }
+    const Character &leader = get_player_character();
+    return leader.in_sleep_state() == cd.leader_asleep &&
+           leader_is_resting( leader ) == cd.leader_resting &&
+           cd.reach.matches( obligation_reach() ) &&
+           goto_to_this_pos == cd.goto_target &&
+           rl_dist( pos_abs(), cd.pos ) <= rest_cooldown_drift &&
+           current_need_urgency( need_goal_id::go_to_sleep ) < cd.next_floor;
 }
 
 bool npc::may_walk_to( const npc_trip_spec &spec ) const

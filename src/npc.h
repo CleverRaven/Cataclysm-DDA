@@ -565,6 +565,18 @@ struct npc_short_term_cache {
     npc_retained_trip retained_trip;
     // diagnostic count of route() calls made while resolving self-care walks
     mutable int trip_route_calls = 0;
+    // last sleep search found no spot the NPC may use; holds sleep back until it
+    // expires or anything it was judged on changes
+    struct rest_cooldown {
+        time_point until = calendar::turn_zero;
+        bool leader_asleep = false;
+        bool leader_resting = false;
+        npc_reach_snapshot reach;
+        std::optional<tripoint_abs_ms> goto_target;
+        tripoint_abs_ms pos;
+        float next_floor = 0.0f;
+    };
+    rest_cooldown no_rest_option;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1504,6 +1516,7 @@ class npc : public Character
         const std::string &get_committed_goal() const {
             return ai_cache.intention.goal;
         }
+        // tests only: commits without ending the old pursuit or recording an option
         void set_committed_goal( const std::string &goal ) {
             ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
         }
@@ -1541,6 +1554,8 @@ class npc : public Character
         npc_need_view best_need_view( need_goal_id id );
         // only outright allowed walk: needs never override here
         bool may_walk_to( const npc_trip_spec &spec ) const;
+        // failed sleep search still holds; see arm_rest_cooldown()
+        bool rest_cooldown_active() const;
         std::optional<time_point> last_complaint( const std::string &issue ) const;
         npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
         // also ends the lying down or activity the pursuit started
@@ -1556,6 +1571,8 @@ class npc : public Character
         // is routed and nullopt only marks a stand_on spot nobody can stand on
         std::optional<npc_option_cost> trip_cost( const npc_trip_spec &spec, bool responsive ) const;
         std::optional<npc_option_cost> water_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> rest_option_cost( const tripoint_abs_ms &spot ) const;
+        npc_option_cost rest_option_best_case() const;
 
         // Execute the concrete action for a needs-category goal.
         // Owns target selection and progress tracking.
@@ -1740,6 +1757,7 @@ class npc : public Character
         void adopt_goal( const std::string &goal );
         // judges a running harvest or forage like a walk: ends it or announces an override
         void review_self_care_activity();
+        void arm_rest_cooldown();
         void explain_override( need_goal_id id );
         npc_pursuit committed_pursuit() const;
         std::optional<npc_option_cost> pursued_option_cost( need_goal_id id ) const;

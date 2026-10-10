@@ -3629,21 +3629,15 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         guy.set_moves( 100 );
         guy.move();
 
-        // BT returns hold_position (duty 0.45 > sleep 0.4).
-        // go_to_sleep completes because new_goal != "go_to_sleep".
+        // on shift post blocks sleep, so should_interrupt ends the pursuit
         CHECK( guy.get_committed_goal() != "go_to_sleep" );
     }
 
-    SECTION( "committed sleep yields to a different needs goal" ) {
-        // Off-shift so duty is irrelevant. Sleepiness below TIRED (191)
-        // so can_sleep fails and sleep branch is not running. Thirst is
-        // high with water available, so BT returns drink_water (same
-        // needs category, but different goal).
+    SECTION( "a sleep commitment that is already met ends" ) {
+        // off shift, duty irrelevant; sleepiness below TIRED, sleep need met
         calendar::turn = calendar::turn_zero + 20_hours; // off-shift [6,18]
         npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
         guy.set_sleepiness( 100 );  // below TIRED (191): can_sleep fails
-        guy.set_thirst( 600 );       // thirst_urgency = 0.5
-        guy.i_add( item( itype_water_clean, calendar::turn ) );
         guy.regen_ai_cache();
         guy.set_committed_goal( "go_to_sleep" );
 
@@ -3652,8 +3646,6 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         guy.set_moves( 100 );
         guy.move();
 
-        // BT returns drink_water. Same needs category, but goal-level
-        // completion fires because new_goal != "go_to_sleep".
         CHECK( guy.get_committed_goal() != "go_to_sleep" );
     }
 }
@@ -6748,6 +6740,9 @@ TEST_CASE( "npc_sleep_executor_contract", "[npc][needs][sleep]" )
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
 
     map &here = get_map();
+    // spawn_npc can shift the map: place the player by the NPC so the beds below are
+    // inside the follower's spacing
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
     using need_source = npc_short_term_cache::need_source;
 
     SECTION( "current tile is valid: falls asleep here" ) {

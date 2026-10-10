@@ -1754,20 +1754,9 @@ void npc::move()
                             satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
                             break;
                         case need_goal_id::go_to_sleep:
-                            // Sleep completes when actually asleep, sleepiness
-                            // drops below threshold, or a DIFFERENT category
-                            // goal takes priority (e.g., duty at shift start).
-                            // Same-category changes use executor preemption
-                            // (holding state), not completion.
+                            // leaving for another goal goes through should_interrupt() below
                             satisfied = has_effect( effect_sleep ) ||
                                         oracle.needs_sleep_badly( "" ) != behavior::status_t::running;
-                            if( !satisfied && new_goal != committed ) {
-                                decision_category nc = bt_goal_to_category( new_goal );
-                                decision_category oc = bt_goal_to_category( committed );
-                                if( nc != oc ) {
-                                    satisfied = true;
-                                }
-                            }
                             break;
                     }
                     bool exec_impossible = plan_for( *gid ).last_result == need_result::impossible;
@@ -2130,89 +2119,11 @@ void npc::execute_action( npc_action action )
         break;
 
         case npc_sleep: {
-            // TODO: Allow stims when not too tired
-            // If we already have a path to a good sleep spot, keep following
-            // it instead of re-searching. Re-searching every turn causes
-            // oscillation when two beds are equidistant.
-            bool keep_existing_path = false;
-            if( !path.empty() ) {
-                const tripoint_bub_ms &dest = path.back();
-                if( is_valid_sleep_candidate( dest ) && g->is_empty( dest ) &&
-                    evaluate_sleep_spot( dest ) > INT_MIN ) {
-                    keep_existing_path = true;
-                }
-            }
-
-            if( !keep_existing_path ) {
-                // Find a nice spot to sleep
-                tripoint_bub_ms best_spot = pos_bub();
-                int best_sleepy = is_valid_sleep_candidate( pos_bub() )
-                                  ? evaluate_sleep_spot( best_spot )
-                                  : INT_MIN;
-
-                // first build a list of positions to search
-                std::vector<tripoint_bub_ms> search_positions;
-
-                if( is_walking_with() && player_character.in_vehicle ) {
-                    const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
-                    if( player_part_pos ) {
-                        vehicle *player_vehicle = &player_part_pos->vehicle();
-                        if( player_character.in_sleep_state() || player_vehicle->velocity != 0 ) {
-                            for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                                search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
-                            }
-                        }
-                    }
-                }
-
-                if( search_positions.empty() ) {
-                    search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
-                }
-
-                // then search through all positions to find the best sleep spot
-                for( const tripoint_bub_ms &p : search_positions ) {
-                    if( !could_move_onto( p ) || !g->is_empty( p ) ) {
-                        continue;
-                    }
-
-                    // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
-                    if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
-                        const int sleepy = evaluate_sleep_spot( p );
-                        if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
-                            best_sleepy = sleepy;
-                            best_spot = p;
-                        }
-                    }
-                }
-
-                update_path( best_spot, true );
-            }
-
-            if( is_walking_with() ) {
-                complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
-            }
-            // TODO: Handle empty path better
-            if( path.empty() ) {
+            // same executor, search bounds and permission as the behavior tree's sleep goal
+            const need_result result = execute_go_to_sleep();
+            if( result != need_result::progressed && result != need_result::holding &&
+                result != need_result::satisfied ) {
                 move_pause();
-                if( !in_sleep_state() ) {
-                    activate_bionic_by_id( bio_soporific );
-                    if( !player_character.in_sleep_state() ) {
-                        add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), get_name() );
-                    }
-                    // NPCs check can_sleep() for hard blockers (meth, stim)
-                    // but fall asleep directly on success. The lying_down ->
-                    // can_sleep() rng retry cycle is for the player who gets
-                    // "you try to sleep but can't" feedback. Without direct
-                    // fall_asleep(), NPC sleepiness keeps incrementing while
-                    // they lie awake (recovery only runs while asleep).
-                    if( !is_avatar() && can_sleep() ) {
-                        fall_asleep();
-                    } else {
-                        add_effect( effect_lying_down, 30_minutes, false, 1 );
-                    }
-                }
-            } else {
-                move_to_next();
             }
         }
         break;
@@ -3280,32 +3191,13 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    const auto could_sleep = [&]() {
-        if( danger <= 0.01 ) {
-            if( get_sleepiness() >= sleepiness_levels::TIRED ) {
-                return true;
-            }
-            if( is_walking_with() && player_character.in_sleep_state() &&
-                get_sleepiness() > ( sleepiness_levels::TIRED / 2 ) ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    // TODO: More risky attempts at sleep when exhausted
-    if( could_sleep() ) {
-        if( !is_player_ally() ) {
-            return npc_sleep;
-        }
-
-        if( rules.has_flag( ally_rule::allow_sleep ) ||
-            get_sleepiness() > sleepiness_levels::MASSIVE_SLEEPINESS ) {
-            return npc_sleep;
-        }
-        if( player_character.in_sleep_state() ) {
-            // TODO: "Guard me while I sleep" command
-            return npc_sleep;
-        }
+    // same obligations as the behavior tree's sleep goal, but only an allowed verdict sleeps here
+    const bool tired = get_sleepiness() >= sleepiness_levels::TIRED ||
+                       ( is_walking_with() && player_character.in_sleep_state() &&
+                         get_sleepiness() > sleepiness_levels::TIRED / 2 );
+    if( danger <= 0.01 && tired && !rest_cooldown_active() &&
+        judge_option( rest_option_best_case() ).permission == npc_permission::allowed ) {
+        return npc_sleep;
     }
     // TODO: Mutation & trait related needs
     // e.g. finding glasses; getting out of sunlight if we're an albino; etc.
@@ -6517,6 +6409,17 @@ std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c )
     return cost;
 }
 
+std::optional<npc_option_cost> npc::rest_option_cost( const tripoint_abs_ms &spot ) const
+{
+    return trip_cost( npc_trip_spec::stand_on( get_map().get_bub( spot ), true ), false );
+}
+
+// whether to even consider sleep
+npc_option_cost npc::rest_option_best_case() const
+{
+    return npc_option_cost::best_case( pos_abs(), false );
+}
+
 std::vector<npc::scored_shelter> npc::find_nearby_shelters() const
 {
     std::vector<scored_shelter> results;
@@ -7264,13 +7167,21 @@ void npc::end_need_pursuit( const need_goal_id id )
     }
 }
 
-// TODO: only water declares its pursued option; eat_food and seek_warmth are judged
-// in place, so obligations never end their walks or activities
+// TODO: only water and sleep declare their pursued option; eat_food and seek_warmth are
+// judged in place, so obligations never end their walks or activities
 std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id ) const
 {
     const need_plan &plan = plan_for( id );
     if( id == need_goal_id::drink_water && plan.active() ) {
         return water_option_cost( { plan.source_kind, plan.target, 0.0f } );
+    }
+    if( id == need_goal_id::go_to_sleep ) {
+        if( plan.active() ) {
+            return rest_option_cost( plan.target );
+        }
+        // lying/asleep on own tile, or no spot chosen yet
+        return has_effect( effect_lying_down ) || has_effect( effect_sleep ) ?
+               rest_option_cost( pos_abs() ) : std::optional<npc_option_cost>( rest_option_best_case() );
     }
     return npc_option_cost::in_place( pos_abs() );
 }
@@ -7334,50 +7245,57 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
 {
     std::vector<need_candidate> candidates;
     map &here = get_map();
+    std::optional<npc_reach> reach = obligation_reach();
+    if( reach && reach->aboard == nullptr && !here.inbounds( here.get_bub( reach->center ) ) ) {
+        reach.reset();
+    }
+    // only spots the NPC may use now enter the comfort comparison, so a better bed
+    // it can't use never hides a worse one it can
+    const auto eligible_here = [&]( const tripoint_bub_ms & p ) {
+        return is_valid_sleep_candidate( p ) &&
+               need_view( need_goal_id::go_to_sleep, rest_option_cost( here.get_abs( p ) ) ).eligible();
+    };
 
-    // The NPC's own position is always a sleep candidate (they can
-    // sleep where they stand). g->is_empty excludes tiles occupied
-    // by creatures, so the NPC's own tile must be added explicitly.
-    if( is_valid_sleep_candidate( pos_bub() ) ) {
-        candidates.push_back( {
-            need_source::sleep_spot,
-            pos_abs(),
-            static_cast<float>( evaluate_sleep_spot( pos_bub() ) )
-        } );
+    // own tile first: g->is_empty() skips tiles with creatures, so the scan below never sees it
+    int best_sleepy = INT_MIN;
+    if( eligible_here( pos_bub() ) ) {
+        best_sleepy = evaluate_sleep_spot( pos_bub() );
+        candidates.push_back( { need_source::sleep_spot, pos_abs(), static_cast<float>( best_sleepy ) } );
     }
 
     const Character &player_character = get_player_character();
-
-    std::vector<tripoint_bub_ms> search_positions;
-    if( is_walking_with() && player_character.in_vehicle ) {
+    vehicle *seats = nullptr;
+    if( reach && reach->aboard != nullptr ) {
+        seats = reach->aboard;
+    } else if( is_walking_with() && player_character.in_vehicle ) {
         const optional_vpart_position player_part_pos = here.veh_at( player_character.pos_bub() );
-        if( player_part_pos ) {
-            vehicle *player_vehicle = &player_part_pos->vehicle();
-            if( player_character.in_sleep_state() || player_vehicle->velocity != 0 ) {
-                for( const vpart_reference &part : player_vehicle->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                    search_positions.push_back( player_vehicle->bub_part_pos( here, part.part() ) );
-                }
-            }
+        if( player_part_pos && ( player_character.in_sleep_state() ||
+                                 player_part_pos->vehicle().velocity != 0 ) ) {
+            seats = &player_part_pos->vehicle();
+        }
+    }
+    std::vector<tripoint_bub_ms> search_positions;
+    if( seats != nullptr ) {
+        for( const vpart_reference &part : seats->get_avail_parts( VPFLAG_BOARDABLE ) ) {
+            search_positions.push_back( seats->bub_part_pos( here, part.part() ) );
         }
     }
     if( search_positions.empty() ) {
-        search_positions = closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
+        search_positions = reach ?
+                           closest_points_first( here.get_bub( reach->center ), reach->radius ) :
+                           closest_points_first( pos_bub(), MAX_VIEW_DISTANCE );
     }
 
-    int best_sleepy = candidates.empty() ? INT_MIN :
-                      static_cast<int>( candidates.front().score );
     for( const tripoint_bub_ms &p : search_positions ) {
-        if( p == pos_bub() ) {
-            continue;
-        }
-        if( !could_move_onto( p ) || !g->is_empty( p ) ) {
-            continue;
-        }
         if( best_sleepy >= comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
             break;
         }
+        if( p == pos_bub() || !could_move_onto( p ) || !g->is_empty( p ) ) {
+            continue;
+        }
+        // comfort first, it needs no route
         const int sleepy = evaluate_sleep_spot( p );
-        if( sleepy > best_sleepy && is_valid_sleep_candidate( p ) ) {
+        if( sleepy > best_sleepy && eligible_here( p ) ) {
             best_sleepy = sleepy;
             candidates.push_back( {
                 need_source::sleep_spot,
@@ -7415,8 +7333,10 @@ npc::need_result npc::execute_go_to_sleep()
     std::set<tripoint_abs_ms> &failed = ai_cache.sleep_failed_targets;
     map &here = get_map();
 
-    // Validate existing target. Own position is always valid;
-    // other tiles must still be empty and reachable.
+    const auto may_sleep_at = [this]( const tripoint_abs_ms & spot ) {
+        return need_view( need_goal_id::go_to_sleep, rest_option_cost( spot ) ).eligible();
+    };
+    // drop a target that is no longer empty and reachable (own tile exempt), or no longer permitted
     if( plan.active() ) {
         const tripoint_bub_ms t = here.get_bub( plan.target );
         if( t != pos_bub() ) {
@@ -7424,11 +7344,18 @@ npc::need_result npc::execute_go_to_sleep()
                 plan.clear();
             }
         }
+        if( plan.active() && !may_sleep_at( plan.target ) ) {
+            plan.clear();
+        }
     }
 
     // Acquire target from candidates.
     if( !plan.active() ) {
         const auto candidates = find_sleep_candidates();
+        if( candidates.empty() ) {
+            // no spot the NPC may use: don't search again every turn
+            arm_rest_cooldown();
+        }
         for( const need_candidate &c : candidates ) {
             if( failed.count( c.target ) == 0 ) {
                 plan.goal = "go_to_sleep";
@@ -7450,6 +7377,9 @@ npc::need_result npc::execute_go_to_sleep()
 
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
     const Character &player_character = get_player_character();
+    if( const std::optional<npc_option_cost> cost = rest_option_cost( plan.target ) ) {
+        record_selected_option( need_goal_id::go_to_sleep, *cost );
+    }
 
     // At target: perform the sleep action.
     if( pos_bub() == target_bub ) {

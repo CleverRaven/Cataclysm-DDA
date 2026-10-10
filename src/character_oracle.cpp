@@ -289,10 +289,18 @@ status_t character_oracle_t::can_sleep( std::string_view ) const
     if( subject->has_effect( effect_meth ) ) {
         return status_t::failure;
     }
-    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) ) {
-        return status_t::running;
+    if( subject->get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {
+        return status_t::failure;
     }
-    return status_t::failure;
+    if( const npc *n = dynamic_cast<const npc *>( subject ) ) {
+        // judged for the best spot inside the reach, never for a trip to the leader or
+        // post: a follower on a bed walled off from the leader may still sleep there
+        if( n->rest_cooldown_active() ||
+            !n->need_view( npc::need_goal_id::go_to_sleep, n->rest_option_best_case() ).may_consider() ) {
+            return status_t::failure;
+        }
+    }
+    return status_t::running;
 }
 
 float character_oracle_t::sleepiness_urgency( std::string_view ) const
