@@ -31,7 +31,7 @@
     "volume": "2250 ml",
     "price": "48 USD",
     "price_postapoc": "52 USD",
-    "//": "There's no way you can swing this thing without hitting SOMETHING.",
+    "//": "There's no way you can swing this thing without hitting SOMETHING. https://pmc.ncbi.nlm.nih.gov/articles/PMC9533004/#s2 Source for weight.",
     "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
     "material": [ "leather", "steel" ],
     "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ],
