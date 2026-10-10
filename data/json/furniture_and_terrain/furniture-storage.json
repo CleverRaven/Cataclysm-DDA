@@ -1783,9 +1783,6 @@
     "mass": "1293 kg",
     "max_volume": "1500 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF", "PLACE_ITEM" ],
-    "examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": [ "EOC_engine_crate_examine" ]
-    }
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_engine_crate_examine" ] }
   }
 ]

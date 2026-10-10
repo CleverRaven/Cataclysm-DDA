@@ -154,16 +154,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_engine_crate_has_content",
-    "effect": {
-      "u_message": "There's something inside this crate."
-    }
+    "effect": { "u_message": "There's something inside this crate." }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_engine_crate_empty",
-    "effect": {
-      "u_message": "This container seems empty."
-    }
+    "effect": { "u_message": "This container seems empty." }
   },
   {
     "type": "effect_on_condition",

@@ -928,9 +928,6 @@
     "//": "contains engines for airborne military vehicles, for spawn in the engine containers",
     "//1": "large_turbine_engine wont fit in the container so its not on the list",
     "subtype": "distribution",
-    "entries": [
-      { "item": "small_turbine_engine", "prob": 45 },
-      { "item": "medium_turbine_engine", "prob": 30 }
-    ]
+    "entries": [ { "item": "small_turbine_engine", "prob": 45 }, { "item": "medium_turbine_engine", "prob": 30 } ]
   }
 ]

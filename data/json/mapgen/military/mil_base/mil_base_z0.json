@@ -681,10 +681,13 @@
           { "item": "mags_common", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ],
-        "©": { "item": {
+        "©": {
+          "item": {
             "subtype": "distribution",
             "entries": [ { "group": "mil_engines_crate_land", "prob": 50 }, { "group": "mil_engines_crate_air", "prob": 5 } ]
-          }, "chance": 95 }
+          },
+          "chance": 95
+        }
       },
       "monster": { "i": { "monster": "mon_zombie_soldier", "chance": 30 } },
       "place_loot": [
