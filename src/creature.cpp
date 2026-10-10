@@ -323,8 +323,8 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
 
 void Creature::on_move( const tripoint_abs_ms &old_pos )
 {
-    leave_bloody_footprint(old_pos);
-    check_bloody_feet(old_pos);
+    leave_bloody_footprint( old_pos );
+    check_bloody_feet( old_pos );
 }
 
 std::vector<std::string> Creature::get_grammatical_genders() const
@@ -347,7 +347,9 @@ void Creature::normalize()
 
 void Creature::reset()
 {
-    if( old_pos == pos_abs() ) return;
+    if( old_pos == pos_abs() ) {
+        return;
+    }
     reset_bonuses();
     reset_stats();
 }
@@ -359,7 +361,9 @@ void Creature::bleed( map &here ) const
 
 void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos )
 {
-    if( has_effect( effect_bloody_feet ) == false ) return;
+    if( has_effect( effect_bloody_feet ) == false ) {
+        return;
+    }
 
     map &here = get_map();
 
@@ -406,7 +410,9 @@ void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos )
 
 void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
 {
-    if( has_effect( effect_bloody_feet ) ) return;
+    if( has_effect( effect_bloody_feet ) ) {
+        return;
+    }
     map &here = get_map();
 
     const field &fields = here.field_at( here.get_bub( old_pos ) );
@@ -414,16 +420,11 @@ void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
 
     if( blood != nullptr ) {
         time_duration dur = 3_turns;
-        if( blood->get_field_intensity() <= 1)
-        {
+        if( blood->get_field_intensity() <= 1 ) {
             return;
-        }
-        else if( blood->get_field_intensity() == 2 )
-        {
+        } else if( blood->get_field_intensity() == 2 ) {
             dur = 4_turns;
-        }
-        else if( blood->get_field_intensity() >= 3 )
-        {
+        } else if( blood->get_field_intensity() >= 3 ) {
             dur = 6_turns;
         }
         add_effect( effect_bloody_feet, dur );
