@@ -21,5 +21,5 @@ def parse_wound_fix(json, origin):
     write_text(json["description"], origin,
                comment=f"Description of wound fix'{name}'")
 
-    write_text(json.get("succes_msg"), origin,
+    write_text(json.get("success_msg"), origin,
                comment=f"Message of succesful wound fix '{name}'")
