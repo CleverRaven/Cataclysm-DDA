@@ -3425,6 +3425,16 @@
     "material": [ "bone" ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "soabosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3447,6 +3457,16 @@
     "material": [ "bone" ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "saplocanthosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3469,6 +3489,16 @@
     "material": [ "bone" ],
     "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "samargasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3491,6 +3521,16 @@
     "material": [ "bone" ],
     "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sapatosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3510,6 +3550,16 @@
     "name": { "str_sp": "armored brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "srontosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
   },
   {
@@ -3521,6 +3571,16 @@
     "material": [ "bone" ],
     "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "siplodocus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3543,6 +3603,16 @@
     "material": [ "bone" ],
     "description": "This zombified barosaurus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sarosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3562,6 +3632,16 @@
     "name": { "str_sp": "armored camarasaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.8 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "samarasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
   },
   {
@@ -3570,6 +3650,16 @@
     "name": { "str_sp": "armored brachiosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.6, "hp": 3 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "srachiosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
   },
   {
@@ -3578,6 +3668,16 @@
     "name": { "str": "armored astrodon" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.7, "hp": 2 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sastrodon_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
   },
   {
@@ -3589,6 +3689,16 @@
     "material": [ "bone" ],
     "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "salamosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
