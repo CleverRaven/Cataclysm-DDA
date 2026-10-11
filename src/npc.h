@@ -923,7 +923,7 @@ class npc : public Character
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
         std::string describe_mission() const;
-        std::string display_name( bool possessive = false ) const;
+        std::string display_name() const;
         std::string name_and_activity() const;
         std::string name_and_maybe_activity() const override;
         /// Returns current status (Sleeping, Guarding, In Combat, etc.), or current activity

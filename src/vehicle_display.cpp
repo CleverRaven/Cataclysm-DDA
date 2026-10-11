@@ -407,7 +407,7 @@ void vehicle::print_fuel_indicators( map &here, const catacurses::window &win, c
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
         mvwprintz( win, p + point( 0, yofs ), c_light_green, ">" );
-        wprintz( win, c_light_gray, " for more" );
+        wprintz( win, c_light_gray, _( " for more" ) );
     }
 }
 
