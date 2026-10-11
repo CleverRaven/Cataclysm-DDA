@@ -206,6 +206,7 @@
     "id": "sugar_organizer_large",
     "subtype": "collection",
     "container-item": "plastic_organizer_large",
+    "on_overflow": "discard",
     "entries": [
       { "prob": 99, "item": "sugar", "container-item": "null", "count": [ 36, 834 ] },
       { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
