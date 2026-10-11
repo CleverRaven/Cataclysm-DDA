@@ -3544,9 +3544,7 @@ bool character_creator_ui::handle_action( const std::string &action )
         // "Single selection" tabs that have categories need to be set to "ALL" before randomizing.
         // If we don't, a non-visible entry can be chosen, filterlist() will select the next
         // visible entry instead, and select() will write that back into selected scenario index.
-        if( cc_uistate.selected_tab == CHARCREATOR_SCENARIO ) {
-            get_tab_uilist( CHARCREATOR_SCENARIO )->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
-        }
+        get_tab_uilist( CHARCREATOR_SCENARIO )->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
         update_uilist_entries();
     } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" ) {
         cc_uistate.reset();
