@@ -22,6 +22,7 @@ enum class butcher_type : int {
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
     DISSECT,        // dissect a corpse for CBMs
+    TAXIDERMY,      // taxidermy a corpse into a specimen
     NUM_TYPES       // always keep at the end, number of butchery types
 };
 
