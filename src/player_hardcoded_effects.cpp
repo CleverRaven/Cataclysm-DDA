@@ -1604,10 +1604,14 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
-        // an NPC with a reason to get up doesn't drop off: asked before can_sleep(), which
-        // spends the 30-minute roll. review_rest() gets it up after the body update
-        const npc *guy = as_npc();
-        if( ( guy == nullptr || !guy->rest_interruption() ) && can_sleep() ) {
+        npc *const guy = as_npc();
+        if( guy != nullptr ) {
+            // an NPC with a reason to get up doesn't drop off, review_rest() gets it up after
+            // the body update; otherwise it rolls on its own cadence
+            if( !guy->rest_interruption() && guy->sleep_settle_step() ) {
+                it.set_duration( 0_turns );
+            }
+        } else if( can_sleep() ) {
             fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0_turns );

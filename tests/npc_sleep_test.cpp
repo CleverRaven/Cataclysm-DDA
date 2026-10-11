@@ -1,6 +1,11 @@
+#include <cstddef>
+#include <functional>
+#include <initializer_list>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -8,22 +13,28 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
+#include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "npc_arbitration.h"
+#include "npc_sleep.h"
 #include "npc_turn_helpers.h"
 #include "options_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -31,11 +42,17 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
+
+static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_wall( "t_wall" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
@@ -82,6 +99,68 @@ static npc &tired_follower( const tripoint_bub_ms &pos, const int sleepiness )
     REQUIRE( guy.is_walking_with() );
     REQUIRE( guy.needs_food() );
     return guy;
+}
+
+// non-ally far from the player, needs settled
+static npc &stranger( const tripoint_bub_ms &pos )
+{
+    npc &guy = spawn_npc( pos.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( get_map(), pos );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    // stays put: an idle stranger otherwise travels off and posts itself as a guard
+    guy.set_mission( NPC_MISSION_SHELTER );
+    guy.goal = guy.pos_abs_omt();
+    REQUIRE_FALSE( guy.is_player_ally() );
+    return guy;
+}
+
+static bool asleep( const npc &n )
+{
+    return n.has_effect( effect_sleep );
+}
+
+static bool settled( const npc &n )
+{
+    return n.in_sleep_state();
+}
+
+static void walled_in( const tripoint_bub_ms &p )
+{
+    for( const tripoint_bub_ms &q : get_map().points_in_radius( p, 1 ) ) {
+        if( q != p ) {
+            get_map().ter_set( q, ter_t_wall );
+        }
+    }
+}
+
+// on a bed at 600 with no stim: sure to fall asleep on the first try
+static void make_asleep_on_bed( npc &guy )
+{
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 0 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    guy.execute_need_goal( "go_to_sleep" );
+    REQUIRE( asleep( guy ) );
+}
+
+// save then load into a new object, like a game load: nothing unsaved survives
+static npc_sleep_session round_trip( npc &guy )
+{
+    std::ostringstream os;
+    JsonOut jsout( os );
+    guy.serialize( jsout );
+    npc fresh;
+    fresh.deserialize( json_loader::from_string( os.str() ).get_object() );
+    guy = std::move( fresh );
+    guy.on_load( &get_map() );
+    return guy.get_sleep_session();
 }
 
 static int dist_to_leader( const npc &guy )
@@ -496,3 +575,288 @@ TEST_CASE( "passenger_naps_while_riding_along", "[npc][needs][sleep][vehicle]" )
         CHECK( on_bed( guy, veh ) );
     }
 }
+
+TEST_CASE( "npc_settling_ignores_player_sleep_throttle", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 0 );
+    // a roll now starts the player's 30-minute throttle
+    guy.can_sleep();
+    REQUIRE_FALSE( guy.can_sleep() );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    CHECK( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::progressed );
+    CHECK( asleep( guy ) );
+    run_npc_turns( guy, to_turns<int>( 30_minutes ) );
+    CHECK( guy.get_sleepiness() < 600 );
+}
+
+TEST_CASE( "npc_settling_rolls_until_asleep_or_gives_the_spot_up", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    const tripoint_bub_ms bed = guy.pos_bub();
+    here.furn_set( bed, furn_f_bed );
+    guy.set_sleepiness( 300 );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    REQUIRE_FALSE( asleep( guy ) );
+    CHECK( guy.get_current_status() == "Trying to sleep" );
+    CHECK( guy.get_sleep_session().phase == npc_sleep_phase::settling );
+
+    SECTION( "stimulant wears off: falls asleep within minutes" ) {
+        guy.set_stim( 0 );
+        run_npc_turns( guy, to_turns<int>( 4_minutes ), asleep );
+        CHECK( asleep( guy ) );
+        CHECK( guy.get_current_status() == "Sleeping" );
+        CHECK_FALSE( guy.get_sleep_plan().active() );
+    }
+    SECTION( "still wired after half an hour: it gives the bed up for another" ) {
+        const tripoint_bub_ms other = bed + tripoint( 3, 0, 0 );
+        here.furn_set( other, furn_f_bed );
+        run_npc_turns( guy, to_turns<int>( 31_minutes ), []( const npc & n ) {
+            return !n.has_effect( effect_lying_down );
+        } );
+        REQUIRE_FALSE( asleep( guy ) );
+        CHECK( guy.failed_targets_for( npc::need_goal_id::go_to_sleep ).count( here.get_abs( bed ) ) );
+        CHECK( guy.get_sleep_session().phase == npc_sleep_phase::none );
+        run_npc_turns( guy, 10, settled );
+        CHECK( guy.pos_bub() == other );
+    }
+    SECTION( "still wired, nowhere else to go: it stalls, then tries the same bed again" ) {
+        walled_in( bed );
+        here.build_map_cache( 0 );
+        const time_point first_try = guy.get_sleep_session().settle_started;
+        // giving the bed up and the search that finds nothing else happen in the same turn:
+        // the effect ends during process_turn(), the executor runs right after
+        run_npc_turns( guy, to_turns<int>( 31_minutes ), []( const npc & n ) {
+            return !n.has_effect( effect_lying_down );
+        } );
+        REQUIRE_FALSE( asleep( guy ) );
+        REQUIRE( guy.sleep_stalled() );
+        CHECK_FALSE( guy.rest_cooldown_active() );
+        CHECK( guy.failed_targets_for( npc::need_goal_id::go_to_sleep ).empty() );
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+        CHECK( guy.pos_bub() == bed );
+        CHECK( guy.get_sleep_session().settle_started > first_try );
+    }
+}
+
+TEST_CASE( "failed_bed_does_not_hide_a_worse_bed", "[npc][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    get_avatar().add_effect( effect_sleep, 2_hours );
+    npc &guy = tired_follower( leader_pos + tripoint::east, 300 );
+    const tripoint_bub_ms good = guy.pos_bub() + tripoint( 2, 0, 0 );
+    const tripoint_bub_ms worse = guy.pos_bub() + tripoint( 0, 2, 0 );
+    here.furn_set( good, furn_f_bed );
+    here.furn_set( worse, furn_f_makeshift_bed );
+    here.build_map_cache( 0 );
+    guy.failed_targets_for( npc::need_goal_id::go_to_sleep ).insert( here.get_abs( good ) );
+
+    bool lists_worse = false;
+    for( const npc::need_candidate &c : guy.find_sleep_candidates() ) {
+        CHECK( c.target != here.get_abs( good ) );
+        lists_worse = lists_worse || c.target == here.get_abs( worse );
+    }
+    CHECK( lists_worse );
+    CHECK( settles_within( guy, 20 ) );
+    CHECK( guy.pos_bub() == worse );
+    get_avatar().remove_effect( effect_sleep );
+}
+
+TEST_CASE( "shaded_bed_beats_sunlit_bed", "[npc][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    guy.set_sleepiness( 300 );
+    const tripoint_bub_ms sunny = guy.pos_bub() + tripoint( 2, 0, 0 );
+    const tripoint_bub_ms shaded = guy.pos_bub() + tripoint( -3, 0, 0 );
+    // a roofed room around the shaded bed, open toward the NPC
+    for( const tripoint_bub_ms &q : here.points_in_radius( shaded, 1 ) ) {
+        here.ter_set( q, ter_t_wall );
+        here.ter_set( q + tripoint::above, ter_t_flat_roof );
+    }
+    here.ter_set( shaded, ter_t_floor );
+    here.ter_set( shaded + tripoint::east, ter_t_floor );
+    here.furn_set( sunny, furn_f_bed );
+    here.furn_set( shaded, furn_f_bed );
+    here.build_map_cache( 1 );
+    here.build_map_cache( 0 );
+    REQUIRE( here.ambient_light_at( sunny ) > LIGHT_AMBIENT_LIT );
+    REQUIRE( here.ambient_light_at( shaded ) < here.ambient_light_at( sunny ) );
+    const int sunny_comfort = guy.evaluate_sleep_spot( sunny );
+    REQUIRE( guy.evaluate_sleep_spot( shaded ) == sunny_comfort );
+
+    const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
+    REQUIRE_FALSE( candidates.empty() );
+    CHECK( candidates.front().target == here.get_abs( shaded ) );
+}
+
+TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+
+    SECTION( "asleep" ) {
+        make_asleep_on_bed( guy );
+        const npc_sleep_session loaded = round_trip( guy );
+        CHECK( asleep( guy ) );
+        CHECK( loaded.phase == npc_sleep_phase::asleep );
+    }
+    SECTION( "settling" ) {
+        get_map().furn_set( guy.pos_bub(), furn_f_bed );
+        guy.set_sleepiness( 600 );
+        guy.set_stim( 100 );
+        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_moves( 100 );
+        REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+        const npc_sleep_session before = guy.get_sleep_session();
+        const npc_sleep_session loaded = round_trip( guy );
+        CHECK( loaded.phase == npc_sleep_phase::settling );
+        CHECK( loaded.settle_started == before.settle_started );
+        CHECK( loaded.next_attempt == before.next_attempt );
+        guy.set_stim( 0 );
+        run_npc_turns( guy, to_turns<int>( 4_minutes ), asleep );
+        CHECK( asleep( guy ) );
+    }
+}
+
+TEST_CASE( "settling_rolls_only_on_its_cadence", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    // every roll from here succeeds: on a bed at 600 with no stim
+    guy.set_stim( 0 );
+    const time_point next = guy.get_sleep_session().next_attempt;
+    const auto awake_until_next = [&guy, next]() {
+        while( calendar::turn < next ) {
+            run_npc_turn( guy );
+            if( asleep( guy ) ) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    SECTION( "in play" ) {
+        CHECK( awake_until_next() );
+        run_npc_turn( guy );
+        CHECK( asleep( guy ) );
+    }
+    SECTION( "loaded mid-settle" ) {
+        run_npc_turns( guy, 30 );
+        REQUIRE_FALSE( asleep( guy ) );
+        round_trip( guy );
+        CHECK( awake_until_next() );
+        run_npc_turn( guy );
+        CHECK( asleep( guy ) );
+    }
+}
+
+TEST_CASE( "loaded_settler_rechecks_obligations_on_its_first_turn",
+           "[npc][needs][sleep][obligation]" )
+{
+    sleep_setup();
+    get_avatar().add_effect( effect_sleep, 2_hours );
+    on_out_of_scope wake_leader( [] {
+        get_avatar().remove_effect( effect_sleep );
+    } );
+    npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    round_trip( guy );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    REQUIRE( guy.get_committed_goal().empty() );
+
+    SECTION( "nothing changed: it keeps settling" ) {
+        run_npc_turn( guy );
+        CHECK( guy.has_effect( effect_lying_down ) );
+    }
+    SECTION( "leader wakes and walks off" ) {
+        get_avatar().remove_effect( effect_sleep );
+        get_avatar().setpos( get_map(), leader_pos + tripoint( -10, 0, 0 ) );
+        run_npc_turn( guy );
+        CHECK_FALSE( guy.in_sleep_state() );
+    }
+    SECTION( "an order to move" ) {
+        guy.goto_to_this_pos = get_map().get_abs( leader_pos + tripoint( 0, 3, 0 ) );
+        run_npc_turn( guy );
+        CHECK_FALSE( guy.in_sleep_state() );
+    }
+}
+
+TEST_CASE( "settling_patience_grows_with_time_lying_down", "[npc][sleep]" )
+{
+    npc_sleep_session ses;
+    ses.begin_settling();
+    CHECK( ses.patience() == 0 );
+    calendar::turn += 7_minutes;
+    CHECK( ses.patience() == 2 );
+    calendar::turn += 2_hours;
+    CHECK( ses.patience() == 10 );
+    ses.begin_settling();
+    CHECK( ses.patience() == 0 );
+}
+
+TEST_CASE( "old_save_without_session_still_settles", "[npc][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 0 );
+    // lying down as a save from before sleep sessions leaves it
+    guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
+    std::ostringstream os;
+    JsonOut jsout( os );
+    guy.serialize( jsout );
+    std::string saved = os.str();
+    const size_t at = saved.find( "\"sleep_session\":" );
+    REQUIRE( at != std::string::npos );
+    const size_t end = saved.find( '}', at );
+    saved.erase( at, end - at + 2 );
+    guy.setID( character_id(), true );
+    guy.deserialize( json_loader::from_string( saved ).get_object() );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    REQUIRE( guy.get_sleep_session().phase == npc_sleep_phase::none );
+
+    run_npc_turn( guy );
+    CHECK( guy.get_sleep_session().phase == npc_sleep_phase::settling );
+    run_npc_turns( guy, to_turns<int>( 4_minutes ), asleep );
+    CHECK( asleep( guy ) );
+}
+
+TEST_CASE( "sleep_removed_by_script_is_reconciled_before_the_next_decision", "[npc][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    guy.remove_effect( effect_sleep );
+    run_npc_turn( guy );
+    CHECK( guy.get_sleep_session().wakes == 1 );
+    CHECK( settled( guy ) );
+    if( guy.get_sleep_plan().active() ) {
+        CHECK( guy.get_sleep_plan().target == guy.pos_abs() );
+    }
+}
+

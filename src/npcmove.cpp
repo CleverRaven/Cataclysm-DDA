@@ -67,6 +67,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
 #include "magic.h"
@@ -85,6 +86,7 @@
 #include "npc_attack.h"
 #include "npc_decision_category.h"
 #include "npc_opinion.h"
+#include "npc_sleep.h"
 #include "npc_trip.h"
 #include "npctalk.h"
 #include "omdata.h"
@@ -1531,6 +1533,8 @@ void npc::move()
     } else if( attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
         set_attitude( NPCATT_NULL );
     }
+    // sleep effects decide what the session says, before anything reads it
+    reconcile_sleep_session();
     regen_ai_cache();
     // Surgery and spellcasting must complete without re-evaluation
     // (they have their own internal state machines).
@@ -7151,6 +7155,7 @@ void npc::end_need_pursuit( const need_goal_id id )
         case need_goal_id::go_to_sleep:
             // lying down ends here; real sleep ends through Character::wake_up()
             remove_effect( effect_lying_down );
+            sleep_session.end();
             break;
         case need_goal_id::drink_water:
         case need_goal_id::eat_food:
@@ -7251,6 +7256,14 @@ npc::need_result npc::execute_need_goal( const std::string_view goal )
     return need_result::idle;
 }
 
+int npc::score_sleep_spot( const tripoint_bub_ms &p )
+{
+    const float light = get_map().ambient_light_at( p );
+    const int sun_penalty = light <= LIGHT_AMBIENT_LIT ? 0 :
+                            std::min( 5, 1 + static_cast<int>( ( light - LIGHT_AMBIENT_LIT ) / 20.0f ) );
+    return evaluate_sleep_spot( p ) - sun_penalty;
+}
+
 std::vector<npc::need_candidate> npc::find_sleep_candidates()
 {
     std::vector<need_candidate> candidates;
@@ -7262,14 +7275,15 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
     // only spots the NPC may use now enter the comfort comparison, so a better bed
     // it can't use never hides a worse one it can
     const auto eligible_here = [&]( const tripoint_bub_ms & p ) {
-        return is_valid_sleep_candidate( p ) &&
-               need_view( need_goal_id::go_to_sleep, rest_option_cost( here.get_abs( p ) ) ).eligible();
+        const tripoint_abs_ms abs = here.get_abs( p );
+        return ai_cache.sleep_failed_targets.count( abs ) == 0 && is_valid_sleep_candidate( p ) &&
+               need_view( need_goal_id::go_to_sleep, rest_option_cost( abs ) ).eligible();
     };
 
     // own tile first: g->is_empty() skips tiles with creatures, so the scan below never sees it
     int best_sleepy = INT_MIN;
     if( eligible_here( pos_bub() ) ) {
-        best_sleepy = evaluate_sleep_spot( pos_bub() );
+        best_sleepy = score_sleep_spot( pos_bub() );
         candidates.push_back( { need_source::sleep_spot, pos_abs(), static_cast<float>( best_sleepy ) } );
     }
 
@@ -7304,7 +7318,7 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
             continue;
         }
         // comfort first, it needs no route
-        const int sleepy = evaluate_sleep_spot( p );
+        const int sleepy = score_sleep_spot( p );
         if( sleepy > best_sleepy && eligible_here( p ) ) {
             best_sleepy = sleepy;
             candidates.push_back( {
@@ -7358,30 +7372,28 @@ npc::need_result npc::execute_go_to_sleep()
         }
     }
 
-    // Acquire target from candidates.
+    // acquire target from candidates; failed spots are already left out
     if( !plan.active() ) {
-        const auto candidates = find_sleep_candidates();
+        const std::vector<need_candidate> candidates = find_sleep_candidates();
         if( candidates.empty() ) {
-            // no spot the NPC may use: don't search again every turn
-            arm_rest_cooldown();
-        }
-        for( const need_candidate &c : candidates ) {
-            if( failed.count( c.target ) == 0 ) {
-                plan.goal = "go_to_sleep";
-                plan.source_kind = c.source_kind;
-                plan.target = c.target;
-                plan.last_result = need_result::idle;
-                plan.no_progress_turns = 0;
-                break;
+            if( failed.empty() ) {
+                // no spot the NPC may use: don't search again every turn
+                arm_rest_cooldown();
+            } else {
+                // every spot the NPC may use was tried this cycle: let other work through,
+                // and try the best spot again from scratch
+                sleep_session.stall();
+                failed.clear();
             }
+            plan.last_result = need_result::impossible;
+            return need_result::impossible;
         }
-        if( !plan.active() ) {
-            failed.clear();
-        }
-    }
-    if( !plan.active() ) {
-        plan.last_result = need_result::impossible;
-        return need_result::impossible;
+        const need_candidate &c = candidates.front();
+        plan.goal = "go_to_sleep";
+        plan.source_kind = c.source_kind;
+        plan.target = c.target;
+        plan.last_result = need_result::idle;
+        plan.no_progress_turns = 0;
     }
 
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
@@ -7390,36 +7402,22 @@ npc::need_result npc::execute_go_to_sleep()
         record_selected_option( need_goal_id::go_to_sleep, *cost );
     }
 
-    // At target: perform the sleep action.
+    // at target: lie down and settle
     if( pos_bub() == target_bub ) {
+        if( !low_danger ) {
+            plan.last_result = need_result::deferred;
+            return need_result::deferred;
+        }
         move_pause();
         if( is_walking_with() ) {
             complain_about( "napping", 30_minutes,
                             chat_snippets().snip_warn_sleep.translated() );
         }
         activate_bionic_by_id( bio_soporific );
-        if( !is_avatar() && can_sleep() ) {
-            if( !player_character.in_sleep_state() ) {
-                add_msg_if_player_sees( *this, _( "%s lies down to sleep." ),
-                                        get_name() );
-            }
-            fall_asleep();
-            plan.last_result = need_result::progressed;
-            plan.no_progress_turns = 0;
-            return need_result::progressed;
-        } else {
-            if( !player_character.in_sleep_state() ) {
-                add_msg_if_player_sees( *this, _( "%s lies down to sleep." ),
-                                        get_name() );
-            }
-            add_effect( effect_lying_down, 30_minutes, false, 1 );
-            // adding the effect already asked rest_interruption(); the review later this
-            // turn mustn't reuse that answer
-            ai_cache.rest_review = {};
-            // holding, not progressed: allows preemption by urgent needs.
-            plan.last_result = need_result::holding;
-            return need_result::holding;
+        if( !player_character.in_sleep_state() ) {
+            add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), get_name() );
         }
+        return settle_here();
     }
 
     // Not at target: move toward it.

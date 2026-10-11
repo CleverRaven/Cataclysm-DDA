@@ -34,6 +34,7 @@
 #include "npc_arbitration.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
+#include "npc_sleep.h"
 #include "npc_trip.h"
 #include "pimpl.h"
 #include "point.h"
@@ -1569,6 +1570,12 @@ class npc : public Character
         void review_rest();
         // stop lying down without falling asleep
         void stop_settling();
+        const npc_sleep_session &get_sleep_session() const {
+            return sleep_session;
+        }
+        // from lying_down effect: rolls on the settle cadence; true to stop lying down
+        bool sleep_settle_step();
+        bool sleep_stalled() const;
         bool sees_hostile_within( int radius ) const;
         std::optional<time_point> last_complaint( const std::string &issue ) const;
         npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
@@ -1788,6 +1795,13 @@ class npc : public Character
         npc_trip route_trip( const npc_trip_spec &spec, const npc_reach_policy *policy ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
+
+        need_result settle_here();
+        bool try_fall_asleep_now();
+        void reconcile_sleep_session();
+        // comfort, less up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
+        int score_sleep_spot( const tripoint_bub_ms &p );
+        npc_sleep_session sleep_session;
 
         npc_companion_mission comp_mission;
 
