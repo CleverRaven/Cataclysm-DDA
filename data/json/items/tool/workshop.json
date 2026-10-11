@@ -302,7 +302,7 @@
     "charged_qualities": [ [ "DRILL", 3 ] ],
     "charges_per_use": 5,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 },
