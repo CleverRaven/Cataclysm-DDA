@@ -2783,5 +2783,23 @@
     "priority": 8,
     "display_items": true,
     "display_field": true
+  },
+  {
+    "id": "fd_labyrinth_fog",
+    "looks_like": "fd_smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirling mist", "color": "white", "transparent": true },
+      { "name": "swirling mist", "color": "white", "transparent": false }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "0 turns",
+    "priority": 8,
+    "half_life": "5 seconds",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true
   }
 ]

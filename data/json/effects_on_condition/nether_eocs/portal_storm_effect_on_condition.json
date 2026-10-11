@@ -1190,6 +1190,7 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
+      { "u_add_var": "stuck_in_labyrinth", "value": "no" },
       { "u_teleport": { "global_val": "portal_dungeon_original_loc" } },
       {
         "if": { "mod_is_loaded": "skyisland" },

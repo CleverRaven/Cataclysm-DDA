@@ -445,17 +445,41 @@
     "//": "For going to the safehouse when too deep in the labyrinth to escape.",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_message": "Zworunk.", "popup": true },
       { "u_location_variable": { "u_val": "player_location_temp_labyrinth_return_loc" } },
       {
-        "u_travel_to_dimension": "netherum_labyrinth_safehouse",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "Your surroundings warp and fold into a familiar place."
-      },
-      { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
-      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
+        "if": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "then": [
+          { "u_message": "Zworunk.", "popup": true },
+          {
+            "u_travel_to_dimension": "netherum_labyrinth_safehouse",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You feel a prickle at the edge of your senses.",
+            "success_message": "Your surroundings warp and fold into a familiar place."
+          },
+          { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
+          { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
+        ],
+        "else": [
+          { "u_travel_to_dimension": "netherum_labyrinth_safehouse", "npc_travel_radius": 0, "npc_travel_filter": "none" },
+          {
+            "if": { "not": { "math": [ "has_var(u_safehouse_floor_portal_enclosure)" ] } },
+            "then": {
+              "u_location_variable": { "u_val": "safehouse_floor_portal_enclosure" },
+              "target_params": { "om_terrain": "labyrinth_safehouse", "om_special": "labyrinth_safehouse" },
+              "furniture": "f_exodii_floor_portal_enclosure",
+              "target_max_radius": 250
+            }
+          },
+          { "u_teleport": { "u_val": "safehouse_floor_portal_enclosure" } },
+          {
+            "u_message": "The world around you folds in on itself - zwoink.  Then, you hear three soft chimes, and find yourself standing in a metal ring.  A tall, bulbous computer screen looms before you, slightly too tall to comfortably look at without craning your neck.  Text starts to populate the screen.",
+            "popup": true
+          },
+          { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } },
+          { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
+        ]
+      }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
@@ -1477,7 +1501,7 @@
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nope!",
-        "success_message": "You experience brief vertigo and the mist before you fades away."
+        "success_message": "The labyrinth spins around you.  The mist before you fades away."
       },
       {
         "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
@@ -1485,14 +1509,13 @@
         "terrain": "t_nl_scrap_floor",
         "target_max_radius": 50
       },
-      { "mapgen_update": "labyrinth_stairs_2_to_1", "target_var": { "global_val": "labyrinth_nl_new_loc" } },
       {
-        "u_location_variable": { "context_val": "player_teleport_loc" },
-        "target_params": { "om_terrain": "labyrinth2" },
+        "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
+        "target_params": { "om_terrain": "labyrinth2_stairs", "om_special": "labyrinth2_stairs" },
         "terrain": "t_nl_archway",
-        "target_max_radius": 1000
+        "target_max_radius": 24
       },
-      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "u_teleport": { "global_val": "labyrinth_nl_new_loc" }, "fail_message": "Nope!", "force": true },
       { "clear_dimension": "netherum_labyrinth" }
     ]
   },
@@ -1505,7 +1528,7 @@
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nope!",
-        "success_message": "You experience brief vertigo and the mist before you fades away."
+        "success_message": "The labyrinth spins around you.  The mist before you fades away."
       },
       {
         "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
@@ -1671,6 +1694,9 @@
     "id": "EOC_LS_teleport_t_nl2_obelisk_altaros",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
+      { "u_location_variable": { "u_val": "player_location_temp_labyrinth_return_loc" } },
+      { "u_add_var": "player_location_temp_labyrinth_return_dimension", "value": "netherum_labyrinth2" },
+      { "u_add_var": "stuck_in_labyrinth", "value": "yes" },
       {
         "if": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
         "then": [
@@ -1683,8 +1709,6 @@
             "success_message": "Your surroundings warp and fold into a familiar place."
           },
           { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
-          { "clear_dimension": "netherum_labyrinth" },
-          { "clear_dimension": "netherum_labyrinth2" },
           { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
         ],
         "else": [
@@ -1706,7 +1730,9 @@
           { "open_dialogue": { "topic": "COMP_labyrinthine_safehouse_computer_meeting" } },
           { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
         ]
-      }
+      },
+      { "clear_dimension": "netherum_labyrinth" },
+      { "clear_dimension": "netherum_labyrinth2" }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
   },
