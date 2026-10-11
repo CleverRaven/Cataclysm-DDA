@@ -5552,6 +5552,16 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         }
     }
 
+    // Inherit faults during disassembly.
+    for( fault_id some_fault : dis_item.faults ) {
+        for( auto &pair : components ) {
+            for( item &it : pair.second ) {
+                // Does nothing if item can't have the fault. Always safe to call.
+                it.set_fault( some_fault );
+            }
+        }
+    }
+
     // Player skills should determine how many components are returned
     int skill_dice = 2 + round( get_skill_level( dis.skill_used ) * 4 );
 
