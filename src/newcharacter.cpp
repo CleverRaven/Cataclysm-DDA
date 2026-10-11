@@ -3542,17 +3542,17 @@ bool character_creator_ui::handle_action( const std::string &action )
         cc_uistate.reset();
         you.randomize( true );
         // "Single selection" tabs that have categories need to be set to "ALL" before randomizing.
-        // If we don't, a non-visible entry can be chosen, filterlist() will select the next 
+        // If we don't, a non-visible entry can be chosen, filterlist() will select the next
         // visible entry instead, and select() will write that back into selected scenario index.
         if( cc_uistate.selected_tab == CHARCREATOR_SCENARIO ) {
-            get_tab_uilist(CHARCREATOR_SCENARIO)->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
+            get_tab_uilist( CHARCREATOR_SCENARIO )->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
         }
         update_uilist_entries();
     } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" ) {
         cc_uistate.reset();
         you.randomize( false );
         // We don't need to adjust tabs here as above since scenarios are the only "single selection" tab with categories.
-        // On the other hand, if say, professions get categories later on, the category WILL need to be reset to here 
+        // On the other hand, if say, professions get categories later on, the category WILL need to be reset to here
         // to one that has all options for the same reasons as abhove.
         update_uilist_entries();
     } else if( action == "CHANGE_GENDER" ) {
