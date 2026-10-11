@@ -209,7 +209,7 @@
     "on_overflow": "discard",
     "entries": [
       { "prob": 99, "item": "sugar", "container-item": "null", "count": [ 36, 834 ] },
-      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+      { "prob": 5, "item": "tea_spoon", "container-item": "null", "count": 1 }
     ]
   },
   {
@@ -224,9 +224,10 @@
     "id": "sugar_organizer_small",
     "subtype": "collection",
     "container-item": "plastic_organizer_small",
+    "on_overflow": "discard",
     "entries": [
       { "prob": 99, "item": "sugar", "container-item": "null", "count": [ 10, 250 ] },
-      { "prob": 5, "item": "spoon", "container-item": "null", "count": [ 10, 250 ] }
+      { "prob": 5, "item": "tea_spoon", "container-item": "null", "count": [ 10, 250 ] }
     ]
   },
   {
@@ -366,9 +367,10 @@
     "id": "salt_organizer_small",
     "subtype": "collection",
     "container-item": "plastic_organizer_small",
+    "on_overflow": "discard",
     "entries": [
       { "prob": 99, "item": "salt", "container-item": "null", "count": [ 8, 302 ] },
-      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+      { "prob": 5, "item": "tea_spoon", "container-item": "null", "count": 1 }
     ]
   },
   {
@@ -514,9 +516,10 @@
     "id": "seasoning_salt_organizer_small",
     "subtype": "collection",
     "container-item": "plastic_organizer_small",
+    "on_overflow": "discard",
     "entries": [
       { "prob": 99, "item": "seasoning_salt", "container-item": "null", "count": [ 40, 300 ] },
-      { "prob": 5, "item": "spoon", "container-item": "null", "count": 1 }
+      { "prob": 5, "item": "tea_spoon", "container-item": "null", "count": 1 }
     ]
   },
   {
@@ -1162,6 +1165,7 @@
     "id": "sprinkles_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
+    "on-overflow": "discard",
     "entries": [ { "item": "sprinkles", "container-item": "null", "count": [ 9, 180 ] } ]
   },
   {
