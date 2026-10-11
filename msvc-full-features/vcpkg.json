@@ -14,5 +14,5 @@
     { "name": "glslang", "features": [ "tools" ] },
     "sdl3-shadercross"
   ],
-  "builtin-baseline": "f6672d8e480ccdecddfad3fd1b838ba369ffe6cd"
+  "builtin-baseline": "a1cae005c39be7b18ba319fced856b68d7276271"
 }
