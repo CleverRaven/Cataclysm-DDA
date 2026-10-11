@@ -3445,7 +3445,6 @@ bool character_creator_callback::key( const input_context &ctxt, const input_eve
 bool character_creator_ui::handle_action( const std::string &action )
 {
     avatar &you = get_avatar();
-    std::shared_ptr<uilist> scenario_tab = get_tab_uilist( CHARCREATOR_SCENARIO );
 
     auto mod_stat_base = [&you]( int mod_value ) {
         character_stat selected_stat = static_cast<character_stat>( cc_uistate.selected_stat_index );
@@ -3542,19 +3541,19 @@ bool character_creator_ui::handle_action( const std::string &action )
     } else if( action == "REROLL_CHARACTER" ) {
         cc_uistate.reset();
         you.randomize( true );
-        // We need to check if we're in a "single selection" tab that has categories before randomizing.
-        // If we don't set it back to the ALL tab before updating stuff here, a non-visible entry can be chosen,
-        // filterlist() will select the next visible entry instead, and select() will write that back into selected scenario index.
+        // "Single selection" tabs that have categories need to be set to "ALL" before randomizing.
+        // If we don't, a non-visible entry can be chosen, filterlist() will select the next 
+        // visible entry instead, and select() will write that back into selected scenario index.
         if( cc_uistate.selected_tab == CHARCREATOR_SCENARIO ) {
-            scenario_tab->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
+            get_tab_uilist(CHARCREATOR_SCENARIO)->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
         }
         update_uilist_entries();
     } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" ) {
         cc_uistate.reset();
         you.randomize( false );
         // We don't need to adjust tabs here as above since scenarios are the only "single selection" tab with categories.
-        // On the other hand, if say, professions get categories later on, the category WILL need to be reset to one that has all options
-        // for the same reasons as abhove.
+        // On the other hand, if say, professions get categories later on, the category WILL need to be reset to here 
+        // to one that has all options for the same reasons as abhove.
         update_uilist_entries();
     } else if( action == "CHANGE_GENDER" ) {
         you.male = !you.male;
