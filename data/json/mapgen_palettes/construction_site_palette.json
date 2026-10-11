@@ -95,6 +95,7 @@
         }
       }
     },
+    "monster": { "{": { "monster": "mon_raccoon", "chance": 5, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "items": {
       "T": [
         { "item": "power_tools", "chance": 10 },

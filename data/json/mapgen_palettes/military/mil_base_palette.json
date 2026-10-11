@@ -109,6 +109,7 @@
       "!": "f_dryer",
       "I": "f_flagpole"
     },
+    "monster": { "{": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "item": { "I": { "item": "american_flag" } },
     "items": {
       "W": [ { "item": "saline_bottle_random", "chance": 100 } ],

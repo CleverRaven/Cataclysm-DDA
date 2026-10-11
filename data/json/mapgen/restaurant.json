@@ -61,6 +61,7 @@
       "c": "f_counter",
       "{": "f_rack"
     },
+    "monster": { "d": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "toilets": { "P": {  } },
     "items": {
       "{": { "item": "restaur_rack", "chance": 75, "repeat": [ 1, 3 ] },
