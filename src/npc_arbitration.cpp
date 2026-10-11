@@ -11,6 +11,7 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "npc_decision_category.h"
+#include "npc_trip.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
