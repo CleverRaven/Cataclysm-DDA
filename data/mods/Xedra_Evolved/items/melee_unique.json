@@ -82,16 +82,16 @@
   },
   {
     "id": "fae_unique_weapon_dawnrazor",
-    "copy-from": "dreamforged_broadsword",
+    "copy-from": "hc_arming_sword",
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Dawnrazor" },
     "description": "A tongue of flame, frozen in place, seemingly plucked from the heart of a bonfire and hammered into the shape of a sword.  It emits a flickering reddish glow and is warm to the touch.",
     "material": [ { "type": "frozen_flames", "portion": 1 } ],
     "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
-    "techniques": [ "WBLOCK_2", "RAPID", "TEC_WEAPON_CRIMSON_RAIN_BLEEDING", "TEC_WEAPON_CRIMSON_RAIN_BLOODSTRIKE" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "TEC_WEAPON_DAWNRAZOR_BURN_SUNDEATH" ],
     "faults": [  ],
     "light": 5,
-    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "BLEEDING_RATE", "multiply": -1 } ] } ]
+    "relative": { "melee_damage": { "heat": 3 } }
   }
 ]

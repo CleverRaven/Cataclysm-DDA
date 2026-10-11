@@ -39,5 +39,21 @@
         "effect": { "u_add_effect": "effect_xe_crimson_rain_buff", "duration": "10 s" }
       }
     ]
+  },
+  {
+    "type": "technique",
+    "id": "TEC_WEAPON_DAWNRAZOR_BURN_SUNDEATH",
+    "name": "Dawnrazor's Searing Light",
+    "melee_allowed": true,
+    "messages": [ "Dawnrazor sears the %s with fiery light!", "<npcname> strikes %s with Dawnrazor!" ],
+    "unarmed_allowed": false,
+    "reach_ok": false,
+    "crit_ok": true,
+    "attack_vectors": [ "vector_null" ],
+    "condition": { "npc_has_flag": "SUNDEATH" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "heat", "scaling-stat": "melee", "scale": 1.5 },
+      { "stat": "damage", "type": "heat", "scaling-stat": "gramarye", "scale": 1 }
+    ]
   }
 ]

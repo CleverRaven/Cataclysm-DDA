@@ -296,7 +296,8 @@
     "entries": [
       { "item": "fae_unique_weapon_last_blossom_fall", "prob": 1 },
       { "item": "fae_unique_weapon_crimson_rain", "prob": 1 },
-      { "item": "fae_unique_weapon_light_of_newborn_star", "prob": 1 }
+      { "item": "fae_unique_weapon_light_of_newborn_star", "prob": 1 },
+      { "item": "fae_unique_weapon_dawnrazor", "prob": 1 }
     ]
   },
   {
