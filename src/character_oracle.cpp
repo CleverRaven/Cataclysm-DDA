@@ -16,6 +16,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "npc_arbitration.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -185,9 +186,15 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     if( !n ) {
         return status_t::failure;
     }
-    // Camp water is included in the candidate list as need_source::camp_water.
-    return const_cast<npc *>( n )->find_water_candidates().empty()
-           ? status_t::failure : status_t::running;
+    // obligation check as in execute_drink_water; failed targets still count, since the
+    // executor retries them once every source has failed
+    // TODO: const_cast as in can_obtain_food
+    for( const npc::need_candidate &c : const_cast<npc *>( n )->find_water_candidates() ) {
+        if( n->need_view( npc::need_goal_id::drink_water, n->water_option_cost( c ) ).may_consider() ) {
+            return status_t::running;
+        }
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_warmth( std::string_view ) const

@@ -54,6 +54,7 @@
 #include "iexamine.h"
 #include "monster.h"
 #include "npc.h"
+#include "npc_arbitration.h"
 #include "npctrade.h"
 #include "npc_class.h"
 #include "npc_trip.h"
@@ -4034,13 +4035,12 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     const auto &[wh_start2, wh_end2] = guy.myclass.obj().get_work_hours();
     REQUIRE( ( wh_start2 == 0 && wh_end2 == 24 ) );
 
-    // Follow commitment clears, NPC stays at post.
+    // follow commitment ends and hold_position is adopted in the same turn
     guy.set_moves( 100 );
     guy.move();
-    CHECK( guy.get_committed_goal().empty() );
+    CHECK( guy.get_committed_goal() == "hold_position" );
     CHECK( guy.pos_abs() == pre_assign_pos );
 
-    // Next tick: hold_position commits.
     guy.set_moves( 100 );
     guy.move();
     CHECK( guy.get_committed_goal() == "hold_position" );
@@ -5575,6 +5575,8 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
     guy.set_thirst( 200 );
 
     map &here = get_map();
+    // close enough that all sources below are inside the follower's spacing
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
 
     SECTION( "walks to water terrain and drinks" ) {
         const tripoint_bub_ms water = guy.pos_bub() + tripoint( 3, 0, 0 );
@@ -5633,6 +5635,14 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
         const tripoint_bub_ms north_water = guy.pos_bub() + tripoint( 0, -2, 0 );
         here.ter_set( north_water, ter_t_water_sh );
         here.build_map_cache( 0 );
+        // both sources are allowed, so only plan stickiness decides
+        const std::vector<npc::need_candidate> candidates = guy.find_water_candidates();
+        REQUIRE( candidates.size() >= 2 );
+        for( const npc::need_candidate &c : candidates ) {
+            CAPTURE( c.target );
+            REQUIRE( guy.need_view( npc::need_goal_id::drink_water,
+                                    guy.water_option_cost( c ) ).eligible() );
+        }
 
         // NPC should keep pursuing original target.
         tripoint_bub_ms prev = guy.pos_bub();
@@ -7188,6 +7198,20 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
 
         guy.clear_committed_goal();
 
+        CHECK_FALSE( guy.activity );
+    }
+
+    SECTION( "ending a pursuit ends only the activity it owns" ) {
+        item &lighter = *guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        item_location tool_loc( guy, &lighter );
+        const tripoint_bub_ms fire_pos = guy.pos_bub() + point::east;
+        guy.assign_activity( fire_start_activity_actor(
+                                 here.get_abs( fire_pos ), tool_loc, 5, 500 ) );
+        REQUIRE( guy.activity.id() == ACT_START_FIRE );
+
+        guy.end_need_pursuit( npc::need_goal_id::drink_water );
+        CHECK( guy.activity.id() == ACT_START_FIRE );
+        guy.end_need_pursuit( npc::need_goal_id::seek_warmth );
         CHECK_FALSE( guy.activity );
     }
 

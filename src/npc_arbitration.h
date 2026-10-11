@@ -5,6 +5,7 @@
 #include <limits>
 #include <string>
 
+#include "calendar.h"
 #include "coordinates.h"
 #include "point.h"
 
@@ -91,6 +92,17 @@ struct npc_need_view {
     bool eligible() const {
         return kind == npc_option_kind::actual && raw >= floor;
     }
+};
+
+// committed goal and its verdict; plans stay with the executors, and
+// address_needs() acts without recording here
+struct npc_intention {
+    std::string goal;
+    time_point since = calendar::turn_zero;
+    // verdict of the option pursued now; not allowed while a need overrides an obligation
+    npc_permission_verdict verdict;
+    // strictest override already explained during this pursuit
+    npc_permission explained = npc_permission::allowed;
 };
 
 // how an executor's current state may be interrupted

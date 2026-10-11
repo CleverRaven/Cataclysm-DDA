@@ -558,8 +558,8 @@ struct npc_short_term_cache {
     std::map<direction, float> threat_map;
     // BT goal commitment: persists across turns until completed or
     // overridden by a higher-priority goal. Empty = no commitment.
-    std::string committed_goal;
-    // last resolved walk, keyed on turn, position and spec only: map or rule changes
+    npc_intention intention;
+    // last resolved walk, keyed on turn, position and spec only: map, reach or rule changes
     // within the turn don't invalidate it
     mutable npc_trip last_trip;
     npc_retained_trip retained_trip;
@@ -1502,10 +1502,13 @@ class npc : public Character
             return ai_cache.guard_pos;
         }
         const std::string &get_committed_goal() const {
-            return ai_cache.committed_goal;
+            return ai_cache.intention.goal;
         }
         void set_committed_goal( const std::string &goal ) {
-            ai_cache.committed_goal = goal;
+            ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
+        }
+        const npc_intention &get_intention() const {
+            return ai_cache.intention;
         }
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
@@ -1531,6 +1534,17 @@ class npc : public Character
         // Recompute the urgency score for an executor need using the
         // same oracle functions the BT's score predicates use.
         float current_need_urgency( need_goal_id id ) const;
+        const need_plan &plan_for( need_goal_id id ) const;
+        // call every turn an option is pursued; announces a new override
+        void record_selected_option( need_goal_id id, const npc_option_cost &cost );
+        // best water option for complaints; may differ from what the executor pursues
+        npc_need_view best_need_view( need_goal_id id );
+        // only outright allowed walk: needs never override here
+        bool may_walk_to( const npc_trip_spec &spec ) const;
+        std::optional<time_point> last_complaint( const std::string &issue ) const;
+        npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
+        // also ends the lying down or activity the pursuit started
+        void end_need_pursuit( need_goal_id id );
         // false while walking with the player
         bool is_on_shift() const;
         std::optional<npc_reach> obligation_reach() const;
@@ -1722,6 +1736,14 @@ class npc : public Character
 
         bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
+
+        void adopt_goal( const std::string &goal );
+        // judges a running harvest or forage like a walk: ends it or announces an override
+        void review_self_care_activity();
+        void explain_override( need_goal_id id );
+        npc_pursuit committed_pursuit() const;
+        std::optional<npc_option_cost> pursued_option_cost( need_goal_id id ) const;
+        bool complaint_due( const std::string &issue, const time_duration &dur ) const;
 
         std::vector<tripoint_bub_ms> trip_interaction_tiles( const npc_trip_spec &spec,
                 const npc_reach_policy *policy ) const;

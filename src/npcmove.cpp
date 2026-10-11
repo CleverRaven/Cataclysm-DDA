@@ -1543,6 +1543,9 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
+    if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
+        review_self_care_activity();
+    }
     // Forage/harvest activities skip BT re-evaluation to prevent backlog
     // flooding, but must yield to danger so the NPC can fight or flee.
     if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
@@ -1711,7 +1714,7 @@ void npc::move()
             auto [new_goal, new_score] = decision_tree.tick_full( &oracle );
 
             // Goal commitment: prevent flip-flopping between goals.
-            std::string &committed = ai_cache.committed_goal;
+            const std::string committed = ai_cache.intention.goal;
             if( !committed.empty() ) {
                 // Check if committed goal is completed.
                 bool completed_goal = false;
@@ -1770,10 +1773,7 @@ void npc::move()
                     bool exec_impossible = plan_for( *gid ).last_result == need_result::impossible;
                     completed_goal = satisfied || exec_impossible;
                     if( completed_goal ) {
-                        clear_need_state( *gid );
-                        if( *gid == need_goal_id::go_to_sleep ) {
-                            remove_effect( effect_lying_down );
-                        }
+                        end_need_pursuit( *gid );
                     }
                 } else if( committed == "start_fire" ) {
                     // Legacy warmth fallback: no executor, completes via
@@ -1790,66 +1790,24 @@ void npc::move()
                     completed_goal = ( new_goal != "free_time" );
                 }
                 if( completed_goal ) {
-                    committed.clear();
+                    ai_cache.intention = {};
                 } else {
-                    // Override only if new goal is strictly higher priority.
-                    decision_category new_cat = bt_goal_to_category( new_goal );
-                    decision_category old_cat = bt_goal_to_category( committed );
-                    if( new_cat < old_cat ) {
-                        // Clear stale plan when overridden by higher priority.
-                        if( auto old_gid = goal_id_for( committed ); old_gid ) {
-                            clear_need_state( *old_gid );
+                    const npc_pursuit current = committed_pursuit();
+                    // start_fire has no executor and never displaces a goal that has one
+                    const bool lacks_executor = goal_id_for( committed ) && !goal_id_for( new_goal ) &&
+                                                bt_goal_to_category( new_goal ) == decision_category::needs;
+                    if( !lacks_executor && should_interrupt( current, { new_goal, new_score } ) ) {
+                        if( const std::optional<need_goal_id> old_gid = goal_id_for( committed ) ) {
+                            end_need_pursuit( *old_gid );
                         }
-                        committed = new_goal;
-                    } else if( new_cat == old_cat && new_cat == decision_category::needs ) {
-                        // Same-category preemption for executor needs.
-                        auto committed_gid = goal_id_for( committed );
-                        auto new_gid = goal_id_for( new_goal );
-                        if( committed_gid && new_gid && *committed_gid != *new_gid ) {
-                            const need_result committed_state =
-                                plan_for( *committed_gid ).last_result;
-                            const float committed_urgency =
-                                current_need_urgency( *committed_gid );
-                            static constexpr float preempt_margin = 0.15f;
-                            static constexpr float critical_threshold = 0.75f;
-                            bool allow = false;
-                            if( committed_state == need_result::holding ) {
-                                allow = ( new_score > committed_urgency + preempt_margin );
-                            } else if( committed_state == need_result::blocked ||
-                                       committed_state == need_result::deferred ) {
-                                allow = ( new_score > committed_urgency + preempt_margin * 2 ) ||
-                                        ( new_score > critical_threshold &&
-                                          new_score > committed_urgency );
-                            } else if( committed_state == need_result::progressed ) {
-                                // Hardest to preempt: the plan is actively working.
-                                // Allow with a large margin, or when the new need
-                                // crosses a critical survival threshold.
-                                allow = ( new_score > committed_urgency + preempt_margin * 3 ) ||
-                                        ( new_score > critical_threshold &&
-                                          new_score > committed_urgency );
-                            }
-                            if( allow ) {
-                                clear_need_state( *committed_gid );
-                                // If preempting go_to_sleep, cancel lying_down
-                                // so process_one_effect doesn't re-trigger
-                                // can_sleep() -> fall_asleep() each turn.
-                                if( *committed_gid == need_goal_id::go_to_sleep ) {
-                                    remove_effect( effect_lying_down );
-                                }
-                                committed = new_goal;
-                            } else {
-                                new_goal = committed;
-                            }
-                        } else {
-                            new_goal = committed;
-                        }
+                        ai_cache.intention = {};
                     } else {
                         new_goal = committed;
                     }
                 }
-            } else if( new_goal != "idle" ) {
-                committed = new_goal;
             }
+            // adopted on every path, including a completion or interrupt this turn
+            adopt_goal( new_goal );
 
             // Dispatch based on the (possibly committed) goal.
             if( new_goal == "return_to_guard_pos" ) {
@@ -1911,6 +1869,10 @@ void npc::move()
                     // predicate like can_sleep failed, but address_needs has its
                     // own fallback logic like lying_down on meth).
                     action = address_needs();
+                    if( is_walking_with() ) {
+                        // voices needs even when it needn't move; complain() rate-limits
+                        complain();
+                    }
                 }
             } else if( is_executor_goal( new_goal ) ) {
                 const need_result result = execute_need_goal( new_goal );
@@ -1930,7 +1892,7 @@ void npc::move()
                     if( auto gid = goal_id_for( new_goal ); gid ) {
                         plan_for( *gid ).clear();
                     }
-                    committed.clear();
+                    ai_cache.intention = {};
                     action = npc_undecided;
                 } else {
                     // blocked/deferred: pause this turn, don't yield to follow/goto
@@ -3224,7 +3186,8 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false ) ) ) {
+                const npc_trip_spec walk = npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false );
+                if( may_walk_to( walk ) && move_to_and_verify( walk ) ) {
                     return npc_noop;
                 }
             }
@@ -3235,7 +3198,8 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( npc_trip_spec::within_range( ws.pos, 1, false ) ) ) {
+                const npc_trip_spec walk = npc_trip_spec::within_range( ws.pos, 1, false );
+                if( may_walk_to( walk ) && move_to_and_verify( walk ) ) {
                     return npc_noop;
                 }
             }
@@ -3245,7 +3209,8 @@ npc_action npc::address_needs( float danger )
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
-            } else if( move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
+            } else if( may_walk_to( npc_trip_spec::within_range( h.pos, 1, false ) ) &&
+                       move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
                 return npc_noop;
             }
         }
@@ -3267,7 +3232,8 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false ) ) ) {
+                const npc_trip_spec walk = npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false );
+                if( may_walk_to( walk ) && move_to_and_verify( walk ) ) {
                     return npc_noop;
                 }
             }
@@ -3278,7 +3244,8 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( npc_trip_spec::within_range( ws.pos, 1, false ) ) ) {
+                const npc_trip_spec walk = npc_trip_spec::within_range( ws.pos, 1, false );
+                if( may_walk_to( walk ) && move_to_and_verify( walk ) ) {
                     return npc_noop;
                 }
             }
@@ -3288,7 +3255,8 @@ npc_action npc::address_needs( float danger )
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
-            } else if( move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
+            } else if( may_walk_to( npc_trip_spec::within_range( h.pos, 1, false ) ) &&
+                       move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
                 return npc_noop;
             }
         }
@@ -6055,29 +6023,14 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
                           const std::string &speech, const bool force, const sounds::sound_t priority )
 {
-    // Don't have a default constructor for time_point, so accessing it in the
-    // complaints map is a bit difficult, those lambdas should cover it.
-    const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
-        const auto iter = complaints.find( key );
-        return iter == complaints.end() || iter->second < calendar::turn - d;
-    };
-    const auto set_complain_since = [this]( const std::string & key ) {
-        const auto iter = complaints.find( key );
-        if( iter == complaints.end() ) {
-            complaints.emplace( key, calendar::turn );
-        } else {
-            iter->second = calendar::turn;
-        }
-    };
-
     // Don't wake player up with non-serious complaints
     // Stop complaining while asleep
     const bool do_complain = force || ( rules.has_flag( ally_rule::allow_complain ) &&
                                         !get_player_character().in_sleep_state() && !in_sleep_state() );
 
-    if( complain_since( issue, dur ) && do_complain ) {
+    if( complaint_due( issue, dur ) && do_complain ) {
         say( speech, priority );
-        set_complain_since( issue );
+        complaints.insert_or_assign( issue, calendar::turn );
         return true;
     }
     return false;
@@ -6095,6 +6048,7 @@ bool npc::complain()
     static const std::string radiation_string = "radiation";
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
+    static const std::string water_out_of_reach_string = "water_out_of_reach";
 
     if( !is_player_ally() || !get_player_view().sees( here, *this ) ) {
         return false;
@@ -6155,6 +6109,21 @@ bool npc::complain()
                             std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
                             chat_snippets().snip_hungry.translated() ) ) {
             return true;
+        }
+
+        // water in sight, but obligations keep the NPC from going: ask for a stop
+        if( complaint_due( water_out_of_reach_string, 30_minutes ) ) {
+            behavior::character_oracle_t oracle( this );
+            if( oracle.needs_water_badly( "" ) == behavior::status_t::running ) {
+                const npc_need_view water = best_need_view( need_goal_id::drink_water );
+                if( water.kind == npc_option_kind::actual && !water.eligible() &&
+                    complain_about( water_out_of_reach_string, 30_minutes,
+                                    chat_snippets().snip_thirsty.translated() ) ) {
+                    // plea is the thirst complaint, so it won't repeat next turn
+                    complaints.insert_or_assign( thirst_string, calendar::turn );
+                    return true;
+                }
+            }
         }
 
         // Thirst every 2 hours
@@ -7207,6 +7176,11 @@ bool npc::is_executor_goal( std::string_view goal )
 
 npc::need_plan &npc::plan_for( need_goal_id id )
 {
+    return const_cast<need_plan &>( std::as_const( *this ).plan_for( id ) );
+}
+
+const npc::need_plan &npc::plan_for( need_goal_id id ) const
+{
     switch( id ) {
         case need_goal_id::eat_food:
             return ai_cache.food_plan;
@@ -7242,23 +7216,78 @@ void npc::clear_need_state( need_goal_id id )
     failed_targets_for( id ).clear();
 }
 
-void npc::clear_committed_goal()
+npc_interrupt_cost npc::interrupt_cost( const need_goal_id id ) const
 {
-    if( auto gid = goal_id_for( ai_cache.committed_goal ); gid ) {
-        clear_need_state( *gid );
-        if( *gid == need_goal_id::go_to_sleep ) {
-            remove_effect( effect_lying_down );
+    if( id == need_goal_id::go_to_sleep ) {
+        if( has_effect( effect_sleep ) ) {
+            return npc_interrupt_cost::wake_only;
+        }
+        if( has_effect( effect_lying_down ) ) {
+            return npc_interrupt_cost::cheap;
         }
     }
-    // Cancel self-care activities that bypass BT re-evaluation
-    // (forage/harvest early return in move(), fire-starting activity).
+    switch( plan_for( id ).last_result ) {
+        case need_result::holding:
+            return npc_interrupt_cost::cheap;
+        case need_result::blocked:
+        case need_result::deferred:
+            return npc_interrupt_cost::stalled;
+        case need_result::idle:
+        case need_result::progressed:
+        case need_result::satisfied:
+        case need_result::impossible:
+            break;
+    }
+    return npc_interrupt_cost::costly;
+}
+
+void npc::end_need_pursuit( const need_goal_id id )
+{
+    clear_need_state( id );
+    switch( id ) {
+        case need_goal_id::go_to_sleep:
+            // lying down ends here; real sleep ends through Character::wake_up()
+            remove_effect( effect_lying_down );
+            break;
+        case need_goal_id::drink_water:
+        case need_goal_id::eat_food:
+            // the harvest or forage it started ends with it
+            if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
+                cancel_activity();
+            }
+            break;
+        case need_goal_id::seek_warmth:
+            if( activity.id() == ACT_START_FIRE ) {
+                cancel_activity();
+            }
+            break;
+    }
+}
+
+// TODO: only water declares its pursued option; eat_food and seek_warmth are judged
+// in place, so obligations never end their walks or activities
+std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id ) const
+{
+    const need_plan &plan = plan_for( id );
+    if( id == need_goal_id::drink_water && plan.active() ) {
+        return water_option_cost( { plan.source_kind, plan.target, 0.0f } );
+    }
+    return npc_option_cost::in_place( pos_abs() );
+}
+
+void npc::clear_committed_goal()
+{
+    if( const std::optional<need_goal_id> gid = goal_id_for( ai_cache.intention.goal ) ) {
+        end_need_pursuit( *gid );
+    }
+    // drops any self-care activity, whichever goal started it
     if( activity ) {
         const activity_id &act = activity.id();
         if( act == ACT_FORAGE || act == ACT_HARVEST || act == ACT_START_FIRE ) {
             cancel_activity();
         }
     }
-    ai_cache.committed_goal.clear();
+    ai_cache.intention = {};
 }
 
 float npc::current_need_urgency( need_goal_id id ) const
@@ -7622,14 +7651,19 @@ npc::need_result npc::execute_drink_water()
     std::set<tripoint_abs_ms> &failed = ai_cache.water_failed_targets;
     map &here = get_map();
 
+    // recorded only after drinking, so a failed try can't hide a walk's verdict
+    const npc_option_cost here_and_now = npc_option_cost::in_place( pos_abs() );
+
     // 1. Try camp water, inventory drinks, adjacent ground drinks,
     //    then adjacent water terrain sources.
     if( consume_food_from_camp( cf ) ) {
+        record_selected_option( need_goal_id::drink_water, here_and_now );
         plan.clear();
         failed.clear();
         return need_result::satisfied;
     }
     if( consume_food( cf ) ) {
+        record_selected_option( need_goal_id::drink_water, here_and_now );
         plan.clear();
         failed.clear();
         return need_result::satisfied;
@@ -7639,6 +7673,7 @@ npc::need_result npc::execute_drink_water()
         for( scored_item &c : find_nearby_food( cf ) ) {
             if( square_dist( pos_bub(), c.loc.pos_bub( water_map ) ) <= 1 ) {
                 if( consume_food_at( c.loc ) ) {
+                    record_selected_option( need_goal_id::drink_water, here_and_now );
                     plan.clear();
                     failed.clear();
                     return need_result::satisfied;
@@ -7649,6 +7684,7 @@ npc::need_result npc::execute_drink_water()
     for( scored_water_source &ws : find_nearby_water_sources() ) {
         if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
             if( drink_from_water_source( ws.pos ) ) {
+                record_selected_option( need_goal_id::drink_water, here_and_now );
                 plan.clear();
                 failed.clear();
                 return need_result::satisfied;
@@ -7658,14 +7694,18 @@ npc::need_result npc::execute_drink_water()
 
     using need_source = npc_short_term_cache::need_source;
 
-    const auto candidates = find_water_candidates();
+    const std::vector<need_candidate> candidates = find_water_candidates();
+    // a disallowed source never becomes a sticky plan; lazy because each judgment routes
+    const auto eligible = [this]( const need_candidate & c ) {
+        return need_view( need_goal_id::drink_water, water_option_cost( c ) ).eligible();
+    };
 
     // 2. Validate existing target against the candidate scan.
     if( plan.active() ) {
         bool still_valid = false;
         for( const need_candidate &c : candidates ) {
             if( c.target == plan.target && c.source_kind == plan.source_kind ) {
-                still_valid = true;
+                still_valid = eligible( c );
                 break;
             }
         }
@@ -7684,7 +7724,7 @@ npc::need_result npc::execute_drink_water()
                 c.source_kind == need_source::camp_water ) {
                 continue;
             }
-            if( failed.count( c.target ) == 0 ) {
+            if( failed.count( c.target ) == 0 && eligible( c ) ) {
                 plan.goal = "drink_water";
                 plan.source_kind = c.source_kind;
                 plan.target = c.target;
@@ -7704,6 +7744,11 @@ npc::need_result npc::execute_drink_water()
         plan.last_result = need_result::impossible;
         return need_result::impossible;
     }
+
+    // no route left: judge it as a walk out of the reach
+    record_selected_option( need_goal_id::drink_water,
+                            water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or(
+                                npc_option_cost::trip( plan.target, true, true, false ) ) );
 
     // 4. Execute based on source kind.
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
