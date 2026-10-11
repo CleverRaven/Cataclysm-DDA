@@ -1,0 +1,19 @@
+[
+  {
+    "id": [ "TALK_MOM_CUAUHMATI_Talk" ],
+    "type": "talk_topic",
+    "dynamic_line": { "u_has_trait": "FIFTH_SUN", "yes": "Placeholder text but in Space Nahuatl.", "no": "Placeholder Text" },
+    "responses": [
+      {
+        "text": "Another survivor??  How did you come here?",
+        "topic": "TALK_MOM_CUAUHMATI_FIFTH_SUN_explain_backstory",
+        "condition": { "u_has_trait": "FIFTH_SUN" }
+      },
+      {
+        "text": "I'm sorry, what?",
+        "topic": "TALK_MOM_CUAUHMATI_FIFTH_SUN_explain_backstory",
+        "condition": { "not": { "u_has_trait": "FIFTH_SUN" } }
+      }
+    ]
+  }
+]
