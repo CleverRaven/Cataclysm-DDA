@@ -1398,7 +1398,12 @@
   {
     "type": "item_group",
     "id": "forest_trail",
-    "items": [ { "group": "forest", "prob": 100 } ]
+    "subtype": "collection",
+    "entries": [
+      { "group": "forest", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "count": [ 2, 10 ], "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
