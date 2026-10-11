@@ -728,8 +728,6 @@ bool scenario_sorter::operator()( const scenario *a, const scenario *b ) const
 
     if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
         return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
-    } else if( sort_by_points ) {
-        return a->point_cost() < b->point_cost();
     } else {
         return localized_compare( a->gender_appropriate_name( male ),
                                   b->gender_appropriate_name( male ) );

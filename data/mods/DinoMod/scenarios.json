@@ -7,7 +7,8 @@
     "points": -2,
     "description": "You find yourself among trees.  The screaming and moaning is fainter, but it sounds like something bigger and more dangerous is close by.",
     "start_name": "Wilderness",
-    "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70 ] ]
+    "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70 ] ],
+    "flags": [ "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -42,7 +43,7 @@
   {
     "type": "scenario",
     "id": "lab_chal",
-    "name": "Challenge - Lab Patient",
+    "name": "Lab Patient",
     "points": -8,
     "description": "The scientists stopped their experiments on you abruptly, leaving you behind while they evacuated before lockdown.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
@@ -97,7 +98,7 @@
   {
     "type": "scenario",
     "id": "lab_staff",
-    "name": "Challenge - Lab Staff",
+    "name": "Lab Staff",
     "points": -8,
     "description": "You were deemed an essential employee and required to stay behind during the lab's evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
@@ -115,6 +116,6 @@
     "start_name": "Predator Dinosaur Nest",
     "allowed_locs": [ "sloc_swamp" ],
     "map_extra": "mx_nest_tyrannosaurus",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   }
 ]

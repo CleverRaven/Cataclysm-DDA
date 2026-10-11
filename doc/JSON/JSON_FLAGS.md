@@ -1475,13 +1475,16 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 ## Scenarios
 
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
-- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CHALLENGE``` Sorted into the "CHALLENGE" category in the character creation UI. Also, game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
+- ```FORGIVING``` Sorted into the "FORGIVING" category in the character creation UI.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
 - ```LONE_START``` This scenario won't spawn a fellow NPC on game start.
 - ```NO_BONUS_ITEMS``` This scenario prevent bonus items (such as inhalers with the `ASTHMA` trait) from being given to this profession
+- ```STANDARD``` Sorted into the "STANDARD" category in the character creation UI.
 - ```SUR_START``` Write `Zombies nearby` in the scenario info, doesn't spawn monsters by itself (put close to `LONE_START`)
+- ```TOUGH``` Sorted into the "TOUGH" category in the character creation UI.
 
 
 ### Profession
