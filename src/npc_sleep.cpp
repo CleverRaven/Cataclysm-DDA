@@ -15,6 +15,9 @@
 #include "type_id.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_npc_suspend( "npc_suspend" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 
@@ -33,6 +36,9 @@ constexpr time_duration restless_window = 30_minutes;
 constexpr time_duration stall_duration = 30_minutes;
 // a woken NPC that hasn't lain back down forgets the attempt after this
 constexpr time_duration stale_wake_timeout = 1_minutes;
+// woken by the player, it stays up this long unless it gets this much more tired
+constexpr time_duration player_wake_grace = 1_hours;
+constexpr int player_wake_grace_margin = 100;
 } // namespace
 
 void npc_sleep_session::begin_settling()
@@ -174,4 +180,42 @@ void npc::reconcile_sleep_session()
 bool npc::sleep_stalled() const
 {
     return sleep_session.stalled();
+}
+
+void npc::wake_up()
+{
+    const bool was_resting = has_effect( effect_sleep ) || has_effect( effect_lying_down );
+    Character::wake_up();
+    // narcosis makes Character::wake_up() return early
+    if( was_resting && !has_effect( effect_narcosis ) ) {
+        sleep_session.note_wake();
+    }
+}
+
+bool npc::wake_by_player()
+{
+    if( has_effect( effect_narcosis ) ) {
+        return false;
+    }
+    wake_up();
+    // outside effect processing, so the removal wake_up() defers can happen now
+    remove_effect( effect_sleep );
+    remove_effect( effect_npc_suspend );
+    stop_settling();
+    grant_stay_awake( player_wake_grace, get_sleepiness() + player_wake_grace_margin );
+    return true;
+}
+
+void npc::grant_stay_awake( const time_duration &dur, const int sleepiness_floor )
+{
+    npc_sleep_session &ses = sleep_session;
+    const bool running = calendar::turn < ses.stay_awake_until;
+    ses.stay_awake_until = std::max( ses.stay_awake_until, calendar::turn + dur );
+    ses.stay_awake_floor = running ? std::max( ses.stay_awake_floor, sleepiness_floor ) :
+                           sleepiness_floor;
+}
+
+bool npc::sleep_on_hold() const
+{
+    return rest_cooldown_active() || sleep_session.in_grace( get_sleepiness() );
 }

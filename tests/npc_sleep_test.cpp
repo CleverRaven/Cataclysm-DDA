@@ -8,12 +8,15 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "behavior.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_oracle.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
@@ -28,10 +31,13 @@
 #include "npc_arbitration.h"
 #include "npc_sleep.h"
 #include "npc_turn_helpers.h"
+#include "npctalk.h"
 #include "options_helpers.h"
+#include "overmap_ui.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sounds.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
@@ -43,18 +49,28 @@
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const efftype_id effect_lying_down( "lying_down" );
+static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_walk( "walk" );
+
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall( "t_wall" );
 
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
+static const weather_type_id weather_clear( "clear" );
 
 static const tripoint_bub_ms leader_pos( 50, 50, 0 );
 
@@ -112,6 +128,8 @@ static npc &stranger( const tripoint_bub_ms &pos )
     guy.set_stored_kcal( guy.get_healthy_kcal() );
     guy.set_all_parts_temp_conv( BODYTEMP_NORM );
     guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    // otherwise a stranger who wants to talk walks up to the player once awake
+    guy.set_attitude( NPCATT_NULL );
     // stays put: an idle stranger otherwise travels off and posts itself as a guard
     guy.set_mission( NPC_MISSION_SHELTER );
     guy.goal = guy.pos_abs_omt();
@@ -148,6 +166,22 @@ static void make_asleep_on_bed( npc &guy )
     guy.set_moves( 100 );
     guy.execute_need_goal( "go_to_sleep" );
     REQUIRE( asleep( guy ) );
+}
+
+// an engine revving next to it: loud enough to wake any light sleeper; needs clear weather
+static void wake_by_noise( npc &guy )
+{
+    REQUIRE( ( guy.has_effect( effect_sleep ) || guy.has_effect( effect_lying_down ) ) );
+    REQUIRE_FALSE( guy.has_trait( trait_HEAVYSLEEPER ) );
+    REQUIRE_FALSE( guy.has_trait( trait_HEAVYSLEEPER2 ) );
+    REQUIRE( guy.hearing_ability() == Approx( 1.0f ) );
+    sounds::reset_sounds();
+    sounds::sound( guy.pos_bub() + tripoint::east, 60, sounds::sound_t::movement, "engine" );
+    sounds::process_sound_markers( &guy );
+    // wake_up() only marks the sleep effect for removal
+    guy.process_turn();
+    REQUIRE_FALSE( asleep( guy ) );
+    REQUIRE( guy.get_sleep_session().phase == npc_sleep_phase::woken );
 }
 
 // save then load into a new object, like a game load: nothing unsaved survives
@@ -706,13 +740,31 @@ TEST_CASE( "shaded_bed_beats_sunlit_bed", "[npc][sleep]" )
 TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
 {
     sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
     npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
 
     SECTION( "asleep" ) {
         make_asleep_on_bed( guy );
+        const tripoint_bub_ms bed = guy.pos_bub();
         const npc_sleep_session loaded = round_trip( guy );
         CHECK( asleep( guy ) );
         CHECK( loaded.phase == npc_sleep_phase::asleep );
+        // no commitment after a load: the woken session brings sleep back by itself
+        wake_by_noise( guy );
+        run_npc_turns( guy, 3, asleep );
+        CHECK( asleep( guy ) );
+        CHECK( guy.pos_bub() == bed );
+        CHECK( guy.get_sleep_session().wakes == 1 );
+    }
+    SECTION( "stay-awake grace" ) {
+        make_asleep_on_bed( guy );
+        REQUIRE( guy.wake_by_player() );
+        const npc_sleep_session before = guy.get_sleep_session();
+        const npc_sleep_session loaded = round_trip( guy );
+        CHECK( loaded.stay_awake_until == before.stay_awake_until );
+        CHECK( loaded.stay_awake_floor == before.stay_awake_floor );
+        CHECK( guy.sleep_on_hold() );
+        CHECK( never_settles( guy, 20 ) );
     }
     SECTION( "settling" ) {
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
@@ -860,3 +912,335 @@ TEST_CASE( "sleep_removed_by_script_is_reconciled_before_the_next_decision", "[n
     }
 }
 
+TEST_CASE( "npc_woken_early_lies_back_down_in_place", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    const tripoint_bub_ms bed = guy.pos_bub();
+
+    wake_by_noise( guy );
+    run_npc_turns( guy, 3, asleep );
+    CHECK( asleep( guy ) );
+    CHECK( guy.pos_bub() == bed );
+}
+
+TEST_CASE( "npc_displaced_while_asleep_does_not_walk_back", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    const tripoint_bub_ms first = guy.pos_bub();
+    const tripoint_abs_ms first_abs = guy.pos_abs();
+    const tripoint_bub_ms second = first + tripoint( 4, 0, 0 );
+    here.furn_set( first, furn_str_id::NULL_ID() );
+    here.furn_set( second, furn_f_bed );
+    guy.setpos( here, second );
+
+    wake_by_noise( guy );
+    for( int turn = 0; turn < 5; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn, guy.pos_bub() );
+        if( guy.get_sleep_plan().active() ) {
+            CHECK( guy.get_sleep_plan().target != first_abs );
+        }
+    }
+    CHECK( guy.pos_bub() == second );
+    CHECK( settled( guy ) );
+    CHECK( guy.get_sleep_session().wakes == 1 );
+}
+
+TEST_CASE( "woken_below_tired_resumes_only_where_rest_is_allowed", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+
+    SECTION( "a stranger with no commitment lies back down" ) {
+        npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 150 );
+        guy.set_committed_goal( "" );
+        wake_by_noise( guy );
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+    }
+    SECTION( "a committed stranger keeps its pursuit and lies back down" ) {
+        npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 150 );
+        REQUIRE( guy.get_committed_goal() == "go_to_sleep" );
+        wake_by_noise( guy );
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+        CHECK( guy.get_sleep_session().wakes == 1 );
+    }
+    SECTION( "same after a load" ) {
+        npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 150 );
+        round_trip( guy );
+        wake_by_noise( guy );
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+    }
+    SECTION( "a follower whose leader is on the move stays up" ) {
+        npc &guy = tired_follower( leader_pos + tripoint::east, 150 );
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 150 );
+        leader_arrived( 0_turns );
+        wake_by_noise( guy );
+        for( int turn = 0; turn < 5; ++turn ) {
+            get_avatar().setpos( get_map(), leader_pos + ( turn % 2 == 0 ? tripoint::west :
+                                 tripoint::zero ) );
+            run_npc_turn( guy );
+            CAPTURE( turn, guy.get_committed_goal() );
+            CHECK_FALSE( settled( guy ) );
+        }
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+    }
+    SECTION( "a rested NPC is done sleeping" ) {
+        npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 50 );
+        wake_by_noise( guy );
+        run_npc_turns( guy, 5 );
+        CHECK_FALSE( settled( guy ) );
+        CHECK( guy.get_sleep_session().phase == npc_sleep_phase::none );
+    }
+}
+
+// driving shifts the map: a driving test puts the leader back on foot and the map
+// back for the next test
+static std::function<void()> leader_off_the_road()
+{
+    const tripoint_abs_sm origin = get_map().get_abs_sub();
+    return [origin]() {
+        map &here = get_map();
+        avatar &you = get_avatar();
+        if( you.in_vehicle ) {
+            here.unboard_vehicle( you.pos_bub() );
+        }
+        clear_vehicles();
+        here.load( origin, false, false );
+        you.setpos( here, leader_pos );
+    };
+}
+
+TEST_CASE( "passenger_woken_by_engine_noise_sleeps_on_in_its_seat",
+           "[npc][needs][sleep][vehicle]" )
+{
+    sleep_setup();
+    clear_vehicles();
+    on_out_of_scope cleanup( leader_off_the_road() );
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    vehicle &veh = parked_rv( leader_pos );
+    seat( get_avatar(), leader_pos );
+    npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 450 );
+    seat( guy, mount_tile( veh, point_rel_ms( 0, 2 ) ) );
+    veh.velocity = 1000;
+    run_npc_turns( guy, 20, asleep );
+    REQUIRE( asleep( guy ) );
+    REQUIRE( on_bed( guy, veh ) );
+    const point_rel_ms bed = here.veh_at( guy.pos_bub() )->mount_pos();
+
+    for( int round = 0; round < 10; ++round ) {
+        CAPTURE( round );
+        veh.precalc_mounts( 1, veh.face.dir(), veh.pivot_point( here ) );
+        REQUIRE( here.displace_vehicle( veh, tripoint_rel_ms::east ) );
+        if( round == 1 || round == 6 ) {
+            REQUIRE( asleep( guy ) );
+            wake_by_noise( guy );
+        }
+        run_npc_turn( guy );
+        CHECK( guy.in_vehicle );
+        CHECK( on_bed( guy, veh ) );
+        const optional_vpart_position vp = here.veh_at( guy.pos_bub() );
+        CHECK( ( vp && vp->mount_pos() == bed ) );
+        if( guy.get_sleep_plan().active() ) {
+            const optional_vpart_position target = here.veh_at( here.get_bub( guy.get_sleep_plan().target ) );
+            CHECK( ( target && &target->vehicle() == &veh ) );
+        }
+    }
+    CHECK( guy.get_sleep_session().wakes == 2 );
+    run_npc_turns( guy, 5, asleep );
+    CHECK( asleep( guy ) );
+}
+
+// three wakes in half an hour stall the sleep
+static void wake_three_times( npc &guy )
+{
+    for( int wake = 0; wake < 3; ++wake ) {
+        CAPTURE( wake );
+        run_npc_turns( guy, 3, asleep );
+        REQUIRE( asleep( guy ) );
+        wake_by_noise( guy );
+    }
+    REQUIRE( guy.get_sleep_session().wakes == 3 );
+    REQUIRE( guy.sleep_stalled() );
+}
+
+TEST_CASE( "restless_sleeper_keeps_trying_when_nothing_else_is_on_offer", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    wake_three_times( guy );
+
+    behavior::character_oracle_t oracle( &guy );
+    CHECK( oracle.can_sleep( "" ) == behavior::status_t::failure );
+    CHECK_FALSE( guy.sleep_on_hold() );
+    CHECK( settles_within( guy, 3 ) );
+    // same attempt keeps going, so the fourth wake stalls it again
+    CHECK( guy.get_sleep_session().wakes == 3 );
+}
+
+TEST_CASE( "restless_guard_returns_to_its_post_and_keeps_guarding", "[npc][needs][sleep][guard]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    const tripoint_abs_ms post = guy.pos_abs();
+    guy.set_mission( NPC_MISSION_GUARD );
+    guy.set_guard_pos( post );
+    REQUIRE( guy.is_on_shift() );
+    guy.setpos( here, guy.pos_bub() + tripoint( 6, 0, 0 ) );
+    make_asleep_on_bed( guy );
+    wake_three_times( guy );
+
+    run_npc_turns( guy, 15, [&post]( const npc & n ) {
+        return n.pos_abs() == post;
+    } );
+    REQUIRE( guy.pos_abs() == post );
+    for( int turn = 0; turn < 20; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn, guy.get_committed_goal() );
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+        CHECK_FALSE( settled( guy ) );
+        CHECK( guy.sleep_stalled() );
+    }
+    calendar::turn += 31_minutes;
+    CHECK( settles_within( guy, 20 ) );
+    CHECK( rl_dist( guy.pos_abs(), post ) <= 4 );
+}
+
+TEST_CASE( "stalled_passenger_sleeps_once_the_car_stops", "[npc][needs][sleep][vehicle]" )
+{
+    sleep_setup();
+    clear_vehicles();
+    on_out_of_scope cleanup( leader_off_the_road() );
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    vehicle &veh = parked_rv( leader_pos );
+    seat( get_avatar(), leader_pos );
+    npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 450 );
+    seat( guy, mount_tile( veh, point_rel_ms( 0, 2 ) ) );
+    veh.velocity = 1000;
+    for( int wake = 0; wake < 3; ++wake ) {
+        CAPTURE( wake );
+        run_npc_turns( guy, 20, asleep );
+        REQUIRE( asleep( guy ) );
+        veh.precalc_mounts( 1, veh.face.dir(), veh.pivot_point( here ) );
+        REQUIRE( here.displace_vehicle( veh, tripoint_rel_ms::east ) );
+        wake_by_noise( guy );
+    }
+    REQUIRE( guy.sleep_stalled() );
+    const tripoint_bub_ms seat_tile = guy.pos_bub();
+
+    veh.velocity = 0;
+    get_avatar().assign_activity( wait_activity_actor( 1_hours ) );
+    run_npc_turns( guy, 20, asleep );
+    CHECK( asleep( guy ) );
+    CHECK( guy.pos_bub() == seat_tile );
+    get_avatar().cancel_activity();
+}
+
+TEST_CASE( "wake_up_dialogue_keeps_rule_and_grants_grace", "[npc][sleep]" )
+{
+    sleep_setup();
+    get_avatar().add_effect( effect_sleep, 2_hours );
+    npc &guy = tired_follower( leader_pos + tripoint::east, 600 );
+
+    SECTION( "asleep: the rule stays, it stays up" ) {
+        make_asleep_on_bed( guy );
+        guy.rules.clear_flag( ally_rule::allow_sleep );
+        talk_function::wake_up( guy );
+        CHECK_FALSE( guy.rules.has_flag( ally_rule::allow_sleep ) );
+        CHECK_FALSE( guy.rules.has_override_enable( ally_rule::allow_sleep ) );
+        CHECK_FALSE( settled( guy ) );
+        CHECK( guy.sleep_on_hold() );
+        CHECK( guy.get_committed_goal().empty() );
+        CHECK( never_settles( guy, 20 ) );
+    }
+    SECTION( "much more tired, it lies down anyway" ) {
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 300 );
+        talk_function::wake_up( guy );
+        CHECK( never_settles( guy, 20 ) );
+        guy.set_sleepiness( 420 );
+        CHECK( settles_within( guy, 20 ) );
+    }
+    SECTION( "after an hour, it lies down again" ) {
+        make_asleep_on_bed( guy );
+        guy.set_sleepiness( 300 );
+        talk_function::wake_up( guy );
+        calendar::turn += 61_minutes;
+        CHECK( settles_within( guy, 20 ) );
+    }
+    SECTION( "lying down, not asleep yet" ) {
+        get_map().furn_set( guy.pos_bub(), furn_f_bed );
+        guy.set_sleepiness( 300 );
+        guy.set_stim( 100 );
+        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_moves( 100 );
+        REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+        talk_function::wake_up( guy );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+        CHECK( guy.get_sleep_session().phase == npc_sleep_phase::none );
+        CHECK( guy.sleep_on_hold() );
+    }
+    get_avatar().remove_effect( effect_sleep );
+}
+
+TEST_CASE( "wake_by_player_goes_through_the_normal_wake", "[npc][sleep]" )
+{
+    sleep_setup();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+
+    SECTION( "the alarm and prone posture go with the sleep" ) {
+        guy.add_effect( effect_slept_through_alarm, 1_hours );
+        guy.set_movement_mode( move_mode_prone );
+        CHECK( guy.wake_by_player() );
+        CHECK_FALSE( guy.has_effect( effect_slept_through_alarm ) );
+        CHECK( guy.movement_mode_is( move_mode_walk ) );
+        CHECK_FALSE( settled( guy ) );
+    }
+    SECTION( "sedated, can't be woken" ) {
+        guy.add_effect( effect_narcosis, 1_hours );
+        CHECK_FALSE( guy.wake_by_player() );
+        CHECK( asleep( guy ) );
+        CHECK_FALSE( guy.sleep_on_hold() );
+    }
+}
+
+TEST_CASE( "sleeping_follower_stays_asleep_when_left_behind", "[npc][behavior][sleep]" )
+{
+    sleep_setup();
+    npc &guy = tired_follower( leader_pos + tripoint::east, 400 );
+    make_asleep_on_bed( guy );
+    guy.set_sleepiness( 400 );
+    const tripoint_bub_ms bed = guy.pos_bub();
+    get_avatar().setpos( get_map(), leader_pos + tripoint( 20, 0, 0 ) );
+    for( int turn = 0; turn < 15; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        CHECK( asleep( guy ) );
+        CHECK( guy.pos_bub() == bed );
+    }
+}

@@ -133,11 +133,15 @@ struct npc_pursuit {
     float selection = 0.0f;
     // obligations still allow it at this need level
     bool permitted = true;
+    // stalled: any work on offer takes over, doing nothing doesn't
+    bool yields = false;
 };
 
 struct npc_challenger {
     std::string goal;
     float selection = 0.0f;
+    // picking it means doing nothing
+    bool idle = false;
 };
 
 // need urgency above which a need preempts another whatever the margin; also thirst's

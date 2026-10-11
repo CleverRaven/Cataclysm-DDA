@@ -1,5 +1,6 @@
 #include "npc_arbitration.h"
 
+#include <algorithm>
 #include <limits>
 #include <map>
 #include <optional>
@@ -215,6 +216,12 @@ std::optional<npc_reach> npc::obligation_reach() const
     return std::nullopt;
 }
 
+bool npc::goal_is_idle( const std::string &goal ) const
+{
+    // once aboard, moving to a better seat isn't work worth giving up sleep for
+    return goal == "idle" || goal == "free_time" || ( goal == "follow_embarked" && in_vehicle );
+}
+
 bool npc::in_vehicle_bed() const
 {
     if( !in_vehicle ) {
@@ -313,6 +320,9 @@ bool should_interrupt( const npc_pursuit &current, const npc_challenger &challen
     }
     // obligation changed (leader left, order given, shift began): pursuit ends
     if( !current.permitted ) {
+        return true;
+    }
+    if( current.yields && !challenger.idle && challenger.goal != current.goal ) {
         return true;
     }
     const decision_category cur_cat = bt_goal_to_category( current.goal );
@@ -418,7 +428,7 @@ npc_need_view npc::best_need_view( const need_goal_id id )
         return held;
     }
     if( id == need_goal_id::go_to_sleep ) {
-        if( rest_cooldown_active() ) {
+        if( sleep_on_hold() ) {
             npc_need_view none;
             none.raw = current_need_urgency( id );
             return none;
@@ -476,6 +486,7 @@ npc_pursuit npc::committed_pursuit() const
         const npc_need_view view = need_view( *gid, pursued_option_cost( *gid ) );
         current.selection = view.selection;
         current.permitted = view.may_consider();
+        current.yields = *gid == need_goal_id::go_to_sleep && sleep_stalled();
     }
     return current;
 }
@@ -537,7 +548,7 @@ std::optional<npc_challenger> npc::rest_interruption() const
         challengers.push_back( { picked.first, picked.second } );
     }
     // wins only once resting here is no longer allowed
-    challengers.push_back( { "idle", 0.0f } );
+    challengers.push_back( { "idle", 0.0f, true } );
     for( const npc_challenger &c : challengers ) {
         if( should_interrupt( current, c ) ) {
             add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: gets up for %s, rest %s by %s",

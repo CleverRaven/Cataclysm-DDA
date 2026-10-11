@@ -295,7 +295,7 @@ status_t character_oracle_t::can_sleep( std::string_view ) const
     if( const npc *n = dynamic_cast<const npc *>( subject ) ) {
         // judged for the best spot inside the reach, never for a trip to the leader or
         // post: a follower on a bed walled off from the leader may still sleep there
-        if( n->rest_cooldown_active() ||
+        if( n->sleep_on_hold() || n->sleep_stalled() ||
             !n->need_view( npc::need_goal_id::go_to_sleep, n->rest_option_best_case() ).may_consider() ) {
             return status_t::failure;
         }

@@ -1723,6 +1723,15 @@ void npc::move()
             behavior::tree decision_tree;
             decision_tree.add( &behavior_node_t_npc_decision.obj() );
             auto [new_goal, new_score] = decision_tree.tick_full( &oracle );
+            if( goal_is_idle( new_goal ) && !sleep_on_hold() &&
+                ( ( sleep_stalled() && get_sleepiness() >= sleepiness_levels::TIRED ) ||
+                  sleep_session.wants_resume( get_sleepiness() ) ) &&
+                best_need_view( need_goal_id::go_to_sleep ).may_consider() ) {
+                // a sleep that stepped aside for work, or was woken early, comes back when
+                // nothing else is on offer
+                new_goal = "go_to_sleep";
+                new_score = oracle.sleepiness_urgency( "" );
+            }
 
             // Goal commitment: prevent flip-flopping between goals.
             const std::string committed = ai_cache.intention.goal;
@@ -1765,9 +1774,11 @@ void npc::move()
                             satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
                             break;
                         case need_goal_id::go_to_sleep:
-                            // leaving for another goal goes through should_interrupt() below
+                            // leaving for another goal goes through should_interrupt() below;
+                            // woken half way to tired, it lies back down first
                             satisfied = has_effect( effect_sleep ) ||
-                                        oracle.needs_sleep_badly( "" ) != behavior::status_t::running;
+                                        ( oracle.needs_sleep_badly( "" ) != behavior::status_t::running &&
+                                          !sleep_session.wants_resume( get_sleepiness() ) );
                             break;
                     }
                     bool exec_impossible = plan_for( *gid ).last_result == need_result::impossible;
@@ -1796,7 +1807,7 @@ void npc::move()
                     // start_fire has no executor and never displaces a goal that has one
                     const bool lacks_executor = goal_id_for( committed ) && !goal_id_for( new_goal ) &&
                                                 bt_goal_to_category( new_goal ) == decision_category::needs;
-                    if( !lacks_executor && should_interrupt( current, { new_goal, new_score } ) ) {
+                    if( !lacks_executor && should_interrupt( current, { new_goal, new_score, goal_is_idle( new_goal ) } ) ) {
                         if( const std::optional<need_goal_id> old_gid = goal_id_for( committed ) ) {
                             end_need_pursuit( *old_gid );
                         }
@@ -3199,7 +3210,7 @@ npc_action npc::address_needs( float danger )
     const bool tired = get_sleepiness() >= sleepiness_levels::TIRED ||
                        ( is_walking_with() && player_character.in_sleep_state() &&
                          get_sleepiness() > sleepiness_levels::TIRED / 2 );
-    if( danger <= 0.01 && tired && !rest_cooldown_active() &&
+    if( danger <= 0.01 && tired && !sleep_on_hold() &&
         judge_option( rest_option_best_case() ).permission == npc_permission::allowed ) {
         return npc_sleep;
     }
@@ -7359,6 +7370,14 @@ npc::need_result npc::execute_go_to_sleep()
     const auto may_sleep_at = [this]( const tripoint_abs_ms & spot ) {
         return need_view( need_goal_id::go_to_sleep, rest_option_cost( spot ) ).eligible();
     };
+    if( sleep_session.phase == npc_sleep_phase::woken && is_valid_sleep_candidate( pos_bub() ) &&
+        may_sleep_at( pos_abs() ) ) {
+        // woken where it lies, wherever that is now: lie back down, no new search
+        plan.goal = "go_to_sleep";
+        plan.source_kind = need_source::sleep_spot;
+        plan.target = pos_abs();
+        plan.last_result = need_result::idle;
+    }
     // drop a target that is no longer empty and reachable (own tile exempt), or no longer permitted
     if( plan.active() ) {
         const tripoint_bub_ms t = here.get_bub( plan.target );

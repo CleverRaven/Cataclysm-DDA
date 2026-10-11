@@ -368,6 +368,12 @@ TEST_CASE( "should_interrupt_rules", "[npc][needs]" )
         CHECK_FALSE( should_interrupt( pursuit( npc_interrupt_cost::costly, 0.2f ),
                                        npc_challenger{ "drink_water", 0.64f } ) );
     }
+    SECTION( "a yielding pursuit steps aside for work, not for idleness" ) {
+        const npc_pursuit stalled{ "go_to_sleep", npc_interrupt_cost::costly, 0.6f, true, true };
+        CHECK( should_interrupt( stalled, npc_challenger{ "return_to_guard_pos", 0.5f } ) );
+        CHECK_FALSE( should_interrupt( stalled, npc_challenger{ "idle", 0.0f, true } ) );
+        CHECK_FALSE( should_interrupt( stalled, npc_challenger{ "go_to_sleep", 0.6f } ) );
+    }
     SECTION( "the same goal never interrupts itself" ) {
         CHECK_FALSE( should_interrupt( pursuit( npc_interrupt_cost::cheap, 0.3f ),
                                        npc_challenger{ "go_to_sleep", 0.9f } ) );

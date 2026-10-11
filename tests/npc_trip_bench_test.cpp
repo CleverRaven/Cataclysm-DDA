@@ -1,8 +1,10 @@
 #include <algorithm>
 #include <chrono>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <ratio>
 #include <set>
 #include <string>
@@ -14,6 +16,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "do_turn.h"
+#include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -21,12 +24,19 @@
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "npc.h"
+#include "options_helpers.h"
+#include "overmap_ui.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const efftype_id effect_sleep( "sleep" );
 
@@ -41,6 +51,10 @@ static const mtype_id mon_zombie( "mon_zombie" );
 static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
+
+static const vproto_id vehicle_prototype_test_rv( "test_rv" );
+
+static const weather_type_id weather_clear( "clear" );
 
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 
@@ -326,5 +340,88 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
         };
         lie_down( 0 );
         run_case( "settling_npcs", npcs, rounds, 0, lie_down );
+    }
+    SECTION( "woken_passengers" ) {
+        bench_setup();
+        scoped_weather_override clear_weather( weather_clear );
+        map &here = get_map();
+        const tripoint_abs_sm origin = here.get_abs_sub();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, leader, 0_degrees, 100,
+                                         veh_spawn_status::UNDAMAGED );
+        REQUIRE( veh != nullptr );
+        avatar &you = get_avatar();
+        you.setpos( here, leader );
+        here.board_vehicle( leader, &you );
+        REQUIRE( you.in_vehicle );
+        // boarding recenters the map and can load submaps with monsters
+        clear_creatures();
+        // spawn_npc can shift the map: look bed tiles up only after every spawn
+        const auto find_beds = [&]() {
+            std::vector<tripoint_bub_ms> beds;
+            for( const vpart_reference &vp : veh->get_all_parts() ) {
+                const tripoint_bub_ms p = veh->bub_part_pos( here, vp.part() );
+                const optional_vpart_position at = here.veh_at( p );
+                const bool bed = at && ( at->part_with_feature( "SEATBELT", true ) ||
+                                         at->part_with_feature( "BED", true ) );
+                if( bed && p != you.pos_bub() &&
+                    std::find( beds.begin(), beds.end(), p ) == beds.end() ) {
+                    beds.push_back( p );
+                }
+            }
+            beds.resize( std::min<size_t>( beds.size(), 4 ) );
+            return beds;
+        };
+        const size_t count = find_beds().size();
+        REQUIRE( count >= 2 );
+        std::vector<npc *> passengers;
+        for( size_t i = 0; i < count; ++i ) {
+            // spawned off the vehicle, then seated: spawning onto a part boards on its own
+            npc &guy = make_follower( spawn_thirsty( leader + tripoint( 2 * static_cast<int>( i ), 10, 0 ) ) );
+            guy.set_thirst( 0 );
+            passengers.push_back( &guy );
+        }
+        const std::vector<tripoint_bub_ms> beds = find_beds();
+        REQUIRE( beds.size() == count );
+        std::vector<bench_npc> npcs;
+        for( size_t i = 0; i < count; ++i ) {
+            npc &guy = *passengers[i];
+            const tripoint_bub_ms &p = beds[i];
+            guy.setpos( here, p );
+            here.board_vehicle( p, &guy );
+            REQUIRE( guy.in_vehicle );
+            // sure to drop off at the first roll on a bed; the bench then holds it at 300
+            guy.set_sleepiness( 600 );
+            guy.set_stim( 0 );
+        }
+        // each falls asleep where it was seated before the timed rounds
+        for( int turn = 0; turn < 30; ++turn ) {
+            for( npc *guy : passengers ) {
+                if( !guy->has_effect( effect_sleep ) ) {
+                    process_npc_turn( here, *guy );
+                }
+            }
+            calendar::turn += 1_turns;
+        }
+        for( npc *guy : passengers ) {
+            REQUIRE( guy->has_effect( effect_sleep ) );
+            npcs.push_back( { guy, guy->pos_bub(), true } );
+        }
+        veh->velocity = 1000;
+        run_case( "woken_passengers", npcs, rounds, 0, [&]( const int round ) {
+            veh->precalc_mounts( 1, veh->face.dir(), veh->pivot_point( here ) );
+            here.displace_vehicle( *veh, tripoint_rel_ms::east );
+            if( round % 5 == 4 ) {
+                // an engine revving next to each of them
+                sounds::reset_sounds();
+                for( bench_npc &b : npcs ) {
+                    sounds::sound( b.guy->pos_bub() + tripoint::east, 60, sounds::sound_t::movement, "engine" );
+                    sounds::process_sound_markers( b.guy );
+                }
+            }
+        } );
+        here.unboard_vehicle( you.pos_bub() );
+        clear_vehicles();
+        here.load( origin, false, false );
     }
 }

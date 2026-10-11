@@ -1576,6 +1576,13 @@ class npc : public Character
         // from lying_down effect: rolls on the settle cadence; true to stop lying down
         bool sleep_settle_step();
         bool sleep_stalled() const;
+        // rest cooldown or stay-awake grace holds sleep back
+        bool sleep_on_hold() const;
+        // woken by the player: a grace period, no rule change; false when narcosis keeps it under
+        bool wake_by_player();
+        void grant_stay_awake( const time_duration &dur, int sleepiness_floor );
+        void wake_up() override;
+        bool goal_is_idle( const std::string &goal ) const;
         bool sees_hostile_within( int radius ) const;
         std::optional<time_point> last_complaint( const std::string &issue ) const;
         npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
