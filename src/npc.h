@@ -1258,6 +1258,8 @@ class npc : public Character
         bool consume_food_at( item_location loc );
         bool wear_item_at( item_location loc );
         // one step of spec's walk; false when the NPC didn't move
+        // TODO: false also means a door was opened or a replacement trip needs judging;
+        // a moved/acted/reassess/blocked result would let callers tell them apart
         bool move_to_and_verify( const npc_trip_spec &spec );
         // nullopt when no end tile spec allows is reachable
         std::optional<npc_trip> resolve_trip( const npc_trip_spec &spec ) const;
@@ -1536,6 +1538,10 @@ class npc : public Character
         npc_need_view need_view( need_goal_id id, const npc_option_cost &cost ) const;
         // nullopt (unreachable) gives kind none
         npc_need_view need_view( need_goal_id id, const std::optional<npc_option_cost> &cost ) const;
+        // with a reach the walk is routed and nullopt means no route; without one nothing
+        // is routed and nullopt only marks a stand_on spot nobody can stand on
+        std::optional<npc_option_cost> trip_cost( const npc_trip_spec &spec, bool responsive ) const;
+        std::optional<npc_option_cost> water_option_cost( const need_candidate &c ) const;
 
         // Execute the concrete action for a needs-category goal.
         // Owns target selection and progress tracking.
@@ -1717,10 +1723,13 @@ class npc : public Character
         bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
 
-        std::vector<tripoint_bub_ms> trip_interaction_tiles( const npc_trip_spec &spec ) const;
-        bool trip_endpoint_ok( const tripoint_bub_ms &p ) const;
-        bool trip_step_ok( const tripoint_bub_ms &from, const tripoint_bub_ms &p,
-                           bool no_bashing, bool ignore_occupant = false ) const;
+        std::vector<tripoint_bub_ms> trip_interaction_tiles( const npc_trip_spec &spec,
+                const npc_reach_policy *policy ) const;
+        bool trip_endpoint_ok( const tripoint_bub_ms &p, const npc_reach_policy *policy ) const;
+        bool trip_step_ok( const tripoint_bub_ms &from, const tripoint_bub_ms &p, bool no_bashing,
+                           const npc_reach_policy *policy, bool ignore_occupant = false ) const;
+        std::optional<npc_reach_policy> reach_policy_for( const npc_trip_spec &spec ) const;
+        npc_trip route_trip( const npc_trip_spec &spec, const npc_reach_policy *policy ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
 

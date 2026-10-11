@@ -8,15 +8,13 @@
 #include "coordinates.h"
 #include "point.h"
 
-class vehicle;
-
 // what an option asks of the NPC's availability, judged against its obligations
 struct npc_option_cost {
     // where NPC stands while doing it
     tripoint_abs_ms where;
     // false: usable from here, adjacent tiles included
     bool needs_walk = false;
-    // False when the option leaves the NPC unable to react (asleep)
+    // false when the option leaves the NPC unable to react (asleep)
     bool responsive = true;
     // the route to be walked keeps to the reach policy
     bool route_in_reach = true;
@@ -66,15 +64,6 @@ enum class npc_obligation : int {
 struct npc_permission_verdict {
     npc_permission permission = npc_permission::allowed;
     npc_obligation by = npc_obligation::none;
-};
-
-// Area an anchored obligation keeps the NPC in: a radius around a center, or the
-// vehicle the leader sits in. Recomputed on every call, never stored.
-struct npc_reach {
-    tripoint_abs_ms center;
-    int radius = 0;
-    const vehicle *aboard = nullptr;
-    bool contains( const tripoint_abs_ms &p ) const;
 };
 
 enum class npc_option_kind : int {

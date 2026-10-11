@@ -81,6 +81,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_arbitration.h"
 #include "npc_attack.h"
 #include "npc_decision_category.h"
 #include "npc_opinion.h"
@@ -6532,6 +6533,19 @@ bool npc::wear_item_at( item_location loc )
         return false;
     }
     return wear( loc, false ).has_value();
+}
+
+std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c ) const
+{
+    if( c.source_kind == need_source::camp_water ) {
+        return npc_option_cost::in_place( pos_abs() );
+    }
+    std::optional<npc_option_cost> cost =
+        trip_cost( npc_trip_spec::within_range( get_map().get_bub( c.target ), 1, true ), true );
+    if( cost && c.source_kind == need_source::harvestable ) {
+        cost->occupies = true;
+    }
+    return cost;
 }
 
 std::vector<npc::scored_shelter> npc::find_nearby_shelters() const

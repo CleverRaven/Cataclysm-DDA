@@ -1,7 +1,9 @@
 #include <functional>
 #include <initializer_list>
+#include <algorithm>
 #include <optional>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -14,6 +16,7 @@
 #include "map_helpers_tests.h"
 #include "npc.h"
 #include "npc_arbitration.h"
+#include "npc_trip.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -22,7 +25,12 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const field_type_str_id field_fd_fire( "fd_fire" );
+
 static const npc_class_id NC_ROBOFAC_INTERCOM_DAY( "NC_ROBOFAC_INTERCOM_DAY" );
+
+static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const tripoint_bub_ms leader_pos( 50, 50, 0 );
 
@@ -322,4 +330,170 @@ TEST_CASE( "should_interrupt_rules", "[npc][needs]" )
             CHECK( should_interrupt( pursuit( cost, 0.7f ), npc_challenger{ "drink_water", 0.8f } ) );
         }
     }
+}
+
+static void wall_row( const int y, const int x_from, const int x_to, const std::vector<int> &gaps )
+{
+    map &here = get_map();
+    for( int x = x_from; x <= x_to; ++x ) {
+        if( std::find( gaps.begin(), gaps.end(), x ) == gaps.end() ) {
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_t_wall_glass );
+        }
+    }
+}
+
+static void wall_column( const int x, const int y_from, const int y_to,
+                         const std::vector<int> &gaps )
+{
+    map &here = get_map();
+    for( int y = y_from; y <= y_to; ++y ) {
+        if( std::find( gaps.begin(), gaps.end(), y ) == gaps.end() ) {
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_t_wall_glass );
+        }
+    }
+}
+
+TEST_CASE( "trip_cost_route_policy", "[npc][movement][obligation]" )
+{
+    place_leader();
+    map &here = get_map();
+
+    SECTION( "starting inside, a route that stays inside is in reach" ) {
+        npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+        const tripoint_bub_ms water = leader_pos + tripoint( 0, 3, 0 );
+        here.ter_set( water, ter_t_water_sh );
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost =
+            guy.trip_cost( npc_trip_spec::within_range( water, 1, true ), true );
+        REQUIRE( cost );
+        CHECK( cost->route_in_reach );
+    }
+    SECTION( "starting inside, a detour outside leaves the reach" ) {
+        npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+        const tripoint_bub_ms water = leader_pos + tripoint( 2, 4, 0 );
+        here.ter_set( water, ter_t_water_sh );
+        // only way through is 6 tiles from the leader, outside the spacing of 4
+        wall_row( leader_pos.y() + 3, leader_pos.x() - 12, leader_pos.x() + 12, { leader_pos.x() + 6 } );
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost =
+            guy.trip_cost( npc_trip_spec::within_range( water, 1, true ), true );
+        REQUIRE( cost );
+        CHECK_FALSE( cost->route_in_reach );
+    }
+    SECTION( "starting outside, walking in is in reach" ) {
+        npc &guy = spawn_follower( leader_pos + tripoint( 7, 0, 0 ) );
+        const tripoint_bub_ms water = leader_pos + tripoint( 3, 0, 0 );
+        here.ter_set( water, ter_t_water_sh );
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost =
+            guy.trip_cost( npc_trip_spec::within_range( water, 1, true ), true );
+        REQUIRE( cost );
+        CHECK( cost->route_in_reach );
+    }
+    SECTION( "starting outside, a route that first heads further away leaves the reach" ) {
+        npc &guy = spawn_follower( leader_pos + tripoint( 7, 0, 0 ) );
+        const tripoint_bub_ms water = leader_pos + tripoint( 3, 0, 0 );
+        here.ter_set( water, ter_t_water_sh );
+        // only way in is 11 from the leader, further than the NPC's 7
+        wall_column( leader_pos.x() + 6, leader_pos.y() - 12, leader_pos.y() + 12,
+        { leader_pos.y() + 10 } );
+        here.build_map_cache( 0 );
+        const std::optional<npc_option_cost> cost =
+            guy.trip_cost( npc_trip_spec::within_range( water, 1, true ), true );
+        REQUIRE( cost );
+        CHECK_FALSE( cost->route_in_reach );
+    }
+}
+
+TEST_CASE( "approach_bound_holds_for_the_walked_trip", "[npc][movement][obligation]" )
+{
+    place_leader();
+    map &here = get_map();
+    // trigdist truncates: the gap and the start are both 8 from the leader
+    npc &guy = spawn_follower( leader_pos + tripoint( 8, 0, 0 ) );
+    // only way in is a gap south: the walk closes in, bends outward to it, then enters
+    wall_column( leader_pos.x() + 4, leader_pos.y() - 10, leader_pos.y() + 10,
+    { leader_pos.y() + 7 } );
+    const tripoint_bub_ms water = leader_pos + tripoint( 1, 3, 0 );
+    here.ter_set( water, ter_t_water_sh );
+    here.build_map_cache( 0 );
+    const tripoint_abs_ms leader_abs = here.get_abs( leader_pos );
+    REQUIRE( rl_dist( guy.pos_abs(), leader_abs ) == 8 );
+    REQUIRE( rl_dist( here.get_abs( leader_pos + tripoint( 4, 7, 0 ) ), leader_abs ) <= 8 );
+    const npc_trip_spec spec = npc_trip_spec::within_range( water, 1, true );
+
+    int closest = rl_dist( guy.pos_abs(), leader_abs );
+    bool bent_outward = false;
+    for( int turn = 0; turn < 30; ++turn ) {
+        const std::optional<npc_option_cost> cost = guy.trip_cost( spec, true );
+        REQUIRE( cost );
+        CAPTURE( turn, guy.pos_bub() );
+        CHECK( cost->route_in_reach );
+        if( !cost->needs_walk ) {
+            break;
+        }
+        guy.set_moves( 100 );
+        REQUIRE( guy.move_to_and_verify( spec ) );
+        const int d = rl_dist( guy.pos_abs(), leader_abs );
+        bent_outward = bent_outward || d > closest;
+        closest = std::min( closest, d );
+        calendar::turn += 1_turns;
+    }
+    CHECK( bent_outward );
+    CHECK( square_dist( guy.pos_bub(), water ) <= 1 );
+}
+
+TEST_CASE( "self_care_step_stays_in_reach_around_a_fire", "[npc][movement][obligation]" )
+{
+    place_leader();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 3, -2, 0 ) );
+    const tripoint_bub_ms water = leader_pos + tripoint( 3, 2, 0 );
+    here.ter_set( water, ter_t_water_sh );
+    here.build_map_cache( 0 );
+    const npc_trip_spec spec = npc_trip_spec::within_range( water, 1, true );
+    guy.set_moves( 100 );
+    REQUIRE( guy.move_to_and_verify( spec ) );
+    REQUIRE_FALSE( guy.path.empty() );
+    const tripoint_bub_ms next = guy.path.front();
+    here.add_field( next, field_fd_fire, 1, 10_minutes );
+    for( int turn = 0; turn < 12 && square_dist( guy.pos_bub(), water ) > 1; ++turn ) {
+        calendar::turn += 1_turns;
+        guy.set_moves( 100 );
+        guy.move_to_and_verify( spec );
+        CAPTURE( turn, guy.pos_bub() );
+        CHECK( guy.pos_bub() != next );
+        CHECK( guy.obligation_reach()->contains( guy.pos_abs() ) );
+    }
+    CHECK( square_dist( guy.pos_bub(), water ) <= 1 );
+}
+
+TEST_CASE( "same_turn_replacement_hands_back", "[npc][movement][obligation]" )
+{
+    place_leader();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    // two gaps south: one below the NPC inside the spacing, one 7 from the leader outside
+    wall_row( leader_pos.y() + 1, leader_pos.x() - 12, leader_pos.x() + 12,
+    { leader_pos.x() + 2, leader_pos.x() + 7 } );
+    const tripoint_bub_ms water = leader_pos + tripoint( 2, 3, 0 );
+    here.ter_set( water, ter_t_water_sh );
+    here.build_map_cache( 0 );
+    const npc_trip_spec spec = npc_trip_spec::within_range( water, 1, true );
+    const tripoint_bub_ms inner_gap = leader_pos + tripoint( 2, 1, 0 );
+
+    const std::optional<npc_option_cost> cost = guy.trip_cost( spec, true );
+    REQUIRE( cost );
+    REQUIRE( cost->route_in_reach );
+    const std::optional<npc_trip> judged = guy.resolve_trip( spec );
+    REQUIRE( judged );
+    REQUIRE( judged->path.front() == inner_gap );
+
+    // fire in the inner gap the same turn: only the outer way is left
+    here.add_field( inner_gap, field_fd_fire, 1, 10_minutes );
+    const tripoint_bub_ms before = guy.pos_bub();
+    guy.set_moves( 100 );
+    CHECK_FALSE( guy.move_to_and_verify( spec ) );
+    CHECK( guy.pos_bub() == before );
+    CHECK( guy.path.empty() );
 }
