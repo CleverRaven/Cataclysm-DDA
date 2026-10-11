@@ -88,6 +88,7 @@
 
 enum npc_action : int;
 
+static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -146,6 +147,7 @@ static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_deci
 static const ter_str_id ter_t_concrete( "t_concrete" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_ponywall( "t_ponywall" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
@@ -7466,5 +7468,49 @@ TEST_CASE( "npc_tiredness_reading_matches_the_threshold", "[npc][talk]" )
         CHECK( reading_at( dead_tired ).find( "Dead tired" ) != std::string::npos );
         CHECK( reading_at( exhausted - 1 ).find( "Exhausted" ) == std::string::npos );
         CHECK( reading_at( exhausted ).find( "Exhausted" ) != std::string::npos );
+    }
+}
+
+TEST_CASE( "follower_closing_a_door_stays_a_follower", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, 0 ) );
+    npc &guy = spawn_npc( { 52, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( here, tripoint_bub_ms( 52, 50, 0 ) );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.rules.set_flag( ally_rule::close_doors );
+    const tripoint_bub_ms door = guy.pos_bub() + tripoint::east;
+    // shopkeeper class restocks on spawn, stock can land in the doorway
+    here.i_clear( door );
+    here.ter_set( door, ter_t_door_o );
+    here.ter_set( door + tripoint( 3, 0, 0 ), ter_t_water_sh );
+    here.build_map_cache( 0 );
+
+    // step through the doorway: closing it behind itself is an assigned activity
+    guy.set_moves( 100 );
+    guy.move_to( door );
+    guy.set_moves( 100 );
+    guy.move_to( door + tripoint::east );
+    REQUIRE( guy.activity );
+    REQUIRE( guy.get_attitude() == NPCATT_ACTIVITY );
+
+    WHEN( "thirsty, water in sight next turn" ) {
+        guy.set_thirst( 600 );
+        run_npc_turn( guy );
+        THEN( "it closed the door and follows again" ) {
+            CHECK( here.ter( door ) == ter_t_door_c );
+            CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+            CHECK( guy.is_walking_with() );
+            CHECK( std::none_of( guy.backlog.begin(), guy.backlog.end(), []( const player_activity & a ) {
+                return a.id() == ACT_CLOSE_TILE;
+            } ) );
+            CHECK( guy.name_and_activity() == guy.disp_name() );
+        }
     }
 }

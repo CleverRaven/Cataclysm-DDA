@@ -120,6 +120,7 @@
 
 enum class side : int;
 
+static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -1534,6 +1535,12 @@ void npc::move()
     // Surgery and spellcasting must complete without re-evaluation
     // (they have their own internal state machines).
     if( activity.id() == ACT_OPERATION || activity.id() == ACT_SPELLCASTING ) {
+        execute_action( npc_player_activity );
+        return;
+    }
+    // close the door it just walked through: finish it before deciding anything, or a
+    // need executor keeps the activity attitude and a follower stops following
+    if( activity.id() == ACT_CLOSE_TILE ) {
         execute_action( npc_player_activity );
         return;
     }
