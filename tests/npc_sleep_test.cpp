@@ -1,6 +1,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "options_helpers.h"
@@ -9,6 +10,8 @@
 #include "type_id.h"
 
 static const efftype_id effect_sleep( "sleep" );
+
+static const furn_str_id furn_f_bed( "f_bed" );
 
 TEST_CASE( "no_npc_food_sleepiness_stops_short_of_dead_tired", "[npc][needs][sleep]" )
 {
@@ -45,4 +48,18 @@ TEST_CASE( "no_npc_food_sleepiness_stops_short_of_dead_tired", "[npc][needs][sle
         guy.update_needs( 12 );
         CHECK( guy.get_sleep_deprivation() == 0 );
     }
+}
+
+TEST_CASE( "sleep_readiness_reflects_bed_and_stimulants", "[npc][sleep]" )
+{
+    clear_map_without_vision();
+    npc &guy = spawn_npc( point_bub_ms( 50, 50 ), "test_talker" );
+    clear_character( guy, true );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 0 );
+    // well past the rng( -8, 8 ) of a sleep roll either way
+    CHECK( guy.sleep_readiness() > 8 );
+    guy.set_stim( 50 );
+    CHECK( guy.sleep_readiness() < -8 );
 }

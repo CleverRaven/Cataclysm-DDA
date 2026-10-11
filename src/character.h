@@ -4052,6 +4052,8 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
+        /** How ready to fall asleep here: comfort, sleepiness, stimulants, pills, enchantments. No roll, no throttle. */
+        int sleep_readiness();
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
