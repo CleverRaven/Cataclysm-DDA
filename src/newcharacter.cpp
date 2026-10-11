@@ -3541,8 +3541,8 @@ bool character_creator_ui::handle_action( const std::string &action )
     } else if( action == "REROLL_CHARACTER" ) {
         cc_uistate.reset();
         you.randomize( true );
-        // "Single selection" tabs that have categories need to be set to "ALL" before randomizing.
-        // If we don't, a non-visible entry can be chosen, filterlist() will select the next
+        // "Single selection" tabs that have categories need to be set to "ALL" before updating uilist entries.
+        // If we don't, and a non-visible entry is chosen, filterlist() will select the next
         // visible entry instead, and select() will write that back into selected scenario index.
         get_tab_uilist( CHARCREATOR_SCENARIO )->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
         update_uilist_entries();
