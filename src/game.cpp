@@ -6515,6 +6515,7 @@ void game::try_activate_zone_sort_viewport()
     u.zone_sort_viewport.active = true;
     u.zone_sort_viewport.center = bbox.centroid;
     u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.saved_zoom = actor->viewport_saved_zoom;
     u.zone_sort_viewport.bbox_min = bbox.min_corner;
     u.zone_sort_viewport.bbox_max = bbox.max_corner;
     if( !test_mode ) {
