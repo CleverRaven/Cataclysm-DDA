@@ -1921,7 +1921,13 @@
         "id": "extreme",
         "text": "Extreme    ",
         "color": "red",
-        "condition": { "math": [ "u_val('activity_level') >= 5" ] }
+        "condition": { "math": [ "u_val('activity_level') == 5" ] }
+      },
+      {
+        "id": "extreme",
+        "text": "Combat     ",
+        "color": "red",
+        "condition": { "math": [ "u_val('activity_level') > 5" ] }
       }
     ],
     "type": "widget"
