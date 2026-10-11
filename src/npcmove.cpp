@@ -1981,8 +1981,9 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
+        // a follower keeps its camp but does no camp work while walking with the player
         if( assigned_camp && mission != NPC_MISSION_CAMP_RESIDENT &&
-            !guard_pos && attitude != NPCATT_ACTIVITY ) {
+            !guard_pos && attitude != NPCATT_ACTIVITY && !is_walking_with() ) {
             if( has_job() && calendar::once_every( 10_minutes ) && find_job_to_perform() ) {
                 action = npc_player_activity;
             } else {

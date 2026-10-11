@@ -10,6 +10,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "behavior.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -33,6 +34,7 @@
 #include "npc_turn_helpers.h"
 #include "npctalk.h"
 #include "options_helpers.h"
+#include "overmapbuffer.h"
 #include "overmap_ui.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -57,6 +59,7 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
+static const furn_str_id furn_f_sofa( "f_sofa" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -1242,5 +1245,40 @@ TEST_CASE( "sleeping_follower_stays_asleep_when_left_behind", "[npc][behavior][s
         CAPTURE( turn );
         CHECK( asleep( guy ) );
         CHECK( guy.pos_bub() == bed );
+    }
+}
+
+TEST_CASE( "follower_with_assigned_camp_does_not_wander_to_camp_seats", "[npc][camp][behavior]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = tired_follower( leader_pos + tripoint::east, 0 );
+    const tripoint_abs_omt omt = project_to<coords::omt>( here.get_abs( leader_pos ) );
+    guy.assigned_camp = omt;
+    REQUIRE( guy.mission == NPC_MISSION_NULL );
+
+    SECTION( "a camp around the leader, with a sofa in it" ) {
+        here.add_camp( omt, "faction_camp" );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt.xy() );
+        REQUIRE( bcp );
+        basecamp *camp = *bcp;
+        camp->define_camp( omt, "faction_base_bare_bones_NPC_camp_0", false );
+        camp->set_owner( faction_your_followers );
+        camp->set_bb_pos( here.get_abs( leader_pos ) );
+        const tripoint_bub_ms sofa = leader_pos + tripoint( 8, 0, 0 );
+        here.furn_set( sofa, furn_f_sofa );
+        REQUIRE( camp->point_within_camp( project_to<coords::omt>( here.get_abs( sofa ) ) ) );
+
+        for( int turn = 0; turn < 20; ++turn ) {
+            run_npc_turn( guy );
+            CAPTURE( turn, guy.pos_bub() );
+            CHECK( rl_dist( guy.pos_bub(), sofa ) > 2 );
+        }
+        CHECK( guy.assigned_camp == omt );
+        CHECK( dist_to_leader( guy ) <= 4 );
+    }
+    SECTION( "no camp object" ) {
+        run_npc_turns( guy, 5 );
+        CHECK( guy.assigned_camp.has_value() );
     }
 }
