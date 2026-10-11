@@ -1221,7 +1221,15 @@
       { "clear_dimension": "portal_storm_dungeon_dimension" },
       { "math": [ "portal_dungeon_level = 0" ] },
       { "alter_timed_events": "portal_dungeon" },
-      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } },
+      { "alter_timed_events": "portal_dungeon" },
+      {
+        "if": { "math": [ "u_val('pos_z') != 0" ] },
+        "then": [
+          { "u_location_variable": { "context_val": "z_zero" }, "z_adjust": 0, "z_override": true },
+          { "u_teleport": { "context_val": "z_zero" }, "success_message": "", "fail_message": "", "force": true }
+        ]
+      }
     ],
     "false_effect": { "u_message": "You feel a prickle at the edge of your senses.", "type": "bad" }
   },
