@@ -76,6 +76,7 @@
 #include "talker.h"
 #include "test_data.h"
 #include "text_snippets.h"
+#include "tileray.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -84,6 +85,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 enum npc_action : int;
@@ -7511,6 +7513,60 @@ TEST_CASE( "follower_closing_a_door_stays_a_follower", "[npc][behavior]" )
                 return a.id() == ACT_CLOSE_TILE;
             } ) );
             CHECK( guy.name_and_activity() == guy.disp_name() );
+        }
+    }
+}
+
+TEST_CASE( "closing_a_car_door_after_the_car_moved_on_ends_quietly", "[npc][vehicle]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    clear_vehicles();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 30, 30, 0 ) );
+    npc &guy = spawn_npc( { 50, 60 }, "test_talker" );
+    clear_character( guy, true );
+    // spawn_npc can shift the map: place the car only after it
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, tripoint_bub_ms( 50, 50, 0 ),
+                                     0_degrees, 100, veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    std::optional<tripoint_bub_ms> seat;
+    std::optional<tripoint_bub_ms> door;
+    for( const vpart_reference &vp : veh->get_all_parts() ) {
+        if( vp.mount_pos() == point_rel_ms( 0, 2 ) ) {
+            seat = veh->bub_part_pos( here, vp.part() );
+        } else if( vp.mount_pos() == point_rel_ms( 0, 3 ) ) {
+            door = veh->bub_part_pos( here, vp.part() );
+        }
+    }
+    REQUIRE( seat );
+    REQUIRE( door );
+    guy.setpos( here, *seat );
+    here.board_vehicle( *seat, &guy );
+    REQUIRE( guy.in_vehicle );
+    const std::optional<vpart_reference> door_part = here.veh_at( *door ).part_with_feature( "OPENABLE",
+            true );
+    REQUIRE( door_part );
+    veh->open( here, door_part->part_index() );
+
+    guy.assign_activity( close_tile_activity_actor( *door ) );
+    REQUIRE( guy.activity );
+
+    WHEN( "car drives off before door is closed" ) {
+        for( int step = 0; step < 10; ++step ) {
+            veh->precalc_mounts( 1, veh->face.dir(), veh->pivot_point( here ) );
+            REQUIRE( here.displace_vehicle( *veh, tripoint_rel_ms::east ) );
+        }
+        REQUIRE_FALSE( here.veh_at( *door ) );
+        run_npc_turn( guy );
+        THEN( "the attempt ends" ) {
+            CHECK_FALSE( guy.activity );
+        }
+    }
+    WHEN( "car doesn't move" ) {
+        run_npc_turn( guy );
+        THEN( "door closed" ) {
+            CHECK_FALSE( veh->part( door_part->part_index() ).open );
         }
     }
 }
