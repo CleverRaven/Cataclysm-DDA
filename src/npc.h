@@ -1576,6 +1576,8 @@ class npc : public Character
         void end_need_pursuit( need_goal_id id );
         // false while walking with the player
         bool is_on_shift() const;
+        // on a belted seat or a bed of the vehicle the player sits in
+        bool in_vehicle_bed() const;
         std::optional<npc_reach> obligation_reach() const;
         npc_permission_verdict judge_option( const npc_option_cost &cost ) const;
         npc_need_view need_view( need_goal_id id, const npc_option_cost &cost ) const;
@@ -1791,6 +1793,9 @@ class npc : public Character
 
         std::string unique_id;
 };
+
+// raw level a need must reach before the NPC acts on an option judged v
+float npc_need_floor( npc::need_goal_id id, const npc_permission_verdict &v );
 
 /** An NPC with standard stats */
 class standard_npc : public npc

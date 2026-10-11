@@ -478,7 +478,15 @@ status_t character_oracle_t::npc_should_embark( std::string_view ) const
 
 float character_oracle_t::npc_embark_urgency( std::string_view ) const
 {
-    return npc_should_embark( "" ) == status_t::running ? 0.6f : 0.0f;
+    if( npc_should_embark( "" ) != status_t::running ) {
+        return 0.0f;
+    }
+    // already on a belted seat or bed: low enough that a tired passenger sleeps
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( n != nullptr && n->in_vehicle_bed() ) {
+        return 0.15f;
+    }
+    return 0.6f;
 }
 
 status_t character_oracle_t::npc_has_goto_order( std::string_view ) const

@@ -65,6 +65,9 @@ enum class npc_obligation : int {
 struct npc_permission_verdict {
     npc_permission permission = npc_permission::allowed;
     npc_obligation by = npc_obligation::none;
+    // how far a discouraged floor has relaxed toward the need's own level, 0 to 1; only the
+    // accompany obligation sets it
+    float ease = 0.0f;
 };
 
 enum class npc_option_kind : int {
@@ -81,8 +84,15 @@ struct npc_need_view {
     float floor = std::numeric_limits<float>::infinity();
     // raw once it reaches floor, else 0
     float selection = 0.0f;
+    // the floor before any relaxation
+    float strict_floor = std::numeric_limits<float>::infinity();
     npc_permission_verdict verdict;
     npc_option_kind kind = npc_option_kind::none;
+
+    // acting past an obligation, not past one that relaxed
+    bool overrides() const {
+        return verdict.permission > npc_permission::allowed && raw >= strict_floor;
+    }
 
     // may this goal be considered at all
     bool may_consider() const {

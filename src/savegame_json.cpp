@@ -1594,6 +1594,9 @@ void avatar::deserialize( const JsonObject &data )
 void avatar::load( const JsonObject &data )
 {
     Character::load( data );
+    // standing where the save left you counts from now
+    relocation_anchor = pos_abs();
+    relocated_at = calendar::turn;
 
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {

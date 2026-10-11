@@ -2270,14 +2270,6 @@ void npc::execute_action( npc_action action )
                 break;
             }
 
-            // Try to find the last destination
-            // This is mount point, not actual position
-            point_rel_ms last_dest( INT_MIN, INT_MIN );
-            if( !path.empty() && veh_pointer_or_null( here.veh_at( path[path.size() - 1] ) ) == veh ) {
-                last_dest = vp->mount_pos();
-            }
-
-            // Prioritize last found path, then seats
             // Don't change spots if ours is nice
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
@@ -2303,16 +2295,17 @@ void npc::execute_action( npc_action action )
 
                 int priority = 0;
 
-                if( vp.mount_pos() == last_dest ) {
-                    // Shares mount point with last known path
-                    // We probably wanted to go there in the last turn
-                    priority = 4;
-
-                } else if( available_seat( pt ) ) {
+                if( available_seat( pt ) ) {
                     // Assuming player "owns" a sensible vehicle seats should be in good spots to occupy
-                    // Prefer our assigned seat if we have one
+                    // Prefer our assigned seat if we have one, then one with a belt
                     const npc *who = pt.crew();
-                    priority = who && who->getID() == getID() ? 3 : 2;
+                    if( who && who->getID() == getID() ) {
+                        priority = 4;
+                    } else if( veh->part_with_feature( vp.mount_pos(), "SEATBELT", true ) >= 0 ) {
+                        priority = 3;
+                    } else {
+                        priority = 2;
+                    }
 
                 } else if( vp.is_inside() ) {
                     priority = 1;
@@ -2325,7 +2318,7 @@ void npc::execute_action( npc_action action )
                 seats.emplace_back( priority, static_cast<int>( vp.part_index() ) );
             }
 
-            if( my_spot >= 3 ) {
+            if( my_spot >= 4 ) {
                 // We won't get any better, so don't try
                 move_pause();
                 break;
