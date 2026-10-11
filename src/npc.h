@@ -33,6 +33,7 @@
 #include "mission_companion.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
+#include "npc_trip.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -557,6 +558,12 @@ struct npc_short_term_cache {
     // BT goal commitment: persists across turns until completed or
     // overridden by a higher-priority goal. Empty = no commitment.
     std::string committed_goal;
+    // last resolved walk, keyed on turn, position and spec only: map or rule changes
+    // within the turn don't invalidate it
+    mutable npc_trip last_trip;
+    npc_retained_trip retained_trip;
+    // diagnostic count of route() calls made while resolving self-care walks
+    mutable int trip_route_calls = 0;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1249,7 +1256,13 @@ class npc : public Character
         bool drink_from_water_source( const tripoint_bub_ms &water_pos );
         bool consume_food_at( item_location loc );
         bool wear_item_at( item_location loc );
-        bool move_to_and_verify( const tripoint_bub_ms &target, bool no_bashing = false );
+        // one step of spec's walk; false when the NPC didn't move
+        bool move_to_and_verify( const npc_trip_spec &spec );
+        // nullopt when no end tile spec allows is reachable
+        std::optional<npc_trip> resolve_trip( const npc_trip_spec &spec ) const;
+        int trip_route_calls() const {
+            return ai_cache.trip_route_calls;
+        }
         npc_action address_player();
         npc_action long_term_goal_action();
         int evaluate_sleep_spot( tripoint_bub_ms p );
@@ -1322,6 +1335,8 @@ class npc : public Character
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        // get_path_avoid()'s rule for one tile; ignore_creatures skips only the occupant check
+        bool path_avoids( const tripoint_bub_ms &p, bool ignore_creatures ) const;
 
         // Item discovery and fetching
 
@@ -1693,6 +1708,11 @@ class npc : public Character
 
         bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
+
+        std::vector<tripoint_bub_ms> trip_interaction_tiles( const npc_trip_spec &spec ) const;
+        bool trip_endpoint_ok( const tripoint_bub_ms &p ) const;
+        bool trip_step_ok( const tripoint_bub_ms &from, const tripoint_bub_ms &p,
+                           bool no_bashing, bool ignore_occupant = false ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
 

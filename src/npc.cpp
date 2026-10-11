@@ -3832,40 +3832,45 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
 std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
 {
     return [this]( const tripoint_bub_ms & p ) {
-        if( get_creature_tracker().creature_at( p ) ) {
-            return true;
-        }
-        map &here = get_map();
-        if( rules.has_flag( ally_rule::avoid_doors ) && here.open_door( *this, p, true, true ) ) {
-            return true;
-        }
-        if( rules.has_flag( ally_rule::avoid_locks ) &&
-            doors::can_unlock_door( here, *this, p ) ) {
-            return true;
-        }
-        if( here.is_open_air( p ) ) {
-            return true;
-        }
-        if( rules.has_flag( ally_rule::hold_the_line ) &&
-            rl_dist( p, get_avatar().pos_bub() ) == 1 &&
-            ( here.close_door( p, true, true ) ||
-              ( here.move_cost( p ) > 2  &&
-                // Ignore if target location is on same vehicle as the avatar occupies
-                !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
-                   here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
-                       get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
-            return true;
-        }
-        if( sees_dangerous_field( p ) ) {
-            return true;
-        }
-        // pathfinder prices bashing itself. guarding only movement functions would
-        // repath into the same wall every turn.
-        if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
-            return true;
-        }
-        return false;
+        return path_avoids( p, false );
     };
+}
+
+bool npc::path_avoids( const tripoint_bub_ms &p, const bool ignore_creatures ) const
+{
+    if( !ignore_creatures && get_creature_tracker().creature_at( p ) ) {
+        return true;
+    }
+    map &here = get_map();
+    if( rules.has_flag( ally_rule::avoid_doors ) && here.open_door( *this, p, true, true ) ) {
+        return true;
+    }
+    if( rules.has_flag( ally_rule::avoid_locks ) &&
+        doors::can_unlock_door( here, *this, p ) ) {
+        return true;
+    }
+    if( here.is_open_air( p ) ) {
+        return true;
+    }
+    if( rules.has_flag( ally_rule::hold_the_line ) &&
+        rl_dist( p, get_avatar().pos_bub() ) == 1 &&
+        ( here.close_door( p, true, true ) ||
+          ( here.move_cost( p ) > 2  &&
+            // Ignore if target location is on same vehicle as the avatar occupies
+            !( here.veh_at( p ).has_value() && here.veh_at( get_avatar().pos_abs() ) &&
+               here.veh_at( p ).value().vehicle().pos_abs() == here.veh_at(
+                   get_avatar().pos_abs() ).value().vehicle().pos_abs() ) ) ) ) {
+        return true;
+    }
+    if( sees_dangerous_field( p ) ) {
+        return true;
+    }
+    // pathfinder prices bashing itself. guarding only movement functions would
+    // repath into the same wall every turn.
+    if( craft_reservation::bashing_would_break_reservation( here, *this, p ) ) {
+        return true;
+    }
+    return false;
 }
 
 mfaction_id npc::get_monster_faction() const

@@ -878,6 +878,10 @@ class map
          */
         std::vector<tripoint_bub_ms> route( const Creature &who, const pathfinding_target &target ) const;
 
+        // route() could step from cur to p with these settings, level changes included
+        bool can_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                       const pathfinding_settings &settings ) const;
+
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
         std::vector<tripoint_bub_ms> straight_route( const tripoint_bub_ms &f,

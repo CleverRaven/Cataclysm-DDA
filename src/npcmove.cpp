@@ -84,6 +84,7 @@
 #include "npc_attack.h"
 #include "npc_decision_category.h"
 #include "npc_opinion.h"
+#include "npc_trip.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "overmap_location.h"
@@ -3205,7 +3206,7 @@ npc_action npc::address_needs( float danger )
     // Warmth: path to distant ground clothing.
     if( needs_warmth ) {
         for( scored_item &c : find_nearby_warm_clothing() ) {
-            if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+            if( move_to_and_verify( npc_trip_spec::legacy_nearest_passable( c.loc.pos_bub( here ), false ) ) ) {
                 return npc_noop;
             }
         }
@@ -3222,7 +3223,7 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+                if( move_to_and_verify( npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false ) ) ) {
                     return npc_noop;
                 }
             }
@@ -3233,7 +3234,7 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( ws.pos ) ) {
+                if( move_to_and_verify( npc_trip_spec::within_range( ws.pos, 1, false ) ) ) {
                     return npc_noop;
                 }
             }
@@ -3243,7 +3244,7 @@ npc_action npc::address_needs( float danger )
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
-            } else if( move_to_and_verify( h.pos ) ) {
+            } else if( move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
                 return npc_noop;
             }
         }
@@ -3265,7 +3266,7 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( c.loc.pos_bub( here ) ) ) {
+                if( move_to_and_verify( npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false ) ) ) {
                     return npc_noop;
                 }
             }
@@ -3276,7 +3277,7 @@ npc_action npc::address_needs( float danger )
                     return npc_noop;
                 }
             } else {
-                if( move_to_and_verify( ws.pos ) ) {
+                if( move_to_and_verify( npc_trip_spec::within_range( ws.pos, 1, false ) ) ) {
                     return npc_noop;
                 }
             }
@@ -3286,7 +3287,7 @@ npc_action npc::address_needs( float danger )
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
-            } else if( move_to_and_verify( h.pos ) ) {
+            } else if( move_to_and_verify( npc_trip_spec::within_range( h.pos, 1, false ) ) ) {
                 return npc_noop;
             }
         }
@@ -3666,11 +3667,7 @@ bool npc::is_valid_sleep_candidate( const tripoint_bub_ms &p ) const
             return false;
         }
     }
-    if( p == pos_bub() ) {
-        return true;
-    }
-    return !here.route( pos_bub(), pathfinding_target::point( p ),
-                        get_pathfinding_settings( true ), get_path_avoid() ).empty();
+    return resolve_trip( npc_trip_spec::stand_on( p, true ) ).has_value();
 }
 
 bool npc::can_open_door( const tripoint_bub_ms &p, const bool inside ) const
@@ -4236,32 +4233,6 @@ void npc::move_pause()
         }
     }
     pause();
-}
-
-static std::optional<tripoint_bub_ms> nearest_passable( const tripoint_bub_ms &p,
-        const tripoint_bub_ms &closest_to )
-{
-    map &here = get_map();
-    if( here.passable_through( p ) ) {
-        return p;
-    }
-
-    // We need to path to adjacent tile, not the exact one
-    // Let's pick the closest one to us that is passable
-    std::vector<tripoint_bub_ms> candidates = closest_points_first( p, 1 );
-    std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint_bub_ms & l,
-    const tripoint_bub_ms & r ) {
-        return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
-    } );
-    auto iter = std::find_if( candidates.begin(), candidates.end(),
-    [&here]( const tripoint_bub_ms & pt ) {
-        return here.passable_through( pt );
-    } );
-    if( iter != candidates.end() ) {
-        return *iter;
-    }
-
-    return std::nullopt;
 }
 
 void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
@@ -6563,21 +6534,6 @@ bool npc::wear_item_at( item_location loc )
     return wear( loc, false ).has_value();
 }
 
-bool npc::move_to_and_verify( const tripoint_bub_ms &target, bool no_bashing )
-{
-    const std::optional<tripoint_bub_ms> dest = nearest_passable( target, pos_bub() );
-    if( !dest ) {
-        return false;
-    }
-    update_path( *dest, no_bashing );
-    if( path.empty() && rl_dist( pos_bub(), *dest ) > 1 ) {
-        return false;
-    }
-    const tripoint_bub_ms before = pos_bub();
-    move_to_next();
-    return pos_bub() != before;
-}
-
 std::vector<npc::scored_shelter> npc::find_nearby_shelters() const
 {
     std::vector<scored_shelter> results;
@@ -7100,7 +7056,8 @@ npc::need_result npc::execute_seek_warmth()
                     return need_result::progressed;
                 }
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target_bub, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -7120,7 +7077,7 @@ npc::need_result npc::execute_seek_warmth()
                     }
                     return need_result::progressed;
                 }
-            } else if( move_to_and_verify( target_bub, true ) ) {
+            } else if( move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target_bub, true ) ) ) {
                 plan.last_result = need_result::progressed;
                 plan.no_progress_turns = 0;
                 return need_result::progressed;
@@ -7485,7 +7442,7 @@ npc::need_result npc::execute_go_to_sleep()
         plan.last_result = need_result::deferred;
         return need_result::deferred;
     }
-    if( move_to_and_verify( target_bub, true ) ) {
+    if( move_to_and_verify( npc_trip_spec::stand_on( target_bub, true ) ) ) {
         plan.last_result = need_result::progressed;
         plan.no_progress_turns = 0;
         return need_result::progressed;
@@ -7602,7 +7559,8 @@ npc::need_result npc::execute_eat_food()
                     return need_result::satisfied;
                 }
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -7615,7 +7573,8 @@ npc::need_result npc::execute_eat_food()
                 plan.no_progress_turns = 0;
                 return need_result::progressed;
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -7745,7 +7704,8 @@ npc::need_result npc::execute_drink_water()
                     return need_result::satisfied;
                 }
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -7757,7 +7717,8 @@ npc::need_result npc::execute_drink_water()
                 failed.clear();
                 return need_result::satisfied;
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -7770,7 +7731,8 @@ npc::need_result npc::execute_drink_water()
                 plan.no_progress_turns = 0;
                 return need_result::progressed;
             }
-        } else if( low_danger && move_to_and_verify( target_bub, true ) ) {
+        } else if( low_danger &&
+                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
