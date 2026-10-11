@@ -1,17 +1,26 @@
 #include "npc_arbitration.h"
 
 #include <limits>
+#include <map>
 #include <optional>
+#include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "behavior.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_oracle.h"
+#include "debug.h"
 #include "coordinates.h"
 #include "map.h"
+#include "messages.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "npc_decision_category.h"
 #include "npc_trip.h"
+#include "translations.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -261,4 +270,139 @@ bool should_interrupt( const npc_pursuit &current, const npc_challenger &challen
             break;
     }
     return false;
+}
+
+void npc::record_selected_option( const need_goal_id id, const npc_option_cost &cost )
+{
+    npc_intention &in = ai_cache.intention;
+    if( goal_id_for( in.goal ) != id ) {
+        // not a commitment (an address_needs() pick): nothing to record
+        return;
+    }
+    const npc_need_view view = need_view( id, cost );
+    in.verdict = view.verdict;
+    if( view.verdict.permission > in.explained ) {
+        add_msg_debug( debugmode::DF_NPC_NEEDS,
+                       "NPC %s: %s overrides a %s verdict from %s, raw %.2f, floor %.2f",
+                       get_name(), in.goal, permission_name( view.verdict.permission ),
+                       obligation_name( view.verdict.by ), view.raw, view.floor );
+        in.explained = view.verdict.permission;
+        explain_override( id );
+    }
+}
+
+void npc::adopt_goal( const std::string &goal )
+{
+    if( goal.empty() || goal == "idle" ) {
+        ai_cache.intention = {};
+        return;
+    }
+    if( ai_cache.intention.goal == goal ) {
+        return;
+    }
+    ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: adopts %s", get_name(), goal );
+}
+
+void npc::explain_override( const need_goal_id id )
+{
+    std::string issue;
+    std::string speech;
+    switch( id ) {
+        case need_goal_id::drink_water:
+            issue = "need_override_water";
+            speech = _( "I really need some water.  I'll be right back." );
+            break;
+        case need_goal_id::go_to_sleep:
+        case need_goal_id::eat_food:
+        case need_goal_id::seek_warmth:
+            return;
+    }
+    // said even with complaints turned off, unless it would wake the player
+    complain_about( issue, 30_minutes, speech, !get_player_character().in_sleep_state() );
+}
+
+npc_need_view npc::best_need_view( const need_goal_id id )
+{
+    const npc_option_cost in_place = npc_option_cost::in_place( pos_abs() );
+    if( id == need_goal_id::drink_water ) {
+        behavior::character_oracle_t oracle( this );
+        if( oracle.has_water( "" ) == behavior::status_t::running ) {
+            return need_view( id, in_place );
+        }
+        npc_need_view held;
+        held.raw = current_need_urgency( id );
+        const std::set<tripoint_abs_ms> &failed = failed_targets_for( id );
+        for( const need_candidate &c : find_water_candidates() ) {
+            if( failed.count( c.target ) != 0 ) {
+                continue;
+            }
+            const npc_need_view v = need_view( id, water_option_cost( c ) );
+            if( v.eligible() ) {
+                return v;
+            }
+            if( held.kind == npc_option_kind::none ) {
+                held = v;
+            }
+        }
+        return held;
+    }
+    return need_view( id, in_place );
+}
+
+bool npc::may_walk_to( const npc_trip_spec &spec ) const
+{
+    const std::optional<npc_option_cost> cost = trip_cost( spec, true );
+    return cost && judge_option( *cost ).permission == npc_permission::allowed;
+}
+
+npc_pursuit npc::committed_pursuit() const
+{
+    npc_pursuit current;
+    current.goal = ai_cache.intention.goal;
+    if( const std::optional<need_goal_id> gid = goal_id_for( current.goal ) ) {
+        current.cost = interrupt_cost( *gid );
+        const npc_need_view view = need_view( *gid, pursued_option_cost( *gid ) );
+        current.selection = view.selection;
+        current.permitted = view.may_consider();
+    }
+    return current;
+}
+
+std::optional<time_point> npc::last_complaint( const std::string &issue ) const
+{
+    const auto it = complaints.find( issue );
+    if( it == complaints.end() ) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
+bool npc::complaint_due( const std::string &issue, const time_duration &dur ) const
+{
+    const std::optional<time_point> last = last_complaint( issue );
+    return !last || *last < calendar::turn - dur;
+}
+
+void npc::review_self_care_activity()
+{
+    if( const std::optional<need_goal_id> gid = goal_id_for( ai_cache.intention.goal ) ) {
+        const std::optional<npc_option_cost> cost = pursued_option_cost( *gid );
+        const npc_need_view view = need_view( *gid, cost );
+        if( !view.may_consider() ) {
+            clear_committed_goal();
+        } else if( cost ) {
+            // may now be an override: announce it as a walk would
+            record_selected_option( *gid, *cost );
+        }
+        return;
+    }
+    // no pursuit on record (address_needs() or a load): runs only while allowed outright
+    // TODO: the pursuit isn't saved, so a load cancels an emergency harvest that
+    // overrode an obligation; the activity would need to keep its need
+    npc_option_cost here = npc_option_cost::in_place( pos_abs() );
+    here.occupies = true;
+    if( judge_option( here ).permission != npc_permission::allowed ) {
+        cancel_activity();
+    }
 }
