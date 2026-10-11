@@ -3107,14 +3107,14 @@ TEST_CASE( "npc_shopkeeper_sleep_wake_return", "[npc][needs]" )
         CHECK( guy.pos_abs() == post );
     }
 
-    SECTION( "NO_NPC_FOOD caps unscheduled NPC at TIRED" ) {
+    SECTION( "NO_NPC_FOOD caps unscheduled NPC below DEAD_TIRED" ) {
         override_option no_food( "NO_NPC_FOOD", "true" );
         npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
         clear_character( guy, true );
-        guy.set_sleepiness( sleepiness_levels::TIRED );
+        guy.set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) + 50 );
         REQUIRE_FALSE( guy.needs_food() );
         guy.update_needs( 1 );
-        CHECK( guy.get_sleepiness() <= static_cast<int>( sleepiness_levels::TIRED ) );
+        CHECK( guy.get_sleepiness() == static_cast<int>( sleepiness_levels::DEAD_TIRED ) - 1 );
     }
 
     SECTION( "DEAD_TIRED shopkeeper commits to sleep, no oscillation" ) {
