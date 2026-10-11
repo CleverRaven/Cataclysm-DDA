@@ -2532,6 +2532,11 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wounds();
+}
+
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
@@ -2542,7 +2547,7 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 void Character::update_wounds( time_duration time_passed )
 {
     for( auto &bp : body ) {
-        bp.second.update_wounds( time_passed );
+        bp.second.update_wounds( *this, time_passed );
     }
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }

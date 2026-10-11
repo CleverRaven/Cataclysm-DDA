@@ -25,6 +25,7 @@
 #include "weighted_list.h"
 #include "wound.h"
 
+class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
@@ -518,7 +519,7 @@ class bodypart
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );
         void remove_all_wounds_of_type( wound_type_id wd );
-        void update_wounds( time_duration time_passed );
+        void update_wounds( const Character &who, time_duration time_passed );
 
         int get_hp_cur() const;
         int get_hp_max() const;

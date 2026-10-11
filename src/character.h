@@ -4281,6 +4281,8 @@ class Character : public Creature, public visitable
         /** Returns the % of your RDA that amount of vitamin represents */
         int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
 
+        bool has_wounds( const bodypart_str_id &part ) const;
+
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
