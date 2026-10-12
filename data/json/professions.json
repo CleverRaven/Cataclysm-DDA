@@ -8764,6 +8764,8 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
+    "//": "You hurt and killed a LOT of people my guy, you even enjoyed doing it.",
+    "starting_trauma": 1000,
     "age_lower": 16
   },
   {
