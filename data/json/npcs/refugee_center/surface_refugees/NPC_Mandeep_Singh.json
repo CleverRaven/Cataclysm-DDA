@@ -5,6 +5,7 @@
     "name_unique": "Mandeep Singh",
     "gender": "male",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_mandeep_singh",
     "class": "NC_REFUGEE_Mandeep",
     "attitude": 0,
     "mission": "GUARD",

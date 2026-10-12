@@ -542,9 +542,13 @@ void game_ui::init_ui()
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
+#if !defined(__ANDROID__)
+    // On Android the grid follows the orientation, so a portrait grid must not
+    // be stored as landscape size
     get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
+#endif
 #else
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -864,7 +868,7 @@ bool game::start_game()
     start_loc.place_player( u, omtstart );
     // Set spawn location for starting items (maps need it to be readable)
     const tripoint_abs_ms player_pos = u.pos_abs();
-    u.visit_items( [&player_pos]( item * it, item * ) {
+    u.visit_items( [&player_pos]( item_location it ) {
         it->preserve_location( player_pos );
         return VisitResponse::NEXT;
     } );
@@ -1670,7 +1674,7 @@ units::temperature_delta get_heat_radiation( const tripoint_bub_ms &location )
             if( !heat_can_spread ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest, -1, true, los_trace::physical ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
@@ -1706,7 +1710,7 @@ int get_best_fire( const tripoint_bub_ms &location )
             if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest, -1, true, los_trace::physical ) ) {
             continue;
         }
         if( square_dist( dest, location ) <= 1 ) {
@@ -1951,11 +1955,11 @@ static void view_recipe_crafting_menu( const item &it )
     you.craft( std::nullopt, recipe_id(), filterstring );
 }
 
-static hint_rating rate_action_eat( const avatar &you, const item &it )
+static hint_rating rate_action_eat( const avatar &you, const item_location &it )
 {
-    if( it.is_container() ) {
+    if( it->is_container() ) {
         hint_rating best_rate = hint_rating::cant;
-        it.visit_items( [&you, &best_rate]( item * node, item * ) {
+        it.visit_items( [&you, &best_rate]( item_location node ) {
             if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
@@ -1970,11 +1974,11 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume_as_is( it ) ) {
+    if( !you.can_consume_as_is( *it ) ) {
         return hint_rating::cant;
     }
 
-    const auto rating = you.will_eat( it );
+    const auto rating = you.will_eat( *it );
     if( rating.success() ) {
         return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
@@ -2166,7 +2170,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 };
                 addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
                 addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
-                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, locThisItem ) );
                 addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
                 addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
                 addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
@@ -4953,7 +4957,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         newmon_ptr = make_shared_fast<monster>( it.get_mtype()->id );
     }
     monster &critter = *newmon_ptr;
-    critter.init_from_item( it );
+    critter.init_from_item( item_location( map_cursor( p ), &it ) );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
         return false;
@@ -5692,24 +5696,17 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
         bool asking_for_public_goods )
 {
     Character &player_character = get_player_character();
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.pos_abs_omt().xy() );
-    if( !bcp ) {
+    basecamp *actual_camp = basecamp::any_claim_at( player_character.pos_abs_omt() );
+    if( !actual_camp ) {
         return true; // Nobody to piss off
     }
-    basecamp *actual_camp = *bcp;
-    if( actual_camp->get_owner()->limited_area_claim &&
-        player_character.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
-        return true; // outside of claimed area
-    }
+
     if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
         return true; // You're allowed to do this anyway
     }
 
-    // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
-    // TODO: Make this magic number into a constant
-    if( actual_camp->get_owner()->likes_u < -10 ) {
-        return true;
+    if( actual_camp->get_owner()->guaranteed_hostile() ) {
+        return true; // Already trying to kill you.
     }
 
     // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
@@ -6518,6 +6515,7 @@ void game::try_activate_zone_sort_viewport()
     u.zone_sort_viewport.active = true;
     u.zone_sort_viewport.center = bbox.centroid;
     u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.saved_zoom = actor->viewport_saved_zoom;
     u.zone_sort_viewport.bbox_min = bbox.min_corner;
     u.zone_sort_viewport.bbox_max = bbox.max_corner;
     if( !test_mode ) {
@@ -8508,6 +8506,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     here.rebuild_vehicle_level_caches();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
+    here.access_cache( here.get_abs_sub().z() ).map_memory_sweep_pending = true;
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =

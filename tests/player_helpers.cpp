@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -129,6 +128,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
     dummy.set_moves( 0 );
+    dummy.set_trauma( 0 );
     dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );

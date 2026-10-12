@@ -160,6 +160,9 @@ class const_talker
         virtual int get_artifact_resonance() const {
             return 0;
         }
+        virtual int get_trauma() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }
@@ -790,6 +793,7 @@ class talker: virtual public const_talker
         virtual void set_pos( tripoint_bub_ms ) {}
         virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
+        virtual void set_trauma( int ) {}
         virtual void set_str_max( int ) {}
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}

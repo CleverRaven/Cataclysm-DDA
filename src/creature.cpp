@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -100,6 +101,7 @@ static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloody_feet( "bloody_feet" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
 static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
@@ -320,7 +322,15 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
     location = loc;
 }
 
-void Creature::on_move( const tripoint_abs_ms & ) {}
+void Creature::on_move( const tripoint_abs_ms &old_pos )
+{
+    if( old_pos == pos_abs() ) {
+        return;
+    }
+
+    leave_bloody_footprint( old_pos );
+    check_bloody_feet( old_pos );
+}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -349,6 +359,78 @@ void Creature::reset()
 void Creature::bleed( map &here ) const
 {
     here.add_splatter( bloodType(), pos_bub( here ) );
+}
+
+void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos ) const
+{
+    if( has_effect( effect_bloody_feet ) == false ) {
+        return;
+    }
+
+    map &here = get_map();
+
+    // Check if there is already blood or a footprint on the tile
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+    if( blood != nullptr ||
+        fields.find_field( fd_blood_footprint_n ) != nullptr ||
+        fields.find_field( fd_blood_footprint_w ) != nullptr ||
+        fields.find_field( fd_blood_footprint_s ) != nullptr ||
+        fields.find_field( fd_blood_footprint_e ) != nullptr ) {
+        return;
+    }
+
+    // Choose footprint direction
+    direction dir = direction_from( old_pos, pos_abs() );
+
+    field_type_str_id footprint = fd_blood_footprint_s;
+    switch( dir ) {
+        case direction::NORTH:
+            footprint = fd_blood_footprint_n;
+            break;
+        case direction::NORTHWEST:
+        case direction::SOUTHWEST:
+        case direction::WEST:
+            footprint = fd_blood_footprint_w;
+            break;
+        case direction::SOUTH:
+            footprint = fd_blood_footprint_s;
+            break;
+        case direction::NORTHEAST:
+        case direction::SOUTHEAST:
+        case direction::EAST:
+            footprint = fd_blood_footprint_e;
+            break;
+        default:
+            break;
+    }
+
+    // Place footprint
+    here.add_field( here.get_bub( old_pos ), footprint, 1 );
+    //get_effect( effect_bloody_feet ).set_duration(get_effect( effect_bloody_feet ).get_duration() - 1_turns);
+}
+
+void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
+{
+    if( has_effect( effect_bloody_feet ) ) {
+        return;
+    }
+    map &here = get_map();
+
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+
+    if( blood != nullptr ) {
+        time_duration dur = 3_turns;
+        if( blood->get_field_intensity() <= 1 ) {
+            return;
+        } else if( blood->get_field_intensity() == 2 ) {
+            dur = 3_turns;
+        } else if( blood->get_field_intensity() >= 3 ) {
+            dur = 5_turns;
+        }
+        add_effect( effect_bloody_feet, dur );
+    }
 }
 
 void Creature::reset_bonuses()
@@ -1881,6 +1963,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             e.clamp_intensity();
             if( e.get_intensity() != prev_int ) {
                 on_effect_int_change( eff_id, e.get_intensity(), bp );
+
+                if( Character *ch = as_character() ) {
+                    get_event_bus().send<event_type::character_effect_intensity_changed>(
+                        ch->getID(), bp.id(), eff_id, e.get_intensity()
+                    );
+                }
             }
         }
     }

@@ -440,6 +440,8 @@ Each sub-generator object has the following fields:
 | --------------------- | ------------------------------------------------------------------------------------- |
 | `type`                | Required.  One of the types listed below.                                             |
 | `ter_furn_transform_used` | Used only if `type` is `ter_furn_transform`.                                      |
+| `filter`              | Used only if `type` is `modify_items`,                                                |
+| `mod`                 | Used only if `type` is `modify_items`.                                                |
 | `attempts`            | Number of times this effect is attempted.  Default 0.                                 |
 | `chance`              | Per-attempt probability.  Meaning varies by type (see below).  Default 0.             |
 | `min_intensity`       | Minimum intensity for the effect.  Default 0.                                         |
@@ -495,6 +497,7 @@ falls through to the original per-OMT fresh-roll behavior.  No migration needed.
 | `pre_burn`        | Replaces an entire OMT with burnt terrain variants -- walls become `t_wall_burnt`, floors become `t_floor_burnt`, furniture and items are destroyed.  Chance is computed from `scaling_days_start`/`scaling_days_end` and intensity.  Stairs (GOES_UP/GOES_DOWN) are preserved.  `chance` must be 0 (it is derived internally). |
 | `place_blood`     | Places blood streaks, pools, and splatter.  `chance` is permille [0-1000] per attempt.  Outdoor blood fades over 30 days. |
 | `ter_furn_transform`  | Applies `ter_furn_transform_used` on every tile in map. `chance` is percent chance to apply (remember the default chance value, if undefined, is 0) |
+| `modify_items`  | Applies `modify_items` on every tile in map. `filter` allows to define the items affected |
 | `aftershock_ruin`  | Runs the Aftershock ruin generator.  All numeric fields are ignored. |
 
 ### Built-in generators
@@ -504,6 +507,40 @@ falls through to the original per-OMT fresh-roll behavior.  No migration needed.
 | `riot_damage`        | Full riot damage: bash, item displacement, fire, pre-burn, and blood.  `pre_burn` uses `overmap_special` scope.  | Most city buildings (via `generic_city_building`). |
 | `riot_damage_road`   | Same as `riot_damage` but without `pre_burn`.  | City roads (hardcoded dispatch). |
 | `aftershock_ruin`    | Aftershock ruin effect.  | Aftershock mod buildings with `PP_GENERATE_RUINED` flag. |
+
+
+### Specific fields of some generators:
+
+#### ter_furn_transform
+| Id | Description |
+| --- | --- |
+| `ter_furn_transform_used` | Id of a ter_furn_transform that will be applied on tile |
+
+```jsonc
+  {
+    "type": "pp_generator",
+    "id": "pp_test_apply_some_ter_furn_transform",
+    "sub_generators": [ { "type": "ter_furn_transform", "ter_furn_transform_used": "super_fungalize" } ]
+  }
+```
+
+#### modify_items
+| Id | Description |
+| --- | --- |
+| `filter` | object, allows to specify the type of items that will be affected by generator. Can be omitted, in which case all items will be affected |
+| `category` | used within `filter`, allows to specify the category of items that will be modified by generator |
+| `mod` | object, allows to specify how the items will be affected |
+| `delete_chance` | used within `mod`, chance from 0 to 100 to delete the item matched. default is 100 |
+
+```jsonc
+  {
+    "type": "pp_generator",
+    "id": "pp_test_remove_half_of_guns",
+    "sub_generators": [
+      { "type": "modify_items", "filter": { "category": "guns" }, "mod": { "delete_chance": 50 } },
+    ]
+  }
+```
 
 ## Overmap Vision
 

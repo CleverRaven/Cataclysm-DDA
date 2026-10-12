@@ -2,17 +2,26 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "cata_catch.h"
 #include "cata_imgui.h"
+#include "cata_scope_helpers.h"
 #include "cata_tiles.h"
+#include "cursesport.h"
+#include "font_loader.h"
+#include "imgui/imgui.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "point.h"
 #include "sdl_renderer_recovery.h"
+#include "sdltiles.h"
+
+class Font;
 
 namespace
 {
@@ -623,6 +632,55 @@ TEST_CASE( "renderer_coordinator_resize_failure_persists_retry", "[tiles][render
     CHECK( renderer_coordinator.is_render_allowed() );
 }
 
+TEST_CASE( "renderer_coordinator_resize_retry_keeps_ui_relayout", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    int win_w = 0;
+    int win_h = 0;
+    int font_w = 0;
+    int font_h = 0;
+    int scaling = 0;
+    int min_term_w = 0;
+    int min_term_h = 0;
+    renderer_recovery_test_support::current_window_metrics( win_w, win_h, font_w, font_h, scaling,
+            min_term_w, min_term_h );
+    REQUIRE( font_w > 0 );
+    REQUIRE( font_h > 0 );
+    // bail the resize at each gate in turn. each pass grows the window by two
+    // cells, so every pass is a real terminal layout change
+    int window_w = std::max( win_w, ( min_term_w + 2 ) * font_w );
+    const int window_h = std::max( win_h, ( min_term_h + 2 ) * font_h );
+    int gates_swept = 0;
+    for( int phase = 1; phase <= 32; ++phase ) {
+        window_w += 2 * font_w;
+        CAPTURE( phase, window_w, window_h );
+        const uint64_t relayouts_before = renderer_recovery_test_support::ui_relayout_count();
+        renderer_recovery_test_support::set_scaling_and_resize_window( 1, window_w, window_h );
+        renderer_recovery_test_support::arm_phase_fail_retry( phase );
+        renderer_coordinator.drain_pending();
+        const bool fired = renderer_recovery_test_support::phase_fault_fired();
+        if( fired ) {
+            // failed attempt should not render or tell UI early
+            CHECK_FALSE( renderer_coordinator.is_render_allowed() );
+            CHECK( renderer_recovery_test_support::ui_relayout_count() == relayouts_before );
+            // next drain finishes the resize from wherever it bailed
+            renderer_coordinator.drain_pending();
+            ++gates_swept;
+        }
+        REQUIRE( renderer_coordinator.is_render_allowed() );
+        CHECK( renderer_recovery_test_support::ui_relayout_count() == relayouts_before + 1 );
+        if( !fired ) {
+            break;
+        }
+    }
+    // Gate 1 is before the layout change, the rest are after
+    CHECK( gates_swept >= 2 );
+}
+
 TEST_CASE( "renderer_coordinator_deferred_scaled_resize_rebuilds_buffer",
            "[tiles][renderer_recovery]" )
 {
@@ -1096,6 +1154,149 @@ TEST_CASE( "lookup_skips_a_bundle_superseded_by_a_forced_reload",
                      "synthetic_superseded_ts", "color_pixel_sepia_light",
                      renderer_coordinator.instance_generation(),
                      renderer_coordinator.textures_generation() ) );
+}
+
+TEST_CASE( "renderer_coordinator_blanking_drain_asks_for_repaint", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    GIVEN( "nothing pending" ) {
+        renderer_coordinator.drain_pending();
+        THEN( "no repaint requested" ) {
+            CHECK_FALSE( renderer_coordinator.take_repaint_request() );
+        }
+    }
+    GIVEN( "a resize that rebuilds the display buffer" ) {
+        renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+        renderer_coordinator.drain_pending();
+        REQUIRE( renderer_coordinator.is_render_allowed() );
+        THEN( "exactly one repaint is requested" ) {
+            CHECK( renderer_coordinator.take_repaint_request() );
+            CHECK_FALSE( renderer_coordinator.take_repaint_request() );
+        }
+    }
+    GIVEN( "a blanking drain followed by another resize before any redraw" ) {
+        renderer_recovery_test_support::set_scaling_and_resize_window( 2, 802, 602 );
+        renderer_coordinator.drain_pending();
+        renderer_coordinator.notify_resize();
+        REQUIRE_FALSE( renderer_coordinator.is_render_allowed() );
+        THEN( "the repaint waits until drawing is allowed again" ) {
+            CHECK_FALSE( renderer_coordinator.take_repaint_request() );
+            renderer_coordinator.drain_pending();
+            REQUIRE( renderer_coordinator.is_render_allowed() );
+            CHECK( renderer_coordinator.take_repaint_request() );
+        }
+    }
+    GIVEN( "render targets reset" ) {
+        renderer_coordinator.request_recovery( renderer_recovery_severity::targets_reset );
+        renderer_coordinator.drain_pending();
+        REQUIRE( renderer_coordinator.is_render_allowed() );
+        THEN( "exactly one repaint is requested" ) {
+            CHECK( renderer_coordinator.take_repaint_request() );
+            CHECK_FALSE( renderer_coordinator.take_repaint_request() );
+        }
+    }
+}
+
+TEST_CASE( "imgui_font_reload_reaches_the_renderer", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    restore_on_out_of_scope restore_height( fontheight );
+    fontheight = 16;
+    const std::vector<font_config> gui = { font_config( "data/font/Roboto-Medium.ttf" ) };
+    const std::vector<font_config> mono = { font_config( "data/font/Terminus.ttf" ) };
+    renderer_recovery_test_support::with_imgui_client( gui, mono, [&]( cataimgui::client & client ) {
+        restore_on_out_of_scope restore_inner_height( fontheight );
+        ImGuiIO &io = ImGui::GetIO();
+        const auto frame_with_text = [&client]() {
+            client.new_frame( 640, 384 );
+            ImGui::Begin( "font_reload" );
+            ImGui::TextUnformatted( "MMMMMMMMMM" );
+            ImGui::End();
+            client.end_frame();
+        };
+        frame_with_text();
+        REQUIRE_FALSE( client.fonts_reloaded_this_frame() );
+        const ImTextureData *old_tex = io.Fonts->TexData;
+        fontheight = 24;
+        client.reload_fonts( gui, mono );
+        frame_with_text();
+        CHECK( client.fonts_reloaded_this_frame() );
+        CHECK( io.Fonts->Fonts[0]->LegacySize == 24.0f );
+        // the rebuilt atlas is a new texture that went through the backend
+        const ImTextureData *tex = io.Fonts->TexData;
+        REQUIRE( tex != nullptr );
+        CHECK( tex != old_tex );
+        CHECK( tex->Status == ImTextureStatus_OK );
+        CHECK( tex->GetTexID() != ImTextureID_Invalid );
+    } );
+}
+
+TEST_CASE( "terminal_font_rebuild_changes_cell_or_keeps_state", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    const std::vector<font_config> faces = { font_config( "data/font/Terminus.ttf" ) };
+    // FontFallbackList throws on empty list; missing path may resolve to a fallback
+    const std::vector<font_config> no_faces;
+    REQUIRE( renderer_recovery_test_support::rebuild_terminal_fonts( point( 8, 16 ), 16, faces,
+             faces ) );
+    const point before = renderer_recovery_test_support::terminal_cell();
+    const Font *font_before = renderer_recovery_test_support::terminal_font();
+    const Font *gui_before = renderer_recovery_test_support::terminal_gui_font();
+    GIVEN( "faces that load" ) {
+        THEN( "the cell becomes the new size" ) {
+            REQUIRE( renderer_recovery_test_support::rebuild_terminal_fonts( point( 12, 24 ), 24, faces,
+                     faces ) );
+            CHECK( renderer_recovery_test_support::terminal_cell() == point( 12, 24 ) );
+        }
+    }
+    GIVEN( "no terminal face that loads" ) {
+        THEN( "both font roots and the cell stay as they were" ) {
+            CHECK_FALSE( renderer_recovery_test_support::rebuild_terminal_fonts( point( 12, 24 ), 24,
+                         no_faces, faces ) );
+            CHECK( renderer_recovery_test_support::terminal_cell() == before );
+            CHECK( renderer_recovery_test_support::terminal_font() == font_before );
+            CHECK( renderer_recovery_test_support::terminal_gui_font() == gui_before );
+        }
+    }
+    GIVEN( "terminal font builds, gui font fails" ) {
+        THEN( "neither live font changes" ) {
+            CHECK_FALSE( renderer_recovery_test_support::rebuild_terminal_fonts( point( 12, 24 ), 24,
+                         faces, no_faces ) );
+            CHECK( renderer_recovery_test_support::terminal_cell() == before );
+            CHECK( renderer_recovery_test_support::terminal_font() == font_before );
+            CHECK( renderer_recovery_test_support::terminal_gui_font() == gui_before );
+        }
+    }
+}
+
+TEST_CASE( "renderer_coordinator_font_change_redraws_in_full", "[tiles][renderer_recovery]" )
+{
+    software_render_fixture fx;
+    if( !fx.available() ) {
+        WARN( "dummy SDL video backend unavailable; skipping" );
+        return;
+    }
+    // same cell size, so the display buffer keeps its dims: only the glyphs change
+    const point cell = renderer_recovery_test_support::terminal_cell();
+    const std::vector<font_config> faces = { font_config( "data/font/Terminus.ttf" ) };
+    REQUIRE( renderer_recovery_test_support::rebuild_terminal_fonts( cell, cell.y, faces, faces ) );
+    const unsigned epoch_before = cata_cursesport::curses_render_epoch;
+    renderer_coordinator.notify_resize();
+    renderer_coordinator.drain_pending();
+    REQUIRE( renderer_coordinator.is_render_allowed() );
+    CHECK( cata_cursesport::curses_render_epoch == epoch_before + 1 );
 }
 
 #endif // TILES

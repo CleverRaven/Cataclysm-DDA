@@ -36,7 +36,6 @@ Format:
   "name": { "str": "Example NPC" },                                        // Mandatory, display name for this class.
   "job_description": "I'm helping you learn the game.",                    // Mandatory
   "common": false,                                                         // Optional, defaults true. Whether or not this class can appear via random generation. Randomly generated NPCs will have skills, proficiencies, and bionics applied to them as a default new player character would.
-  "portrait_filename": "Named_NPC_Smokes",                                 // Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
   "common_spawn_weight": 1.5,                                              // Optional (float), default 1.0 . For classes with common, this is how often they spawn. Higher numbers spawn more often.
   "sells_belongings": false,                                               // Optional. See [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
   "bonus_str": { "rng": [ -4, 0 ] },                                       // Optional. Modifies stat by the given value. This example shows a random distribution between -4 and 0.
@@ -174,6 +173,7 @@ Format:
   "id": "examplicious",
   "//": "The luckiest NPC to never experience the Cataclysm.",
   "name_suffix": "examplar",
+  "portrait_filename": "Named_NPC_Smokes",
   "class": "NC_EXAMPLE",
   "attitude": 0,
   "mission": 7,
@@ -200,6 +200,7 @@ This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen
 |---    | ---
 | `name_unique` | Set name of NPC.
 | `name_suffix` | Set name suffix of NPC.
+| `portrait_filename` | Optional, whether this NPC has a unique graphical portrait. Value is the ID of the portrait. If unspecified, NPCs will receive a portrait ID of GENERIC_MALE_PORTRAITXXXXXXXXXXXX or GENERIC_FEMALE_PORTRAITXXXXXXXXXXXX where the X's can be any string of characters. (Portraits will be assigned by gender of the NPC).
 | `attitude`    | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `0=NPCATT_NULL`, `1=NPCATT_TALK`, `3=NPCATT_FOLLOW`, `10=NPCATT_KILL`, and `11=NPCATT_FLEE`.
 | `mission`     | _(mandatory)_ Based on the enum in `npc.h`. The important ones are `NULL`, `SHOPKEEP`, `GUARD`, and `GUARD_PATROL`.
 | `chat`        | _(mandatory)_ Covered in the dialogue examples below.
@@ -1489,6 +1490,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
 | quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
 | gender() |  ✅  |  ✅  | u, n | Character's current gender. (Boolean value currently. Value is 1/true for male, 0/false for female).<br/><br/>Examples:<br/>`"condition: { "math": [ " u_gender() == 1 " ] }`<br/>`{ "math": [ "u_gender() = 0" ] }` |
+| trauma() |  ✅  |  ✅  | u, n | Character's current trauma. A counter for how much trauma the character has been exposed to. Values are clamped to the range [0-1000].<br/><br/>Examples:<br/>`"condition: { "math": [ "u_trauma() == 1000 " ] }`<br/>`{ "math": [ "n_trauma() = 0" ] }` |
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.

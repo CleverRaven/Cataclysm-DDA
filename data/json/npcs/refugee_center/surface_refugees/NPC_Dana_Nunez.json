@@ -5,6 +5,7 @@
     "name_unique": "Dana Nunez",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_dana_nunez",
     "class": "NC_REFUGEE_Dana",
     "attitude": 0,
     "mission": "GUARD",

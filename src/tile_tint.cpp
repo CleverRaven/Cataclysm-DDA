@@ -20,7 +20,7 @@ std::optional<tile_tint> compute_tile_tint( const light_color_rgb &lc, const flo
     // Alpha: ratio of saturated energy to total scalar light. subtle under
     // bright ambient, vivid in darkness
     const float ratio = scalar_light > 0.1f ? std::min( 1.0f, sat_mag / scalar_light ) : 0.0f;
-    const uint8_t alpha = static_cast<uint8_t>( ratio * 80.0f );
+    const uint8_t alpha = static_cast<uint8_t>( ratio * tint_max_alpha );
     if( alpha == 0 ) {
         return std::nullopt;
     }

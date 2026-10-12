@@ -353,6 +353,8 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
                     you.add_msg_if_player( m_good, SNIPPET.random_from_category(
                                                "msg_human_dissection_no_prof" ).value_or( translation() ).translated() );
                     you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
+                    // Some trauma. You are methodically cutting a person up.
+                    you.mod_trauma( 5 );
                 }
             } else {
                 // standard refusal to butcher
@@ -367,6 +369,8 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
                 you.add_msg_if_player( m_good, SNIPPET.random_from_category(
                                            "msg_human_butchery" ).value_or( translation() ).translated() );
                 you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
+                // LOTS of trauma. You are butchering a person.
+                you.mod_trauma( 10 );
             }
         } else {
             if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {

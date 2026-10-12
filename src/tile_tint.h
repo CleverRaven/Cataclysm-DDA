@@ -7,7 +7,10 @@
 
 struct light_color_rgb;
 
-// per-tile colored-light tint: normalized hue + strength in [0, 80]
+// tile_tint::a of a light that is all colored
+constexpr float tint_max_alpha = 80.0f;
+
+// per-tile colored-light tint: normalized hue + strength in [0, tint_max_alpha]
 struct tile_tint {
     uint8_t r = 0;
     uint8_t g = 0;
@@ -16,7 +19,7 @@ struct tile_tint {
 };
 
 // chromatic residual of the light color, normalized to full brightness, with
-// strength = min(1, saturation / scalar) * 80. nullopt when the light is white,
+// strength = min(1, saturation / scalar) * tint_max_alpha. nullopt when the light is white,
 // too weak, or the scalar light is at or below 0.1
 std::optional<tile_tint> compute_tile_tint( const light_color_rgb &lc, float scalar_light );
 

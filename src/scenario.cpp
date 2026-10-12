@@ -584,7 +584,7 @@ bool scenario::get_reveal_locale() const
     return reveal_locale;
 }
 
-bool scenario::get_distance_initial_visibility() const
+int scenario::get_distance_initial_visibility() const
 {
     return distance_initial_visibility;
 }

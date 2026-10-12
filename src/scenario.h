@@ -115,7 +115,7 @@ class scenario
 
         bool has_hard_requirement() const;
         bool get_reveal_locale() const;
-        bool get_distance_initial_visibility() const;
+        int get_distance_initial_visibility() const;
 
         void normalize_calendar() const;
         void reset_calendar() const;

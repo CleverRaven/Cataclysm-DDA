@@ -4552,6 +4552,30 @@
   },
   {
     "type": "city_building",
+    "id": "charging_station_2x2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "charging_station_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "charging_station_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "charging_station_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "charging_station_1_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "charging_station_2x2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "charging_station_roofed_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "charging_station_roofed_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "charging_station_roofed_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "charging_station_roofed_1_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "charging_station_roof_0_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "charging_station_roof_1_0_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "parking_lot_2x1",
     "locations": [ "land" ],
     "overmaps": [

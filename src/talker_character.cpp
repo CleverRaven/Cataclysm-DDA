@@ -125,6 +125,11 @@ units::temperature talker_character_const::get_cur_part_temp( const bodypart_id 
     return me_chr_const->get_part_temp_conv( bp );
 }
 
+int talker_character_const::get_trauma() const
+{
+    return me_chr_const->get_trauma();
+}
+
 int talker_character_const::get_artifact_resonance() const
 {
     return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
@@ -178,6 +183,11 @@ void talker_character::set_pos( tripoint_bub_ms new_pos )
 void talker_character::set_pos( tripoint_abs_ms new_pos )
 {
     me_chr->setpos( new_pos );
+}
+
+void talker_character::set_trauma( int value )
+{
+    me_chr->set_trauma( value );
 }
 
 void talker_character::set_str_max( int value )

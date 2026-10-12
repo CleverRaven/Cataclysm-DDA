@@ -1206,15 +1206,12 @@ bool outfit::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
     return false;
 }
 
-std::list<item> outfit::remove_worn_items_with( const std::function<bool( item & )> &filter,
+std::list<item> outfit::remove_worn_items_with( const std::function<bool( const item & )> &filter,
         Character &guy )
 {
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
-            if( iter->can_unload() ) {
-                iter->spill_contents( guy );
-            }
             iter->on_takeoff( guy );
             result.splice( result.begin(), worn, iter++ );
         } else {
@@ -1734,7 +1731,7 @@ std::list<item> outfit::use_amount( const itype_id &it, int quantity,
 {
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
         if( !craft_reservation::contains_reserved( *a ) &&
-            a->use_amount( it, quantity, used, filter ) ) {
+            a->use_amount( item_location( wearer, &*a ), it, quantity, used, filter ) ) {
             a->on_takeoff( wearer );
             a = worn.erase( a );
         } else {
@@ -2035,7 +2032,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
     for( item &clothing : worn ) {
-        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
+        std::vector<item *> guns = item_location( guy, &clothing ).items_with( []( const item & it ) {
             return it.is_gun();
         } );
 

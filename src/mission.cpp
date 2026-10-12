@@ -22,6 +22,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "monster.h"
@@ -150,7 +151,7 @@ std::unordered_set<itype_id> present_mission_items( const std::unordered_set<ity
     }
 
     avatar &player_character = get_avatar();
-    player_character.visit_items( [&]( item * it, item * ) {
+    player_character.visit_items( [&]( item_location it ) {
         if( targets.count( it->typeId() ) != 0 ) {
             result.insert( it->typeId() );
         }

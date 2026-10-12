@@ -401,7 +401,7 @@
       [
         [ "tobacco", 50 ],
         [ "cig", 50 ],
-        [ "cig_butt", 100 ],
+        [ "cig_butt", 500 ],
         [ "cigar", 10 ],
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 70 ]

@@ -41,5 +41,57 @@
       { "item": "seasoning_italian" },
       { "group": "seasonings_any_salt_pepper" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_any_condiment_or_sauce",
+    "//COMMENT": "No spreadables! (butter/nutella/etc)",
+    "items": [
+      { "item": "soysauce" },
+      { "item": "barbecue_sauce" },
+      { "item": "hot_sauce" },
+      { "item": "honey_mustard" },
+      { "item": "mustard" },
+      { "item": "ketchup" },
+      { "item": "mayonnaise" },
+      { "item": "horseradish" },
+      { "item": "sauerkraut" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_any_spreadable",
+    "//COMMENT": "Do you put it on the food with a knife or brush? Then it's a spreadable.",
+    "items": [
+      { "item": "butter" },
+      { "item": "vegan_butter" },
+      { "item": "ghee" },
+      { "item": "raw_butter" },
+      { "item": "peanutbutter" },
+      { "item": "marshmallow_fluff" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_any_condiment_sauce_or_spreadable",
+    "//COMMENT": "Basically any kind of liquid or spread, whether it be dippable, spreadable, or er... squirtable.",
+    "items": [ { "group": "seasonings_any_condiment_or_sauce" }, { "group": "seasonings_any_spreadable" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_sandwich",
+    "//COMMENT": "SANDWICHES GO WITH EVERYTHING! WOOHOO!",
+    "items": [ { "group": "seasonings_any_condiment_sauce_or_spreadable" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "seasonings_I_LOVE_CHOLESTEROL",
+    "//COMMENT": "For the madmen putting this on bread.",
+    "items": [ { "item": "cooking_oil" } ]
   }
 ]

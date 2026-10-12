@@ -31,6 +31,7 @@
 #include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -190,6 +191,9 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
+static const itype_id itype_iso_material_disc_ammo( "iso_material_disc_ammo" );
+static const itype_id itype_iso_material_disc_basic( "iso_material_disc_basic" );
+static const itype_id itype_iso_material_disc_quality( "iso_material_disc_quality" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
@@ -370,6 +374,75 @@ void iexamine::change_appearance( Character &you, const tripoint_bub_ms & )
     }
 }
 
+void iexamine::iso_recycler( Character &, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+    map_cursor cur = map_cursor( examp );
+    std::vector<item_location> recyclables;
+    units::mass ammo_mass = 0_gram;
+    int basic_count = 0;
+    int premium_count = 0;
+    bool chastize = false;
+
+    cur.visit_items( [&basic_count, &ammo_mass, &premium_count, &chastize,
+                  &recyclables ]( const item_location & it ) {
+
+        if( it->is_ammo() ) {
+            const damage_instance &dam = it->ammo_data()->ammo->damage;
+            dam.total_damage() > 12 ? ammo_mass += it->weight() * 0.6 : ammo_mass += it->weight() * 0.05;
+            recyclables.emplace_back( it );
+        } else if( it->is_gun() || it->is_magazine() ) {
+            //Recycling contained ammo
+            if( it->has_ammo() ) {
+                const item &ammo = it->first_ammo();
+                const damage_instance &dam = ammo.ammo_data()->ammo->damage;
+                dam.total_damage() > 12 ? ammo_mass += ammo.weight() * 0.6 : ammo_mass += ammo.weight() * 0.05;
+
+            }
+            //Recycling the gun
+            if( !it->ammo_default().is_null() ) {
+                const damage_instance &damd = it->ammo_default()->ammo->damage;
+                if( damd.total_damage() > 30 ) {
+                    premium_count++;
+                    recyclables.emplace_back( it );
+
+                } else if( damd.total_damage() > 5 ) {
+                    basic_count++;
+                    recyclables.emplace_back( it );
+
+                }
+            } else {
+                chastize = true;
+            }
+        } else {
+            chastize = true;
+
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    if( chastize ) {
+        add_msg( _( "Non recyclables detected.  Please clasify residues properly." ) );
+    }
+
+    for( item_location it : recyclables ) {
+        it.remove_item();
+    }
+
+    if( premium_count > 0 ) {
+        here.spawn_item( examp, itype_iso_material_disc_quality, premium_count, 0, calendar::turn );
+    }
+    if( basic_count > 0 ) {
+        here.spawn_item( examp, itype_iso_material_disc_basic, basic_count, 0, calendar::turn );
+    }
+    if( ammo_mass / itype_iso_material_disc_ammo->weight > 1 ) {
+        here.spawn_item( examp, itype_iso_material_disc_ammo,
+                         ammo_mass / itype_iso_material_disc_ammo->weight, 0, calendar::turn );
+    }
+
+}
+
+
 /**
 * Remove the current threshold and devolve all post thresh mutations to their pre threshold level, unless the new threshold is compatible.
 */
@@ -409,11 +482,12 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
     std::vector<trait_id>available_traits;
     std::vector<item_location> genetech;
 
-    for( item_location &loc : you.all_items_loc() ) {
+    you.visit_items( [&genetech]( const item_location & loc ) {
         if( loc->has_flag( flag_GENE_TECH ) ) {
             genetech.push_back( loc );
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
 
     if( genetech.empty() ) {
@@ -4516,12 +4590,13 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint_bub_ms &examp )
     const std::string maple_sap_name = item::nname( itype_maple_sap );
 
     map &here = get_map();
+    const map_cursor cur( examp );
     map_stack items = here.i_at( examp );
     for( item &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
+            item_location( cur, container ).visit_items( [&charges, &has_sap]( const item_location & it ) {
                 if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
@@ -4920,7 +4995,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     place_item( moved );
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
-    if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
+    if( opt.ammo.get_item()->use_charges( opt.ammo, opt_type->get_id(), amount, used,
                                           opt.ammo.pos_bub( here ) ) ) {
         opt.ammo.remove_item();
     }
@@ -5851,7 +5926,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     } else {
         const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( qual_ANESTHESIA );
+            return it.get_quality( qual_ANESTHESIA ) > 0;
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining( ) >= 1 ) {
@@ -7454,6 +7529,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
     static const std::map<std::string, function_data> function_map = {{
             { "none", { no_translation( "none" ), &iexamine::none } },
             { "deployed_furniture", { to_translation( "Take down or deploy furniture" ), &iexamine::deployed_furniture } },
+            { "iso_recycler", { to_translation( "Use recycler" ), &iexamine::iso_recycler } },
             { "change_appearance", { to_translation( "Change your appearance" ), &iexamine::change_appearance } },
             { "genemill", { to_translation( "Use genemill" ), &iexamine::genemill } },
             { "nanofab", { to_translation( "Use nanofab" ), &iexamine::nanofab } },

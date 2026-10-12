@@ -273,10 +273,47 @@ task createWindowsJunctionLinks() {
     }
 }
 
+// asset list for the installer, so it needn't walk the APK. rules mirror aapt
+// packaging: default ignore patterns, .gz files stored without the suffix, no broken links
+def assetFileListDir = "$buildDir/generated/assetFileList"
+task generateAssetFileList {
+    dependsOn makeLocalization
+    dependsOn createWindowsJunctionLinks
+    def listFile = file("$assetFileListDir/android/asset_files.txt")
+    outputs.file listFile
+    outputs.upToDateWhen { false }
+    doLast {
+        def assetRoot = file(OperatingSystem.current() == OperatingSystem.WINDOWS ? assetsDirWindows : assetsDir)
+        def packaged = { String name, boolean isDir ->
+            def lower = name.toLowerCase()
+            !( lower.startsWith('.') || ( isDir && lower.startsWith('_') ) ||
+               lower in ['cvs', 'thumbs.db', 'picasa.ini'] || lower.endsWith('.scc') || lower.endsWith('~') )
+        }
+        def assetFiles = new TreeSet<String>()
+        def walk
+        walk = { File dir, String path ->
+            dir.listFiles().each { File child ->
+                String childPath = path + "/" + child.name
+                if (child.isDirectory()) {
+                    if (packaged(child.name, true)) {
+                        walk(child, childPath)
+                    }
+                } else if (child.isFile() && packaged(child.name, false)) {
+                    assetFiles << ( childPath.toLowerCase().endsWith('.gz') ? childPath[0..-4] : childPath )
+                }
+            }
+        }
+        ['data', 'gfx', 'lang'].each { top -> walk(new File(assetRoot, top), top) }
+        listFile.parentFile.mkdirs()
+        listFile.text = assetFiles.join('\n') + '\n'
+    }
+}
+
 preBuild.dependsOn fetchSdl3Aars
 preBuild.dependsOn makeLocalization
 preBuild.dependsOn generateVersionHeader
 preBuild.dependsOn createWindowsJunctionLinks
+preBuild.dependsOn generateAssetFileList
 createWindowsJunctionLinks.dependsOn makeLocalization
 
 android {
@@ -445,6 +482,7 @@ android {
     if (OperatingSystem.current() == OperatingSystem.WINDOWS) {
         sourceSets.main.assets.srcDirs = ['src/main/assetsWinHost']
     }
+    sourceSets.main.assets.srcDir assetFileListDir
 
     if (buildAsLibrary) {
         libraryVariants.all { variant ->

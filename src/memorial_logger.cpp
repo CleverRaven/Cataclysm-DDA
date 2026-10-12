@@ -382,9 +382,9 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //Inventory
     file << _( "Inventory:" ) << eol;
     u.visit_items(
-    [&file, &indent]( item * node, item * parent ) {
+    [&file, &indent]( item_location node ) {
         // your "inventory" is all items inside of other items.
-        if( parent != nullptr && !node->is_gunmod() && !node->is_magazine() && !node->is_ammo() &&
+        if( node.has_parent() && !node->is_gunmod() && !node->is_magazine() && !node->is_ammo() &&
             !node->made_of( phase_id::LIQUID ) ) {
             file << indent << node->invlet << " - " << node->tname();
             if( node->charges > 0 ) {
@@ -571,6 +571,8 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::character_effect_intensity_changed:
+            break;
         case event_type::character_kills_character: {
             character_id ch = e.get<character_id>( "killer" );
             if( ch == avatar_id ) {

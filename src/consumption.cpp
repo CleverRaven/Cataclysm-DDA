@@ -927,13 +927,14 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
-    if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
-    }
-    if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
-        return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
-    }
+
     if( consume_drug != nullptr ) { //its a drug)
+        if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+        }
+        if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
+        }
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
         for( const auto &tool : consume_drug_use->tools_needed ) {
@@ -1260,7 +1261,12 @@ static bool eat( item &food, Character &you, bool force )
     // the inventory and the surrounding map.
     if( !seasonings_set.empty() ) {
         auto legal_to_consume = [&]( const item & it ) {
-            return it.is_owned_by( you ) && ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
+            // For performance reasons this has been ordered so that the cheapest checks run first, to discount as many inappropriate items as early as possible.
+            // Character::will_eat() is extra expensive, so it goes last.
+            return it.is_owned_by( you ) &&
+                   !it.rotten() &&
+                   ( seasonings_set.find( it.typeId() ) != seasonings_set.end() ) &&
+                   you.will_eat( it ).success();
         };
 
         auto fun_value = [&]( const item_location & it ) {
@@ -1890,10 +1896,10 @@ bool Character::can_consume_as_is( const item &it ) const
     return false;
 }
 
-item &Character::get_consumable_from( item &it ) const
+item_location Character::get_consumable_from( const item_location &it ) const
 {
-    item *ret = nullptr;
-    it.visit_items( [&]( item * it, item * ) {
+    item_location ret;
+    it.visit_items( [&]( const item_location & it ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;
@@ -1901,14 +1907,7 @@ item &Character::get_consumable_from( item &it ) const
         return VisitResponse::NEXT;
     } );
 
-    if( ret != nullptr ) {
-        return *ret;
-    }
-
-    static item null_comestible;
-    // Since it's not const.
-    null_comestible = item();
-    return null_comestible;
+    return ret;
 }
 
 time_duration Character::get_consume_time( const item &it ) const

@@ -761,7 +761,9 @@
       { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 10 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
       { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
-      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "steel_section_long", "prob": 20, "count": [ 5, 20 ] },
+      { "item": "steel_section_short", "prob": 20, "count": [ 5, 20 ] }
     ]
   },
   {

@@ -24,6 +24,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
@@ -31,6 +32,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "npc.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -114,6 +116,22 @@ void create_tile_zone( const std::string &name, const zone_type_id &zone_type, t
 }
 
 } // namespace
+
+static bool find_liquid_container( const tripoint_bub_ms &start_pos )
+{
+    bool found_container_with_liquid = false;
+    map_cursor( start_pos ).visit_items(
+    [&found_container_with_liquid]( item_location it ) {
+        if( it->typeId() == itype_test_watertight_open_sealed_container_250ml ) {
+            found_container_with_liquid = it.has_item_with( []( const item & nested ) {
+                return nested.typeId() == itype_test_liquid_1ml;
+            } );
+        }
+        return VisitResponse::SKIP;
+    }
+    );
+    return found_container_with_liquid;
+}
 
 TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][unload]" )
 {
@@ -1583,7 +1601,7 @@ TEST_CASE( "zone_sorting_batches_nearby_sources",
     // to a non-adjacent dest, so delivery doesn't complete in the test harness).
     // The key assertion is that BOTH sources were emptied in one pass.
     int carried = 0;
-    dummy.visit_items( [&carried]( const item * it, const item * ) {
+    dummy.visit_items( [&carried]( const item_location & it ) {
         if( it->typeId() == itype_test_apple ) {
             carried++;
         }
@@ -1656,7 +1674,7 @@ TEST_CASE( "zone_sorting_batches_into_grabbed_vehicle",
     CHECK( count_items_or_charges( s2_pos, itype_test_apple, std::nullopt ) == 0 );
     // Items are in cart cargo and/or player inventory
     int total = 0;
-    dummy.visit_items( [&total]( const item * it, const item * ) {
+    dummy.visit_items( [&total]( const item_location & it ) {
         if( it->typeId() == itype_test_apple ) {
             total++;
         }
@@ -2091,7 +2109,7 @@ TEST_CASE( "zone_sorting_no_grab_weight_gate",
     // Weight gate should have blocked some items from being picked up.
     const int remaining = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
     int carried = 0;
-    dummy.visit_items( [&carried]( const item * it, const item * ) {
+    dummy.visit_items( [&carried]( const item_location & it ) {
         if( it->typeId() == itype_test_heavy_boulder ) {
             carried++;
         }
@@ -2232,7 +2250,7 @@ TEST_CASE( "zone_sorting_drag_weight_gate",
     }
     int at_source = count_items_or_charges( start_pos, itype_test_heavy_boulder, std::nullopt );
     int carried = 0;
-    dummy.visit_items( [&carried]( const item * it, const item * ) {
+    dummy.visit_items( [&carried]( const item_location & it ) {
         if( it->typeId() == itype_test_heavy_boulder ) {
             carried++;
         }
@@ -2889,6 +2907,32 @@ TEST_CASE( "zone_sort_viewport_lifecycle", "[zones][viewport][activities]" )
             CHECK( actor->viewport_saved_zoom == 16 );  // DEFAULT_TILESET_ZOOM
         }
     }
+
+    SECTION( "viewport reactivated after load keeps actor's saved zoom" ) {
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run one turn to trigger stage_init
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+        REQUIRE( dummy.zone_sort_viewport.active );
+
+        zone_sort_activity_actor *actor =
+            dynamic_cast<zone_sort_activity_actor *>( dummy.activity.actor.get() );
+        REQUIRE( actor != nullptr );
+        REQUIRE( actor->viewport_was_active );
+        // not the default zoom, so only a real copy passes
+        actor->viewport_saved_zoom = 32;
+
+        // a load leaves avatar viewport at its defaults
+        dummy.zone_sort_viewport = avatar::zone_sort_viewport_t{};
+
+        g->try_activate_zone_sort_viewport();
+
+        CHECK( dummy.zone_sort_viewport.active );
+        CHECK( dummy.zone_sort_viewport.saved_zoom == 32 );
+    }
 }
 
 // Issue #86095: zone sort should skip nonempty spillable containers to avoid
@@ -2964,14 +3008,8 @@ TEST_CASE( "zone_sort_skips_spillable_container_in_mixed_source",
     REQUIRE( teleports < max_teleports );
 
     // Spillable container must remain at source with liquid intact
-    bool found_container_with_liquid = false;
-    for( const item &it : here.i_at( start_pos ) ) {
-        if( it.typeId() == itype_test_watertight_open_sealed_container_250ml ) {
-            found_container_with_liquid = it.has_item_with( []( const item & nested ) {
-                return nested.typeId() == itype_test_liquid_1ml;
-            } );
-        }
-    }
+    bool found_container_with_liquid = find_liquid_container( start_pos );
+
     CHECK( found_container_with_liquid );
 
     // Apple should have been sorted to destination
@@ -3014,14 +3052,8 @@ TEST_CASE( "zone_sort_completes_when_only_spillable_items_at_source",
     process_activity( dummy );
 
     // Container must remain at source with liquid inside
-    bool found_container_with_liquid = false;
-    for( const item &it : here.i_at( start_pos ) ) {
-        if( it.typeId() == itype_test_watertight_open_sealed_container_250ml ) {
-            found_container_with_liquid = it.has_item_with( []( const item & nested ) {
-                return nested.typeId() == itype_test_liquid_1ml;
-            } );
-        }
-    }
+    bool found_container_with_liquid = find_liquid_container( start_pos );
+
     CHECK( found_container_with_liquid );
 
     CHECK( !dummy.activity );
@@ -3136,14 +3168,8 @@ TEST_CASE( "zone_sort_sealed_liquid_container_is_sorted_normally",
     REQUIRE( teleports < max_teleports );
 
     // Sealed container should be at destination with liquid intact
-    bool found_at_dest = false;
-    for( const item &it : here.i_at( dest_pos ) ) {
-        if( it.typeId() == itype_test_watertight_open_sealed_container_250ml ) {
-            found_at_dest = it.has_item_with( []( const item & nested ) {
-                return nested.typeId() == itype_test_liquid_1ml;
-            } );
-        }
-    }
+    bool found_at_dest = find_liquid_container( dest_pos );
+
     CHECK( found_at_dest );
 
     CHECK( count_items_or_charges( start_pos, itype_test_watertight_open_sealed_container_250ml,
@@ -3574,7 +3600,7 @@ static vehicle *setup_drag_limited_sort( avatar &dummy, map &here,
 static int count_carried( const Character &who, const itype_id &id )
 {
     int carried = 0;
-    who.visit_items( [&carried, &id]( const item * it, const item * ) {
+    who.visit_items( [&carried, &id]( const item_location & it ) {
         if( it->typeId() == id ) {
             carried++;
         }
