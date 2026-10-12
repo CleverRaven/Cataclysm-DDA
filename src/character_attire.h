@@ -262,4 +262,16 @@ class outfit
 units::mass get_selected_stack_weight( const item *i, const std::map<const item *, int> &without );
 void destroyed_armor_msg( Character &who, const std::string &pre_damage_name );
 
+namespace clothing_info
+{
+std::string clothing_layer( const item &worn_item );
+std::vector<std::string> clothing_properties(
+    const item &worn_item, const Character &, const bodypart_id &bp );
+std::vector<std::string> clothing_protection( const item &worn_item,
+        const bodypart_id &bp );
+std::vector<std::string> clothing_flags_description( const item &worn_item );
+void add_category_and_values(std::vector<std::string>& current_text,
+    const std::string& category_name,
+    const std::vector<std::pair<std::string, std::string>>& names_and_values);
+}
 #endif // CATA_SRC_CHARACTER_ATTIRE_H
