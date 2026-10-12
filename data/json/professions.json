@@ -8765,12 +8765,12 @@
     },
     "flags": [ "SCEN_ONLY" ],
     "//": "You hurt and killed a LOT of people my guy, you even enjoyed doing it.",
-    "starting_trauma": 1000,
+    "starting_trauma": 500,
     "//1": "Spending months straight brawling is going to at least give you some proficiency at it, even if it's not that good because it was frenzied and against mostly defenseless people.",
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "unarmed" },
-      { "level": 3, "name": "bashing" },
+      { "level": 2, "name": "bashing" },
       { "level": 1, "name": "cutting" },
       { "level": 1, "name": "stabbing" }
     ],
@@ -8789,6 +8789,9 @@
     "type": "profession",
     "id": "awakened_feral_demolition",
     "name": "Demolitionist",
-    "description": "While 'demolitionist' "
+    "description": "While \"demolitionist\" describes you about as well as \"assassin\" describes a mass murderer, you spent most of your time smashing walls and furniture instead of people.  Your newly returned moral compass is thankful for it.",
+    "skills": [ { "level": 3, "name": "bashing" }, { "level": 2, "name": "melee" } ],
+    "starting_trauma": 100,
+    "extend": { "items": { "both": { "entries": [ { "item": "hammer_sledge" } ] } } }
   }
 ]
