@@ -83,5 +83,25 @@
     "light_emitted": 5,
     "light_color": [ 150, 75, 0 ],
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_tree",
+    "copy-from": "t_alien_meadow_tree_1",
+    "color": "blue",
+    "name": "power tree",
+    "description": "A power pole with a crown of signal antennas ontop.  You can hear intermittent buzzing from the \"tree\".",
+    "light_emitted": 50,
+    "light_color": [ 0, 100, 100 ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_moss",
+    "copy-from": "t_moss",
+    "color": "blue",
+    "name": "moss",
+    "description": "A patch of moist, spongy moss. Faintly glows blue.",
+    "light_emitted": 1,
+    "light_color": [ 0, 50, 50 ]
   }
 ]
