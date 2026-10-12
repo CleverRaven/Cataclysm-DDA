@@ -8770,6 +8770,7 @@
   },
   {
     "copy-from": "awakened_feral_standard",
+    "type": "profession",
     "id": "awakened_feral_touched",
     "name": "Portal Touched",
     "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought. Your laughter has stopped, but the visions of abominations bringing ruin haven't.",
