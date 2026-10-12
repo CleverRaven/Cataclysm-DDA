@@ -33,6 +33,18 @@ enum class bodygraph_var : int {
     last // END OF ENUMS
 };
 
+template<>
+struct enum_traits<bodygraph_var> {
+    static constexpr bodygraph_var first = bodygraph_var::hp;
+    static constexpr bodygraph_var last = bodygraph_var::last;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<bodygraph_var>( bodygraph_var bgvar );
+} // namespace io
+
 struct disp_overmap_cache {
     private:
         tripoint_abs_omt _center;
@@ -75,6 +87,7 @@ struct disp_bodygraph_cache {
     private:
         bodygraph_var _var;
         std::map<bodypart_id, int> _bp_cur_max;
+        //TODO: these fields should use a string_id
         std::string _graph_id;
         std::string _graph_wgt_str;
 
@@ -92,6 +105,11 @@ struct disp_bodygraph_cache {
         const std::string &get_val() const {
             return _graph_wgt_str;
         }
+
+        static std::string get_cache_id( bodygraph_id bid, bodygraph_var bmode );
+        static void clear( bodygraph_id bid, bodygraph_var bmode );
+        // clear all cached bodygraphs
+        static void clear_all();
 };
 
 // The display namespace contains UI string output and colorization functions
@@ -176,7 +194,8 @@ std::string colorized_compass_legend_text( int width, int max_height, int &heigh
 
 // Get color-coded body graph representing body part HP
 std::string colorized_bodygraph_text( const Character &u, const std::string &graph_id,
-                                      bodygraph_var var, int width, int max_height, int &height );
+                                      bodygraph_var var, int width, int max_height, int &height,
+                                      bool blink_selected = false, std::optional<std::string> selected_part = std::nullopt );
 
 // Get color for bodygraph part
 nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,

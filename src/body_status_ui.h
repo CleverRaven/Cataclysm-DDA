@@ -1,3 +1,21 @@
+#include "bodygraph.h"
+#include "cata_imgui.h"
+#include "character.h"
+#include "input_context.h"
+#include "options.h"
+#include "uilist.h"
+
+class body_status_ui;
+
+const int BODY_STATUS_UI_TAB_COUNT = 3;
+
+enum class body_status_tab {
+    BS_TAB_SUMMARY,
+    BS_TAB_MEDICAL,
+    BS_TAB_SORT_ARMOR,
+    BS_TAB_last
+};
+
 template<>
 struct enum_traits<body_status_tab> {
     static constexpr body_status_tab first = body_status_tab::BS_TAB_SUMMARY;
@@ -12,79 +30,88 @@ enum class medical_tab_mode {
 
 class medical_ui : public cataimgui::window
 {
-public:
-    explicit medical_ui(Character* guy) : cataimgui::window(_("Medical"),
-        ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav) {
-        you = guy;
-    };
+    public:
+        explicit medical_ui( Character *guy ) : cataimgui::window( _( "Medical" ),
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
+            you = guy;
+        };
 
-    bool execute();
-    std::string get_limb_effects(const bodypart_id& part) const;
-    std::string get_limb_wounds(const bodypart_id& part) const;
-    std::string get_limb_scores_and_modifiers(const bodypart_id& part) const;
-    std::string get_modified_limb_name(const bodypart_id& part) const;
+        bool execute();
+        static std::string get_limb_effects( const Character &you, const bodypart_id &part );
+        static std::string get_limb_wounds( const Character &you, const bodypart_id &part );
+        static std::string get_limb_scores_and_modifiers( const Character &you,
+                const bodypart_id &part );
+        static std::string get_modified_limb_name( const Character &you,
+                const bodypart_id &part );
 
-    void draw_limbs_list(const std::vector<bodypart_id>& bodyparts);
-    void summary_tab() const;
-    void limb_tab(const std::vector<bodypart_id>& bodyparts);
+        //static void draw_limbs_list(const std::vector<bodypart_id>& bodyparts);
+        static void summary_tab( const Character &you );
+        static void draw_limbs_details( const Character &you, const bodypart_id &bp );
+        static void limb_tab( const std::vector<bodypart_id> &bodyparts );
 
-    void draw_hint_section();
+        void draw_hint_section();
 
-    std::string last_action;
-protected:
+        std::string last_action;
+    protected:
 
-    void draw_controls() override;
-    cataimgui::bounds get_bounds() override {
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override {
 
-        const float window_width = std::clamp(float(str_width_to_pixels(EVEN_MINIMUM_TERM_WIDTH)),
-            ImGui::GetMainViewport()->Size.x / 2,
-            ImGui::GetMainViewport()->Size.x);
-        const float window_height = std::clamp(float(str_height_to_pixels(EVEN_MINIMUM_TERM_HEIGHT)),
-            ImGui::GetMainViewport()->Size.y / 2,
-            ImGui::GetMainViewport()->Size.y);
+            const float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                                   ImGui::GetMainViewport()->Size.x / 2,
+                                                   ImGui::GetMainViewport()->Size.x );
+            const float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                                    ImGui::GetMainViewport()->Size.y / 2,
+                                                    ImGui::GetMainViewport()->Size.y );
 
-        const cataimgui::bounds bounds{ -1.f, -1.f, window_width, window_height };
-        return bounds;
-    }
+            const cataimgui::bounds bounds{ -1.f, -1.f, window_width, window_height };
+            return bounds;
+        }
 
-private:
-    Character* you;
-    bodypart_id bp;
-    input_context ctxt;
-    cataimgui::scroll s = cataimgui::scroll::none;
-    medical_tab_mode selected_tab = medical_tab_mode::TAB_LIMBS;
+    private:
+        Character *you;
+        bodypart_id bp;
+        input_context ctxt;
+        cataimgui::scroll s = cataimgui::scroll::none;
+        medical_tab_mode selected_tab = medical_tab_mode::TAB_LIMBS;
 
-    float get_table_column_width() const {
-        return ImGui::GetWindowSize().x / 2;
-    }
+        static float get_table_column_width() {
+            return ImGui::GetWindowSize().x / 2;
+        }
 };
 
 // only for handling additional inputs, draws nothing
 class body_status_callback : public uilist_callback
 {
-    body_status_ui* ui_parent;
-public:
-    body_status_callback() = default;
-    explicit body_status_callback(body_status_ui* parent) : ui_parent(parent) {};
-    // handles any non-uilist (character_creator) inputs
-    bool key(const input_context& ctxt, const input_event& event, int, uilist* menu) override;
-    // this override stores and resets uilist's return value so that the uilist doesn't redraw
-    void confirm(uilist* menu) override;
-    void select(uilist* menu) override;
-    void refresh(uilist* menu) override;
+        body_status_ui *ui_parent;
+    public:
+        body_status_callback() = default;
+        explicit body_status_callback( body_status_ui *parent ) : ui_parent( parent ) {};
+        // handles any non-uilist (character_creator) inputs
+        bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override;
+        // this override stores and resets uilist's return value so that the uilist doesn't redraw
+        void confirm( uilist *menu ) override;
+        void select( uilist *menu ) override;
+        void refresh( uilist *menu ) override;
 };
 
 struct body_status_uistate {
     body_status_uistate() = default;
-    explicit body_status_uistate(std::shared_ptr<Character> displayed_character, bodygraph_id bg_id );
+    explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id );
 
-    std::shared_ptr<Character> displayed_character;
+    Character &displayed_character;
 
     body_status_tab selected_tab = body_status_tab::BS_TAB_SUMMARY;
     body_status_tab switched_tab = body_status_tab::BS_TAB_last;
-    
+
+    std::string button_action;
+
     std::vector<bodypart_id> all_bodyparts;
     int selected_bodypart_index;
+    bodypart_id selected_bodypart = bodypart_str_id::NULL_ID();
+    item_location selected_armor = item_location::nowhere;
+    // if present, a bodypart was selected in the SUMMARY menu and subparts are being displayed
+    std::optional<bodypart_id> parent_bodypart = std::nullopt;
     bodygraph_display bodygraph_display_state;
 
     std::vector<item_location> character_worn;
@@ -95,8 +122,71 @@ struct body_status_uistate {
 
     // based on selected part
     void update_bodygraph_display();
-    
+
+    void set_description_scroll();
+
+    bool bodygraph_collapsed = false;
     bool scrolled_up = false;
     bool scrolled_down = false;
-    bool quit_to_main_menu = false;
+    bool quit_menu = false;
+};
+
+/* handles three different body status windows:
+* 1. the tabbed window, for displaying SUMMARY, CLOTHING, MEDICAL lists
+* 2. the info window, for displaying information about the tabbed window
+* 3. the bodygraph window, for visually displaying the desired custom information
+*/
+class body_status_ui
+{
+    protected:
+        std::array<std::shared_ptr<uilist>, BODY_STATUS_UI_TAB_COUNT> bs_uilist;
+        std::array<input_context, BODY_STATUS_UI_TAB_COUNT> bs_inputs;
+        body_status_callback bs_callback;
+        shared_ptr_fast<uilist_impl> bs_uilist_current;
+
+    public:
+        // public?
+        Character &displayed_character;
+        body_status_uistate bs_uistate;
+        bool reset_list_entries = false;
+        bool reset_window_size = false;
+
+        body_status_ui( Character &disp_character ) : displayed_character( disp_character ),
+            bs_uistate( disp_character, bodygraph_id::NULL_ID() ) {
+            bs_callback = body_status_callback( this );
+        };
+
+        //TODO: interface this block with character creator
+        // setup new uilist if necessary, assumes current tab has been set
+        void setup_new_uilist();
+        // update uilist_entries for current tab, but do not modify uilist_entry count
+        void update_uilist_entries();
+        void upon_switching_tab();
+        void update_uilist_position( ImVec2 new_position );
+        void setup_input_context( input_context &cc_ictxt );
+        // @return action was handled
+        bool handle_action( const std::string &action );
+        std::shared_ptr<uilist> get_current_tab_uilist();
+        std::shared_ptr<uilist> get_tab_uilist( body_status_tab tab );
+        void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist );
+        input_context &get_current_tab_input();
+        void set_current_tab_input( const input_context &new_input );
+
+        void display();
+};
+
+class body_status_ui_impl : public cataimgui::window
+{
+        body_status_ui *ui_parent;
+    public:
+        explicit body_status_ui_impl( body_status_ui *parent );
+
+        // description is drawn entirely based on the selected item in the list; varies per tab
+        void draw_description();
+
+        // entirely independent of selected item in the list, though may default unless provided with state data?
+        void draw_bodygraph();
+    protected:
+        void draw_controls();
+        cataimgui::bounds get_bounds() override;
 };
