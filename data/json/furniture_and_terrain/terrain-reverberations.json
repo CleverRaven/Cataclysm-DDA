@@ -91,7 +91,7 @@
     "delete": { "flags": [ "TREE" ] },
     "color": "blue",
     "name": "power tree",
-    "description": "A power pole with a crown of signal antennas ontop.  You can hear intermittent buzzing from the \"tree\".",
+    "description": "A power pole with a crown of signal antennas on top.  You can hear intermittent buzzing from the \"tree\".",
     "light_emitted": 50,
     "light_color": [ 0, 200, 200 ],
     "bash": {
@@ -121,7 +121,7 @@
     "type": "terrain",
     "id": "t_radiosphere_bush",
     "name": "wire bush",
-    "description": "A giant tangle of copper wiring and steel pipes.  The moss covering the tangle gives it a plant-like appearence.",
+    "description": "A giant tangle of copper wiring and steel pipes.  The moss covering the tangle gives it a plant-like appearance.",
     "symbol": "#",
     "color": "blue",
     "move_cost": 8,
