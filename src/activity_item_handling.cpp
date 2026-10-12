@@ -20,6 +20,7 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
+#include "auto_eat.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "butchery.h"
@@ -73,7 +74,6 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
@@ -104,11 +104,8 @@ static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
-static const addiction_id addiction_alcohol( "alcohol" );
-
 static const flag_id json_flag_CUT_HARVEST( "CUT_HARVEST" );
 static const flag_id json_flag_MOP( "MOP" );
-static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -139,9 +136,6 @@ static const requirement_id requirement_data_multi_fishing( "multi_fishing" );
 
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
-
-static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
@@ -4359,56 +4353,21 @@ static VisitResponse visit_item_contents( item_location &loc,
     return VisitResponse::ABORT;
 }
 
-static int get_comestible_order( Character &you, const item_location &loc,
-                                 const time_duration &time )
+static bool comestible_sort_compare( Character &you, const item_craft_pair &lhs,
+                                     const item_craft_pair &rhs )
 {
-    if( loc->rotten() ) {
-        if( you.has_trait( trait_SAPROPHAGE ) || you.has_trait( trait_SAPROVORE ) ) {
-            return 1;
-        } else {
-            return 5;
-        }
-    } else if( time == 0_turns ) {
-        return 4;
-    } else if( loc.has_parent() &&
-               loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
-        return 3;
-    } else {
-        return 2;
+    auto_eat_settings rating;
+    if( you.is_avatar() ) {
+        rating = you.as_avatar()->auto_eat_handler;
     }
-}
-
-static time_duration get_comestible_time_left( const item_location &loc )
-{
-    time_duration time_left = 0_turns;
-    const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
-                                     calendar::INDEFINITELY_LONG_DURATION;
-    if( shelf_life > 0_turns ) {
-        const item &it = *loc;
-        const double relative_rot = it.get_relative_rot();
-        time_left = shelf_life - shelf_life * relative_rot;
-
-        // Correct for an estimate that exceeds shelf life -- this happens especially with
-        // fresh items.
-        if( time_left > shelf_life ) {
-            time_left = shelf_life;
-        }
-    }
-
-    return time_left;
+    return rating.comestible_sort_compare( you, lhs, rhs );
 }
 
 static bool comestible_sort_compare( Character &you, const item_location &lhs,
                                      const item_location &rhs )
 {
-    time_duration time_a = get_comestible_time_left( lhs );
-    time_duration time_b = get_comestible_time_left( rhs );
-    int order_a = get_comestible_order( you, lhs, time_a );
-    int order_b = get_comestible_order( you, rhs, time_b );
-
-    return order_a < order_b
-           || ( order_a == order_b && time_a < time_b )
-           || ( order_a == order_b && time_a == time_b );
+    return comestible_sort_compare( you, std::make_pair( lhs, nullptr ),
+                                    std::make_pair( rhs, nullptr ) );
 }
 
 int get_auto_consume_moves( Character &you, const bool food )
@@ -4439,45 +4398,12 @@ int get_auto_consume_moves( Character &you, const bool food )
         }
 
         const auto visit = [&]( item_location & it ) {
-            if( !you.can_consume_as_is( *it ) ) {
-                return VisitResponse::NEXT;
-            }
-            if( it->has_flag( json_flag_NO_AUTO_CONSUME ) ) {
-                // ignored due to NO_AUTO_CONSUME flag
-                return VisitResponse::NEXT;
-            }
-            if( it->is_null() || it->is_craft() || !it->is_food() ||
-                you.fun_for( *it ).first < -5 ) {
-                // not good eatings.
-                return VisitResponse::NEXT;
-            }
-            if( food && you.compute_effective_nutrients( *it ).kcal() < 50 ) {
-                // not filling enough
-                return VisitResponse::NEXT;
-            }
-            if( !you.will_eat( *it, false ).success() ) {
-                // wont like it, cannibal meat etc
-                return VisitResponse::NEXT;
-            }
-            if( !it->is_owned_by( you, true ) ) {
-                // it aint ours.
-                return VisitResponse::NEXT;
-            }
-            if( !food && it->get_comestible()->quench < 15 ) {
-                // not quenching enough
-                return VisitResponse::NEXT;
-            }
-            if( !food && it->is_watertight_container() && it->made_of( phase_id::SOLID ) ) {
-                // it's frozen
-                return VisitResponse::NEXT;
-            }
-            const use_function *usef = it->type->get_use( "BLECH_BECAUSE_UNCLEAN" );
-            if( usef ) {
-                // it's unclean
-                return VisitResponse::NEXT;
-            }
-            if( it->get_comestible()->addictions.count( addiction_alcohol ) &&
-                !you.has_addiction( addiction_alcohol ) ) {
+            ret_val<edible_rating> retval = you.will_auto_eat( *it );
+            if( retval.value() == edible_rating::NOT_OWNED ) {
+                // if you don't own the container you don't own the contents
+                // so don't bother iterating on them
+                return VisitResponse::SKIP;
+            } else if( !retval.success() ) {
                 return VisitResponse::NEXT;
             }
 

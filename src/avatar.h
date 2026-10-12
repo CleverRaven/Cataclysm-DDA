@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "auto_eat.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -452,7 +453,10 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
         bool is_waiting_to_change_mode_mode();
+        ret_val<edible_rating> will_auto_eat( const item &food, bool zone_override_food ) const override;
+        ret_val<edible_rating> will_auto_eat( const item &food ) const override;
 
+        mutable auto_eat_settings auto_eat_handler;
     private:
         uint64_t aim_cache_generation = 0;
         std::map<char, itype_id> assigned_invlet;

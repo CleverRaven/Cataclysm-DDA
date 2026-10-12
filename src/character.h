@@ -297,7 +297,13 @@ enum edible_rating {
     /// We can eat this, but we'll suffer from overeat
     TOO_FULL,
     /// Some weird stuff that requires a tool we don't have
-    NO_TOOL
+    NO_TOOL,
+    /// you don't own the item. should only be a failure for auto eat
+    NOT_OWNED,
+    /// will not eat unless player directed
+    NO_AUTO_EAT,
+    /// will not eat unless addicted
+    ADDICTIVE,
 };
 
 enum crush_tool_type {
@@ -3171,6 +3177,8 @@ class Character : public Creature, public visitable
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
+        // this assigns the backlog activity. the backlog is a "queue" for this use case
+        void assign_backlog_activity();
         void cancel_activity();
         void cancel_stashed_activity();
         player_activity get_stashed_activity() const;
@@ -3550,6 +3558,9 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        virtual ret_val<edible_rating> will_auto_eat( const item &food ) const;
+        virtual ret_val<edible_rating> will_auto_eat( const item &food,
+                bool /* zone_override_food */ ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
@@ -3576,6 +3587,9 @@ class Character : public Creature, public visitable
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
+        // is this a frozen treat, or something you can't eat because it's frozen?
+        // assumes it's already a comestible
+        bool can_consume_frozen( const item &it ) const;
         /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
         /**

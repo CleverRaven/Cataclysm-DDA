@@ -405,7 +405,9 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
         you.set_mutation( trait_THRESH_MARLOSS );
         item fruit( itype_mycus_fruit );
         REQUIRE( you.can_eat( fruit ).success() );
-        you.activity = player_activity( consume_activity_actor( fruit ) );
+        item_location fruit_loc = you.i_add( fruit, false, nullptr, nullptr, false, true );
+        REQUIRE( fruit_loc.valid() );
+        you.activity = player_activity( consume_activity_actor( fruit_loc ) );
 
         // Exercise the real actor: synchronous sleep used to destroy it inside
         // consume(), before finish() could read reprompt_consume_menu.

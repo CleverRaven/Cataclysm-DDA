@@ -47,6 +47,8 @@
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+
+static const flag_id json_flag_EAT_AFTER_CRAFT( "EAT_AFTER_CRAFT" );
 static const flag_id json_flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
@@ -115,12 +117,22 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
+    liquid_dest_opt liquid_target;
     while( liquid.charges > 0 && can_handle_liquid( liquid ) ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        liquid_dest_opt liquid_target;
         handle_liquid( liquid, liquid_target, avoid, radius );
+    }
+    if( liquid_target.item_loc && liquid.has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+        // really there should only be one item to visit, but it doesn't hurt to grab all of them here.
+        liquid_target.item_loc.visit_items( [&]( const item_location & node ) {
+            if( node->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+                player_activity act_eat = player_activity( consume_activity_actor( node ) );
+                get_player_character().backlog.push_front( act_eat );
+            }
+            return VisitResponse::NEXT;
+        } );
     }
 }
 

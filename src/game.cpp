@@ -2624,6 +2624,7 @@ input_context get_default_mode_input_context()
         ctxt.register_action( "apply_wielded" );
         ctxt.register_action( "wear" );
         ctxt.register_action( "take_off" );
+        ctxt.register_action( "eat_some" );
         ctxt.register_action( "eat" );
         ctxt.register_action( "open_consume" );
         ctxt.register_action( "read" );
