@@ -11,6 +11,7 @@
 #include "rng.h"
 
 enum class bp_type;
+template <typename E> struct enum_traits;
 
 void wound_type::load( const JsonObject &jo, const std::string_view & )
 {
@@ -27,6 +28,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
 
+    optional( jo, was_loaded, "mod_values", mod_values );
+    optional( jo, was_loaded, "periodic_message", periodic_message );
     optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "progress_timer", progress_timer );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
@@ -177,6 +180,30 @@ void wound_fix::finalize_all()
     wound_fix_factory.finalize();
 }
 
+template<>
+struct enum_traits<wound_mod_value_type> {
+    static constexpr wound_mod_value_type last = wound_mod_value_type::LAST;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<wound_mod_value_type>( wound_mod_value_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case wound_mod_value_type::PAIN: return "PAIN";
+        case wound_mod_value_type::BLEED: return "BLEED";
+        case wound_mod_value_type::VITAMIN: return "VITAMIN";
+
+            // *INDENT-ON*
+        case wound_mod_value_type::LAST:
+            break;
+    }
+    cata_fatal( "Invalid character_stat" );
+}
+} // namespace io
+
 void wound_fix::finalize()
 {
     const auto range = reqs_temp_storage.equal_range( id );
@@ -220,6 +247,20 @@ void wound_type_progress_timer::deserialize( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "time", time );
     optional( jo, false, "message", message );
+}
+
+void wound_mod_values::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", type );
+    mandatory( jo, false, "rate", rate );
+    optional( jo, false, "vitamin_id", vitamin );
+    optional( jo, false, "amount", amount );
+}
+
+void wound_periodic_message::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "message", message );
+    mandatory( jo, false, "rate", rate );
 }
 
 void wound_fix::load( const JsonObject &jo, const std::string_view & )
@@ -335,6 +376,16 @@ int wound_type::get_limit() const
 std::vector<wound_limb_score> wound_type::get_limb_scores() const
 {
     return limb_scores;
+}
+
+std::vector<wound_mod_values> wound_type::get_modify_values() const
+{
+    return mod_values;
+}
+
+std::optional<wound_periodic_message> wound_type::get_periodic_message() const
+{
+    return periodic_message;
 }
 
 std::string wound_type::get_name() const
