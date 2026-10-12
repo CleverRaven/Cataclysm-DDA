@@ -143,7 +143,7 @@
         "U": [ [ "t_radio_tower", 90 ], [ "t_radiosphere_radio_tower_liminal_light", 4 ] ],
         "]": [ [ "t_grate", 50 ], [ "t_open_air", 25 ] ],
         ",": "t_metal_floor_no_roof",
-        "g": [ [ "t_radiosphere_moss", 95 ], [ "t_radiosphere_tree", 20 ], [ "t_open_air", 25 ] ]
+        "g": [ [ "t_radiosphere_moss", 95 ], [ "t_radiosphere_bush", 30 ], [ "t_radiosphere_tree", 20 ], [ "t_open_air", 25 ] ]
       },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
