@@ -255,7 +255,7 @@
     "id": "DAMAGED_MIND",
     "name": { "str": "Damaged Mind" },
     "description": "Though you no longer feel the ever present bloodthirsty rage you felt during the riots, a fog is still cast over your every action. You're not in the mental shape you were before the world ended.",
-    "points": 0,
+    "points": -2,
     "valid": false,
     "purifiable": false,
     "profession": true,
