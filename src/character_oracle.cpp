@@ -28,9 +28,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 
 // Vehicle currently in motion that the player is inside, otherwise nullptr.
@@ -282,11 +282,11 @@ float character_oracle_t::warmth_urgency( std::string_view ) const
 
 status_t character_oracle_t::can_sleep( std::string_view ) const
 {
-    // Meth is the only hard blocker in Character::can_sleep().
+    // CANNOT_SLEEP (meth, learning serum) is the body's only hard blocker.
     // Stim, comfort, insomnia, and rng are soft score modifiers whose
     // net effect depends on location and luck -- the oracle can't
     // evaluate those without knowing where the NPC will sleep.
-    if( subject->has_effect( effect_meth ) ) {
+    if( subject->has_flag( json_flag_CANNOT_SLEEP ) ) {
         return status_t::failure;
     }
     if( subject->get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {

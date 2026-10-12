@@ -1371,13 +1371,15 @@ TEST_CASE( "npc_nonally_sleeps_when_tired", "[npc][needs]" )
         guy.set_sleepiness( 800 );
         guy.add_effect( effect_meth, 1_hours );
         guy.set_mission( NPC_MISSION_SHELTER );
+        // idle instead of sleeping: keep it from walking up to talk
+        guy.set_attitude( NPCATT_NULL );
         guy.set_moves( 100 );
 
         guy.move();
 
-        // can_sleep() returns false on meth, NPC gets lying_down fallback
+        // meth rules sleep out, so it doesn't lie down to try
         CHECK_FALSE( guy.has_effect( effect_sleep ) );
-        CHECK( guy.has_effect( effect_lying_down ) );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
     }
 
     SECTION( "non-ally does not sleep in danger" ) {

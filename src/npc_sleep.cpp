@@ -141,6 +141,12 @@ npc::need_result npc::settle_here()
 bool npc::sleep_settle_step()
 {
     npc_sleep_session &ses = sleep_session;
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        // can't fall asleep at all now: stop lying here, the spot isn't to blame
+        ai_cache.sleep_plan.clear();
+        ses.phase = npc_sleep_phase::none;
+        return true;
+    }
     if( ses.phase != npc_sleep_phase::settling ) {
         // lying down from a save or a script: settle from now on
         ses.begin_settling();

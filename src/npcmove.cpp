@@ -205,6 +205,7 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
@@ -1723,7 +1724,7 @@ void npc::move()
             behavior::tree decision_tree;
             decision_tree.add( &behavior_node_t_npc_decision.obj() );
             auto [new_goal, new_score] = decision_tree.tick_full( &oracle );
-            if( goal_is_idle( new_goal ) && !sleep_on_hold() &&
+            if( goal_is_idle( new_goal ) && !sleep_on_hold() && !has_flag( json_flag_CANNOT_SLEEP ) &&
                 ( ( sleep_stalled() && get_sleepiness() >= sleepiness_levels::TIRED ) ||
                   sleep_session.wants_resume( get_sleepiness() ) ) &&
                 best_need_view( need_goal_id::go_to_sleep ).may_consider() ) {
@@ -1875,10 +1876,7 @@ void npc::move()
                     // ai_cache was filled from a stale persistent post.
                     action = npc_return_to_guard_pos;
                 } else {
-                    // No anchor. Run address_needs so the legacy sleep/eat/drink
-                    // paths still work (the BT may have returned idle because a
-                    // predicate like can_sleep failed, but address_needs has its
-                    // own fallback logic like lying_down on meth).
+                    // no anchor: address_needs() covers what a failed BT predicate left as idle
                     action = address_needs();
                     if( is_walking_with() ) {
                         // voices needs even when it needn't move; complain() rate-limits
@@ -3211,7 +3209,7 @@ npc_action npc::address_needs( float danger )
     const bool tired = get_sleepiness() >= sleepiness_levels::TIRED ||
                        ( is_walking_with() && player_character.in_sleep_state() &&
                          get_sleepiness() > sleepiness_levels::TIRED / 2 );
-    if( danger <= 0.01 && tired && !sleep_on_hold() &&
+    if( danger <= 0.01 && tired && !sleep_on_hold() && !has_flag( json_flag_CANNOT_SLEEP ) &&
         judge_option( rest_option_best_case() ).permission == npc_permission::allowed ) {
         return npc_sleep;
     }
@@ -7363,8 +7361,15 @@ npc::need_result npc::execute_go_to_sleep()
         return need_result::holding;
     }
 
-    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
     need_plan &plan = ai_cache.sleep_plan;
+    // can't fall asleep at all right now: no spot helps, so there is nothing to wait for
+    if( has_flag( json_flag_CANNOT_SLEEP ) ) {
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
+
+    const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
     std::set<tripoint_abs_ms> &failed = ai_cache.sleep_failed_targets;
     map &here = get_map();
 

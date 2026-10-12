@@ -50,6 +50,7 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const efftype_id effect_learning_serum_main( "learning_serum_main" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
@@ -60,6 +61,8 @@ static const faction_id faction_your_followers( "your_followers" );
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 static const furn_str_id furn_f_sofa( "f_sofa" );
+
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -1280,5 +1283,43 @@ TEST_CASE( "follower_with_assigned_camp_does_not_wander_to_camp_seats", "[npc][c
     SECTION( "no camp object" ) {
         run_npc_turns( guy, 5 );
         CHECK( guy.assigned_camp.has_value() );
+    }
+}
+
+TEST_CASE( "npc_that_cannot_sleep_does_not_try", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    get_map().furn_set( guy.pos_bub(), furn_f_bed );
+    guy.set_sleepiness( 600 );
+    guy.set_stim( 0 );
+
+    SECTION( "a serum that keeps it awake: sleep is never picked" ) {
+        guy.add_effect( effect_learning_serum_main, 2_hours );
+        REQUIRE( guy.has_flag( json_flag_CANNOT_SLEEP ) );
+        behavior::character_oracle_t oracle( &guy );
+        CHECK( oracle.can_sleep( "" ) == behavior::status_t::failure );
+        CHECK( never_settles( guy, 20 ) );
+    }
+    SECTION( "the serum takes hold while it lies down: it gets up" ) {
+        guy.set_stim( 100 );
+        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_moves( 100 );
+        REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+        guy.set_stim( 0 );
+        guy.add_effect( effect_learning_serum_main, 2_hours );
+        run_npc_turns( guy, 3, []( const npc & n ) {
+            return !n.has_effect( effect_lying_down );
+        } );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+        CHECK( never_settles( guy, 10 ) );
+        CHECK( guy.get_committed_goal() != "go_to_sleep" );
+    }
+    SECTION( "woken, doesn't lie back down" ) {
+        make_asleep_on_bed( guy );
+        wake_by_noise( guy );
+        guy.add_effect( effect_learning_serum_main, 2_hours );
+        CHECK( never_settles( guy, 10 ) );
     }
 }
