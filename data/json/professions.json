@@ -8764,22 +8764,13 @@
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "flags": [ "SCEN_ONLY" ],
-    "age_lower": 16,
-    "traits": [ "SCHIZOPHRENIC" ]
+    "age_lower": 16
   },
   {
-    "type": "profession",
+    "copy-from": "awakened_feral_standard",
     "id": "awakened_feral_touched",
     "name": "Portal Touched",
-    "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought. Your laughter has stopped, but the visions of ruin and monsters haven't.",
-    "npc_background": "BG_survival_story_CRIMINAL",
-    "points": -2,
-    "items": {
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    },
-    "flags": [ "SCEN_ONLY" ],
-    "age_lower": 16,
+    "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought. Your laughter has stopped, but the visions of abominations bringing ruin haven't.",
     "traits": [ "SCHIZOPHRENIC" ]
   }
 ]
