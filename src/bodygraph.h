@@ -11,9 +11,14 @@
 #include <vector>
 
 #include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
+#include "display.h"
 #include "effect.h"
+#include "input_context.h"
+#include "output.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class Character;
 class JsonObject;
@@ -59,6 +64,7 @@ struct bodygraph {
     std::map<std::string, bodygraph_part> parts;
     std::string label_fill;
     std::string fill_sym;
+    std::string fill_sym_blink = ".";
     nc_color fill_color = c_white;
     bool was_loaded = false;
 
@@ -100,10 +106,11 @@ struct bodygraph_display {
     int sel_part = 0;
     int top_part = 0;
     int top_info = 0;
+    int blink = 0;
+    bool symbol_blinking = false;
+    bodygraph_var display_mode = bodygraph_var::hp;
 
-    bodygraph_display() = delete;
-    bodygraph_display( const bodygraph_display & ) = delete;
-    bodygraph_display( const bodygraph_display && ) = delete;
+    bodygraph_display() = default;
     explicit bodygraph_display( const Character *u, const bodygraph_id &id );
 
     shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
@@ -114,7 +121,10 @@ struct bodygraph_display {
     void draw_borders();
     void draw_partlist();
     void draw_graph();
+    // @param subpart_graph - if true, use subpart instead of bodypart
+    void draw_graph_imgui(bool subpart_graph);
     void draw_info();
+    void draw_info_imgui() const;
     void display();
 };
 

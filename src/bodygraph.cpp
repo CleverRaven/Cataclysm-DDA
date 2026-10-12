@@ -13,14 +13,15 @@
 #include "character.h"
 #include "character_attire.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "display.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"
 #include "memory_fast.h"
+#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -381,6 +382,32 @@ void bodygraph_display::draw_graph()
     wnoutrefresh( w_graph );
 }
 
+void bodygraph_display::draw_graph_imgui( bool subpart_graph )
+{
+    // SX2: timing should not have to be reduced
+    if( blink > get_option<int>( "BLINK_SPEED" ) / 16 ) {
+        blink = 0;
+        symbol_blinking = !symbol_blinking;
+        disp_bodygraph_cache::clear_all();
+    }
+    blink++;
+    const bodygraph_part *selected_graph = std::get<2>( partlist[sel_part] );
+
+    int bg_height = 20;
+
+    bodypart_id selected_part = std::get<0>( partlist[sel_part] );
+    const sub_body_part_type *selected_subpart = std::get<1>( partlist[sel_part] );
+    const std::string selected_part_str = subpart_graph ? selected_subpart->id.str() :
+                                          selected_part.id().str();
+    std::string rows = display::colorized_bodygraph_text( *u, id.str(),
+                       display_mode, 40, 20, bg_height,
+                       symbol_blinking, selected_part_str );
+
+    //for( int y = 0; static_cast<size_t>( y ) < rows.size(); y++ ) {
+    cataimgui::draw_colored_text( rows );
+    //}
+}
+
 void bodygraph_display::draw_info()
 {
     werase( w_info );
@@ -395,6 +422,20 @@ void bodygraph_display::draw_info()
         }
     }
     wnoutrefresh( w_info );
+}
+
+void bodygraph_display::draw_info_imgui() const
+{
+    if( std::get<3>( partlist[sel_part] ) ) {
+        int y = 0;
+        for( unsigned i = 0; i < info_txt.size(); i++ ) {
+            if( info_txt[i] == "--" ) {
+                ImGui::Separator();
+            } else {
+                cataimgui::draw_colored_text( info_txt[i] );
+            }
+        }
+    }
 }
 
 void bodygraph_display::prepare_partlist()
