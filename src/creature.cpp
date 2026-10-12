@@ -325,9 +325,11 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
 
 void Creature::on_move( const tripoint_abs_ms &old_pos )
 {
-    if( old_pos == pos_abs() ||
-        has_effect( effect_gliding ) ||
-        has_flag( mon_flag_FLIES ) ) {
+    if( old_pos == pos_abs() ) {
+        return;
+    }
+
+    if( has_effect( effect_gliding ) || has_flag( mon_flag_FLIES ) ) {
         return;
     }
 
