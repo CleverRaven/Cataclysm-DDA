@@ -352,6 +352,7 @@
     "vitamin_cost": 210,
     "visibility": 6,
     "ugliness": 10,
+    "restricts_gear": [ "torso" ],
     "enchantments": [
       {
         "modified_bodyparts": [
