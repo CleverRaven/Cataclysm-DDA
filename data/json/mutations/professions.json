@@ -260,6 +260,7 @@
     "purifiable": false,
     "profession": true,
     "//": "You're rather offputting and obviously damaged. It's way harder to relate to people but your unpredictable demenor kind of scares them and you're harder to read in general.",
-    "social_modifiers": { "persuade": -10, "intimidate": 5, "lie": 5 }
+    "social_modifiers": { "persuade": -10, "intimidate": 5, "lie": 5 },
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -2 } ] } ]
   }
 ]
