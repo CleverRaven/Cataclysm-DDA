@@ -9049,19 +9049,17 @@ void game::on_options_changed()
 
 void game::water_affect_items( Character &ch ) const
 {
-    bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
-
-    for( item_location &loc : ch.all_items_loc() ) {
-        if( gear_waterproofed ) {
-            break;
-        }
-        // check flag first because its cheaper
-        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
+    if( ch.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+        return;
+    }
+    std::list<item_location> removed_items;
+    ch.visit_items( [&ch, &removed_items]( item_location loc ) {
+        if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
             add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
                                     ch.disp_name( true, true ), loc->display_name() );
-            loc.remove_item();
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
+            // push front so we remove in reverse order
+            removed_items.push_front( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
 
             add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
                                     ch.disp_name( true ), loc->display_name() );
@@ -9074,14 +9072,22 @@ void game::water_affect_items( Character &ch ) const
             if( loc->has_flag( flag_ELECTRONIC ) ) {
                 loc->set_random_fault_of_type( "shorted", true );
             }
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
             const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
             loc->wetness += wetness_add;
             loc->wetness = std::min( loc->wetness, 5 * wetness_add );
-        } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
+        } else if( loc->typeId() == itype_towel ) {
             loc->convert( itype_towel_wet, &ch ).active = true;
         }
+        // this skips the whole contents if they are protected.
+        if( loc->is_watertight_container() && !loc->will_spill() ) {
+            return VisitResponse::SKIP;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    for( item_location &to_remove : removed_items ) {
+        to_remove.remove_item();
     }
 }
 

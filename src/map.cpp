@@ -9015,12 +9015,13 @@ void map::reconcile_loaded_items( const reconcile_scope scope )
     }
 
     std::vector<int64_t> seen;
-    auto reconcile_one = [&wakeups, &index, &seen]( item_location loc ) {
-        item *it = loc.get_item();
-        if( it == nullptr ) {
-            return;
+    auto reconcile_recursive = [&wakeups, &index, &seen]( item_location it ) -> VisitResponse {
+        if( !it.valid() )
+        {
+            return VisitResponse::SKIP;
         }
-        if( it->is_craft() ) {
+        if( it->is_craft() )
+        {
             // On the token as well as the live step: the stale branch keeps the token and
             // clears passive_started_at, and that record still needs cleaning.
             const bool live = it->get_passive_started_at() != calendar::before_time_starts;
@@ -9033,25 +9034,14 @@ void map::reconcile_loaded_items( const reconcile_scope scope )
                     it->get_env_check_at() == calendar::before_time_starts ) {
                     it->set_env_check_at( calendar::turn );
                 }
-                index.rebuild_for_craft( loc );
+                index.rebuild_for_craft( it );
                 if( it->peek_reservation_owner_token() != 0 ) {
                     seen.push_back( it->peek_reservation_owner_token() );
                 }
             }
         }
-        wakeups.rebuild_for_item( loc );
-    };
-
-    auto walk_recursive = [&reconcile_one]( auto & self, item_location loc ) -> void {
-        if( !loc || loc.get_item() == nullptr )
-        {
-            return;
-        }
-        reconcile_one( loc );
-        for( item *child : loc.get_item()->all_items_top() )
-        {
-            self( self, item_location( loc, child ) );
-        }
+        wakeups.rebuild_for_item( it );
+        return VisitResponse::NEXT;
     };
 
     // Submaps rather than tiles, and the z range guarded by zlevels: get_nonant drops the z
@@ -9069,11 +9059,14 @@ void map::reconcile_loaded_items( const reconcile_scope scope )
                 }
                 for( int sx = 0; sx < SEEX; ++sx ) {
                     for( int sy = 0; sy < SEEY; ++sy ) {
+                        const tripoint_bub_ms p( sx + gridx * SEEX,
+                                                 sy + gridy * SEEY, gridz );
+                        const map_cursor cur( this, p );
+                        // rather than visiting the map_cursor, we need to pull the items out
+                        // otherwise we get an infinite loop with reconcile since map_cursor::visit
+                        // calls load which calls reconcile_recursive
                         for( item &it : sm->get_items( { sx, sy } ) ) {
-                            const tripoint_bub_ms p( sx + gridx * SEEX,
-                                                     sy + gridy * SEEY, gridz );
-                            item_location loc( map_cursor( this, p ), &it );
-                            walk_recursive( walk_recursive, loc );
+                            item_location( cur, &it ).visit_items( reconcile_recursive );
                         }
                     }
                 }
@@ -9088,25 +9081,13 @@ void map::reconcile_loaded_items( const reconcile_scope scope )
             continue;
         }
         for( const vpart_reference &vpr : wv.v->get_all_parts() ) {
-            vehicle_part &vp = wv.v->part( vpr.part_index() );
-            for( item &it : wv.v->get_items( vp ) ) {
-                item_location loc( vehicle_cursor( *wv.v, vpr.part_index() ), &it );
-                walk_recursive( walk_recursive, loc );
-            }
+            vehicle_cursor( *wv.v, vpr.part_index() ).visit_items( reconcile_recursive );
         }
     }
 
-    auto walk_character = [&reconcile_one]( Character & c ) {
-        // all_items_loc() is already recursive; reconcile per location directly.
-        for( item_location &loc : c.all_items_loc() ) {
-            if( loc && loc.get_item() != nullptr ) {
-                reconcile_one( loc );
-            }
-        }
-    };
-    walk_character( get_avatar() );
+    get_avatar().visit_items( reconcile_recursive );
     for( npc &n : g->all_npcs() ) {
-        walk_character( n );
+        n.visit_items( reconcile_recursive );
     }
 
     // Crafts this pass did not walk are left alone: the index retains earlier entries.
