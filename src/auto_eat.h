@@ -57,17 +57,17 @@ class auto_eat_settings
         std::list<item_craft_pair> get_surrounding_available_food( Character &guy );
 
         void add_thirst( int thirst );
-        bool get_avoid_drink() {
+        bool get_avoid_drink() const {
             return avoid_drink;
         }
         void set_avoid_drink( bool avoid = true ) {
-            avoid_drink = true;
+            avoid_drink = avoid;
         }
-        bool get_avoid_food() {
+        bool get_avoid_food() const {
             return avoid_food;
         }
         void set_avoid_food( bool avoid = true ) {
-            avoid_food = true;
+            avoid_food = avoid;
         }
         // clears all temporary values
         void clear();
