@@ -16,6 +16,7 @@
 #include <utility>
 #include <vector>
 
+#include "auto_eat.h"
 #include "auto_pickup.h"
 #include "calendar.h"
 #include "character.h"

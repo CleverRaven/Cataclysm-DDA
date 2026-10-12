@@ -8,9 +8,10 @@
 class Character;
 class item;
 class item_location;
-class nutrients;
 class recipe;
 class temp_crafting_inventory;
+
+struct nutrients;
 
 using item_craft_pair = std::pair<item_location, const recipe *>;
 
