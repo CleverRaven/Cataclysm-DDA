@@ -1204,7 +1204,7 @@ ret_val<edible_rating> Character::will_auto_eat( const item &food ) const
     if( !food.is_food() || food.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::NO_AUTO_EAT );
     }
-    if( !food.is_owned_by( *this, false ) ) {
+    if( !food.is_owned_by( *this, true ) ) {
         // it aint ours.
         return ret_val<edible_rating>::make_failure( edible_rating::NOT_OWNED );
     }
