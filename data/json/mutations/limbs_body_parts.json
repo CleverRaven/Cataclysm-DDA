@@ -1096,6 +1096,58 @@
     "sub_parts": [ "insect_tarsomere_r", "insect_segment_r", "insect_terminus_r" ]
   },
   {
+    "type": "body_part",
+    "id": "arm_arachnid_upper_l",
+    "name": "upper left arachnid arm",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "upper left arachnid arm" },
+    "copy-from": "arm_insect_l",
+    "heading": "u. l. arach. arm",
+    "hp_bar_ui_text": "R A ARM",
+    "main_part": "arm_insect_r",
+    "opposite_part": "arm_insect_l",
+    "side": "right",
+    "sub_parts": [ "arm_arachnid_upper_l", "arm_arachnid_upper_elbow_l", "arm_arachnid_lower_l" ]
+  },
+  {
+    "type": "body_part",
+    "id": "arm_arachnid_upper_r",
+    "name": "upper right arachnid arm",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "upper right arachnid arm" },
+    "copy-from": "arm_insect_l",
+    "heading": "u. r. arach. arm",
+    "hp_bar_ui_text": "R A ARM",
+    "main_part": "arm_insect_r",
+    "opposite_part": "arm_insect_l",
+    "side": "right",
+    "sub_parts": [ "arm_arachnid_upper_r", "arm_arachnid_upper_elbow_r", "arm_arachnid_lower_r" ]
+  },
+  {
+    "type": "body_part",
+    "id": "arm_arachnid_lower_l",
+    "name": "lower left arachnid arm",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "lower left arachnid arm" },
+    "copy-from": "arm_insect_l",
+    "heading": "l. l. arach. arm",
+    "hp_bar_ui_text": "L A ARM",
+    "main_part": "arm_insect_r",
+    "opposite_part": "arm_insect_l",
+    "side": "left",
+    "sub_parts": [ "arm_arachnid_lower_l", "arm_arachnid_lower_elbow_l", "arm_arachnid_lower_l" ]
+  },
+  {
+    "type": "body_part",
+    "id": "arm_arachnid_lower_r",
+    "name": "lower right arachnid arm",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "lower right arachnid arm" },
+    "copy-from": "arm_insect_l",
+    "heading": "l. r. arach. arm",
+    "hp_bar_ui_text": "R A ARM",
+    "main_part": "arm_insect_r",
+    "opposite_part": "arm_insect_l",
+    "side": "right",
+    "sub_parts": [ "arm_arachnid_lower_r", "arm_arachnid_lower_elbow_r", "arm_arachnid_lower_r" ]
+  },
+  {
     "id": "arm_slime_l",
     "type": "body_part",
     "name": "pseudopod",
