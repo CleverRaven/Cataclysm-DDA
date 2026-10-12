@@ -24,6 +24,8 @@
 #include "type_id.h"
 #include "units.h"
 
+static const faction_id faction_your_followers( "your_followers" );
+
 static const itype_id itype_orange( "orange" );
 
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
@@ -61,6 +63,17 @@ npc &spawn_thirsty( const tripoint_bub_ms &pos )
     guy.set_thirst( 600 );
     return guy;
 }
+
+npc &make_follower( npc &guy )
+{
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.rules.set_flag( ally_rule::follow_close );
+    guy.rules.set_flag( ally_rule::allow_sleep );
+    return guy;
+}
+
 
 // fixed workload: thirst back every round, start position every reset_every rounds
 void restore( bench_npc &b, const int round, const int reset_every )
@@ -186,5 +199,49 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
             npcs.push_back( { &spawn_thirsty( start ), start } );
         }
         run_case( "many_thirsty", npcs, rounds, walk_cycle );
+    }
+    SECTION( "follower_retained_plan_many_sources" ) {
+        bench_setup();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        get_avatar().setpos( get_map(), leader );
+        lay_pond( tripoint_bub_ms( 54, 50, 0 ), 3 );
+        get_map().build_map_cache( 0 );
+        const tripoint_bub_ms start( 47, 50, 0 );
+        std::vector<bench_npc> npcs{ { &make_follower( spawn_thirsty( start ) ), start } };
+        run_case( "follower_retained_plan_many_sources", npcs, rounds, walk_cycle );
+    }
+    SECTION( "follower_no_acceptable_route" ) {
+        bench_setup();
+        map &here = get_map();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        get_avatar().setpos( here, leader );
+        const tripoint_bub_ms start = leader + tripoint::east;
+        // 12 oranges in sight and reachable, all past the follower's spacing
+        int placed = 0;
+        for( const tripoint_bub_ms &p : here.points_in_radius( start, 6 ) ) {
+            if( placed >= 12 || rl_dist( p, start ) != 6 || rl_dist( p, leader ) <= 5 ||
+                ( p.x() + p.y() ) % 2 != 0 ) {
+                continue;
+            }
+            here.add_item_or_charges( p, item( itype_orange ) );
+            placed++;
+        }
+        REQUIRE( placed == 12 );
+        here.build_map_cache( 0 );
+        std::vector<bench_npc> npcs{ { &make_follower( spawn_thirsty( start ) ), start } };
+        run_case( "follower_no_acceptable_route", npcs, rounds, 0 );
+    }
+    SECTION( "many_thirsty_followers" ) {
+        bench_setup();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        get_avatar().setpos( get_map(), leader );
+        lay_pond( tripoint_bub_ms( 54, 50, 0 ), 3 );
+        get_map().build_map_cache( 0 );
+        std::vector<bench_npc> npcs;
+        for( int i = 0; i < 6; ++i ) {
+            const tripoint_bub_ms start( 47 + i % 2, 47 + i, 0 );
+            npcs.push_back( { &make_follower( spawn_thirsty( start ) ), start } );
+        }
+        run_case( "many_thirsty_followers", npcs, rounds, walk_cycle );
     }
 }
