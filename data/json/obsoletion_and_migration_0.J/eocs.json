@@ -18,7 +18,14 @@
       },
       { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD" },
       { "math": [ "portal_dungeon_level = 0" ] },
-      { "alter_timed_events": "portal_dungeon" }
+      { "alter_timed_events": "portal_dungeon" },
+      {
+        "if": { "math": [ "u_val('pos_z') != 0" ] },
+        "then": [
+          { "u_location_variable": { "context_val": "z_zero" }, "z_adjust": 0, "z_override": true },
+          { "u_teleport": { "context_val": "z_zero" }, "success_message": "", "fail_message": "", "force": true }
+        ]
+      }
     ]
   },
   {
