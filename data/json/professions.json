@@ -8756,7 +8756,7 @@
     "type": "profession",
     "id": "awakened_feral_standard",
     "name": "Former Rioter",
-    "description": "The riots were brutal, and you were part of the reason why. Now, the world is over, and the guilt of what you've done is crushing.",
+    "description": "The riots were brutal, and you were part of the reason why.  Now, the world is over, and the guilt of what you've done is crushing.",
     "npc_background": "BG_survival_story_CRIMINAL",
     "points": -2,
     "items": {
@@ -8766,6 +8766,14 @@
     "flags": [ "SCEN_ONLY" ],
     "//": "You hurt and killed a LOT of people my guy, you even enjoyed doing it.",
     "starting_trauma": 1000,
+    "//1": "Spending months straight brawling is going to at least give you some proficiency at it, even if it's not that good because it was frenzied and against mostly defenseless people.",
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 3, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "stabbing" }
+    ],
     "age_lower": 16
   },
   {
@@ -8773,7 +8781,14 @@
     "type": "profession",
     "id": "awakened_feral_touched",
     "name": "Portal Touched",
-    "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought. Your laughter has stopped, but the visions of abominations bringing ruin haven't.",
+    "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought.  Your laughter has stopped, but the visions of abominations bringing ruin haven't.",
     "traits": [ "SCHIZOPHRENIC" ]
+  },
+  {
+    "copy-from": "awakened_feral_standard",
+    "type": "profession",
+    "id": "awakened_feral_demolition",
+    "name": "Demolitionist",
+    "description": "While 'demolitionist' "
   }
 ]
