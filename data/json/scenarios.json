@@ -1477,8 +1477,9 @@
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 31, "season": "summer", "year": 2 },
     "allowed_locs": [ "sloc_town_in_the_open" ],
-    "professions": [ "awakened_feral_standard" ],
+    "professions": [ "awakened_feral_standard", "awakened_feral_touched" ],
     "requirement": "achievement_survive_28_days",
-    "flags": [ "CITY_START", "LONE_START", "HELI_CRASH", "CHALLENGE" ]
+    "flags": [ "CITY_START", "LONE_START", "HELI_CRASH", "CHALLENGE" ],
+    "forced_traits": [ "DAMAGED_MIND" ]
   }
 ]
