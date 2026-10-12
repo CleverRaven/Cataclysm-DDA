@@ -221,6 +221,9 @@ class basecamp
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point_rel_omt &dir );
 
+        // Returns a basecamp pointer if any basecamp exists in range to claim the specified OMT. Otherwise, returns nullptr
+        static basecamp *any_claim_at( tripoint_abs_omt there );
+
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         std::string next_upgrade( const point_rel_omt &dir, int offset = 1 ) const;

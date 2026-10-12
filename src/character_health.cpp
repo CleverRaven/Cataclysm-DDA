@@ -83,6 +83,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -654,6 +655,8 @@ void Character::apply_murder_penalties( Creature *victim )
             player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
+    // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
+    player_character.mod_trauma( 1 );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -2151,7 +2154,7 @@ void Character::calculate_leak_level()
 {
     float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
-    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&ret]( const item_location & item_loc ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
@@ -2160,7 +2163,8 @@ void Character::calculate_leak_level()
                 ret += it->damage_level();
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     leak_level_dirty = false;
     leak_level = ret;
 }
@@ -2528,6 +2532,11 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wounds();
+}
+
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
@@ -2538,7 +2547,7 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 void Character::update_wounds( time_duration time_passed )
 {
     for( auto &bp : body ) {
-        bp.second.update_wounds( time_passed );
+        bp.second.update_wounds( *this, time_passed );
     }
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }

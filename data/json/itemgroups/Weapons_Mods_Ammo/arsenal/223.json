@@ -72,6 +72,6 @@
   {
     "id": "stanag_mags",
     "type": "item_group",
-    "items": [ { "item": "stanag30", "prob": 100 }, { "item": "stanag30ranger", "prob": 10 } ]
+    "items": [ { "item": "stanag30", "prob": 100 } ]
   }
 ]

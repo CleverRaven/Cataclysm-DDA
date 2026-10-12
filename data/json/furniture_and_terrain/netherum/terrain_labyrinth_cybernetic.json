@@ -738,5 +738,33 @@
     "move_cost": 2,
     "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl2_obelisk_altaros",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Strange Obelisk",
+    "description": "A dark gray obelisk.  Despite its solid appearance, the face of it seems to slightly ripple, as if it were sand, loosely suspended in space.  The depths of the ripples scream with an eerie, green fluorescence.",
+    "symbol": "A",
+    "color": "dark_gray",
+    "light_color": [ 220, 255, 200 ],
+    "light_emitted": 200,
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_NL2_TO_LABYRINTH_SAFEHOUSE_OBELISK",
+          "effect": [
+            {
+              "run_eoc_selector": [ "EOC_LS_teleport_t_nl2_obelisk_altaros" ],
+              "allow_cancel": true,
+              "names": [ "Place your hand upon the obelisk." ],
+              "title": "As you approach the massive obelisk,\nits surface starts to warp,\nand a sound slips free:\nlike a whisper, beckoning.\nA depression quickly forms.\nIn the shape of your hand.",
+              "descriptions": [ "How strange.  It looks like a perfect fit for you.  You have a bad feeling in the pit of your stomach." ]
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

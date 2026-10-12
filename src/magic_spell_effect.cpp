@@ -1735,7 +1735,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
         if( guy.has_flag( json_flag_NUMB ) || guy.has_flag( json_flag_PSYCHOPATH ) ||
             guy.has_flag( json_flag_PRED3 ) || guy.has_flag( json_flag_PRED4 ) ) {
             // specially immune.
-            return;
+            continue;
         }
 
         if( guy.has_flag( json_flag_PRED1 ) ||
@@ -1785,6 +1785,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint_bub_
             moraleMalus /= 5;
         }
         guy.add_morale( morale_killed_monster, moraleMalus, maxMalus, duration, decayDelay );
+        // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
+        guy.mod_trauma( 1 );
     }
 }
 

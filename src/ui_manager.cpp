@@ -396,6 +396,11 @@ void ui_adaptor::redraw_invalidated( )
     if( !imgui_frame_started ) {
 #if defined(TILES)
         imclient->new_frame( buf_w, buf_h );
+        // a font rebuild in new_frame invalidates every text measurement; the deferred
+        // resize loop below re-runs them in this same pass, against the new fonts
+        if( imclient->fonts_reloaded_this_frame() ) {
+            ui_adaptor::mark_all_for_resize();
+        }
 #else
         imclient->new_frame();
 #endif
@@ -538,6 +543,14 @@ void ui_adaptor::redraw_invalidated( )
     // if( imclient->auto_size_frame_active() ) {
     //     redraw_invalidated();
     // }
+}
+
+void ui_adaptor::mark_all_for_resize()
+{
+    for( ui_adaptor &ui : ui_stack ) {
+        ui.deferred_resize = true;
+        ui.invalidated = true;
+    }
 }
 
 void ui_adaptor::screen_resized()

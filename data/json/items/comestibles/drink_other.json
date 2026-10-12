@@ -74,8 +74,9 @@
     "calories": 106,
     "spoils_in": "6 days 16 hours",
     "charges": 16,
-    "fun": -1,
-    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
+    "//COMMENT": "This food is a condiment and cannot be eaten directly. It can be eaten automatically as a 'seasoning' or used in crafting/cooking.",
+    "fun": 3,
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME", "INEDIBLE" ],
     "phase": "liquid",
     "freezing_point": -4,
     "vitamins": [ [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ]
@@ -337,8 +338,9 @@
     "quench": -10,
     "calories": 30,
     "charges": 48,
-    "fun": -20,
-    "flags": [ "NO_AUTO_CONSUME" ],
+    "//COMMENT": "This food is a condiment and cannot be eaten directly. It can be eaten automatically as a 'seasoning' or used in crafting/cooking.",
+    "fun": 3,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
     "phase": "liquid",
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },

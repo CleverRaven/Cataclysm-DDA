@@ -763,6 +763,16 @@
     "speed": 60,
     "attack_cost": 60,
     "hp": 440,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zoabosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "burn_into": "mon_zoabosaurus_scorched",
     "fungalize_into": "mon_zoabosaurus_fungus",
     "upgrades": { "half_life": 120, "into_group": "GROUP_zoabosaurus_UPGRADE" }
@@ -780,6 +790,16 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "hp": 400,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zaplocanthosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.",
     "burn_into": "mon_zaplocanthosaurus_scorched",
     "fungalize_into": "mon_zaplocanthosaurus_fungus",
@@ -793,6 +813,16 @@
     "looks_like": "mon_zapatosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
     "hp": 250,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamargasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with two parallel rows of tall spines down its neck and back and a whip-like tail.",
     "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
@@ -840,6 +870,16 @@
     "looks_like": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 15000 L and 15000 kg",
     "hp": 460,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrontosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail.",
     "burn_into": "mon_zrontosaurus_scorched",
     "fungalize_into": "mon_zrontosaurus_fungus",
@@ -855,6 +895,16 @@
     "weight": "1000 kg",
     "//": "When large weights and volumes are fixed this should be 15000 L and 15000 kg",
     "hp": 460,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "ziplodocus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "bodytype": "elephant",
     "speed": 50,
     "attack_cost": 50,
@@ -873,6 +923,16 @@
     "copy-from": "mon_ziplodocus",
     "looks_like": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 16000 L and 16000 kg",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zarosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  There is a large claw on each foreleg.",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
@@ -886,6 +946,16 @@
     "looks_like": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 47000 L and 47000 kg",
     "hp": 500,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamarasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "speed": 50,
     "attack_cost": 50,
     "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
@@ -904,6 +974,16 @@
     "attack_cost": 40,
     "melee_dice": 6,
     "hp": 485,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrachiosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Gigantic, long-necked, four-legged dinosaur corpse with longer forelegs and a whip-like tail.",
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
@@ -921,6 +1001,16 @@
     "attack_cost": 45,
     "melee_dice": 6,
     "hp": 475,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zastrodon_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Gigantic, long-necked, four-legged dinosaur corpse with a round, bloated body.",
     "burn_into": "mon_zastrodon_scorched",
     "fungalize_into": "mon_zastrodon_fungus",
@@ -935,6 +1025,16 @@
     "//": "When large weights and volumes are fixed this should be 70000 L and 70000 kg",
     "melee_dice": 5,
     "hp": 500,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zalamosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "Gigantic, long-necked, four-legged dinosaur corpse, protected by natural bone armor and a spiked tail.",
     "burn_into": "mon_zalamosaurus_scorched",
     "fungalize_into": "mon_zalamosaurus_fungus",
@@ -2173,6 +2273,7 @@
       "eoc": "EOC_ZAUROPOD_HURT"
     },
     "weakpoint_sets": [ "wps_sauropod_leg" ],
-    "extend": { "flags": [ "DESTROYS" ] }
+    "extend": { "flags": [ "DESTROYS" ] },
+    "upgrades": false
   }
 ]

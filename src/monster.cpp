@@ -14,6 +14,7 @@
 
 #include "ascii_art.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
@@ -341,8 +342,7 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
-    if( has_effect( effect_onfire ) ||
-        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+    if( has_effect( effect_onfire ) || luminance() > 0 ) {
         map &here = get_map();
         here.set_lightmap_cache_dirty( old_pos.z() );
         here.set_lightmap_cache_dirty( pos_bub().z() );
@@ -356,6 +356,11 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
     }
+}
+
+float monster::luminance() const
+{
+    return calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true );
 }
 
 void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/,
@@ -3305,6 +3310,20 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
     if( corpse ) {
+        // We re-acquire killer here, in case of shenanigans earlier in the function (summoner kill credit assignment, etc)
+        Creature *killer = get_killer();
+        basecamp *camp = basecamp::any_claim_at( pos_abs_omt() );
+
+        // Corpse ownership priority: If on faction territory, the faction always owns the resulting corpse and items. No buts.
+        // If not in a faction's territory, the killer owns the resulting corpse and items.
+        // If no killer, or the killer is not in a faction, then it's set to unowned and is owned by the first person to pick it up. Finders keepers. (Standard spawned item rules)
+        // FIXME: Exodii quadrupeds/monsters/etc do not set ownership.
+        if( camp ) {
+            corpse->set_owner( camp->get_owner() );
+        } else if( killer && killer->as_character() ) {
+            corpse->set_owner( *killer->as_character() );
+        }
+
         corpse->process( *here, nullptr, corpse.pos_bub( *here ) );
         if( reality_bubble().inbounds( pos_abs() ) ) {
             corpse.make_active();
@@ -3925,8 +3944,9 @@ bool monster::is_nemesis() const
     return has_flag( mon_flag_NEMESIS );
 }
 
-void monster::init_from_item( item &itm )
+void monster::init_from_item( item_location loc )
 {
+    item &itm = *loc;
     if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
@@ -3959,12 +3979,12 @@ void monster::init_from_item( item &itm )
                 }
             }
             inv.push_back( *it );
-            itm.remove_item( *it );
+            loc.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
         for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
-            itm.remove_item( *dissectable );
+            loc.remove_item( *dissectable );
         }
     } else {
         // must be a robot

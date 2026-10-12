@@ -144,6 +144,19 @@
         "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_intro_NL_interface"
       },
       {
+        "text": "I think there's something wrong with that labyrinth teleporter computer.  It's giving some error when I try to use it.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "CBM_Interface" },
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            { "math": [ "labyrinth_access_points == 0" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_exodii_wrist_computer" } ] } },
+            { "compare_string": [ "yes", { "u_val": "encountered_labyrinth_entry_error" } ] }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_netherum_labyrinth_exodii_wrist_computer"
+      },
+      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [

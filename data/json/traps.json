@@ -1264,5 +1264,50 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_to_labyrinth_teleporter_n",
+    "name": "mysterious hallway",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_portal_dungeon_to_labyrinth_teleporter_n" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_to_labyrinth_teleporter_s",
+    "name": "mysterious hallway",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_portal_dungeon_to_labyrinth_teleporter_s" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_how_dare_you_skip_the_real_teleporter",
+    "name": "mysterious hallway",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

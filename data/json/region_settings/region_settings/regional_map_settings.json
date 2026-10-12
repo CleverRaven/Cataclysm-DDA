@@ -714,6 +714,8 @@
       [ "fire_station_1", 200 ],
       [ "home_improvement", 200 ],
       [ "s_lot", 50 ],
+      [ "charging_station_2x2", 400 ],
+      [ "charging_station_2x2_roofed", 400 ],
       [ "parking_lot_2x1", 400 ],
       [ "parking_lot_2x2", 400 ],
       [ "parking_lot_3x1", 400 ],

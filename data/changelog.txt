@@ -121,6 +121,8 @@ Military & firefighter respirators work with SCBA
 Colored light tint inside the sprite shader, so isometric tilesets get it too
 Vehicle wheels gib corpses, smash stuff, throw items around
 Better 'Resume Construction' behavior
+Slime has redundant omnicellular parts
+Smooth lighting
 
 
 ## Content:
@@ -383,6 +385,8 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] The Exodii won't talk to the Fair Folk
 [Xedra Evolved] More changeling seasonal glamours
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
+New Crafting System for Isolation Protocol
+Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -795,6 +799,7 @@ move all crafting_inventory operations to temp_crafting_inventory class
 deprecate inventory class structure
 Moved the dead marloss code to eoc
 move open/close action to activity_actor
+change visitable to use item_location
 
 
 ## Build:
@@ -817,6 +822,7 @@ Address warnings on possible loss of data
 Fix GCC 9 tiles build error in cataimgui::draw_texture
 Android apk with sounds
 MSVC C used to build third-party libs
+Fix `Parameter format not correct - -Command` error
 
 
 ## I18N and A11Y:

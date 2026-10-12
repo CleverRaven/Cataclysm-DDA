@@ -1291,7 +1291,7 @@ void remove_item( const std::optional<vpart_reference> &vp,
 
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  unload_sort_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
-                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 item_location it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -1309,7 +1309,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
     // TODO: less egregious than teleporting over a distance, but still not good
     auto unload_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
         move_item( you, *contained, contained->count(), src_bub, src_bub, vpr_src );
-        it->remove_item( *contained );
+        it.remove_item( *contained );
     };
 
     if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
@@ -1363,7 +1363,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 
                     // destroy fully unloaded magazines
                     if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
-                        zone_sorting::remove_item( vpr_src, src_bub, it );
+                        zone_sorting::remove_item( vpr_src, src_bub, it.get_item() );
                         num_processed = std::max( num_processed - 1, 0 );
                         return std::nullopt;
                     }
@@ -1916,7 +1916,7 @@ bool are_requirements_nearby(
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv.add_item_ref( *elem );
+        temp_inv.add_item_loc( item_location( you, &*elem ) );
     }
     map &here = get_map();
     for( const tripoint_bub_ms &elem : loot_spots ) {
@@ -1949,7 +1949,7 @@ bool are_requirements_nearby(
             if( craft_reservation::contains_reserved( elem2 ) ) {
                 continue;
             }
-            temp_inv.add_item_ref( elem2 );
+            temp_inv.add_item_loc( item_location( map_cursor( elem ), &elem2 ) );
         }
 
         if( !in_loot_zones ) {
@@ -1958,7 +1958,7 @@ bool are_requirements_nearby(
                     if( craft_reservation::contains_reserved( it ) ) {
                         continue;
                     }
-                    temp_inv.add_item_ref( it );
+                    temp_inv.add_item_loc( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) );
                 }
             }
         }
@@ -3029,7 +3029,7 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     // will be filtered for amounts/charges afterwards.
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( const item &stack_elem : here.i_at( point_elem ) ) {
+        for( item &stack_elem : here.i_at( point_elem ) ) {
             if( craft_reservation::contains_reserved( stack_elem ) ) {
                 continue;
             }

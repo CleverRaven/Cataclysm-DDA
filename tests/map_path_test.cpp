@@ -238,8 +238,9 @@ TEST_CASE( "find_clear_path_5tiles_with_obstacles", "[map]" )
                 const bool path_contains_obstacle = std::find( path.begin(), path.end(), obstacle ) != path.end();
                 CHECK_FALSE( path_contains_obstacle );
             }
-            CHECK( here.sees( source, target, -1 ) );
-            CHECK( here.sees( target, source, -1 ) );
+            // default line crosses the obstacle, whatever other line find_clear_path found
+            CHECK_FALSE( here.sees( source, target, -1 ) );
+            CHECK_FALSE( here.sees( target, source, -1 ) );
         }
     }
     GIVEN( "Map has obstacle northwest of source" ) {
@@ -286,8 +287,9 @@ TEST_CASE( "find_clear_path_5tiles_with_obstacles", "[map]" )
                 const bool path_contains_obstacle = std::find( path.begin(), path.end(), obstacle ) != path.end();
                 CHECK_FALSE( path_contains_obstacle );
             }
-            CHECK( here.sees( source, target, -1 ) );
-            CHECK( here.sees( target, source, -1 ) );
+            // default line crosses the obstacle, whatever other line find_clear_path found
+            CHECK_FALSE( here.sees( source, target, -1 ) );
+            CHECK_FALSE( here.sees( target, source, -1 ) );
         }
     }
     clear_map_without_vision();

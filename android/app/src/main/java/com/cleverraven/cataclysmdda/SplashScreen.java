@@ -7,7 +7,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,6 +50,7 @@ public class SplashScreen extends Activity {
 
     public boolean[] mSettingsValues = { false, true, true };
     private int mSystemUiModeIndex = 0;
+    private String mScreenOrientation = CataclysmDDA.SCREEN_ORIENTATION_LANDSCAPE;
 
     private String getVersionName() {
         try {
@@ -154,6 +158,7 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.e(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+        CataclysmDDA.applyStoredScreenOrientation(this);
 
         accessibilityServicesAlert = new AlertDialog.Builder(SplashScreen.this)
             .setTitle(getString(R.string.accessibilityServicesTitle))
@@ -230,6 +235,14 @@ public class SplashScreen extends Activity {
         private final List<String> PRESERVE_FILES = Arrays.asList("user-default-mods.json"); // don't delete this file
 
         private int totalFiles = 0;
+        private long countMillis = 0;
+        // one copy buffer for all files
+        private final byte[] buffer = new byte[256 * 1024];
+        // per-file progress updates flood the UI thread
+        private static final long PROGRESS_INTERVAL_MILLIS = 100;
+        private static final String ASSET_FILE_LIST = "android/asset_files.txt";
+        private long lastProgressMillis = 0;
+        private long copiedBytes = 0;
         private int installedFiles = 0;
 
         private AlertDialog installationAlert;
@@ -247,16 +260,7 @@ public class SplashScreen extends Activity {
                         return;
                     }
                 }).create();
-            AssetManager assetManager = getAssets();
-            try {
-                totalFiles = countTotalAssets(assetManager, "data") +
-                    countTotalAssets(assetManager, "gfx") +
-                    countTotalAssets(assetManager, "lang");
-                showDialog(INSTALL_DIALOG_ID);
-            } catch(Exception e) {
-                installationAlert.setMessage(e.getMessage());
-                installationAlert.show();
-            }
+            showDialog(INSTALL_DIALOG_ID);
 
             helpAlert = new AlertDialog.Builder(SplashScreen.this)
                 .setTitle(getString(R.string.helpTitle))
@@ -279,6 +283,7 @@ public class SplashScreen extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Software rendering", SplashScreen.this.mSettingsValues[0]).commit();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(CataclysmDDA.PREF_SYSTEM_UI_MODE, getSelectedSystemUiMode()).commit();
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString(CataclysmDDA.PREF_SCREEN_ORIENTATION, SplashScreen.this.mScreenOrientation).commit();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Trap Back button", SplashScreen.this.mSettingsValues[1]).commit();
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Native Android UI", SplashScreen.this.mSettingsValues[2]).commit();
                         SplashScreen.this.startGameActivity(false);
@@ -310,6 +315,8 @@ public class SplashScreen extends Activity {
                     : CataclysmDDA.SYSTEM_UI_MODE_SYSTEM_BARS;
             }
             SplashScreen.this.mSystemUiModeIndex = systemUiModeIndex(mode);
+            SplashScreen.this.mScreenOrientation = preferences.getString(
+                CataclysmDDA.PREF_SCREEN_ORIENTATION, CataclysmDDA.SCREEN_ORIENTATION_LANDSCAPE);
         }
 
         private ScrollView createSettingsView() {
@@ -337,6 +344,43 @@ public class SplashScreen extends Activity {
             });
             layout.addView(displayModeGroup);
 
+            TextView orientationLabel = new TextView(SplashScreen.this);
+            orientationLabel.setText(getString(R.string.androidScreenOrientation));
+            layout.addView(orientationLabel);
+
+            final String[] orientations = {
+                CataclysmDDA.SCREEN_ORIENTATION_LANDSCAPE,
+                CataclysmDDA.SCREEN_ORIENTATION_PORTRAIT,
+                CataclysmDDA.SCREEN_ORIENTATION_AUTO
+            };
+            final String[] orientationLabels = {
+                getString(R.string.androidScreenOrientationLandscape),
+                getString(R.string.androidScreenOrientationPortrait),
+                getString(R.string.androidScreenOrientationAuto)
+            };
+            RadioGroup orientationGroup = new RadioGroup(SplashScreen.this);
+            orientationGroup.setOrientation(RadioGroup.VERTICAL);
+            for (int i = 0; i < orientations.length; i++) {
+                RadioButton button = new RadioButton(SplashScreen.this);
+                button.setId(ORIENTATION_BUTTON_ID_BASE + i);
+                button.setText(orientationLabels[i]);
+                orientationGroup.addView(button, new RadioGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                if (orientations[i].equals(mScreenOrientation)) {
+                    orientationGroup.check(ORIENTATION_BUTTON_ID_BASE + i);
+                }
+            }
+            orientationGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    SplashScreen.this.mScreenOrientation = orientations[checkedId - ORIENTATION_BUTTON_ID_BASE];
+                    SplashScreen.this.setRequestedOrientation(
+                        CataclysmDDA.requestedOrientationFor(SplashScreen.this.mScreenOrientation));
+                }
+            });
+            layout.addView(orientationGroup);
+
             addBooleanSetting(layout, 0, getString(R.string.softwareRendering));
             addBooleanSetting(layout, 1, getString(R.string.trapBackButton));
             addBooleanSetting(layout, 2, getString(R.string.nativeAndroidUI));
@@ -354,6 +398,8 @@ public class SplashScreen extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         }
+
+        private static final int ORIENTATION_BUTTON_ID_BASE = 2000;
 
         private int systemUiModeButtonId(int index) {
             return 1000 + index;
@@ -395,25 +441,45 @@ public class SplashScreen extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            if (installDialog != null) {
-                installDialog.setIndeterminate(false);
-                installDialog.setMax(totalFiles);
-            }
-            publishProgress(installedFiles);
-
             AssetManager assetManager = getAssets();
             String externalFilesDir = getExternalFilesDir(null).getPath();
 
+            long deleteMillis;
+            long copyMillis;
             try {
+                // builds without the generated list fall back to walking the APK
+                long phaseStart = SystemClock.elapsedRealtime();
+                List<String> assetFiles = readAssetFileList(assetManager);
+                if (assetFiles == null) {
+                    assetFiles = new ArrayList<String>();
+                    collectAssetFiles(assetManager, "data", assetFiles);
+                    collectAssetFiles(assetManager, "gfx", assetFiles);
+                    collectAssetFiles(assetManager, "lang", assetFiles);
+                }
+                totalFiles = assetFiles.size();
+                countMillis = SystemClock.elapsedRealtime() - phaseStart;
+                publishProgress(installedFiles, totalFiles);
+
+                phaseStart = SystemClock.elapsedRealtime();
                 // Clear out the old data if it exists (but preserve custom folders + files)
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/data"));
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/gfx"));
                 deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lang"));
+                deleteMillis = SystemClock.elapsedRealtime() - phaseStart;
 
+                phaseStart = SystemClock.elapsedRealtime();
                 // Install the new data over the top
-                copyAssetFolder(assetManager, "data", externalFilesDir + "/data");
-                copyAssetFolder(assetManager, "gfx", externalFilesDir + "/gfx");
-                copyAssetFolder(assetManager, "lang", externalFilesDir + "/lang");
+                String lastFolder = "";
+                for (String assetFile : assetFiles) {
+                    File target = new File(externalFilesDir + "/" + assetFile);
+                    String folder = target.getParent();
+                    if (!folder.equals(lastFolder)) {
+                        new File(folder).mkdirs();
+                        lastFolder = folder;
+                    }
+                    copyAsset(assetManager, assetFile, target.getPath());
+                }
+                copyMillis = SystemClock.elapsedRealtime() - phaseStart;
             } catch(Exception e) {
                 installationAlert.setMessage(e.getMessage());
                 return false;
@@ -423,7 +489,8 @@ public class SplashScreen extends Activity {
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("installed", getVersionName()).commit();
 
             publishProgress(++installedFiles);
-            Log.d(TAG, "Total number of files copied: " + installedFiles);
+            Log.i(TAG, "Installed " + installedFiles + " files, " + copiedBytes + " bytes: count "
+                  + countMillis + " ms, delete " + deleteMillis + " ms, copy " + copyMillis + " ms");
             return true;
         }
 
@@ -473,49 +540,46 @@ public class SplashScreen extends Activity {
             }
         }
 
-        private int countTotalAssets(AssetManager assetManager, String assetPath) throws Exception {
+        // asset paths generated by generateAssetFileList at build time, or null if not
+        // written
+        private List<String> readAssetFileList(AssetManager assetManager) throws IOException {
+            InputStream in;
             try {
-                String[] files = assetManager.list(assetPath);
-                int count = 0;
-                for (String file : files)
-                {
-                    String filePath = assetPath + "/" + file;
-                    String subdir_files[] = assetManager.list(filePath);
-                    if (subdir_files.length == 0) // file
-                        count++;
-                    else // folder
-                        count += countTotalAssets(assetManager, filePath);
-                }
-                return count;
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
+                in = assetManager.open(ASSET_FILE_LIST);
+            } catch (FileNotFoundException e) {
+                return null;
             }
+            List<String> files = new ArrayList<String>();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.isEmpty()) {
+                        files.add(line);
+                    }
+                }
+            }
+            return files;
         }
 
-        // Pinched from http://stackoverflow.com/questions/16983989/copy-directory-from-assets-to-data-folder
-        private boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) throws Exception {
-            try {
-                String[] files = assetManager.list(fromAssetPath);
-                new File(toPath).mkdirs();
-                boolean res = true;
-                for (String file : files)
-                {
-                    String subdir_files[] = assetManager.list(fromAssetPath + "/" + file);
-                    if (subdir_files.length == 0) // file
-                        res &= copyAsset(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
-                    else // folder
-                        res &= copyAssetFolder(assetManager, fromAssetPath + "/" + file, toPath + "/" + file);
+        private void collectAssetFiles(AssetManager assetManager, String assetPath, List<String> out) throws Exception {
+            for (String file : assetManager.list(assetPath)) {
+                String filePath = assetPath + "/" + file;
+                String[] children = assetManager.list(filePath);
+                if (children.length == 0) {
+                    out.add(filePath);
+                } else {
+                    collectAssetFiles(assetManager, filePath, out);
                 }
-                return res;
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
             }
         }
 
         private boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath) throws Exception {
-            publishProgress(++installedFiles, totalFiles);
+            ++installedFiles;
+            long now = SystemClock.elapsedRealtime();
+            if (now - lastProgressMillis >= PROGRESS_INTERVAL_MILLIS) {
+                lastProgressMillis = now;
+                publishProgress(installedFiles);
+            }
             InputStream in = null;
             OutputStream out = null;
             try {
@@ -536,10 +600,10 @@ public class SplashScreen extends Activity {
         }
 
         private void copyFile(InputStream in, OutputStream out) throws IOException {
-            byte[] buffer = new byte[1024];
             int read;
             while((read = in.read(buffer)) != -1) {
               out.write(buffer, 0, read);
+              copiedBytes += read;
             }
         }
 
@@ -547,6 +611,10 @@ public class SplashScreen extends Activity {
         protected void onProgressUpdate(Integer... values) {
             if (installDialog == null) {
                 return;
+            }
+            if (values.length > 1) {
+                installDialog.setIndeterminate(false);
+                installDialog.setMax(values[1]);
             }
             installDialog.setProgress(values[0]);
         }

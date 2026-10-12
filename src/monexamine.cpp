@@ -226,7 +226,7 @@ void attach_bag_to( monster &z )
         for( item *top_item : it.all_items_top() ) {
             item &i = *top_item;
             z.add_item( i );
-            it.remove_item( i );
+            loc.remove_item( i );
         }
     }
     z.storage_item = cata::make_value<item>( it );

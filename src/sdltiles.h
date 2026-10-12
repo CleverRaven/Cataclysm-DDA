@@ -68,6 +68,9 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 const SDL_Renderer_Ptr &get_sdl_renderer();
+// SDL_HINT_GPU_DRIVER value from the GPU_BACKEND option, or nothing to keep
+// SDL's own order; an SDL_GPU_DRIVER environment variable wins
+std::optional<std::string> gpu_backend_hint( const std::string &option_value, bool env_override );
 // Clears the SDL renderer to black. Returns false without clearing when a
 // recovery/pause/resize is queued or the buffer bind failed, so the caller can
 // keep the clear request armed for a later frame.
@@ -89,6 +92,7 @@ SDL_Point window_to_display_buffer_coords( SDL_Point window_pt );
 // android shortcut overlay and virtual joystick hit-test against the window.
 void convert_event_to_display_buffer_coords( SDL_Event *event );
 
+class smooth_lightmap;
 namespace cata_shader
 {
 class variant_pass;
@@ -98,6 +102,15 @@ class variant_pass;
 // WinDestroy). One shared handle so a renderer recreate updates a single pass,
 // not per-context copies.
 cata_shader::variant_pass *get_shared_variant_pass();
+// the smooth lighting map shared by every tile context; null before the
+// renderer is up
+smooth_lightmap *get_shared_lightmap();
+
+// unbind any sprite shader so the next draw uses the renderer's own. a popup
+// raised during a map draw would otherwise paint through the last sprite's
+// shader. false when the bind boundary is lost: recovery is latched and the
+// caller skips its draw.
+bool unbind_sprite_shader();
 
 // True while the active scope failed to bind the buffer target. Per-scope;
 // consult before drawing so nothing paints onto an unknown SDL target.

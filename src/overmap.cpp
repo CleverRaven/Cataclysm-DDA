@@ -3906,12 +3906,11 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
 
 void overmap::add_camp( const point_abs_omt &p, const basecamp &camp )
 {
-    //TODO: After 0.I stable this should debugmsg on failed emplace
-    //auto it = camps.emplace( p, camp );
-    //if( !it.second ) {
-    //  debugmsg( "Tried to add a basecamp %s at %s when basecamp %s is already present", camp.camp_name(), p.to_string(), it.first->second.camp_name() );
-    //}
-    camps.emplace( p, camp );
+    auto it = camps.emplace( p, camp );
+    if( !it.second ) {
+        debugmsg( "Tried to add a basecamp %s at %s when basecamp %s is already present", camp.camp_name(),
+                  p.to_string(), it.first->second.camp_name() );
+    }
 }
 
 std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )

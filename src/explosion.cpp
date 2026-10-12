@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -60,6 +61,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weakpoint.h"
 
@@ -640,7 +642,7 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
                 !guy.worn_with_flag( flag_DEAF ) ) {
                 guy.add_effect( effect_deaf, time_duration::from_turns( radius * 5 - dist * 4 ) );
             }
-            if( here.sees( guy.pos_bub(), p, radius ) ) {
+            if( here.sees( guy.pos_bub(), p, radius, true, los_trace::physical ) ) {
                 int flash_mod = 0;
                 int dur_mod = 1;
                 if( guy.has_trait( trait_PER_SLIME ) ) {
@@ -687,7 +689,8 @@ void flashbang( const tripoint_bub_ms &p, bool player_immune, const int radius )
             if( dist <= radius / 2 ) {
                 critter.add_effect( effect_stunned, time_duration::from_turns( radius / 0.8f - dist ) );
             }
-            if( critter.has_flag( mon_flag_SEES ) && here.sees( critter.pos_bub(), p, radius ) ) {
+            if( critter.has_flag( mon_flag_SEES ) &&
+                here.sees( critter.pos_bub(), p, radius, true, los_trace::physical ) ) {
                 critter.add_effect( effect_blind, time_duration::from_turns( radius * 2.5f - dist ) );
             }
             if( critter.has_flag( mon_flag_HEARS ) ) {
@@ -867,19 +870,20 @@ void emp_blast( const tripoint_bub_ms &p )
                      weapon->tname() );
         }
 
-        for( item_location &it : player_character.all_items_loc() ) {
-            // Render any electronic stuff in player's possession non-functional
-            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
-                !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
-                add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
-                it->deactivate();
-                item &electronic_item = *it.get_item();
-                if( get_option<bool>( "GAME_EMP" ) ) {
-                    electronic_item.set_fault( fault_emp_reboot );
-                } else {
-                    electronic_item.set_random_fault_of_type( "shorted" );
+        if( !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+            player_character.visit_carried( []( item_location it ) {
+                // Render any electronic stuff in player's possession non-functional
+                if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() ) {
+                    add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
+                    it->deactivate();
+                    if( get_option<bool>( "GAME_EMP" ) ) {
+                        it->set_fault( fault_emp_reboot );
+                    } else {
+                        it->set_random_fault_of_type( "shorted" );
+                    }
                 }
-            }
+                return VisitResponse::NEXT;
+            } );
         }
     }
 

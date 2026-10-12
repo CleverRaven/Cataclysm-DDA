@@ -3097,6 +3097,14 @@
   },
   {
     "type": "effect_type",
+    "id": "bloody_feet",
+    "name": [ "Bloody Feet" ],
+    "desc": [ "Your feet are covered in blood!" ],
+    "remove_message": "Your feet are no longer bloody.",
+    "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
     "id": "bleed",
     "name": [
       "Minor Bleeding",

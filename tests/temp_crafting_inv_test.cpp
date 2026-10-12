@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -7,6 +8,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -15,15 +17,21 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "color.h"
+#include "construction.h"
 #include "coordinates.h"
+#include "crafting.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "requirements.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
@@ -37,6 +45,7 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_test_f_reserve_qual( "test_f_reserve_qual" );
 
+static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_UPS_off( "UPS_off" );
@@ -49,14 +58,18 @@ static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_nail( "nail" );
 static const itype_id itype_pot( "pot" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_saw( "saw" );
+static const itype_id itype_shovel( "shovel" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_test_fire_ax( "test_fire_ax" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_test_halligan( "test_halligan" );
 static const itype_id itype_test_reserve_bionic_rod( "test_reserve_bionic_rod" );
 static const itype_id itype_water( "water" );
+static const itype_id itype_wood_panel( "wood_panel" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BOIL( "BOIL" );
@@ -75,7 +88,7 @@ TEST_CASE( "temp_crafting_inv_test_amount", "[crafting][inventory]" )
 
     item gum( itype_test_gum, calendar::turn_zero, item::default_charges_tag{} );
 
-    inv.add_item_ref( gum );
+    inv.add_item_copy( gum );
     CHECK( inv.size() == 1 );
 
     CHECK( inv.amount_of( itype_test_gum ) == 1 );
@@ -154,7 +167,7 @@ static void build_pile( temp_crafting_inventory &inv, item &loose )
     here.furn_set( pile_origin, furn_test_f_reserve_qual );
 
     inv.form_from_map( pile_origin, 0, nullptr, false );
-    inv.add_item_ref( loose );
+    inv.add_item_copy( loose );
     inv.add_item_copy( item( itype_knife_hunting ) );
 }
 
@@ -200,7 +213,7 @@ TEST_CASE( "temp_crafting_inventory_index_answers_like_a_live_walk", "[crafting]
     build_pile( inv, loose );
 
     std::set<itype_id> types{ itype_cudgel, itype_rock };
-    inv.visit_items( [&types]( const item * node, item * ) {
+    inv.visit_items( [&types]( const item_location & node ) {
         types.insert( node->typeId() );
         return VisitResponse::NEXT;
     } );
@@ -348,6 +361,14 @@ TEST_CASE( "provider_quality_memo_keeps_every_key_dimension", "[crafting][invent
     std::vector<quality_ask> asks;
     for( const auto &[first, second] : pairs ) {
         CAPTURE( asks.size() );
+        CAPTURE( first.qual );
+        CAPTURE( first.level );
+        CAPTURE( first.qty );
+        CAPTURE( first.mode );
+        CAPTURE( second.qual );
+        CAPTURE( second.level );
+        CAPTURE( second.qty );
+        CAPTURE( second.mode );
         REQUIRE( ask( inv, first ) != ask( inv, second ) );
         asks.push_back( first );
         asks.push_back( second );
@@ -366,6 +387,72 @@ TEST_CASE( "provider_quality_memo_keeps_every_key_dimension", "[crafting][invent
                 const size_t i = reverse ? asks.size() - 1 - n : n;
                 CAPTURE( reverse, pass, i );
                 CHECK( ask( inv, asks[i] ) == live[i] );
+            }
+        }
+    }
+}
+
+static std::vector<std::string> ask_like_the_construction_menu( Character &u,
+        const temp_crafting_inventory &inv )
+{
+    std::vector<std::string> out;
+    for( const construction &con : get_constructions() ) {
+        const requirement_data &reqs = *con.requirements;
+        const bool can = player_can_build( u, inv, con, true );
+        reqs.can_make_with_inventory( &u, inv, is_crafting_component, 1, craft_flags::none, false );
+        std::string line = con.id.str() + ( can ? " yes" : " no" );
+        for( const std::string &s : reqs.get_folded_tools_list( &u, 80, c_white, inv ) ) {
+            line += "|" + s;
+        }
+        for( const std::string &s : reqs.get_folded_components_list( &u, 80, c_white, inv,
+                is_crafting_component ) ) {
+            line += "|" + s;
+        }
+        out.push_back( line );
+    }
+    return out;
+}
+
+TEST_CASE( "construction_menu_queries_match_a_live_walk_inside_a_scope",
+           "[construction][crafting][inventory]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    for( const Skill &sk : Skill::skills ) {
+        u.set_skill_level( sk.ident(), 10 );
+    }
+    map &here = get_map();
+    const tripoint_bub_ms east = u.pos_bub() + tripoint::east;
+    GIVEN( "tools and nails carried, lumber and stone piled next to the player" ) {
+        u.i_add( item( itype_hammer ) );
+        u.i_add( item( itype_saw ) );
+        item pack( itype_backpack );
+        REQUIRE( pack.put_in( item( itype_nail, calendar::turn, 100 ),
+                              pocket_type::CONTAINER ).success() );
+        REQUIRE( u.wear_item( pack ) );
+        here.spawn_item( east, itype_2x4, 12 );
+        here.spawn_item( east, itype_wood_panel, 4 );
+        here.spawn_item( east, itype_rock, 40 );
+        here.add_item( east, item( itype_shovel ) );
+        u.invalidate_crafting_inventory();
+        const std::vector<std::string> live = ask_like_the_construction_menu( u,
+                                              u.crafting_inventory() );
+        REQUIRE( std::any_of( live.begin(), live.end(), []( std::string_view l ) {
+            return l.find( " yes" ) != std::string::npos;
+        } ) );
+        REQUIRE( std::any_of( live.begin(), live.end(), []( std::string_view l ) {
+            return l.find( " no" ) != std::string::npos;
+        } ) );
+        WHEN( "menu asks the same questions twice inside a scope" ) {
+            temp_crafting_inventory::query_cache_scope scope;
+            const std::vector<std::string> first = ask_like_the_construction_menu( u,
+                                                   u.crafting_inventory() );
+            const std::vector<std::string> second = ask_like_the_construction_menu( u,
+                                                    u.crafting_inventory() );
+            THEN( "every answer and requirement line matches the live walk" ) {
+                CHECK( first == live );
+                CHECK( second == live );
             }
         }
     }

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -60,6 +61,7 @@
 #include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
@@ -72,7 +74,6 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
-static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -123,18 +124,21 @@ static bool check_water_affect_items( avatar &you )
     std::vector<item_location> destroyed;
     std::vector<item_location> wet;
 
-    for( item_location &loc : you.all_items_loc() ) {
-        if( you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
-            break;
-        } else if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            dissolved.emplace_back( loc );
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            destroyed.emplace_back( loc );
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            wet.emplace_back( loc );
-        }
+
+    if( !you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+        you.visit_items( [&dissolved, &destroyed, &wet]( const item_location & loc ) {
+            if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
+                dissolved.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
+                destroyed.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
+                wet.emplace_back( loc );
+            }
+            if( loc->is_watertight_container() && !loc->will_spill() ) {
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
     }
 
     if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
@@ -196,16 +200,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
-    }
-
-    //TODO: Replace with dirtying vision_transparency_cache
-    //TODO: Really ugly bc we're not sure we're moving anywhere yet
-    const bool is_crouching = you.is_crouching();
-    const bool low_profile = you.has_effect( effect_quadruped_full ) &&
-                             you.is_running();
-    const bool is_prone = you.is_prone();
-    if( is_crouching || is_prone || low_profile ) {
-        m.set_transparency_cache_dirty( d.z() );
     }
 
     // If any leg broken without crutches and not already on the ground topple over

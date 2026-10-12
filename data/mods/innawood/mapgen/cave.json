@@ -426,7 +426,7 @@
       "items": {
         "~": [
           { "item": "monparts", "chance": 2 },
-          { "item": "trash_forest", "chance": 2 },
+          { "item": "SUS_trash_forest_no_manmade", "chance": 2 },
           { "item": "cave_minerals", "chance": 20 }
         ]
       }

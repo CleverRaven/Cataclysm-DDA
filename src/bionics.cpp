@@ -62,7 +62,6 @@
 #include "monster.h"
 #include "mutation.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
@@ -84,6 +83,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -219,8 +219,9 @@ void bionic::initialize_pseudo_items( bool create_weapon )
             item pseudo( id );
             if( !pseudo.has_flag( flag_INTEGRATED ) ) {
                 pseudo.set_flag( flag_PSEUDO );
+                // integrated items already get worn in add_bionic, we don't need another copy
+                passive_pseudo_items.emplace_back( pseudo );
             }
-            passive_pseudo_items.emplace_back( pseudo );
         }
     }
 
@@ -2796,8 +2797,9 @@ bool Character::has_any_bionic() const
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
+    const bodypart_str_id slot_bp = bp->similar_bodypart.value_or( bp->id );
     for( const bionic_id &bid : get_bionics() ) {
-        auto search = bid->occupied_bodyparts.find( bp.id() );
+        auto search = bid->occupied_bodyparts.find( slot_bp );
         if( search != bid->occupied_bodyparts.end() ) {
             used_slots += search->second;
         }
@@ -2809,9 +2811,6 @@ int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid ) const
 {
     std::map<bodypart_id, int> issues;
-    if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-        return issues;
-    }
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bioid->occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
@@ -2828,7 +2827,13 @@ int Character::get_total_bionics_slots( const bodypart_id &bp ) const
     for( const trait_id &mut : get_functioning_mutations() ) {
         mut_bio_slots += mut->bionic_slot_bonus( id );
     }
-    return bp->bionic_slots() + mut_bio_slots;
+    int similar_bio_slots = 0;
+    for( const bodypart_str_id &similar : id->get_all_combined_similar_bodyparts() ) {
+        if( similar->similar_bodypart == id && has_part( similar.id() ) ) {
+            similar_bio_slots += similar->bionic_slots();
+        }
+    }
+    return bp->bionic_slots() + mut_bio_slots + similar_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const
@@ -2976,9 +2981,15 @@ void Character::remove_bionic( const bionic &bio )
     }
 
     for( const itype_id &popped_armor : bio.id->passive_pseudo_items ) {
-        remove_worn_items_with( [&]( item & armor ) {
+        std::list<item> removed_items = remove_worn_items_with( [&]( const item & armor ) {
             return armor.typeId() == popped_armor;
         } );
+
+        for( item &armor : removed_items ) {
+            if( armor.can_unload() ) {
+                armor.spill_contents( *this );
+            }
+        }
     }
 
     const bool has_enchantments = !bio.id->enchantments.empty();
@@ -3269,12 +3280,7 @@ void bionic::deserialize( const JsonObject &jo )
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
 
-    //Remove After 0.G
-    if( jo.has_int( "charge" ) ) {
-        charge_timer = time_duration::from_turns( jo.get_int( "charge" ) );
-    } else {
-        jo.read( "charge_timer", charge_timer );
-    }
+    jo.read( "charge", charge_timer );
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
@@ -3468,19 +3474,20 @@ std::vector<item *> Character::get_cable_ups()
 
     // There is no way to check which cable is connected to which ups
     // So if there are multiple cables and some of them are only partially connected this may add wrong ups
-    for( item_location it : all_items_loc() ) {
+    visit_items( [&n, &stored_fuels]( item_location it ) {
         if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
-            it->ammo_remaining( ) ) {
+            it->ammo_remaining() ) {
             stored_fuels.emplace_back( it.get_item() );
             n--;
         }
         if( n == 0 ) {
-            break;
+            return VisitResponse::ABORT;
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
     if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
-        weapon.ammo_remaining( ) ) {
+        weapon.ammo_remaining() ) {
         stored_fuels.emplace_back( &weapon.first_ammo() );
     }
 
@@ -3500,15 +3507,16 @@ std::vector<item *> Character::get_cable_solar()
 
     // There is no way to check which cable is connected to which solar pack
     // So if there are multiple cables and some of them are only partially connected this may add wrong solar pack
-    for( item_location it : all_items_loc() ) {
+    visit_items( [&n, &solar_sources]( item_location it ) {
         if( it->has_flag( flag_SOLARPACK_ON ) && it->get_var( "cable" ) == "plugged_in" ) {
             solar_sources.emplace_back( it.get_item() );
             n--;
         }
         if( n == 0 ) {
-            break;
+            return VisitResponse::ABORT;
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
     if( n > 0 && weapon.has_flag( flag_SOLARPACK_ON ) && weapon.get_var( "cable" ) == "plugged_in" ) {
         solar_sources.emplace_back( &weapon );

@@ -1063,12 +1063,6 @@ void weather_manager::update_weather()
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
         }
 
-        if( weather_id->sight_penalty != old_weather->sight_penalty ) {
-            for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                here.set_transparency_cache_dirty( i );
-            }
-            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
-        }
         if( weather_changed ) {
             effect_on_conditions::process_reactivate();
         }

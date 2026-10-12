@@ -1660,6 +1660,19 @@ void npc_trust_ass( double val, dialogue &d, char scope,
     d.actor( is_beta( scope ) )->set_npc_trust( val );
 }
 
+double trauma_eval( const_dialogue const &d, char scope,
+                    std::vector<diag_value> const & /* params */,
+                    diag_kwargs const & /* kwargs */ )
+{
+    return d.const_actor( is_beta( scope ) )->get_trauma();
+}
+
+void trauma_ass( double val, dialogue &d, char scope,
+                 std::vector<diag_value> const & /* params */, diag_kwargs const & /* kwargs */ )
+{
+    d.actor( is_beta( scope ) )->set_trauma( val );
+}
+
 double gender_eval( const_dialogue const &d, char scope,
                     std::vector<diag_value> const & /* params */,
                     diag_kwargs const & /* kwargs */ )
@@ -1941,6 +1954,7 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "time_since", { "g", 1, time_since_eval, {}, { "unit" } } },
     { "time_until", { "g", 1, time_until_eval, {}, { "unit" } } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval, {}, { "unit" } } },
+    { "trauma", { "un", 0, trauma_eval, trauma_ass } },
     { "proficiency", { "un", 1, proficiency_eval, proficiency_ass, { "format", "direct" } } },
     { "val", { "un", 1, u_val, u_val_ass } },
     { "npc_anger", { "un", 0, npc_anger_eval, npc_anger_ass } },
