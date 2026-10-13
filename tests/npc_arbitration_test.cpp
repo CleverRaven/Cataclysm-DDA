@@ -1146,7 +1146,7 @@ TEST_CASE( "harvesting_npc_answers_order_and_leader_departure", "[npc][needs][wa
     SECTION( "no pursuit recorded" ) {
         // as after an address_needs() harvest or a load
         const auto forget_pursuit = [&guy]() {
-            guy.set_committed_goal( "" );
+            guy.set_committed_goal_for_test( "" );
             guy.plan_for( npc::need_goal_id::drink_water ).clear();
         };
         WHEN( "the leader stays" ) {
@@ -1774,7 +1774,7 @@ static void make_settling( npc &guy )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 300 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -1944,7 +1944,7 @@ TEST_CASE( "rest_review_gets_a_settler_up_and_leaves_sleepers_alone", "[npc][nee
     }
     SECTION( "asleep" ) {
         guy.add_effect( effect_sleep, 1_hours );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         zombie_in_view( guy );
         CHECK_FALSE( guy.rest_interruption() );
         guy.review_rest();
