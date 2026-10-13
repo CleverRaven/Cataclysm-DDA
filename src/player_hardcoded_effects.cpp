@@ -1660,7 +1660,7 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
         } else {
-            if( dur == 1_turns ) {
+            if( dur == 2_turns ) {
                 if( player_character.has_alarm_clock() ) {
                     sounds::sound( player_character.pos_bub( here ), 16, sounds::sound_t::alarm,
                                    _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );

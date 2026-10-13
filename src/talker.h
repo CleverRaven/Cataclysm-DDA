@@ -160,6 +160,9 @@ class const_talker
         virtual int get_artifact_resonance() const {
             return 0;
         }
+        virtual int get_trauma() const {
+            return 0;
+        }
         virtual int str_cur() const {
             return 0;
         }
@@ -575,7 +578,7 @@ class const_talker
         virtual int mana_max() const {
             return 0;
         }
-        virtual int morale_cur() const {
+        virtual int morale_cur( bool ) const {
             return 0;
         }
         virtual int focus_cur() const {
@@ -648,6 +651,9 @@ class const_talker
             return 0;
         }
         virtual int get_health() const {
+            return 0;
+        }
+        virtual int get_daily_health() const {
             return 0;
         }
         virtual units::temperature get_body_temp() const {
@@ -787,6 +793,7 @@ class talker: virtual public const_talker
         virtual void set_pos( tripoint_bub_ms ) {}
         virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
+        virtual void set_trauma( int ) {}
         virtual void set_str_max( int ) {}
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
@@ -837,6 +844,7 @@ class talker: virtual public const_talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
+        virtual void ensure_portrait_valid() {}
         virtual void add_debt( int ) {}
         virtual void i_add( const item & ) {}
         virtual void i_add_or_drop( item &, bool = false ) {}
@@ -902,6 +910,7 @@ class talker: virtual public const_talker
         virtual void set_random_fault_of_type( const std::string &, bool, const Character * ) {};
         virtual void set_mana_cur( int ) {}
         virtual void mod_daily_health( int, int ) {}
+        virtual void set_hunger( int ) {}
         virtual void mod_livestyle( int ) {}
         virtual void mod_focus( int ) {}
         virtual void set_pkill( int ) {}

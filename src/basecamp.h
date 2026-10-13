@@ -19,7 +19,6 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item_components.h"
 #include "item_location.h"
 #include "map.h"
@@ -29,6 +28,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -220,6 +220,9 @@ class basecamp
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point_rel_omt &dir );
+
+        // Returns a basecamp pointer if any basecamp exists in range to claim the specified OMT. Otherwise, returns nullptr
+        static basecamp *any_claim_at( tripoint_abs_omt there );
 
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
@@ -513,7 +516,7 @@ class basecamp
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
         std::vector<std::vector<ui_mission_id>> temp_ui_mission_keys;   // NOLINT(cata-serialize)
-        inventory _inv; // NOLINT(cata-serialize)
+        temp_crafting_inventory _inv; // NOLINT(cata-serialize)
         bool by_radio = false; // NOLINT(cata-serialize)
 };
 

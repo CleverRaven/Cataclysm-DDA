@@ -1314,7 +1314,7 @@
     "name": { "str_sp": "Mycus juice" },
     "weight": "263 g",
     "color": "light_gray",
-    "use_action": [ "MYCUS" ],
+    "consumption_effect_on_conditions": [ "EOC_MYCUS_CONSUME" ],
     "spoils_in": "5 days",
     "container": "bottle_plastic",
     "comestible_type": "DRINK",

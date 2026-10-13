@@ -14,6 +14,7 @@
 
 #include "ascii_art.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
@@ -341,8 +342,7 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
-    if( has_effect( effect_onfire ) ||
-        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+    if( has_effect( effect_onfire ) || luminance() > 0 ) {
         map &here = get_map();
         here.set_lightmap_cache_dirty( old_pos.z() );
         here.set_lightmap_cache_dirty( pos_bub().z() );
@@ -356,6 +356,11 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
     }
+}
+
+float monster::luminance() const
+{
+    return calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true );
 }
 
 void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/,
@@ -865,7 +870,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     // Therefore the header is intentionally *neutral* on the language.
     mvwprintz( w, point( column, vStart++ ), c_light_blue, _( "-----CREATURE-----" ) );
 
-    oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    if( debug_mode ) {
+        oss << get_tag_from_color( c_white ) << get_origin( type->src ) << "</color>" << "\n";
+    }
 
     if( debug_mode ) {
         oss << colorize( type->id.str(), c_white );
@@ -976,8 +983,9 @@ void monster::print_info_imgui() const
 {
     const map &here = get_map();
 
-    ImGui::TextUnformatted( get_origin( type->src ).c_str() );
-
+    if( debug_mode ) {
+        ImGui::TextUnformatted( get_origin( type->src ).c_str() );
+    }
     if( debug_mode ) {
         ImGui::TextUnformatted( type->id.c_str() );
     }
@@ -1071,11 +1079,11 @@ std::vector<std::string> monster::extended_description() const
     // exponential growth.
     tmp.reserve( 12 );
 
-    tmp.emplace_back( get_origin( type->src ) );
-    tmp.emplace_back( "--" );
-
     if( debug_mode ) {
+        tmp.emplace_back( get_origin( type->src ) );
+        tmp.emplace_back( "--" );
         tmp.emplace_back( colorize( type->id.str(), c_white ) );
+
         const std::vector<std::pair<std::string, std::string>> overlays = get_overlay_ids();
         const std::string overlay_str = enumerate_as_string(
                                             overlays.begin(), overlays.end(),
@@ -2151,9 +2159,43 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
 {
-    return false;
+    if( blocks_left <= 0 ) {
+        return false;
+    }
+
+    --blocks_left;
+
+    if( !x_in_y( type->block.chance, 100 ) ) {
+        return false;
+    }
+
+    bool blocked = false;
+    float remaining_block = type->block.effectiveness;
+
+    for( damage_unit &elem : dam.damage_units ) {
+        if( remaining_block <= 0.0f ) {
+            break;
+        }
+
+        if( type->block.ranged || ( elem.type->physical && elem.type->melee_only ) ) {
+            const float block_amount = std::min( remaining_block, elem.amount );
+
+            elem.amount -= block_amount;
+            remaining_block -= block_amount;
+
+            if( block_amount > 0.0f ) {
+                blocked = true;
+            }
+        }
+    }
+
+    if( blocked ) {
+        add_msg_if_player_sees( *this, m_warning, _( "The %s blocks the attack!" ), name() );
+    }
+
+    return blocked;
 }
 
 const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const bodypart_id &,
@@ -2954,6 +2996,8 @@ void monster::explode()
 
 void monster::process_turn()
 {
+    blocks_left = type->block.count;
+
     map &here = get_map();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
@@ -3266,6 +3310,20 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
     if( corpse ) {
+        // We re-acquire killer here, in case of shenanigans earlier in the function (summoner kill credit assignment, etc)
+        Creature *killer = get_killer();
+        basecamp *camp = basecamp::any_claim_at( pos_abs_omt() );
+
+        // Corpse ownership priority: If on faction territory, the faction always owns the resulting corpse and items. No buts.
+        // If not in a faction's territory, the killer owns the resulting corpse and items.
+        // If no killer, or the killer is not in a faction, then it's set to unowned and is owned by the first person to pick it up. Finders keepers. (Standard spawned item rules)
+        // FIXME: Exodii quadrupeds/monsters/etc do not set ownership.
+        if( camp ) {
+            corpse->set_owner( camp->get_owner() );
+        } else if( killer && killer->as_character() ) {
+            corpse->set_owner( *killer->as_character() );
+        }
+
         corpse->process( *here, nullptr, corpse.pos_bub( *here ) );
         if( reality_bubble().inbounds( pos_abs() ) ) {
             corpse.make_active();
@@ -3886,8 +3944,9 @@ bool monster::is_nemesis() const
     return has_flag( mon_flag_NEMESIS );
 }
 
-void monster::init_from_item( item &itm )
+void monster::init_from_item( item_location loc )
 {
+    item &itm = *loc;
     if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
@@ -3920,12 +3979,12 @@ void monster::init_from_item( item &itm )
                 }
             }
             inv.push_back( *it );
-            itm.remove_item( *it );
+            loc.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
         for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
-            itm.remove_item( *dissectable );
+            loc.remove_item( *dissectable );
         }
     } else {
         // must be a robot

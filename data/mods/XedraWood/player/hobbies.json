@@ -271,7 +271,7 @@
     "subtype": "hobby",
     "id": "unarmed_combat",
     "name": "Wrestler (Apprentice)",
-    "description": "You've spent time fighting with your bare hands.  Not to take down game or against other tribes, of course, but in friendly--or at least, non-lethal--contests around the campfires.  You've gotten pretty good at it..",
+    "description": "You've spent time fighting with your bare hands.  Not to take down game or against other tribes, of course, but in friendly--or at least, non-lethal--contests around the campfires.  You've gotten pretty good at it.",
     "points": 2,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
     "proficiencies": [ "prof_unarmed_familiar" ]

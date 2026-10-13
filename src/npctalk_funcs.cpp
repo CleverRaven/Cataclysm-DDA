@@ -62,6 +62,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "viewer.h"
+#include "visitable.h"
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -895,12 +896,15 @@ void talk_function::drop_items_in_place( npc &p )
     std::vector<drop_or_stash_item_info> to_drop;
 
     // add all non favorite carried items to the drop off list
-    for( const item_location &npcs_item : p.all_items_loc() ) {
-        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
-            npcs_item.parent_item().where() == item_location::type::character ) {
+    // this is all top-level items inside worn items (and wielded)
+    p.visit_items( [&to_drop]( const item_location & npcs_item ) {
+        if( !npcs_item->is_favorite && npcs_item.has_parent() &&
+            !npcs_item.parent_item().has_parent() ) {
             to_drop.emplace_back( npcs_item, npcs_item->count() );
+            return VisitResponse::SKIP;
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
         p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms::zero, false ) );
@@ -915,6 +919,11 @@ void talk_function::follow( npc &p )
     g->add_npc_follower( p.getID() );
     p.set_attitude( NPCATT_FOLLOW );
     p.set_fac( faction_your_followers );
+    p.set_mission( NPC_MISSION_NULL );
+    p.goal = npc::no_goal_point;
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
     get_player_character().cash += p.cash;
     p.cash = 0;
     if( !p.custom_profession.empty() ) {
@@ -925,6 +934,11 @@ void talk_function::follow( npc &p )
 void talk_function::follow_only( npc &p )
 {
     p.set_attitude( NPCATT_FOLLOW );
+    p.set_mission( NPC_MISSION_NULL );
+    p.goal = npc::no_goal_point;
+    p.guard_pos = std::nullopt;
+    p.clear_ai_guard_pos();
+    p.clear_committed_goal();
 }
 
 void talk_function::deny_follow( npc &p )

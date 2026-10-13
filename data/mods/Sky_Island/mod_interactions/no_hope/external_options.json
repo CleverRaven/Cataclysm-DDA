@@ -1,9 +1,0 @@
-[
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "//": "Reapply to override no hopes setting",
-    "stype": "string_input",
-    "value": "default_skyisland"
-  }
-]

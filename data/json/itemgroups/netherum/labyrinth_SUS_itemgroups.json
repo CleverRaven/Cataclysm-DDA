@@ -8,6 +8,7 @@
       [ "pliers", 60 ],
       [ "big_pliers", 2 ],
       [ "screwdriver", 100 ],
+      [ "dremel", 40 ],
       [ "screwdriver_set", 50 ],
       [ "socket_screwdriver_set", 10 ],
       { "group": "duct_tape_roll_part", "prob": 10 },

@@ -47,6 +47,7 @@
     "map_extras": "portal_storm_dungeon_extras",
     "terrain_furniture": "default_portal_storm_dungeon",
     "weather": "default_portal_storm_dungeon",
+    "npc_spawntime": 0,
     "neighbor_connections": false,
     "place_roads": false,
     "default_oter": [

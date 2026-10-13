@@ -349,6 +349,9 @@ class Creature : public viewer
         virtual void reset();
         /** Adds an appropriate blood splatter. */
         virtual void bleed( map &here ) const;
+        /** Bloody footprints */
+        void leave_bloody_footprint( const tripoint_abs_ms &old_pos ) const;
+        void check_bloody_feet( const tripoint_abs_ms &old_pos );
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die( map *here, Creature *killer ) = 0;
 

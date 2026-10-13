@@ -36,6 +36,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "extend": { "flags": [ "LEVER_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 6 } } ]
   },
   {
@@ -67,6 +68,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "dispersion": 180,
     "clip_size": 5,
+    "extend": { "flags": [ "SINGLE_ACTION" ] },
     "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 5 } } ]
   },

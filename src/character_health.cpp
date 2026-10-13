@@ -45,7 +45,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -84,6 +83,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -475,7 +475,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 }
 
 // Actual player death is mostly handled in game::is_game_over
-void Character::die( map *, Creature *nkiller )
+void Character::die( map *here, Creature *nkiller )
 {
     g->set_critter_died();
     set_all_parts_hp_cur( 0 );
@@ -483,11 +483,11 @@ void Character::die( map *, Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
-        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_rope_6, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -655,6 +655,8 @@ void Character::apply_murder_penalties( Creature *victim )
             player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
+    // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
+    player_character.mod_trauma( 1 );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -711,41 +713,17 @@ std::pair<int, int> Character::climate_control_strength() const
     return { power_heat, power_chill };
 }
 
-std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
-        std::vector<const item *>> &clothing_map ) const
+std::map<bodypart_id, int> Character::get_wind_resistance() const
 {
-
-    std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
-    }
-    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
-                    has_active_mutation( trait_SHELL3 );
+    std::map<bodypart_id, int> ret = worn.wind_resistance( *this );
+    const bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                          has_active_mutation( trait_SHELL3 );
     // Your shell provides complete wind protection if you're inside it
-    if( in_shell ) { // NOLINT(bugprone-branch-clone)
+    if( in_shell ) {
         for( std::pair<const bodypart_id, int> &this_bp : ret ) {
             this_bp.second = 100;
         }
-        return ret;
     }
-
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
-
-        int coverage = 0;
-        float totalExposed = 1.0f;
-        int penalty = 100;
-
-        for( const item *it : on_bp.second ) {
-            const item &i = *it;
-            penalty = 100 - i.wind_resist();
-            coverage = std::max( 0, i.get_coverage( bp ) - penalty );
-            totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
-        }
-
-        ret[bp] = 100 - totalExposed * 100;
-    }
-
     return ret;
 }
 
@@ -2176,7 +2154,7 @@ void Character::calculate_leak_level()
 {
     float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
-    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&ret]( const item_location & item_loc ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
@@ -2185,7 +2163,8 @@ void Character::calculate_leak_level()
                 ret += it->damage_level();
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     leak_level_dirty = false;
     leak_level = ret;
 }
@@ -2553,6 +2532,11 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wounds();
+}
+
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
@@ -2563,7 +2547,7 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 void Character::update_wounds( time_duration time_passed )
 {
     for( auto &bp : body ) {
-        bp.second.update_wounds( time_passed );
+        bp.second.update_wounds( *this, time_passed );
     }
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }

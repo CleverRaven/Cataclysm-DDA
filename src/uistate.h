@@ -203,7 +203,7 @@ class uistatedata
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
-        bool overmap_fast_travel = false;
+        bool overmap_only_auto_travel = false;
         bool overmap_fast_scroll = false;
 
         int tileset_zoom = DEFAULT_TILESET_ZOOM;

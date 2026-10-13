@@ -48,6 +48,29 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "alchemy_recipe_abyssal_coffee",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "book_learn": [ [ "alchemy_recipe_abyssal_coffee", 3 ] ],
+    "skills_required": [ "deduction", 3 ],
+    "time": "6 m",
+    "batch_time_factors": [ 80, 2 ],
+    "flags": [ "BLIND_HARD", "SECRET" ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
+      [ [ "caffeine", 1 ] ],
+      [ [ "lotus_blossom", 1 ] ],
+      [ [ "wild_herbs", 3 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "blackout_rage_drink",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",

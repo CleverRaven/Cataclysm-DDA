@@ -51,6 +51,7 @@ class talker_character_const: virtual public const_talker
         units::temperature get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
+        int get_trauma() const override;
         int get_artifact_resonance() const override;
         int str_cur() const override;
         int dex_cur() const override;
@@ -183,7 +184,7 @@ class talker_character_const: virtual public const_talker
 
         bool can_see() const override;
         bool can_see_location( const tripoint_bub_ms &pos ) const override;
-        int morale_cur() const override;
+        int morale_cur( bool raw ) const override;
         int focus_cur() const override;
         int focus_effective_cur() const override;
         int get_rad() const override;
@@ -204,6 +205,7 @@ class talker_character_const: virtual public const_talker
         const move_mode_id &get_move_mode() const override;
         int get_fine_detail_vision_mod() const override;
         int get_health() const override;
+        int get_daily_health() const override;
         units::temperature get_body_temp() const override;
         units::temperature_delta get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
@@ -246,6 +248,7 @@ class talker_character: virtual public talker
         void set_pos( tripoint_abs_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
+        void set_trauma( int value ) override;
         void set_str_max( int value ) override;
         void set_dex_max( int value ) override;
         void set_int_max( int value ) override;
@@ -302,6 +305,7 @@ class talker_character: virtual public talker
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
+        void set_hunger( int ) override;
         void mod_livestyle( int ) override;
         void set_fac_relation( const Character *guy, npc_factions::relationship rule,
                                bool should_set_value ) override;
@@ -328,6 +332,7 @@ class talker_character: virtual public talker
         void learn_martial_art( const matype_id &id ) override;
         void forget_martial_art( const matype_id &id ) override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) override;
+        void ensure_portrait_valid() override;
 
     private:
         Character *me_chr{};

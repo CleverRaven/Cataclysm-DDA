@@ -37,7 +37,6 @@
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -55,7 +54,9 @@
 #include "iexamine.h"
 #include "monster.h"
 #include "npc.h"
+#include "npctrade.h"
 #include "npc_class.h"
+#include "npc_trip.h"
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
@@ -97,6 +98,8 @@ static const efftype_id effect_wet( "wet" );
 
 static const faction_id faction_robofac( "robofac" );
 static const faction_id faction_your_followers( "your_followers" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_locker( "f_locker" );
@@ -613,7 +616,7 @@ TEST_CASE( "npc-movement" )
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 guy->normalize();
                 guy->randomize();
-                guy->remove_worn_items_with( [&]( item & armor ) {
+                guy->remove_worn_items_with( [&]( const item & armor ) {
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
                 REQUIRE( !guy->is_immune_field( fd_acid ) );
@@ -722,7 +725,6 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -763,7 +765,6 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -817,7 +818,6 @@ TEST_CASE( "npc_extracts_weapon_from_wielded_container", "[npc_ai]" )
     npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     hostile.clear_worn();
     hostile.invalidate_crafting_inventory();
-    hostile.inv->clear();
     hostile.remove_weapon();
     hostile.clear_mutations();
     hostile.set_body();
@@ -949,13 +949,13 @@ TEST_CASE( "npc_eats_food_with_harmless_iuse", "[npc][food]" )
     }
 
     SECTION( "refuses marloss berry" ) {
-        // MARLOSS iuse + MYCUS_OK flag -- fungal transformation
+        // MARLOSS and MYCUS_OK flags -- fungal transformation
         guy.i_add( item( itype_marloss_berry ) );
         CHECK_FALSE( guy.consume_food() );
     }
 
     SECTION( "refuses marloss gel" ) {
-        // MARLOSS_GEL iuse -- fungal transformation, no MYCUS_OK flag
+        // MARLOSS flag -- fungal transformation, no MYCUS_OK flag
         guy.i_add( item( itype_marloss_gel ) );
         CHECK_FALSE( guy.consume_food() );
     }
@@ -1685,7 +1685,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         tripoint_bub_ms target = guy.pos_bub() + tripoint( 3, 0, 0 );
         REQUIRE( here.passable( target ) );
         const int dist_before = rl_dist( guy.pos_bub(), target );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < dist_before );
     }
 
@@ -1694,7 +1694,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         here.ter_set( target, ter_t_wall_glass );
         REQUIRE( here.impassable( target ) );
         REQUIRE( here.passable( target + tripoint::west ) );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() != target );
         CHECK( here.passable( guy.pos_bub() ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < 3 );
@@ -1709,7 +1709,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         }
         REQUIRE( here.impassable( target + tripoint::west ) );
         const tripoint_bub_ms before = guy.pos_bub();
-        CHECK_FALSE( guy.move_to_and_verify( target ) );
+        CHECK_FALSE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() == before );
     }
 }
@@ -7311,5 +7311,63 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
             }
         }
         CHECK( hold_count > 0 );
+    }
+}
+
+TEST_CASE( "npc_trade_test", "[npc][trade]" )
+{
+    // note for readers of this test: transfer_items() can't be called multiple times
+    // with escrow. it removes items from the player.
+    clear_avatar();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    avatar &you = get_avatar();
+    you.clear_worn();
+
+    std::list<item_location *> from_map;
+    std::vector<std::pair<item_location, int>> try_trade;
+
+    try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+    REQUIRE( you.has_weapon() );
+
+    std::list<item> escrow;
+    const item_filter has_filthy = []( const item & it ) {
+        return it.is_filthy();
+    };
+
+    SECTION( "npc wants to trade a backpack.  (control)" ) {
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( !you.has_weapon() );
+    }
+
+    SECTION( "npc wants to trade a backpack containing a backpack" ) {
+        clear_avatar();
+        you.clear_worn();
+        try_trade.clear();
+        try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+        item_location inner_backpack = you.i_add( item( itype_backpack ) );
+        REQUIRE( you.get_wielded_item() == try_trade.front().first );
+
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( !escrow.front().empty_container() );
+        REQUIRE( !you.has_weapon() );
+    }
+
+    SECTION( "npc refuses the filthy item in the trade" ) {
+        clear_avatar();
+        you.clear_worn();
+        try_trade.clear();
+        try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+        item filthy_backpack( itype_backpack );
+        filthy_backpack.set_flag( json_flag_FILTHY );
+        you.i_add( filthy_backpack );
+        REQUIRE( you.has_item_with( has_filthy ) );
+
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( escrow.front().empty_container() );
+        // dropped the unwanted item
+        REQUIRE( map_cursor( you.pos_abs() ).has_item_with( has_filthy ) );
     }
 }

@@ -5,6 +5,7 @@
     "name_unique": "Garry Villeneuve",
     "gender": "male",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_gary_villeneuve",
     "class": "NC_REFUGEE_Garry",
     "attitude": 0,
     "mission": "GUARD",

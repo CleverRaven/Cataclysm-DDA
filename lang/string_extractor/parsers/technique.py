@@ -14,6 +14,9 @@ def parse_technique(json, origin):
         write_text(msg, origin,
                    comment=f"Message of martial technique '{name}'")
 
+    for effect in json.get("tech_effects", []):
+        write_text(effect.get("message"), origin,
+                   comment=f"Effect message of martial technique '{name}'")
     write_text(json.get("condition_desc"), origin,
                comment="Condition description of "
                f"martial technique '{name}'")

@@ -81,6 +81,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
@@ -124,6 +125,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
+    "seasonings": [ "seasonings_universal", "seasonings_pasta" ],
     "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
@@ -271,12 +273,12 @@
     "id": "oat_pulp",
     "name": { "str_sp": "oat pulp" },
     "looks_like": "granola",
-    "weight": "30 g",
+    "weight": "40 g",
     "color": "brown",
     "spoils_in": "300 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 186,
+    "calories": 149,
     "description": "Pulp left over after making oat milk.  It's gritty and incredibly bland.",
     "display_type": "BY_WEIGHT",
     "price": "10 cent",

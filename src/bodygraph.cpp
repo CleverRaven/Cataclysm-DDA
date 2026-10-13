@@ -526,7 +526,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     // part temperature
     const bool temp_precise = u->cache_has_item_with( json_flag_THERMOMETER ) ||
                               u->has_flag( json_flag_THERMOMETER );
-    const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
+    const units::temperature temp = units::from_legacy_bodypart_temp( info.temperature.first );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
                                                   info.temperature.second ) : info.temp_approx ) );
@@ -551,6 +551,18 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     info_txt.emplace_back( string_format( "%s: %d%%",
                                           colorize( info.specific_sublimb ? _( "Coverage" ) : _( "Coverage (Avg.)" ), c_magenta ),
                                           info.avg_coverage ) );
+    info_txt.emplace_back( "--" );
+    // Env protection
+    info_txt.emplace_back(
+        string_format(
+            "%s: %d",
+            colorize(
+                info.specific_sublimb ? _( "Environmental protection" ) : _( "Environmental protection (Avg.)" ),
+                c_magenta
+            ),
+            info.avg_env_protection
+        )
+    );
     info_txt.emplace_back( "--" );
     // encumbrance
     info_txt.emplace_back( string_format( "%s: %d", colorize( _( "Encumbrance" ), c_magenta ),

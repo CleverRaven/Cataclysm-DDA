@@ -139,6 +139,8 @@ class outfit
         int collar_warmth() const;
         /** Returns warmth provided by armor, etc. */
         std::map<bodypart_id, int> warmth( const Character &guy ) const;
+        /** Returns wind resistance provided by worn items. */
+        std::map<bodypart_id, int> wind_resistance( const Character &guy ) const;
         int get_env_resist( bodypart_id bp ) const;
         int sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const;
         ret_val<void> power_armor_conflicts( const item &clothing ) const;
@@ -173,7 +175,7 @@ class outfit
         bool check_item_encumbrance_flag( bool update_required );
         // creates a list of items dependent upon @it
         void add_dependent_item( std::list<item *> &dependent, const item &it );
-        std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
+        std::list<item> remove_worn_items_with( const std::function<bool( const item & )> &filter,
                                                 Character &guy );
         // takeoff item from character
         // return true mean takeoff item successfully
@@ -247,7 +249,8 @@ class outfit
         // finds the top level item at the position in the list. DEPRECATE ME!
         const item &i_at( int position ) const;
 
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
+        VisitResponse visit_items( const Character &wearer,
+                                   const std::function<VisitResponse( const item_location & )> &func ) const;
         std::list<item> remove_items_with( Character &guy,
                                            const std::function<bool( const item & )> &filter, int &count );
 

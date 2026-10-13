@@ -140,6 +140,8 @@ class profession
         int age_lower = DEFAULT_PROF_AGE_LOWER;
         int age_upper = DEFAULT_PROF_AGE_UPPER;
 
+        int starting_trauma;
+
         std::vector<std::pair<string_id<profession>, mod_id>> src;
 
         std::vector<achievement_id> get_requirements() const;

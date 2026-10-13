@@ -100,6 +100,29 @@ Psi powers display `power radius` instead of `spell radius` in the powers UI
 Document HUNGER_DISRUPTION flag, apply in appropriate places 
 Add the `PAUSE_INFECTIONS` flag
 Add PAUSE_BODYPART_INFECTION flag, use in MoM
+Makes it so that if an auto drink zone is placed on a faucet, it will enable you to auto drink form it
+made salt crafting recipe unattended
+Made wood ash an unattended crafting recipe
+Made sugar from sweetened water recipe unattended
+Add Distributed damage flag, apply to slime and to XE's sylph and undine elemental forms
+Allow crafting recipes to consume character resources
+Add character stat requirements to crafting recipes
+unattended step for boiled egg recipe
+Food revolution: Spices and seasonings
+Allow future contributors to easily tune weary maluses in combat
+Monsters can block attacks for reduced damage
+Deliver fetch quest items via truck
+Swap `req_flag` in martial effects tech effects to `condition`
+Morale deadening, doing horrible things will inure you to hardship, and pleasures.
+Weather can have a defined color tint
+Support for graphical NPC portraits during dialogue
+Berserk Rage Prevents fleeing hostile enemies
+Military & firefighter respirators work with SCBA
+Colored light tint inside the sprite shader, so isometric tilesets get it too
+Vehicle wheels gib corpses, smash stuff, throw items around
+Better 'Resume Construction' behavior
+Slime has redundant omnicellular parts
+Smooth lighting
 
 
 ## Content:
@@ -192,7 +215,14 @@ Add european comics
 Add crashed XEDRA serum transport truck map extras
 Add serum `16x-"Armus"`
 Add `wyrmhound` mutant dogs
+Add `THEORETICAL_SKILL_CATCHUP_BONUS` enchantment
+Add AIMING_SPEED enchant
+Add CANNOT_SLEEP flag
 Highland Crypts
+Add serum-specific microlabs
+Add "serum ferals" to serum labs
+A moving, trans-dimensional event - the Scarlet Storm
+Add a second blob singularity: the Reclaimer
 
 
 ## Interface:
@@ -244,6 +274,12 @@ Update to ImGui 1.91.9b
 Move appliance infobox to imgui
 Display some items by volume, weight or length instead of count
 Fix Crafting GUI text wrapping & don't offscreen recipe detail selection (`SPACE`)
+Show item fault severity with inventory and sidebar colors
+Migrate dialogue window to imgui
+Migrate appliance rename popup to ImGui
+Imguify help menu
+Convert canning and tinning recipes to use nested system
+Show environmental protection in bodygraph
 
 
 ## Mods:
@@ -335,7 +371,22 @@ Aftershock: Add industrial habitat building.
 Add "XedraWood: Stone and Sorcery" mod to the CDDA repository
 [XedraWood] Add magical tattoos and a profession that starts with them
 [Xedra Evolved] Add Follower dialogue topic to ask them to cast spells
+Aftershock: Origin Hobbies
+[Xedra Evolved] Challenge Scenario - The Fog
 [Aftershock] Project Sobek Genetech
+[Xedra Evolved] Challenge Scenario - Undying Vengeance
+You cannot `consume_drugs` if you have `TEMPORARY_SHAPESHIFT_NO_HANDS`
+[MoM] Add chance for feral psions in serum microlabs, small adjustment to mutagen microlabs
+Sky Island: Override dimension travel so it takes you to the island
+[Xedra Evolved] Add Dreamworker workshops to XE portal labs
+Aftershock: Remove multiverse references in high tech scrap.
+[Mods] The Exodii don't buy magic items
+[MoM] Oubliette destination: shoggothed world
+[Xedra Evolved] The Exodii won't talk to the Fair Folk
+[Xedra Evolved] More changeling seasonal glamours
+[Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
+New Crafting System for Isolation Protocol
+Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -392,6 +443,17 @@ Zero cost spells remain zero cost even if encumbered
 Kelvar is now fireproof
 Add some more fluff nonfiction hardbacks
 Exodii traders dont accept currencies
+Remove reloads for some ap ammo
+Add more tools and requirements to reloading ammo
+Deadly bears and how to hurt them
+Add faults to melee weapons lacking them
+Add faults to mainly magyclism melee weapons
+Faction camp hunting has an extra chance to return nothing based on time since the Cataclysm (and winter)
+Brutes cannot smash Huge characters, hulk smashes are less effective against Huge characters
+Decayed zombies smell horrific
+Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
+More efficient sugar and rum from sugar beets
+Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -584,8 +646,15 @@ Pocket options: allow interacting with a pocket with hidden contents (fixes cras
 Allow NPCs to sleep during free_time
 NPCs default to allow_sleep ally rule
 Display multiple like items in car part removal on the same line with a count
+Unattended crafts no longer stall forever when their crafter is unreachable
 Scared NPCs don't turn hostile
 Preserve character-specific auto-pickup rules between sessions
+Requirement checks judge the character being checked instead of the player
+Fix monsters not being slowed by snow
+Fix getting perma-stuck in the Imperial Road
+Can create Characters again
+Fix an out of bounds write when looking for items around a position outside the map
+Make device really optional in _has_software condition
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -602,6 +671,12 @@ Speedup highway placement by caching expensive math
 Speed up spawning item groups into containers
 Crafting optimizations
 Fix n^3 deserialization bug by not trying to stack unstackable items
+Improve several per-turn performance bottlenecks
+Fix O(N^2) performance degradation in form_from_map
+Improving performance in the crafting ui
+Draw the pixel minimap with batched geometry instead of per-submap render targets
+Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders draw
+Speed up the crafting menu near large piles of items
 
 
 ## Infrastructure:
@@ -719,6 +794,12 @@ Consume crafting tools per recipe step
 Abort and quarantine tileset atlas uploads interrupted by a renderer reset
 generic factory dimensions, multi-region support
 more region layouts + Voronoi library
+remove obsolete DEFAULT_REGION external option
+move all crafting_inventory operations to temp_crafting_inventory class
+deprecate inventory class structure
+Moved the dead marloss code to eoc
+move open/close action to activity_actor
+change visitable to use item_location
 
 
 ## Build:
@@ -734,11 +815,20 @@ Build instruction and files for Visual Studio Code
 Demote GCC 16 -Wsfinae-incomplete to warning
 Proper SDL support
 Migrate Android to SDL3 via CMake + prefab AAR; drop SDL2 customs; bump buildkit
+Remove SDL2 support
+Run tests in CI for multiple sets of mods
+Fix SDL3 CMake build on MSVC
+Address warnings on possible loss of data
+Fix GCC 9 tiles build error in cataimgui::draw_texture
+Android apk with sounds
+MSVC C used to build third-party libs
+Fix `Parameter format not correct - -Command` error
 
 
 ## I18N and A11Y:
 Add documentation for C++ translation context comments
-add missing translation
+Add missing translation
+Publish translations archive with experimental releases
 
 
 # 0.I

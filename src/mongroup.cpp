@@ -456,14 +456,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     int freq_total = 0;
     std::pair<mtype_id, int> max_freq( { mon_null, 0 } );
 
-    //TODO: Remove after 0.I
-    if( !jo.has_string( "id" ) && jo.has_string( "name" ) ) {
-        g.id = mongroup_id( jo.get_string( "name" ) );
-        debugmsg( R"((safely ignorable) monstergroup %s's "name" member should be renamed "id" before 0.I stable, you can use /tools/json-tools/monstergroup_name_to_id.py to automate this change)",
-                  g.id.c_str() );
-    } else {
-        g.id = mongroup_id( jo.get_string( "id" ) );
-    }
+    g.id = mongroup_id( jo.get_string( "id" ) );
 
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
     if( monsterGroupMap.count( g.id ) != 0 && !jo.get_bool( "override", false ) ) {

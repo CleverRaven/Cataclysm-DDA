@@ -356,11 +356,7 @@ Armor can be defined like this:
 "environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
-"sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
-"coverage": 80,                     // What percentage of body part is covered (in general)
-"cover_melee": 60,                  // What percentage of body part is covered (against melee)
-"cover_ranged": 45,                 // What percentage of body part is covered (against ranged)
-"cover_vitals": 10,                 // What percentage of critical hit damage is mitigated
+"sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.   
 "material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false,              // If this is a power armor item (those are special).
 "max_worn": 10,                     // How many of these items can be worn.  Defaults to 2.
@@ -381,15 +377,15 @@ Encumbrance and coverage can be defined on a piece of armor as such:
     "breathability": "AVERAGE",
     "layers": [ "SKINTIGHT" ],
     "rigid_layer_only": true,
-    "coverage": 95,
-    "cover_melee": 95,
-    "cover_ranged": 50,
-    "cover_vitals": 5,
+    "coverage": 95,					// What percentage of body part is covered (in general)
+    "cover_melee": 95,				// What percentage of body part is covered (against melee)
+    "cover_ranged": 50,				// What percentage of body part is covered (against ranged)
+    "cover_vitals": 5,				// What percentage of critical hit damage is mitigated
     "covers": [ "torso" ],
     "specifically_covers": [ "torso_upper", "torso_neck", "torso_lower" ],
     "material": [
       { "type": "cotton", "covered_by_mat": 100, "thickness": 0.2 },
-      { "type": "plastic", "covered_by_mat": 15, "thickness": 0.8, "ignore_sheet_thickness": "true" }
+      { "type": "plastic", "covered_by_mat": 15, "thickness": 0.8, "ignore_sheet_thickness": true }
     ]
   },
   {
@@ -1028,7 +1024,6 @@ Gun mods can be defined like this:
   { "GROWTH_OVERGROWN": "1 hour" }        // NOTE: GROWTH_OVERGROWN is optional, but if used should be a short duration. Or else it may fail to plant because the overgrown(dead) crops would not 'grow'!
 ],
 "growth_temp": "7 C",                     // (optional, default 10 C). Celsius (C) or milli-Celsius(mC). Temperature required on the days this seed is planted and for every day with a growth stage. If below the required temperature it simply won't be plantable.
-"fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
 "required_terrain_flag": "PLANTABLE" // A tag that terrain and furniture would need to have in order for the seed to be plantable there.
 // Default is "PLANTABLE", and using this will cause any terain the plant is wrown on to turn into dirt once the plant is planted, unless furniture is used.
 // Using any other tag will not turn the terrain into dirt.
@@ -1545,6 +1540,15 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_worn": true,          // (optional) If the item has to be worn to cast the spell
   "need_wielding": true,      // (optional) If the item has to be wielded to cast the spell
   "mundane": true             // (optional) This spell uses magic-related features, but is not magic itself. The description is changed from "This item casts spell_name at level spell_level" to "This item when activated: spell_name"
+},
+"use_action": {
+  "type": "attach_molle",   // Attach an item to this item's MOLLE webbing
+  "size": 10,               // Total MOLLE space available; each attached item uses some of it
+  "moves": 300              // Move points to attach an item.  Has no effect currently
+},
+"use_action": {
+  "type": "detach_molle",   // Detach an item from this item's MOLLE webbing
+  "moves": 300              // Move points to detach an item.  Has no effect currently
 },
 ```
 

@@ -125,6 +125,11 @@ units::temperature talker_character_const::get_cur_part_temp( const bodypart_id 
     return me_chr_const->get_part_temp_conv( bp );
 }
 
+int talker_character_const::get_trauma() const
+{
+    return me_chr_const->get_trauma();
+}
+
 int talker_character_const::get_artifact_resonance() const
 {
     return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
@@ -178,6 +183,11 @@ void talker_character::set_pos( tripoint_bub_ms new_pos )
 void talker_character::set_pos( tripoint_abs_ms new_pos )
 {
     me_chr->setpos( new_pos );
+}
+
+void talker_character::set_trauma( int value )
+{
+    me_chr->set_trauma( value );
 }
 
 void talker_character::set_str_max( int value )
@@ -965,14 +975,19 @@ void talker_character::mod_daily_health( int amount, int cap )
     me_chr->mod_daily_health( amount, cap );
 }
 
+void talker_character::set_hunger( int amount )
+{
+    me_chr->set_hunger( amount );
+}
+
 void talker_character::mod_livestyle( int amount )
 {
     me_chr->mod_livestyle( amount );
 }
 
-int talker_character_const::morale_cur() const
+int talker_character_const::morale_cur( bool raw ) const
 {
-    return me_chr_const->get_morale_level();
+    return me_chr_const->get_morale_level( raw );
 }
 
 void talker_character::set_oxygen( int value )
@@ -1165,6 +1180,11 @@ int talker_character_const::get_fine_detail_vision_mod() const
 int talker_character_const::get_health() const
 {
     return me_chr_const->get_lifestyle();
+}
+
+int talker_character_const::get_daily_health() const
+{
+    return me_chr_const->get_daily_health();
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
@@ -1451,6 +1471,11 @@ void talker_character::learn_martial_art( const matype_id &id )
 void talker_character::forget_martial_art( const matype_id &id )
 {
     me_chr->martial_arts_data->clear_style( id );
+}
+
+void talker_character::ensure_portrait_valid()
+{
+    me_chr->ensure_portrait_valid();
 }
 
 int talker_character_const::climate_control_str_heat() const

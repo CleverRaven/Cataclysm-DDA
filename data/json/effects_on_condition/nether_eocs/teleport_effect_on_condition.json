@@ -1,0 +1,25 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DIMENSION_TELE_SICKNESS",
+    "effect": [
+      { "math": [ "_tele_sickness_dur = time(' 20 minutes')" ] },
+      { "if": { "u_has_worn_with_flag": "PORTAL_PROOF" }, "then": { "math": [ "_tele_sickness_dur *= 0.5" ] } },
+      { "if": { "u_has_worn_with_flag": "PSYSHIELD_PARTIAL" }, "then": { "math": [ "_tele_sickness_dur *= 0.5" ] } },
+      {
+        "if": { "u_has_trait": "INTERSTICE_RESONANCE_3" },
+        "then": { "math": [ "_tele_sickness_dur *= 0.1" ] },
+        "else": {
+          "if": { "u_has_trait": "INTERSTICE_RESONANCE_2" },
+          "then": { "math": [ "_tele_sickness_dur *= 0.5" ] },
+          "else": { "if": { "u_has_trait": "INTERSTICE_RESONANCE" }, "then": { "math": [ "_tele_sickness_dur *= 0.75" ] } }
+        }
+      },
+      { "u_add_effect": "teleglow", "duration": { "context_val": "tele_sickness_dur" } },
+      {
+        "if": { "not": { "u_has_trait": "anti_shape" } },
+        "then": { "u_add_effect": "nausea", "duration": { "context_val": "tele_sickness_dur" } }
+      }
+    ]
+  }
+]

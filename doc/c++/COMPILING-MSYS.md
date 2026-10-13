@@ -20,12 +20,7 @@ This guide contains instructions for compiling Cataclysm-DDA on Windows under MS
 
 ## Prerequisites:
 
-**Note:** Windows XP is unsupported!
-
-### MINGW64
-* Windows 7, 8, 8.1
-* NTFS partition with ~10 Gb free space (~2 Gb for MSYS2 installation, ~3 Gb for repository and ~5 Gb for ccache)
-* 64-bit version of MSYS2
+**Note:** Windows 7/8/8.1 is unsupported!
 
 ### UCRT64
 * Windows 10 and later
@@ -37,13 +32,9 @@ This guide contains instructions for compiling Cataclysm-DDA on Windows under MS
 
 2. Run the installer. It is suggested that you install to a dev-specific folder (C:\dev\msys64\ or similar), but it's not strictly necessary.
 
-3. After installation, run MSYS2 64bit now.
+3. After installation, run MSYS2 UCRT64 now.
 
 When working from Microsoft Terminal default MSYS2 profile, run:
-```
-MSYSTEM=MINGW64 bash -l
-```
-or
 ```
 MSYSTEM=UCRT64 bash -l
 ```
@@ -56,7 +47,7 @@ MSYSTEM=UCRT64 bash -l
 pacman -Syyu
 ```
 
-2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 MinGW 64-bit menu item.
+2. MSYS will inform you of a cygheap base mismatch and inform you a forked process died unexpectedly; these errors appear to be due to the nature of `pacman`'s upgrades and *may be safely ignored.* You will be prompted to close the terminal window; do so, then re-start using the MSYS2 UCRT 64-bit menu item.
 
 3. Update remaining packages:
 
@@ -66,20 +57,12 @@ pacman -Su
 
 4. Install packages required for compilation:
 
--> Windows 7, 8, 8.1 (With SDL2)
 ```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-x86_64-{astyle,ccache,cmake,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-x86_64-SDL2_{image,mixer,ttf}
+pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,glslang,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
 ```
 
--> Windows 10 and later (With SDL3)
-```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,sdl3,libzip,libavif} mingw-w64-ucrt-x86_64-sdl3-{image,mixer,ttf} zlib-devel
-```
-
--> Windows 10 and later (With SDL2)
-```bash
-pacman -S git make ncurses-devel gettext-devel mingw-w64-ucrt-x86_64-{astyle,ccache,cmake,freetype,gcc,libmad,libwebp,pkgconf,SDL2,libzip,libavif} mingw-w64-ucrt-x86_64-SDL2_{image,mixer,ttf} zlib-devel
-```
+**Note:** The tiles build needs SDL3 >= 3.4.0, so a Windows version that the
+UCRT64 packages support is required.
 
 5. Close MSYS2.
 
@@ -100,14 +83,12 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 
 ```bash
 cd Cataclysm-DDA
-make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL3=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
+make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 TILES=1 SOUND=1 LOCALIZE=1 LANGUAGES=all LINTJSON=0 ASTYLE=0 TESTS=0
 ```
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
 This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
-
-It is now using `SDL3` flag to determine wether to use `SDL2` or `SDL3`, it is set to `SDL3=1` by default when you don't pass in this parameter, you can set it to `SDL3=0` to use SDL2 instead.
 
 **Note:** See `COMPILING-CMAKE.md` section [`CMake Build for MSYS2 (MinGW)`](COMPILING-CMAKE.md#cmake-build-for-msys2-mingw) for using the CMake build system.
 
@@ -119,4 +100,4 @@ It is now using `SDL3` flag to determine wether to use `SDL2` or `SDL3`, it is s
 ./cataclysm-tiles
 ```
 
-**Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update your user or system `PATH` variable with the path to MSYS2's runtime binaries (e.g. `C:\dev\msys64\mingw64\bin`).
+**Note:** If you want to run the compiled executable outside of MSYS2, you will also need to update your user or system `PATH` variable with the path to MSYS2's runtime binaries (e.g. `C:\dev\msys64\ucrt64\bin`).

@@ -523,5 +523,13 @@
     "time": "30 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
     "components": [ [ [ "hc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "steel_section_long",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "using": [ [ "metal_removal_standard", 25 ] ],
+    "components": [ [ [ "steel_section_short", 2 ] ] ]
   }
 ]

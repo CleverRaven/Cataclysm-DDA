@@ -100,5 +100,10 @@
     "type": "mapgen",
     "update_mapgen_id": "labyrinth_stairs_2_to_1",
     "object": { "place_nested": [ { "chunks": [ "labyrinth_stairs_2_to_1" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_portal_storm_hallway",
+    "object": { "place_nested": [ { "chunks": [ "labyrinth_portal_storm_hallway" ], "x": 0, "y": 0 } ] }
   }
 ]

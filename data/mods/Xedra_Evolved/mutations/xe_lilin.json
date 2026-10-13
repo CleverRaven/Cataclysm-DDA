@@ -28,7 +28,8 @@
           { "value": "INTELLIGENCE", "add": -2 },
           { "value": "PERCEPTION", "add": -2 }
         ]
-      }
+      },
+      { "ench_effects": [ { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 } ] }
     ]
   },
   {
@@ -137,7 +138,7 @@
     "purifiable": false,
     "description": "Let out a piercing cry, disorienting both enemies and allies nearby.",
     "prereqs": [ "LILIN_THE_EVIL_EYE" ],
-    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION", "LILIN_NIGHT_VISION_UPGRADE" ],
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_aoe_daze_spell", 1 ] ]
   },
@@ -243,7 +244,7 @@
     "type": "mutation",
     "id": "LILIN_ETERNAL_YOUTH",
     "//": "For now life extenders such as this one grant MEND_ALL.  When the new wound system will be implemented, their function will be to always allow you to fully heal from your wounds (no scars, etc).",
-    "name": { "//~": "This is a reference to Romans 6:23", "str": "The Gift of Eternal Life" },
+    "name": { "//~": "This is a reference to Daniel 12:2", "str": "For Everlasting Life" },
     "points": 2,
     "purifiable": false,
     "description": "Your body has now stopped aging, massively extending your longevity.  You can still be killed but as long as your body can heal, all your wounds will eventually fully heal no matter how severe they are.",
@@ -276,6 +277,7 @@
     "description": "You may unleash a foul miasma on your enemies, sickening them.",
     "prereqs": [ "DISRESISTANT", "DISIMMUNE" ],
     "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
+    "changes_to": "LILIN_DISEASE_ENHANCEMENT_DAMAGE",
     "category": [ "LILIN" ],
     "spells_learned": [ [ "lilin_aoe_line_disease_spell", 1 ] ]
   },
@@ -299,11 +301,12 @@
     "name": { "str": "Devoured by Pestilence" },
     "points": 6,
     "purifiable": false,
-    "description": "You may greatly enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.",
+    "mixed_effect": true,
+    "description": "You may greatly enhance the power of the miasma from Unleash the Night-Wind, doing serious damage and crippling your target.  However, mortals who spend too long in your presence have a chance of falling ill.",
     "prereqs": [ "LILIN_AOE_LINE_DISEASE" ],
     "prereqs2": [ "LILIN_STEALTH_MODIFIER_IN_DARKNESS" ],
     "category": [ "LILIN" ],
-    "spells_learned": [ [ "lilin_disease_enhancement_damage_spell", 1 ] ]
+    "spells_learned": [ [ "lilin_aoe_line_disease_spell", 1 ], [ "lilin_disease_enhancement_damage_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -576,7 +579,7 @@
     "points": 4,
     "purifiable": false,
     "prereqs": [ "LILIN_GAIN_MORE_FOCUS" ],
-    "prereqs2": [ "LILIN_NIGHT_VISION" ],
+    "prereqs2": [ "LILIN_NIGHT_VISION", "LILIN_NIGHT_VISION_UPGRADE" ],
     "category": [ "LILIN" ],
     "enchantments": [
       {
@@ -589,9 +592,10 @@
     "type": "mutation",
     "id": "LILIN_STEALTH_MODIFIER_IN_DARKNESS",
     "name": { "//~": "This is a reference to Psalms 91:6", "str": "The Pestilence that Stalks in Darkness" },
-    "description": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.",
+    "description": "You are at home in the darkness and it clings to you to cover your movements.  In a half- or smaller moon, and when out of the daylight, it is harder for your enemies to spots you.  However, infused with plague as you are, mortals who spend too long in your presence have a chance of falling ill.",
     "points": 3,
     "purifiable": false,
+    "mixed_effect": true,
     "prereqs": [ "LILIN_AVOID_SLEEP" ],
     "category": [ "LILIN" ],
     "//": "A light level check would be better than is_day/is_outside",
@@ -648,10 +652,11 @@
     "type": "mutation",
     "id": "LILIN_REDUCED_NEEDS_WITH_RUACH",
     "name": { "//~": "This is a reference to Proverbs 25:16", "str": "Eating Drops of Honey" },
-    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.",
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
+    "mixed_effect": true,
     "changes_to": [ "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" ],
     "prereqs": [ "LILIN_ATTRIBUTE_BONUSES" ],
     "prereqs2": [ "LILIN_DRAIN_RUACH_DISTANCE", "LILIN_DRAIN_RUACH_LONG_DISTANCE" ],
@@ -662,7 +667,8 @@
         "values": [
           { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
           { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
-          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "KCAL", "multiply": -0.333 }
         ]
       }
     ]
@@ -767,7 +773,7 @@
   {
     "type": "mutation",
     "id": "LILIN_READ_CRAFT_IN_DARKNESS",
-    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
     "description": "You have adapted so well to the night that it doesn't hinder your actions at all.  You can read and craft in any light levels.",
     "points": 4,
     "purifiable": false,
@@ -779,20 +785,23 @@
   {
     "type": "mutation",
     "id": "LILIN_NIGHT_VISION_UPGRADE",
-    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Darkness is not Dark to You" },
-    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.",
+    "name": { "//~": "This is a reference to Psalms 139:12", "str": "The Night Shines Like the Day" },
+    "description": "Your eyes have fully adapted to the darkness, allowing you to see as well in the dark as humans see in the light.  However, the light of the sun is dazzling now.",
     "points": 7,
+    "mixed_effect": true,
     "purifiable": false,
     "prereqs": [ "LILIN_NIGHT_VISION" ],
     "prereqs2": [ "LILIN_READ_CRAFT_IN_DARKNESS" ],
     "category": [ "LILIN" ],
+    "threshreq": [ "THRESH_LILIN" ],
     "enchantments": [
       { "values": [ { "value": "NIGHT_VIS", "add": 250 } ] },
       {
         "condition": { "not": "is_day" },
         "values": [ { "value": "OVERMAP_SIGHT", "add": { "math": [ "6 + u_val('perception')" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "MYOPIC_IN_LIGHT_SUPERNATURAL" ]
   },
   {
     "type": "mutation",
@@ -871,10 +880,11 @@
     "type": "mutation",
     "id": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN",
     "name": { "//~": "This is a reference to Exodus 16:12", "str": "Eating Meat at Twilight" },
-    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.",
+    "description": "When filled with ruach, no other food or drink compares.  The more ruach you have, the less mundane hunger or thirst troubles you.  In addition, drinking ruach from your victims assuages your hunger and thirst.  However, mortal foods are no longer as satisfying, and you do not gain as many calories from them.",
     "points": 6,
     "starting_trait": false,
     "purifiable": false,
+    "mixed_effect": true,
     "prereqs": [ "LILIN_REDUCED_NEEDS_WITH_RUACH" ],
     "prereqs2": [ "LILIN_BONUS_HEALING_ACTIVE" ],
     "category": [ "LILIN" ],
@@ -885,7 +895,8 @@
         "values": [
           { "value": "HUNGER", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
           { "value": "THIRST", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
-          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } }
+          { "value": "METABOLISM", "multiply": { "math": [ "-0.15 - (u_vitamin('lilin_ruach_vitamin') / 10000)" ] } },
+          { "value": "KCAL", "multiply": -0.333 }
         ]
       }
     ]
@@ -894,9 +905,10 @@
     "type": "mutation",
     "id": "LILIN_DISEASE_MELEE_STRIKES",
     "name": { "str": "Touch of Contagion" },
-    "description": "When you wish it, your very touch bears the contamination of plague.  Your unarmed attacks have a chance to infect your targets, scaling with the amount of ruach you have.",
+    "description": "When you wish it, your very touch bears the contamination of plague.  Your unarmed attacks have a chance to infect your targets, scaling with the amount of ruach you have.  However, mortals who spend too long in your presence have a chance of falling ill.",
     "points": 10,
     "purifiable": false,
+    "mixed_effect": true,
     "prereqs": [ "LILIN_DISEASE_ENHANCEMENT_DAMAGE" ],
     "category": [ "LILIN" ],
     "threshreq": [ "THRESH_LILIN" ]

@@ -520,7 +520,8 @@
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_STRING_DIMENSION",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_SPIRAL_MINE",
       "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR",
-      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS"
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_INNER_CABINS",
+      "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL_STORM_DUNGEON"
     ],
     "type": "talk_topic",
     "dynamic_line": "Excellent; please deposit the printouts in the intercom's tray.",
@@ -799,6 +800,21 @@
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR"
+      },
+      {
+        "text": "[Deposit datasheet MROTS-S.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "HEW_printout_data_portal_storm_dungeon", "count": 1 } },
+            { "math": [ "HEW_portal_storm_dungeon_data_sold < 1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "HEW_printout_data_portal_storm_dungeon", "count": 1, "popup": true },
+          { "math": [ "HEW_portal_storm_dungeon_data_sold++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL_STORM_DUNGEON"
       },
       {
         "text": "[Deposit datasheet CITW-BFα and give a verbal report.]",
@@ -1087,6 +1103,18 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_VOID_SPIDER_LAIR",
     "type": "talk_topic",
     "dynamic_line": "&You deposit the sheet in the tray.  The person behind the microphone starts mumbling, as if speaking to someone off mic:  \"New HEW…  yeah…  atmospheric readings are normal…  subterranean…  several returned null, look.  Should be noisy…  yeah…  no, can't read the GC-MS until we plug it in…  right…  could be the instrument, but we've seen recordings like this before.\"\n\nThe intercom clicks twice, off then on, then the tray slides open, this time with a pile of coins.  \"This is an odd one.  We've turned it over to Research, but you might expect a relevant contract to be added to your list in the future.  Keep an eye out.  Thank you for your contributions to science, as always.\"",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },
+        { "set_string_var": "yes", "target_var": { "global_val": "hub01_intercom_accepted_HEW_recording" } },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_MWS_4", "success": true }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_HEW_DATA_PORTAL_STORM_DUNGEON",
+    "type": "talk_topic",
+    "dynamic_line": "&You deposit the sheet in the tray.  After a long silence, the tray opens again, this time with a pile of coins.  \"We imagine what you experienced was harrowing, but we think this may be a localized effect of the portal storm, rather than a new world.  It's difficult to tell from the recordings.  But they are nevertheless valuable, and we have turned them over to Research for further investigation.  Thank you for your contributions to science, as always.  If you return, please note any, let us say, passageways, that you may see, which could, well, lead to other places.  Yes?  Clear?  Thank you.\"",
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "dialogue_intercom_accepted_HEW_recording", "value": "yes" },

@@ -24,11 +24,5 @@
     ],
     "loading_images": [ "aftershock.png" ],
     "disable_other_loading_screens": true
-  },
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "DEFAULT_REGION",
-    "stype": "string_input",
-    "value": "default_aftershock"
   }
 ]

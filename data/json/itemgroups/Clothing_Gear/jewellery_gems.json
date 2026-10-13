@@ -127,9 +127,9 @@
       { "group": "solder_wire_spool_part", "prob": 60 },
       [ "hammer", 60 ],
       [ "chisel", 60 ],
-      [ "platinum_small", 20 ],
-      [ "gold_small", 20 ],
-      [ "silver_small", 30 ],
+      { "item": "platinum_small", "prob": 20, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "gold_small", "prob": 20, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "silver_small", "prob": 30, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
       [ "diamond", 5 ]
     ]
   },
@@ -137,9 +137,9 @@
     "type": "item_group",
     "id": "jewelry_safe",
     "items": [
-      [ "platinum_small", 80 ],
-      [ "gold_small", 80 ],
-      [ "silver_small", 85 ],
+      { "item": "platinum_small", "prob": 80, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "gold_small", "prob": 80, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "silver_small", "prob": 85, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
       [ "diamond", 75 ],
       [ "diamond", 75 ],
       { "group": "gemstones", "prob": 75 }

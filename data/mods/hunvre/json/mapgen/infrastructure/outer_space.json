@@ -23,7 +23,7 @@
     "type": "mapgen",
     "om_terrain": "outer_space",
     "object": {
-      "fill_ter": "t_hard_vacuum",
+      "fill_ter": "t_hunvre_vacuum",
       "place_nested": [
         { "chunks": [ "24x24_wall_h_hunvre" ], "x": 0, "y": 0, "flags": { "north": [ "ROAD", "SIDEWALK" ] } },
         { "chunks": [ "24x24_wall_h_hunvre" ], "x": 0, "y": 22, "flags": { "south": [ "ROAD", "SIDEWALK" ] } },
@@ -123,11 +123,11 @@
   },
   {
     "type": "terrain",
-    "id": "t_hard_vacuum",
-    "name": "hard vacuum",
+    "id": "t_hunvre_vacuum",
+    "name": "vacuum",
     "symbol": " ",
     "color": "black",
-    "description": "The cold inhospitable vacuum of space.  Going this way without an EVA pack will end in either a slow cold death as your life support fades or a slow hot death as you drop into the planet's atmosphere.",
+    "description": "The cold inhospitable vacuum of space.",
     "move_cost": 1000,
     "flags": [ "DESTROY_ITEM" ]
   },

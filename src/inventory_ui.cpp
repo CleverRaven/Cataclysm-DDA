@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
@@ -21,11 +22,11 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "pickup.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -48,6 +49,7 @@
 #include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "temp_crafting_inventory.h"
 #include "trade_ui.h"
 #include "translation.h"
 #include "translation_cache.h"
@@ -61,6 +63,7 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -128,9 +131,9 @@ item_name_t &get_cached_name( item const *it )
 
 // get topmost visible parent in an unbroken chain
 item_location get_topmost_parent( item_location const &topmost, item_location const &loc,
-                                  inventory_selector_preset const &preset )
+                                  bool loc_shown )
 {
-    return preset.is_shown( loc ) ? topmost ? topmost : loc : item_location{};
+    return loc_shown ? topmost ? topmost : loc : item_location{};
 }
 
 using parent_path_t = std::vector<item_location>;
@@ -278,11 +281,12 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                //~ %1$d: chosen count, %2$d: available count
-                res += string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
-                                      available_count ) + " ";
+                //~ %1$s: chosen count, %2$s: available count. The replaced string is an item measure prefix, so this entire sentence would be something like "1.25kg canned beans of 2kg canned beans"
+                res += string_format( pgettext( "count", "%1$s of %2$s" ),
+                                      entry.any_item()->type->item_measure_prefix( entry.chosen_count ),
+                                      entry.any_item()->type->item_measure_prefix( available_count ) ) + " ";
             } else if( available_count != 1 ) {
-                res += string_format( "%d ", available_count );
+                res += string_format( "%s ", entry.any_item()->type->item_measure_prefix( available_count ) );
             }
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
@@ -410,7 +414,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
-    json.member( "overmap_fast_travel", overmap_fast_travel );
+    json.member( "overmap_fast_travel", overmap_only_auto_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
     json.member( "tileset_zoom", tileset_zoom );
     json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
@@ -502,7 +506,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
-    jo.read( "overmap_fast_travel", overmap_fast_travel );
+    jo.read( "overmap_fast_travel", overmap_only_auto_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
     jo.read( "tileset_zoom", tileset_zoom );
     jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
@@ -640,7 +644,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_avatar().invlet_is_assigned( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -1409,13 +1413,11 @@ bool inventory_column::sort_compare( inventory_entry const &lhs, inventory_entry
     if( lhs.is_selectable() != rhs.is_selectable() ) {
         return lhs.is_selectable(); // Disabled items always go last
     }
-    Character &player_character = get_player_character();
+    avatar &player_character = get_avatar();
     // Place favorite items and items with an assigned inventory letter first,
     // since the player cared enough to assign them
-    const bool left_has_invlet =
-        player_character.inv->assigned_invlet.count( lhs.any_item()->invlet ) != 0;
-    const bool right_has_invlet =
-        player_character.inv->assigned_invlet.count( rhs.any_item()->invlet ) != 0;
+    const bool left_has_invlet = player_character.invlet_is_assigned( lhs.any_item()->invlet );
+    const bool right_has_invlet = player_character.invlet_is_assigned( rhs.any_item()->invlet );
     if( left_has_invlet != right_has_invlet ) {
         return left_has_invlet;
     }
@@ -1987,7 +1989,16 @@ inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
     if( !preset.is_shown( locations.front() ) ) {
         return nullptr;
     }
+    return add_shown_entry( target_column, std::move( locations ), custom_category, chosen_count,
+                            topmost_parent, chevron );
+}
 
+inventory_entry *inventory_selector::add_shown_entry( inventory_column &target_column,
+        std::vector<item_location> &&locations,
+        const item_category *custom_category,
+        const size_t chosen_count, item_location const &topmost_parent,
+        bool chevron )
+{
     is_empty = false;
     inventory_entry entry( locations, custom_category,
                            true, chosen_count,
@@ -2010,6 +2021,8 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         item_category const *children_category,
                                         item_location const &topmost_parent, int indent, bool add_efiles )
 {
+    // is_shown can be costly, so ask once per item
+    const bool shown = preset.is_shown( loc );
     inventory_column temp_children( preset );
     bool vis_contents;
     if( add_efiles && loc->is_estorage() ) {
@@ -2017,11 +2030,13 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
     } else {
         vis_contents =
             add_contained_items( loc, temp_children, children_category,
-                                 get_topmost_parent( topmost_parent, loc, preset ),
-                                 preset.is_shown( loc ) ? indent + 2 : indent, add_efiles );
+                                 get_topmost_parent( topmost_parent, loc, shown ),
+                                 shown ? indent + 2 : indent, add_efiles );
     }
-    inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
-                                    entry_category, 0, topmost_parent );
+    inventory_entry *const nentry = shown
+                                    ? add_shown_entry( entry_column, std::vector<item_location>( 1, loc ),
+                                            entry_category, 0, topmost_parent )
+                                    : nullptr;
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
         nentry->indent = indent;
@@ -2199,9 +2214,13 @@ void inventory_selector::add_character_items( Character &character, bool add_efi
 
 void inventory_selector::add_character_ebooks( Character &character )
 {
-    for( item_location &ereader : character.all_items_loc() ) {
-        add_contained_ebooks( ereader );
-    }
+    character.visit_items( [&]( item_location ereader ) {
+        if( add_contained_ebooks( ereader ) ) {
+            return VisitResponse::SKIP;
+        } else {
+            return VisitResponse::NEXT;
+        }
+    } );
 }
 
 void inventory_selector::add_map_items( const tripoint_bub_ms &target, bool add_efiles )
@@ -2247,40 +2266,76 @@ void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target, bool 
     }, add_efiles );
 }
 
-void inventory_selector::add_vehicle_tank_items( const tripoint_bub_ms &target )
+void inventory_selector::add_vehicle_tank_items()
 {
     map &here = get_map();
+    const tripoint_bub_ms origin = u.pos_bub();
+    const optional_vpart_position current_vp = here.veh_at( origin );
+    vehicle *const current_vehicle = current_vp ? &current_vp->vehicle() : nullptr;
 
-    // Check for a vehicle at the player's tile
-    const optional_vpart_position ovp = here.veh_at( target );
-    if( !ovp ) {
-        return;
-    }
+    const auto add_tank = [this]( vehicle & veh, int part_index ) {
+        item_location base_loc = veh.part_base( part_index );
+        add_entry( map_column, std::vector<item_location>( 1, item_location( base_loc,
+                   &base_loc->only_item() ) ) );
+    };
 
-    // Check for hose or faucet to determine if we can access the tank
-    const bool has_hose = u.crafting_inventory().has_quality( qual_HOSE );
-    bool has_faucet = false;
-    if( !has_hose ) {
-        for( const tripoint_bub_ms &pos : closest_points_first( target, 1 ) ) {
-            if( here.veh_at( pos ).part_with_tool( here, itype_water_faucet ) ) {
-                has_faucet = true;
-                break;
+    // Preserve the existing behavior for the vehicle the character is standing on: a hose or a
+    // nearby faucet grants access to every liquid tank on that vehicle.  Keep the faucet tied to
+    // the same vehicle so a faucet on an adjacent vehicle cannot expose these tanks.
+    if( current_vehicle ) {
+        const bool has_hose = u.crafting_inventory().has_quality( qual_HOSE );
+        bool has_faucet = false;
+        if( !has_hose ) {
+            for( const tripoint_bub_ms &pos : closest_points_first( origin, 1 ) ) {
+                const optional_vpart_position vp = here.veh_at( pos );
+                if( vp && &vp->vehicle() == current_vehicle &&
+                    vp.part_with_tool( here, itype_water_faucet ) ) {
+                    has_faucet = true;
+                    break;
+                }
+            }
+        }
+        if( has_hose || has_faucet ) {
+            for( const vpart_reference &vpr : current_vehicle->get_all_parts() ) {
+                if( vpr.part().contains_liquid() ) {
+                    add_tank( *current_vehicle, vpr.part_index() );
+                }
             }
         }
     }
-    if( !has_hose && !has_faucet ) {
-        return;
-    }
 
-    // Get all tank liquids on the vehicle
-    vehicle &veh = ovp->vehicle();
-    for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        if( !vpr.part().contains_liquid() ) {
+    // For other nearby vehicles, only expose tanks whose tile is reachable and within the normal
+    // pickup range, and only if a water faucet belonging to the same vehicle is also reachable
+    // within that range.  This naturally includes one-tile vehicles and appliances.
+    std::vector<std::pair<vehicle *, int>> nearby_tanks;
+    std::unordered_set<vehicle *> vehicles_with_faucet;
+    for( const tripoint_bub_ms &pos : closest_points_first( origin, PICKUP_RANGE ) ) {
+        if( pos != origin &&
+            !here.clear_path( origin, pos, rl_dist( origin, pos ), 1, 100 ) ) {
             continue;
         }
-        item_location base_loc = veh.part_base( vpr.part_index() );
-        add_entry( map_column, std::vector<item_location>( 1, item_location( base_loc,
-                   &base_loc->only_item() ) ) );
+
+        const optional_vpart_position vp = here.veh_at( pos );
+        if( !vp || &vp->vehicle() == current_vehicle ) {
+            continue;
+        }
+
+        vehicle &veh = vp->vehicle();
+        if( vp.part_with_tool( here, itype_water_faucet ) ) {
+            vehicles_with_faucet.insert( &veh );
+        }
+
+        for( const int part_index : veh.parts_at_relative( vp->mount_pos(), false ) ) {
+            if( veh.part( part_index ).contains_liquid() ) {
+                nearby_tanks.emplace_back( &veh, part_index );
+            }
+        }
+    }
+
+    for( const auto &[veh, part_index] : nearby_tanks ) {
+        if( vehicles_with_faucet.count( veh ) != 0 ) {
+            add_tank( *veh, part_index );
+        }
     }
 }
 

@@ -12,9 +12,9 @@
     "effect": [
       { "u_consume_item": { "context_val": "id" } },
       { "math": [ "_serum_duration = rng(time('1 d'), time('2 d'))" ] },
+      { "math": [ "_serum_duration *= serum_duration_adjustments()" ] },
       { "u_add_effect": "regen_serum_main", "duration": { "context_val": "serum_duration" } },
       { "u_add_effect": "regen_serum_crash_cardio", "duration": { "math": [ "_serum_duration * rng(1.5, 2.5)" ] } },
-      { "run_eocs": "EOC_APPLY_REGEN_SERUM_CRASH", "time_in_future": { "context_val": "serum_duration" } },
       { "run_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] },
       { "run_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
     ]
@@ -22,7 +22,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_APPLY_REGEN_SERUM_CRASH",
-    "condition": { "not": { "u_has_effect": "regen_serum_crash_fatigue" } },
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "regen_serum_main", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_APPLY_REGEN_SERUM_CRASH_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_REGEN_SERUM_CRASH_2",
+    "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
     "effect": [ { "u_add_effect": "regen_serum_crash_fatigue", "duration": [ "5 d", "10 d" ] } ]
   },
   {
@@ -60,6 +68,7 @@
     "rating": "mixed",
     "flags": [ "MEND_ALL" ],
     "removes_effects": [ "regen_serum_crash_fatigue" ],
+    "dur_add_perc": 33,
     "enchantments": [
       {
         "values": [

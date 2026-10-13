@@ -43,6 +43,27 @@
     "difficulty": 1,
     "base_casting_time": 100,
     "base_energy_cost": 50,
+    "energy_source": "MANA",
+    "magic_type": "test_magic_available"
+  },
+  {
+    "id": "test_spell_random_damage",
+    "type": "SPELL",
+    "name": "Random Damage Test",
+    "description": "A test spell with random damage.",
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "max_level": 10,
+    "min_damage": 1,
+    "max_damage": 5,
+    "damage_increment": 1,
+    "spell_class": "NONE",
+    "difficulty": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 50,
     "energy_source": "MANA"
   },
   {
@@ -73,7 +94,8 @@
     "difficulty": 10,
     "base_casting_time": 500,
     "base_energy_cost": 500,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "magic_type": "test_magic_unavailable"
   },
   {
     "id": "test_spell_montage",

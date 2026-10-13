@@ -5,6 +5,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -30,13 +31,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
 #include "messages.h"
 #include "output.h"
-#include "pimpl.h"
 #include "proficiency.h"
 #include "requirements.h"
 #include "skill.h"
@@ -63,6 +62,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
 template <typename T> struct enum_traits;
+
+class temp_crafting_inventory;
 
 namespace
 {
@@ -273,15 +274,17 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
                     limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
                 }
 
-                detail_str +=
-                    string_format( "wound: %s - %s\nhealing time %s\nhealing percentage %.3f%%\ngives pain: %d\n%s\n",
-                                   colorize( wd.type->get_name(), c_cyan ),
-                                   wd.type->get_description(),
-                                   to_string( wd.get_healing_time() ),
-                                   wd.healing_percentage(),
-                                   wd.get_pain(),
-                                   limb_score_output
-                                 );
+                detail_str += string_format( "%s (%s) - %s\n",
+                                             colorize( wd.type->get_name(), c_cyan ), wd.type.str(), wd.type->get_description() );
+                detail_str += string_format( "healing time: %s\n", to_string( wd.get_healing_time() ) );
+                detail_str += string_format( "lifetime: %s\n", to_string( wd.get_healing_progress() ) );
+                detail_str += string_format( "healing percentage: %.3f%%\n", wd.healing_percentage() );
+                detail_str += string_format( "gives pain: %d\n", wd.get_pain() );
+                if( wd.wound_progress_timer.has_value() ) {
+                    detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
+                                                 to_string( wd.wound_progress_timer->second - wd.get_healing_progress() ) );
+                }
+                detail_str += string_format( "%s\n", limb_score_output );
             }
         }
     }
@@ -371,6 +374,7 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
     const bool bleeding = bleed_intensity > 0;
     const bool bitten = you->has_effect( effect_bite, part.id() );
     const bool infected = you->has_effect( effect_infected, part.id() );
+    const bool wounded = you->has_wounds( part.id() );
     const bool no_feeling = you->has_flag( json_flag_PAIN_IMMUNE );
     const int maximal_hp = you->get_part_hp_max( part );
     const int current_hp = you->get_part_hp_cur( part );
@@ -418,6 +422,10 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
     // INFECTED block
     if( infected ) {
         detail += string_format( _( "[ %s ]" ), colorize( _( "SEPTIC" ), c_pink ) );
+    }
+
+    if( wounded ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "WOUNDED" ), c_cyan ) );
     }
 
     return string_format( "%s %s", header, detail );
@@ -586,7 +594,6 @@ void medical_ui::summary_tab() const
         cataimgui::draw_colored_text( "Debug:", c_red );
         std::string txt;
         txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
-        txt += string_format( "inventory: %.2f kg\n", units::to_kilogram( you->inv->weight() ) );
         const units::mass wornWeight = you->worn.weight();
         txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
 
@@ -726,7 +733,7 @@ struct healing_option {
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     std::vector<healing_option> healing_options;
-    const inventory &inv = crafting_inventory();
+    const temp_crafting_inventory &inv = crafting_inventory();
 
     bodypart *bp = get_part( bp_id );
     const std::vector<wound> wounds = bp->get_wounds();
@@ -784,7 +791,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
                 }
             }
 
-            opt.doable &= fix_id->get_requirements().can_make_with_inventory( inv, is_crafting_component );
+            opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
+                          is_crafting_component );
 
             healing_options.emplace_back( opt );
         }
@@ -823,8 +831,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         const requirement_data &reqs = fix.get_requirements();
         const nc_color col = opt.doable ? c_white : c_light_gray;
 
-        const std::vector<std::string> tools = reqs.get_folded_tools_list( fold_width, col, inv );
-        const std::vector<std::string> comps = reqs.get_folded_components_list( fold_width, col, inv,
+        const std::vector<std::string> tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+        const std::vector<std::string> comps = reqs.get_folded_components_list( this, fold_width, col, inv,
                                                is_crafting_component );
 
         std::string descr = word_rewrap( fix.get_description(), 80 ) + "\n\n";

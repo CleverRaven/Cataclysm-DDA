@@ -710,18 +710,19 @@ std::string talker_npc_const::get_job_description() const
 
 std::string talker_npc_const::view_personality_traits() const
 {
-    // Special starting char so it doesn't appear as though the NPC is talking to us
-    std::string assessment = "&";
-    assessment += _( "<npc_name> seems to be:" );
+    std::string assessment;
+    // We can't use <npc_name> tag here, because nothing ever checks to replace it. So just put the display name in manually.
+    assessment += string_format( _( "%s seems to be:" ), me_npc->display_name() );
     bool found_personality_trait = false;
     for( const auto &trait_data_pairs : me_npc->cached_mutations ) {
         const mutation_branch &mdata = trait_data_pairs.first.obj();
         if( mdata.personality_score ) {
             found_personality_trait = true;
             assessment += "\n";
-            assessment += me_npc->mutation_name( mdata.id );
-            assessment += " - ";
-            assessment += me_npc->mutation_desc( mdata.id );
+            //~The strings here are a personality trait(mutation) name, and then its description. Such as "Nice - John Doe has a higher than average altruism, or "Coward - John Doe flinches at the thought of fighting, whether it be other people or the undead."
+            assessment += string_format( _( "%1$s - %2$s" ),
+                                         me_npc->mutation_name( mdata.id ),
+                                         me_npc->mutation_desc( mdata.id ) );
             // Example output:
             // John Doe seems to be:
             // Coward - John Doe flinches at the thought of fighting, whether it be other people or the undead.
@@ -731,7 +732,10 @@ std::string talker_npc_const::view_personality_traits() const
     }
     // Fallback
     if( !found_personality_trait ) {
-        assessment += _( "\nNormal person - <npc_name> seems to be pretty normal." );
+        assessment += "\n";
+        // We can't use <npc_name> tag here, because nothing ever checks to replace it. So just put the display name in manually.
+        assessment += string_format( _( "Normal person - %s seems to be pretty normal." ),
+                                     me_npc->display_name() );
     }
     return assessment;
 }
@@ -739,7 +743,7 @@ std::string talker_npc_const::view_personality_traits() const
 std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
 {
     if( !alpha.can_see() ) {
-        return _( "&You're blind and can't make anything out." );
+        return _( "You're blind and can't make anything out." );
     }
 
     ///\EFFECT_PER affects whether player can size up NPCs
@@ -747,34 +751,41 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
     ///\EFFECT_INT slightly affects whether player can size up NPCs
     int ability = alpha.per_cur() * 3 + alpha.int_cur();
     if( ability <= 10 ) {
-        return _( "&You can't make anything out." );
+        return string_format( _( "You can't make anything out about %s." ), me_npc->display_name() );
     }
 
     if( is_player_ally() || ability > 100 ) {
         ability = 100;
     }
 
-    std::string info = "&";
+    std::string info;
     int str_range = static_cast<int>( 100 / ability );
     int str_min = static_cast<int>( me_npc->get_str_base() / str_range ) * str_range;
-    info += string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
+    //~This is a range of estimated values for a stat. e.g. "Strength: 9 - 12".
+    info += string_format( _( "Strength: %1$d - %2$d" ), str_min, str_min + str_range );
 
     if( ability >= 40 ) {
         int dex_range = static_cast<int>( 160 / ability );
         int dex_min = static_cast<int>( me_npc->get_dex_base() / dex_range ) * dex_range;
-        info += string_format( _( "  Dex %d - %d" ), dex_min, dex_min + dex_range );
+        info += "\n";
+        //~This is a range of estimated values for a stat. e.g. "Strength: 9 - 12".
+        info += string_format( _( "Dexterity: %1$d - %2$d" ), dex_min, dex_min + dex_range );
     }
 
     if( ability >= 50 ) {
         int int_range = static_cast<int>( 200 / ability );
         int int_min = static_cast<int>( me_npc->get_int_base() / int_range ) * int_range;
-        info += string_format( _( "  Int %d - %d" ), int_min, int_min + int_range );
+        info += "\n";
+        //~This is a range of estimated values for a stat. e.g. "Strength: 9 - 12".
+        info += string_format( _( "Intelligence: %1$d - %2$d" ), int_min, int_min + int_range );
     }
 
     if( ability >= 60 ) {
         int per_range = static_cast<int>( 240 / ability );
         int per_min = static_cast<int>( me_npc->get_per_base() / per_range ) * per_range;
-        info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
+        info += "\n";
+        //~This is a range of estimated values for a stat. e.g. "Strength: 9 - 12".
+        info += string_format( _( "Perception: %1$d - %2$d" ), per_min, per_min + per_range );
     }
     needs_rates rates = me_npc->calc_needs_rates();
     if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
@@ -790,7 +801,9 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
             if( ability >= 100 ) {
                 time_duration sleep_at = 5_minutes * ( sleepiness_levels::TIRED -
                                                        get_sleepiness() ) / rates.sleepiness;
-                how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
+                how_tired += "\n";
+                //~The string replaced here is a time approximation, like "about 20 minutes" or "more than 6 hours".
+                how_tired += string_format( _( "Will need to sleep in %s." ), to_string_approx( sleep_at ) );
             }
         }
         info += "\n" + how_tired;
@@ -799,18 +812,24 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
         if( get_thirst() < 100 ) {
             time_duration thirst_at = 5_minutes * ( 100 - get_thirst() ) / rates.thirst;
             if( thirst_at > 1_hours ) {
-                info += _( "\nWill need water in " ) + to_string_approx( thirst_at );
+                info += "\n";
+                //~The string replaced here is a time approximation, like "about 20 minutes" or "more than 6 hours".
+                info += string_format( _( "Will need water in %s." ), to_string_approx( thirst_at ) );
             }
         } else {
-            info += _( "\nThirsty" );
+            info += "\n";
+            info += _( "Thirsty" );
         }
         if( get_hunger() < 100 ) {
             time_duration hunger_at = 5_minutes * ( 100 - get_hunger() ) / rates.hunger;
             if( hunger_at > 1_hours ) {
-                info += _( "\nWill need food in " ) + to_string_approx( hunger_at );
+                info += "\n";
+                //~The string replaced here is a time approximation, like "about 20 minutes" or "more than 6 hours".
+                info += string_format( _( "Will need food in %s." ), to_string_approx( hunger_at ) );
             }
         } else {
-            info += _( "\nHungry" );
+            info += "\n";
+            info += _( "Hungry" );
         }
     }
     return info;

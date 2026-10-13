@@ -19,11 +19,11 @@
 #include "auto_pickup.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
 #include "dialogue_chatbin.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
@@ -33,6 +33,7 @@
 #include "mission_companion.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
+#include "npc_trip.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -557,6 +558,12 @@ struct npc_short_term_cache {
     // BT goal commitment: persists across turns until completed or
     // overridden by a higher-priority goal. Empty = no commitment.
     std::string committed_goal;
+    // last resolved walk, keyed on turn, position and spec only: map or rule changes
+    // within the turn don't invalidate it
+    mutable npc_trip last_trip;
+    npc_retained_trip retained_trip;
+    // diagnostic count of route() calls made while resolving self-care walks
+    mutable int trip_route_calls = 0;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -931,6 +938,8 @@ class npc : public Character
         /// Returns the current activity name (reading, disassembling, etc.), or "nothing"
         std::string get_current_activity() const;
 
+        void ensure_portrait_valid() override;
+
         // Interaction with the player
         void form_opinion( const Character &you );
         npc_opinion get_opinion_values( const Character &you ) const;
@@ -1027,8 +1036,6 @@ class npc : public Character
         // Use and assessment of items
         // The minimum value to want to pick up an item
         int minimum_item_value() const;
-        // Find the worst value in our inventory
-        void update_worst_item_value();
         double value( const item &it ) const;
         double value( const item &it, double market_price ) const;
         faction_price_rule const *get_price_rules( item const &it ) const;
@@ -1047,9 +1054,10 @@ class npc : public Character
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
         item &get_healing_item( healing_options try_to_fix, bool first_best = false );
-        bool has_painkiller();
+        bool has_painkiller() const;
         bool took_painkiller() const;
         void use_painkiller();
+        item *most_appropriate_painkiller();
         void activate_item( item &it );
         bool has_identified( const itype_id & ) const override {
             return true;
@@ -1248,7 +1256,13 @@ class npc : public Character
         bool drink_from_water_source( const tripoint_bub_ms &water_pos );
         bool consume_food_at( item_location loc );
         bool wear_item_at( item_location loc );
-        bool move_to_and_verify( const tripoint_bub_ms &target, bool no_bashing = false );
+        // one step of spec's walk; false when the NPC didn't move
+        bool move_to_and_verify( const npc_trip_spec &spec );
+        // nullopt when no end tile spec allows is reachable
+        std::optional<npc_trip> resolve_trip( const npc_trip_spec &spec ) const;
+        int trip_route_calls() const {
+            return ai_cache.trip_route_calls;
+        }
         npc_action address_player();
         npc_action long_term_goal_action();
         int evaluate_sleep_spot( tripoint_bub_ms p );
@@ -1321,6 +1335,8 @@ class npc : public Character
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
         std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const override;
+        // get_path_avoid()'s rule for one tile; ignore_creatures skips only the occupant check
+        bool path_avoids( const tripoint_bub_ms &p, bool ignore_creatures ) const;
 
         // Item discovery and fetching
 
@@ -1609,7 +1625,7 @@ class npc : public Character
         //Travel time for the current mission
         time_duration companion_mission_travel_time = 0_hours;
         //Inventory that is added and dropped on mission
-        inventory companion_mission_inv;
+        cata::colony<item> companion_mission_inv;
         npc_mission mission = NPC_MISSION_NULL;
         npc_mission previous_mission = NPC_MISSION_NULL;
         // Personality & other defining characteristics
@@ -1693,6 +1709,11 @@ class npc : public Character
         bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
 
+        std::vector<tripoint_bub_ms> trip_interaction_tiles( const npc_trip_spec &spec ) const;
+        bool trip_endpoint_ok( const tripoint_bub_ms &p ) const;
+        bool trip_step_ok( const tripoint_bub_ms &from, const tripoint_bub_ms &p,
+                           bool no_bashing, bool ignore_occupant = false ) const;
+
         std::vector<sphere> find_dangerous_explosives() const;
 
         npc_companion_mission comp_mission;
@@ -1717,6 +1738,7 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        character_portrait_id unique_portrait_filename;
         dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;

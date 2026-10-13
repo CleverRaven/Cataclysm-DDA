@@ -27,6 +27,7 @@
     "id": "science_rep",
     "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix": "Doctor",
+    "portrait_filename": "Generic_NPC_fm_doctor",
     "class": "NC_FM_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
@@ -45,7 +46,7 @@
       { "text": "Can I trade for supplies?", "topic": "TALK_SCIENCE_REP_ASK_TRADE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
-        "text": "Can I you help me with bionic implants?",
+        "text": "Can you help me with my bionic implants?",
         "condition": {
           "and": [
             { "math": [ "FM_exodii_autodoc_placed == 1" ] },

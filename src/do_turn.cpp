@@ -26,6 +26,7 @@
 #include "cata_imgui.h"
 #endif
 #include "cata_variant.h"
+#include "craft_reservation.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
@@ -257,8 +258,9 @@ void handle_key_blocking_activity()
             u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
-        } else if( action == "help" ) {
-            get_help().display_help();
+        } else if( action == "DISPLAY_HELP" ) {
+            help_window hw;
+            hw.show();
         } else if( action != "HELP_KEYBINDINGS" ) {
             refresh = false;
         }
@@ -270,6 +272,55 @@ void handle_key_blocking_activity()
         refresh_display();
         inp_mngr.pump_events();
     }
+}
+
+npc_turn_result process_npc_turn( map &m, npc &guy )
+{
+    npc_turn_result result;
+    int turns = 0;
+    int real_count = 0;
+    const int count_limit = std::max( 10, guy.get_moves() / 64 );
+    if( guy.is_mounted() ) {
+        guy.check_mount_is_spooked();
+    }
+    m.creature_in_field( guy );
+    if( !guy.has_effect( effect_npc_suspend ) ) {
+        guy.process_turn();
+    }
+    while( !guy.is_dead() && ( !guy.in_sleep_state() ||
+                               guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
+           guy.get_moves() > 0 && turns < 10 ) {
+        const int moves = guy.get_moves();
+        const bool has_destination = guy.has_destination_activity();
+        guy.move();
+        if( moves == guy.get_moves() ) {
+            // Count every time we exit npc::move() without spending any moves.
+            real_count++;
+            if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
+                turns++;
+            }
+        }
+        // Turn on debug mode when in infinite loop
+        // It has to be done before the last turn, otherwise
+        // there will be no meaningful debug output.
+        if( turns == 9 ) {
+            debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
+                      guy.get_name(), guy.activity.id().str() );
+        }
+    }
+
+    // If we spun too long trying to decide what to do (without spending moves),
+    // Invoke cognitive suspension to prevent an infinite loop.
+    if( turns == 10 ) {
+        add_msg( _( "%s faints!" ), guy.get_name() );
+        guy.reboot();
+        result.spun_out = true;
+    }
+
+    if( !guy.is_dead() ) {
+        guy.npc_update_body();
+    }
+    return result;
 }
 
 namespace
@@ -366,48 +417,7 @@ void monmove()
 
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
-        int turns = 0;
-        int real_count = 0;
-        const int count_limit = std::max( 10, guy.get_moves() / 64 );
-        if( guy.is_mounted() ) {
-            guy.check_mount_is_spooked();
-        }
-        m.creature_in_field( guy );
-        if( !guy.has_effect( effect_npc_suspend ) ) {
-            guy.process_turn();
-        }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() ||
-                                   guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
-               guy.get_moves() > 0 && turns < 10 ) {
-            const int moves = guy.get_moves();
-            const bool has_destination = guy.has_destination_activity();
-            guy.move();
-            if( moves == guy.get_moves() ) {
-                // Count every time we exit npc::move() without spending any moves.
-                real_count++;
-                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
-                    turns++;
-                }
-            }
-            // Turn on debug mode when in infinite loop
-            // It has to be done before the last turn, otherwise
-            // there will be no meaningful debug output.
-            if( turns == 9 ) {
-                debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
-                          guy.get_name(), guy.activity.id().str() );
-            }
-        }
-
-        // If we spun too long trying to decide what to do (without spending moves),
-        // Invoke cognitive suspension to prevent an infinite loop.
-        if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.get_name() );
-            guy.reboot();
-        }
-
-        if( !guy.is_dead() ) {
-            guy.npc_update_body();
-        }
+        process_npc_turn( m, guy );
     }
     g->cleanup_dead();
 }
@@ -553,6 +563,9 @@ bool game::do_turn()
     timed_event_manager &timed_events = get_timed_events();
     timed_events.process();
     get_item_wakeups().process( calendar::turn );
+    if( calendar::once_every( 1_hours ) ) {
+        get_craft_reservations().sweep_expired_records();
+    }
     mission::process_all();
     avatar &u = get_avatar();
     map &m = get_map();
@@ -600,16 +613,12 @@ bool game::do_turn()
     weather.update_weather();
 
     reset_light_level();
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        m.set_lightmap_cache_dirty( z );
-    }
+    m.mark_turn_light_dirty();
 
     perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
 
     // process avatar activities (ignoring user input)
-    while( u.get_moves() > 0 && u.activity ) {
-        u.activity.do_turn( u );
-    }
+    u.process_activity();
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
@@ -670,9 +679,7 @@ bool game::do_turn()
                 }
 
                 // avatar processes moves for activities started by handle_action()
-                while( u.get_moves() > 0 && u.activity ) {
-                    u.activity.do_turn( u );
-                }
+                u.process_activity();
             }
             // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.
@@ -761,8 +768,6 @@ bool game::do_turn()
 
     handle_progress_ui();
 
-    m.invalidate_visibility_cache();
-
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
@@ -777,6 +782,13 @@ bool game::do_turn()
 
     if( calendar::once_every( 9_turns ) ) {
         u.check_and_recover_morale();
+    }
+
+    if( calendar::once_every( 1_days ) ) {
+        u.mod_trauma( -1 );
+        for( npc &guy : all_npcs() ) {
+            guy.mod_trauma( -1 );
+        }
     }
 
     if( !u.is_deaf() ) {

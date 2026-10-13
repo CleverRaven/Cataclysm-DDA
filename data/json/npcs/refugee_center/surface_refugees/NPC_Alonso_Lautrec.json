@@ -5,6 +5,7 @@
     "name_unique": "Alonso Lautrec",
     "gender": "male",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_alonso_lautrec",
     "class": "NC_REFUGEE_Alonso",
     "attitude": 0,
     "mission": "GUARD",

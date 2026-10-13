@@ -19,7 +19,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_knife_baselard",
     "copy-from": "knife_baselard",
     "looks_like": "knife_baselard",
@@ -31,7 +30,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_broadsword",
     "copy-from": "ch_broadsword",
     "looks_like": "ch_broadsword",
@@ -42,7 +40,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_arming_sword",
     "copy-from": "ch_arming_sword",
     "looks_like": "ch_arming_sword",
@@ -53,7 +50,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_mace",
     "copy-from": "ch_mace",
     "looks_like": "ch_mace",
@@ -64,7 +60,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_scimitar",
     "copy-from": "ch_scimitar",
     "looks_like": "ch_scimitar",
@@ -75,7 +70,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_estoc",
     "copy-from": "ch_estoc",
     "looks_like": "ch_estoc",
@@ -86,7 +80,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_spear",
     "copy-from": "spear_steel",
     "looks_like": "spear_steel",
@@ -98,7 +91,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_battleaxe",
     "copy-from": "ch_battleaxe",
     "looks_like": "ch_battleaxe",
@@ -109,7 +101,6 @@
   },
   {
     "type": "ITEM",
-    "subtypes": [ "TOOL" ],
     "id": "moons_tears_katana",
     "copy-from": "ch_katana",
     "looks_like": "ch_katana",

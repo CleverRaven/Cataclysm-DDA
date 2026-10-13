@@ -88,7 +88,6 @@ static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 static const furn_str_id furn_f_ash( "f_ash" );
 
 static const itype_id itype_ash( "ash" );
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
@@ -1546,9 +1545,8 @@ void map::player_in_field( Character &you )
             }
         }
         if( ft == fd_fire ) {
-            // Heatsink or suit prevents ALL fire damage.
-            if( !you.has_flag( json_flag_HEATSINK ) && !you.has_flag( json_flag_HEAT_IMMUNE ) &&
-                !you.is_wearing( itype_rm13_armor_on ) ) {
+            // Heatsink prevents ALL fire damage.
+            if( !you.has_flag( json_flag_HEATSINK ) && !you.has_flag( json_flag_HEAT_IMMUNE ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1676,9 +1674,8 @@ void map::player_in_field( Character &you )
             // A burst of flame? Only hits the legs and torso.
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
-                // Heatsink or suit stops fire.
-                if( !you.has_flag( json_flag_HEATSINK ) &&
-                    !you.is_wearing( itype_rm13_armor_on ) ) {
+                // Heatsink stops fire.
+                if( !you.has_flag( json_flag_HEATSINK ) ) {
                     you.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                                _( "<npcname> is torched by flames!" ) );
                     you.deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_heat, rng( 2, 6 ) ) );

@@ -191,6 +191,8 @@ class faction : public faction_template
         std::string food_supply_text() const;
         nc_color food_supply_color() const;
 
+        bool guaranteed_hostile() const;
+
         std::pair<nc_color, std::string> vitamin_stores( vitamin_type vit );
 
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;

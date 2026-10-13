@@ -11,6 +11,7 @@ void clear_npcs();
 void clear_fields( int zlevel );
 void clear_items( int zlevel );
 void clear_zones();
+void clear_reservations();
 void clear_basecamps();
 void clear_map( int zmin = -2, int zmax = 0 );
 void clear_map_without_vision( int zmin = -2, int zmax = 0 );
