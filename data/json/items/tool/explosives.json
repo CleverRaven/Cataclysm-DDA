@@ -709,7 +709,7 @@
     "description": "A section of plastic pipe filled with military explosives.  Use this item to pull the pin, giving you six seconds to get away from it before it detonates.",
     "weight": "860 g",
     "//": "20 cm of pvc pipe weight is 130 g",
-    "material": [ "vinyl" ],
+    "material": [ { "type": "vinyl", "portion": 1 }, { "type": "dense_powder", "portion": 7 } ],
     "explosion": { "power": 920, "shrapnel": { "casing_mass": 65, "fragment_mass": 0.08 } },
     "use_action": {
       "need_wielding": true,
@@ -964,10 +964,10 @@
     "subtypes": [ "TOOL" ],
     "copy-from": "pipebomb",
     "name": { "str": "PVC pipebomb" },
-    "description": "A section of plastic pipe, filled with explosives.  Produces less agressive shrapnel comparing to its steel brother, but no less dangerous.  Use this item to light the fuse, giving you six seconds to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "description": "A section of plastic pipe, filled with explosives.  Produces less aggressive shrapnel comparing to its steel brother, but no less dangerous.  Use this item to light the fuse, giving you six seconds to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
     "weight": "560 g",
     "//": "20 cm of pvc pipe weight is 130 g",
-    "material": [ "vinyl" ],
+    "material": [ { "type": "vinyl", "portion": 1 }, { "type": "dense_powder", "portion": 7 } ],
     "//2": [
       "pvc pipe bomb mass recovery after detonation is around 56% (rounded to 50%)",
       "into roughly 757-864 fragments (800 assumed here)",
