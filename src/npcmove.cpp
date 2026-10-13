@@ -6443,7 +6443,7 @@ bool npc::wear_warmest_item()
         return false;
     }
     item_location loc( *this, best );
-    return wear( loc, false ).has_value();
+    return wear_item_at( loc );
 }
 
 bool npc::take_shelter_nearby()
@@ -6673,11 +6673,12 @@ bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
     const units::volume want = std::max( 0_ml,
                                          units::from_milliliter( get_thirst() * 5 ) );
     const units::volume room = stomach.stomach_remaining( *this );
-    const units::volume intake = std::min( want, room );
+    const units::volume intake = std::min( { want, room, sip_of_water() } );
     if( intake <= 0_ml ) {
         return false;
     }
     stomach.ingest( { intake, 0_ml, {} } );
+    mod_moves( -sip_moves() );
     add_msg_debug( debugmode::DF_NPC_NEEDS,
                    "NPC %s: drank from terrain at %s", get_name(),
                    water_pos.to_string_writable() );
@@ -6702,7 +6703,13 @@ bool npc::wear_item_at( item_location loc )
     if( !loc.get_item() ) {
         return false;
     }
-    return wear( loc, false ).has_value();
+    // wear() charges only an interactive wearer
+    const int cost = item_wear_cost( *loc );
+    if( !wear( loc, false ).has_value() ) {
+        return false;
+    }
+    mod_moves( -cost );
+    return true;
 }
 
 std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c ) const

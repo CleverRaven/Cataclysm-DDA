@@ -1645,6 +1645,74 @@ TEST_CASE( "unacceptable_food_is_not_a_food_source", "[npc][needs]" )
     }
 }
 
+TEST_CASE( "terrain_drink_spends_moves", "[npc][needs][water]" )
+{
+    npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_thirst( 600 );
+    map &here = get_map();
+    const tripoint_bub_ms water = guy.pos_bub() + tripoint::south;
+    here.ter_set( water, ter_t_water_sh );
+    here.build_map_cache( 0 );
+
+    // sip is one turn's drink at the rate a cup of water is drunk
+    const item cup( itype_water_clean, calendar::turn, 1 );
+    const units::volume sip = cup.volume() / to_seconds<int>( guy.get_consume_time( cup ) );
+    REQUIRE( sip > 0_ml );
+    REQUIRE( sip < cup.volume() );
+    REQUIRE( guy.sip_of_water() == sip );
+    const int turn = to_moves<int>( 1_turns );
+
+    SECTION( "sip straight from the source costs one turn" ) {
+        guy.set_moves( 100 );
+        REQUIRE( guy.drink_from_water_source( water ) );
+        CHECK( guy.stomach.get_water() == sip );
+        CHECK( guy.get_moves() == 100 - turn );
+    }
+    SECTION( "through the executor, charged once" ) {
+        guy.set_committed_goal_for_test( "drink_water" );
+        guy.set_moves( 100 );
+        REQUIRE( guy.execute_need_goal( "drink_water" ) == npc::need_result::satisfied );
+        CHECK( guy.stomach.get_water() == sip );
+        CHECK( guy.get_moves() == 100 - turn );
+    }
+}
+
+TEST_CASE( "npc_dressing_spends_moves", "[npc][needs][temperature]" )
+{
+    npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+    guy.set_all_parts_temp_cur( BODYTEMP_VERY_COLD );
+    map &here = get_map();
+    const int cost = guy.item_wear_cost( item( itype_sweater ) );
+    REQUIRE( cost > 0 );
+
+    SECTION( "from the pack" ) {
+        REQUIRE( guy.i_add( item( itype_sweater ) ) );
+        guy.set_moves( 100 );
+        REQUIRE( guy.wear_warmest_item() );
+        REQUIRE( guy.is_wearing( itype_sweater ) );
+        CHECK( guy.get_moves() == 100 - cost );
+    }
+    SECTION( "from the ground" ) {
+        const tripoint_bub_ms adj = guy.pos_bub() + tripoint::south;
+        item &dropped = here.add_item_or_charges( adj, item( itype_sweater ) );
+        here.build_map_cache( 0 );
+        guy.set_moves( 100 );
+        REQUIRE( guy.wear_item_at( item_location( map_cursor( adj ), &dropped ) ) );
+        REQUIRE( guy.is_wearing( itype_sweater ) );
+        CHECK( guy.get_moves() == 100 - cost );
+    }
+    SECTION( "through the executor, charged once" ) {
+        REQUIRE( guy.i_add( item( itype_sweater ) ) );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
+        guy.set_moves( 100 );
+        const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
+        REQUIRE( ( result == npc::need_result::progressed || result == npc::need_result::satisfied ) );
+        REQUIRE( guy.is_wearing( itype_sweater ) );
+        CHECK( guy.get_moves() == 100 - cost );
+    }
+}
+
 TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
 {
     npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
