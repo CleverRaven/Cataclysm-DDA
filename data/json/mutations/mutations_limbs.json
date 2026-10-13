@@ -364,12 +364,12 @@
       },
       {
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.5 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "values": [ { "value": "MOVE_COST", "multiply": -0.4 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       },
       {
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.2 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       }
     ],
