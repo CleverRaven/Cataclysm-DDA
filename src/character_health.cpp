@@ -2546,9 +2546,37 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 
 void Character::update_wounds( time_duration time_passed )
 {
-    for( auto &bp : body ) {
-        bp.second.update_wounds( *this, time_passed );
+    for( auto& [bp_id, bp] : body ) {
+        bp.update_wounds( *this, time_passed );
+
+        for( wound &wd : bp.get_wounds() ) {
+            for( const wound_mod_values &mod_val : wd.type->get_modify_values() ) {
+                if( calendar::once_every( mod_val.rate ) ) {
+                    switch( mod_val.type ) {
+                        case wound_mod_value_type::PAIN:
+                            mod_pain( mod_val.amount, bp_id );
+                            break;
+                        case wound_mod_value_type::BLEED:
+                            bleed( get_map() );
+                            break;
+                        case wound_mod_value_type::VITAMIN:
+                            if( mod_val.vitamin.has_value() ) {
+                                vitamin_mod( *mod_val.vitamin, mod_val.amount );
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            const std::optional<wound_periodic_message> msg = wd.type->get_periodic_message();
+            if( msg.has_value() && calendar::once_every( msg->rate ) ) {
+                add_msg_if_player( m_bad, string_format( msg->message.translated(), body_part_name( bp_id ) ) );
+            }
+        }
     }
+
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
