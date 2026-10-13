@@ -383,7 +383,7 @@ TEST_CASE( "need_floor_order_holds_for_every_need", "[npc][needs][obligation]" )
 {
     for( const npc::need_goal_id id : {
              npc::need_goal_id::drink_water, npc::need_goal_id::go_to_sleep,
-             npc::need_goal_id::eat_food, npc::need_goal_id::seek_warmth
+             npc::need_goal_id::eat_food, npc::need_goal_id::regulate_temperature
          } ) {
         const float strict = npc_need_floor( id, { npc_permission::discouraged, npc_obligation::none, 0.0f } );
         const float emergency = npc_need_floor( id, { npc_permission::emergency_only, npc_obligation::none, 0.0f } );

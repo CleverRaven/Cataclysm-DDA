@@ -1107,7 +1107,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
     SECTION( "freezing NPC with sweater wears it" ) {
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
 
         guy.i_add( item( itype_sweater ) );
         REQUIRE( !guy.is_wearing( itype_sweater ) );
@@ -1120,7 +1120,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
     SECTION( "freezing NPC outdoors moves to adjacent indoor tile" ) {
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
 
         map &here = get_map();
         tripoint_bub_ms adj = guy.pos_bub() + point::east;
@@ -1150,7 +1150,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
     SECTION( "warm NPC ignores warmth response" ) {
         guy.set_all_parts_temp_conv( BODYTEMP_NORM );
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) != behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) != behavior::status_t::running );
 
         guy.i_add( item( itype_sweater ) );
 
@@ -6346,9 +6346,7 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
     }
 }
 
-// Candidate query layer tests for warmth: verify find_warmth_candidates
-// returns the right mix of ground clothing and shelter candidates.
-TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
+TEST_CASE( "npc_find_temperature_candidates", "[npc][needs][temperature]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6366,7 +6364,7 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
     SECTION( "ground clothing yields ground_clothing candidate" ) {
         here.add_item_or_charges( adj, item( itype_sweater ) );
         here.build_map_cache( 0 );
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE_FALSE( cands.empty() );
         CHECK( cands.back().source_kind == need_source::ground_clothing );
     }
@@ -6374,7 +6372,7 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
     SECTION( "indoor tile yields shelter candidate" ) {
         here.ter_set( adj, ter_t_floor );
         here.build_map_cache( 0 );
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE_FALSE( cands.empty() );
         CHECK( cands.front().source_kind == need_source::shelter );
     }
@@ -6385,14 +6383,14 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
         tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
         here.ter_set( distant, ter_t_floor );
         here.build_map_cache( 0 );
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE( cands.size() >= 2 );
         CHECK( cands.front().source_kind == need_source::ground_clothing );
     }
 
     SECTION( "no sources yields empty" ) {
         here.build_map_cache( 0 );
-        CHECK( guy.find_warmth_candidates().empty() );
+        CHECK( guy.find_temperature_candidates().empty() );
     }
 
     SECTION( "already indoors: no shelter candidates but clothing still found" ) {
@@ -6400,7 +6398,7 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
         here.ter_set( guy.pos_bub(), ter_t_floor );
         here.add_item_or_charges( adj, item( itype_sweater ) );
         here.build_map_cache( 0 );
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE_FALSE( cands.empty() );
         for( const npc_short_term_cache::need_candidate &c : cands ) {
             CHECK( c.source_kind == need_source::ground_clothing );
@@ -6414,15 +6412,13 @@ TEST_CASE( "npc_find_warmth_candidates", "[npc][needs][warmth]" )
         guy.rules.clear_flag( ally_rule::allow_pick_up );
         here.add_item_or_charges( adj, item( itype_sweater ) );
         here.build_map_cache( 0 );
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE_FALSE( cands.empty() );
         CHECK( cands.front().source_kind == need_source::ground_clothing );
     }
 }
 
-// Executor-level tests for seek_warmth goal: inventory wear, ground clothing,
-// shelter seeking, danger gating, sticky targets, progress tracking.
-TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
+TEST_CASE( "npc_temperature_executor_contract", "[npc][needs][temperature]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6450,7 +6446,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         REQUIRE_FALSE( guy.is_wearing( itype_sweater ) );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         // One sweater may not resolve extreme cold, so progressed not satisfied.
         CHECK( result == npc::need_result::progressed );
         CHECK( guy.is_wearing( itype_sweater ) );
@@ -6462,7 +6458,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
         CHECK( guy.is_wearing( itype_sweater ) );
     }
@@ -6473,10 +6469,10 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
-        CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().source_kind == need_source::ground_clothing );
+        CHECK( guy.get_temperature_plan().active() );
+        CHECK( guy.get_temperature_plan().source_kind == need_source::ground_clothing );
     }
 
     SECTION( "distant shelter: move toward at low danger, progressed" ) {
@@ -6486,10 +6482,10 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
 
         guy.set_ai_danger( 0 );
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
-        CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().source_kind == need_source::shelter );
+        CHECK( guy.get_temperature_plan().active() );
+        CHECK( guy.get_temperature_plan().source_kind == need_source::shelter );
     }
 
     SECTION( "shelter movement blocked by danger, deferred" ) {
@@ -6499,16 +6495,16 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
 
         guy.set_ai_danger( NPC_DANGER_VERY_LOW + 1 );
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::deferred );
-        CHECK( guy.get_warmth_plan().active() );
+        CHECK( guy.get_temperature_plan().active() );
     }
 
     SECTION( "no warmth sources: impossible" ) {
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::impossible );
     }
 
@@ -6520,7 +6516,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
 
         // First call: move into shelter.
         guy.set_moves( 100 );
-        guy.execute_need_goal( "seek_warmth" );
+        guy.execute_need_goal( "regulate_temperature" );
         REQUIRE( guy.pos_bub() == shelter );
 
         // NPC is indoors but still freezing. Shelter drops from
@@ -6528,9 +6524,9 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         // but the executor should hold position and return progressed,
         // not impossible, so follow/other goals don't pull the NPC out.
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         // holding (not progressed) so dispatch maps to npc_pause
         // which consumes moves, avoiding zero-move spin.
         CHECK( result == npc::need_result::holding );
@@ -6545,7 +6541,7 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         // No candidates: shelter empty (already indoors), no clothing.
         // Executor should hold position (holding, not progressed).
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         REQUIRE( result == npc::need_result::holding );
 
         // Now place distant clothing. The NPC should pursue it instead
@@ -6555,10 +6551,10 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        result = guy.execute_need_goal( "seek_warmth" );
+        result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
-        CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().source_kind == need_source::ground_clothing );
+        CHECK( guy.get_temperature_plan().active() );
+        CHECK( guy.get_temperature_plan().source_kind == need_source::ground_clothing );
     }
 
     SECTION( "clothing outranks shelter when clothing scores higher" ) {
@@ -6571,10 +6567,10 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         REQUIRE( result == npc::need_result::progressed );
-        CHECK( guy.get_warmth_plan().target == here.get_abs( clothing ) );
-        CHECK( guy.get_warmth_plan().source_kind == need_source::ground_clothing );
+        CHECK( guy.get_temperature_plan().target == here.get_abs( clothing ) );
+        CHECK( guy.get_temperature_plan().source_kind == need_source::ground_clothing );
     }
 
     SECTION( "unreachable clothing times out then skips to second target" ) {
@@ -6592,21 +6588,21 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
-        auto cands = guy.find_warmth_candidates();
+        auto cands = guy.find_temperature_candidates();
         REQUIRE( cands.size() >= 2 );
 
         // 5-turn no-progress timeout on first target.
         for( int turn = 0; turn < 5; ++turn ) {
             guy.set_moves( 100 );
-            guy.execute_need_goal( "seek_warmth" );
+            guy.execute_need_goal( "regulate_temperature" );
         }
-        REQUIRE( guy.get_warmth_plan().last_result == npc::need_result::impossible );
+        REQUIRE( guy.get_temperature_plan().last_result == npc::need_result::impossible );
 
         // Next call skips the failed target and picks the second one.
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
-        CHECK( guy.get_warmth_plan().active() );
-        CHECK( guy.get_warmth_plan().target == here.get_abs( distant ) );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
+        CHECK( guy.get_temperature_plan().active() );
+        CHECK( guy.get_temperature_plan().target == here.get_abs( distant ) );
         CHECK( result == npc::need_result::progressed );
     }
 
@@ -6616,15 +6612,14 @@ TEST_CASE( "npc_warmth_executor_contract", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::holding );
         // holding must not increment the no-progress counter
-        CHECK( guy.plan_for( npc::need_goal_id::seek_warmth ).no_progress_turns == 0 );
+        CHECK( guy.plan_for( npc::need_goal_id::regulate_temperature ).no_progress_turns == 0 );
     }
 }
 
-// seek_warmth commitment lifecycle through npc::move().
-TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
+TEST_CASE( "npc_regulate_temperature_commitment_lifecycle", "[npc][needs][temperature]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6647,35 +6642,35 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
     map &here = get_map();
 
     SECTION( "commitment clears when warmth resolves" ) {
-        // Place distant clothing so seek_warmth activates.
+        // Place distant clothing so regulate_temperature activates.
         const tripoint_bub_ms distant = guy.pos_bub() + tripoint( 3, 0, 0 );
         here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal_for_test( "seek_warmth" );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
         guy.set_moves( 100 );
         guy.move();
-        REQUIRE( guy.get_committed_goal() == "seek_warmth" );
+        REQUIRE( guy.get_committed_goal() == "regulate_temperature" );
 
         // Warm up the NPC so the predicate clears.
         guy.set_all_parts_temp_conv( BODYTEMP_NORM );
         guy.set_moves( 100 );
         guy.move();
-        CHECK( guy.get_committed_goal() != "seek_warmth" );
+        CHECK( guy.get_committed_goal() != "regulate_temperature" );
     }
 
     SECTION( "stale impossible from prior cycle does not kill live commitment" ) {
         // No warmth sources: executor returns impossible.
         here.build_map_cache( 0 );
-        guy.set_committed_goal_for_test( "seek_warmth" );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
         guy.set_moves( 100 );
         guy.move();
         // Commitment should have cleared (impossible).
-        REQUIRE( guy.get_committed_goal() != "seek_warmth" );
+        REQUIRE( guy.get_committed_goal() != "regulate_temperature" );
 
         // Now add a sweater to inventory and recommit.
         guy.i_add( item( itype_sweater ) );
-        guy.set_committed_goal_for_test( "seek_warmth" );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
         guy.set_moves( 100 );
         guy.move();
         // The executor should have worn the sweater (progressed),
@@ -6683,8 +6678,8 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
         // is not yet resolved (still VERY_COLD).
         CHECK( guy.is_wearing( itype_sweater ) );
         behavior::character_oracle_t oracle( &guy );
-        if( oracle.needs_warmth_badly( "" ) == behavior::status_t::running ) {
-            CHECK( guy.get_committed_goal() == "seek_warmth" );
+        if( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running ) {
+            CHECK( guy.get_committed_goal() == "regulate_temperature" );
         }
     }
 
@@ -6693,7 +6688,7 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
         here.ter_set( guy.pos_bub(), ter_t_floor );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal_for_test( "seek_warmth" );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
         const int moves_before = 100;
         guy.set_moves( moves_before );
         guy.move();
@@ -6702,9 +6697,9 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
     }
 
     SECTION( "cold NPC starting indoors without commitment stays put" ) {
-        // Fresh BT evaluation, no prior seek_warmth commitment.
+        // Fresh BT evaluation, no prior regulate_temperature commitment.
         // NPC is cold, indoors, no warmth sources. The BT should
-        // commit seek_warmth (predicate sees indoors-hold case),
+        // commit regulate_temperature (predicate sees indoors-hold case),
         // and the NPC should not leave shelter.
         here.ter_set( guy.pos_bub(), ter_t_floor );
         here.build_map_cache( 0 );
@@ -6754,9 +6749,9 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
-        // Pre-commit seek_warmth in holding state.
-        guy.set_committed_goal_for_test( "seek_warmth" );
-        guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
+        // Pre-commit regulate_temperature in holding state.
+        guy.set_committed_goal_for_test( "regulate_temperature" );
+        guy.plan_for( npc::need_goal_id::regulate_temperature ).last_result =
             npc::need_result::holding;
 
         guy.set_moves( 100 );
@@ -6771,7 +6766,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         get_weather().forced_temperature = -30_C;
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 600 );
-        // Place clothing so seek_warmth has a plan.
+        // Place clothing so regulate_temperature has a plan.
         const tripoint_bub_ms clothing = guy.pos_bub() + tripoint( 5, 0, 0 );
         here.add_item_or_charges( clothing, item( itype_sweater ) );
         // Place water so drink_water is viable.
@@ -6779,17 +6774,17 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         here.ter_set( water, ter_t_water_sh );
         here.build_map_cache( 0 );
 
-        // Pre-commit seek_warmth in progressed state with an active plan.
-        guy.set_committed_goal_for_test( "seek_warmth" );
-        npc::need_plan &wp = guy.plan_for( npc::need_goal_id::seek_warmth );
-        wp.goal = "seek_warmth";
+        // Pre-commit regulate_temperature in progressed state with an active plan.
+        guy.set_committed_goal_for_test( "regulate_temperature" );
+        npc::need_plan &wp = guy.plan_for( npc::need_goal_id::regulate_temperature );
+        wp.goal = "regulate_temperature";
         wp.source_kind = npc::need_source::ground_clothing;
         wp.target = here.get_abs( clothing );
         wp.last_result = npc::need_result::progressed;
 
         guy.set_moves( 100 );
         guy.move();
-        CHECK( guy.get_committed_goal() == "seek_warmth" );
+        CHECK( guy.get_committed_goal() == "regulate_temperature" );
     }
 
     SECTION( "progressed warmth preempted by critical thirst" ) {
@@ -6806,9 +6801,9 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal_for_test( "seek_warmth" );
-        npc::need_plan &wp = guy.plan_for( npc::need_goal_id::seek_warmth );
-        wp.goal = "seek_warmth";
+        guy.set_committed_goal_for_test( "regulate_temperature" );
+        npc::need_plan &wp = guy.plan_for( npc::need_goal_id::regulate_temperature );
+        wp.goal = "regulate_temperature";
         wp.source_kind = npc::need_source::ground_clothing;
         wp.target = here.get_abs( clothing );
         wp.last_result = npc::need_result::progressed;
@@ -6829,8 +6824,8 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal_for_test( "seek_warmth" );
-        guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
+        guy.set_committed_goal_for_test( "regulate_temperature" );
+        guy.plan_for( npc::need_goal_id::regulate_temperature ).last_result =
             npc::need_result::deferred;
 
         guy.set_moves( 100 );
@@ -6839,7 +6834,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
     }
 }
 
-TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
+TEST_CASE( "npc_fire_executor_contract", "[npc][needs][temperature][fire]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6867,7 +6862,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         guy.i_add( item( itype_2x4 ) );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         // No usable firestarter, no clothing, and grass is not shelter.
         // Should fall through to impossible (no warmth candidates).
         CHECK( result == npc::need_result::impossible );
@@ -6884,7 +6879,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::impossible );
     }
 
@@ -6897,7 +6892,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( adj ) );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
         // Lighter is fast enough for instant fire or activity.
         CHECK( ( here.get_field( adj, fd_fire ) || guy.activity ) );
@@ -6916,11 +6911,11 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.find_nearby_shelters().empty() );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
-        REQUIRE( guy.get_warmth_plan().active() );
-        REQUIRE( guy.get_warmth_plan().source_kind == npc_short_term_cache::need_source::fire_spot );
-        const tripoint_bub_ms target = here.get_bub( guy.get_warmth_plan().target );
+        REQUIRE( guy.get_temperature_plan().active() );
+        REQUIRE( guy.get_temperature_plan().source_kind == npc_short_term_cache::need_source::fire_spot );
+        const tripoint_bub_ms target = here.get_bub( guy.get_temperature_plan().target );
         CHECK( target == ring );
         CHECK( ( here.get_field( target, fd_fire ) || guy.activity ) );
     }
@@ -6933,7 +6928,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::holding );
     }
 
@@ -7003,7 +6998,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.find_fire_spot().has_value() );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
         // The wielded weapon must still be a 2x4.
         REQUIRE( guy.get_wielded_item() );
@@ -7061,9 +7056,9 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             return n;
         };
         // a lighter lights through the activity; run it to the end so its fire is on the map
-        const auto seek_warmth = [&]() {
+        const auto regulate_temperature = [&]() {
             guy.set_moves( 100 );
-            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( guy.activity ) {
                 REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
             }
@@ -7075,7 +7070,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             REQUIRE( here.has_flag( ter_furn_flag::TFLAG_INDOORS, guy.pos_bub() ) );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
             CHECK( guy.check_fire_spot( north ).check == npc::fire_spot_check::not_a_hearth );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             CHECK( result == npc::need_result::holding );
             CHECK_FALSE( guy.find_fire_spot().has_value() );
             CHECK( fires_near() == 0 );
@@ -7089,7 +7084,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.build_map_cache( 0 );
             CHECK( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( west ) );
             CHECK( guy.check_fire_spot( west ).check == npc::fire_spot_check::own_fuel );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             CHECK( result == npc::need_result::progressed );
             CHECK( here.get_field( west, fd_fire ) != nullptr );
             CHECK( fires_near() == 1 );
@@ -7101,7 +7096,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 const tripoint_bub_ms stand = guy.pos_bub();
                 guy.regen_ai_cache();
                 guy.set_moves( 100 );
-                const npc::need_result again = guy.execute_need_goal( "seek_warmth" );
+                const npc::need_result again = guy.execute_need_goal( "regulate_temperature" );
                 THEN( "it stays at the fire it lit" ) {
                     CHECK_FALSE( guy.has_effect( effect_npc_fire_bad ) );
                     CHECK( again == npc::need_result::holding );
@@ -7113,18 +7108,18 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         SECTION( "planned brazier that became a table lights nothing" ) {
             here.furn_set( west, furn_f_brazier );
             here.build_map_cache( 0 );
-            npc::need_plan &plan = guy.plan_for( npc::need_goal_id::seek_warmth );
-            plan.goal = "seek_warmth";
+            npc::need_plan &plan = guy.plan_for( npc::need_goal_id::regulate_temperature );
+            plan.goal = "regulate_temperature";
             plan.source_kind = npc_short_term_cache::need_source::fire_spot;
             plan.target = here.get_abs( west );
             here.furn_set( west, furn_f_table );
             here.build_map_cache( 0 );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             CHECK( result == npc::need_result::holding );
             CHECK( fires_near() == 0 );
             CHECK( here.furn( west ) == furn_f_table );
             CHECK( guy.has_amount( itype_2x4, 1 ) );
-            CHECK_FALSE( guy.get_warmth_plan().active() );
+            CHECK_FALSE( guy.get_temperature_plan().active() );
         }
     }
 
@@ -7155,7 +7150,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             WHEN( "the NPC has no firewood of its own" ) {
                 CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
                 guy.set_moves( 100 );
-                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
                 THEN( "plank is not fuel, nothing is lit" ) {
                     CHECK_FALSE( guy.find_fire_spot().has_value() );
                     CHECK( result == npc::need_result::impossible );
@@ -7168,7 +7163,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 guy.i_add( item( itype_2x4 ) );
                 CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
                 guy.set_moves( 100 );
-                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
                 THEN( "fireplace is passed over, its own plank stays packed" ) {
                     CHECK_FALSE( guy.find_fire_spot().has_value() );
                     CHECK( result == npc::need_result::impossible );
@@ -7187,7 +7182,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
                 CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::tile_fuel );
                 guy.set_moves( 100 );
-                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
                 THEN( "it lights the plank in the fireplace and keeps its own" ) {
                     CHECK( result == npc::need_result::progressed );
                     CHECK( ( guy.activity.id() == ACT_START_FIRE ||
@@ -7209,7 +7204,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             }
         }
         here.furn_set( east, furn_f_firering );
-        // a weapon, not clothing: execute_seek_warmth dresses from adjacent clothing first
+        // a weapon, not clothing: execute_regulate_temperature dresses from adjacent clothing first
         const item &cudgel = here.add_item_or_charges( east, item( itype_cudgel ) );
         REQUIRE( cudgel.flammable() );
         REQUIRE_FALSE( cudgel.has_flag( json_flag_FIREWOOD ) );
@@ -7219,7 +7214,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
 
         guy.set_moves( 100 );
-        const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK_FALSE( guy.find_fire_spot().has_value() );
         CHECK( result == npc::need_result::impossible );
         CHECK( guy.activity.id() != ACT_START_FIRE );
@@ -7244,7 +7239,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         CHECK( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
         CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
         guy.set_moves( 100 );
-        const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
         CHECK( ( guy.activity.id() == ACT_START_FIRE || here.get_field( east, fd_fire ) != nullptr ) );
         CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
@@ -7259,9 +7254,9 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 here.ter_set( p, ter_t_concrete_wall );
             }
         }
-        const auto seek_warmth = [&]() {
+        const auto regulate_temperature = [&]() {
             guy.set_moves( 100 );
-            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( guy.activity ) {
                 REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
             }
@@ -7280,7 +7275,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             REQUIRE( here.move_cost( east ) == 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
             WHEN( "it seeks warmth" ) {
-                const npc::need_result result = seek_warmth();
+                const npc::need_result result = regulate_temperature();
                 THEN( "fire burns in the oven, fed with its own plank" ) {
                     CHECK( result == npc::need_result::progressed );
                     CHECK( here.get_field( east, fd_fire ) != nullptr );
@@ -7290,7 +7285,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 AND_WHEN( "looks around and seeks warmth again" ) {
                     guy.regen_ai_cache();
                     guy.set_moves( 100 );
-                    const npc::need_result again = guy.execute_need_goal( "seek_warmth" );
+                    const npc::need_result again = guy.execute_need_goal( "regulate_temperature" );
                     THEN( "it stays at the oven" ) {
                         CHECK_FALSE( guy.has_effect( effect_npc_fire_bad ) );
                         CHECK( again == npc::need_result::holding );
@@ -7302,7 +7297,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.furn_set( east, furn_f_kiln_empty );
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "it is no hearth and stays an empty kiln" ) {
                 passed_over( result );
                 CHECK( here.furn( east ) == furn_f_kiln_empty );
@@ -7312,7 +7307,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.furn_set( east, furn_f_gas_oven );
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "it is no hearth" ) {
                 passed_over( result );
             }
@@ -7330,7 +7325,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             mgr.cache_data();
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::firewood_source );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "the pile is not burned" ) {
                 passed_over( result );
             }
@@ -7340,7 +7335,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.trap_set( east, tr_firewood_source );
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::firewood_source );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "the pile is not burned" ) {
                 passed_over( result );
             }
@@ -7356,9 +7351,9 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 here.ter_set( p, ter_t_concrete_wall );
             }
         }
-        const auto seek_warmth = [&]() {
+        const auto regulate_temperature = [&]() {
             guy.set_moves( 100 );
-            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( guy.activity ) {
                 REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
             }
@@ -7388,7 +7383,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             REQUIRE( burns_contained( bottle ) );
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "ring is passed over, bottle stays whole" ) {
                 CHECK_FALSE( guy.find_fire_spot().has_value() );
                 CHECK( result == npc::need_result::impossible );
@@ -7405,7 +7400,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.build_map_cache( 0 );
             REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "its own plank goes in and the fire is lit" ) {
                 CHECK( result == npc::need_result::progressed );
                 CHECK( here.get_field( east, fd_fire ) != nullptr );
@@ -7417,7 +7412,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.build_map_cache( 0 );
             REQUIRE( here.free_volume( east ) >= item( itype_2x4 ).volume() );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "plank goes in, fire is lit" ) {
                 CHECK( result == npc::need_result::progressed );
                 CHECK( here.get_field( east, fd_fire ) != nullptr );
@@ -7435,7 +7430,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             REQUIRE( here.free_volume( east ) < item( itype_2x4 ).volume() );
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_room );
-            const npc::need_result result = seek_warmth();
+            const npc::need_result result = regulate_temperature();
             THEN( "brazier passed over, plank stays packed" ) {
                 CHECK_FALSE( guy.find_fire_spot().has_value() );
                 CHECK( result == npc::need_result::impossible );
@@ -7460,9 +7455,9 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( leaves->has_flag( json_flag_FIREWOOD ) );
         REQUIRE( leaves->has_flag( json_flag_TINDER ) );
         REQUIRE_FALSE( leaves->flammable() );
-        const auto seek_warmth = [&]() {
+        const auto regulate_temperature = [&]() {
             guy.set_moves( 100 );
-            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( guy.activity ) {
                 REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
             }
@@ -7480,7 +7475,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             here.build_map_cache( 0 );
             CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_fuel );
             WHEN( "it seeks warmth" ) {
-                const npc::need_result result = seek_warmth();
+                const npc::need_result result = regulate_temperature();
                 THEN( "ring is passed over, leaves stay packed" ) {
                     CHECK_FALSE( guy.find_fire_spot().has_value() );
                     CHECK( result == npc::need_result::impossible );
@@ -7498,7 +7493,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             REQUIRE( spot.firewood );
             CHECK( spot.firewood->typeId() == itype_2x4 );
             WHEN( "it seeks warmth" ) {
-                const npc::need_result result = seek_warmth();
+                const npc::need_result result = regulate_temperature();
                 THEN( "plank goes in, fire is lit" ) {
                     CHECK( result == npc::need_result::progressed );
                     CHECK( here.get_field( east, fd_fire ) != nullptr );
@@ -7522,9 +7517,9 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( paper->has_flag( json_flag_TINDER ) );
         REQUIRE_FALSE( paper->has_flag( json_flag_FIREWOOD ) );
         REQUIRE( paper->flammable() );
-        const auto seek_warmth = [&]() {
+        const auto regulate_temperature = [&]() {
             guy.set_moves( 100 );
-            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            const npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( guy.activity ) {
                 REQUIRE( process_activity_bounded( guy, 1000, 20000 ) );
             }
@@ -7541,7 +7536,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
             WHEN( "only paper is packed" ) {
                 here.build_map_cache( 0 );
                 CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_fuel );
-                const npc::need_result result = seek_warmth();
+                const npc::need_result result = regulate_temperature();
                 THEN( "ring is passed over, paper stays packed" ) {
                     CHECK_FALSE( guy.find_fire_spot().has_value() );
                     CHECK( result == npc::need_result::impossible );
@@ -7557,7 +7552,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 CHECK( spot.check == npc::fire_spot_check::own_fuel );
                 REQUIRE( spot.firewood );
                 CHECK( spot.firewood->typeId() == itype_2x4 );
-                const npc::need_result result = seek_warmth();
+                const npc::need_result result = regulate_temperature();
                 THEN( "plank goes in, fire is lit" ) {
                     CHECK( result == npc::need_result::progressed );
                     CHECK( here.get_field( east, fd_fire ) != nullptr );
@@ -7751,8 +7746,8 @@ TEST_CASE( "need_goal_id_helpers", "[npc][needs]" )
     CHECK( *npc::goal_id_for( "eat_food" ) == npc::need_goal_id::eat_food );
     REQUIRE( npc::goal_id_for( "drink_water" ).has_value() );
     CHECK( *npc::goal_id_for( "drink_water" ) == npc::need_goal_id::drink_water );
-    REQUIRE( npc::goal_id_for( "seek_warmth" ).has_value() );
-    CHECK( *npc::goal_id_for( "seek_warmth" ) == npc::need_goal_id::seek_warmth );
+    REQUIRE( npc::goal_id_for( "regulate_temperature" ).has_value() );
+    CHECK( *npc::goal_id_for( "regulate_temperature" ) == npc::need_goal_id::regulate_temperature );
 
     REQUIRE( npc::goal_id_for( "go_to_sleep" ).has_value() );
     CHECK( *npc::goal_id_for( "go_to_sleep" ) == npc::need_goal_id::go_to_sleep );
@@ -7765,7 +7760,7 @@ TEST_CASE( "need_goal_id_helpers", "[npc][needs]" )
     // is_executor_goal convenience wrapper.
     CHECK( npc::is_executor_goal( "eat_food" ) );
     CHECK( npc::is_executor_goal( "drink_water" ) );
-    CHECK( npc::is_executor_goal( "seek_warmth" ) );
+    CHECK( npc::is_executor_goal( "regulate_temperature" ) );
     CHECK( npc::is_executor_goal( "go_to_sleep" ) );
     CHECK_FALSE( npc::is_executor_goal( "follow_player" ) );
     CHECK_FALSE( npc::is_executor_goal( "idle" ) );
@@ -7783,11 +7778,11 @@ TEST_CASE( "need_goal_id_plan_accessors", "[npc][needs]" )
     // Capture non-const result first to avoid unsequenced calls in CHECK.
     npc::need_plan *food_ptr = &guy.plan_for( npc::need_goal_id::eat_food );
     npc::need_plan *water_ptr = &guy.plan_for( npc::need_goal_id::drink_water );
-    npc::need_plan *warmth_ptr = &guy.plan_for( npc::need_goal_id::seek_warmth );
+    npc::need_plan *warmth_ptr = &guy.plan_for( npc::need_goal_id::regulate_temperature );
     npc::need_plan *sleep_ptr = &guy.plan_for( npc::need_goal_id::go_to_sleep );
     CHECK( food_ptr == &guy.get_food_plan() );
     CHECK( water_ptr == &guy.get_water_plan() );
-    CHECK( warmth_ptr == &guy.get_warmth_plan() );
+    CHECK( warmth_ptr == &guy.get_temperature_plan() );
     CHECK( sleep_ptr == &guy.get_sleep_plan() );
 
     // clear_need_state resets both plan and failed targets.
@@ -8257,9 +8252,8 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
     }
 }
 
-// Cold guarding NPCs should use the warmth executor (including fire
-// starting) instead of only the legacy wear_warmest_item path.
-TEST_CASE( "npc_guard_uses_warmth_executor", "[npc][needs][warmth][guard]" )
+// cold guard uses temperature executor (including fire starting) not just wear_warmest_item()
+TEST_CASE( "npc_guard_uses_temperature_executor", "[npc][needs][temperature][guard]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -8418,7 +8412,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
     }
 
     SECTION( "fire-starting activity cancelled on goal clear" ) {
-        guy.set_committed_goal_for_test( "seek_warmth" );
+        guy.set_committed_goal_for_test( "regulate_temperature" );
         // Build a fire_start activity. The actor holds an item_location
         // into inventory; cancel_activity must handle cleanup.
         item &lighter = *guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
@@ -8444,7 +8438,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
 
         guy.end_need_pursuit( npc::need_goal_id::drink_water );
         CHECK( guy.activity.id() == ACT_START_FIRE );
-        guy.end_need_pursuit( npc::need_goal_id::seek_warmth );
+        guy.end_need_pursuit( npc::need_goal_id::regulate_temperature );
         CHECK_FALSE( guy.activity );
     }
 
@@ -8462,7 +8456,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
 // Indoor warmth hold must have a timeout. Without one, an NPC indoors
 // on a cold tile that never warms them will hold forever, suppressing
 // follow/duty indefinitely.
-TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
+TEST_CASE( "npc_temperature_indoor_hold_timeout", "[npc][needs][temperature]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -8492,12 +8486,12 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
         // Precondition: NPC is indoors, cold, no warmth candidates.
         REQUIRE( here.has_flag( ter_furn_flag::TFLAG_INDOORS, guy.pos_bub() ) );
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
-        REQUIRE( guy.find_warmth_candidates().empty() );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
+        REQUIRE( guy.find_temperature_candidates().empty() );
 
         // First call should return holding.
         guy.set_moves( 100 );
-        npc::need_result first = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result first = guy.execute_need_goal( "regulate_temperature" );
         REQUIRE( first == npc::need_result::holding );
         REQUIRE( guy.get_warmth_indoor_hold_turns() == 1 );
 
@@ -8507,7 +8501,7 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
         int hold_count = 1;
         for( int turn = 1; turn < 80; ++turn ) {
             guy.set_moves( 100 );
-            last = guy.execute_need_goal( "seek_warmth" );
+            last = guy.execute_need_goal( "regulate_temperature" );
             if( last == npc::need_result::holding ) {
                 hold_count++;
             }
@@ -8523,24 +8517,24 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
         // Exhaust the indoor hold timeout (60 turns).
         for( int turn = 0; turn < 80; ++turn ) {
             guy.set_moves( 100 );
-            npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
             if( result == npc::need_result::impossible ) {
                 break;
             }
         }
 
         // The predicate should now return failure for the indoor case,
-        // preventing the BT from immediately re-selecting seek_warmth.
+        // preventing the BT from immediately re-selecting regulate_temperature.
         behavior::character_oracle_t oracle( &guy );
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
-        CHECK( oracle.can_obtain_warmth( "" ) == behavior::status_t::failure );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
+        CHECK( oracle.can_regulate_temperature( "" ) == behavior::status_t::failure );
     }
 
     SECTION( "real candidate resets indoor hold stagnation" ) {
         // Accumulate some indoor hold turns.
         for( int turn = 0; turn < 10; ++turn ) {
             guy.set_moves( 100 );
-            guy.execute_need_goal( "seek_warmth" );
+            guy.execute_need_goal( "regulate_temperature" );
         }
 
         // Place clothing. The executor should pursue it, resetting
@@ -8550,19 +8544,19 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
         here.build_map_cache( 0 );
 
         guy.set_moves( 100 );
-        npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        npc::need_result result = guy.execute_need_goal( "regulate_temperature" );
         CHECK( result == npc::need_result::progressed );
 
         // Counter should be reset. Remove the clothing and verify
         // indoor hold can run again from 0.
         here.i_clear( clothing );
-        guy.clear_need_state( npc::need_goal_id::seek_warmth );
+        guy.clear_need_state( npc::need_goal_id::regulate_temperature );
         here.build_map_cache( 0 );
 
         int hold_count = 0;
         for( int turn = 0; turn < 5; ++turn ) {
             guy.set_moves( 100 );
-            npc::need_result r = guy.execute_need_goal( "seek_warmth" );
+            npc::need_result r = guy.execute_need_goal( "regulate_temperature" );
             if( r == npc::need_result::holding ) {
                 hold_count++;
             }
