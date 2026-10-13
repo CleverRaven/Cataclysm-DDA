@@ -61,6 +61,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "afs_ravine_forested" ],
+    "copy-from": "generic_open_land",
+    "name": "Aeolian flats",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "color": "light_red",
+    "see_cost": "none",
+    "extras": "field",
+    "looks_like": "t_lichen",
+    "flags": [ "NO_ROTATE", "RAVINE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "afs_aeolian_plain" ],
     "copy-from": "generic_open_land",
     "name": "Aeolian flats",
