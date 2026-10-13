@@ -29,6 +29,7 @@
 #include "clzones.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -54,12 +55,14 @@
 #include "iexamine.h"
 #include "monster.h"
 #include "npc.h"
+#include "npc_arbitration.h"
 #include "npctrade.h"
 #include "npc_class.h"
 #include "npc_trip.h"
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
@@ -67,7 +70,9 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sounds.h"
 #include "stomach.h"
+#include "talker.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translation.h"
@@ -80,7 +85,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-class Creature;
 enum npc_action : int;
 
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -171,6 +175,9 @@ static const vpart_id vpart_trunk_floor( "trunk_floor" );
 static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
+
+static const weather_type_id weather_clear( "clear" );
+static const weather_type_id weather_rainstorm( "rainstorm" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
@@ -4034,13 +4041,12 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     const auto &[wh_start2, wh_end2] = guy.myclass.obj().get_work_hours();
     REQUIRE( ( wh_start2 == 0 && wh_end2 == 24 ) );
 
-    // Follow commitment clears, NPC stays at post.
+    // follow commitment ends and hold_position is adopted in the same turn
     guy.set_moves( 100 );
     guy.move();
-    CHECK( guy.get_committed_goal().empty() );
+    CHECK( guy.get_committed_goal() == "hold_position" );
     CHECK( guy.pos_abs() == pre_assign_pos );
 
-    // Next tick: hold_position commits.
     guy.set_moves( 100 );
     guy.move();
     CHECK( guy.get_committed_goal() == "hold_position" );
@@ -5575,6 +5581,8 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
     guy.set_thirst( 200 );
 
     map &here = get_map();
+    // close enough that all sources below are inside the follower's spacing
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
 
     SECTION( "walks to water terrain and drinks" ) {
         const tripoint_bub_ms water = guy.pos_bub() + tripoint( 3, 0, 0 );
@@ -5633,6 +5641,14 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
         const tripoint_bub_ms north_water = guy.pos_bub() + tripoint( 0, -2, 0 );
         here.ter_set( north_water, ter_t_water_sh );
         here.build_map_cache( 0 );
+        // both sources are allowed, so only plan stickiness decides
+        const std::vector<npc::need_candidate> candidates = guy.find_water_candidates();
+        REQUIRE( candidates.size() >= 2 );
+        for( const npc::need_candidate &c : candidates ) {
+            CAPTURE( c.target );
+            REQUIRE( guy.need_view( npc::need_goal_id::drink_water,
+                                    guy.water_option_cost( c ) ).eligible() );
+        }
 
         // NPC should keep pursuing original target.
         tripoint_bub_ms prev = guy.pos_bub();
@@ -7191,6 +7207,20 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
         CHECK_FALSE( guy.activity );
     }
 
+    SECTION( "ending a pursuit ends only the activity it owns" ) {
+        item &lighter = *guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        item_location tool_loc( guy, &lighter );
+        const tripoint_bub_ms fire_pos = guy.pos_bub() + point::east;
+        guy.assign_activity( fire_start_activity_actor(
+                                 here.get_abs( fire_pos ), tool_loc, 5, 500 ) );
+        REQUIRE( guy.activity.id() == ACT_START_FIRE );
+
+        guy.end_need_pursuit( npc::need_goal_id::drink_water );
+        CHECK( guy.activity.id() == ACT_START_FIRE );
+        guy.end_need_pursuit( npc::need_goal_id::seek_warmth );
+        CHECK_FALSE( guy.activity );
+    }
+
     SECTION( "unrelated activity preserved on goal clear" ) {
         guy.set_committed_goal( "eat_food" );
         guy.assign_activity( wait_activity_actor( 10_minutes ) );
@@ -7369,5 +7399,75 @@ TEST_CASE( "npc_trade_test", "[npc][trade]" )
         REQUIRE( escrow.front().empty_container() );
         // dropped the unwanted item
         REQUIRE( map_cursor( you.pos_abs() ).has_item_with( has_filthy ) );
+    }
+}
+
+TEST_CASE( "follower_speech_reaches_the_player", "[npc][sound]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    // rainstorm's sound_attn must be covered by the speech volume
+    const weather_type_id sky = GENERATE( weather_clear, weather_rainstorm );
+    CAPTURE( sky.str() );
+    scoped_weather_override weather( sky );
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int distance = GENERATE( 1, 3, 6 );
+    CAPTURE( distance );
+    player.setpos( here, guy.pos_bub() + tripoint( distance, 0, 0 ) );
+    REQUIRE( rl_dist( guy.pos_bub(), player.pos_bub() ) == distance );
+
+    sounds::reset_sounds();
+    Messages::clear_messages();
+    guy.say( "Can we stop for water?" );
+    sounds::process_sound_markers( &player );
+
+    const std::vector<std::pair<std::string, std::string>> log = Messages::recent_messages( 0 );
+    CHECK( std::any_of( log.begin(), log.end(), []( const std::pair<std::string, std::string> &m ) {
+        return m.second.find( "Can we stop for water?" ) != std::string::npos;
+    } ) );
+}
+
+TEST_CASE( "npc_tiredness_reading_matches_the_threshold", "[npc][talk]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int tired = static_cast<int>( sleepiness_levels::TIRED );
+    const auto reading_at = [&guy]( const int sleepiness ) {
+        guy.set_sleepiness( sleepiness );
+        return get_const_talker_for( guy )->evaluation_by( *get_const_talker_for( get_avatar() ) );
+    };
+
+    SECTION( "just below tired: a countdown that hasn't run out" ) {
+        const std::string info = reading_at( tired - 1 );
+        CAPTURE( info );
+        CHECK( info.find( "Not tired" ) != std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) != std::string::npos );
+        CHECK( info.find( "0 seconds" ) == std::string::npos );
+    }
+    SECTION( "at tired: no countdown" ) {
+        const std::string info = reading_at( tired );
+        CAPTURE( info );
+        CHECK( info.find( "Tired" ) != std::string::npos );
+        CHECK( info.find( "Not tired" ) == std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) == std::string::npos );
+    }
+    SECTION( "dead tired and exhausted also start at their level" ) {
+        const int dead_tired = static_cast<int>( sleepiness_levels::DEAD_TIRED );
+        const int exhausted = static_cast<int>( sleepiness_levels::EXHAUSTED );
+        CHECK( reading_at( dead_tired - 1 ).find( "Dead tired" ) == std::string::npos );
+        CHECK( reading_at( dead_tired ).find( "Dead tired" ) != std::string::npos );
+        CHECK( reading_at( exhausted - 1 ).find( "Exhausted" ) == std::string::npos );
+        CHECK( reading_at( exhausted ).find( "Exhausted" ) != std::string::npos );
     }
 }

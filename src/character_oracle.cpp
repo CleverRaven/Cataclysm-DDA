@@ -16,7 +16,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "npc.h"
-#include "npc_class.h"
+#include "npc_arbitration.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -186,9 +186,15 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     if( !n ) {
         return status_t::failure;
     }
-    // Camp water is included in the candidate list as need_source::camp_water.
-    return const_cast<npc *>( n )->find_water_candidates().empty()
-           ? status_t::failure : status_t::running;
+    // obligation check as in execute_drink_water; failed targets still count, since the
+    // executor retries them once every source has failed
+    // TODO: const_cast as in can_obtain_food
+    for( const npc::need_candidate &c : const_cast<npc *>( n )->find_water_candidates() ) {
+        if( n->need_view( npc::need_goal_id::drink_water, n->water_option_cost( c ) ).may_consider() ) {
+            return status_t::running;
+        }
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
@@ -370,16 +376,7 @@ status_t character_oracle_t::displaced_from_post( std::string_view ) const
 status_t character_oracle_t::on_shift( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n || !n->get_guard_post() || !n->myclass.is_valid() ) {
-        return status_t::failure;
-    }
-    // Player-attached state suspends duty; mirrors has_sound_alerts.
-    if( n->is_walking_with() ) {
-        return status_t::failure;
-    }
-    const auto &[start, end] = n->myclass.obj().get_work_hours();
-    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
-    return is_within_work_hours( hour, start, end ) ? status_t::running : status_t::failure;
+    return n && n->is_on_shift() ? status_t::running : status_t::failure;
 }
 
 float character_oracle_t::duty_urgency( std::string_view ) const
@@ -395,9 +392,7 @@ float character_oracle_t::duty_urgency( std::string_view ) const
     if( n->is_walking_with() ) {
         return 0.0f;
     }
-    const auto &[start, end] = n->myclass.obj().get_work_hours();
-    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
-    const bool on = is_within_work_hours( hour, start, end );
+    const bool on = n->is_on_shift();
 
     if( n->pos_abs() == *gp ) {
         // At post: on-shift returns a baseline that resists moderate
