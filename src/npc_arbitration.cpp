@@ -593,9 +593,14 @@ void npc::review_self_care_activity()
     // no pursuit on record (address_needs() or a load): runs only while allowed outright
     // TODO: the pursuit isn't saved, so a load cancels an emergency harvest that
     // overrode an obligation; the activity would need to keep its need
-    npc_option_cost here = npc_option_cost::in_place( pos_abs() );
-    here.occupies = true;
-    if( judge_option( here ).permission != npc_permission::allowed ) {
+    if( !may_occupy_here() ) {
         cancel_activity();
     }
+}
+
+bool npc::may_occupy_here() const
+{
+    npc_option_cost here = npc_option_cost::in_place( pos_abs() );
+    here.occupies = true;
+    return judge_option( here ).permission == npc_permission::allowed;
 }

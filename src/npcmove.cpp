@@ -3132,6 +3132,9 @@ npc_action npc::address_needs( float danger )
         // Last resort: harvest scavenging (forage underbrush, harvest plants).
         for( const scored_water_source &h : find_nearby_harvestable( true ) ) {
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
+                if( !may_occupy_here() ) {
+                    continue;
+                }
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
             } else if( may_walk_to( npc_trip_spec::within_range( h.pos, 1, false ) ) &&
@@ -3178,6 +3181,9 @@ npc_action npc::address_needs( float danger )
         // Last resort: harvest scavenging (same as extreme path).
         for( const scored_water_source &h : find_nearby_harvestable( true ) ) {
             if( square_dist( pos_bub(), h.pos ) <= 1 ) {
+                if( !may_occupy_here() ) {
+                    continue;
+                }
                 here.examine( *this, h.pos );
                 return activity ? self_activity() : npc_noop;
             } else if( may_walk_to( npc_trip_spec::within_range( h.pos, 1, false ) ) &&

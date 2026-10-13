@@ -1099,6 +1099,37 @@ TEST_CASE( "harvesting_npc_answers_order_and_leader_departure", "[npc][needs][wa
     }
 }
 
+TEST_CASE( "idle_harvest_keeps_to_obligations", "[npc][needs][water][obligation]" )
+{
+    drink_setup();
+    map &here = get_map();
+    set_time( calendar::turn_zero + 2 * calendar::season_length() + 12_hours );
+    const auto harvesting = []( const npc & n ) {
+        return n.activity.id() == ACT_HARVEST || n.activity.id() == ACT_FORAGE;
+    };
+    const auto follower_by_a_tree = [&here]( const tripoint_bub_ms & pos ) -> npc & {
+        npc &guy = spawn_follower( pos );
+        guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+        settle_body( guy, 600 );
+        here.ter_set( pos + tripoint::east, ter_t_tree_apple );
+        here.build_map_cache( 0 );
+        REQUIRE( here.is_harvestable( pos + tripoint::east ) );
+        return guy;
+    };
+
+    SECTION( "inside the reach: it harvests" ) {
+        npc &guy = follower_by_a_tree( leader_pos + tripoint( 2, 0, 0 ) );
+        guy.address_needs( 0 );
+        CHECK( harvesting( guy ) );
+    }
+    SECTION( "outside the reach: it doesn't start" ) {
+        npc &guy = follower_by_a_tree( leader_pos + tripoint( 10, 0, 0 ) );
+        REQUIRE_FALSE( guy.obligation_reach()->contains( guy.pos_abs() ) );
+        guy.address_needs( 0 );
+        CHECK_FALSE( harvesting( guy ) );
+    }
+}
+
 static void sleep_setup()
 {
     // time first: placing the leader starts its time_since_relocated clock

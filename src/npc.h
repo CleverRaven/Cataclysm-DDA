@@ -1562,6 +1562,8 @@ class npc : public Character
         npc_need_view best_need_view( need_goal_id id );
         // only outright allowed walk: needs never override here
         bool may_walk_to( const npc_trip_spec &spec ) const;
+        // same for an activity that holds it here, such as a harvest
+        bool may_occupy_here() const;
         // failed sleep search still holds; see arm_rest_cooldown()
         bool rest_cooldown_active() const;
         // what gets a settling NPC (lying down, not asleep yet) back up this turn, if anything
