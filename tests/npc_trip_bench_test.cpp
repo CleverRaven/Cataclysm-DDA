@@ -332,7 +332,7 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
             for( bench_npc &b : npcs ) {
                 if( !b.guy->in_sleep_state() ) {
                     // lie down the way the game does: the roll fails on stim, so it settles
-                    b.guy->set_committed_goal( "go_to_sleep" );
+                    b.guy->set_committed_goal_for_test( "go_to_sleep" );
                     b.guy->set_moves( 100 );
                     b.guy->execute_need_goal( "go_to_sleep" );
                 }

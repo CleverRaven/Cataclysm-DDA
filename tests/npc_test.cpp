@@ -4109,7 +4109,7 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         guy.set_sleepiness( 400 );
         guy.add_effect( effect_sleep, 1_hours );
         guy.add_effect( effect_lying_down, 1_hours );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.regen_ai_cache();
         const tripoint_abs_ms post = guy.pos_abs();
 
@@ -4138,7 +4138,7 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
         guy.set_sleepiness( 400 );  // sleep_urgency 0.4 < duty_urgency 0.45
         guy.regen_ai_cache();
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
 
         REQUIRE_FALSE( guy.in_sleep_state() );
         REQUIRE( guy.needs_food() );
@@ -4158,7 +4158,7 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
         guy.set_sleepiness( 100 );  // below TIRED (191): can_sleep fails
         guy.regen_ai_cache();
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
 
         REQUIRE( guy.get_committed_goal() == "go_to_sleep" );
 
@@ -4190,7 +4190,7 @@ TEST_CASE( "hold_position_commitment_completes_off_shift", "[npc][schedule]" )
     REQUIRE( guy.guard_pos == guy.pos_abs() );
     REQUIRE( guy.needs_food() );
 
-    guy.set_committed_goal( "hold_position" );
+    guy.set_committed_goal_for_test( "hold_position" );
 
     // Advance past shift end.
     calendar::turn = calendar::turn_zero + 18_hours + 10_minutes;
@@ -5186,7 +5186,7 @@ TEST_CASE( "camp_resident_guard_transitions", "[npc][camp]" )
     }
     SECTION( "transitions clear stale committed goal" ) {
         talk_function::assign_guard( guy );
-        guy.set_committed_goal( "hold_position" );
+        guy.set_committed_goal_for_test( "hold_position" );
         talk_function::return_to_camp_duties( guy );
         CHECK( guy.get_committed_goal().empty() );
 
@@ -5220,7 +5220,7 @@ TEST_CASE( "on_load_migrates_legacy_camp_npcs", "[npc][camp]" )
         guy.goal = project_to<coords::omt>( guy.pos_abs() + tripoint( 10 * SEEX, 0, 0 ) );
         guy.omt_path.push_back( guy.goal );
         guy.path.push_back( here.get_bub( tripoint_abs_ms( 55, 50, 0 ) ) );
-        guy.set_committed_goal( "return_to_guard_pos" );
+        guy.set_committed_goal_for_test( "return_to_guard_pos" );
         guy.on_load( &here );
         CHECK( guy.mission == NPC_MISSION_CAMP_RESIDENT );
         CHECK( guy.goal == npc::no_goal_point );
@@ -5414,7 +5414,7 @@ TEST_CASE( "npc_eat_food_commitment_clears_when_unobtainable", "[npc][needs][for
     here.build_map_cache( 0 );
 
     // Force commitment to eat_food.
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
 
     // Run a few turns. With no food obtainable, the commitment should clear
     // and the NPC should fall through to another goal (follow, etc.).
@@ -5454,7 +5454,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         here.ter_set( east, ter_t_underbrush );
         here.ter_set( west, ter_t_underbrush );
         here.build_map_cache( 0 );
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
 
         int east_moves = 0;
         int west_moves = 0;
@@ -5492,7 +5492,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         here.build_map_cache( 0 );
         REQUIRE( here.is_harvestable( tree ) );
 
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         for( int turn = 0; turn < 15; ++turn ) {
             guy.set_moves( 100 );
             guy.move();
@@ -5504,7 +5504,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         const tripoint_bub_ms bush = guy.pos_bub() + tripoint( 3, 0, 0 );
         here.ter_set( bush, ter_t_underbrush );
         here.build_map_cache( 0 );
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
 
         // Let NPC start pursuing but not reach the bush yet.
         for( int turn = 0; turn < 2; ++turn ) {
@@ -5537,7 +5537,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         const tripoint_bub_ms bush = guy.pos_bub() + tripoint( 3, 0, 0 );
         here.ter_set( bush, ter_t_underbrush );
         here.build_map_cache( 0 );
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
 
         // Net progress: no turn should increase distance to food,
         // and at least one turn should decrease it.
@@ -5564,7 +5564,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         const tripoint_bub_ms far_bush = guy.pos_bub() + tripoint( 5, 0, 0 );
         here.ter_set( far_bush, ter_t_underbrush );
         here.build_map_cache( 0 );
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
 
         // Let NPC start moving east toward far_bush.
         for( int turn = 0; turn < 2; ++turn ) {
@@ -5832,7 +5832,7 @@ TEST_CASE( "npc_harvest_consume_charges_moves", "[npc][needs][forage]" )
     REQUIRE( guy.has_calorie_deficit() );
 
     // Auto-eating only happens during self-care need execution.
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
     guy.set_moves( 200 );
     const int moves_before = guy.get_moves();
     iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
@@ -6661,7 +6661,7 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
         here.add_item_or_charges( distant, item( itype_sweater ) );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         guy.set_moves( 100 );
         guy.move();
         REQUIRE( guy.get_committed_goal() == "seek_warmth" );
@@ -6676,7 +6676,7 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
     SECTION( "stale impossible from prior cycle does not kill live commitment" ) {
         // No warmth sources: executor returns impossible.
         here.build_map_cache( 0 );
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         guy.set_moves( 100 );
         guy.move();
         // Commitment should have cleared (impossible).
@@ -6684,7 +6684,7 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
 
         // Now add a sweater to inventory and recommit.
         guy.i_add( item( itype_sweater ) );
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         guy.set_moves( 100 );
         guy.move();
         // The executor should have worn the sweater (progressed),
@@ -6702,7 +6702,7 @@ TEST_CASE( "npc_seek_warmth_commitment_lifecycle", "[npc][needs][warmth]" )
         here.ter_set( guy.pos_bub(), ter_t_floor );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         const int moves_before = 100;
         guy.set_moves( moves_before );
         guy.move();
@@ -6764,7 +6764,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         here.build_map_cache( 0 );
 
         // Pre-commit seek_warmth in holding state.
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
             npc::need_result::holding;
 
@@ -6789,7 +6789,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         here.build_map_cache( 0 );
 
         // Pre-commit seek_warmth in progressed state with an active plan.
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         npc::need_plan &wp = guy.plan_for( npc::need_goal_id::seek_warmth );
         wp.goal = "seek_warmth";
         wp.source_kind = npc::need_source::ground_clothing;
@@ -6815,7 +6815,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         npc::need_plan &wp = guy.plan_for( npc::need_goal_id::seek_warmth );
         wp.goal = "seek_warmth";
         wp.source_kind = npc::need_source::ground_clothing;
@@ -6838,7 +6838,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         guy.i_add( water_items.front() );
         here.build_map_cache( 0 );
 
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         guy.plan_for( npc::need_goal_id::seek_warmth ).last_result =
             npc::need_result::deferred;
 
@@ -7659,7 +7659,7 @@ TEST_CASE( "start_fire_does_not_block_needs_forever", "[npc][needs]" )
     // Pre-commit start_fire.  The NPC is warm (no warmth need), so the
     // BT will return drink_water instead of start_fire.  The BT-fallthrough
     // completion check should clear the start_fire commitment.
-    guy.set_committed_goal( "start_fire" );
+    guy.set_committed_goal_for_test( "start_fire" );
     guy.set_moves( 100 );
     guy.move();
     CHECK( guy.get_committed_goal() != "start_fire" );
@@ -7676,7 +7676,7 @@ TEST_CASE( "clear_committed_goal_clears_executor_state", "[npc][needs]" )
     clear_character( guy, true );
 
     // Simulate an active eat_food plan with failed targets.
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
     npc::need_plan &fp = guy.plan_for( npc::need_goal_id::eat_food );
     fp.goal = "eat_food";
     fp.source_kind = npc::need_source::ground_item;
@@ -7745,7 +7745,7 @@ TEST_CASE( "camp_candidates_not_planned", "[npc][needs][camp]" )
     // Run the executor. Regardless of whether step-1 camp consumption
     // succeeds or the executor falls through to step-3, the plan must
     // never target a camp source.
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
     guy.set_moves( 100 );
     guy.execute_need_goal( "eat_food" );
     const npc::need_plan &fp = guy.plan_for( npc::need_goal_id::eat_food );
@@ -7847,7 +7847,7 @@ TEST_CASE( "impossible_dispatch_preserves_failed_targets", "[npc][needs]" )
     here.build_map_cache( 0 );
 
     // Step 1: Run the executor for 5 turns to hit the no-progress timeout.
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
     npc::need_result result = npc::need_result::idle;
     for( int turn = 0; turn < 5; ++turn ) {
         guy.set_moves( 100 );
@@ -7882,7 +7882,7 @@ TEST_CASE( "impossible_dispatch_preserves_failed_targets", "[npc][needs]" )
     here.build_map_cache( 0 );
 
     guy.failed_targets_for( npc::need_goal_id::eat_food ).clear();
-    guy.set_committed_goal( "eat_food" );
+    guy.set_committed_goal_for_test( "eat_food" );
     guy.set_moves( 100 );
     result = guy.execute_need_goal( "eat_food" );
     CHECK( result == npc::need_result::progressed );
@@ -7914,7 +7914,7 @@ TEST_CASE( "npc_drink_water_commitment_clears_when_unobtainable", "[npc][needs][
     map &here = get_map();
     here.build_map_cache( 0 );
 
-    guy.set_committed_goal( "drink_water" );
+    guy.set_committed_goal_for_test( "drink_water" );
 
     for( int turn = 0; turn < 5; ++turn ) {
         guy.set_moves( 100 );
@@ -8103,7 +8103,7 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     here.furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 400 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -8227,7 +8227,7 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
     REQUIRE( guy.has_calorie_deficit() );
 
     SECTION( "NPC on eat_food goal: auto-eats harvested food" ) {
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         guy.set_moves( 200 );
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
@@ -8237,7 +8237,7 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
     }
 
     SECTION( "NPC on drink_water goal: auto-eats harvested food" ) {
-        guy.set_committed_goal( "drink_water" );
+        guy.set_committed_goal_for_test( "drink_water" );
         guy.set_moves( 200 );
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
@@ -8247,7 +8247,7 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
 
     SECTION( "NPC on generic work: food goes to inventory, not eaten" ) {
         // No committed goal (generic harvest job).
-        guy.set_committed_goal( "" );
+        guy.set_committed_goal_for_test( "" );
         guy.set_moves( 200 );
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
@@ -8257,7 +8257,7 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
     }
 
     SECTION( "NPC committed to camp_work: food goes to inventory" ) {
-        guy.set_committed_goal( "camp_work" );
+        guy.set_committed_goal_for_test( "camp_work" );
         guy.set_moves( 200 );
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
@@ -8342,7 +8342,7 @@ TEST_CASE( "npc_clear_goal_removes_sleep_effects", "[npc][needs][sleep]" )
     guy.set_sleepiness( sleepiness_levels::MASSIVE_SLEEPINESS );
 
     SECTION( "clear_committed_goal removes effect_lying_down" ) {
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
         REQUIRE( guy.has_effect( effect_lying_down ) );
 
@@ -8353,7 +8353,7 @@ TEST_CASE( "npc_clear_goal_removes_sleep_effects", "[npc][needs][sleep]" )
     }
 
     SECTION( "stop_guard clears sleep effects via clear_committed_goal" ) {
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
         REQUIRE( guy.has_effect( effect_lying_down ) );
 
@@ -8364,7 +8364,7 @@ TEST_CASE( "npc_clear_goal_removes_sleep_effects", "[npc][needs][sleep]" )
     }
 
     SECTION( "non-sleep goal does not touch effects" ) {
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         // Unrelated effect should not be removed.
         guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
         REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -8399,7 +8399,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
     map &here = get_map();
 
     SECTION( "forage activity cancelled on goal clear" ) {
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         guy.assign_activity( forage_activity_actor( 1000 ) );
         REQUIRE( guy.activity );
         REQUIRE( guy.activity.id() == ACT_FORAGE );
@@ -8410,7 +8410,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
     }
 
     SECTION( "harvest activity cancelled on goal clear" ) {
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         // Autumn so t_tree_apple is harvestable.
         set_time( calendar::turn_zero + 2 * calendar::season_length() + 12_hours );
         const tripoint_bub_ms tree = guy.pos_bub() + point::east;
@@ -8427,7 +8427,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
     }
 
     SECTION( "fire-starting activity cancelled on goal clear" ) {
-        guy.set_committed_goal( "seek_warmth" );
+        guy.set_committed_goal_for_test( "seek_warmth" );
         // Build a fire_start activity. The actor holds an item_location
         // into inventory; cancel_activity must handle cleanup.
         item &lighter = *guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
@@ -8458,7 +8458,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
     }
 
     SECTION( "unrelated activity preserved on goal clear" ) {
-        guy.set_committed_goal( "eat_food" );
+        guy.set_committed_goal_for_test( "eat_food" );
         guy.assign_activity( wait_activity_actor( 10_minutes ) );
         REQUIRE( guy.activity );
 

@@ -1568,8 +1568,8 @@ class npc : public Character
         const std::string &get_committed_goal() const {
             return ai_cache.intention.goal;
         }
-        // tests only: commits without ending the old pursuit or recording an option
-        void set_committed_goal( const std::string &goal ) {
+        // commits without ending the old pursuit or recording an option
+        void set_committed_goal_for_test( const std::string &goal ) {
             ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
         }
         const npc_intention &get_intention() const {
@@ -1581,8 +1581,7 @@ class npc : public Character
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
         // Also cancels self-care activities (forage/harvest/fire) that
-        // bypass BT re-evaluation in move().  Use this instead of
-        // set_committed_goal("") to avoid stale state across transitions.
+        // bypass BT re-evaluation in move().
         void clear_committed_goal();
         using need_result = npc_short_term_cache::need_result;
         using need_plan = npc_short_term_cache::need_plan;

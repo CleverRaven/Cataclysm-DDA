@@ -188,7 +188,7 @@ static void make_asleep_on_bed( npc &guy )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 0 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     guy.execute_need_goal( "go_to_sleep" );
     REQUIRE( asleep( guy ) );
@@ -646,7 +646,7 @@ TEST_CASE( "npc_settling_ignores_player_sleep_throttle", "[npc][needs][sleep]" )
     // a roll now starts the player's 30-minute throttle
     guy.can_sleep();
     REQUIRE_FALSE( guy.can_sleep() );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     CHECK( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::progressed );
     CHECK( asleep( guy ) );
@@ -663,7 +663,7 @@ TEST_CASE( "npc_settling_rolls_until_asleep_or_gives_the_spot_up", "[npc][needs]
     here.furn_set( bed, furn_f_bed );
     guy.set_sleepiness( 300 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -796,7 +796,7 @@ TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 600 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         const npc_sleep_session before = guy.get_sleep_session();
@@ -817,7 +817,7 @@ TEST_CASE( "settling_rolls_only_on_its_cadence", "[npc][needs][sleep]" )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     // every roll from here succeeds: on a bed at 600 with no stim
@@ -859,7 +859,7 @@ TEST_CASE( "loaded_settler_rechecks_obligations_on_its_first_turn",
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     round_trip( guy );
@@ -988,7 +988,7 @@ TEST_CASE( "woken_below_tired_resumes_only_where_rest_is_allowed", "[npc][needs]
         npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
         make_asleep_on_bed( guy );
         guy.set_sleepiness( 150 );
-        guy.set_committed_goal( "" );
+        guy.set_committed_goal_for_test( "" );
         wake_by_noise( guy );
         run_npc_turns( guy, 5, settled );
         CHECK( settled( guy ) );
@@ -1222,7 +1222,7 @@ TEST_CASE( "wake_up_dialogue_keeps_rule_and_grants_grace", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 300 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         talk_function::wake_up( guy );
@@ -1324,7 +1324,7 @@ TEST_CASE( "npc_that_cannot_sleep_does_not_try", "[npc][needs][sleep]" )
     }
     SECTION( "the serum takes hold while it lies down: it gets up" ) {
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         guy.set_stim( 0 );
