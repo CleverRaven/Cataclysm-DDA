@@ -242,6 +242,8 @@ static constexpr int NPC_THIRST_CONSUME  = 40;  // "Thirsty"
 static constexpr int NPC_THIRST_COMPLAIN = 80;  // "Very thirsty"
 static constexpr int NPC_HUNGER_CONSUME  = 80;  // 50% of what's needed to refuse training.
 static constexpr int NPC_HUNGER_COMPLAIN = 160; // The level at which we refuse to do some tasks.
+// least a camp serves a hungry NPC, whatever its weight
+static constexpr int camp_routine_meal_kcal = 500;
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -5448,6 +5450,18 @@ static float rate_food( const Character &who, const item &it, int want_nutr,
     return weight;
 }
 
+// cup's volume over its consume time; one sip a turn leaves the NPC free to react
+units::volume npc::sip_of_water() const
+{
+    const item cup( itype_water_clean, calendar::turn, 1 );
+    return cup.volume() / std::max( 1, to_seconds<int>( get_consume_time( cup ) ) );
+}
+
+static int sip_moves()
+{
+    return to_moves<int>( 1_turns );
+}
+
 bool npc::consume_food_from_camp( consume_filter filter )
 {
     Character &player_character = get_player_character();
@@ -5472,9 +5486,10 @@ bool npc::consume_food_from_camp( consume_filter filter )
         const units::volume want = std::max( 0_ml,
                                              units::from_milliliter( get_thirst() * 5 ) );
         const units::volume room = stomach.stomach_remaining( *this );
-        const units::volume intake = std::min( want, room );
+        const units::volume intake = std::min( { want, room, sip_of_water() } );
         if( intake > 0_ml ) {
             stomach.ingest( { intake, 0_ml, {} } );
+            mod_moves( -sip_moves() );
             complain_about( "camp_water_thanks", 1_hours,
                             chat_snippets().snip_camp_water_thanks.translated(), false );
             return true;
@@ -5487,12 +5502,16 @@ bool npc::consume_food_from_camp( consume_filter filter )
     }
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
     int kcal_threshold = get_healthy_kcal() * 19 / 20;
-    if( ( get_hunger() > 0 || has_calorie_deficit() ) &&
-        current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
+    const bool routine_meal = get_hunger() > NPC_HUNGER_CONSUME;
+    if( ( routine_meal || ( ( get_hunger() > 0 || has_calorie_deficit() ) &&
+                            current_kcals < kcal_threshold ) ) && bcp->allowed_access_by( *this ) ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
+        if( routine_meal ) {
+            desired_kcals = std::max( desired_kcals, camp_routine_meal_kcal );
+        }
         int kcals_to_eat = std::min( desired_kcals, bcp->get_owner()->food_supply().kcal() );
 
         if( kcals_to_eat > 0 ) {
@@ -5500,11 +5519,20 @@ bool npc::consume_food_from_camp( consume_filter filter )
             if( !complaint_due( "camp_meal_refused", 1_hours ) ) {
                 return false;
             }
-            if( bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ), camp_meal::personal ) > 0 ) {
-                return true;
+            // portion the NPC would refuse is never taken from the larder
+            nutrients portion;
+            portion.calories = kcals_to_eat * 1000;
+            const item meal = bcp->make_fake_food( portion );
+            if( !will_eat( meal ).success() ) {
+                return false;
             }
-            complaints.insert_or_assign( "camp_meal_refused", calendar::turn );
-            return false;
+            if( bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ),
+                                   camp_meal::personal ) <= 0 ) {
+                complaints.insert_or_assign( "camp_meal_refused", calendar::turn );
+                return false;
+            }
+            mod_moves( -to_moves<int>( get_consume_time( meal ) ) );
+            return true;
         } else {
             // We need food but there's none to eat :(
             complain_about( "camp_larder_empty", 1_hours,
