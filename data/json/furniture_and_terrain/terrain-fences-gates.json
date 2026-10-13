@@ -1197,7 +1197,6 @@
       "MOUNTABLE",
       "SHORT",
       "AUTO_WALL_SYMBOL",
-      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
@@ -1234,7 +1233,6 @@
       "MOUNTABLE",
       "SHORT",
       "AUTO_WALL_SYMBOL",
-      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
@@ -1269,7 +1267,6 @@
       "MOUNTABLE",
       "SHORT",
       "AUTO_WALL_SYMBOL",
-      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
