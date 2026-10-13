@@ -49,10 +49,6 @@ body_status_uistate::body_status_uistate( Character &displayed_character, bodygr
     displayed_graph_id = bodygraph_full_body;
 }
 
-void body_status_uistate::update_bodygraph_display()
-{
-}
-
 void body_status_uistate::update_blink()
 {
     // SX2: timing should not have to be reduced
@@ -64,17 +60,15 @@ void body_status_uistate::update_blink()
     blink++;
 }
 
-std::string body_status_uistate::prepare_bodygraph_text()
+std::string body_status_uistate::prepare_bodygraph_text( std::optional<std::string>
+        bodypart_or_subpart_id )
 {
     update_blink();
-    const bodygraph_part_info &selected_part = get_selected_partlist();
-    const bodygraph_part *selected_graph = selected_part.bg_part;
 
     int bg_height = 20;
-
     return display::colorized_bodygraph_text( displayed_character, displayed_graph_id.str(),
             display_mode, 40, 20, bg_height,
-            symbol_blinking, selected_part.get_part() );
+            symbol_blinking, bodypart_or_subpart_id );
 }
 
 const bodygraph_part_info &body_status_uistate::get_selected_partlist() const
@@ -303,31 +297,33 @@ void body_status_ui::update_uilist_entries()
         menu->entries.clear();
     }
 
-    auto display_limbs = [this, &menu]() {
-        for( const bodygraph_part_info &bgt : bs_uistate.partlist ) {
-            std::string txt = bgt.sbp_id.is_null() ?
-                              bgt.bp_id->name.translated() :
-                              bgt.sbp_id->name.translated();
-            txt = uppercase_first_letter( txt );
-            bool present = bgt.present_on_character;
-            if( !present ) {
-                txt = colorize( txt, c_dark_gray );
-            }
-            txt.append( !bgt.bg_part->nested_graph.is_null() ?
-                        colorize( " >", c_light_green ) : " " );
-            nc_color clr = present ? c_white : c_dark_gray;
-
-            menu->addentry( get_uilist_entry( txt ) );
-        }
-    };
-
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_MEDICAL: {
-            display_limbs();
+            bs_uistate.all_bodyparts =
+                displayed_character.get_all_body_parts( get_body_part_flags::sorted );
+            for( bodypart_id bp_id : bs_uistate.all_bodyparts ) {
+                uilist_entry new_entry = get_uilist_entry( uppercase_first_letter( bp_id->name.translated() ) );
+                new_entry.text_color = c_white;
+                menu->addentry( new_entry );
+            }
             break;
         }
         case body_status_tab::BS_TAB_SUMMARY: {
-            display_limbs();
+            for( const bodygraph_part_info &bgt : bs_uistate.partlist ) {
+                std::string txt = bgt.sbp_id.is_null() ?
+                                  bgt.bp_id->name.translated() :
+                                  bgt.sbp_id->name.translated();
+                txt = uppercase_first_letter( txt );
+                bool present = bgt.present_on_character;
+                if( !present ) {
+                    txt = colorize( txt, c_dark_gray );
+                }
+                txt.append( !bgt.bg_part->nested_graph.is_null() ?
+                            colorize( " >", c_light_green ) : " " );
+                uilist_entry new_entry = get_uilist_entry( txt );
+                new_entry.text_color = present ? c_white : c_dark_gray;
+                menu->addentry( new_entry );
+            }
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR: {
@@ -409,21 +405,19 @@ void body_status_callback::select( uilist *menu )
     disp_bodygraph_cache::clear( bs_uistate.displayed_graph_id, bs_uistate.display_mode );
 
     int menu_selected = menu->selected;
-    bodypart_id selected_bp = bs_uistate.get_selected_partlist().bp_id;
 
-    auto update_selected_bodypart = [&bs_uistate, &menu_selected, &selected_bp]() {
-        bs_uistate.selected_bodypart_index = menu_selected;
-        bs_uistate.selected_bodypart = selected_bp;
-    };
 
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
-            update_selected_bodypart();
+            bs_uistate.selected_bodypart_index = menu_selected;
+            bodypart_id selected_bp = bs_uistate.get_selected_partlist().bp_id;
+            bs_uistate.selected_bodypart = selected_bp;
             bs_uistate.prepare_infolist();
             break;
         }
         case body_status_tab::BS_TAB_MEDICAL: {
-            update_selected_bodypart();
+            bs_uistate.selected_bodypart_index = menu_selected;
+            bs_uistate.selected_bodypart = bs_uistate.all_bodyparts[menu_selected];
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR:
@@ -434,7 +428,6 @@ void body_status_callback::select( uilist *menu )
         default:
             break;
     }
-    bs_uistate.update_bodygraph_display();
 }
 
 void body_status_callback::refresh( uilist *menu )
@@ -466,6 +459,8 @@ void body_status_ui_impl::draw_controls()
 
     {
         ImGui::BeginChild( "WINDOW1", CHILD_WINDOW_SIZE );
+        cataimgui::draw_colored_text( string_format( _( "Status of: %s" ),
+                                      ui_parent->bs_uistate.displayed_character.name ) );
         if( ImGui::BeginTabBar( "##Tabs" ) ) {
             if( cataimgui::BeginTabItem( _( "SUMMARY" ), selected_tab == body_status_tab::BS_TAB_SUMMARY ) ) {
                 selected_tab = ImGui::IsItemActive() ? body_status_tab::BS_TAB_SUMMARY : selected_tab;
@@ -576,5 +571,24 @@ void body_status_ui_impl::draw_bodygraph()
         bs_uistate.button_action = "BODYGRAPH_DISPLAY_CHANGE";
     }
     ImGui::NewLine();
-    draw_graph_imgui( bs_uistate.parent_bodypart.has_value() );
+
+    std::optional<std::string> bodypart_or_subpart_id;
+
+    switch( bs_uistate.selected_tab ) {
+        case body_status_tab::BS_TAB_SUMMARY:
+            bodypart_or_subpart_id = bs_uistate.parent_bodypart.has_value() ?
+                                     bs_uistate.get_selected_partlist().sbp_id.str() :
+                                     bs_uistate.selected_bodypart->id.str();
+            break;
+        case body_status_tab::BS_TAB_MEDICAL:
+            bodypart_or_subpart_id = bs_uistate.selected_bodypart.id().str();
+            break;
+        case body_status_tab::BS_TAB_SORT_ARMOR:
+            // if a specific limb is selected
+            break;
+        default:
+            break;
+    }
+
+    draw_graph_imgui( bodypart_or_subpart_id );
 }
