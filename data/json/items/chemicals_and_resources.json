@@ -1135,7 +1135,7 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "ammo_type": "components",
+    "ammo_type": "chem_black_powder",
     "container": "bag_plastic_small",
     "count": 1000
   },
