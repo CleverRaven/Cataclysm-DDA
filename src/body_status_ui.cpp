@@ -46,18 +46,54 @@ void body_status_uistate::set_description_scroll()
 body_status_uistate::body_status_uistate( Character &displayed_character, bodygraph_id bg_id ) :
     displayed_character( displayed_character )
 {
-    bodygraph_display_state = bodygraph_display( &displayed_character, bg_id );
+    displayed_graph_id = bodygraph_full_body;
 }
 
 void body_status_uistate::update_bodygraph_display()
 {
-    bodygraph_display_state.sel_part = selected_bodypart_index;
+}
+
+void body_status_uistate::update_blink()
+{
+    // SX2: timing should not have to be reduced
+    if( blink > get_option<int>( "BLINK_SPEED" ) / 16 ) {
+        blink = 0;
+        symbol_blinking = !symbol_blinking;
+        disp_bodygraph_cache::clear_all();
+    }
+    blink++;
+}
+
+std::string body_status_uistate::prepare_bodygraph_text()
+{
+    update_blink();
+    const bodygraph_part_info &selected_part = get_selected_partlist();
+    const bodygraph_part *selected_graph = selected_part.bg_part;
+
+    int bg_height = 20;
+
+    return display::colorized_bodygraph_text( displayed_character, displayed_graph_id.str(),
+            display_mode, 40, 20, bg_height,
+            symbol_blinking, selected_part.get_part() );
+}
+
+const bodygraph_part_info &body_status_uistate::get_selected_partlist() const
+{
+    return partlist[selected_bodypart_index];
+}
+
+std::string bodygraph_part_info::get_part() const
+{
+    const bodypart_id selected_part = bp_id;
+    const sub_bodypart_str_id selected_subpart = sbp_id;
+    return !sbp_id.is_null() ? selected_subpart->id.str() :
+           bp_id.id().str();
 }
 
 void body_status_uistate::init()
 {
-    bodygraph_display_state.prepare_partlist();
-    bodygraph_display_state.prepare_infolist();
+    prepare_partlist();
+    prepare_infolist();
     all_bodyparts = displayed_character.get_all_body_parts( get_body_part_flags::sorted );
 
     const outfit &character_outfit = displayed_character.worn;
@@ -224,9 +260,8 @@ bool body_status_ui::handle_action( const std::string &action )
             bs_uistate.parent_bodypart.has_value() ) {
             bs_uistate.parent_bodypart.reset();
             // get nested graph of original part
-            bodygraph_display &bodygraph_display_state = bs_uistate.bodygraph_display_state;
-            bodygraph_display_state.id = bodygraph_full_body;
-            bodygraph_display_state.prepare_partlist();
+            bs_uistate.displayed_graph_id = bodygraph_full_body;
+            bs_uistate.prepare_partlist();
             reset_list_entries = true;
         } else {
             bs_uistate.quit_menu = true;
@@ -247,7 +282,7 @@ bool body_status_ui::handle_action( const std::string &action )
         bs_uistate.bodygraph_collapsed = !bs_uistate.bodygraph_collapsed;
         reset_window_size = true;
     } else if( action == "BODYGRAPH_DISPLAY_CHANGE" ) {
-        ++bs_uistate.bodygraph_display_state.display_mode;
+        ++bs_uistate.display_mode;
     } else if( action == "APPLY" ) {
         if( bs_uistate.displayed_character.is_avatar() ) {
             avatar_action::use_item( *bs_uistate.displayed_character.as_avatar() );
@@ -269,17 +304,18 @@ void body_status_ui::update_uilist_entries()
     }
 
     auto display_limbs = [this, &menu]() {
-        for( const part_tuple &bgt : bs_uistate.bodygraph_display_state.partlist ) {
-            std::string txt = !std::get<1>( bgt ) ?
-                              std::get<0>( bgt )->name.translated() :
-                              std::get<1>( bgt )->name.translated();
+        for( const bodygraph_part_info &bgt : bs_uistate.partlist ) {
+            std::string txt = bgt.sbp_id.is_null() ?
+                              bgt.bp_id->name.translated() :
+                              bgt.sbp_id->name.translated();
             txt = uppercase_first_letter( txt );
-            if( !std::get<3>( bgt ) ) {
+            bool present = bgt.present_on_character;
+            if( !present ) {
                 txt = colorize( txt, c_dark_gray );
             }
-            txt.append( !std::get<2>( bgt )->nested_graph.is_null() ?
+            txt.append( !bgt.bg_part->nested_graph.is_null() ?
                         colorize( " >", c_light_green ) : " " );
-            nc_color clr = std::get<3>( bgt ) ? c_white : c_dark_gray;
+            nc_color clr = present ? c_white : c_dark_gray;
 
             menu->addentry( get_uilist_entry( txt ) );
         }
@@ -339,7 +375,6 @@ void body_status_callback::confirm( uilist *menu )
     }
 
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    bodygraph_display &bodygraph_display_state = bs_uistate.bodygraph_display_state;
 
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
@@ -347,9 +382,8 @@ void body_status_callback::confirm( uilist *menu )
                 // if in the top-level bodypart list, open the sub-bodypart list
                 bs_uistate.parent_bodypart = bs_uistate.selected_bodypart;
                 // get nested graph of original part
-                bodygraph_display_state.id = std::get<2>(
-                                                 bodygraph_display_state.partlist[bodygraph_display_state.sel_part] )->nested_graph;
-                bodygraph_display_state.prepare_partlist();
+                bs_uistate.displayed_graph_id = bs_uistate.get_selected_partlist().bg_part->nested_graph;
+                bs_uistate.prepare_partlist();
                 ui_parent->reset_list_entries = true;
             }
             break;
@@ -370,25 +404,22 @@ void body_status_callback::confirm( uilist *menu )
 void body_status_callback::select( uilist *menu )
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    bodygraph_display &bodygraph_display_state = bs_uistate.bodygraph_display_state;
-    bodygraph_display_state.blink = 0;
-    bodygraph_display_state.symbol_blinking = true;
-    disp_bodygraph_cache::clear( bodygraph_display_state.id, bodygraph_display_state.display_mode );
+    bs_uistate.blink = 0;
+    bs_uistate.symbol_blinking = true;
+    disp_bodygraph_cache::clear( bs_uistate.displayed_graph_id, bs_uistate.display_mode );
 
     int menu_selected = menu->selected;
-    bodypart_id selected_bp = std::get<0>( bodygraph_display_state.partlist[menu_selected] );
+    bodypart_id selected_bp = bs_uistate.get_selected_partlist().bp_id;
 
-    auto update_selected_bodypart = [&bs_uistate, &menu_selected, &selected_bp,
-                 &bodygraph_display_state]() {
+    auto update_selected_bodypart = [&bs_uistate, &menu_selected, &selected_bp]() {
         bs_uistate.selected_bodypart_index = menu_selected;
-        bodygraph_display_state.sel_part = menu_selected;
         bs_uistate.selected_bodypart = selected_bp;
     };
 
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
             update_selected_bodypart();
-            bodygraph_display_state.prepare_infolist();
+            bs_uistate.prepare_infolist();
             break;
         }
         case body_status_tab::BS_TAB_MEDICAL: {
@@ -493,7 +524,9 @@ void body_status_ui_impl::draw_description()
 
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY:
-            bs_uistate.bodygraph_display_state.draw_info_imgui();
+            if( bs_uistate.get_selected_partlist().present_on_character ) {
+                draw_info_imgui( bs_uistate.info_txt );
+            }
             break;
         case body_status_tab::BS_TAB_MEDICAL:
             medical_ui::draw_limbs_details( bs_uistate.displayed_character, bs_uistate.selected_bodypart );
@@ -539,9 +572,9 @@ void body_status_ui_impl::draw_bodygraph()
 
     cataimgui::draw_colored_text( "Body Graph:" );
     if( ImGui::Button( string_format( _( "Displaying: %s" ),
-                                      io::enum_to_string( bs_uistate.bodygraph_display_state.display_mode ) ).c_str() ) ) {
+                                      io::enum_to_string( bs_uistate.display_mode ) ).c_str() ) ) {
         bs_uistate.button_action = "BODYGRAPH_DISPLAY_CHANGE";
     }
     ImGui::NewLine();
-    bs_uistate.bodygraph_display_state.draw_graph_imgui( bs_uistate.parent_bodypart.has_value() );
+    draw_graph_imgui( bs_uistate.parent_bodypart.has_value() );
 }
