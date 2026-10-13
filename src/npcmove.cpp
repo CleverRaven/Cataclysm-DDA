@@ -305,7 +305,7 @@ decision_category bt_goal_to_category( const std::string &goal )
         return decision_category::investigate;
     }
     if( goal == "drink_water" || goal == "eat_food" || goal == "go_to_sleep" ||
-        goal == "start_fire" || goal == "seek_warmth" ) {
+        goal == "start_fire" || goal == "regulate_temperature" ) {
         return decision_category::needs;
     }
     if( goal == "follow_player" || goal == "follow_embarked" ) {
@@ -1829,8 +1829,8 @@ void npc::move()
                         case need_goal_id::drink_water:
                             satisfied = oracle.needs_water_badly( "" ) != behavior::status_t::running;
                             break;
-                        case need_goal_id::seek_warmth:
-                            satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+                        case need_goal_id::regulate_temperature:
+                            satisfied = oracle.needs_temperature_regulation( "" ) != behavior::status_t::running;
                             break;
                         case need_goal_id::go_to_sleep:
                             // leaving for another goal goes through should_interrupt() below;
@@ -1850,7 +1850,7 @@ void npc::move()
                     // BT-fallthrough (fire lit and warmth resolves, or
                     // predicate fails and BT picks something else).
                     behavior::character_oracle_t oracle( this );
-                    bool satisfied = oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+                    bool satisfied = oracle.needs_temperature_regulation( "" ) != behavior::status_t::running;
                     completed_goal = satisfied || ( new_goal != committed );
                 } else if( committed == "camp_work" ) {
                     completed_goal = ( new_goal != "camp_work" );
@@ -3020,7 +3020,7 @@ npc_action npc::address_needs( float danger )
     bool needs_warmth = false;
     {
         behavior::character_oracle_t oracle( this );
-        needs_warmth = oracle.needs_warmth_badly( "" ) == behavior::status_t::running;
+        needs_warmth = oracle.needs_temperature_regulation( "" ) == behavior::status_t::running;
         if( needs_warmth ) {
             add_msg_debug( debugmode::DF_NPC_NEEDS,
                            "NPC %s: needs warmth (trying wear, ground wear, shelter)",
@@ -5530,7 +5530,7 @@ static bool need_accepts( const item &it, const npc::need_goal_id id )
             return com->get_default_nutr() > 0;
         case npc::need_goal_id::drink_water:
             return com->quench > 0;
-        case npc::need_goal_id::seek_warmth:
+        case npc::need_goal_id::regulate_temperature:
         case npc::need_goal_id::go_to_sleep:
             break;
     }
@@ -6896,7 +6896,7 @@ std::vector<npc::need_candidate> npc::find_water_candidates()
     return candidates;
 }
 
-std::vector<npc::need_candidate> npc::find_warmth_candidates()
+std::vector<npc::need_candidate> npc::find_temperature_candidates()
 {
     std::vector<need_candidate> candidates;
     map &here = get_map();
@@ -7113,18 +7113,18 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     return std::nullopt;
 }
 
-npc::need_result npc::execute_seek_warmth()
+npc::need_result npc::execute_regulate_temperature()
 {
     const bool low_danger = ai_cache.danger <= NPC_DANGER_VERY_LOW;
 
-    need_plan &plan = ai_cache.warmth_plan;
-    std::set<tripoint_abs_ms> &failed = ai_cache.warmth_failed_targets;
+    need_plan &plan = ai_cache.temperature_plan;
+    std::set<tripoint_abs_ms> &failed = ai_cache.temperature_failed_targets;
     map &here = get_map();
 
     // Helper: check if warmth need is resolved after an action.
     const auto warmth_resolved = [this]() -> bool {
         behavior::character_oracle_t oracle( this );
-        return oracle.needs_warmth_badly( "" ) != behavior::status_t::running;
+        return oracle.needs_temperature_regulation( "" ) != behavior::status_t::running;
     };
 
     // 1. Immediate responses (no danger gate):
@@ -7182,7 +7182,7 @@ npc::need_result npc::execute_seek_warmth()
 
     using need_source = npc_short_term_cache::need_source;
 
-    const auto candidates = find_warmth_candidates();
+    const auto candidates = find_temperature_candidates();
 
     // 2. Validate existing target against the candidate scan.
     if( plan.active() ) {
@@ -7202,7 +7202,7 @@ npc::need_result npc::execute_seek_warmth()
     if( !plan.active() && !candidates.empty() ) {
         for( const need_candidate &c : candidates ) {
             if( failed.count( c.target ) == 0 ) {
-                plan.goal = "seek_warmth";
+                plan.goal = "regulate_temperature";
                 plan.source_kind = c.source_kind;
                 plan.target = c.target;
                 plan.last_result = need_result::idle;
@@ -7358,8 +7358,8 @@ std::optional<npc::need_goal_id> npc::goal_id_for( std::string_view goal )
     if( goal == "drink_water" ) {
         return need_goal_id::drink_water;
     }
-    if( goal == "seek_warmth" ) {
-        return need_goal_id::seek_warmth;
+    if( goal == "regulate_temperature" ) {
+        return need_goal_id::regulate_temperature;
     }
     if( goal == "go_to_sleep" ) {
         return need_goal_id::go_to_sleep;
@@ -7384,8 +7384,8 @@ const npc::need_plan &npc::plan_for( need_goal_id id ) const
             return ai_cache.food_plan;
         case need_goal_id::drink_water:
             return ai_cache.water_plan;
-        case need_goal_id::seek_warmth:
-            return ai_cache.warmth_plan;
+        case need_goal_id::regulate_temperature:
+            return ai_cache.temperature_plan;
         case need_goal_id::go_to_sleep:
             return ai_cache.sleep_plan;
     }
@@ -7400,8 +7400,8 @@ std::set<tripoint_abs_ms> &npc::failed_targets_for( need_goal_id id )
             return ai_cache.food_failed_targets;
         case need_goal_id::drink_water:
             return ai_cache.water_failed_targets;
-        case need_goal_id::seek_warmth:
-            return ai_cache.warmth_failed_targets;
+        case need_goal_id::regulate_temperature:
+            return ai_cache.temperature_failed_targets;
         case need_goal_id::go_to_sleep:
             return ai_cache.sleep_failed_targets;
     }
@@ -7484,7 +7484,7 @@ void npc::end_need_pursuit( const need_goal_id id )
                 cancel_activity();
             }
             break;
-        case need_goal_id::seek_warmth:
+        case need_goal_id::regulate_temperature:
             if( activity.id() == ACT_START_FIRE ) {
                 cancel_activity();
             }
@@ -7492,7 +7492,7 @@ void npc::end_need_pursuit( const need_goal_id id )
     }
 }
 
-// TODO: only water and sleep declare their pursued option; eat_food and seek_warmth are
+// TODO: only water and sleep declare their pursued option; eat_food and regulate_temperature are
 // judged in place, so obligations never end their walks or activities
 std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id ) const
 {
@@ -7546,8 +7546,8 @@ float npc::current_need_urgency( need_goal_id id ) const
             return oracle.hunger_urgency( "" );
         case need_goal_id::drink_water:
             return oracle.thirst_urgency( "" );
-        case need_goal_id::seek_warmth:
-            return oracle.warmth_urgency( "" );
+        case need_goal_id::regulate_temperature:
+            return oracle.temperature_urgency( "" );
         case need_goal_id::go_to_sleep:
             return oracle.sleepiness_urgency( "" );
     }
@@ -7565,8 +7565,8 @@ npc::need_result npc::execute_need_goal( const std::string_view goal )
             return execute_eat_food();
         case need_goal_id::drink_water:
             return execute_drink_water();
-        case need_goal_id::seek_warmth:
-            return execute_seek_warmth();
+        case need_goal_id::regulate_temperature:
+            return execute_regulate_temperature();
         case need_goal_id::go_to_sleep:
             return execute_go_to_sleep();
     }
