@@ -110,6 +110,8 @@ class talker_character_const: virtual public const_talker
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         float get_limb_score( const limb_score_id &score,
                               const bp_type &bp = bp_type::num_types ) const override;
+        bool is_underwater() const override;
+        bool is_swimming() const override;
         bool is_deaf() const override;
         bool is_mute() const override;
         diag_value const *maybe_get_value( const std::string &var_name ) const override;

@@ -338,6 +338,12 @@ class const_talker
         virtual float get_limb_score( const limb_score_id & /*score*/, const bp_type & /*bp*/ ) const {
             return 0.0;
         }
+        virtual bool is_underwater() const {
+            return false;
+        }
+        virtual bool is_swimming() const {
+            return false;
+        }
         virtual bool is_deaf() const {
             return false;
         }

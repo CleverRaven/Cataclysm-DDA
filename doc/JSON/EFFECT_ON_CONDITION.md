@@ -1172,6 +1172,26 @@ You can hear
 { "not": "u_is_deaf" }
 ```
 
+### `u_is_swimming`, `npc_is_swimming`
+- type: simple string
+- return true if alpha or beta talker is currently swimming 
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_swimming"
+```
+=
+```jsonc
+{ "not": "u_is_swimming" }
+```
+
 ### `u_is_alive`, `npc_is_alive`
 - type: simple string
 - return true if alpha or beta talker is not dead

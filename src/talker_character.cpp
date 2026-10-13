@@ -559,6 +559,16 @@ float talker_character_const::get_limb_score( const limb_score_id &score, const 
     return me_chr_const->get_limb_score( score, bp );
 }
 
+bool talker_character_const::is_underwater() const
+{
+    return me_chr_const->is_underwater();
+}
+
+bool talker_character_const::is_swimming() const
+{
+    return me_chr_const->is_swimming;
+}
+
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    const std::string &bp, bool permanent, bool force,
                                    int intensity )

@@ -988,7 +988,10 @@ class Creature : public viewer
         /** Returns a set of points we do not want to path through. */
         virtual std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const = 0;
 
+        // ture if creature is completely submerged in water
         bool underwater;
+        // returns true if creature swims (doesn't cover water walking or underwater walking)
+        bool is_swimming;
         void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
         /**
