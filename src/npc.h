@@ -606,7 +606,7 @@ struct npc_short_term_cache {
     };
 
     // Typed identifiers for executorized need goals.
-    enum class need_goal_id : int { eat_food, drink_water, seek_warmth, go_to_sleep };
+    enum class need_goal_id : int { eat_food, drink_water, regulate_temperature, go_to_sleep };
 
     // Per-goal executor state. Tracks a concrete target so the executor
     // does not rescan and dither every turn.
@@ -639,8 +639,8 @@ struct npc_short_term_cache {
     // interact with failure history.
     std::set<tripoint_abs_ms> food_failed_targets;
     std::set<tripoint_abs_ms> water_failed_targets;
-    need_plan warmth_plan;
-    std::set<tripoint_abs_ms> warmth_failed_targets;
+    need_plan temperature_plan;
+    std::set<tripoint_abs_ms> temperature_failed_targets;
     need_plan sleep_plan;
     std::set<tripoint_abs_ms> sleep_failed_targets;
 
@@ -1285,7 +1285,7 @@ class npc : public Character
         // the underlying will_eat/rate_food calls are not const-qualified.
         std::vector<need_candidate> find_food_candidates();
         std::vector<need_candidate> find_water_candidates();
-        std::vector<need_candidate> find_warmth_candidates();
+        std::vector<need_candidate> find_temperature_candidates();
         std::vector<scored_item> find_nearby_food( consume_filter filter = consume_filter::any );
         std::vector<scored_item> find_nearby_warm_clothing();
         std::vector<scored_shelter> find_nearby_shelters() const;
@@ -1661,7 +1661,7 @@ class npc : public Character
         need_result execute_need_goal( std::string_view goal );
         need_result execute_eat_food();
         need_result execute_drink_water();
-        need_result execute_seek_warmth();
+        need_result execute_regulate_temperature();
         need_result execute_go_to_sleep();
         std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
         enum class fire_spot_check : int {
@@ -1694,8 +1694,8 @@ class npc : public Character
         const need_plan &get_water_plan() const {
             return ai_cache.water_plan;
         }
-        const need_plan &get_warmth_plan() const {
-            return ai_cache.warmth_plan;
+        const need_plan &get_temperature_plan() const {
+            return ai_cache.temperature_plan;
         }
         const need_plan &get_sleep_plan() const {
             return ai_cache.sleep_plan;

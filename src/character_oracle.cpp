@@ -72,7 +72,7 @@ namespace behavior
 // To avoid a local minima when the character has access to warmth in a shelter but gets cold
 // when they go outside, this method needs to only alert when travel time to known shelter
 // approaches time to freeze.
-status_t character_oracle_t::needs_warmth_badly( std::string_view ) const
+status_t character_oracle_t::needs_temperature_regulation( std::string_view ) const
 {
     // Use player::temp_conv to predict whether the Character is "in trouble".
     for( const bodypart_id &bp : subject->get_all_body_parts() ) {
@@ -208,7 +208,7 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     return status_t::failure;
 }
 
-status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
+status_t character_oracle_t::can_regulate_temperature( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n ) {
@@ -225,7 +225,7 @@ status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
     }
     // TODO: same const_cast caveat as can_obtain_food above.
     // find_nearby_warm_clothing uses can_wear which is not const-qualified.
-    if( !const_cast<npc *>( n )->find_warmth_candidates().empty() ) {
+    if( !const_cast<npc *>( n )->find_temperature_candidates().empty() ) {
         return status_t::running;
     }
     // Already indoors with no other warmth sources: the executor will
@@ -273,7 +273,7 @@ float character_oracle_t::hunger_urgency( std::string_view ) const
     return std::clamp( 1.0f - kcal_frac, 0.0f, 1.0f );
 }
 
-float character_oracle_t::warmth_urgency( std::string_view ) const
+float character_oracle_t::temperature_urgency( std::string_view ) const
 {
     // 0 = all bodyparts at BODYTEMP_NORM (37C),
     // 1 = coldest bodypart at BODYTEMP_FREEZING (28C).

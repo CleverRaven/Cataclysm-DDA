@@ -106,7 +106,7 @@ static need_levels levels_for( const npc::need_goal_id id )
                      static_cast<float>( sleepiness_levels::DEAD_TIRED ) / 1000.0f,
                      static_cast<float>( sleepiness_levels::EXHAUSTED ) / 1000.0f };
         case npc::need_goal_id::eat_food:
-        case npc::need_goal_id::seek_warmth:
+        case npc::need_goal_id::regulate_temperature:
             break;
     }
     // no option costs declared: overrides wait for the critical level
@@ -394,7 +394,7 @@ void npc::explain_override( const need_goal_id id )
             speech = _( "I can't stay awake any longer." );
             break;
         case need_goal_id::eat_food:
-        case need_goal_id::seek_warmth:
+        case need_goal_id::regulate_temperature:
             return;
     }
     // said even with complaints turned off, unless it would wake the player
