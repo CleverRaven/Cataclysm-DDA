@@ -137,6 +137,7 @@ struct body_status_uistate {
 
     std::string button_action;
 
+    // this differs from `partlist` in that it doesn't correspond to the bodygraph
     std::vector<bodypart_id> all_bodyparts;
     int selected_bodypart_index = 0;
     bodypart_id selected_bodypart = bodypart_str_id::NULL_ID();
@@ -160,6 +161,7 @@ struct body_status_uistate {
     int top_info = 0;
     int blink = 0;
     bool symbol_blinking = false;
+
     // formerly `bodygraph_display` functions
     void prepare_partlist();
     void prepare_infolist();
@@ -168,12 +170,9 @@ struct body_status_uistate {
 
     void init();
 
-    // based on selected part; remove?
-    void update_bodygraph_display();
-
     void set_description_scroll();
     void update_blink();
-    std::string prepare_bodygraph_text();
+    std::string prepare_bodygraph_text( std::optional<std::string> bodypart_or_subpart_id );
 
     bool bodygraph_collapsed = false;
     bool scrolled_up = false;
@@ -238,7 +237,7 @@ class body_status_ui_impl : public cataimgui::window
         void draw_bodygraph();
 
         // @param subpart_graph - if true, use subpart instead of bodypart
-        void draw_graph_imgui( bool subpart_graph );
+        void draw_graph_imgui( std::optional<std::string> bodypart_or_subpart_id );
         void draw_info_imgui( const std::vector<std::string> info_txt ) const;
     protected:
         void draw_controls();

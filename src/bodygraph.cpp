@@ -234,9 +234,10 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
     return bgid;
 }
 
-void body_status_ui_impl::draw_graph_imgui( bool subpart_graph )
+void body_status_ui_impl::draw_graph_imgui( std::optional<std::string> bodypart_or_subpart_id )
 {
-    cataimgui::draw_colored_text( ui_parent->bs_uistate.prepare_bodygraph_text() );
+    cataimgui::draw_colored_text( ui_parent->bs_uistate.prepare_bodygraph_text(
+                                      bodypart_or_subpart_id ) );
 }
 
 void body_status_ui_impl::draw_info_imgui( const std::vector<std::string> info_txt ) const
