@@ -83,7 +83,15 @@
         "effect": { "run_eocs": "EOC_SHIP_THI_TO_SPACEPORT" },
         "topic": "TALK_DONE"
       },
-      { "text": "Cancel.", "topic": "THI_CONTROL_START" }
+      {
+        "condition": { "not": { "u_near_om_location": "smuggler_ravine_bbc", "range": 5 } },
+        "text": "Concealed Hangar",
+        "show_always": true,
+        "show_reason": "You are already at this location.",
+        "effect": { "run_eocs": "EOC_SHIP_THI_TO_SMUGGLERS_LANDING" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Cancel.", "topic": "TALK_DONE" }
     ]
   },
   {

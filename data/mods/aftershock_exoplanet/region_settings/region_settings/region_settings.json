@@ -6,7 +6,7 @@
     "num_ravines": 15,
     "ravine_width": 3,
     "ravine_range": 45,
-    "ravine_depth": -3
+    "ravine_depth": -5
   },
   {
     "type": "region_settings_forest",
@@ -430,9 +430,9 @@
       "solid_glacier",
       "solid_glacier",
       "solid_glacier",
-      "empty_rock",
-      "empty_rock",
-      "empty_rock",
+      "solid_glacier",
+      "solid_glacier",
+      "solid_glacier",
       "empty_rock",
       "empty_rock",
       "empty_rock"
