@@ -243,8 +243,8 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
     };
     const Character &leader = get_player_character();
     const std::optional<npc_reach> reach = obligation_reach();
-    const bool holds_up = cost.needs_walk || cost.occupies;
-    const bool beyond = cost.where_known && reach &&
+    const bool holds_up = cost.holds_up();
+    const bool beyond = cost.where_known() && reach &&
                         ( !reach->contains( cost.where ) || !cost.route_in_reach );
     if( is_walking_with() ) {
         npc_permission_verdict v{ npc_permission::allowed, npc_obligation::accompany, 0.0f };
@@ -252,7 +252,7 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
             // strapped in or bedded down aboard the group's vehicle is riding along, not
             // dropping out; the best case assumes such a spot exists
             const bool on_a_bed = reach && reach->aboard != nullptr && in_vehicle &&
-                                  ( !cost.where_known || npc_vehicle_bed_at( cost.where, *reach->aboard ) );
+                                  ( !cost.where_known() || npc_vehicle_bed_at( cost.where, *reach->aboard ) );
             if( beyond ) {
                 v.permission = npc_permission::emergency_only;
             } else if( !leader_is_resting( leader ) && !on_a_bed ) {
@@ -292,7 +292,7 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
 npc_need_view npc::need_view( const need_goal_id id, const npc_option_cost &cost ) const
 {
     npc_need_view view;
-    view.kind = cost.where_known ? npc_option_kind::actual : npc_option_kind::best_case;
+    view.kind = cost.where_known() ? npc_option_kind::actual : npc_option_kind::best_case;
     view.raw = current_need_urgency( id );
     view.verdict = judge_option( cost );
     view.floor = npc_need_floor( id, view.verdict );
@@ -599,7 +599,5 @@ void npc::review_self_care_activity()
 
 bool npc::may_occupy_here() const
 {
-    npc_option_cost here = npc_option_cost::in_place( pos_abs() );
-    here.occupies = true;
-    return judge_option( here ).permission == npc_permission::allowed;
+    return judge_option( npc_option_cost::stay( pos_abs() ) ).permission == npc_permission::allowed;
 }
