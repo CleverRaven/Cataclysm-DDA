@@ -83,5 +83,17 @@
       { "item": "lgrifle_primer", "count": [ 0, 100 ], "prob": 200 },
       { "item": "shotgun_primer", "count": [ 0, 100 ], "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "any_pipe_bomb",
+    "container-item": "primer_tray",
+    "items": [
+      { "item": "pipebomb" },
+      { "item": "pipebomb_pvc" },
+      { "item": "military_explosive_pipebomb", "prob": 20 },
+      { "item": "military_explosive_pipebomb_pvc", "prob": 20 }
+    ]
   }
 ]

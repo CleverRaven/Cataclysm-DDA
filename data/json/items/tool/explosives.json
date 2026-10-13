@@ -677,7 +677,7 @@
     "symbol": "*",
     "color": "light_gray",
     "explode_in_fire": true,
-    "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
+    "explosion": { "power": 920, "shrapnel": { "casing_mass": 307, "fragment_mass": 6.14 } },
     "use_action": {
       "need_wielding": true,
       "target": "military_explosive_pipebomb_act",
@@ -697,7 +697,39 @@
     "description": "This pipebomb's pin is pulled, and it will explode any second now.  Throw it immediately!",
     "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_interval": "5 seconds",
-    "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 307, "fragment_mass": 6.14 } } },
+    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+  },
+  {
+    "id": "military_explosive_pipebomb_pvc",
+    "copy-from": "military_explosive_pipebomb",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "military explosive PVC pipebomb" },
+    "description": "A section of plastic pipe filled with military explosives.  Use this item to pull the pin, giving you six seconds to get away from it before it detonates.",
+    "weight": "860 g",
+    "//": "20 cm of pvc pipe weight is 130 g",
+    "material": [ "vinyl" ],
+    "explosion": { "power": 920, "shrapnel": { "casing_mass": 65, "fragment_mass": 0.08 } },
+    "use_action": {
+      "need_wielding": true,
+      "target": "military_explosive_pipebomb_pvc_act",
+      "msg": "You pull the pin on the %s.",
+      "menu_text": "Pull pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
+  },
+  {
+    "id": "military_explosive_pipebomb_pvc_act",
+    "copy-from": "military_explosive_pipebomb_pvc",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "looks_like": "pipebomb_act",
+    "description": "This pipebomb's pin is pulled, and it will explode any second now.  Throw it immediately!",
+    "use_action": { "type": "message", "message": "You've already pulled the pin, try throwing it instead.", "name": "Pull pin" },
+    "countdown_interval": "5 seconds",
+    "countdown_action": { "type": "explosion", "explosion": { "power": 920, "shrapnel": { "casing_mass": 65, "fragment_mass": 0.08 } } },
     "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
@@ -898,7 +930,12 @@
     "symbol": "*",
     "color": "light_gray",
     "explode_in_fire": true,
-    "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } },
+    "//2": [
+      "galvanized pipe mass recovery after detonation is 60-99% of pipe weight (75% assumed here)",
+      "into roughly 35-65 fragments (50 assumed here)",
+      "Anal. Methods, 2015, 7, 9756"
+    ],
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 307, "fragment_mass": 6.14 } },
     "use_action": {
       "need_wielding": true,
       "target": "pipebomb_act",
@@ -918,7 +955,44 @@
     "description": "This pipebomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
     "use_action": { "type": "message", "message": "You've already lit the fuse, try throwing it instead.", "name": "Light fuse" },
     "countdown_interval": "6 seconds",
-    "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 410, "fragment_mass": 0.5 } } },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 307, "fragment_mass": 0.5 } } },
+    "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+  },
+  {
+    "id": "pipebomb_pvc",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "pipebomb",
+    "name": { "str": "PVC pipebomb" },
+    "description": "A section of plastic pipe, filled with explosives.  Produces less agressive shrapnel comparing to its steel brother, but no less dangerous.  Use this item to light the fuse, giving you six seconds to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "weight": "560 g",
+    "//": "20 cm of pvc pipe weight is 130 g",
+    "material": [ "vinyl" ],
+    "//2": [
+      "pvc pipe bomb mass recovery after detonation is around 56% (rounded to 50%)",
+      "into roughly 757-864 fragments (800 assumed here)",
+      "Mapping Smokeless Powder Residue on PVC Pipe Bomb Fragments Using Total Vaporization Solid Phase Microextraction, Forensic Science International"
+    ],
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 65, "fragment_mass": 0.08 } },
+    "use_action": {
+      "need_wielding": true,
+      "target": "pipebomb_act",
+      "msg": "You light the fuse on the pipe bomb.",
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CYLINDER_GRENADE" ]
+  },
+  {
+    "id": "pipebomb_pvc_act",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "copy-from": "pipebomb_pvc",
+    "description": "This pipebomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "use_action": { "type": "message", "message": "You've already lit the fuse, try throwing it instead.", "name": "Light fuse" },
+    "countdown_interval": "6 seconds",
+    "countdown_action": { "type": "explosion", "explosion": { "power": 300, "shrapnel": { "casing_mass": 65, "fragment_mass": 0.08 } } },
     "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
   },
   {
