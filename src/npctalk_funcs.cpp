@@ -64,7 +64,6 @@
 #include "viewer.h"
 #include "visitable.h"
 
-static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
 static const efftype_id effect_asked_personal_info( "asked_personal_info" );
 static const efftype_id effect_asked_to_follow( "asked_to_follow" );
@@ -74,10 +73,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_currently_busy( "currently_busy" );
 static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
@@ -534,12 +530,7 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.enable_override( ally_rule::allow_sleep );
-    p.rules.set_override( ally_rule::allow_sleep );
-    p.remove_effect( effect_allow_sleep );
-    p.remove_effect( effect_lying_down );
-    p.remove_effect( effect_npc_suspend );
-    p.remove_effect( effect_sleep );
+    p.wake_by_player();
     // TODO: Get mad at player for waking us up unless we're in danger
 }
 

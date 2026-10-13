@@ -28,9 +28,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 
 // Vehicle currently in motion that the player is inside, otherwise nullptr.
@@ -282,17 +282,25 @@ float character_oracle_t::warmth_urgency( std::string_view ) const
 
 status_t character_oracle_t::can_sleep( std::string_view ) const
 {
-    // Meth is the only hard blocker in Character::can_sleep().
+    // CANNOT_SLEEP (meth, learning serum) is the body's only hard blocker.
     // Stim, comfort, insomnia, and rng are soft score modifiers whose
     // net effect depends on location and luck -- the oracle can't
     // evaluate those without knowing where the NPC will sleep.
-    if( subject->has_effect( effect_meth ) ) {
+    if( subject->has_flag( json_flag_CANNOT_SLEEP ) ) {
         return status_t::failure;
     }
-    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) ) {
-        return status_t::running;
+    if( subject->get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {
+        return status_t::failure;
     }
-    return status_t::failure;
+    if( const npc *n = dynamic_cast<const npc *>( subject ) ) {
+        // judged for the best spot inside the reach, never for a trip to the leader or
+        // post: a follower on a bed walled off from the leader may still sleep there
+        if( n->sleep_on_hold() || n->sleep_stalled() ||
+            !n->need_view( npc::need_goal_id::go_to_sleep, n->rest_option_best_case() ).may_consider() ) {
+            return status_t::failure;
+        }
+    }
+    return status_t::running;
 }
 
 float character_oracle_t::sleepiness_urgency( std::string_view ) const
@@ -470,7 +478,15 @@ status_t character_oracle_t::npc_should_embark( std::string_view ) const
 
 float character_oracle_t::npc_embark_urgency( std::string_view ) const
 {
-    return npc_should_embark( "" ) == status_t::running ? 0.6f : 0.0f;
+    if( npc_should_embark( "" ) != status_t::running ) {
+        return 0.0f;
+    }
+    // already on a belted seat or bed: low enough that a tired passenger sleeps
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( n != nullptr && n->in_vehicle_bed() ) {
+        return 0.15f;
+    }
+    return 0.6f;
 }
 
 status_t character_oracle_t::npc_has_goto_order( std::string_view ) const

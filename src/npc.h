@@ -34,6 +34,7 @@
 #include "npc_arbitration.h"
 #include "npc_attack.h"
 #include "npc_opinion.h"
+#include "npc_sleep.h"
 #include "npc_trip.h"
 #include "pimpl.h"
 #include "point.h"
@@ -565,6 +566,25 @@ struct npc_short_term_cache {
     npc_retained_trip retained_trip;
     // diagnostic count of route() calls made while resolving self-care walks
     mutable int trip_route_calls = 0;
+    // last sleep search found no spot the NPC may use; holds sleep back until it
+    // expires or anything it was judged on changes
+    struct rest_cooldown {
+        time_point until = calendar::turn_zero;
+        bool leader_asleep = false;
+        bool leader_resting = false;
+        npc_reach_snapshot reach;
+        std::optional<tripoint_abs_ms> goto_target;
+        tripoint_abs_ms pos;
+        float next_floor = 0.0f;
+    };
+    rest_cooldown no_rest_option;
+    // one settling decision per turn, shared by the lying_down effect and review_rest();
+    // keyed on the turn only, so whoever starts a new settle resets it
+    struct rest_review_memo {
+        std::optional<time_point> turn;
+        std::optional<npc_challenger> interruption;
+    };
+    mutable rest_review_memo rest_review;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1504,6 +1524,7 @@ class npc : public Character
         const std::string &get_committed_goal() const {
             return ai_cache.intention.goal;
         }
+        // tests only: commits without ending the old pursuit or recording an option
         void set_committed_goal( const std::string &goal ) {
             ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
         }
@@ -1541,12 +1562,38 @@ class npc : public Character
         npc_need_view best_need_view( need_goal_id id );
         // only outright allowed walk: needs never override here
         bool may_walk_to( const npc_trip_spec &spec ) const;
+        // same for an activity that holds it here, such as a harvest
+        bool may_occupy_here() const;
+        // failed sleep search still holds; see arm_rest_cooldown()
+        bool rest_cooldown_active() const;
+        // what gets a settling NPC (lying down, not asleep yet) back up this turn, if anything
+        std::optional<npc_challenger> rest_interruption() const;
+        // each turn after npc_update_body(): gets a settler up, or records a new override
+        void review_rest();
+        // stop lying down without falling asleep
+        void stop_settling();
+        const npc_sleep_session &get_sleep_session() const {
+            return sleep_session;
+        }
+        // from lying_down effect: rolls on the settle cadence; true to stop lying down
+        bool sleep_settle_step();
+        bool sleep_stalled() const;
+        // rest cooldown or stay-awake grace holds sleep back
+        bool sleep_on_hold() const;
+        // woken by the player: a grace period, no rule change; false when narcosis keeps it under
+        bool wake_by_player();
+        void grant_stay_awake( const time_duration &dur, int sleepiness_floor );
+        void wake_up() override;
+        bool goal_is_idle( const std::string &goal ) const;
+        bool sees_hostile_within( int radius ) const;
         std::optional<time_point> last_complaint( const std::string &issue ) const;
         npc_interrupt_cost interrupt_cost( need_goal_id id ) const;
         // also ends the lying down or activity the pursuit started
         void end_need_pursuit( need_goal_id id );
         // false while walking with the player
         bool is_on_shift() const;
+        // on a belted seat or a bed of the vehicle the player sits in
+        bool in_vehicle_bed() const;
         std::optional<npc_reach> obligation_reach() const;
         npc_permission_verdict judge_option( const npc_option_cost &cost ) const;
         npc_need_view need_view( need_goal_id id, const npc_option_cost &cost ) const;
@@ -1556,6 +1603,8 @@ class npc : public Character
         // is routed and nullopt only marks a stand_on spot nobody can stand on
         std::optional<npc_option_cost> trip_cost( const npc_trip_spec &spec, bool responsive ) const;
         std::optional<npc_option_cost> water_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> rest_option_cost( const tripoint_abs_ms &spot ) const;
+        npc_option_cost rest_option_best_case() const;
 
         // Execute the concrete action for a needs-category goal.
         // Owns target selection and progress tracking.
@@ -1740,6 +1789,7 @@ class npc : public Character
         void adopt_goal( const std::string &goal );
         // judges a running harvest or forage like a walk: ends it or announces an override
         void review_self_care_activity();
+        void arm_rest_cooldown();
         void explain_override( need_goal_id id );
         npc_pursuit committed_pursuit() const;
         std::optional<npc_option_cost> pursued_option_cost( need_goal_id id ) const;
@@ -1755,10 +1805,20 @@ class npc : public Character
 
         std::vector<sphere> find_dangerous_explosives() const;
 
+        need_result settle_here();
+        bool try_fall_asleep_now();
+        void reconcile_sleep_session();
+        // comfort, less up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
+        int score_sleep_spot( const tripoint_bub_ms &p );
+        npc_sleep_session sleep_session;
+
         npc_companion_mission comp_mission;
 
         std::string unique_id;
 };
+
+// raw level a need must reach before the NPC acts on an option judged v
+float npc_need_floor( npc::need_goal_id id, const npc_permission_verdict &v );
 
 /** An NPC with standard stats */
 class standard_npc : public npc

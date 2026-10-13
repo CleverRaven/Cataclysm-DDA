@@ -398,8 +398,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Dead tired -- sleep is feasible" ) {
-        // can_sleep threshold matches needs_sleep_badly at DEAD_TIRED.
-        // Utility scoring handles duty priority, not can_sleep gating.
+        // past TIRED, so can_sleep holds; utility scoring handles duty priority
         test_npc.set_sleepiness( 500 );
         REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
         REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );

@@ -1443,11 +1443,6 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, sleepiness_roll will be higher and this will work out.
                 mod_sleep_deprivation( sleepiness_roll * 5 );
             }
-
-            if( !needs_food() && get_sleepiness() > sleepiness_levels::TIRED ) {
-                set_sleepiness( sleepiness_levels::TIRED );
-                set_sleep_deprivation( 0 );
-            }
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
@@ -1500,6 +1495,15 @@ void Character::update_needs( int rate_multiplier )
             ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
+    }
+
+    if( !needs_food() ) {
+        // without needs, tiredness is real but not harmful, and lack of sleep never
+        // accumulates
+        if( !asleep && get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+            set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) - 1 );
+        }
+        set_sleep_deprivation( 0 );
     }
 
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
