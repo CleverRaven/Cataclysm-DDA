@@ -6677,7 +6677,7 @@ std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c )
     std::optional<npc_option_cost> cost =
         trip_cost( npc_trip_spec::within_range( get_map().get_bub( c.target ), 1, true ), true );
     if( cost && c.source_kind == need_source::harvestable ) {
-        cost->occupies = true;
+        cost->hold = npc_option_hold::occupy;
     }
     return cost;
 }
@@ -8023,10 +8023,9 @@ npc::need_result npc::execute_drink_water()
         return need_result::impossible;
     }
 
-    // no route left: judge it as a walk out of the reach
+    const npc_option_cost unrouted = npc_option_cost::unrouted( plan.target );
     record_selected_option( need_goal_id::drink_water,
-                            water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or(
-                                npc_option_cost::trip( plan.target, true, true, false ) ) );
+                            water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or( unrouted ) );
 
     // 4. Execute based on source kind.
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
