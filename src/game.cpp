@@ -54,6 +54,7 @@
 #include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "butchery_requirements.h"
 #include "butchery.h"
 #include "cached_options.h"
@@ -5382,7 +5383,8 @@ bool game::npc_menu( npc &who )
         if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
                                               who.is_friendly( u ) ) ) ||
             who.in_sleep_state() ) {
-            display_bodygraph( who );
+            body_status_ui bsui( who );
+            bsui.display();
         } else {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         }

@@ -95,6 +95,37 @@ class body_status_callback : public uilist_callback
         void refresh( uilist *menu ) override;
 };
 
+using bodygraph_part_tuple =
+    std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
+
+// For each tuple:
+//   0 = bodypart or parent of subpart
+//   1 = subpart (if viewing a sub part)
+//   2 = bodygraph data for this part
+//   3 = part is present on character
+struct bodygraph_part_info {
+    bodypart_id bp_id;
+    sub_bodypart_str_id sbp_id;
+    const bodygraph_part *bg_part;
+    bool present_on_character;
+
+    bool operator==( const bodygraph_part_info &other ) const {
+        return bp_id == other.bp_id &&
+               sbp_id == other.sbp_id &&
+               bg_part == other.bg_part &&
+               present_on_character == other.present_on_character;
+    }
+    bool operator!=( const bodygraph_part_info &other ) const {
+        return !( *this == other );
+    }
+    // returns sub-bodypart ID string if present or bodypart ID string otherwise
+    std::string get_part() const;
+    bodygraph_part_info( bodypart_id bp_id, sub_bodypart_str_id sbp_id,
+                         const bodygraph_part *bg_part, bool present_on_character ) :
+        bp_id( bp_id ), sbp_id( sbp_id ), bg_part( bg_part ),
+        present_on_character( present_on_character ) {};
+};
+
 struct body_status_uistate {
     body_status_uistate() = default;
     explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id );
@@ -107,23 +138,42 @@ struct body_status_uistate {
     std::string button_action;
 
     std::vector<bodypart_id> all_bodyparts;
-    int selected_bodypart_index;
+    int selected_bodypart_index = 0;
     bodypart_id selected_bodypart = bodypart_str_id::NULL_ID();
     item_location selected_armor = item_location::nowhere;
     // if present, a bodypart was selected in the SUMMARY menu and subparts are being displayed
     std::optional<bodypart_id> parent_bodypart = std::nullopt;
-    bodygraph_display bodygraph_display_state;
 
     std::vector<item_location> character_worn;
     // only add clothing to list if it covers the given bodypart; if NULL, ignore
     bodypart_id filter_worn_by = bodypart_str_id::NULL_ID();
 
+    // formerly `bodygraph_display` fields
+    bodygraph_id displayed_graph_id;
+    bodygraph_var display_mode = bodygraph_var::hp;
+    std::vector<bodygraph_part_info> partlist;
+    bodygraph_info info;
+    // limb summary info text block
+    std::vector<std::string> info_txt;
+    // some of these should be removed
+    int info_width = 0;
+    int top_info = 0;
+    int blink = 0;
+    bool symbol_blinking = false;
+    // formerly `bodygraph_display` functions
+    void prepare_partlist();
+    void prepare_infolist();
+    void prepare_infotext( bool reset_pos );
+    const bodygraph_part_info &get_selected_partlist() const;
+
     void init();
 
-    // based on selected part
+    // based on selected part; remove?
     void update_bodygraph_display();
 
     void set_description_scroll();
+    void update_blink();
+    std::string prepare_bodygraph_text();
 
     bool bodygraph_collapsed = false;
     bool scrolled_up = false;
@@ -186,6 +236,10 @@ class body_status_ui_impl : public cataimgui::window
 
         // entirely independent of selected item in the list, though may default unless provided with state data?
         void draw_bodygraph();
+
+        // @param subpart_graph - if true, use subpart instead of bodypart
+        void draw_graph_imgui( bool subpart_graph );
+        void draw_info_imgui( const std::vector<std::string> info_txt ) const;
     protected:
         void draw_controls();
         cataimgui::bounds get_bounds() override;
