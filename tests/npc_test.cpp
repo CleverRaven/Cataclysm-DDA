@@ -1386,6 +1386,159 @@ TEST_CASE( "npc_camp_water_through_stomach", "[npc][needs][camp]" )
     }
 }
 
+static basecamp &place_camp( const tripoint_bub_ms &at, const faction_id &owner, const int kcal )
+{
+    map &m = get_map();
+    const tripoint_abs_ms zone_loc = m.get_abs( at );
+    REQUIRE( m.inbounds( zone_loc ) );
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_FOOD, owner, {}, "food" );
+    mapgen_place_zone( zone_loc, zone_loc, zone_type_CAMP_STORAGE, owner, {}, "storage" );
+    const tripoint_abs_omt omt = project_to<coords::omt>( zone_loc );
+    m.add_camp( omt, "faction_camp" );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt.xy() );
+    REQUIRE( !!bcp );
+    ( *bcp )->define_camp( omt, "faction_base_bare_bones_NPC_camp_0", false );
+    ( *bcp )->set_owner( owner );
+    REQUIRE( ( *bcp )->camp_omt_pos() == omt );
+    faction *fac = g->faction_manager_ptr->get( owner );
+    fac->empty_food_supply();
+    fac->debug_food_supply().emplace_back( calendar::turn_zero, nutrients{} );
+    fac->debug_food_supply().back().second.calories = kcal * 1000;
+    REQUIRE( fac->food_supply().kcal() == kcal );
+    return **bcp;
+}
+
+// hungry follower next to leader, so only a camp meal can draw it away
+static npc &spawn_camp_eater( const tripoint_bub_ms &at )
+{
+    get_avatar().setpos( get_map(), at + tripoint::east );
+    npc &guy = spawn_npc( at.xy(), "test_talker" );
+    clear_character( guy, true );
+    // clear_character moves it away from the leader
+    guy.setpos( get_map(), at );
+    REQUIRE( rl_dist( guy.pos_bub(), get_avatar().pos_bub() ) == 1 );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.guard_pos = std::nullopt;
+    guy.clear_ai_guard_pos();
+    guy.rules.set_flag( ally_rule::follow_close );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_stored_kcal( 1000 );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    REQUIRE( guy.has_calorie_deficit() );
+    return guy;
+}
+
+TEST_CASE( "camp_meal_refused_reports_no_consumption", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 500 );
+    const faction &camp_faction = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    get_map().build_map_cache( 0 );
+
+    GIVEN( "hungry NPC whose stomach has no room left" ) {
+        guy.stomach.ingest( { guy.stomach.stomach_remaining( guy ), 0_ml, {} } );
+        REQUIRE( guy.stomach.stomach_remaining( guy ) <= 0_ml );
+        const int larder = camp_faction.food_supply().kcal();
+        WHEN( "asks the camp for a meal" ) {
+            guy.set_moves( 100 );
+            const bool ate = guy.consume_food_from_camp( npc::consume_filter::food_only );
+            THEN( "nothing reported eaten, larder untouched" ) {
+                CHECK_FALSE( ate );
+                CHECK( camp_faction.food_supply().kcal() == larder );
+            }
+        }
+        WHEN( "it takes its turns" ) {
+            for( int turn = 0; turn < 3; ++turn ) {
+                run_npc_turn( guy );
+            }
+            THEN( "it's not stuck on a meal it can't eat" ) {
+                CHECK( guy.get_committed_goal() != "eat_food" );
+                CHECK( camp_faction.food_supply().kcal() == larder );
+            }
+        }
+    }
+    GIVEN( "hungry NPC whose diet refuses fresh food" ) {
+        guy.set_mutation( trait_SAPROPHAGE );
+        const int larder = camp_faction.food_supply().kcal();
+        WHEN( "asks the camp for a meal" ) {
+            guy.set_moves( 100 );
+            const bool ate = guy.consume_food_from_camp( npc::consume_filter::food_only );
+            THEN( "nothing reported eaten, larder untouched" ) {
+                CHECK_FALSE( ate );
+                CHECK( camp_faction.food_supply().kcal() == larder );
+                CHECK( guy.get_moves() == 100 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "camp_feeds_a_hungry_npc_at_healthy_weight", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 2000 );
+    const faction &own = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    REQUIRE_FALSE( guy.has_calorie_deficit() );
+    guy.set_hunger( 100 );
+    get_map().build_map_cache( 0 );
+
+    WHEN( "asks the camp for a meal" ) {
+        guy.set_moves( 100 );
+        const bool ate = guy.consume_food_from_camp( npc::consume_filter::food_only );
+        THEN( "meal's worth comes out of the larder" ) {
+            CHECK( ate );
+            CHECK( own.food_supply().kcal() == 1500 );
+            CHECK( guy.stomach.contains() > 0_ml );
+        }
+    }
+}
+
+TEST_CASE( "camp_meal_spends_moves", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    basecamp &camp = place_camp( mid, your_fac, 500 );
+    REQUIRE( camp.has_water() );
+    npc &guy = spawn_camp_eater( mid );
+    get_map().build_map_cache( 0 );
+
+    SECTION( "a meal" ) {
+        const faction &own = *g->faction_manager_ptr->get( your_fac );
+        guy.set_moves( 100 );
+        REQUIRE( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
+        CHECK( guy.stomach.contains() > 0_ml );
+        nutrients portion;
+        portion.calories = ( 500 - own.food_supply().kcal() ) * 1000;
+        REQUIRE( portion.kcal() > 0 );
+        const int cost = to_moves<int>( guy.get_consume_time( camp.make_fake_food( portion ) ) );
+        CHECK( guy.get_moves() == 100 - cost );
+    }
+    SECTION( "sip of water" ) {
+        guy.set_thirst( 200 );
+        guy.set_moves( 100 );
+        REQUIRE( guy.consume_food_from_camp( npc::consume_filter::drink_only ) );
+        CHECK( guy.stomach.get_water() == guy.sip_of_water() );
+        CHECK( guy.get_moves() == 100 - to_moves<int>( 1_turns ) );
+    }
+}
+
 // settled follower beside the leader with a backpack: whatever the test adds is its only supply
 static npc &spawn_supplied_follower( const tripoint_bub_ms &at )
 {
@@ -6015,7 +6168,8 @@ TEST_CASE( "npc_can_obtain_food_camp_fallback", "[npc][needs][forage][camp]" )
                 ++refusals;
             }
         }
-        CHECK( refusals == 1 );
+        // meal its diet refuses is never served
+        CHECK( refusals == 0 );
         CHECK_FALSE( guy.has_amount( itype_meat_cooked, 1 ) );
         CHECK( guy.stomach.get_calories() > 0 );
         CHECK( camp_faction->food_supply().kcal() == 500 );

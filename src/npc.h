@@ -45,6 +45,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Creature;
 class JsonObject;
@@ -1443,6 +1444,8 @@ class npc : public Character
         void suspend_task_for_rest();
         void resume_suspended_task();
         void drop_suspended_task();
+        // one turn's drink from a source without container
+        units::volume sip_of_water() const;
         int get_thirst() const override;
 
         // Movement on the overmap scale
