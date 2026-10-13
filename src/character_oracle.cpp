@@ -149,6 +149,7 @@ status_t character_oracle_t::can_take_shelter( std::string_view ) const
     return n->find_nearby_shelters().empty() ? status_t::failure : status_t::running;
 }
 
+// carries an item it may consume for the need
 static bool carries_supply_for( const Character &subject, const npc::need_goal_id id )
 {
     const npc *n = dynamic_cast<const npc *>( &subject );
@@ -183,9 +184,7 @@ status_t character_oracle_t::can_obtain_food( std::string_view ) const
     if( !n ) {
         return status_t::failure;
     }
-    // TODO: const_cast because will_eat/rate_food are not const-qualified.
-    // Safe today (they do not mutate), but fragile if they gain side effects.
-    // Fix by making the candidate query const once those methods are.
+    // const_cast: see npc::find_food_candidates()
     // Camp food is included in the candidate list as need_source::camp_food.
     return const_cast<npc *>( n )->find_food_candidates().empty()
            ? status_t::failure : status_t::running;
@@ -199,7 +198,7 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     }
     // obligation check as in execute_drink_water; failed targets still count, since the
     // executor retries them once every source has failed
-    // TODO: const_cast as in can_obtain_food
+    // const_cast: see npc::find_food_candidates()
     for( const npc::need_candidate &c : const_cast<npc *>( n )->find_water_candidates() ) {
         if( n->need_view( npc::need_goal_id::drink_water, n->water_option_cost( c ) ).may_consider() ) {
             return status_t::running;
@@ -223,8 +222,7 @@ status_t character_oracle_t::can_regulate_temperature( std::string_view ) const
     } ) ) {
         return status_t::running;
     }
-    // TODO: same const_cast caveat as can_obtain_food above.
-    // find_nearby_warm_clothing uses can_wear which is not const-qualified.
+    // const_cast: see npc::find_food_candidates()
     if( !const_cast<npc *>( n )->find_temperature_candidates().empty() ) {
         return status_t::running;
     }

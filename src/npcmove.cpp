@@ -5544,6 +5544,7 @@ bool npc::consume_food_from_camp( consume_filter filter )
     return false;
 }
 
+// need's own filter, cheap enough to run before any scoring
 static bool need_accepts( const item &it, const npc::need_goal_id id )
 {
     if( !it.is_food() ) {
@@ -5604,7 +5605,6 @@ bool npc::may_use_source( const item_location &loc ) const
 
 bool npc::consume_food( consume_filter filter )
 {
-    float best_weight = 0.0f;
     item_location best_food;
     bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
@@ -5621,11 +5621,23 @@ bool npc::consume_food( consume_filter filter )
     }
     int want_quench = ( filter == consume_filter::food_only ) ? 0 : std::max( 0, get_thirst() );
 
+    // what the filter's need accepts; consume_filter::any takes what either need accepts
+    const auto accepted = [filter]( const item & it ) {
+        switch( filter ) {
+            case consume_filter::food_only:
+                return need_accepts( it, need_goal_id::eat_food );
+            case consume_filter::drink_only:
+                return need_accepts( it, need_goal_id::drink_water );
+            case consume_filter::any:
+                break;
+        }
+        return need_accepts( it, need_goal_id::eat_food ) || need_accepts( it, need_goal_id::drink_water );
+    };
     std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
     // Eating consumes the item it names, so per-item predicate is the right one
     inv_food.erase( std::remove_if( inv_food.begin(), inv_food.end(),
-    [this]( const item_location & loc ) {
-        return !may_use_source( loc );
+    [this, &accepted]( const item_location & loc ) {
+        return !may_use_source( loc ) || !accepted( *loc );
     } ), inv_food.end() );
 
     if( inv_food.empty() ) {
@@ -5635,28 +5647,24 @@ bool npc::consume_food( consume_filter filter )
             set_thirst( 0 );
         }
     } else {
+        // will_eat is costly: rate all, then ask it best first
+        std::vector<std::pair<float, item_location>> rated;
         for( const item_location &food_item : inv_food ) {
-            // food_only: skip items with no nutritional value (pure drinks).
-            // drink_only: skip items with no hydration value (pure food).
-            const auto &com = food_item->get_comestible();
-            if( filter == consume_filter::food_only ) {
-                if( !com || com->get_default_nutr() <= 0 ) {
-                    continue;
-                }
-            } else if( filter == consume_filter::drink_only ) {
-                if( !com || com->quench <= 0 ) {
-                    continue;
-                }
+            const float weight = rate_food( *this, *food_item, want_hunger, want_quench );
+            if( weight > 0.0f ) {
+                rated.emplace_back( weight, food_item );
             }
-            float cur_weight = rate_food( *this, *food_item, want_hunger, want_quench );
-            // Note: will_eat is expensive, avoid calling it if possible
-            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
-                best_weight = cur_weight;
-                best_food = food_item;
+        }
+        std::stable_sort( rated.begin(), rated.end(), []( const auto & a, const auto & b ) {
+            return a.first > b.first;
+        } );
+        for( const std::pair<float, item_location> &candidate : rated ) {
+            if( will_eat( *candidate.second ).success() ) {
+                best_food = candidate.second;
+                break;
             }
         }
 
-        // consume doesn't return a meaningful answer, we need to compare moves
         if( best_food ) {
             const time_duration &consume_time = get_consume_time( *best_food );
             consumed = consume( best_food ) != trinary::NONE;

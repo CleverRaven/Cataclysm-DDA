@@ -1283,7 +1283,8 @@ class npc : public Character
         // Shared query layer: both BT predicates and executor target
         // acquisition use these, so policy (visibility, locks, zones,
         // will_eat, rate_food) is defined in one place. Non-const because
-        // the underlying will_eat/rate_food calls are not const-qualified.
+        // basecamp::allowed_access_by() takes non-const Character, find_fire_spot() is
+        // non-const
         std::vector<need_candidate> find_food_candidates();
         std::vector<need_candidate> find_water_candidates();
         std::vector<need_candidate> find_temperature_candidates();
