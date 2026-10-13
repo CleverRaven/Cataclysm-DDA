@@ -1432,7 +1432,6 @@
       "SHORT",
       "THIN_OBSTACLE",
       "ROAD",
-      "CLIMBABLE",
       "BURROWABLE",
       "PERMEABLE"
     ],
