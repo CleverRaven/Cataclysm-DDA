@@ -237,6 +237,10 @@ class wound_fix
         static void check_consistency();
     private:
 
+        // used to store requirements, since requirement ids are unavailable at the moment of loading
+        // transferred into requirements at finalization
+        std::vector<std::pair<requirement_id, int>> pending_requirements;
+
         friend class wound;
         cata::value_ptr<requirement_data> requirements = cata::make_value<requirement_data>();
 };
