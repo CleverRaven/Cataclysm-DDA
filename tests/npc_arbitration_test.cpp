@@ -129,7 +129,10 @@ static npc &spawn_follower( const tripoint_bub_ms &pos )
 
 static npc_option_cost trip_to( const tripoint_bub_ms &p, const bool responsive = true )
 {
-    return npc_option_cost::trip( get_map().get_abs( p ), true, responsive, true );
+    npc_option_cost cost = npc_option_cost::located( get_map().get_abs( p ), npc_option_basis::routed );
+    cost.walks = true;
+    cost.responsive = responsive;
+    return cost;
 }
 
 static npc_option_cost in_place( const npc &guy )
@@ -211,7 +214,7 @@ TEST_CASE( "npc_obligations_judge_options", "[npc][needs][obligation]" )
             }
             THEN( "an activity that holds it in place counts like a trip" ) {
                 npc_option_cost cost = in_place( guy );
-                cost.occupies = true;
+                cost.hold = npc_option_hold::occupy;
                 check_verdict( guy.judge_option( cost ), npc_permission::emergency_only,
                                npc_obligation::goto_order );
             }
@@ -343,6 +346,88 @@ TEST_CASE( "npc_need_view_keeps_raw_need", "[npc][needs][obligation]" )
         CHECK( v.kind == npc_option_kind::best_case );
         CHECK( v.may_consider() );
         CHECK_FALSE( v.eligible() );
+    }
+}
+
+TEST_CASE( "option_basis_says_what_was_checked", "[npc][needs][obligation]" )
+{
+    place_leader();
+    map &here = get_map();
+    const tripoint_bub_ms spot = leader_pos + tripoint( 3, 0, 0 );
+    const tripoint_abs_ms spot_abs = here.get_abs( spot );
+    const npc_trip_spec to_spot = npc_trip_spec::stand_on( spot, true );
+    here.build_map_cache( 0 );
+
+    GIVEN( "an NPC with no obligation" ) {
+        npc &guy = spawn_npc( ( leader_pos + tripoint( 20, 0, 0 ) ).xy(), "test_talker" );
+        clear_character( guy, true );
+        REQUIRE_FALSE( guy.obligation_reach() );
+        THEN( "trip judged on its destination alone" ) {
+            const std::optional<npc_option_cost> cost = guy.trip_cost( to_spot, true );
+            REQUIRE( cost );
+            CHECK( cost->basis == npc_option_basis::destination );
+            CHECK( cost->where == spot_abs );
+            CHECK( cost->walks );
+            CHECK( cost->hold == npc_option_hold::none );
+            CHECK( cost->holds_up() );
+            CHECK( cost->where_known() );
+            const npc_need_view v = guy.need_view( npc::need_goal_id::drink_water, *cost );
+            CHECK( v.kind == npc_option_kind::actual );
+        }
+    }
+    GIVEN( "a follower" ) {
+        npc &guy = spawn_follower( leader_pos + tripoint::east );
+        THEN( "trip inside the spacing is routed" ) {
+            const std::optional<npc_option_cost> cost = guy.trip_cost( to_spot, true );
+            REQUIRE( cost );
+            CHECK( cost->basis == npc_option_basis::routed );
+            CHECK( cost->where == spot_abs );
+            CHECK( cost->walks );
+            CHECK( cost->route_in_reach );
+            const npc_need_view v = guy.need_view( npc::need_goal_id::drink_water, *cost );
+            CHECK( v.kind == npc_option_kind::actual );
+        }
+        THEN( "trip ending where it stands holds nothing" ) {
+            const std::optional<npc_option_cost> cost =
+                guy.trip_cost( npc_trip_spec::stand_on( guy.pos_bub(), true ), true );
+            REQUIRE( cost );
+            CHECK( cost->basis == npc_option_basis::routed );
+            CHECK_FALSE( cost->walks );
+            CHECK( cost->hold == npc_option_hold::none );
+            CHECK_FALSE( cost->holds_up() );
+        }
+        THEN( "acting in place judged on its own tile" ) {
+            const npc_option_cost cost = in_place( guy );
+            CHECK( cost.basis == npc_option_basis::here );
+            CHECK( cost.hold == npc_option_hold::none );
+            CHECK( cost.where == guy.pos_abs() );
+            const npc_need_view v = guy.need_view( npc::need_goal_id::drink_water, cost );
+            CHECK( v.kind == npc_option_kind::actual );
+        }
+        THEN( "activity on the spot holds the NPC without a walk" ) {
+            const npc_option_cost cost = npc_option_cost::stay( guy.pos_abs() );
+            CHECK( cost.hold == npc_option_hold::occupy );
+            CHECK( cost.holds_up() );
+            CHECK_FALSE( cost.walks );
+        }
+        THEN( "harvest two tiles off reports both its walk and its stay" ) {
+            const tripoint_bub_ms tree = leader_pos + tripoint( 3, 2, 0 );
+            here.ter_set( tree, ter_t_tree_apple );
+            here.build_map_cache( 0 );
+            const std::optional<npc_option_cost> cost = guy.water_option_cost( { npc::need_source::harvestable,
+                    here.get_abs( tree ), 0.0f } );
+            REQUIRE( cost );
+            CHECK( cost->hold == npc_option_hold::occupy );
+            CHECK( cost->walks );
+            CHECK( cost->holds_up() );
+        }
+        THEN( "best case has no position to check" ) {
+            const npc_option_cost cost = npc_option_cost::best_case( guy.pos_abs(), false );
+            CHECK( cost.basis == npc_option_basis::assumed );
+            CHECK_FALSE( cost.where_known() );
+            const npc_need_view v = guy.need_view( npc::need_goal_id::go_to_sleep, cost );
+            CHECK( v.kind == npc_option_kind::best_case );
+        }
     }
 }
 
@@ -503,7 +588,7 @@ TEST_CASE( "approach_bound_holds_for_the_walked_trip", "[npc][movement][obligati
         REQUIRE( cost );
         CAPTURE( turn, guy.pos_bub() );
         CHECK( cost->route_in_reach );
-        if( !cost->needs_walk ) {
+        if( !cost->walks ) {
             break;
         }
         guy.set_moves( 100 );
@@ -1111,7 +1196,7 @@ TEST_CASE( "harvesting_npc_answers_order_and_leader_departure", "[npc][needs][wa
     const std::optional<npc_option_cost> cost =
         guy.water_option_cost( { plan.source_kind, plan.target, 0.0f } );
     REQUIRE( cost );
-    REQUIRE( cost->occupies );
+    REQUIRE( cost->hold == npc_option_hold::occupy );
     REQUIRE( ( guy.activity.id() == ACT_HARVEST || guy.activity.id() == ACT_FORAGE ) );
 
     SECTION( "an order to move" ) {

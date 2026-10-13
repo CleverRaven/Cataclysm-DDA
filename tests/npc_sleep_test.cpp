@@ -410,8 +410,10 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
     sleep_setup();
     map &here = get_map();
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
-    const npc_option_cost here_rest = npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 2, 0,
-                                      0 ) ), false, false, true );
+    npc_option_cost here_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 2, 0,
+                                0 ) ),
+                                npc_option_basis::routed );
+    here_rest.responsive = false;
     const auto rest_view = [&guy]( const npc_option_cost & c ) {
         return guy.need_view( npc::need_goal_id::go_to_sleep, c );
     };
@@ -443,8 +445,12 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
             CHECK( w.floor == Approx( 0.575f ) );
         }
         WHEN( "the spot is past the spacing" ) {
-            const npc_need_view w = rest_view( npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 8, 0,
-                                               0 ) ), true, false, true ) );
+            npc_option_cost far_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 8, 0,
+                                       0 ) ),
+                                       npc_option_basis::routed );
+            far_rest.walks = true;
+            far_rest.responsive = false;
+            const npc_need_view w = rest_view( far_rest );
             CHECK( w.verdict.by == npc_obligation::accompany );
             CHECK( w.floor == Approx( 0.575f ) );
         }
@@ -491,7 +497,9 @@ TEST_CASE( "vehicle_bed_relaxes_accompaniment_only_on_a_belted_seat_or_bed",
     seat( get_avatar(), leader_pos );
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 0 );
     const auto rest_here = [&guy]() {
-        return guy.judge_option( npc_option_cost::trip( guy.pos_abs(), false, false, true ) );
+        npc_option_cost rest = npc_option_cost::located( guy.pos_abs(), npc_option_basis::routed );
+        rest.responsive = false;
+        return guy.judge_option( rest );
     };
 
     SECTION( "a belted seat" ) {
