@@ -66,17 +66,17 @@
     "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.",
     "responses": [
       {
-        "text": "[ Make him notice you. ]",
+        "text": "[ Make him notice you ]",
         "trial": { "type": "CONDITION", "condition": { "u_has_profession": "afs_han" } },
         "success": { "topic": "TALK_MS_GROUND_QUARTERMASTER_HAN" },
         "failure": { "topic": "TALK_MS_GROUND_QUARTERMASTER_OTHERS" }
       },
       {
-        "text": "[ You feel this guy hates you, better let him be. ]",
+        "text": "[ You feel this guy hates you, better let him be ]",
         "topic": "TALK_MS_GROUND_QUARTERMASTER_HAN",
         "condition": { "and": [ { "math": [ "u_skill('speech') > 5" ] }, { "u_has_profession": "afs_han" } ] }
       },
-      { "text": "[ Maybe later. ]", "topic": "TALK_DONE" }
+      { "text": "[ Maybe later ]", "topic": "TALK_DONE" }
     ]
   },
   {
