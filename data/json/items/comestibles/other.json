@@ -1261,8 +1261,8 @@
     "color": "brown",
     "symbol": ",",
     "material": [ "powder" ],
-    "price": "50 cent",
-    "price_postapoc": "2 USD",
+    "price": "2 cent",
+    "price_postapoc": "10 cent",
     "freezing_point": -274,
     "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added.",
     "display_type": "BY_WEIGHT"
