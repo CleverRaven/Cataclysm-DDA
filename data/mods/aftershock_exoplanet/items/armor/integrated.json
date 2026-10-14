@@ -42,9 +42,9 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "TARDIS" ],
     "armor": [
       {
-        "material": [ { "type": "afs_plastic_armor", "covered_by_mat": 1, "thickness": 1 } ],
+        "material": [ { "type": "afs_plastic_armor", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "head" ],
-        "coverage": 60,
+        "coverage": 5,
         "encumbrance": 5
       }
     ],
