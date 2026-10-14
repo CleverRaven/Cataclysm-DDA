@@ -538,6 +538,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         return true;
     }
 
+    if( ( fromSwimmable || fromDeepWater ) && ( !toSwimmable || !toDeepWater || toBoat ) ) {
+        you.is_swimming = false;
+    }
+
     //Wooden Fence Gate (or equivalently walkable doors):
     // open it if we are walking
     // vault over it if we are running
@@ -657,6 +661,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
     map &here = get_map();
+
+    you.is_swimming = true;
 
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
