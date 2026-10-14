@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -453,7 +454,16 @@ class avatar : public Character
 
         bool is_waiting_to_change_mode_mode();
 
+        /** Time since the avatar last left the area it stood around in; followers read it to
+         *  tell resting from travelling. Zero until the avatar has been placed. */
+        time_duration time_since_relocated() const;
+
     private:
+        void on_move( const tripoint_abs_ms &old_pos ) override;
+        // where the avatar has stood around since relocated_at; not serialized
+        std::optional<tripoint_abs_ms> relocation_anchor;
+        time_point relocated_at = calendar::turn_zero;
+
         uint64_t aim_cache_generation = 0;
         std::map<char, itype_id> assigned_invlet;
         invlet_favorites invlet_cache;

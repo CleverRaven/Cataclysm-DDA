@@ -650,7 +650,14 @@
         "attack_type": "melee",
         "id": "star_vampire_blood_drinking",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_penetration": 5, "armor_multiplier": 0.5 } ],
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "test_eoc": "target_valid_drink" } ] },
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            "npc_is_character",
+            { "test_eoc": "target_valid_drink" }
+          ]
+        },
         "eoc": [ "EOC_STAR_VAMPIRE_FANGED_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 10 } ],
         "cooldown": 1,
@@ -746,7 +753,14 @@
         "attack_type": "melee",
         "id": "star_vampire_blood_drinking",
         "damage_max_instance": [ { "damage_type": "stab", "amount": 3, "armor_penetration": 3, "armor_multiplier": 0.66 } ],
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "test_eoc": "target_valid_drink" } ] },
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            "npc_is_character",
+            { "test_eoc": "target_valid_drink" }
+          ]
+        },
         "eoc": [ "EOC_STAR_VAMPIRE_COILING_DRINK_BLOOD" ],
         "self_effects_ondmg": [ { "id": "star_vampire_blood_drank", "duration": 5 } ],
         "cooldown": 1,

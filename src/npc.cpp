@@ -89,6 +89,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 #if defined(TILES)
 #include "sdltiles.h"
@@ -2124,7 +2125,8 @@ int npc::indoor_voice() const
     Character &player = get_player_character();
     const int distance_to_player = rl_dist( pos_abs(), player.pos_abs() );
     if( is_following() || is_ally( player ) ) {
-        wanted_volume = distance_to_player;
+        // heard only when volume beats distance plus the weather's sound_attn
+        wanted_volume = distance_to_player + get_weather().weather_id->sound_attn + 1;
     } else if( is_enemy() && sees( here, player ) ) {
         // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
         wanted_volume = max_volume;
@@ -3265,6 +3267,7 @@ void npc::reboot()
     // they can be woken up by the player, and if their brain is fixed, great,
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
+    sleep_session.end();
     path.clear();
     last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
@@ -3579,7 +3582,8 @@ void npc::on_load( map *here )
 
     // Cap at some reasonable number, say 2 days
     const time_duration dt = std::min( calendar::turn - last_updated, 2_days );
-    // TODO: Sleeping, healing etc.
+    // TODO: sleep that would have started or ended while unloaded, healing etc.; a sleep
+    // session is restored as saved
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
     add_msg_debug( debugmode::DF_NPC, "on_load() by %s, %d turns", get_name(), to_turns<int>( dt ) );
@@ -4366,6 +4370,8 @@ std::string npc::get_current_status() const
 {
     if( current_target() != nullptr ) {
         return _( "In Combat!" );
+    } else if( has_effect( effect_lying_down ) && !has_effect( effect_sleep ) ) {
+        return _( "Trying to sleep" );
     } else if( in_sleep_state() ) {
         return _( "Sleeping" );
     } else if( is_following() ) {

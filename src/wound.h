@@ -44,6 +44,31 @@ struct wound_type_progress_timer {
     void deserialize( const JsonObject &jo );
 };
 
+enum class wound_mod_value_type {
+    PAIN,
+    BLEED, // drips blood field
+    VITAMIN,
+    LAST
+};
+
+struct wound_mod_values {
+
+    wound_mod_value_type type;
+    std::optional<vitamin_id> vitamin;
+    time_duration rate;
+    int amount;
+
+    void deserialize( const JsonObject &jo );
+};
+
+//TODO maybe expand to NPC shouting as well?
+struct wound_periodic_message {
+    translation message;
+    time_duration rate;
+
+    void deserialize( const JsonObject &jo );
+};
+
 class wound_type
 {
     public:
@@ -71,6 +96,10 @@ class wound_type
         int get_limit() const;
 
         std::vector<wound_limb_score> get_limb_scores() const;
+
+        std::vector<wound_mod_values> get_modify_values() const;
+
+        std::optional<wound_periodic_message> get_periodic_message() const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
@@ -100,12 +129,17 @@ class wound_type
         // 0 means any amount
         unsigned int limit = 0;
 
+        std::optional<wound_periodic_message> periodic_message;
+
         std::vector<wound_limb_score> limb_scores;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;
         // if applied, how much pain it might provide to you
         std::pair<int, int> pain_;
+
+        // variety of effects and character modifications that happen when this wound is present
+        std::vector<wound_mod_values> mod_values;
 };
 
 enum class wound_update_ret {

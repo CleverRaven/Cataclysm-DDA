@@ -109,6 +109,7 @@ static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_
 static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_monster_locked_on( "monster_locked_on" );
@@ -325,6 +326,16 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
 void Creature::on_move( const tripoint_abs_ms &old_pos )
 {
     if( old_pos == pos_abs() ) {
+        return;
+    }
+
+    if( has_effect( effect_gliding ) || has_flag( mon_flag_FLIES ) ) {
+        return;
+    }
+
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( old_pos );
+    if( vp_there ) {
         return;
     }
 
