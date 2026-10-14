@@ -1592,6 +1592,7 @@ void npc::end_cancelled_task()
 void npc::move()
 {
     const int moves_at_decision = get_moves();
+    ai_cache.decisions++;
     const map &here = get_map();
 
     // don't just return from this function without doing something
@@ -7710,6 +7711,7 @@ npc::need_result npc::execute_need_goal( const std::string_view goal )
     if( !gid ) {
         return need_result::idle;
     }
+    ai_cache.executor_calls++;
     switch( *gid ) {
         case need_goal_id::eat_food:
             return execute_eat_food();

@@ -664,6 +664,9 @@ struct npc_short_term_cache {
 
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint_abs_ms, int> searched_tiles;
+    // diagnostics: number of move() decisions and need executor runs
+    int decisions = 0;
+    int executor_calls = 0;
     // returns the value of the distance between a friendly creature and the closest enemy to that
     // friendly creature.
     // returns nullopt if not applicable
@@ -1304,6 +1307,12 @@ class npc : public Character
         std::optional<npc_trip> resolve_trip( const npc_trip_spec &spec ) const;
         int trip_route_calls() const {
             return ai_cache.trip_route_calls;
+        }
+        int decisions_made() const {
+            return ai_cache.decisions;
+        }
+        int executor_calls() const {
+            return ai_cache.executor_calls;
         }
         npc_action address_player();
         npc_action long_term_goal_action();
