@@ -123,12 +123,7 @@ Vehicle wheels gib corpses, smash stuff, throw items around
 Better 'Resume Construction' behavior
 Slime has redundant omnicellular parts
 Smooth lighting
-The Scarlet Storm has more dynamic fog and lightning - keep it outside and you'll be (mostly) safe
-Standardize tea boiling time, make tea unattended
-Interdimensional teleportation has bad side effects
 CBM slots enabled in main game; bionic limbs can hold more CBMs
-Stepping in blood pools now leaves bloody footprints
-Access to the labyrinth safehouse when transitioning levels
 
 
 ## Content:
@@ -229,16 +224,6 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
-Restore newspapers to random floor trash
-Add sticks, leaves, feldspar to forest trash
-remove some nonsensical frame recipes
-You can find entrances to the netherum labyrinth in the portal storm
-Increase uniqueness of artifact books
-electric rocks
-Seasonings for all sorts of sandwiches
-Implement closed Lab Ghouls PR
-Change centrifuge size to blood analysis version
-Added charging stations
 
 
 ## Interface:
@@ -405,10 +390,6 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
-Innawood can spawn multiple kinds of random forest items on 1 tile
-[SkyIsland] Minor Sky Island Fixes
-[Megacity] New mod-appropriate start
-[DinoMod] attach zombie legs
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -476,11 +457,6 @@ Decayed zombies smell horrific
 Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
-Make plastic shopping bag waterproof, but noisy
-Reduce standing lamp light radius
-improvised vehicle frames
-Dim the wall lights
-Restore old number of protein rations in shelter cabinet
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -684,13 +660,8 @@ Fix an out of bounds write when looking for items around a position outside the 
 Make device really optional in _has_software condition
 Duplicating items on 'become huge -> remove armor' interaction
 Fix plugged-in appliances coming loose when leaving the reality bubble
-Fix a crash with wheels running over unpulped corpses
 Traps with practice 2 no longer take zero time to place
-Fix vision, light and line of sight going stale after scene changes
-Hydration Packs fit hydration pouches
-Fix Isherwood rescue prep sidequests: riot armor and sandbag wall
 NPCs walk to fulfill their needs better
-Fix crash in zone sort after loading a save
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
