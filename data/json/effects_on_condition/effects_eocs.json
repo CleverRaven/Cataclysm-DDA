@@ -167,9 +167,10 @@
     "type": "effect_on_condition",
     "id": "fungal_infection_worsen",
     "recurrence": [ "8 hours", "12 hours" ],
-    "condition": { "or": [ { "u_has_effect": "fungus_infection" }, { "not": { "u_has_effect": "antifungal" } } ] },
+    "condition": { "or": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
     "effect": [
-		{ "u_add_effect": "fungus_infection", "intensity": { "math": [ "u_effect_intensity('fungus_infection') + 1" ] }, "duration": "PERMANENT" }
+		{ "u_add_effect": "fungus_infection", "intensity": { "math": [ "u_effect_intensity('fungus_infection') + 1" ] }, "duration": "PERMANENT" },
+    { "u_message": "You feel your insides twist and groan." }
     ]
   },
   {
