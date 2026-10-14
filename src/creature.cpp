@@ -333,6 +333,12 @@ void Creature::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
 
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( old_pos );
+    if( vp_there ) {
+        return;
+    }
+
     leave_bloody_footprint( old_pos );
     check_bloody_feet( old_pos );
 }
