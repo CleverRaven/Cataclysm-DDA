@@ -1767,7 +1767,7 @@
     "skill_used": "chemistry",
     "difficulty": 5,
     "time": "55 m",
-    "charges": 2,
+    "charges": 200,
     "book_learn": [ [ "recipe_labchem", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
@@ -1775,7 +1775,11 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 2 ] ] ]
+    "//": [
+      "This quantity of citric acid was calculated by matching the pH of the 524g acetic acid in the other recipe diluted in 1.25L of liquid.",
+      "(524 / 80)/1.25 ~ 7 mol/L acetic acid for pH of 1.95 <-> 0.18 mol/L citric acid.  0.18 * 1.25 * 192 = 43.2 grams."
+    ],
+    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 43 ] ] ]
   },
   {
     "type": "recipe",
