@@ -1754,7 +1754,8 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_acetic_acid", 2 ] ] ]
+    "//": "whitelotus: mere milligrams of acid are enough to catalyze the reaction but recovering them is impractical.",
+    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_acetic_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1775,11 +1776,8 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "//": [
-      "This quantity of citric acid was calculated by matching the pH of the 524g acetic acid in the other recipe diluted in 1.25L of liquid.",
-      "(524 / 80)/1.25 ~ 7 mol/L acetic acid for pH of 1.95 <-> 0.18 mol/L citric acid.  0.18 * 1.25 * 192 = 43.2 grams."
-    ],
-    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 43 ] ] ]
+    "//": "whitelotus: mere milligrams of acid are enough to catalyze the reaction but recovering them is impractical.",
+    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
