@@ -202,10 +202,10 @@
                   "perk_portal_storm_mutator_lupine",
                   "perk_portal_storm_mutator_plant",
                   "perk_portal_storm_mutator_spider"
-                ] 
-			} 
-		}
-	}
+                ]
+              }
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       }
