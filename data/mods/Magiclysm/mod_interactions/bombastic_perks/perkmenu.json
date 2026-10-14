@@ -193,8 +193,10 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": {  
-		  "not": {
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
                 "u_has_any_trait": [
                   "perk_portal_storm_mutator_bird",
                   "perk_portal_storm_mutator_feline",
