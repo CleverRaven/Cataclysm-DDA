@@ -20,7 +20,7 @@
 	{
 		"if": { "math": [ "u_effect_intensity('fungus_infection') >= 2" ] },
 		"then": [
-		{ "u_message": "The fungal infection is calmed, but not removed.  Perhaps you need something stronger.", "type": "mixed" },
+		{ "u_message": "The fungal infection is calmed, but not removed. You'll need something intent for this specific infection.", "type": "mixed" },
 		{ "u_add_effect": "fungus_infection", "intensity": 2, "duration": "PERMANENT" }
 		],
 		"else": {
