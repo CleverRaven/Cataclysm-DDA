@@ -147,14 +147,14 @@
   },
  {
     "type": "effect_on_condition",
-    "id": "spore_effect_to_fungal_infection",
+    "id": "spore_effect_to_fungus_infection",
     "recurrence": [ "10 minutes", "20 minutes" ],
-    "condition": { "and": [ { "u_has_effect": "spores" }, { "not": { "u_has_effect": "fungus_infection" } } ] },
+    "condition": { "and": [ { "u_has_effect": "spores" }, { "not": { "u_has_effect": "fungus" } } ] },
     "effect": [
       {
         "if": { "one_in_chance": 4 },
         "then": [
-          { "u_add_effect": "fungus_infection", "intensity": 1, "duration": "PERMANENT" },
+          { "u_add_effect": "fungus", "intensity": 1, "duration": "PERMANENT" },
           { "u_message": "The spores sink into your flesh.", "type": "bad" }
         ],
         "else": { "u_message": "You should get these spores off, quickly.", "type": "mixed" }
@@ -163,22 +163,22 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "fungal_infection_worsen",
+    "id": "fungus_infection_worsen",
     "recurrence": [ "8 hours", "12 hours" ],
-    "condition": { "or": [ { "u_has_effect": "fungus_infection" }, { "not": { "u_has_effect": "antifungal" } } ] },
+    "condition": { "or": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
     "effect": [
       {
         "u_add_effect": "fungus_infection",
-        "intensity": { "math": [ "u_effect_intensity('fungus_infection') + 1" ] },
+        "intensity": { "math": [ "u_effect_intensity('fungus') + 1" ] },
         "duration": "PERMANENT"
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "fungal_infection_effect_happy",
+    "id": "fungus_infection_effect_happy",
     "recurrence": [ "1 hours", "2 hours" ],
-    "condition": { "u_has_effect": "fungus_infection" },
+    "condition": { "u_has_effect": "fungus" },
     "effect": [
       { "u_lose_morale": "morale_fungus_bad" },
       {
@@ -194,9 +194,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "fungal_infection_effect_sad",
+    "id": "fungus_infection_effect_sad",
     "recurrence": [ "4 hours", "5 hours" ],
-    "condition": { "u_has_effect": "fungus_infection" },
+    "condition": { "u_has_effect": "fungus" },
     "effect": [
       { "u_lose_morale": "morale_fungus_good" },
       {
