@@ -5473,7 +5473,7 @@
     "type": "ITEM",
     "category": "container",
     "name": { "str": "small spool" },
-    "description": "A small plastic spool designed to hold various materials, like wires and cabels.",
+    "description": "A small plastic spool designed to hold various materials, like wires and cables.",
     "//": "0.5 lbs or 3 ft of solder",
     "weight": "20 g",
     "volume": "50 ml",
