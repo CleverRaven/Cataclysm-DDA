@@ -1074,7 +1074,7 @@
       [ "textbook_weparabic", 1 ],
       [ "thermal_socks", 3 ],
       [ "thorazine", 3 ],
-      [ "thread", 8 ],
+      { "group": "thread_spool_part", "prob": 8 },
       [ "throw_extinguisher", 2 ],
       [ "throwing_knife", 6 ],
       [ "tin", 2 ],

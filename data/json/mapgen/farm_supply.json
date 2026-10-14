@@ -168,7 +168,7 @@
             "subtype": "collection",
             "entries": [
               { "group": "tools_tailor", "prob": 50 },
-              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "group": "thread_used", "prob": 10 },
               { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
               { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
               { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
@@ -606,7 +606,7 @@
             "subtype": "collection",
             "entries": [
               { "group": "tools_tailor", "prob": 50 },
-              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "group": "thread_used", "prob": 10 },
               { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
               { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
               { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
