@@ -40,6 +40,7 @@
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
