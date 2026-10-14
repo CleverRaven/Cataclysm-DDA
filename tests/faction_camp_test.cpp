@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -19,21 +20,30 @@
 #include "character.h"
 #include "clzones.h"
 #include "coordinates.h"
+#include "debug.h"
 #include "faction.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_components.h"
 #include "itype.h"
+#include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "mission_companion.h"
+#include "npc.h"
+#include "options_helpers.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "stomach.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+static const efftype_id effect_nausea( "nausea" );
+
+static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_metal_tank( "metal_tank" );
@@ -45,6 +55,12 @@ static const itype_id itype_test_500_kcal( "test_500_kcal" );
 static const recipe_id recipe_fbmh_2_room_1_1( "fbmh_2_room_1_1" );
 static const recipe_id recipe_test_base_stove_1( "test_base_stove_1" );
 
+static const skill_id skill_menial( "menial" );
+
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutant_toxin( "mutant_toxin" );
 
@@ -191,6 +207,261 @@ static basecamp &place_test_camp( std::string_view camp_type, tripoint_abs_omt &
     camp.set_owner( your_fac );
     camp.define_camp( camp_omt, camp_type, false );
     return camp;
+}
+
+// larder of kcal with iron in proportion, 1 unit per 10 kcal
+static void stock_larder( faction &fac, const int kcal )
+{
+    fac.empty_food_supply();
+    nutrients stock;
+    stock.calories = kcal * 1000;
+    stock.set_vitamin( vitamin_iron, kcal / 10 );
+    fac.debug_food_supply().emplace_back( calendar::turn_zero, stock );
+    REQUIRE( fac.food_supply().kcal() == kcal );
+    REQUIRE( fac.food_supply().get_vitamin( vitamin_iron ) == kcal / 10 );
+}
+
+// 1000 kcal that keep, 200 kcal that expire, iron in proportion
+static void stock_larder_with_expiry( faction &fac, const time_point &expiry )
+{
+    fac.empty_food_supply();
+    nutrients keeps;
+    keeps.calories = 1000 * 1000;
+    keeps.set_vitamin( vitamin_iron, 100 );
+    nutrients expires;
+    expires.calories = 200 * 1000;
+    expires.set_vitamin( vitamin_iron, 20 );
+    fac.debug_food_supply().emplace_back( calendar::turn_zero, keeps );
+    fac.debug_food_supply().emplace_back( expiry, expires );
+    REQUIRE( fac.food_supply().kcal() == 1200 );
+}
+
+static nutrients stock_expiring_at( faction &fac, const time_point &expiry )
+{
+    for( const std::pair<time_point, nutrients> &entry : fac.debug_food_supply() ) {
+        if( entry.first == expiry ) {
+            return entry.second;
+        }
+    }
+    return nutrients();
+}
+
+TEST_CASE( "camp_meals_give_the_calories_they_take", "[camp]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    get_player_character().camps.clear();
+    tripoint_abs_omt camp_omt;
+    basecamp &camp = place_test_camp( "faction_base_bare_bones_NPC_camp_0", camp_omt );
+    faction &fac = *get_player_character().get_faction();
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    npc &guy = spawn_npc( mid.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    guy.set_hunger( 0 );
+
+    GIVEN( "larder of 1000 kcal with iron" ) {
+        stock_larder( fac, 1000 );
+        WHEN( "worker is fed 300 kcal" ) {
+            const camp_food_portion portion = camp.camp_food_supply( -300 );
+            THEN( "portion is what was taken and nourishes" ) {
+                CHECK( portion.total().kcal() == 300 );
+                CHECK( portion.total().get_vitamin( vitamin_iron ) == 30 );
+                CHECK( camp.feed_workers( guy, portion, camp_meal::personal ) == 300 );
+                CHECK( guy.stomach.get_calories() == 300 );
+                CHECK( fac.food_supply().kcal() == 700 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 70 );
+            }
+        }
+        WHEN( "nauseous worker is fed" ) {
+            guy.add_effect( effect_nausea, 10_minutes );
+            const camp_food_portion portion = camp.camp_food_supply( -300 );
+            REQUIRE( fac.food_supply().kcal() == 700 );
+            THEN( "nothing is eaten, larder is as it was" ) {
+                CHECK( camp.feed_workers( guy, portion, camp_meal::personal ) == 0 );
+                CHECK( guy.stomach.get_calories() == 0 );
+                CHECK( fac.food_supply().calories == 1000 * 1000 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 100 );
+            }
+        }
+        WHEN( "worker who won't eat human flesh is fed from a larder that holds some" ) {
+            nutrients flesh;
+            flesh.set_vitamin( vitamin_human_flesh_vitamin, 10 );
+            fac.debug_food_supply().emplace_back( calendar::turn_zero, flesh );
+            const camp_food_portion portion = camp.camp_food_supply( -300 );
+            REQUIRE( portion.total().get_vitamin( vitamin_human_flesh_vitamin ) > 0 );
+            THEN( "nothing is eaten, larder is as it was" ) {
+                CHECK( camp.feed_workers( guy, portion, camp_meal::personal ) == 0 );
+                CHECK( guy.stomach.get_calories() == 0 );
+                CHECK( fac.food_supply().calories == 1000 * 1000 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 100 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_human_flesh_vitamin ) == 10 );
+            }
+        }
+        WHEN( "three workers share a portion that won't divide evenly" ) {
+            std::vector<std::reference_wrapper<Character>> party{ guy };
+            for( int i = 1; i <= 2; ++i ) {
+                npc &other = spawn_npc( point_bub_ms( mid.x(), mid.y() + i ), "test_talker" );
+                clear_character( other, true );
+                other.set_fac( faction_your_followers );
+                other.stomach.empty();
+                other.guts.empty();
+                other.set_stored_kcal( other.get_healthy_kcal() / 2 );
+                other.set_hunger( 0 );
+                party.emplace_back( other );
+            }
+            const camp_food_portion portion = camp.camp_food_supply( -310 );
+            REQUIRE( portion.total().calories == 310 * 1000 );
+            REQUIRE( portion.total().get_vitamin( vitamin_iron ) == 31 );
+            const auto stomach_kcal = [&party]( const int i ) {
+                return party[i].get().stomach.get_calories();
+            };
+            THEN( "all of it is eaten, no more, no less" ) {
+                CHECK( camp.feed_workers( party, portion, camp_meal::personal ) == 310 );
+                // shares of what's left, in whole kcal
+                CHECK( stomach_kcal( 0 ) == 104 );
+                CHECK( stomach_kcal( 1 ) == 103 );
+                CHECK( stomach_kcal( 2 ) == 103 );
+                CHECK( fac.food_supply().calories == 690 * 1000 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 69 );
+            }
+            THEN( "share of one who can't eat goes back exactly" ) {
+                party[1].get().add_effect( effect_nausea, 10_minutes );
+                // shares: 104, 103, 103 kcal; 11, 10, 10 iron
+                CHECK( camp.feed_workers( party, portion, camp_meal::personal ) == 207 );
+                CHECK( stomach_kcal( 0 ) == 104 );
+                CHECK( stomach_kcal( 1 ) == 0 );
+                CHECK( stomach_kcal( 2 ) == 103 );
+                CHECK( fac.food_supply().calories == 690 * 1000 + 103 * 1000 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 79 );
+            }
+        }
+        WHEN( "worker whose diet refuses fresh food is fed" ) {
+            guy.set_mutation( trait_SAPROPHAGE );
+            const camp_food_portion portion = camp.camp_food_supply( -300 );
+            REQUIRE( fac.food_supply().kcal() == 700 );
+            THEN( "nothing eaten, portion returned" ) {
+                CHECK( camp.feed_workers( guy, portion, camp_meal::personal ) == 0 );
+                CHECK( guy.stomach.get_calories() == 0 );
+                CHECK( fac.food_supply().kcal() == 1000 );
+                CHECK( fac.food_supply().get_vitamin( vitamin_iron ) == 100 );
+            }
+        }
+        WHEN( "worker returns from a mission paid for when it started" ) {
+            const int cost = camp.time_to_food( 2_hours );
+            REQUIRE( cost > 0 );
+            const npc_ptr comp = overmap_buffer.find_npc( guy.getID() );
+            REQUIRE( comp );
+            const mission_id menial{ Camp_Menial, "", {}, base_camps::base_dir };
+            REQUIRE( camp.start_mission( menial, 2_hours, true, "", false, {}, std::map<skill_id, int>(),
+                                         NO_EXERCISE, 0_hours, comp ) );
+            REQUIRE( fac.food_supply().kcal() == 1000 - cost );
+            const std::string errors = capture_debugmsg_during( [&camp, &comp]() {
+                camp.finish_return( *comp, true, "returns.", skill_menial.str(), 0 );
+            } );
+            THEN( "return takes nothing more from the larder" ) {
+                CAPTURE( errors );
+                CHECK( errors.empty() );
+                CHECK( fac.food_supply().kcal() == 1000 - cost );
+            }
+        }
+    }
+    GIVEN( "larder of 100 kcal" ) {
+        stock_larder( fac, 100 );
+        WHEN( "500 kcal asked for" ) {
+            const camp_food_portion portion = camp.camp_food_supply( -500 );
+            THEN( "only what was there is taken, served and counted" ) {
+                CHECK( portion.total().kcal() == 100 );
+                CHECK( portion.total().get_vitamin( vitamin_iron ) == 10 );
+                CHECK( camp.feed_workers( guy, portion, camp_meal::personal ) == 100 );
+                CHECK( guy.stomach.get_calories() == 100 );
+                CHECK( fac.food_supply().kcal() == 0 );
+            }
+        }
+    }
+    GIVEN( "larder of food that keeps and food that expires in a week" ) {
+        restore_on_out_of_scope restore_calendar_turn( calendar::turn );
+        const time_point expiry = calendar::turn + 7_days;
+        stock_larder_with_expiry( fac, expiry );
+        guy.add_effect( effect_nausea, 10_minutes );
+        WHEN( "nauseous worker refuses to eat the expiring food" ) {
+            CHECK( camp.feed_workers( guy, camp.camp_food_supply( -100 ), camp_meal::personal ) == 0 );
+            THEN( "the meal returns to the food it came from and expires with it" ) {
+                CHECK( stock_expiring_at( fac, expiry ).kcal() == 200 );
+                CHECK( stock_expiring_at( fac, expiry ).get_vitamin( vitamin_iron ) == 20 );
+                calendar::turn += 14_days;
+                CHECK( fac.food_supply().kcal() == 1000 );
+            }
+        }
+        WHEN( "nauseous worker refuses a meal of both kinds" ) {
+            CHECK( camp.feed_workers( guy, camp.camp_food_supply( -300 ), camp_meal::personal ) == 0 );
+            THEN( "each part returns to the food it came from" ) {
+                CHECK( fac.debug_food_supply().size() == 2 );
+                CHECK( stock_expiring_at( fac, expiry ).kcal() == 200 );
+                CHECK( stock_expiring_at( fac, expiry ).get_vitamin( vitamin_iron ) == 20 );
+                CHECK( stock_expiring_at( fac, calendar::turn_zero ).kcal() == 1000 );
+                CHECK( stock_expiring_at( fac, calendar::turn_zero ).get_vitamin( vitamin_iron ) == 100 );
+            }
+        }
+        WHEN( "nauseous worker refuses a meal that empties two kinds that expire" ) {
+            const time_point later = expiry + 7_days;
+            nutrients expires_later;
+            expires_later.calories = 100 * 1000;
+            expires_later.set_vitamin( vitamin_iron, 10 );
+            fac.debug_food_supply().emplace_back( later, expires_later );
+            CHECK( camp.feed_workers( guy, camp.camp_food_supply( -350 ), camp_meal::personal ) == 0 );
+            THEN( "each part returns to the food it came from" ) {
+                CHECK( fac.debug_food_supply().size() == 3 );
+                CHECK( stock_expiring_at( fac, calendar::turn_zero ).kcal() == 1000 );
+                CHECK( stock_expiring_at( fac, expiry ).kcal() == 200 );
+                CHECK( stock_expiring_at( fac, later ).kcal() == 100 );
+                CHECK( stock_expiring_at( fac, later ).get_vitamin( vitamin_iron ) == 10 );
+            }
+        }
+        WHEN( "nauseous worker goes on a camp mission" ) {
+            const int cost = camp.time_to_food( 2_hours );
+            REQUIRE( cost > 0 );
+            const npc_ptr comp = overmap_buffer.find_npc( guy.getID() );
+            REQUIRE( comp );
+            const mission_id menial{ Camp_Menial, "", {}, base_camps::base_dir };
+            REQUIRE( camp.start_mission( menial, 2_hours, true, "", false, {}, std::map<skill_id, int>(),
+                                         NO_EXERCISE, 0_hours, comp ) );
+            THEN( "mission food spent even though worker didn't eat it" ) {
+                CHECK( guy.stomach.get_calories() == 0 );
+                CHECK( fac.food_supply().kcal() == 1200 - cost );
+            }
+        }
+    }
+    GIVEN( "NPC needs off, larder holds food that keeps and food that expires" ) {
+        override_option no_npc_food( "NO_NPC_FOOD", "true" );
+        const time_point expiry = calendar::turn + 7_days;
+        stock_larder_with_expiry( fac, expiry );
+        WHEN( "worker goes on a camp mission" ) {
+            const int cost = camp.time_to_food( 2_hours );
+            REQUIRE( cost > 0 );
+            const npc_ptr comp = overmap_buffer.find_npc( guy.getID() );
+            REQUIRE( comp );
+            const mission_id menial{ Camp_Menial, "", {}, base_camps::base_dir };
+            REQUIRE( camp.start_mission( menial, 2_hours, true, "", false, {}, std::map<skill_id, int>(),
+                                         NO_EXERCISE, 0_hours, comp ) );
+            THEN( "larder still pays for the mission" ) {
+                CHECK( fac.food_supply().kcal() == 1200 - cost );
+            }
+        }
+        WHEN( "hungry NPC looks for a meal at camp" ) {
+            REQUIRE( guy.has_calorie_deficit() );
+            CHECK_FALSE( guy.consume_food_from_camp() );
+            THEN( "larder keeps all food, each part has its own expiry" ) {
+                CHECK( guy.stomach.get_calories() == 0 );
+                CHECK( stock_expiring_at( fac, expiry ).kcal() == 200 );
+                CHECK( stock_expiring_at( fac, calendar::turn_zero ).kcal() == 1000 );
+            }
+        }
+    }
+    overmap_buffer.clear_camps( camp_omt.xy() );
 }
 
 static std::vector<mission_entry> offered_upgrades( const mission_data &missions )

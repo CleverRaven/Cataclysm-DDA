@@ -109,6 +109,15 @@ struct faction_epilogue_data {
 };
 
 
+// food taken out of a faction's larder, kept by the expiry of its source stock
+struct camp_food_portion {
+    std::map<time_point, nutrients> by_expiry;
+
+    nutrients total() const;
+    // removes and returns 1/eaters of each expiry bucket, rounded up; calories in whole kcal
+    camp_food_portion take_share( int eaters );
+};
+
 class faction_template
 {
     protected:
@@ -126,8 +135,8 @@ class faction_template
         nutrients food_supply() const;
         void add_kcal( int kcal, time_point expires );
         void empty_food_supply();
-        // returns what could not be consumed
-        nutrients consume_food_supply( const nutrients &consumed );
+        // returns what was taken, perishable stock first
+        camp_food_portion consume_food_supply( const nutrients &consumed );
         nutrients add_to_food_supply( const std::map<time_point, nutrients> &added );
 
         // remove rotted items in the food supply

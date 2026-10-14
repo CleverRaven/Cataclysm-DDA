@@ -5490,6 +5490,49 @@ TEST_CASE( "npc_can_obtain_food_camp_fallback", "[npc][needs][forage][camp]" )
         CHECK( result == npc::need_result::satisfied );
         CHECK( camp_faction->food_supply().kcal() < 500 );
     }
+
+    SECTION( "saprophage refuses camp meal and eats rotten food it carries" ) {
+        guy.set_mutation( trait_SAPROPHAGE );
+        guy.set_hunger( 300 );
+        guy.stomach.empty();
+        guy.guts.empty();
+        item rotten_meat( itype_meat_cooked );
+        rotten_meat.set_relative_rot( 1.01 );
+        guy.i_add( rotten_meat );
+        REQUIRE( guy.has_amount( itype_meat_cooked, 1 ) );
+        guy.set_moves( 100 );
+        npc::need_result result = guy.execute_need_goal( "eat_food" );
+        CHECK( result == npc::need_result::satisfied );
+        CHECK_FALSE( guy.has_amount( itype_meat_cooked, 1 ) );
+        CHECK( guy.stomach.get_calories() > 0 );
+        CHECK( camp_faction->food_supply().kcal() == 500 );
+    }
+
+    SECTION( "saprophage turned down at camp doesn't ask again on the next turns" ) {
+        guy.set_mutation( trait_SAPROPHAGE );
+        guy.set_hunger( 300 );
+        guy.stomach.empty();
+        guy.guts.empty();
+        item rotten_meat( itype_meat_cooked );
+        rotten_meat.set_relative_rot( 1.01 );
+        guy.i_add( rotten_meat );
+        Messages::clear_messages();
+        for( int turn = 0; turn < 5; ++turn ) {
+            guy.set_moves( 100 );
+            guy.execute_need_goal( "eat_food" );
+            calendar::turn += 1_turns;
+        }
+        int refusals = 0;
+        for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+            if( msg.second.find( "spits it out" ) != std::string::npos ) {
+                ++refusals;
+            }
+        }
+        CHECK( refusals == 1 );
+        CHECK_FALSE( guy.has_amount( itype_meat_cooked, 1 ) );
+        CHECK( guy.stomach.get_calories() > 0 );
+        CHECK( camp_faction->food_supply().kcal() == 500 );
+    }
 }
 
 // Candidate query layer tests: verify find_food_candidates / find_water_candidates
