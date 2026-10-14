@@ -27,7 +27,6 @@
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
-#include "stomach.h"
 #include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "type_id.h"
@@ -45,6 +44,16 @@ class npc;
 class recipe;
 enum class farm_ops;
 struct MonsterGroupResult;
+struct camp_food_portion;
+struct nutrients;
+
+// what becomes of a camp meal a worker does not eat
+enum class camp_meal : int {
+    // eaten now; an uneaten share goes back to the larder
+    personal,
+    // paid for a mission; spent whether eaten or not
+    mission_cost
+};
 
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;
@@ -243,20 +252,23 @@ class basecamp
         bool set_sort_points();
 
         // food utility
-        /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
-        /// total food supply hurts morale
+        /// Withdraws @ref change (a negative amount) from faction's larder and returns what was
+        /// actually taken, by expiry; short larder costs faction's liking, respect and trust
         /// Handles vitamin consumption when only a kcal value is supplied
-        nutrients camp_food_supply( nutrients change );
+        camp_food_portion camp_food_supply( nutrients change );
         /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
-        nutrients camp_food_supply( int change );
+        camp_food_portion camp_food_supply( int change );
         /// Calculates raw kcal cost from duration (including non-work hours) and work exercise, then forwards it to above
-        nutrients camp_food_supply( const time_duration &total_time, float exertion_level = NO_EXERCISE,
-                                    const time_duration &travel_time = 0_hours );
-        /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
-        void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
-                           bool is_player_meal = false );
+        camp_food_portion camp_food_supply( const time_duration &total_time,
+                                            float exertion_level = NO_EXERCISE, const time_duration &travel_time = 0_hours );
+        void return_food_supply( const camp_food_portion &portion );
+        /// Shares food from a work project evenly among its assigned workers, in whole kcal.
+        /// With NO_NPC_FOOD no NPC eats. What is not eaten goes back to the larder only for a
+        /// personal meal. Returns kcal the meals gave
+        int feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
+                          camp_food_portion food, camp_meal meal );
         /// Helper, forwards to above
-        void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
+        int feed_workers( Character &worker, camp_food_portion food, camp_meal meal );
         void player_eats_meal();
         item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
