@@ -951,7 +951,7 @@
       },
       { "u_message": "You are trapped in <global_val:place_name>!" }
     ],
-    "false_effect": {"u_message": "You cant use this here."}
+    "false_effect": { "u_message": "You cant use this here." }
   },
   {
     "type": "effect_on_condition",
