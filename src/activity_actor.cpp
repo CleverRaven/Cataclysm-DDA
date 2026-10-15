@@ -6905,6 +6905,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                     return;
                 }
             } else if( crafter.is_npc() ) {
+                add_msg_if_player_sees( crafter, _( "%s stops practicing." ),
+                                        crafter.disp_name( false, true ) );
                 crafter.cancel_activity();
                 return;
             }

@@ -39,6 +39,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
+#include "npc_turn_helpers.h"
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
@@ -61,6 +62,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -75,6 +77,7 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_solar_cooker( "f_solar_cooker" );
+static const furn_str_id furn_f_workbench( "f_workbench" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -82,6 +85,7 @@ static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_amplifier( "amplifier" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bandages( "bandages" );
 static const itype_id itype_battery_ups( "battery_ups" );
 static const itype_id itype_blade( "blade" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -187,6 +191,7 @@ static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
+static const recipe_id recipe_prac_health_care_beg( "prac_health_care_beg" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_test_tallow2( "test_tallow2" );
@@ -199,6 +204,7 @@ static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
@@ -948,6 +954,64 @@ TEST_CASE( "crafting_helper_changes_chance_only_when_qualified", "[crafting]" )
         CHECK( u.recipe_success_chance( making ) == alone );
         CHECK( u.item_destruction_chance( making ) == ruin_alone );
     }
+}
+
+static int practice_stop_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "stops practicing" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "npc_practice_level_up_says_it_stops", "[crafting][npc]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    avatar &u = get_avatar();
+    npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    set_time( midday );
+    clear_character( guy );
+    talk_function::follow( guy );
+    const recipe &practice = recipe_prac_health_care_beg.obj();
+    guy.learn_recipe( &practice );
+    guy.set_skill_level( skill_firstaid, 0 );
+    guy.set_knowledge_level( skill_firstaid, 0 );
+    guy.get_skill_level_object( skill_firstaid ).set_exercise( 99 );
+    guy.i_add( item( itype_bandages ) );
+
+    const bool on_workbench = GENERATE( true, false );
+    CAPTURE( on_workbench );
+    if( on_workbench ) {
+        here.furn_set( guy.pos_bub() + point::east, furn_f_workbench );
+    }
+    REQUIRE( get_player_view().sees( here, guy ) );
+    Messages::clear_messages();
+
+    guy.make_craft( recipe_prac_health_care_beg, 1 );
+    item_location craft = guy.get_item_to_craft();
+    REQUIRE( craft );
+    REQUIRE( craft->is_craft() );
+    REQUIRE( craft.where() == ( on_workbench ? item_location::type::map :
+                                item_location::type::character ) );
+
+    run_npc_turns( guy, 300, []( const npc & n ) {
+        return n.get_skill_level( skill_firstaid ) >= 1;
+    } );
+    REQUIRE( static_cast<int>( guy.get_skill_level( skill_firstaid ) ) == 1 );
+
+    CHECK( practice_stop_messages() == 1 );
+    // empty practice craft removed, as for the player
+    CHECK_FALSE( craft );
+
+    run_npc_turns( guy, 5 );
+    CHECK( guy.activity.id() != ACT_CRAFT );
+    CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+    CHECK( practice_stop_messages() == 1 );
 }
 
 TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
