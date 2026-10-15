@@ -5308,12 +5308,6 @@ void item::set_current_step( int step )
     craft_data_->current_step = step;
 }
 
-double item::get_step_progress() const
-{
-    cata_assert( craft_data_ );
-    return craft_data_->step_progress;
-}
-
 void item::set_step_progress( double progress )
 {
     cata_assert( craft_data_ );
@@ -5336,6 +5330,12 @@ void item::set_step_plans( std::vector<attention_plan> plans )
 {
     cata_assert( craft_data_ );
     craft_data_->step_plans = std::move( plans );
+}
+
+double item::get_step_progress() const
+{
+    cata_assert( craft_data_ );
+    return craft_data_->step_progress;
 }
 
 time_point item::get_passive_started_at() const

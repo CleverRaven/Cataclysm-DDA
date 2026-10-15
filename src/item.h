@@ -3210,6 +3210,15 @@ class item
         int get_making_batch_size() const;
 
         /**
+         * Format craft's name and primary skill for display in a list.
+         * eg. 50% medium steel spear [fabrication 4]
+         * eg. 95% disassembly of wedding ring
+         * Causes a debugmsg if called on a non-craft and returns the tname.
+         * @return craft/disassembly name in uilist format
+         */
+        std::string get_craft_listing_name( const Character &crafter ) const;
+
+        /**
          * Get the failure point stored in this item.
          * returns INT_MAX if the failure point is unset.
          * Causes a debugmsg and returns INT_MAX if called on a non-craft.
@@ -3268,6 +3277,9 @@ class item
         double get_step_progress() const;
         void set_step_progress( double progress );
         void mod_step_progress( double delta );
+
+        // Get displayable progress percentage [0-100] for in-progress crafts.
+        int get_display_progress_percent() const;
 
         // Per-step plan from the craft planning modal.
         const std::vector<attention_plan> &get_step_plans() const;
