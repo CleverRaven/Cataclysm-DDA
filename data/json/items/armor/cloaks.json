@@ -2732,7 +2732,7 @@
     "material": [ "vinyl" ],
     "weight": "30 g",
     "volume": "50 ml",
-    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED", "ALLOWS_WING_ARMS" ],
+    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
