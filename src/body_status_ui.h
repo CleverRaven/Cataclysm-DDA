@@ -126,6 +126,16 @@ struct bodygraph_part_info {
         present_on_character( present_on_character ) {};
 };
 
+// cache for draw_worn_items_by_limb()
+struct armor_text_entry {
+    std::optional<std::string> header;
+
+    std::string item_name;
+    std::string encumbrance;
+    std::string storage;
+    std::string hidden;
+};
+
 struct body_status_uistate {
     body_status_uistate() = default;
     explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id );
@@ -139,15 +149,12 @@ struct body_status_uistate {
 
     // this differs from `partlist` in that it doesn't correspond to the bodygraph
     std::vector<bodypart_id> all_bodyparts;
-    int selected_bodypart_index = 0;
+    int selected_index = 0;
+    int selected_index_set = -1;
     bodypart_id selected_bodypart = bodypart_str_id::NULL_ID();
     item_location selected_armor = item_location::nowhere;
     // if present, a bodypart was selected in the SUMMARY menu and subparts are being displayed
     std::optional<bodypart_id> parent_bodypart = std::nullopt;
-
-    std::vector<item_location> character_worn;
-    // only add clothing to list if it covers the given bodypart; if NULL, ignore
-    bodypart_id filter_worn_by = bodypart_str_id::NULL_ID();
 
     // formerly `bodygraph_display` fields
     bodygraph_id displayed_graph_id;
@@ -162,11 +169,27 @@ struct body_status_uistate {
     int blink = 0;
     bool symbol_blinking = false;
 
+    // `all_bodyparts`, but combines parts with opposites into one
+    cata::flat_set<bodypart_id> all_bodyparts_compact;
+    std::vector<armor_text_entry> worn_items_by_limb_txt;
+    // currently selected limb category;
+    // only add clothing to list if it covers the given bodypart; if NULL, ignore
+    bodypart_id sort_armor_category = bodypart_str_id::NULL_ID();
+    int sort_armor_category_index = 0;
+    // copy of `outfit::worn` filtered by coverage of `sort_armor_category`
+    std::vector<std::list<item>::iterator> worn_subset;
+    std::vector<bodypart_id> sort_armor_categories;
+
     // formerly `bodygraph_display` functions
     void prepare_partlist();
     void prepare_infolist();
     void prepare_infotext( bool reset_pos );
     const bodygraph_part_info &get_selected_partlist() const;
+
+    void update_sorted_armor();
+    void prepare_bodyparts_compact();
+    void prepare_worn_items_by_limb();
+    item_location get_character_worn( int index ) const;
 
     void init();
 
@@ -239,6 +262,7 @@ class body_status_ui_impl : public cataimgui::window
         // @param subpart_graph - if true, use subpart instead of bodypart
         void draw_graph_imgui( std::optional<std::string> bodypart_or_subpart_id );
         void draw_info_imgui( const std::vector<std::string> info_txt ) const;
+        void draw_worn_items_by_limb();
     protected:
         void draw_controls();
         cataimgui::bounds get_bounds() override;

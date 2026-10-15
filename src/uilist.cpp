@@ -760,7 +760,7 @@ void uilist::calc_data()
     }
     if( force_desired_bounds && desired_bounds.has_value() ) {
         calculated_menu_size.x = desired_bounds->w;
-        calculated_menu_size.y = desired_bounds->h;
+        calculated_menu_size.y = desired_bounds->h - additional_height;
     }
 }
 

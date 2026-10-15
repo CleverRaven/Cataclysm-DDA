@@ -6,12 +6,18 @@
 #include "avatar_action.h"
 #include "bodygraph.h"
 #include "display.h"
+#include "flag.h"
+#include "game_inventory.h"
 #include "imgui/imgui.h"
 #include "uilist.h"
+#include "uistate.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "wcwidth.h"
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
+
+static const flag_id json_flag_HIDDEN( "HIDDEN" );
 
 //TODO: these static functions are identical to character creator's
 static cataimgui::bounds uilist_reset_desired_bounds()
@@ -40,6 +46,28 @@ void body_status_uistate::set_description_scroll()
         scrolled_up = false;
         ImGui::SetScrollY( std::clamp( ImGui::GetScrollY() - ImGui::GetContentRegionAvail().y, 0.0f,
                                        ImGui::GetScrollMaxY() ) );
+    }
+}
+
+static void refresh_header_footer_text( uilist *new_uilist, const body_status_uistate &bs_uistate )
+{
+
+    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+        std::string bodypart_category = bs_uistate.sort_armor_category_index == 0 ?
+                                        _( "ALL" ) : bs_uistate.sort_armor_category->name_as_heading.translated();
+        bool no_armor_found = bs_uistate.worn_subset.empty();
+        std::string header_label = no_armor_found ?
+                                   colorize( _( "No armor on this limb!" ), c_yellow ) :
+                                   colorize( _( "Innermost" ), c_light_gray );
+
+        new_uilist->text = string_format( "%s\n%s",
+                                          colorize( string_format( "<< %s >>", bodypart_category ), c_light_green ), header_label );
+
+        if( no_armor_found ) {
+            new_uilist->footer_text = new_uilist->text;
+        } else {
+            new_uilist->footer_text = colorize( _( "Outermost" ), c_light_gray );
+        }
     }
 }
 
@@ -73,7 +101,7 @@ std::string body_status_uistate::prepare_bodygraph_text( std::optional<std::stri
 
 const bodygraph_part_info &body_status_uistate::get_selected_partlist() const
 {
-    return partlist[selected_bodypart_index];
+    return partlist[selected_index];
 }
 
 std::string bodygraph_part_info::get_part() const
@@ -89,18 +117,67 @@ void body_status_uistate::init()
     prepare_partlist();
     prepare_infolist();
     all_bodyparts = displayed_character.get_all_body_parts( get_body_part_flags::sorted );
+    update_sorted_armor();
+}
 
-    const outfit &character_outfit = displayed_character.worn;
+void body_status_uistate::update_sorted_armor()
+{
+    const outfit &worn = displayed_character.worn;
 
-    character_worn.clear();
-    character_outfit.visit_items( displayed_character,
-    [&]( item_location node ) {
-        if( displayed_character.is_worn( *node ) &&
-            filter_worn_by == bodypart_str_id::NULL_ID() || node->covers( filter_worn_by ) ) {
-            character_worn.push_back( node );
+    sort_armor_categories.clear();
+    sort_armor_categories.emplace_back( bodypart_str_id::NULL_ID() );
+    for( bodypart_id bp_id : all_bodyparts ) {
+        sort_armor_categories.emplace_back( bp_id );
+    }
+    sort_armor_category = sort_armor_categories[sort_armor_category_index];
+
+    worn_subset = displayed_character.worn.filter_by_bodypart( sort_armor_category );
+    displayed_character.calc_encumbrance();
+    prepare_bodyparts_compact();
+    prepare_worn_items_by_limb();
+}
+
+void body_status_uistate::prepare_bodyparts_compact()
+{
+
+    all_bodyparts_compact.clear();
+    for( const bodypart_id &cover : all_bodyparts ) {
+        if( cover == bodypart_str_id::NULL_ID() ) {
+            continue;
         }
-        return VisitResponse::NEXT;
-    } );
+        if( !displayed_character.worn.items_cover_opposite_bp( displayed_character, cover ) ||
+            all_bodyparts_compact.count( cover.obj().opposite_part ) == 0 ) {
+            all_bodyparts_compact.insert( cover );
+        }
+    }
+}
+
+void body_status_uistate::prepare_worn_items_by_limb()
+{
+    const outfit &worn = displayed_character.worn;
+
+    worn_items_by_limb_txt.clear();
+    for( const bodypart_id &cover : all_bodyparts_compact ) {
+        armor_text_entry header_entry;
+        header_entry.header = colorize( body_part_name_as_heading( cover,
+                                        worn.items_cover_opposite_bp( displayed_character, cover ) ? 2 : 1 ),
+                                        ( cover == sort_armor_category ? c_yellow : c_white ) );
+        worn_items_by_limb_txt.emplace_back( header_entry );
+
+        for( layering_item_info &elem : worn.items_cover_bp( displayed_character, cover ) ) {
+            armor_text_entry item_entry;
+            nc_color color = elem.penalties.color_for_stacking_badness();
+            char plus = elem.penalties.badness() > 0 ? '+' : ' ';
+            std::string encumbrance_string = string_format( "%d%c", elem.encumber, plus );
+            int encumbrance_char_allowance = utf8_width( encumbrance_string ) + 1;
+            item_entry.item_name = colorize( elem.name, color );
+            item_entry.encumbrance = colorize( encumbrance_string, c_light_gray );
+            item_entry.hidden = colorize( ( elem.hidden ? "H" : "" ), c_light_gray );
+            item_entry.storage = colorize( string_format( "%.2f",
+                                           convert_volume( units::to_milliliter( elem.storage ) ) ), c_light_gray );
+            worn_items_by_limb_txt.emplace_back( item_entry );
+        }
+    }
 }
 
 void body_status_ui::setup_input_context( input_context &bs_ictxt )
@@ -116,20 +193,20 @@ void body_status_ui::setup_input_context( input_context &bs_ictxt )
 
     bs_ictxt.register_action( "BODYGRAPH_DISPLAY_CHANGE" );
     bs_ictxt.register_action( "BODYGRAPH_TOGGLE_WINDOW" );
-    /*
-    ctxt.register_action("PAGE_UP");
-    ctxt.register_action("PAGE_DOWN");
-    ctxt.register_action("MOVE_ARMOR"); // s
-    ctxt.register_action("CHANGE_SIDE"); // c
-    ctxt.register_action("TOGGLE_CLOTH"); // H
-    ctxt.register_action("ASSIGN_INVLETS"); // r
-    ctxt.register_action("SORT_ARMOR"); // S
-    ctxt.register_action("EQUIP_ARMOR"); // e
-    ctxt.register_action("EQUIP_ARMOR_HERE"); // E
-    ctxt.register_action("REMOVE_ARMOR"); // u
-    ctxt.register_action("TOGGLE_FAVORITE"); // *
-    ctxt.register_action("USAGE_HELP"); // F1
-    */
+
+    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+        bs_ictxt.register_leftright();
+        bs_ictxt.register_action( "MOVE_ARMOR_IN" );
+        bs_ictxt.register_action( "MOVE_ARMOR_OUT" );
+        bs_ictxt.register_action( "CHANGE_SIDE" );
+        bs_ictxt.register_action( "TOGGLE_CLOTH" );
+        bs_ictxt.register_action( "ASSIGN_INVLETS" );
+        bs_ictxt.register_action( "SORT_ARMOR" );
+        //bs_ictxt.register_action( "EQUIP_ARMOR" );
+        //bs_ictxt.register_action( "EQUIP_ARMOR_HERE" );
+        bs_ictxt.register_action( "REMOVE_ARMOR" );
+        bs_ictxt.register_action( "TOGGLE_FAVORITE" );
+    }
 }
 
 void body_status_ui::display()
@@ -224,7 +301,7 @@ void body_status_ui::setup_new_uilist()
     std::shared_ptr<uilist> new_uilist = get_current_tab_uilist();
 
     if( !new_uilist ) {
-        input_context new_uilist_input;
+        input_context new_uilist_input( "BODY_STATUS_UI" );
         setup_input_context( new_uilist_input );
 
         set_current_tab_uilist( std::make_shared<uilist>() );
@@ -235,18 +312,40 @@ void body_status_ui::setup_new_uilist()
         //snap to left edge of screen, position and height updated later
         new_uilist->desired_bounds = uilist_reset_desired_bounds();
         new_uilist->force_desired_bounds = true;
+        new_uilist->desc_enabled = false;
 
         update_uilist_entries();
+
+        if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+            new_uilist->desc_enabled = true;
+            refresh_header_footer_text( new_uilist.get(), bs_uistate );
+        }
 
         new_uilist->register_uilist_inputs( new_uilist_input );
         new_uilist->setup();
         set_current_tab_input( new_uilist_input );
+
+        if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+            if( bs_uistate.selected_index_set > -1 &&
+                bs_uistate.selected_index_set < bs_uistate.worn_subset.size() ) {
+                new_uilist->scrollby( uilist::scroll_amount{
+                    uilist::scroll_amount::absolute, bs_uistate.selected_index_set } );
+            } else {
+                bs_uistate.selected_index_set = -1;
+            }
+        }
     }
 
 }
 
 bool body_status_ui::handle_action( const std::string &action )
 {
+    auto do_return_entry = []() {
+        uistate.open_menu = []() {
+            body_status_ui bsui( get_player_character() );
+            bsui.display();
+        };
+    };
 
     if( action == "QUIT" ) {
         // quit summary subpart list
@@ -283,6 +382,102 @@ bool body_status_ui::handle_action( const std::string &action )
         } else {
             popup( _( "Applying not implemented for NPCs." ) );
         }
+    } else if( action == "LEFT" ) {
+        int &sort_armor_category_index = bs_uistate.sort_armor_category_index;
+        sort_armor_category_index--;
+        if( sort_armor_category_index < 0 ) {
+            sort_armor_category_index = bs_uistate.sort_armor_categories.size() - 1;
+        }
+        bs_uistate.update_sorted_armor();
+        update_uilist_entries();
+        reset_list_entries = true;
+    } else if( action == "RIGHT" ) {
+        int &sort_armor_category_index = bs_uistate.sort_armor_category_index;
+        sort_armor_category_index++;
+        if( sort_armor_category_index == bs_uistate.sort_armor_categories.size() ) {
+            sort_armor_category_index = 0;
+        }
+        bs_uistate.update_sorted_armor();
+        update_uilist_entries();
+        reset_list_entries = true;
+    } else if( action == "MOVE_ARMOR_IN" ) {
+        /*
+        this process requires finding the index in `Character::worn` of the
+        * selected item in the filtered list and the above item in the filtered list
+        * and moving the selected item inwards in `Character::worn`
+        */
+        int inner_item_index = bs_uistate.selected_index - 1;
+
+        // if no item, abort
+        if( inner_item_index >= 0 ) {
+            std::list<item>::iterator selected_item = bs_uistate.worn_subset[bs_uistate.selected_index];
+
+            //if inner item is integrated, abort
+            std::list<item>::iterator inner_item = bs_uistate.worn_subset[inner_item_index];
+            if( !selected_item->has_flag( flag_INTEGRATED ) && !inner_item->has_flag( flag_INTEGRATED ) ) {
+                // move this item below the inner item in `worn`
+                displayed_character.worn.splice( inner_item, selected_item );
+                bs_uistate.update_sorted_armor();
+                bs_uistate.selected_index_set = inner_item_index;
+                reset_list_entries = true;
+            } else {
+                popup( _( "Can't move your integrated armor!" ) );
+            }
+        }
+    } else if( action == "MOVE_ARMOR_OUT" ) {
+        int outer_item_index = bs_uistate.selected_index + 1;
+
+        if( outer_item_index < bs_uistate.worn_subset.size() ) {
+            std::list<item>::iterator selected_item = bs_uistate.worn_subset[bs_uistate.selected_index];
+
+            //SX2: dedupe
+            std::list<item>::iterator outer_item = bs_uistate.worn_subset[outer_item_index];
+            if( !selected_item->has_flag( flag_INTEGRATED ) && !outer_item->has_flag( flag_INTEGRATED ) ) {
+                displayed_character.worn.splice( ++outer_item, selected_item );
+                bs_uistate.update_sorted_armor();
+                bs_uistate.selected_index_set = outer_item_index;
+                reset_list_entries = true;
+            } else {
+                popup( _( "Can't move your integrated armor!" ) );
+            }
+        }
+    } else if( action == "CHANGE_SIDE" ) {
+        if( displayed_character.query_yn( _( "Swap side for %s?" ),
+                                          bs_uistate.selected_armor->tname() ) ) {
+            displayed_character.change_side( *bs_uistate.selected_armor );
+            bs_uistate.update_sorted_armor();
+        }
+    } else if( action == "TOGGLE_CLOTH" ) {
+        if( !bs_uistate.selected_armor->has_flag( json_flag_HIDDEN ) ) {
+            bs_uistate.selected_armor->set_flag( json_flag_HIDDEN );
+        } else {
+            bs_uistate.selected_armor->unset_flag( json_flag_HIDDEN );
+        }
+        bs_uistate.update_sorted_armor();
+    } else if( action == "SORT_ARMOR" ) {
+        displayed_character.worn.sort();
+        bs_uistate.update_sorted_armor();
+        reset_list_entries = true;
+    } else if( action == "EQUIP_ARMOR" ) {
+
+    } else if( action == "EQUIP_ARMOR_HERE" ) {
+
+    } else if( action == "REMOVE_ARMOR" ) {
+        // query (for now)
+        if( displayed_character.query_yn( _( "Remove selected armor?" ) ) ) {
+            do_return_entry();
+
+            // remove the item, asking to drop it if necessary
+            displayed_character.takeoff( bs_uistate.selected_armor );
+            bs_uistate.update_sorted_armor();
+            bs_uistate.quit_menu = true;
+        }
+    } else if( action == "TOGGLE_FAVORITE" ) {
+        item &item_to_toggle = *bs_uistate.selected_armor;
+        item_to_toggle.set_favorite( !item_to_toggle.is_favorite );
+        bs_uistate.update_sorted_armor();
+    } else if( action == "ASSIGN_INVLETS" ) {
+        displayed_character.worn.assign_invlets( displayed_character );
     } else {
         return false;
     }
@@ -327,9 +522,17 @@ void body_status_ui::update_uilist_entries()
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR: {
-            for( const item_location &loc : bs_uistate.character_worn ) {
-                std::string worn_armor_name = loc->tname();
-                menu->addentry( get_uilist_entry( worn_armor_name ) );
+            int armor_count = 0;
+            for( const std::list<item>::iterator &it : bs_uistate.worn_subset ) {
+                std::string worn_armor_name = it->tname();
+                uilist_entry new_entry = get_uilist_entry( worn_armor_name );
+                new_entry.retval = armor_count;
+
+                menu->addentry( new_entry );
+                armor_count++;
+            }
+            if( armor_count == 0 ) {
+                menu->addentry( get_uilist_entry( "No armor found!" ) );
             }
 
             break;
@@ -405,25 +608,23 @@ void body_status_callback::select( uilist *menu )
     disp_bodygraph_cache::clear( bs_uistate.displayed_graph_id, bs_uistate.display_mode );
 
     int menu_selected = menu->selected;
-
+    bs_uistate.selected_index = menu_selected;
 
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
-            bs_uistate.selected_bodypart_index = menu_selected;
             bodypart_id selected_bp = bs_uistate.get_selected_partlist().bp_id;
             bs_uistate.selected_bodypart = selected_bp;
             bs_uistate.prepare_infolist();
             break;
         }
         case body_status_tab::BS_TAB_MEDICAL: {
-            bs_uistate.selected_bodypart_index = menu_selected;
             bs_uistate.selected_bodypart = bs_uistate.all_bodyparts[menu_selected];
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR:
-            bs_uistate.selected_armor = bs_uistate.character_worn[menu_selected];
-            // much more complicated... depends on which list is up
-            // needs to be able to move entries and not move entries (not including headers)
+            bs_uistate.selected_armor = menu_selected > -1 && !bs_uistate.worn_subset.empty() ?
+                                        item_location( bs_uistate.displayed_character, &*bs_uistate.worn_subset[menu_selected] )
+                                        : item_location::nowhere;
             break;
         default:
             break;
@@ -432,8 +633,10 @@ void body_status_callback::select( uilist *menu )
 
 void body_status_callback::refresh( uilist *menu )
 {
-    menu->footer_text = !menu->filter.empty() ? string_format( "Filter: %s",
-                        menu->filter ) : std::string();
+    body_status_uistate &bs_uistate = ui_parent->bs_uistate;
+    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+        refresh_header_footer_text( menu, bs_uistate );
+    }
 }
 
 body_status_ui_impl::body_status_ui_impl( body_status_ui *parent ) :
@@ -461,6 +664,10 @@ void body_status_ui_impl::draw_controls()
         ImGui::BeginChild( "WINDOW1", CHILD_WINDOW_SIZE );
         cataimgui::draw_colored_text( string_format( _( "Status of: %s" ),
                                       ui_parent->bs_uistate.displayed_character.name ) );
+        if( ImGui::Button( _( "Toggle Bodygraph Window" ) ) ) {
+            ui_parent->bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
+        }
+
         if( ImGui::BeginTabBar( "##Tabs" ) ) {
             if( cataimgui::BeginTabItem( _( "SUMMARY" ), selected_tab == body_status_tab::BS_TAB_SUMMARY ) ) {
                 selected_tab = ImGui::IsItemActive() ? body_status_tab::BS_TAB_SUMMARY : selected_tab;
@@ -513,10 +720,6 @@ void body_status_ui_impl::draw_description()
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
 
-    if( ImGui::Button( _( "Toggle Bodygraph Window" ) ) ) {
-        bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
-    }
-
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY:
             if( bs_uistate.get_selected_partlist().present_on_character ) {
@@ -527,26 +730,31 @@ void body_status_ui_impl::draw_description()
             medical_ui::draw_limbs_details( bs_uistate.displayed_character, bs_uistate.selected_bodypart );
             break;
         case body_status_tab::BS_TAB_SORT_ARMOR: {
-            const item &selected_armor = *bs_uistate.selected_armor;
-            const Character &displayed_character = bs_uistate.displayed_character;
-            const bodypart_id filter_worn_by = bs_uistate.filter_worn_by;
 
-            cataimgui::draw_colored_text( selected_armor.tname() );
-            ImGui::Separator();
-            cataimgui::draw_colored_text( clothing_info::clothing_layer( selected_armor ) );
+            if( bs_uistate.selected_armor ) {
+                const item &selected_armor = *bs_uistate.selected_armor;
+                const Character &displayed_character = bs_uistate.displayed_character;
+                const bodypart_id sort_armor_category = bs_uistate.sort_armor_category;
 
-            for( const std::string &lines : clothing_info::clothing_flags_description( selected_armor ) ) {
-                cataimgui::draw_colored_text( lines );
-            }
-            ImGui::Separator();
-            for( const std::string &lines : clothing_info::clothing_properties(
-                     selected_armor, displayed_character, filter_worn_by ) ) {
-                cataimgui::draw_colored_text( lines );
-            }
-            ImGui::Separator();
-            for( const std::string &lines : clothing_info::clothing_protection( selected_armor,
-                    filter_worn_by ) ) {
-                cataimgui::draw_colored_text( lines );
+                cataimgui::draw_colored_text( selected_armor.tname() );
+                ImGui::Separator();
+                cataimgui::draw_colored_text( clothing_info::clothing_layer( selected_armor ) );
+
+                for( const std::string &lines : clothing_info::clothing_flags_description( selected_armor ) ) {
+                    cataimgui::draw_colored_text( lines );
+                }
+                ImGui::Separator();
+                for( const std::string &lines : clothing_info::clothing_properties(
+                         selected_armor, displayed_character, sort_armor_category ) ) {
+                    cataimgui::draw_colored_text( lines );
+                }
+                ImGui::Separator();
+                for( const std::string &lines : clothing_info::clothing_protection( selected_armor,
+                        sort_armor_category ) ) {
+                    cataimgui::draw_colored_text( lines );
+                }
+            } else {
+                cataimgui::draw_colored_text( colorize( "Select a worn item to view its properties.", c_yellow ) );
             }
         }
         break;
@@ -555,13 +763,50 @@ void body_status_ui_impl::draw_description()
     }
     bs_uistate.set_description_scroll();
 }
+
+
+void body_status_ui_impl::draw_worn_items_by_limb()
+{
+    const body_status_uistate &bs_uistate = ui_parent->bs_uistate;
+
+    if( ImGui::BeginTable( "##Limbs", 4, ImGuiTableFlags_SizingStretchProp ) ) {
+        ImGui::TableSetupColumn( _( "Armor by Limb" ) );
+        ImGui::TableSetupColumn( _( "Encb." ) );
+        ImGui::TableSetupColumn( _( "Vol." ) );
+        ImGui::TableSetupColumn( _( "Hid." ) );
+        ImGui::TableHeadersRow();
+        for( const armor_text_entry &entry : bs_uistate.worn_items_by_limb_txt ) {
+            ImGui::TableNextColumn();
+            if( entry.header.has_value() ) {
+                cataimgui::draw_colored_text( *entry.header );
+            } else {
+                cataimgui::draw_colored_text( entry.item_name );
+                ImGui::TableNextColumn();
+                if( !entry.encumbrance.empty() ) {
+                    cataimgui::draw_colored_text( entry.encumbrance );
+                }
+                ImGui::TableNextColumn();
+                if( !entry.storage.empty() ) {
+                    cataimgui::draw_colored_text( entry.storage );
+                }
+                ImGui::TableNextColumn();
+                if( !entry.hidden.empty() ) {
+                    cataimgui::draw_colored_text( entry.hidden );
+                }
+            }
+            ImGui::TableNextRow();
+        }
+        ImGui::EndTable();
+    }
+}
+
 void body_status_ui_impl::draw_bodygraph()
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    if( bs_uistate.selected_tab != body_status_tab::BS_TAB_SORT_ARMOR ) {
-        medical_ui::summary_tab( bs_uistate.displayed_character );
+    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+        draw_worn_items_by_limb();
     } else {
-
+        medical_ui::summary_tab( bs_uistate.displayed_character );
     }
     ImGui::Separator();
 
@@ -585,6 +830,7 @@ void body_status_ui_impl::draw_bodygraph()
             break;
         case body_status_tab::BS_TAB_SORT_ARMOR:
             // if a specific limb is selected
+            bodypart_or_subpart_id = bs_uistate.sort_armor_category.id().str();
             break;
         default:
             break;

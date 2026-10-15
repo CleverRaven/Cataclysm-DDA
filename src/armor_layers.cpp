@@ -299,13 +299,13 @@ void clothing_info::add_category_and_values( std::vector<std::string> &current_t
             }
             assembled_value += names_and_values[i].first + spacer + names_and_values[i].second;
         }
-        current_text.emplace_back(assembled_value);
+        current_text.emplace_back( assembled_value );
         /*
         int required_oneline_width = utf8_width( category_name + spacer + assembled_value );
         if( required_oneline_width <= field_width ) {
             current_text.emplace_back( trimmed_name_and_value( category_name, assembled_value, field_width ) );
         } else {
-        
+
             current_text.emplace_back( trim_by_length(category_name, field_width) );
             for( const std::pair<std::string, std::string> &name_and_value : names_and_values ) {
                 current_text.emplace_back( trimmed_name_and_value( spacer + name_and_value.first,
@@ -415,7 +415,7 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
         description_stack.emplace_back( current_description );
     } else if( worn_item.has_flag( flag_VARSIZE ) ) {
         current_description = _( "It could be refitted." );
-        description_stack.emplace_back(current_description);
+        description_stack.emplace_back( current_description );
     }
 
     //Handle all other flags:
@@ -445,7 +445,7 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
 
 // Figure out encumbrance penalties this clothing is involved in
 item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_item_it,
-        const Character &c, const bodypart_id &_bp )
+        const Character &c, const bodypart_id &_bp ) const
 {
     std::vector<layer_level> layer = worn_item_it->get_layer();
 
@@ -553,14 +553,17 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
              std::move( lists_of_bad_items_within[0] ) };
 }
 
-std::vector<layering_item_info> outfit::items_cover_bp( const Character &c, const bodypart_id &bp )
+std::vector<layering_item_info> outfit::items_cover_bp( const Character &c,
+        const bodypart_id &bp ) const
 {
     std::vector<layering_item_info> s;
     for( auto elem_it = worn.begin(); elem_it != worn.end(); ++elem_it ) {
         if( elem_it->covers( bp ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
                            elem_it->get_encumber( c, bp ),
-                           elem_it->tname()
+                           elem_it->tname(),
+                           elem_it->get_volume_capacity(),
+                           elem_it->has_flag( json_flag_HIDDEN )
                          } );
         }
     }
@@ -594,6 +597,15 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
 
     wnoutrefresh( w );
 }
+
+bool outfit::items_cover_opposite_bp( const Character &who, const bodypart_id &cover ) const
+{
+    const bodypart_id opposite = cover.obj().opposite_part;
+    return cover != opposite &&
+           who.worn.items_cover_bp( who, cover ) ==
+           who.worn.items_cover_bp( who, opposite );
+}
+
 
 void outfit::sort_armor( Character &guy )
 {
@@ -1223,4 +1235,65 @@ void outfit::sort_armor( Character &guy )
         }
     }
     uistate.open_menu.reset();
+}
+
+void outfit::sort()
+{
+    worn.sort(
+    []( const item & l, const item & r ) {
+        if( l.has_flag( flag_INTEGRATED ) == r.has_flag( flag_INTEGRATED ) ) {
+            return l.get_layer() < r.get_layer();
+        } else {
+            return l.has_flag( flag_INTEGRATED );
+        }
+    } );
+}
+
+void outfit::assign_invlets( Character &guy )
+{
+    // prompt first before doing this (yes, yes, more popups...)
+    if( query_yn( _( "Reassign inventory letters for armor?" ) ) ) {
+        // Start with last armor (the most unimportant one?)
+        auto iiter = inv_chars.rbegin();
+        auto witer = worn.rbegin();
+        while( witer != worn.rend() && iiter != inv_chars.rend() ) {
+            const char invlet = *iiter;
+            item &w = *witer;
+            if( invlet == w.invlet ) {
+                ++witer;
+            } else if( guy.invlet_to_item( invlet ).where() != item_location::type::invalid ) {
+                ++iiter;
+            } else {
+                if( guy.is_avatar() ) {
+                    guy.as_avatar()->reassign_item_cache( w, invlet, true );
+                }
+                ++witer;
+                ++iiter;
+            }
+        }
+    }
+}
+
+void outfit::splice( std::list<item>::iterator to, std::list<item>::iterator pos )
+{
+    worn.splice( to, worn, pos );
+}
+
+std::vector<std::list<item>::iterator> outfit::filter_by_bodypart( bodypart_id bp )
+{
+    std::vector<std::list<item>::iterator> tmp_worn;
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        // All
+        for( auto it = worn.begin(); it != worn.end(); ++it ) {
+            tmp_worn.push_back( it );
+        }
+    } else {
+        // bp_*
+        for( auto it = worn.begin(); it != worn.end(); ++it ) {
+            if( it->covers( bp ) ) {
+                tmp_worn.push_back( it );
+            }
+        }
+    }
+    return tmp_worn;
 }
