@@ -145,7 +145,7 @@
       }
     ]
   },
- {
+  {
     "type": "effect_on_condition",
     "id": "spore_effect_to_fungus_infection",
     "recurrence": [ "10 minutes", "20 minutes" ],
@@ -167,11 +167,7 @@
     "recurrence": [ "8 hours", "12 hours" ],
     "condition": { "or": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
     "effect": [
-      {
-        "u_add_effect": "fungus",
-        "intensity": { "math": [ "u_effect_intensity('fungus') + 1" ] },
-        "duration": "PERMANENT"
-      }
+      { "u_add_effect": "fungus", "intensity": { "math": [ "u_effect_intensity('fungus') + 1" ] }, "duration": "PERMANENT" }
     ]
   },
   {
