@@ -25,6 +25,7 @@
 #include "item_location.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "npc.h"
 #include "omdata.h"
@@ -240,6 +241,11 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 
 void mission::clear_all()
 {
+    for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_overmap_npcs() ) {
+        guy->chatbin.missions.clear();
+        guy->chatbin.missions_assigned.clear();
+        guy->chatbin.mission_selected = nullptr;
+    }
     world_missions.clear();
 }
 
