@@ -1472,7 +1472,7 @@
     "id": "feral_awakening",
     "name": "Waking Up",
     "points": -8,
-    "description": "Your memory comes in flashes. When the rioting started, you reveled in the violence. You're not sure when the riots ended and the apocalypse began, or when you remembered what it was like to feel guilt for your actions. Your former fellow rioters also no longer seem too enthused by your presence.",
+    "description": "Your memory comes in flashes.  When the rioting started, you reveled in the violence.  You're not sure when the riots ended and the apocalypse began, or when you remembered what it was like to feel guilt for your actions.  Your former fellow rioters also no longer seem too enthused by your presence.",
     "start_name": "Among the Dead",
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 2, "season": "summer", "year": 1 },
