@@ -100,6 +100,7 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_psi_telekinetic_damage( "psi_telekinetic_damage" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_absorbed_electric( "absorbed_electric" );
@@ -2477,7 +2478,7 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
         return; // immunity
     }
     // FIXME: Hardcoded damage type effects (bash, bullet)
-    if( du.type == damage_bash ) {
+    if( du.type == damage_bash || du.type == damage_psi_telekinetic_damage ) {
         if( has_flag( mon_flag_PLASTIC ) ) {
             damage += du.amount / rng( 2, 4 ); // lessened effect
             pain += du.amount / 4;
