@@ -368,6 +368,8 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
                         item_location( guy, &*new_item_it ) : item_location();
     cata::event e = cata::event::make<event_type::character_wears_item>( guy.getID(), guy.last_item );
     get_event_bus().send_with_talker( &guy, &loc, e );
+    // event handler may have removed the garment; unsorted wear has no location, so skip test
+    const bool removed_by_event = do_sort_items && !loc;
 
     if( interactive ) {
         if( !quiet ) {
@@ -405,7 +407,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
     }
 
     // skip this for unsorted items in debug mode
-    if( do_sort_items ) {
+    if( do_sort_items && !removed_by_event ) {
         new_item_it->on_wear( guy );
 
         if( guy.is_avatar() ) {
@@ -425,7 +427,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
 
     guy.recoil = MAX_RECOIL;
 
-    return new_item_it;
+    return removed_by_event ? worn.end() : new_item_it;
 }
 
 void outfit::recalc_ablative_blocking( const Character *guy )

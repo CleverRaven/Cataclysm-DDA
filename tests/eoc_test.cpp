@@ -228,6 +228,7 @@ static const itype_id itype_sword_wood( "sword_wood" );
 static const itype_id itype_test_eoc_armor_suit( "test_eoc_armor_suit" );
 static const itype_id itype_test_glock( "test_glock" );
 static const itype_id itype_test_knife_combat( "test_knife_combat" );
+static const itype_id itype_test_vanishing_socks( "test_vanishing_socks" );
 static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
 static const itype_id itype_wine_marloss( "wine_marloss" );
 static const itype_id itype_wine_mycus( "wine_mycus" );
@@ -1485,6 +1486,25 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
 
     CHECK( get_avatar().get_value( "test_event_last_event" ) == "character_wears_item" );
     CHECK( armor->get_var( "test_event_last_event" ) == "character_wears_item" );
+}
+
+TEST_CASE( "EOC_wear_event_removes_the_garment", "[eoc]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    avatar &u = get_avatar();
+    u.remove_value( "test_wear_event_removed" );
+    map &here = get_map();
+    const tripoint_bub_ms spot = u.pos_bub() + tripoint::east;
+    item &socks = here.add_item_or_charges( spot, item( itype_test_vanishing_socks ) );
+
+    const std::optional<std::list<item>::iterator> worn =
+        u.wear( item_location( map_cursor( spot ), &socks ), false );
+    CHECK( u.get_value( "test_wear_event_removed" ) == "yes" );
+    CHECK( worn.has_value() );
+    CHECK_FALSE( u.is_wearing( itype_test_vanishing_socks ) );
+    CHECK_FALSE( u.has_amount( itype_test_vanishing_socks, 1 ) );
+    CHECK( here.i_at( spot ).empty() );
 }
 
 TEST_CASE( "EOC_combat_event_test", "[eoc]" )

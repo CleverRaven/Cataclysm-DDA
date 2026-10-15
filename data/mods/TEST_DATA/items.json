@@ -1129,6 +1129,14 @@
     "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
+    "id": "test_vanishing_socks",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "copy-from": "test_socks",
+    "name": { "str": "TEST pair of vanishing socks", "str_pl": "TEST pairs of vanishing socks" },
+    "description": "Socks that vanish when worn."
+  },
+  {
     "id": "test_croc_socks",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
