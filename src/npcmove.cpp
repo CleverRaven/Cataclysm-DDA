@@ -7824,8 +7824,16 @@ bool outfit::adjust_worn( npc &guy )
             //create an item_location for takeoff() to handle.
             item_location loc_for_takeoff = item_location( guy, &elem );
             // Try to change side (if it makes sense), or take off.
-            std::list<item> temp_list;
-            if( ( needs_change && guy.change_side( elem ) ) || takeoff( loc_for_takeoff, &temp_list, guy ) ) {
+            if( needs_change && guy.change_side( elem ) ) {
+                return true;
+            }
+            std::list<item> taken_off;
+            if( takeoff( loc_for_takeoff, &taken_off, guy ) ) {
+                // NPC owns what it takes off, stowed, wielded or dropped at its feet
+                for( item &it : taken_off ) {
+                    it.set_owner( guy );
+                    guy.i_add_or_drop( it );
+                }
                 return true;
             }
         }
