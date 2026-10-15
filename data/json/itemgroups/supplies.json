@@ -668,6 +668,12 @@
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
   },
   {
+    "id": "bag_garbage_box_medium",
+    "type": "item_group",
+    "container-item": "box_medium",
+    "items": [ { "item": "bag_garbage", "count": [ 0, 500 ] } ]
+  },
+  {
     "id": "bag_garbage_box",
     "type": "item_group",
     "container-item": "box_small",
