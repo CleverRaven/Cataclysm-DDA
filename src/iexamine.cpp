@@ -7423,7 +7423,7 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
         case work_on_craft: {
             std::vector<std::string> item_names;
             for( item_location &it : crafts ) {
-                if( auto item = it.get_item() ) {
+                if( item *item = it.get_item() ) {
                     item_names.emplace_back( item->get_craft_listing_name( you ) );
                 }
             }

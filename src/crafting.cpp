@@ -5933,12 +5933,12 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
 std::string item::get_craft_listing_name( const Character &crafter ) const
 {
     if( !is_craft() ) {
-        auto name = tname();
+        std::string name = tname();
         debugmsg( "get_craft_listing_name() called on non-craft '%s.'  Aborting.", name );
         return name;
     }
 
-    auto &recipe = get_making();
+    const recipe &recipe = get_making();
 
     // eg. medium steel spear 50% [fabrication 4]
     // eg. disassembly of wedding ring 95%
