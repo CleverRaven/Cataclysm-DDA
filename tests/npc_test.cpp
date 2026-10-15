@@ -4539,7 +4539,11 @@ TEST_CASE( "camp_resident_guard_transitions", "[npc][camp]" )
         CHECK( guy.omt_path.empty() );
     }
     SECTION( "return_to_camp_duties away from camp: sets goal" ) {
-        guy.setpos( here, tripoint_bub_ms( 50 + SEEX * 2, 50, 0 ) );
+        // middle of next overmap tile east, wherever map's origin lies
+        const tripoint_abs_ms away = project_to<coords::ms>( camp_pos + point::east ) +
+                                     point( SEEX, SEEY );
+        REQUIRE( here.inbounds( away ) );
+        guy.setpos( here, here.get_bub( away ) );
         REQUIRE( guy.pos_abs_omt() != camp_pos );
         talk_function::assign_guard( guy );
         talk_function::return_to_camp_duties( guy );
