@@ -5962,7 +5962,6 @@ int item::get_display_progress_percent() const
 {
     cata_assert( craft_data_ );
 
-    // Note: This code was extracted verbatim from the tname method for crafts.
     int effective_counter = item_counter;
     const time_point pstart = get_passive_started_at();
     const time_point saved_ready = get_saved_ready_at();
