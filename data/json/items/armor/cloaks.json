@@ -3190,7 +3190,16 @@
     "weight": "900 g",
     "volume": "4000 ml",
     "warmth": 50,
-    "flags": [ "OVERSIZE", "OUTER", "SOFT", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [
+      "OVERSIZE",
+      "OUTER",
+      "SOFT",
+      "ALLOWS_GASTROPOD_FOOT",
+      "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "NO_WING_GLIDING"
+    ],
     "environmental_protection": 4,
     "material_thickness": 0.4,
     "armor": [
@@ -3385,7 +3394,7 @@
     ],
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ]
+    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ]
   },
   {
     "id": "snuggie",
