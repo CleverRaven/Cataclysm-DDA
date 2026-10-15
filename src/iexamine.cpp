@@ -7424,7 +7424,7 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
             std::vector<std::string> item_names;
             for( item_location &it : crafts ) {
                 if( it ) {
-                    item_names.emplace_back( it.get_item()->tname() );
+                    item_names.emplace_back( it->get_craft_listing_name( you ) );
                 }
             }
             uilist amenu2( _( "Which craft or disassembly to work on?" ), item_names );

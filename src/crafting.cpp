@@ -5920,10 +5920,11 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
                             enable = true;
                         }
                     }
+
                     if( enable ) {
-                        entry = string_format( "[x] %s", itm->tname() );
+                        entry = string_format( "[x] %s", itm->get_craft_listing_name( *this ) );
                     } else {
-                        entry = string_format( "[ ] %s", itm->tname() );
+                        entry = string_format( "[ ] %s", itm->get_craft_listing_name( *this ) );
                     }
                     item_selection.addentry( index, true, MENU_AUTOASSIGN, entry );
                     index++;
@@ -5937,4 +5938,67 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
             } while( selected >= 1 );
         }
     }
+}
+
+std::string item::get_craft_listing_name( const Character &crafter ) const
+{
+    if( !is_craft() ) {
+        std::string name = tname();
+        debugmsg( "get_craft_listing_name() called on non-craft '%s.'  Aborting.", name );
+        return name;
+    }
+
+    const recipe &recipe = get_making();
+
+    // eg. medium steel spear 50% [fabrication 4]
+    // eg. disassembly of wedding ring 95%
+    // eg. disassembly of sophisticated computer thing 0% [electronics 7]
+    std::string desc;
+    if( typeId() == itype_disassembly ) {
+        desc.append( _( "disassembly of" ) );
+        desc.push_back( ' ' );
+    }
+    desc.append( recipe.result_name() );
+    desc.append( string_format( " %d%%", get_display_progress_percent() ) );
+    if( recipe.difficulty > 0 || typeId() != itype_disassembly ) {
+        desc.append( " [" );
+        desc.append( recipe.primary_skill_string( crafter ) );
+        desc.push_back( ']' );
+    }
+    return desc;
+}
+
+int item::get_display_progress_percent() const
+{
+    cata_assert( craft_data_ );
+
+    int effective_counter = item_counter;
+    const time_point pstart = get_passive_started_at();
+    const time_point saved_ready = get_saved_ready_at();
+    const time_point ready = saved_ready != calendar::before_time_starts
+                             ? saved_ready : get_ready_at();
+    const int start_counter = get_passive_start_counter();
+    const int end_counter = get_passive_end_counter();
+    if( pstart != calendar::before_time_starts && ready > pstart && end_counter > start_counter ) {
+        // Freeze projection at pause time so a stalled craft does not
+        // keep ticking up.
+        const time_point pause_start = get_pause_started_at();
+        const time_point eff_now = pause_start != calendar::before_time_starts
+                                   ? pause_start : calendar::turn;
+        const time_duration step_dur = ready - pstart;
+        time_duration elapsed = eff_now - pstart;
+        if( elapsed < 0_seconds ) {
+            elapsed = 0_seconds;
+        }
+        if( elapsed > step_dur ) {
+            elapsed = step_dur;
+        }
+        const int64_t step_dur_moves = std::max( static_cast<int64_t>( 1 ),
+                                       to_moves<int64_t>( step_dur ) );
+        const double fraction = static_cast<double>( to_moves<int64_t>( elapsed ) ) / step_dur_moves;
+        const int projected = static_cast<int>( std::round( start_counter +
+                                                fraction * ( end_counter - start_counter ) ) );
+        effective_counter = std::max( effective_counter, projected );
+    }
+    return effective_counter / 100000;
 }
