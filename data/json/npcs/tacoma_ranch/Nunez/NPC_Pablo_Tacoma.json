@@ -126,6 +126,15 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_TACOMA_Pablo_Propane1",
+    "dynamic_line": "Yeah, definitely.  Once things are up and running here, I'd be happy to trade you baked goods for propane.  For the moment, I can give you <merch> if you can bring me a full tank though.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Well, I'd better go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_Bakery1",
     "dynamic_line": "Yeah, she would say that.\"  He makes intense eye contact.  \"Not just a bakery, my friend.  A real, post apocalyptic, honest-to-god culinary experience!  We're planning to grow food and crops here.  Central's plan is to import our crops directly, and pay us for our work.  I don't think they've even thought much about transport, outside just shipping them back home.  If we do local site processing we can prevent storage losses, and make higher value material to sell out!  And Central still benefits from having a dedicated bread basket!",
     "responses": [
