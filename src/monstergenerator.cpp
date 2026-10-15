@@ -721,6 +721,8 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash;
     // Blind fire on unseen attacker
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
+    // Deflects projectiles
+    defense_map["SHOT_RICOCHET"] = &mdefense::ricochet;
 }
 
 void MonsterGenerator::validate_species_ids( mtype &mon )
