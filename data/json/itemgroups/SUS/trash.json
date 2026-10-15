@@ -335,8 +335,15 @@
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for forests with manmade trash in",
     "subtype": "collection",
-    "items": [
-      { "group": "SUS_trash_forest_no_manmade", "prob": 20 },
+    "entries": [ { "group": "SUS_trash_forest_no_manmade", "prob": 100 }, { "group": "SUS_trash_forest_manmade_only", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_trash_forest_manmade_only",
+    "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
+    "//2": "This group is for manmade trash found in forests and on trails",
+    "subtype": "collection",
+    "entries": [
       { "group": "SUS_trash_floor_light", "prob": 10 },
       { "group": "ammo_casings", "prob": 5 },
       { "item": "fuel_tin", "prob": 1 },
