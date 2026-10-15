@@ -1,16 +1,24 @@
+#include <functional>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "dialogue_chatbin.h"
 #include "game.h"
 #include "item.h"
+#include "json.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "memory_fast.h"
 #include "mission.h"
+#include "npc.h"
+#include "overmapbuffer.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -264,4 +272,47 @@ TEST_CASE( "automatic_find_item_mission_batch_performance", "[.][performance][mi
     };
 
     SUCCEED();
+}
+
+TEST_CASE( "clearing_missions_leaves_no_npc_holding_one", "[mission]" )
+{
+    clear_avatar();
+    // an overmap-owned NPC far outside the reality bubble, never loaded
+    shared_ptr_fast<npc> guy = make_shared_fast<npc>();
+    guy->normalize();
+    guy->randomize();
+    guy->spawn_at_omt( get_avatar().pos_abs_omt() + tripoint( 30, 0, 0 ) );
+    overmap_buffer.insert_npc( guy );
+    const character_id guy_id = guy->getID();
+    on_out_of_scope forget_guy( [guy_id]() {
+        overmap_buffer.remove_npc( guy_id );
+    } );
+    REQUIRE( overmap_buffer.find_npc( guy_id ) == guy );
+    bool loaded = false;
+    for( const npc &active : g->all_npcs() ) {
+        loaded |= active.getID() == guy_id;
+    }
+    REQUIRE_FALSE( loaded );
+
+    mission *offered = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION1, guy_id );
+    mission *taken = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION2, guy_id );
+    guy->add_new_mission( offered );
+    guy->chatbin.missions_assigned.push_back( taken );
+    guy->chatbin.mission_selected = taken;
+    REQUIRE( guy->chatbin.missions.size() == 1 );
+
+    SECTION( "every mission cleared, then the NPC saved" ) {
+        mission::clear_all();
+        CHECK( guy->chatbin.missions.empty() );
+        CHECK( guy->chatbin.missions_assigned.empty() );
+        CHECK( guy->chatbin.mission_selected == nullptr );
+        std::ostringstream saved;
+        JsonOut jsout( saved );
+        guy->serialize( jsout );
+        const std::string json = saved.str();
+        CAPTURE( json );
+        CHECK( json.find( "\"missions\":[]" ) != std::string::npos );
+        CHECK( json.find( "\"missions_assigned\":[]" ) != std::string::npos );
+        CHECK( json.find( "\"mission_selected\"" ) == std::string::npos );
+    }
 }
