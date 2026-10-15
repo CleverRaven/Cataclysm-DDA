@@ -121,6 +121,7 @@ static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_apron_leather( "apron_leather" );
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_crackers( "crackers" );
@@ -1856,6 +1857,100 @@ TEST_CASE( "npc_wear_item_at_helper", "[npc][needs]" )
         CHECK_FALSE( u.is_wearing( itype_sweater ) );
         CHECK_FALSE( here.i_at( spot ).empty() );
         CHECK_FALSE( avatar_action::check_stealing( u, spawned ) );
+    }
+}
+
+// follower with a broken leg wearing an arm splint, so splint is obsolete; pack adds a backpack
+static npc &spawn_obsolete_splint_follower( const bool pack )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms at( 50, 50, 0 );
+    get_avatar().setpos( get_map(), at + tripoint::east );
+    npc &guy = spawn_npc( at.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( get_map(), at );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.guard_pos = std::nullopt;
+    guy.clear_ai_guard_pos();
+    guy.rules.set_flag( ally_rule::follow_close );
+    if( pack ) {
+        guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    }
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_sleepiness( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    get_map().build_map_cache( 0 );
+    guy.set_part_hp_cur( body_part_leg_l, 0 );
+    REQUIRE( guy.is_limb_broken( body_part_leg_l ) );
+    REQUIRE( guy.worn.wear_item( guy, item( itype_arm_splint ), false, false ) );
+    REQUIRE( guy.is_wearing( itype_arm_splint ) );
+    return guy;
+}
+
+static std::vector<const item *> splints_on_tile( const npc &guy )
+{
+    std::vector<const item *> ret;
+    for( const item &it : get_map().i_at( guy.pos_bub() ) ) {
+        if( it.typeId() == itype_arm_splint ) {
+            ret.push_back( &it );
+        }
+    }
+    return ret;
+}
+
+static std::vector<const item *> splints_carried( const npc &guy )
+{
+    return guy.items_with( []( const item & it ) {
+        return it.typeId() == itype_arm_splint;
+    } );
+}
+
+TEST_CASE( "npc_keeps_the_obsolete_splint_it_takes_off", "[npc][needs]" )
+{
+    const auto taken_off = []( const npc & n ) {
+        return !n.is_wearing( itype_arm_splint );
+    };
+    GIVEN( "follower with a pack" ) {
+        npc &guy = spawn_obsolete_splint_follower( true );
+        REQUIRE( splints_carried( guy ).size() == 1 );
+        REQUIRE( splints_on_tile( guy ).empty() );
+        WHEN( "turns pass" ) {
+            run_npc_turns( guy, 60, taken_off );
+            THEN( "NPC carries and owns exactly one splint" ) {
+                REQUIRE_FALSE( guy.is_wearing( itype_arm_splint ) );
+                const std::vector<const item *> carried = splints_carried( guy );
+                REQUIRE( carried.size() == 1 );
+                CHECK( carried.front()->is_owned_by( guy ) );
+                CHECK( splints_on_tile( guy ).empty() );
+            }
+        }
+    }
+    GIVEN( "follower with no pack and empty hands" ) {
+        npc &guy = spawn_obsolete_splint_follower( false );
+        REQUIRE_FALSE( guy.is_armed() );
+        REQUIRE( splints_carried( guy ).size() == 1 );
+        REQUIRE( splints_on_tile( guy ).empty() );
+        WHEN( "turns pass" ) {
+            run_npc_turns( guy, 60, taken_off );
+            THEN( "exactly one splint lies on the NPC's tile, owned by the NPC" ) {
+                REQUIRE_FALSE( guy.is_wearing( itype_arm_splint ) );
+                CHECK( splints_carried( guy ).empty() );
+                const std::vector<const item *> dropped = splints_on_tile( guy );
+                REQUIRE( dropped.size() == 1 );
+                CHECK( dropped.front()->is_owned_by( guy ) );
+            }
+        }
     }
 }
 
