@@ -37,7 +37,9 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -862,6 +864,90 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
     test_chances_for( pumpkin_muffins, 92.5, 82.f, 67.f, 50.f, 43.f, 21.f, 2.25 );
     test_chances_for( bp_40fmj, 94.5, 79.f, 62.f, 50.f, 36.f, 21.f, 2.25 );
     test_chances_for( armor_qt_lightplate, 98.f, 92.5, 89.f, 50.f, 81.f, 21.f, 2.25 );
+}
+
+static std::vector<item> stepless_cudgel_tools()
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    return tools;
+}
+
+static npc &spawn_crafting_helper( const recipe &making, bool qualified )
+{
+    avatar &u = get_avatar();
+    npc &helper = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    talk_function::follow( helper );
+    if( qualified ) {
+        grant_skills_to_character( helper, making, 0 );
+        grant_profs_to_character( helper, making );
+    } else {
+        helper.set_skill_level( making.skill_used, 0 );
+        helper.set_knowledge_level( making.skill_used, 0 );
+    }
+    return helper;
+}
+
+static int helper_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "helps with crafting" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "crafting_helper_message_once_per_craft", "[crafting]" )
+{
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true );
+    avatar &u = get_avatar();
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const bool qualified = GENERATE( true, false );
+    CAPTURE( qualified );
+    npc &helper = spawn_crafting_helper( making, qualified );
+    const std::vector<Character *> helpers = u.get_crafting_helpers();
+    REQUIRE( std::find( helpers.begin(), helpers.end(), &helper ) != helpers.end() );
+
+    // log cleared on each leaf section start: act and count in the same section
+    SECTION( "crafting menu recalculates chances repeatedly" ) {
+        for( int redraw = 0; redraw < 5; ++redraw ) {
+            u.recipe_success_chance( making );
+            u.item_destruction_chance( making );
+        }
+        CHECK( helper_messages() == 0 );
+    }
+    SECTION( "craft starts" ) {
+        setup_test_craft( recipe_cudgel_test_charged_fast_stepless );
+        CHECK( helper_messages() == ( qualified ? 1 : 0 ) );
+    }
+}
+
+TEST_CASE( "crafting_helper_changes_chance_only_when_qualified", "[crafting]" )
+{
+    // one level under the recipe, no crafting debug trait, so chance isn't already certain
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true, -1 );
+    avatar &u = get_avatar();
+    u.toggle_trait( trait_DEBUG_CNF );
+    REQUIRE_FALSE( u.has_trait( trait_DEBUG_CNF ) );
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const float alone = u.recipe_success_chance( making );
+    const float ruin_alone = u.item_destruction_chance( making );
+    CAPTURE( alone, ruin_alone );
+    REQUIRE( alone < 1.0f );
+
+    SECTION( "qualified helper raises the chance" ) {
+        spawn_crafting_helper( making, true );
+        CHECK( u.recipe_success_chance( making ) > alone );
+        CHECK( u.item_destruction_chance( making ) <= ruin_alone );
+    }
+    SECTION( "unqualified helper changes nothing" ) {
+        spawn_crafting_helper( making, false );
+        CHECK( u.recipe_success_chance( making ) == alone );
+        CHECK( u.item_destruction_chance( making ) == ruin_alone );
+    }
 }
 
 TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
