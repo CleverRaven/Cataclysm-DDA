@@ -16,6 +16,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "behavior.h"
 #include "bodypart.h"
@@ -1802,6 +1803,7 @@ TEST_CASE( "npc_consume_food_at_helper", "[npc][needs]" )
 TEST_CASE( "npc_wear_item_at_helper", "[npc][needs]" )
 {
     clear_map_without_vision();
+    clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
@@ -1820,6 +1822,40 @@ TEST_CASE( "npc_wear_item_at_helper", "[npc][needs]" )
     SECTION( "null item_location returns false" ) {
         item_location empty;
         CHECK_FALSE( guy.wear_item_at( empty ) );
+    }
+
+    SECTION( "wears a sweater owned by another faction despite stored \"never\"" ) {
+        faction &owner = *g->faction_manager_ptr->get( faction_robofac );
+        restore_on_out_of_scope<std::optional<bool>> restore_owner( owner.steal_persist );
+        // stored "never" refuses the player; the NPC must not be refused
+        owner.steal_persist = false;
+        item sweater( itype_sweater );
+        sweater.set_owner( faction_robofac );
+        item &spawned = here.add_item_or_charges( adj, sweater );
+        REQUIRE_FALSE( spawned.is_owned_by( guy, true ) );
+        CHECK( avatar_action::check_stealing( guy, spawned ) );
+        item_location loc( map_cursor( adj ), &spawned );
+        REQUIRE( guy.wear_item_at( loc ) );
+        CHECK( guy.is_wearing( itype_sweater ) );
+        CHECK( here.i_at( adj ).empty() );
+        CHECK( owner.steal_persist == std::optional<bool>( false ) );
+    }
+
+    SECTION( "player refused a sweater owned by another faction" ) {
+        avatar &u = get_avatar();
+        u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        faction &owner = *g->faction_manager_ptr->get( faction_robofac );
+        restore_on_out_of_scope<std::optional<bool>> restore_owner( owner.steal_persist );
+        owner.steal_persist = false;
+        const tripoint_bub_ms spot = u.pos_bub() + tripoint::north;
+        item sweater( itype_sweater );
+        sweater.set_owner( faction_robofac );
+        item &spawned = here.add_item_or_charges( spot, sweater );
+        REQUIRE_FALSE( spawned.is_owned_by( u, true ) );
+        CHECK_FALSE( u.wear( item_location( map_cursor( spot ), &spawned ), false ).has_value() );
+        CHECK_FALSE( u.is_wearing( itype_sweater ) );
+        CHECK_FALSE( here.i_at( spot ).empty() );
+        CHECK_FALSE( avatar_action::check_stealing( u, spawned ) );
     }
 }
 
