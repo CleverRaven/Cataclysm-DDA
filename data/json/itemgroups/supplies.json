@@ -427,7 +427,6 @@
   {
     "id": "thread_used",
     "type": "item_group",
-    "container-item": "box_tiny",
     "items": [
       { "collection": [ { "group": "thread_spool", "count": [ 2, 7 ] }, { "group": "thread_spool_part" } ] },
       {
