@@ -2379,6 +2379,7 @@
         "moves": 150,
         "watertight": true,
         "transparent": true,
+        "open_container": true,
         "ripoff": 3,
         "activity_noise": { "volume": 4, "chance": 10 }
       }
