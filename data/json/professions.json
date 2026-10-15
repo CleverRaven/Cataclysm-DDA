@@ -8791,6 +8791,7 @@
     "name": "Demolitionist",
     "description": "While \"demolitionist\" describes you about as well as \"assassin\" describes a mass murderer, you spent most of your time smashing walls and furniture instead of people.  Your newly returned moral compass is thankful for it.",
     "skills": [ { "level": 3, "name": "bashing" }, { "level": 2, "name": "melee" } ],
+    "//": "Less trauma, it doesn't destroy your psyche to bash a wall in.",
     "starting_trauma": 100,
     "extend": { "items": { "both": { "entries": [ { "item": "hammer_sledge" } ] } } }
   }
