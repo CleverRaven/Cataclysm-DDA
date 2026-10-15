@@ -1894,7 +1894,8 @@ class Character : public Creature, public visitable
         std::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+        /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
+        * The result can be end() of the worn list; do not dereference it.
         * @param item_wear item_location of item to be worn.
         * @param interactive Alert player and drain moves if true.
         */
@@ -2119,6 +2120,8 @@ class Character : public Creature, public visitable
         int item_wear_cost( const item &it ) const;
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * The end() of the worn list means worn but unsorted, or worn and then removed by an
+         * event handler; do not dereference it.
          * If interactive is false, don't alert the player or drain moves on completion.
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
