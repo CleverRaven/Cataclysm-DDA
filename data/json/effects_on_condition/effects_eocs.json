@@ -168,7 +168,7 @@
     "condition": { "or": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
     "effect": [
       {
-        "u_add_effect": "fungus_infection",
+        "u_add_effect": "fungus",
         "intensity": { "math": [ "u_effect_intensity('fungus') + 1" ] },
         "duration": "PERMANENT"
       }
