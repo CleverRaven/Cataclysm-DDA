@@ -5967,7 +5967,7 @@ int item::get_display_progress_percent() const
     const time_point pstart = get_passive_started_at();
     const time_point saved_ready = get_saved_ready_at();
     const time_point ready = saved_ready != calendar::before_time_starts
-        ? saved_ready : get_ready_at();
+                             ? saved_ready : get_ready_at();
     const int start_counter = get_passive_start_counter();
     const int end_counter = get_passive_end_counter();
     if( pstart != calendar::before_time_starts && ready > pstart && end_counter > start_counter ) {
@@ -5975,7 +5975,7 @@ int item::get_display_progress_percent() const
         // keep ticking up.
         const time_point pause_start = get_pause_started_at();
         const time_point eff_now = pause_start != calendar::before_time_starts
-            ? pause_start : calendar::turn;
+                                   ? pause_start : calendar::turn;
         const time_duration step_dur = ready - pstart;
         time_duration elapsed = eff_now - pstart;
         if( elapsed < 0_seconds ) {
@@ -5985,10 +5985,10 @@ int item::get_display_progress_percent() const
             elapsed = step_dur;
         }
         const int64_t step_dur_moves = std::max( static_cast<int64_t>( 1 ),
-            to_moves<int64_t>( step_dur ) );
+                                       to_moves<int64_t>( step_dur ) );
         const double fraction = static_cast<double>( to_moves<int64_t>( elapsed ) ) / step_dur_moves;
         const int projected = static_cast<int>( std::round( start_counter +
-            fraction * ( end_counter - start_counter ) ) );
+                                                fraction * ( end_counter - start_counter ) ) );
         effective_counter = std::max( effective_counter, projected );
     }
     return effective_counter / 100000;
