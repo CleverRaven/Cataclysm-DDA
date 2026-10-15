@@ -24,7 +24,7 @@
       {
         "id": "stretch_attack",
         "accuracy": 6,
-        "cooldown": 1,
+        "cooldown": 2,
         "range": 2,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 20 }, { "damage_type": "bash", "amount": 4 } ],
         "hit_dmg_u": "%1$s thrusts a spear at your %2$s, slashing it!",
