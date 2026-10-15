@@ -1,5 +1,6 @@
 #include "fault.h"
 
+#include <memory>
 #include <utility>
 #include <vector>
 

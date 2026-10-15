@@ -3,7 +3,6 @@
 #define CATA_SRC_FAULT_H
 
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <string_view>
@@ -13,10 +12,10 @@
 
 #include "calendar.h"
 #include "math_parser_diag_value.h"
-#include "memory_fast.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "weighted_list.h"
 
 class JsonObject;
