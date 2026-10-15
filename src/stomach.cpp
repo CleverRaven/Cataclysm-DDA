@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -370,18 +371,33 @@ units::volume stomach_contents::stomach_remaining( const Character &owner ) cons
     return capacity( owner ) - contents - water;
 }
 
+// compare held / cap with num / den, not the truncating volume quotient
+static bool fills_at_least( const units::volume &held, const units::volume &cap, int num, int den )
+{
+    return static_cast<int64_t>( units::to_milliliter( held ) ) * den >=
+           static_cast<int64_t>( units::to_milliliter( cap ) ) * num;
+}
+
+static bool fills_more_than( const units::volume &held, const units::volume &cap, int num, int den )
+{
+    return static_cast<int64_t>( units::to_milliliter( held ) ) * den >
+           static_cast<int64_t>( units::to_milliliter( cap ) ) * num;
+}
+
 bool stomach_contents::would_be_engorged_with( const Character &owner, units::volume intake,
         bool calorie_deficit ) const
 {
-    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
-    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
+    const units::volume held = contains() + intake;
+    const units::volume cap = capacity( owner );
+    return calorie_deficit ? fills_at_least( held, cap, 1, 1 ) : fills_at_least( held, cap, 5, 6 );
 }
 
 bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
         bool calorie_deficit ) const
 {
-    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
-    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
+    const units::volume held = contains() + intake;
+    const units::volume cap = capacity( owner );
+    return calorie_deficit ? fills_more_than( held, cap, 3, 4 ) : fills_more_than( held, cap, 11, 20 );
 }
 
 units::volume stomach_contents::contains() const

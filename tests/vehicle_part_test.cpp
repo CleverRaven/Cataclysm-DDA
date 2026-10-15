@@ -31,6 +31,8 @@
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "stomach.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -506,29 +508,42 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     REQUIRE( faucet.has_value() );
     here.board_vehicle( faucet->pos_bub( here ) + tripoint::east, &character );
     veh_menu menu( veh, "TEST" );
-    for( int i = 0; i < water_charges; i++ ) {
-        CAPTURE( i, veh.fuel_left( here, itype_water_clean ) );
+    int drinks = 0;
+    bool drank_last = false;
+    bool saw_full = false;
+    while( veh.fuel_left( here, itype_water_clean ) > 0 ) {
+        CAPTURE( drinks, veh.fuel_left( here, itype_water_clean ), character.stomach.contains(),
+                 character.stomach.capacity( character ), character.has_calorie_deficit() );
+        REQUIRE( veh.fuel_left( here, itype_water_clean ) == ( water_charges - drinks ) );
         menu.reset();
         veh.build_interact_menu( menu, &here, faucet->pos_bub( here ), false );
         const std::vector<veh_menu_item> items = menu.get_items();
-        const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),
         []( const veh_menu_item & it ) {
             return it._text == "Have a drink";
         } );
-        REQUIRE( veh.fuel_left( here, itype_water_clean ) == ( water_charges - i ) );
         REQUIRE( drink_item_it != items.end() );
-        REQUIRE( drink_item_it->_enabled == !stomach_should_be_full ); // stomach should be full
-        REQUIRE( character.get_morale_level() == ( i != 0 ? 1 : 0 ) ); // bonus morale from cold water
-        if( stomach_should_be_full ) {
-            clear_avatar(); // clear stomach
+        REQUIRE( character.get_morale_level() == ( drank_last ? 1 : 0 ) ); // bonus morale from cold water
+        const ret_val<edible_rating> rating = character.will_eat( tank_it->only_item() );
+        REQUIRE( drink_item_it->_enabled == rating.success() );
+        if( !rating.success() ) {
+            // only a full stomach stops the faucet, and a fresh one never is
+            REQUIRE( rating.value() == edible_rating::TOO_FULL );
+            REQUIRE( drank_last );
+            saw_full = true;
+            clear_avatar();
+            drank_last = false;
+            continue;
         }
         drink_item_it->_on_submit();
         character.clear_morale();
         process_activity( character );
         REQUIRE( character.get_morale_level() == 1 );
+        drank_last = true;
+        drinks++;
     }
-    REQUIRE( veh.fuel_left( here, itype_water_clean ) == 0 );
+    REQUIRE( drinks == water_charges );
+    REQUIRE( saw_full );
     REQUIRE( tank_it->empty_container() );
     here.destroy_vehicle( &veh );
 }
