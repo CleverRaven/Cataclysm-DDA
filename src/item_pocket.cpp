@@ -824,20 +824,60 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
+static bool npc_still_wants( const Character &guy, const item &food )
+{
+    if( !guy.needs_food() || !food.is_food() || !guy.will_eat( food ).success() ) {
+        return false;
+    }
+    const bool hungry = guy.get_hunger() > 0 || guy.has_calorie_deficit();
+    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
+           ( food.get_comestible()->quench > 0 && guy.get_thirst() > 0 );
+}
+
+// NPCs can't answer liquid prompt; leftovers stay in the pocket
+static void npc_handle_liquid( Character &guy, item &liquid, const item *avoid )
+{
+    std::vector<item_location> carried;
+    guy.visit_carried( [&carried]( const item_location & loc ) {
+        carried.push_back( loc );
+        return VisitResponse::NEXT;
+    } );
+    for( item_location &container : carried ) {
+        if( liquid.charges <= 0 ) {
+            return;
+        }
+        if( container.get_item() == avoid || container.get_item() == &liquid ||
+            !container->is_watertight_container() || container->has_item( liquid ) ||
+            container->get_remaining_capacity_for_liquid( liquid, guy ) <= 0 ) {
+            continue;
+        }
+        if( guy.pour_into( container, liquid, true, true ) ) {
+            container.make_active();
+            guy.mod_moves( -100 );
+        }
+    }
+    while( liquid.charges > 0 && npc_still_wants( guy, liquid ) ) {
+        const time_duration consume_time = guy.get_consume_time( liquid );
+        if( guy.consume( liquid ) == trinary::NONE ) {
+            return;
+        }
+        guy.mod_moves( -to_moves<int>( consume_time ) );
+    }
+}
+
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
-    if( guy.is_npc() ) {
-        spill_contents( guy.pos_bub() );
-        return;
-    }
-
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            liquid_dest_opt liquid_target;
-            while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
-                // Reset so the next iteration re-prompts for a target,
-                // matching consume_liquid (handle_liquid.cpp).
-                liquid_target.dest_opt = LD_NULL;
+            if( guy.is_npc() ) {
+                npc_handle_liquid( guy, *iter, avoid );
+            } else {
+                liquid_dest_opt liquid_target;
+                while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
+                    // Reset so the next iteration re-prompts for a target,
+                    // matching consume_liquid (handle_liquid.cpp).
+                    liquid_target.dest_opt = LD_NULL;
+                }
             }
             if( iter->charges == 0 ) {
                 iter = contents.erase( iter );
@@ -1924,6 +1964,10 @@ void item_pocket::on_pickup( Character &guy, item *avoid )
     if( will_spill() ) {
         while( !empty() ) {
             handle_liquid_or_spill( guy, avoid );
+            // can't put down carried container, so spill what's left
+            if( guy.is_npc() && !empty() ) {
+                spill_contents( guy.pos_bub() );
+            }
         }
         restack();
     }
