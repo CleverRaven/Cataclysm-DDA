@@ -4513,6 +4513,10 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 bool npc::can_take_that( const item &it )
 {
+    // open container would spill once carried
+    if( it.is_bucket_nonempty() ) {
+        return false;
+    }
     bool good = false;
 
     auto weight_allowed = weight_capacity() - weight_carried();
