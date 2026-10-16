@@ -1,9 +1,13 @@
 #include <algorithm>
+#include <cstddef>
+#include <filesystem>
 #include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -11,30 +15,43 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "character.h"
+#include "character_id.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "faction.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_components.h"
+#include "item_location.h"
 #include "itype.h"
+#include "json.h"
+#include "json_loader.h"
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
+#include "map_helpers_tests.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc.h"
+#include "npc_turn_helpers.h"
+#include "npctalk.h"
 #include "options_helpers.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "stomach.h"
@@ -45,6 +62,9 @@ static const efftype_id effect_nausea( "nausea" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const furn_str_id furn_f_workbench( "f_workbench" );
+
+static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_metal_tank( "metal_tank" );
 static const itype_id itype_pipe( "pipe" );
@@ -52,11 +72,13 @@ static const itype_id itype_test_100_kcal( "test_100_kcal" );
 static const itype_id itype_test_200_kcal( "test_200_kcal" );
 static const itype_id itype_test_500_kcal( "test_500_kcal" );
 
+static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_fbmh_2_room_1_1( "fbmh_2_room_1_1" );
 static const recipe_id recipe_test_base_stove_1( "test_base_stove_1" );
 
 static const skill_id skill_menial( "menial" );
 
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
@@ -462,6 +484,163 @@ TEST_CASE( "camp_meals_give_the_calories_they_take", "[camp]" )
         }
     }
     overmap_buffer.clear_camps( camp_omt.xy() );
+}
+
+TEST_CASE( "camp_mission_puts_the_workers_craft_aside", "[camp][npc]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    get_player_character().camps.clear();
+    tripoint_abs_omt camp_omt;
+    basecamp &camp = place_test_camp( "faction_base_bare_bones_NPC_camp_0", camp_omt );
+    faction &fac = *get_player_character().get_faction();
+    on_out_of_scope remove_camp( [&camp_omt, &fac]() {
+        overmap_buffer.clear_camps( camp_omt.xy() );
+        fac.empty_food_supply();
+    } );
+    map &here = get_map();
+    // light to craft by
+    set_time( calendar::turn_zero + 12_hours );
+    npc &guy = spawn_npc( get_avatar().pos_bub().xy() + point::east, "test_talker" );
+    clear_character( guy, true );
+    // a failed roll destroys the plank the task needs
+    guy.set_mutation( trait_DEBUG_CNF );
+    talk_function::follow( guy );
+    guy.learn_recipe( &recipe_cudgel_slow.obj() );
+    guy.i_add( item( itype_2x4 ) );
+    stock_larder( fac, 10000 );
+    const npc_ptr comp = overmap_buffer.find_npc( guy.getID() );
+    REQUIRE( comp );
+
+    activity_id task;
+    size_t backlog_size = 0;
+    int progress = 0;
+    const auto craft_until_progress = [&]() {
+        guy.make_craft( recipe_cudgel_slow, 1 );
+        REQUIRE( guy.has_player_activity() );
+        run_npc_turns( guy, 100, [&guy]( const npc & ) {
+            return guy.get_item_to_craft() && guy.get_item_to_craft()->item_counter > 0;
+        } );
+        task = guy.activity.id();
+        backlog_size = guy.backlog.size();
+        REQUIRE( guy.get_item_to_craft() );
+        progress = guy.get_item_to_craft()->item_counter;
+        CAPTURE( task, backlog_size, progress );
+        REQUIRE( progress > 0 );
+    };
+    // multi-activity routes to the tile next to a workbench two tiles away
+    const auto start_walking_to_workbench = [&]() {
+        here.furn_set( guy.pos_bub() + point::east * 2, furn_f_workbench );
+        guy.make_craft( recipe_cudgel_slow, 1 );
+        REQUIRE( guy.get_item_to_craft() );
+        REQUIRE( guy.get_item_to_craft().where() == item_location::type::character );
+        guy.set_moves( 100 );
+        guy.move();
+        // zone routing leaves only the task the NPC walks to
+        REQUIRE( guy.has_destination() );
+        REQUIRE_FALSE( guy.activity );
+        REQUIRE_FALSE( guy.get_destination_activity().is_null() );
+        task = guy.get_destination_activity().id();
+        backlog_size = guy.backlog.size();
+        progress = guy.get_item_to_craft()->item_counter;
+    };
+    const auto go_on_mission = [&]() {
+        const mission_id menial{ Camp_Menial, "", {}, base_camps::base_dir };
+        REQUIRE( camp.start_mission( menial, 5_hours, false, "", false, {}, std::map<skill_id, int>(),
+                                     NO_EXERCISE, 0_hours, comp ) );
+        REQUIRE_FALSE( comp->is_active() );
+        calendar::turn += 5_hours;
+    };
+    const auto back_at_the_craft = [&]( npc & worker ) {
+        REQUIRE( worker.is_active() );
+        CHECK( worker.has_player_activity() );
+        CHECK( worker.activity.id() == task );
+        CHECK( worker.backlog.size() == backlog_size );
+        // mission hours become neither moves nor progress
+        CHECK( worker.get_moves() < to_moves<int>( 1_minutes ) );
+        REQUIRE( worker.get_item_to_craft() );
+        CHECK( worker.get_item_to_craft()->item_counter == progress );
+        run_npc_turns( worker, 10, [&worker, &progress]( const npc & ) {
+            return worker.get_item_to_craft() && worker.get_item_to_craft()->item_counter > progress;
+        } );
+        REQUIRE( worker.get_item_to_craft() );
+        CHECK( worker.get_item_to_craft()->item_counter > progress );
+        CHECK( worker.get_item_to_craft()->item_counter < progress + 1000 );
+    };
+    // as the overmap loads an NPC: a new object from the save
+    const auto saved_and_loaded = [&]() {
+        std::ostringstream os;
+        JsonOut jsout( os );
+        comp->serialize( jsout );
+        shared_ptr_fast<npc> loaded = make_shared_fast<npc>();
+        loaded->deserialize( json_loader::from_string( os.str() ).get_object() );
+        loaded->set_fac( loaded->get_fac_id() );
+        REQUIRE( loaded->getID() == comp->getID() );
+        overmap_buffer.remove_npc( comp->getID() );
+        overmap_buffer.insert_npc( loaded );
+        return loaded;
+    };
+
+    GIVEN( "worker crafts what it carries" ) {
+        craft_until_progress();
+        REQUIRE( guy.get_item_to_craft().where() == item_location::type::character );
+        go_on_mission();
+        WHEN( "worker comes back" ) {
+            camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it goes on with its craft as it left it" ) {
+                back_at_the_craft( *comp );
+            }
+        }
+        WHEN( "mission cancelled" ) {
+            camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0, true );
+            THEN( "it goes on with its craft as it left it" ) {
+                back_at_the_craft( *comp );
+            }
+        }
+        WHEN( "worker is saved and loaded during the mission" ) {
+            const shared_ptr_fast<npc> loaded = saved_and_loaded();
+            camp.finish_return( *loaded, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it goes on with its craft as it left it" ) {
+                back_at_the_craft( *loaded );
+            }
+        }
+        WHEN( "worker is exported during the mission and imported elsewhere" ) {
+            const cata_path file = PATH_INFO::config_dir_path() / "exported_camp_worker.json";
+            comp->export_to( file );
+            on_out_of_scope remove_file( [&file]() {
+                std::filesystem::remove( file.get_unrelative_path() );
+            } );
+            npc imported;
+            imported.import_and_clean( file );
+            THEN( "imported NPC has no task waiting for it" ) {
+                std::ostringstream os;
+                JsonOut jsout( os );
+                imported.serialize( jsout );
+                CHECK( os.str().find( "task_on_mission" ) == std::string::npos );
+            }
+        }
+    }
+    GIVEN( "worker crafts on a workbench next to it" ) {
+        here.furn_set( guy.pos_bub() + point::east, furn_f_workbench );
+        craft_until_progress();
+        REQUIRE( guy.get_item_to_craft().where() == item_location::type::map );
+        go_on_mission();
+        WHEN( "worker is saved and loaded during the mission" ) {
+            const shared_ptr_fast<npc> loaded = saved_and_loaded();
+            camp.finish_return( *loaded, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it goes on with its craft as it left it" ) {
+                back_at_the_craft( *loaded );
+            }
+        }
+    }
+    GIVEN( "worker on the way to workbench" ) {
+        start_walking_to_workbench();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "it starts its craft without the mission's hours" ) {
+            back_at_the_craft( *comp );
+        }
+    }
 }
 
 static std::vector<mission_entry> offered_upgrades( const mission_data &missions )

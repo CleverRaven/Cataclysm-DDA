@@ -37,6 +37,7 @@
 #include "npc_sleep.h"
 #include "npc_trip.h"
 #include "pimpl.h"
+#include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
 #include "sounds.h"
@@ -850,6 +851,14 @@ enum talk_topic_enum {
 
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
 std::string convert_talk_topic( talk_topic_enum old_value );
+
+struct npc_suspended_task {
+    player_activity task;
+    std::list<player_activity> backlog;
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &data );
+};
 
 class npc_template;
 
@@ -1786,6 +1795,7 @@ class npc : public Character
         bool sees_dangerous_field( const tripoint_bub_ms &p ) const;
         bool could_move_onto( const tripoint_bub_ms &p ) const;
 
+        void put_task_aside_for_mission();
         void adopt_goal( const std::string &goal );
         // judges a running harvest or forage like a walk: ends it or announces an override
         void review_self_care_activity();
@@ -1813,6 +1823,8 @@ class npc : public Character
         npc_sleep_session sleep_session;
 
         npc_companion_mission comp_mission;
+        // player's task, kept unworked while NPC is on a companion mission
+        std::optional<npc_suspended_task> task_on_mission;
 
         std::string unique_id;
 };
