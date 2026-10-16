@@ -173,8 +173,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_EFFECT_HAPPY",
-    "recurrence": [ { "math": [ "3600 + u_effect_intensity('fungus') * 3600" ] }, { "math": [ "7200 + u_effect_intensity('fungus') * 3600" ] } ],
-	"//": "You feel happier more frequently at lower levels of infection, less frequently at higher levels.",
+    "recurrence": [
+      { "math": [ "3600 + u_effect_intensity('fungus') * 3600" ] },
+      { "math": [ "7200 + u_effect_intensity('fungus') * 3600" ] }
+    ],
+    "//": "You feel happier more frequently at lower levels of infection, less frequently at higher levels.",
     "condition": { "math": [ "u_effect_intensity('fungus') >= 2" ] },
     "effect": [
       { "u_lose_morale": "morale_fungus_bad" },
@@ -192,8 +195,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_EFFECT_SAD",
-	"//": "You feel sadder less frequently at lower levels of infection, more frequently at higher levels.",
-    "recurrence": [ { "math": [ "7200 - u_effect_intensity('fungus') * 900" ] }, { "math": [ "10800 - u_effect_intensity('fungus') * 900" ] } ],
+    "//": "You feel sadder less frequently at lower levels of infection, more frequently at higher levels.",
+    "recurrence": [
+      { "math": [ "7200 - u_effect_intensity('fungus') * 900" ] },
+      { "math": [ "10800 - u_effect_intensity('fungus') * 900" ] }
+    ],
     "condition": { "math": [ "u_effect_intensity('fungus') >= 2" ] },
     "effect": [
       { "u_lose_morale": "morale_fungus_good" },
@@ -211,82 +217,93 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_MINOR_EFFECTS",
-    "recurrence": [ { "math": [ "3600 - u_effect_intensity('fungus') * 200" ] }, { "math": [ "4800 - u_effect_intensity('fungus') * 200" ] } ],
+    "recurrence": [
+      { "math": [ "3600 - u_effect_intensity('fungus') * 200" ] },
+      { "math": [ "4800 - u_effect_intensity('fungus') * 200" ] }
+    ],
     "condition": { "math": [ "u_effect_intensity('fungus') >= 2" ] },
     "effect": [
-	{
+      {
         "if": { "one_in_chance": 2 },
-		"then": { "u_message": "You feel nauseous.", "type": "warning" },
-		"else": { "u_message": "You smell and taste mushrooms.", "type": "warning" }
-	}
+        "then": { "u_message": "You feel nauseous.", "type": "warning" },
+        "else": { "u_message": "You smell and taste mushrooms.", "type": "warning" }
+      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_MEDIUM_EFFECTS",
-    "recurrence": [ { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] }, { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] } ],
+    "recurrence": [
+      { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] },
+      { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] }
+    ],
     "condition": { "math": [ "u_effect_intensity('fungus') >= 3" ] },
     "effect": [
-	{
+      {
         "if": { "x_in_y_chance": { "x": 7, "y": 10 } },
-		"then": [
-		{ "u_message": "You spasm suddenly!", "type": "bad" },
-        { "u_add_effect": "stunned", "duration": 1 },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "torso" }
-		],
-		"else": [
-		{ "u_message": "You vomit a thick, gray goop.", "type": "bad" },
-		"u_vomit"
-		]
-	}
-	]
+        "then": [
+          { "u_message": "You spasm suddenly!", "type": "bad" },
+          { "u_add_effect": "stunned", "duration": 1 },
+          { "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "torso" }
+        ],
+        "else": [ { "u_message": "You vomit a thick, gray goop.", "type": "bad" }, "u_vomit" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_STRONG_EFFECTS",
-    "recurrence": [ { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] }, { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] } ],
+    "recurrence": [
+      { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] },
+      { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] }
+    ],
     "condition": { "math": [ "u_effect_intensity('fungus') >= 4" ] },
     "effect": [
-		{ "u_message": "You vomit thousands of live spores!", "type": "bad" },
-		{ "run_eocs": "EOC_MARLOSS_SPORE_TILE", "time_in_future": 0 }
-	]
+      { "u_message": "You vomit thousands of live spores!", "type": "bad" },
+      { "run_eocs": "EOC_MARLOSS_SPORE_TILE", "time_in_future": 0 }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_MAX_EFFECTS",
-	"//": "Basically death.",
-    "recurrence": [ { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] }, { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] } ],
+    "//": "Basically death.",
+    "recurrence": [
+      { "math": [ "7200 - u_effect_intensity('fungus') * 200" ] },
+      { "math": [ "8400 - u_effect_intensity('fungus') * 200" ] }
+    ],
     "condition": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
     "effect": [
-	{
-        "if": { "and": [ { "x_in_y_chance": { "x": 9, "y": 10 } }, { "math": [ "u_hp('arm_l') > 1" ] }, { "math": [ "u_hp('arm_r') > 1" ] } ] },
-		"then": [
-		{ "u_message": "Your arms feel like they're going to burst!", "type": "bad" },
-        { "math": [ "u_pain('type': 'perceived') = 90" ] },
-        { "u_add_effect": "stunned", "duration": 1 },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "arm_l" },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "arm_r" }
-		],
-		"else": [
-		{
-		"if": { "and": [ { "math": [ "u_hp('arm_l') > 1" ] }, { "math": [ "u_hp('arm_r') > 1" ] } ] },
-		"then": [
-		{ "u_message": "Your hands bulge.  Fungus stalks burst through the bulge!", "type": "bad" },
-        { "math": [ "u_pain('type': 'perceived') = 90" ] },
-        { "u_add_effect": "stunned", "duration": 10 },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_l" },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_r" }
-		],
-		"else": [
-		{ "u_message": "The flesh on your broken arms bulges.  Fungus stalks burst through!", "type": "bad" },
-        { "math": [ "u_pain('type': 'perceived') = 90" ] },
-        { "u_add_effect": "stunned", "duration": 10 },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_l" },
-		{ "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_r" }
-		]
-		}
-		]
-	}
-	]
+      {
+        "if": {
+          "and": [ { "x_in_y_chance": { "x": 9, "y": 10 } }, { "math": [ "u_hp('arm_l') > 1" ] }, { "math": [ "u_hp('arm_r') > 1" ] } ]
+        },
+        "then": [
+          { "u_message": "Your arms feel like they're going to burst!", "type": "bad" },
+          { "math": [ "u_pain('type': 'perceived') = 90" ] },
+          { "u_add_effect": "stunned", "duration": 1 },
+          { "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "arm_l" },
+          { "u_deal_damage": "biological", "amount": { "math": [ "5 - rand(5)" ] }, "bodypart": "arm_r" }
+        ],
+        "else": [
+          {
+            "if": { "and": [ { "math": [ "u_hp('arm_l') > 1" ] }, { "math": [ "u_hp('arm_r') > 1" ] } ] },
+            "then": [
+              { "u_message": "Your hands bulge.  Fungus stalks burst through the bulge!", "type": "bad" },
+              { "math": [ "u_pain('type': 'perceived') = 90" ] },
+              { "u_add_effect": "stunned", "duration": 10 },
+              { "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_l" },
+              { "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_r" }
+            ],
+            "else": [
+              { "u_message": "The flesh on your broken arms bulges.  Fungus stalks burst through!", "type": "bad" },
+              { "math": [ "u_pain('type': 'perceived') = 90" ] },
+              { "u_add_effect": "stunned", "duration": 10 },
+              { "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_l" },
+              { "u_deal_damage": "biological", "amount": { "math": [ "999" ] }, "bodypart": "arm_r" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
