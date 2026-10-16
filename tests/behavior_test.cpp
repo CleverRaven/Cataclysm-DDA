@@ -1904,7 +1904,11 @@ TEST_CASE( "bt_camp_resident_goals", "[npc][behavior]" )
         CHECK( bt_goal( guy ) != "free_time" );
     }
     SECTION( "away from camp: return_to_camp" ) {
-        guy.setpos( here, tripoint_bub_ms( 50 + SEEX * 2, 50, 0 ) );
+        // middle of next overmap tile east, wherever map's origin lies
+        const tripoint_abs_ms away = project_to<coords::ms>( camp_omt + point::east ) +
+                                     point( SEEX, SEEY );
+        REQUIRE( here.inbounds( away ) );
+        guy.setpos( here, here.get_bub( away ) );
         REQUIRE( guy.pos_abs_omt() != *guy.assigned_camp );
         CHECK( bt_goal( guy ) == "return_to_camp" );
     }
