@@ -180,7 +180,8 @@ static post_duty post_duty_of( const npc &guy )
 
 bool npc::is_on_shift() const
 {
-    if( !guard_pos || !myclass.is_valid() || is_walking_with() ) {
+    // player's task comes first; post waits until it ends
+    if( !guard_pos || !myclass.is_valid() || is_walking_with() || mission == NPC_MISSION_ACTIVITY ) {
         return false;
     }
     const std::pair<int, int> &hours = myclass.obj().get_work_hours();

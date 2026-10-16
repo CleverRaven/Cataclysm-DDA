@@ -1534,6 +1534,23 @@ bool npc::may_drink_here() const
            ai_cache.dangerous_explosives.empty() && may_occupy_here();
 }
 
+void npc::revert_ended_task()
+{
+    revert_after_activity();
+    if( is_ally( get_player_character() ) && !assigned_camp && !is_guarding() ) {
+        attitude = NPCATT_FOLLOW;
+        mission = NPC_MISSION_NULL;
+    }
+}
+
+void npc::end_cancelled_task()
+{
+    if( has_activity() && !activity && !has_stashed_activity() && !has_destination() &&
+        get_destination_activity().is_null() && !task_on_mission ) {
+        revert_ended_task();
+    }
+}
+
 void npc::move()
 {
     const map &here = get_map();
@@ -2003,11 +2020,7 @@ void npc::move()
         // an interrupted activity can cause this situation. stops allied NPCs zooming off
         // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
-            revert_after_activity();
-            if( is_ally( player_character ) && !assigned_camp ) {
-                attitude = NPCATT_FOLLOW;
-                mission = NPC_MISSION_NULL;
-            }
+            revert_ended_task();
         }
         // a follower keeps its camp but does no camp work while walking with the player
         if( assigned_camp && mission != NPC_MISSION_CAMP_RESIDENT &&
