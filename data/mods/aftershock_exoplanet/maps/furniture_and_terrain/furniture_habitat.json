@@ -869,6 +869,29 @@
   },
   {
     "type": "furniture",
+    "id": "f_green_neon",
+    "name": "green neon lamp",
+    "looks_like": "f_algae_bioreactor",
+    "copy-from": "f_exodii_lamp",
+    "description": "A dense array of tubes emit a greenish glow.",
+    "symbol": "T",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": -1,
+    "light_emitted": 50,
+    "light_color": [ 228, 255, 48 ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_blue_neon",
+    "copy-from": "f_green_neon",
+    "name": "blue neon lamp",
+    "description": "A dense array of tubes emit an ethereal blue glow.",
+    "light_color": [ 80, 3, 192 ]
+  },
+  {
+    "type": "furniture",
     "id": "f_genetech_mannequin",
     "name": "Genetech display mannequin",
     "description": "A life-size painted plastic figure of a person displaying prominent genetic alterations.  Commonly used as part of Mercurial Ad campaigns intended to sell the public on Genetech treatments.",
