@@ -12,6 +12,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "behavior.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
@@ -25,12 +26,14 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_arbitration.h"
@@ -45,6 +48,7 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -63,7 +67,10 @@ static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_can_medium( "can_medium" );
 static const itype_id itype_orange( "orange" );
+static const itype_id itype_soup_chicken( "soup_chicken" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -1864,5 +1871,168 @@ TEST_CASE( "rest_review_gets_a_settler_up_and_leaves_sleepers_alone", "[npc][nee
         guy.review_rest();
         CHECK( guy.has_effect( effect_sleep ) );
         CHECK( guy.get_committed_goal() == "go_to_sleep" );
+    }
+}
+
+static int soup_in( const item &container )
+{
+    int charges = 0;
+    for( const item *it : container.items_with( []( const item & i ) {
+    return i.typeId() == itype_soup_chicken;
+    } ) ) {
+        charges += it->charges;
+    }
+    return charges;
+}
+
+static int loose_soup_near( const tripoint_bub_ms &center )
+{
+    int charges = 0;
+    for( const tripoint_bub_ms &p : get_map().points_in_radius( center, 3 ) ) {
+        for( const item &it : get_map().i_at( p ) ) {
+            if( it.typeId() == itype_soup_chicken ) {
+                charges += it.charges;
+            }
+        }
+    }
+    return charges;
+}
+
+static std::vector<const item *> cans_at( const tripoint_bub_ms &p )
+{
+    std::vector<const item *> cans;
+    for( const item &it : get_map().i_at( p ) ) {
+        if( it.typeId() == itype_can_medium ) {
+            cans.push_back( &it );
+        }
+    }
+    return cans;
+}
+
+static item_location soup_in_inventory( Character &who )
+{
+    item_location soup;
+    who.visit_carried( [&soup]( const item_location & loc ) {
+        if( loc->typeId() == itype_soup_chicken ) {
+            soup = loc;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return soup;
+}
+
+TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    REQUIRE_FALSE( guy.has_calorie_deficit() );
+    const item can = item( itype_soup_chicken, calendar::turn, 2 ).in_its_container();
+    REQUIRE( can.typeId() == itype_can_medium );
+    REQUIRE( soup_in( can ) == 2 );
+    REQUIRE_FALSE( can.will_spill() );
+    const auto pack_the_can = [&]( Character & who ) {
+        who.worn.wear_item( who, item( itype_backpack ), false, false );
+        REQUIRE( who.i_add( can ) );
+        REQUIRE( who.charges_of( itype_soup_chicken ) == 2 );
+        here.build_map_cache( 0 );
+    };
+
+    GIVEN( "hungry NPC with a sealed can and an empty bottle in the pack" ) {
+        guy.set_hunger( 200 );
+        pack_the_can( guy );
+        REQUIRE( guy.i_add( item( itype_bottle_plastic ) ) );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "rest goes into the bottle" ) {
+                const std::vector<item *> bottles = guy.items_with( []( const item & i ) {
+                    return i.typeId() == itype_bottle_plastic;
+                } );
+                REQUIRE( bottles.size() == 1 );
+                CHECK( soup_in( *bottles.front() ) == 1 );
+                CHECK( guy.charges_of( itype_soup_chicken ) == 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "hungry NPC with a sealed can in the pack" ) {
+        guy.set_hunger( 200 );
+        pack_the_can( guy );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "NPC drinks the rest too" ) {
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( guy.has_amount( itype_can_medium, 1 ) );
+                CHECK( cans_at( guy.pos_bub() ).empty() );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "a sated NPC with a sealed can in the pack" ) {
+        pack_the_can( guy );
+        const faction_id owner = guy.items_with( []( const item & i ) {
+            return i.typeId() == itype_can_medium;
+        } ).front()->get_owner();
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "open can is set down on its tile with the rest inside" ) {
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                const std::vector<const item *> cans = cans_at( guy.pos_bub() );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( cans.front()->get_owner() == owner );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "sealed can on the next tile" ) {
+        const tripoint_bub_ms spot = guy.pos_bub() + tripoint::south;
+        item &placed = here.add_item_or_charges( spot, can );
+        here.build_map_cache( 0 );
+        const item_location can_loc( map_cursor( spot ), &placed );
+        item *soup = nullptr;
+        placed.visit_items( [&soup]( item * it, item * ) {
+            if( it->typeId() == itype_soup_chicken ) {
+                soup = it;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        REQUIRE( soup != nullptr );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food_at( item_location( can_loc, soup ) ) );
+            THEN( "rest stays in the can on that tile" ) {
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "sealed can in the player's pack" ) {
+        avatar &you = get_avatar();
+        pack_the_can( you );
+        restore_on_out_of_scope restore_spill( test_mode_spilling_action );
+        WHEN( "player drinks one portion, spills the rest" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::spill_all;
+            REQUIRE( you.consume( soup_in_inventory( you ) ) == trinary::SOME );
+            THEN( "rest is on the ground" ) {
+                CHECK( you.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( loose_soup_near( you.pos_bub() ) == 1 );
+            }
+        }
+        WHEN( "player drinks one portion, keeps the rest" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::cancel_spill;
+            REQUIRE( you.consume( soup_in_inventory( you ) ) == trinary::SOME );
+            THEN( "open can set down with the rest inside" ) {
+                const std::vector<const item *> cans = cans_at( you.pos_bub() );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( loose_soup_near( you.pos_bub() ) == 0 );
+            }
+        }
     }
 }
