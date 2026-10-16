@@ -1379,6 +1379,8 @@ class npc : public Character
         bool can_empty_for_pickup( const item &it );
         /** One step of emptying wanted_item where it lies; false if no step is possible. */
         bool empty_before_pickup();
+        /** Whether a drink from a container on the ground may start or go on here. */
+        bool may_drink_here() const;
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint_bub_ms &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
