@@ -370,6 +370,11 @@ bool faction::guaranteed_hostile() const
     return likes_u < -10;
 }
 
+bool faction::wont_talk_to_you() const
+{
+    return guaranteed_hostile() || trusts_u < 0;
+}
+
 nc_color faction::food_supply_color() const
 {
     int val = food_supply().kcal() / ( size * 288 );

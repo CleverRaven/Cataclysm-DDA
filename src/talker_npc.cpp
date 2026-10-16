@@ -93,6 +93,11 @@ bool talker_npc::will_talk_to_u( const Character &you, bool force ) const
         }
         me_npc->set_known_to_u( true );
     }
+    if( me_npc->get_faction() && me_npc->get_faction()->wont_talk_to_you() ) {
+        add_msg( _( "%s wants nothing to do with you." ), me_npc->get_faction()->get_name() );
+        return false;
+    }
+
     // This is necessary so that we don't bug the player over and over
     if( me_npc->get_attitude() == NPCATT_TALK ) {
         me_npc->set_attitude( NPCATT_NULL );
