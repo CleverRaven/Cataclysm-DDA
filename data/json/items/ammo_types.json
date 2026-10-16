@@ -615,6 +615,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "chem_black_powder",
+    "name": "",
+    "default": "chem_black_powder"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gunpowder_shotgun",
     "name": "",
     "default": "gunpowder_shotgun"
