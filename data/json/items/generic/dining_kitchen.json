@@ -738,7 +738,7 @@
     "id": "tea_spoon",
     "ascii_picture": "spoon",
     "name": { "str": "tea spoon" },
-    "description": "A small spoon. Ideal to measure spices like salt.",
+    "description": "A small spoon.  Ideal to measure spices like salt.",
     "weight": "23 g",
     "volume": "5 ml",
     "longest_side": "11 cm",
