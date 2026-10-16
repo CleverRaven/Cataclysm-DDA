@@ -68,7 +68,6 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_anemia( "anemia" );
 static const efftype_id effect_antibiotic( "antibiotic" );
-static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
@@ -86,7 +85,6 @@ static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
-static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
@@ -105,7 +103,6 @@ static const efftype_id effect_redcells_anemia( "redcells_anemia" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
@@ -1149,9 +1146,6 @@ void Character::hardcoded_effects( effect &it )
     using hc_effect_fun = std::function<void( Character &, effect & )>;
     static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
             { effect_onfire, eff_fun_onfire },
-            { effect_spores, eff_fun_spores },
-            { effect_fungus, eff_fun_fungus },
-            { effect_antifungal, eff_fun_antifungal },
             { effect_rat, eff_fun_rat },
             { effect_bleed, eff_fun_bleed },
             { effect_hallu, eff_fun_hallu },
