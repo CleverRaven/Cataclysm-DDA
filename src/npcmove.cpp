@@ -4184,6 +4184,15 @@ void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
     }
 }
 
+// only followers are limited: follow goal pulls them back before they reach a far item
+static std::optional<npc_reach> pickup_reach( const npc &guy )
+{
+    if( !guy.is_player_ally() || !guy.is_walking_with() ) {
+        return std::nullopt;
+    }
+    return guy.obligation_reach();
+}
+
 void npc::find_item()
 {
     if( is_hallucination() ) {
@@ -4257,7 +4266,11 @@ void npc::find_item()
         }
     };
 
+    const std::optional<npc_reach> reach = pickup_reach( *this );
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), range ) ) {
+        if( reach && !reach->contains( here.get_abs( p ) ) ) {
+            continue;
+        }
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
@@ -4376,12 +4389,15 @@ void npc::pick_up_item()
     const std::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
+    const std::optional<npc_reach> reach = pickup_reach( *this );
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
           !here.is_harvestable( wanted_item_pos ) && sees( here, wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ||
+        ( reach && !reach->contains( here.get_abs( wanted_item_pos ) ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
+        // Or the item is outside the reach the follow goal keeps us in
         fetching_item = false;
         wanted_item = {};
         move_pause();

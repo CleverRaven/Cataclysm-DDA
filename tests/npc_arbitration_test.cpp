@@ -69,6 +69,7 @@ static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_can_medium( "can_medium" );
+static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_orange( "orange" );
 static const itype_id itype_soup_chicken( "soup_chicken" );
 
@@ -2032,6 +2033,74 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
                 REQUIRE( cans.size() == 1 );
                 CHECK( soup_in( *cans.front() ) == 1 );
                 CHECK( loose_soup_near( you.pos_bub() ) == 0 );
+            }
+        }
+    }
+}
+
+static bool knife_at( const tripoint_bub_ms &p )
+{
+    for( const item &it : get_map().i_at( p ) ) {
+        if( it.typeId() == itype_knife_combat ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+TEST_CASE( "follower_fetches_only_items_within_its_follow_reach", "[npc][behavior]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    guy.rules.set_flag( ally_rule::allow_pick_up );
+    const std::optional<npc_reach> reach = guy.obligation_reach();
+    REQUIRE( reach );
+    REQUIRE( reach->radius == 4 );
+
+    GIVEN( "knife the NPC can see, past its follow reach" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 7, 0, 0 );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        REQUIRE( rl_dist( guy.pos_bub(), spot ) <= 6 );
+        REQUIRE( guy.sees( here, spot ) );
+        WHEN( "player stands still" ) {
+            int farthest = 0;
+            bool fetched = false;
+            run_npc_turns( guy, 30, [&]( const npc & n ) {
+                farthest = std::max( farthest, dist_to_leader( n ) );
+                fetched = fetched || n.fetching_item;
+                return false;
+            } );
+            THEN( "NPC stays within reach and leaves the knife" ) {
+                CHECK( farthest <= reach->radius );
+                CHECK_FALSE( fetched );
+                CHECK( knife_at( spot ) );
+            }
+        }
+        WHEN( "knife fetch already under way" ) {
+            guy.fetching_item = true;
+            guy.wanted_item_pos = spot;
+            run_npc_turn( guy );
+            THEN( "NPC abandons the fetch" ) {
+                CHECK_FALSE( guy.fetching_item );
+                CHECK( dist_to_leader( guy ) <= reach->radius );
+            }
+        }
+    }
+    GIVEN( "knife within its follow reach" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, [&spot]( const npc & ) {
+                return !knife_at( spot );
+            } );
+            THEN( "NPC picks it up" ) {
+                CHECK_FALSE( knife_at( spot ) );
+                CHECK( guy.has_amount( itype_knife_combat, 1 ) );
             }
         }
     }
