@@ -6,13 +6,13 @@
       { "u_add_effect": "antifungal", "duration": "16 hours" },
       { "u_message": "You take an antifungal.", "type": "info" },
       {
-		"if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
-		"then": { "u_message": "It's too late.", "type": "bad", "popup": true },
-        "else": { 
-        "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
-        "then": { "run_eocs": "EOC_ANTIFUNGAL_CHANCE", "time_in_future": "20 minutes" },
-		"else": { "u_message": "" }
-		}
+        "if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
+        "then": { "u_message": "It's too late.", "type": "bad", "popup": true },
+        "else": {
+          "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
+          "then": { "run_eocs": "EOC_ANTIFUNGAL_CHANCE", "time_in_future": "20 minutes" },
+          "else": { "u_message": "" }
+        }
       }
     ]
   },
@@ -37,18 +37,11 @@
         ],
         "else": {
           "if": { "math": [ "u_effect_intensity('fungus') == 1" ] },
-          "then": [
-            { "u_lose_effect": "fungus" },
-            { "u_message": "The fungal infection is wiped from your body.", "type": "good" }
-          ],
+          "then": [ { "u_lose_effect": "fungus" }, { "u_message": "The fungal infection is wiped from your body.", "type": "good" } ],
           "else": {
             "if": { "math": [ "u_effect_intensity('fungus') < 2" ] },
             "then": [
-              {
-                "u_add_effect": "fungus",
-                "intensity": { "math": [ "u_effect_intensity('fungus') == 1" ] },
-                "duration": "PERMANENT"
-              },
+              { "u_add_effect": "fungus", "intensity": { "math": [ "u_effect_intensity('fungus') == 1" ] }, "duration": "PERMANENT" },
               { "u_message": "The fungal infection is slightly quelled.", "type": "good" }
             ]
           }
@@ -64,13 +57,13 @@
       { "u_add_effect": "antifungal", "duration": "16 hours" },
       { "u_message": "You take a strong antifungal.", "type": "info" },
       {
-		"if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
-		"then": { "u_message": "It's too late.", "type": "bad", "popup": true },
-		"else": {
-        "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
-        "then": { "run_eocs": "EOC_ANTIFUNGAL_CHANCE_STRONG", "time_in_future": "20 minutes" },
-        "else": { "u_message": "" }
-		}
+        "if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
+        "then": { "u_message": "It's too late.", "type": "bad", "popup": true },
+        "else": {
+          "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
+          "then": { "run_eocs": "EOC_ANTIFUNGAL_CHANCE_STRONG", "time_in_future": "20 minutes" },
+          "else": { "u_message": "" }
+        }
       }
     ]
   },
@@ -86,11 +79,7 @@
           ]
         },
         "then": [
-          {
-            "u_add_effect": "fungus",
-            "intensity": { "math": [ "u_effect_intensity('fungus') - 2" ] },
-            "duration": "PERMANENT"
-          },
+          { "u_add_effect": "fungus", "intensity": { "math": [ "u_effect_intensity('fungus') - 2" ] }, "duration": "PERMANENT" },
           { "u_message": "The fungal infection is heavily quelled.", "type": "good" }
         ],
         "else": [ { "u_lose_effect": "fungus" }, { "u_message": "The fungal infection is wiped from your body." } ]
