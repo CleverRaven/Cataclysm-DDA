@@ -147,6 +147,8 @@ struct npc_challenger {
 // need urgency above which a need preempts another whatever the margin; also thirst's
 // emergency level
 constexpr float need_critical_urgency = 0.75f;
+// how far an NPC that's resting or drinking notices trouble walking up
+constexpr int rest_watch_radius = 6;
 
 bool should_interrupt( const npc_pursuit &current, const npc_challenger &challenger );
 

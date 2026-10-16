@@ -43,8 +43,6 @@ namespace
 // a guard can walk this far from the post for something quick
 constexpr int post_reach = 4;
 constexpr float preempt_margin = 0.15f;
-// how far someone lying down notices trouble walking up
-constexpr int rest_watch_radius = 6;
 // failed sleep search holds sleep back this long unless what it was judged on changes
 constexpr time_duration rest_cooldown_duration = 1_minutes;
 // NPC may drift this far from where search failed without ending cooldown

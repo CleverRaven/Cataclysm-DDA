@@ -1942,6 +1942,10 @@ class consume_activity_actor : public activity_actor
         explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
             consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
+        const item_location &location() const {
+            return consume_location;
+        }
+
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
             return ACT_CONSUME;

@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "active_item_cache.h"
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -37,6 +38,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_oracle.h"
+#include "clone_ptr.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
@@ -124,6 +126,7 @@
 enum class side : int;
 
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -1523,6 +1526,14 @@ void npc::regen_ai_cache()
     }
 }
 
+// NPC drinks from a container on the ground only while this holds
+bool npc::may_drink_here() const
+{
+    return get_ai_danger() <= NPC_DANGER_VERY_LOW && !sees_hostile_within( rest_watch_radius ) &&
+           !sees_dangerous_field( pos_bub() ) && !has_effect( effect_npc_fire_bad ) &&
+           ai_cache.dangerous_explosives.empty() && may_occupy_here();
+}
+
 void npc::move()
 {
     const map &here = get_map();
@@ -1556,6 +1567,24 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
+    // drink from container on ground stops once unsafe or out of reach
+    if( activity.id() == ACT_CONSUME ) {
+        const consume_activity_actor *drink =
+            dynamic_cast<const consume_activity_actor *>( activity.actor.get() );
+        const bool in_reach = drink == nullptr || !drink->location() ||
+                              rl_dist( pos_abs(), drink->location().pos_abs() ) <= 1;
+        if( in_reach && may_drink_here() ) {
+            execute_action( npc_player_activity );
+            return;
+        }
+        cancel_activity();
+        // NPC decides again; the dropped drink is not resumed from the backlog
+        if( !backlog.empty() && backlog.front().id() == ACT_CONSUME ) {
+            backlog.pop_front();
+        }
+        fetching_item = false;
+        wanted_item = {};
+    }
     if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
         review_self_care_activity();
     }
@@ -4536,7 +4565,7 @@ bool npc::can_empty_for_pickup( const item &it )
     }
     const item *liquid = liquid_to_empty( it );
     return liquid != nullptr && ( carried_container_for( *liquid ) ||
-                                  wants_to_consume_now( *liquid ) );
+                                  ( wants_to_consume_now( *liquid ) && may_drink_here() ) );
 }
 
 bool npc::empty_before_pickup()
@@ -4557,6 +4586,15 @@ bool npc::empty_before_pickup()
         }
         wanted_item->on_contents_changed();
         return true;
+    }
+    if( wants_to_consume_now( *liquid ) && may_drink_here() ) {
+        const npc_attitude saved_att = attitude;
+        const npc_mission saved_mis = mission;
+        assign_activity( consume_activity_actor( liquid_loc ) );
+        // self-initiated drink, not a task: keep attitude and mission, as address_needs does
+        attitude = saved_att;
+        mission = saved_mis;
+        return activity.id() == ACT_CONSUME;
     }
     return false;
 }
