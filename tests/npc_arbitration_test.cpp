@@ -27,6 +27,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
@@ -2083,6 +2084,27 @@ static bool knife_at( const tripoint_bub_ms &p )
     return false;
 }
 
+static item &open_can_at( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    item &placed = here.add_item_or_charges( p,
+                   item( itype_soup_chicken, calendar::turn, 2 ).in_its_container() );
+    for( item_pocket *pocket : placed.get_container_pockets() ) {
+        pocket->unseal();
+    }
+    here.build_map_cache( 0 );
+    REQUIRE( placed.typeId() == itype_can_medium );
+    REQUIRE( placed.is_bucket_nonempty() );
+    return placed;
+}
+
+// calories in the guts and spare water keep hunger and thirst from coming back during the test
+static void keep_sated( npc &guy )
+{
+    guy.guts.mod_calories( 1000 );
+    guy.set_thirst( -40 );
+}
+
 TEST_CASE( "follower_fetches_only_items_within_its_follow_reach", "[npc][behavior]" )
 {
     drink_setup();
@@ -2136,6 +2158,46 @@ TEST_CASE( "follower_fetches_only_items_within_its_follow_reach", "[npc][behavio
             THEN( "NPC picks it up" ) {
                 CHECK_FALSE( knife_at( spot ) );
                 CHECK( guy.has_amount( itype_knife_combat, 1 ) );
+            }
+        }
+    }
+    GIVEN( "open can of soup within its reach, and no use for the soup" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        const item &can = open_can_at( spot );
+        REQUIRE( guy.wants_take_that( can ) );
+        keep_sated( guy );
+        WHEN( "player stands still" ) {
+            bool fetched = false;
+            run_npc_turns( guy, 30, [&fetched]( const npc & n ) {
+                fetched = fetched || n.fetching_item;
+                return false;
+            } );
+            THEN( "can stays where it is with soup inside" ) {
+                CHECK_FALSE( fetched );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 2 );
+                CHECK_FALSE( guy.has_amount( itype_can_medium, 1 ) );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "knife and an open can of soup on the same tile" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        open_can_at( spot );
+        keep_sated( guy );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, [&spot]( const npc & ) {
+                return !knife_at( spot );
+            } );
+            THEN( "NPC takes the knife and leaves the can" ) {
+                CHECK( guy.has_amount( itype_knife_combat, 1 ) );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 2 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
             }
         }
     }
