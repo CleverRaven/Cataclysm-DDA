@@ -85,6 +85,7 @@ static const efftype_id effect_fake_common_cold( "fake_common_cold" );
 static const efftype_id effect_fake_flu( "fake_flu" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
+static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
