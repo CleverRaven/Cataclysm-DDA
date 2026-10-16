@@ -3620,6 +3620,13 @@ void npc::on_load( map *here )
             mod_moves( to_moves<int>( dt ) );
         }
     }
+    // restored after the move grant: mission hours mustn't go to the task
+    if( task_on_mission && !has_companion_mission() ) {
+        activity = task_on_mission->task;
+        backlog = task_on_mission->backlog;
+        current_activity_id = activity.id();
+        task_on_mission.reset();
+    }
 
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
@@ -3978,6 +3985,7 @@ std::pair<std::string, nc_color> npc::hp_description() const
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const mission_id &miss_id )
 {
+    put_task_aside_for_mission();
     comp_mission.position = omt_pos;
     comp_mission.miss_id = miss_id;
     comp_mission.role_id = role_id;
@@ -3986,10 +3994,28 @@ void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::str
 void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const mission_id &miss_id, const tripoint_abs_omt &destination )
 {
+    put_task_aside_for_mission();
     comp_mission.position = omt_pos;
     comp_mission.miss_id = miss_id;
     comp_mission.role_id = role_id;
     comp_mission.destination = destination;
+}
+
+void npc::put_task_aside_for_mission()
+{
+    if( task_on_mission ) {
+        return;
+    }
+    // the walk to the task is planned again when the task resumes
+    const player_activity pending = activity ? activity : get_destination_activity();
+    clear_destination();
+    if( !pending && backlog.empty() ) {
+        return;
+    }
+    // moved, not cancelled: cancel would end a craft the NPC goes back to
+    task_on_mission = npc_suspended_task{ pending, backlog };
+    activity = player_activity();
+    backlog.clear();
 }
 
 void npc::reset_companion_mission()
