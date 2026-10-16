@@ -1754,5 +1754,35 @@
     "required_str": 10,
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "item": "exodii_kiln"
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_military_o",
+    "name": "engine container base",
+    "description": "Base half of the large military container for storing engine replacement.  Reinforced and heavy, inside has brackets for bolting engine on.  It is ready to be sealed.",
+    "symbol": "e",
+    "color": "light_gray",
+    "move_cost_mod": 6,
+    "coverage": 80,
+    "required_str": -1,
+    "mass": "1293 kg",
+    "max_volume": "1500 L",
+    "flags": [ "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "engine_container_base", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_military",
+    "name": "engine container",
+    "description": "Large military container for storing engine replacement.  Reinforced and very heavy, lid bolted to the base and its sealed.  This one might contain the engine inside.",
+    "symbol": "E",
+    "color": "light_gray",
+    "move_cost_mod": 6,
+    "coverage": 80,
+    "required_str": -1,
+    "mass": "1293 kg",
+    "max_volume": "1500 L",
+    "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF", "PLACE_ITEM" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_engine_crate_examine" ] }
   }
 ]
