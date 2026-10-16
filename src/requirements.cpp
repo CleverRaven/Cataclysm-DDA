@@ -334,7 +334,11 @@ void item_comp::load( const JsonValue &value )
 {
     JsonArray comp = value.get_array();
     comp.read( 0, type, true );
-    count = comp.get_int( 1 );
+
+    bool is_volume = false;
+    bool is_mass = false;
+    bool is_length = false;
+
     size_t handled = 2;
     while( comp.size() > handled ) {
         const std::string &flag = comp.get_string( handled++ );
@@ -342,12 +346,43 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else if( flag == "IS_VOLUME" ) {
+            is_volume = true;
+        } else if( flag == "IS_MASS" ) {
+            is_mass = true;
+        } else if( flag == "IS_LENGTH" ) {
+            is_length = true;
         } else {
             value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
         }
     }
-    if( count <= 0 ) {
-        value.throw_error( "item count must be a positive number" );
+
+    if( comp[1].test_int() ) {
+        count = comp.get_int( 1 );
+
+        if( count <= 0 ) {
+            value.throw_error( "item count must be a positive number" );
+        }
+
+    } else {
+        JsonValue count_in_unit = comp[1];
+        if( is_volume ) {
+            units::volume count_in_volume;
+            count_in_volume.deserialize( count_in_unit );
+            volume = count_in_volume;
+            volume->deserialize( count_in_unit );
+            // count = std::max( 1, type->charges_per_volume( count_in_volume ) );
+        } else if( is_mass ) {
+            units::mass count_in_mass;
+            count_in_mass.deserialize( count_in_unit );
+            mass = count_in_mass;
+            // count = std::max( 1, static_cast<int>( count_in_mass / type->weight ) );
+        } else if( is_length ) {
+            units::length count_in_length;
+            count_in_length.deserialize( count_in_unit );
+            length = count_in_length;
+            // count = std::max( 1, static_cast<int>( count_in_length / type->longest_side ) );
+        }
     }
 }
 
@@ -804,6 +839,22 @@ void requirement_data::finalize()
         inline_requirements<tool_comp>( r.second.tools, []( const requirement_data & d ) -> const auto & {
             return d.get_tools();
         } );
+
+        for( std::vector<item_comp> &v_comps : r.second.components ) {
+            for( item_comp &comps : v_comps ) {
+                if( comps.volume ) {
+                    comps.count = std::max( 1, comps.type->charges_per_volume( *comps.volume ) );
+                    comps.volume.reset();
+                } else if( comps.mass ) {
+                    comps.count = std::max( 1, static_cast<int>( *comps.mass / comps.type->weight ) );
+                    comps.mass.reset();
+                } else if( comps.length ) {
+                    comps.count = std::max( 1, static_cast<int>( *comps.length / comps.type->longest_side ) );
+                    comps.length.reset();
+                }
+            }
+        }
+
         inline_requirements<item_comp>( r.second.components,
         []( const requirement_data & d ) -> const auto & {
             return d.get_components();
