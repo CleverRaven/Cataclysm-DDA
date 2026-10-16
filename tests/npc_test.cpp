@@ -123,6 +123,7 @@ static const itype_id itype_apron_leather( "apron_leather" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_crackers( "crackers" );
+static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
@@ -144,6 +145,8 @@ static const npc_class_id NC_ROBOFAC_INTERCOM_NIGHT( "NC_ROBOFAC_INTERCOM_NIGHT"
 static const npc_class_id NC_ROBOFAC_INTERCOM_SUPPLY( "NC_ROBOFAC_INTERCOM_SUPPLY" );
 static const npc_class_id test_shop_class( "test_shop_class" );
 
+static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
+
 static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_decision" );
 
 static const ter_str_id ter_t_concrete( "t_concrete" );
@@ -164,6 +167,7 @@ static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 static const trait_id trait_INTERCOM_OPERATOR( "INTERCOM_OPERATOR" );
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
@@ -3998,7 +4002,8 @@ TEST_CASE( "follow_only_engages_follow_regardless_of_rules", "[npc][behavior]" )
     CHECK( guy.desired_follow_radius() == 6 );
 }
 
-TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
+// follower out of player's reach, committed to following
+static npc &spawn_follower_away_from_player()
 {
     clear_map_without_vision();
     clear_avatar();
@@ -4027,10 +4032,13 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     guy.set_moves( 100 );
     guy.move();
     REQUIRE( guy.get_committed_goal() == "follow_player" );
+    return guy;
+}
 
+// Simulate assign_guard: guard current tile.
+static void guard_current_tile( npc &guy )
+{
     const tripoint_abs_ms pre_assign_pos = guy.pos_abs();
-
-    // Simulate assign_guard: guard current tile.
     guy.set_attitude( NPCATT_NULL );
     guy.set_mission( NPC_MISSION_GUARD_ALLY );
     guy.set_omt_destination();
@@ -4039,6 +4047,13 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     REQUIRE( guy.myclass.is_valid() );
     const auto &[wh_start2, wh_end2] = guy.myclass.obj().get_work_hours();
     REQUIRE( ( wh_start2 == 0 && wh_end2 == 24 ) );
+}
+
+TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
+{
+    npc &guy = spawn_follower_away_from_player();
+    const tripoint_abs_ms pre_assign_pos = guy.pos_abs();
+    guard_current_tile( guy );
 
     // follow commitment ends and hold_position is adopted in the same turn
     guy.set_moves( 100 );
@@ -4050,6 +4065,97 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     guy.move();
     CHECK( guy.get_committed_goal() == "hold_position" );
     CHECK( guy.pos_abs() == pre_assign_pos );
+}
+
+TEST_CASE( "guard_told_to_craft_returns_to_its_post", "[npc][behavior]" )
+{
+    npc &guy = spawn_follower_away_from_player();
+    map &here = get_map();
+    const tripoint_abs_ms post = guy.pos_abs();
+    guard_current_tile( guy );
+    guy.set_moves( 100 );
+    guy.move();
+    REQUIRE( guy.get_committed_goal() == "hold_position" );
+    REQUIRE( guy.pos_abs() == post );
+
+    // told to craft three steps from its post
+    guy.setpos( here, here.get_bub( post ) + tripoint::east * 3 );
+    const tripoint_abs_ms work_spot = guy.pos_abs();
+    // light to craft by
+    set_time( calendar::turn_zero + 12_hours );
+    guy.learn_recipe( &recipe_cudgel_simple.obj() );
+    guy.i_add( item( itype_2x4 ) );
+    // a no-fail craft finishes on time
+    guy.set_mutation( trait_DEBUG_CNF );
+    guy.make_craft( recipe_cudgel_simple, 1 );
+    REQUIRE( guy.has_player_activity() );
+    const auto back_on_guard = [&]() {
+        run_npc_turns( guy, 30, [&]( const npc & n ) {
+            return n.pos_abs() == post;
+        } );
+        CHECK( guy.pos_abs() == post );
+        CHECK( guy.is_guarding() );
+        guy.set_moves( 100 );
+        guy.move();
+        CHECK( guy.get_committed_goal() == "hold_position" );
+        CHECK( guy.pos_abs() == post );
+    };
+    // the guard's own mission is back before anything reads it
+    const auto on_guard_mission = [&]() {
+        CHECK( guy.mission == NPC_MISSION_GUARD_ALLY );
+        CHECK( guy.get_attitude() != NPCATT_ACTIVITY );
+        CHECK( guy.is_on_shift() );
+    };
+
+    SECTION( "guard crafts where it's told, then goes back to post" ) {
+        run_npc_turns( guy, 10 );
+        CHECK( guy.pos_abs() == work_spot );
+        REQUIRE( guy.get_item_to_craft() );
+        CHECK( guy.get_item_to_craft()->item_counter > 0 );
+        // few turns from done: item_counter counts to 10000000
+        guy.get_item_to_craft()->item_counter = 9990000;
+        run_npc_turns( guy, 20, []( const npc & n ) {
+            return !n.has_player_activity();
+        } );
+        CHECK( guy.has_amount( itype_cudgel, 1 ) );
+        on_guard_mission();
+        back_on_guard();
+    }
+    SECTION( "player calls the craft off" ) {
+        run_npc_turn( guy );
+        talk_function::revert_activity( guy );
+        on_guard_mission();
+        back_on_guard();
+    }
+    SECTION( "craft interrupted" ) {
+        run_npc_turn( guy );
+        guy.cancel_activity();
+        on_guard_mission();
+        back_on_guard();
+    }
+    SECTION( "tired guard's craft interrupted" ) {
+        run_npc_turn( guy );
+        guy.set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) );
+        guy.cancel_activity();
+        on_guard_mission();
+        guy.set_moves( 100 );
+        guy.move();
+        CAPTURE( guy.get_committed_goal() );
+        on_guard_mission();
+    }
+    SECTION( "monster next to the crafting guard is still its target" ) {
+        run_npc_turn( guy );
+        // follow_close would leave the fight to the player
+        guy.rules.clear_flag( ally_rule::follow_close );
+        guy.rules.engagement = combat_engagement::ALL;
+        monster &zed = spawn_test_monster( "mon_zombie_brute_shocker", guy.pos_bub() + point::east );
+        here.build_map_cache( 0 );
+        guy.set_moves( 100 );
+        guy.move();
+        CHECK( guy.get_ai_danger() > NPC_DANGER_VERY_LOW );
+        CHECK( guy.current_target() == &zed );
+        CHECK( guy.get_moves() < 100 );
+    }
 }
 
 TEST_CASE( "player_embarks_clears_follow_commitment", "[npc][behavior]" )

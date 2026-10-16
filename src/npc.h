@@ -1472,6 +1472,8 @@ class npc : public Character
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission() const;
         void revert_after_activity();
+        // ends a player's task whose activity was cancelled, unless it is set aside or walked to
+        void end_cancelled_task();
         // Craft related stuff
         void do_npc_craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                            const recipe_id &goto_recipe = recipe_id() );
@@ -1796,6 +1798,8 @@ class npc : public Character
         bool could_move_onto( const tripoint_bub_ms &p ) const;
 
         void put_task_aside_for_mission();
+        // player task ended: back to mission and attitude it replaced
+        void revert_ended_task();
         void adopt_goal( const std::string &goal );
         // judges a running harvest or forage like a walk: ends it or announces an override
         void review_self_care_activity();
