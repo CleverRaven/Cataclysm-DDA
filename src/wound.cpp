@@ -49,8 +49,6 @@ namespace
 {
 generic_factory<wound_type> wound_type_factory( "wound" );
 
-// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
-std::multimap<wound_fix_id, std::pair<std::string, int>> reqs_temp_storage;
 } // namespace
 
 void wound_type::load_wounds( const JsonObject &jo, const std::string &src )
@@ -139,7 +137,6 @@ bool string_id<wound_fix>::is_valid() const
 void wound_fix::reset()
 {
     wound_fix_factory.reset();
-    reqs_temp_storage.clear();
 }
 
 void wound_fix::check_consistency()
@@ -206,21 +203,22 @@ std::string enum_to_string<wound_mod_value_type>( wound_mod_value_type data )
 
 void wound_fix::finalize()
 {
-    const auto range = reqs_temp_storage.equal_range( id );
-    for( auto it = range.first; it != range.second; ++it ) {
-        const requirement_id req_id( it->second.first );
-        const int amount = it->second.second;
+    for( const std::pair<requirement_id, int> &p : pending_requirements ) {
+        const requirement_id req_id = p.first;
+        const int amount = p.second;
         if( !req_id.is_valid() ) {
             debugmsg( "wound_fix '%s' has invalid requirement_id '%s'", id.str(), req_id.str() );
             continue;
         }
         *requirements = *requirements + ( *req_id ) * amount;
     }
+    pending_requirements.clear();
     requirements->consolidate();
+    requirement_data::finalize();
+
     for( const wound_type_id &fid : wounds_removed ) {
         const_cast<wound_type &>( *fid ).fixes.emplace( id );
     }
-    requirement_data::finalize();
 }
 
 void wound_limb_score::deserialize( const JsonObject &jo )
@@ -284,19 +282,20 @@ void wound_fix::load( const JsonObject &jo, const std::string_view & )
     }
 
     if( jo.has_array( "requirements" ) ) {
+        pending_requirements.clear();
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
             if( jv.test_array() ) {
                 // array of 2 elements filled with [requirement_id, count]
                 const JsonArray &req = static_cast<JsonArray>( jv );
-                const std::string req_id = req.get_string( 0 );
+                const requirement_id req_id( req.get_string( 0 ) );
                 const int req_amount = req.get_int( 1 );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id, req_amount ) );
+                pending_requirements.emplace_back( req_id, req_amount );
             } else if( jv.test_object() ) {
                 // defining single requirement inline
                 const JsonObject &req = static_cast<JsonObject>( jv );
                 const requirement_id req_id( "wound_fix_" + id.str() + "_inline_req" );
                 requirement_data::load_requirement( req, req_id );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id.str(), 1 ) );
+                pending_requirements.emplace_back( req_id, 1 );
             } else {
                 debugmsg( "wound_fix '%s' has has invalid requirement element", id.str() );
             }
