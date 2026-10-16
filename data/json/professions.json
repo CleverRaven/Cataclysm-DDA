@@ -8794,5 +8794,14 @@
     "//": "Less trauma, it doesn't destroy your psyche to bash a wall in.",
     "starting_trauma": 100,
     "extend": { "items": { "both": { "entries": [ { "item": "hammer_sledge" } ] } } }
+  },
+  {
+    "copy-from": "awakened_feral_standard",
+    "type": "profession",
+    "id": "awakened_feral_pyro",
+    "name": "Arsonist",
+    "description": "The world seemed to burn.  When you inserted yourself into the chaos, the fires grew fiercer.  While you always had a passion for fire even before the end, your memories of it are corrupted by the screams.",
+    "traits": [ "PYROMANIA" ],
+    "extend": { "items": { "both": { "entries": [ { "item": "lighter" } ] } } }
   }
 ]
