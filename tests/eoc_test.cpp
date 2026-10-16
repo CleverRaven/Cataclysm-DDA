@@ -60,6 +60,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "visitable.h"
 
 #if defined(LOCALIZE)
 #include "translation_manager.h"
@@ -1374,8 +1375,21 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_item_activate_test->activate( d ) );
     CHECK( get_map().furn( get_map().get_bub( pos_after ) ) == furn_f_cardboard_box );
 
+    int avatar_num_items = 0;
+    get_avatar().visit_items( [&avatar_num_items]( const item_location & ) {
+        avatar_num_items++;
+        return VisitResponse::NEXT;
+    } );
+    CHECK( avatar_num_items == 3 );
+    CHECK( get_map().i_at( get_map().get_bub( pos_after ) ).size() == 0 );
     // Teleport test for item
     CHECK( effect_on_condition_EOC_item_teleport_test->activate( d ) );
+    avatar_num_items = 0;
+    get_avatar().visit_items( [&avatar_num_items]( const item_location & ) {
+        avatar_num_items++;
+        return VisitResponse::NEXT;
+    } );
+    CHECK( avatar_num_items == 0 );
     CHECK( get_map().i_at( get_map().get_bub( pos_after ) ).size() == 3 );
 
     // Math function test for armor

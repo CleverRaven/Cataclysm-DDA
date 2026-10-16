@@ -9047,41 +9047,66 @@ void game::on_options_changed()
     refresh_mouse_config();
 }
 
+wet_items visit_water_affect_items( Character &you )
+{
+    wet_items ret;
+    if( !you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+        you.visit_carried( [&ret]( const item_location & loc ) {
+            if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
+                ret.dissolved.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
+                ret.destroyed.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
+                ret.wet.emplace_back( loc );
+            } else if( loc->typeId() == itype_towel ) {
+                ret.towels.emplace_back( loc );
+            }
+            if( loc->is_watertight_container() && !loc->will_spill() ) {
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return ret;
+}
+
+static std::vector<item_location> apply_water_damage( Character &ch )
+{
+    wet_items wet_items_lists = visit_water_affect_items( ch );
+
+    for( item_location loc : wet_items_lists.dissolved ) {
+        add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
+                                ch.disp_name( true, true ), loc->display_name() );
+    }
+    for( item_location loc : wet_items_lists.destroyed ) {
+        add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
+                                ch.disp_name( true ), loc->display_name() );
+        loc->deactivate();
+        // TODO: Maybe different types of wet faults? But I can't think of any.
+        // This just means it's still too wet to use.
+        // TODO2: add fault types to electronics, remove `force` argument from here
+        loc->set_random_fault_of_type( "wet", true );
+        // An electronic item in water is also shorted.
+        if( loc->has_flag( flag_ELECTRONIC ) ) {
+            loc->set_random_fault_of_type( "shorted", true );
+        }
+    }
+    for( item_location loc : wet_items_lists.wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
+        loc->wetness += wetness_add;
+        loc->wetness = std::min( loc->wetness, 5 * wetness_add );
+    }
+    for( item_location loc : wet_items_lists.towels ) {
+        loc->convert( itype_towel_wet, &ch ).active = true;
+    }
+    std::reverse( wet_items_lists.dissolved.begin(), wet_items_lists.dissolved.end() );
+    return wet_items_lists.dissolved;
+}
+
 void game::water_affect_items( Character &ch ) const
 {
-    bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
-
-    for( item_location &loc : ch.all_items_loc() ) {
-        if( gear_waterproofed ) {
-            break;
-        }
-        // check flag first because its cheaper
-        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                    ch.disp_name( true, true ), loc->display_name() );
-            loc.remove_item();
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                    ch.disp_name( true ), loc->display_name() );
-            loc->deactivate();
-            // TODO: Maybe different types of wet faults? But I can't think of any.
-            // This just means it's still too wet to use.
-            // TODO2: add fault types to electronics, remove `force` argument from here
-            loc->set_random_fault_of_type( "wet", true );
-            // An electronic item in water is also shorted.
-            if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_random_fault_of_type( "shorted", true );
-            }
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
-            loc->wetness += wetness_add;
-            loc->wetness = std::min( loc->wetness, 5 * wetness_add );
-        } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet, &ch ).active = true;
-        }
+    for( item_location &to_remove : apply_water_damage( ch ) ) {
+        to_remove.remove_item();
     }
 }
 

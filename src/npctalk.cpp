@@ -4,6 +4,7 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <deque>
 #include <exception>
 #include <filesystem>
 #include <iterator>
@@ -3308,16 +3309,40 @@ static Character *get_character_from_id( const std::string &id_str, game *g )
     return temp_guy;
 }
 
-static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<item_location> &items,
-                           std::string_view option, const std::vector<effect_on_condition_id> &true_eocs,
-                           const std::vector<effect_on_condition_id> &false_eocs, const std::vector <item_search_data> &data,
-                           const item_menu &f, const item_menu_mul &f_mul )
+namespace
 {
-    Character *guy = d.actor( is_npc )->get_character();
-    guy = guy ? guy : &get_player_character();
-    std::vector<item_location> true_items;
-    for( const item_location &loc : items ) {
-        // Check if item matches any search_data.
+struct item_eoc_runner {
+    const dialogue &d;
+    const std::vector<item_search_data> &data;
+    const std::vector<effect_on_condition_id> &true_eocs;
+    const std::vector<effect_on_condition_id> &false_eocs;
+    const item_menu &f;
+    const item_menu_mul &f_mul;
+    Character *guy;
+    std::deque<item_location> true_items;
+    std::string option;
+    bool is_npc;
+
+    bool filter( const item_location &it ) {
+        for( const item_location &true_it : true_items ) {
+            if( true_it == it ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    item_eoc_runner( const dialogue &d, const std::vector<item_search_data> &data,
+                     const std::vector<effect_on_condition_id> &true_eocs,
+                     const std::vector<effect_on_condition_id> &false_eocs,
+                     const item_menu &f, const item_menu_mul &f_mul, const std::string &option, bool is_npc ) :
+        d( d ), data( data ), true_eocs( true_eocs ), false_eocs( false_eocs ), f( f ), f_mul( f_mul ),
+        option( option ), is_npc( is_npc ) {
+        guy = d.actor( is_npc )->get_character();
+        guy = guy ? guy : &get_player_character();
+    }
+
+    bool is_true_item( const item_location &loc ) {
         bool true_tgt = data.empty();
         for( item_search_data datum : data ) {
             if( datum.check( guy, loc, d ) ) {
@@ -3325,12 +3350,28 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
                 break;
             }
         }
-        if( true_tgt ) {
-            true_items.push_back( loc );
+        return true_tgt;
+    }
+
+    void load_items( const std::vector<item_location> &items ) {
+        for( const item_location &loc : items ) {
+            // Check if item matches any search_data.
+            if( is_true_item( loc ) ) {
+                true_items.push_front( loc );
+            }
         }
     }
-    const auto run_eoc = [&d, is_npc]( item_location & loc,
-    const std::vector<effect_on_condition_id> &eocs ) {
+
+    void load_items( const Character &owner ) {
+        owner.visit_carried( [&]( const item_location & loc ) {
+            if( is_true_item( loc ) ) {
+                true_items.push_front( loc );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    void run_eoc( item_location &loc, const std::vector<effect_on_condition_id> &eocs ) {
         for( const effect_on_condition_id &eoc : eocs ) {
             // Check if item is outdated.
             if( loc.get_item() ) {
@@ -3339,55 +3380,56 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
                 eoc->activate( newDialog );
             }
         }
-    };
-    auto filter = [true_items]( const item_location & it ) {
-        for( const item_location &true_it : true_items ) {
-            if( true_it == it ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    if( option == "all" ) {
-        for( item_location target : true_items ) {
-            run_eoc( target, true_eocs );
-        }
-        if( true_items.empty() ) {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "random" ) {
-        if( !true_items.empty() ) {
-            std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
-            run_eoc( true_items.back(), true_eocs );
-            true_items.pop_back();
-        } else {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "manual" ) {
-        item_location selected = f( filter );
-        run_eoc( selected, true_eocs );
-        if( selected.get_item() == nullptr ) {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "manual_mult" ) {
-        const drop_locations &selected = f_mul( filter );
-        for( item_location target : true_items ) {
-            bool true_eoc = false;
-            for( const drop_location &dloc : selected ) {
-                if( target == dloc.first ) {
-                    true_eoc = true;
-                    break;
-                }
-            }
-            if( true_eoc ) {
+    }
+
+    void execute() {
+        if( option == "all" ) {
+            for( item_location target : true_items ) {
                 run_eoc( target, true_eocs );
             }
-        }
-        if( true_items.empty() ) {
-            run_eoc_vector( false_eocs, d );
+            if( true_items.empty() ) {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "random" ) {
+            if( !true_items.empty() ) {
+                std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
+                run_eoc( true_items.back(), true_eocs );
+                true_items.pop_back();
+            } else {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "manual" ) {
+            item_location selected = f( [&]( const item_location & loc ) {
+                return filter( loc );
+            } );
+            run_eoc( selected, true_eocs );
+            if( selected.get_item() == nullptr ) {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "manual_mult" ) {
+            const drop_locations &selected = f_mul( [&]( const item_location & loc ) {
+                return filter( loc );
+            } );
+            for( item_location target : true_items ) {
+                bool true_eoc = false;
+                for( const drop_location &dloc : selected ) {
+                    if( target == dloc.first ) {
+                        true_eoc = true;
+                        break;
+                    }
+                }
+                if( true_eoc ) {
+                    run_eoc( target, true_eocs );
+                }
+            }
+            if( true_items.empty() ) {
+                run_eoc_vector( false_eocs, d );
+            }
         }
     }
-}
+};
+} // namespace
+
 namespace talk_effect_fun
 {
 namespace
@@ -7019,8 +7061,9 @@ talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
             const auto f_mul = [d, guy, title]( const item_location_filter & filter ) {
                 return game_menus::inv::titled_multi_filter_menu( filter, *guy, title.evaluate( d ).translated() );
             };
-            run_item_eocs( d, is_npc, guy->all_items_loc(), option.evaluate( d ), true_eocs, false_eocs, data,
-                           f, f_mul );
+            item_eoc_runner handler( d, data, true_eocs, false_eocs, f, f_mul, option.evaluate( d ), is_npc );
+            handler.load_items( *guy );
+            handler.execute();
         }
     };
 }
@@ -7110,8 +7153,9 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             }
             return inv_s.execute();
         };
-        run_item_eocs( d, is_npc, items, option.evaluate( d ), true_eocs, false_eocs, data,
-                       f, f_mul );
+        item_eoc_runner handler( d, data, true_eocs, false_eocs, f, f_mul, option.evaluate( d ), is_npc );
+        handler.load_items( items );
+        handler.execute();
     };
 }
 
