@@ -261,7 +261,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
 
             if( new_dist <= current_dist ) {
-            approaching_hostile = true;
+                approaching_hostile = true;
             }
         } );
 
