@@ -26,7 +26,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
-#include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
