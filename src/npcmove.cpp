@@ -62,6 +62,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_transformation.h"
 #include "itype.h"
@@ -397,7 +398,7 @@ const int avoidance_vehicles_radius = 5;
 
 bool good_for_pickup( const item &it, npc &who, const tripoint_bub_ms &there )
 {
-    return who.can_take_that( it ) &&
+    return ( who.can_take_that( it ) || who.can_empty_for_pickup( it ) ) &&
            who.wants_take_that( it ) &&
            who.would_take_that( it, there );
 }
@@ -4241,6 +4242,10 @@ void npc::find_item()
             best_value = has_item_whitelist() ? 1000 : value( it );
             return true;
         } else {
+            // whether an open container can be emptied first depends on NPC, not tile
+            if( it.is_bucket_nonempty() ) {
+                declined_dynamically = true;
+            }
             return false;
         }
     };
@@ -4443,6 +4448,15 @@ void npc::pick_up_item()
 
     // We're adjacent to the item; grab it!
 
+    if( wanted_item && wanted_item->is_bucket_nonempty() ) {
+        if( !empty_before_pickup() ) {
+            fetching_item = false;
+            wanted_item = {};
+            move_pause();
+        }
+        return;
+    }
+
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
         picked_up = pick_up_item_vehicle( vp->vehicle(), vp->part_index() );
@@ -4487,6 +4501,64 @@ void npc::pick_up_item()
     fetching_item = false;
     wanted_item = {};
     has_new_items = true;
+}
+
+// first liquid in the open pockets; nullptr if none, or if an open pocket holds a solid
+template<typename Item>
+static Item *liquid_to_empty( Item &container )
+{
+    Item *liquid = nullptr;
+    for( auto *pocket : container.get_container_pockets() ) {
+        if( !pocket->will_spill() ) {
+            continue;
+        }
+        for( Item *it : pocket->all_items_top() ) {
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                return nullptr;
+            }
+            if( liquid == nullptr ) {
+                liquid = it;
+            }
+        }
+    }
+    return liquid;
+}
+
+bool npc::can_empty_for_pickup( const item &it )
+{
+    if( !it.is_bucket_nonempty() ) {
+        return false;
+    }
+    item emptied( it );
+    emptied.get_contents().clear_items();
+    if( !can_take_that( emptied ) ) {
+        return false;
+    }
+    const item *liquid = liquid_to_empty( it );
+    return liquid != nullptr && ( carried_container_for( *liquid ) ||
+                                  wants_to_consume_now( *liquid ) );
+}
+
+bool npc::empty_before_pickup()
+{
+    item *liquid = wanted_item ? liquid_to_empty( *wanted_item ) : nullptr;
+    if( liquid == nullptr ) {
+        return false;
+    }
+    item_location liquid_loc( wanted_item, liquid );
+    item_location target = carried_container_for( *liquid );
+    const int before = liquid->charges;
+    if( target && pour_into( target, *liquid, true, true ) && liquid->charges < before ) {
+        // same cost as player's pour
+        target.make_active();
+        mod_moves( -100 );
+        if( liquid->charges <= 0 ) {
+            liquid_loc.remove_item();
+        }
+        wanted_item->on_contents_changed();
+        return true;
+    }
+    return false;
 }
 
 template <typename T>

@@ -824,39 +824,21 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-static bool npc_still_wants( const Character &guy, const item &food )
-{
-    if( !guy.needs_food() || !food.is_food() || !guy.will_eat( food ).success() ) {
-        return false;
-    }
-    const bool hungry = guy.get_hunger() > 0 || guy.has_calorie_deficit();
-    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
-           ( food.get_comestible()->quench > 0 && guy.get_thirst() > 0 );
-}
-
 // NPCs can't answer liquid prompt; leftovers stay in the pocket
 static void npc_handle_liquid( Character &guy, item &liquid, const item *avoid )
 {
-    std::vector<item_location> carried;
-    guy.visit_carried( [&carried]( const item_location & loc ) {
-        carried.push_back( loc );
-        return VisitResponse::NEXT;
-    } );
-    for( item_location &container : carried ) {
-        if( liquid.charges <= 0 ) {
-            return;
+    while( liquid.charges > 0 ) {
+        item_location container = guy.carried_container_for( liquid, avoid );
+        const int before = liquid.charges;
+        // pour_into may succeed and move nothing
+        if( !container || !guy.pour_into( container, liquid, true, true ) ||
+            liquid.charges == before ) {
+            break;
         }
-        if( container.get_item() == avoid || container.get_item() == &liquid ||
-            !container->is_watertight_container() || container->has_item( liquid ) ||
-            container->get_remaining_capacity_for_liquid( liquid, guy ) <= 0 ) {
-            continue;
-        }
-        if( guy.pour_into( container, liquid, true, true ) ) {
-            container.make_active();
-            guy.mod_moves( -100 );
-        }
+        container.make_active();
+        guy.mod_moves( -100 );
     }
-    while( liquid.charges > 0 && npc_still_wants( guy, liquid ) ) {
+    while( liquid.charges > 0 && guy.wants_to_consume_now( liquid ) ) {
         const time_duration consume_time = guy.get_consume_time( liquid );
         if( guy.consume( liquid ) == trinary::NONE ) {
             return;
