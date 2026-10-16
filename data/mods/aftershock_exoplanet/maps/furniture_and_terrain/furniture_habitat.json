@@ -341,7 +341,8 @@
     "coverage": 80,
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "sign",
+    "flags": [ "NOITEM", "SIGN", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
         { "item": "large_lcd_screen", "count": 1 },
