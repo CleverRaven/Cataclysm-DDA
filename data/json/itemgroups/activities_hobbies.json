@@ -588,7 +588,7 @@
         ],
         "prob": 30
       },
-      { "item": "thread", "prob": 40, "count": [ 2, 10 ] },
+      { "group": "thread_spool_part", "prob": 40 },
       { "group": "pur_tablets_bottle_plastic_small_1_50", "prob": 10 },
       { "distribution": [ { "item": "umbrella", "prob": 47 }, { "item": "teleumbrella", "prob": 3 } ], "prob": 30 },
       {
@@ -657,7 +657,7 @@
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 3 },
-      [ "thread", 40 ],
+      { "group": "thread_used", "prob": 40 },
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 0, 300 ] },

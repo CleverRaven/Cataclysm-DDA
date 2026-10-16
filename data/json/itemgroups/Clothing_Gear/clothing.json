@@ -869,7 +869,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 0, -1 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "sewing_kit", "prob": 30, "charges": [ 0, -1 ] },
-      [ "thread", 40 ],
+      { "group": "thread_spool_part", "prob": 40 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       [ "suit", 60 ],
       [ "waistcoat", 30 ],

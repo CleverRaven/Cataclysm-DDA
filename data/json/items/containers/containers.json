@@ -1278,6 +1278,23 @@
     ]
   },
   {
+    "id": "box_tiny",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "tiny cardboard box", "str_pl": "tiny cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "A very small cardboard box.",
+    "//todo": "merge with box_tea",
+    "weight": "10 g",
+    "volume": "105 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
     "id": "box_snack",
     "type": "ITEM",
     "category": "container",
@@ -5427,11 +5444,36 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
+    "id": "spool_tiny",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "tiny spool" },
+    "description": "A tiny plastic spool designed to hold various materials, like threads",
+    "//": "0.5 lbs or 3 ft of solder",
+    "weight": "2 g",
+    "volume": "5 ml",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "100 g",
+        "max_item_length": "50 cm",
+        "item_restriction": [ "thread" ],
+        "transparent": true,
+        "moves": 200
+      }
+    ]
+  },
+  {
     "id": "spool_small",
     "type": "ITEM",
     "category": "container",
     "name": { "str": "small spool" },
-    "description": "A small plastic spool designed to hold various materials.",
+    "description": "A small plastic spool designed to hold various materials, like wires and cables.",
     "//": "0.5 lbs or 3 ft of solder",
     "weight": "20 g",
     "volume": "50 ml",

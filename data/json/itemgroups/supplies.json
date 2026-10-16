@@ -406,6 +406,36 @@
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
   },
   {
+    "id": "thread_spool",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "//1": "150 yard, roughly 137 m.",
+    "items": [ { "item": "thread", "charges": 550 } ]
+  },
+  {
+    "id": "thread_spool_part",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "items": [ { "item": "thread", "charges": [ 6, 550 ] } ]
+  },
+  {
+    "id": "thread_spool_boxed",
+    "type": "item_group",
+    "container-item": "box_tiny",
+    "items": [ { "group": "thread_spool", "count": 6 } ]
+  },
+  {
+    "id": "thread_used",
+    "type": "item_group",
+    "items": [
+      { "collection": [ { "group": "thread_spool", "count": [ 2, 7 ] }, { "group": "thread_spool_part" } ] },
+      {
+        "collection": [ { "group": "thread_spool_boxed" }, { "group": "thread_spool_part", "prob": 25 } ],
+        "prob": 10
+      }
+    ]
+  },
+  {
     "id": "cable_roll",
     "type": "item_group",
     "container-item": "spool_small",
