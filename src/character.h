@@ -2221,6 +2221,8 @@ class Character : public Creature, public visitable
         bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
+        /** A carried watertight container with room for this liquid, other than avoid; empty if none. */
+        item_location carried_container_for( const item &liquid, const item *avoid = nullptr ) const;
 
         /**
          * Remove a specific item from player possession. The item is compared
@@ -3550,6 +3552,8 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Whether this character is hungry or thirsty for this, and may eat or drink it. */
+        bool wants_to_consume_now( const item &food ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
