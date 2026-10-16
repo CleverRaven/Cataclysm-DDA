@@ -53,6 +53,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 
@@ -2012,6 +2013,25 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
                 CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
             }
         }
+        WHEN( "NPC drinks one portion through the consume activity" ) {
+            guy.set_thirst( 100 );
+            const units::volume player_water = get_avatar().stomach.get_water();
+            guy.assign_activity( consume_activity_actor( item_location( can_loc, soup ) ) );
+            REQUIRE( guy.activity.id() == ACT_CONSUME );
+            for( int i = 0; i < 100 && guy.activity; ++i ) {
+                guy.set_moves( 100 );
+                guy.activity.do_turn( guy );
+            }
+            THEN( "NPC drank it, not player" ) {
+                CHECK_FALSE( guy.activity );
+                CHECK( drank( guy ) );
+                CHECK( get_avatar().stomach.get_water() == player_water );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
     }
     GIVEN( "sealed can in the player's pack" ) {
         avatar &you = get_avatar();
@@ -2033,6 +2053,21 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
                 REQUIRE( cans.size() == 1 );
                 CHECK( soup_in( *cans.front() ) == 1 );
                 CHECK( loose_soup_near( you.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "player drinks one portion through the consume activity" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::cancel_spill;
+            you.set_thirst( 100 );
+            you.assign_activity( consume_activity_actor( soup_in_inventory( you ) ) );
+            REQUIRE( you.activity.id() == ACT_CONSUME );
+            for( int i = 0; i < 100 && you.activity; ++i ) {
+                you.set_moves( 100 );
+                you.activity.do_turn( you );
+            }
+            THEN( "player drank it" ) {
+                CHECK_FALSE( you.activity );
+                CHECK( you.stomach.get_water() > 0_ml );
+                CHECK( you.charges_of( itype_soup_chicken ) == 0 );
             }
         }
     }
