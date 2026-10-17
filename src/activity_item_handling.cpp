@@ -96,6 +96,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
@@ -118,6 +119,7 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_AXE( "AXE" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
@@ -130,6 +132,7 @@ static const requirement_id requirement_data_mining_standard( "mining_standard" 
 static const requirement_id requirement_data_mopping_standard( "mopping_standard" );
 static const requirement_id requirement_data_multi_butcher( "multi_butcher" );
 static const requirement_id requirement_data_multi_butcher_big( "multi_butcher_big" );
+static const requirement_id requirement_data_multi_dissect( "multi_dissect" );
 static const requirement_id requirement_data_multi_chopping_planks( "multi_chopping_planks" );
 static const requirement_id requirement_data_multi_chopping_trees( "multi_chopping_trees" );
 static const requirement_id
@@ -152,6 +155,7 @@ static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
+static const zone_type_id zone_type_DISSECT( "DISSECT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
@@ -1891,6 +1895,7 @@ bool are_requirements_nearby(
         return id == ACT_MULTIPLE_FARM ||
                id == ACT_MULTIPLE_CHOP_PLANKS ||
                id == ACT_MULTIPLE_BUTCHER ||
+               id == ACT_MULTIPLE_DISSECT ||
                id == ACT_VEHICLE_DECONSTRUCTION ||
                id == ACT_VEHICLE_REPAIR ||
                id == ACT_MULTIPLE_CHOP_TREES ||
@@ -2313,6 +2318,40 @@ activity_reason_info multi_butchery_activity_actor::multi_activity_can_do( Chara
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
 }
 
+activity_reason_info multi_dissection_activity_actor::multi_activity_can_do( Character &you,
+        const tripoint_bub_ms &src_loc )
+{
+    map &here = get_map();
+
+    std::vector<item> corpses;
+    for( const item &i : here.i_at( src_loc ) ) {
+        // make sure nobody else is working on that corpse right now
+        if( i.is_corpse() &&
+            ( !i.has_var( "activity_var" ) || i.get_var( "activity_var" ) == you.name ) ) {
+            const mtype corpse = *i.get_mtype();
+            corpses.push_back( i );
+        }
+    }
+    if( corpses.empty() ) {
+        return activity_reason_info::fail( do_activity_reason::NO_COMPONENTS );
+    }
+    // Multi-dissection is refused if the corpses include species we empathize with
+    for( item &body : corpses ) {
+        const mtype &corpse = *body.get_mtype();
+        for( species_id species : corpse.species ) {
+            if( you.empathizes_with_species( species ) ) {
+                return activity_reason_info::fail( do_activity_reason::REFUSES_THIS_WORK );
+            }
+        }
+    }
+    // We need a fine cutting implement
+    if( you.has_unreserved_quality( qual_CUT_FINE, 1 ) ) {
+        return activity_reason_info::ok( do_activity_reason::NEEDS_DISSECTING );
+    } else {
+        return activity_reason_info::fail( do_activity_reason::NEEDS_DISSECTING );
+    }
+}
+
 activity_reason_info multi_read_activity_actor::multi_activity_can_do( Character &you,
         const tripoint_bub_ms & )
 {
@@ -2624,6 +2663,7 @@ bool activity_reason_continue( do_activity_reason reason )
         reason == do_activity_reason::NEEDS_CHOPPING ||
         reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_DISSECTING ||
         reason == do_activity_reason::NEEDS_VEH_DECONST ||
         reason == do_activity_reason::NEEDS_VEH_REPAIR ||
         reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
@@ -2643,6 +2683,7 @@ bool activity_reason_picks_up_tools( do_activity_reason reason )
         reason == do_activity_reason::NEEDS_CHOPPING ||
         reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_DISSECTING ||
         reason == do_activity_reason::NEEDS_VEH_DECONST ||
         reason == do_activity_reason::NEEDS_VEH_REPAIR ||
         reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
@@ -2657,6 +2698,7 @@ bool activity_must_be_in_zone( activity_id act_id, const tripoint_bub_ms &src_lo
         act_id == ACT_FETCH_REQUIRED ||
         act_id == ACT_MULTIPLE_FARM ||
         act_id == ACT_MULTIPLE_BUTCHER ||
+        act_id == ACT_MULTIPLE_DISSECT ||
         act_id == ACT_MULTIPLE_CHOP_PLANKS ||
         act_id == ACT_MULTIPLE_CHOP_TREES ||
         act_id == ACT_VEHICLE_DECONSTRUCTION ||
@@ -2895,6 +2937,16 @@ std::optional<requirement_id> multi_butchery_activity_actor::multi_activity_requ
         return requirement_data_multi_butcher;
     } else if( act_info.reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         return requirement_data_multi_butcher_big;
+    }
+    return requirement_id::NULL_ID();
+}
+
+std::optional<requirement_id> multi_dissection_activity_actor::multi_activity_requirements(
+    Character &,
+    activity_reason_info &act_info, const tripoint_bub_ms &, const zone_data * )
+{
+    if( act_info.reason == do_activity_reason::NEEDS_DISSECTING ) {
+        return requirement_data_multi_dissect;
     }
     return requirement_id::NULL_ID();
 }
@@ -3392,7 +3444,7 @@ bool fetch_required_activity_actor::fetch_activity(
 }
 
 static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_loc,
-                                     const do_activity_reason &reason )
+                                     const do_activity_reason &reason, butcher_type type )
 {
     map &here = get_map();
     map_stack items = here.i_at( src_loc );
@@ -3401,12 +3453,13 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
         if( elem.is_corpse() &&
             ( !elem.has_var( "activity_var" ) || elem.get_var( "activity_var" ) == you.name ) ) {
             const mtype corpse = *elem.get_mtype();
-            if( corpse.size > creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size > creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING
+                && type != butcher_type::DISSECT ) {
                 continue;
             }
             elem.set_var( "activity_var", you.name );
             item_location corpse_loc = item_location( map_cursor( src_loc ), &elem );
-            bd.emplace_back( corpse_loc, butcher_type::FULL );
+            bd.emplace_back( corpse_loc, type );
         }
     }
     if( !bd.empty() ) {
@@ -3558,6 +3611,9 @@ zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manage
     }
     if( act_id == ACT_MULTIPLE_BUTCHER ) {
         ret = zone_type_LOOT_CORPSE;
+    }
+    if( act_id == ACT_MULTIPLE_DISSECT ) {
+        ret = zone_type_DISSECT;
     }
     if( act_id == ACT_MULTIPLE_CHOP_PLANKS ) {
         ret = zone_type_LOOT_WOOD;
@@ -3873,7 +3929,22 @@ bool multi_butchery_activity_actor::multi_activity_do( Character &you,
 
     if( reason == do_activity_reason::NEEDS_BUTCHERING ||
         reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
-        if( butcher_corpse_activity( you, src_loc, reason ) ) {
+        if( butcher_corpse_activity( you, src_loc, reason, butcher_type::FULL ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool multi_dissection_activity_actor::multi_activity_do( Character &you,
+        const activity_reason_info &act_info,
+        const tripoint_abs_ms &, const tripoint_bub_ms &src_loc )
+{
+
+    const do_activity_reason &reason = act_info.reason;
+
+    if( reason == do_activity_reason::NEEDS_DISSECTING ) {
+        if( butcher_corpse_activity( you, src_loc, reason, butcher_type::DISSECT ) ) {
             return false;
         }
     }

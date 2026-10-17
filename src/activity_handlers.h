@@ -73,6 +73,7 @@ enum class do_activity_reason : int {
     NEEDS_TREE_CHOPPING,    //* There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   //* There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       //* There is at least one corpse there to butcher, and there's no need for additional tools
+    NEEDS_DISSECTING,       //* There is at least one corpse there to dissect
     NEEDS_CUT_HARVESTING,   //* There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,      //* There is a vehicle part there that we can deconstruct, given the right tools.
@@ -107,6 +108,7 @@ const std::vector<std::string> do_activity_reason_string = {
     "NEEDS_TREE_CHOPPING",
     "NEEDS_BIG_BUTCHERING",
     "NEEDS_BUTCHERING",
+    "NEEDS_DISSECTING",
     "NEEDS_CUT_HARVESTING",
     "ALREADY_WORKING",
     "NEEDS_VEH_DECONST",

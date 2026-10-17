@@ -55,6 +55,7 @@ static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
+static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 
@@ -622,9 +623,10 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
         for( const fault_id &flt : entry.faults ) {
             obj.set_fault( flt );
         }
-        if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+        if( !you.backlog.empty() && (
+            you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+            you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
             obj.set_var( "activity_var", you.name );
-
         }
         objs.push_back( obj );
     }
@@ -897,7 +899,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 for( const fault_id &flt : entry.faults ) {
                     obj.remove_fault( flt );
                 }
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+                if( !you.backlog.empty() && ( 
+                    you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                    you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
                     obj.set_var( "activity_var", you.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -943,7 +947,9 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( corpse_item.temperature );
             ruined_parts.set_rot( corpse_item.get_rot() );
-            if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+            if( !you.backlog.empty() && (
+                you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
             for( int i = 0; i < item_charges; ++i ) {
