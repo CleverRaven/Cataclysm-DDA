@@ -4380,6 +4380,8 @@ std::string npc::get_current_status() const
             return _( "Sleeping" );
         } else if( att == NPCATT_ACTIVITY && current_activity_id ) {
             return get_current_activity();
+        } else if( is_travelling() ) {
+            return _( "Travelling" );
         } else if( is_shopkeeper() ) {
             return _( "Trading" );
         } else if( is_patrolling() ) {
