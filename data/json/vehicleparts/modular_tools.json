@@ -134,7 +134,8 @@
       "wire_draw_machine",
       "casserole",
       "tongs",
-      "metalworking_tongs"
+      "metalworking_tongs",
+      "dremel"
     ],
     "item": "veh_tools_abstract",
     "location": "center",
