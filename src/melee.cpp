@@ -659,7 +659,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     // Fighting is hard work
-    set_activity_level( EXTRA_EXERCISE );
+    set_activity_level( COMBAT_EXERCISE );
 
     item_location cur_weapon = allow_unarmed ? used_weapon() : get_wielded_item();
     item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
@@ -1024,7 +1024,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     }
 
     // Fighting is hard work
-    set_activity_level( EXTRA_EXERCISE );
+    set_activity_level( COMBAT_EXERCISE );
 
     creature_tracker &creatures = get_creature_tracker();
     Creature *critter = creatures.creature_at( p );
