@@ -138,11 +138,13 @@ struct armor_text_entry {
 
 struct body_status_uistate {
     body_status_uistate() = default;
-    explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id );
+    explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id,
+                                  body_status_tab initial_tab );
 
     Character &displayed_character;
 
     body_status_tab selected_tab = body_status_tab::BS_TAB_SUMMARY;
+    body_status_tab initial_tab = body_status_tab::BS_TAB_SUMMARY;
     body_status_tab switched_tab = body_status_tab::BS_TAB_last;
 
     std::string button_action;
@@ -198,6 +200,7 @@ struct body_status_uistate {
     std::string prepare_bodygraph_text( std::optional<std::string> bodypart_or_subpart_id );
 
     bool bodygraph_collapsed = false;
+    bool info_collapsed = false;
     bool scrolled_up = false;
     bool scrolled_down = false;
     bool quit_menu = false;
@@ -223,8 +226,10 @@ class body_status_ui
         bool reset_list_entries = false;
         bool reset_window_size = false;
 
-        body_status_ui( Character &disp_character ) : displayed_character( disp_character ),
-            bs_uistate( disp_character, bodygraph_id::NULL_ID() ) {
+        body_status_ui( Character &disp_character,
+                        body_status_tab initial_tab = body_status_tab::BS_TAB_SUMMARY ) : displayed_character(
+                                disp_character ),
+            bs_uistate( disp_character, bodygraph_id::NULL_ID(), initial_tab ) {
             bs_callback = body_status_callback( this );
         };
 

@@ -71,10 +71,13 @@ static void refresh_header_footer_text( uilist *new_uilist, const body_status_ui
     }
 }
 
-body_status_uistate::body_status_uistate( Character &displayed_character, bodygraph_id bg_id ) :
-    displayed_character( displayed_character )
+body_status_uistate::body_status_uistate( Character &displayed_character, bodygraph_id bg_id,
+        body_status_tab initial_tab ) :
+    displayed_character( displayed_character ), initial_tab( initial_tab )
 {
-    displayed_graph_id = bodygraph_full_body;
+    if( bg_id == bodygraph_id::NULL_ID() ) {
+        displayed_graph_id = bodygraph_full_body;
+    }
 }
 
 void body_status_uistate::update_blink()
@@ -159,9 +162,9 @@ void body_status_uistate::prepare_worn_items_by_limb()
     worn_items_by_limb_txt.clear();
     for( const bodypart_id &cover : all_bodyparts_compact ) {
         armor_text_entry header_entry;
-        header_entry.header = colorize( body_part_name_as_heading( cover,
-                                        worn.items_cover_opposite_bp( displayed_character, cover ) ? 2 : 1 ),
-                                        ( cover == sort_armor_category ? c_yellow : c_white ) );
+        header_entry.header = string_format( "%s:", colorize( body_part_name_as_heading( cover,
+                                             worn.items_cover_opposite_bp( displayed_character, cover ) ? 2 : 1 ),
+                                             ( cover == sort_armor_category ? c_yellow : c_white ) ) );
         worn_items_by_limb_txt.emplace_back( header_entry );
 
         for( layering_item_info &elem : worn.items_cover_bp( displayed_character, cover ) ) {
@@ -192,6 +195,7 @@ void body_status_ui::setup_input_context( input_context &bs_ictxt )
     bs_ictxt.register_action( "SCROLL_INFOBOX_DOWN" );
 
     bs_ictxt.register_action( "BODYGRAPH_DISPLAY_CHANGE" );
+    bs_ictxt.register_action( "INFO_TOGGLE_WINDOW" );
     bs_ictxt.register_action( "BODYGRAPH_TOGGLE_WINDOW" );
 
     if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
@@ -217,7 +221,7 @@ void body_status_ui::display()
     bs_uistate.init();
 
     // setup all uilists/inputs
-    body_status_tab preserve_first_tab = bs_uistate.selected_tab;
+    body_status_tab preserve_first_tab = bs_uistate.initial_tab;
     bs_uistate.selected_tab = body_status_tab::BS_TAB_SUMMARY;
     for( int i = 0; i < BODY_STATUS_UI_TAB_COUNT; i++ ) {
         setup_new_uilist();
@@ -342,7 +346,7 @@ bool body_status_ui::handle_action( const std::string &action )
 {
     auto do_return_entry = []() {
         uistate.open_menu = []() {
-            body_status_ui bsui( get_player_character() );
+            body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_SORT_ARMOR );
             bsui.display();
         };
     };
@@ -373,6 +377,9 @@ bool body_status_ui::handle_action( const std::string &action )
         bs_uistate.scrolled_down = true;
     } else if( action == "BODYGRAPH_TOGGLE_WINDOW" ) {
         bs_uistate.bodygraph_collapsed = !bs_uistate.bodygraph_collapsed;
+        reset_window_size = true;
+    } else if( action == "INFO_TOGGLE_WINDOW" ) {
+        bs_uistate.info_collapsed = !bs_uistate.info_collapsed;
         reset_window_size = true;
     } else if( action == "BODYGRAPH_DISPLAY_CHANGE" ) {
         ++bs_uistate.display_mode;
@@ -649,23 +656,33 @@ body_status_ui_impl::body_status_ui_impl( body_status_ui *parent ) :
 
 cataimgui::bounds body_status_ui_impl::get_bounds()
 {
+    const body_status_uistate &bs_uistate = ui_parent->bs_uistate;
     const ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
-    return { 0, 0, ui_parent->bs_uistate.bodygraph_collapsed ? viewport.x * 0.66f : viewport.x, viewport.y};
+    const float WINDOW_THIRD = viewport.x * 0.333f;
+    float displayed_windows = 1 + ( int )!bs_uistate.bodygraph_collapsed +
+                              ( int )!bs_uistate.info_collapsed;
+    return { 0, 0, displayed_windows * WINDOW_THIRD, viewport.y};
 }
 
 void body_status_ui_impl::draw_controls()
 {
-    body_status_tab &selected_tab = ui_parent->bs_uistate.selected_tab;
-    const ImVec2 CHILD_WINDOW_SIZE = { ImGui::GetContentRegionAvail().x *
-                                       ( ui_parent->bs_uistate.bodygraph_collapsed ? 0.5f : 0.33f ), ImGui::GetContentRegionAvail().y
-                                     };
+    body_status_uistate &bs_uistate = ui_parent->bs_uistate;
+    body_status_tab &selected_tab = bs_uistate.selected_tab;
+    const ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
+    const float WINDOW_THIRD = viewport.x * 0.333f;
+
+    const ImVec2 CHILD_WINDOW_SIZE = { WINDOW_THIRD, ImGui::GetContentRegionAvail().y };
 
     {
-        ImGui::BeginChild( "WINDOW1", CHILD_WINDOW_SIZE );
+        ImGui::BeginChild( "WINDOW_UILIST", CHILD_WINDOW_SIZE );
         cataimgui::draw_colored_text( string_format( _( "Status of: %s" ),
-                                      ui_parent->bs_uistate.displayed_character.name ) );
+                                      bs_uistate.displayed_character.name ) );
+        if( ImGui::Button( _( "Toggle Info Window" ) ) ) {
+            bs_uistate.button_action = "INFO_TOGGLE_WINDOW";
+        }
+        ImGui::SameLine();
         if( ImGui::Button( _( "Toggle Bodygraph Window" ) ) ) {
-            ui_parent->bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
+            bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
         }
 
         if( ImGui::BeginTabBar( "##Tabs" ) ) {
@@ -697,17 +714,19 @@ void body_status_ui_impl::draw_controls()
         ImGui::EndChild();
     }
 
-    ImGui::SameLine();
-    {
-        ImGui::BeginChild( "WINDOW2", CHILD_WINDOW_SIZE );
-        draw_description();
-        ImGui::EndChild();
-    }
-
-    if( !ui_parent->bs_uistate.bodygraph_collapsed ) {
+    if( !bs_uistate.info_collapsed ) {
         ImGui::SameLine();
         {
-            ImGui::BeginChild( "WINDOW3", CHILD_WINDOW_SIZE );
+            ImGui::BeginChild( "WINDOW_INFO", CHILD_WINDOW_SIZE );
+            draw_description();
+            ImGui::EndChild();
+        }
+    }
+
+    if( !bs_uistate.bodygraph_collapsed ) {
+        ImGui::SameLine();
+        {
+            ImGui::BeginChild( "WINDOW_BODYGRAPH", CHILD_WINDOW_SIZE );
             draw_bodygraph();
             ImGui::EndChild();
         }
