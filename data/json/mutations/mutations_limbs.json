@@ -326,6 +326,7 @@
     "visibility": 10,
     "ugliness": 10,
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_SPIDER_ARMS" ],
     "enchantments": [
       {
         "modified_bodyparts": [
@@ -353,6 +354,7 @@
     "visibility": 6,
     "ugliness": 10,
     "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_SPIDER_ARMS" ],
     "enchantments": [
       {
         "modified_bodyparts": [
