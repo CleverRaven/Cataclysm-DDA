@@ -7,23 +7,7 @@
   {
     "type": "item_group",
     "id": "forest",
-    "items": [
-      { "item": "rock", "prob": 400 },
-      { "item": "rock_flaking", "prob": 50 },
-      { "item": "flint", "prob": 20 },
-      { "item": "rock_large", "prob": 50 },
-      { "item": "chunk_feldspar", "prob": 10 },
-      { "item": "twig", "prob": 200, "count": [ 1, 10 ] },
-      { "item": "stick", "prob": 50 },
-      { "item": "stick_common", "prob": 900 },
-      { "item": "stick_long", "prob": 10 },
-      { "item": "leaves", "prob": 1200, "count": [ 1, 10 ] },
-      { "item": "pine_bough", "prob": 200 },
-      { "item": "acorns", "prob": 150 },
-      { "item": "pinecone", "prob": 50 },
-      { "item": "juniper", "prob": 50 },
-      { "item": "hickory_root", "prob": 30 },
-      { "item": "hickory_nut", "prob": 50 }
-    ]
+    "subtype": "collection",
+    "entries": [ { "group": "SUS_forest_trash_no_manmade", "count": [ 1, 4 ], "prob": 100 } ]
   }
 ]
