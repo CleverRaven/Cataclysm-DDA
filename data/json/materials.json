@@ -1333,7 +1333,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
-    "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 40, "bullet": 2, "stab": 5 },
+    "resist": { "bash": 1, "cut": 6, "acid": 5, "heat": 40, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
   {
