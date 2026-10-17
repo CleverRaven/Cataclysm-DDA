@@ -27,6 +27,9 @@ static bool imgui_frame_started = false;
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
+// True when the previous pass of redraw_invalidated drew at least one ImGui
+// adaptor: remembered to detect ImGui → curses transitions (see below).
+static bool prev_pass_had_imgui = false;
 #if defined( TILES )
 static std::optional<SDL_Rect> prev_clip_rect;
 // renderer_resource_generation() sampled when prev_clip_rect was saved, so the
@@ -537,6 +540,32 @@ void ui_adaptor::redraw_invalidated( )
 #endif
     imclient->end_frame();
     imgui_frame_started = false;
+
+    // ImGui → curses transition. An ImGui window that has just been destroyed
+    // (e.g. a uilist closing as the next screen takes over) still holds
+    // WantCaptureMouse for one frame, because the pass above ran its NewFrame
+    // while that window was in its one-frame `WasActive` grace. If nothing
+    // ever runs another NewFrame — which is the normal case for a curses-style
+    // loop blocking in input_context::handle_input(), since swallowed mouse
+    // events never unblock it — the stale capture swallows all mouse input
+    // until some keyboard action happens to redraw. Give ImGui one final
+    // empty frame here: no window exists anymore, so hover recomputes to null
+    // and WantCaptureMouse drops before the next loop starts waiting. This is
+    // the same prime-the-pump pattern used at startup (select_initial_language
+    // in main.cpp).
+    const bool now_has_imgui = has_imgui();
+    if( prev_pass_had_imgui && !now_has_imgui ) {
+#if defined(TILES)
+        int w = 0;
+        int h = 0;
+        get_display_buffer_dims( &w, &h );
+        imclient->new_frame( w, h );
+#else
+        imclient->new_frame();
+#endif
+        imclient->end_frame();
+    }
+    prev_pass_had_imgui = now_has_imgui;
 
     // if any ImGui window needed to calculate the size of its contents,
     //  it needs an extra frame to draw. We do that here.
