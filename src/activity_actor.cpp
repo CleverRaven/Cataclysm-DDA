@@ -306,6 +306,7 @@ static const faction_id faction_your_followers( "your_followers" );
 static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+static const flag_id json_flag_EAT_AFTER_CRAFT( "EAT_AFTER_CRAFT" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
@@ -6136,7 +6137,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     act.moves_left = moves;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character & )
+void consume_activity_actor::finish( player_activity &act, Character &guy )
 {
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
@@ -6144,6 +6145,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     act.interruptable = false;
 
     item_location consume_loc = consume_location;
+    const bool auto_eat = consume_loc && consume_loc->has_flag( json_flag_EAT_AFTER_CRAFT );
 
     avatar &player_character = get_avatar();
     if( !was_canceled ) {
@@ -6174,6 +6176,36 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             avatar_action::eat_or_use( get_avatar(),
                                        game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
         };
+    }
+
+    if( !guy.backlog.empty() && guy.backlog.front().id() == ACT_CONSUME ) {
+        guy.assign_backlog_activity();
+    } else if( auto_eat && guy.is_avatar() ) {
+        guy.backlog.clear();
+        const auto visit = [&guy]( item_location food ) {
+            if( food->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+                if( !food->is_craft() ) {
+                    player_activity act_eat = player_activity( consume_activity_actor( food ) );
+                    // put consume items first, because craft will interrupt backlog queue
+                    guy.backlog.push_front( act_eat );
+                } else {
+                    // resume craft
+                    player_activity act_craft = player_activity( craft_activity_actor( food, false ) );
+                    guy.backlog.push_back( act_craft );
+                }
+            }
+            return VisitResponse::NEXT;
+        };
+
+        // note: crafting_inventory can't be used here as it makes item copies
+        // we are also limiting the range of eating to "right next to you"
+        for( const tripoint_bub_ms &pt : points_in_radius( guy.pos_bub(), 1 ) ) {
+            map_cursor( pt ).visit_items( visit );
+        }
+        guy.visit_items( visit );
+        if( !guy.backlog.empty() ) {
+            guy.assign_backlog_activity();
+        }
     }
 }
 
@@ -6887,12 +6919,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
         item craft_copy = craft;
+        const bool eat_after_craft = craft_item->has_flag( json_flag_EAT_AFTER_CRAFT );
         craft_item.remove_item();
         // We need to cache this before we cancel the activity else we risk Use After Free
         const bool will_continue = is_long;
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
-        if( will_continue ) {
+        if( eat_after_craft ) {
+            if( !crafter.backlog.empty() && crafter.backlog.front().id() == ACT_CONSUME ) {
+                crafter.assign_backlog_activity();
+            } else {
+                debugmsg( "lost craft to eat" );
+            }
+        } else if( will_continue ) {
             if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
                 crafter.last_craft->execute( location );
             }

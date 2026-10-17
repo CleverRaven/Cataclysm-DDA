@@ -5419,6 +5419,13 @@ void Character::resume_backlog_activity()
     }
 }
 
+void Character::assign_backlog_activity()
+{
+    player_activity to_assign = backlog.front();
+    backlog.pop_front();
+    assign_activity( to_assign );
+}
+
 void Character::process_activity()
 {
     while( get_moves() > 0 && activity ) {
