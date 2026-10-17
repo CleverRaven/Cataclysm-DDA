@@ -6181,17 +6181,17 @@ void consume_activity_actor::finish( player_activity &act, Character &guy )
     if( !guy.backlog.empty() && guy.backlog.front().id() == ACT_CONSUME ) {
         guy.assign_backlog_activity();
     } else if( auto_eat && guy.is_avatar() ) {
-        guy.backlog.clear();
-        const auto visit = [&guy]( item_location food ) {
+        std::list<player_activity> to_push;
+        const auto visit = [&guy, &to_push]( item_location food ) {
             if( food->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
                 if( !food->is_craft() ) {
                     player_activity act_eat = player_activity( consume_activity_actor( food ) );
                     // put consume items first, because craft will interrupt backlog queue
-                    guy.backlog.push_front( act_eat );
+                    to_push.push_front( act_eat );
                 } else {
                     // resume craft
                     player_activity act_craft = player_activity( craft_activity_actor( food, false ) );
-                    guy.backlog.push_back( act_craft );
+                    to_push.push_back( act_craft );
                 }
             }
             return VisitResponse::NEXT;
@@ -6203,6 +6203,10 @@ void consume_activity_actor::finish( player_activity &act, Character &guy )
             map_cursor( pt ).visit_items( visit );
         }
         guy.visit_items( visit );
+
+        // don't delete the backlog, but prioritize eating all of the auto eat items
+        guy.backlog.insert( guy.backlog.begin(), to_push.begin(), to_push.end() );
+
         if( !guy.backlog.empty() ) {
             guy.assign_backlog_activity();
         }
