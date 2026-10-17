@@ -18,6 +18,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "map_selector.h"
 #include "output.h"
 #include "recipe.h"
