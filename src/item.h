@@ -3681,14 +3681,13 @@ class item
     public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-        int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
-
+        int charges = 0;
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
-        int frequency = 0;         // Radio frequency
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
+        int frequency = 0;         // Radio frequency
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
 
@@ -3700,7 +3699,6 @@ class item
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
-        bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
@@ -3723,7 +3721,10 @@ class item
             return contents;
         };
 
+        bool ethereal = false;
+
     private:
+        light_emission light = nolight;
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
@@ -3734,7 +3735,6 @@ class item
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
-        item_uid uid_; // persistent unique identifier, survives save/load
         /**
          * Current phase state, inherits a default at room temperature from
          * itype and can be changed through item processing.  This is a static
@@ -3742,13 +3742,14 @@ class item
          * PNULL.
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
+        /** persistent unique identifier, survives save/load */
+        item_uid uid_;
         /** The faction that owns this item. */
         mutable faction_id owner = faction_id::NULL_ID();
         /** The faction that previously owned this item. */
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         int degradation_ = 0;
-        light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
         mutable cata::value_ptr<link_data> link_;
 
@@ -3758,10 +3759,10 @@ class item
         };
         mutable cat_cache cached_category;
 
-        /** Is this item electronically browsed? */
-        bool browsed;
         /** Additional encumbrance this item, not itype, has. */
         units::volume additional_encumbrance = 0_ml;
+        /** Is this item electronically browsed? */
+        bool browsed;
 
     public:
         char invlet = 0;      // Inventory letter
