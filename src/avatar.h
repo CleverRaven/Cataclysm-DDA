@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "auto_eat.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -453,11 +454,13 @@ class avatar : public Character
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
         bool is_waiting_to_change_mode_mode();
+        ret_val<edible_rating> will_auto_eat( const item &food ) const override;
 
         /** Time since the avatar last left the area it stood around in; followers read it to
          *  tell resting from travelling. Zero until the avatar has been placed. */
         time_duration time_since_relocated() const;
 
+        mutable auto_eat_settings auto_eat_handler;
     private:
         void on_move( const tripoint_abs_ms &old_pos ) override;
         // where the avatar has stood around since relocated_at; not serialized
