@@ -81,6 +81,7 @@
         "{": "f_heavy_duty_fridge",
         "F": "f_glass_fridge"
       },
+      "monster": { "a": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
       "toilets": { "T": {  } },
       "//": "Stubbed out a glass display fridge thinking that ice cream cake was an item... D:",
       "items": {
