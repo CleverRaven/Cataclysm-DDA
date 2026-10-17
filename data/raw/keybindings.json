@@ -773,6 +773,13 @@
     "id": "BODYGRAPH_TOGGLE_WINDOW",
     "category": "BODY_STATUS_UI",
     "name": "Toggle bodygraph display window",
+    "bindings": [ { "input_method": "keyboard_any", "key": "}" } ]
+  },  
+  {
+    "type": "keybinding",
+    "id": "INFO_TOGGLE_WINDOW",
+    "category": "BODY_STATUS_UI",
+    "name": "Toggle info window",
     "bindings": [ { "input_method": "keyboard_any", "key": "{" } ]
   },
   {
