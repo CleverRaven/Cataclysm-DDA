@@ -135,6 +135,7 @@ class craft_command
                                       bool no_prompt = false );
         static bool safe_to_unload_comp( const item &it );
 
+        bool eat_after_craft = false;
     private:
         const recipe *rec = nullptr;
         int batch_size = 0;
