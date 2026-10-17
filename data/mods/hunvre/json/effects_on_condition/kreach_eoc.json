@@ -1,0 +1,12 @@
+[
+  {
+    "id": "EOC_kreach_travel",
+    "type": "effect_on_condition",
+    "effect": { "u_travel_to_dimension": "default_kreach" }
+  },
+  {
+    "id": "EOC_kreach_return",
+    "type": "effect_on_condition",
+    "effect": { "u_travel_to_dimension": "" }
+  }
+]

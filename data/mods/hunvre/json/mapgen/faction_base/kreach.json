@@ -1,0 +1,55 @@
+[
+  {
+    "id": "kreach_terrain",
+    "type": "overmap_terrain",
+    "name": "kreach",
+    "sym": "=",
+    "color": "yellow",
+    "vision_levels": "city_building",
+    "travel_cost_type": "structure",
+    "see_cost": "high",
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
+  },
+  {
+    "id": "kreach_special",
+    "type": "overmap_special",
+    "locations": [ "space" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "kreach_terrain_north" } ],
+    "flags": [ "KREACH", "OVERMAP_UNIQUE" ],
+    "occurrences": [ 100, 100 ]
+  },
+  {
+    "om_terrain": "kreach_terrain",
+    "type": "mapgen",
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "########################",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#    =            =    #",
+        "#    =            =    #",
+        "#    =            =    #",
+        "######            ######",
+        "#                      #",
+        "#                      #",
+        "######  ########  ######",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "######  ########  ######",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "#    =  =  ##  =  =    #",
+        "########################"
+      ],
+      "palettes": [ "kreach_palette" ]
+    }
+  }
+]
