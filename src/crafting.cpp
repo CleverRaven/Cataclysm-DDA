@@ -108,6 +108,8 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 
+static const flag_id json_flag_EAT_AFTER_CRAFT( "EAT_AFTER_CRAFT" );
+
 static const furn_str_id furn_f_fake_bench_hands( "f_fake_bench_hands" );
 static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" );
 
@@ -3633,6 +3635,15 @@ static void set_temp_rot( item &newit, const double relative_rot, const bool sho
     }
 }
 
+static void assign_consume( Character &guy, item_location loc )
+{
+    if( loc && loc->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+        player_activity act_eat = player_activity( consume_activity_actor( loc ) );
+        // eat it *first*
+        guy.backlog.push_front( act_eat );
+    }
+}
+
 static void spawn_items( Character &guy, std::vector<item> &results,
                          const std::optional<tripoint_bub_ms> &loc, const double relative_rot, const bool should_heat,
                          bool allow_wield = false )
@@ -3651,6 +3662,7 @@ static void spawn_items( Character &guy, std::vector<item> &results,
     map &here = get_map();
     for( size_t i = 0; i < results.size(); ) {
         item &newit = results[i];
+        item_location it_loc;
         prepare( newit );
 
         if( newit.made_of( phase_id::LIQUID ) ) {
@@ -3660,13 +3672,15 @@ static void spawn_items( Character &guy, std::vector<item> &results,
         }
         if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
             guy.can_wield( newit ).success() ) {
-            wield_craft( guy, newit );
+            it_loc = *wield_craft( guy, newit );
             ++i;
+            assign_consume( guy, it_loc );
             continue;
         }
         if( !loc ) {
-            set_item_inventory( guy, newit );
+            it_loc = set_item_inventory( guy, newit );
             ++i;
+            assign_consume( guy, it_loc );
             continue;
         }
 
@@ -3707,7 +3721,8 @@ static void spawn_items( Character &guy, std::vector<item> &results,
             }
         }
 
-        set_item_map_or_vehicle( guy, target, newit );
+        it_loc = set_item_map_or_vehicle( guy, target, newit );
+        assign_consume( guy, it_loc );
         ++i;
     }
 }
@@ -3739,6 +3754,9 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
         }
         // only wield crafted items if there's only one
         bool allow_wield = newits.size() == 1;
+        if( allow_wield && craft.has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+            newits.front().set_flag( json_flag_EAT_AFTER_CRAFT );
+        }
         spawn_items( *this, newits, loc, relative_rot, should_heat, allow_wield );
     }
 
