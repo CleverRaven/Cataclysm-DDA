@@ -3055,6 +3055,19 @@ void craft_actualize_scheduled( item &craft, item_wakeup_kind kind, time_point n
     }
 }
 
+static bool helper_can_craft( const Character &guy, const recipe &making )
+{
+    if( guy.get_skill_level( making.skill_used ) < making.difficulty ) {
+        return false;
+    }
+    for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
+        if( guy.get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+            return false;
+        }
+    }
+    return making.character_has_required_proficiencies( guy );
+}
+
 void Character::start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc,
                              std::vector<attention_plan> plans )
 {
@@ -3106,6 +3119,12 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ),
         craft.tname() );
+
+    for( const Character *guy : get_crafting_helpers() ) {
+        if( helper_can_craft( *guy, making ) ) {
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->get_name() );
+        }
+    }
 }
 
 bool Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
@@ -3323,23 +3342,10 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
 
     float helpers_weighted_average = 0.0f;
     for( const Character *guy : get_crafting_helpers() ) {
-        // can they actually craft this recipe?
-        bool has_all_skills = guy->get_skill_level( making.skill_used ) >= making.difficulty;
-        if( has_all_skills ) {
-            for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
-                if( guy->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
-                    has_all_skills = false;
-                }
-            }
-        }
-        if( has_all_skills && !making.character_has_required_proficiencies( *guy ) ) {
-            has_all_skills = false;
-        }
-        if( has_all_skills ) {
+        if( helper_can_craft( *guy, making ) ) {
             const float helper_skill_average = std::max( guy->get_recipe_weighted_skill_average( making ),
                                                0.0f );
             helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->get_name() );
         }
     }
 

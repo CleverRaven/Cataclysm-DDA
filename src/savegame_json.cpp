@@ -2129,6 +2129,13 @@ void npc::load( const JsonObject &data )
         comp_mission.role_id = comp_miss_role;
     }
 
+    task_on_mission.reset();
+    if( data.has_object( "task_on_mission" ) ) {
+        npc_suspended_task held;
+        data.read( "task_on_mission", held );
+        task_on_mission = held;
+    }
+
     if( data.read( "companion_mission_role_id", companion_mission_role ) ) {
         companion_mission_role_id = companion_mission_role;
     }
@@ -2212,6 +2219,21 @@ void npc::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void npc_suspended_task::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "task", task );
+    json.member( "backlog", backlog );
+    json.end_object();
+}
+
+void npc_suspended_task::deserialize( const JsonObject &data )
+{
+    data.allow_omitted_members();
+    data.read( "task", task );
+    data.read( "backlog", backlog );
+}
+
 void npc_sleep_session::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2289,6 +2311,9 @@ void npc::store( JsonOut &json ) const
     json.member( "comp_mission_id", comp_mission.miss_id );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
+    if( task_on_mission ) {
+        json.member( "task_on_mission", *task_on_mission );
+    }
     json.member( "companion_mission_role_id", companion_mission_role_id );
     json.member( "companion_mission_points", companion_mission_points );
     json.member( "companion_mission_time", companion_mission_time );
