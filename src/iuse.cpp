@@ -8620,20 +8620,20 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
     return 0;
 }
 
-std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms &loc )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
-    if( !it ) {
-        return std::nullopt;
-    }
-    if( !p->has_item( *it ) ) {
-        return std::nullopt;
+
+    item_location it_location;
+    if( p->has_item( *it ) ) {
+        it_location = item_location( *p, it );
+    } else {
+        it_location = item_location( map_cursor( loc ), it );
     }
 
-    p->disassemble( item_location( *p, it ), false );
+    p->disassemble( it_location, false );
 
     return 0;
 }
