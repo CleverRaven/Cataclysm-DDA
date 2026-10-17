@@ -1923,6 +1923,7 @@
     "material": [ "veggy" ],
     "color": "light_blue",
     "fun": -50,
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ANTIFUNGAL_STRONG" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
