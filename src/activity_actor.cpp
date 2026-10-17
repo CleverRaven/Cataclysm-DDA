@@ -6182,7 +6182,7 @@ void consume_activity_actor::finish( player_activity &act, Character &guy )
         guy.assign_backlog_activity();
     } else if( auto_eat && guy.is_avatar() ) {
         std::list<player_activity> to_push;
-        const auto visit = [&guy, &to_push]( item_location food ) {
+        const auto visit = [&to_push]( item_location food ) {
             if( food->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
                 if( !food->is_craft() ) {
                     player_activity act_eat = player_activity( consume_activity_actor( food ) );
