@@ -3133,6 +3133,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Eat some food",
+    "category": "DEFAULTMODE",
+    "id": "eat_some"
+  },
+  {
+    "type": "keybinding",
     "name": "Consume item (all items)",
     "category": "DEFAULTMODE",
     "id": "eat",
