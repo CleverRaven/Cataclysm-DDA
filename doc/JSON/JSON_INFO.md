@@ -4539,6 +4539,7 @@ currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in
     "intensity": 1, // Intensity of the effect to apply
     "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
     "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_inside": false, // If true, being inside protects from the effect
     "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
     "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
     "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,

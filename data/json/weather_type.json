@@ -650,6 +650,8 @@
         "min_duration": "1s",
         "max_duration": "1s",
         "is_environmental": false,
+        "immune_inside": true,
+        "immune_inside_vehicle": true,
         "immunity_data": { "body_part_env_resistance": [ [ "mouth", 1 ] ] }
       }
     ]
@@ -702,6 +704,8 @@
         "min_duration": "1s",
         "max_duration": "1s",
         "is_environmental": false,
+        "immune_inside": true,
+        "immune_inside_vehicle": true,
         "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] }
       }
     ]
@@ -749,6 +753,8 @@
         "min_duration": "1s",
         "max_duration": "1s",
         "is_environmental": false,
+        "immune_inside": true,
+        "immune_inside_vehicle": true,
         "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] }
       }
     ]
