@@ -4369,30 +4369,29 @@ void npc::ensure_portrait_valid()
 std::string npc::get_current_status() const
 {
     npc_attitude att = get_attitude();
-    if( att == NPCATT_FOLLOW || att == NPCATT_ACTIVITY ) {
+
+    // Attempt to be specific about a follower's current activity.
+    if( att == NPCATT_FOLLOW || att == NPCATT_WAIT || att == NPCATT_ACTIVITY || att == NPCATT_NULL ) {
         if( current_target() != nullptr ) {
             return _( "In Combat!" );
         } else if( has_effect( effect_lying_down ) && !has_effect( effect_sleep ) ) {
             return _( "Trying to sleep" );
         } else if( in_sleep_state() ) {
             return _( "Sleeping" );
-        } else if( is_following() ) {
-            return _( "Following" );
-        } else if( is_leader() ) {
-            return _( "Leading" );
+        } else if( att == NPCATT_ACTIVITY && current_activity_id ) {
+            return get_current_activity();
+        } else if( is_shopkeeper() ) {
+            return _( "Trading" );
         } else if( is_patrolling() ) {
             return _( "Patrolling" );
-        } else if( is_guarding() ) {
+        } else if( is_guarding() && is_player_ally() ) {
             return _( "Guarding" );
-        } else if( mission == NPC_MISSION_CAMP_RESIDENT && !current_activity_id ) {
+        } else if( mission == NPC_MISSION_CAMP_RESIDENT ) {
             return _( "At camp" );
-        } else {
-            return get_current_activity();
         }
-    } else {
-        // This covers healing and most states for non-follower NPCs.
-        return npc_attitude_name( att );
     }
+    // This covers healing and most states for non-follower NPCs.
+    return npc_attitude_name( att );
 }
 
 void npc::update_missions_target( character_id old_character, character_id new_character )
