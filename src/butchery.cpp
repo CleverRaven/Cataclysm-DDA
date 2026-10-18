@@ -899,7 +899,7 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                 for( const fault_id &flt : entry.faults ) {
                     obj.remove_fault( flt );
                 }
-                if( !you.backlog.empty() && ( 
+                if( !you.backlog.empty() && (
                         you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                         you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
                     obj.set_var( "activity_var", you.name );
