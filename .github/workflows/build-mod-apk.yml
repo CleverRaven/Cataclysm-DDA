@@ -2,20 +2,6 @@ name: "Build CDDA Mod Android APK"
 
 on:
   workflow_dispatch:
-    inputs:
-      build_type:
-        description: "Tipo de Build (debug ou release)"
-        required: true
-        default: "debug"
-        type: choice
-        options:
-          - debug
-          - release
-      arm32:
-        description: "Incluir suporte a 32-bit (armeabi-v7a)"
-        required: false
-        default: false
-        type: boolean
   push:
     branches:
       - mod-mobile
@@ -31,7 +17,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
@@ -44,34 +30,43 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gettext glslang-tools
 
-      - name: Preparar shaders e ambiente
+      - name: Preparar versão e shaders
         run: |
           mkdir -p data/shaders
           touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
+          echo '// NOLINT(cata-header-guard)' > src/version.h
+          echo '#define VERSION "0.H-Mobile-Mod"' >> src/version.h
+          cat src/version.h
 
       - name: Compilar APK via Gradle
         working-directory: ./android
         run: |
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
-          BUILD_TYPE="${{ github.event.inputs.build_type || 'debug' }}"
-          ARM32="${{ github.event.inputs.arm32 || 'false' }}"
-          
-          if [ "$BUILD_TYPE" = "release" ]; then
-            GRADLE_TASK="assembleExperimentalRelease"
-          else
-            GRADLE_TASK="assembleExperimentalDebug"
-          fi
-          
-          echo "Executando: ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true -Poverride_version=\"0.H-Mobile-Mod\" $GRADLE_TASK"
-          ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" $GRADLE_TASK --stacktrace
+          echo "Iniciando compilação otimizada Release (ARM64)..."
+          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee gradle_build.log
+
+      - name: Exibir log de erro caso falhe
+        if: failure()
+        working-directory: ./android
+        run: |
+          echo "=== ÚLTIMAS 250 LINHAS DO LOG ==="
+          tail -n 250 gradle_build.log || true
+
+      - name: Upload do log completo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-build-log
+          path: android/gradle_build.log
+          retention-days: 7
 
       - name: Localizar APKs gerados
         id: find-apk
         run: |
           mkdir -p output_apks
           find android/app/build/outputs/apk/ -name "*.apk" -exec cp -v {} output_apks/ \;
-          ls -la output_apks/
+          ls -lh output_apks/
 
       - name: Upload do APK como Artifact
         uses: actions/upload-artifact@v4
