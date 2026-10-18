@@ -34,6 +34,9 @@ struct bodygraph_part {
     nc_color sel_color;
     // What symbol to use for fragments that belong to this section
     std::string sym;
+
+    // whether `bodyparts` or `sub_bodyparts` has `part`
+    bool has_bodypart( const std::string &part ) const;
 };
 
 // info that needs to be passed around

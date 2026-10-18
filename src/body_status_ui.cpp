@@ -39,6 +39,10 @@ static void refresh_header_footer_text( uilist *new_uilist, const body_status_ui
             new_uilist->footer_text = colorize( _( "Outermost" ), c_light_gray );
         }
     }
+    else {
+        new_uilist->text.clear();
+        new_uilist->footer_text.clear();
+    }
 }
 
 body_status_uistate::body_status_uistate( Character &displayed_character, bodygraph_id bg_id,
@@ -201,6 +205,8 @@ void body_status_ui::display()
     }
     bs_uistate.selected_tab = preserve_first_tab;
 
+    // TODO: move to interface
+
     // set first tab
     upon_switching_tab();
 
@@ -218,7 +224,6 @@ void body_status_ui::display()
             if( current_tab_uilist->query_setup() ) {
                 current_tab_uilist->query_once( current_tab_input, 33 );
                 // if list entries need to be reset from a callback
-                // SX2: build into interface
                 if( reset_list_entries ) {
                     reset_list_entries = false;
                     bs_uilist_current.reset();
@@ -323,6 +328,20 @@ bool body_status_ui::handle_action( const std::string &action )
         };
     };
 
+    auto splice_worn_item = [this]( std::list<item>::iterator selected_item,
+                                    std::list<item>::iterator target_item,
+    int target_item_index, bool outer ) {
+        if( !selected_item->has_flag( flag_INTEGRATED ) && !target_item->has_flag( flag_INTEGRATED ) ) {
+            // move this item below the inner item in `worn`
+            displayed_character.worn.splice( outer ? ++target_item : target_item, selected_item );
+            bs_uistate.update_sorted_armor();
+            bs_uistate.selected_index_set = target_item_index;
+            reset_list_entries = true;
+        } else {
+            popup( _( "Can't move your integrated armor!" ) );
+        }
+    };
+
     if( action == "QUIT" ) {
         // quit summary subpart list
         if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SUMMARY &&
@@ -390,39 +409,17 @@ bool body_status_ui::handle_action( const std::string &action )
         * and moving the selected item inwards in `Character::worn`
         */
         int inner_item_index = bs_uistate.selected_index - 1;
-
-        // if no item, abort
         if( inner_item_index >= 0 ) {
             std::list<item>::iterator selected_item = bs_uistate.worn_subset[bs_uistate.selected_index];
-
-            //if inner item is integrated, abort
             std::list<item>::iterator inner_item = bs_uistate.worn_subset[inner_item_index];
-            if( !selected_item->has_flag( flag_INTEGRATED ) && !inner_item->has_flag( flag_INTEGRATED ) ) {
-                // move this item below the inner item in `worn`
-                displayed_character.worn.splice( inner_item, selected_item );
-                bs_uistate.update_sorted_armor();
-                bs_uistate.selected_index_set = inner_item_index;
-                reset_list_entries = true;
-            } else {
-                popup( _( "Can't move your integrated armor!" ) );
-            }
+            splice_worn_item( selected_item, inner_item, inner_item_index, false );
         }
     } else if( action == "MOVE_ARMOR_OUT" ) {
         int outer_item_index = bs_uistate.selected_index + 1;
-
         if( outer_item_index < bs_uistate.worn_subset.size() ) {
             std::list<item>::iterator selected_item = bs_uistate.worn_subset[bs_uistate.selected_index];
-
-            //SX2: dedupe
             std::list<item>::iterator outer_item = bs_uistate.worn_subset[outer_item_index];
-            if( !selected_item->has_flag( flag_INTEGRATED ) && !outer_item->has_flag( flag_INTEGRATED ) ) {
-                displayed_character.worn.splice( ++outer_item, selected_item );
-                bs_uistate.update_sorted_armor();
-                bs_uistate.selected_index_set = outer_item_index;
-                reset_list_entries = true;
-            } else {
-                popup( _( "Can't move your integrated armor!" ) );
-            }
+            splice_worn_item( selected_item, outer_item, outer_item_index, true );
         }
     } else if( action == "CHANGE_SIDE" ) {
         if( displayed_character.query_yn( _( "Swap side for %s?" ),
@@ -459,6 +456,7 @@ bool body_status_ui::handle_action( const std::string &action )
         item &item_to_toggle = *bs_uistate.selected_armor;
         item_to_toggle.set_favorite( !item_to_toggle.is_favorite );
         bs_uistate.update_sorted_armor();
+        reset_list_entries = true;
     } else if( action == "ASSIGN_INVLETS" ) {
         displayed_character.worn.assign_invlets( displayed_character );
     } else {
@@ -616,10 +614,7 @@ void body_status_callback::select( uilist *menu )
 
 void body_status_callback::refresh( uilist *menu )
 {
-    body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
-        refresh_header_footer_text( menu, bs_uistate );
-    }
+    refresh_header_footer_text( menu, ui_parent->bs_uistate );
 }
 
 body_status_ui_impl::body_status_ui_impl( body_status_ui *parent ) :
@@ -756,7 +751,6 @@ void body_status_ui_impl::draw_info()
         default:
             break;
     }
-    bs_uistate.set_description_scroll();
     tabbed_listinfo_ui::set_info_scroll( bs_uistate.info_scrolled_down, bs_uistate.info_scrolled_up );
 }
 

@@ -1590,19 +1590,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         }
         bool selected_graph = false;
         if( selected_part.has_value() && blink_selected ) {
-            // SX2: function for finding part in bodygraph_display
-            for( bodypart_id bpid : bgp->bodyparts ) {
-                if( bpid == bodypart_id( *selected_part ) ) {
-                    selected_graph = true;
-                    break;
-                }
-            }
-            for( sub_bodypart_id bpid : bgp->sub_bodyparts ) {
-                if( bpid == sub_bodypart_id( *selected_part ) ) {
-                    selected_graph = true;
-                    break;
-                }
-            }
+            selected_graph = bgp->has_bodypart( *selected_part );
         }
         std::string sym_blink = sym;
         if( sym_blink != " " && blink_selected && selected_graph ) {
