@@ -1,0 +1,77 @@
+name: "Build CDDA Mod Android APK"
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: "Tipo de Build (debug ou release)"
+        required: true
+        default: "debug"
+        type: choice
+        options:
+          - debug
+          - release
+      arm32:
+        description: "Incluir suporte a 32-bit (armeabi-v7a)"
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches:
+      - mod-mobile
+
+jobs:
+  build-apk:
+    name: Compilar APK Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Instalar dependências do sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext
+
+      - name: Configurar Android SDK e NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r28b
+          link-to-sdk: true
+
+      - name: Compilar APK via Gradle
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          BUILD_TYPE="${{ github.event.inputs.build_type || 'debug' }}"
+          ARM32="${{ github.event.inputs.arm32 || 'false' }}"
+          
+          if [ "$BUILD_TYPE" = "release" ]; then
+            GRADLE_TASK="assembleExperimentalRelease"
+          else
+            GRADLE_TASK="assembleExperimentalDebug"
+          fi
+          
+          echo "Executando: ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true $GRADLE_TASK"
+          ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true $GRADLE_TASK
+
+      - name: Localizar APKs gerados
+        id: find-apk
+        run: |
+          mkdir -p output_apks
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} output_apks/ \;
+          ls -la output_apks/
+
+      - name: Upload do APK como Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CDDA-Mod-Android-APK
+          path: output_apks/*.apk
+          retention-days: 14

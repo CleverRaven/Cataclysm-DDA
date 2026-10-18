@@ -60,6 +60,7 @@
 #include "map_extras.h"
 #include "mapbuffer.h"
 #include "mission.h"
+#include "mobile_ui.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -1203,10 +1204,20 @@ void refresh_display()
 #endif
 
 #if defined(__ANDROID__)
-    if( g ) {
-        draw_quick_shortcuts();
+    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+        cata_mobile::mobile_ui_system::get().update_layout( WindowWidth, WindowHeight );
+        cata_mobile::mobile_ui_system::get().draw( renderer, font.get() );
+    } else {
+        if( g ) {
+            draw_quick_shortcuts();
+        }
+        draw_virtual_joystick();
     }
-    draw_virtual_joystick();
+#else
+    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+        cata_mobile::mobile_ui_system::get().update_layout( WindowWidth, WindowHeight );
+        cata_mobile::mobile_ui_system::get().draw( renderer, font.get() );
+    }
 #endif
     draw_gamepad_radial_menu();
     RenderPresent( renderer );
@@ -6077,8 +6088,19 @@ static void CheckMessages()
             }
         }
 
+        // Handle repeating inputs from Custom Mobile UI (e.g. Exiled Kingdoms analog joystick)
+        if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+            input_event mobile_evt;
+            if( cata_mobile::mobile_ui_system::get().handle_touch_repeat( ticks, mobile_evt ) ) {
+                if( mobile_evt.type != input_event_t::error ) {
+                    last_input = mobile_evt;
+                    return;
+                }
+            }
+        }
+
         // Handle repeating inputs from touch + holds
-        if( !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
+        if( !get_option<bool>( "MOBILE_UI_ENABLED" ) && !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
             finger_down_time > 0 &&
             ticks - finger_down_time > static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
@@ -6105,7 +6127,7 @@ static void CheckMessages()
         }
 
         // If we received a first tap and not another one within a certain period, this was a single tap, so trigger the input event
-        if( !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
+        if( !get_option<bool>( "MOBILE_UI_ENABLED" ) && !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
             last_tap_time > 0 &&
             ticks - last_tap_time >= static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
@@ -6387,6 +6409,13 @@ static void CheckMessages()
                 }
 #endif
                 case CATA_MOUSEMOTION:
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) && ( ev.motion.state & SDL_BUTTON_LMASK ) ) {
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_motion( ev.motion.x, ev.motion.y, 9999, ticks ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            break;
+                        }
+                    }
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -6407,6 +6436,13 @@ static void CheckMessages()
                     break;
 
                 case CATA_MOUSEBUTTONDOWN:
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) && ev.button.button == SDL_BUTTON_LEFT ) {
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_down( ev.button.x, ev.button.y, 9999, ticks ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            break;
+                        }
+                    }
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -6430,6 +6466,18 @@ static void CheckMessages()
                     break;
 
                 case CATA_MOUSEBUTTONUP:
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) && ev.button.button == SDL_BUTTON_LEFT ) {
+                        input_event mobile_evt;
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_up( ev.button.x, ev.button.y, 9999, ticks, mobile_evt ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            if( mobile_evt.type != input_event_t::error ) {
+                                last_input = mobile_evt;
+                                return;
+                            }
+                            break;
+                        }
+                    }
                     if( ! mouse.enabled ) {
                         break;
                     }
@@ -6468,6 +6516,15 @@ static void CheckMessages()
 
 #if defined(__ANDROID__)
                 case CATA_FINGERMOTION: {
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+                        float fx = GetFingerX( ev, WindowWidth );
+                        float fy = GetFingerY( ev, WindowHeight );
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_motion( fx, fy, GetFingerID( ev ), ticks ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            break;
+                        }
+                    }
                     const int slot = finger_slot_for( GetFingerID( ev ), false );
                     if( slot == 0 ) {
                         if( !is_quick_shortcut_touch ) {
@@ -6502,6 +6559,15 @@ static void CheckMessages()
                     break;
                 }
                 case CATA_FINGERDOWN:
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+                        float fx = GetFingerX( ev, WindowWidth );
+                        float fy = GetFingerY( ev, WindowHeight );
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_down( fx, fy, GetFingerID( ev ), ticks ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            break;
+                        }
+                    }
                     if( finger_slot_for( GetFingerID( ev ), true ) == 0 ) {
                         finger_down_x = finger_curr_x = GetFingerX( ev, WindowWidth );
                         finger_down_y = finger_curr_y = GetFingerY( ev, WindowHeight );
@@ -6529,6 +6595,20 @@ static void CheckMessages()
                     }
                     break;
                 case CATA_FINGERUP: {
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+                        float fx = GetFingerX( ev, WindowWidth );
+                        float fy = GetFingerY( ev, WindowHeight );
+                        input_event mobile_evt;
+                        if( cata_mobile::mobile_ui_system::get().handle_touch_up( fx, fy, GetFingerID( ev ), ticks, mobile_evt ) ) {
+                            needupdate = true;
+                            ui_manager::redraw_invalidated();
+                            if( mobile_evt.type != input_event_t::error ) {
+                                last_input = mobile_evt;
+                                return;
+                            }
+                            break;
+                        }
+                    }
                     const int slot = finger_slot_for( GetFingerID( ev ), false );
                     if( slot == 0 ) {
                         finger_curr_x = GetFingerX( ev, WindowWidth );
@@ -6713,6 +6793,10 @@ static void CheckMessages()
                     break;
                 }
                 case CATA_FINGERCANCELED:
+                    if( get_option<bool>( "MOBILE_UI_ENABLED" ) ) {
+                        input_event dummy;
+                        cata_mobile::mobile_ui_system::get().handle_touch_up( 0.0f, 0.0f, GetFingerID( ev ), ticks, dummy );
+                    }
                     cancel_touch();
                     android_request_repaint();
                     break;

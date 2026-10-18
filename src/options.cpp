@@ -2360,7 +2360,7 @@ void options_manager::add_options_graphics()
 #if defined(__ANDROID__)
     // grid and cell follow screen and Android text size option
     constexpr copt_hide_t terminal_size_hide = COPT_ALWAYS_HIDE;
-    constexpr copt_hide_t font_size_hide = COPT_ALWAYS_HIDE;
+    constexpr copt_hide_t font_size_hide = COPT_NONE;
 #else
     constexpr copt_hide_t terminal_size_hide = COPT_POSIX_CURSES_HIDE;
 #if defined(TILES)
@@ -3376,8 +3376,96 @@ void options_manager::add_options_android()
              50, 1000, 130
            );
     } );
-
 #endif
+
+    add_empty_line();
+
+    const std::string mobile_page =
+#if defined(__ANDROID__)
+        "android";
+#else
+        "interface";
+#endif
+
+    add_option_group( mobile_page, Group( "mobile_custom_ui_opts",
+                                        to_translation( "Mobile UI & Acessibilidade" ),
+                                        to_translation( "Opções de layout, escala dos botões e acessibilidade visual." ) ),
+    [&]( const std::string & page_id ) {
+        add( "MOBILE_UI_ENABLED", page_id, to_translation( "Ativar Nova Interface Mobile" ),
+             to_translation( "Se ativado, utiliza a nova interface com botões de ação e slots contextuais." ),
+             true
+           );
+
+        add( "MOBILE_DPAD_SCALE", page_id, to_translation( "Escala do Analógico D-Pad" ),
+             to_translation( "Multiplicador de tamanho do analógico amarelo." ),
+             0.5f, 2.5f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_FACE_SCALE", page_id, to_translation( "Escala dos Botões de Ação" ),
+             to_translation( "Multiplicador de tamanho dos 4 botões direitos (losango)." ),
+             0.5f, 2.5f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_SHOULDER_SCALE", page_id, to_translation( "Escala dos Gatilhos L/R" ),
+             to_translation( "Multiplicador de tamanho dos botões L1, L2, R1, R2." ),
+             0.5f, 2.0f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_CONTEXT_SCALE", page_id, to_translation( "Escala dos Slots Contextuais" ),
+             to_translation( "Multiplicador de tamanho dos slots dinâmicos em escada." ),
+             0.5f, 2.0f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_CENTER_SCALE", page_id, to_translation( "Escala dos Botões Centrais" ),
+             to_translation( "Multiplicador de tamanho dos botões de turno e loot (C1, C2)." ),
+             0.5f, 2.0f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_DPAD_POS_X", page_id, to_translation( "Ajuste X do Analógico" ),
+             to_translation( "Offset horizontal em pixels para o analógico." ),
+             -300, 300, 0
+           );
+
+        add( "MOBILE_DPAD_POS_Y", page_id, to_translation( "Ajuste Y do Analógico" ),
+             to_translation( "Offset vertical em pixels para o analógico." ),
+             -300, 300, 0
+           );
+
+        add( "MOBILE_FACE_POS_X", page_id, to_translation( "Ajuste X dos Botões de Ação" ),
+             to_translation( "Offset horizontal em pixels para os botões de ação." ),
+             -300, 300, 0
+           );
+
+        add( "MOBILE_FACE_POS_Y", page_id, to_translation( "Ajuste Y dos Botões de Ação" ),
+             to_translation( "Offset vertical em pixels para os botões de ação." ),
+             -300, 300, 0
+           );
+
+        add( "MOBILE_UI_OPACITY", page_id, to_translation( "Opacidade Geral dos Botões" ),
+             to_translation( "Porcentagem de opacidade dos botões translúcidos (fundo fosco)." ),
+             10, 100, 45
+           );
+
+        add( "MOBILE_HIGH_CONTRAST", page_id, to_translation( "Modo Alto Contraste" ),
+             to_translation( "Se ativado, desenha contornos de destaque neon de 2px nos botões." ),
+             false
+           );
+
+        add( "MOBILE_SWAP_SIDES", page_id, to_translation( "Modo Canhoto (Inverter Lados)" ),
+             to_translation( "Inverte o analógico para a direita e botões de ação para a esquerda." ),
+             false
+           );
+
+        add( "MOBILE_GLOBAL_FONT_SCALE", page_id, to_translation( "Escala Global de Fonte" ),
+             to_translation( "Aumenta o tamanho de texto da interface para acessibilidade visual." ),
+             0.8f, 2.5f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "MOBILE_GAMMA_BOOST", page_id, to_translation( "Brilho e Gama Global" ),
+             to_translation( "Clareia a renderização do jogo para visualização sob a luz do sol." ),
+             0.5f, 2.5f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+    } );
 }
 
 #if defined(TILES)
