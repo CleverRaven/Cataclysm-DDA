@@ -3863,14 +3863,20 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
+// how much liquid a pour moves into the container, given its own room for it
+static int pour_amount( const item_location &container, const item &liquid, const int room )
+{
+    return container->all_pockets_rigid() ? room :
+           std::min( room, container.max_charges_by_parent_recursive( liquid ).value() );
+}
+
 bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
                            bool silent )
 {
     rem_cap_return err = rem_cap_return::SUCCESS;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     // amount of liquid that can be inserted
-    int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
+    int amount = pour_amount( container, liquid, max_remaining_capacity );
 
     const bool desired_liquid_is_in = container.has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
@@ -3924,9 +3930,28 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    get_avatar().invalidate_weight_carried_cache();
+    invalidate_weight_carried_cache();
+    if( Character *carrier = container.carrier() ) {
+        carrier->invalidate_weight_carried_cache();
+    }
 
     return true;
+}
+
+item_location Character::carried_container_for( const item &liquid, const item *avoid ) const
+{
+    item_location found;
+    visit_carried( [&]( const item_location & container ) {
+        if( container.get_item() == avoid || container.get_item() == &liquid ||
+            !container->is_watertight_container() || container->has_item( liquid ) ||
+            pour_amount( container, liquid,
+                         container->get_remaining_capacity_for_liquid( liquid, *this ) ) <= 0 ) {
+            return VisitResponse::NEXT;
+        }
+        found = container;
+        return VisitResponse::ABORT;
+    } );
+    return found;
 }
 
 bool Character::pour_into( const vpart_reference &vp, item &liquid ) const

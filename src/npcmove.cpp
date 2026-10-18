@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "active_item_cache.h"
+#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -37,6 +38,7 @@
 #include "character_attire.h"
 #include "character_id.h"
 #include "character_oracle.h"
+#include "clone_ptr.h"
 #include "clzones.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
@@ -62,6 +64,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_transformation.h"
 #include "itype.h"
@@ -123,6 +126,7 @@
 enum class side : int;
 
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -397,7 +401,7 @@ const int avoidance_vehicles_radius = 5;
 
 bool good_for_pickup( const item &it, npc &who, const tripoint_bub_ms &there )
 {
-    return who.can_take_that( it ) &&
+    return ( who.can_take_that( it ) || who.can_empty_for_pickup( it ) ) &&
            who.wants_take_that( it ) &&
            who.would_take_that( it, there );
 }
@@ -1522,6 +1526,14 @@ void npc::regen_ai_cache()
     }
 }
 
+// NPC drinks from a container on the ground only while this holds
+bool npc::may_drink_here() const
+{
+    return get_ai_danger() <= NPC_DANGER_VERY_LOW && !sees_hostile_within( rest_watch_radius ) &&
+           !sees_dangerous_field( pos_bub() ) && !has_effect( effect_npc_fire_bad ) &&
+           ai_cache.dangerous_explosives.empty() && may_occupy_here();
+}
+
 void npc::move()
 {
     const map &here = get_map();
@@ -1555,6 +1567,24 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
+    // drink from container on ground stops once unsafe or out of reach
+    if( activity.id() == ACT_CONSUME ) {
+        const consume_activity_actor *drink =
+            dynamic_cast<const consume_activity_actor *>( activity.actor.get() );
+        const bool in_reach = drink == nullptr || !drink->location() ||
+                              rl_dist( pos_abs(), drink->location().pos_abs() ) <= 1;
+        if( in_reach && may_drink_here() ) {
+            execute_action( npc_player_activity );
+            return;
+        }
+        cancel_activity();
+        // NPC decides again; the dropped drink is not resumed from the backlog
+        if( !backlog.empty() && backlog.front().id() == ACT_CONSUME ) {
+            backlog.pop_front();
+        }
+        fetching_item = false;
+        wanted_item = {};
+    }
     if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
         review_self_care_activity();
     }
@@ -4184,6 +4214,15 @@ void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
     }
 }
 
+// only followers are limited: follow goal pulls them back before they reach a far item
+static std::optional<npc_reach> pickup_reach( const npc &guy )
+{
+    if( !guy.is_player_ally() || !guy.is_walking_with() ) {
+        return std::nullopt;
+    }
+    return guy.obligation_reach();
+}
+
 void npc::find_item()
 {
     if( is_hallucination() ) {
@@ -4232,6 +4271,10 @@ void npc::find_item()
             best_value = has_item_whitelist() ? 1000 : value( it );
             return true;
         } else {
+            // whether an open container can be emptied first depends on NPC, not tile
+            if( it.is_bucket_nonempty() ) {
+                declined_dynamically = true;
+            }
             return false;
         }
     };
@@ -4257,7 +4300,11 @@ void npc::find_item()
         }
     };
 
+    const std::optional<npc_reach> reach = pickup_reach( *this );
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), range ) ) {
+        if( reach && !reach->contains( here.get_abs( p ) ) ) {
+            continue;
+        }
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
@@ -4376,12 +4423,15 @@ void npc::pick_up_item()
     const std::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
+    const std::optional<npc_reach> reach = pickup_reach( *this );
 
     if( ( !here.has_items( wanted_item_pos ) && !has_cargo &&
           !here.is_harvestable( wanted_item_pos ) && sees( here, wanted_item_pos ) ) ||
-        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ) {
+        ( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, wanted_item_pos ) ) ||
+        ( reach && !reach->contains( here.get_abs( wanted_item_pos ) ) ) ) {
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
+        // Or the item is outside the reach the follow goal keeps us in
         fetching_item = false;
         wanted_item = {};
         move_pause();
@@ -4426,6 +4476,15 @@ void npc::pick_up_item()
     }
 
     // We're adjacent to the item; grab it!
+
+    if( wanted_item && wanted_item->is_bucket_nonempty() ) {
+        if( !empty_before_pickup() ) {
+            fetching_item = false;
+            wanted_item = {};
+            move_pause();
+        }
+        return;
+    }
 
     auto picked_up = pick_up_item_map( wanted_item_pos );
     if( picked_up.empty() && has_cargo ) {
@@ -4473,6 +4532,73 @@ void npc::pick_up_item()
     has_new_items = true;
 }
 
+// first liquid in the open pockets; nullptr if none, or if an open pocket holds a solid
+template<typename Item>
+static Item *liquid_to_empty( Item &container )
+{
+    Item *liquid = nullptr;
+    for( auto *pocket : container.get_container_pockets() ) {
+        if( !pocket->will_spill() ) {
+            continue;
+        }
+        for( Item *it : pocket->all_items_top() ) {
+            if( !it->made_of( phase_id::LIQUID ) ) {
+                return nullptr;
+            }
+            if( liquid == nullptr ) {
+                liquid = it;
+            }
+        }
+    }
+    return liquid;
+}
+
+bool npc::can_empty_for_pickup( const item &it )
+{
+    if( !it.is_bucket_nonempty() ) {
+        return false;
+    }
+    item emptied( it );
+    emptied.get_contents().clear_items();
+    if( !can_take_that( emptied ) ) {
+        return false;
+    }
+    const item *liquid = liquid_to_empty( it );
+    return liquid != nullptr && ( carried_container_for( *liquid ) ||
+                                  ( wants_to_consume_now( *liquid ) && may_drink_here() ) );
+}
+
+bool npc::empty_before_pickup()
+{
+    item *liquid = wanted_item ? liquid_to_empty( *wanted_item ) : nullptr;
+    if( liquid == nullptr ) {
+        return false;
+    }
+    item_location liquid_loc( wanted_item, liquid );
+    item_location target = carried_container_for( *liquid );
+    const int before = liquid->charges;
+    if( target && pour_into( target, *liquid, true, true ) && liquid->charges < before ) {
+        // same cost as player's pour
+        target.make_active();
+        mod_moves( -100 );
+        if( liquid->charges <= 0 ) {
+            liquid_loc.remove_item();
+        }
+        wanted_item->on_contents_changed();
+        return true;
+    }
+    if( wants_to_consume_now( *liquid ) && may_drink_here() ) {
+        const npc_attitude saved_att = attitude;
+        const npc_mission saved_mis = mission;
+        assign_activity( consume_activity_actor( liquid_loc ) );
+        // self-initiated drink, not a task: keep attitude and mission, as address_needs does
+        attitude = saved_att;
+        mission = saved_mis;
+        return activity.id() == ACT_CONSUME;
+    }
+    return false;
+}
+
 template <typename T>
 static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
@@ -4497,6 +4623,10 @@ static std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 bool npc::can_take_that( const item &it )
 {
+    // open container would spill once carried
+    if( it.is_bucket_nonempty() ) {
+        return false;
+    }
     bool good = false;
 
     auto weight_allowed = weight_capacity() - weight_carried();
@@ -7824,8 +7954,16 @@ bool outfit::adjust_worn( npc &guy )
             //create an item_location for takeoff() to handle.
             item_location loc_for_takeoff = item_location( guy, &elem );
             // Try to change side (if it makes sense), or take off.
-            std::list<item> temp_list;
-            if( ( needs_change && guy.change_side( elem ) ) || takeoff( loc_for_takeoff, &temp_list, guy ) ) {
+            if( needs_change && guy.change_side( elem ) ) {
+                return true;
+            }
+            std::list<item> taken_off;
+            if( takeoff( loc_for_takeoff, &taken_off, guy ) ) {
+                // NPC owns what it takes off, stowed, wielded or dropped at its feet
+                for( item &it : taken_off ) {
+                    it.set_owner( guy );
+                    guy.i_add_or_drop( it );
+                }
                 return true;
             }
         }

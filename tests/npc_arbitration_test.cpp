@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <initializer_list>
+#include <list>
 #include <memory>
 #include <optional>
 #include <set>
@@ -10,8 +11,10 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "behavior.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
@@ -25,30 +28,38 @@
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_arbitration.h"
 #include "npc_trip.h"
 #include "npc_turn_helpers.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "ret_val.h"
 #include "stomach.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 
@@ -63,7 +74,13 @@ static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_can_medium( "can_medium" );
+static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_orange( "orange" );
+static const itype_id itype_plastic_chunk( "plastic_chunk" );
+static const itype_id itype_soup_chicken( "soup_chicken" );
+static const itype_id itype_waterskin( "waterskin" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -78,6 +95,7 @@ static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 
+static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
@@ -1864,5 +1882,613 @@ TEST_CASE( "rest_review_gets_a_settler_up_and_leaves_sleepers_alone", "[npc][nee
         guy.review_rest();
         CHECK( guy.has_effect( effect_sleep ) );
         CHECK( guy.get_committed_goal() == "go_to_sleep" );
+    }
+}
+
+static int soup_in( const item &container )
+{
+    int charges = 0;
+    for( const item *it : container.items_with( []( const item & i ) {
+    return i.typeId() == itype_soup_chicken;
+    } ) ) {
+        charges += it->charges;
+    }
+    return charges;
+}
+
+static int loose_soup_near( const tripoint_bub_ms &center )
+{
+    int charges = 0;
+    for( const tripoint_bub_ms &p : get_map().points_in_radius( center, 3 ) ) {
+        for( const item &it : get_map().i_at( p ) ) {
+            if( it.typeId() == itype_soup_chicken ) {
+                charges += it.charges;
+            }
+        }
+    }
+    return charges;
+}
+
+static std::vector<const item *> cans_at( const tripoint_bub_ms &p )
+{
+    std::vector<const item *> cans;
+    for( const item &it : get_map().i_at( p ) ) {
+        if( it.typeId() == itype_can_medium ) {
+            cans.push_back( &it );
+        }
+    }
+    return cans;
+}
+
+static item_location soup_in_inventory( Character &who )
+{
+    item_location soup;
+    who.visit_carried( [&soup]( const item_location & loc ) {
+        if( loc->typeId() == itype_soup_chicken ) {
+            soup = loc;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return soup;
+}
+
+TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    REQUIRE_FALSE( guy.has_calorie_deficit() );
+    const item can = item( itype_soup_chicken, calendar::turn, 2 ).in_its_container();
+    REQUIRE( can.typeId() == itype_can_medium );
+    REQUIRE( soup_in( can ) == 2 );
+    REQUIRE_FALSE( can.will_spill() );
+    const auto pack_the_can = [&]( Character & who ) {
+        who.worn.wear_item( who, item( itype_backpack ), false, false );
+        REQUIRE( who.i_add( can ) );
+        REQUIRE( who.charges_of( itype_soup_chicken ) == 2 );
+        here.build_map_cache( 0 );
+    };
+
+    GIVEN( "hungry NPC with a sealed can and an empty bottle in the pack" ) {
+        guy.set_hunger( 200 );
+        pack_the_can( guy );
+        REQUIRE( guy.i_add( item( itype_bottle_plastic ) ) );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "rest goes into the bottle" ) {
+                const std::vector<item *> bottles = guy.items_with( []( const item & i ) {
+                    return i.typeId() == itype_bottle_plastic;
+                } );
+                REQUIRE( bottles.size() == 1 );
+                CHECK( soup_in( *bottles.front() ) == 1 );
+                CHECK( guy.charges_of( itype_soup_chicken ) == 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "hungry NPC with a sealed can in the pack" ) {
+        guy.set_hunger( 200 );
+        pack_the_can( guy );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "NPC drinks the rest too" ) {
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( guy.has_amount( itype_can_medium, 1 ) );
+                CHECK( cans_at( guy.pos_bub() ).empty() );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "a sated NPC with a sealed can in the pack" ) {
+        pack_the_can( guy );
+        const faction_id owner = guy.items_with( []( const item & i ) {
+            return i.typeId() == itype_can_medium;
+        } ).front()->get_owner();
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food() );
+            THEN( "open can is set down on its tile with the rest inside" ) {
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                const std::vector<const item *> cans = cans_at( guy.pos_bub() );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( cans.front()->get_owner() == owner );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    const auto carried = [&guy]( const itype_id & id ) {
+        item_location found;
+        guy.visit_carried( [&found, &id]( const item_location & loc ) {
+            if( loc->typeId() == id ) {
+                found = loc;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        REQUIRE( found );
+        return found;
+    };
+    const auto fill_the_pack = [&]( const std::vector<itype_id> &containers ) {
+        pack_the_can( guy );
+        item_location pack = carried( itype_backpack );
+        for( const itype_id &id : containers ) {
+            REQUIRE( pack->put_in( item( id ), pocket_type::CONTAINER ).success() );
+        }
+        const item chunk( itype_plastic_chunk );
+        while( pack->can_contain( chunk ).success() ) {
+            REQUIRE( pack->put_in( chunk, pocket_type::CONTAINER ).success() );
+        }
+        const item_location skin = carried( itype_waterskin );
+        const item_location soup = carried( itype_soup_chicken );
+        REQUIRE_FALSE( skin->all_pockets_rigid() );
+        REQUIRE( skin->get_remaining_capacity_for_liquid( *soup, guy ) > 0 );
+        REQUIRE( skin.max_charges_by_parent_recursive( *soup ).value() == 0 );
+        return soup;
+    };
+    GIVEN( "sated NPC with a sealed can and an empty waterskin in a full pack" ) {
+        const item_location soup = fill_the_pack( { itype_waterskin } );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE_FALSE( guy.carried_container_for( *soup ) );
+            REQUIRE( guy.consume_food() );
+            THEN( "waterskin stays empty, open can with the soup is set down" ) {
+                CHECK( soup_in( *carried( itype_waterskin ) ) == 0 );
+                const std::vector<const item *> cans = cans_at( guy.pos_bub() );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "sated NPC with a sealed can, an empty waterskin and a bottle in a full pack" ) {
+        const item_location soup = fill_the_pack( { itype_waterskin, itype_bottle_plastic } );
+        WHEN( "NPC drinks one portion" ) {
+            const item_location target = guy.carried_container_for( *soup );
+            REQUIRE( target );
+            REQUIRE( target->typeId() == itype_bottle_plastic );
+            REQUIRE( guy.consume_food() );
+            THEN( "rest goes in the bottle, not the waterskin" ) {
+                CHECK( soup_in( *carried( itype_bottle_plastic ) ) == 1 );
+                CHECK( soup_in( *carried( itype_waterskin ) ) == 0 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "sealed can on the next tile" ) {
+        const tripoint_bub_ms spot = guy.pos_bub() + tripoint::south;
+        item &placed = here.add_item_or_charges( spot, can );
+        here.build_map_cache( 0 );
+        const item_location can_loc( map_cursor( spot ), &placed );
+        item *soup = nullptr;
+        placed.visit_items( [&soup]( item * it, item * ) {
+            if( it->typeId() == itype_soup_chicken ) {
+                soup = it;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        REQUIRE( soup != nullptr );
+        WHEN( "NPC drinks one portion" ) {
+            REQUIRE( guy.consume_food_at( item_location( can_loc, soup ) ) );
+            THEN( "rest stays in the can on that tile" ) {
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "NPC drinks one portion through the consume activity" ) {
+            guy.set_thirst( 100 );
+            const units::volume player_water = get_avatar().stomach.get_water();
+            guy.assign_activity( consume_activity_actor( item_location( can_loc, soup ) ) );
+            REQUIRE( guy.activity.id() == ACT_CONSUME );
+            for( int i = 0; i < 100 && guy.activity; ++i ) {
+                guy.set_moves( 100 );
+                guy.activity.do_turn( guy );
+            }
+            THEN( "NPC drank it, not player" ) {
+                CHECK_FALSE( guy.activity );
+                CHECK( drank( guy ) );
+                CHECK( get_avatar().stomach.get_water() == player_water );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "sealed can in the player's pack" ) {
+        avatar &you = get_avatar();
+        pack_the_can( you );
+        restore_on_out_of_scope restore_spill( test_mode_spilling_action );
+        WHEN( "player drinks one portion, spills the rest" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::spill_all;
+            REQUIRE( you.consume( soup_in_inventory( you ) ) == trinary::SOME );
+            THEN( "rest is on the ground" ) {
+                CHECK( you.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( loose_soup_near( you.pos_bub() ) == 1 );
+            }
+        }
+        WHEN( "player drinks one portion, keeps the rest" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::cancel_spill;
+            REQUIRE( you.consume( soup_in_inventory( you ) ) == trinary::SOME );
+            THEN( "open can set down with the rest inside" ) {
+                const std::vector<const item *> cans = cans_at( you.pos_bub() );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 1 );
+                CHECK( loose_soup_near( you.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "player drinks one portion through the consume activity" ) {
+            test_mode_spilling_action = test_mode_spilling_action_t::cancel_spill;
+            you.set_thirst( 100 );
+            you.assign_activity( consume_activity_actor( soup_in_inventory( you ) ) );
+            REQUIRE( you.activity.id() == ACT_CONSUME );
+            for( int i = 0; i < 100 && you.activity; ++i ) {
+                you.set_moves( 100 );
+                you.activity.do_turn( you );
+            }
+            THEN( "player drank it" ) {
+                CHECK_FALSE( you.activity );
+                CHECK( you.stomach.get_water() > 0_ml );
+                CHECK( you.charges_of( itype_soup_chicken ) == 0 );
+            }
+        }
+    }
+}
+
+static bool knife_at( const tripoint_bub_ms &p )
+{
+    for( const item &it : get_map().i_at( p ) ) {
+        if( it.typeId() == itype_knife_combat ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+static item &open_can_at( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    item &placed = here.add_item_or_charges( p,
+                   item( itype_soup_chicken, calendar::turn, 2 ).in_its_container() );
+    for( item_pocket *pocket : placed.get_container_pockets() ) {
+        pocket->unseal();
+    }
+    here.build_map_cache( 0 );
+    REQUIRE( placed.typeId() == itype_can_medium );
+    REQUIRE( placed.is_bucket_nonempty() );
+    return placed;
+}
+
+// calories in the guts and spare water keep hunger and thirst from coming back during the test
+static void keep_sated( npc &guy )
+{
+    guy.guts.mod_calories( 1000 );
+    guy.set_thirst( -40 );
+}
+
+static void whitelist_tin_cans( npc &guy )
+{
+    guy.rules.pickup_whitelist->deserialize( json_loader::from_string(
+                R"([{ "rule": "*tin can*", "active": true, "exclude": false }])" ).get_array() );
+    REQUIRE( guy.has_item_whitelist() );
+}
+
+TEST_CASE( "follower_fetches_only_items_within_its_follow_reach", "[npc][behavior]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    guy.rules.set_flag( ally_rule::allow_pick_up );
+    const std::optional<npc_reach> reach = guy.obligation_reach();
+    REQUIRE( reach );
+    REQUIRE( reach->radius == 4 );
+
+    GIVEN( "knife the NPC can see, past its follow reach" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 7, 0, 0 );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        REQUIRE( rl_dist( guy.pos_bub(), spot ) <= 6 );
+        REQUIRE( guy.sees( here, spot ) );
+        WHEN( "player stands still" ) {
+            int farthest = 0;
+            bool fetched = false;
+            run_npc_turns( guy, 30, [&]( const npc & n ) {
+                farthest = std::max( farthest, dist_to_leader( n ) );
+                fetched = fetched || n.fetching_item;
+                return false;
+            } );
+            THEN( "NPC stays within reach and leaves the knife" ) {
+                CHECK( farthest <= reach->radius );
+                CHECK_FALSE( fetched );
+                CHECK( knife_at( spot ) );
+            }
+        }
+        WHEN( "knife fetch already under way" ) {
+            guy.fetching_item = true;
+            guy.wanted_item_pos = spot;
+            run_npc_turn( guy );
+            THEN( "NPC abandons the fetch" ) {
+                CHECK_FALSE( guy.fetching_item );
+                CHECK( dist_to_leader( guy ) <= reach->radius );
+            }
+        }
+    }
+    GIVEN( "knife within its follow reach" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, [&spot]( const npc & ) {
+                return !knife_at( spot );
+            } );
+            THEN( "NPC picks it up" ) {
+                CHECK_FALSE( knife_at( spot ) );
+                CHECK( guy.has_amount( itype_knife_combat, 1 ) );
+            }
+        }
+    }
+    GIVEN( "open can of soup within its reach, and no use for the soup" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        const item &can = open_can_at( spot );
+        REQUIRE( guy.wants_take_that( can ) );
+        keep_sated( guy );
+        REQUIRE_FALSE( guy.wants_to_consume_now( *can.all_items_top().front() ) );
+        WHEN( "player stands still" ) {
+            bool fetched = false;
+            run_npc_turns( guy, 30, [&fetched]( const npc & n ) {
+                fetched = fetched || n.fetching_item;
+                return false;
+            } );
+            THEN( "can stays where it is with soup inside" ) {
+                CHECK_FALSE( fetched );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 2 );
+                CHECK_FALSE( guy.has_amount( itype_can_medium, 1 ) );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "NPC passes the can by, then gets an empty bottle" ) {
+            bool fetched = false;
+            run_npc_turns( guy, 30, [&fetched]( const npc & n ) {
+                fetched = fetched || n.fetching_item;
+                return false;
+            } );
+            REQUIRE_FALSE( fetched );
+            REQUIRE( guy.i_add( item( itype_bottle_plastic ) ) );
+            const auto soup_in_bottle = [&guy]() {
+                const std::vector<item *> bottles = guy.items_with( []( const item & i ) {
+                    return i.typeId() == itype_bottle_plastic;
+                } );
+                REQUIRE( bottles.size() == 1 );
+                return soup_in( *bottles.front() );
+            };
+            run_npc_turns( guy, 30, [&]( const npc & ) {
+                return soup_in_bottle() == 2;
+            } );
+            THEN( "NPC pours the soup into the bottle" ) {
+                CHECK( soup_in_bottle() == 2 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "open can of soup within its reach, and an empty bottle" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        open_can_at( spot );
+        REQUIRE( guy.i_add( item( itype_bottle_plastic ) ) );
+        const auto soup_in_bottle = [&guy]() {
+            const std::vector<item *> bottles = guy.items_with( []( const item & i ) {
+                return i.typeId() == itype_bottle_plastic;
+            } );
+            REQUIRE( bottles.size() == 1 );
+            return soup_in( *bottles.front() );
+        };
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, [&]( const npc & ) {
+                return soup_in_bottle() > 0;
+            } );
+            run_npc_turns( guy, 5 );
+            THEN( "soup is in the bottle, can is empty" ) {
+                CHECK( soup_in_bottle() == 2 );
+                CHECK( guy.charges_of( itype_soup_chicken ) == 2 );
+                for( const item *left : cans_at( spot ) ) {
+                    CHECK( soup_in( *left ) == 0 );
+                }
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "NPC pours soup after its carried weight was cached" ) {
+            const units::mass before = guy.weight_carried();
+            run_npc_turns( guy, 30, [&]( const npc & ) {
+                return soup_in_bottle() > 0;
+            } );
+            REQUIRE( soup_in_bottle() > 0 );
+            const units::mass cached = guy.weight_carried();
+            guy.invalidate_weight_carried_cache();
+            THEN( "carried weight counts the soup" ) {
+                CHECK( cached == guy.weight_carried() );
+                CHECK( cached > before );
+            }
+        }
+        WHEN( "NPC is told to pick up tin cans, and player stands still" ) {
+            whitelist_tin_cans( guy );
+            run_npc_turns( guy, 30, [&spot]( const npc & ) {
+                return cans_at( spot ).empty();
+            } );
+            THEN( "NPC pours soup into bottle, then picks up empty can" ) {
+                CHECK( soup_in_bottle() == 2 );
+                CHECK( cans_at( spot ).empty() );
+                CHECK( guy.has_amount( itype_can_medium, 1 ) );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "open can of soup within its reach, and a thirsty NPC" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        open_can_at( spot );
+        guy.set_thirst( 100 );
+        const auto drinking = []( const npc & n ) {
+            return n.activity.id() == ACT_CONSUME;
+        };
+        const auto fetching_the_can = [&spot]( const npc & n ) {
+            return n.fetching_item && n.wanted_item_pos == spot;
+        };
+        const auto soup_left = [&spot]() {
+            const std::vector<const item *> cans = cans_at( spot );
+            REQUIRE( cans.size() == 1 );
+            return soup_in( *cans.front() );
+        };
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, drinking );
+            REQUIRE( drinking( guy ) );
+            THEN( "drinks from the can on the ground until the soup is gone" ) {
+                CHECK( soup_left() == 2 );
+                run_npc_turn( guy );
+                CHECK( guy.get_moves() > -100 );
+                run_npc_turns( guy, 200, [&spot]( const npc & ) {
+                    const std::vector<const item *> cans = cans_at( spot );
+                    return cans.empty() || soup_in( *cans.front() ) == 0;
+                } );
+                CHECK( drank( guy ) );
+                for( const item *left : cans_at( spot ) ) {
+                    CHECK( soup_in( *left ) == 0 );
+                }
+                CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "zombie comes into view while it drinks" ) {
+            run_npc_turns( guy, 30, drinking );
+            REQUIRE( drinking( guy ) );
+            zombie_in_view( guy );
+            run_npc_turn( guy );
+            THEN( "stops and drops the fetch, nothing spilled" ) {
+                CHECK_FALSE( drinking( guy ) );
+                run_npc_turns( guy, 3 );
+                CHECK_FALSE( drinking( guy ) );
+                CHECK( guy.backlog.empty() );
+                CHECK_FALSE( fetching_the_can( guy ) );
+                CHECK( soup_left() == 2 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "fire starts two tiles away while it drinks" ) {
+            run_npc_turns( guy, 30, drinking );
+            REQUIRE( drinking( guy ) );
+            const tripoint_bub_ms start = guy.pos_bub();
+            const tripoint away( start.x() > spot.x() ? 2 : start.x() < spot.x() ? -2 : 0,
+                                 start.y() > spot.y() ? 2 : start.y() < spot.y() ? -2 : 0, 0 );
+            REQUIRE( away != tripoint::zero );
+            here.add_field( start + away, field_fd_fire, 1 );
+            run_npc_turn( guy );
+            THEN( "stops, drops fetch, moves off, nothing spilled" ) {
+                CHECK_FALSE( drinking( guy ) );
+                CHECK( guy.backlog.empty() );
+                CHECK_FALSE( fetching_the_can( guy ) );
+                CHECK( guy.pos_bub() != start );
+                CHECK( soup_left() == 2 );
+            }
+        }
+        WHEN( "ordered to move while it drinks" ) {
+            run_npc_turns( guy, 30, drinking );
+            REQUIRE( drinking( guy ) );
+            guy.goto_to_this_pos = here.get_abs( leader_pos + tripoint( -3, 0, 0 ) );
+            run_npc_turn( guy );
+            THEN( "stops and drops the fetch, nothing spilled" ) {
+                CHECK_FALSE( drinking( guy ) );
+                CHECK( guy.backlog.empty() );
+                CHECK_FALSE( fetching_the_can( guy ) );
+                CHECK( soup_left() == 2 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+        WHEN( "game is saved and loaded while it drinks" ) {
+            run_npc_turns( guy, 30, drinking );
+            REQUIRE( drinking( guy ) );
+            std::ostringstream os;
+            JsonOut jsout( os );
+            guy.serialize( jsout );
+            guy.cancel_activity();
+            // loaded NPC starts without an id; the save brings it back
+            guy.setID( character_id(), true );
+            guy.deserialize( json_loader::from_string( os.str() ).get_object() );
+            REQUIRE( drinking( guy ) );
+            run_npc_turns( guy, 100, []( const npc & n ) {
+                return !n.activity;
+            } );
+            THEN( "finishes the portion from the can on the ground" ) {
+                CHECK( drank( guy ) );
+                CHECK( soup_left() <= 1 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
+    }
+    GIVEN( "open can of soup in a cart within reach, and a thirsty NPC" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        vehicle *cart = here.add_vehicle( vehicle_prototype_shopping_cart, spot, 0_degrees, 0,
+                                          veh_spawn_status::UNDAMAGED );
+        REQUIRE( cart != nullptr );
+        const std::optional<vpart_reference> cargo = here.veh_at( spot ).cargo();
+        REQUIRE( cargo );
+        cargo->items().clear();
+        const std::optional<vehicle_stack::iterator> can = cart->add_item( here, cargo->part(),
+                item( itype_soup_chicken, calendar::turn, 2 ).in_its_container() );
+        REQUIRE( can );
+        for( item_pocket *pocket : ( *can )->get_container_pockets() ) {
+            pocket->unseal();
+        }
+        REQUIRE( ( *can )->is_bucket_nonempty() );
+        here.build_map_cache( 0 );
+        guy.set_thirst( 100 );
+        const auto soup_in_cart = [&cart]() {
+            int charges = 0;
+            for( const vpart_reference &vp : cart->get_any_parts( VPFLAG_CARGO ) ) {
+                for( const item &it : cart->get_items( vp.part() ) ) {
+                    charges += soup_in( it );
+                }
+            }
+            return charges;
+        };
+        WHEN( "cart pushed away while it drinks" ) {
+            run_npc_turns( guy, 30, []( const npc & n ) {
+                return n.activity.id() == ACT_CONSUME;
+            } );
+            REQUIRE( guy.activity.id() == ACT_CONSUME );
+            REQUIRE( soup_in_cart() == 2 );
+            REQUIRE( here.displace_vehicle( *cart, tripoint_rel_ms( 0, -4, 0 ) ) );
+            REQUIRE( rl_dist( guy.pos_bub(), cart->pos_bub( here ) ) > 1 );
+            run_npc_turn( guy );
+            THEN( "stops drinking, soup stays in the cart" ) {
+                CHECK( guy.activity.id() != ACT_CONSUME );
+                CHECK( guy.backlog.empty() );
+                CHECK( soup_in_cart() == 2 );
+            }
+        }
+    }
+    GIVEN( "knife and an open can of soup on the same tile" ) {
+        const tripoint_bub_ms spot = leader_pos + tripoint( 3, 2, 0 );
+        const item &can = open_can_at( spot );
+        keep_sated( guy );
+        REQUIRE_FALSE( guy.wants_to_consume_now( *can.all_items_top().front() ) );
+        here.add_item_or_charges( spot, item( itype_knife_combat ) );
+        here.build_map_cache( 0 );
+        WHEN( "player stands still" ) {
+            run_npc_turns( guy, 30, [&spot]( const npc & ) {
+                return !knife_at( spot );
+            } );
+            THEN( "NPC takes the knife and leaves the can" ) {
+                CHECK( guy.has_amount( itype_knife_combat, 1 ) );
+                const std::vector<const item *> cans = cans_at( spot );
+                REQUIRE( cans.size() == 1 );
+                CHECK( soup_in( *cans.front() ) == 2 );
+                CHECK( loose_soup_near( guy.pos_bub() ) == 0 );
+            }
+        }
     }
 }
