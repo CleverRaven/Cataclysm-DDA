@@ -3106,7 +3106,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
     mvwprintz( w, point( column, line++ ), res.second, res.first.translated() );
     wprintz( w, c_light_gray, ";" );
-    wprintz( w, symbol_color(), " %s", npc_attitude_name( get_attitude() ) );
+    wprintz( w, symbol_color(), " %s", get_current_status() );
 
     // Awareness indicator on the third line.
     std::string senses_str = sees( here, player_character ) ? _( "Aware of your presence" ) :
@@ -3909,7 +3909,7 @@ std::vector<std::string> npc::extended_description() const
     Attitude att = attitude_to( player_character );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
     tmp.emplace_back( string_format( "%s; %s", colorize( res.first, res.second ),
-                                     colorize( npc_attitude_name( get_attitude() ), symbol_color() ) ) );
+                                     colorize( get_current_status(), symbol_color() ) ) );
 
     tmp.emplace_back( sees( here, player_character ) ? colorize( _( "Aware of your presence" ),
                       c_yellow ) :
@@ -4367,25 +4367,32 @@ void npc::ensure_portrait_valid()
 
 std::string npc::get_current_status() const
 {
-    if( current_target() != nullptr ) {
-        return _( "In Combat!" );
-    } else if( has_effect( effect_lying_down ) && !has_effect( effect_sleep ) ) {
-        return _( "Trying to sleep" );
-    } else if( in_sleep_state() ) {
-        return _( "Sleeping" );
-    } else if( is_following() ) {
-        return _( "Following" );
-    } else if( is_leader() ) {
-        return _( "Leading" );
-    } else if( is_patrolling() ) {
-        return _( "Patrolling" );
-    } else if( mission == NPC_MISSION_CAMP_RESIDENT ) {
-        return _( "At camp" );
-    } else if( is_guarding() ) {
-        return _( "Guarding" );
-    } else {
-        return get_current_activity();
+    npc_attitude att = get_attitude();
+
+    // Attempt to be specific about a follower's current activity.
+    if( att == NPCATT_FOLLOW || att == NPCATT_WAIT || att == NPCATT_ACTIVITY || att == NPCATT_NULL ) {
+        if( current_target() != nullptr ) {
+            return _( "In Combat!" );
+        } else if( has_effect( effect_lying_down ) && !has_effect( effect_sleep ) ) {
+            return _( "Trying to sleep" );
+        } else if( in_sleep_state() ) {
+            return _( "Sleeping" );
+        } else if( att == NPCATT_ACTIVITY && current_activity_id ) {
+            return get_current_activity();
+        } else if( is_travelling() ) {
+            return _( "Travelling" );
+        } else if( is_shopkeeper() ) {
+            return _( "Trading" );
+        } else if( is_patrolling() ) {
+            return _( "Patrolling" );
+        } else if( is_guarding() && is_player_ally() ) {
+            return _( "Guarding" );
+        } else if( mission == NPC_MISSION_CAMP_RESIDENT ) {
+            return _( "At camp" );
+        }
     }
+    // This covers healing and most states for non-follower NPCs.
+    return npc_attitude_name( att );
 }
 
 void npc::update_missions_target( character_id old_character, character_id new_character )
