@@ -135,7 +135,7 @@
     "//durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 4 ] ],
     "min_skills": [ [ "mechanics", 4 ], [ "rifle", 5 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ]
   },
   {
     "id": "condenser_pristine",
@@ -182,6 +182,6 @@
     "//durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 4 ] ],
     "min_skills": [ [ "mechanics", 4 ], [ "rifle", 5 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
+    "flags": [ "CONSUMABLE" ]
   }
 ]

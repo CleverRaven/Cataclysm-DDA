@@ -779,10 +779,9 @@ creature_size Character::get_size() const
     return size_class;
 }
 
-std::string Character::disp_name( bool possessive, bool capitalize_first ) const
+std::string Character::disp_name( bool capitalize_first ) const
 {
-    return is_avatar() ? as_avatar()->display_name( possessive,
-            capitalize_first ) : as_npc()->display_name( possessive );
+    return is_avatar() ? as_avatar()->display_name( capitalize_first ) : as_npc()->display_name();
 }
 
 std::string Character::disp_profession() const
@@ -803,7 +802,7 @@ std::string Character::disp_profession() const
 
 std::string Character::name_and_maybe_activity() const
 {
-    return disp_name( false, true );
+    return disp_name( true );
 }
 
 std::string Character::skin_name() const
@@ -2754,31 +2753,31 @@ bool Character::enough_power_for( const bionic_id &bid ) const
 }
 
 std::vector<item_location> Character::nearby( const
-        std::function<bool( const item *, const item * )> &func, int radius ) const
+        std::function<bool( const item_location & )> &func, int radius ) const
 {
     map &here = get_map();
     std::vector<item_location> res;
 
-    visit_items( [&]( const item * e, const item * parent ) {
-        if( func( e, parent ) ) {
-            res.emplace_back( const_cast<Character &>( *this ), const_cast<item *>( e ) );
+    visit_items( [&]( const item_location & e ) {
+        if( func( e ) ) {
+            res.emplace_back( e );
         }
         return VisitResponse::NEXT;
     } );
 
     for( const map_cursor &cur : map_selector( pos_bub( here ), radius ) ) {
-        cur.visit_items( [&]( const item * e, const item * parent ) {
-            if( func( e, parent ) ) {
-                res.emplace_back( cur, const_cast<item *>( e ) );
+        cur.visit_items( [&]( const item_location & e ) {
+            if( func( e ) ) {
+                res.emplace_back( e );
             }
             return VisitResponse::NEXT;
         } );
     }
 
     for( const vehicle_cursor &cur : vehicle_selector( here, pos_bub( here ), radius ) ) {
-        cur.visit_items( [&]( const item * e, const item * parent ) {
-            if( func( e, parent ) ) {
-                res.emplace_back( cur, const_cast<item *>( e ) );
+        cur.visit_items( [&]( const item_location & e ) {
+            if( func( e ) ) {
+                res.emplace_back( e );
             }
             return VisitResponse::NEXT;
         } );
@@ -3864,16 +3863,22 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
+// how much liquid a pour moves into the container, given its own room for it
+static int pour_amount( const item_location &container, const item &liquid, const int room )
+{
+    return container->all_pockets_rigid() ? room :
+           std::min( room, container.max_charges_by_parent_recursive( liquid ).value() );
+}
+
 bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
                            bool silent )
 {
     rem_cap_return err = rem_cap_return::SUCCESS;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     // amount of liquid that can be inserted
-    int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
+    int amount = pour_amount( container, liquid, max_remaining_capacity );
 
-    const bool desired_liquid_is_in = container->has_item_with( [&liquid]( const item & it ) {
+    const bool desired_liquid_is_in = container.has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
     } );
 
@@ -3925,9 +3930,28 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    get_avatar().invalidate_weight_carried_cache();
+    invalidate_weight_carried_cache();
+    if( Character *carrier = container.carrier() ) {
+        carrier->invalidate_weight_carried_cache();
+    }
 
     return true;
+}
+
+item_location Character::carried_container_for( const item &liquid, const item *avoid ) const
+{
+    item_location found;
+    visit_carried( [&]( const item_location & container ) {
+        if( container.get_item() == avoid || container.get_item() == &liquid ||
+            !container->is_watertight_container() || container->has_item( liquid ) ||
+            pour_amount( container, liquid,
+                         container->get_remaining_capacity_for_liquid( liquid, *this ) ) <= 0 ) {
+            return VisitResponse::NEXT;
+        }
+        found = container;
+        return VisitResponse::ABORT;
+    } );
+    return found;
 }
 
 bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
@@ -5636,14 +5660,15 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+            if( tmp[imenu.ret]->use_amount( item_location( *this, tmp[imenu.ret] ), it, quantity, ret,
+                                            filter ) ) {
                 remove_item( *tmp[imenu.ret] );
             }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
     if( quantity > 0 && !craft_reservation::contains_reserved( weapon ) &&
-        weapon.use_amount( it, quantity, ret, filter ) ) {
+        weapon.use_amount( get_wielded_item(), it, quantity, ret, filter ) ) {
         remove_weapon();
     }
     ret = worn.use_amount( it, quantity, ret, filter, *this );
@@ -5772,11 +5797,11 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         return res;
     }
 
-    std::vector<item *> del;
+    std::vector<item_location> del;
 
     bool has_tool_with_UPS = false;
     // Detection of UPS tool
-    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e, item * ) {
+    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item_location e ) {
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
             return VisitResponse::ABORT;
@@ -5788,23 +5813,23 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         get_map().use_charges( pos_bub(), radius, what, qty, filter, nullptr, in_tools );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e,
-        item * parent ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item_location e ) {
             // Only roots: this callback sees every descendant, and item::use_charges
             // descends again, so a reserved root must prune its subtree here.
-            if( parent == nullptr && craft_reservation::contains_reserved( *e ) ) {
+            if( !e.has_parent() && craft_reservation::contains_reserved( *e ) ) {
                 return VisitResponse::SKIP;
             }
-            if( e->use_charges( what, qty, res, pos_bub(), filter, this, in_tools ) ) {
+            if( e->use_charges( e, what, qty, res, pos_bub(), filter, in_tools ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
         } );
     }
 
-    for( item *e : del ) {
-        remove_item( *e );
+    for( item_location e : del ) {
+        e.remove_item();
     }
+    invalidate_weight_carried_cache();
 
     if( has_tool_with_UPS ) {
         consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
@@ -5979,33 +6004,43 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const
     } else {
         bool enough_quality = false;
         tool_type = CRUSH_DRILL_OR_HAMMER_AND_SCREW;
-        if( has_quality( qual_DRILL ) ) {
-            enough_quality = true;
-        } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
-            int num_hammer_tools = 0;
-            int num_screw_tools = 0;
-            int num_both_tools = 0;
-            for( item_location &tool : const_cast<Character *>( this )->all_items_loc() ) {
-                bool can_hammer = false;
-                bool can_screw = false;
-                if( tool->has_quality_nonrecursive( qual_HAMMER ) ) {
-                    can_hammer = true;
-                    num_hammer_tools++;
-                }
-                if( tool->has_quality_nonrecursive( qual_SCREW ) ) {
-                    can_screw = true;
-                    num_screw_tools++;
-                }
-                if( can_hammer && can_screw ) {
-                    num_both_tools++;
-                }
-            }
-            if( num_hammer_tools > 0 && num_screw_tools > 0 &&
-                // Only one tool that fulfils both requirements: can't hammer itself
-                !( num_hammer_tools == 1 && num_screw_tools == 1 && num_both_tools == 1 ) ) {
+        bool can_hammer = false;
+        bool can_screw = false;
+        bool can_both = false;
+        visit_items(
+        [&]( const item_location & node ) {
+
+            if( node->has_quality_nonrecursive( qual_DRILL ) ) {
                 enough_quality = true;
+                return VisitResponse::ABORT;
             }
+            bool local_hammer = false;
+            bool local_screw = false;
+
+            if( node->has_quality_nonrecursive( qual_HAMMER ) ) {
+                local_hammer = true;
+            }
+            if( node->has_quality_nonrecursive( qual_SCREW ) ) {
+                local_screw = true;
+            }
+            if( local_hammer && local_screw ) {
+                if( can_both ) {
+                    enough_quality = true;
+                    return VisitResponse::ABORT;
+                }
+                can_both = true;
+            } else if( local_hammer ^ local_screw ) {
+                can_hammer = can_hammer || local_hammer;
+                can_screw = can_screw || local_screw;
+            }
+            // Only one tool that fulfils both requirements: can't hammer itself
+            if( ( can_hammer && can_screw ) || ( can_both && ( can_hammer || can_screw ) ) ) {
+                enough_quality = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
         }
+        );
         success = enough_quality;
     }
     if( success ) {
@@ -6484,11 +6519,13 @@ void Character::echo_pulse()
                        "none", "none" );
     }
     for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        if( here.move_cost( origin ) == 0 &&
+            here.sees( pos_bub(), origin, pulse_range, false, los_trace::physical ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin ) &&
+                   here.sees( pos_bub(), origin, pulse_range, false, los_trace::physical ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
@@ -6500,7 +6537,7 @@ void Character::echo_pulse()
             add_known_trap( origin, tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        if( critter && here.sees( pos_bub(), origin, pulse_range, false, los_trace::physical ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -7073,6 +7110,29 @@ void Character::stagger()
     }
 }
 
+int Character::sleep_readiness()
+{
+    int sleepy = get_comfort_at( pos_bub() ).comfort;
+    if( has_addiction( addiction_sleeping_pill ) ) {
+        sleepy -= 4;
+    }
+    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
+    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
+        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
+    } else {
+        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
+    }
+    const int current_stim = get_stim();
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
+    return sleepy;
+}
+
 bool Character::can_sleep()
 {
 
@@ -7096,26 +7156,7 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = get_comfort_at( pos_bub() ).comfort;
-    if( has_addiction( addiction_sleeping_pill ) ) {
-        sleepy -= 4;
-    }
-    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
-    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
-        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
-    } else {
-        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
-    }
-    const int current_stim = get_stim();
-    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
-        sleepy -= 2 * current_stim;
-    } else {
-        // Make it harder for insomniac to get around the trait
-        sleepy -= current_stim;
-    }
-
-    sleepy += rng( -8, 8 );
-    bool result = sleepy > 0;
+    const bool result = sleep_readiness() + rng( -8, 8 ) > 0;
 
     if( has_active_bionic( bio_soporific ) ) {
         if( bio_soporific_powered_at_last_sleep_check && !has_power() ) {

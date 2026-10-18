@@ -5,6 +5,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -24,6 +25,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
@@ -273,19 +275,31 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
                     limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
                 }
 
-                detail_str +=
-                    string_format( "wound: %s - %s\nhealing time %s\nhealing percentage %.3f%%\ngives pain: %d\n%s\n",
-                                   colorize( wd.type->get_name(), c_cyan ),
-                                   wd.type->get_description(),
-                                   to_string( wd.get_healing_time() ),
-                                   wd.healing_percentage(),
-                                   wd.get_pain(),
-                                   limb_score_output
-                                 );
+                detail_str += string_format( "%s (%s) - %s\n",
+                                             colorize( wd.type->get_name(), c_cyan ), wd.type.str(), wd.type->get_description() );
+                detail_str += string_format( "healing time: %s\n", to_string( wd.get_healing_time() ) );
+                detail_str += string_format( "lifetime: %s\n", to_string( wd.get_healing_progress() ) );
+                detail_str += string_format( "healing percentage: %.3f%%\n", wd.healing_percentage() );
+                detail_str += string_format( "gives pain: %d\n", wd.get_pain() );
+                if( wd.wound_progress_timer.has_value() ) {
+                    detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
+                                                 to_string( wd.wound_progress_timer->second - wd.get_healing_progress() ) );
+                }
+
+                for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
+                    detail_str += string_format( "mod_value: %s%s, %d every %s\n",
+                                                 io::enum_to_string( mv.type ),
+                                                 mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
+                                                 mv.amount,
+                                                 to_string( mv.rate ) );
+                }
+
+                detail_str += string_format( "%s\n", limb_score_output );
             }
         }
     }
     if( debug_mode ) {
+        ImGui::Separator();
         detail_str += "All potential wounds:\n";
         for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
             std::string damage_types;
@@ -371,6 +385,7 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
     const bool bleeding = bleed_intensity > 0;
     const bool bitten = you->has_effect( effect_bite, part.id() );
     const bool infected = you->has_effect( effect_infected, part.id() );
+    const bool wounded = you->has_wounds( part.id() );
     const bool no_feeling = you->has_flag( json_flag_PAIN_IMMUNE );
     const int maximal_hp = you->get_part_hp_max( part );
     const int current_hp = you->get_part_hp_cur( part );
@@ -418,6 +433,10 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
     // INFECTED block
     if( infected ) {
         detail += string_format( _( "[ %s ]" ), colorize( _( "SEPTIC" ), c_pink ) );
+    }
+
+    if( wounded ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "WOUNDED" ), c_cyan ) );
     }
 
     return string_format( "%s %s", header, detail );

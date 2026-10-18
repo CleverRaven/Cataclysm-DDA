@@ -83,6 +83,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -654,6 +655,8 @@ void Character::apply_murder_penalties( Creature *victim )
             player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
+    // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
+    player_character.mod_trauma( 1 );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -1440,11 +1443,6 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, sleepiness_roll will be higher and this will work out.
                 mod_sleep_deprivation( sleepiness_roll * 5 );
             }
-
-            if( !needs_food() && get_sleepiness() > sleepiness_levels::TIRED ) {
-                set_sleepiness( sleepiness_levels::TIRED );
-                set_sleep_deprivation( 0 );
-            }
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
@@ -1497,6 +1495,15 @@ void Character::update_needs( int rate_multiplier )
             ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
+    }
+
+    if( !needs_food() ) {
+        // without needs, tiredness is real but not harmful, and lack of sleep never
+        // accumulates
+        if( !asleep && get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+            set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) - 1 );
+        }
+        set_sleep_deprivation( 0 );
     }
 
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
@@ -2151,7 +2158,7 @@ void Character::calculate_leak_level()
 {
     float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
-    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&ret]( const item_location & item_loc ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
@@ -2160,7 +2167,8 @@ void Character::calculate_leak_level()
                 ret += it->damage_level();
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     leak_level_dirty = false;
     leak_level = ret;
 }
@@ -2528,6 +2536,11 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wounds();
+}
+
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
@@ -2537,9 +2550,37 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 
 void Character::update_wounds( time_duration time_passed )
 {
-    for( auto &bp : body ) {
-        bp.second.update_wounds( time_passed );
+    for( auto& [bp_id, bp] : body ) {
+        bp.update_wounds( *this, time_passed );
+
+        for( wound &wd : bp.get_wounds() ) {
+            for( const wound_mod_values &mod_val : wd.type->get_modify_values() ) {
+                if( calendar::once_every( mod_val.rate ) ) {
+                    switch( mod_val.type ) {
+                        case wound_mod_value_type::PAIN:
+                            mod_pain( mod_val.amount, bp_id );
+                            break;
+                        case wound_mod_value_type::BLEED:
+                            bleed( get_map() );
+                            break;
+                        case wound_mod_value_type::VITAMIN:
+                            if( mod_val.vitamin.has_value() ) {
+                                vitamin_mod( *mod_val.vitamin, mod_val.amount );
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            const std::optional<wound_periodic_message> msg = wd.type->get_periodic_message();
+            if( msg.has_value() && calendar::once_every( msg->rate ) ) {
+                add_msg_if_player( m_bad, string_format( msg->message.translated(), body_part_name( bp_id ) ) );
+            }
+        }
     }
+
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 

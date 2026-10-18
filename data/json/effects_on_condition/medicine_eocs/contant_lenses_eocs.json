@@ -28,6 +28,13 @@
     "id": "EOC_CONTACTS1",
     "condition": "u_is_underwater",
     "effect": { "u_message": "Can't apply contact lenses underwater." },
+    "false_effect": { "run_eocs": [ "EOC_CONTACTS1A" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONTACTS1A",
+    "condition": "u_is_swimming",
+    "effect": { "u_message": "Can't apply contact lenses while swimming." },
     "false_effect": { "run_eocs": [ "EOC_CONTACTS2" ] }
   },
   {

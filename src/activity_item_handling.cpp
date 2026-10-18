@@ -75,6 +75,7 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "temp_crafting_inventory.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -1291,7 +1292,7 @@ void remove_item( const std::optional<vpart_reference> &vp,
 
 std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
                                  unload_sort_options zone_unload_options, const std::optional<vpart_reference> &vpr_src,
-                                 item *it, const std::unordered_set<tripoint_abs_ms> &dest_set,
+                                 item_location it, const std::unordered_set<tripoint_abs_ms> &dest_set,
                                  int &num_processed )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -1309,7 +1310,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
     // TODO: less egregious than teleporting over a distance, but still not good
     auto unload_teleport_item = [&you, &src_bub, &vpr_src, &it]( item * contained ) {
         move_item( you, *contained, contained->count(), src_bub, src_bub, vpr_src );
-        it->remove_item( *contained );
+        it.remove_item( *contained );
     };
 
     if( mgr.has_near( zone_type_UNLOAD_ALL, abspos, 1, fac_id ) ||
@@ -1363,7 +1364,7 @@ std::optional<bool> unload_item( Character &you, const tripoint_abs_ms &src,
 
                     // destroy fully unloaded magazines
                     if( it->has_flag( flag_MAG_DESTROY ) && it->ammo_remaining() == 0 ) {
-                        zone_sorting::remove_item( vpr_src, src_bub, it );
+                        zone_sorting::remove_item( vpr_src, src_bub, it.get_item() );
                         num_processed = std::max( num_processed - 1, 0 );
                         return std::nullopt;
                     }
@@ -1916,7 +1917,7 @@ bool are_requirements_nearby(
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv.add_item_ref( *elem );
+        temp_inv.add_item_loc( item_location( you, &*elem ) );
     }
     map &here = get_map();
     for( const tripoint_bub_ms &elem : loot_spots ) {
@@ -1949,7 +1950,7 @@ bool are_requirements_nearby(
             if( craft_reservation::contains_reserved( elem2 ) ) {
                 continue;
             }
-            temp_inv.add_item_ref( elem2 );
+            temp_inv.add_item_loc( item_location( map_cursor( elem ), &elem2 ) );
         }
 
         if( !in_loot_zones ) {
@@ -1958,7 +1959,7 @@ bool are_requirements_nearby(
                     if( craft_reservation::contains_reserved( it ) ) {
                         continue;
                     }
-                    temp_inv.add_item_ref( it );
+                    temp_inv.add_item_loc( item_location( vehicle_cursor( ovp->vehicle(), ovp->part_index() ), &it ) );
                 }
             }
         }
@@ -2675,19 +2676,21 @@ requirement_check_result requirement_fail( Character &you, const do_activity_rea
     // we can discount this tile, the work can't be done.
     if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
         if( zone ) {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for the %1$s task at zone %2$s." ),
-                                   act_id.c_str(), zone->get_name() );
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the \"%1$s\" task at zone %2$s." ),
+                                   act_id.obj().verb().translated(), zone->get_name() );
         } else {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+            you.add_msg_if_player( m_info, _( "You don't have the skill for the \"%s\" task." ),
+                                   act_id.obj().verb().translated() );
         }
     } else if( reason == do_activity_reason::BLOCKING_TILE ) {
         if( zone ) {
             you.add_msg_if_player( m_info,
-                                   _( "There is something blocking the location for the %1$s task at zone %2$s." ), act_id.c_str(),
+                                   _( "There is something blocking the location for the \"%1$s\" task at zone %2$s." ),
+                                   act_id.obj().verb().translated(),
                                    zone->get_name() );
         } else {
-            you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
-                                   act_id.c_str() );
+            you.add_msg_if_player( m_info, _( "There is something blocking the location for the \"%s\" task." ),
+                                   act_id.obj().verb().translated() );
         }
     }
     if( you.is_npc() ) {
@@ -3029,7 +3032,7 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     // will be filtered for amounts/charges afterwards.
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( const item &stack_elem : here.i_at( point_elem ) ) {
+        for( item &stack_elem : here.i_at( point_elem ) ) {
             if( craft_reservation::contains_reserved( stack_elem ) ) {
                 continue;
             }
@@ -3626,8 +3629,9 @@ void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &
     }
 
     // if all pruned locations were too dark
-    if( !src_set_empty && src_set.empty() ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
+    if( !src_set_empty && src_set.empty() && you.is_avatar() ) {
+        you.add_msg_if_player( m_info, _( "It is too dark to do the \"%s\" activity." ),
+                               act_id.obj().verb().translated() );
     }
 }
 
@@ -4117,41 +4121,42 @@ void activity_failure_message( Character &you, activity_id new_activity,
 
     if( no_locations ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no suitable locations were found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no suitable locations were found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.no_path ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no path to a suitable location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no path to a suitable location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_zone ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no required zone was found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no required zone was found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_blocking ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because the target location is blocked or cannot be reached." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because the target location is blocked or cannot be reached." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_skill ) {
-        add_msg( m_neutral, _( "%1$s failed to perform the %2$s activity because of insufficient skills." ),
-                 you.disp_name(), new_activity.c_str() );
+        add_msg( m_neutral,
+                 _( "%1$s failed to perform the \"%2$s\" activity because of insufficient skills." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_unknown_activity ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because the activity couldn't be found.  This is probably an error." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because the activity couldn't be found.  This is probably an error." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_location ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no suitable location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no suitable location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location_no_match ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no criteria could be matched." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no criteria could be matched." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     } else if( fail_reason.skip_location ) {
         // Assumed to have been reported already.
     } else if( fail_reason.no_craft_disassembly_location_route_found ) {
         add_msg( m_neutral,
-                 _( "%1$s failed to perform the %2$s activity because no path to a suitable crafting/disassembly location could be found." ),
-                 you.disp_name(), new_activity.c_str() );
+                 _( "%1$s failed to perform the \"%2$s\" activity because no path to a suitable crafting/disassembly location could be found." ),
+                 you.disp_name(), new_activity.obj().verb().translated() );
     }
 }
 

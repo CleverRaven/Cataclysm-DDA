@@ -1897,7 +1897,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 40,
-    "fun": 10,
+    "fun": 5,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "junk_allergen", 1 ], [ "egg_allergen", 1 ] ]
   }

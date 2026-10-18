@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -24,6 +23,7 @@
 #include "magic.h"
 #include "map_helpers.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -129,6 +129,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
     dummy.set_moves( 0 );
+    dummy.set_trauma( 0 );
     dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
@@ -275,9 +276,21 @@ bool process_activity_bounded( Character &dummy, const int max_turns, const int 
 
 npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
+    map &here = get_map();
+    const tripoint_bub_ms at( p, here.get_abs_sub().z() );
+    std::vector<tripoint_bub_ms> bare;
+    for( const tripoint_bub_ms &q : here.points_in_radius( at, 1 ) ) {
+        if( !here.has_items( q ) ) {
+            bare.push_back( q );
+        }
+    }
     const npc_template_id npc_template = npc_template_id( npc_class );
-    const character_id model_id = get_map().place_npc( p, npc_template );
+    const character_id model_id = here.place_npc( p, npc_template );
     g->load_npcs();
+    // a template's kit spills what its pockets don't hold where the NPC lands
+    for( const tripoint_bub_ms &q : bare ) {
+        here.i_clear( q );
+    }
 
     npc *guy = g->find_npc( model_id );
     REQUIRE( guy != nullptr );

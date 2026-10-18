@@ -1000,6 +1000,8 @@ class place_trap_actor : public iuse_actor
             int practice = 0;
             /** Move points that are used when placing the trap. */
             int moves = 100;
+            /** Move points the character spends placing this trap, after skill and proficiencies. */
+            int move_cost( const Character &you ) const;
             void load( const JsonObject &obj );
             void deserialize( const JsonObject &obj ) {
                 load( obj );

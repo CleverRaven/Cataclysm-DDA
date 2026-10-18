@@ -325,9 +325,17 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 10,
-    "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -4 } ] } ]
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_arachnid_upper_l" },
+          { "gain": "arm_arachnid_upper_r" },
+          { "gain": "arm_arachnid_lower_l" },
+          { "gain": "arm_arachnid_lower_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -343,7 +351,29 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 6,
-    "ugliness": 10
+    "ugliness": 10,
+    "restricts_gear": [ "torso" ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_arachnid_ok_upper_l" },
+          { "gain": "arm_arachnid_ok_upper_r" },
+          { "gain": "arm_arachnid_ok_lower_l" },
+          { "gain": "arm_arachnid_ok_lower_r" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.4 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "QUADRUPED_CROUCH", "QUADRUPED_RUN" ]
   },
   {
     "type": "mutation",

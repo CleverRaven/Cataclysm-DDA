@@ -1,8 +1,0 @@
-[
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "CBM_SLOTS_ENABLED",
-    "stype": "bool",
-    "value": true
-  }
-]

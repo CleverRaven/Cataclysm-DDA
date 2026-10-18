@@ -129,6 +129,7 @@
             {
               "or": [
                 { "u_has_item": "armor_riot" },
+                { "u_has_item": "armor_riot_torso" },
                 { "u_has_item": "helmet_riot" },
                 { "u_has_item": "armor_riot_arm" },
                 { "u_has_item": "armor_riot_leg" }
@@ -178,16 +179,18 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail"
       },
       {
-        "text": "I've got enough bags to set up a defensive wall.",
+        "text": "I've got enough sacks to set up a defensive wall.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
-            { "u_has_items": { "item": "bag_canvas", "count": 20 } },
+            {
+              "u_has_items_sum": [ { "item": "bag_canvas", "amount": 20 }, { "item": "bag_durasack", "amount": 20 } ]
+            },
             { "math": [ "isherwood_wall_status < 1" ] }
           ]
         },
         "effect": [
-          { "u_sell_item": "bag_canvas", "count": 20 },
+          { "u_consume_item_sum": [ { "item": "bag_canvas", "amount": 20 }, { "item": "bag_durasack", "amount": 20 } ] },
           { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": true }
         ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done"
@@ -636,8 +639,26 @@
     "responses": [
       {
         "text": "[5 Riot Armor] I've got enough riot armor for everyone.",
-        "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count++" ] } ],
+        "condition": {
+          "and": [
+            { "u_has_item": "armor_riot" },
+            { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] },
+            { "math": [ "isherwood_gear_retrival_armor_arm_count < 5" ] },
+            { "math": [ "isherwood_gear_retrival_armor_leg_count < 5" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "armor_riot" },
+          { "math": [ "isherwood_gear_retrival_armor_body_count++" ] },
+          { "math": [ "isherwood_gear_retrival_armor_arm_count++" ] },
+          { "math": [ "isherwood_gear_retrival_armor_leg_count++" ] }
+        ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[5 Riot Chest Guard] These should keep your insides in…  Mostly.",
+        "condition": { "and": [ { "u_has_item": "armor_riot_torso" }, { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] } ] },
+        "effect": [ { "u_consume_item": "armor_riot_torso" }, { "math": [ "isherwood_gear_retrival_armor_body_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
@@ -705,7 +726,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
-    "dynamic_line": "Good idea.  A sandbag wall would be easy enough, we've had to do those a few times when we've had flooding and everyone knows the drill.  Back then we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 canvas bags would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
+    "dynamic_line": "Good idea.  A sandbag wall would be easy enough, we've had to do those a few times when we've had flooding and everyone knows the drill.  Back then we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 big canvas sacks, or the plastic ones, would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
@@ -713,7 +734,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
       },
       {
-        "text": "I know where to find those canvas bags, I'll go get them.",
+        "text": "I know where to find those sacks, I'll go get them.",
         "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
         "topic": "TALK_DONE"
       }
@@ -841,7 +862,7 @@
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS",
     "type": "mission_definition",
-    "name": { "str": "Retrieve Canvas Bags for Chris" },
+    "name": { "str": "Retrieve 20 Plastic or Canvas Sacks for Chris" },
     "goal": "MGOAL_NULL",
     "difficulty": 1,
     "value": 0,

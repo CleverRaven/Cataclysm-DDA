@@ -362,7 +362,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         uilist selector_menu;
         selector_menu.title = _( "Select an item from nearby" );
         get_player_character().crafting_inventory().visit_items(
-        [&]( item * node, item * ) {
+        [&]( item_location node ) {
             nearby_itypes.insert( node->typeId() );
             return VisitResponse::NEXT;
         }
@@ -1645,18 +1645,6 @@ void item_contents::update_open_pockets()
         if( pocket.empty() ) {
             pocket.unseal();
         }
-    }
-}
-
-void item_contents::set_item_defaults()
-{
-    /* For Items with a magazine or battery in its contents */
-    for( item_pocket &pocket : contents ) {
-        if( !pocket.is_standard_type() ) {
-            continue;
-        }
-
-        pocket.set_item_defaults();
     }
 }
 

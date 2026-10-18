@@ -248,7 +248,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         }
     }
     if( newit.invlet != '\0' &&
-        player_character.invlet_to_item( newit.invlet ) != nullptr ) {
+        player_character.invlet_to_item( newit.invlet ).valid() ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';

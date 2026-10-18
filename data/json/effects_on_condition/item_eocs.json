@@ -634,5 +634,18 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRIC_ROCK",
+    "effect": {
+      "if": { "math": [ "has_var(n_timer)" ] },
+      "then": {
+        "if": { "math": [ "n_timer < 0" ] },
+        "then": [ { "npc_set_field": "fd_electricity", "radius": 0, "intensity": 1 }, { "math": [ "n_timer = rand(8)+2" ] } ],
+        "else": [ { "math": [ "n_timer -= 1" ] } ]
+      },
+      "else": { "math": [ "n_timer = rand(8)+2" ] }
+    }
   }
 ]

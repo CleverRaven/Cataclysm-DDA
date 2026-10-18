@@ -65,6 +65,7 @@ class tileset_cache::loader
         static std::shared_ptr<SDL_Texture> make_gated_atlas_texture(
             SDL_Texture_Ptr tex, atlas_replay_quarantine::gate abandon_gate );
 
+        // `opaque_bounds` holds each sprite's opaque box by its place in `surf`
         void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
                                       std::vector<texture> &target,
                                       const std::vector<SDL_Rect> &opaque_bounds,

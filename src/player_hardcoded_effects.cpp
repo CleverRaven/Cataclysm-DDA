@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -38,6 +39,8 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mongroup.h"
+#include "npc.h"
+#include "npc_arbitration.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -1601,7 +1604,14 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
-        if( can_sleep() ) {
+        npc *const guy = as_npc();
+        if( guy != nullptr ) {
+            // an NPC with a reason to get up doesn't drop off, review_rest() gets it up after
+            // the body update; otherwise it rolls on its own cadence
+            if( !guy->rest_interruption() && guy->sleep_settle_step() ) {
+                it.set_duration( 0_turns );
+            }
+        } else if( can_sleep() ) {
             fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0_turns );

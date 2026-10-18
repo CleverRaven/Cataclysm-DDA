@@ -790,11 +790,12 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
     needs_rates rates = me_npc->calc_needs_rates();
     if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
         std::string how_tired;
-        if( get_sleepiness() > sleepiness_levels::EXHAUSTED ) {
+        // inclusive, like the thresholds NPCs act on
+        if( get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
             how_tired = _( "Exhausted" );
-        } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
+        } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
             how_tired = _( "Dead tired" );
-        } else if( get_sleepiness() > sleepiness_levels::TIRED ) {
+        } else if( get_sleepiness() >= sleepiness_levels::TIRED ) {
             how_tired = _( "Tired" );
         } else {
             how_tired = _( "Not tired" );

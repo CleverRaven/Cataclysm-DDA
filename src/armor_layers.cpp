@@ -1154,7 +1154,7 @@ void outfit::sort_armor( Character &guy )
                     item &w = *witer;
                     if( invlet == w.invlet ) {
                         ++witer;
-                    } else if( guy.invlet_to_item( invlet ) != nullptr ) {
+                    } else if( guy.invlet_to_item( invlet ).where() != item_location::type::invalid ) {
                         ++iiter;
                     } else {
                         if( guy.is_avatar() ) {

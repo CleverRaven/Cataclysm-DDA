@@ -210,6 +210,16 @@ bool talker_monster_const::is_warm() const
     return me_mon_const->is_warm();
 }
 
+bool talker_monster_const::is_underwater() const
+{
+    return me_mon_const->is_underwater();
+}
+
+bool talker_monster_const::is_swimming() const
+{
+    return me_mon_const->is_swimming;
+}
+
 void talker_monster::set_friendly( int new_val )
 {
     me_mon->friendly = new_val;

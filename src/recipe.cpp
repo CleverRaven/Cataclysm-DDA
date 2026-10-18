@@ -32,6 +32,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_tname.h"
 #include "itype.h"
 #include "json.h"
@@ -1178,6 +1179,19 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
         newit.inherit_flags( *used, *this );
     }
 
+    // Inherit faults during crafting.
+    if( used ) {
+        for( auto &pair : *used ) {
+            for( item &it : pair.second ) {
+                for( fault_id some_fault : it.faults ) {
+                    // Does nothing if item can't have the fault. Always safe to call.
+                    newit.set_fault( some_fault );
+                }
+            }
+        }
+    }
+
+
     for( const flag_id &flag : flags_to_delete ) {
         newit.unset_flag( flag );
     }
@@ -1559,7 +1573,7 @@ float best_quality_speed_modifier( const temp_crafting_inventory &inv,
 {
     bool found = false;
     float best = 1.0f;
-    inv.visit_items( [&]( item * e, item * ) {
+    inv.visit_items( [&]( item_location e ) {
         // Crafter-aware: a charged quality otherwise resolves through the avatar.
         if( provider_quality_level( *e, qual, &crafter, false ) >= level ) {
             float s = e->get_quality_speed( qual, level, &crafter );

@@ -1315,7 +1315,7 @@
       [ "fc_hairpin", 30 ],
       [ "barrette", 30 ],
       { "item": "elec_hairtrimmer", "prob": 20, "charges": [ 0, 50 ] },
-      [ "thread", 20 ],
+      { "group": "thread_spool_part", "prob": 40 },
       [ "purse", 20 ],
       { "item": "leg_bag", "variant": "purple_leg_bag", "prob": 1 },
       { "item": "shavingkit", "prob": 10, "charges": [ 0, 10 ] },

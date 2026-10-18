@@ -62,8 +62,8 @@
 #include "translations.h"
 #include "uilist.h"
 #include "viewer.h"
+#include "visitable.h"
 
-static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
 static const efftype_id effect_asked_personal_info( "asked_personal_info" );
 static const efftype_id effect_asked_to_follow( "asked_to_follow" );
@@ -73,10 +73,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_currently_busy( "currently_busy" );
 static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pet( "pet" );
-static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
@@ -533,12 +530,7 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.enable_override( ally_rule::allow_sleep );
-    p.rules.set_override( ally_rule::allow_sleep );
-    p.remove_effect( effect_allow_sleep );
-    p.remove_effect( effect_lying_down );
-    p.remove_effect( effect_npc_suspend );
-    p.remove_effect( effect_sleep );
+    p.wake_by_player();
     // TODO: Get mad at player for waking us up unless we're in danger
 }
 
@@ -895,12 +887,15 @@ void talk_function::drop_items_in_place( npc &p )
     std::vector<drop_or_stash_item_info> to_drop;
 
     // add all non favorite carried items to the drop off list
-    for( const item_location &npcs_item : p.all_items_loc() ) {
-        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
-            npcs_item.parent_item().where() == item_location::type::character ) {
+    // this is all top-level items inside worn items (and wielded)
+    p.visit_items( [&to_drop]( const item_location & npcs_item ) {
+        if( !npcs_item->is_favorite && npcs_item.has_parent() &&
+            !npcs_item.parent_item().has_parent() ) {
             to_drop.emplace_back( npcs_item, npcs_item->count() );
+            return VisitResponse::SKIP;
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     if( !to_drop.empty() ) {
         // spawn a activity for the npc to drop the specified items
         p.assign_activity( drop_activity_actor( to_drop, tripoint_rel_ms::zero, false ) );

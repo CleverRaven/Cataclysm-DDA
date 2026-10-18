@@ -1637,10 +1637,15 @@ conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view me
 
 conditional_t::func f_is_underwater( bool is_npc )
 {
-    const map &here = get_map();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_underwater();
+    };
+}
 
-    return [is_npc, &here]( const_dialogue const & d ) {
-        return here.is_divable( d.const_actor( is_npc )->pos_bub( here ) );
+conditional_t::func f_is_swimming( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_swimming();
     };
 }
 
@@ -2630,6 +2635,7 @@ parsers_simple = {
     {"u_has_stolen_item", "npc_has_stolen_item", &conditional_fun::f_has_stolen_item },
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
+    {"u_is_swimming", "npc_is_swimming", &conditional_fun::f_is_swimming },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
     {"npc_has_assigned_camp", &conditional_fun::f_npc_has_assigned_camp },
     {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },

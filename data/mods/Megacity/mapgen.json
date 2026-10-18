@@ -1,0 +1,63 @@
+[
+  {
+    "id": "MEGACITY_ALLOWED",
+    "type": "json_flag",
+    "name": "",
+    "//COMMENT": "Fake flag used to ensure no regular out of city specials can spawn. For the whitelist in region settings."
+  },
+  {
+    "type": "overmap_special",
+    "id": "OM_special_Megacity_landing",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "megacity_landing_north" } ],
+    "locations": [ "wilderness", "road" ],
+    "//COMMENT": "These are cargo culted from the evacuation shelter. I tried changing them to be more reasonable (any city distance, any city size) but that causes new worlds to get stuck on loading. So uh, just using these and hoping they keep working.",
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 2, 9 ],
+    "flags": [ "URBAN", "MAN_MADE", "MEGACITY_ALLOWED" ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "megacity_landing",
+    "object": {
+      "fill_ter": "t_thconc_floor_no_roof",
+      "rows": [
+        "777777777777777777777777",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "7                      7",
+        "777777777777777777777777"
+      ],
+      "terrain": { "7": "t_thconc_warning" },
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 11, 11 ], "y": [ 11, 11 ] } ]
+    }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "megacity_landing" ],
+    "name": "landing site",
+    "sym": "+",
+    "color": "white",
+    "vision_levels": "always_full",
+    "see_cost": "all_clear"
+  }
+]

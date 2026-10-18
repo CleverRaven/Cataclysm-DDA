@@ -16,6 +16,7 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "behavior.h"
 #include "bodypart.h"
@@ -29,6 +30,7 @@
 #include "clzones.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
@@ -54,10 +56,15 @@
 #include "iexamine.h"
 #include "monster.h"
 #include "npc.h"
+#include "npc_arbitration.h"
+#include "npctrade.h"
 #include "npc_class.h"
+#include "npc_turn_helpers.h"
+#include "npc_trip.h"
 #include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"
@@ -65,9 +72,12 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sounds.h"
 #include "stomach.h"
+#include "talker.h"
 #include "test_data.h"
 #include "text_snippets.h"
+#include "tileray.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -76,11 +86,12 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
-class Creature;
 enum npc_action : int;
 
+static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -97,6 +108,8 @@ static const efftype_id effect_wet( "wet" );
 static const faction_id faction_robofac( "robofac" );
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_FILTHY( "FILTHY" );
+
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_locker( "f_locker" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
@@ -108,6 +121,7 @@ static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_apron_leather( "apron_leather" );
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_crackers( "crackers" );
@@ -137,6 +151,7 @@ static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_deci
 static const ter_str_id ter_t_concrete( "t_concrete" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_ponywall( "t_ponywall" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
@@ -167,6 +182,9 @@ static const vpart_id vpart_trunk_floor( "trunk_floor" );
 static const vproto_id vehicle_prototype_none( "none" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
+
+static const weather_type_id weather_clear( "clear" );
+static const weather_type_id weather_rainstorm( "rainstorm" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
@@ -612,7 +630,7 @@ TEST_CASE( "npc-movement" )
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 guy->normalize();
                 guy->randomize();
-                guy->remove_worn_items_with( [&]( item & armor ) {
+                guy->remove_worn_items_with( [&]( const item & armor ) {
                     return armor.covers( bodypart_id( "foot_r" ) ) || armor.covers( bodypart_id( "foot_l" ) );
                 } );
                 REQUIRE( !guy->is_immune_field( fd_acid ) );
@@ -1355,13 +1373,15 @@ TEST_CASE( "npc_nonally_sleeps_when_tired", "[npc][needs]" )
         guy.set_sleepiness( 800 );
         guy.add_effect( effect_meth, 1_hours );
         guy.set_mission( NPC_MISSION_SHELTER );
+        // idle instead of sleeping: keep it from walking up to talk
+        guy.set_attitude( NPCATT_NULL );
         guy.set_moves( 100 );
 
         guy.move();
 
-        // can_sleep() returns false on meth, NPC gets lying_down fallback
+        // meth rules sleep out, so it doesn't lie down to try
         CHECK_FALSE( guy.has_effect( effect_sleep ) );
-        CHECK( guy.has_effect( effect_lying_down ) );
+        CHECK_FALSE( guy.has_effect( effect_lying_down ) );
     }
 
     SECTION( "non-ally does not sleep in danger" ) {
@@ -1681,7 +1701,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         tripoint_bub_ms target = guy.pos_bub() + tripoint( 3, 0, 0 );
         REQUIRE( here.passable( target ) );
         const int dist_before = rl_dist( guy.pos_bub(), target );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < dist_before );
     }
 
@@ -1690,7 +1710,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         here.ter_set( target, ter_t_wall_glass );
         REQUIRE( here.impassable( target ) );
         REQUIRE( here.passable( target + tripoint::west ) );
-        REQUIRE( guy.move_to_and_verify( target ) );
+        REQUIRE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() != target );
         CHECK( here.passable( guy.pos_bub() ) );
         CHECK( rl_dist( guy.pos_bub(), target ) < 3 );
@@ -1705,7 +1725,7 @@ TEST_CASE( "npc_move_to_and_verify", "[npc][needs]" )
         }
         REQUIRE( here.impassable( target + tripoint::west ) );
         const tripoint_bub_ms before = guy.pos_bub();
-        CHECK_FALSE( guy.move_to_and_verify( target ) );
+        CHECK_FALSE( guy.move_to_and_verify( npc_trip_spec::legacy_nearest_passable( target, false ) ) );
         CHECK( guy.pos_bub() == before );
     }
 }
@@ -1784,6 +1804,7 @@ TEST_CASE( "npc_consume_food_at_helper", "[npc][needs]" )
 TEST_CASE( "npc_wear_item_at_helper", "[npc][needs]" )
 {
     clear_map_without_vision();
+    clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
@@ -1802,6 +1823,134 @@ TEST_CASE( "npc_wear_item_at_helper", "[npc][needs]" )
     SECTION( "null item_location returns false" ) {
         item_location empty;
         CHECK_FALSE( guy.wear_item_at( empty ) );
+    }
+
+    SECTION( "wears a sweater owned by another faction despite stored \"never\"" ) {
+        faction &owner = *g->faction_manager_ptr->get( faction_robofac );
+        restore_on_out_of_scope<std::optional<bool>> restore_owner( owner.steal_persist );
+        // stored "never" refuses the player; the NPC must not be refused
+        owner.steal_persist = false;
+        item sweater( itype_sweater );
+        sweater.set_owner( faction_robofac );
+        item &spawned = here.add_item_or_charges( adj, sweater );
+        REQUIRE_FALSE( spawned.is_owned_by( guy, true ) );
+        CHECK( avatar_action::check_stealing( guy, spawned ) );
+        item_location loc( map_cursor( adj ), &spawned );
+        REQUIRE( guy.wear_item_at( loc ) );
+        CHECK( guy.is_wearing( itype_sweater ) );
+        CHECK( here.i_at( adj ).empty() );
+        CHECK( owner.steal_persist == std::optional<bool>( false ) );
+    }
+
+    SECTION( "player refused a sweater owned by another faction" ) {
+        avatar &u = get_avatar();
+        u.set_value( "THIEF_MODE", "THIEF_ASK" );
+        faction &owner = *g->faction_manager_ptr->get( faction_robofac );
+        restore_on_out_of_scope<std::optional<bool>> restore_owner( owner.steal_persist );
+        owner.steal_persist = false;
+        const tripoint_bub_ms spot = u.pos_bub() + tripoint::north;
+        item sweater( itype_sweater );
+        sweater.set_owner( faction_robofac );
+        item &spawned = here.add_item_or_charges( spot, sweater );
+        REQUIRE_FALSE( spawned.is_owned_by( u, true ) );
+        CHECK_FALSE( u.wear( item_location( map_cursor( spot ), &spawned ), false ).has_value() );
+        CHECK_FALSE( u.is_wearing( itype_sweater ) );
+        CHECK_FALSE( here.i_at( spot ).empty() );
+        CHECK_FALSE( avatar_action::check_stealing( u, spawned ) );
+    }
+}
+
+// follower with a broken leg wearing an arm splint, so splint is obsolete; pack adds a backpack
+static npc &spawn_obsolete_splint_follower( const bool pack )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms at( 50, 50, 0 );
+    get_avatar().setpos( get_map(), at + tripoint::east );
+    npc &guy = spawn_npc( at.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( get_map(), at );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.guard_pos = std::nullopt;
+    guy.clear_ai_guard_pos();
+    guy.rules.set_flag( ally_rule::follow_close );
+    if( pack ) {
+        guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    }
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_sleepiness( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    get_map().build_map_cache( 0 );
+    guy.set_part_hp_cur( body_part_leg_l, 0 );
+    REQUIRE( guy.is_limb_broken( body_part_leg_l ) );
+    REQUIRE( guy.worn.wear_item( guy, item( itype_arm_splint ), false, false ) );
+    REQUIRE( guy.is_wearing( itype_arm_splint ) );
+    return guy;
+}
+
+static std::vector<const item *> splints_on_tile( const npc &guy )
+{
+    std::vector<const item *> ret;
+    for( const item &it : get_map().i_at( guy.pos_bub() ) ) {
+        if( it.typeId() == itype_arm_splint ) {
+            ret.push_back( &it );
+        }
+    }
+    return ret;
+}
+
+static std::vector<const item *> splints_carried( const npc &guy )
+{
+    return guy.items_with( []( const item & it ) {
+        return it.typeId() == itype_arm_splint;
+    } );
+}
+
+TEST_CASE( "npc_keeps_the_obsolete_splint_it_takes_off", "[npc][needs]" )
+{
+    const auto taken_off = []( const npc & n ) {
+        return !n.is_wearing( itype_arm_splint );
+    };
+    GIVEN( "follower with a pack" ) {
+        npc &guy = spawn_obsolete_splint_follower( true );
+        REQUIRE( splints_carried( guy ).size() == 1 );
+        REQUIRE( splints_on_tile( guy ).empty() );
+        WHEN( "turns pass" ) {
+            run_npc_turns( guy, 60, taken_off );
+            THEN( "NPC carries and owns exactly one splint" ) {
+                REQUIRE_FALSE( guy.is_wearing( itype_arm_splint ) );
+                const std::vector<const item *> carried = splints_carried( guy );
+                REQUIRE( carried.size() == 1 );
+                CHECK( carried.front()->is_owned_by( guy ) );
+                CHECK( splints_on_tile( guy ).empty() );
+            }
+        }
+    }
+    GIVEN( "follower with no pack and empty hands" ) {
+        npc &guy = spawn_obsolete_splint_follower( false );
+        REQUIRE_FALSE( guy.is_armed() );
+        REQUIRE( splints_carried( guy ).size() == 1 );
+        REQUIRE( splints_on_tile( guy ).empty() );
+        WHEN( "turns pass" ) {
+            run_npc_turns( guy, 60, taken_off );
+            THEN( "exactly one splint lies on the NPC's tile, owned by the NPC" ) {
+                REQUIRE_FALSE( guy.is_wearing( itype_arm_splint ) );
+                CHECK( splints_carried( guy ).empty() );
+                const std::vector<const item *> dropped = splints_on_tile( guy );
+                REQUIRE( dropped.size() == 1 );
+                CHECK( dropped.front()->is_owned_by( guy ) );
+            }
+        }
     }
 }
 
@@ -3091,14 +3240,14 @@ TEST_CASE( "npc_shopkeeper_sleep_wake_return", "[npc][needs]" )
         CHECK( guy.pos_abs() == post );
     }
 
-    SECTION( "NO_NPC_FOOD caps unscheduled NPC at TIRED" ) {
+    SECTION( "NO_NPC_FOOD caps unscheduled NPC below DEAD_TIRED" ) {
         override_option no_food( "NO_NPC_FOOD", "true" );
         npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
         clear_character( guy, true );
-        guy.set_sleepiness( sleepiness_levels::TIRED );
+        guy.set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) + 50 );
         REQUIRE_FALSE( guy.needs_food() );
         guy.update_needs( 1 );
-        CHECK( guy.get_sleepiness() <= static_cast<int>( sleepiness_levels::TIRED ) );
+        CHECK( guy.get_sleepiness() == static_cast<int>( sleepiness_levels::DEAD_TIRED ) - 1 );
     }
 
     SECTION( "DEAD_TIRED shopkeeper commits to sleep, no oscillation" ) {
@@ -3618,21 +3767,15 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         guy.set_moves( 100 );
         guy.move();
 
-        // BT returns hold_position (duty 0.45 > sleep 0.4).
-        // go_to_sleep completes because new_goal != "go_to_sleep".
+        // on shift post blocks sleep, so should_interrupt ends the pursuit
         CHECK( guy.get_committed_goal() != "go_to_sleep" );
     }
 
-    SECTION( "committed sleep yields to a different needs goal" ) {
-        // Off-shift so duty is irrelevant. Sleepiness below TIRED (191)
-        // so can_sleep fails and sleep branch is not running. Thirst is
-        // high with water available, so BT returns drink_water (same
-        // needs category, but different goal).
+    SECTION( "a sleep commitment that is already met ends" ) {
+        // off shift, duty irrelevant; sleepiness below TIRED, sleep need met
         calendar::turn = calendar::turn_zero + 20_hours; // off-shift [6,18]
         npc &guy = spawn_scheduled_npc( { 50, 50 }, NC_ROBOFAC_INTERCOM_DAY );
         guy.set_sleepiness( 100 );  // below TIRED (191): can_sleep fails
-        guy.set_thirst( 600 );       // thirst_urgency = 0.5
-        guy.i_add( item( itype_water_clean, calendar::turn ) );
         guy.regen_ai_cache();
         guy.set_committed_goal( "go_to_sleep" );
 
@@ -3641,8 +3784,6 @@ TEST_CASE( "shift_start_clears_stale_sleep_commitment", "[npc][schedule]" )
         guy.set_moves( 100 );
         guy.move();
 
-        // BT returns drink_water. Same needs category, but goal-level
-        // completion fires because new_goal != "go_to_sleep".
         CHECK( guy.get_committed_goal() != "go_to_sleep" );
     }
 }
@@ -4030,13 +4171,12 @@ TEST_CASE( "guard_assignment_clears_follow_commitment", "[npc][behavior]" )
     const auto &[wh_start2, wh_end2] = guy.myclass.obj().get_work_hours();
     REQUIRE( ( wh_start2 == 0 && wh_end2 == 24 ) );
 
-    // Follow commitment clears, NPC stays at post.
+    // follow commitment ends and hold_position is adopted in the same turn
     guy.set_moves( 100 );
     guy.move();
-    CHECK( guy.get_committed_goal().empty() );
+    CHECK( guy.get_committed_goal() == "hold_position" );
     CHECK( guy.pos_abs() == pre_assign_pos );
 
-    // Next tick: hold_position commits.
     guy.set_moves( 100 );
     guy.move();
     CHECK( guy.get_committed_goal() == "hold_position" );
@@ -5571,6 +5711,8 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
     guy.set_thirst( 200 );
 
     map &here = get_map();
+    // close enough that all sources below are inside the follower's spacing
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
 
     SECTION( "walks to water terrain and drinks" ) {
         const tripoint_bub_ms water = guy.pos_bub() + tripoint( 3, 0, 0 );
@@ -5629,6 +5771,14 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
         const tripoint_bub_ms north_water = guy.pos_bub() + tripoint( 0, -2, 0 );
         here.ter_set( north_water, ter_t_water_sh );
         here.build_map_cache( 0 );
+        // both sources are allowed, so only plan stickiness decides
+        const std::vector<npc::need_candidate> candidates = guy.find_water_candidates();
+        REQUIRE( candidates.size() >= 2 );
+        for( const npc::need_candidate &c : candidates ) {
+            CAPTURE( c.target );
+            REQUIRE( guy.need_view( npc::need_goal_id::drink_water,
+                                    guy.water_option_cost( c ) ).eligible() );
+        }
 
         // NPC should keep pursuing original target.
         tripoint_bub_ms prev = guy.pos_bub();
@@ -6728,6 +6878,9 @@ TEST_CASE( "npc_sleep_executor_contract", "[npc][needs][sleep]" )
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
 
     map &here = get_map();
+    // spawn_npc can shift the map: place the player by the NPC so the beds below are
+    // inside the follower's spacing
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
     using need_source = npc_short_term_cache::need_source;
 
     SECTION( "current tile is valid: falls asleep here" ) {
@@ -6828,7 +6981,6 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     clear_map_without_vision();
     clear_avatar();
     get_player_character().camps.clear();
-    get_player_character().setpos( get_map(), tripoint_bub_ms{ 50, 55, 0 } );
     get_weather().forced_temperature = 20_C;
     set_time_to_day();
 
@@ -6836,43 +6988,45 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     clear_character( guy, true );
     guy.set_fac( faction_your_followers );
     guy.set_attitude( NPCATT_FOLLOW );
+    guy.rules.set_flag( ally_rule::follow_close );
     guy.set_stored_kcal( 55000 );
     guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
     guy.set_all_parts_temp_conv( BODYTEMP_NORM );
     guy.set_all_parts_temp_cur( BODYTEMP_NORM );
-    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    map &here = get_map();
+    get_player_character().setpos( here, guy.pos_bub() + tripoint( 2, 2, 0 ) );
+    get_player_character().add_effect( effect_sleep, 2_hours );
+    on_out_of_scope wake( [] {
+        get_player_character().remove_effect( effect_sleep );
+    } );
 
-    // Moderate sleepiness so sleep urgency is moderate.
+    // settling on a bed: stim makes the executor's roll fail, so it lies down
+    here.furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 400 );
+    guy.set_stim( 100 );
+    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_moves( 100 );
+    REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
+    REQUIRE( guy.has_effect( effect_lying_down ) );
+    // lying down now: drop the stimulant, which can bring on nausea and stop it drinking
+    guy.set_stim( 0 );
 
-    // Extreme thirst so drink urgency is very high.
+    // extreme thirst with water at hand
     guy.set_thirst( 1100 );
     const item_group::ItemList water_items = item_group::items_from(
-                Item_spawn_data_test_bottle_water );
+                Item_spawn_data_test_bottle_water, calendar::turn );
     guy.i_add( water_items.front() );
 
-    map &here = get_map();
-    here.build_map_cache( 0 );
-
-    // Pre-commit go_to_sleep with holding state (lying down).
-    // Apply effect_lying_down with deferred=true to avoid
-    // process_one_effect -> can_sleep() -> fall_asleep().
-    guy.set_committed_goal( "go_to_sleep" );
-    npc::need_plan &sp = guy.plan_for( npc::need_goal_id::go_to_sleep );
-    sp.goal = "go_to_sleep";
-    sp.last_result = npc::need_result::holding;
-    guy.add_effect( effect_lying_down, 30_minutes, false, 1, false, true );
-    REQUIRE( guy.has_effect( effect_lying_down ) );
-
-    guy.set_moves( 100 );
-    guy.move();
-
-    // Thirst urgency (1100/1200 = 0.92) should preempt sleep
-    // urgency (400/1000 = 0.40) with margin.
-    CHECK( guy.get_committed_goal() != "go_to_sleep" );
-    // Preemption must remove lying_down so process_one_effect
-    // doesn't re-trigger can_sleep() -> fall_asleep().
+    run_npc_turn( guy );
     CHECK_FALSE( guy.has_effect( effect_lying_down ) );
+    CHECK_FALSE( guy.has_effect( effect_sleep ) );
+    CHECK_FALSE( guy.get_sleep_plan().active() );
+    CHECK( guy.get_committed_goal().empty() );
+    run_npc_turns( guy, 3, []( const npc & n ) {
+        return n.stomach.get_water() > 0_ml;
+    } );
+    CHECK( guy.stomach.get_water() > 0_ml );
 }
 
 // Foraging/harvesting NPCs must react to danger instead of blindly
@@ -7187,6 +7341,20 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
         CHECK_FALSE( guy.activity );
     }
 
+    SECTION( "ending a pursuit ends only the activity it owns" ) {
+        item &lighter = *guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        item_location tool_loc( guy, &lighter );
+        const tripoint_bub_ms fire_pos = guy.pos_bub() + point::east;
+        guy.assign_activity( fire_start_activity_actor(
+                                 here.get_abs( fire_pos ), tool_loc, 5, 500 ) );
+        REQUIRE( guy.activity.id() == ACT_START_FIRE );
+
+        guy.end_need_pursuit( npc::need_goal_id::drink_water );
+        CHECK( guy.activity.id() == ACT_START_FIRE );
+        guy.end_need_pursuit( npc::need_goal_id::seek_warmth );
+        CHECK_FALSE( guy.activity );
+    }
+
     SECTION( "unrelated activity preserved on goal clear" ) {
         guy.set_committed_goal( "eat_food" );
         guy.assign_activity( wait_activity_actor( 10_minutes ) );
@@ -7307,5 +7475,231 @@ TEST_CASE( "npc_warmth_indoor_hold_timeout", "[npc][needs][warmth]" )
             }
         }
         CHECK( hold_count > 0 );
+    }
+}
+
+TEST_CASE( "npc_trade_test", "[npc][trade]" )
+{
+    // note for readers of this test: transfer_items() can't be called multiple times
+    // with escrow. it removes items from the player.
+    clear_avatar();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    avatar &you = get_avatar();
+    you.clear_worn();
+
+    std::list<item_location *> from_map;
+    std::vector<std::pair<item_location, int>> try_trade;
+
+    try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+    REQUIRE( you.has_weapon() );
+
+    std::list<item> escrow;
+    const item_filter has_filthy = []( const item & it ) {
+        return it.is_filthy();
+    };
+
+    SECTION( "npc wants to trade a backpack.  (control)" ) {
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( !you.has_weapon() );
+    }
+
+    SECTION( "npc wants to trade a backpack containing a backpack" ) {
+        clear_avatar();
+        you.clear_worn();
+        try_trade.clear();
+        try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+        item_location inner_backpack = you.i_add( item( itype_backpack ) );
+        REQUIRE( you.get_wielded_item() == try_trade.front().first );
+
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( !escrow.front().empty_container() );
+        REQUIRE( !you.has_weapon() );
+    }
+
+    SECTION( "npc refuses the filthy item in the trade" ) {
+        clear_avatar();
+        you.clear_worn();
+        try_trade.clear();
+        try_trade.emplace_back( you.i_add( item( itype_backpack ) ), 1 );
+        item filthy_backpack( itype_backpack );
+        filthy_backpack.set_flag( json_flag_FILTHY );
+        you.i_add( filthy_backpack );
+        REQUIRE( you.has_item_with( has_filthy ) );
+
+        escrow = npc_trading::transfer_items( try_trade, you, guy, from_map, true );
+        REQUIRE( escrow.size() == 1 );
+        REQUIRE( escrow.front().empty_container() );
+        // dropped the unwanted item
+        REQUIRE( map_cursor( you.pos_abs() ).has_item_with( has_filthy ) );
+    }
+}
+
+TEST_CASE( "follower_speech_reaches_the_player", "[npc][sound]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    // rainstorm's sound_attn must be covered by the speech volume
+    const weather_type_id sky = GENERATE( weather_clear, weather_rainstorm );
+    CAPTURE( sky.str() );
+    scoped_weather_override weather( sky );
+    map &here = get_map();
+    Character &player = get_player_character();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int distance = GENERATE( 1, 3, 6 );
+    CAPTURE( distance );
+    player.setpos( here, guy.pos_bub() + tripoint( distance, 0, 0 ) );
+    REQUIRE( rl_dist( guy.pos_bub(), player.pos_bub() ) == distance );
+
+    sounds::reset_sounds();
+    Messages::clear_messages();
+    guy.say( "Can we stop for water?" );
+    sounds::process_sound_markers( &player );
+
+    const std::vector<std::pair<std::string, std::string>> log = Messages::recent_messages( 0 );
+    CHECK( std::any_of( log.begin(), log.end(), []( const std::pair<std::string, std::string> &m ) {
+        return m.second.find( "Can we stop for water?" ) != std::string::npos;
+    } ) );
+}
+
+TEST_CASE( "npc_tiredness_reading_matches_the_threshold", "[npc][talk]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    REQUIRE( guy.is_player_ally() );
+    const int tired = static_cast<int>( sleepiness_levels::TIRED );
+    const auto reading_at = [&guy]( const int sleepiness ) {
+        guy.set_sleepiness( sleepiness );
+        return get_const_talker_for( guy )->evaluation_by( *get_const_talker_for( get_avatar() ) );
+    };
+
+    SECTION( "just below tired: a countdown that hasn't run out" ) {
+        const std::string info = reading_at( tired - 1 );
+        CAPTURE( info );
+        CHECK( info.find( "Not tired" ) != std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) != std::string::npos );
+        CHECK( info.find( "0 seconds" ) == std::string::npos );
+    }
+    SECTION( "at tired: no countdown" ) {
+        const std::string info = reading_at( tired );
+        CAPTURE( info );
+        CHECK( info.find( "Tired" ) != std::string::npos );
+        CHECK( info.find( "Not tired" ) == std::string::npos );
+        CHECK( info.find( "Will need to sleep in" ) == std::string::npos );
+    }
+    SECTION( "dead tired and exhausted also start at their level" ) {
+        const int dead_tired = static_cast<int>( sleepiness_levels::DEAD_TIRED );
+        const int exhausted = static_cast<int>( sleepiness_levels::EXHAUSTED );
+        CHECK( reading_at( dead_tired - 1 ).find( "Dead tired" ) == std::string::npos );
+        CHECK( reading_at( dead_tired ).find( "Dead tired" ) != std::string::npos );
+        CHECK( reading_at( exhausted - 1 ).find( "Exhausted" ) == std::string::npos );
+        CHECK( reading_at( exhausted ).find( "Exhausted" ) != std::string::npos );
+    }
+}
+
+TEST_CASE( "follower_closing_a_door_stays_a_follower", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 50, 50, 0 ) );
+    npc &guy = spawn_npc( { 52, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( here, tripoint_bub_ms( 52, 50, 0 ) );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.rules.set_flag( ally_rule::close_doors );
+    const tripoint_bub_ms door = guy.pos_bub() + tripoint::east;
+    // shopkeeper class restocks on spawn, stock can land in the doorway
+    here.i_clear( door );
+    here.ter_set( door, ter_t_door_o );
+    here.ter_set( door + tripoint( 3, 0, 0 ), ter_t_water_sh );
+    here.build_map_cache( 0 );
+
+    // step through the doorway: closing it behind itself is an assigned activity
+    guy.set_moves( 100 );
+    guy.move_to( door );
+    guy.set_moves( 100 );
+    guy.move_to( door + tripoint::east );
+    REQUIRE( guy.activity );
+    REQUIRE( guy.get_attitude() == NPCATT_ACTIVITY );
+
+    WHEN( "thirsty, water in sight next turn" ) {
+        guy.set_thirst( 600 );
+        run_npc_turn( guy );
+        THEN( "it closed the door and follows again" ) {
+            CHECK( here.ter( door ) == ter_t_door_c );
+            CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+            CHECK( guy.is_walking_with() );
+            CHECK( std::none_of( guy.backlog.begin(), guy.backlog.end(), []( const player_activity & a ) {
+                return a.id() == ACT_CLOSE_TILE;
+            } ) );
+            CHECK( guy.name_and_activity() == guy.disp_name() );
+        }
+    }
+}
+
+TEST_CASE( "closing_a_car_door_after_the_car_moved_on_ends_quietly", "[npc][vehicle]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    clear_vehicles();
+    map &here = get_map();
+    get_player_character().setpos( here, tripoint_bub_ms( 30, 30, 0 ) );
+    npc &guy = spawn_npc( { 50, 60 }, "test_talker" );
+    clear_character( guy, true );
+    // spawn_npc can shift the map: place the car only after it
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, tripoint_bub_ms( 50, 50, 0 ),
+                                     0_degrees, 100, veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    std::optional<tripoint_bub_ms> seat;
+    std::optional<tripoint_bub_ms> door;
+    for( const vpart_reference &vp : veh->get_all_parts() ) {
+        if( vp.mount_pos() == point_rel_ms( 0, 2 ) ) {
+            seat = veh->bub_part_pos( here, vp.part() );
+        } else if( vp.mount_pos() == point_rel_ms( 0, 3 ) ) {
+            door = veh->bub_part_pos( here, vp.part() );
+        }
+    }
+    REQUIRE( seat );
+    REQUIRE( door );
+    guy.setpos( here, *seat );
+    here.board_vehicle( *seat, &guy );
+    REQUIRE( guy.in_vehicle );
+    const std::optional<vpart_reference> door_part = here.veh_at( *door ).part_with_feature( "OPENABLE",
+            true );
+    REQUIRE( door_part );
+    veh->open( here, door_part->part_index() );
+
+    guy.assign_activity( close_tile_activity_actor( *door ) );
+    REQUIRE( guy.activity );
+
+    WHEN( "car drives off before door is closed" ) {
+        for( int step = 0; step < 10; ++step ) {
+            veh->precalc_mounts( 1, veh->face.dir(), veh->pivot_point( here ) );
+            REQUIRE( here.displace_vehicle( *veh, tripoint_rel_ms::east ) );
+        }
+        REQUIRE_FALSE( here.veh_at( *door ) );
+        run_npc_turn( guy );
+        THEN( "the attempt ends" ) {
+            CHECK_FALSE( guy.activity );
+        }
+    }
+    WHEN( "car doesn't move" ) {
+        run_npc_turn( guy );
+        THEN( "door closed" ) {
+            CHECK_FALSE( veh->part( door_part->part_index() ).open );
+        }
     }
 }

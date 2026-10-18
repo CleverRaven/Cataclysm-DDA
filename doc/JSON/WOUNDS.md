@@ -19,10 +19,27 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
             // Default infinite duration
     "wound_progression": [ { "id": "deep_scratch", "chance": 10 } ], // taking damage on bodypart with this limb may worsen it. chance is range from 0% to 100%
     "limb_scores": [ { "score": "lift", "value": 0.25 } ], // if wounded part has this limb score, it will be decreased by this amount
+    "progress_timer": {   // this wound may transform into another wound over time
+      "id": "scratch_medium",
+      "time": [ "2 minutes", "4 minutes" ],
+      "message": "Suddenly the scratch on your %s got wider!" // argument %s is body part name
+    },
+    "mod_values": [ // defines variety of effect that happen over time while wound is presented
+      {
+        "type": "PAIN", // type of said effect. Currently supported are PAIN (increases the pain value of wound until treated), BLEED (drips some blood on the ground) and VITAMIN (decreases specific vitamin in character body)
+        "rate": "2 seconds", // how often said effect happens
+        "amount": 3 // when happens, how big the change would be? +3 pain every 2 seconds, in case of this particulare object
+      },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -1 } // if VITAMIN type, `vitamin_id` is used to specify the vitamin that should be modified
+    ],
+    "periodic_message": { // used to send messages into log when such wound is presented. Reserve for the most important one
+      "message": "OH NO YOUR WOUND ON YOUR %s IS BLEEDING CLOSE IT CLOSE IT CLOSE IT!", // argument %s is body part name
+      "rate": "2 seconds"
+    },
     "whitelist_body_part_types": [ "leg", "arm" ], // if used, this wound can be applied only at bodyparts of this type. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other
     "blacklist_body_part_types": [ "torso", "sensor" ], // if used, this wound cannot be applied on bodyparts of this type.
-    "whitelist_bp_with_flag": "LIMB_UPPER", // only body parts with this flag can receive the wound.
-    "blacklist_bp_with_flag": "BIONIC_LIMB", // Bodyparts with this flag cannot receive this wound.
+    "whitelist_bp_with_flag": [ "LIMB_UPPER" ], // only body parts with this flags can receive the wound.
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB" ], // Bodyparts with this flags cannot receive this wound.
   }
 ```
 

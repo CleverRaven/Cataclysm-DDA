@@ -17,5 +17,34 @@
       [ [ "duct_tape", 40 ], [ "medical_tape", 40 ], [ "glue_strong", 2 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "result": "mask_filter",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "fabrication", 1 ],
+    "time": "15 m",
+    "autolearn": true,
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [
+      [ "textbook_fireman", 3 ],
+      [ "atomic_survival", 3 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ],
+      [ "emergency_book", 3 ],
+      [ "textbook_gaswarfare", 3 ]
+    ],
+    "components": [
+      [ [ "plastic_sheet_small", 2 ], [ "plastic_bottles_any", 1, "LIST" ] ],
+      [ [ "cotton_patchwork", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
+      [ [ "charcoal", 10 ] ]
+    ],
+    "//": "Airtight takes some skills.",
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ]
   }
 ]

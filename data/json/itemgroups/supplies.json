@@ -228,13 +228,13 @@
     "type": "item_group",
     "container-item": "jug_plastic",
     "//": "128 oz",
-    "items": [ { "item": "bleach", "count": -1 } ]
+    "items": [ { "item": "bleach", "count": 3750 } ]
   },
   {
     "id": "bleach_jug_part",
     "type": "item_group",
     "container-item": "jug_plastic",
-    "items": [ { "item": "bleach", "count": [ 125, -1 ] } ]
+    "items": [ { "item": "bleach", "count": [ 125, 3750 ] } ]
   },
   {
     "id": "lye_bottle_twoliter",
@@ -404,6 +404,36 @@
     "id": "paintcans",
     "type": "item_group",
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
+  },
+  {
+    "id": "thread_spool",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "//1": "150 yard, roughly 137 m.",
+    "items": [ { "item": "thread", "charges": 550 } ]
+  },
+  {
+    "id": "thread_spool_part",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "items": [ { "item": "thread", "charges": [ 6, 550 ] } ]
+  },
+  {
+    "id": "thread_spool_boxed",
+    "type": "item_group",
+    "container-item": "box_tiny",
+    "items": [ { "group": "thread_spool", "count": 6 } ]
+  },
+  {
+    "id": "thread_used",
+    "type": "item_group",
+    "items": [
+      { "collection": [ { "group": "thread_spool", "count": [ 2, 7 ] }, { "group": "thread_spool_part" } ] },
+      {
+        "collection": [ { "group": "thread_spool_boxed" }, { "group": "thread_spool_part", "prob": 25 } ],
+        "prob": 10
+      }
+    ]
   },
   {
     "id": "cable_roll",
@@ -668,6 +698,12 @@
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
   },
   {
+    "id": "bag_garbage_box_medium",
+    "type": "item_group",
+    "container-item": "box_medium",
+    "items": [ { "item": "bag_garbage", "count": [ 0, 500 ] } ]
+  },
+  {
     "id": "bag_garbage_box",
     "type": "item_group",
     "container-item": "box_small",
@@ -761,7 +797,9 @@
       { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 10 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
       { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
-      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "steel_section_long", "prob": 20, "count": [ 5, 20 ] },
+      { "item": "steel_section_short", "prob": 20, "count": [ 5, 20 ] }
     ]
   },
   {

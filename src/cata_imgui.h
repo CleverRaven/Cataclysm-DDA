@@ -68,6 +68,26 @@ enum class scroll : int {
 constexpr int min_screen_res_x = 640;
 constexpr int min_screen_res_y = 384;
 
+#ifndef TUI
+// font rebuild requested between frames; atlas can't change while one is open
+class font_reload
+{
+    public:
+        // rebuild at current ::fontheight; the last request before a frame wins
+        void request( const std::vector<font_config> &gui_typefaces,
+                      const std::vector<font_config> &mono_typefaces );
+        bool pending() const {
+            return pending_;
+        }
+        // reload the fonts if requested; call only outside a frame. true if it did
+        bool apply( ImGuiIO &io, bool cjk );
+    private:
+        bool pending_ = false;
+        std::vector<font_config> gui_typefaces_;
+        std::vector<font_config> mono_typefaces_;
+};
+#endif
+
 class client
 {
         std::vector<int> cata_input_trail;
@@ -77,6 +97,8 @@ class client
         // idempotent.
         bool platform_backend_active_ = false;
         bool renderer_backend_active_ = false;
+        font_reload font_reload_;
+        bool fonts_reloaded_this_frame_ = false;
 #endif
     public:
 #ifdef TUI
@@ -121,6 +143,15 @@ class client
         // buffers) without tearing down the backend; they recreate
         // lazily on the next RenderDrawData.
         void destroy_backend_device_objects() const;
+        // applied at the start of the next new_frame
+        void reload_fonts( const std::vector<font_config> &gui_typefaces,
+                           const std::vector<font_config> &mono_typefaces ) {
+            font_reload_.request( gui_typefaces, mono_typefaces );
+        }
+        // whether the last new_frame rebuilt the fonts, so text measured before it is stale
+        bool fonts_reloaded_this_frame() const {
+            return fonts_reloaded_this_frame_;
+        }
 #endif
         bool auto_size_frame_active();
         bool any_window_shown();
@@ -141,6 +172,9 @@ class client
 // sizing contract when the idle-null target leaves the output reading the window.
 point imgui_frame_display_size( int display_buffer_w, int display_buffer_h,
                                 int renderer_output_w, int renderer_output_h );
+// add gui, mono and (without CJK) 1.5x gui fonts as Fonts[0], [1] and [2]
+void add_cata_fonts( ImGuiIO &io, const std::vector<font_config> &gui_typefaces,
+                     const std::vector<font_config> &mono_typefaces, bool cjk );
 #endif
 
 void point_to_imvec2( point *src, ImVec2 *dest );
