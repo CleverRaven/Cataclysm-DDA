@@ -43,28 +43,25 @@ jobs:
         run: |
           export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
+
+          echo "Gerando keystore de assinatura do APK..."
+          keytool -genkeypair -v -keystore app/release.keystore -alias cdda -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=CDDA, OU=Mod, O=CDDA, L=Local, S=Local, C=BR"
+
+          cat << 'EOF' > keystore.properties
+          storeFile=app/release.keystore
+          storePassword=password
+          keyAlias=cdda
+          keyPassword=password
+          EOF
+
           echo "Iniciando compilação otimizada Release (ARM64)..."
-          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee gradle_build.log
-          
+          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace
+
           mkdir -p ../output_apks
           echo "Buscando e copiando APKs gerados..."
           find . -name "*.apk" -exec cp -v {} ../output_apks/ \;
           ls -lh ../output_apks/
-
-      - name: Exibir log de erro caso falhe
-        if: failure()
-        working-directory: ./android
-        run: |
-          echo "=== ÚLTIMAS 250 LINHAS DO LOG ==="
-          tail -n 250 gradle_build.log || true
-
-      - name: Upload do log completo
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gradle-build-log
-          path: android/gradle_build.log
-          retention-days: 7
+          test -n "$(ls -A ../output_apks/*.apk 2>/dev/null)" || (echo "ERRO: Nenhum APK encontrado em output_apks!" && exit 1)
 
       - name: Upload do APK como Artifact
         uses: actions/upload-artifact@v4

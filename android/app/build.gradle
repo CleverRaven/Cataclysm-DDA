@@ -434,10 +434,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (signingConfigs.hasProperty("release")) {
+            if (keystoreProperties.getProperty('storeFile') != null && file(keystoreProperties.getProperty('storeFile')).exists()) {
                 signingConfig signingConfigs.release
-            } else {
-                signingConfig signingConfigs.debug
             }
             externalNativeBuild {
                 cmake {
