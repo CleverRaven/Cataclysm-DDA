@@ -624,8 +624,8 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
             obj.set_fault( flt );
         }
         if( !you.backlog.empty() && (
-            you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-            you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
+                you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
             obj.set_var( "activity_var", you.name );
         }
         objs.push_back( obj );
@@ -900,8 +900,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
                     obj.remove_fault( flt );
                 }
                 if( !you.backlog.empty() && ( 
-                    you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                    you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
+                        you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                        you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
                     obj.set_var( "activity_var", you.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -948,8 +948,8 @@ bool butchery_drops_harvest( butchery_data bt, Character &you )
             ruined_parts.set_item_temperature( corpse_item.temperature );
             ruined_parts.set_rot( corpse_item.get_rot() );
             if( !you.backlog.empty() && (
-                you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
+                    you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                    you.backlog.front().id() == ACT_MULTIPLE_DISSECT ) ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
             for( int i = 0; i < item_charges; ++i ) {

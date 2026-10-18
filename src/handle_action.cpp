@@ -1539,7 +1539,7 @@ static void loot()
     }
     if( flags & MultiDissection ) {
         menu.addentry_desc( MultiDissection, true, 'x', _( "Dissect corpses" ),
-            wrap60( _( "Auto-dissect anything in designated zone - auto-fetch tools." ) ) );
+                            wrap60( _( "Auto-dissect anything in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiMining ) {
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
