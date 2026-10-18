@@ -120,8 +120,8 @@ static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_AXE( "AXE" );
-static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
