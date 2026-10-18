@@ -205,8 +205,10 @@
     "autolearn": true,
     "contained": true,
     "batch_time_factors": [ 80, 1 ],
+    "tools": [ [ [ "sheet_cotton", -1 ], [ "sheet_cotton_patchwork", -1 ], [ "cotton_patchwork", -1 ] ] ],
+    "//": "The sheet is used for to keep the powder in one place when you crush them with your hammer.",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ] ]
   },
   {
     "type": "recipe",
