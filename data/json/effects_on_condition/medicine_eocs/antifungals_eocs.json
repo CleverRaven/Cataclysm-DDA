@@ -6,7 +6,7 @@
       { "u_add_effect": "antifungal", "duration": "16 hours" },
       { "u_message": "You take an antifungal.", "type": "info" },
       {
-        "if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
+        "if": { "math": [ "u_effect_intensity('fungus') = 5" ] },
         "then": { "u_message": "It's too late.", "type": "bad", "popup": true },
         "else": {
           "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
@@ -30,7 +30,7 @@
         "if": { "math": [ "u_effect_intensity('fungus') >= 2" ] },
         "then": [
           {
-            "u_message": "The fungal infection is calmed, but not removed.  You'll need something intent for this specific infection.",
+            "u_message": "The fungal infection is calmed, but not removed.  You'll need something intended for this specific infection.",
             "type": "mixed"
           },
           { "u_add_effect": "fungus", "intensity": 2, "duration": "PERMANENT" }
@@ -57,7 +57,7 @@
       { "u_add_effect": "antifungal", "duration": "16 hours" },
       { "u_message": "You take a strong antifungal.", "type": "info" },
       {
-        "if": { "math": [ "u_effect_intensity('fungus') >= 5" ] },
+        "if": { "math": [ "u_effect_intensity('fungus') = 5" ] },
         "then": { "u_message": "It's too late.", "type": "bad", "popup": true },
         "else": {
           "if": { "and": [ { "u_has_effect": "fungus" }, { "math": [ "u_effect_intensity('fungus') <= 4" ] } ] },
