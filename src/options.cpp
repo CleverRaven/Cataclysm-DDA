@@ -2360,7 +2360,7 @@ void options_manager::add_options_graphics()
 #if defined(__ANDROID__)
     // grid and cell follow screen and Android text size option
     constexpr copt_hide_t terminal_size_hide = COPT_ALWAYS_HIDE;
-    constexpr copt_hide_t font_size_hide = COPT_NONE;
+    constexpr copt_hide_t font_size_hide = COPT_NO_HIDE;
 #else
     constexpr copt_hide_t terminal_size_hide = COPT_POSIX_CURSES_HIDE;
 #if defined(TILES)
