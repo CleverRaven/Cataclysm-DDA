@@ -192,7 +192,6 @@
     "rolling_resistance": 2.5,
     "//": "really big steel drum, assuming 100 cm of weld per quadrant of damage.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
