@@ -636,18 +636,14 @@
     "id": "MOVE_ARMOR_IN",
     "category": "BODY_STATUS_UI",
     "name": "Move armor inwards a layer",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "i" }
-    ]
-  },  
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
   {
     "type": "keybinding",
     "id": "MOVE_ARMOR_OUT",
     "category": "BODY_STATUS_UI",
     "name": "Move armor outwards a layer",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "o" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
   },
   {
     "type": "keybinding",
@@ -767,14 +763,14 @@
     "category": "BODY_STATUS_UI",
     "name": "Cycle bodygraph display mode",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
-  },  
+  },
   {
     "type": "keybinding",
     "id": "BODYGRAPH_TOGGLE_WINDOW",
     "category": "BODY_STATUS_UI",
     "name": "Toggle bodygraph display window",
     "bindings": [ { "input_method": "keyboard_any", "key": "}" } ]
-  },  
+  },
   {
     "type": "keybinding",
     "id": "INFO_TOGGLE_WINDOW",
