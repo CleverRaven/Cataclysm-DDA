@@ -623,6 +623,10 @@ bool Character::i_drop_at( item &it, int qty )
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
+    if( !parent ) {
+        debugmsg( "Tried to recur through invalid item_location" );
+        return;
+    }
     for( item *it : parent->all_items_top( pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
@@ -645,10 +649,12 @@ std::vector<item_location> outfit::all_items_loc( Character &guy )
 std::vector<item_location> Character::all_items_loc()
 {
     std::vector<item_location> ret;
-    item_location weap_loc( *this, &weapon );
-    std::vector<item_location> weapon_internal_items;
-    recur_internal_locations( weap_loc, weapon_internal_items );
-    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
+    item_location weap_loc = get_wielded_item();
+    if( weap_loc ) {
+        std::vector<item_location> weapon_internal_items;
+        recur_internal_locations( weap_loc, weapon_internal_items );
+        ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
+    }
     std::vector<item_location> outfit_items = worn.all_items_loc( *this );
     ret.insert( ret.end(), outfit_items.begin(), outfit_items.end() );
     return ret;
