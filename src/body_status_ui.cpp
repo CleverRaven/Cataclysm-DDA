@@ -163,6 +163,8 @@ void body_status_ui::setup_input_context( input_context &bs_ictxt )
 
     bs_ictxt.register_action( "SCROLL_INFOBOX_UP" );
     bs_ictxt.register_action( "SCROLL_INFOBOX_DOWN" );
+    bs_ictxt.register_action( "SCROLL_BODYGRAPH_UP" );
+    bs_ictxt.register_action( "SCROLL_BODYGRAPH_DOWN" );
 
     bs_ictxt.register_action( "BODYGRAPH_DISPLAY_CHANGE" );
     bs_ictxt.register_action( "INFO_TOGGLE_WINDOW" );
@@ -342,9 +344,13 @@ bool body_status_ui::handle_action( const std::string &action )
         bs_uistate.switched_tab = bs_uistate.selected_tab;
         upon_switching_tab();
     } else if( action == "SCROLL_INFOBOX_UP" ) {
-        bs_uistate.scrolled_up = true;
+        bs_uistate.info_scrolled_up = true;
     } else if( action == "SCROLL_INFOBOX_DOWN" ) {
-        bs_uistate.scrolled_down = true;
+        bs_uistate.info_scrolled_down = true;
+    } else if( action == "SCROLL_BODYGRAPH_UP" ) {
+        bs_uistate.bodygraph_scrolled_up = true;
+    } else if( action == "SCROLL_BODYGRAPH_DOWN" ) {
+        bs_uistate.bodygraph_scrolled_down = true;
     } else if( action == "BODYGRAPH_TOGGLE_WINDOW" ) {
         bs_uistate.bodygraph_collapsed = !bs_uistate.bodygraph_collapsed;
         reset_window_size = true;
@@ -688,7 +694,7 @@ void body_status_ui_impl::draw_controls()
         ImGui::SameLine();
         {
             ImGui::BeginChild( "WINDOW_INFO", CHILD_WINDOW_SIZE );
-            draw_description();
+            draw_info();
             ImGui::EndChild();
         }
     }
@@ -705,7 +711,7 @@ void body_status_ui_impl::draw_controls()
 
 }
 
-void body_status_ui_impl::draw_description()
+void body_status_ui_impl::draw_info()
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
 
@@ -751,6 +757,7 @@ void body_status_ui_impl::draw_description()
             break;
     }
     bs_uistate.set_description_scroll();
+    tabbed_listinfo_ui::set_info_scroll( bs_uistate.info_scrolled_down, bs_uistate.info_scrolled_up );
 }
 
 
@@ -826,4 +833,6 @@ void body_status_ui_impl::draw_bodygraph()
     }
 
     draw_graph_imgui( bodypart_or_subpart_id );
+    tabbed_listinfo_ui::set_info_scroll( bs_uistate.bodygraph_scrolled_down,
+                                         bs_uistate.bodygraph_scrolled_up );
 }

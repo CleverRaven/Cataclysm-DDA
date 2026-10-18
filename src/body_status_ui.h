@@ -202,15 +202,18 @@ struct body_status_uistate {
 
     bool bodygraph_collapsed = false;
     bool info_collapsed = false;
-    bool scrolled_up = false;
-    bool scrolled_down = false;
+    bool info_scrolled_up = false;
+    bool info_scrolled_down = false;
+    bool bodygraph_scrolled_up = false;
+    bool bodygraph_scrolled_down = false;
     bool quit_menu = false;
 };
 
 /* handles three different body status windows:
-* 1. the tabbed window, for displaying SUMMARY, CLOTHING, MEDICAL lists
+* 1. the list window, for displaying SUMMARY, CLOTHING, MEDICAL lists
 * 2. the info window, for displaying information about the tabbed window
 * 3. the bodygraph window, for visually displaying the desired custom information
+*    (along with anything else)
 */
 class body_status_ui : public tabbed_listinfo_ui
 {
@@ -257,7 +260,7 @@ class body_status_ui_impl : public cataimgui::window
         explicit body_status_ui_impl( body_status_ui *parent );
 
         // description is drawn entirely based on the selected item in the list; varies per tab
-        void draw_description();
+        void draw_info();
 
         // entirely independent of selected item in the list, though may default unless provided with state data?
         void draw_bodygraph();
