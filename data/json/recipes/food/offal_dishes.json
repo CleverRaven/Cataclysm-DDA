@@ -317,38 +317,6 @@
   },
   {
     "type": "recipe",
-    "result": "pie_veggy",
-    "name": "%s (Unattended)",
-    "id_suffix": "unattended",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charges": 4,
-    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
-    "//": "30u for flour, 12u for veggy (save some energy baking them with the bread)",
-    "steps": [
-      {
-        "name": "Preparation",
-        "time": "5 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ [ { "id": "COOK", "level": 2 } ] ],
-        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-        "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ]
-      },
-      {
-        "name": "Set to bake",
-        "time": "20 m",
-        "activity_level": "NO_EXERCISE",
-        "qualities": [ [ { "id": "OVEN", "level": 1 } ] ],
-        "tools": [ [ [ "oven_tool", 4632 ] ] ],
-        "attention": "unattended"
-      }
-    ],
-    "components": [ [ [ "flour_any", 30, "LIST" ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_heart",
     "category": "CC_FOOD",
