@@ -73,6 +73,7 @@ struct field_effect {
     bodypart_str_id bp;
     field_immunity_data immunity_data;
     bool is_environmental = true;
+    bool immune_inside  = false;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
     bool immune_outside_vehicle = false;

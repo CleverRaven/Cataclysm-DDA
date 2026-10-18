@@ -189,6 +189,7 @@ void field_effect::deserialize( const JsonObject &jo )
     optional( jo, false, "intensity", intensity );
     optional( jo, false, "body_part", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "is_environmental", is_environmental );
+    optional( jo, false, "immune_inside", immune_inside );
     optional( jo, false, "immune_in_vehicle", immune_in_vehicle );
     optional( jo, false, "immune_inside_vehicle", immune_inside_vehicle );
     optional( jo, false, "immune_outside_vehicle", immune_outside_vehicle );

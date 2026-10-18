@@ -7,7 +7,6 @@
 #include <list>
 #include <map>
 #include <optional>
-#include <string>
 #include <vector>
 
 #include "coordinates.h"
