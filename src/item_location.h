@@ -177,11 +177,6 @@ class item_location : public visitable
         bool check_parent_capacity_recursive() const;
 
         /**
-        * true if the item is inside a not open watertight container
-        **/
-        bool protected_from_liquids() const;
-
-        /**
         * returns the pocket-related limitations (on volume_capacity, etc.) on this item due to ancestor pockets.
         * @param pocket optional. begins with the limits of the given pocket, which must be in this location.
         */

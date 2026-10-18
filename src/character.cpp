@@ -779,10 +779,9 @@ creature_size Character::get_size() const
     return size_class;
 }
 
-std::string Character::disp_name( bool possessive, bool capitalize_first ) const
+std::string Character::disp_name( bool capitalize_first ) const
 {
-    return is_avatar() ? as_avatar()->display_name( possessive,
-            capitalize_first ) : as_npc()->display_name( possessive );
+    return is_avatar() ? as_avatar()->display_name( capitalize_first ) : as_npc()->display_name();
 }
 
 std::string Character::disp_profession() const
@@ -803,7 +802,7 @@ std::string Character::disp_profession() const
 
 std::string Character::name_and_maybe_activity() const
 {
-    return disp_name( false, true );
+    return disp_name( true );
 }
 
 std::string Character::skin_name() const
@@ -3864,14 +3863,20 @@ bool Character::sees_with_specials( const Creature &critter ) const
     return false;
 }
 
+// how much liquid a pour moves into the container, given its own room for it
+static int pour_amount( const item_location &container, const item &liquid, const int room )
+{
+    return container->all_pockets_rigid() ? room :
+           std::min( room, container.max_charges_by_parent_recursive( liquid ).value() );
+}
+
 bool Character::pour_into( item_location &container, item &liquid, bool ignore_settings,
                            bool silent )
 {
     rem_cap_return err = rem_cap_return::SUCCESS;
     int max_remaining_capacity = container->get_remaining_capacity_for_liquid( liquid, *this, &err );
     // amount of liquid that can be inserted
-    int amount = container->all_pockets_rigid() ? max_remaining_capacity :
-                 std::min( max_remaining_capacity, container.max_charges_by_parent_recursive( liquid ).value() );
+    int amount = pour_amount( container, liquid, max_remaining_capacity );
 
     const bool desired_liquid_is_in = container.has_item_with( [&liquid]( const item & it ) {
         return it.typeId() == liquid.typeId();
@@ -3925,9 +3930,28 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    get_avatar().invalidate_weight_carried_cache();
+    invalidate_weight_carried_cache();
+    if( Character *carrier = container.carrier() ) {
+        carrier->invalidate_weight_carried_cache();
+    }
 
     return true;
+}
+
+item_location Character::carried_container_for( const item &liquid, const item *avoid ) const
+{
+    item_location found;
+    visit_carried( [&]( const item_location & container ) {
+        if( container.get_item() == avoid || container.get_item() == &liquid ||
+            !container->is_watertight_container() || container->has_item( liquid ) ||
+            pour_amount( container, liquid,
+                         container->get_remaining_capacity_for_liquid( liquid, *this ) ) <= 0 ) {
+            return VisitResponse::NEXT;
+        }
+        found = container;
+        return VisitResponse::ABORT;
+    } );
+    return found;
 }
 
 bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
@@ -7086,6 +7110,29 @@ void Character::stagger()
     }
 }
 
+int Character::sleep_readiness()
+{
+    int sleepy = get_comfort_at( pos_bub() ).comfort;
+    if( has_addiction( addiction_sleeping_pill ) ) {
+        sleepy -= 4;
+    }
+    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
+    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
+        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
+    } else {
+        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
+    }
+    const int current_stim = get_stim();
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
+    return sleepy;
+}
+
 bool Character::can_sleep()
 {
 
@@ -7109,26 +7156,7 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = get_comfort_at( pos_bub() ).comfort;
-    if( has_addiction( addiction_sleeping_pill ) ) {
-        sleepy -= 4;
-    }
-    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
-    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
-        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
-    } else {
-        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
-    }
-    const int current_stim = get_stim();
-    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
-        sleepy -= 2 * current_stim;
-    } else {
-        // Make it harder for insomniac to get around the trait
-        sleepy -= current_stim;
-    }
-
-    sleepy += rng( -8, 8 );
-    bool result = sleepy > 0;
+    const bool result = sleep_readiness() + rng( -8, 8 ) > 0;
 
     if( has_active_bionic( bio_soporific ) ) {
         if( bio_soporific_powered_at_last_sleep_check && !has_power() ) {

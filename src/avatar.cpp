@@ -333,6 +333,28 @@ point_of_interest avatar::get_active_point_of_interest() const
     return active_point_of_interest;
 }
 
+// moving further than this from the anchor counts as travelling
+static constexpr int relocation_radius = 6;
+
+void avatar::on_move( const tripoint_abs_ms &old_pos )
+{
+    Character::on_move( old_pos );
+    const tripoint_abs_ms now_pos = pos_abs();
+    if( !relocation_anchor || now_pos.z() != relocation_anchor->z() ||
+        rl_dist( now_pos, *relocation_anchor ) > relocation_radius ) {
+        relocation_anchor = now_pos;
+        relocated_at = calendar::turn;
+    }
+}
+
+time_duration avatar::time_since_relocated() const
+{
+    if( !relocation_anchor ) {
+        return 0_turns;
+    }
+    return std::max( calendar::turn - relocated_at, 0_turns );
+}
+
 void avatar::reset_all_missions()
 {
     active_mission = nullptr;
@@ -1002,13 +1024,9 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     get_name() ) - 1;
 }
 
-std::string avatar::display_name( bool possessive, bool capitalize_first ) const
+std::string avatar::display_name( bool capitalize_first ) const
 {
-    if( !possessive ) {
-        return capitalize_first ? _( "You" ) : _( "you" );
-    } else {
-        return capitalize_first ? _( "Your" ) : _( "your" );
-    }
+    return capitalize_first ? _( "You" ) : _( "you" );
 }
 
 mfaction_id avatar::get_monster_faction() const

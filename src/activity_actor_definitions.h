@@ -1942,6 +1942,10 @@ class consume_activity_actor : public activity_actor
         explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
             consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
+        const item_location &location() const {
+            return consume_location;
+        }
+
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
             return ACT_CONSUME;
@@ -2088,6 +2092,16 @@ class craft_activity_actor : public activity_actor
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
+
+        // Legacy migration: older saves have step recipes with item_counter but no
+        // current_step/step_progress. Derive step state once, before any work or
+        // exertion computation. Guard ensures this runs at most once.
+        void migrate_craft_step( Character &crafter );
+        // Mode is derived from craft state every turn so wakeup handlers that
+        // advance current_step do not need to reach into the live actor.
+        mode derive_mode() const;
+        // returns whether we abort do_turn early
+        bool unattended_craft_step( player_activity &act, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );
 

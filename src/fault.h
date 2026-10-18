@@ -3,19 +3,19 @@
 #define CATA_SRC_FAULT_H
 
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "math_parser_diag_value.h"
-#include "memory_fast.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "weighted_list.h"
 
 class JsonObject;
@@ -81,7 +81,12 @@ class fault_fix
         bool was_loaded = false; // used by generic_factory
         friend class generic_factory<fault_fix>;
         friend class fault;
-        shared_ptr_fast<requirement_data> requirements = make_shared_fast<requirement_data>();
+
+        // used to store requirements, since requirement ids are unavailable at the moment of loading
+        // transferred into requirements at finalization
+        std::vector<std::pair<requirement_id, int>> pending_requirements;
+
+        cata::value_ptr<requirement_data> requirements = cata::make_value<requirement_data>();
 };
 
 class fault

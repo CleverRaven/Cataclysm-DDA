@@ -1123,6 +1123,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1134,7 +1135,9 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "container": "bag_plastic_small"
+    "ammo_type": "chem_black_powder",
+    "container": "bag_plastic_small",
+    "count": 1000
   },
   {
     "type": "ITEM",

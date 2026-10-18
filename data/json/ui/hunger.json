@@ -6,7 +6,12 @@
     "style": "text",
     "clauses": [
       { "id": "engorged", "text": "Engorged", "color": "red", "condition": { "u_has_effect": "hunger_engorged" } },
-      { "id": "full", "text": "Full", "color": "yellow", "condition": { "u_has_effect": "hunger_full" } },
+      {
+        "id": "full",
+        "text": { "str": "Full", "ctxt": "hunger state" },
+        "color": "yellow",
+        "condition": { "u_has_effect": "hunger_full" }
+      },
       {
         "id": "satisfied",
         "text": "Satisfied",

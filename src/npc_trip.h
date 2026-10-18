@@ -8,6 +8,39 @@
 #include "calendar.h"
 #include "coordinates.h"
 #include "point.h"
+#include "safe_reference.h"
+
+class vehicle;
+
+// area an obligation keeps the NPC in: a radius, or a vehicle when aboard is set.
+// raw vehicle pointer: recompute, never store
+struct npc_reach {
+    tripoint_abs_ms center;
+    int radius = 0;
+    vehicle *aboard = nullptr;
+    bool contains( const tripoint_abs_ms &p ) const;
+};
+
+// safe_reference keeps a destroyed vehicle from matching
+struct npc_reach_snapshot {
+    bool anchored = false;
+    tripoint_abs_ms center;
+    int radius = 0;
+    bool has_vehicle = false;
+    safe_reference<vehicle> aboard;
+
+    static npc_reach_snapshot of( const std::optional<npc_reach> &reach );
+    bool matches( const std::optional<npc_reach> &reach ) const;
+};
+
+// tiles a constrained walk may use: the reach, plus same-z tiles within
+// approach_bound of the center for a walk started outside
+struct npc_reach_policy {
+    npc_reach reach;
+    // -1 when started inside the reach
+    int approach_bound = -1;
+    bool allows( const tripoint_abs_ms &p ) const;
+};
 
 // how a self-care walk ends
 enum class npc_trip_kind : int {
@@ -46,6 +79,11 @@ struct npc_trip {
     tripoint_bub_ms from;
     npc_trip_spec spec;
     bool feasible = false;
+    // path keeps to the reach policy; true without a reach
+    bool route_in_reach = true;
+    // resolved under a reach policy; part of the kept path's identity
+    bool constrained = false;
+    int approach_bound = -1;
     // where the NPC stands to act; its own tile when it can act already
     tripoint_bub_ms dest;
     // steps after current tile, ending at dest; empty when it can act already
@@ -56,6 +94,9 @@ struct npc_trip {
 struct npc_retained_trip {
     bool valid = false;
     npc_trip_spec spec;
+    bool constrained = false;
+    int approach_bound = -1;
+    npc_reach_snapshot reach;
 };
 
 // p if passable, else its passable neighbor closest to closest_to

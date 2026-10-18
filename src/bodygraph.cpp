@@ -681,7 +681,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                                          //~ 1$ = 2nd person pronoun (You), 2$ = body part (left arm)
                                          _( "%1$s do not have a %2$s." ) :
                                          //~ 1$ = name of character, 2$ = body part (left arm)
-                                         _( "%1$s does not have a %2$s." ), u.disp_name( false, true ),
+                                         _( "%1$s does not have a %2$s." ), u.disp_name( true ),
                                          id->parent_bp->obj().name.translated() );
         for( int y = 0; y < height; y++ ) {
             if( y == height / 2 ) {

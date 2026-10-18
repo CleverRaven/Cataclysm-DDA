@@ -11,6 +11,7 @@
 #include "rng.h"
 
 enum class bp_type;
+template <typename E> struct enum_traits;
 
 void wound_type::load( const JsonObject &jo, const std::string_view & )
 {
@@ -27,6 +28,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
 
+    optional( jo, was_loaded, "mod_values", mod_values );
+    optional( jo, was_loaded, "periodic_message", periodic_message );
     optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "progress_timer", progress_timer );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
@@ -46,8 +49,6 @@ namespace
 {
 generic_factory<wound_type> wound_type_factory( "wound" );
 
-// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
-std::multimap<wound_fix_id, std::pair<std::string, int>> reqs_temp_storage;
 } // namespace
 
 void wound_type::load_wounds( const JsonObject &jo, const std::string &src )
@@ -136,7 +137,6 @@ bool string_id<wound_fix>::is_valid() const
 void wound_fix::reset()
 {
     wound_fix_factory.reset();
-    reqs_temp_storage.clear();
 }
 
 void wound_fix::check_consistency()
@@ -177,23 +177,48 @@ void wound_fix::finalize_all()
     wound_fix_factory.finalize();
 }
 
+template<>
+struct enum_traits<wound_mod_value_type> {
+    static constexpr wound_mod_value_type last = wound_mod_value_type::LAST;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<wound_mod_value_type>( wound_mod_value_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case wound_mod_value_type::PAIN: return "PAIN";
+        case wound_mod_value_type::BLEED: return "BLEED";
+        case wound_mod_value_type::VITAMIN: return "VITAMIN";
+
+            // *INDENT-ON*
+        case wound_mod_value_type::LAST:
+            break;
+    }
+    cata_fatal( "Invalid character_stat" );
+}
+} // namespace io
+
 void wound_fix::finalize()
 {
-    const auto range = reqs_temp_storage.equal_range( id );
-    for( auto it = range.first; it != range.second; ++it ) {
-        const requirement_id req_id( it->second.first );
-        const int amount = it->second.second;
+    for( const std::pair<requirement_id, int> &p : pending_requirements ) {
+        const requirement_id req_id = p.first;
+        const int amount = p.second;
         if( !req_id.is_valid() ) {
             debugmsg( "wound_fix '%s' has invalid requirement_id '%s'", id.str(), req_id.str() );
             continue;
         }
         *requirements = *requirements + ( *req_id ) * amount;
     }
+    pending_requirements.clear();
     requirements->consolidate();
+    requirement_data::finalize();
+
     for( const wound_type_id &fid : wounds_removed ) {
         const_cast<wound_type &>( *fid ).fixes.emplace( id );
     }
-    requirement_data::finalize();
 }
 
 void wound_limb_score::deserialize( const JsonObject &jo )
@@ -222,6 +247,20 @@ void wound_type_progress_timer::deserialize( const JsonObject &jo )
     optional( jo, false, "message", message );
 }
 
+void wound_mod_values::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "type", type );
+    mandatory( jo, false, "rate", rate );
+    optional( jo, false, "vitamin_id", vitamin );
+    optional( jo, false, "amount", amount );
+}
+
+void wound_periodic_message::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "message", message );
+    mandatory( jo, false, "rate", rate );
+}
+
 void wound_fix::load( const JsonObject &jo, const std::string_view & )
 {
     mandatory( jo, was_loaded, "name", name );
@@ -243,19 +282,20 @@ void wound_fix::load( const JsonObject &jo, const std::string_view & )
     }
 
     if( jo.has_array( "requirements" ) ) {
+        pending_requirements.clear();
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
             if( jv.test_array() ) {
                 // array of 2 elements filled with [requirement_id, count]
                 const JsonArray &req = static_cast<JsonArray>( jv );
-                const std::string req_id = req.get_string( 0 );
+                const requirement_id req_id( req.get_string( 0 ) );
                 const int req_amount = req.get_int( 1 );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id, req_amount ) );
+                pending_requirements.emplace_back( req_id, req_amount );
             } else if( jv.test_object() ) {
                 // defining single requirement inline
                 const JsonObject &req = static_cast<JsonObject>( jv );
                 const requirement_id req_id( "wound_fix_" + id.str() + "_inline_req" );
                 requirement_data::load_requirement( req, req_id );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id.str(), 1 ) );
+                pending_requirements.emplace_back( req_id, 1 );
             } else {
                 debugmsg( "wound_fix '%s' has has invalid requirement element", id.str() );
             }
@@ -335,6 +375,16 @@ int wound_type::get_limit() const
 std::vector<wound_limb_score> wound_type::get_limb_scores() const
 {
     return limb_scores;
+}
+
+std::vector<wound_mod_values> wound_type::get_modify_values() const
+{
+    return mod_values;
+}
+
+std::optional<wound_periodic_message> wound_type::get_periodic_message() const
+{
+    return periodic_message;
 }
 
 std::string wound_type::get_name() const

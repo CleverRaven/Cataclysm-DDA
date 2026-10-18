@@ -361,8 +361,19 @@
           { "gain": "arm_arachnid_ok_lower_l" },
           { "gain": "arm_arachnid_ok_lower_r" }
         ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.4 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
       }
-    ]
+    ],
+    "flags": [ "QUADRUPED_CROUCH", "QUADRUPED_RUN" ]
   },
   {
     "type": "mutation",

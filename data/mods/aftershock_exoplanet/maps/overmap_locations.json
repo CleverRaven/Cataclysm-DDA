@@ -8,8 +8,8 @@
   {
     "type": "start_location",
     "id": "your_ship",
-    "name": "Crashed escape pod",
-    "terrain": [ "afs_shuttlepad_salvors_old_pad" ]
+    "name": "The Vanishing Arc",
+    "terrain": [ "smuggler_ravine_bba" ]
   },
   {
     "type": "start_location",

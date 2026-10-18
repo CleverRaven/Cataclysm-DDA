@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
@@ -284,11 +285,21 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
                     detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
                                                  to_string( wd.wound_progress_timer->second - wd.get_healing_progress() ) );
                 }
+
+                for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
+                    detail_str += string_format( "mod_value: %s%s, %d every %s\n",
+                                                 io::enum_to_string( mv.type ),
+                                                 mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
+                                                 mv.amount,
+                                                 to_string( mv.rate ) );
+                }
+
                 detail_str += string_format( "%s\n", limb_score_output );
             }
         }
     }
     if( debug_mode ) {
+        ImGui::Separator();
         detail_str += "All potential wounds:\n";
         for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
             std::string damage_types;

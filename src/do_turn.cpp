@@ -319,6 +319,7 @@ npc_turn_result process_npc_turn( map &m, npc &guy )
 
     if( !guy.is_dead() ) {
         guy.npc_update_body();
+        guy.review_rest();
     }
     return result;
 }

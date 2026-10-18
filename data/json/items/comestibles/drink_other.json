@@ -259,9 +259,10 @@
     "volume": "25 ml",
     "charges": 1,
     "phase": "liquid",
-    "fun": -25,
+    "//COMMENT": "This food is a condiment and cannot be eaten directly. It can be eaten automatically as a 'seasoning' or used in crafting/cooking.",
+    "fun": 1,
     "use_action": [ "BLECH" ],
-    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME", "INEDIBLE" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ],
     "freezing_point": -26
   },

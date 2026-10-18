@@ -1488,26 +1488,6 @@ bool item_location::check_parent_capacity_recursive() const
     return ptr->check_parent_capacity_recursive();
 }
 
-bool item_location::protected_from_liquids() const
-{
-    // check if inside a watertight which is not an open_container
-    if( has_parent() ) {
-        item_location parent = parent_item();
-
-        // parent can protect the item against water
-        if( parent->is_watertight_container() && !parent->will_spill() ) {
-            return true;
-        }
-
-        // check the parent's parent
-        return parent.protected_from_liquids();
-    }
-
-    // we recursively checked all containers
-    // none are closed watertight containers
-    return false;
-}
-
 std::unique_ptr<talker> get_talker_for( item_location &it )
 {
     return std::make_unique<talker_item>( &it );

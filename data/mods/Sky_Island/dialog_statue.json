@@ -1151,7 +1151,6 @@
       },
       {
         "text": "One of my bunker constructions had an error.  Could you help me fix it?",
-        "condition": { "math": [ "skyisland_build_base >= 1" ] },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
@@ -1392,6 +1391,15 @@
         "condition": { "math": [ "skyisland_build_greenhouse_skylight == 2" ] },
         "effect": [
           { "run_eocs": "EOC_skyisland_build_greenhouse_skylight2" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "I need help with the Merchant's Stall.  <color_red>If an NPC is present in the stall, this will wipe their inventory.</color>",
+        "condition": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_merchant_stall" },
           { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"

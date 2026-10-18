@@ -329,6 +329,123 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "ravine_landing_bba" ],
+    "name": "landing pad outpost",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "low",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY", "RAVINE_EDGE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ravine_landing_baa" ],
+    "copy-from": "ravine_edge",
+    "flags": [ "RAVINE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ravine_landing_aaa", "ravine_landing_caa" ],
+    "copy-from": "ravine_edge",
+    "flags": [ "RAVINE_EDGE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ravine_landing_aba", "ravine_landing_cba" ],
+    "copy-from": "ravine_edge",
+    "flags": [ "RAVINE_EDGE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "isolated_landing_aaa",
+      "isolated_landing_baa",
+      "isolated_landing_caa",
+      "isolated_landing_aba",
+      "isolated_landing_bba",
+      "isolated_landing_cba",
+      "isolated_landing_aca",
+      "isolated_landing_bca",
+      "isolated_landing_cca"
+    ],
+    "name": "isolated landing pad",
+    "sym": "0",
+    "color": "red",
+    "see_cost": "low",
+    "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "smuggler_ravine_aac",
+      "smuggler_ravine_bac",
+      "smuggler_ravine_cac",
+      "smuggler_ravine_aaa",
+      "smuggler_ravine_baa",
+      "smuggler_ravine_caa"
+    ],
+    "copy-from": "ravine_edge",
+    "flags": [ "RAVINE_EDGE", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "smuggler_ravine_abc",
+      "smuggler_ravine_bbc",
+      "smuggler_ravine_cbc",
+      "smuggler_ravine_acc",
+      "smuggler_ravine_bcc",
+      "smuggler_ravine_ccc",
+      "smuggler_ravine_aba",
+      "smuggler_ravine_bba",
+      "smuggler_ravine_cba",
+      "smuggler_ravine_aca",
+      "smuggler_ravine_bca",
+      "smuggler_ravine_cca"
+    ],
+    "name": "concealed hangar",
+    "sym": "v",
+    "color": "light_blue",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE" ],
+    "entry_eoc": "EOC_SMUGGLER_RAVINE_ALLOWED_INSIDE"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "smuggler_ravine_aa0",
+      "smuggler_ravine_ba0",
+      "smuggler_ravine_ca0",
+      "smuggler_ravine_ab0",
+      "smuggler_ravine_bb0",
+      "smuggler_ravine_cb0",
+      "smuggler_ravine_ac0",
+      "smuggler_ravine_bc0",
+      "smuggler_ravine_cc0",
+      "smuggler_ravine_abb",
+      "smuggler_ravine_bbb",
+      "smuggler_ravine_cbb",
+      "smuggler_ravine_acb",
+      "smuggler_ravine_bcb",
+      "smuggler_ravine_ccb"
+    ],
+    "name": "glacial outcrop",
+    "sym": ".",
+    "color": "light_blue",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smuggler_ravine_aab", "smuggler_ravine_bab", "smuggler_ravine_cab" ],
+    "sym": ".",
+    "color": "light_blue",
+    "name": "cliffside",
+    "looks_like": "ravine_edge",
+    "see_cost": "all_clear",
+    "flags": [ "NO_ROTATE", "RAVINE_EDGE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "land_pad_outpost_a1", "land_pad_outpost_a2", "land_pad_outpost_a1_roof", "land_pad_outpost_a2_roof" ],
     "name": "landing pad outpost",
     "sym": "+",
