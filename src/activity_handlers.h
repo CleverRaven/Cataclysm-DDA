@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "coordinates.h"
@@ -72,6 +73,7 @@ enum class do_activity_reason : int {
     NEEDS_TREE_CHOPPING,    //* There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   //* There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       //* There is at least one corpse there to butcher, and there's no need for additional tools
+    NEEDS_DISSECTING,       //* There is at least one corpse there to dissect
     NEEDS_CUT_HARVESTING,   //* There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,      //* There is a vehicle part there that we can deconstruct, given the right tools.
@@ -84,6 +86,40 @@ enum class do_activity_reason : int {
     NEEDS_DISASSEMBLE,      //* There is at least one item to disassemble.
     REFUSES_THIS_WORK       // Character refuses to do this for some reason, maybe against their beliefs or needs danger prompt.
 
+};
+
+// Vector because of style demands => no built in consistency check when number of enum elements change.
+const std::vector<std::string> do_activity_reason_string = {
+    "CAN_DO_CONSTRUCTION",
+    "CAN_DO_FETCH",
+    "NO_COMPONENTS",
+    "DONT_HAVE_SKILL",
+    "NO_ZONE",
+    "NO_VEHICLE",
+    "ALREADY_DONE",
+    "UNKNOWN_ACTIVITY",
+    "NEEDS_CLEARING",
+    "NEEDS_HARVESTING",
+    "NEEDS_PLANTING",
+    "NEEDS_TILLING",
+    "BLOCKING_TILE",
+    "NEEDS_BOOK_TO_LEARN",
+    "NEEDS_CHOPPING",
+    "NEEDS_TREE_CHOPPING",
+    "NEEDS_BIG_BUTCHERING",
+    "NEEDS_BUTCHERING",
+    "NEEDS_DISSECTING",
+    "NEEDS_CUT_HARVESTING",
+    "ALREADY_WORKING",
+    "NEEDS_VEH_DECONST",
+    "NEEDS_VEH_REPAIR",
+    "WOULD_PREVENT_VEH_FLYING",
+    "NEEDS_MINING",
+    "NEEDS_MOP",
+    "NEEDS_FISHING",
+    "NEEDS_CRAFT",
+    "NEEDS_DISASSEMBLE",
+    "REFUSES_THIS_WORK"
 };
 
 struct activity_reason_info {

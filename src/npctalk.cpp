@@ -704,6 +704,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_CONSTRUCTION,
     NPC_CHAT_ACTIVITIES_CRAFT,
     NPC_CHAT_ACTIVITIES_DISASSEMBLY,
+    NPC_CHAT_ACTIVITIES_DISSECTION,
     NPC_CHAT_ACTIVITIES_FARMING,
     NPC_CHAT_ACTIVITIES_FISHING,
     NPC_CHAT_ACTIVITIES_MINING,
@@ -977,6 +978,7 @@ static int npc_activities_menu()
 
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _( "Organizing loot into zones" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _( "Butchering corpses" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_DISSECTION, true, 'x', _( "Dissecting corpses" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );
@@ -1459,6 +1461,10 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                     }
                     case NPC_CHAT_ACTIVITIES_BUTCHERY: {
                         talk_function::do_butcher( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_DISSECTION: {
+                        talk_function::do_dissect( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_CHOP_PLANKS: {

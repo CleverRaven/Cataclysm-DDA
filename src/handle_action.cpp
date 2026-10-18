@@ -162,6 +162,7 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
+static const zone_type_id zone_type_DISSECT( "DISSECT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -1431,7 +1432,8 @@ static void loot()
         MultiDis = 16384,
         MultiMopping = 32768,
         MultiStudy = 131072,
-        UnloadLoot = 65536
+        UnloadLoot = 65536,
+        MultiDissection = 262144
     };
 
     Character &player_character = get_player_character();
@@ -1471,6 +1473,8 @@ static void loot()
                                  player_character.pos_bub() ) ? Multirepairvehicle : 0;
     flags |= g->check_near_zone( zone_type_LOOT_CORPSE,
                                  player_character.pos_bub() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_DISSECT,
+                                 player_character.pos_bub() ) ? MultiDissection : 0;
     flags |= g->check_near_zone( zone_type_MINING, player_character.pos_bub() ) ? MultiMining : 0;
     flags |= g->check_near_zone( zone_type_DISASSEMBLE,
                                  player_character.pos_bub() ) ? MultiDis : 0;
@@ -1532,6 +1536,10 @@ static void loot()
     if( flags & MultiButchery ) {
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
                             wrap60( _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) ) );
+    }
+    if( flags & MultiDissection ) {
+        menu.addentry_desc( MultiDissection, true, 'x', _( "Dissect corpses" ),
+                            wrap60( _( "Auto-dissect anything in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiMining ) {
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
@@ -1614,6 +1622,9 @@ static void loot()
             break;
         case MultiButchery:
             player_character.assign_activity( multi_butchery_activity_actor() );
+            break;
+        case MultiDissection:
+            player_character.assign_activity( multi_dissection_activity_actor() );
             break;
         case MultiMining:
             player_character.assign_activity( multi_mine_activity_actor() );
