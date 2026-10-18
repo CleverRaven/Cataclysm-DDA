@@ -161,7 +161,7 @@ void mobile_ui_system::setup_default_buttons()
     touch_button btn_char; // Red Square: Character Sheet
     btn_char.id = button_id::TOP_CHAR_SHEET;
     btn_char.style = button_visual_style::ROUNDED_RECT;
-    btn_char.game_action = ACTION_DISPLAY_STATS;
+    btn_char.game_action = ACTION_PL_INFO;
     btn_char.game_fallback_key = '@';
     btn_char.menu_fallback_key = '@';
     btn_char.default_symbol = "BIO";
@@ -213,10 +213,11 @@ void mobile_ui_system::setup_default_buttons()
 
 bool mobile_ui_system::is_menu_active() const
 {
-    if( input_context::input_context_stack.empty() ) {
+    input_context *top_ctx = input_context::input_context_stack.back();
+    if( !top_ctx ) {
         return false;
     }
-    const std::string &cat = input_context::input_context_stack.back()->get_category();
+    const std::string &cat = top_ctx->get_category();
     return cat != "DEFAULTMODE";
 }
 
@@ -392,15 +393,14 @@ void mobile_ui_system::update_context_actions()
 
     Character &u = get_player_character();
     map &m = get_map();
-    const tripoint p_ms = u.pos();
-    const tripoint_bub_ms p_bub( p_ms );
+    const tripoint_bub_ms p_bub = u.pos_bub();
 
     // --- RIGHT SLOTS (Combat, Weapons & Immediate Health) ---
     // 1. Reload Weapon
     item_location wielded = u.get_wielded_item();
     if( wielded && wielded->is_gun() ) {
         context_action act_reload;
-        act_reload.act_id = ACTION_RELOAD;
+        act_reload.act_id = ACTION_RELOAD_WEAPON;
         act_reload.fallback_key = 'r';
         act_reload.default_symbol = "RELOAD";
         act_reload.label = _( "Recarregar" );
@@ -421,7 +421,7 @@ void mobile_ui_system::update_context_actions()
     bool found_corpse = false;
     for( int dx = -1; dx <= 1 && !found_corpse; ++dx ) {
         for( int dy = -1; dy <= 1 && !found_corpse; ++dy ) {
-            const tripoint_bub_ms check_p( p_ms.x + dx, p_ms.y + dy, p_ms.z );
+            const tripoint_bub_ms check_p( p_bub.x() + dx, p_bub.y() + dy, p_bub.z() );
             if( can_interact_at( ACTION_BUTCHER, m, check_p ) ) {
                 context_action act_butcher;
                 act_butcher.act_id = ACTION_BUTCHER;
@@ -440,7 +440,7 @@ void mobile_ui_system::update_context_actions()
     for( int dx = -1; dx <= 1 && !found_door; ++dx ) {
         for( int dy = -1; dy <= 1 && !found_door; ++dy ) {
             if( dx == 0 && dy == 0 ) continue;
-            const tripoint_bub_ms check_p( p_ms.x + dx, p_ms.y + dy, p_ms.z );
+            const tripoint_bub_ms check_p( p_bub.x() + dx, p_bub.y() + dy, p_bub.z() );
             if( can_interact_at( ACTION_CLOSE, m, check_p ) ) {
                 context_action act_close;
                 act_close.act_id = ACTION_CLOSE;
@@ -472,7 +472,7 @@ void mobile_ui_system::update_context_actions()
     }
 
     // 3. Sleep / Rest (Available if fatigued or on bed/seat)
-    if( u.get_fatigue() >= 190 || m.has_flag_ter_or_furn( "BED", p_bub ) ) {
+    if( u.get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) || m.has_flag_ter_or_furn( "BED", p_bub ) ) {
         context_action act_sleep;
         act_sleep.act_id = ACTION_SLEEP;
         act_sleep.fallback_key = '$';
