@@ -404,29 +404,37 @@ android {
         }
     }
 
+    def resolveKeystore = { path ->
+        if (path == null || path.isEmpty()) return null
+        def f = new File(path)
+        if (f.isAbsolute() && f.exists()) return f
+        def f1 = file(path)
+        if (f1.exists()) return f1
+        def f2 = new File(projectDir, path)
+        if (f2.exists()) return f2
+        def f3 = new File(rootDir, path)
+        if (f3.exists()) return f3
+        return null
+    }
+
+    def releaseKeystoreFile = resolveKeystore(keystoreProperties.getProperty('storeFile'))
+    def debugKeystoreFile = resolveKeystore(keystoreProperties.getProperty('debug_storeFile'))
+
     signingConfigs {
-        if (keystoreProperties.getProperty('storeFile') != null) {
-            if (file(keystoreProperties.getProperty('storeFile')).exists()) {
-                release {
-                    storeFile file(keystoreProperties.getProperty("storeFile"))
-                    storePassword keystoreProperties.getProperty("storePassword")
-                    keyAlias keystoreProperties.getProperty("keyAlias")
-                    keyPassword keystoreProperties.getProperty("keyPassword")
-                }
-            } else {
-                throw new GradleException("Keystore file " + keystoreProperties.getProperty("storeFile") + " was not found.\n")
+        if (releaseKeystoreFile != null) {
+            release {
+                storeFile releaseKeystoreFile
+                storePassword keystoreProperties.getProperty("storePassword")
+                keyAlias keystoreProperties.getProperty("keyAlias")
+                keyPassword keystoreProperties.getProperty("keyPassword")
             }
         }
-        if (keystoreProperties.getProperty('debug_storeFile') != null) {
-            if (file(keystoreProperties.getProperty('debug_storeFile')).exists()) {
-                debug {
-                    storeFile file(keystoreProperties.getProperty("debug_storeFile"))
-                    storePassword keystoreProperties.getProperty("debug_storePassword")
-                    keyAlias keystoreProperties.getProperty("debug_keyAlias")
-                    keyPassword keystoreProperties.getProperty("debug_keyPassword")
-                }
-            } else {
-                throw new GradleException("Keystore file " + keystoreProperties.getProperty("debug_storeFile") + " was not found.\n")
+        if (debugKeystoreFile != null) {
+            debug {
+                storeFile debugKeystoreFile
+                storePassword keystoreProperties.getProperty("debug_storePassword")
+                keyAlias keystoreProperties.getProperty("debug_keyAlias")
+                keyPassword keystoreProperties.getProperty("debug_keyPassword")
             }
         }
     }
@@ -434,7 +442,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (keystoreProperties.getProperty('storeFile') != null && file(keystoreProperties.getProperty('storeFile')).exists()) {
+            if (releaseKeystoreFile != null) {
                 signingConfig signingConfigs.release
             }
             externalNativeBuild {

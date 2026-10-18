@@ -45,10 +45,12 @@ jobs:
           chmod +x gradlew
 
           echo "Gerando keystore de assinatura do APK..."
-          keytool -genkeypair -v -keystore app/release.keystore -alias cdda -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=CDDA, OU=Mod, O=CDDA, L=Local, S=Local, C=BR"
+          KEYSTORE_PATH="$(pwd)/app/release.keystore"
+          keytool -genkeypair -v -keystore "$KEYSTORE_PATH" -alias cdda -keyalg RSA -keysize 2048 -validity 10000 -storepass password -keypass password -dname "CN=CDDA, OU=Mod, O=CDDA, L=Local, S=Local, C=BR"
+          cp -v "$KEYSTORE_PATH" release.keystore || true
 
-          cat << 'EOF' > keystore.properties
-          storeFile=app/release.keystore
+          cat << EOF > keystore.properties
+          storeFile=$KEYSTORE_PATH
           storePassword=password
           keyAlias=cdda
           keyPassword=password
