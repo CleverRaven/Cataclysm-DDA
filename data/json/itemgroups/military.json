@@ -916,7 +916,7 @@
     "//": "contains engines for land military vehicles, for spawn in the engine containers",
     "subtype": "distribution",
     "entries": [
-      { "item": "i6_diesel_multifuel", "prob": 40 },
+      { "item": "i6_diesel_multifuel", "prob": 20 },
       { "item": "i6_diesel", "prob": 50 },
       { "item": "v6_diesel", "prob": 35 },
       { "item": "v8_diesel", "prob": 30 }
