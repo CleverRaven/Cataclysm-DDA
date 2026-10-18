@@ -528,8 +528,16 @@
     "result": "steel_section_long",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "45 m",
-    "using": [ [ "metal_removal_standard", 25 ] ],
+    "time": "30 m",
+    "using": [ [ "metal_removal_standard", 1 ] ],
     "components": [ [ [ "steel_section_short", 2 ] ] ]
+  },
+  {
+    "result": "frame",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "using": [ [ "metal_removal_standard", 1 ] ],
+    "components": [ [ [ "lc_steel_lump", 20 ] ] ]
   }
 ]
