@@ -57,13 +57,31 @@ jobs:
           EOF
 
           echo "Iniciando compilação otimizada Release (ARM64)..."
-          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace
+          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee /tmp/gradle_build.log || BUILD_STATUS=$?
+
+          if [ -n "$BUILD_STATUS" ] && [ "$BUILD_STATUS" -ne 0 ]; then
+              echo "::error title=GRADLE_FAILED::Gradle terminou com erro $BUILD_STATUS"
+              tail -n 120 /tmp/gradle_build.log
+              exit $BUILD_STATUS
+          fi
 
           mkdir -p ../output_apks
           echo "Buscando e copiando APKs gerados..."
           find . -name "*.apk" -exec cp -v {} ../output_apks/ \;
           ls -lh ../output_apks/
           test -n "$(ls -A ../output_apks/*.apk 2>/dev/null)" || (echo "ERRO: Nenhum APK encontrado em output_apks!" && exit 1)
+
+      - name: Salvar log de erro em release caso falhe
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "log-run-${{ github.run_number }}"
+          name: "Build Log - Run ${{ github.run_number }}"
+          body: "Log de erro da execução ${{ github.run_number }} para depuração."
+          files: /tmp/gradle_build.log
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload do APK como Artifact
         uses: actions/upload-artifact@v4

@@ -448,8 +448,8 @@ android {
             externalNativeBuild {
                 cmake {
                     arguments "-DCMAKE_BUILD_TYPE=Release"
-                    cFlags "-DNDEBUG", "-DRELEASE", "-Os", "-g"
-                    cppFlags "-DNDEBUG", "-DRELEASE", "-Os", "-g"
+                    cFlags "-DNDEBUG", "-DRELEASE", "-Os"
+                    cppFlags "-DNDEBUG", "-DRELEASE", "-Os"
                 }
             }
             ndk {
