@@ -133,9 +133,9 @@ static const requirement_id requirement_data_mining_standard( "mining_standard" 
 static const requirement_id requirement_data_mopping_standard( "mopping_standard" );
 static const requirement_id requirement_data_multi_butcher( "multi_butcher" );
 static const requirement_id requirement_data_multi_butcher_big( "multi_butcher_big" );
-static const requirement_id requirement_data_multi_dissect( "multi_dissect" );
 static const requirement_id requirement_data_multi_chopping_planks( "multi_chopping_planks" );
 static const requirement_id requirement_data_multi_chopping_trees( "multi_chopping_trees" );
+static const requirement_id requirement_data_multi_dissect( "multi_dissect" );
 static const requirement_id
 requirement_data_multi_farm_cut_harvesting( "multi_farm_cut_harvesting" );
 static const requirement_id requirement_data_multi_farm_tilling( "multi_farm_tilling" );
