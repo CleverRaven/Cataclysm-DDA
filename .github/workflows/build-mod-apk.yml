@@ -45,6 +45,11 @@ jobs:
           chmod +x gradlew
           echo "Iniciando compilação otimizada Release (ARM64)..."
           ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee gradle_build.log
+          
+          mkdir -p ../output_apks
+          echo "Buscando e copiando APKs gerados..."
+          find . -name "*.apk" -exec cp -v {} ../output_apks/ \;
+          ls -lh ../output_apks/
 
       - name: Exibir log de erro caso falhe
         if: failure()
@@ -60,13 +65,6 @@ jobs:
           name: gradle-build-log
           path: android/gradle_build.log
           retention-days: 7
-
-      - name: Localizar APKs gerados
-        id: find-apk
-        run: |
-          mkdir -p output_apks
-          find android/app/build/outputs/apk/ -name "*.apk" -exec cp -v {} output_apks/ \;
-          ls -lh output_apks/
 
       - name: Upload do APK como Artifact
         uses: actions/upload-artifact@v4
