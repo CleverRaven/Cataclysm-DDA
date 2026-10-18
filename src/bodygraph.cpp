@@ -479,3 +479,18 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
     }
     return ret;
 }
+
+bool bodygraph_part::has_bodypart( const std::string &part ) const
+{
+    for( bodypart_id bpid : bodyparts ) {
+        if( bpid == bodypart_id( part ) ) {
+            return true;
+        }
+    }
+    for( sub_bodypart_id bpid : sub_bodyparts ) {
+        if( bpid == sub_bodypart_id( part ) ) {
+            return true;
+        }
+    }
+    return false;
+}

@@ -2911,6 +2911,8 @@ bool character_creator_ui::display()
     // redraw isn't called during uilist setup
     cc_uistate.recalc_scenario_list( get_avatar() );
 
+    // TODO: move to interface
+
     // set first tab
     upon_switching_tab();
 

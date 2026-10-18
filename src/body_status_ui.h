@@ -196,7 +196,6 @@ struct body_status_uistate {
 
     void init();
 
-    void set_description_scroll();
     void update_blink();
     std::string prepare_bodygraph_text( std::optional<std::string> bodypart_or_subpart_id );
 
