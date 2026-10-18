@@ -703,7 +703,7 @@
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "BODY_STATUS_UI",
-    "name": "Scroll item info up",
+    "name": "Scroll info window up",
     "bindings": [
       { "input_method": "keyboard_char", "key": "<" },
       { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] },
@@ -714,12 +714,26 @@
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "BODY_STATUS_UI",
-    "name": "Scroll item info down",
+    "name": "Scroll info window down",
     "bindings": [
       { "input_method": "keyboard_char", "key": ">" },
       { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] },
       { "input_method": "gamepad", "key": "ALT_DOWN" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_BODYGRAPH_UP",
+    "category": "BODY_STATUS_UI",
+    "name": "Scroll bodygraph window up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_BODYGRAPH_DOWN",
+    "category": "BODY_STATUS_UI",
+    "name": "Scroll bodygraph window down",
+    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
   },
   {
     "type": "keybinding",
