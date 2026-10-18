@@ -3,6 +3,7 @@
 #include "avatar.h"
 #include "cata_imgui.h"
 #include "input_context.h"
+#include "tabbed_listinfo_ui.h"
 #include "uilist.h"
 #include "scenario.h"
 
@@ -124,7 +125,7 @@ struct character_creator_uistate {
 // implemented as two separate windows:
 // 1. a `uilist` that handles all list selections and inputs, displayed on left
 // 2. standard ImGui display details for the `uilist` selection, displayed on right
-class character_creator_ui
+class character_creator_ui : public tabbed_listinfo_ui
 {
         character_creator_callback cc_callback;
         shared_ptr_fast<uilist_impl> cc_uilist_current;
@@ -139,20 +140,20 @@ class character_creator_ui
         void setup_new_uilist();
         // setup the avatar for switching to a different tab
         void setup_avatar();
-        // update uilist_entries for current tab, but do not modify uilist_entry count
-        void update_uilist_entries();
-        void upon_switching_tab();
-        void update_uilist_position( ImVec2 new_position );
+        void update_uilist_entries() override;
+        void upon_switching_tab() override;
+        void update_uilist_position( ImVec2 new_position ) override;
         // @param quick_value_change - if true, add inputs for changing a value (stat or skill)
         void setup_input_context( input_context &cc_ictxt, bool quick_value_change );
+        void setup_input_context( input_context &cc_ictxt ) override;
         // @return action was handled
-        bool handle_action( const std::string &action );
+        bool handle_action( const std::string &action ) override;
 
-        std::shared_ptr<uilist> get_current_tab_uilist();
+        std::shared_ptr<uilist> get_current_tab_uilist() override;
         std::shared_ptr<uilist> get_tab_uilist( character_creator_tab tab );
-        void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist );
-        input_context &get_current_tab_input();
-        void set_current_tab_input( const input_context &new_input );
+        void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist ) override;
+        input_context &get_current_tab_input() override;
+        void set_current_tab_input( const input_context &new_input ) override;
 };
 
 class character_creator_ui_impl : public cataimgui::window

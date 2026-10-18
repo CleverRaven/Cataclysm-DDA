@@ -19,36 +19,6 @@ static const bodygraph_id bodygraph_full_body( "full_body" );
 
 static const flag_id json_flag_HIDDEN( "HIDDEN" );
 
-//TODO: these static functions are identical to character creator's
-static cataimgui::bounds uilist_reset_desired_bounds()
-{
-    return { 0, -1.0f, 0.33f * ImGui::GetMainViewport()->WorkSize.x, -1.0f };
-}
-
-static uilist_entry get_uilist_entry( const std::string &name )
-{
-    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
-    uilist_entry cc_entry( screen_reader_mode ? std::string() : name );
-    cc_entry.hotkey = input_event();
-    cc_entry.text_color = c_white;
-
-    return cc_entry;
-}
-
-// SX2: identical to CC ui
-void body_status_uistate::set_description_scroll()
-{
-    if( scrolled_down ) {
-        scrolled_down = false;
-        ImGui::SetScrollY( std::clamp( ImGui::GetScrollY() + ImGui::GetContentRegionAvail().y, 0.0f,
-                                       ImGui::GetScrollMaxY() ) );
-    } else if( scrolled_up ) {
-        scrolled_up = false;
-        ImGui::SetScrollY( std::clamp( ImGui::GetScrollY() - ImGui::GetContentRegionAvail().y, 0.0f,
-                                       ImGui::GetScrollMaxY() ) );
-    }
-}
-
 static void refresh_header_footer_text( uilist *new_uilist, const body_status_uistate &bs_uistate )
 {
 
@@ -706,7 +676,7 @@ void body_status_ui_impl::draw_controls()
         if( current_uilist ) {
             const ImVec2 cursor_pos = ImGui::GetCursorScreenPos();
             if( current_uilist->desired_bounds->y != cursor_pos.y ||
-                current_uilist->desired_bounds->w != uilist_reset_desired_bounds().w ) {
+                current_uilist->desired_bounds->w != ui_parent->uilist_reset_desired_bounds().w ) {
                 ui_parent->update_uilist_position( cursor_pos );
             }
         }

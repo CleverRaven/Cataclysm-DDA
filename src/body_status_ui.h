@@ -3,6 +3,7 @@
 #include "character.h"
 #include "input_context.h"
 #include "options.h"
+#include "tabbed_listinfo_ui.h"
 #include "uilist.h"
 
 class body_status_ui;
@@ -211,7 +212,7 @@ struct body_status_uistate {
 * 2. the info window, for displaying information about the tabbed window
 * 3. the bodygraph window, for visually displaying the desired custom information
 */
-class body_status_ui
+class body_status_ui : public tabbed_listinfo_ui
 {
     protected:
         std::array<std::shared_ptr<uilist>, BODY_STATUS_UI_TAB_COUNT> bs_uilist;
@@ -233,21 +234,18 @@ class body_status_ui
             bs_callback = body_status_callback( this );
         };
 
-        //TODO: interface this block with character creator
-        // setup new uilist if necessary, assumes current tab has been set
-        void setup_new_uilist();
-        // update uilist_entries for current tab, but do not modify uilist_entry count
-        void update_uilist_entries();
-        void upon_switching_tab();
-        void update_uilist_position( ImVec2 new_position );
-        void setup_input_context( input_context &cc_ictxt );
-        // @return action was handled
-        bool handle_action( const std::string &action );
-        std::shared_ptr<uilist> get_current_tab_uilist();
+        void setup_new_uilist() override;
+        void update_uilist_entries() override;
+        void upon_switching_tab() override;
+        void update_uilist_position( ImVec2 new_position ) override;
+        void setup_input_context( input_context &cc_ictxt ) override;
+        bool handle_action( const std::string &action ) override;
+        std::shared_ptr<uilist> get_current_tab_uilist() override;
+        void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist ) override;
+        input_context &get_current_tab_input() override;
+        void set_current_tab_input( const input_context &new_input ) override;
+
         std::shared_ptr<uilist> get_tab_uilist( body_status_tab tab );
-        void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist );
-        input_context &get_current_tab_input();
-        void set_current_tab_input( const input_context &new_input );
 
         void display();
 };
