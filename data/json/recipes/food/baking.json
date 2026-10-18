@@ -700,23 +700,6 @@
         "attention": "unattended"
       }
     ],
-    "steps": [
-      {
-        "name": "Preparation",
-        "time": "5 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
-        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
-        "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ]
-      },
-      {
-        "name": "Set to bake",
-        "time": "20 m",
-        "activity_level": "NO_EXERCISE",
-        "tools": [ [ [ "oven_tool", 3750 ] ] ],
-        "attention": "unattended"
-      }
-    ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
       [
