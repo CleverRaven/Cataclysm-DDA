@@ -14,6 +14,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "calendar.h"
 #include "cata_imgui.h"
 #include "catacharset.h"
@@ -66,72 +67,11 @@ template <typename T> struct enum_traits;
 
 class temp_crafting_inventory;
 
-namespace
-{
-enum class medical_tab_mode {
-    TAB_LIMBS,
-    TAB_SUMMARY,
-    last
-};
-} // namespace
-
 template<>
 struct enum_traits<medical_tab_mode> {
     static constexpr medical_tab_mode last = medical_tab_mode::last;
     static constexpr medical_tab_mode first = medical_tab_mode::TAB_LIMBS;
 };
-
-namespace
-{
-class medical_ui : public cataimgui::window
-{
-    public:
-        explicit medical_ui( Character *guy ) : cataimgui::window( _( "Medical" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
-            you = guy;
-        };
-
-        bool execute();
-        std::string get_limb_effects( const bodypart_id &part ) const;
-        std::string get_limb_wounds( const bodypart_id &part ) const;
-        std::string get_limb_scores_and_modifiers( const bodypart_id &part ) const;
-        std::string get_modified_limb_name( const bodypart_id &part ) const;
-
-        void draw_limbs_list( const std::vector<bodypart_id> &bodyparts );
-        void summary_tab() const;
-        void limb_tab( const std::vector<bodypart_id> &bodyparts );
-
-        void draw_hint_section();
-
-        std::string last_action;
-    protected:
-
-        void draw_controls() override;
-        cataimgui::bounds get_bounds() override {
-
-            const float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
-                                                   ImGui::GetMainViewport()->Size.x / 2,
-                                                   ImGui::GetMainViewport()->Size.x );
-            const float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
-                                                    ImGui::GetMainViewport()->Size.y / 2,
-                                                    ImGui::GetMainViewport()->Size.y );
-
-            const cataimgui::bounds bounds{ -1.f, -1.f, window_width, window_height };
-            return bounds;
-        }
-
-    private:
-        Character *you;
-        bodypart_id bp;
-        input_context ctxt;
-        cataimgui::scroll s = cataimgui::scroll::none;
-        medical_tab_mode selected_tab = medical_tab_mode::TAB_LIMBS;
-
-        float get_table_column_width() const {
-            return ImGui::GetWindowSize().x / 2;
-        }
-};
-} // namespace
 
 bool Character::disp_medical()
 {
@@ -206,58 +146,58 @@ static std::string coloured_stat_display( int statCur, int statMax )
     return string_format( _( "%s (%d)" ), cur, statMax );
 }
 
-std::string medical_ui::get_limb_effects( const bodypart_id &part ) const
+std::string medical_ui::get_limb_effects( const Character &you, const bodypart_id &part )
 {
     std::string description;
 
-    const int bleed_intensity = you->get_effect_int( effect_bleed, part );
+    const int bleed_intensity = you.get_effect_int( effect_bleed, part );
     const bool bleeding = bleed_intensity > 0;
-    const bool bitten = you->has_effect( effect_bite, part.id() );
-    const bool infected = you->has_effect( effect_infected, part.id() );
+    const bool bitten = you.has_effect( effect_bite, part.id() );
+    const bool infected = you.has_effect( effect_infected, part.id() );
 
     // BLEEDING block
     if( bleeding ) {
-        const effect bleed_effect = you->get_effect( effect_bleed, part );
+        const effect bleed_effect = you.get_effect( effect_bleed, part );
         const nc_color bleeding_color = colorize_bleeding_intensity( bleed_intensity );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( bleed_effect.get_speed_name(), bleeding_color ),
-                                      string_format( bleed_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
+                                      string_format( bleed_effect.disp_short_desc(), body_part_name( part.id() ) ) );
     }
 
     // BITTEN block
     if( bitten ) {
-        const effect bite_effect = you->get_effect( effect_bite, part );
+        const effect bite_effect = you.get_effect( effect_bite, part );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( bite_effect.get_speed_name(), c_yellow ),
-                                      string_format( bite_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
+                                      string_format( bite_effect.disp_short_desc(), body_part_name( part.id() ) ) );
     }
 
     // INFECTED block
     if( infected ) {
-        const effect infected_effect = you->get_effect( effect_infected, part );
+        const effect infected_effect = you.get_effect( effect_infected, part );
         description += string_format( "[ %s ] - %s\n",
                                       colorize( infected_effect.get_speed_name(), c_pink ),
-                                      string_format( infected_effect.disp_short_desc(), body_part_name( bp.id() ) ) );
+                                      string_format( infected_effect.disp_short_desc(), body_part_name( part.id() ) ) );
     }
 
     // rest of effects
-    for( const effect &eff : you->get_effects_from_bp( part ) ) {
+    for( const effect &eff : you.get_effects_from_bp( part ) ) {
         if( eff.get_id() != effect_bleed &&
             eff.get_id() != effect_bite &&
             eff.get_id() != effect_infected ) {
             description += string_format( "[ %s ] - %s\n", colorize( eff.get_speed_name(), c_bold ),
-                                          string_format( eff.disp_short_desc(), body_part_name( bp.id() ) ) );
+                                          string_format( eff.disp_short_desc(), body_part_name( part.id() ) ) );
         }
     }
 
-    return description;
+    return description.empty() ? _( "None" ) : description;
 }
 
-std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
+std::string medical_ui::get_limb_wounds( const Character &you, const bodypart_id &part )
 {
 
     std::string detail_str;
-    const bodypart *bp = you->get_part( part );
+    const bodypart *bp = you.get_part( part );
 
     // for existing wounds
     const std::vector<wound> &wds = bp->get_wounds();
@@ -317,19 +257,20 @@ std::string medical_ui::get_limb_wounds( const bodypart_id &part ) const
         }
     }
 
-    return detail_str;
+    return detail_str.empty() ? _( "None" ) : detail_str;
 }
 
-std::string medical_ui::get_limb_scores_and_modifiers( const bodypart_id &part ) const
+std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
+        const bodypart_id &part )
 {
-    const bodypart *bp = you->get_part( part );
+    const bodypart *bp = you.get_part( part );
     std::string detail_str;
     for( const limb_score &sc : limb_score::get_all() ) {
         if( !part->has_limb_score( sc.getId() ) ) {
             continue;
         }
 
-        float injury_score = bp->get_limb_score( *you, sc.getId() );
+        float injury_score = bp->get_limb_score( you, sc.getId() );
         float max_score = part->get_limb_score( sc.getId() );
 
         if( injury_score < max_score ) {
@@ -375,29 +316,30 @@ static std::string hp_feeling( const float cur_hp_pcnt )
     }
 }
 
-std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
+std::string medical_ui::get_modified_limb_name( const Character &you,
+        const bodypart_id &part )
 {
     std::string header; // Bodypart Title
     std::string hp_str; // Bodypart HP, later merged into the header
     std::string detail; // additional info, like [ BLEEDING ]
 
-    const int bleed_intensity = you->get_effect_int( effect_bleed, part );
+    const int bleed_intensity = you.get_effect_int( effect_bleed, part );
     const bool bleeding = bleed_intensity > 0;
-    const bool bitten = you->has_effect( effect_bite, part.id() );
-    const bool infected = you->has_effect( effect_infected, part.id() );
-    const bool wounded = you->has_wounds( part.id() );
-    const bool no_feeling = you->has_flag( json_flag_PAIN_IMMUNE );
-    const int maximal_hp = you->get_part_hp_max( part );
-    const int current_hp = you->get_part_hp_cur( part );
-    const bool limb_is_broken = you->is_limb_broken( part );
-    const bool limb_is_mending = you->worn_with_flag( flag_SPLINT, part );
+    const bool bitten = you.has_effect( effect_bite, part.id() );
+    const bool infected = you.has_effect( effect_infected, part.id() );
+    const bool wounded = you.has_wounds( part.id() );
+    const bool no_feeling = you.has_flag( json_flag_PAIN_IMMUNE );
+    const int maximal_hp = you.get_part_hp_max( part );
+    const int current_hp = you.get_part_hp_cur( part );
+    const bool limb_is_broken = you.is_limb_broken( part );
+    const bool limb_is_mending = you.worn_with_flag( flag_SPLINT, part );
 
     if( limb_is_mending ) {
         detail += string_format( _( "[ %s ]" ), colorize( _( "SPLINTED" ), c_yellow ) );
         if( no_feeling ) {
             hp_str = colorize( "==%==", c_blue );
         } else {
-            const effect &eff = you->get_effect( effect_mending, part );
+            const effect &eff = you.get_effect( effect_mending, part );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             const int num = mend_perc / 20;
@@ -416,7 +358,7 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
     }
     const std::string bp_name = uppercase_first_letter( body_part_name( part, 1 ) );
     header += colorize( bp_name,
-                        display::limb_color( *you,
+                        display::limb_color( you,
                                 part, true, true, true ) ) + " " + hp_str;
 
     // BLEEDING block
@@ -443,7 +385,7 @@ std::string medical_ui::get_modified_limb_name( const bodypart_id &part ) const
 
 }
 
-static std::string draw_speed_summary( Character &you )
+static std::string draw_speed_summary( const Character &you )
 {
     std::string desc;
 
@@ -521,7 +463,7 @@ static std::string draw_speed_summary( Character &you )
     return desc;
 }
 
-static std::string draw_stats_summary( Character &you )
+static std::string draw_stats_summary( const Character &you )
 {
 
     std::string desc;
@@ -543,7 +485,7 @@ static std::string draw_stats_summary( Character &you )
 
     return desc;
 }
-
+/*
 void medical_ui::draw_limbs_list( const std::vector<bodypart_id> &bodyparts )
 {
     if( ImGui::BeginListBox( "##LISTBOX", ImGui::GetContentRegionAvail() ) ) {
@@ -570,21 +512,21 @@ void medical_ui::draw_limbs_list( const std::vector<bodypart_id> &bodyparts )
         ImGui::EndListBox();
     }
 }
-
-void medical_ui::summary_tab() const
+*/
+void medical_ui::summary_tab( const Character &you )
 {
     const float col_width = ImGui::GetContentRegionAvail().x;
 
-    cataimgui::draw_colored_text( draw_speed_summary( *you ), col_width );
+    cataimgui::draw_colored_text( draw_speed_summary( you ), col_width );
 
     ImGui::Separator();
 
-    cataimgui::draw_colored_text( draw_stats_summary( *you ), col_width );
+    cataimgui::draw_colored_text( draw_stats_summary( you ), col_width );
 
-    const diag_value *last_weighting_time = you->maybe_get_value( "last_weighting_time" );
+    const diag_value *last_weighting_time = you.maybe_get_value( "last_weighting_time" );
     if( last_weighting_time != nullptr ) {
         const std::string last_weighting_weight = string_format( "%.0f %s",
-                convert_weight( units::from_kilogram( you->get_value( "last_weighting_weight_kg" ).dbl() ) ),
+                convert_weight( units::from_kilogram( you.get_value( "last_weighting_weight_kg" ).dbl() ) ),
                 weight_units() );
         const std::string last_weighted_time = string_format( _( "last weighed %s ago." ),
                                                to_string_approx( calendar::turn - time_point( last_weighting_time->dbl() ) ) );
@@ -604,15 +546,15 @@ void medical_ui::summary_tab() const
         ImGui::Separator();
         cataimgui::draw_colored_text( "Debug:", c_red );
         std::string txt;
-        txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you->bodyweight() ) );
-        const units::mass wornWeight = you->worn.weight();
+        txt += string_format( "bodyweight: %.2f kg\n", units::to_kilogram( you.bodyweight() ) );
+        const units::mass wornWeight = you.worn.weight();
         txt += string_format( "worn: %.2f kg\n", units::to_kilogram( wornWeight ) );
 
-        const item_location &wield = you->get_wielded_item();
+        const item_location &wield = you.get_wielded_item();
         if( wield ) {
             txt += string_format( "wielded: %.2f kg\n", units::to_kilogram( wield->weight() ) );
         }
-        txt += string_format( "bionic: %.2f kg\n", units::to_kilogram( you->bionics_weight() ) );
+        txt += string_format( "bionic: %.2f kg\n", units::to_kilogram( you.bionics_weight() ) );
 
         cataimgui::draw_colored_text( txt, col_width );
     }
@@ -625,38 +567,48 @@ void medical_ui::limb_tab( const std::vector<bodypart_id> &bodyparts )
         ImGui::TableSetupColumn( _( "Limbs" ), ImGuiTableColumnFlags_WidthFixed,
                                  get_table_column_width() * 0.7 );
 
-        const std::string limb_name = uppercase_first_letter( body_part_name( bp, 1 ) );
+        const std::string limb_name = ""; //uppercase_first_letter(body_part_name(bp, 1));
         ImGui::TableSetupColumn( limb_name.c_str(), ImGuiTableColumnFlags_WidthStretch );
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
-        draw_limbs_list( bodyparts );
+        //draw_limbs_list(bodyparts);
         ImGui::TableNextColumn();
-        ImGui::BeginChild( "##Limb_Info" );
+        //draw_limbs_details();
 
-        cataimgui::set_scroll( s );
-
-        const int table_width = ImGui::GetContentRegionAvail().x;
-
-        const std::string limb_effects = get_limb_effects( bp );
-        if( !limb_effects.empty() ) {
-            cataimgui::draw_colored_text( limb_effects, c_unset, table_width );
-            ImGui::Separator();
-        }
-
-        const std::string limb_wounds = get_limb_wounds( bp );
-        if( !limb_wounds.empty() ) {
-            cataimgui::draw_colored_text( limb_wounds, c_unset, table_width );
-            ImGui::Separator();
-        }
-
-        const std::string limb_scores = get_limb_scores_and_modifiers( bp );
-        if( !limb_scores.empty() ) {
-            cataimgui::draw_colored_text( limb_scores, c_unset, table_width );
-        }
-
-        ImGui::EndChild();
         ImGui::EndTable();
     }
+}
+
+void medical_ui::draw_limbs_details( const Character &you, const bodypart_id &bp )
+{
+    ImGui::BeginChild( "##Limb_Info" );
+
+    cataimgui::scroll s = cataimgui::scroll::none;
+    cataimgui::set_scroll( s );
+
+    const int table_width = ImGui::GetContentRegionAvail().x;
+
+    ImGui::SeparatorText( _( "Limb Effects:" ) );
+    const std::string limb_effects = get_limb_effects( you, bp );
+    if( !limb_effects.empty() ) {
+        cataimgui::draw_colored_text( limb_effects, c_unset, table_width );
+        ImGui::Separator();
+    }
+
+    ImGui::SeparatorText( _( "Limb Wounds:" ) );
+    const std::string limb_wounds = get_limb_wounds( you, bp );
+    if( !limb_wounds.empty() ) {
+        cataimgui::draw_colored_text( limb_wounds, c_unset, table_width );
+        ImGui::Separator();
+    }
+
+    ImGui::SeparatorText( _( "Limb Scores/Modifiers:" ) );
+    const std::string limb_scores = get_limb_scores_and_modifiers( you, bp );
+    if( !limb_scores.empty() ) {
+        cataimgui::draw_colored_text( limb_scores, c_unset, table_width );
+    }
+
+    ImGui::EndChild();
 }
 
 void medical_ui::draw_hint_section()
@@ -724,7 +676,7 @@ void medical_ui::draw_controls()
         }
         if( cataimgui::BeginTabItem( _( "Summary" ), selected_tab == medical_tab_mode::TAB_SUMMARY ) ) {
             selected_tab = ImGui::IsItemActive() ? medical_tab_mode::TAB_SUMMARY : selected_tab;
-            summary_tab();
+            //summary_tab();
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

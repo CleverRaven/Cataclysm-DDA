@@ -328,6 +328,15 @@ class uilist // NOLINT(cata-xy)
         // helper function for query(); can be used to externally maintain a uilist_impl
         void query_once( input_context &ctxt, int timeout = 50, bool allow_unfiltered_hotkeys = false );
 
+        // @return `fentries`.empty()
+        bool filtered_empty() const {
+            return fentries.empty();
+        }
+
+        size_t get_current_category_index() const {
+            return current_category;
+        }
+
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable

@@ -20,6 +20,7 @@
 #include "bionics.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -3004,10 +3005,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
-        case ACTION_BODYSTATUS:
-            display_bodygraph( get_player_character() );
+        case ACTION_BODYSTATUS: {
+            //display_bodygraph( get_player_character() );
+            body_status_ui bsui( get_player_character() );
+            bsui.display();
             break;
-
+        }
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;

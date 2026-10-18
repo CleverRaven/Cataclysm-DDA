@@ -11,9 +11,14 @@
 #include <vector>
 
 #include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
+#include "display.h"
 #include "effect.h"
+#include "input_context.h"
+#include "output.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class Character;
 class JsonObject;
@@ -59,6 +64,7 @@ struct bodygraph {
     std::map<std::string, bodygraph_part> parts;
     std::string label_fill;
     std::string fill_sym;
+    std::string fill_sym_blink = ".";
     nc_color fill_color = c_white;
     bool was_loaded = false;
 
@@ -71,9 +77,6 @@ struct bodygraph {
     void finalize();
     void check() const;
 };
-
-// Draws the bodygraph UI for the given character and bodygraph (defaults to Full Body graph)
-void display_bodygraph( const Character &u, const bodygraph_id &id = bodygraph_id::NULL_ID() );
 
 using bodygraph_callback =
     std::function<std::string( const bodygraph_part *, std::string )>;
