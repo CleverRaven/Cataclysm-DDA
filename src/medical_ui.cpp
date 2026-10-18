@@ -325,14 +325,14 @@ std::string medical_ui::get_modified_limb_name( const Character &you,
 
     const int bleed_intensity = you.get_effect_int( effect_bleed, part );
     const bool bleeding = bleed_intensity > 0;
-    const bool bitten = you->has_effect( effect_bite, part.id() );
-    const bool infected = you->has_effect( effect_infected, part.id() );
-    const bool wounded = you->has_wounds( part.id() );
-    const bool no_feeling = you->has_flag( json_flag_PAIN_IMMUNE );
-    const int maximal_hp = you->get_part_hp_max( part );
-    const int current_hp = you->get_part_hp_cur( part );
-    const bool limb_is_broken = you->is_limb_broken( part );
-    const bool limb_is_mending = you->worn_with_flag( flag_SPLINT, part );
+    const bool bitten = you.has_effect( effect_bite, part.id() );
+    const bool infected = you.has_effect( effect_infected, part.id() );
+    const bool wounded = you.has_wounds( part.id() );
+    const bool no_feeling = you.has_flag( json_flag_PAIN_IMMUNE );
+    const int maximal_hp = you.get_part_hp_max( part );
+    const int current_hp = you.get_part_hp_cur( part );
+    const bool limb_is_broken = you.is_limb_broken( part );
+    const bool limb_is_mending = you.worn_with_flag( flag_SPLINT, part );
 
     if( limb_is_mending ) {
         detail += string_format( _( "[ %s ]" ), colorize( _( "SPLINTED" ), c_yellow ) );
