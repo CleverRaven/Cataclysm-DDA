@@ -24,10 +24,14 @@ jobs:
   build-apk:
     name: Compilar APK Android
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
@@ -38,17 +42,17 @@ jobs:
       - name: Instalar dependências do sistema
         run: |
           sudo apt-get update
-          sudo apt-get install -y gettext
+          sudo apt-get install -y gettext glslang-tools
 
-      - name: Configurar Android SDK e NDK
-        uses: nttld/setup-ndk@v1
-        with:
-          ndk-version: r28b
-          link-to-sdk: true
+      - name: Preparar shaders e ambiente
+        run: |
+          mkdir -p data/shaders
+          touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
 
       - name: Compilar APK via Gradle
         working-directory: ./android
         run: |
+          export UPSTREAM_BUILD_NUMBER="$((11581 + ${{ github.run_number }}))"
           chmod +x gradlew
           BUILD_TYPE="${{ github.event.inputs.build_type || 'debug' }}"
           ARM32="${{ github.event.inputs.arm32 || 'false' }}"
@@ -59,14 +63,14 @@ jobs:
             GRADLE_TASK="assembleExperimentalDebug"
           fi
           
-          echo "Executando: ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true $GRADLE_TASK"
-          ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true $GRADLE_TASK
+          echo "Executando: ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true -Poverride_version=\"0.H-Mobile-Mod\" $GRADLE_TASK"
+          ./gradlew -Pj=$(nproc) -Pabi_arm_32=$ARM32 -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" $GRADLE_TASK --stacktrace
 
       - name: Localizar APKs gerados
         id: find-apk
         run: |
           mkdir -p output_apks
-          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} output_apks/ \;
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp -v {} output_apks/ \;
           ls -la output_apks/
 
       - name: Upload do APK como Artifact
@@ -75,3 +79,16 @@ jobs:
           name: CDDA-Mod-Android-APK
           path: output_apks/*.apk
           retention-days: 14
+
+      - name: Criar GitHub Release com APK
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/heads/mod-mobile') || github.event_name == 'workflow_dispatch'
+        with:
+          tag_name: "v0.H-Mobile-Mod-build-${{ github.run_number }}"
+          name: "CDDA Mobile Mod - Build ${{ github.run_number }}"
+          body: "APK do Cataclysm: Dark Days Ahead Mobile com nova interface no estilo PPSSPP + Exiled Kingdoms, analógico de 8 direções e slots contextuais."
+          files: output_apks/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

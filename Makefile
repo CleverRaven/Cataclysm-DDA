@@ -1574,7 +1574,10 @@ clean-tests:
 clean-lang:
 	$(MAKE) -C lang clean
 
-.PHONY: tests check ctags etags clean-tests clean-lang install lint
+localization:
+	$(MAKE) -C lang all
+
+.PHONY: tests check ctags etags clean-tests clean-lang localization install lint
 
 compile_commands.txt:
 	@echo 'COMPILE.cc := $(COMPILE.cc)' > $@
