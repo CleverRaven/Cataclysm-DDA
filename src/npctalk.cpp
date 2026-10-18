@@ -978,7 +978,7 @@ static int npc_activities_menu()
 
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _( "Organizing loot into zones" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _( "Butchering corpses" ) );
-    nmenu.addentry( NPC_CHAT_ACTIVITIES_DISSECTION, true, 'x', _( "Dissecting corpses" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_DISSECTION, true, 'Y', _( "Dissecting corpses" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );

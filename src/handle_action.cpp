@@ -1538,7 +1538,7 @@ static void loot()
                             wrap60( _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) ) );
     }
     if( flags & MultiDissection ) {
-        menu.addentry_desc( MultiDissection, true, 'x', _( "Dissect corpses" ),
+        menu.addentry_desc( MultiDissection, true, 'Y', _( "Dissect corpses" ),
                             wrap60( _( "Auto-dissect anything in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiMining ) {
