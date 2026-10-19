@@ -14,6 +14,7 @@
 #include "input_context.h"
 #include "sdl_font.h"
 #include "item.h"
+#include "item_location.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -212,7 +213,7 @@ void mobile_ui_system::setup_default_buttons()
 
 bool mobile_ui_system::is_gameplay_ready() const
 {
-    return g != nullptr && g->is_core_data_loaded() && bool( g->w_terrain ) && !g->u.is_dead();
+    return g != nullptr && g->is_core_data_loaded() && bool( g->w_terrain ) && !get_player_character().is_dead_state();
 }
 
 bool mobile_ui_system::is_menu_active() const
@@ -225,7 +226,7 @@ bool mobile_ui_system::is_menu_active() const
         return false;
     }
     const std::string &cat = top_ctx->get_category();
-    return cat != "DEFAULT";
+    return cat != "DEFAULTMODE";
 }
 
 void mobile_ui_system::update_layout( int window_w, int window_h )
@@ -443,11 +444,11 @@ void mobile_ui_system::update_context_actions()
         Character &u = get_player_character();
 
         // 1. Right Staircase - Combat & Survival Actions
-        // R1: Reload or Unload current weapon
-        item &wielded = u.get_wielded_item();
-        if( !wielded.is_null() && wielded.is_gun() ) {
+        // R1: Reload current weapon
+        item_location wielded = u.get_wielded_item();
+        if( wielded && wielded->is_gun() ) {
             context_action act_reload;
-            act_reload.act_id = ACTION_RELOAD;
+            act_reload.act_id = ACTION_RELOAD_WEAPON;
             act_reload.fallback_key = 'r';
             act_reload.default_symbol = "REC";
             act_reload.label = _( "Recarregar" );
@@ -482,7 +483,7 @@ void mobile_ui_system::update_context_actions()
         active_left_actions.push_back( act_light );
 
         // L2: Sleep / Rest if tired
-        if( u.get_fatigue() > 200 ) {
+        if( u.get_sleepiness() >= 200 ) {
             context_action act_sleep;
             act_sleep.act_id = ACTION_SLEEP;
             act_sleep.fallback_key = '$';
