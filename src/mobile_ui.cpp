@@ -218,9 +218,6 @@ bool mobile_ui_system::is_gameplay_ready() const
 
 bool mobile_ui_system::is_menu_active() const
 {
-    if( input_context::input_context_stack.empty() ) {
-        return false;
-    }
     input_context *top_ctx = input_context::input_context_stack.back();
     if( !top_ctx ) {
         return false;
@@ -235,20 +232,20 @@ bool mobile_ui_system::should_show_context_slots() const
         return false;
     }
 
-    // 1. Gaveta expandida manualmente pelo jogador pelo botÃ£o lateral [<] / [>]
+    // 1. Gaveta expandida manualmente pelo jogador pelo botao lateral [<] / [>]
     if( context_drawer_expanded ) {
         return true;
     }
 
-    // 2. Quando o jogador entra em telas contextuais (inventÃ¡rio, inspecionar/olhar, exame, livros, etc.)
+    // 2. Quando o jogador entra em telas contextuais (inventario, inspecionar/olhar, exame, livros, etc.)
     if( is_menu_active() ) {
         return true;
     }
 
-    // 3. EmergÃªncias crÃ­ticas de combate e sobrevivÃªncia (sangramento severo, HP < 50%, sem muniÃ§Ã£o)
+    // 3. Emergencias criticas de combate e sobrevivencia (HP < 50%, sem municao na arma de fogo)
     try {
         Character &u = get_player_character();
-        if( u.is_bleeding() || u.get_hp() <= ( u.get_hp_max() / 2 ) ) {
+        if( u.get_hp() <= ( u.get_hp_max() / 2 ) ) {
             return true;
         }
         item_location wielded = u.get_wielded_item();
@@ -764,31 +761,30 @@ void mobile_ui_system::draw( const SDL_Renderer_Ptr &renderer, Font *font )
         draw_glass_button( renderer, font, btn );
     }
 
-    // 3. Dynamic Context Slots & Aba RetrÃ¡til (apenas em jogo ativo)
+    // 3. Dynamic Context Slots & Aba Retratil (apenas em jogo ativo)
     if( gameplay_ready ) {
-        // Mini-aba retrÃ¡til translÃºcida na borda direita
-        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
-        SDL_SetRenderDrawColor( renderer.get(), 15, 20, 28, 175 );
-        SDL_RenderFillRect( renderer.get(), &context_toggle_btn );
+        // Mini-aba retratil translucida na borda direita
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+        SetRenderDrawColor( renderer, 15, 20, 28, 175 );
+        RenderFillRect( renderer, &context_toggle_btn );
 
         // Borda elegante (dourada quando expandido ou com menu ativo)
         if( should_show_context_slots() ) {
-            SDL_SetRenderDrawColor( renderer.get(), 255, 215, 0, 220 );
+            SetRenderDrawColor( renderer, 255, 215, 0, 220 );
         } else {
-            SDL_SetRenderDrawColor( renderer.get(), 180, 195, 210, 150 );
+            SetRenderDrawColor( renderer, 180, 195, 210, 150 );
         }
-        SDL_RenderDrawRect( renderer.get(), &context_toggle_btn );
+        RenderDrawRect( renderer, &context_toggle_btn );
 
         if( font ) {
             std::string arrow = should_show_context_slots() ? ">" : "<";
-            int text_w = font->get_width( arrow );
-            int text_h = font->get_height();
-            point text_pt( context_toggle_btn.x + ( context_toggle_btn.w - text_w ) / 2,
-                           context_toggle_btn.y + ( context_toggle_btn.h - text_h ) / 2 );
-            font->draw_text( renderer, arrow, text_pt, SDL_Color{ 255, 255, 255, 255 } );
+            int text_x = context_toggle_btn.x + ( context_toggle_btn.w - font->width ) / 2;
+            int text_y = context_toggle_btn.y + ( context_toggle_btn.h - font->height ) / 2;
+            font->OutputChar( renderer, arrow, point( text_x, text_y ), 15, 1.0f );
         }
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 
-        // Os slots contextuais sÃ³ aparecem quando a lateral contextual deve ser exibida!
+        // Os slots contextuais so aparecem quando a lateral contextual deve ser exibida!
         if( should_show_context_slots() ) {
             for( const auto &slot : right_context_slots ) {
                 if( slot.is_visible ) {
