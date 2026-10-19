@@ -14,7 +14,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout do código
+      - name: Checkout do cÃ³digo
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -25,18 +25,39 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Instalar dependências do sistema
+      - name: Instalar dependÃªncias do sistema
         run: |
           sudo apt-get update
           sudo apt-get install -y gettext glslang-tools
 
-      - name: Preparar versão e shaders
+      - name: Preparar versÃ£o, shaders e catÃ¡logo de traduÃ§Ãµes (PT/BR)
         run: |
           mkdir -p data/shaders
           touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
           echo '// NOLINT(cata-header-guard)' > src/version.h
           echo '#define VERSION "0.H-Mobile-Mod"' >> src/version.h
           cat src/version.h
+
+          echo "Compilando catÃ¡logo de idioma PortuguÃªs (Brasil)..."
+          mkdir -p lang/mo/pt_BR/LC_MESSAGES
+          if [ -f "lang/po/pt_BR.po" ]; then
+              msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
+          fi
+
+          # Se o pacote completo estiver disponÃ­vel, extrai quaisquer outras traduÃ§Ãµes adicionais
+          TRANS_URL="https://github.com/CleverRaven/Cataclysm-DDA/releases/download/cdda-experimental-2026-10-19-0128/cdda-translations-2026-10-19-0128.tar.gz"
+          curl -sL "$TRANS_URL" | tar -zxf - lang/po/pt_BR.po src/lang_stats.inc || true
+          if [ -f "lang/po/pt_BR.po" ]; then
+              msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
+          fi
+
+          echo "Verificando cataclysm-dda.mo gerado:"
+          ls -lh lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo
+          test -s lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo || (echo "ERRO: cataclysm-dda.mo de pt_BR nÃ£o encontrado ou vazio!" && exit 1)
+
+          # Garantir que os assets do Android enxerguem a pasta lang/mo
+          mkdir -p android/app/src/main/assets/lang/mo/pt_BR/LC_MESSAGES
+          cp -v lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo android/app/src/main/assets/lang/mo/pt_BR/LC_MESSAGES/
 
       - name: Compilar APK via Gradle
         working-directory: ./android
@@ -56,8 +77,8 @@ jobs:
           keyPassword=password
           EOF
 
-          echo "Iniciando compilação otimizada Release (ARM64)..."
-          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee /tmp/gradle_build.log || BUILD_STATUS=$?
+          echo "Iniciando compilaÃ§Ã£o otimizada Release (ARM64) com idioma PT-BR..."
+          ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Plocalize=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee /tmp/gradle_build.log || BUILD_STATUS=$?
 
           if [ -n "$BUILD_STATUS" ] && [ "$BUILD_STATUS" -ne 0 ]; then
               echo "::error title=GRADLE_FAILED::Gradle terminou com erro $BUILD_STATUS"
@@ -77,7 +98,7 @@ jobs:
         with:
           tag_name: "log-run-${{ github.run_number }}"
           name: "Build Log - Run ${{ github.run_number }}"
-          body: "Log de erro da execução ${{ github.run_number }} para depuração."
+          body: "Log de erro da execuÃ§Ã£o ${{ github.run_number }} para depuraÃ§Ã£o."
           files: /tmp/gradle_build.log
           draft: false
         env:
@@ -95,8 +116,8 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/mod-mobile') || github.event_name == 'workflow_dispatch'
         with:
           tag_name: "v0.H-Mobile-Mod-build-${{ github.run_number }}"
-          name: "CDDA Mobile Mod - Build ${{ github.run_number }}"
-          body: "APK do Cataclysm: Dark Days Ahead Mobile com nova interface no estilo PPSSPP + Exiled Kingdoms, analógico de 8 direções e slots contextuais."
+          name: "CDDA Mobile Mod (PT-BR) - Build ${{ github.run_number }}"
+          body: "APK do Cataclysm: Dark Days Ahead Mobile com traduÃ§Ã£o em PortuguÃªs do Brasil (PT-BR) integrada, controles virtuais estilo PPSSPP + Exiled Kingdoms, analÃ³gico de 8 direÃ§Ãµes e slots contextuais."
           files: output_apks/*.apk
           draft: false
           prerelease: false
