@@ -57,20 +57,5 @@
     "stack_size": 10,
     "critical_multiplier": 13,
     "melee_damage": { "bash": 1 }
-  },
-  {
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "id": "money",
-    "price": "1 cent",
-    "price_postapoc": "0 cent",
-    "//": "= one cent, gives correct prices for cash cards",
-    "name": { "str": "cent" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "A unit of currency equivalent to 0.01 US dollars.",
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
-    "volume": "0 ml",
-    "ammo_type": "money"
   }
 ]
