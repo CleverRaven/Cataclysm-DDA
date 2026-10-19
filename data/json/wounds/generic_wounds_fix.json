@@ -1,0 +1,81 @@
+[
+  {
+    "abstract": "clean_wound_small",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "2 minutes",
+    "skills": { "firstaid": 1 },
+    "requirements": [ [ "wound_clean", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.1 } ]
+  },
+  {
+    "abstract": "clean_wound_medium",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "3 minutes",
+    "skills": { "firstaid": 1 },
+    "requirements": [ [ "wound_clean", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.1 } ]
+  },
+  {
+    "abstract": "clean_wound_bad",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "4 minutes",
+    "skills": { "firstaid": 1 },
+    "requirements": [ [ "wound_clean", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.1 } ]
+  },
+  {
+    "abstract": "bandage_wound_small",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "20 seconds",
+    "skills": { "firstaid": 1 },
+    "requirements": [ { "components": [ [ [ "adhesive_bandages", 1 ] ] ] } ]
+  },
+  {
+    "abstract": "bandage_wound_medium",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "1 minutes",
+    "skills": { "firstaid": 2 },
+    "requirements": [ [ "wound_bandage", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.4 } ]
+  },
+  {
+    "abstract": "bandage_wound_bad",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "2 minutes",
+    "skills": { "firstaid": 2 },
+    "requirements": [ [ "wound_bandage", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.5 } ]
+  },
+  {
+    "abstract": "bleed_wound_medium",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "5 minutes",
+    "skills": { "firstaid": 2 },
+    "requirements": [ [ "wound_bleed", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.2 } ]
+  },
+  {
+    "abstract": "bleed_wound_bad",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "10 minutes",
+    "skills": { "firstaid": 2 },
+    "requirements": [ [ "wound_bleed", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.2 } ]
+  }
+]

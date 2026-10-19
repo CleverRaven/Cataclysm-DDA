@@ -1,0 +1,37 @@
+[
+  {
+    "id": "wound_clean",
+    "type": "requirement",
+    "//": "For cleaning wounds",
+    "tools": [ [ [ "soapy_water", 1 ] ] ]
+  },
+  {
+    "id": "wound_bandage",
+    "type": "requirement",
+    "//": "For bandaging wounds",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wound_bleed",
+    "type": "requirement",
+    "//": "For bandaging wounds",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ],
+        [ "cotton_patchwork", 1 ],
+        [ "cotton_ball", 2 ],
+        [ "medical_gauze", 1 ]
+      ]
+    ]
+  }
+]
