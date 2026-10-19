@@ -220,20 +220,17 @@ void body_status_ui::display()
 
         std::shared_ptr<uilist> current_tab_uilist = get_current_tab_uilist();
         if( current_tab_uilist ) {
-            bs_uilist_current = current_tab_uilist->create_or_get_ui();
             if( current_tab_uilist->query_setup() ) {
                 current_tab_uilist->query_once( current_tab_input, 33 );
                 // if list entries need to be reset from a callback
                 if( reset_list_entries ) {
                     reset_list_entries = false;
-                    bs_uilist_current.reset();
                     current_tab_uilist.reset();
                     bs_uilist[static_cast<int>( bs_uistate.selected_tab )].reset();
                     setup_new_uilist();
                 }
             }
         } else {
-            bs_uilist_current.reset();
             handle_action( current_tab_input.handle_input( 33 ) );
         }
         if( !bs_uistate.button_action.empty() ) {
@@ -675,11 +672,7 @@ void body_status_ui_impl::draw_controls()
 
         std::shared_ptr<uilist> current_uilist = ui_parent->get_current_tab_uilist();
         if( current_uilist ) {
-            const ImVec2 cursor_pos = ImGui::GetCursorScreenPos();
-            if( current_uilist->desired_bounds->y != cursor_pos.y ||
-                current_uilist->desired_bounds->w != ui_parent->uilist_reset_desired_bounds().w ) {
-                ui_parent->update_uilist_position( cursor_pos );
-            }
+            uilist::draw_controls( *current_uilist );
         }
 
         ImGui::EndChild();
