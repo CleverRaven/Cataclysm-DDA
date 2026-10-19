@@ -165,7 +165,7 @@
     "type": "effect_on_condition",
     "id": "EOC_FUNGUS_WORSEN",
     "recurrence": [ "8 hours", "12 hours" ],
-    "condition": { "or": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
+    "condition": { "and": [ { "u_has_effect": "fungus" }, { "not": { "u_has_effect": "antifungal" } } ] },
     "effect": [
       { "u_add_effect": "fungus", "intensity": { "math": [ "u_effect_intensity('fungus') + 1" ] }, "duration": "PERMANENT" }
     ]
