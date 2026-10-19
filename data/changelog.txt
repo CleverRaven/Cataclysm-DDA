@@ -125,10 +125,6 @@ Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
-Add a distinct groundcover for ravine edges
-Inherit faults when crafting
-'Work on Craft or Disassembly' menus compare primary skill
-Effects can define immunity when inside
 
 
 ## Content:
@@ -229,14 +225,6 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
-Arachnid Limbs/Arms are now limbs
-forest islands in radiosphere
-Spider mutants can skitter
-More manmade trash on forest trails
-Add the swirling vortex, a new nether monster
-Butchering tips
-Menstrual pads' sterile bag is integrated, yielded on disassembly
-Adjust name and crafting time of forged ballistic armor plates
 
 
 ## Interface:
@@ -405,15 +393,7 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
-[alt-map-key] Add new overmap terrain
-[DinoMod] heavier zombies
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
-Give Stormwrought: Manatouched same restrictions as rest of them
-[MoM] PLASTIC flag also applies to telekinetic damage
-[XedraWood] Hollow One updates
-[Innawood] Filter Mask is now an auto-learned recipe
-Aftershock: Screen mirrors can display messages
-Made it so churn recipe is autolearned in innawood.
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -687,19 +667,6 @@ Duplicating items on 'become huge -> remove armor' interaction
 Fix plugged-in appliances coming loose when leaving the reality bubble
 Traps with practice 2 no longer take zero time to place
 NPCs walk to fulfill their needs better
-Fix Z level fragment of reality
-[Sky Island] Update `ter_close_tears_and_portals` when MoM is running to account for cracks in reality
-Fixed flying creatures leaving bloody footprints.
-Followers sleep when you rest, not whenever they spot a bed
-Creatures in vehicles no longer leave bloody footprints.
-Fix non-character vitamin drain for star vampire bite
-make portable portal unusable in portal storm dungeon
-Fix NPCs spilling opened food and a few other NPC item bugs
-Fix camp drop hammer only allowing one anvil type
-dremel can now be connected to workshop station
-Fix the existing Coffee Powder Recipe and fix the description
-Stomach Full and Engorged kick in at their intended fullness again
-Fix Light Industry camp drop hammer not working for crafting
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
