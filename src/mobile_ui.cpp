@@ -15,6 +15,12 @@
 #include "sdl_font.h"
 #include "item.h"
 #include "item_location.h"
+#include "path_info.h"
+#include "filesystem.h"
+#include "cata_utility.h"
+#include "json.h"
+#include <set>
+#include <fstream>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -1094,20 +1100,21 @@ void mobile_ui_system::draw_settings_drawer( const SDL_Renderer_Ptr &renderer, F
     int cl_ty = settings_close_btn.y + ( settings_close_btn.h - font->height ) / 2;
     font->OutputChar( renderer, close_text, point( cl_tx, cl_ty ), 15 );
 
-    // 3 Abas Tatil Grandes com espacamento adequado (sem encavalar)
-    int tab_gap = 12;
+    // 4 Abas Tatil Grandes com espacamento uniforme para o Poco X7 Pro
+    int tab_gap = 10;
     int total_tabs_w = settings_box.w - 44;
-    int tab_w = ( total_tabs_w - ( tab_gap * 2 ) ) / 3;
+    int tab_w = ( total_tabs_w - ( tab_gap * 3 ) ) / 4;
     int tab_h = 42;
     int tab_y = settings_box.y + 60;
 
-    std::array<std::string, 3> tab_labels = {
-        _( "1. TAMANHO & LAYOUT" ),
-        _( "2. ACESSIBILIDADE" ),
-        _( "3. ATALHOS & RESET" )
+    std::array<std::string, 4> tab_labels = {
+        _( "1. CONTROLES" ),
+        _( "2. TELA/CORES" ),
+        _( "3. ATALHOS" ),
+        _( "4. MODS" )
     };
 
-    for( int i = 0; i < 3; ++i ) {
+    for( int i = 0; i < 4; ++i ) {
         settings_tabs[i] = { settings_box.x + 22 + i * ( tab_w + tab_gap ), tab_y, tab_w, tab_h };
         bool is_active = ( settings_active_tab == i );
 
@@ -1227,7 +1234,9 @@ void mobile_ui_system::draw_settings_drawer( const SDL_Renderer_Ptr &renderer, F
         }
     }
 
-    if( settings_active_tab == 2 ) {
+    if( settings_active_tab == 3 ) {
+        draw_mods_tab( renderer, font );
+    } else if( settings_active_tab == 2 ) {
         // Aba 3: Instrucoes do Mod e Botao de Restaurar Padroes
         int info_y = tab_y + tab_h + 20;
         font->OutputChar( renderer, _( "Instrucoes de Toque Puro (Touch-Native Android):" ), point( settings_box.x + 30, info_y ), 14 );
@@ -1262,12 +1271,20 @@ bool mobile_ui_system::handle_settings_touch( float x, float y, input_event &/*o
     }
 
     // 2. Abas
-    for( int i = 0; i < 3; ++i ) {
+    for( int i = 0; i < 4; ++i ) {
         if( x >= settings_tabs[i].x && x <= settings_tabs[i].x + settings_tabs[i].w &&
             y >= settings_tabs[i].y && y <= settings_tabs[i].y + settings_tabs[i].h ) {
             settings_active_tab = i;
+            if( settings_active_tab == 3 ) {
+                refresh_mods_list();
+            }
             return true;
         }
+    }
+
+    // Se estiver na Aba 4 (Mods), processa os toques de mods
+    if( settings_active_tab == 3 ) {
+        return handle_mods_tab_touch( x, y );
     }
 
     // 3. Reset Button na Aba 2
@@ -1345,6 +1362,590 @@ void mobile_ui_system::set_button_emoji( button_id id, const std::string &emoji 
             return;
         }
     }
+}
+
+void mobile_ui_system::refresh_mods_list()
+{
+    installed_mods.clear();
+    community_mods.clear();
+
+    std::set<std::string> active_ids;
+    cata_path default_mods_file = PATH_INFO::mods_user_default();
+    if( file_exist( default_mods_file ) ) {
+        read_from_file_json( default_mods_file, [&]( const JsonValue &jv ) {
+            JsonObject jo = jv.get_object();
+            jo.allow_omitted_members();
+            if( jo.has_array( "dependencies" ) ) {
+                for( const std::string id : jo.get_array( "dependencies" ) ) {
+                    active_ids.insert( id );
+                }
+            }
+        } );
+    }
+
+    std::vector<std::string> search_dirs;
+    search_dirs.push_back( PATH_INFO::user_moddir() );
+    search_dirs.push_back( PATH_INFO::datadir() + "mods/" );
+
+    std::set<std::string> seen_mod_ids;
+
+    for( const auto &base_dir : search_dirs ) {
+        if( !dir_exist( base_dir ) ) {
+            continue;
+        }
+
+        try {
+            for( const auto &entry : std::filesystem::directory_iterator( std::filesystem::u8path( base_dir ) ) ) {
+                if( !entry.is_directory() ) {
+                    continue;
+                }
+                std::string mod_dir = entry.path().u8string();
+                std::string modinfo_path = mod_dir + "/modinfo.json";
+                if( !file_exist( modinfo_path ) ) {
+                    continue;
+                }
+
+                mobile_mod_item item;
+                item.ident = entry.path().filename().u8string();
+                item.name = item.ident;
+                item.description = _( "Mod para Cataclysm: Dark Days Ahead." );
+                item.version = "1.0";
+                item.authors = "Comunidade";
+                item.languages = "PT-BR, EN";
+                item.compatibility = _( "Compativel (100%)" );
+                item.tags = _( "[Conteudo]" );
+
+                uintmax_t total_size = 0;
+                try {
+                    for( const auto &f : std::filesystem::recursive_directory_iterator( entry.path() ) ) {
+                        if( f.is_regular_file() ) {
+                            total_size += f.file_size();
+                        }
+                    }
+                } catch( ... ) {}
+
+                if( total_size > 1024 * 1024 ) {
+                    std::ostringstream ss;
+                    ss << std::fixed << std::setprecision( 1 ) << ( total_size / ( 1024.0 * 1024.0 ) ) << " MB";
+                    item.disk_size = ss.str();
+                } else {
+                    item.disk_size = std::to_string( total_size / 1024 ) + " KB";
+                }
+
+                try {
+                    read_from_file_json( cata_path( cata_path::root_path::unknown, modinfo_path ), [&]( const JsonValue &jv ) {
+                        JsonArray ja = jv.get_array();
+                        for( const JsonValue entry_val : ja ) {
+                            JsonObject mo = entry_val.get_object();
+                            mo.allow_omitted_members();
+                            if( mo.get_string( "type", "" ) == "MOD_INFO" ) {
+                                if( mo.has_string( "id" ) ) {
+                                    item.ident = mo.get_string( "id" );
+                                }
+                                if( mo.has_string( "name" ) ) {
+                                    item.name = mo.get_string( "name" );
+                                }
+                                if( mo.has_string( "description" ) ) {
+                                    item.description = mo.get_string( "description" );
+                                }
+                                if( mo.has_string( "version" ) ) {
+                                    item.version = mo.get_string( "version" );
+                                }
+                                if( mo.has_string( "category" ) ) {
+                                    item.tags = "[" + mo.get_string( "category" ) + "]";
+                                }
+                                if( mo.has_array( "authors" ) ) {
+                                    std::string authors_str;
+                                    for( const std::string auth : mo.get_array( "authors" ) ) {
+                                        if( !authors_str.empty() ) authors_str += ", ";
+                                        authors_str += auth;
+                                    }
+                                    item.authors = authors_str;
+                                }
+                                if( mo.has_array( "dependencies" ) ) {
+                                    std::string deps_str;
+                                    for( const std::string dep : mo.get_array( "dependencies" ) ) {
+                                        if( !deps_str.empty() ) deps_str += ", ";
+                                        deps_str += dep;
+                                    }
+                                    if( !deps_str.empty() ) {
+                                        item.compatibility = _( "Requer: " ) + deps_str;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    } );
+                } catch( ... ) {}
+
+                if( seen_mod_ids.count( item.ident ) == 0 ) {
+                    seen_mod_ids.insert( item.ident );
+                    item.is_active = ( active_ids.count( item.ident ) > 0 );
+                    installed_mods.push_back( item );
+                }
+            }
+        } catch( ... ) {}
+    }
+
+    std::vector<community_mod_item> catalog = {
+        {
+            "cdda-arcana-mod",
+            "Arcana and Magic Items",
+            "Chaosvolt",
+            "Latest",
+            _( "[Magia] [Itens] [Profissoes]" ),
+            _( "Artes arcanas, cultos antigos, essencia magica e itens sobrenaturais balanceados para o apocalipse." ),
+            "3.8 MB",
+            "https://github.com/Chaosvolt/cdda-arcana-mod.git",
+            false,
+            { 0, 0, 0, 0 }
+        },
+        {
+            "secronom",
+            "Secronom - Debris of the Aftermath",
+            "Axema",
+            "v1.4",
+            _( "[Inimigos] [Biomas] [Bosses]" ),
+            _( "Nova ameaca biologica: criaturas carnosas mutantes, colossos mutantes e novos perigos organicos." ),
+            "5.2 MB",
+            "https://github.com/Axema/Secronom-Debris-of-the-Aftermath.git",
+            false,
+            { 0, 0, 0, 0 }
+        },
+        {
+            "bombastic_perks",
+            "Bombastic Perks",
+            "BombasticSloth",
+            "v2.1",
+            _( "[RPG] [Talentos] [Progressao]" ),
+            _( "Sistema completo de perks e talentos no estilo Fallout, ganhando vantagens exclusivas com a experiencia." ),
+            "1.2 MB",
+            "https://github.com/BombasticSloth/BombasticPerks.git",
+            false,
+            { 0, 0, 0, 0 }
+        },
+        {
+            "more_survival_tools",
+            "More Survival Tools",
+            "Sir_Lagsalot",
+            "v1.0",
+            _( "[Sobrevivencia] [Crafting] [Itens]" ),
+            _( "Ferramentas rusticas, purificadores de agua caseiros e armadilhas primitivas de sobrevivencia." ),
+            "850 KB",
+            "https://github.com/SirLagsalot/More-Survival-Tools.git",
+            false,
+            { 0, 0, 0, 0 }
+        },
+        {
+            "tankmod",
+            "Tankmod Revived",
+            "CDDA Team",
+            "0.H",
+            _( "[Veiculos] [Militares] [Blindagem]" ),
+            _( "Veiculos blindados pesados do exercito, canhoes funcionais e motores militares reforcados." ),
+            "1.9 MB",
+            "https://github.com/CleverRaven/Cataclysm-DDA.git",
+            false,
+            { 0, 0, 0, 0 }
+        },
+        {
+            "DinoMod",
+            "DinoMod",
+            "Balthazar",
+            "v1.8",
+            _( "[Criaturas] [Jurassico] [Dinossauros]" ),
+            _( "Animais pre-historicos e dinossauros clonados soltos nas matas e cidades apos o cataclismo." ),
+            "2.1 MB",
+            "https://github.com/CleverRaven/Cataclysm-DDA.git",
+            false,
+            { 0, 0, 0, 0 }
+        }
+    };
+
+    for( auto &c_mod : catalog ) {
+        c_mod.is_installed = ( seen_mod_ids.count( c_mod.ident ) > 0 );
+        community_mods.push_back( c_mod );
+    }
+}
+
+void mobile_ui_system::import_mods_from_disk()
+{
+    std::string import_dir = PATH_INFO::user_dir() + "import_mods/";
+    std::string dest_dir = PATH_INFO::user_moddir();
+
+    assure_dir_exist( import_dir );
+    assure_dir_exist( dest_dir );
+
+    int imported_count = 0;
+
+    try {
+        for( const auto &entry : std::filesystem::directory_iterator( std::filesystem::u8path( import_dir ) ) ) {
+            if( entry.is_regular_file() ) {
+                std::string ext = entry.path().extension().u8string();
+                std::transform( ext.begin(), ext.end(), ext.begin(), ::tolower );
+
+                if( ext == ".zip" ) {
+                    std::string zip_file = entry.path().u8string();
+                    std::string stem = entry.path().stem().u8string();
+                    std::string target_folder = dest_dir + stem;
+                    assure_dir_exist( target_folder );
+
+#if defined(__ANDROID__) || defined(__linux__)
+                    std::string cmd = "unzip -q -o \"" + zip_file + "\" -d \"" + target_folder + "\"";
+                    int ret = system( cmd.c_str() );
+                    if( ret == 0 ) {
+                        imported_count++;
+                    }
+#endif
+                } else if( ext == ".json" ) {
+                    std::string stem = entry.path().stem().u8string();
+                    std::string target_folder = dest_dir + stem;
+                    assure_dir_exist( target_folder );
+                    std::string target_file = target_folder + "/modinfo.json";
+                    try {
+                        std::filesystem::copy_file( entry.path(), std::filesystem::u8path( target_file ),
+                                                    std::filesystem::copy_options::overwrite_existing );
+                        imported_count++;
+                    } catch( ... ) {}
+                }
+            } else if( entry.is_directory() ) {
+                try {
+                    std::string target_dir = dest_dir + entry.path().filename().u8string();
+                    std::filesystem::copy( entry.path(), std::filesystem::u8path( target_dir ),
+                                           std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing );
+                    imported_count++;
+                } catch( ... ) {}
+            }
+        }
+    } catch( ... ) {}
+
+    refresh_mods_list();
+
+    if( imported_count > 0 ) {
+        mods_feedback_msg = string_format( _( "%d mod(s) importados para Documentos/CataclysmDDA/mods!" ), imported_count );
+    } else {
+        mods_feedback_msg = _( "Nenhum arquivo .zip ou .json encontrado na pasta Documentos/CataclysmDDA/import_mods" );
+    }
+}
+
+void mobile_ui_system::toggle_mod_active_state( size_t index )
+{
+    if( index >= installed_mods.size() ) {
+        return;
+    }
+
+    installed_mods[index].is_active = !installed_mods[index].is_active;
+
+    cata_path default_mods_file = PATH_INFO::mods_user_default();
+    write_to_file( default_mods_file, [&]( std::ostream &fout ) {
+        JsonOut json( fout, true );
+        json.start_object();
+        json.member( "type", "MOD_INFO" );
+        json.member( "id", "user:default" );
+        json.member( "name", "User Default Mods" );
+        json.member( "description", "Default mods enabled for newly created worlds" );
+        json.member( "dependencies" );
+        json.start_array();
+        for( const auto &mod : installed_mods ) {
+            if( mod.is_active ) {
+                json.write( mod.ident );
+            }
+        }
+        json.end_array();
+        json.end_object();
+    } );
+
+    mods_feedback_msg = installed_mods[index].is_active ?
+        string_format( _( "Mod '%s' [ATIVADO] para novos mundos!" ), installed_mods[index].name ) :
+        string_format( _( "Mod '%s' [DESATIVADO]." ), installed_mods[index].name );
+}
+
+void mobile_ui_system::install_community_mod( size_t index )
+{
+    if( index >= community_mods.size() ) {
+        return;
+    }
+
+    auto &c_mod = community_mods[index];
+    std::string dest_folder = PATH_INFO::user_moddir() + c_mod.ident;
+    assure_dir_exist( dest_folder );
+
+    std::string data_mod_path = PATH_INFO::datadir() + "mods/" + c_mod.ident;
+    if( dir_exist( data_mod_path ) ) {
+        try {
+            std::filesystem::copy( std::filesystem::u8path( data_mod_path ), std::filesystem::u8path( dest_folder ),
+                                   std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing );
+            c_mod.is_installed = true;
+            mods_feedback_msg = string_format( _( "Mod '%s' instalado na pasta Documentos!" ), c_mod.name );
+            refresh_mods_list();
+            return;
+        } catch( ... ) {}
+    }
+
+#if defined(__ANDROID__) || defined(__linux__)
+    std::string cmd = "git clone --depth 1 " + c_mod.repo_url + " \"" + dest_folder + "\"";
+    int ret = system( cmd.c_str() );
+    if( ret == 0 ) {
+        c_mod.is_installed = true;
+        mods_feedback_msg = string_format( _( "Mod '%s' baixado e instalado com sucesso!" ), c_mod.name );
+    } else {
+        mods_feedback_msg = string_format( _( "Falha ao baixar mod '%s' do repositorio." ), c_mod.name );
+    }
+#endif
+
+    refresh_mods_list();
+}
+
+void mobile_ui_system::draw_mods_tab( const SDL_Renderer_Ptr &renderer, Font *font )
+{
+    int top_y = settings_box.y + 115;
+
+    // Sub-abas: [ Meus Mods ] e [ Repositorio Comunidade ]
+    mods_btn_my_mods = { settings_box.x + 22, top_y, 230, 38 };
+    mods_btn_community = { settings_box.x + 262, top_y, 280, 38 };
+    mods_btn_import = { settings_box.x + 552, top_y, settings_box.w - 574, 38 };
+
+    // Desenha botao [ Meus Mods ]
+    bool sub_0_active = ( mods_subtab == 0 );
+    SetRenderDrawColor( renderer, sub_0_active ? 41 : 28, sub_0_active ? 128 : 36, sub_0_active ? 185 : 48, 230 );
+    RenderFillRect( renderer, &mods_btn_my_mods );
+    SetRenderDrawColor( renderer, sub_0_active ? 100 : 70, sub_0_active ? 200 : 90, sub_0_active ? 255 : 120, 255 );
+    RenderDrawRect( renderer, &mods_btn_my_mods );
+    std::string my_mods_lbl = string_format( _( "MEUS MODS (%d)" ), static_cast<int>( installed_mods.size() ) );
+    int mx = mods_btn_my_mods.x + ( mods_btn_my_mods.w - ( font->width * utf8_width( my_mods_lbl ) ) ) / 2;
+    int my = mods_btn_my_mods.y + ( mods_btn_my_mods.h - font->height ) / 2;
+    font->OutputChar( renderer, my_mods_lbl, point( mx, my ), sub_0_active ? 11 : 15 );
+
+    // Desenha botao [ Repositorio Comunidade ]
+    bool sub_1_active = ( mods_subtab == 1 );
+    SetRenderDrawColor( renderer, sub_1_active ? 41 : 28, sub_1_active ? 128 : 36, sub_1_active ? 185 : 48, 230 );
+    RenderFillRect( renderer, &mods_btn_community );
+    SetRenderDrawColor( renderer, sub_1_active ? 100 : 70, sub_1_active ? 200 : 90, sub_1_active ? 255 : 120, 255 );
+    RenderDrawRect( renderer, &mods_btn_community );
+    std::string comm_lbl = string_format( _( "REPOSITORIO ONLINE (%d)" ), static_cast<int>( community_mods.size() ) );
+    int cx = mods_btn_community.x + ( mods_btn_community.w - ( font->width * utf8_width( comm_lbl ) ) ) / 2;
+    int cy = mods_btn_community.y + ( mods_btn_community.h - font->height ) / 2;
+    font->OutputChar( renderer, comm_lbl, point( cx, cy ), sub_1_active ? 11 : 15 );
+
+    // Desenha botao [ Importar .ZIP / .JSON ]
+    SetRenderDrawColor( renderer, 39, 174, 96, 230 ); // Verde esmeralda
+    RenderFillRect( renderer, &mods_btn_import );
+    SetRenderDrawColor( renderer, 46, 204, 113, 255 );
+    RenderDrawRect( renderer, &mods_btn_import );
+    std::string imp_lbl = _( "[ IMPORTAR .ZIP / .JSON (import_mods) ]" );
+    int ix = mods_btn_import.x + ( mods_btn_import.w - ( font->width * utf8_width( imp_lbl ) ) ) / 2;
+    int iy = mods_btn_import.y + ( mods_btn_import.h - font->height ) / 2;
+    font->OutputChar( renderer, imp_lbl, point( ix, iy ), 15 );
+
+    // Linha de mensagem de feedback
+    int msg_y = top_y + 44;
+    std::string display_msg = mods_feedback_msg.empty() ?
+        _( "Pasta de Mods: /storage/emulated/0/Documents/CataclysmDDA/mods" ) : mods_feedback_msg;
+    font->OutputChar( renderer, display_msg, point( settings_box.x + 24, msg_y ), 14 );
+
+    // Area dos cards da lista
+    int list_y = msg_y + 26;
+    int card_h = 72;
+    int card_gap = 8;
+    int visible_count = 3;
+
+    if( mods_subtab == 0 ) {
+        // Meus Mods Instalados
+        if( installed_mods.empty() ) {
+            std::string empty_1 = _( "Nenhum mod adicional encontrado na pasta Documentos/CataclysmDDA/mods." );
+            std::string empty_2 = _( "Coloque arquivos .zip ou .json na pasta import_mods e toque em [IMPORTAR] acima!" );
+            font->OutputChar( renderer, empty_1, point( settings_box.x + 30, list_y + 30 ), 15 );
+            font->OutputChar( renderer, empty_2, point( settings_box.x + 30, list_y + 60 ), 11 );
+        } else {
+            int start_idx = std::clamp( mods_scroll_offset, 0, std::max( 0, static_cast<int>( installed_mods.size() ) - 1 ) );
+            int end_idx = std::min( start_idx + visible_count, static_cast<int>( installed_mods.size() ) );
+
+            for( int i = start_idx; i < end_idx; ++i ) {
+                auto &mod = installed_mods[i];
+                int cy_pos = list_y + ( i - start_idx ) * ( card_h + card_gap );
+
+                SDL_Rect card_rect = { settings_box.x + 22, cy_pos, settings_box.w - 44, card_h };
+                SetRenderDrawColor( renderer, 22, 28, 38, 220 );
+                RenderFillRect( renderer, &card_rect );
+                SetRenderDrawColor( renderer, 45, 60, 80, 255 );
+                RenderDrawRect( renderer, &card_rect );
+
+                // Linha 1: Nome, Versao, Tamanho, Idiomas
+                std::string header_line = mod.name + " (" + mod.version + ")  |  " + mod.disk_size + "  |  " + mod.languages;
+                font->OutputChar( renderer, header_line, point( card_rect.x + 12, card_rect.y + 6 ), 11 );
+
+                // Linha 2: Tags e Compatibilidade
+                std::string meta_line = mod.tags + "  " + mod.compatibility;
+                font->OutputChar( renderer, meta_line, point( card_rect.x + 12, card_rect.y + 26 ), 10 );
+
+                // Linha 3: Descricao concisa
+                std::string desc_line = mod.description;
+                if( utf8_width( desc_line ) > 60 ) {
+                    desc_line = desc_line.substr( 0, 57 ) + "...";
+                }
+                font->OutputChar( renderer, desc_line, point( card_rect.x + 12, card_rect.y + 46 ), 15 );
+
+                // Botao Toggle Ativo / Desativado
+                mod.toggle_rect = { card_rect.x + card_rect.w - 190, card_rect.y + 12, 175, card_h - 24 };
+                if( mod.is_active ) {
+                    SetRenderDrawColor( renderer, 39, 174, 96, 240 ); // Verde Ativo
+                } else {
+                    SetRenderDrawColor( renderer, 55, 65, 80, 240 ); // Cinza Inativo
+                }
+                RenderFillRect( renderer, &mod.toggle_rect );
+                SetRenderDrawColor( renderer, mod.is_active ? 46 : 90, mod.is_active ? 204 : 100, mod.is_active ? 113 : 110, 255 );
+                RenderDrawRect( renderer, &mod.toggle_rect );
+
+                std::string tog_lbl = mod.is_active ? _( "[ MOD ATIVO ]" ) : _( "[ DESATIVADO ]" );
+                int tx = mod.toggle_rect.x + ( mod.toggle_rect.w - ( font->width * utf8_width( tog_lbl ) ) ) / 2;
+                int ty = mod.toggle_rect.y + ( mod.toggle_rect.h - font->height ) / 2;
+                font->OutputChar( renderer, tog_lbl, point( tx, ty ), 15 );
+            }
+        }
+    } else {
+        // Catalogo da Comunidade
+        int start_idx = std::clamp( mods_scroll_offset, 0, std::max( 0, static_cast<int>( community_mods.size() ) - 1 ) );
+        int end_idx = std::min( start_idx + visible_count, static_cast<int>( community_mods.size() ) );
+
+        for( int i = start_idx; i < end_idx; ++i ) {
+            auto &mod = community_mods[i];
+            int cy_pos = list_y + ( i - start_idx ) * ( card_h + card_gap );
+
+            SDL_Rect card_rect = { settings_box.x + 22, cy_pos, settings_box.w - 44, card_h };
+            SetRenderDrawColor( renderer, 22, 28, 38, 220 );
+            RenderFillRect( renderer, &card_rect );
+            SetRenderDrawColor( renderer, 45, 60, 80, 255 );
+            RenderDrawRect( renderer, &card_rect );
+
+            // Linha 1: Nome, Autor, Tamanho
+            std::string header_line = mod.name + " (" + mod.version + ") por " + mod.author + "  |  " + mod.disk_size;
+            font->OutputChar( renderer, header_line, point( card_rect.x + 12, card_rect.y + 6 ), 11 );
+
+            // Linha 2: Tags
+            font->OutputChar( renderer, mod.tags, point( card_rect.x + 12, card_rect.y + 26 ), 10 );
+
+            // Linha 3: Descricao
+            std::string desc_line = mod.description;
+            if( utf8_width( desc_line ) > 60 ) {
+                desc_line = desc_line.substr( 0, 57 ) + "...";
+            }
+            font->OutputChar( renderer, desc_line, point( card_rect.x + 12, card_rect.y + 46 ), 15 );
+
+            // Botao Instalar / Ja Instalado
+            mod.install_rect = { card_rect.x + card_rect.w - 190, card_rect.y + 12, 175, card_h - 24 };
+            if( mod.is_installed ) {
+                SetRenderDrawColor( renderer, 39, 174, 96, 240 ); // Verde Instalado
+            } else {
+                SetRenderDrawColor( renderer, 41, 128, 185, 240 ); // Azul Instalar
+            }
+            RenderFillRect( renderer, &mod.install_rect );
+            SetRenderDrawColor( renderer, 100, 200, 255, 255 );
+            RenderDrawRect( renderer, &mod.install_rect );
+
+            std::string inst_lbl = mod.is_installed ? _( "[ INSTALADO ]" ) : _( "[ INSTALAR ]" );
+            int tx = mod.install_rect.x + ( mod.install_rect.w - ( font->width * utf8_width( inst_lbl ) ) ) / 2;
+            int ty = mod.install_rect.y + ( mod.install_rect.h - font->height ) / 2;
+            font->OutputChar( renderer, inst_lbl, point( tx, ty ), 15 );
+        }
+    }
+
+    // Rodape com botoes de rolagem da lista
+    int foot_y = list_y + visible_count * ( card_h + card_gap ) + 6;
+    mods_btn_scroll_up = { settings_box.x + 22, foot_y, 160, 36 };
+    mods_btn_scroll_down = { settings_box.x + settings_box.w - 182, foot_y, 160, 36 };
+
+    SetRenderDrawColor( renderer, 35, 45, 60, 240 );
+    RenderFillRect( renderer, &mods_btn_scroll_up );
+    RenderFillRect( renderer, &mods_btn_scroll_down );
+    SetRenderDrawColor( renderer, 80, 100, 130, 255 );
+    RenderDrawRect( renderer, &mods_btn_scroll_up );
+    RenderDrawRect( renderer, &mods_btn_scroll_down );
+
+    std::string up_lbl = _( "[ ^ SUBIR ]" );
+    int ux = mods_btn_scroll_up.x + ( mods_btn_scroll_up.w - ( font->width * utf8_width( up_lbl ) ) ) / 2;
+    int uy = mods_btn_scroll_up.y + ( mods_btn_scroll_up.h - font->height ) / 2;
+    font->OutputChar( renderer, up_lbl, point( ux, uy ), 15 );
+
+    std::string down_lbl = _( "[ v DESCER ]" );
+    int dx = mods_btn_scroll_down.x + ( mods_btn_scroll_down.w - ( font->width * utf8_width( down_lbl ) ) ) / 2;
+    int dy = mods_btn_scroll_down.y + ( mods_btn_scroll_down.h - font->height ) / 2;
+    font->OutputChar( renderer, down_lbl, point( dx, dy ), 15 );
+
+    // Indicador de posicao central
+    size_t total_items = ( mods_subtab == 0 ) ? installed_mods.size() : community_mods.size();
+    std::string pos_str = string_format( _( "Item %d-%d de %d" ),
+        total_items == 0 ? 0 : mods_scroll_offset + 1,
+        std::min( mods_scroll_offset + visible_count, static_cast<int>( total_items ) ),
+        static_cast<int>( total_items ) );
+    int px = settings_box.x + ( settings_box.w - ( font->width * utf8_width( pos_str ) ) ) / 2;
+    int py = foot_y + ( 36 - font->height ) / 2;
+    font->OutputChar( renderer, pos_str, point( px, py ), 11 );
+}
+
+bool mobile_ui_system::handle_mods_tab_touch( float x, float y )
+{
+    // 1. Sub-aba: Meus Mods
+    if( x >= mods_btn_my_mods.x && x <= mods_btn_my_mods.x + mods_btn_my_mods.w &&
+        y >= mods_btn_my_mods.y && y <= mods_btn_my_mods.y + mods_btn_my_mods.h ) {
+        mods_subtab = 0;
+        mods_scroll_offset = 0;
+        return true;
+    }
+
+    // 2. Sub-aba: Repositorio Comunidade
+    if( x >= mods_btn_community.x && x <= mods_btn_community.x + mods_btn_community.w &&
+        y >= mods_btn_community.y && y <= mods_btn_community.y + mods_btn_community.h ) {
+        mods_subtab = 1;
+        mods_scroll_offset = 0;
+        return true;
+    }
+
+    // 3. Botao Importar
+    if( x >= mods_btn_import.x && x <= mods_btn_import.x + mods_btn_import.w &&
+        y >= mods_btn_import.y && y <= mods_btn_import.y + mods_btn_import.h ) {
+        import_mods_from_disk();
+        return true;
+    }
+
+    // 4. Botoes de rolagem
+    if( x >= mods_btn_scroll_up.x && x <= mods_btn_scroll_up.x + mods_btn_scroll_up.w &&
+        y >= mods_btn_scroll_up.y && y <= mods_btn_scroll_up.y + mods_btn_scroll_up.h ) {
+        if( mods_scroll_offset > 0 ) {
+            mods_scroll_offset--;
+        }
+        return true;
+    }
+    if( x >= mods_btn_scroll_down.x && x <= mods_btn_scroll_down.x + mods_btn_scroll_down.w &&
+        y >= mods_btn_scroll_down.y && y <= mods_btn_scroll_down.y + mods_btn_scroll_down.h ) {
+        size_t total_items = ( mods_subtab == 0 ) ? installed_mods.size() : community_mods.size();
+        if( mods_scroll_offset + 3 < static_cast<int>( total_items ) ) {
+            mods_scroll_offset++;
+        }
+        return true;
+    }
+
+    // 5. Toque nos botoes de cada card
+    if( mods_subtab == 0 ) {
+        for( size_t i = 0; i < installed_mods.size(); ++i ) {
+            const auto &btn = installed_mods[i].toggle_rect;
+            if( btn.w > 0 && x >= btn.x && x <= btn.x + btn.w && y >= btn.y && y <= btn.y + btn.h ) {
+                toggle_mod_active_state( i );
+                return true;
+            }
+        }
+    } else {
+        for( size_t i = 0; i < community_mods.size(); ++i ) {
+            const auto &btn = community_mods[i].install_rect;
+            if( btn.w > 0 && x >= btn.x && x <= btn.x + btn.w && y >= btn.y && y <= btn.y + btn.h ) {
+                if( !community_mods[i].is_installed ) {
+                    install_community_mod( i );
+                }
+                return true;
+            }
+        }
+    }
+
+    return true;
 }
 
 } // namespace cata_mobile

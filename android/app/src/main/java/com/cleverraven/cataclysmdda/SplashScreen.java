@@ -137,6 +137,30 @@ public class SplashScreen extends Activity {
     protected void installOrRun() {
         Log.e(TAG, "onCreate()");
         accessibilityServicesAlert.dismiss();
+
+        // Solicita permissao de armazenamento amplo no Android 6+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+            }
+        }
+
+        // Assegura existencia da pasta CataclysmDDA em Documentos para facil acesso do jogador
+        try {
+            File docsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            if (docsDir != null) {
+                File cddaDocs = new File(docsDir, "CataclysmDDA");
+                cddaDocs.mkdirs();
+                new File(cddaDocs, "mods").mkdirs();
+                new File(cddaDocs, "save").mkdirs();
+                new File(cddaDocs, "config").mkdirs();
+                new File(cddaDocs, "import_mods").mkdirs();
+                new File(cddaDocs, "sound").mkdirs();
+                new File(cddaDocs, "templates").mkdirs();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Nao foi possivel pre-criar pasta em Documentos: " + e.getMessage());
+        }
         // Start the game if already installed, otherwise start installing...
         if (getVersionName().equals(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("installed", ""))) {
             // Show an alert box if the game crashed last time

@@ -119,6 +119,33 @@ struct settings_touch_item {
     SDL_Rect btn_toggle { 0, 0, 0, 0 };
 };
 
+struct mobile_mod_item {
+    std::string ident;
+    std::string name;
+    std::string description;
+    std::string version;
+    std::string authors;
+    std::string languages;        // ex: "PT-BR, EN"
+    std::string compatibility;    // ex: "Compativel (100%)"
+    std::string tags;             // ex: "[Itens] [Sobrevivencia]"
+    std::string disk_size;        // ex: "1.4 MB"
+    bool is_active = false;
+    SDL_Rect toggle_rect { 0, 0, 0, 0 };
+};
+
+struct community_mod_item {
+    std::string ident;
+    std::string name;
+    std::string author;
+    std::string version;
+    std::string tags;
+    std::string description;
+    std::string disk_size;
+    std::string repo_url;
+    bool is_installed = false;
+    SDL_Rect install_rect { 0, 0, 0, 0 };
+};
+
 class mobile_ui_system
 {
 public:
@@ -192,13 +219,33 @@ private:
     std::vector<context_action> active_right_actions;
     std::vector<context_action> active_left_actions;
 
-    // Settings modal elements
-    int settings_active_tab = 0; // 0 = Layout/Sizes, 1 = Accessibility/Vision, 2 = Shortcuts/Reset
+    // Settings modal elements (4 Abas: 0=Controles, 1=Tela/Cores, 2=Atalhos/Reset, 3=Mods)
+    int settings_active_tab = 0;
     SDL_Rect settings_box { 0, 0, 0, 0 };
     SDL_Rect settings_close_btn { 0, 0, 0, 0 };
-    std::array<SDL_Rect, 3> settings_tabs {};
+    std::array<SDL_Rect, 4> settings_tabs {};
     SDL_Rect settings_reset_btn { 0, 0, 0, 0 };
     std::vector<settings_touch_item> current_tab_items;
+
+    // Gerenciador e Navegador de Mods (Aba 4)
+    int mods_subtab = 0; // 0 = Meus Mods Instalados, 1 = Catalogo Comunitario
+    int mods_scroll_offset = 0;
+    std::string mods_feedback_msg;
+    SDL_Rect mods_btn_my_mods { 0, 0, 0, 0 };
+    SDL_Rect mods_btn_community { 0, 0, 0, 0 };
+    SDL_Rect mods_btn_import { 0, 0, 0, 0 };
+    SDL_Rect mods_btn_scroll_up { 0, 0, 0, 0 };
+    SDL_Rect mods_btn_scroll_down { 0, 0, 0, 0 };
+
+    std::vector<mobile_mod_item> installed_mods;
+    std::vector<community_mod_item> community_mods;
+
+    void refresh_mods_list();
+    void import_mods_from_disk();
+    void toggle_mod_active_state( size_t index );
+    void install_community_mod( size_t index );
+    void draw_mods_tab( const SDL_Renderer_Ptr &renderer, Font *font );
+    bool handle_mods_tab_touch( float x, float y );
 };
 
 } // namespace cata_mobile

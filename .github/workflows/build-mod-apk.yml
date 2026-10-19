@@ -58,6 +58,36 @@ jobs:
           ls -lh gfx/MSX++UnDeadPeopleEdition/
           test -s gfx/MSX++UnDeadPeopleEdition/tile_config.json || (echo "ERRO: tile_config.json do UndeadPeople nao encontrado!" && exit 1)
 
+          echo "Sanitizando JSONs do UndeadPeople para compatibilidade perfeita..."
+          python3 - << 'EOF'
+          import json, os
+
+          config_file = 'gfx/MSX++UnDeadPeopleEdition/tile_config.json'
+          if os.path.exists(config_file):
+              with open(config_file, 'r', encoding='utf-8', errors='ignore') as f:
+                  data = json.load(f)
+              
+              fixed_count = 0
+              if isinstance(data, dict):
+                  tile_entries = data.get('tiles-new', [])
+                  if not tile_entries:
+                      tile_entries = [data]
+                  for group in tile_entries:
+                      for tile in group.get('tiles', []):
+                          if 'additional_tiles' in tile:
+                              if not tile.get('multitile', False):
+                                  tile['multitile'] = True
+                                  fixed_count += 1
+                              for subtile in tile.get('additional_tiles', []):
+                                  if 'rotates' in subtile:
+                                      del subtile['rotates']
+                                      fixed_count += 1
+              
+              with open(config_file, 'w', encoding='utf-8') as f:
+                  json.dump(data, f, separators=(',', ':'))
+              print(f"Sanitizacao concluida: {fixed_count} entradas corrigidas no tile_config.json!")
+          EOF
+
           echo "Baixando tilesets oficiais HD adicionais (UltiCa)..."
           GFX_URL="https://github.com/CleverRaven/Cataclysm-DDA/releases/download/cdda-experimental-2026-10-19-0128/cdda-linux-with-graphics-x64-2026-10-19-0128.tar.gz"
           curl -sL "$GFX_URL" | tar -zxf - gfx/UltiCa || true
@@ -127,7 +157,7 @@ jobs:
         with:
           tag_name: "v0.H-Mobile-Mod-build-${{ github.run_number }}"
           name: "CDDA Mobile Mod (Graficos UndeadPeople + PT-BR) - Build ${{ github.run_number }}"
-          body: "APK do Cataclysm: Dark Days Ahead Mobile com traducao completa em Portugues do Brasil (PT-BR), graficos modernos 2D UndeadPeople (estilo Project Zomboid) + UltiCa HD, controles virtuais estilo PPSSPP + Exiled Kingdoms, analogico de 8 direcoes e gaveta retratil de contexto lateral dinamica (oculta durante a exploracao, ativa sob demanda/menus/emergencias)."
+          body: "APK do Cataclysm: Dark Days Ahead Mobile (Build Atualizada) com Gerenciador e Navegador de Mods nativo touch (importacao de .zip e .json, toggle ativo/desativado, tags, compatibilidade, tamanho e catalogo comunitario online), Armazenamento direto na pasta publica 'Documentos/CataclysmDDA' do celular Android (livre de restricoes do Android 11+ de pasta data/obb), correcao de todos os erros de JSON do tileset UndeadPeople, traducao completa em Portugues do Brasil (PT-BR), graficos modernos 2D UndeadPeople estilo Project Zomboid + UltiCa HD, e gaveta retratil dinamica."
           files: output_apks/*.apk
           draft: false
           prerelease: false

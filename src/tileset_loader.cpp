@@ -880,6 +880,7 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
     }
 
     for( const JsonObject entry : config.get_array( "tiles" ) ) {
+        entry.allow_omitted_members();
         std::vector<std::string> ids;
         if( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
@@ -893,11 +894,16 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
             curr_tile.offset_retracted = sprite_offset_retracted;
             curr_tile.pixelscale = sprite_pixelscale;
             bool t_multi = entry.get_bool( "multitile", false );
+            if( !t_multi && entry.has_array( "additional_tiles" ) ) {
+                // Se definiu additional_tiles, habilita multitile automaticamente
+                t_multi = true;
+            }
             bool t_rota = entry.get_bool( "rotates", t_multi );
             int t_h3d = entry.get_int( "height_3d", 0 );
-            if( t_multi ) {
+            if( t_multi && entry.has_array( "additional_tiles" ) ) {
                 // fetch additional tiles
                 for( const JsonObject subentry : entry.get_array( "additional_tiles" ) ) {
+                    subentry.allow_omitted_members();
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
@@ -911,12 +917,6 @@ void tileset_cache::loader::parse_mappings( const JsonObject &config )
                     curr_subtile.height_3d = t_h3d;
                     curr_subtile.animated = subentry.get_bool( "animated", false );
                     curr_tile.available_subtiles.push_back( s_id );
-                }
-            } else if( entry.has_array( "additional_tiles" ) ) {
-                try {
-                    entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
-                } catch( const JsonError &err ) {
-                    debugmsg( "(json-error)\n%s", err.what() );
                 }
             }
             // write the information of the base tile to curr_tile
@@ -976,6 +976,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         // create one variation per object
         else if( g_array.test_object() ) {
             for( const JsonObject vo : g_array ) {
+                vo.allow_omitted_members();
                 std::vector<int> v;
                 int weight = vo.get_int( "weight" );
                 // negative weight is invalid

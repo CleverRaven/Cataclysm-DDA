@@ -669,7 +669,32 @@ void initialize_default_paths()
 #endif
 
 #if defined(__ANDROID__)
-    PATH_INFO::init_user_dir( external_storage_path );
+    // Direciona a pasta de usuario (save, mods, config, sound, templates, import_mods)
+    // para a pasta publica Documents do Android (/storage/emulated/0/Documents/CataclysmDDA/),
+    // livrando o jogador das restricoes do Android 11+ de acesso a Android/data ou obb.
+    std::string documents_user_dir = "/storage/emulated/0/Documents/CataclysmDDA";
+    std::string final_user_dir = external_storage_path;
+
+    if( assure_dir_exist( documents_user_dir ) ) {
+        final_user_dir = documents_user_dir;
+        assure_dir_exist( documents_user_dir + "/save" );
+        assure_dir_exist( documents_user_dir + "/mods" );
+        assure_dir_exist( documents_user_dir + "/config" );
+        assure_dir_exist( documents_user_dir + "/import_mods" );
+        assure_dir_exist( documents_user_dir + "/sound" );
+        assure_dir_exist( documents_user_dir + "/templates" );
+
+        // Migracao suave de configuracoes se a nova pasta estiver vazia
+        if( file_exist( external_storage_path + "/config/options.json" ) &&
+            !file_exist( documents_user_dir + "/config/options.json" ) ) {
+            try {
+                std::filesystem::copy( external_storage_path + "/config", documents_user_dir + "/config",
+                                       std::filesystem::copy_options::recursive | std::filesystem::copy_options::skip_existing );
+            } catch( ... ) {}
+        }
+    }
+
+    PATH_INFO::init_user_dir( final_user_dir );
 #else
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
     PATH_INFO::init_user_dir( "" );
