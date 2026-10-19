@@ -974,7 +974,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms_lifting() ) {
+        if( !ch.has_two_arms_lifting() || !ch.can_pickWeight( craft ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
         } else if( !ch.has_wield_conflicts( craft ) || ch.is_npc() ) {
             craft_wield();
