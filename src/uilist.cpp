@@ -46,6 +46,11 @@ void uilist_impl::draw_controls()
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     }
 #endif
+    uilist::draw_controls( parent );
+}
+
+void uilist::draw_controls( uilist &parent )
+{
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
