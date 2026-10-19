@@ -1,0 +1,86 @@
+[
+  {
+    "type": "dimension_region_layout",
+    "id": "default",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "default"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "nether_abyss",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "nether_abyss"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "highlands",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "highlands"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "highland_imperial_road",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "highland_imperial_road"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "netherum_labyrinth",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "netherum_labyrinth"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "netherum_labyrinth2",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "netherum_labyrinth2"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "netherum_labyrinth_safehouse",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "netherum_labyrinth_safehouse"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "cabins",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "cabins"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "inner_cabins",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "inner_cabins"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "radiosphere",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "radiosphere"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "spider_dimension",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "spider_dimension"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "scarlet",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "scarlet"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "string_dimension",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "string_dimension"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "string_dimension_ka",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "string_dimension_ka"
+  }
+]

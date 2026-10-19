@@ -22,7 +22,6 @@
       {
         "u_travel_to_dimension": "radiosphere",
         "npc_travel_radius": 0,
-        "region_type": "radiosphere",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a dark industrial area."
@@ -37,7 +36,8 @@
       { "u_teleport": { "context_val": "nearest_floor" } },
       { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
       { "run_eocs": "EOC_PORTAL_RADIOSPHERE_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] },
-      { "math": [ "u_ire -= 5" ] }
+      { "math": [ "u_ire -= 5" ] },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
@@ -53,7 +53,7 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -74,7 +74,8 @@
         "else": { "u_teleport": { "context_val": "ground" }, "fail_message": "", "success_message": "" }
       },
       { "clear_dimension": "radiosphere" },
-      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": [
       {
@@ -94,12 +95,7 @@
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
-      {
-        "u_travel_to_dimension": "cabins",
-        "npc_travel_radius": 0,
-        "region_type": "cabins",
-        "npc_travel_filter": "none"
-      },
+      { "u_travel_to_dimension": "cabins", "npc_travel_radius": 0, "npc_travel_filter": "none" },
       {
         "u_location_variable": { "context_val": "nearest_floor" },
         "terrain": "t_tar_flat_roof",
@@ -111,7 +107,8 @@
       { "u_message": "Your surroundings change.", "popup": true, "popup_w_interrupt_query": true },
       { "run_eocs": "EOC_PORTAL_CABINS_RETURN", "time_in_future": [ "6 hours", "12 hours" ] },
       { "run_eocs": [ "EOC_CABIN_DAY_CYCLE_OR_KILL_CYCLE" ] },
-      { "math": [ "u_ire -= 5" ] }
+      { "math": [ "u_ire -= 5" ] },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
@@ -127,7 +124,7 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -158,7 +155,8 @@
       },
       { "alter_timed_events": "cabin_daylight_cycle" },
       { "clear_dimension": "cabins" },
-      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true }
+      { "u_message": "You're back.", "popup": true, "popup_w_interrupt_query": true },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": [
       {
@@ -198,7 +196,6 @@
       {
         "u_travel_to_dimension": "inner_cabins",
         "npc_travel_radius": 0,
-        "region_type": "inner_cabins",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold."
@@ -226,7 +223,7 @@
     "id": "EOC_PORTAL_INNER_CABINS_WARPED_CABIN",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_travel_to_dimension": "cabins", "npc_travel_radius": 0, "region_type": "cabins", "npc_travel_filter": "none" },
+      { "u_travel_to_dimension": "cabins", "npc_travel_radius": 0, "npc_travel_filter": "none" },
       { "u_location_variable": { "context_val": "nearest_bed" }, "furniture": "f_bed", "target_max_radius": 60 },
       { "u_teleport": { "context_val": "nearest_bed" } },
       {

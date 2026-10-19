@@ -47,7 +47,8 @@
     "techniques": [ "tech_wing_slap" ],
     "side": "left",
     "sub_parts": [ "wing_ravenfolk_shoulder_l", "wing_ravenfolk_upper_l", "wing_ravenfolk_joint_l", "wing_ravenfolk_lower_l" ],
-    "unarmed_damage": [ { "damage_type": "bash", "amount": 0 } ]
+    "unarmed_damage": [ { "damage_type": "bash", "amount": 0 } ],
+    "similar_bodypart": "wing_l"
   },
   {
     "id": "wing_ravenfolk_r",
@@ -64,6 +65,7 @@
     "limb_types": "wing",
     "limb_scores": [ [ "reaction", 0.1 ] ],
     "side": "right",
-    "sub_parts": [ "wing_ravenfolk_shoulder_r", "wing_ravenfolk_upper_r", "wing_ravenfolk_joint_r", "wing_ravenfolk_lower_r" ]
+    "sub_parts": [ "wing_ravenfolk_shoulder_r", "wing_ravenfolk_upper_r", "wing_ravenfolk_joint_r", "wing_ravenfolk_lower_r" ],
+    "similar_bodypart": "wing_r"
   }
 ]

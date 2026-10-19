@@ -12,6 +12,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -113,6 +114,7 @@ static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
+static const flag_id json_flag_MARLOSS( "MARLOSS" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -122,6 +124,7 @@ static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNOT_CONSUME_DRUGS( "CANNOT_CONSUME_DRUGS" );
 static const json_character_flag json_flag_CARNIVORE_DIET( "CARNIVORE_DIET" );
 static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_HERBIVORE_DIET( "HERBIVORE_DIET" );
@@ -137,6 +140,8 @@ static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SKIP_HEALTH( "SKIP_HEALTH" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+static const json_character_flag
+json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS( "TEMPORARY_SHAPESHIFT_NO_HANDS" );
 
 static const material_id material_all( "all" );
 
@@ -179,6 +184,7 @@ static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_MARLOSS_AVOID( "MARLOSS_AVOID" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -198,6 +204,7 @@ static const trait_id trait_THRESH_CATTLE( "THRESH_CATTLE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 static const trait_id trait_THRESH_MOUSE( "THRESH_MOUSE" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
 static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
@@ -888,6 +895,20 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     if( edible || drinkable ) {
+        // Consumption EOCs run too late to refuse the food without ingesting it.
+        if( food.has_flag( json_flag_MARLOSS ) ) {
+            if( is_npc() ) {
+                return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
+            }
+            if( has_trait( trait_MARLOSS_AVOID ) ) {
+                return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                        _( "After what happened that last time?  Nuh-uh.  You're not eating that alien poison." ) );
+            }
+            if( has_trait( trait_THRESH_MYCUS ) ) {
+                return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                        _( "we no longer require this scaffolding.  we reserve it for other uses." ) );
+            }
+        }
         // For all those folks who loved eating Marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
@@ -906,7 +927,14 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     const use_function *consume_drug = food.type->get_use( "consume_drug" );
+
     if( consume_drug != nullptr ) { //its a drug)
+        if( has_flag( json_flag_CANNOT_CONSUME_DRUGS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "That would have no effect on you." ) );
+        }
+        if( has_flag( json_flag_TEMPORARY_SHAPESHIFT_NO_HANDS ) ) {
+            return ret_val<edible_rating>::make_failure( _( "You cannot use that while shapeshifted." ) );
+        }
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
         for( const auto &tool : consume_drug_use->tools_needed ) {
@@ -1225,6 +1253,37 @@ static bool eat( item &food, Character &you, bool force )
         }
     }
 
+    std::list<itype_id> seasonings_list = food.get_comestible()->get_seasonings();
+    std::unordered_set<itype_id> seasonings_set( seasonings_list.begin(), seasonings_list.end() );
+
+    item_location seasoning;
+    // Food that takes no seasoning has nothing to match, so skip the search over
+    // the inventory and the surrounding map.
+    if( !seasonings_set.empty() ) {
+        auto legal_to_consume = [&]( const item & it ) {
+            // For performance reasons this has been ordered so that the cheapest checks run first, to discount as many inappropriate items as early as possible.
+            return it.is_owned_by( you ) &&
+                   !it.rotten() &&
+                   you.allergy_type( it ).is_null() &&
+                   ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
+        };
+
+        auto fun_value = [&]( const item_location & it ) {
+            return it->get_comestible_fun();
+        };
+
+        std::unordered_set<item_location> all_valid_seasonings = get_map().all_items( legal_to_consume,
+                you, Access_Inventory | Access_Map_Around );
+
+        for( const item_location &checked : all_valid_seasonings ) {
+            // Always pick the best(highest fun) valid seasoning we find.
+            // TODO: More than one seasoning?
+            if( !seasoning || ( fun_value( checked ) > fun_value( seasoning ) ) ) {
+                seasoning = checked;
+            }
+        }
+    }
+
     if( amorphous ) {
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
@@ -1238,8 +1297,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You drink your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. coffee). Position 2: A seasoning or additive(e.g. milk). "You drink your coffee with milk."
+                you.add_msg_player_or_npc( _( "You drink your %1$s with %2$s." ),
+                                           _( "<npcname> drinks a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
+                                           food.tname() );
+            }
         }
     } else if( chew ) {
         if( you.is_avatar() && you.schizo_symptoms( 50 ) && !spoiled && food.goes_bad() &&
@@ -1250,8 +1316,15 @@ static bool eat( item &food, Character &you, bool force )
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), tname );
             add_msg( _( "You eat your %s (rotten)." ), tname );
         } else {
-            you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
-                                       food.tname() );
+            if( seasoning ) {
+                //~Position 1: A food item (e.g. steak). Position 2: A seasoning or additive(e.g. black pepper). "You eat your steak with black pepper."
+                you.add_msg_player_or_npc( _( "You eat your %1$s with %2$s." ),
+                                           _( "<npcname> eats a %1$s with %2$s." ),
+                                           food.tname(), seasoning->tname() );
+            } else {
+                you.add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
+                                           food.tname() );
+            }
         }
     }
 
@@ -1323,6 +1396,14 @@ static bool eat( item &food, Character &you, bool force )
     }
 
     you.consumption_history.emplace_back( food );
+    if( seasoning && you.consume_effects( *seasoning ) ) {
+        you.consumption_history.emplace_back( *seasoning );
+        if( seasoning->count_by_charges() ) {
+            seasoning->mod_charges( -1 );
+        } else {
+            seasoning.remove_item();
+        }
+    }
     // Clean out consumption_history so it doesn't get bigger than needed.
     while( you.consumption_history.front().time < calendar::turn - 2_days ) {
         you.consumption_history.pop_front();
@@ -1814,10 +1895,10 @@ bool Character::can_consume_as_is( const item &it ) const
     return false;
 }
 
-item &Character::get_consumable_from( item &it ) const
+item_location Character::get_consumable_from( const item_location &it ) const
 {
-    item *ret = nullptr;
-    it.visit_items( [&]( item * it, item * ) {
+    item_location ret;
+    it.visit_items( [&]( const item_location & it ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;
@@ -1825,14 +1906,17 @@ item &Character::get_consumable_from( item &it ) const
         return VisitResponse::NEXT;
     } );
 
-    if( ret != nullptr ) {
-        return *ret;
-    }
+    return ret;
+}
 
-    static item null_comestible;
-    // Since it's not const.
-    null_comestible = item();
-    return null_comestible;
+bool Character::wants_to_consume_now( const item &food ) const
+{
+    if( !needs_food() || !food.is_food() || !will_eat( food ).success() ) {
+        return false;
+    }
+    const bool hungry = get_hunger() > 0 || has_calorie_deficit();
+    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
+           ( food.get_comestible()->quench > 0 && get_thirst() > 0 );
 }
 
 time_duration Character::get_consume_time( const item &it ) const

@@ -61,6 +61,7 @@
       "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2"
     ],
     "type": "talk_topic",
+    "portrait_override": "Named_NPC_Smokes_TOPIC",
     "dynamic_line": "Not much to say.  What did you want to hear?",
     "responses": [
       { "text": "How'd you end up here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Basic" },

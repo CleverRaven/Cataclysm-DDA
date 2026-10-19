@@ -109,9 +109,8 @@
       { "group": "guns_shotgun_common", "prob": 2 },
       { "group": "guns_survival", "prob": 1 },
       { "item": "flaregun", "prob": 25 },
-      { "item": "large_repairkit", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "signal_flare", "prob": 20 },
-      { "item": "small_repairkit", "prob": 5, "charges": [ 0, 500 ] }
+      { "group": "guns_toolbox", "prob": 10 }
     ]
   },
   {
@@ -415,7 +414,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "waffleiron", 25 ],
       [ "radio", 15 ]
     ]
@@ -438,7 +436,6 @@
       [ "toaster", 20 ],
       [ "television", 20 ],
       [ "microwave", 20 ],
-      [ "multi_cooker", 1 ],
       [ "pan", 25 ],
       [ "dutch_oven", 5 ],
       [ "waffleiron", 25 ],
@@ -588,6 +585,7 @@
       [ "wetsuit_hood", 10 ],
       [ "wetsuit_hood_thick", 1 ],
       [ "swim_cap", 10 ],
+      [ "scuba_regulator", 5 ],
       { "item": "scuba_tank", "prob": 5, "charges": [ 0, 60 ] },
       { "item": "small_scuba_tank", "prob": 5, "charges": [ 0, 20 ] },
       [ "dive_bag", 10 ],
@@ -686,7 +684,6 @@
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
-      { "item": "multi_cooker", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]
   },
@@ -699,7 +696,7 @@
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
-      { "item": "cash_card", "prob": 5, "charges": [ 5, 5000 ] },
+      { "item": "credit_card", "prob": 5 },
       [ "id_science", 3 ],
       [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],
@@ -1372,32 +1369,41 @@
     "type": "item_group",
     "id": "forest",
     "items": [
-      [ "rock", 40 ],
-      [ "rock_flaking", 5 ],
-      [ "flint", 2 ],
-      [ "rock_large", 5 ],
-      [ "chunk_feldspar", 1 ],
-      [ "stick", 95 ],
-      [ "pine_bough", 20 ],
-      [ "acorns", 15 ],
-      [ "pinecone", 5 ],
-      [ "juniper", 5 ],
-      [ "hickory_root", 3 ],
-      [ "hickory_nut", 5 ],
+      { "item": "rock", "prob": 400 },
+      { "item": "rock_flaking", "prob": 50 },
+      { "item": "flint", "prob": 20 },
+      { "item": "rock_large", "prob": 50 },
+      { "item": "chunk_feldspar", "prob": 10 },
+      { "item": "twig", "prob": 200, "count": [ 1, 10 ] },
+      { "item": "stick", "prob": 50 },
+      { "item": "stick_common", "prob": 900 },
+      { "item": "stick_long", "prob": 25 },
+      { "item": "leaves", "prob": 1200, "count": [ 1, 10 ] },
+      { "item": "pine_bough", "prob": 200 },
+      { "item": "acorns", "prob": 150 },
+      { "item": "pinecone", "prob": 50 },
+      { "item": "juniper", "prob": 50 },
+      { "item": "hickory_root", "prob": 30 },
+      { "item": "hickory_nut", "prob": 50 },
       [ "one_year_old_newspaper", 2 ],
       { "group": "newspaper_recent", "prob": 15 },
-      [ "bottle_plastic", 1 ],
-      [ "bottle_glass", 1 ],
-      [ "syringe", 1 ],
-      [ "cig_butt", 1 ],
-      { "group": "ammo_casings", "prob": 20 },
+      { "item": "bottle_plastic", "prob": 10 },
+      { "item": "bottle_glass", "prob": 10 },
+      { "item": "syringe", "prob": 3 },
+      { "item": "cig_butt", "prob": 15 },
+      { "group": "SUS_trash_forest_manmade", "prob": 5 },
       { "group": "everyday_corpse", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "id": "forest_trail",
-    "items": [ { "group": "forest", "prob": 100 } ]
+    "subtype": "collection",
+    "entries": [
+      { "group": "forest", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "count": [ 2, 10 ], "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -1948,7 +1954,7 @@
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 3 },
-      [ "thread", 40 ],
+      { "group": "thread_used", "prob": 40 },
       [ "scissors", 50 ],
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
@@ -2377,9 +2383,9 @@
       { "item": "money_bundle_hundred", "prob": 10, "count": [ 1, 2 ] },
       { "group": "coins", "prob": 2, "count": [ 1, 10 ] },
       [ "file", 20 ],
-      [ "platinum_small", 10 ],
-      [ "gold_small", 10 ],
-      [ "silver_small", 30 ],
+      { "item": "platinum_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "gold_small", "prob": 10, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
+      { "item": "silver_small", "prob": 30, "count": [ 50, 150 ], "entry-wrapper": "box_small_wood" },
       [ "pocketwatch", 11 ],
       [ "gold_watch", 12 ],
       [ "sf_watch", 10 ],
@@ -2532,7 +2538,7 @@
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 3 },
-      { "item": "thread", "prob": 40, "charges": [ 1, 50 ] },
+      { "group": "thread_used", "prob": 40 },
       [ "hammer", 35 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -2816,7 +2822,7 @@
       { "prob": 35, "group": "cornbread_in_bag" },
       { "prob": 25, "group": "yeast_bag_plastic" },
       { "prob": 20, "group": "sugar_various" },
-      [ "chem_ethanol", 5 ]
+      { "group": "ethanol_bottle_liter_part", "prob": 5 }
     ]
   },
   {
@@ -2872,10 +2878,10 @@
     "id": "exodii_ammo_crate",
     "subtype": "collection",
     "items": [
-      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
-      { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
-      { "item": "exodiiBRmag_153", "count": [ 1, 5 ], "ammo-item": "123ln", "charges": 153, "prob": 100 },
-      { "item": "exodiiBRmag_26", "count": [ 4, 30 ], "ammo-item": "123ln", "charges": 26, "prob": 100 },
+      { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln_ap", "charges": 10, "prob": 80 },
+      { "group": "full_exodiiBRmag", "count": [ 2, 20 ] },
+      { "group": "full_exodiiBRmag_153", "count": [ 1, 5 ] },
+      { "group": "full_exodiiBRmag_26", "count": [ 4, 30 ] },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
   },

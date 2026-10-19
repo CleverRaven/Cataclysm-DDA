@@ -820,7 +820,7 @@
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "bleach", 2 ] ],
+      [ [ "bleach", 250 ] ],
       [ [ "oxy_powder", 15 ] ],
       [ [ "lye_powder", 15 ] ]
     ]
@@ -1162,7 +1162,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "bleach", 1 ] ], [ [ "ammonia_hydroxide", 1 ] ] ]
+    "components": [ [ [ "bleach", 125 ] ], [ [ "ammonia_hydroxide", 1 ] ] ]
   },
   {
     "type": "recipe",

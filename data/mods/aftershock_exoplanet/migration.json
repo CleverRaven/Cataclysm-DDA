@@ -169,6 +169,12 @@
   },
   {
     "type": "MIGRATION",
+    "id": "xray_laser_barrel",
+    "//": "These things could only be found from salvaging x-ray laser turrets, so the $1 of chit value is intended to replace its salvage value for anyone who picked any up before.",
+    "replace": "UICA_1d"
+  },
+  {
+    "type": "MIGRATION",
     "id": "alien_lard",
     "replace": "alien_tallow"
   },

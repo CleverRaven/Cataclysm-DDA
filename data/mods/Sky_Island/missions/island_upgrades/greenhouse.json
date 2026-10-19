@@ -97,7 +97,7 @@
         { "u_forget_recipe": "buildkey_south_greenhouse_2" },
         { "run_eocs": "EOC_skyisland_build_greenhouse2" },
         {
-          "u_message": "Construction complete.  There is a two more rooms to the south, to be turned into greenhouses eventually.",
+          "u_message": "Construction complete.  There are two more rooms to the south, to be turned into greenhouses eventually.",
           "popup": true
         }
       ]

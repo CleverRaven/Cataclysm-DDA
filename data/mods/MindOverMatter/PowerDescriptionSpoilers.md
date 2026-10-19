@@ -305,7 +305,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
 *Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
 *Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
-*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, increases aiming speed by 10% plus 2.5% per power level, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 </details>
 <details>
@@ -1645,7 +1645,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 4 minutes and 50 seconds to 19 minutes and 34 seconds, plus 18 seconds to 2 minutes and 43 seconds per power level<br />
 *Stamina Cost*: 2500, minus 95 per level to a minimum of 1250<br />
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
-*Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
+*Effects*: Increases the coagulation rate of blood, slowing bleeding by 15% plus 3% per power level to a maximum of 99%. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1735,6 +1735,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 350 moves, minus 14 moves per level to a minimum of 125<br />
 *Effects*: The psion encourages their immune system to focus entirely on their wounds for a brief period. From level 1 to 5, the power has "bite": 0.5, "disinfectant_power": 1, "infect": 0.4. From level 6 to 11, the power has "bite": 0.7, "disinfectant_power": 2, "infect": 0.6. At level 12 or above, the power has "bite": 0.9, "disinfectant_power": 3, "infect": 0.8.<br />
 *Prerequisites*: Immunostimulus 7<br />
+</details>
+<details>
+<summary><h3>Augment Durability (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 18 minutes and 4 seconds to 48 minutes and 28 seconds, plus 4 minutes and 41 seconds to 11 minutes and 21 seconds per power level<br />
+*Stamina Cost*: 6500, minus 125 per level to a minimum of 3250<br />
+*Channeling Time*: 125 moves, minus 6 moves per level to a minimum of 50<br />
+*Effects*: Increase the psion's resilience against damage before suffering catastrophic injury; this power increases total HP.  It has no effect on healing times or the amount of pain injuries cause.<br />
+*Prerequisites*: Healthy Glow 10, Leukocyte Accumulation 8<br />
 </details>
 <details>
 <summary><h3>Revitalizing Meditation</h3></summary>

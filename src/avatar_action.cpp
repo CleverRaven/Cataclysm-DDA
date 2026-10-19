@@ -29,7 +29,6 @@
 #include "game_inventory.h"
 #include "gun_mode.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -64,6 +63,7 @@
 #include "vpart_position.h"
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_berserk( "berserk" );
 static const efftype_id effect_bile_irritant( "bile_irritant" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
@@ -72,7 +72,6 @@ static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
-static const efftype_id effect_quadruped_full( "quadruped_full" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
@@ -87,7 +86,6 @@ static const itype_id itype_underbrush( "underbrush" );
 static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_FLOTATION( "FLOTATION" );
-static const json_character_flag json_flag_ITEM_WATERPROOFING( "ITEM_WATERPROOFING" );
 static const json_character_flag json_flag_WATERWALKING( "WATERWALKING" );
 
 static const move_mode_id move_mode_prone( "prone" );
@@ -119,25 +117,10 @@ static bool check_water_affect_items( avatar &you )
         return true;
     }
 
-    std::vector<item_location> dissolved;
-    std::vector<item_location> destroyed;
-    std::vector<item_location> wet;
+    wet_items wet_items_list = visit_water_affect_items( you );
 
-    for( item_location &loc : you.all_items_loc() ) {
-        if( you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
-            break;
-        } else if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            dissolved.emplace_back( loc );
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            destroyed.emplace_back( loc );
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            wet.emplace_back( loc );
-        }
-    }
-
-    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
+    if( wet_items_list.dissolved.empty() && wet_items_list.destroyed.empty() &&
+        wet_items_list.wet.empty() ) {
         return query_yn( _( "Dive into the water?" ) );
     }
 
@@ -155,23 +138,23 @@ static bool check_water_affect_items( avatar &you )
         menu.entries.push_back( header );
     };
 
-    if( !dissolved.empty() ) {
+    if( !wet_items_list.dissolved.empty() ) {
         add_header( _( "Will be dissolved:" ) );
-        for( item_location &it : dissolved ) {
+        for( item_location &it : wet_items_list.dissolved ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
 
-    if( !destroyed.empty() ) {
+    if( !wet_items_list.destroyed.empty() ) {
         add_header( _( "Will be destroyed:" ) );
-        for( item_location &it : destroyed ) {
+        for( item_location &it : wet_items_list.destroyed ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
 
-    if( !wet.empty() ) {
+    if( !wet_items_list.wet.empty() ) {
         add_header( _( "Will get wet:" ) );
-        for( item_location &it : wet ) {
+        for( item_location &it : wet_items_list.wet ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
@@ -196,16 +179,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
-    }
-
-    //TODO: Replace with dirtying vision_transparency_cache
-    //TODO: Really ugly bc we're not sure we're moving anywhere yet
-    const bool is_crouching = you.is_crouching();
-    const bool low_profile = you.has_effect( effect_quadruped_full ) &&
-                             you.is_running();
-    const bool is_prone = you.is_prone();
-    if( is_crouching || is_prone || low_profile ) {
-        m.set_transparency_cache_dirty( d.z() );
     }
 
     // If any leg broken without crutches and not already on the ground topple over
@@ -241,6 +214,40 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     } else if( m.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest_loc ) ) {
         dest_loc.z() -= 1;
         via_ramp = true;
+    }
+
+    // Berserk creatures cannot voluntarily move farther away from visible hostiles.
+    if( you.has_effect( effect_berserk ) ) {
+        bool has_hostile = false;
+        bool approaching_hostile = false;
+
+        get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
+            if( critter == &you ) {
+                return;
+            }
+
+            if( !you.sees( here, *critter ) ) {
+                return;
+            }
+
+            if( critter->attitude_to( you ) != Creature::Attitude::HOSTILE ) {
+                return;
+            }
+
+            has_hostile = true;
+
+            const int current_dist = rl_dist( you_pos, critter->pos_bub() );
+            const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
+
+            if( new_dist <= current_dist ) {
+                approaching_hostile = true;
+            }
+        } );
+
+        if( has_hostile && !approaching_hostile ) {
+            add_msg( m_info, _( "You are too enraged to retreat!" ) );
+            return false;
+        }
     }
 
     item_location weapon = you.get_wielded_item();
@@ -513,6 +520,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         return true;
     }
 
+    if( ( fromSwimmable || fromDeepWater ) && ( !toSwimmable || !toDeepWater || toBoat ) ) {
+        you.is_swimming = false;
+    }
+
     //Wooden Fence Gate (or equivalently walkable doors):
     // open it if we are walking
     // vault over it if we are running
@@ -573,6 +584,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
+    //TODO: use open_tile_activity_actor
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
@@ -631,6 +643,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
     map &here = get_map();
+
+    you.is_swimming = true;
 
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
@@ -701,7 +715,6 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
         m.board_vehicle( you.pos_bub(), &you );
     }
     you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
-    you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );

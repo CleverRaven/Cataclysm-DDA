@@ -140,7 +140,6 @@
       { "item": "dry_fruit", "prob": 10 },
       { "prob": 40, "group": "oatmeal_box_1lb" },
       { "prob": 90, "group": "toastem_box_small_8" },
-      { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
       { "prob": 20, "group": "sugar_various" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
       { "prob": 5, "group": "lemonade_powder_bottle_plastic_small_10" },

@@ -17,8 +17,14 @@
       "ravine_edge",
       "ravine_floor",
       "ravine_floor_edge",
+      "mom_shoggothed_world_default",
       "standing_stones_highlands",
       "highlands",
+      "highland_crypt_above",
+      "highland_crypt_surface",
+      "highland_crypt_small",
+      "highland_crypt_royal",
+      "highland_crypt_royal_1",
       "highland_crossroads_temple",
       "highland_crossroads_temple_above",
       "highland_crossroads_temple_above2",
@@ -45,7 +51,7 @@
       "scarlet_scrap_metal_spire",
       "netherum_labyrinth_sparkling_chasm",
       "default_portal_storm_dungeon_overmap",
-      "portal_storm_dungeon_teleporter",
+      "portal_storm_dungeon.*",
       "rock_border",
       "s_restaurant_deserted_test",
       "gunshow_0",
@@ -104,7 +110,8 @@
       "helipad.*",
       "fort_\\d.*",
       "forge_.*",
-      "aenor_paddock.*"
+      "aenor_paddock.*",
+      "field_office_.*"
     ]
   }
 ]

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "xedra_scarlet_sea_set",
+    "//": "equipment dropped by the XEDRA explorer in the scarlet sea",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_watch" },
+      { "item": "phase_immersion_suit" },
+      { "item": "phase_immersion_helmet" },
+      { "item": "phase_immersion_cca" },
+      { "item": "military_papr_blower_off" }
+    ]
+  }
+]

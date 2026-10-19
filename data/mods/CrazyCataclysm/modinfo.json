@@ -3,7 +3,7 @@
     "type": "MOD_INFO",
     "id": "crazy_cataclysm",
     "name": "Crazy Cataclysm",
-    "authors": [ "Kevin" ],
+    "authors": [ "Maya" ],
     "description": "Want a little crazy in your Cataclysm?  Try this one.",
     "category": "misc_additions",
     "dependencies": [ "dda" ]

@@ -214,5 +214,21 @@
     "required_event": "game_begin",
     "condition": { "and": [ "u_is_avatar", { "not": { "math": [ "has_var(u_timer_xe_RandEnc)" ] } } ] },
     "effect": { "math": [ "u_timer_xe_RandEnc = time('now')" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CHANGELING_LEARN_GRAMARYE_RECIPE",
+    "//": "Remove in 0.J",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "u_has_any_trait": [
+        "CHANGELING_SEASONAL_MAGIC_SPRING",
+        "CHANGELING_SEASONAL_MAGIC_SUMMER",
+        "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+        "CHANGELING_SEASONAL_MAGIC_WINTER"
+      ]
+    },
+    "effect": { "u_learn_recipe": "prac_gramarye_changeling" }
   }
 ]

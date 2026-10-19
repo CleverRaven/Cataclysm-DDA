@@ -48,7 +48,7 @@
     "name": { "str": "Death Guilt", "//~": "NO_I18N" },
     "description": { "str": "Feeling guilty over killing a monster.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_FAIL", "NO_PROJECTILE", "NON_MAGICAL", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "guilt",
     "effect_str": "NULL",
@@ -56,8 +56,8 @@
     "max_damage": 100,
     "min_duration": 180000,
     "max_duration": 180000,
-    "min_range": 5,
-    "max_range": 5
+    "min_range": 999,
+    "max_range": 999
   },
   {
     "id": "death_portal",

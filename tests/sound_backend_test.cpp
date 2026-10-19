@@ -64,7 +64,6 @@ TEST_CASE( "sound_backend_poll_is_safe_without_init", "[sound_backend]" )
     SUCCEED();
 }
 
-#if defined(USE_SDL3)
 TEST_CASE( "sound_backend_slow_time_drives_reserved_track_frequency_ratio",
            "[sound_backend][slow_time]" )
 {
@@ -165,9 +164,7 @@ TEST_CASE( "sound_backend_slow_time_composes_with_play_opts_pitch",
     sound_backend::set_slow_time_predicate( nullptr );
     sound_backend::shutdown();
 }
-#endif // USE_SDL3
 
-#if defined(USE_SDL3)
 TEST_CASE( "sfx_wrapper_routes_is_channel_playing_through_backend",
            "[sound_backend][integration]" )
 {
@@ -209,6 +206,5 @@ TEST_CASE( "sfx_wrapper_routes_is_channel_playing_through_backend",
     sounds::sound_enabled = prev_sound_enabled;
     sound_init_success = prev_init_success;
 }
-#endif // USE_SDL3
 
 #endif // SDL_SOUND

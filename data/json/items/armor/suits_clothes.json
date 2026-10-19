@@ -786,7 +786,7 @@
       {
         "id": "dogsuit",
         "name": { "str": "dog fursuit" },
-        "description": " A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
+        "description": "A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
         "color": "brown",
         "weight": 30
       },

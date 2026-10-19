@@ -263,8 +263,8 @@ class Creature : public viewer
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
-        virtual std::string disp_name( bool possessive = false,
-                                       bool capitalize_first = false ) const = 0; // displayname for Creature
+        virtual std::string disp_name( bool capitalize_first = false ) const =
+            0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
 
         virtual std::vector<std::string> get_grammatical_genders() const;
@@ -349,6 +349,9 @@ class Creature : public viewer
         virtual void reset();
         /** Adds an appropriate blood splatter. */
         virtual void bleed( map &here ) const;
+        /** Bloody footprints */
+        void leave_bloody_footprint( const tripoint_abs_ms &old_pos ) const;
+        void check_bloody_feet( const tripoint_abs_ms &old_pos );
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die( map *here, Creature *killer ) = 0;
 
@@ -985,7 +988,10 @@ class Creature : public viewer
         /** Returns a set of points we do not want to path through. */
         virtual std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const = 0;
 
+        // ture if creature is completely submerged in water
         bool underwater;
+        // returns true if creature swims (doesn't cover water walking or underwater walking)
+        bool is_swimming;
         void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
         /**

@@ -7,7 +7,6 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <limits>
 #include <list>
 #include <map>
 #include <optional>
@@ -38,7 +37,6 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -55,6 +53,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
@@ -86,6 +85,8 @@ class ui_adaptor;
 class vehicle;
 class vpart_reference;
 
+enum scaling_stat : int;
+
 namespace catacurses
 {
 class window;
@@ -96,6 +97,7 @@ struct pick_info;
 } // namespace Pickup
 
 enum action_id : int;
+enum class magic_energy_type : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum npc_attitude : int;
@@ -107,6 +109,7 @@ struct dealt_projectile_attack;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
+struct vitamin_resource_cost;
 struct itype;
 struct mutation_branch;
 struct mutation_category_trait;
@@ -304,6 +307,11 @@ enum crush_tool_type {
     CRUSH_NO_TOOL
 };
 
+struct character_portrait {
+    public:
+        character_portrait_id id;
+};
+
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
@@ -497,6 +505,25 @@ struct run_cost_effect {
 
 nutrients default_character_compute_effective_nutrients( const item &comest );
 
+// One innate provider of one quality.  Slots are structural, so toggling a bionic
+// changes how an occurrence is found and never which occurrence it is.
+struct intrinsic_quality_source {
+    enum class owner_kind : uint8_t { bionic, mutation, body_part, last };
+    // `trait_item` is the hard-coded digging pair, the only trait-derived item there is:
+    // the mutation type carries provided_qualities and no item field, so every other
+    // mutation occurrence is itemless.
+    enum class slot_kind : uint8_t { pseudo, bionic_weapon, trait_item, itemless, last };
+
+    owner_kind owner = owner_kind::last;
+    bionic_uid bio_uid = 0;
+    trait_id mut;
+    bodypart_str_id bp;
+
+    slot_kind slot = slot_kind::last;
+    int slot_index = -1;
+    int level = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -543,6 +570,14 @@ class Character : public Creature, public visitable
         int int_max;
         int per_max;
 
+        // A simple counter for how much trauma has been experienced. One point here is worth the same amount as one "guilt kill".
+        // This value is added to "deadening" from guilt kills to get the total amount of deadening a character has.
+        // A traumatic event may increase this counter by more than one!
+        int trauma_counter = 0;
+
+        // Prevents trauma from going negative or exceeding its defined maximum.
+        void clamp_trauma();
+
     public:
         // Used to display pain penalties
         int ppen_str;
@@ -551,10 +586,18 @@ class Character : public Creature, public visitable
         int ppen_per;
         int ppen_spd;
 
+        int get_trauma() const;
+        void mod_trauma( int amt );
+        void set_trauma( int amt );
+
         // Legacy value, used by several mods via eoc.
         int kill_xp = 0;
 
         float cached_organic_size;
+
+        character_portrait_id portrait_filename;
+
+        virtual void ensure_portrait_valid();
 
         const profession *prof;
         std::set<const profession *> hobbies;
@@ -592,6 +635,9 @@ class Character : public Creature, public visitable
         int get_dex_bonus() const;
         int get_per_bonus() const;
         int get_int_bonus() const;
+
+        // Returns the current value of one of the four primary character stats: str, dex, int, or per.
+        int get_primary_stat_value( scaling_stat stat ) const;
 
         /** Cache variables to store stamina use info
         *   these will be updated when the player's limb makeup changes
@@ -727,7 +773,7 @@ class Character : public Creature, public visitable
 
         /** Displays character name with an npc_class/profession suffix
         **/
-        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        std::string disp_name( bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
         * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
         **/
@@ -941,7 +987,7 @@ class Character : public Creature, public visitable
         void update_cached_mutations();
         /** Adds this specific wound to bodypart */
         void apply_wound( bodypart_id bp, wound_type_id wd );
-        /** Updates the status of wounds character has */
+        /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
@@ -1001,8 +1047,7 @@ class Character : public Creature, public visitable
         std::pair<int, int> climate_control_strength() const;
 
         /** Returns wind resistance provided by armor, etc **/
-        std::map<bodypart_id, int> get_wind_resistance( const
-                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
+        std::map<bodypart_id, int> get_wind_resistance() const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -1162,7 +1207,7 @@ class Character : public Creature, public visitable
                            bool allow_unarmed = true, int forced_movecost = -1 );
         bool melee_attack_abstract( Creature &t, bool allow_special, const matec_id &force_technique,
                                     bool allow_unarmed = true, int forced_movecost = -1 );
-
+        void reduce_moves_from_attack( int forced_movecost, int move_cost );
         /** Handles reach melee attacks */
         bool can_reach_attack( const Creature &target ) const;
         void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
@@ -1266,9 +1311,9 @@ class Character : public Creature, public visitable
         bool unwield();
 
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
+        std::string weapname( bool color_faults = false ) const;
         /** Get the formatted name of the currently wielded item (if any) without current gun mode and ammo */
-        std::string weapname_simple() const;
+        std::string weapname_simple( bool color_faults = false ) const;
         /** Get the formatted current gun mode (if gun) */
         std::string weapname_mode() const;
         /** Get the formatted current ammo (if gun) */
@@ -1560,9 +1605,6 @@ class Character : public Creature, public visitable
 
         int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
-        // TODO: Remove remaining calls to insert into the raw inventory and remove functions where appropriate so this can be removed
-        void migrate_items_to_storage( bool disintegrate );
-
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -1737,6 +1779,9 @@ class Character : public Creature, public visitable
         bool activate_bionic( bionic &bio, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
+        // Innate items a craft can draw: exposed pseudo items plus the hard-coded
+        // digging pair.
+        std::vector<item> crafting_pseudo_items() const;
         void invalidate_pseudo_items();
         /** Finds the highest UID for installed bionics and caches the next valid UID **/
         void update_last_bionic_uid() const;
@@ -1849,7 +1894,8 @@ class Character : public Creature, public visitable
         std::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+        /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
+        * The result can be end() of the worn list; do not dereference it.
         * @param item_wear item_location of item to be worn.
         * @param interactive Alert player and drain moves if true.
         */
@@ -2074,6 +2120,8 @@ class Character : public Creature, public visitable
         int item_wear_cost( const item &it ) const;
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * The end() of the worn list means worn but unsorted, or worn and then removed by an
+         * event handler; do not dereference it.
          * If interactive is false, don't alert the player or drain moves on completion.
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
@@ -2085,14 +2133,14 @@ class Character : public Creature, public visitable
         int  amount_worn( const itype_id &id ) const;
 
         /** Returns the amount of software `type' that are in the inventory */
-        int count_softwares( const itype_id &id );
+        int count_softwares( const itype_id &id ) const;
 
         /** Returns whether the character has software on a device with a desired number of charges */
         bool has_software( const itype_id &software_id, int min_charges = 0,
                            const itype_id &device_id = itype_id::NULL_ID() ) const;
 
         /** Returns nearby items which match the provided predicate */
-        std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
+        std::vector<item_location> nearby( const std::function<bool( const item_location & )> &func,
                                            int radius = 1 ) const;
 
         /**
@@ -2100,19 +2148,16 @@ class Character : public Creature, public visitable
          * content (@ref item::contents is not checked).
          * If the filter function returns true, the item is removed.
          */
-        std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter );
+        std::list<item> remove_worn_items_with( const std::function<bool( const item & )> &filter );
 
         void clear_worn();
 
-        // returns a list of all item_location the character has, including items contained in other items.
-        // only for CONTAINER pocket type; does not look for magazines
-        std::vector<item_location> all_items_loc();
         // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        item *invlet_to_item( int invlet ) const;
+        item_location invlet_to_item( int invlet ) const;
 
         // Returns the item with a given inventory position.
         item &i_at( int position );
@@ -2176,6 +2221,8 @@ class Character : public Creature, public visitable
         bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
+        /** A carried watertight container with room for this liquid, other than avoid; empty if none. */
+        item_location carried_container_for( const item &liquid, const item *avoid = nullptr ) const;
 
         /**
          * Remove a specific item from player possession. The item is compared
@@ -2215,10 +2262,6 @@ class Character : public Creature, public visitable
          */
         void handle_contents_changed( const std::vector<item_location> &containers );
 
-        /** Only use for UI things. Returns all invlets that are currently used in
-         * the player inventory, the weapon slot and the worn items. */
-        std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
-
         /**
          * Whether the player carries an active item of the given item type.
          */
@@ -2246,7 +2289,7 @@ class Character : public Creature, public visitable
         /**
          * Searches for weapons and magazines that can be reloaded.
          */
-        std::vector<item_location> find_reloadables();
+        std::vector<item_location> find_reloadables() const;
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
@@ -2331,15 +2374,11 @@ class Character : public Creature, public visitable
         /// struct offers two possible tweaks: a collection of items and
         /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
-            item_tweaks() : without_items( std::nullopt ), replace_inv( std::nullopt ) {}
+            item_tweaks() : without_items( nullptr ) {}
             explicit item_tweaks( const std::map<const item *, int> &w ) :
-                without_items( std::cref( w ) )
+                without_items( &w )
             {}
-            explicit item_tweaks( const inventory &r ) :
-                replace_inv( std::cref( r ) )
-            {}
-            const std::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
-            const std::optional<std::reference_wrapper<const inventory>> replace_inv;
+            const std::map<const item *, int> *const without_items;
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
@@ -2863,7 +2902,6 @@ class Character : public Creature, public visitable
         player_activity activity;
         std::list<player_activity> backlog;
         std::optional<tripoint_abs_ms> destination_point;
-        pimpl<inventory> inv;
         itype_id last_item;
     private:
         item weapon;
@@ -3061,7 +3099,7 @@ class Character : public Creature, public visitable
         /**
          * Add an item to existing @ref inv_search_caches that it meets the criteria for. Will NOT create any new caches.
          */
-        void add_to_inv_search_caches( item &it ) const;
+        void add_to_inv_search_caches( const item_location &it ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const override;
@@ -3130,6 +3168,8 @@ class Character : public Creature, public visitable
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
         bool has_activity( const std::vector<activity_id> &types ) const;
+        /** Process activity until activity invalid or character is out of moves */
+        void process_activity();
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
@@ -3209,8 +3249,7 @@ class Character : public Creature, public visitable
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( const damage_type_id &dt, bodypart_id bp ) const override;
-        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt,
-                const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
+        std::map<bodypart_id, int> get_all_armor_type( const damage_type_id &dt ) const;
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -3314,7 +3353,7 @@ class Character : public Creature, public visitable
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
-        void on_item_acquire( const item &it );
+        void on_item_acquire( const item_location &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_id &bp = bodypart_str_id::NULL_ID() ) override;
@@ -3368,7 +3407,6 @@ class Character : public Creature, public visitable
         std::map<mtype_id, int> const &get_moncams() const;
         using cached_moncam = std::pair<monster const *, tripoint_abs_ms>;
         using moncam_cache_t = cata::flat_set<cached_moncam>;
-        moncam_cache_t moncam_cache;
         moncam_cache_t get_active_moncams() const;
 
         void spores();
@@ -3514,6 +3552,8 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Whether this character is hungry or thirsty for this, and may eat or drink it. */
+        bool wants_to_consume_now( const item &food ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
@@ -3547,7 +3587,7 @@ class Character : public Creature, public visitable
          * the first of its contents (if it's consumable) or null item otherwise.
          * WARNING: consumable does not necessarily guarantee the comestible type.
          */
-        item &get_consumable_from( item &it ) const;
+        item_location get_consumable_from( const item_location &it ) const;
 
         /** Get calorie & vitamin contents for a comestible, taking into
          * account character traits */
@@ -3601,12 +3641,14 @@ class Character : public Creature, public visitable
         void update_morale();
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent_morale();
+        // From guilt kills, etc.
+        double get_modifier_for_ALL_morale() const;
         // the morale penalty for hoarders
         void hoarder_morale_penalty();
         /** Used to apply morale modifications from food and medication **/
         void modify_morale( item &food, int nutr = 0 );
         // Modified by traits, &c
-        int get_morale_level() const;
+        int get_morale_level( bool raw = false ) const;
         void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
@@ -3616,7 +3658,7 @@ class Character : public Creature, public visitable
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-        const inventory &crafting_inventory( bool clear_path ) const;
+        const temp_crafting_inventory &crafting_inventory( bool clear_path ) const;
         /**
         * Returns items that can be used to craft with. Always includes character inventory.
         * @param src_pos Character position.
@@ -3624,11 +3666,12 @@ class Character : public Creature, public visitable
         * @param clear_path True to select only items within view. False to select all within the radius.
         * @returns Craftable inventory items found.
         * */
-        const inventory &crafting_inventory( const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
-        const inventory &crafting_inventory( map *here,
-                                             const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
+        const temp_crafting_inventory &crafting_inventory( const tripoint_bub_ms &src_pos =
+                    tripoint_bub_ms::zero,
+                int radius = PICKUP_RANGE, bool clear_path = true ) const;
+        const temp_crafting_inventory &crafting_inventory( map *here,
+                const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
+                int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
         // Efficiently query book proficiency bonuses from nearby items
         // without rebuilding the full crafting inventory.
@@ -3667,30 +3710,31 @@ class Character : public Creature, public visitable
         const recipe_subset &get_learned_recipes() const;
         recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_books( const temp_crafting_inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
-        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
+        recipe_subset get_recipes_from_ebooks( const temp_crafting_inventory &crafting_inv ) const;
     protected:
         /**
           * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
           * @param helpers List of Characters that could help with crafting.
           */
-        recipe_subset get_available_recipes( const inventory &crafting_inv,
+        recipe_subset get_available_recipes( const temp_crafting_inventory &crafting_inv,
                                              const std::vector<Character *> *helpers = nullptr ) const;
     public:
         /**
           * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
           * If a valid inventory pointer is passed as an argument then returns early with only 'this' crafter using the passed inventory.
           */
-        recipe_subset &get_group_available_recipes( inventory *inventory_override = nullptr ) const;
+        recipe_subset &get_group_available_recipes( temp_crafting_inventory *inventory_override = nullptr )
+        const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.
           * @param crafting_inv Current available items that may contain readable books
           * @param r Recipe to search for in the available books
           */
-        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+        std::set<itype_id> get_books_for_recipe( const temp_crafting_inventory &crafting_inv,
                 const recipe *r ) const;
 
         // crafting.cpp
@@ -3802,7 +3846,7 @@ class Character : public Creature, public visitable
          * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
-        ret_val<void> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
+        ret_val<void> can_disassemble( const item &obj, const temp_crafting_inventory &inv ) const;
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
@@ -3817,11 +3861,11 @@ class Character : public Creature, public visitable
         void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(
-            const std::vector<const requirement_data *> &, int batch, const read_only_visitable &,
+            const std::vector<const requirement_data *> &, int batch, const temp_crafting_inventory &,
             const std::function<bool( const item & )> &filter ) const;
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
-                               int batch, read_only_visitable &map_inv, bool can_cancel = false,
+                               int batch, temp_crafting_inventory &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
                                bool npc_query = false, const recipe *rec = nullptr );
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
@@ -3838,7 +3882,8 @@ class Character : public Creature, public visitable
                                        bool can_cancel = false, bool disable_preference = false );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
-        select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,
+        select_tool_component( const std::vector<tool_comp> &tools, int batch,
+                               temp_crafting_inventory &map_inv,
                                bool can_cancel = false, bool player_inv = true, bool npc_query = false,
         const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
@@ -3850,6 +3895,16 @@ class Character : public Creature, public visitable
          *  When cost_ctx is supplied, it is reused for step budgets instead of
          *  recomputing crafting_cost_context::for_recipe. */
         bool craft_consume_step_tools( item &craft, const crafting_cost_context *cost_ctx = nullptr );
+        /** Checks whether the character can pay the recipe's resource cost up to
+         *  target_progress and, if requested, consumes the required difference. */
+        bool craft_consume_character_resources( item &craft, int target_progress, bool consume = true );
+        /** Returns the amount of the specified character resource currently available
+         *  for crafting without crossing its minimum allowed threshold. */
+        int craft_character_resource_available( magic_energy_type resource ) const;
+        /** Returns the amount of the specified vitamin currently available for crafting
+         *  without reducing it below the requested safe level, or the vitamin minimum
+         *  when no explicit level is provided. */
+        int craft_vitamin_available( const vitamin_resource_cost &resource ) const;
         /** Advance the active unattended step's tool consumption to match its
          *  wall-clock progress.  Returns false (consuming nothing) if charges are short. */
         bool craft_consume_passive_step_tools( item &craft, time_point now, const item_location &loc );
@@ -3905,7 +3960,12 @@ class Character : public Creature, public visitable
         bool leak_level_dirty = true;
         // Cache if current bionic layout has certain json flag. Refreshed upon bionics add/remove, activation/deactivation.
         mutable std::map<const json_character_flag, bool> bio_flag_cache;
+        // this is a temporary member, meant to facilitate items that can't be added on load,
+        // to be created on the first game turn.
+        std::list<item> temporary_load_items;
     public:
+        void add_temporary_load_items();
+        void stash_temporary_load_item( const item &it );
         float get_leak_level() const;
         /** Iterate through the character inventory to get its leak level */
         void calculate_leak_level();
@@ -3996,6 +4056,8 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
+        /** How ready to fall asleep here: comfort, sleepiness, stimulants, pills, enchantments. No roll, no throttle. */
+        int sleep_readiness();
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
@@ -4016,9 +4078,21 @@ class Character : public Creature, public visitable
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        // Discovery, capacity and revalidation all count through this one enumeration,
+        // so they cannot disagree about how many innate providers exist.
+        std::vector<intrinsic_quality_source> intrinsic_quality_sources(
+            const quality_id &qual, int level ) const;
+        // No item walk, unlike has_quality.
+        bool has_intrinsic_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        // Automation's pair: planning and selection measure the same way, so a plan
+        // that passes is one the selector can act on.
+        bool has_unreserved_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        item &best_unreserved_item_with_quality( const quality_id &qid );
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        VisitResponse visit_carried( const std::function<VisitResponse( const item_location & )> &func )
+        const;
+        VisitResponse visit_items( const std::function<VisitResponse( const item_location & )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
@@ -4213,6 +4287,8 @@ class Character : public Creature, public visitable
         /** Returns the % of your RDA that amount of vitamin represents */
         int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
 
+        bool has_wounds( const bodypart_str_id &part ) const;
+
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
@@ -4312,7 +4388,9 @@ class Character : public Creature, public visitable
             int moves;
             tripoint_bub_ms position;
             int radius;
-            pimpl<inventory> crafting_inventory;
+            // cache built earlier in the turn can't see a later acquire or release
+            uint64_t reservation_generation = 0;
+            pimpl<temp_crafting_inventory> crafting_inventory;
         };
         mutable crafting_cache_type crafting_cache;
 

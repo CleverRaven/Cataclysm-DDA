@@ -249,7 +249,7 @@
     "description": "The sap that flows through your veins has thickened, and your heartvines do their keep to keep it in your body.  You bleed more slowly.",
     "purifiable": false,
     "valid": false,
-    "flags": [ "BLEEDSLOW" ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.333 } ] } ]
   },
   {
     "type": "mutation",

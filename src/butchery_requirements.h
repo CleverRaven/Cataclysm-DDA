@@ -11,7 +11,8 @@
 #include "type_id.h"
 
 class JsonObject;
-class read_only_visitable;
+class Character;
+class temp_crafting_inventory;
 
 enum class butcher_type : int;
 enum class creature_size : int;
@@ -30,7 +31,8 @@ class butchery_requirements
 
         // tries to find the requirement with the highest speed bonus. if it fails it returns std::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(
-            const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const;
+            const Character *actor, const temp_crafting_inventory &crafting_inv, creature_size size,
+            butcher_type butcher ) const;
 
         static void load_butchery_req( const JsonObject &jo, const std::string &src );
         static void finalize_all();

@@ -67,7 +67,7 @@
   {
     "type": "weather_generator",
     "id": "default_hunvre",
-    "base_temperature": 20,
+    "base_temperature": 0,
     "base_humidity": 0,
     "base_pressure": 1015.0,
     "base_wind": 0,
@@ -81,6 +81,19 @@
     "summer_humidity_manual_mod": 0,
     "autumn_humidity_manual_mod": 0,
     "winter_humidity_manual_mod": 0,
-    "weather_white_list": [ "hunvre_weather_base_light_off" ]
+    "weather_white_list": [
+      "weather_negative_20_light_on",
+      "weather_negative_20_light_off",
+      "weather_negative_10_light_on",
+      "weather_negative_10_light_off",
+      "weather_0_light_on",
+      "weather_0_light_off",
+      "weather_positive_10_light_on",
+      "weather_positive_10_light_off",
+      "weather_positive_20_light_on",
+      "weather_positive_20_light_off",
+      "weather_positive_30_light_on",
+      "weather_positive_30_light_off"
+    ]
   }
 ]

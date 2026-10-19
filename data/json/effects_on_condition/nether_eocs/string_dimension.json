@@ -13,7 +13,6 @@
       {
         "u_travel_to_dimension": "string_dimension",
         "npc_travel_radius": 0,
-        "region_type": "string_dimension",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."
@@ -70,7 +69,8 @@
           "popup": true
         }
       },
-      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" }
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": {
       "if": { "u_has_item": "inert_glowing_string" },
@@ -89,7 +89,7 @@
     },
     "effect": [
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "You feel a prickle at the edge of your senses.",
@@ -98,7 +98,8 @@
       { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
       { "u_teleport": { "context_val": "player_teleport_loc" } },
       { "alter_timed_events": "string_dimension_lights_on" },
-      { "give_achievement": "achievement_reach_string_dimension" }
+      { "give_achievement": "achievement_reach_string_dimension" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": [
       {
@@ -220,12 +221,7 @@
     "id": "EOC_STRING_DIMENSION_PORTAL_TO_KA_STRUCTURE",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      {
-        "u_travel_to_dimension": "string_dimension_ka",
-        "npc_travel_radius": 0,
-        "region_type": "string_dimension_ka",
-        "npc_travel_filter": "none"
-      },
+      { "u_travel_to_dimension": "string_dimension_ka", "npc_travel_radius": 0, "npc_travel_filter": "none" },
       {
         "u_location_variable": { "context_val": "string_dimension_floor_portal_enclosure" },
         "target_params": { "om_terrain": "string_dimension_ka_facility_x4y0z0", "om_special": "string_dimension_ka_facility" },
@@ -236,7 +232,8 @@
       {
         "u_message": "You step into the moonpool and it's as if your entire world slowly rotated, leaving you to step upon the ceiling on the level below you.  You reorient and find yourself somewhere new.",
         "popup": true
-      }
+      },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ],
     "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
   },
@@ -248,7 +245,6 @@
       {
         "u_travel_to_dimension": "string_dimension",
         "npc_travel_radius": 0,
-        "region_type": "string_dimension",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold into an ever-expanding plane of light."
@@ -262,7 +258,8 @@
         "max_radius": 0
       },
       { "u_teleport": { "context_val": "nearest_sd_floor" } },
-      { "u_message": "You fall for a brief moment, then find your footing somewhere familiar.", "popup": true }
+      { "u_message": "You fall for a brief moment, then find your footing somewhere familiar.", "popup": true },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ],
     "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
   }

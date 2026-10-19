@@ -53,7 +53,7 @@
   {
     "type": "talk_topic",
     "id": "SKYISLAND_EXPLAIN5",
-    "dynamic_line": "This statue offers a variety of services.  You can be instantly healed, dispel an ongoing portal storm, check your current statistics and progress, and tweak your expedition difficulty settings.\n\nHealing is free until you have survived 10 expeditions.  After this point, healing costs 4 warp shards per treatment.\n\nExpedition difficulty is set to default when you start a new game, but here you can change many finer details to suit your own playstyle.",
+    "dynamic_line": "This statue offers a variety of services.  You can be instantly healed, check your current statistics and progress, and tweak your expedition difficulty settings.\n\nHealing is free until you have survived 10 expeditions.  After this point, healing costs 4 warp shards per treatment.\n\nExpedition difficulty is set to default when you start a new game, but here you can change many finer details to suit your own playstyle.",
     "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
   },
   {
@@ -98,14 +98,6 @@
         "text": "Heal me.  (Costs 4 Warp Shards)",
         "condition": { "math": [ "islandrank != 0" ] },
         "effect": [ { "run_eocs": [ "EOC_HEAL_NEWBIE" ] } ],
-        "topic": "SKYISLAND_SERVICES"
-      },
-      {
-        "text": "End an active portal storm.",
-        "effect": [
-          { "run_eocs": [ "EOC_CANCEL_PORTAL_STORM" ] },
-          { "u_message": "The air crackles with static electricity, then stabilizes.", "popup": true }
-        ],
         "topic": "SKYISLAND_SERVICES"
       },
       {
@@ -265,6 +257,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_challenge_mode" } },
+            { "math": [ "challenge_mode_available < 1" ] },
             { "math": [ "bonusmissions >= 5" ] },
             { "math": [ "hardestmissions > 0" ] },
             { "math": [ "bonuspulses >= 6" ] },
@@ -521,7 +514,6 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } },
-            { "math": [ "scouting_clairvoyance == 1" ] },
             { "math": [ "scoutingclairvoyancetime == 20" ] }
           ]
         },
@@ -1159,7 +1151,6 @@
       },
       {
         "text": "One of my bunker constructions had an error.  Could you help me fix it?",
-        "condition": { "math": [ "skyisland_build_base >= 1" ] },
         "topic": "SKYISLAND_FIX_CONSTRUCTIONS"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
@@ -1403,7 +1394,17 @@
           { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
         ],
         "topic": "SKYISLAND_UPGRADE"
-      }
+      },
+      {
+        "text": "I need help with the Merchant's Stall.  <color_red>If an NPC is present in the stall, this will wipe their inventory.</color>",
+        "condition": { "math": [ "skyisland_merchant_stall == 1" ] },
+        "effect": [
+          { "run_eocs": "EOC_skyisland_build_merchant_stall" },
+          { "u_message": "You hear the sound of crystalline chimes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" }
     ]
   },
   {

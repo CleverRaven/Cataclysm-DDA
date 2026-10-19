@@ -44,15 +44,8 @@
       { "u_teleport": { "global_val": "OM_temp" }, "force_safe": true },
       {
         "if": { "math": [ "si_npcs_will_join_raid == 1" ] },
-        "then": {
-          "u_travel_to_dimension": "dimension_sky_island_mission",
-          "npc_travel_radius": 10,
-          "region_type": { "global_val": "sky_island_target_region_settings" }
-        },
-        "else": {
-          "u_travel_to_dimension": "dimension_sky_island_mission",
-          "region_type": { "global_val": "sky_island_target_region_settings" }
-        }
+        "then": { "u_travel_to_dimension": { "global_val": "sky_island_target_region_settings" }, "npc_travel_radius": 10 },
+        "else": { "u_travel_to_dimension": { "global_val": "sky_island_target_region_settings" } }
       }
     ]
   },
@@ -213,12 +206,7 @@
         "fail_message": "It seems the portal couldn't find a valid location.",
         "force_safe": true
       },
-      {
-        "u_travel_to_dimension": "default",
-        "npc_travel_radius": 10,
-        "item_travel_radius": 10,
-        "region_type": "default"
-      },
+      { "u_travel_to_dimension": "default", "npc_travel_radius": 10, "item_travel_radius": 10 },
       { "u_remove_item_with": "warphome" },
       { "u_remove_item_with": "warp_healing_salve" },
       { "u_remove_item_with": "warpextender" },
@@ -238,7 +226,7 @@
           "EOC_return_heal"
         ]
       },
-      { "clear_dimension": "dimension_sky_island_mission" },
+      { "clear_dimension": { "global_val": "sky_island_target_region_settings" } },
       {
         "if": { "math": [ "skyisland_merchant_stall == 1" ] },
         "then": { "run_eocs": "EOC_SKY_ISLAND_RANDOM_MERCHANTS" }

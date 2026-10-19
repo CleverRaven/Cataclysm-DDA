@@ -147,25 +147,7 @@
     },
     "effect": [
       { "math": [ "_vampire_amount_drained", "=", "400 + rand(100)" ] },
-      { "u_add_effect": "star_vampire_blood_drank", "duration": 30 },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _vampire_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _vampire_amount_drained" ] }
-          ]
-        }
-      }
+      { "u_add_effect": "star_vampire_blood_drank", "duration": 30 }
     ]
   },
   {
@@ -662,7 +644,7 @@
   {
     "id": "mon_renfield_shotgun",
     "type": "MONSTER",
-    "name": { "str": "renfield with a Remington", "str_pl": "renfields with shotguns" },
+    "name": { "str": "renfield with a Remington", "str_pl": "renfields with Remingtons" },
     "description": "Wild hair and bloodshot eyes, this person constantly mumbles to themselves about food and life.  They carry a shotgun loosely one handed until they take aim.  Renfields care for nothing except protecting their vampire masters.",
     "default_faction": "vampire",
     "bodytype": "human",
@@ -1239,24 +1221,6 @@
           { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] },
           { "math": [ "n_vitamin('human_blood_vitamin') -= _arion_amount_drained" ] }
         ]
-      },
-      {
-        "if": { "npc_has_flag": "BLEEDSLOW2" },
-        "then": [
-          { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 3" ] },
-          { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 3" ] }
-        ],
-        "else": {
-          "if": { "npc_has_flag": "BLEEDSLOW" },
-          "then": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained / 1.5" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained / 1.5" ] }
-          ],
-          "else": [
-            { "math": [ "n_vitamin('blood') -= _arion_amount_drained" ] },
-            { "math": [ "n_vitamin('redcells') -= _arion_amount_drained" ] }
-          ]
-        }
       }
     ]
   }

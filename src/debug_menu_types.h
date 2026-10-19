@@ -62,6 +62,7 @@ enum class debug_menu_index : int {
     OM_TELEPORT_COORDINATES,
     OM_TELEPORT_CITY,
     PRINT_OVERMAPS,
+    PRINT_REGION_LAYOUT,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -116,6 +117,7 @@ enum class debug_menu_index : int {
     VEHICLE_EFFECTS,
     WISHPROFICIENCY,
     RELOAD_GPU_SHADERS,
+    SHADER_TINT_SELF_TEST,
     last
 };
 

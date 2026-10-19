@@ -6,15 +6,13 @@
     "name": { "str_sp": "ethanol" },
     "display_type": "BY_VOLUME",
     "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in an alcohol-burning stove.",
-    "weight": "1 g",
-    "volume": "200ml",
-    "price": "2 USD",
-    "price_postapoc": "5 USD",
-    "count": 250,
-    "stack_size": 200,
+    "weight": "789 mg",
+    "volume": "1 ml",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "count": 1,
     "category": "chems",
     "phase": "liquid",
-    "container": "bottle_glass",
     "material": [ "alcohol" ],
     "symbol": "~",
     "color": "white",
@@ -27,8 +25,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price": "10 cent"
   },
   {
     "id": "denat_alcohol",
@@ -37,8 +34,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price": "10 cent"
   },
   {
     "id": "chem_methanol",
@@ -47,8 +43,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "High-purity methanol suitable for use in chemical reactions.  Could also be used as fuel in an alcohol-burning stove.  Very toxic.",
-    "price": "5 cent",
-    "price_postapoc": "1 USD"
+    "price": "5 cent"
   },
   {
     "id": "chem_methanol_fuelcell",
@@ -145,6 +140,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
+    "ammo_type": "diesel",
     "price": "30 cent",
     "price_postapoc": "60 cent"
   },

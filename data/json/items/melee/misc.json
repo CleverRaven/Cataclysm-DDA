@@ -12,6 +12,7 @@
     "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
+    "faults": [ { "fault_group": "whips" } ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "category": "weapons",
     "melee_damage": { "cut": 3 },
@@ -33,6 +34,7 @@
     "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
     "material": [ "leather", "steel" ],
     "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ],
+    "faults": [ { "fault_group": "bladed_whips" } ],
     "melee_damage": { "cut": 10 },
     "weapon_category": [ "WHIPS" ]
   },
@@ -53,6 +55,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "WATER_BREAK" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 2,
     "use_action": [ "TAZER" ],
     "pocket_data": [

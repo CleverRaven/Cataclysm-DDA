@@ -140,22 +140,22 @@
         "failure": { "effect": { "u_buy_item": "water_clean", "container": "glass", "count": 2, "cost": 200 }, "topic": "TALK_DONE" }
       },
       {
-        "text": "[$3] I'll take a beer",
+        "text": "[$3] I'll take a beer.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "beer", "container": "glass", "count": 2, "cost": 300 }
       },
       {
-        "text": "[$3] Get me a cup of red wine",
+        "text": "[$3] Get me a cup of red wine.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "wine_cabernet", "container": "wine_glass", "cost": 300 }
       },
       {
-        "text": "[$3] I'll take a shot of rum",
+        "text": "[$3] I'll take a shot of rum.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "rum", "container": "glass", "cost": 300 }
       },
       {
-        "text": "[$3] I'll take a shot of whiskey",
+        "text": "[$3] I'll take a shot of whiskey.",
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "whiskey", "container": "glass", "cost": 300 }
       },

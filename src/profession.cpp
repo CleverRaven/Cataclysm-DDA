@@ -280,6 +280,7 @@ void profession::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "chargen_allow_npc", _chargen_allow_npc, true );
     optional( jo, was_loaded, "age_lower", age_lower, DEFAULT_PROF_AGE_LOWER );
     optional( jo, was_loaded, "age_upper", age_upper, DEFAULT_PROF_AGE_UPPER );
+    optional( jo, was_loaded, "starting_trauma", starting_trauma, 0 );
     optional( jo, was_loaded, "starting_cash", _starting_cash );
 
     if( jo.has_string( "vehicle" ) ) {

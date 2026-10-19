@@ -4,5 +4,18 @@
     "id": "scaling_factor",
     "num_args": 1,
     "return": "( ( _0 + 10) / 20 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "serum_duration_adjustments",
+    "num_args": 0,
+    "return": "1 * xe_serum_duration_adjustments()"
+  },
+  {
+    "//": "This is overridden in mods",
+    "type": "jmath_function",
+    "id": "xe_serum_duration_adjustments",
+    "num_args": 0,
+    "return": "1"
   }
 ]

@@ -903,7 +903,7 @@
         "max_contains_volume": "4 L",
         "max_contains_weight": "8200 g",
         "min_item_length": "45 cm",
-        "max_item_length": "60 cm",
+        "max_item_length": "80 cm",
         "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
         "volume_encumber_modifier": 2,
         "moves": 60

@@ -12,7 +12,7 @@
   },
   "responses": [
     {
-      "text": "Switch to controlling this follower",
+      "text": "Switch to controlling this follower.",
       "condition": { "u_has_trait": "AFS_LEADERSHIP" },
       "effect": [ { "math": [ "afs_leadership_act = 1" ] }, "take_control" ],
       "topic": "TALK_DONE"

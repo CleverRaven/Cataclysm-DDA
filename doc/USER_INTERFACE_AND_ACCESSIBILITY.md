@@ -34,13 +34,10 @@ Good examples of implementing an ImGui-based UI in Cataclysm:
 
 ## SDL version requirement of the tiles build
 
-Some functions used by this project require SDL 2.0.6, and the actual version
-requirement might be higher. While using a newer version is optional, new versions add
-several hints that are used to fix some incorrect behaviors of older SDL versions.
-These hints and the minimum SDL version requirements can be found within `InitSDL`
-in `sdltiles.cpp`. For example, SDL 2.0.20 is required for IME candidate list
-to show correctly on Windows, and SDL 2.0.22 is required for long IME composition
-text to show correctly.
+The tiles build requires SDL 3.4.0 or newer, because the GPU shader path uses
+`SDL_SetGPURenderState` and the surrounding `SDL_GPU*` API added in that
+release. The hints applied at startup, and any further version-dependent
+behavior, can be found within `InitSDL` in `sdltiles.cpp`.
 
 ## Compatibility with screen readers
 

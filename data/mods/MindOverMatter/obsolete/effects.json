@@ -1,0 +1,65 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "//": "Remove after 0.J",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEEDING_RATE",
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * -0.03 ) + -0.33 ) * psionic_power_modifiers()" ] }
+          },
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_02",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": { "math": [ "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * psionic_power_modifiers()" ] }
+          }
+        ]
+      }
+    ]
+  }
+]

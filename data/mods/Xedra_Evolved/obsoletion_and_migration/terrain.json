@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_statue_fae_ozymandius",
+    "to_ter": "t_railroad_rubble"
+  }
+]

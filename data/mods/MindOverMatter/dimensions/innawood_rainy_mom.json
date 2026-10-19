@@ -1,5 +1,16 @@
 [
   {
+    "type": "dimension",
+    "id": "mom_innawood_rainy",
+    "region_layout": "mom_innawood_rainy"
+  },
+  {
+    "type": "dimension_region_layout",
+    "id": "mom_innawood_rainy",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "mom_innawood_rainy"
+  },
+  {
     "type": "region_settings",
     "id": "mom_innawood_rainy",
     "copy-from": "default",

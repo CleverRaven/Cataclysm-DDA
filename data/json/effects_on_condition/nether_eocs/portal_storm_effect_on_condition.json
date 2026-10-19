@@ -18,7 +18,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_WARN_OR_CAUSE_RECURRING",
     "recurrence": [ { "global_val": "ps_min_woc", "default": "5 days" }, { "global_val": "ps_max_woc", "default": "18 days" } ],
-    "condition": { "current_dimension": "" },
+    "condition": { "current_dimension": "default" },
     "global": true,
     "effect": { "run_eocs": "EOC_CAUSE_EARLY_PORTAL_STORM" },
     "false_effect": { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] }
@@ -201,11 +201,14 @@
       { "math": [ "portal_dungeon_reflect_strength = 0" ] },
       "next_weather",
       {
-        "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
-        "type": "good"
+        "if": { "current_dimension": "default" },
+        "then": {
+          "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
+          "type": "good"
+        }
       },
       { "u_add_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" },
-      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
+      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM" ] },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
@@ -669,7 +672,6 @@
       {
         "u_travel_to_dimension": "highlands",
         "npc_travel_radius": 0,
-        "region_type": "highlands",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
@@ -681,21 +683,33 @@
         "then": { "run_eocs": "EOC_YRAX_WARP_IN", "time_in_future": [ "3 seconds", "6 seconds" ] }
       },
       { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "3 hours", "48 hours" ] },
-      { "math": [ "u_ire -= 5" ] }
+      { "math": [ "u_ire -= 5" ] },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HIGHLANDS_RETURN",
+    "condition": { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" },
     "effect": [
       {
-        "u_travel_to_dimension": "",
+        "u_travel_to_dimension": "default",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
-      { "give_achievement": "achievement_reach_highlands" }
+      { "give_achievement": "achievement_reach_highlands" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
+    ],
+    "false_effect": [
+      {
+        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
+        "then": [
+          { "u_message": "You feel a prickle at the edge of your senses." },
+          { "run_eocs": "EOC_PORTAL_HIGHLANDS_RETURN", "time_in_future": [ "36 hours", "60 hours" ] }
+        ]
+      }
     ]
   },
   {
@@ -888,10 +902,12 @@
       "and": [
         { "math": [ "u_in_portal_cell == 0" ] },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "not": "u_driving" }
+        { "not": "u_driving" },
+        { "not": { "current_dimension": "portal_storm_dungeon_dimension" } }
       ]
     },
     "effect": [
+      { "u_consume_item_sum": [ { "item": "escape_stone", "amount": 1 } ] },
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
@@ -934,7 +950,8 @@
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       { "u_message": "You are trapped in <global_val:place_name>!" }
-    ]
+    ],
+    "false_effect": { "u_message": "You cant use this here." }
   },
   {
     "type": "effect_on_condition",
@@ -975,7 +992,6 @@
       { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
       {
         "u_travel_to_dimension": "portal_storm_dungeon_dimension",
-        "region_type": "default_portal_storm_dungeon",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
@@ -1002,10 +1018,22 @@
       { "u_add_effect": "effect_portal_storm_dungeon_time_tracker", "duration": "2 days" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default": "none" }, "snippet": true },
       {
-        "u_message": "You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
-        "type": "info"
+        "if": { "math": [ "global_has_seen_portal_dungeon_popup != 1" ] },
+        "then": [
+          {
+            "u_message": "The screaming madness of the portal storm folds in on itself and you are…somewhere else.  You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
+            "popup": true
+          },
+          { "math": [ "global_has_seen_portal_dungeon_popup = 1" ] }
+        ],
+        "else": {
+          "u_message": "The screaming madness of the portal storm folds in on itself and you are…somewhere else.  You can faintly feel the real world, somewhere in a direction you couldn't name, a fragment of reality in this unearthly place.  With enough effort, you could follow the trail back to the world you left behind.",
+          "type": "info"
+        }
       },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 }
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_CRAWLING_TRACKER", "time_in_future": 60 },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ]
   },
   {
@@ -1165,25 +1193,56 @@
     "effect": [
       { "u_add_effect": "blind", "duration": 0 },
       { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
+      { "u_add_var": "stuck_in_labyrinth", "value": "no" },
       { "u_teleport": { "global_val": "portal_dungeon_original_loc" } },
       {
-        "u_travel_to_dimension": "",
-        "npc_travel_radius": 0,
-        "npc_travel_filter": "none",
-        "fail_message": "You feel a prickle at the edge of your senses.",
-        "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the shape of the world you know."
+        "if": { "mod_is_loaded": "skyisland" },
+        "then": [
+          {
+            "if": { "u_has_trait": "awayfromhome" },
+            "then": {
+              "u_travel_to_dimension": { "global_val": "sky_island_target_region_settings" },
+              "fail_message": "You feel a prickle at the edge of your senses.",
+              "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the world below."
+            },
+            "else": {
+              "u_travel_to_dimension": "default",
+              "npc_travel_radius": 0,
+              "npc_travel_filter": "none",
+              "fail_message": "You feel a prickle at the edge of your senses.",
+              "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing your island in the sky."
+            }
+          }
+        ],
+        "else": {
+          "u_travel_to_dimension": "default",
+          "npc_travel_radius": 0,
+          "npc_travel_filter": "none",
+          "fail_message": "You feel a prickle at the edge of your senses.",
+          "success_message": "The shifting halls warp and fold on themselves and turn inside out, revealing the shape of the world you know."
+        }
       },
       { "clear_dimension": "portal_storm_dungeon_dimension" },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM" },
       { "math": [ "portal_dungeon_level = 0" ] },
-      { "alter_timed_events": "portal_dungeon" }
+      { "alter_timed_events": "portal_dungeon" },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } },
+      { "alter_timed_events": "portal_dungeon" },
+      {
+        "if": { "math": [ "u_val('pos_z') != 0" ] },
+        "then": [
+          { "u_location_variable": { "context_val": "z_zero" }, "z_adjust": 0, "z_override": true },
+          { "u_teleport": { "context_val": "z_zero" }, "success_message": "", "fail_message": "", "force": true }
+        ]
+      }
     ],
     "false_effect": { "u_message": "You feel a prickle at the edge of your senses.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM",
-    "effect": [ { "u_remove_item_with": "item_portal_storm_dimension_returner" } ]
+    "condition": { "current_dimension": "default" },
+    "effect": { "u_remove_item_with": "item_portal_storm_dimension_returner" },
+    "false_effect": { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM", "time_in_future": 1 }
   },
   {
     "type": "effect_on_condition",

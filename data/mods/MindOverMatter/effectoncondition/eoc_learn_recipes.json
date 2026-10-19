@@ -1095,6 +1095,7 @@
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CURE_DISEASE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_INCREASED_HP",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
@@ -1166,6 +1167,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_infection') >= 0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_stop_infection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_INCREASED_HP",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_increased_hp') >= 0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_increased_hp" } ]
   },
   {
     "type": "effect_on_condition",

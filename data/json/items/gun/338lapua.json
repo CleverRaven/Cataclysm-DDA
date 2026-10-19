@@ -36,6 +36,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
+    "extend": { "flags": [ "BOLT_ACTION" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
   },
   {
@@ -108,7 +109,7 @@
     "dispersion": 50,
     "durability": 10,
     "built_in_mods": [ "cheek_pad" ],
-    "flags": [ "EASY_CLEAN", "NO_TURRET" ],
+    "extend": { "flags": [ "EASY_CLEAN", "NO_TURRET", "BOLT_ACTION" ] },
     "//": "Cheek pad required for holding the buttstock in place and keep it from folding.",
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
@@ -162,7 +163,7 @@
       [ "underbarrel", 1 ],
       [ "stock", 1 ]
     ],
-    "flags": [ "NO_TURRET", "EASY_CLEAN", "NO_TURRET" ],
+    "extend": { "flags": [ "NO_TURRET", "EASY_CLEAN", "NO_TURRET", "BOLT_ACTION" ] },
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   }
 ]

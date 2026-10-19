@@ -72,7 +72,7 @@
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
               { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
-              { "item": "chem_ethanol", "charges": [ 150, -1 ], "prob": 80 }
+              { "group": "ethanol_bottle_liter_part", "prob": 80 }
             ],
             "prob": 30
           }

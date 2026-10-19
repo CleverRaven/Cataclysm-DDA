@@ -11,7 +11,7 @@
     "copy-from": "INTERSTICE_RESONANCE_2",
     "enchantments": [
       {
-        "condition": { "current_dimension": "" },
+        "condition": { "current_dimension": "default" },
         "values": [ { "value": "ARTIFACT_RESONANCE", "add": 1250 } ],
         "ench_effects": [ { "effect": "psi_nether_attention", "intensity": 1 } ]
       }

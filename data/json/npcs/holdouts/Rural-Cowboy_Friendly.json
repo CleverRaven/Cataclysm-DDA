@@ -80,7 +80,7 @@
     "id": "TALK_COWBOYFR_FOLLOW",
     "dynamic_line": "Wicked.  Been around the old road long enough ta know how ta handle myself in a pinch.  Knew my way around a gun ever since my da taught me when I was a kid, so ya don't have ta worry about me doing my part.",
     "responses": [
-      { "text": "On a second thought, let me think about it a bit more", "topic": "TALK_DONE" },
+      { "text": "On a second thought, let me think about it a bit more.", "topic": "TALK_DONE" },
       { "text": "Great!  <lets_go>", "topic": "TALK_DONE", "effect": "follow" }
     ]
   },

@@ -1,0 +1,167 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "imperial_road_decor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "     F ////ii////   I   ",
+        "    I  ////ii////       ",
+        "      F////ii////       ",
+        "    F  ////ii////       ",
+        " ----- ////ii////       ",
+        " -www-/////ii//// F I   ",
+        " -www-////ii/////  F    ",
+        "||||w-////ii//// F      ",
+        "|.F||-////ii////F       ",
+        "|t..1 ////ii////  F     ",
+        "|.F||-////ii////F   I   ",
+        "||||w-////ii//// F      ",
+        " -www-////ii////  F     ",
+        " -www-////ii////F       ",
+        " -----////ii/////   I   ",
+        "    F /////ii////       ",
+        "      F////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////   I   ",
+        "       ////ii////       ",
+        "    I  ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": {
+        "w": "t_water_sh",
+        ".": "t_stone_masonry_floor",
+        "|": "t_rock_wall",
+        "F": "t_stone_masonry_floor",
+        "-": "t_stone_fence",
+        "1": "t_door_bar_locked",
+        "t": "t_stone_masonry_floor"
+      },
+      "furniture": {
+        "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ],
+        "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ],
+        "t": "f_highland_sarcophagus"
+      },
+      "items": { "t": [ { "item": "highland_sarcophagus_common" } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "imperial_road_decor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "    G  ////ii////       ",
+        "  GGGGG////ii////       ",
+        " -----G////ii//// ----- ",
+        " -www-G////ii////G-www- ",
+        " -www-G////ii////G-www- ",
+        " -www-GG////ii////-www- ",
+        " -www-GG////ii////-www- ",
+        " -www-GG////ii////-www-G",
+        "G-----GG////ii////-----G",
+        " GGGGGGG////ii////GGGGG ",
+        "  GSGGGG////ii//// GSG  ",
+        "  GGGGGG/////ii//// GG  ",
+        "  G GGGG/////ii//// G   ",
+        "  G GG //////ii////G G  ",
+        "  GS   //////ii////GSGG ",
+        "       /////ii////G     ",
+        "       /////ii////  I   ",
+        "       /////ii////      ",
+        "       /////ii////      ",
+        "    I  ////ii////       ",
+        "       ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "w": "t_water_sh", "G": [ [ "t_highland_flower_bed", 5 ], [ "t_highland_groundcover", 1 ] ], "-": "t_stone_fence" },
+      "furniture": { "S": "f_highlands_holy_statue", "w": [ [ "f_null", 2 ], [ "f_lilypad", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "imperial_road_decor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "       F////ii////      ",
+        "   GI  G////ii////      ",
+        " FGGGFGG////ii////  I   ",
+        " GGGGGGG////ii////      ",
+        " G|---|G ////ii////     ",
+        "GG-GGG-GG////ii////     ",
+        "FG-G4G-GG////ii////     ",
+        "GG-GGG-FG////ii////     ",
+        " G|---|G////ii////      ",
+        " GGG FGG////ii////  I   ",
+        " FG  F  ////ii////      ",
+        "      F ////ii////      ",
+        "    I  ////ii////       ",
+        "       ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": {
+        "G": [ [ "t_highland_flower_bed", 5 ], [ "t_highland_groundcover", 1 ] ],
+        "|": "t_rock_wall",
+        "-": "t_stone_fence",
+        "4": "t_highland_holy_tree"
+      },
+      "furniture": { "F": [ [ "f_slab", 2 ], [ "f_null", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "imperial_road_decor",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "    I  ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "        ////ii////      ",
+        "    I   ////ii////      ",
+        "        ///xxxxx//  I   ",
+        "        xxxxxxxxxx      ",
+        "        xxxxxxxxxxx     ",
+        "        xxxxxxxxxxx     ",
+        "    I    xxxxxxxxxx     ",
+        "         //xxxxx///     ",
+        "        ////ii////      ",
+        "        ////ii////  I   ",
+        "        ////ii////      ",
+        "        ////ii////      ",
+        "    I  ////ii////       ",
+        "       ////ii////   I   ",
+        "       ////ii////       ",
+        "       ////ii////       ",
+        "       ////ii////       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "highland_road" ],
+      "terrain": { "x": "t_highland_mosaic" }
+    }
+  }
+]

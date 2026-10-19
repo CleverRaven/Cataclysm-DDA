@@ -1,3 +1,4 @@
+#include <map>
 #include <memory>
 #include <string>
 
@@ -13,6 +14,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "pimpl.h"
@@ -20,7 +22,12 @@
 #include "point.h"
 #include "type_id.h"
 
+static const magic_type_id magic_test_magic_available( "test_magic_available" );
+static const magic_type_id magic_test_magic_unavailable( "test_magic_unavailable" );
 static const spell_id spell_test_spell_box( "test_spell_box" );
+static const spell_id spell_test_spell_lava( "test_spell_lava" );
+static const spell_id spell_test_spell_pew( "test_spell_pew" );
+static const spell_id spell_test_spell_random_damage( "test_spell_random_damage" );
 static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
@@ -272,6 +279,24 @@ TEST_CASE( "spell_invlet", "[magic][invlet]" )
     }
 }
 
+TEST_CASE( "spell_menu_ignores_unavailable_magic_type_when_another_spell_is_available",
+           "[magic][spell]" )
+{
+    npc guy;
+    guy.magic->set_mana( 50 );
+    guy.magic->learn_spell( spell_test_spell_pew, guy, true );
+    guy.magic->learn_spell( spell_test_spell_lava, guy, true );
+
+    std::map<magic_type_id, bool> success_tracker;
+    CHECK( guy.magic->can_cast_any_spell( guy, success_tracker ) );
+    CHECK( success_tracker.at( magic_test_magic_available ) );
+    CHECK_FALSE( success_tracker.at( magic_test_magic_unavailable ) );
+
+    guy.magic->set_mana( 0 );
+    success_tracker.clear();
+    CHECK_FALSE( guy.magic->can_cast_any_spell( guy, success_tracker ) );
+}
+
 // Return experience points needed to level up a spell, starting at from_level
 static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {
@@ -437,6 +462,20 @@ TEST_CASE( "spell_damage", "[magic][spell][damage]" )
         CHECK( spell_damage( pew_id, 9 ) == 5 );
         CHECK( spell_damage( pew_id, 10 ) == 5 );
     }
+}
+
+TEST_CASE( "spellbook_preview_calculations_do_not_emit_learning_messages",
+           "[magic][spell][damage]" )
+{
+    Messages::clear_messages();
+    const spell_type &random_damage_spell = spell_test_spell_random_damage.obj();
+
+    for( int i = 0; i < 3; ++i ) {
+        random_damage_spell.calculate_damage_increment();
+        random_damage_spell.damage_at_max_level();
+    }
+
+    CHECK( Messages::size() == 0 );
 }
 
 // Spell duration

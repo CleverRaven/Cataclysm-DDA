@@ -221,6 +221,86 @@
   },
   {
     "type": "furniture",
+    "id": "f_glassedbody_12",
+    "name": "black glass figure",
+    "description": "A black glass figure of someone crouched over as though trying to move steathily.  Both hands are braced against a surface that isn't there.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "looks_like": "f_statue",
+    "move_cost_mod": -3,
+    "coverage": 50,
+    "required_str": 20,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "tink.",
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glassedbody_13",
+    "name": "black glass figure",
+    "description": "A black glass figure of someone falling forward.  When you look more closely, it's just the upper body that's falling forward, separated from the legs.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "looks_like": "f_statue",
+    "move_cost_mod": -3,
+    "coverage": 50,
+    "required_str": 20,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "tink.",
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glassedbody_14",
+    "name": "black glass figure",
+    "description": "A black glass figure of a person, their face frozen in an eternal scream.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "looks_like": "f_statue",
+    "move_cost_mod": -3,
+    "coverage": 50,
+    "required_str": 20,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "tink.",
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_glassedbody_15",
+    "name": "black glass figure",
+    "description": "A black glass figure of a…person?  One arm is visibly longer than the other and the eyes are offset from a horizontal line.  They are frozen hunched over, with their longer arm trailing on the ground.",
+    "symbol": "@",
+    "color": "dark_gray",
+    "looks_like": "f_statue",
+    "move_cost_mod": -3,
+    "coverage": 50,
+    "required_str": 20,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "tink.",
+      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_vitrified_bed",
     "name": "black glass bed",
     "symbol": "#",

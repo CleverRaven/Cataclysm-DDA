@@ -1,0 +1,23 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "full_exodiiBRmag",
+    "container-item": "exodiiBRmag",
+    "items": [ { "item": "123ln", "charges": 60, "prob": 7 }, { "item": "123ln_ap", "charges": 60, "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "full_exodiiBRmag_153",
+    "container-item": "exodiiBRmag_153",
+    "items": [ { "item": "123ln", "charges": 153, "prob": 7 }, { "item": "123ln_ap", "charges": 153, "prob": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "full_exodiiBRmag_26",
+    "container-item": "exodiiBRmag_26",
+    "items": [ { "item": "123ln", "charges": 26, "prob": 3 }, { "item": "123ln_ap", "charges": 26, "prob": 7 } ]
+  }
+]

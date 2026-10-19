@@ -644,7 +644,7 @@
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "ierde_tunnel_translocation_attune_real" }, "targeted": true } ],
-    "false_effect": [ { "u_message": "You must be deep underground on and on the living earth  to cast this spell.", "type": "mixed" } ]
+    "false_effect": [ { "u_message": "You must be deep underground on and on the living earth to cast this spell.", "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",

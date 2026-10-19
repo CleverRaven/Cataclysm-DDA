@@ -37,7 +37,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_crashed_escape_pod" ],
     "object": {
-      "predecessor_mapgen": "field",
+      "predecessor_mapgen": "glacial_field",
       "rows": [
         "                        ",
         "                        ",

@@ -13,6 +13,10 @@
     <string name="androidSystemUiModeSystemBars">Show system bars</string>
     <string name="androidSystemUiModeFullscreen">Fullscreen</string>
     <string name="androidSystemUiModeEdgeToEdge">Edge-to-edge fullscreen</string>
+    <string name="androidScreenOrientation">Screen orientation</string>
+    <string name="androidScreenOrientationLandscape">Landscape</string>
+    <string name="androidScreenOrientationPortrait">Portrait</string>
+    <string name="androidScreenOrientationAuto">Auto</string>
     <string name="trapBackButton">Trap Back button</string>
     <string name="nativeAndroidUI">Native Android UI menus</string>
     <string name="settings">Settings</string>

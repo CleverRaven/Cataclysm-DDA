@@ -95,6 +95,7 @@
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_map_data_cache.h"
+#include "overmap_worldgen.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
@@ -286,7 +287,6 @@ void DynamicDataLoader::initialize()
     add( "weather_generator", &weather_generator::load_weather_generator );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
-    add( "help", &help::load );
     add( "activity_type", &activity_type::load_all );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -335,6 +335,9 @@ void DynamicDataLoader::initialize()
     // Non Static Function Access
     add( "snippet", []( const JsonObject & jo, const std::string & src ) {
         SNIPPET.load_snippet( jo, src );
+    } );
+    add( "help", []( const JsonObject & jo, const std::string & src ) {
+        get_help().load( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );
@@ -440,6 +443,8 @@ void DynamicDataLoader::initialize()
     add( "map_extra_collection",
          &map_extra_collection::load_map_extra_collection );
     add( "region_settings", &region_settings::load_region_settings );
+    add( "dimension", &dimension_world::load_dimensions );
+    add( "dimension_region_layout", &dimension_region_layout::load_dimension_regions );
 
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
         item_controller->load_item_blacklist( jo );
@@ -666,7 +671,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
-    help::reset();
+    get_help().reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
@@ -827,6 +832,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Crafting Categories" ), &crafting_category::finalize_all },
             { _( "Damage Types" ), &damage_type::finalize_all },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
+            { _( "Dimensions" ), &dimension_world::finalize_all },
             { _( "Diseases" ), &disease_type::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Weather generators" ), &weather_generator::finalize_all },

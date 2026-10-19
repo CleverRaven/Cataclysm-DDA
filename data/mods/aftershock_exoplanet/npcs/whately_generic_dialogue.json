@@ -70,7 +70,7 @@
     "responses": [
       { "text": "I can pay.", "topic": "TALK_WHATELY_ask_goods" },
       { "text": "How do I join your family?", "topic": "TALK_WHATELY_ask_membership" },
-      { "text": "Well I'm heading out then", "topic": "TALK_DONE" }
+      { "text": "Well I'm heading out then.", "topic": "TALK_DONE" }
     ]
   },
   {

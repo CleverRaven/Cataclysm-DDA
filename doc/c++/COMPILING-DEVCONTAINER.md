@@ -71,7 +71,7 @@ Next, scroll down to find this section:
   
 The build result should be located in the folder where you cloned your fork to (e.g. /Documents/git/Cataclysm-DDA)
 
-If you want to run cataclysm-tiles locally, open a terminal on your linux machine and install these packages: `apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential astyle ccache`
+To run cataclysm-tiles locally, install the SDL3 runtime libraries on your linux machine. You need SDL3, SDL3_image, SDL3_ttf, and SDL3_mixer for sound, all at version 3.4.0 or newer. Use your package manager if it carries them. Otherwise build them from the upstream SDL release branches, as described in the SDL3 section of [COMPILING.md](COMPILING.md).
 
 You can then test your build on your linux machine by opening a terminal in the `/Documents/git/Cataclysm-DDA` folder and using this command:
 ```bash

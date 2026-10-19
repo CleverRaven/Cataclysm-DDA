@@ -12,13 +12,13 @@
       {
         "u_travel_to_dimension": "highlands",
         "npc_travel_radius": 0,
-        "region_type": "highlands",
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
       },
       { "u_location_variable": { "u_val": "safe_highland" }, "target_params": { "om_terrain": "highlands", "z": 0 } },
-      { "u_teleport": { "u_val": "safe_highland" } }
+      { "u_teleport": { "u_val": "safe_highland" } },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
@@ -76,7 +76,6 @@
           {
             "u_travel_to_dimension": "imperial_road",
             "npc_travel_radius": 0,
-            "region_type": "highland_imperial_road",
             "npc_travel_filter": "none",
             "fail_message": "You feel like the weight of the air around you has shifted, but nothing else happens.",
             "success_message": ""

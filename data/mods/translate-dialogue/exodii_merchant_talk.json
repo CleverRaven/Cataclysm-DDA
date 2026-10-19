@@ -139,7 +139,7 @@
     "id": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete",
     "type": "talk_topic",
     "dynamic_line": {
-      "concatenate": [ "Gimme spek, 'n  fetch 'em 'ere.", "\"\n\n[TRANSLATE:] \"", "Give me a second, and I'll bring them here." ]
+      "concatenate": [ "Gimme spek, 'n fetch 'em 'ere.", "\"\n\n[TRANSLATE:] \"", "Give me a second, and I'll bring them here." ]
     }
   },
   {

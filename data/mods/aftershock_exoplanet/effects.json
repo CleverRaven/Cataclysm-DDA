@@ -178,6 +178,15 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_remove_stun_biological",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "//": "Empty name and description to hide effect",
+    "rating": "good",
+    "removes_effects": [ "stunned", "dazed" ]
+  },
+  {
+    "type": "effect_type",
     "id": "afs_generic_speed_bonus",
     "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
     "desc": [ "You move with machine-guided precision." ],
@@ -264,7 +273,12 @@
   {
     "type": "effect_type",
     "id": "smart_targeted",
-    "max_duration": "1 seconds"
+    "name": [ "Smart Targeted" ],
+    "desc": [ "You are being tracked by an advanced targeting system, reducing your armor effectiveness." ],
+    "max_duration": "30 seconds",
+    "rating": "bad",
+    "show_in_info": true,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "add": -15 } ] } ]
   },
   {
     "type": "effect_type",

@@ -365,6 +365,11 @@ std::string faction::food_supply_text() const
     return pgettext( "Faction food", "Starving" );
 }
 
+bool faction::guaranteed_hostile() const
+{
+    return likes_u < -10;
+}
+
 nc_color faction::food_supply_color() const
 {
     int val = food_supply().kcal() / ( size * 288 );

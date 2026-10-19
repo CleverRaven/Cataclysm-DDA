@@ -1499,7 +1499,7 @@
     "subtypes": [ "BOOK" ],
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Sense", "str_pl": "copies of The Rite of the First Circle: Mana Sense" },
-    "description": "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to  mana.",
+    "description": "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to mana.",
     "weight": "483 g",
     "volume": "825 ml",
     "price": "500 USD",

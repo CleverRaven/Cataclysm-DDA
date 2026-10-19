@@ -3,24 +3,25 @@
 #define CATA_SRC_FAULT_H
 
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <string_view>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "math_parser_diag_value.h"
-#include "memory_fast.h"
 #include "requirements.h"
 #include "translation.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "weighted_list.h"
 
 class JsonObject;
 class item;
 template <typename T> class generic_factory;
+template <typename E> struct enum_traits;
 
 namespace faults
 {
@@ -37,6 +38,19 @@ std::vector<fault_id> all_of_type( const std::string &type );
 const fault_id &random_of_type( const std::string &type );
 const fault_id &random_of_type_item_has( const item &it, const std::string &type );
 } // namespace faults
+
+enum class fault_severity : int {
+    none,
+    minor,
+    major,
+    critical,
+    last
+};
+
+template<>
+struct enum_traits<fault_severity> {
+    static constexpr fault_severity last = fault_severity::last;
+};
 
 class fault_fix
 {
@@ -67,7 +81,12 @@ class fault_fix
         bool was_loaded = false; // used by generic_factory
         friend class generic_factory<fault_fix>;
         friend class fault;
-        shared_ptr_fast<requirement_data> requirements = make_shared_fast<requirement_data>();
+
+        // used to store requirements, since requirement ids are unavailable at the moment of loading
+        // transferred into requirements at finalization
+        std::vector<std::pair<requirement_id, int>> pending_requirements;
+
+        cata::value_ptr<requirement_data> requirements = cata::make_value<requirement_data>();
 };
 
 class fault
@@ -81,6 +100,7 @@ class fault
         std::string item_suffix() const;
         std::string message() const;
         std::string color() const;
+        fault_severity severity() const;
         double price_mod() const;
         // having this faults adds this much of temporary (will be removed when fault is fixed) degradation
         int degradation_mod() const;
@@ -114,6 +134,7 @@ class fault
         translation item_suffix_;
         translation message_;
         std::string color_;
+        fault_severity severity_ = fault_severity::none;
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
         std::set<fault_id> block_faults;

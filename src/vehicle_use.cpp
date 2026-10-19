@@ -17,6 +17,7 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -29,7 +30,6 @@
 #include "gates.h"
 #include "handle_liquid.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -51,6 +51,7 @@
 #include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
@@ -69,6 +70,9 @@ static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
+
+static const dimension_id
+dimension_world_netherum_labyrinth_safehouse( "netherum_labyrinth_safehouse" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
@@ -1355,9 +1359,13 @@ void vehicle::open_or_close( map &here, const int part_index, const bool opening
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on its own
     part_open_or_close( part_index, opening );
     insides_dirty = true;
-    here.set_transparency_cache_dirty( sm_pos.z() );
+    // a closed door blocks sight and shelters the vehicle's insides, which a
+    // ramp can spread over several levels
+    for( const int level : occupied_levels( here ) ) {
+        here.set_transparency_cache_dirty( level );
+        here.set_outside_cache_dirty( level );
+    }
     const tripoint_abs_ms part_location = mount_to_tripoint_abs( parts[part_index].mount );
-    here.set_seen_cache_dirty( here.get_bub( part_location ) );
     const int dist = rl_dist( get_player_character().pos_abs(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
@@ -1453,7 +1461,7 @@ void vehicle::use_washing_machine( map &here, int p )
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     // Get all the items that can be used as detergent
-    const inventory &inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
         return it.has_flag( json_flag_DETERGENT ) &&
                ( it.count_by_charges() ? inv.has_charges( it.typeId(), 5 ) : inv.has_amount( it.typeId(), 5 ) );
@@ -1616,8 +1624,7 @@ void vehicle::use_mws( map &here, int p )
 
 void vehicle::use_nl_boiler( map &here, int p )
 {
-    std::string dimension_prefix = g->get_dimension_prefix();
-    if( dimension_prefix == "netherum_labyrinth_safehouse" ) {
+    if( g->get_dimension_prefix() == dimension_world_netherum_labyrinth_safehouse ) {
         vehicle_part &vp = parts[p];
         vehicle_stack items = get_items( vp );
 
@@ -1898,31 +1905,46 @@ void vehicle::build_bike_rack_menu( map &here, veh_menu &menu, int part )
     }
 }
 
-void vpart_position::form_inventory( map &here, inventory &inv ) const
+void vpart_position::form_inventory( map &here, temp_crafting_inventory &inv,
+                                     std::set<::vehicle *> &veh ) const
 {
     if( const std::optional<vpart_reference> vp_cargo = part_with_feature( VPFLAG_CARGO, true ) ) {
-        for( const item &it : vp_cargo->items() ) {
+        for( item &it : vp_cargo->items() ) {
+            // crafting query walks the whole tree under each entry, so a container
+            // holding a reserved provider is hidden with it
+            if( craft_reservation::contains_reserved( it ) ) {
+                continue;
+            }
             if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
             }
-            inv.add_item( it );
+            inv.add_item_loc( item_location( vehicle_cursor( vp_cargo->vehicle(), vp_cargo->part_index() ),
+                                             &it ) );
         }
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
-    const std::optional<vpart_reference> vp_faucet = part_with_tool( here, itype_water_faucet );
-    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != nullptr ) {
-        for( const item *it : vehicle().fuel_items_left() ) {
-            if( it->made_of( phase_id::LIQUID ) ) {
-                item fuel( *it );
-                inv.add_item( fuel );
+    const std::optional<vpart_reference> vp_faucet =
+        part_with_unreserved_tool( here, itype_water_faucet );
+    if( vp_faucet ) {
+        if( veh.find( &vehicle() ) == veh.end() ) {
+            inv.add_pseudo_item( itype_water_faucet );
+            for( const item *it : vehicle().fuel_items_left() ) {
+                if( it->made_of( phase_id::LIQUID ) ) {
+                    item fuel( *it );
+                    inv.add_item_copy( fuel );
+                }
             }
+            veh.insert( &vehicle() );
         }
     }
 
-    for( const auto&[tool_item, discard_] : get_tools( here ) ) {
-        inv.provide_pseudo_item( tool_item );
+    for( const vpart_tool_source &src_tool : get_tools_with_sources( here ) ) {
+        if( get_craft_reservations().vehicle_part_reserved( src_tool.part_base_uid ) ) {
+            continue;
+        }
+        inv.add_pseudo_item( src_tool.tool );
     }
 }
 

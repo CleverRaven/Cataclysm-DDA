@@ -37,8 +37,12 @@
 #include "calendar.h"
 #include "calendar_ui.h"
 #include "cata_path.h"
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
 #include "cata_shader.h"
+#include "sdl_utils.h"
+#include "sdltiles.h"
+#include "shader_tint_self_test.h"
+#include "tile_tint.h"
 #endif
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -77,7 +81,6 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -251,6 +254,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::PRINT_OVERMAPS: return "PRINT_OVERMAP";
+        case debug_menu::debug_menu_index::PRINT_REGION_LAYOUT: return "PRINT_REGION_LAYOUT";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
@@ -306,6 +310,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::VEHICLE_EFFECTS: return "VEHICLE_EFFECTS";
         case debug_menu::debug_menu_index::WISHPROFICIENCY: return "WISHPROFICIENCY";
         case debug_menu::debug_menu_index::RELOAD_GPU_SHADERS: return "RELOAD_GPU_SHADERS";
+        case debug_menu::debug_menu_index::SHADER_TINT_SELF_TEST: return "SHADER_TINT_SELF_TEST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -862,7 +867,7 @@ static void monster_edit_menu()
                                critter->type->morale ) << std::endl;
         if( !critter->ammo.empty() ) {
             for( auto &ammos : critter->ammo ) {
-                data << string_format( _( "Ammo: %s rounds of %s" ), ammos.second,
+                data << string_format( _( "Ammo: %d rounds of %s" ), ammos.second,
                                        ammos.first.c_str() ) << std::endl;
             }
         }
@@ -1008,8 +1013,9 @@ static int info_uilist()
         { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
         { uilist_entry( debug_menu_index::IMGUI_DEMO, true, 'u', _( "Open ImGui demo screen" ) ) },
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
         { uilist_entry( debug_menu_index::RELOAD_GPU_SHADERS, true, 'P', _( "Reload GPU shaders" ) ) },
+        { uilist_entry( debug_menu_index::SHADER_TINT_SELF_TEST, true, 'x', _( "Run shader tint self-test" ) ) },
 #endif
     };
 
@@ -1097,7 +1103,8 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
-        { uilist_entry( debug_menu_index::PRINT_OVERMAPS, true, 'v', _( "Print overmaps" ) ) }
+        { uilist_entry( debug_menu_index::PRINT_OVERMAPS, true, 'v', _( "Print overmaps" ) ) },
+        { uilist_entry( debug_menu_index::PRINT_REGION_LAYOUT, true, 'r', _( "Print region layout" ) ) }
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -1414,11 +1421,11 @@ static void spell_description(
 
     if( spl.has_components() ) {
         if( !spl.components().get_components().empty() ) {
-            print_vec_string( spl.components().get_folded_components_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_components_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory(), return_true<item> ) );
         }
         if( !( spl.components().get_tools().empty() && spl.components().get_qualities().empty() ) ) {
-            print_vec_string( spl.components().get_folded_tools_list( width - 2, gray,
+            print_vec_string( spl.components().get_folded_tools_list( &chrc, width - 2, gray,
                               chrc.crafting_inventory() ) );
         }
     }
@@ -2438,7 +2445,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN, D_RADS,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_CHECK_TRAUMA, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -2468,6 +2475,7 @@ static void character_edit_menu()
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
     nmenu.addentry( D_CHECK_TEMP, true, 'U', "%s", _( "Print temperature" ) );
+    nmenu.addentry( D_CHECK_TRAUMA, true, 'O', "%s", _( "Print trauma" ) );
     nmenu.addentry( D_ASTHMA, true, 'K', "%s", _( "Cause asthma attack" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit missions (WARNING: Unstable!)" ) );
     nmenu.addentry( D_PRINT_VARS, true, 'V', "%s", _( "Print vars to file" ) );
@@ -2513,7 +2521,6 @@ static void character_edit_menu()
             }
             you.worn.on_takeoff( you );
             you.clear_worn();
-            you.inv->clear();
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:
@@ -2756,6 +2763,10 @@ static void character_edit_menu()
                                         units::to_kelvin( you.get_part_temp_cur( bp ) ), units::to_kelvin( you.get_part_temp_conv( bp ) ),
                                         you.get_part_wetness( bp ) ) );
             }
+            break;
+        }
+        case D_CHECK_TRAUMA: {
+            add_msg( "Trauma is %d", you.get_trauma() );
             break;
         }
         case D_ASTHMA: {
@@ -3187,6 +3198,118 @@ static void draw_benchmark( const int max_difference )
     add_msg( m_info, _( "Drew %d times in %.3f seconds.  (%.3f fps average)" ), draw_counter,
              difference / 1000.0, 1000.0 * draw_counter / static_cast<double>( difference ) );
 }
+
+#if defined(TILES)
+// draws the self-test cases through tint.frag into an offscreen target, reads it
+// back once, and logs one line per check plus a summary
+static void run_shader_tint_self_test()
+{
+    namespace st = shader_tint_self_test;
+    cata_shader::variant_pass *vp = get_shared_variant_pass();
+    if( renderer_should_abort_frame() || !vp ||
+        vp->ensure_probed() != cata_shader::probe_state::available ) {
+        add_msg( m_bad, _( "Shader tint self-test: the shader path is unavailable." ) );
+        return;
+    }
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+    const SDL_Surface_Ptr surface = create_surface_32( st::source_width, st::source_height );
+    if( !surface ) {
+        add_msg( m_bad, _( "Shader tint self-test did not run.  Details are in debug.log." ) );
+        DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: not run: no source surface";
+        return;
+    }
+    for( int y = 0; y < st::source_height; ++y ) {
+        for( int x = 0; x < st::source_width; ++x ) {
+            const int index = y * st::source_width + x;
+            const st::rgba &c = st::source_texels()[static_cast<size_t>( index )];
+            const SDL_Rect texel = { x, y, 1, 1 };
+            FillRect( surface, &texel, MapRGBA( surface, c.r, c.g, c.b, c.a ) );
+        }
+    }
+    const SDL_Texture_Ptr source = CreateTextureFromSurface( renderer, surface );
+    const SDL_Texture_Ptr target = CreateTexture( renderer, SDL_PIXELFORMAT_RGBA32,
+                                   SDL_TEXTUREACCESS_TARGET, st::target_size, st::target_size );
+    if( !source || !target ) {
+        add_msg( m_bad, _( "Shader tint self-test did not run.  Details are in debug.log." ) );
+        DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: not run: no source or target texture";
+        return;
+    }
+    // expectation assumes nearest sampling and a straight-alpha blend
+    SetTextureScaleQuality( source, "nearest" );
+    SetTextureBlendMode( source, SDL_BLENDMODE_BLEND );
+
+    std::vector<uint8_t> bytes( static_cast<size_t>( st::target_size * st::target_size * 4 ) );
+    std::string failure;
+    {
+        scoped_render_target scope( renderer, target.get(), vp );
+        if( !scope.is_valid() ) {
+            add_msg( m_bad, _( "Shader tint self-test did not run.  Details are in debug.log." ) );
+            DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: not run: target bind refused";
+            return;
+        }
+        const st::rgba clear = st::clear_color();
+        SetRenderDrawColor( renderer, clear.r, clear.g, clear.b, clear.a );
+        RenderClear( renderer );
+        for( const st::draw_case &c : st::draw_cases() ) {
+            const cata_shader::variant_pass::begin_result br =
+                vp->try_begin( cata_shader::variant_kind::NORMAL, true );
+            if( br != cata_shader::variant_pass::begin_result::bound ) {
+                if( br == cata_shader::variant_pass::begin_result::abort_frame ) {
+                    display_buffer_scope_signal_recovery_required();
+                }
+                failure = "tint.frag did not bind";
+                break;
+            }
+            SetTextureColorMod( source, c.mod.r, c.mod.g, c.mod.b );
+            SetTextureAlphaMod( source, c.mod.a );
+            const SDL_Rect dst = { c.dst.x, c.dst.y, st::source_width, st::source_height };
+            const double angle = c.xform == st::transform::rotate_90 ? 90.0 : 0.0;
+            const CataFlipMode flip = c.xform == st::transform::flip_horizontal
+                                      ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+            RenderCopyEx( renderer, source.get(), nullptr, &dst, angle, nullptr, flip );
+        }
+        const SDL_Rect whole = { 0, 0, st::target_size, st::target_size };
+        if( failure.empty() && !RenderReadPixels( renderer, &whole, SDL_PIXELFORMAT_RGBA32,
+                bytes.data(), st::target_size * 4 ) ) {
+            failure = "readback failed";
+        }
+        if( !scope.restore() && failure.empty() ) {
+            failure = "display target restore failed";
+        }
+    }
+    if( !failure.empty() ) {
+        add_msg( m_bad, _( "Shader tint self-test did not run.  Details are in debug.log." ) );
+        DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: not run: " << failure;
+        return;
+    }
+
+    std::vector<st::rgba> pixels( static_cast<size_t>( st::target_size * st::target_size ) );
+    for( size_t i = 0; i < pixels.size(); ++i ) {
+        pixels[i] = { bytes[i * 4], bytes[i * 4 + 1], bytes[i * 4 + 2], bytes[i * 4 + 3] };
+    }
+    const std::array<std::optional<st::mismatch>, st::check_count> results =
+        st::compare_readback( pixels );
+    size_t passed = 0;
+    for( size_t i = 0; i < results.size(); ++i ) {
+        const std::string check = i == st::background_index ? std::string( "background" ) :
+                                  std::string( "case " ) + st::draw_cases()[i].name;
+        if( !results[i] ) {
+            ++passed;
+            DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: " << check << " PASS";
+            continue;
+        }
+        const st::mismatch &m = *results[i];
+        DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: " << check << " FAIL at "
+                                   << m.px.to_string() << " expected " << st::rgb_string( m.expected )
+                                   << " actual " << st::rgb_string( m.actual );
+    }
+    DebugLog( D_INFO, DC_ALL ) << "shader tint self-test: " << passed << "/" << results.size()
+                               << " checks passed, gpu_backend=" << GetGPUBackendName( renderer );
+    add_msg( passed == results.size() ? m_good : m_bad,
+             _( "Shader tint self-test: %1$d of %2$d checks passed.  Details are in debug.log." ),
+             static_cast<int>( passed ), static_cast<int>( results.size() ) );
+}
+#endif
 
 static void debug_menu_game_state()
 {
@@ -4471,6 +4594,12 @@ const std::vector<debug_action_entry> &all_actions()
                 print_overmaps();
             }
         },
+        {
+            debug_menu_index::PRINT_REGION_LAYOUT, translate_marker( "Print region layout" ), "overmap region layout dump", "Map", []()
+            {
+                overmap_buffer.print_region_layout();
+            }
+        },
 
         // Vehicle
         {
@@ -4892,13 +5021,22 @@ const std::vector<debug_action_entry> &all_actions()
             }
         },
         {
-            debug_menu_index::RELOAD_GPU_SHADERS, translate_marker( "Reload GPU shaders" ), "reload gpu shaders sdl3", "Game", []()
+            debug_menu_index::RELOAD_GPU_SHADERS, translate_marker( "Reload GPU shaders" ), "reload gpu shaders", "Game", []()
             {
-#if defined(TILES) && defined(USE_SDL3)
+#if defined(TILES)
                 cata_shader::request_reprobe();
                 add_msg( _( "GPU shaders will reload on next frame." ) );
 #endif
             }
+        },
+        {
+            debug_menu_index::SHADER_TINT_SELF_TEST, translate_marker( "Shader tint self-test" ), "shader tint self test gpu", "Game", []()
+            {
+#if defined(TILES)
+                run_shader_tint_self_test();
+#endif
+            },
+            translate_marker( "Draw tinted sprites offscreen and compare them with the expected pixels" )
         },
     };
     // NOLINTEND(cata-no-static-translation)

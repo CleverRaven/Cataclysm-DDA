@@ -127,7 +127,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ROBOFAC_HQ_FORCE_PLACE_ANCILLA_BIONIC_GARAGE",
-    "condition": { "current_dimension": "" },
+    "condition": { "current_dimension": "default" },
     "effect": [
       {
         "if": { "math": [ "ancilla_autodoc_placed != 1" ] },

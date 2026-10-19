@@ -32,5 +32,81 @@
       "lightning",
       { "custom_light_level": 100, "length": "1 seconds" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_OMINOUS_FOG_WEATHER",
+    "recurrence": [ "14 days", "28 days" ],
+    "condition": {
+      "and": [
+        { "math": [ "xe_weather_ominous_fog_scenario != 1" ] },
+        { "current_dimension": "default" },
+        { "x_in_y_chance": { "x": 1, "y": 5 } }
+      ]
+    },
+    "deactivate_condition": { "math": [ "xe_weather_ominous_fog_scenario == 1" ] },
+    "global": true,
+    "effect": { "run_eocs": "EOC_XE_CAUSE_OMINOUS_FOG_WEATHER_WARNING" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CAUSE_OMINOUS_FOG_WEATHER_WARNING",
+    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "early_portal_storm" } ] } },
+    "effect": [
+      { "run_eocs": "EOC_XE_CAUSE_OMINOUS_FOG_WEATHER", "time_in_future": [ "2 minutes", "5 minutes" ] },
+      {
+        "if": { "and": [ "u_can_see", "u_is_outside" ] },
+        "then": [
+          {
+            "u_message": "Out of nowhere, a thick fog begins to rise, blanketing the distance in an obscuring white shroud.",
+            "type": "info",
+            "popup": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_CAUSE_OMINOUS_FOG_WEATHER",
+    "condition": { "not": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "early_portal_storm" } ] } },
+    "effect": [
+      { "math": [ "xe_weather_ominous_fog_active = 1" ] },
+      "next_weather",
+      {
+        "if": { "and": [ "u_can_see", "u_is_outside" ] },
+        "then": [
+          {
+            "u_message": "The fog shrouds everything, muffling sounds and making it almost impossible to distinguish anything in the distance.  You have a bad feeling about this.",
+            "type": "info"
+          }
+        ]
+      },
+      { "run_eocs": "EOC_XE_REMOVE_OMINOUS_FOG_WEATHER", "time_in_future": [ "12 hours", "3 days" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_REMOVE_OMINOUS_FOG_WEATHER",
+    "condition": { "math": [ "xe_weather_ominous_fog_active == 1" ] },
+    "effect": [
+      { "math": [ "xe_weather_ominous_fog_active = 0" ] },
+      "next_weather",
+      {
+        "if": {
+          "and": [
+            "u_can_see",
+            "u_is_outside",
+            { "not": { "or": [ { "is_weather": "portal_storm" }, { "is_weather": "early_portal_storm" } ] } }
+          ]
+        },
+        "then": [
+          {
+            "u_message": "As quickly as it appeared, the strange fog blows away on the wind.  Things are back to normal, for now.",
+            "type": "info"
+          }
+        ]
+      }
+    ]
   }
 ]

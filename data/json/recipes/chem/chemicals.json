@@ -160,7 +160,7 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SEPARATE", "level": 1 } ],
-    "components": [ [ [ "chem_acetone", 1 ] ], [ [ "bleach", 6 ] ] ]
+    "components": [ [ [ "chem_acetone", 1 ] ], [ [ "bleach", 750 ] ] ]
   },
   {
     "type": "recipe",

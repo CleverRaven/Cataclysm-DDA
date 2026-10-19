@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_TELEPORTING_IN_PORTAL_STORM_DUNGEON",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+        { "current_dimension": "portal_storm_dungeon_dimension" },
+        { "not": { "compare_string": [ "teleport_slow", { "context_val": "spell" } ] } },
+        { "not": { "compare_string": [ "teleport_stride", { "context_val": "spell" } ] } },
+        { "not": { "compare_string": [ "teleport_collapse", { "context_val": "spell" } ] } }
+      ]
+    },
+    "effect": [
+      { "if": { "u_has_effect": "psi_nether_attention" }, "then": { "u_add_effect": "tindrift", "duration": "10 minutes" } },
+      {
+        "if": { "not": { "u_has_effect": "psi_nether_attention" } },
+        "then": [
+          {
+            "if": { "x_in_y_chance": { "x": { "math": [ "15 - u_skill('metaphysics')" ] }, "y": 15 } },
+            "then": [
+              { "u_add_effect": "psi_nether_attention", "duration": { "math": [ "43200 + rand(43200)" ] } },
+              {
+                "u_message": "As you come out of a cold and the dark of the teleport the hair rises on the back of your neck.  You don't think that was such a good idea.",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_TELEPORTING_PHASING_IN_PORTAL_STORM_DUNGEON",
+    "eoc_type": "EVENT",
+    "required_event": "phase_move",
+    "condition": { "current_dimension": "portal_storm_dungeon_dimension" },
+    "effect": [
+      { "if": { "u_has_effect": "psi_nether_attention" }, "then": { "u_add_effect": "tindrift", "duration": "10 minutes" } },
+      {
+        "if": { "not": { "u_has_effect": "psi_nether_attention" } },
+        "then": [
+          {
+            "if": { "x_in_y_chance": { "x": { "math": [ "15 - u_skill('metaphysics')" ] }, "y": 15 } },
+            "then": [
+              { "u_add_effect": "psi_nether_attention", "duration": { "math": [ "43200 + rand(43200)" ] } },
+              {
+                "u_message": "As you appear on the other side of the barrier the hair rises on the back of your neck.  You don't think that was such a good idea.",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

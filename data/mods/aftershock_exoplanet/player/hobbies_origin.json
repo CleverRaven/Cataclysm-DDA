@@ -1,0 +1,128 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_earthling",
+    "name": "(Origin) Earth born",
+    "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "traits": [ "BKGR_EARTH" ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_noetic_scion_inheritance",
+    "name": "(Origin) Noetic Inheritance",
+    "description": "Your appearance and distinctive tattoos mark you as a noetic scion, a member of one of the powerful families who maintained and even strengthened their esper powers through and after the Discontinuity by means of careful breeding programs.  Others may react to you with caution or seek to use you, despite that your family's powers have not been passed down to you.  Their legacy, however, remains in your genes.",
+    "traits": [ "BKGR_NOETIC_SCION", "ESPER_ADVANCEMENT_OKAY" ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_corporate",
+    "name": "(Origin) Corporate Aspirant",
+    "description": "You were born and raised within a corporate creche, were your every action was monitored to asses your value.  Once it became clear that you had no exceptional talents, you were cast out into the unemployable mass to fend for yourself.",
+    "traits": [ "LIAR", "BKGR_CORPORATE" ],
+    "skills": [ { "level": 5, "name": "speech" } ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_uica",
+    "name": "(Origin) UICA Veteran",
+    "description": "One among billions of the disenfranchised, you enlisted into UICA expeditionary forces to escape the oppressive poverty of Earth's metroplexes.  This only lead to your ignominious dismissal and abandonment in the frontier when the reclamation sputtered out without victory or glory.  You have roamed the frontier ever since, as a low-rate mercenary, scavenger and pirate.",
+    "traits": [ "BKGR_EARTH", "BKGR_UICA" ],
+    "skills": [
+      { "level": 3, "name": "rifle" },
+      { "level": 3, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_rebel_exile",
+    "name": "(Origin) Exiled Insurgent",
+    "description": "When Earth came to crush your dreams of freedom underfoot, you were one of the few wise enough to flee into the deep frontier.  You have lived as a fugitive and pariah ever since, wanted by the law and rejected by your own people.",
+    "traits": [ "BKGR_INSURGENT" ],
+    "skills": [
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_spacer",
+    "name": "(Origin) Spacer",
+    "description": "Your family survived the long centuries of the discontinuity aboard a ship, slowly transporting cargo between the few colonies that retained interstellar civilization.  You could run a ship with your eyes closed, but surviving on a planet is a different matter entirely.",
+    "traits": [ "BKGR_SPACER" ],
+    "skills": [
+      { "level": 3, "name": "electronics" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "proficiencies": [ "prof_helicopter_pilot" ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_periphery",
+    "name": "(Origin) Survivor",
+    "description": "Tall tales of the ancients dominated your childhood as you squatted in the very ruins of what they had built.  Their lofty ideas of interstellar civilization never rang true as you fought the universe for every breath of air and bite of food.",
+    "traits": [ "BKGR_PERIPHERY" ],
+    "skills": [
+      { "level": 3, "name": "electronics" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 5, "name": "survival" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_upper_class",
+    "name": "(Origin) Shielded Youth",
+    "description": "You remember the great luxury of your childhood, the endless parties underneath diamond-glass domes, the great entourages of servants and companions, and the backdoor plays and plots against your peers for the future of humanity.  How little they must think of you now, if they even remember you at all.",
+    "traits": [ "LIAR", "AFS_BKGR_ABSTRACT" ],
+    "skills": [ { "level": 5, "name": "speech" } ],
+    "proficiencies": [ "prof_helicopter_pilot" ],
+    "points": 0
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_origin_tribal_hobby",
+    "name": "(Origin) Rediscovered Tribal",
+    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\", wether that be due to lack of resources or because they serve as convenient stores of cheap labor.\n\nYou were born on one of these worlds, and after being Shanghaied into a cargo hauling crew, you've somehow ended up on the hell that is Salus IV.  At least you have some experience surviving outside of what these spacers call 'civilization'.",
+    "points": 0,
+    "traits": [ "BKGR_REDISCOVERED_TRIBAL", "SLOWREADER" ],
+    "proficiencies": [ "prof_polearms_familiar", "prof_butchering_adv", "prof_skinning_basic", "prof_plasticworking", "prof_carving" ],
+    "skills": [
+      { "level": 6, "name": "survival" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 3, "name": "cooking" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 6, "name": "throw" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "stabbing" }
+    ]
+  }
+]

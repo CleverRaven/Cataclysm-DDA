@@ -33,6 +33,16 @@
   },
   {
     "type": "mutation",
+    "id": "EMPTY_DREAMS",
+    "name": { "str": "Empty Dreams" },
+    "points": -1,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "description": "What dreams you have are hollow and unfufilling to the fae."
+  },
+  {
+    "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
@@ -1280,7 +1290,8 @@
       {
         "ench_effects": [
           { "effect": "effect_vampire_immune_to_classic_zombification", "intensity": 1 },
-          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 }
+          { "effect": "effect_dhampir_corpselike_pallor_pale", "intensity": 1 },
+          { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 }
         ]
       },
       {
@@ -1504,9 +1515,8 @@
     "purifiable": false,
     "valid": false,
     "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
-    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "NO_THIRST", "NO_BODY_HEAT", "CANNOT_CONSUME_DRUGS", "CANNOT_GAIN_WEARINESS" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
-    "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
@@ -1516,7 +1526,8 @@
           { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
           { "value": "HUNGER", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
-          { "value": "METABOLISM", "multiply": -1 }
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": -0.333 }
         ]
       },
       {
@@ -1985,7 +1996,7 @@
     "//2": "This enchantment removes the effect if the vampire is outside at day.",
     "enchantments": [
       {
-        "condition": { "and": [ "is_day", "u_is_outside", { "not": { "is_weather": "blotted_sun " } } ] },
+        "condition": { "and": [ "is_day", "u_is_outside" ] },
         "ench_effects": [ { "effect": "effect_vampire_lose_invisible_in_dark", "intensity": 1 } ]
       }
     ]

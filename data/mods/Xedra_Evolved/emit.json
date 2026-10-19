@@ -24,6 +24,14 @@
     "chance": 15
   },
   {
+    "id": "emit_emerald_poppy_pollen",
+    "type": "emit",
+    "field": "fd_emerald_poppy_pollen",
+    "intensity": 3,
+    "chance": 80,
+    "qty": 7
+  },
+  {
     "id": "emit_blood_karma",
     "type": "emit",
     "field": "fd_blood_karma",

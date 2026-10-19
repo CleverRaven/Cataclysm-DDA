@@ -342,7 +342,6 @@
     "components": [
       [
         [ "stopcock", 11 ],
-        [ "button_plastic", 25 ],
         [ "bottle_folding", 4 ],
         [ "plastic_straw", 3 ],
         [ "plastic_knife", 2 ],
@@ -512,15 +511,22 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "ash",
     "charges": 10,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "time": "15 m",
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "steps": [
+      {
+        "name": "Let it burn",
+        "time": "15 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+        "attention": "unattended",
+        "unattend_message": "The wood has completely burned."
+      }
+    ],
     "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {

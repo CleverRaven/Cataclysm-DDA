@@ -10,6 +10,8 @@
 // Fixed window sizes.
 constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
 constexpr int EVEN_MINIMUM_TERM_HEIGHT = 24;
+constexpr int MAXIMUM_TERM_WIDTH = 960;
+constexpr int MAXIMUM_TERM_HEIGHT = 270;
 constexpr int HP_HEIGHT = 14;
 constexpr int HP_WIDTH = 7;
 constexpr int MINIMAP_HEIGHT = 7;

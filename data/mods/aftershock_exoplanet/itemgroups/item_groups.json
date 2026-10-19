@@ -46,10 +46,11 @@
     }
   },
   {
-    "id": "camping",
+    "id": "camping_lighting_electric",
     "type": "item_group",
-    "copy-from": "camping",
-    "extend": { "items": [ [ "afs_atomic_light", 1 ] ] }
+    "subtype": "distribution",
+    "copy-from": "camping_lighting_electric",
+    "extend": { "entries": [ { "item": "afs_atomic_light", "prob": 1 } ] }
   },
   {
     "id": "drugdealer",
@@ -255,8 +256,9 @@
     "id": "tools_medical",
     "//": "extension of vanilla itemgroup",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "tools_medical",
-    "extend": { "items": [ [ "bionic_maintenance_toolkit", 20 ] ] }
+    "extend": { "entries": [ { "item": "bionic_maintenance_toolkit", "prob": 20 } ] }
   },
   {
     "id": "surgery",

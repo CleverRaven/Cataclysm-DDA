@@ -30,7 +30,7 @@
       {
         "type": "effect_on_conditions",
         "menu_text": "Switch the lights",
-        "effect_on_conditions": [ "eoc_switch_lights" ]
+        "effect_on_conditions": [ "eoc_hunvre_blackout" ]
       }
     ],
     "flags": [ "CONTRABAND" ]

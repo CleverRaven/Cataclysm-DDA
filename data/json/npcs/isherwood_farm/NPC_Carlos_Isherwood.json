@@ -63,7 +63,7 @@
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
-        "topic": "TALK_CARLOS_FORGE",
+        "topic": "TALK_CARLOS_FORGE1",
         "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" } ],
         "condition": {
           "and": [
@@ -302,12 +302,22 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE2",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] },
+            { "math": [ "time_since(timer_carlos_has_anvil) <= time('5 d')" ] }
+          ]
+        }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "carlos_has_anvil" } ] },
+            { "math": [ "time_since(timer_carlos_has_anvil) > time('5 d')" ] }
+          ]
+        }
       },
       {
         "text": "Where can I find Chris?",

@@ -70,5 +70,15 @@
     "valid": false,
     "description": "You have studied this school in particular.  +1 caster level for your selected school.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_mana",
+    "name": { "str": "Stormwrought: Mana-Touched" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
   }
 ]

@@ -9,7 +9,7 @@
     "effect": [
       {
         "set_condition": "random_enc_condition",
-        "condition": { "and": [ { "current_dimension": "" }, { "not": { "is_season": "winter" } } ] }
+        "condition": { "and": [ { "current_dimension": "default" }, { "not": { "is_season": "winter" } } ] }
       },
       { "u_message": "Xedra Evolved Jotunn/Zebra encounter has triggered!", "type": "debug" },
       {

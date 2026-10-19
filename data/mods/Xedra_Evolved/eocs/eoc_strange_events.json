@@ -10,7 +10,7 @@
         { "math": [ "u_characters_nearby('radius': 45)", "==", "0" ] },
         {
           "and": [
-            { "current_dimension": "" },
+            { "current_dimension": "default" },
             { "not": "u_is_outside" },
             { "not": "u_is_in_vehicle" },
             { "not": { "u_is_on_furniture": "f_large_groundsheet" } },
@@ -47,7 +47,7 @@
         { "not": "is_day" },
         {
           "and": [
-            { "current_dimension": "" },
+            { "current_dimension": "default" },
             { "not": "u_is_outside" },
             { "not": "u_is_in_vehicle" },
             { "not": { "u_is_on_furniture": "f_large_groundsheet" } },

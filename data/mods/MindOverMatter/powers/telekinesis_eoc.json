@@ -2,6 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_THROW_WEIGHT_HANDLER",
+    "condition": { "and": [ { "not": { "u_has_flag": "TELEKIN_PUSH_PULL_IMMUNE" } }, { "not": { "u_has_flag": "TELEKIN_SHIELD" } } ] },
     "effect": [
       { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
       { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
@@ -71,7 +72,8 @@
           ]
         }
       }
-    ]
+    ],
+    "false_effect": [ { "npc_message": "You can't get a hold of the target!", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

@@ -412,7 +412,6 @@
       {
         "u_travel_to_dimension": "scarlet",
         "npc_travel_radius": 0,
-        "region_type": "scarlet",
         "npc_travel_filter": "none",
         "fail_message": "You feel a prickle at the edge of your senses.",
         "success_message": "Your surroundings warp and fold into the recesses of another world."

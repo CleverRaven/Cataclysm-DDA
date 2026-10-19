@@ -68,5 +68,20 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "count": [ 40, 70 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ozma_poppy",
+    "name": "Ozma's emerald poppy",
+    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the buds of the mundane poppy they're named after.  The dirt around it gently churns as its roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
+    "symbol": "f",
+    "color": "green",
+    "looks_like": "f_mutpoppy",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER", "GRAZER_INEDIBLE" ],
+    "examine_action": "flower_poppy",
+    "emissions": [ "emit_emerald_poppy_pollen" ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

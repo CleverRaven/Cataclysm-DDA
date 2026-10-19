@@ -247,7 +247,8 @@
         }
       ]
     },
-    "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
+    "values": [ { "value": "HUNGER", "multiply": -1 } ],
+    "ench_effects": [ { "effect": "effect_xe_hidden_hunger", "intensity": 1 } ]
   },
   {
     "type": "enchantment",

@@ -680,5 +680,24 @@
     "name": "zoo parking",
     "sym": "P",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "charging_station_0_0",
+      "charging_station_1_0",
+      "charging_station_0_1",
+      "charging_station_1_1",
+      "charging_station_roofed_0_0",
+      "charging_station_roofed_1_0",
+      "charging_station_roofed_0_1",
+      "charging_station_roofed_1_1",
+      "charging_station_roof_0_0",
+      "charging_station_roof_1_0"
+    ],
+    "copy-from": "charging_station_0_0",
+    "name": "parking lot with chargers",
+    "sym": "P",
+    "color": "light_blue"
   }
 ]

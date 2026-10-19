@@ -1,0 +1,18 @@
+[
+  {
+    "id": "teddy_bear",
+    "type": "ITEM",
+    "copy-from": "teddy_bear",
+    "name": { "str": "plush toy" },
+    "extend": {
+      "variants": [
+        {
+          "id": "toy_alien_pink",
+          "name": { "str": "pink alien plushie" },
+          "description": "A pink alien plush with cute antennae and big shiny bright pink eyes.  It also has soft crab claws, a pair of small wings that looked useless and a dress of some kind.  If aliens were to exist, surely they wouldn't look like this, right?",
+          "weight": 1
+        }
+      ]
+    }
+  }
+]

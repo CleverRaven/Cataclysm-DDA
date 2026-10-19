@@ -17,6 +17,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "pocket_type.h"
 #include "type_id.h"
 #include "units.h"
@@ -173,7 +174,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
         // find the first ammo in the container to get its charges
-        ammo.visit_items( [&min_clamp]( const item * it, item * ) {
+        ammo.visit_items( [&min_clamp]( const item * it, const item * ) {
             if( it->is_ammo() ) {
                 min_clamp = it->charges;
                 return VisitResponse::ABORT;
@@ -223,17 +224,19 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( static_cast<int>( std::round( mv * get_modifier(
-                                           character_modifier_reloading_move_mod ) ) ), 25 );
+    mv = std::max( static_cast<int>( std::round( mv * get_modifier(
+                                         character_modifier_reloading_move_mod ) ) ), 25 );
+
+    return calculate_by_enchantment( mv, enchant_vals::mod::RELOADING_SPEED );
 }
 
-std::vector<item_location> Character::find_reloadables()
+std::vector<item_location> Character::find_reloadables() const
 {
     std::vector<item_location> reloadables;
 
-    visit_items( [this, &reloadables]( item * node, item * ) {
+    visit_items( [&reloadables]( const item_location & node ) {
         if( node->is_reloadable() ) {
-            reloadables.emplace_back( *this, node );
+            reloadables.emplace_back( node );
         }
         return VisitResponse::NEXT;
     } );

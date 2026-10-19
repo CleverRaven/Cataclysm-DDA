@@ -1668,7 +1668,8 @@ Faults can be defined for more specialized damage of an item.
   "type": "fault",
   "id": "fault_gun_chamber_spent", // unique id for the fault
   "name": { "str": "Spent casing in chamber" }, // fault name for display
-  "color": "bad" // color for displaying the fault name, accepts 'bad' (red), 'neutral' (yellow), or 'good' (green)
+  "color": "bad", // color for displaying the fault name, accepts 'bad' (red), 'neutral' (yellow), or 'good' (green)
+  "severity": "minor", // optional inventory/sidebar warning: minor uses light red text, major uses a red background, critical uses a brown background; defaults to none
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
   "item_suffix": "no handle", // optional string, items with this fault will be suffixed with this. The string would be encased in parentheses, like `sword (no handle)`
@@ -2007,6 +2008,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
     "description": "This is an example profession.",           // In-game description
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "starting_trauma": 250,                                    // (optional, integer) A counter for how much trauma the character has been exposed to. Values are clamped to the range [0-1000].
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
 	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
@@ -4537,6 +4539,7 @@ currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in
     "intensity": 1, // Intensity of the effect to apply
     "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
     "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_inside": false, // If true, being inside protects from the effect
     "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
     "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
     "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,

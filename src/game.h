@@ -135,6 +135,13 @@ struct w_map {
     catacurses::window win;
 };
 
+struct wet_items {
+    std::vector<item_location> dissolved;
+    std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
+    std::vector<item_location> towels;
+};
+
 struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
@@ -163,6 +170,9 @@ struct pulp_data {
 };
 
 bool is_valid_in_w_terrain( const point_rel_ms &p );
+// returns lists of all items affected by water.
+wet_items visit_water_affect_items( Character &you );
+
 namespace turn_handler
 {
 bool cleanup_at_end();
@@ -350,16 +360,15 @@ class game
          * @param npc_travellers vector of NPCs that should be brought along when travelling to another dimension
          * @param veh pointer to a vehicle to bring along.
          */
-        bool travel_to_dimension( const std::string &prefix, const std::string &region_type,
+        bool travel_to_dimension( dimension_id dimension_destination,
                                   const std::vector<npc *> &npc_travellers,
                                   const std::vector<item_location> &item_travellers,
                                   std::optional<tripoint_bub_ms> item_travellers_location,
                                   vehicle *veh = nullptr );
         /**
          * Retrieve the identifier of the current dimension.
-         * TODO: this should be a dereferencable id that gives properties of the dimension.
          */
-        std::string get_dimension_prefix() {
+        dimension_id get_dimension_prefix() {
             return dimension_prefix;
         }
 
@@ -640,6 +649,7 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        void clear_kill_tracker() const;
         stats_tracker &stats();
         achievements_tracker &achievements();
         /** Add follower id to set of followers. */
@@ -1393,9 +1403,8 @@ class game
         //currently used as a hacky workaround for dimension swapping
         bool swapping_dimensions = false; // NOLINT (cata-serialize)
     private:
-        // Stores the currently occupied dimension.
-        // TODO: should be an id instead of a string.
-        std::string dimension_prefix;
+        // the currently occupied dimension
+        dimension_id dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

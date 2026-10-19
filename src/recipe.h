@@ -29,9 +29,11 @@ class JsonValue;
 class cata_variant;
 class item;
 class item_components;
-class read_only_visitable;
 class recipe;
+class temp_crafting_inventory;
 template <typename E> struct enum_traits;
+
+enum scaling_stat : int;
 
 enum class recipe_filter_flags : int {
     none = 0,
@@ -54,6 +56,7 @@ struct enum_traits<recipe_filter_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
+
 struct recipe_proficiency {
     proficiency_id id;
     bool _skill_penalty_assigned = false;
@@ -64,6 +67,27 @@ struct recipe_proficiency {
     std::optional<time_duration> max_experience = std::nullopt;
 
     void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+
+struct vitamin_resource_cost {
+    vitamin_id vitamin;
+    int value = 0;
+    std::optional<int> safe_level;
+
+    void deserialize( const JsonObject &jo );
+};
+
+struct character_resource_costs {
+    int mana = 0;
+    int stamina = 0;
+    std::vector<vitamin_resource_cost> vitamins;
+
+    bool empty() const {
+        return mana == 0 && stamina == 0 && vitamins.empty();
+    }
+
     void deserialize( const JsonObject &jo );
 };
 
@@ -236,6 +260,11 @@ class recipe
             return id;
         }
 
+        /** Returns the character resource costs required to complete this recipe. */
+        const character_resource_costs &get_character_resources() const {
+            return character_resources;
+        }
+
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
@@ -272,6 +301,8 @@ class recipe
         std::pair<int, time_duration> morale_modifier;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        /** Character resource costs required to complete this recipe */
+        character_resource_costs character_resources;
         // For step recipes, use get_proficiencies() instead -- this field is empty.
         std::vector<recipe_proficiency> proficiencies;
 
@@ -285,6 +316,13 @@ class recipe
         std::set<recipe_id> nested_category_data;
 
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
+
+        // Returns true if the character satisfies all configured stat requirements.
+        bool character_meets_requirements( const Character &character ) const;
+        // Returns true if the recipe has any character stat requirements.
+        bool has_character_requirements() const;
+        // Returns the character stat requirements configured for this recipe.
+        const std::map<scaling_stat, int> &get_character_requirements() const;
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -462,6 +500,9 @@ class recipe
         /** Requires specified inline with the recipe (and replaced upon inheritance) */
         std::vector<std::pair<requirement_id, int>> reqs_internal;
 
+        /** Character stat requirements. */
+        std::map<scaling_stat, int> character_requirements_;
+
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
 
@@ -514,7 +555,7 @@ class recipe
 // Best (lowest) speed modifier for a quality at a given level from available items.
 // Returns 1.0f if no items have a speed modifier for this quality.
 // crafter is used for charged_qualities (ammo_sufficient check).
-float best_quality_speed_modifier( const read_only_visitable &inv,
+float best_quality_speed_modifier( const temp_crafting_inventory &inv,
                                    const Character &crafter, const quality_id &qual, int level );
 
 // Compute per-step tool speed modifiers for a recipe from the crafter's inventory.

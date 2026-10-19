@@ -480,7 +480,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "name": { "str_sp": "crustacean mutagenic primer" },
-    "description": " A red colored mutagenic primer.",
+    "description": "A red colored mutagenic primer.",
     "color": "red",
     "looks_like": "iv_mutagen",
     "use_action": {

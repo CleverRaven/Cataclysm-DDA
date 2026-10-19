@@ -187,7 +187,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: mood stabilization",
     "id": "practice_telepathic_morale",
-    "description": "Contemplate your powers and improve your control of your own emotions.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_morale>",
+    "description": "Contemplate your powers and improve your control of your own emotions or the emotions of others.\n\nPower Difficulty: 3\n\nCurrent Power Level: <u_spell_level:telepathic_morale>",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

@@ -14,7 +14,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "hp": 50,
-    "description": "The raggedly flying corpse  of a feathered reptile over three feet long, with short wings and a big colorful beak.",
+    "description": "The raggedly flying corpse of a feathered reptile over three feet long, with short wings and a big colorful beak.",
     "upgrades": false,
     "armor": { "bash": 4, "cut": 4, "bullet": 1 }
   },

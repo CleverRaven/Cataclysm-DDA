@@ -36,6 +36,11 @@ def parse_monster_concrete(json, origin, name):
                    comment="Sentence fragment describing a"
                    f" weakpoint for monster '{name}'")
 
+        for effect in weakpoint.get("effects", []):
+            write_text(
+                effect.get("message"), origin,
+                comment=f"Effect of hitting a weakpoint of monster '{name}'")
+
     if "petfood" in json:
         write_text(json["petfood"].get("feed"), origin,
                    comment=f"Feed message of monster '{name}'")

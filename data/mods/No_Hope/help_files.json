@@ -3,6 +3,7 @@
     "type": "help",
     "order": 0,
     "name": "No Hope: Features",
+    "color": "red",
     "messages": [
       "Alters domestic mapgen palettes to increase damage and messiness.",
       "Adds item difficulty settings that reduce the spawn rates for common item categories without reducing rare items.  See EoCs.md for category breakdowns and customisation or EoCs.json for exact numbers used for each difficulty.",
@@ -23,6 +24,7 @@
     "type": "help",
     "order": 1,
     "name": "No Hope: Difficulty Options",
+    "color": "red",
     "messages": [
       "No Hope adds 3 difficulties that allow you to pick between increasingly more harsh multipliers to spawn rates split by item category intended to make basic survival less trivial and progression slower and in turn require more exploration leading to greater risk while less powerful without decreasing the spawn rates of items such as mutagens and bionics that are intended as rewards for exploring more dangerous locations and are already rare and as such shouldn't be punished.",
       "The difficulty options can be used alongside the regular item spawn rate setting if desired with expected results.",
