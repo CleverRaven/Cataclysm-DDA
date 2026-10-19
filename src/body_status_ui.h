@@ -255,6 +255,9 @@ class body_status_ui : public tabbed_listinfo_ui
 class body_status_ui_impl : public cataimgui::window
 {
         body_status_ui *ui_parent;
+        const ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                                              ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav;
+
     public:
         explicit body_status_ui_impl( body_status_ui *parent );
 
