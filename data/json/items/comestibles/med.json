@@ -107,7 +107,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_pill_prescription",
-    "use_action": [ "ANTIFUNGAL" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ANTIFUNGAL" ],
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ]
   },
   {
