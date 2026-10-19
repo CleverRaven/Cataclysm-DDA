@@ -40,24 +40,11 @@ jobs:
 
           echo "Compilando catÃ¡logo de idioma PortuguÃªs (Brasil)..."
           mkdir -p lang/mo/pt_BR/LC_MESSAGES
-          if [ -f "lang/po/pt_BR.po" ]; then
-              msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
-          fi
-
-          # Se o pacote completo estiver disponÃ­vel, extrai quaisquer outras traduÃ§Ãµes adicionais
-          TRANS_URL="https://github.com/CleverRaven/Cataclysm-DDA/releases/download/cdda-experimental-2026-10-19-0128/cdda-translations-2026-10-19-0128.tar.gz"
-          curl -sL "$TRANS_URL" | tar -zxf - lang/po/pt_BR.po src/lang_stats.inc || true
-          if [ -f "lang/po/pt_BR.po" ]; then
-              msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
-          fi
+          msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
 
           echo "Verificando cataclysm-dda.mo gerado:"
           ls -lh lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo
           test -s lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo || (echo "ERRO: cataclysm-dda.mo de pt_BR nÃ£o encontrado ou vazio!" && exit 1)
-
-          # Garantir que os assets do Android enxerguem a pasta lang/mo
-          mkdir -p android/app/src/main/assets/lang/mo/pt_BR/LC_MESSAGES
-          cp -v lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo android/app/src/main/assets/lang/mo/pt_BR/LC_MESSAGES/
 
       - name: Compilar APK via Gradle
         working-directory: ./android
