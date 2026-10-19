@@ -38,8 +38,7 @@ static void refresh_header_footer_text( uilist *new_uilist, const body_status_ui
         } else {
             new_uilist->footer_text = colorize( _( "Outermost" ), c_light_gray );
         }
-    }
-    else {
+    } else {
         new_uilist->text.clear();
         new_uilist->footer_text.clear();
     }
@@ -615,9 +614,7 @@ void body_status_callback::refresh( uilist *menu )
 }
 
 body_status_ui_impl::body_status_ui_impl( body_status_ui *parent ) :
-    cataimgui::window( "",
-                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-                       ImGuiWindowFlags_NoNav )
+    cataimgui::window( "", window_flags )
 {
     ui_parent = parent;
 }
@@ -635,14 +632,13 @@ cataimgui::bounds body_status_ui_impl::get_bounds()
 void body_status_ui_impl::draw_controls()
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    body_status_tab &selected_tab = bs_uistate.selected_tab;
     const ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
     const float WINDOW_THIRD = viewport.x * 0.333f;
 
     const ImVec2 CHILD_WINDOW_SIZE = { WINDOW_THIRD, ImGui::GetContentRegionAvail().y };
 
     {
-        ImGui::BeginChild( "WINDOW_UILIST", CHILD_WINDOW_SIZE );
+        ImGui::BeginChild( "WINDOW_UILIST", CHILD_WINDOW_SIZE, 0, window_flags );
         cataimgui::draw_colored_text( string_format( _( "Status of: %s" ),
                                       bs_uistate.displayed_character.name ) );
         if( ImGui::Button( _( "Toggle Info Window" ) ) ) {
@@ -653,18 +649,27 @@ void body_status_ui_impl::draw_controls()
             bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
         }
 
+        const body_status_tab selected_tab = bs_uistate.selected_tab;
+        const body_status_tab switched_tab = bs_uistate.switched_tab;
+        auto check_new_tab = [this, &bs_uistate]( body_status_tab new_tab ) {
+            if( ImGui::IsItemActive() ) {
+                bs_uistate.selected_tab = new_tab;
+                bs_uistate.switched_tab = body_status_tab::BS_TAB_last;
+            }
+        };
+
         if( ImGui::BeginTabBar( "##Tabs" ) ) {
             if( cataimgui::BeginTabItem( _( "SUMMARY" ), selected_tab == body_status_tab::BS_TAB_SUMMARY ) ) {
-                selected_tab = ImGui::IsItemActive() ? body_status_tab::BS_TAB_SUMMARY : selected_tab;
+                check_new_tab( body_status_tab::BS_TAB_SUMMARY );
                 ImGui::EndTabItem();
             }
             if( cataimgui::BeginTabItem( _( "MEDICAL" ), selected_tab == body_status_tab::BS_TAB_MEDICAL ) ) {
-                selected_tab = ImGui::IsItemActive() ? body_status_tab::BS_TAB_MEDICAL : selected_tab;
+                check_new_tab( body_status_tab::BS_TAB_MEDICAL );
                 ImGui::EndTabItem();
             }
             if( cataimgui::BeginTabItem( _( "SORT ARMOR" ),
                                          selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) ) {
-                selected_tab = ImGui::IsItemActive() ? body_status_tab::BS_TAB_SORT_ARMOR : selected_tab;
+                check_new_tab( body_status_tab::BS_TAB_SORT_ARMOR );
                 ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
@@ -681,7 +686,7 @@ void body_status_ui_impl::draw_controls()
     if( !bs_uistate.info_collapsed ) {
         ImGui::SameLine();
         {
-            ImGui::BeginChild( "WINDOW_INFO", CHILD_WINDOW_SIZE );
+            ImGui::BeginChild( "WINDOW_INFO", CHILD_WINDOW_SIZE, 0, window_flags );
             draw_info();
             ImGui::EndChild();
         }
@@ -690,7 +695,7 @@ void body_status_ui_impl::draw_controls()
     if( !bs_uistate.bodygraph_collapsed ) {
         ImGui::SameLine();
         {
-            ImGui::BeginChild( "WINDOW_BODYGRAPH", CHILD_WINDOW_SIZE );
+            ImGui::BeginChild( "WINDOW_BODYGRAPH", CHILD_WINDOW_SIZE, 0, window_flags );
             draw_bodygraph();
             ImGui::EndChild();
         }
