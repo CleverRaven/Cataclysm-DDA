@@ -124,6 +124,7 @@ Better 'Resume Construction' behavior
 Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
+Followers and guards meet their needs without leaving you or their post
 
 
 ## Content:
@@ -283,6 +284,8 @@ Convert canning and tinning recipes to use nested system
 Show environmental protection in bodygraph
 Add a GPU backend option to the graphics settings
 Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
+Scenarios are now divided into separate difficulty categories
+Display NPCs' current activity when looking at them
 
 
 ## Mods:
@@ -390,6 +393,7 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
+Aftershock: Pirate faction & Integrate them with  Smuggler scenario
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -457,6 +461,7 @@ Decayed zombies smell horrific
 Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
+make zombies able to move through guardrails
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -686,6 +691,7 @@ Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders d
 Speed up the crafting menu near large piles of items
 Smooth filtered lighting draws about as fast as smooth
 Speed up the repair and construction menus near large item piles
+Slightly reduce RAM usage of item class
 
 
 ## Infrastructure:
@@ -838,6 +844,7 @@ Fix `Parameter format not correct - -Command` error
 Add documentation for C++ translation context comments
 Add missing translation
 Publish translations archive with experimental releases
+Fix missing and hard-to-translate game and mod text
 
 
 # 0.I
