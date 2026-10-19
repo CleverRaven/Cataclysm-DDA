@@ -124,6 +124,11 @@ Better 'Resume Construction' behavior
 Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
+Followers and guards meet their needs without leaving you or their post
+Add a distinct groundcover for ravine edges
+Inherit faults when crafting
+'Work on Craft or Disassembly' menus compare primary skill
+Effects can define immunity when inside
 
 
 ## Content:
@@ -224,6 +229,14 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
+Arachnid Limbs/Arms are now limbs
+forest islands in radiosphere
+Spider mutants can skitter
+More manmade trash on forest trails
+Add the swirling vortex, a new nether monster
+Butchering tips
+Menstrual pads' sterile bag is integrated, yielded on disassembly
+Adjust name and crafting time of forged ballistic armor plates
 
 
 ## Interface:
@@ -283,6 +296,8 @@ Convert canning and tinning recipes to use nested system
 Show environmental protection in bodygraph
 Add a GPU backend option to the graphics settings
 Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
+Scenarios are now divided into separate difficulty categories
+Display NPCs' current activity when looking at them
 
 
 ## Mods:
@@ -390,6 +405,15 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
+[alt-map-key] Add new overmap terrain
+[DinoMod] heavier zombies
+Aftershock: Pirate faction & Integrate them with  Smuggler scenario
+Give Stormwrought: Manatouched same restrictions as rest of them
+[MoM] PLASTIC flag also applies to telekinetic damage
+[XedraWood] Hollow One updates
+[Innawood] Filter Mask is now an auto-learned recipe
+Aftershock: Screen mirrors can display messages
+Made it so churn recipe is autolearned in innawood.
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -457,6 +481,7 @@ Decayed zombies smell horrific
 Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
+make zombies able to move through guardrails
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -662,6 +687,19 @@ Duplicating items on 'become huge -> remove armor' interaction
 Fix plugged-in appliances coming loose when leaving the reality bubble
 Traps with practice 2 no longer take zero time to place
 NPCs walk to fulfill their needs better
+Fix Z level fragment of reality
+[Sky Island] Update `ter_close_tears_and_portals` when MoM is running to account for cracks in reality
+Fixed flying creatures leaving bloody footprints.
+Followers sleep when you rest, not whenever they spot a bed
+Creatures in vehicles no longer leave bloody footprints.
+Fix non-character vitamin drain for star vampire bite
+make portable portal unusable in portal storm dungeon
+Fix NPCs spilling opened food and a few other NPC item bugs
+Fix camp drop hammer only allowing one anvil type
+dremel can now be connected to workshop station
+Fix the existing Coffee Powder Recipe and fix the description
+Stomach Full and Engorged kick in at their intended fullness again
+Fix Light Industry camp drop hammer not working for crafting
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -686,6 +724,7 @@ Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders d
 Speed up the crafting menu near large piles of items
 Smooth filtered lighting draws about as fast as smooth
 Speed up the repair and construction menus near large item piles
+Slightly reduce RAM usage of item class
 
 
 ## Infrastructure:
@@ -838,6 +877,7 @@ Fix `Parameter format not correct - -Command` error
 Add documentation for C++ translation context comments
 Add missing translation
 Publish translations archive with experimental releases
+Fix missing and hard-to-translate game and mod text
 
 
 # 0.I
