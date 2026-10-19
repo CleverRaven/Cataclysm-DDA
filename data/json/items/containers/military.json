@@ -525,5 +525,64 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_432gal_drum_rubber" },
     "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
     "symbol": "0"
+  },
+  {
+    "id": "engine_container_lid",
+    "type": "ITEM",
+    "category": "container",
+    "name": "engine container lid",
+    "//0": "Top half of the container.",
+    "description": "Lid of the large military container for storing engine replacement.  Reinforced and heavy.",
+    "weight": "326 kg",
+    "volume": "965 L",
+    "longest_side": "1500 mm",
+    "//": "Its huge and heavy but can be used as some sort of open top tank or basket",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "price": "150 USD",
+    "price_postapoc": "80 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "890 L",
+        "max_contains_weight": "3500 kg",
+        "max_item_length": "1400 mm"
+      }
+    ],
+    "material": [ { "type": "steel" } ],
+    "symbol": "l",
+    "//1": "example of what it is: https://www.easternsurplus.net/PartDetails/8987/SP-2595-Multi-Fuel-Shipping-Storage-Container",
+    "color": "light_gray"
+  },
+  {
+    "id": "engine_container_base",
+    "type": "ITEM",
+    "category": "container",
+    "name": "engine container base",
+    "//0": "Bottom half of the container, with engine mount brackets inside.",
+    "description": "Base half of the large military container for storing engine replacement.  Reinforced and heavy, inside has brackets for bolting engine on.",
+    "weight": "218 kg",
+    "volume": "785 L",
+    "longest_side": "1500 mm",
+    "//": "Its huge and heavy but can be used as some sort of open top tank or basket",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "price": "150 USD",
+    "price_postapoc": "65 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "700 L",
+        "max_contains_weight": "3000 kg",
+        "max_item_length": "1400 mm"
+      }
+    ],
+    "material": [ { "type": "steel" } ],
+    "symbol": "b",
+    "color": "light_gray"
   }
 ]

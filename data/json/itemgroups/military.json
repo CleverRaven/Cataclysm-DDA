@@ -909,5 +909,25 @@
       { "group": "MRE", "count": 3 },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
     ]
+  },
+  {
+    "id": "mil_engines_crate_land",
+    "type": "item_group",
+    "//": "contains engines for land military vehicles, for spawn in the engine containers",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "i6_diesel_multifuel", "prob": 20 },
+      { "item": "i6_diesel", "prob": 50 },
+      { "item": "v6_diesel", "prob": 35 },
+      { "item": "v8_diesel", "prob": 30 }
+    ]
+  },
+  {
+    "id": "mil_engines_crate_air",
+    "type": "item_group",
+    "//": "contains engines for airborne military vehicles, for spawn in the engine containers",
+    "//1": "large_turbine_engine wont fit in the container so its not on the list",
+    "subtype": "distribution",
+    "entries": [ { "item": "small_turbine_engine", "prob": 45 }, { "item": "medium_turbine_engine", "prob": 30 } ]
   }
 ]
