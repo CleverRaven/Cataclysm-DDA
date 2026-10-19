@@ -711,42 +711,38 @@ void mobile_ui_system::draw( const SDL_Renderer_Ptr &renderer, Font *font )
     if( gameplay_ready ) {
         update_context_actions();
 
-        // 1. Barra de status no topo
+        // 1. Barra de status do personagem: aparece apenas em sessao de jogo ativo
         draw_vital_stats_bar( renderer, font );
+    }
 
-        // 2. Botoes fixos (Face, Gatilhos, Centrais, Top HUD)
-        for( const auto &btn : fixed_buttons ) {
-            draw_glass_button( renderer, font, btn );
+    // 2. Botoes fixos (Face, Gatilhos, Centrais, Top HUD):
+    // Permanecem visiveis nos menus para navegacao padrÃ£o (Enter, Esc, C1, C2, etc.),
+    // EXCETO o botao de personagem (TOP_CHAR_SHEET / BIO), que so aparece em jogo ativo!
+    for( const auto &btn : fixed_buttons ) {
+        if( btn.id == button_id::TOP_CHAR_SHEET && !gameplay_ready ) {
+            continue;
         }
+        draw_glass_button( renderer, font, btn );
+    }
 
-        // 3. Dynamic Context Slots (Right Staircase)
+    // 3. Dynamic Context Slots (apenas em jogo ativo)
+    if( gameplay_ready ) {
         for( const auto &slot : right_context_slots ) {
             if( slot.is_visible ) {
                 draw_glass_button( renderer, font, slot );
             }
         }
-
-        // 4. Dynamic Context Slots (Left Staircase)
         for( const auto &slot : left_context_slots ) {
             if( slot.is_visible ) {
                 draw_glass_button( renderer, font, slot );
             }
         }
-
-        // 5. Exiled Kingdoms Analog D-Pad
-        draw_exiled_analog( renderer, font );
-    } else {
-        // No menu principal ou durante carregamento:
-        // desenha APENAS o botao do Hub Marrom para que o usuario possa acessar as configuracoes!
-        for( const auto &btn : fixed_buttons ) {
-            if( btn.id == button_id::TOP_HUB_MENU ) {
-                draw_glass_button( renderer, font, btn );
-                break;
-            }
-        }
     }
 
-    // 6. Draw Settings Drawer se estiver aberto (Hub Marrom)
+    // 4. Exiled Kingdoms Analog D-Pad: disponivel sempre (inclusive nos menus para navegacao)
+    draw_exiled_analog( renderer, font );
+
+    // 5. Draw Settings Drawer se estiver aberto (Hub Marrom)
     if( settings_open ) {
         draw_settings_drawer( renderer, font );
     }
@@ -761,24 +757,7 @@ bool mobile_ui_system::handle_touch_down( float x, float y, int finger_id, uint3
 
     const bool gameplay_ready = is_gameplay_ready();
 
-    // Se nao esta em gameplay ativo (ex: Menu Principal),
-    // apenas processa o botao do Hub! O restante da tela passa para o menu original do jogo!
-    if( !gameplay_ready ) {
-        for( auto &btn : fixed_buttons ) {
-            if( btn.id == button_id::TOP_HUB_MENU && btn.is_visible ) {
-                if( x >= btn.bounds.x && x <= btn.bounds.x + btn.bounds.w &&
-                    y >= btn.bounds.y && y <= btn.bounds.y + btn.bounds.h ) {
-                    btn.is_pressed = true;
-                    btn.active_finger_id = finger_id;
-                    btn.press_start_time = ticks;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // 1. Check Analog D-Pad touch
+    // 1. Check Analog D-Pad touch (funciona sempre, inclusive para navegar nos menus)
     float dx = x - static_cast<float>( analog_center.x );
     float dy = y - static_cast<float>( analog_center.y );
     float dist = std::sqrt( dx * dx + dy * dy );
@@ -794,9 +773,11 @@ bool mobile_ui_system::handle_touch_down( float x, float y, int finger_id, uint3
         return true;
     }
 
-    // 2. Check Fixed Buttons
+    // 2. Check Fixed Buttons (todos, exceto TOP_CHAR_SHEET se fora de jogo)
     for( auto &btn : fixed_buttons ) {
         if( !btn.is_visible ) continue;
+        if( btn.id == button_id::TOP_CHAR_SHEET && !gameplay_ready ) continue;
+
         if( x >= btn.bounds.x && x <= btn.bounds.x + btn.bounds.w &&
             y >= btn.bounds.y && y <= btn.bounds.y + btn.bounds.h ) {
             btn.is_pressed = true;
@@ -806,27 +787,27 @@ bool mobile_ui_system::handle_touch_down( float x, float y, int finger_id, uint3
         }
     }
 
-    // 3. Check Right Context Slots
-    for( auto &slot : right_context_slots ) {
-        if( !slot.is_visible ) continue;
-        if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
-            y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
-            slot.is_pressed = true;
-            slot.active_finger_id = finger_id;
-            slot.press_start_time = ticks;
-            return true;
+    // 3. Dynamic Context Slots (apenas em jogo ativo)
+    if( gameplay_ready ) {
+        for( auto &slot : right_context_slots ) {
+            if( !slot.is_visible ) continue;
+            if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
+                y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
+                slot.is_pressed = true;
+                slot.active_finger_id = finger_id;
+                slot.press_start_time = ticks;
+                return true;
+            }
         }
-    }
-
-    // 4. Check Left Context Slots
-    for( auto &slot : left_context_slots ) {
-        if( !slot.is_visible ) continue;
-        if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
-            y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
-            slot.is_pressed = true;
-            slot.active_finger_id = finger_id;
-            slot.press_start_time = ticks;
-            return true;
+        for( auto &slot : left_context_slots ) {
+            if( !slot.is_visible ) continue;
+            if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
+                y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
+                slot.is_pressed = true;
+                slot.active_finger_id = finger_id;
+                slot.press_start_time = ticks;
+                return true;
+            }
         }
     }
 
@@ -884,18 +865,6 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
 
     const bool gameplay_ready = is_gameplay_ready();
 
-    if( !gameplay_ready ) {
-        for( auto &btn : fixed_buttons ) {
-            if( btn.id == button_id::TOP_HUB_MENU && btn.is_pressed && btn.active_finger_id == finger_id ) {
-                btn.is_pressed = false;
-                btn.active_finger_id = -1;
-                toggle_settings_drawer();
-                return true;
-            }
-        }
-        return false;
-    }
-
     // 1. Release Analog
     if( analog_active && finger_id == analog_finger_id ) {
         analog_active = false;
@@ -912,7 +881,7 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
         return true;
     }
 
-    const bool in_menu = is_menu_active();
+    const bool in_menu = is_menu_active() || !gameplay_ready;
 
     // 2. Check Fixed Buttons
     for( auto &btn : fixed_buttons ) {
@@ -925,6 +894,10 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
                 return true;
             }
 
+            if( btn.id == button_id::TOP_CHAR_SHEET && !gameplay_ready ) {
+                return false;
+            }
+
             int key = in_menu ? btn.menu_fallback_key : btn.game_fallback_key;
             if( key != 0 ) {
                 out_event = input_event( key, input_event_t::keyboard_char );
@@ -933,28 +906,28 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
         }
     }
 
-    // 3. Check Right Context Slots
-    for( auto &slot : right_context_slots ) {
-        if( slot.is_pressed && slot.active_finger_id == finger_id ) {
-            slot.is_pressed = false;
-            slot.active_finger_id = -1;
-            int key = slot.game_fallback_key;
-            if( key != 0 ) {
-                out_event = input_event( key, input_event_t::keyboard_char );
-                return true;
+    // 3. Dynamic Context Slots (apenas em jogo ativo)
+    if( gameplay_ready ) {
+        for( auto &slot : right_context_slots ) {
+            if( slot.is_pressed && slot.active_finger_id == finger_id ) {
+                slot.is_pressed = false;
+                slot.active_finger_id = -1;
+                int key = slot.game_fallback_key;
+                if( key != 0 ) {
+                    out_event = input_event( key, input_event_t::keyboard_char );
+                    return true;
+                }
             }
         }
-    }
-
-    // 4. Check Left Context Slots
-    for( auto &slot : left_context_slots ) {
-        if( slot.is_pressed && slot.active_finger_id == finger_id ) {
-            slot.is_pressed = false;
-            slot.active_finger_id = -1;
-            int key = slot.game_fallback_key;
-            if( key != 0 ) {
-                out_event = input_event( key, input_event_t::keyboard_char );
-                return true;
+        for( auto &slot : left_context_slots ) {
+            if( slot.is_pressed && slot.active_finger_id == finger_id ) {
+                slot.is_pressed = false;
+                slot.active_finger_id = -1;
+                int key = slot.game_fallback_key;
+                if( key != 0 ) {
+                    out_event = input_event( key, input_event_t::keyboard_char );
+                    return true;
+                }
             }
         }
     }
@@ -964,7 +937,7 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
 
 bool mobile_ui_system::handle_touch_repeat( uint32_t ticks, input_event &out_event )
 {
-    if( settings_open || !is_gameplay_ready() ) {
+    if( settings_open ) {
         return false;
     }
 
