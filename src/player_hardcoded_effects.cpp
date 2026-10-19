@@ -26,7 +26,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
-#include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
@@ -68,7 +67,6 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_anemia( "anemia" );
 static const efftype_id effect_antibiotic( "antibiotic" );
-static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
@@ -105,7 +103,6 @@ static const efftype_id effect_redcells_anemia( "redcells_anemia" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
@@ -123,7 +120,6 @@ static const flag_id json_flag_TOURNIQUET( "TOURNIQUET" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
-static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
 static const json_character_flag json_flag_INFECTION_RECOVERY( "INFECTION_RECOVERY" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -168,30 +164,6 @@ static void eff_fun_onfire( Character &u, effect &it )
         it.set_duration( 0_turns );
     }
 }
-static void eff_fun_spores( Character &u, effect &it )
-{
-    // Equivalent to X in 150000 + health * 100
-    const int intense = it.get_intensity();
-    if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + u.get_lifestyle() * 0.6 ) ) ) {
-        u.add_effect( effect_fungus, 1_turns, true );
-    }
-}
-static void eff_fun_antifungal( Character &u, effect & )
-{
-    // antifungal drugs are deadly poison for Marloss people
-    if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
-        if( one_in( 10 ) ) {
-            u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
-                                     _( "<npcname> shivers from pain." ) );
-        }
-        u.mod_pain( 1 );
-        // not using u.get_random_body_part() as it is weighted & not fully random
-        std::vector<bodypart_id> bparts = u.get_all_body_parts( get_body_part_flags::only_main );
-        bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
-        u.apply_damage( nullptr, random_bpart, 1 );
-    }
-}
 static void eff_fun_fake_common_cold( Character &u, effect & )
 {
     if( calendar::once_every( time_duration::from_seconds( rng( 30, 300 ) ) ) && one_in( 2 ) ) {
@@ -212,106 +184,6 @@ static void eff_fun_fake_flu( Character &u, effect & )
     avatar &you = get_avatar(); // No NPCs for now.
     if( rl_dist( u.pos_bub(), you.pos_bub() ) <= 1 ) {
         you.get_sick( true );
-    }
-}
-static void eff_fun_fungus( Character &u, effect &it )
-{
-    const int intense = it.get_intensity();
-    const bool resists = u.resists_effect( it );
-    const int bonus = u.get_lifestyle() / 10 + ( resists ? 100 : 0 );
-
-    // clock the progress
-    // hard reverse the clock if you resist fungus
-    if( resists ) {
-        it.mod_duration( -5_turns );
-    } else {
-        it.mod_duration( 1_turns );
-    }
-
-    switch( intense ) {
-        case 1:
-            // 0-6 hours symptoms
-            if( one_in( 960 + bonus * 6 ) ) {
-                u.cough( true );
-            }
-            if( one_in( 600 + bonus * 6 ) ) {
-                u.add_msg_if_player( m_warning, _( "You feel nauseous." ) );
-            }
-            if( one_in( 600 + bonus * 6 ) ) {
-                u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
-            }
-            break;
-        case 2:
-            // 6-12 hours of worse symptoms
-            if( one_in( 3600 + bonus * 18 ) ) {
-                u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
-                u.mod_moves( -to_moves<int>( 1_seconds ) );
-                u.apply_damage( nullptr, bodypart_id( "torso" ), resists ? rng( 1, 5 ) : 5 );
-            }
-            if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
-                u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
-                                         _( "<npcname> vomits a thick, gray goop." ) );
-
-                const int awfulness = rng( 0, resists ? rng( 1, 70 ) : 70 );
-                u.set_moves( -to_moves<int>( 2_seconds ) );
-                u.mod_hunger( awfulness );
-                u.mod_thirst( awfulness );
-                ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.get_str(),
-                                1 ) ); // can't be healthy
-            }
-            break;
-        case 3:
-            // Permanent symptoms, 12+ hours
-            if( one_in( 6000 + bonus * 48 ) ) {
-                u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
-                                         _( "<npcname> vomits thousands of live spores!" ) );
-
-                u.set_moves( -to_moves<int>( 5_seconds ) );
-                map &here = get_map();
-                fungal_effects fe;
-                for( const tripoint_bub_ms &sporep : here.points_in_radius( u.pos_bub(), 1 ) ) {
-                    if( sporep == u.pos_bub() ) {
-                        continue;
-                    }
-                    fe.fungalize( sporep, &u, 0.25 );
-                }
-                // We're fucked
-            } else if( one_in( 36000 + bonus * 240 ) ) {
-                // determine if we have arms to channel the fungal stalks out of
-                bool has_arms_outlet = true;
-                for( const bodypart_id &part : u.get_all_body_parts_of_type( bp_type::arm ) ) {
-                    if( part->has_flag( json_flag_BIONIC_LIMB ) ) {
-                        has_arms_outlet = false;
-                    }
-                }
-                if( has_arms_outlet ) {
-                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                        if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                            u.add_msg_player_or_npc( m_bad,
-                                                     _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
-                                                     _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                        } else {
-                            u.add_msg_player_or_npc( m_bad,
-                                                     _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
-                                                     _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                        }
-                    } else {
-                        u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
-                                                 _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
-                    }
-                    u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
-                    u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
-                } else {
-                    // we don't have viable arms, so the fungus does a little chestbursting
-                    u.add_msg_player_or_npc( m_bad,
-                                             _( "Your chest bulges, and fungal stalks burst out of your skin!" ),
-                                             _( "<npcname>'s chest bulges.  Fungus stalks burst out of their skin!" ) );
-                    u.apply_damage( nullptr, bodypart_id( "torso" ), 40 );
-                    u.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
-                }
-            }
-            break;
     }
 }
 static void eff_fun_rat( Character &u, effect &it )
@@ -1273,9 +1145,6 @@ void Character::hardcoded_effects( effect &it )
     using hc_effect_fun = std::function<void( Character &, effect & )>;
     static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
             { effect_onfire, eff_fun_onfire },
-            { effect_spores, eff_fun_spores },
-            { effect_fungus, eff_fun_fungus },
-            { effect_antifungal, eff_fun_antifungal },
             { effect_rat, eff_fun_rat },
             { effect_bleed, eff_fun_bleed },
             { effect_hallu, eff_fun_hallu },

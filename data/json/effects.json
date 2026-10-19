@@ -2916,19 +2916,36 @@
   {
     "type": "effect_type",
     "id": "fungus",
+    "name": [ "Bumpy skin", "Itchy skin", "Sloughing flesh", "Crumbling self", "Reformation" ],
+    "desc": [
+      "Your skin has little bumps.",
+      "Your skin is pale and the ground inches closer.",
+      "Your skin is pale and the ground inches closer.  You can taste rot on your breath, and you feel like reaching the sky.",
+      "Your skin is pale and covered in gross sores.  It feels like you're being pushed out from the inside.",
+      "You are on the path to something greater than you will ever be."
+    ],
+    "death_msg": "You succumb to your reformation.",
     "apply_memorial_log": "Contracted a fungal infection.",
     "remove_memorial_log": "Cured the fungal infection.",
-    "miss_messages": [ [ "You feel sick inside.", 1 ] ],
-    "speed_name": "Itchy skin",
-    "remove_message": "The itching in your skin fades away.",
-    "rating": "bad",
-    "max_intensity": 3,
-    "int_dur_factor": "6 h",
-    "max_duration": "18 h",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 100000 ] ],
+    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 2000000 ] ],
+    "death_event": "dies_of_infection",
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "antifungal" ],
-    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] },
-    "blood_analysis_description": "Fungal Infection"
+    "max_intensity": 5,
+    "rating": "bad",
+    "show_intensity": false,
+    "harmful_cough": true,
+    "base_mods": {
+      "cough_chance": [ -10, -10 ],
+      "cough_chance_bot": [ 1000, 10000 ],
+      "pain_chance": [ -10, -10 ],
+      "pain_chance_bot": [ 1000, 10000 ],
+      "pain_min": [ 1, 0 ],
+      "pain_max": [ 5, 1 ]
+    },
+    "blood_analysis_description": "Fungal Infection",
+    "scaling_mods": { "cough_chance": [ 5.5, 3.5 ], "cough_chance_bot": [ 1, 5 ], "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
   },
   {
     "type": "effect_type",
