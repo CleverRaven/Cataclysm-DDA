@@ -303,6 +303,10 @@ class uilist // NOLINT(cata-xy)
 
         // Calls calc_data() and initialize the window
         void setup();
+
+        // Draws the UI
+        static void draw_controls( uilist &parent );
+
         // initialize the window or reposition it after screen size change.
         void reposition();
         struct scroll_amount {
