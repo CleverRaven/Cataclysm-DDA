@@ -1,28 +1,26 @@
-#include "mobile_ui.h"
+﻿#include "mobile_ui.h"
 
 #include <cmath>
 #include <algorithm>
 #include <sstream>
-#include <vector>
+#include <iomanip>
 
 #include "game.h"
 #include "character.h"
-#include "map.h"
-#include "vpart_position.h"
+#include "avatar.h"
 #include "options.h"
+#include "output.h"
 #include "translations.h"
 #include "input_context.h"
 #include "sdl_font.h"
-#include "cursesdef.h"
-#include "color.h"
-#include "type_id.h"
+#include "item.h"
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace cata_mobile
 {
-
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bite( "bite" );
-static const efftype_id effect_infected( "infected" );
 
 mobile_ui_system &mobile_ui_system::get()
 {
@@ -32,7 +30,7 @@ mobile_ui_system &mobile_ui_system::get()
 
 mobile_ui_system::mobile_ui_system()
 {
-    setup_default_buttons();
+    init();
 }
 
 void mobile_ui_system::init()
@@ -41,6 +39,7 @@ void mobile_ui_system::init()
         return;
     }
     setup_default_buttons();
+    calculate_geometry( screen_width, screen_height );
     initialized = true;
 }
 
@@ -51,7 +50,7 @@ void mobile_ui_system::setup_default_buttons()
     left_context_slots.clear();
 
     // 1. PPSSPP Style Face Buttons (Right cluster diamond)
-    touch_button btn_south; // ✕ - Smart Action / Confirm
+    touch_button btn_south; // Confirm / Autoattack
     btn_south.id = button_id::FACE_SOUTH;
     btn_south.style = button_visual_style::CIRCLE;
     btn_south.game_action = ACTION_AUTOATTACK;
@@ -62,7 +61,7 @@ void mobile_ui_system::setup_default_buttons()
     btn_south.border_r = 70; btn_south.border_g = 140; btn_south.border_b = 255;
     fixed_buttons.push_back( btn_south );
 
-    touch_button btn_east; // ○ - Examine / Cancel
+    touch_button btn_east; // Cancel / Look
     btn_east.id = button_id::FACE_EAST;
     btn_east.style = button_visual_style::CIRCLE;
     btn_east.game_action = ACTION_LOOK;
@@ -73,7 +72,7 @@ void mobile_ui_system::setup_default_buttons()
     btn_east.border_r = 255; btn_east.border_g = 70; btn_east.border_b = 70;
     fixed_buttons.push_back( btn_east );
 
-    touch_button btn_west; // □ - Inventory / Drop
+    touch_button btn_west; // Inventory / Drop
     btn_west.id = button_id::FACE_WEST;
     btn_west.style = button_visual_style::CIRCLE;
     btn_west.game_action = ACTION_INVENTORY;
@@ -84,14 +83,14 @@ void mobile_ui_system::setup_default_buttons()
     btn_west.border_r = 240; btn_west.border_g = 90; btn_west.border_b = 240;
     fixed_buttons.push_back( btn_west );
 
-    touch_button btn_north; // △ - Crafting & Build / Details
+    touch_button btn_north; // Crafting & Build / Details
     btn_north.id = button_id::FACE_NORTH;
     btn_north.style = button_visual_style::CIRCLE;
     btn_north.game_action = ACTION_CRAFT;
     btn_north.game_fallback_key = '&';
     btn_north.menu_fallback_key = '?';
     btn_north.default_symbol = "^";
-    btn_north.description = _( "Criação / Detalhes" );
+    btn_north.description = _( "Criacao / Detalhes" );
     btn_north.border_r = 90; btn_north.border_g = 240; btn_north.border_b = 130;
     fixed_buttons.push_back( btn_north );
 
@@ -154,7 +153,7 @@ void mobile_ui_system::setup_default_buttons()
     btn_c2.game_fallback_key = '/';
     btn_c2.menu_fallback_key = 's';
     btn_c2.default_symbol = "ADV";
-    btn_c2.description = _( "Inventário Avançado / Ordenar" );
+    btn_c2.description = _( "Inventario Avancado / Ordenar" );
     fixed_buttons.push_back( btn_c2 );
 
     // 4. Top HUD Buttons
@@ -186,7 +185,7 @@ void mobile_ui_system::setup_default_buttons()
     btn_hub.game_fallback_key = 0;
     btn_hub.menu_fallback_key = 0;
     btn_hub.default_symbol = "HUB";
-    btn_hub.description = _( "Hub & Configurações" );
+    btn_hub.description = _( "Hub & Configuracoes" );
     btn_hub.border_r = 180; btn_hub.border_g = 110; btn_hub.border_b = 60;
     fixed_buttons.push_back( btn_hub );
 
@@ -211,26 +210,51 @@ void mobile_ui_system::setup_default_buttons()
     }
 }
 
+bool mobile_ui_system::is_gameplay_ready() const
+{
+    return g != nullptr && g->is_core_data_loaded() && bool( g->w_terrain ) && !g->u.is_dead();
+}
+
 bool mobile_ui_system::is_menu_active() const
 {
+    if( input_context::input_context_stack.empty() ) {
+        return false;
+    }
     input_context *top_ctx = input_context::input_context_stack.back();
     if( !top_ctx ) {
         return false;
     }
     const std::string &cat = top_ctx->get_category();
-    return cat != "DEFAULTMODE";
+    return cat != "DEFAULT";
 }
 
 void mobile_ui_system::update_layout( int window_w, int window_h )
 {
-    screen_width = window_w;
-    screen_height = window_h;
-    calculate_geometry( window_w, window_h );
+    if( window_w <= 0 || window_h <= 0 ) {
+        return;
+    }
+    if( window_w != screen_width || window_h != screen_height ) {
+        screen_width = window_w;
+        screen_height = window_h;
+        calculate_geometry( window_w, window_h );
+    }
 }
 
 void mobile_ui_system::calculate_geometry( int w, int h )
 {
-    // Retrieve custom scale factors with defaults
+    screen_width = w;
+    screen_height = h;
+
+    // Escala de densidade adaptada para telas modernas (Poco X7 Pro, FHD+, 2K, etc.)
+    // Poco X7 Pro: 2712 x 1220 => min_dim = 1220 => density_scale = ~1.90f
+    float min_dim = static_cast<float>( std::min( w, h ) );
+    float density_scale = std::clamp( min_dim / 640.0f, 1.25f, 2.8f );
+
+    // Margens de seguranca para evitar bordas de tela, cortes arredondados e barra de gestos do HyperOS
+    float safe_margin_x = 36.0f * density_scale;
+    float safe_margin_bottom = 32.0f * density_scale;
+    float safe_margin_top = 18.0f * density_scale;
+
     float dpad_scale = get_option<float>( "MOBILE_DPAD_SCALE" );
     if( dpad_scale <= 0.1f ) { dpad_scale = 1.0f; }
 
@@ -253,97 +277,93 @@ void mobile_ui_system::calculate_geometry( int w, int h )
 
     bool swap_sides = get_option<bool>( "MOBILE_SWAP_SIDES" );
 
-    // 1. Exiled Kingdoms Analog Pad (Bottom Left by default)
-    analog_radius = 65.0f * dpad_scale;
-    float analog_base_x = 110.0f + static_cast<float>( dpad_ox );
-    float analog_base_y = static_cast<float>( h ) - 110.0f + static_cast<float>( dpad_oy );
+    // 1. Exiled Kingdoms Analog Pad (Inferior Esquerdo por padrao)
+    analog_radius = 58.0f * density_scale * dpad_scale;
+    float analog_base_x = safe_margin_x + analog_radius + static_cast<float>( dpad_ox );
+    float analog_base_y = static_cast<float>( h ) - safe_margin_bottom - analog_radius + static_cast<float>( dpad_oy );
     if( swap_sides ) {
-        analog_base_x = static_cast<float>( w ) - 110.0f - static_cast<float>( dpad_ox );
+        analog_base_x = static_cast<float>( w ) - safe_margin_x - analog_radius - static_cast<float>( dpad_ox );
     }
     analog_center = point( static_cast<int>( analog_base_x ), static_cast<int>( analog_base_y ) );
 
-    // 2. PPSSPP Diamond Face Buttons (Bottom Right by default)
-    float face_base_x = static_cast<float>( w ) - 120.0f + static_cast<float>( face_ox );
-    float face_base_y = static_cast<float>( h ) - 120.0f + static_cast<float>( face_oy );
+    // 2. PPSSPP Diamond Face Buttons (Inferior Direito por padrao)
+    int btn_size = static_cast<int>( 52.0f * density_scale * face_scale );
+    int diamond_radius = static_cast<int>( 56.0f * density_scale * face_scale );
+
+    float face_base_x = static_cast<float>( w ) - safe_margin_x - diamond_radius - ( btn_size / 2.0f ) + static_cast<float>( face_ox );
+    float face_base_y = static_cast<float>( h ) - safe_margin_bottom - diamond_radius - ( btn_size / 2.0f ) + static_cast<float>( face_oy );
     if( swap_sides ) {
-        face_base_x = 120.0f - static_cast<float>( face_ox );
+        face_base_x = safe_margin_x + diamond_radius + ( btn_size / 2.0f ) - static_cast<float>( face_ox );
     }
 
-    int btn_size = static_cast<int>( 58.0f * face_scale );
-    int diamond_radius = static_cast<int>( 55.0f * face_scale );
+    // Top HUD Button sizes
+    int hub_btn_size = static_cast<int>( 46.0f * density_scale );
+    int top_y = static_cast<int>( safe_margin_top );
+
+    // Shoulder Buttons
+    int sw = static_cast<int>( 72.0f * density_scale * shoulder_scale );
+    int sh = static_cast<int>( 36.0f * density_scale * shoulder_scale );
+    int shoulder_y = top_y + hub_btn_size + static_cast<int>( 10.0f * density_scale );
+
+    // Center Bottom Buttons
+    int cw = static_cast<int>( 68.0f * density_scale * center_scale );
+    int ch = static_cast<int>( 34.0f * density_scale * center_scale );
+    int center_y = h - static_cast<int>( safe_margin_bottom ) - ch;
 
     for( auto &btn : fixed_buttons ) {
         switch( btn.id ) {
-            case button_id::FACE_SOUTH: // ✕
+            case button_id::FACE_SOUTH:
                 btn.bounds = { static_cast<int>( face_base_x - btn_size / 2 ),
                                static_cast<int>( face_base_y + diamond_radius - btn_size / 2 ),
                                btn_size, btn_size };
                 break;
-            case button_id::FACE_EAST: // ○
+            case button_id::FACE_EAST:
                 btn.bounds = { static_cast<int>( face_base_x + diamond_radius - btn_size / 2 ),
                                static_cast<int>( face_base_y - btn_size / 2 ),
                                btn_size, btn_size };
                 break;
-            case button_id::FACE_WEST: // □
+            case button_id::FACE_WEST:
                 btn.bounds = { static_cast<int>( face_base_x - diamond_radius - btn_size / 2 ),
                                static_cast<int>( face_base_y - btn_size / 2 ),
                                btn_size, btn_size };
                 break;
-            case button_id::FACE_NORTH: // △
+            case button_id::FACE_NORTH:
                 btn.bounds = { static_cast<int>( face_base_x - btn_size / 2 ),
                                static_cast<int>( face_base_y - diamond_radius - btn_size / 2 ),
                                btn_size, btn_size };
                 break;
 
             // Shoulder Triggers
-            case button_id::SHOULDER_L1: {
-                int sw = static_cast<int>( 75.0f * shoulder_scale );
-                int sh = static_cast<int>( 36.0f * shoulder_scale );
-                btn.bounds = { 20, 75, sw, sh };
+            case button_id::SHOULDER_L1:
+                btn.bounds = { static_cast<int>( safe_margin_x ), shoulder_y, sw, sh };
                 break;
-            }
-            case button_id::SHOULDER_L2: {
-                int sw = static_cast<int>( 75.0f * shoulder_scale );
-                int sh = static_cast<int>( 36.0f * shoulder_scale );
-                btn.bounds = { 105, 75, sw, sh };
+            case button_id::SHOULDER_L2:
+                btn.bounds = { static_cast<int>( safe_margin_x + sw + 10 ), shoulder_y, sw, sh };
                 break;
-            }
-            case button_id::SHOULDER_R1: {
-                int sw = static_cast<int>( 75.0f * shoulder_scale );
-                int sh = static_cast<int>( 36.0f * shoulder_scale );
-                btn.bounds = { w - 190, 75, sw, sh };
+            case button_id::SHOULDER_R1:
+                btn.bounds = { static_cast<int>( w - safe_margin_x - sw * 2 - 10 ), shoulder_y, sw, sh };
                 break;
-            }
-            case button_id::SHOULDER_R2: {
-                int sw = static_cast<int>( 75.0f * shoulder_scale );
-                int sh = static_cast<int>( 36.0f * shoulder_scale );
-                btn.bounds = { w - 105, 75, sw, sh };
+            case button_id::SHOULDER_R2:
+                btn.bounds = { static_cast<int>( w - safe_margin_x - sw ), shoulder_y, sw, sh };
                 break;
-            }
 
             // Bottom Center Buttons
-            case button_id::CENTER_WAIT_1T: {
-                int cw = static_cast<int>( 60.0f * center_scale );
-                int ch = static_cast<int>( 32.0f * center_scale );
-                btn.bounds = { w / 2 - cw - 8, h - ch - 12, cw, ch };
+            case button_id::CENTER_WAIT_1T:
+                btn.bounds = { w / 2 - cw - 8, center_y, cw, ch };
                 break;
-            }
-            case button_id::CENTER_ADV_INV: {
-                int cw = static_cast<int>( 60.0f * center_scale );
-                int ch = static_cast<int>( 32.0f * center_scale );
-                btn.bounds = { w / 2 + 8, h - ch - 12, cw, ch };
+            case button_id::CENTER_ADV_INV:
+                btn.bounds = { w / 2 + 8, center_y, cw, ch };
                 break;
-            }
 
             // Top HUD Buttons
-            case button_id::TOP_CHAR_SHEET: // Red Square
-                btn.bounds = { 18, 12, 54, 50 };
+            case button_id::TOP_CHAR_SHEET:
+                btn.bounds = { static_cast<int>( safe_margin_x ), top_y, hub_btn_size, hub_btn_size };
                 break;
             case button_id::TOP_MAP_BUTTON:
-                btn.bounds = { w - 110, 12, 44, 44 };
+                btn.bounds = { static_cast<int>( w - safe_margin_x - hub_btn_size * 2 - 12 ), top_y, hub_btn_size, hub_btn_size };
                 break;
-            case button_id::TOP_HUB_MENU: // Brown Square
-                btn.bounds = { w - 58, 12, 44, 44 };
+            case button_id::TOP_HUB_MENU: // Hub Marrom
+                btn.bounds = { static_cast<int>( w - safe_margin_x - hub_btn_size ), top_y, hub_btn_size, hub_btn_size };
                 break;
 
             default:
@@ -351,161 +371,161 @@ void mobile_ui_system::calculate_geometry( int w, int h )
         }
     }
 
-    // 3. Dynamic Context Slots (Right Staircase: from bottom-left of face diamond upwards)
-    int slot_w = static_cast<int>( 90.0f * context_scale );
-    int slot_h = static_cast<int>( 36.0f * context_scale );
+    // Dynamic Context Slots (Escada ao redor dos polegares)
+    int slot_w = static_cast<int>( 88.0f * density_scale * context_scale );
+    int slot_h = static_cast<int>( 36.0f * density_scale * context_scale );
+    int slot_gap = static_cast<int>( 8.0f * density_scale );
 
-    // Slot 1 (Primary - closest to right thumb):
-    right_context_slots[0].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w - 15 ),
-                                      static_cast<int>( face_base_y + 15 ),
-                                      slot_w, slot_h };
-    // Slot 2 (Middle of staircase):
-    right_context_slots[1].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w + 10 ),
-                                      static_cast<int>( face_base_y - slot_h - 15 ),
-                                      slot_w, slot_h };
-    // Slot 3 (Top of staircase):
-    right_context_slots[2].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w + 35 ),
-                                      static_cast<int>( face_base_y - slot_h * 2 - 40 ),
-                                      slot_w, slot_h };
+    if( !swap_sides ) {
+        // Right Staircase (Thumb direito)
+        right_context_slots[0].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w - slot_gap ),
+                                          static_cast<int>( face_base_y + slot_gap ),
+                                          slot_w, slot_h };
+        right_context_slots[1].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w ),
+                                          static_cast<int>( face_base_y - slot_h - slot_gap ),
+                                          slot_w, slot_h };
+        right_context_slots[2].bounds = { static_cast<int>( face_base_x - diamond_radius - slot_w + static_cast<int>( 20.0f * density_scale ) ),
+                                          static_cast<int>( face_base_y - slot_h * 2 - slot_gap * 2 ),
+                                          slot_w, slot_h };
 
-    // 4. Dynamic Context Slots (Left Staircase: above/right of analog)
-    left_context_slots[0].bounds = { static_cast<int>( analog_base_x + analog_radius + 15 ),
-                                     static_cast<int>( analog_base_y - slot_h / 2 ),
-                                     slot_w, slot_h };
-    left_context_slots[1].bounds = { static_cast<int>( analog_base_x + analog_radius - 5 ),
-                                     static_cast<int>( analog_base_y - slot_h * 2 ),
-                                     slot_w, slot_h };
-    left_context_slots[2].bounds = { static_cast<int>( analog_base_x + analog_radius - 25 ),
-                                     static_cast<int>( analog_base_y - slot_h * 3 - 15 ),
-                                     slot_w, slot_h };
+        // Left Staircase (Thumb esquerdo)
+        left_context_slots[0].bounds = { static_cast<int>( analog_base_x + analog_radius + slot_gap ),
+                                         static_cast<int>( analog_base_y - slot_h / 2 ),
+                                         slot_w, slot_h };
+        left_context_slots[1].bounds = { static_cast<int>( analog_base_x + analog_radius ),
+                                         static_cast<int>( analog_base_y - slot_h * 2 - slot_gap ),
+                                         slot_w, slot_h };
+        left_context_slots[2].bounds = { static_cast<int>( analog_base_x + analog_radius - static_cast<int>( 15.0f * density_scale ) ),
+                                         static_cast<int>( analog_base_y - slot_h * 3 - slot_gap * 2 ),
+                                         slot_w, slot_h };
+    } else {
+        // Canhoto (inverteu analogico e face)
+        right_context_slots[0].bounds = { static_cast<int>( face_base_x + diamond_radius + slot_gap ),
+                                          static_cast<int>( face_base_y + slot_gap ),
+                                          slot_w, slot_h };
+        right_context_slots[1].bounds = { static_cast<int>( face_base_x + diamond_radius ),
+                                          static_cast<int>( face_base_y - slot_h - slot_gap ),
+                                          slot_w, slot_h };
+        right_context_slots[2].bounds = { static_cast<int>( face_base_x + diamond_radius - static_cast<int>( 20.0f * density_scale ) ),
+                                          static_cast<int>( face_base_y - slot_h * 2 - slot_gap * 2 ),
+                                          slot_w, slot_h };
+
+        left_context_slots[0].bounds = { static_cast<int>( analog_base_x - analog_radius - slot_w - slot_gap ),
+                                         static_cast<int>( analog_base_y - slot_h / 2 ),
+                                         slot_w, slot_h };
+        left_context_slots[1].bounds = { static_cast<int>( analog_base_x - analog_radius - slot_w ),
+                                         static_cast<int>( analog_base_y - slot_h * 2 - slot_gap ),
+                                         slot_w, slot_h };
+        left_context_slots[2].bounds = { static_cast<int>( analog_base_x - analog_radius - slot_w + static_cast<int>( 15.0f * density_scale ) ),
+                                         static_cast<int>( analog_base_y - slot_h * 3 - slot_gap * 2 ),
+                                         slot_w, slot_h };
+    }
 }
 
 void mobile_ui_system::update_context_actions()
 {
-    active_right_actions.clear();
-    active_left_actions.clear();
-
-    if( !g || is_menu_active() ) {
-        for( auto &slot : right_context_slots ) { slot.is_visible = false; }
-        for( auto &slot : left_context_slots ) { slot.is_visible = false; }
+    if( !is_gameplay_ready() ) {
+        active_right_actions.clear();
+        active_left_actions.clear();
+        for( auto &slot : right_context_slots ) {
+            slot.is_visible = false;
+        }
+        for( auto &slot : left_context_slots ) {
+            slot.is_visible = false;
+        }
         return;
     }
 
-    Character &u = get_player_character();
-    map &m = get_map();
-    const tripoint_bub_ms p_bub = u.pos_bub();
+    try {
+        active_right_actions.clear();
+        active_left_actions.clear();
 
-    // --- RIGHT SLOTS (Combat, Weapons & Immediate Health) ---
-    // 1. Reload Weapon
-    item_location wielded = u.get_wielded_item();
-    if( wielded && wielded->is_gun() ) {
-        context_action act_reload;
-        act_reload.act_id = ACTION_RELOAD_WEAPON;
-        act_reload.fallback_key = 'r';
-        act_reload.default_symbol = "RELOAD";
-        act_reload.label = _( "Recarregar" );
-        active_right_actions.push_back( act_reload );
-    }
+        Character &u = get_player_character();
 
-    // 2. Health / Bandage (Check if hurt or bleeding)
-    if( u.has_effect( effect_bleed ) || u.has_effect( effect_bite ) || u.has_effect( effect_infected ) ) {
-        context_action act_medical;
-        act_medical.act_id = ACTION_MEDICAL;
-        act_medical.fallback_key = 'N';
-        act_medical.default_symbol = "HEAL";
-        act_medical.label = _( "Curativo" );
-        active_right_actions.push_back( act_medical );
-    }
+        // 1. Right Staircase - Combat & Survival Actions
+        // R1: Reload or Unload current weapon
+        item &wielded = u.get_wielded_item();
+        if( !wielded.is_null() && wielded.is_gun() ) {
+            context_action act_reload;
+            act_reload.act_id = ACTION_RELOAD;
+            act_reload.fallback_key = 'r';
+            act_reload.default_symbol = "REC";
+            act_reload.label = _( "Recarregar" );
+            active_right_actions.push_back( act_reload );
+        }
 
-    // 3. Butcher / Smash Corpse on own tile or adjacent
-    bool found_corpse = false;
-    for( int dx = -1; dx <= 1 && !found_corpse; ++dx ) {
-        for( int dy = -1; dy <= 1 && !found_corpse; ++dy ) {
-            const tripoint_bub_ms check_p( p_bub.x() + dx, p_bub.y() + dy, p_bub.z() );
-            if( can_interact_at( ACTION_BUTCHER, m, check_p ) ) {
-                context_action act_butcher;
-                act_butcher.act_id = ACTION_BUTCHER;
-                act_butcher.fallback_key = 'B';
-                act_butcher.default_symbol = "BUTCH";
-                act_butcher.label = _( "Carnear" );
-                active_right_actions.push_back( act_butcher );
-                found_corpse = true;
+        // R2: Bandage / Medical emergency if wounded
+        if( u.get_hp() < u.get_hp_max() ) {
+            context_action act_heal;
+            act_heal.act_id = ACTION_USE;
+            act_heal.fallback_key = 'a';
+            act_heal.default_symbol = "CURA";
+            act_heal.label = _( "Curativo" );
+            active_right_actions.push_back( act_heal );
+        }
+
+        // R3: Open / Close Doors or Grab
+        context_action act_door;
+        act_door.act_id = ACTION_OPEN;
+        act_door.fallback_key = 'o';
+        act_door.default_symbol = "PORT";
+        act_door.label = _( "Abrir/Fechar" );
+        active_right_actions.push_back( act_door );
+
+        // 2. Left Staircase - Exploration & Utilities
+        // L1: Flashlight / Light toggle
+        context_action act_light;
+        act_light.act_id = ACTION_USE;
+        act_light.fallback_key = 'a';
+        act_light.default_symbol = "LUZ";
+        act_light.label = _( "Lanterna" );
+        active_left_actions.push_back( act_light );
+
+        // L2: Sleep / Rest if tired
+        if( u.get_fatigue() > 200 ) {
+            context_action act_sleep;
+            act_sleep.act_id = ACTION_SLEEP;
+            act_sleep.fallback_key = '$';
+            act_sleep.default_symbol = "SONO";
+            act_sleep.label = _( "Dormir" );
+            active_left_actions.push_back( act_sleep );
+        }
+
+        // L3: Vehicle controls or Read
+        context_action act_read;
+        act_read.act_id = ACTION_READ;
+        act_read.fallback_key = 'R';
+        act_read.default_symbol = "LER";
+        act_read.label = _( "Ler Livro" );
+        active_left_actions.push_back( act_read );
+
+        // Bind right actions to slots
+        for( size_t i = 0; i < right_context_slots.size(); ++i ) {
+            if( i < active_right_actions.size() ) {
+                right_context_slots[i].is_visible = true;
+                right_context_slots[i].game_action = active_right_actions[i].act_id;
+                right_context_slots[i].game_fallback_key = active_right_actions[i].fallback_key;
+                right_context_slots[i].default_symbol = active_right_actions[i].default_symbol;
+                right_context_slots[i].description = active_right_actions[i].label;
+            } else {
+                right_context_slots[i].is_visible = false;
             }
         }
-    }
 
-    // --- LEFT SLOTS (Exploration, Doors, Items & Sleeping) ---
-    // 1. Nearby Door to Open or Close
-    bool found_door = false;
-    for( int dx = -1; dx <= 1 && !found_door; ++dx ) {
-        for( int dy = -1; dy <= 1 && !found_door; ++dy ) {
-            if( dx == 0 && dy == 0 ) continue;
-            const tripoint_bub_ms check_p( p_bub.x() + dx, p_bub.y() + dy, p_bub.z() );
-            if( can_interact_at( ACTION_CLOSE, m, check_p ) ) {
-                context_action act_close;
-                act_close.act_id = ACTION_CLOSE;
-                act_close.fallback_key = 'c';
-                act_close.default_symbol = "CLOSE";
-                act_close.label = _( "Fechar" );
-                active_left_actions.push_back( act_close );
-                found_door = true;
-            } else if( can_interact_at( ACTION_OPEN, m, check_p ) ) {
-                context_action act_open;
-                act_open.act_id = ACTION_OPEN;
-                act_open.fallback_key = 'o';
-                act_open.default_symbol = "OPEN";
-                act_open.label = _( "Abrir" );
-                active_left_actions.push_back( act_open );
-                found_door = true;
+        // Bind left actions to slots
+        for( size_t i = 0; i < left_context_slots.size(); ++i ) {
+            if( i < active_left_actions.size() ) {
+                left_context_slots[i].is_visible = true;
+                left_context_slots[i].game_action = active_left_actions[i].act_id;
+                left_context_slots[i].game_fallback_key = active_left_actions[i].fallback_key;
+                left_context_slots[i].default_symbol = active_left_actions[i].default_symbol;
+                left_context_slots[i].description = active_left_actions[i].label;
+            } else {
+                left_context_slots[i].is_visible = false;
             }
         }
-    }
-
-    // 2. Items on Floor to Pick up
-    if( can_interact_at( ACTION_PICKUP, m, p_bub ) ) {
-        context_action act_pickup;
-        act_pickup.act_id = ACTION_PICKUP;
-        act_pickup.fallback_key = 'g';
-        act_pickup.default_symbol = "GET";
-        act_pickup.label = _( "Pegar" );
-        active_left_actions.push_back( act_pickup );
-    }
-
-    // 3. Sleep / Rest (Available if fatigued or on bed/seat)
-    if( u.get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) || m.has_flag_ter_or_furn( "BED", p_bub ) ) {
-        context_action act_sleep;
-        act_sleep.act_id = ACTION_SLEEP;
-        act_sleep.fallback_key = '$';
-        act_sleep.default_symbol = "SLEEP";
-        act_sleep.label = _( "Dormir" );
-        active_left_actions.push_back( act_sleep );
-    }
-
-    // --- POPULATE SLOTS QUEUE (Sliding from Right to Left) ---
-    // Right slots:
-    for( size_t i = 0; i < right_context_slots.size(); ++i ) {
-        if( i < active_right_actions.size() ) {
-            right_context_slots[i].is_visible = true;
-            right_context_slots[i].game_action = active_right_actions[i].act_id;
-            right_context_slots[i].game_fallback_key = active_right_actions[i].fallback_key;
-            right_context_slots[i].default_symbol = active_right_actions[i].default_symbol;
-            right_context_slots[i].description = active_right_actions[i].label;
-        } else {
-            right_context_slots[i].is_visible = false;
-        }
-    }
-
-    // Left slots:
-    for( size_t i = 0; i < left_context_slots.size(); ++i ) {
-        if( i < active_left_actions.size() ) {
-            left_context_slots[i].is_visible = true;
-            left_context_slots[i].game_action = active_left_actions[i].act_id;
-            left_context_slots[i].game_fallback_key = active_left_actions[i].fallback_key;
-            left_context_slots[i].default_symbol = active_left_actions[i].default_symbol;
-            left_context_slots[i].description = active_left_actions[i].label;
-        } else {
-            left_context_slots[i].is_visible = false;
-        }
+    } catch( ... ) {
+        // Prevencao de qualquer excecao em contexto
     }
 }
 
@@ -528,17 +548,17 @@ void mobile_ui_system::draw_glass_button( const SDL_Renderer_Ptr &renderer, Font
     const float alpha_norm = std::clamp( alpha_opt, 10, 100 ) / 100.0f;
     const bool high_contrast = get_option<bool>( "MOBILE_HIGH_CONTRAST" );
 
-    // 1. Frosted Glass Background
+    // 1. Fundo de vidro fosco
     Uint8 bg_a = static_cast<Uint8>( 160 * alpha_norm );
     if( btn.is_pressed ) {
-        bg_a = static_cast<Uint8>( 230 * alpha_norm );
+        bg_a = static_cast<Uint8>( 235 * alpha_norm );
     }
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
     SetRenderDrawColor( renderer, btn.bg_r, btn.bg_g, btn.bg_b, bg_a );
     RenderFillRect( renderer, &btn.bounds );
 
-    // 2. Soft Outline Border (or 2px neon outline in high contrast)
+    // 2. Contorno
     Uint8 b_a = static_cast<Uint8>( 220 * alpha_norm );
     if( high_contrast ) {
         SetRenderDrawColor( renderer, 255, 255, 0, 255 );
@@ -550,15 +570,15 @@ void mobile_ui_system::draw_glass_button( const SDL_Renderer_Ptr &renderer, Font
         RenderDrawRect( renderer, &btn.bounds );
     }
 
-    // 3. Button Symbol / Emoji / Text
+    // 3. Simbolo / Texto
     if( font ) {
         std::string text = get_button_display_text( btn );
         int text_len = utf8_width( text );
         int text_x = btn.bounds.x + ( btn.bounds.w - ( font->width * text_len ) ) / 2;
         int text_y = btn.bounds.y + ( btn.bounds.h - font->height ) / 2;
 
-        font->OutputChar( renderer, text, point( text_x + 1, text_y + 1 ), 0, 0.6f ); // Shadow
-        font->OutputChar( renderer, text, point( text_x, text_y ), 15, 1.0f );         // White Text
+        font->OutputChar( renderer, text, point( text_x + 1, text_y + 1 ), 0, 0.6f );
+        font->OutputChar( renderer, text, point( text_x, text_y ), 15, 1.0f );
     }
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 }
@@ -571,61 +591,82 @@ void mobile_ui_system::draw_exiled_analog( const SDL_Renderer_Ptr &renderer, Fon
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
 
-    // Outer Yellow Ring
-    SDL_Rect ring_rect = {
+    // Outer Circle Ring (Analog Base)
+    SDL_Rect outer_box = {
         static_cast<int>( analog_center.x - analog_radius ),
         static_cast<int>( analog_center.y - analog_radius ),
         static_cast<int>( analog_radius * 2 ),
         static_cast<int>( analog_radius * 2 )
     };
 
-    // Frosted Backing
-    SetRenderDrawColor( renderer, 25, 20, 5, static_cast<Uint8>( 140 * alpha_norm ) );
-    RenderFillRect( renderer, &ring_rect );
+    Uint8 base_a = static_cast<Uint8>( 75 * alpha_norm );
+    SetRenderDrawColor( renderer, 25, 30, 40, base_a );
+    RenderFillRect( renderer, &outer_box );
 
-    // Yellow Golden Rim
-    Uint8 gold_a = static_cast<Uint8>( high_contrast ? 255 : 220 * alpha_norm );
-    SetRenderDrawColor( renderer, 255, 215, 0, gold_a );
-    RenderDrawRect( renderer, &ring_rect );
-
-    // Draw 4 Cardinal Arrow Markers
-    if( font ) {
-        font->OutputChar( renderer, "^", point( analog_center.x - font->width / 2, analog_center.y - analog_radius + 4 ), 11 );
-        font->OutputChar( renderer, "v", point( analog_center.x - font->width / 2, analog_center.y + analog_radius - font->height - 4 ), 11 );
-        font->OutputChar( renderer, "<", point( analog_center.x - analog_radius + 6, analog_center.y - font->height / 2 ), 11 );
-        font->OutputChar( renderer, ">", point( analog_center.x + analog_radius - font->width - 6, analog_center.y - font->height / 2 ), 11 );
+    if( high_contrast ) {
+        SetRenderDrawColor( renderer, 255, 235, 59, 255 );
+        RenderDrawRect( renderer, &outer_box );
+    } else {
+        SetRenderDrawColor( renderer, 255, 193, 7, static_cast<Uint8>( 160 * alpha_norm ) ); // Ambar fosco
+        RenderDrawRect( renderer, &outer_box );
     }
 
-    // Inner Knob / Stick Indicator
-    float knob_r = analog_radius * 0.35f;
-    SDL_Rect knob_rect = {
-        static_cast<int>( analog_center.x + analog_knob_x - knob_r ),
-        static_cast<int>( analog_center.y + analog_knob_y - knob_r ),
-        static_cast<int>( knob_r * 2 ),
-        static_cast<int>( knob_r * 2 )
+    // Inner Floating Stick Knob (Puck)
+    float knob_x = analog_center.x + analog_knob_x;
+    float knob_y = analog_center.y + analog_knob_y;
+    float knob_radius = analog_radius * 0.38f;
+
+    SDL_Rect knob_box = {
+        static_cast<int>( knob_x - knob_radius ),
+        static_cast<int>( knob_y - knob_radius ),
+        static_cast<int>( knob_radius * 2 ),
+        static_cast<int>( knob_radius * 2 )
     };
-    SetRenderDrawColor( renderer, 255, 235, 70, static_cast<Uint8>( 200 * alpha_norm ) );
-    RenderFillRect( renderer, &knob_rect );
+
+    Uint8 knob_a = static_cast<Uint8>( ( analog_active ? 220 : 150 ) * alpha_norm );
+    SetRenderDrawColor( renderer, 255, 193, 7, knob_a );
+    RenderFillRect( renderer, &knob_box );
     SetRenderDrawColor( renderer, 255, 255, 255, 240 );
-    RenderDrawRect( renderer, &knob_rect );
+    RenderDrawRect( renderer, &knob_box );
+
+    if( font && !analog_active ) {
+        std::string center_hint = ".";
+        int tx = analog_center.x - font->width / 2;
+        int ty = analog_center.y - font->height / 2;
+        font->OutputChar( renderer, center_hint, point( tx, ty ), 15 );
+    }
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 }
 
 void mobile_ui_system::draw_vital_stats_bar( const SDL_Renderer_Ptr &renderer, Font *font )
 {
-    // Green Outline Bar in Top Left
-    SDL_Rect bar_rect = { 80, 16, 210, 42 };
+    if( !is_gameplay_ready() || !font ) {
+        return;
+    }
+
+    float min_dim = static_cast<float>( std::min( screen_width, screen_height ) );
+    float density_scale = std::clamp( min_dim / 640.0f, 1.25f, 2.8f );
+    float safe_margin_x = 36.0f * density_scale;
+    float safe_margin_top = 18.0f * density_scale;
+    int hub_btn_size = static_cast<int>( 46.0f * density_scale );
+
+    // Posicionada logo ao lado do botao de BIO
+    int bar_x = static_cast<int>( safe_margin_x ) + hub_btn_size + 10;
+    int bar_y = static_cast<int>( safe_margin_top );
+    int bar_w = static_cast<int>( 200.0f * density_scale );
+    int bar_h = hub_btn_size;
+
+    SDL_Rect bar_rect = { bar_x, bar_y, bar_w, bar_h };
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
     SetRenderDrawColor( renderer, 12, 22, 16, 170 );
     RenderFillRect( renderer, &bar_rect );
 
-    // Bright Green Border
     SetRenderDrawColor( renderer, 46, 204, 113, 230 );
     RenderDrawRect( renderer, &bar_rect );
 
-    if( g && font ) {
+    try {
         Character &u = get_player_character();
         int hp_pct = 100;
         int max_hp = u.get_hp_max();
@@ -634,21 +675,25 @@ void mobile_ui_system::draw_vital_stats_bar( const SDL_Renderer_Ptr &renderer, F
         }
         int sta_pct = std::clamp( ( u.get_stamina() * 100 ) / std::max( 1, u.get_stamina_max() ), 0, 100 );
 
-        // Draw Mini HP Fill Bar
-        SDL_Rect hp_fill = { bar_rect.x + 4, bar_rect.y + 4, ( bar_rect.w - 8 ) * hp_pct / 100, 14 };
-        SetRenderDrawColor( renderer, 231, 76, 60, 200 ); // Red HP Fill
+        int half_h = ( bar_rect.h - 8 ) / 2;
+
+        // Mini HP Fill Bar
+        SDL_Rect hp_fill = { bar_rect.x + 4, bar_rect.y + 3, ( bar_rect.w - 8 ) * hp_pct / 100, half_h };
+        SetRenderDrawColor( renderer, 231, 76, 60, 200 );
         RenderFillRect( renderer, &hp_fill );
 
-        // Draw Mini Stamina Fill Bar
-        SDL_Rect sta_fill = { bar_rect.x + 4, bar_rect.y + 22, ( bar_rect.w - 8 ) * sta_pct / 100, 14 };
-        SetRenderDrawColor( renderer, 52, 152, 219, 200 ); // Blue Stamina Fill
+        // Mini Stamina Fill Bar
+        SDL_Rect sta_fill = { bar_rect.x + 4, bar_rect.y + 4 + half_h, ( bar_rect.w - 8 ) * sta_pct / 100, half_h };
+        SetRenderDrawColor( renderer, 52, 152, 219, 200 );
         RenderFillRect( renderer, &sta_fill );
 
         // Text Overlay
         std::string hp_str = "HP " + std::to_string( hp_pct ) + "%";
         std::string sta_str = "STA " + std::to_string( sta_pct ) + "%";
-        font->OutputChar( renderer, hp_str, point( bar_rect.x + 8, bar_rect.y + 4 ), 15 );
-        font->OutputChar( renderer, sta_str, point( bar_rect.x + 8, bar_rect.y + 22 ), 15 );
+        font->OutputChar( renderer, hp_str, point( bar_rect.x + 8, bar_rect.y + 3 ), 15 );
+        font->OutputChar( renderer, sta_str, point( bar_rect.x + 8, bar_rect.y + 4 + half_h ), 15 );
+    } catch( ... ) {
+        // Safe guard
     }
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
@@ -660,34 +705,47 @@ void mobile_ui_system::draw( const SDL_Renderer_Ptr &renderer, Font *font )
         init();
     }
 
-    update_context_actions();
+    const bool gameplay_ready = is_gameplay_ready();
 
-    // 1. Draw Top Vital Stats & Bars
-    draw_vital_stats_bar( renderer, font );
+    if( gameplay_ready ) {
+        update_context_actions();
 
-    // 2. Draw 10 Fixed Action Buttons
-    for( const auto &btn : fixed_buttons ) {
-        draw_glass_button( renderer, font, btn );
-    }
+        // 1. Barra de status no topo
+        draw_vital_stats_bar( renderer, font );
 
-    // 3. Draw Dynamic Context Slots (Right Staircase)
-    for( const auto &slot : right_context_slots ) {
-        if( slot.is_visible ) {
-            draw_glass_button( renderer, font, slot );
+        // 2. Botoes fixos (Face, Gatilhos, Centrais, Top HUD)
+        for( const auto &btn : fixed_buttons ) {
+            draw_glass_button( renderer, font, btn );
+        }
+
+        // 3. Dynamic Context Slots (Right Staircase)
+        for( const auto &slot : right_context_slots ) {
+            if( slot.is_visible ) {
+                draw_glass_button( renderer, font, slot );
+            }
+        }
+
+        // 4. Dynamic Context Slots (Left Staircase)
+        for( const auto &slot : left_context_slots ) {
+            if( slot.is_visible ) {
+                draw_glass_button( renderer, font, slot );
+            }
+        }
+
+        // 5. Exiled Kingdoms Analog D-Pad
+        draw_exiled_analog( renderer, font );
+    } else {
+        // No menu principal ou durante carregamento:
+        // desenha APENAS o botao do Hub Marrom para que o usuario possa acessar as configuracoes!
+        for( const auto &btn : fixed_buttons ) {
+            if( btn.id == button_id::TOP_HUB_MENU ) {
+                draw_glass_button( renderer, font, btn );
+                break;
+            }
         }
     }
 
-    // 4. Draw Dynamic Context Slots (Left Staircase)
-    for( const auto &slot : left_context_slots ) {
-        if( slot.is_visible ) {
-            draw_glass_button( renderer, font, slot );
-        }
-    }
-
-    // 5. Draw Exiled Kingdoms Analog D-Pad
-    draw_exiled_analog( renderer, font );
-
-    // 6. Draw Settings Drawer if opened (Hub Marrom)
+    // 6. Draw Settings Drawer se estiver aberto (Hub Marrom)
     if( settings_open ) {
         draw_settings_drawer( renderer, font );
     }
@@ -696,15 +754,34 @@ void mobile_ui_system::draw( const SDL_Renderer_Ptr &renderer, Font *font )
 bool mobile_ui_system::handle_touch_down( float x, float y, int finger_id, uint32_t ticks )
 {
     if( settings_open ) {
-        // Intercepted by settings drawer
+        // Interceptado pelo Hub de configuracoes
         return true;
+    }
+
+    const bool gameplay_ready = is_gameplay_ready();
+
+    // Se nao esta em gameplay ativo (ex: Menu Principal),
+    // apenas processa o botao do Hub! O restante da tela passa para o menu original do jogo!
+    if( !gameplay_ready ) {
+        for( auto &btn : fixed_buttons ) {
+            if( btn.id == button_id::TOP_HUB_MENU && btn.is_visible ) {
+                if( x >= btn.bounds.x && x <= btn.bounds.x + btn.bounds.w &&
+                    y >= btn.bounds.y && y <= btn.bounds.y + btn.bounds.h ) {
+                    btn.is_pressed = true;
+                    btn.active_finger_id = finger_id;
+                    btn.press_start_time = ticks;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // 1. Check Analog D-Pad touch
     float dx = x - static_cast<float>( analog_center.x );
     float dy = y - static_cast<float>( analog_center.y );
     float dist = std::sqrt( dx * dx + dy * dy );
-    if( dist <= analog_radius * 1.3f && !analog_active ) {
+    if( dist <= analog_radius * 1.35f && !analog_active ) {
         analog_active = true;
         analog_finger_id = finger_id;
         analog_last_repeat = ticks;
@@ -770,26 +847,26 @@ bool mobile_ui_system::handle_touch_motion( float x, float y, int finger_id, uin
             analog_knob_x = ( dx / dist ) * clamp_dist;
             analog_knob_y = ( dy / dist ) * clamp_dist;
 
-            // Determine directional angle for 8-way movement
             float angle = std::atan2( dy, dx ) * 180.0f / static_cast<float>( M_PI );
             if( angle < 0.0f ) angle += 360.0f;
 
+            // 8-way directional mapping
             if( angle >= 337.5f || angle < 22.5f ) {
-                analog_current_direction_key = KEY_RIGHT;
+                analog_current_direction_key = '6'; // East (l)
             } else if( angle >= 22.5f && angle < 67.5f ) {
-                analog_current_direction_key = JOY_LS_DOWN_RIGHT;
+                analog_current_direction_key = '3'; // South-East (n)
             } else if( angle >= 67.5f && angle < 112.5f ) {
-                analog_current_direction_key = KEY_DOWN;
+                analog_current_direction_key = '2'; // South (j)
             } else if( angle >= 112.5f && angle < 157.5f ) {
-                analog_current_direction_key = JOY_LS_DOWN_LEFT;
+                analog_current_direction_key = '1'; // South-West (b)
             } else if( angle >= 157.5f && angle < 202.5f ) {
-                analog_current_direction_key = KEY_LEFT;
+                analog_current_direction_key = '4'; // West (h)
             } else if( angle >= 202.5f && angle < 247.5f ) {
-                analog_current_direction_key = JOY_LS_UP_LEFT;
+                analog_current_direction_key = '7'; // North-West (y)
             } else if( angle >= 247.5f && angle < 292.5f ) {
-                analog_current_direction_key = KEY_UP;
+                analog_current_direction_key = '8'; // North (k)
             } else {
-                analog_current_direction_key = JOY_LS_UP_RIGHT;
+                analog_current_direction_key = '9'; // North-East (u)
             }
         }
         return true;
@@ -804,6 +881,20 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
         return handle_settings_touch( x, y, out_event );
     }
 
+    const bool gameplay_ready = is_gameplay_ready();
+
+    if( !gameplay_ready ) {
+        for( auto &btn : fixed_buttons ) {
+            if( btn.id == button_id::TOP_HUB_MENU && btn.is_pressed && btn.active_finger_id == finger_id ) {
+                btn.is_pressed = false;
+                btn.active_finger_id = -1;
+                toggle_settings_drawer();
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 1. Release Analog
     if( analog_active && finger_id == analog_finger_id ) {
         analog_active = false;
@@ -811,7 +902,7 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
         analog_knob_x = 0.0f;
         analog_knob_y = 0.0f;
 
-        // Check if it was a quick central tap to pass 1 turn
+        // Central quick tap passes 1 turn
         if( ticks - analog_last_repeat < 200 && std::abs( analog_knob_x ) < 15.0f && std::abs( analog_knob_y ) < 15.0f ) {
             out_event = input_event( '.', input_event_t::keyboard_char );
             return true;
@@ -872,22 +963,14 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
 
 bool mobile_ui_system::handle_touch_repeat( uint32_t ticks, input_event &out_event )
 {
-    if( settings_open ) {
+    if( settings_open || !is_gameplay_ready() ) {
         return false;
     }
 
     if( analog_active && analog_current_direction_key != 0 ) {
-        const uint32_t repeat_rate = 140; // milliseconds per movement tick
-        if( ticks - analog_last_repeat >= repeat_rate ) {
+        if( ticks - analog_last_repeat >= 180 ) {
             analog_last_repeat = ticks;
-            input_event_t ev_type = input_event_t::keyboard_char;
-            if( analog_current_direction_key == JOY_LS_DOWN_RIGHT ||
-                analog_current_direction_key == JOY_LS_DOWN_LEFT ||
-                analog_current_direction_key == JOY_LS_UP_LEFT ||
-                analog_current_direction_key == JOY_LS_UP_RIGHT ) {
-                ev_type = input_event_t::gamepad;
-            }
-            out_event = input_event( analog_current_direction_key, ev_type );
+            out_event = input_event( analog_current_direction_key, input_event_t::keyboard_char );
             return true;
         }
     }
@@ -897,64 +980,228 @@ bool mobile_ui_system::handle_touch_repeat( uint32_t ticks, input_event &out_eve
 void mobile_ui_system::toggle_settings_drawer()
 {
     settings_open = !settings_open;
+    if( settings_open ) {
+        calculate_geometry( screen_width, screen_height );
+    }
+}
+
+void mobile_ui_system::reset_to_defaults()
+{
+    get_options().get_option( "MOBILE_DPAD_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_FACE_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_SHOULDER_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_CONTEXT_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_CENTER_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_DPAD_POS_X" ).setValue( 0 );
+    get_options().get_option( "MOBILE_DPAD_POS_Y" ).setValue( 0 );
+    get_options().get_option( "MOBILE_FACE_POS_X" ).setValue( 0 );
+    get_options().get_option( "MOBILE_FACE_POS_Y" ).setValue( 0 );
+    get_options().get_option( "MOBILE_UI_OPACITY" ).setValue( 45 );
+    get_options().get_option( "MOBILE_HIGH_CONTRAST" ).setValue( "false" );
+    get_options().get_option( "MOBILE_SWAP_SIDES" ).setValue( "false" );
+    get_options().get_option( "MOBILE_GLOBAL_FONT_SCALE" ).setValue( 1.0f );
+    get_options().get_option( "MOBILE_GAMMA_BOOST" ).setValue( 1.0f );
+    get_options().save();
+    calculate_geometry( screen_width, screen_height );
 }
 
 void mobile_ui_system::draw_settings_drawer( const SDL_Renderer_Ptr &renderer, Font *font )
 {
-    // Semi-transparent backdrop over whole screen
+    // Backdrop escuro semi-transparente
     SDL_Rect backdrop = { 0, 0, screen_width, screen_height };
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
-    SetRenderDrawColor( renderer, 0, 0, 0, 180 );
+    SetRenderDrawColor( renderer, 0, 0, 0, 205 );
     RenderFillRect( renderer, &backdrop );
 
-    // Center Dialog Box
-    int box_w = std::min( 600, screen_width - 40 );
-    int box_h = std::min( 480, screen_height - 40 );
-    SDL_Rect box = { ( screen_width - box_w ) / 2, ( screen_height - box_h ) / 2, box_w, box_h };
+    // Caixa central ampla e ergonomica (92% de largura, ate 1200px)
+    int box_w = std::min( static_cast<int>( screen_width * 0.92f ), 1200 );
+    int box_h = std::min( static_cast<int>( screen_height * 0.90f ), 850 );
+    settings_box = { ( screen_width - box_w ) / 2, ( screen_height - box_h ) / 2, box_w, box_h };
 
-    SetRenderDrawColor( renderer, 18, 24, 34, 245 );
-    RenderFillRect( renderer, &box );
-    SetRenderDrawColor( renderer, 180, 110, 60, 255 ); // Brown Hub Accent Border
-    RenderDrawRect( renderer, &box );
+    // Fundo do painel
+    SetRenderDrawColor( renderer, 18, 24, 34, 252 );
+    RenderFillRect( renderer, &settings_box );
 
-    if( font ) {
-        std::string title = _( "=== HUB MOBILE & ACESSIBILIDADE ===" );
-        font->OutputChar( renderer, title, point( box.x + 20, box.y + 16 ), 11 );
+    // Borda ambar / marrom estilizada do Hub
+    SetRenderDrawColor( renderer, 195, 120, 65, 255 );
+    RenderDrawRect( renderer, &settings_box );
+    SDL_Rect inner_box = { settings_box.x + 1, settings_box.y + 1, settings_box.w - 2, settings_box.h - 2 };
+    RenderDrawRect( renderer, &inner_box );
 
-        // Tabs
-        std::string tab0 = settings_active_tab == 0 ? _( "[1. LAYOUT & TAMANHO]" ) : _( " 1. Layout & Tamanho " );
-        std::string tab1 = settings_active_tab == 1 ? _( "[2. ACESSIBILIDADE]" ) : _( " 2. Acessibilidade " );
-        std::string tab2 = settings_active_tab == 2 ? _( "[3. ICONES & EMOJIS]" ) : _( " 3. Icones & Emojis " );
+    if( !font ) {
+        SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
+        return;
+    }
 
-        font->OutputChar( renderer, tab0, point( box.x + 20, box.y + 44 ), settings_active_tab == 0 ? 11 : 15 );
-        font->OutputChar( renderer, tab1, point( box.x + 220, box.y + 44 ), settings_active_tab == 1 ? 11 : 15 );
-        font->OutputChar( renderer, tab2, point( box.x + 400, box.y + 44 ), settings_active_tab == 2 ? 11 : 15 );
+    // Cabecalho & Titulo
+    std::string title = _( "HUB MOBILE & ACESSIBILIDADE - TOQUE NATIVO" );
+    font->OutputChar( renderer, title, point( settings_box.x + 22, settings_box.y + 16 ), 11 );
 
-        // Close Button
-        std::string close_btn = _( "[ X FECHAR ]" );
-        font->OutputChar( renderer, close_btn, point( box.x + box.w - 110, box.y + 16 ), 12 );
+    // Botao FECHAR no topo direito (Grande e facil de tocar com o polegar)
+    settings_close_btn = { settings_box.x + settings_box.w - 145, settings_box.y + 10, 130, 42 };
+    SetRenderDrawColor( renderer, 180, 45, 45, 240 );
+    RenderFillRect( renderer, &settings_close_btn );
+    SetRenderDrawColor( renderer, 255, 100, 100, 255 );
+    RenderDrawRect( renderer, &settings_close_btn );
 
-        int content_y = box.y + 90;
-        if( settings_active_tab == 0 ) {
-            font->OutputChar( renderer, _( "Ajustes de Tamanho e Layout:" ), point( box.x + 25, content_y ), 14 );
-            font->OutputChar( renderer, _( "Analogico D-Pad:  [ - ]  [ + ]  (Escala dinamica)" ), point( box.x + 25, content_y + 35 ), 15 );
-            font->OutputChar( renderer, _( "Botoes de Acao:   [ - ]  [ + ]  (Losango direito)" ), point( box.x + 25, content_y + 70 ), 15 );
-            font->OutputChar( renderer, _( "Gatilhos L / R:   [ - ]  [ + ]  (Botoes superiores)" ), point( box.x + 25, content_y + 105 ), 15 );
-            font->OutputChar( renderer, _( "Opacidade Geral:  [ - ]  [ + ]  (Vidro fosco/alfa)" ), point( box.x + 25, content_y + 140 ), 15 );
-            font->OutputChar( renderer, _( "Inverter Lados:   [ ALTERNAR MODO CANHOTO ]" ), point( box.x + 25, content_y + 175 ), 13 );
-        } else if( settings_active_tab == 1 ) {
-            font->OutputChar( renderer, _( "Acessibilidade Visual & Visao:" ), point( box.x + 25, content_y ), 14 );
-            font->OutputChar( renderer, _( "Tamanho da Fonte Global: [ - ]  [ + ]" ), point( box.x + 25, content_y + 35 ), 15 );
-            font->OutputChar( renderer, _( "Brilho e Gama no Jogo:   [ - ]  [ + ]" ), point( box.x + 25, content_y + 70 ), 15 );
-            font->OutputChar( renderer, _( "Modo Alto Contraste:     [ ATIVAR / DESATIVAR ]" ), point( box.x + 25, content_y + 105 ), 15 );
-            font->OutputChar( renderer, _( "Realce Noturno:          [ NORMAL / REALCADO ]" ), point( box.x + 25, content_y + 140 ), 15 );
+    std::string close_text = _( "[ X FECHAR ]" );
+    int cl_tx = settings_close_btn.x + ( settings_close_btn.w - ( font->width * utf8_width( close_text ) ) ) / 2;
+    int cl_ty = settings_close_btn.y + ( settings_close_btn.h - font->height ) / 2;
+    font->OutputChar( renderer, close_text, point( cl_tx, cl_ty ), 15 );
+
+    // 3 Abas Tatil Grandes com espacamento adequado (sem encavalar)
+    int tab_gap = 12;
+    int total_tabs_w = settings_box.w - 44;
+    int tab_w = ( total_tabs_w - ( tab_gap * 2 ) ) / 3;
+    int tab_h = 42;
+    int tab_y = settings_box.y + 60;
+
+    std::array<std::string, 3> tab_labels = {
+        _( "1. TAMANHO & LAYOUT" ),
+        _( "2. ACESSIBILIDADE" ),
+        _( "3. ATALHOS & RESET" )
+    };
+
+    for( int i = 0; i < 3; ++i ) {
+        settings_tabs[i] = { settings_box.x + 22 + i * ( tab_w + tab_gap ), tab_y, tab_w, tab_h };
+        bool is_active = ( settings_active_tab == i );
+
+        if( is_active ) {
+            SetRenderDrawColor( renderer, 41, 128, 185, 240 ); // Azul destaque
         } else {
-            font->OutputChar( renderer, _( "Customizacao de Icones e Emojis:" ), point( box.x + 25, content_y ), 14 );
-            font->OutputChar( renderer, _( "Toque em qualquer botao para digitar um Emoji personalizado" ), point( box.x + 25, content_y + 35 ), 15 );
-            font->OutputChar( renderer, _( "Exemplos: Mochila=[🎒] Ataque=[⚔️] Curativo=[🩹] Mapa=[🗺️]" ), point( box.x + 25, content_y + 70 ), 13 );
-            font->OutputChar( renderer, _( "Suporte a Mods: Texturas PNG em data/mods/mobile_ui/icons/" ), point( box.x + 25, content_y + 115 ), 10 );
-            font->OutputChar( renderer, _( "[ RESTAURAR LETRAS PADRAO DO TECLADO ]" ), point( box.x + 25, content_y + 160 ), 11 );
+            SetRenderDrawColor( renderer, 32, 42, 56, 200 ); // Cinza escuro inativo
         }
+        RenderFillRect( renderer, &settings_tabs[i] );
+
+        SetRenderDrawColor( renderer, is_active ? 255 : 120, is_active ? 215 : 140, is_active ? 0 : 160, 255 );
+        RenderDrawRect( renderer, &settings_tabs[i] );
+
+        int t_len = utf8_width( tab_labels[i] );
+        int tx = settings_tabs[i].x + ( settings_tabs[i].w - ( font->width * t_len ) ) / 2;
+        int ty = settings_tabs[i].y + ( settings_tabs[i].h - font->height ) / 2;
+        font->OutputChar( renderer, tab_labels[i], point( tx, ty ), is_active ? 11 : 15 );
+    }
+
+    // Prepara a lista de opcoes da aba ativa
+    current_tab_items.clear();
+
+    if( settings_active_tab == 0 ) {
+        // Layout e Tamanhos
+        current_tab_items.push_back( { "MOBILE_DPAD_SCALE", _( "Tamanho do Analogico D-Pad" ), "float", 0.5f, 2.5f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_FACE_SCALE", _( "Tamanho dos Botoes de Acao (Losango)" ), "float", 0.5f, 2.5f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_SHOULDER_SCALE", _( "Tamanho dos Gatilhos Superiores L / R" ), "float", 0.5f, 2.0f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_CONTEXT_SCALE", _( "Tamanho dos Slots Contextuais" ), "float", 0.5f, 2.0f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_CENTER_SCALE", _( "Tamanho dos Botoes Centrais (1T / ADV)" ), "float", 0.5f, 2.0f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_SWAP_SIDES", _( "Modo Canhoto (Inverter Lados na Tela)" ), "bool", 0.0f, 1.0f, 1.0f } );
+    } else if( settings_active_tab == 1 ) {
+        // Acessibilidade e Visao
+        current_tab_items.push_back( { "MOBILE_UI_OPACITY", _( "Opacidade Geral dos Botoes (Fundo)" ), "int", 10.0f, 100.0f, 5.0f } );
+        current_tab_items.push_back( { "MOBILE_GLOBAL_FONT_SCALE", _( "Escala Global de Fontes da Interface" ), "float", 0.8f, 2.5f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_GAMMA_BOOST", _( "Brilho e Gama (Luz do Sol)" ), "float", 0.5f, 2.5f, 0.05f } );
+        current_tab_items.push_back( { "MOBILE_HIGH_CONTRAST", _( "Modo Alto Contraste (Contorno Neon Amarelo)" ), "bool", 0.0f, 1.0f, 1.0f } );
+    }
+
+    // Renderiza cada item da aba com botoes touch dedicados
+    int item_start_y = tab_y + tab_h + 20;
+    int item_height = 48;
+
+    for( size_t i = 0; i < current_tab_items.size(); ++i ) {
+        auto &item = current_tab_items[i];
+        int iy = item_start_y + static_cast<int>( i ) * ( item_height + 10 );
+
+        // Fundo suave para a linha
+        SDL_Rect row_rect = { settings_box.x + 22, iy, settings_box.w - 44, item_height };
+        SetRenderDrawColor( renderer, 24, 32, 44, 180 );
+        RenderFillRect( renderer, &row_rect );
+        SetRenderDrawColor( renderer, 50, 65, 85, 200 );
+        RenderDrawRect( renderer, &row_rect );
+
+        // Nome da opcao a esquerda
+        font->OutputChar( renderer, item.title, point( row_rect.x + 14, iy + ( item_height - font->height ) / 2 ), 15 );
+
+        if( item.type == "float" || item.type == "int" ) {
+            // Botao [ - ]
+            item.btn_minus = { row_rect.x + row_rect.w - 240, iy + 4, 56, item_height - 8 };
+            SetRenderDrawColor( renderer, 45, 55, 75, 240 );
+            RenderFillRect( renderer, &item.btn_minus );
+            SetRenderDrawColor( renderer, 100, 130, 170, 255 );
+            RenderDrawRect( renderer, &item.btn_minus );
+
+            std::string minus_lbl = "-";
+            int mx = item.btn_minus.x + ( item.btn_minus.w - font->width ) / 2;
+            int my = item.btn_minus.y + ( item.btn_minus.h - font->height ) / 2;
+            font->OutputChar( renderer, minus_lbl, point( mx, my ), 11 );
+
+            // Valor formatado no centro
+            std::string val_str;
+            if( item.type == "float" ) {
+                float val = get_option<float>( item.opt_name );
+                std::ostringstream ss;
+                ss << std::fixed << std::setprecision( 2 ) << val << "x";
+                val_str = ss.str();
+            } else {
+                int val = get_option<int>( item.opt_name );
+                val_str = std::to_string( val ) + "%";
+            }
+
+            int val_x = row_rect.x + row_rect.w - 176 + ( 110 - ( font->width * utf8_width( val_str ) ) ) / 2;
+            int val_y = iy + ( item_height - font->height ) / 2;
+            font->OutputChar( renderer, val_str, point( val_x, val_y ), 14 );
+
+            // Botao [ + ]
+            item.btn_plus = { row_rect.x + row_rect.w - 62, iy + 4, 56, item_height - 8 };
+            SetRenderDrawColor( renderer, 45, 55, 75, 240 );
+            RenderFillRect( renderer, &item.btn_plus );
+            SetRenderDrawColor( renderer, 100, 130, 170, 255 );
+            RenderDrawRect( renderer, &item.btn_plus );
+
+            std::string plus_lbl = "+";
+            int px = item.btn_plus.x + ( item.btn_plus.w - font->width ) / 2;
+            int py = item.btn_plus.y + ( item.btn_plus.h - font->height ) / 2;
+            font->OutputChar( renderer, plus_lbl, point( px, py ), 11 );
+
+        } else if( item.type == "bool" ) {
+            // Botao largo de Toggle Switch
+            bool is_active = get_option<bool>( item.opt_name );
+            item.btn_toggle = { row_rect.x + row_rect.w - 240, iy + 4, 234, item_height - 8 };
+
+            if( is_active ) {
+                SetRenderDrawColor( renderer, 39, 174, 96, 240 ); // Verde ativo
+            } else {
+                SetRenderDrawColor( renderer, 55, 65, 80, 240 ); // Cinza inativo
+            }
+            RenderFillRect( renderer, &item.btn_toggle );
+
+            SetRenderDrawColor( renderer, is_active ? 46 : 90, is_active ? 204 : 100, is_active ? 113 : 110, 255 );
+            RenderDrawRect( renderer, &item.btn_toggle );
+
+            std::string toggle_text = is_active ? _( "[ ATIVADO ]" ) : _( "[ DESLIGADO ]" );
+            int tg_x = item.btn_toggle.x + ( item.btn_toggle.w - ( font->width * utf8_width( toggle_text ) ) ) / 2;
+            int tg_y = item.btn_toggle.y + ( item.btn_toggle.h - font->height ) / 2;
+            font->OutputChar( renderer, toggle_text, point( tg_x, tg_y ), 15 );
+        }
+    }
+
+    if( settings_active_tab == 2 ) {
+        // Aba 3: Instrucoes do Mod e Botao de Restaurar Padroes
+        int info_y = tab_y + tab_h + 20;
+        font->OutputChar( renderer, _( "Instrucoes de Toque Puro (Touch-Native Android):" ), point( settings_box.x + 30, info_y ), 14 );
+        font->OutputChar( renderer, _( "- Nao precisa digitar nada no teclado virtual (Gboard)!" ), point( settings_box.x + 30, info_y + 35 ), 15 );
+        font->OutputChar( renderer, _( "- Toque direto nos botoes [+] e [-] para alterar o tamanho dos controles." ), point( settings_box.x + 30, info_y + 65 ), 15 );
+        font->OutputChar( renderer, _( "- Todas as alteracoes sao salvas automaticamente no mesmo instante." ), point( settings_box.x + 30, info_y + 95 ), 15 );
+        font->OutputChar( renderer, _( "- Em jogo, use o D-Pad para andar e os botoes direitos para combate/inventario." ), point( settings_box.x + 30, info_y + 125 ), 15 );
+
+        // Botao de Reset central
+        settings_reset_btn = { settings_box.x + ( settings_box.w - 420 ) / 2, info_y + 190, 420, 52 };
+        SetRenderDrawColor( renderer, 192, 57, 43, 230 ); // Vermelho
+        RenderFillRect( renderer, &settings_reset_btn );
+        SetRenderDrawColor( renderer, 231, 76, 60, 255 );
+        RenderDrawRect( renderer, &settings_reset_btn );
+
+        std::string reset_lbl = _( "[ RESTAURAR CONFIGURACOES PADRAO ]" );
+        int rx = settings_reset_btn.x + ( settings_reset_btn.w - ( font->width * utf8_width( reset_lbl ) ) ) / 2;
+        int ry = settings_reset_btn.y + ( settings_reset_btn.h - font->height ) / 2;
+        font->OutputChar( renderer, reset_lbl, point( rx, ry ), 15 );
     }
 
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
@@ -962,31 +1209,82 @@ void mobile_ui_system::draw_settings_drawer( const SDL_Renderer_Ptr &renderer, F
 
 bool mobile_ui_system::handle_settings_touch( float x, float y, input_event &/*out_event*/ )
 {
-    int box_w = std::min( 600, screen_width - 40 );
-    int box_h = std::min( 480, screen_height - 40 );
-    SDL_Rect box = { ( screen_width - box_w ) / 2, ( screen_height - box_h ) / 2, box_w, box_h };
-
-    // Close button hit
-    if( x >= box.x + box.w - 120 && x <= box.x + box.w - 10 &&
-        y >= box.y + 10 && y <= box.y + 40 ) {
+    // 1. Fechar botao
+    if( x >= settings_close_btn.x && x <= settings_close_btn.x + settings_close_btn.w &&
+        y >= settings_close_btn.y && y <= settings_close_btn.y + settings_close_btn.h ) {
         settings_open = false;
         return true;
     }
 
-    // Tabs hits
-    if( y >= box.y + 40 && y <= box.y + 70 ) {
-        if( x < box.x + 200 ) {
-            settings_active_tab = 0;
-        } else if( x < box.x + 380 ) {
-            settings_active_tab = 1;
-        } else {
-            settings_active_tab = 2;
+    // 2. Abas
+    for( int i = 0; i < 3; ++i ) {
+        if( x >= settings_tabs[i].x && x <= settings_tabs[i].x + settings_tabs[i].w &&
+            y >= settings_tabs[i].y && y <= settings_tabs[i].y + settings_tabs[i].h ) {
+            settings_active_tab = i;
+            return true;
         }
-        return true;
     }
 
-    // Touch outside box closes drawer
-    if( x < box.x || x > box.x + box.w || y < box.y || y > box.y + box.h ) {
+    // 3. Reset Button na Aba 2
+    if( settings_active_tab == 2 ) {
+        if( x >= settings_reset_btn.x && x <= settings_reset_btn.x + settings_reset_btn.w &&
+            y >= settings_reset_btn.y && y <= settings_reset_btn.y + settings_reset_btn.h ) {
+            reset_to_defaults();
+            return true;
+        }
+    }
+
+    // 4. Botoes tatil das opcoes [-], [+] e [TOGGLE]
+    for( const auto &item : current_tab_items ) {
+        if( item.type == "float" || item.type == "int" ) {
+            // Toque no botao [ - ]
+            if( x >= item.btn_minus.x && x <= item.btn_minus.x + item.btn_minus.w &&
+                y >= item.btn_minus.y && y <= item.btn_minus.y + item.btn_minus.h ) {
+                if( item.type == "float" ) {
+                    float val = get_option<float>( item.opt_name );
+                    val = std::clamp( val - item.step, item.min_val, item.max_val );
+                    get_options().get_option( item.opt_name ).setValue( val );
+                } else {
+                    int val = get_option<int>( item.opt_name );
+                    val = std::clamp( val - static_cast<int>( item.step ), static_cast<int>( item.min_val ), static_cast<int>( item.max_val ) );
+                    get_options().get_option( item.opt_name ).setValue( val );
+                }
+                get_options().save();
+                calculate_geometry( screen_width, screen_height );
+                return true;
+            }
+
+            // Toque no botao [ + ]
+            if( x >= item.btn_plus.x && x <= item.btn_plus.x + item.btn_plus.w &&
+                y >= item.btn_plus.y && y <= item.btn_plus.y + item.btn_plus.h ) {
+                if( item.type == "float" ) {
+                    float val = get_option<float>( item.opt_name );
+                    val = std::clamp( val + item.step, item.min_val, item.max_val );
+                    get_options().get_option( item.opt_name ).setValue( val );
+                } else {
+                    int val = get_option<int>( item.opt_name );
+                    val = std::clamp( val + static_cast<int>( item.step ), static_cast<int>( item.min_val ), static_cast<int>( item.max_val ) );
+                    get_options().get_option( item.opt_name ).setValue( val );
+                }
+                get_options().save();
+                calculate_geometry( screen_width, screen_height );
+                return true;
+            }
+        } else if( item.type == "bool" ) {
+            // Toque no Toggle
+            if( x >= item.btn_toggle.x && x <= item.btn_toggle.x + item.btn_toggle.w &&
+                y >= item.btn_toggle.y && y <= item.btn_toggle.y + item.btn_toggle.h ) {
+                get_options().get_option( item.opt_name ).setNext();
+                get_options().save();
+                calculate_geometry( screen_width, screen_height );
+                return true;
+            }
+        }
+    }
+
+    // 5. Toque fora do painel fecha o Hub
+    if( x < settings_box.x || x > settings_box.x + settings_box.w ||
+        y < settings_box.y || y > settings_box.y + settings_box.h ) {
         settings_open = false;
         return true;
     }

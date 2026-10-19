@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef CATA_SRC_MOBILE_UI_H
 #define CATA_SRC_MOBILE_UI_H
 
@@ -21,10 +21,10 @@ namespace cata_mobile
 enum class button_id {
     NONE = 0,
     // PPSSPP Face Buttons (Right cluster)
-    FACE_SOUTH,   // ✕ - Smart Action / Confirm (Enter)
-    FACE_EAST,    // ○ - Examine / Cancel (Esc)
-    FACE_WEST,    // □ - Inventory (i) / Drop (d)
-    FACE_NORTH,   // △ - Crafting & Build / Item Info (?)
+    FACE_SOUTH,   // Confirm / Autoattack
+    FACE_EAST,    // Cancel / Look
+    FACE_WEST,    // Inventory / Drop
+    FACE_NORTH,   // Crafting / Info
 
     // Shoulder Triggers
     SHOULDER_L1,  // Quick Weapon Swap / Prev Tab
@@ -107,6 +107,18 @@ struct touch_button {
     Uint8 text_b = 255;
 };
 
+struct settings_touch_item {
+    std::string opt_name;
+    std::string title;
+    std::string type; // "float", "int", "bool"
+    float min_val = 0.0f;
+    float max_val = 1.0f;
+    float step = 0.05f;
+    SDL_Rect btn_minus { 0, 0, 0, 0 };
+    SDL_Rect btn_plus { 0, 0, 0, 0 };
+    SDL_Rect btn_toggle { 0, 0, 0, 0 };
+};
+
 class mobile_ui_system
 {
 public:
@@ -128,12 +140,14 @@ public:
     void toggle_settings_drawer();
     void draw_settings_drawer( const SDL_Renderer_Ptr &renderer, Font *font );
     bool handle_settings_touch( float x, float y, input_event &out_event );
+    void reset_to_defaults();
 
     // Customization Accessors
     void set_button_emoji( button_id id, const std::string &emoji );
     std::string get_button_display_text( const touch_button &btn ) const;
 
-    // Layout configuration
+    // Layout and game state checks
+    bool is_gameplay_ready() const;
     bool is_menu_active() const;
 
 private:
@@ -171,8 +185,13 @@ private:
     std::vector<context_action> active_right_actions;
     std::vector<context_action> active_left_actions;
 
-    // Settings modal active tab
-    int settings_active_tab = 0; // 0 = Layout/Sizes, 1 = Accessibility/Vision, 2 = Icons/Emojis
+    // Settings modal elements
+    int settings_active_tab = 0; // 0 = Layout/Sizes, 1 = Accessibility/Vision, 2 = Shortcuts/Reset
+    SDL_Rect settings_box { 0, 0, 0, 0 };
+    SDL_Rect settings_close_btn { 0, 0, 0, 0 };
+    std::array<SDL_Rect, 3> settings_tabs {};
+    SDL_Rect settings_reset_btn { 0, 0, 0, 0 };
+    std::vector<settings_touch_item> current_tab_items;
 };
 
 } // namespace cata_mobile
