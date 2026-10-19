@@ -5438,6 +5438,10 @@ void Character::cancel_activity()
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity = player_activity();
+    if( npc *guy = as_npc() ) {
+        // nothing reads stale task mission or attitude
+        guy->end_cancelled_task();
+    }
 }
 
 void Character::resume_backlog_activity()
