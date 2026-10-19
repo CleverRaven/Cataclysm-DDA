@@ -218,12 +218,47 @@ bool mobile_ui_system::is_gameplay_ready() const
 
 bool mobile_ui_system::is_menu_active() const
 {
+    if( input_context::input_context_stack.empty() ) {
+        return false;
+    }
     input_context *top_ctx = input_context::input_context_stack.back();
     if( !top_ctx ) {
         return false;
     }
     const std::string &cat = top_ctx->get_category();
     return cat != "DEFAULTMODE";
+}
+
+bool mobile_ui_system::should_show_context_slots() const
+{
+    if( !is_gameplay_ready() ) {
+        return false;
+    }
+
+    // 1. Gaveta expandida manualmente pelo jogador pelo botÃ£o lateral [<] / [>]
+    if( context_drawer_expanded ) {
+        return true;
+    }
+
+    // 2. Quando o jogador entra em telas contextuais (inventÃ¡rio, inspecionar/olhar, exame, livros, etc.)
+    if( is_menu_active() ) {
+        return true;
+    }
+
+    // 3. EmergÃªncias crÃ­ticas de combate e sobrevivÃªncia (sangramento severo, HP < 50%, sem muniÃ§Ã£o)
+    try {
+        Character &u = get_player_character();
+        if( u.is_bleeding() || u.get_hp() <= ( u.get_hp_max() / 2 ) ) {
+            return true;
+        }
+        item_location wielded = u.get_wielded_item();
+        if( wielded && wielded->is_gun() && wielded->ammo_remaining() == 0 ) {
+            return true;
+        }
+    } catch( ... ) {
+    }
+
+    return false;
 }
 
 void mobile_ui_system::update_layout( int window_w, int window_h )
@@ -418,6 +453,13 @@ void mobile_ui_system::calculate_geometry( int w, int h )
                                          static_cast<int>( analog_base_y - slot_h * 3 - slot_gap * 2 ),
                                          slot_w, slot_h };
     }
+
+    // Aba retrÃ¡til da gaveta de contexto na borda direita
+    int toggle_w = static_cast<int>( 28.0f * density_scale );
+    int toggle_h = static_cast<int>( 60.0f * density_scale );
+    int toggle_x = screen_width - toggle_w;
+    int toggle_y = ( screen_height - toggle_h ) / 2;
+    context_toggle_btn = { toggle_x, toggle_y, toggle_w, toggle_h };
 }
 
 void mobile_ui_system::update_context_actions()
@@ -722,16 +764,41 @@ void mobile_ui_system::draw( const SDL_Renderer_Ptr &renderer, Font *font )
         draw_glass_button( renderer, font, btn );
     }
 
-    // 3. Dynamic Context Slots (apenas em jogo ativo)
+    // 3. Dynamic Context Slots & Aba RetrÃ¡til (apenas em jogo ativo)
     if( gameplay_ready ) {
-        for( const auto &slot : right_context_slots ) {
-            if( slot.is_visible ) {
-                draw_glass_button( renderer, font, slot );
-            }
+        // Mini-aba retrÃ¡til translÃºcida na borda direita
+        SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_BLEND );
+        SDL_SetRenderDrawColor( renderer.get(), 15, 20, 28, 175 );
+        SDL_RenderFillRect( renderer.get(), &context_toggle_btn );
+
+        // Borda elegante (dourada quando expandido ou com menu ativo)
+        if( should_show_context_slots() ) {
+            SDL_SetRenderDrawColor( renderer.get(), 255, 215, 0, 220 );
+        } else {
+            SDL_SetRenderDrawColor( renderer.get(), 180, 195, 210, 150 );
         }
-        for( const auto &slot : left_context_slots ) {
-            if( slot.is_visible ) {
-                draw_glass_button( renderer, font, slot );
+        SDL_RenderDrawRect( renderer.get(), &context_toggle_btn );
+
+        if( font ) {
+            std::string arrow = should_show_context_slots() ? ">" : "<";
+            int text_w = font->get_width( arrow );
+            int text_h = font->get_height();
+            point text_pt( context_toggle_btn.x + ( context_toggle_btn.w - text_w ) / 2,
+                           context_toggle_btn.y + ( context_toggle_btn.h - text_h ) / 2 );
+            font->draw_text( renderer, arrow, text_pt, SDL_Color{ 255, 255, 255, 255 } );
+        }
+
+        // Os slots contextuais sÃ³ aparecem quando a lateral contextual deve ser exibida!
+        if( should_show_context_slots() ) {
+            for( const auto &slot : right_context_slots ) {
+                if( slot.is_visible ) {
+                    draw_glass_button( renderer, font, slot );
+                }
+            }
+            for( const auto &slot : left_context_slots ) {
+                if( slot.is_visible ) {
+                    draw_glass_button( renderer, font, slot );
+                }
             }
         }
     }
@@ -784,26 +851,37 @@ bool mobile_ui_system::handle_touch_down( float x, float y, int finger_id, uint3
         }
     }
 
-    // 3. Dynamic Context Slots (apenas em jogo ativo)
+    // 3. Dynamic Context Slots e Aba Retratil (apenas em jogo ativo)
     if( gameplay_ready ) {
-        for( auto &slot : right_context_slots ) {
-            if( !slot.is_visible ) continue;
-            if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
-                y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
-                slot.is_pressed = true;
-                slot.active_finger_id = finger_id;
-                slot.press_start_time = ticks;
-                return true;
-            }
+        // Checar toque na mini-aba retratil da lateral direita (com folga confortavel para o dedo)
+        int margin = static_cast<int>( 15.0f * get_option<float>( "MOBILE_UI_DENSITY_SCALE" ) );
+        if( x >= context_toggle_btn.x - margin && x <= screen_width &&
+            y >= context_toggle_btn.y - margin && y <= context_toggle_btn.y + context_toggle_btn.h + margin ) {
+            toggle_context_drawer();
+            return true;
         }
-        for( auto &slot : left_context_slots ) {
-            if( !slot.is_visible ) continue;
-            if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
-                y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
-                slot.is_pressed = true;
-                slot.active_finger_id = finger_id;
-                slot.press_start_time = ticks;
-                return true;
+
+        // Processar slots contextuais apenas se a lateral estiver aberta/visivel
+        if( should_show_context_slots() ) {
+            for( auto &slot : right_context_slots ) {
+                if( !slot.is_visible ) continue;
+                if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
+                    y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
+                    slot.is_pressed = true;
+                    slot.active_finger_id = finger_id;
+                    slot.press_start_time = ticks;
+                    return true;
+                }
+            }
+            for( auto &slot : left_context_slots ) {
+                if( !slot.is_visible ) continue;
+                if( x >= slot.bounds.x && x <= slot.bounds.x + slot.bounds.w &&
+                    y >= slot.bounds.y && y <= slot.bounds.y + slot.bounds.h ) {
+                    slot.is_pressed = true;
+                    slot.active_finger_id = finger_id;
+                    slot.press_start_time = ticks;
+                    return true;
+                }
             }
         }
     }
@@ -903,8 +981,8 @@ bool mobile_ui_system::handle_touch_up( float x, float y, int finger_id, uint32_
         }
     }
 
-    // 3. Dynamic Context Slots (apenas em jogo ativo)
-    if( gameplay_ready ) {
+    // 3. Dynamic Context Slots (apenas se a lateral estiver aberta/visivel)
+    if( gameplay_ready && should_show_context_slots() ) {
         for( auto &slot : right_context_slots ) {
             if( slot.is_pressed && slot.active_finger_id == finger_id ) {
                 slot.is_pressed = false;

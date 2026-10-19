@@ -14,7 +14,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout do cÃ³digo
+      - name: Checkout do codigo
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -25,12 +25,12 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Instalar dependÃªncias do sistema
+      - name: Instalar dependencias do sistema
         run: |
           sudo apt-get update
           sudo apt-get install -y gettext glslang-tools
 
-      - name: Preparar versÃ£o, shaders e catÃ¡logo de traduÃ§Ãµes (PT/BR)
+      - name: Preparar versao, shaders e catalogo de traducoes (PT/BR)
         run: |
           mkdir -p data/shaders
           touch data/shaders/build-*.stamp data/shaders/*.spv data/shaders/*.dxil data/shaders/*.msl
@@ -38,13 +38,36 @@ jobs:
           echo '#define VERSION "0.H-Mobile-Mod"' >> src/version.h
           cat src/version.h
 
-          echo "Compilando catÃ¡logo de idioma PortuguÃªs (Brasil)..."
+          echo "Compilando catalogo de idioma Portugues (Brasil)..."
           mkdir -p lang/mo/pt_BR/LC_MESSAGES
           msgfmt -f -o lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo lang/po/pt_BR.po
 
           echo "Verificando cataclysm-dda.mo gerado:"
           ls -lh lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo
-          test -s lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo || (echo "ERRO: cataclysm-dda.mo de pt_BR nÃ£o encontrado ou vazio!" && exit 1)
+          test -s lang/mo/pt_BR/LC_MESSAGES/cataclysm-dda.mo || (echo "ERRO: cataclysm-dda.mo de pt_BR nao encontrado ou vazio!" && exit 1)
+
+      - name: Baixar e integrar Tilesets Graficos Modernos (UndeadPeople e UltiCa)
+        run: |
+          echo "Clonando UndeadPeople Tileset (Graficos estilo Project Zomboid)..."
+          git clone --depth 1 https://github.com/shadow-759/UndeadPeopleTileset.git /tmp/undeadpeople
+          
+          mkdir -p gfx/MSX++UnDeadPeopleEdition
+          cp -r /tmp/undeadpeople/MSX++UnDeadPeopleEdition/* gfx/MSX++UnDeadPeopleEdition/
+          
+          echo "Verificando arquivos do UndeadPeople em gfx/:"
+          ls -lh gfx/MSX++UnDeadPeopleEdition/
+          test -s gfx/MSX++UnDeadPeopleEdition/tile_config.json || (echo "ERRO: tile_config.json do UndeadPeople nao encontrado!" && exit 1)
+
+          echo "Baixando tilesets oficiais HD adicionais (UltiCa)..."
+          GFX_URL="https://github.com/CleverRaven/Cataclysm-DDA/releases/download/cdda-experimental-2026-10-19-0128/cdda-linux-with-graphics-x64-2026-10-19-0128.tar.gz"
+          curl -sL "$GFX_URL" | tar -zxf - gfx/UltiCa || true
+          if [ -d "gfx/UltiCa" ]; then
+              echo "UltiCa extraido com sucesso:"
+              ls -lh gfx/UltiCa/
+          fi
+
+          echo "Listando pastas em gfx/:"
+          ls -lh gfx/
 
       - name: Compilar APK via Gradle
         working-directory: ./android
@@ -64,7 +87,7 @@ jobs:
           keyPassword=password
           EOF
 
-          echo "Iniciando compilaÃ§Ã£o otimizada Release (ARM64) com idioma PT-BR..."
+          echo "Iniciando compilacao otimizada Release (ARM64) com idioma PT-BR e Graficos Modernos..."
           ./gradlew -Pj=2 -Pabi_arm_32=false -Pabi_arm_64=true -Plocalize=true -Poverride_version="0.H-Mobile-Mod" assembleExperimentalRelease --stacktrace 2>&1 | tee /tmp/gradle_build.log || BUILD_STATUS=$?
 
           if [ -n "$BUILD_STATUS" ] && [ "$BUILD_STATUS" -ne 0 ]; then
@@ -85,7 +108,7 @@ jobs:
         with:
           tag_name: "log-run-${{ github.run_number }}"
           name: "Build Log - Run ${{ github.run_number }}"
-          body: "Log de erro da execuÃ§Ã£o ${{ github.run_number }} para depuraÃ§Ã£o."
+          body: "Log de erro da execucao ${{ github.run_number }} para depuracao."
           files: /tmp/gradle_build.log
           draft: false
         env:
@@ -103,8 +126,8 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/mod-mobile') || github.event_name == 'workflow_dispatch'
         with:
           tag_name: "v0.H-Mobile-Mod-build-${{ github.run_number }}"
-          name: "CDDA Mobile Mod (PT-BR) - Build ${{ github.run_number }}"
-          body: "APK do Cataclysm: Dark Days Ahead Mobile com traduÃ§Ã£o em PortuguÃªs do Brasil (PT-BR) integrada, controles virtuais estilo PPSSPP + Exiled Kingdoms, analÃ³gico de 8 direÃ§Ãµes e slots contextuais."
+          name: "CDDA Mobile Mod (Graficos UndeadPeople + PT-BR) - Build ${{ github.run_number }}"
+          body: "APK do Cataclysm: Dark Days Ahead Mobile com traducao completa em Portugues do Brasil (PT-BR), graficos modernos 2D UndeadPeople (estilo Project Zomboid) + UltiCa HD, controles virtuais estilo PPSSPP + Exiled Kingdoms, analogico de 8 direcoes e gaveta retratil de contexto lateral dinamica (oculta durante a exploracao, ativa sob demanda/menus/emergencias)."
           files: output_apks/*.apk
           draft: false
           prerelease: false

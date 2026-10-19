@@ -2556,7 +2556,7 @@ void options_manager::add_options_graphics()
 
         add( "TILES", page_id, to_translation( "Choose tileset" ),
              to_translation( "Choose the tileset you want to use." ),
-             build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
+             build_tilesets_list(), "UNDEAD_PEOPLE", COPT_CURSES_HIDE
            ); // populate the options dynamically
 
         add( "USE_DISTANT_TILES", page_id, to_translation( "Use separate tileset for far" ),

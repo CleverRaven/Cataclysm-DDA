@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef CATA_SRC_MOBILE_UI_H
 #define CATA_SRC_MOBILE_UI_H
 
@@ -150,6 +150,11 @@ public:
     bool is_gameplay_ready() const;
     bool is_menu_active() const;
 
+    // Context Drawer (Gaveta retratil e ocultacao dinamica da lateral direita)
+    bool is_context_drawer_open() const { return context_drawer_expanded; }
+    void toggle_context_drawer() { context_drawer_expanded = !context_drawer_expanded; }
+    bool should_show_context_slots() const;
+
 private:
     mobile_ui_system();
     ~mobile_ui_system() = default;
@@ -165,6 +170,8 @@ private:
     int screen_height = 720;
     bool initialized = false;
     bool settings_open = false;
+    bool context_drawer_expanded = false;
+    SDL_Rect context_toggle_btn { 0, 0, 0, 0 };
 
     // Analog Joystick state
     point analog_center { 120, 580 };
