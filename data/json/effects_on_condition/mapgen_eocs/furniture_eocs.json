@@ -150,5 +150,28 @@
         }
       }
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_engine_crate_has_content",
+    "effect": { "u_message": "There's something inside this crate." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_engine_crate_empty",
+    "effect": { "u_message": "This container seems empty." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_engine_crate_examine",
+    "effect": {
+      "u_map_run_item_eocs": "random",
+      "loc": { "context_val": "pos" },
+      "min_radius": 0,
+      "max_radius": 0,
+      "accessible": false,
+      "true_eocs": [ "EOC_engine_crate_has_content" ],
+      "false_eocs": [ "EOC_engine_crate_empty" ]
+    }
   }
 ]
