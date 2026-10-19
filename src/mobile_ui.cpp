@@ -1,4 +1,4 @@
-﻿#include "mobile_ui.h"
+#include "mobile_ui.h"
 
 #include <cmath>
 #include <algorithm>
@@ -218,9 +218,6 @@ bool mobile_ui_system::is_gameplay_ready() const
 
 bool mobile_ui_system::is_menu_active() const
 {
-    if( input_context::input_context_stack.empty() ) {
-        return false;
-    }
     input_context *top_ctx = input_context::input_context_stack.back();
     if( !top_ctx ) {
         return false;
