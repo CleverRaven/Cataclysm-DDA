@@ -132,7 +132,6 @@
         "Ï": "f_rack",
         "é": "f_bookcase",
         "Ó": "f_rack",
-        "Á": "f_screenmirror_working",
         "8": "f_autodoc_couch",
         "Ñ": "f_vending_reinforced",
         "á": "f_neuralnet_inserter"
@@ -144,6 +143,12 @@
         "Ë": { "class": "augustmoon_tool_trader" },
         "ó": { "class": "augustmoon_doctor" },
         "ú": { "class": "augustmoon_security" }
+      },
+      "signs": {
+        "Á": {
+          "signage": "An UICA propaganda holo frequently interrupts the normal advertising feed.",
+          "furniture": "f_screenmirror_working"
+        }
       }
     }
   },
@@ -219,7 +224,13 @@
         "5": "t_elevator_control",
         "6": "t_elevator"
       },
-      "furniture": { "9": "f_screenmirror_working", "0": "f_gene_editor" },
+      "furniture": { "0": "f_gene_editor" },
+      "signs": {
+        "9": {
+          "signage": "An UICA propaganda holo frequently interrupts the normal advertising feed.",
+          "furniture": "f_screenmirror_working"
+        }
+      },
       "npcs": { "í": { "class": "augustmoon_mercurial_clerk" }, "ú": { "class": "augustmoon_security" } }
     }
   },

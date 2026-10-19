@@ -123,6 +123,8 @@ Vehicle wheels gib corpses, smash stuff, throw items around
 Better 'Resume Construction' behavior
 Slime has redundant omnicellular parts
 Smooth lighting
+CBM slots enabled in main game; bionic limbs can hold more CBMs
+Followers and guards meet their needs without leaving you or their post
 
 
 ## Content:
@@ -280,6 +282,10 @@ Migrate appliance rename popup to ImGui
 Imguify help menu
 Convert canning and tinning recipes to use nested system
 Show environmental protection in bodygraph
+Add a GPU backend option to the graphics settings
+Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
+Scenarios are now divided into separate difficulty categories
+Display NPCs' current activity when looking at them
 
 
 ## Mods:
@@ -387,6 +393,7 @@ Aftershock: Remove multiverse references in high tech scrap.
 [Xedra Evolved] Add Shell of the Four Winds nether sorcery spell
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
+Aftershock: Pirate faction & Integrate them with  Smuggler scenario
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -454,6 +461,7 @@ Decayed zombies smell horrific
 Scarlet Storm is less punishing with acute exposure, more punishing with chronic exposure
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
+make zombies able to move through guardrails
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -655,6 +663,10 @@ Fix getting perma-stuck in the Imperial Road
 Can create Characters again
 Fix an out of bounds write when looking for items around a position outside the map
 Make device really optional in _has_software condition
+Duplicating items on 'become huge -> remove armor' interaction
+Fix plugged-in appliances coming loose when leaving the reality bubble
+Traps with practice 2 no longer take zero time to place
+NPCs walk to fulfill their needs better
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -677,6 +689,9 @@ Improving performance in the crafting ui
 Draw the pixel minimap with batched geometry instead of per-submap render targets
 Use less VRAM on the gpu renderer by not pre-baking atlas variants the shaders draw
 Speed up the crafting menu near large piles of items
+Smooth filtered lighting draws about as fast as smooth
+Speed up the repair and construction menus near large item piles
+Slightly reduce RAM usage of item class
 
 
 ## Infrastructure:
@@ -829,6 +844,7 @@ Fix `Parameter format not correct - -Command` error
 Add documentation for C++ translation context comments
 Add missing translation
 Publish translations archive with experimental releases
+Fix missing and hard-to-translate game and mod text
 
 
 # 0.I

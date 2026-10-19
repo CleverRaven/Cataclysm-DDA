@@ -410,5 +410,18 @@
     "volume": "43793 ml",
     "price": "20000 USD",
     "price_postapoc": "100 USD 50 cent"
+  },
+  {
+    "id": "i6_diesel_multifuel",
+    "copy-from": "engine_diesel",
+    "type": "ITEM",
+    "subtypes": [ "ENGINE" ],
+    "name": { "str": "7.8 L I6 multifuel diesel engine" },
+    "description": "Designed in early 60's, large military diesel engine with unique ability to use wide set of fuels, including gasoline.",
+    "looks_like": "i6_diesel",
+    "weight": "748 kg",
+    "volume": "500 L",
+    "price": "300 USD",
+    "price_postapoc": "20 USD"
   }
 ]

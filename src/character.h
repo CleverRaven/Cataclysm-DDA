@@ -773,7 +773,7 @@ class Character : public Creature, public visitable
 
         /** Displays character name with an npc_class/profession suffix
         **/
-        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        std::string disp_name( bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
         * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
         **/
@@ -987,7 +987,7 @@ class Character : public Creature, public visitable
         void update_cached_mutations();
         /** Adds this specific wound to bodypart */
         void apply_wound( bodypart_id bp, wound_type_id wd );
-        /** Updates the status of wounds character has */
+        /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
@@ -1894,7 +1894,8 @@ class Character : public Creature, public visitable
         std::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+        /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
+        * The result can be end() of the worn list; do not dereference it.
         * @param item_wear item_location of item to be worn.
         * @param interactive Alert player and drain moves if true.
         */
@@ -2119,6 +2120,8 @@ class Character : public Creature, public visitable
         int item_wear_cost( const item &it ) const;
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * The end() of the worn list means worn but unsorted, or worn and then removed by an
+         * event handler; do not dereference it.
          * If interactive is false, don't alert the player or drain moves on completion.
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
@@ -2149,9 +2152,6 @@ class Character : public Creature, public visitable
 
         void clear_worn();
 
-        // returns a list of all item_location the character has, including items contained in other items.
-        // only for CONTAINER pocket type; does not look for magazines
-        std::vector<item_location> all_items_loc();
         // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
@@ -2221,6 +2221,8 @@ class Character : public Creature, public visitable
         bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
+        /** A carried watertight container with room for this liquid, other than avoid; empty if none. */
+        item_location carried_container_for( const item &liquid, const item *avoid = nullptr ) const;
 
         /**
          * Remove a specific item from player possession. The item is compared
@@ -3550,6 +3552,8 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Whether this character is hungry or thirsty for this, and may eat or drink it. */
+        bool wants_to_consume_now( const item &food ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
@@ -4052,6 +4056,8 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
+        /** How ready to fall asleep here: comfort, sleepiness, stimulants, pills, enchantments. No roll, no throttle. */
+        int sleep_readiness();
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */

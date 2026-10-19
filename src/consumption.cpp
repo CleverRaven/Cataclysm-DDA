@@ -1262,11 +1262,10 @@ static bool eat( item &food, Character &you, bool force )
     if( !seasonings_set.empty() ) {
         auto legal_to_consume = [&]( const item & it ) {
             // For performance reasons this has been ordered so that the cheapest checks run first, to discount as many inappropriate items as early as possible.
-            // Character::will_eat() is extra expensive, so it goes last.
             return it.is_owned_by( you ) &&
                    !it.rotten() &&
-                   ( seasonings_set.find( it.typeId() ) != seasonings_set.end() ) &&
-                   you.will_eat( it ).success();
+                   you.allergy_type( it ).is_null() &&
+                   ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
         };
 
         auto fun_value = [&]( const item_location & it ) {
@@ -1908,6 +1907,16 @@ item_location Character::get_consumable_from( const item_location &it ) const
     } );
 
     return ret;
+}
+
+bool Character::wants_to_consume_now( const item &food ) const
+{
+    if( !needs_food() || !food.is_food() || !will_eat( food ).success() ) {
+        return false;
+    }
+    const bool hungry = get_hunger() > 0 || has_calorie_deficit();
+    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
+           ( food.get_comestible()->quench > 0 && get_thirst() > 0 );
 }
 
 time_duration Character::get_consume_time( const item &it ) const

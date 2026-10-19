@@ -22,6 +22,7 @@
 #include "messages.h"
 #include "pimpl.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "subbodypart.h"
 #include "type_id.h"
 #include "wound.h"
@@ -1236,7 +1237,9 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
         switch( ret ) {
             case wound_update_ret::ADVANCE:
                 // todo: carry over the time difference into a new wound, when time_passed will vary
-                who.add_msg_if_player( m_bad, it->type->get_progress_timer_message() );
+                who.add_msg_if_player(
+                    m_bad, string_format( it->type->get_progress_timer_message(), body_part_name( id ) ) );
+
                 new_wounds.emplace_back( it->wound_progress_timer.value().first );
                 it = wounds.erase( it );
                 break;

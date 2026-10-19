@@ -341,7 +341,8 @@
     "coverage": 80,
     "required_str": 5,
     "crafting_pseudo_item": "mirror",
-    "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "sign",
+    "flags": [ "NOITEM", "SIGN", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
         { "item": "large_lcd_screen", "count": 1 },
@@ -865,6 +866,29 @@
         { "item": "rock", "count": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_green_neon",
+    "name": "green neon lamp",
+    "looks_like": "f_algae_bioreactor",
+    "copy-from": "f_exodii_lamp",
+    "description": "A dense array of tubes emit a greenish glow.",
+    "symbol": "T",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": -1,
+    "light_emitted": 50,
+    "light_color": [ 228, 255, 48 ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_blue_neon",
+    "copy-from": "f_green_neon",
+    "name": "blue neon lamp",
+    "description": "A dense array of tubes emit an ethereal blue glow.",
+    "light_color": [ 80, 3, 192 ]
   },
   {
     "type": "furniture",

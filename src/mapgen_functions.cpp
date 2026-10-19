@@ -63,6 +63,7 @@ static const ter_str_id ter_t_railroad_tie_d( "t_railroad_tie_d" );
 static const ter_str_id ter_t_railroad_track( "t_railroad_track" );
 static const ter_str_id ter_t_railroad_track_d( "t_railroad_track_d" );
 static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" );
+static const ter_str_id ter_t_region_groundcover_ravine( "t_region_groundcover_ravine" );
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
@@ -72,6 +73,7 @@ static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
 static const ter_str_id ter_t_water_dp( "t_water_dp" );
 static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
 static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
+
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
@@ -2186,7 +2188,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
     // in the other levels they are converted into open air to generate the cliffside.
     if( dat.zlevel() == settings_ravine.ravine_depth ) {
-        m->translate( ter_str_id::NULL_ID(), dat.groundcover() );
+        m->translate( ter_str_id::NULL_ID(), ter_t_region_groundcover_ravine );
     } else {
         m->translate( ter_str_id::NULL_ID(), ter_t_open_air );
     }

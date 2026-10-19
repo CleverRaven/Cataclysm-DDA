@@ -2,7 +2,7 @@
   {
     "type": "effect_type",
     "id": "beggar_has_eaten",
-    "name": [ "Full" ],
+    "name": [ { "ctxt": "hunger state", "str": "Full" } ],
     "desc": [ "This beggar in the refugee center has had something to eat recently." ]
   },
   {

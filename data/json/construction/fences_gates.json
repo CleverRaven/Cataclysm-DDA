@@ -32,10 +32,9 @@
     "group": "build_chainlink_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "150 m",
-    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
-    "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
+    "time": "120 m",
+    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 4 ] ], [ [ "pipe", 14 ] ] ],
+    "pre_terrain": "t_chainfence_posts",
     "post_terrain": "t_chaingate_c"
   },
   {
@@ -71,10 +70,10 @@
     "group": "build_chickenwire_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "45 m",
-    "components": [ [ [ "lc_wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "time": "15 m",
+    "components": [ [ [ "lc_wire", 15 ] ], [ [ "hinge", 2 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
-    "pre_special": "check_empty",
+    "pre_terrain": "t_chickenwire_fence_post",
     "post_terrain": "t_chickenwire_gate_c"
   },
   {
@@ -95,17 +94,10 @@
     "group": "build_fence_gate",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [
-      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
-      [ [ "2x4", 5 ] ],
-      [ [ "nails", 12, "LIST" ] ],
-      [ [ "hinge", 2 ] ]
-    ],
-    "pre_flags": "DIGGABLE",
-    "pre_note": "Requires diggable terrain.",
-    "pre_special": "check_empty",
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 12, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "pre_terrain": "t_fence_post",
     "post_terrain": "t_fencegate_c"
   },
   {
@@ -205,18 +197,11 @@
     "id": "constr_privacy_fencegate",
     "group": "build_privacy_fence_gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [
-      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
-      [ [ "2x4", 8 ] ],
-      [ [ "nails", 20, "LIST" ] ],
-      [ [ "hinge", 2 ] ]
-    ],
-    "pre_flags": "DIGGABLE",
-    "pre_note": "Requires diggable terrain.",
-    "pre_special": "check_empty",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "pre_terrain": "t_fence_post",
     "post_terrain": "t_privacy_fencegate_c"
   },
   {
@@ -294,18 +279,11 @@
     "id": "constr_splitrail_fencegate",
     "group": "build_split_rail_fence_gate",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [
-      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
-      [ [ "2x4", 5 ] ],
-      [ [ "nails", 12, "LIST" ] ],
-      [ [ "hinge", 2 ] ]
-    ],
-    "pre_flags": "DIGGABLE",
-    "pre_note": "Requires diggable terrain.",
-    "pre_special": "check_empty",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "15 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "nails", 12, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "pre_terrain": "t_fence_post",
     "post_terrain": "t_splitrail_fencegate_c"
   },
   {

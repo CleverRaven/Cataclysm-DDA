@@ -242,7 +242,6 @@ class outfit
         size_t size() const;
 
         std::vector<item_location> top_items_loc( Character &guy );
-        std::vector<item_location> all_items_loc( Character &guy );
 
         // gets item position. not translated for worn index. DEPRECATE ME!
         std::optional<int> get_item_position( const item &it ) const;

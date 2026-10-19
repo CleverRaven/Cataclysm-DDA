@@ -1343,8 +1343,8 @@ static void tool_out_of_charges( Character &who, const std::string &tool_name )
     if( who.is_avatar() ) {
         who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool_name );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                true ), tool_name );
+        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ),
+                                who.disp_name( true ), tool_name );
     }
     who.cancel_activity();
 }
@@ -2184,10 +2184,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
-        add_msg_if_player_sees(
-            who,
-            _( "%1$s %2$s ran out of batteries." ),
-            who.disp_name( true, true ),
+        who.add_msg_player_or_npc(
+            _( "Your %s ran out of batteries." ),
+            _( "<npcname>'s %s ran out of batteries." ),
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
@@ -3665,10 +3664,9 @@ void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
     // only consume charges every pages_per_charge pages
     if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
-            add_msg_if_player_sees(
-                who,
-                _( "%1$s %2$s ran out of batteries." ),
-                who.disp_name( true, true ),
+            who.add_msg_player_or_npc(
+                _( "Your %s ran out of batteries." ),
+                _( "<npcname>'s %s ran out of batteries." ),
                 item::nname( ereader->typeId() ) );
             who.cancel_activity();
             return;
@@ -3717,11 +3715,11 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
         completed_scanning_current_book( act, who );
     }
     if( who.is_avatar() ) {
-        add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
+        add_msg( m_info, _( "You scan %1$d %2$s into your device." ), handled_books,
                  n_gettext( "book", "books", handled_books ) );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who, _( "%s scans %d %s into their device." ),
-                                who.disp_name( false, true ), handled_books, n_gettext( "book", "books", handled_books ) );
+        add_msg_if_player_sees( who, _( "%1$s scans %2$d %3$s into their device." ),
+                                who.disp_name( true ), handled_books, n_gettext( "book", "books", handled_books ) );
     }
     act.set_to_null();
 }
@@ -3732,7 +3730,7 @@ void ebooksave_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop scanning the remaining books." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s stops scanning books." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -3779,6 +3777,74 @@ std::string enum_to_string<zone_activity_stage>( zone_activity_stage stage )
         };
         default:
             return "LAST";
+    }
+}
+template<>
+std::string enum_to_string<do_activity_reason>( do_activity_reason reason )
+{
+    switch( reason ) {
+        case do_activity_reason::CAN_DO_CONSTRUCTION:
+            return _( "The construction can be performed." );
+        case do_activity_reason::CAN_DO_FETCH:
+            return _( "The needed items are being fetched." );
+        case do_activity_reason::NO_COMPONENTS:
+            return _( "The required components or tools are missing." );
+        case do_activity_reason::DONT_HAVE_SKILL:
+            return _( "The required skill is missing." );
+        case do_activity_reason::NO_ZONE:
+            return _( "The required zone could not be found." );
+        case do_activity_reason::NO_VEHICLE:
+            return _( "No accessible vehicle was found at this location." );
+        case do_activity_reason::ALREADY_DONE:
+            return _( "The work has already been completed." );
+        case do_activity_reason::UNKNOWN_ACTIVITY:
+            return _( "The activity could not be identified." );
+        case do_activity_reason::NEEDS_CLEARING:
+            return _( "This tile can be cleared." );
+        case do_activity_reason::NEEDS_HARVESTING:
+            return _( "This tile can be harvested." );
+        case do_activity_reason::NEEDS_PLANTING:
+            return _( "This tile can be planted." );
+        case do_activity_reason::NEEDS_TILLING:
+            return _( "This tile can be tilled." );
+        case do_activity_reason::NEEDS_FERTILIZING:
+            return _( "This tile can be fertilized." );
+        case do_activity_reason::BLOCKING_TILE:
+            return _( "Something is blocking this tile." );
+        case do_activity_reason::NEEDS_BOOK_TO_LEARN:
+            return _( "There is a book here to learn from." );
+        case do_activity_reason::NEEDS_CHOPPING:
+            return _( "There is wood here to chop." );
+        case do_activity_reason::NEEDS_TREE_CHOPPING:
+            return _( "There is a tree here to chop." );
+        case do_activity_reason::NEEDS_BIG_BUTCHERING:
+            return _( "There is a large corpse here to butcher." );
+        case do_activity_reason::NEEDS_BUTCHERING:
+            return _( "There is a corpse here to butcher." );
+        case do_activity_reason::NEEDS_CUT_HARVESTING:
+            return _( "This plant needs a grass-cutting tool to harvest." );
+        case do_activity_reason::ALREADY_WORKING:
+            return _( "Someone is already working here." );
+        case do_activity_reason::NEEDS_VEH_DECONST:
+            return _( "There is a vehicle part here to deconstruct." );
+        case do_activity_reason::NEEDS_VEH_REPAIR:
+            return _( "There is a vehicle part here to repair." );
+        case do_activity_reason::WOULD_PREVENT_VEH_FLYING:
+            return _( "This work would prevent the vehicle from flying." );
+        case do_activity_reason::NEEDS_MINING:
+            return _( "This spot can be mined with the right tool." );
+        case do_activity_reason::NEEDS_MOP:
+            return _( "This spot can be mopped." );
+        case do_activity_reason::NEEDS_FISHING:
+            return _( "This spot can be fished with the right tool." );
+        case do_activity_reason::NEEDS_CRAFT:
+            return _( "There is at least one item to craft." );
+        case do_activity_reason::NEEDS_DISASSEMBLE:
+            return _( "There is at least one item to disassemble." );
+        case do_activity_reason::REFUSES_THIS_WORK:
+            return _( "The character refuses to do this work." );
+        default:
+            cata_fatal( "Invalid do_activity_reason in enum_to_string" );
     }
 }
 template<>
@@ -4061,9 +4127,38 @@ void efile_activity_actor::completed_processing_current_efile( player_activity &
         }
     };
 
-    add_msg_if_player_sees( who, m_info, string_format( _( "%s %s %s." ),
-                            who.disp_name( false, true ), efile_action_name( action_type, true, false ),
-                            current_efile->display_name() ) );
+    const auto add_completion_message = [&]( const std::string & player_message,
+    const std::string & npc_message ) {
+        who.add_msg_player_or_npc( m_info, player_message, npc_message,
+                                   current_efile->display_name() );
+    };
+    switch( action_type ) {
+        case EF_BROWSE:
+            add_completion_message( _( "You finish browsing a file: %s." ),
+                                    _( "<npcname> finishes browsing a file: %s." ) );
+            break;
+        case EF_READ:
+            add_completion_message( _( "You finish reading a file: %s." ),
+                                    _( "<npcname> finishes reading a file: %s." ) );
+            break;
+        case EF_MOVE_FROM_THIS:
+        case EF_MOVE_ONTO_THIS:
+            add_completion_message( _( "You finish moving a file: %s." ),
+                                    _( "<npcname> finishes moving a file: %s." ) );
+            break;
+        case EF_COPY_FROM_THIS:
+        case EF_COPY_ONTO_THIS:
+            add_completion_message( _( "You finish copying a file: %s." ),
+                                    _( "<npcname> finishes copying a file: %s." ) );
+            break;
+        case EF_WIPE:
+            add_completion_message( _( "You finish wiping a file: %s." ),
+                                    _( "<npcname> finishes wiping a file: %s." ) );
+            break;
+        case EF_INVALID:
+        case EF_ACTION_COUNT:
+            break;
+    }
     switch( action_type ) {
         case EF_BROWSE:
             if( current_efile->typeId() == itype_efile_junk ) {
@@ -4265,7 +4360,7 @@ void efile_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop processing the remaining devices." ) );
     } else {
         add_msg_if_player_sees( who, _( "%s stops processing devices." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -5452,8 +5547,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
             you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
             you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
-                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
-                                       current_activity.c_str() );
+                                       _( "%s aborts the \"%s\" activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.obj().verb().translated() );
             return false;
         }
 
@@ -5533,12 +5628,14 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         if( you.is_npc() ) {
             if( zone ) {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\" in zone %3$s. %4$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(), zone->get_name(),
+                                        io::enum_to_string( reason ) );
             } else {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\". %3$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(),
+                                        io::enum_to_string( reason ) );
             }
         }
 
@@ -5577,12 +5674,12 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
             const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task at zone %s." ),
-                                            act_id.c_str(), zone->get_name() ) );
+                                            _( "The required items are not available to complete the \"%1$s\" task at zone %2$s." ),
+                                            act_id.obj().verb().translated(), zone->get_name() ) );
             } else {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task." ),
-                                            act_id.c_str() ) );
+                                            _( "The required items are not available to complete the \"%s\" task." ),
+                                            act_id.obj().verb().translated() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
@@ -6044,9 +6141,19 @@ void close_tile_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( close_success == close_tile_result::CLOSE_VEHICLE ) {
-        optional_vpart_position vp = here.veh_at( closep );
-        // There is a vehicle part here; see if it has anything that can be closed
+        // vehicle might have moved since start(): close what's on the tile now, if anything
+        const optional_vpart_position vp = here.veh_at( closep );
+        if( !vp ) {
+            act.set_to_null();
+            return;
+        }
         vehicle *const veh = &vp->vehicle();
+        closed_vehicle_part = veh->next_part_to_close( vp->part_index(),
+                              veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != veh );
+        if( closed_vehicle_part < 0 ) {
+            act.set_to_null();
+            return;
+        }
         who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name,
                                veh->part( closed_vehicle_part ).name() );
         // close vehicle part
@@ -6101,22 +6208,22 @@ std::unique_ptr<activity_actor> close_tile_activity_actor::deserialize( JsonValu
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = 0;
-    Character &player_character = get_player_character();
-    //TODO: why use both `player_character` and `guy`?
-    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
-        ret_val<edible_rating> ret = player_character.will_eat( it, true );
+    auto will_eat = [this, &moves, &guy]( const item & it ) {
+        ret_val<edible_rating> ret = guy.will_eat( it, guy.is_avatar() );
         if( !ret.success() ) {
             was_canceled = true;
-            uistate.consume_uistate.clear();
+            if( guy.is_avatar() ) {
+                uistate.consume_uistate.clear();
+            }
         } else {
             moves = to_moves<int>( guy.get_consume_time( it ) );
         }
     };
 
     if( consume_location ) {
-        player_will_eat( *consume_location );
+        will_eat( *consume_location );
     } else if( !consume_item.is_null() ) {
-        player_will_eat( consume_item );
+        will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         was_canceled = true;
@@ -6126,7 +6233,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     act.moves_left = moves;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character & )
+void consume_activity_actor::finish( player_activity &act, Character &who )
 {
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
@@ -6135,12 +6242,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     item_location consume_loc = consume_location;
 
-    avatar &player_character = get_avatar();
     if( !was_canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true );
+            who.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            who.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -6155,10 +6261,14 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         act.set_to_null();
     }
 
+    if( !who.is_avatar() ) {
+        return;
+    }
     if( act.id() == ACT_FIRSTAID && consume_loc ) {
         uistate.consume_uistate.consume_menu_selected_items = { consume_loc };
     }
 
+    avatar &player_character = *who.as_avatar();
     if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
         uistate.open_menu = []() {
             avatar_action::eat_or_use( get_avatar(),
@@ -6602,121 +6712,12 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
 
-    // Legacy migration: older saves have step recipes with item_counter but no
-    // current_step/step_progress. Derive step state once, before any work or
-    // exertion computation. Guard ensures this runs at most once.
-    if( rec.has_steps() && craft.get_current_step() == 0 &&
-        craft.get_step_progress() == 0.0 && craft.item_counter > 0 ) {
-        // Need base_total_moves for conversion; compute it fresh here.
-        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
-                compute_tool_speeds( rec, crafter ) };
-        const double migration_base = std::max( 1.0,
-                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
-                                                        migration_ctx ) ) );
-        double accumulated = craft.item_counter * migration_base / 10000000.0;
-        for( size_t i = 0; i < rec.steps().size(); ++i ) {
-            double budget = rec.step_budget_moves( crafter, i,
-                                                   craft.get_making_batch_size(), migration_ctx );
-            if( accumulated < budget || i == rec.steps().size() - 1 ) {
-                craft.set_current_step( static_cast<int>( i ) );
-                craft.set_step_progress( accumulated );
-                break;
-            }
-            accumulated -= budget;
-        }
-    }
+    migrate_craft_step( crafter );
 
-    // Mode is derived from craft state every turn so wakeup handlers that
-    // advance current_step do not need to reach into the live actor.
-    auto derive_mode = [&]() -> mode {
-        if( !rec.has_steps() )
-        {
-            return mode::active;
-        }
-        const recipe_step &s = rec.steps()[craft.get_current_step()];
-        if( s.attention != step_attention::unattended )
-        {
-            return mode::active;
-        }
-        if( craft.get_passive_started_at() == calendar::before_time_starts )
-        {
-            return mode::active;
-        }
-        const std::vector<attention_plan> &plans = craft.get_step_plans();
-        const int idx = craft.get_current_step();
-        if( idx >= static_cast<int>( plans.size() ) )
-        {
-            return mode::waiting;
-        }
-        return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
-    };
     mode_ = derive_mode();
 
-    if( rec.has_steps() ) {
-        const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
-        if( cur_step.attention == step_attention::unattended ) {
-            // Parked awaiting collection: stop the actor instead of re-stamping a
-            // fresh passive entry.  The player collects via an explicit activate.
-            if( craft.is_awaiting_collection() ) {
-                act.set_to_null();
-                crafter.set_moves( 0 );
-                return;
-            }
-            const std::vector<attention_plan> &plans = craft.get_step_plans();
-            const int idx = craft.get_current_step();
-            const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
-                                        attention_plan{};
-
-            // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
-            if( craft.get_passive_started_at() != calendar::before_time_starts &&
-                craft.get_ready_at() != calendar::before_time_starts &&
-                calendar::turn >= craft.get_ready_at() ) {
-                craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
-                                           calendar::turn, craft_item );
-                return;
-            }
-
-            if( craft.get_passive_started_at() == calendar::before_time_starts ) {
-                // Unattended steps cannot draw resources from the crafter over time, so consume
-                // the remaining character resource cost before the passive work begins.
-                if( !crafter.craft_consume_character_resources( craft, 10000000 ) ) {
-                    craft.erase_var( "crafter" );
-                    crafter.cancel_activity();
-                    return;
-                }
-
-                craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
-                mode_ = derive_mode();
-                // Back-dated entry can leave alarm and/or ready already due.
-                // Alarm runs first; the alarm handler elides itself if ready
-                // also fires same turn.
-                if( craft.get_alarm_at() != calendar::before_time_starts &&
-                    calendar::turn >= craft.get_alarm_at() ) {
-                    craft_actualize_scheduled( craft, item_wakeup_kind::alarm,
-                                               calendar::turn, craft_item );
-                }
-                if( craft.get_ready_at() != calendar::before_time_starts &&
-                    calendar::turn >= craft.get_ready_at() ) {
-                    craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
-                                               calendar::turn, craft_item );
-                    return;
-                }
-            }
-
-            if( plan.choice == step_choice::do_wait ) {
-                // Per-turn env check fast-path.  do_something / set_timer
-                // rely on the periodic env_check wakeup at 1-minute cadence
-                // since no actor runs for those modes.
-                craft_actualize_scheduled( craft, item_wakeup_kind::env_check,
-                                           calendar::turn, craft_item );
-                crafter.set_moves( 0 );
-                return;
-            }
-            // do_something / set_timer: end activity without backlog.
-            act.set_to_null();
-            crafter.set_moves( 0 );
-            return;
-        }
+    if( unattended_craft_step( act, crafter ) ) {
+        return;
     }
 
     if( !use_cached_workbench_multiplier ) {
@@ -6895,6 +6896,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                     return;
                 }
             } else if( crafter.is_npc() ) {
+                add_msg_if_player_sees( crafter, _( "%s stops practicing." ),
+                                        crafter.disp_name( true ) );
                 crafter.cancel_activity();
                 return;
             }
@@ -6911,6 +6914,125 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
     }
+}
+
+void craft_activity_actor::migrate_craft_step( Character &crafter )
+{
+    const recipe &rec = craft_item->get_making();
+    if( rec.has_steps() && craft_item->get_current_step() == 0 &&
+        craft_item->get_step_progress() == 0.0 && craft_item->item_counter > 0 ) {
+        // Need base_total_moves for conversion; compute it fresh here.
+        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
+                compute_tool_speeds( rec, crafter ) };
+        const double migration_base = std::max( 1.0,
+                                                static_cast<double>( rec.batch_time( crafter, craft_item->get_making_batch_size(), 1.0f, 0,
+                                                        migration_ctx ) ) );
+        double accumulated = craft_item->item_counter * migration_base / 10000000.0;
+        for( size_t i = 0; i < rec.steps().size(); ++i ) {
+            double budget = rec.step_budget_moves( crafter, i,
+                                                   craft_item->get_making_batch_size(), migration_ctx );
+            if( accumulated < budget || i == rec.steps().size() - 1 ) {
+                craft_item->set_current_step( static_cast<int>( i ) );
+                craft_item->set_step_progress( accumulated );
+                break;
+            }
+            accumulated -= budget;
+        }
+    }
+}
+
+craft_activity_actor::mode craft_activity_actor::derive_mode() const
+{
+    const recipe &rec = craft_item->get_making();
+    if( !rec.has_steps() ) {
+        return mode::active;
+    }
+    const recipe_step &s = rec.steps()[craft_item->get_current_step()];
+    if( s.attention != step_attention::unattended ) {
+        return mode::active;
+    }
+    if( craft_item->get_passive_started_at() == calendar::before_time_starts ) {
+        return mode::active;
+    }
+    const std::vector<attention_plan> &plans = craft_item->get_step_plans();
+    const int idx = craft_item->get_current_step();
+    if( idx >= static_cast<int>( plans.size() ) ) {
+        return mode::waiting;
+    }
+    return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
+}
+
+bool craft_activity_actor::unattended_craft_step( player_activity &act, Character &crafter )
+{
+    const recipe &rec = craft_item->get_making();
+    if( !rec.has_steps() ) {
+        return false;
+    }
+    if( rec.steps()[craft_item->get_current_step()].attention != step_attention::unattended ) {
+        return false;
+    }
+
+    // Parked awaiting collection: stop the actor instead of re-stamping a
+    // fresh passive entry.  The player collects via an explicit activate.
+    if( craft_item->is_awaiting_collection() ) {
+        act.set_to_null();
+        crafter.set_moves( 0 );
+        return true;
+    }
+    const std::vector<attention_plan> &plans = craft_item->get_step_plans();
+    const int idx = craft_item->get_current_step();
+    const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                attention_plan{};
+
+    // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
+    if( craft_item->get_passive_started_at() != calendar::before_time_starts &&
+        craft_item->get_ready_at() != calendar::before_time_starts &&
+        calendar::turn >= craft_item->get_ready_at() ) {
+        craft_actualize_scheduled( *craft_item, item_wakeup_kind::ready_check,
+                                   calendar::turn, craft_item );
+        return true;
+    }
+
+    if( craft_item->get_passive_started_at() == calendar::before_time_starts ) {
+        // Unattended steps cannot draw resources from the crafter over time, so consume
+        // the remaining character resource cost before the passive work begins.
+        if( !crafter.craft_consume_character_resources( *craft_item, 10000000 ) ) {
+            craft_item->erase_var( "crafter" );
+            crafter.cancel_activity();
+            return true;
+        }
+
+        craft_stamp_passive_entry( *craft_item, crafter, calendar::turn, craft_item );
+        mode_ = derive_mode();
+        // Back-dated entry can leave alarm and/or ready already due.
+        // Alarm runs first; the alarm handler elides itself if ready
+        // also fires same turn.
+        if( craft_item->get_alarm_at() != calendar::before_time_starts &&
+            calendar::turn >= craft_item->get_alarm_at() ) {
+            craft_actualize_scheduled( *craft_item, item_wakeup_kind::alarm,
+                                       calendar::turn, craft_item );
+        }
+        if( craft_item->get_ready_at() != calendar::before_time_starts &&
+            calendar::turn >= craft_item->get_ready_at() ) {
+            craft_actualize_scheduled( *craft_item, item_wakeup_kind::ready_check,
+                                       calendar::turn, craft_item );
+            return true;
+        }
+    }
+
+    if( plan.choice == step_choice::do_wait ) {
+        // Per-turn env check fast-path.  do_something / set_timer
+        // rely on the periodic env_check wakeup at 1-minute cadence
+        // since no actor runs for those modes.
+        craft_actualize_scheduled( *craft_item, item_wakeup_kind::env_check,
+                                   calendar::turn, craft_item );
+        crafter.set_moves( 0 );
+        return true;
+    }
+    // do_something / set_timer: end activity without backlog.
+    act.set_to_null();
+    crafter.set_moves( 0 );
+    return true;
 }
 
 void craft_activity_actor::finish( player_activity &act, Character & )
@@ -8717,8 +8839,8 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( false,
-                                       true ) : mon->unique_name;
+    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( true ) :
+                                       mon->unique_name;
 
     if( !mon->shearable() ) {
         add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
@@ -8732,7 +8854,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     const int shearing_quality = who.max_quality( qual_SHEAR );
     if( !( shearing_quality > 0 ) ) {
         if( who.is_avatar() ) {
-            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
+            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( true ) );
         } else { // who.is_npc
             // npcs can't shear monsters yet, this is for when they are able to
             add_msg_if_player_sees( who, _( "%1$s doesn't have a shearing tool." ), who.disp_name(),
@@ -8751,7 +8873,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 
     if( who.is_avatar() ) {
         add_msg( m_info,
-                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+                 _( "%1$s start shearing %2$s." ), who.disp_name( true ), mon->disp_name() );
     } else { // who.is_npc
         // npcs can't shear monsters yet, this is for when they are able to
         add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
@@ -8769,7 +8891,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
             add_msg(
                 m_bad,
                 _( "%1$s don't have a shearing tool anymore." ),
-                who.disp_name( false, true ) );
+                who.disp_name( true ) );
         } else {
             add_msg_if_player_sees(
                 who,
@@ -8804,7 +8926,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
     add_msg_if_player_sees( who,
                             string_format(
                                 _( "%1$s finished shearing %2$s and got:" ),
-                                who.disp_name( false, true ),
+                                who.disp_name( true ),
                                 mon->unique_name.empty() ? mon->disp_name() : mon->unique_name ) );
 
     const std::vector<shearing_roll> shear_roll = shear_data.roll_all( *mon );
@@ -9606,7 +9728,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     if( !playstr.empty() ) {
-        who.add_msg_if_player( m_good, playstr, pet_name );
+        who.add_msg_if_player( m_good, _( playstr ), pet_name );
     }
 
     if( !who.has_flag( json_flag_PSYCHOPATH ) && !who.has_flag( json_flag_NUMB ) ) {
@@ -10003,6 +10125,9 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
 
 static bool check_stealing( Character &who, item &it )
 {
+    if( !who.is_avatar() ) {
+        return true;
+    }
     if( !it.is_owned_by( who, true ) ) {
         const std::string thief_mode = who.get_value( "THIEF_MODE" ).str();
         if( thief_mode == "THIEF_HONEST" ) {
@@ -14025,7 +14150,7 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
         return;
     }
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
+    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( true ) );
     if( you.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &you );
         guy->revert_after_activity();

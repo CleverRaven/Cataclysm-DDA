@@ -23,5 +23,78 @@
         "encumbrance": 5
       }
     ]
+  },
+  {
+    "id": "npc_cargo_space",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "Faction warehouse idents" },
+    "description": "Identification codes used to access secure storage areas.",
+    "weight": "300 g",
+    "volume": "200 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "afs_plastic_armor" ],
+    "symbol": ";",
+    "color": "brown",
+    "warmth": 2,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "TARDIS" ],
+    "armor": [
+      {
+        "material": [ { "type": "afs_plastic_armor", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "coverage": 5,
+        "encumbrance": 5
+      }
+    ],
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      }
+    ]
   }
 ]

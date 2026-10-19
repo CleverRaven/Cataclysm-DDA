@@ -65,13 +65,13 @@
       "0": "f_manual_tire_changer",
       "8": "f_gas_tank"
     },
-    "item": { "X": { "item": "tire_wide_or", "repeat": [ 2, 3 ] } },
     "items": {
       "b": [
         { "item": "soda_in_small_container", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "snacks", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "jackets", "chance": 1 }
       ],
+      "X": { "item": "SUS_speedway_used_tires", "repeat": [ 2, 3 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "i": { "item": "SUS_office_filing_cabinet", "chance": 25 },
       "a": { "item": "SUS_trash_trashcan", "chance": 66 },
@@ -88,6 +88,17 @@
       "˘": { "vehicle": "cars_only", "chance": 80, "rotation": 270 }
     },
     "gaspumps": { "G": { "fuel": "gasoline" } }
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "SUS_speedway_used_tires",
+    "items": [
+      { "item": "tire_wide_or", "damage": [ 3, 4 ], "prob": 80 },
+      { "item": "tire_wide", "damage": [ 3, 4 ], "prob": 40 },
+      { "item": "tire_medium", "damage": [ 3, 4 ], "prob": 20 },
+      { "item": "tire_medium_slick", "damage": [ 3, 4 ], "prob": 10 }
+    ]
   },
   {
     "type": "mapgen",
@@ -447,16 +458,16 @@
       "items": { "R": { "item": "mechanics", "chance": 40, "repeat": [ 1, 6 ] }, "n": { "item": "SUS_welding_gear", "chance": 50 } },
       "place_vehicles": [ { "vehicle": "rara_x", "x": 36, "y": 55, "rotation": 90, "chance": 30 } ],
       "place_loot": [
-        { "item": "tire_medium_slick", "x": [ 36, 38 ], "y": 50, "repeat": [ 6, 9 ] },
-        { "item": "tire_medium_slick", "x": [ 41, 43 ], "y": 74, "repeat": [ 6, 9 ] },
-        { "item": "tire_medium_slick", "x": [ 38, 40 ], "y": 79, "repeat": [ 6, 9 ] },
-        { "item": "tire_medium_slick", "x": [ 34, 36 ], "y": 103, "repeat": [ 6, 9 ] }
+        { "item": "tire_medium_slick", "x": [ 36, 38 ], "y": 50, "repeat": [ 6, 9 ], "chance": 5 },
+        { "item": "tire_medium_slick", "x": [ 41, 43 ], "y": 74, "repeat": [ 6, 9 ], "chance": 5 },
+        { "item": "tire_medium_slick", "x": [ 38, 40 ], "y": 79, "repeat": [ 6, 9 ], "chance": 5 },
+        { "item": "tire_medium_slick", "x": [ 34, 36 ], "y": 103, "repeat": [ 6, 9 ], "chance": 5 }
       ],
       "place_monster": [
-        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 50, 61 ], "chance": 66 },
-        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 63, 71 ], "chance": 66 },
-        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 79, 90 ], "chance": 66 },
-        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 96, 103 ], "chance": 66 }
+        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 50, 61 ], "chance": 5 },
+        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 63, 71 ], "chance": 5 },
+        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 79, 90 ], "chance": 5 },
+        { "monster": "mon_feral_human_tool", "x": [ 32, 45 ], "y": [ 96, 103 ], "chance": 5 }
       ]
     }
   },

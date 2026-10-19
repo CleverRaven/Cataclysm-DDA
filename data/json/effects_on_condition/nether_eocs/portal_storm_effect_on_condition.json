@@ -902,10 +902,12 @@
       "and": [
         { "math": [ "u_in_portal_cell == 0" ] },
         { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
-        { "not": "u_driving" }
+        { "not": "u_driving" },
+        { "not": { "current_dimension": "portal_storm_dungeon_dimension" } }
       ]
     },
     "effect": [
+      { "u_consume_item_sum": [ { "item": "escape_stone", "amount": 1 } ] },
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
@@ -948,7 +950,8 @@
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
       { "u_message": "You are trapped in <global_val:place_name>!" }
-    ]
+    ],
+    "false_effect": { "u_message": "You cant use this here." }
   },
   {
     "type": "effect_on_condition",

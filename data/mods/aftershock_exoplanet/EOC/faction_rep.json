@@ -1,0 +1,31 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "afs_hostile_faction_adjust",
+    "num_args": 1,
+    "return": "  _0 > -15? -10: _0 - 10"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PIRATES_LUX_HOSTILE",
+    "effect": [ { "math": [ "faction_like('pirates_lux') = afs_hostile_faction_adjust(faction_like('pirates_lux'))" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PIRATES_LUX_HOSTILE_DEATH",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ { "math": [ "faction_like('pirates_lux') = afs_hostile_faction_adjust(faction_like('pirates_lux'))" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SMUGGLER_RAVINE_ALLOWED_INSIDE",
+    "condition": { "and": [ { "math": [ "faction_like('pirates_lux') < 79" ] }, { "math": [ "allowed_inside_s_ravine != 1" ] } ] },
+    "effect": [ { "math": [ "faction_like('pirates_lux') = afs_hostile_faction_adjust(faction_like('pirates_lux'))" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PIRATES_LUX_RESET_HOSTILE",
+    "condition": { "math": [ "faction_like('pirates_lux') > -80" ] },
+    "effect": [ { "math": [ "faction_like('pirates_lux') = -5" ] } ]
+  }
+]

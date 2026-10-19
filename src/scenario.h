@@ -171,7 +171,6 @@ class scenario
 };
 
 struct scenario_sorter {
-    bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
     /** @related player */

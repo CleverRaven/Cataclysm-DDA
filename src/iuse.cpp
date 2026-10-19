@@ -1289,7 +1289,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
         } else {
-            p->add_msg_if_player( m_good, petfood.feed, mon->get_name() );
+            p->add_msg_if_player( m_good, _( petfood.feed ), mon->get_name() );
         }
 
         mon->friendly = -1;
@@ -7696,7 +7696,7 @@ std::optional<int> iuse::sextant( Character *p, item *it, const tripoint_bub_ms 
     if( debug_mode ) {
         // Debug mode always shows all sun angles
         const float azimuth = to_degrees( sun_position.first );
-        p->add_msg_if_player( m_neutral, "Sun altitude %.1f°, azimuth %.1f°", altitude, azimuth );
+        p->add_msg_if_player( m_neutral, _( "Sun altitude %.1f°, azimuth %.1f°" ), altitude, azimuth );
     } else if( g->is_sheltered( pos ) ) {
         p->add_msg_if_player( m_neutral, _( "You can't see the Sun from here." ) );
     } else if( altitude > 0 ) {
@@ -8620,20 +8620,20 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
     return 0;
 }
 
-std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms &loc )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
-    if( !it ) {
-        return std::nullopt;
-    }
-    if( !p->has_item( *it ) ) {
-        return std::nullopt;
+
+    item_location it_location;
+    if( p->has_item( *it ) ) {
+        it_location = item_location( *p, it );
+    } else {
+        it_location = item_location( map_cursor( loc ), it );
     }
 
-    p->disassemble( item_location( *p, it ), false );
+    p->disassemble( it_location, false );
 
     return 0;
 }

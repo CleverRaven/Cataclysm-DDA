@@ -54,7 +54,8 @@
       "9": "t_metal_floor",
       "Z": "t_radio_tower",
       "@": "t_soil",
-      "~": "t_gutter_downspout"
+      "~": "t_gutter_downspout",
+      "©": "t_thconc_floor"
     },
     "furniture": {
       "}": "f_rubble",
@@ -107,7 +108,8 @@
       "E": "f_safe_l",
       "a": "f_washer",
       "!": "f_dryer",
-      "I": "f_flagpole"
+      "I": "f_flagpole",
+      "©": [ [ "f_metal_crate_military", 40 ], [ "f_metal_crate_military_o", 10 ] ]
     },
     "item": { "I": { "item": "american_flag" } },
     "items": {
