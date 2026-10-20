@@ -474,7 +474,8 @@ void body_status_ui::update_uilist_entries()
             bs_uistate.all_bodyparts =
                 displayed_character.get_all_body_parts( get_body_part_flags::sorted );
             for( bodypart_id bp_id : bs_uistate.all_bodyparts ) {
-                uilist_entry new_entry = get_uilist_entry( uppercase_first_letter( bp_id->name.translated() ) );
+                uilist_entry new_entry = get_uilist_entry(
+                                             medical_ui::get_modified_limb_name( displayed_character, bp_id ) );
                 new_entry.text_color = c_white;
                 menu->addentry( new_entry );
             }
