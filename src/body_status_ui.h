@@ -156,6 +156,7 @@ struct body_status_uistate {
     void prepare_infotext( bool reset_pos );
     const bodygraph_part_info &get_selected_partlist() const;
 
+    void update_selected( int index );
     void update_sorted_armor();
     void prepare_bodyparts_compact();
     void prepare_worn_items_by_limb();

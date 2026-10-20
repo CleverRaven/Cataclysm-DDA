@@ -175,7 +175,9 @@ void body_status_ui::setup_input_context( input_context &bs_ictxt )
     bs_ictxt.register_action( "INFO_TOGGLE_WINDOW" );
     bs_ictxt.register_action( "BODYGRAPH_TOGGLE_WINDOW" );
 
-    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
+    if( bs_uistate.selected_tab == body_status_tab::BS_TAB_MEDICAL ) {
+        //bs_ictxt.register_action("APPLY", to_translation("Use item"));
+    } else if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
         bs_ictxt.register_leftright();
         bs_ictxt.register_action( "MOVE_ARMOR_IN" );
         bs_ictxt.register_action( "MOVE_ARMOR_OUT" );
@@ -252,6 +254,33 @@ bool body_status_ui::display()
 void body_status_ui::upon_switching_tab()
 {
     update_uilist_entries();
+    get_current_tab_uilist()->set_selected( 0 );
+    bs_uistate.update_selected( 0 );
+
+    switch( bs_uistate.selected_tab ) {
+        case body_status_tab::BS_TAB_SUMMARY: {
+            if( !bs_uistate.parent_bodypart.has_value() ) {
+                bs_uistate.displayed_graph_id = bodygraph_full_body;
+            } else {
+                const std::string bpid_str = bs_uistate.parent_bodypart->id().str();
+                bodygraph_id nested_bodygraph = bodygraph_id( bpid_str );
+                bs_uistate.displayed_graph_id = nested_bodygraph.is_valid() ? nested_bodygraph :
+                                                bodygraph_full_body;
+                bs_uistate.prepare_partlist();
+            }
+            break;
+        }
+        case body_status_tab::BS_TAB_MEDICAL: {
+            bs_uistate.displayed_graph_id = bodygraph_full_body;
+            break;
+        }
+        case body_status_tab::BS_TAB_SORT_ARMOR: {
+            bs_uistate.displayed_graph_id = bodygraph_full_body;
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 std::shared_ptr<uilist> body_status_ui::get_current_tab_uilist()
@@ -559,6 +588,7 @@ void body_status_callback::confirm( uilist *menu )
 
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
 
+    select( menu );
     switch( bs_uistate.selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
             if( !bs_uistate.parent_bodypart.has_value() ) {
@@ -592,23 +622,27 @@ void body_status_callback::select( uilist *menu )
     disp_bodygraph_cache::clear( bs_uistate.displayed_graph_id, bs_uistate.display_mode );
 
     int menu_selected = menu->selected;
-    bs_uistate.selected_index = menu_selected;
+    bs_uistate.update_selected( menu_selected );
+}
 
-    switch( bs_uistate.selected_tab ) {
+void body_status_uistate::update_selected( int index )
+{
+    selected_index = index;
+    switch( selected_tab ) {
         case body_status_tab::BS_TAB_SUMMARY: {
-            bodypart_id selected_bp = bs_uistate.get_selected_partlist().bp_id;
-            bs_uistate.selected_bodypart = selected_bp;
-            bs_uistate.prepare_infolist();
+            bodypart_id selected_bp = get_selected_partlist().bp_id;
+            selected_bodypart = selected_bp;
+            prepare_infolist();
             break;
         }
         case body_status_tab::BS_TAB_MEDICAL: {
-            bs_uistate.selected_bodypart = bs_uistate.all_bodyparts[menu_selected];
+            selected_bodypart = all_bodyparts[index];
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR:
-            bs_uistate.selected_armor = menu_selected > -1 && !bs_uistate.worn_subset.empty() ?
-                                        item_location( bs_uistate.displayed_character, &*bs_uistate.worn_subset[menu_selected] )
-                                        : item_location::nowhere;
+            selected_armor = index > -1 && !worn_subset.empty() ?
+                             item_location( displayed_character, &*worn_subset[index] )
+                             : item_location::nowhere;
             break;
         default:
             break;
@@ -832,7 +866,9 @@ void body_status_ui_impl::draw_bodygraph()
             break;
     }
 
-    draw_graph_imgui( bodypart_or_subpart_id );
+    if( bodypart_or_subpart_id.has_value() ) {
+        draw_graph_imgui( bodypart_or_subpart_id );
+    }
     tabbed_listinfo_ui::set_info_scroll( bs_uistate.bodygraph_scrolled_down,
                                          bs_uistate.bodygraph_scrolled_up );
 }

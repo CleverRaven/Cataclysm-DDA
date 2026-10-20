@@ -1144,7 +1144,7 @@ void uilist::settext( const std::string &str )
 
 void uilist::set_selected( int index )
 {
-    selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    selected = fselected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
