@@ -90,6 +90,8 @@ std::string bodygraph_part_info::get_part() const
 
 void body_status_uistate::init()
 {
+    bodygraph_collapsed = uistate.body_status_bodygraph_collapsed;
+    info_collapsed = uistate.body_status_info_collapsed;
     prepare_partlist();
     prepare_infolist();
     all_bodyparts = displayed_character.get_all_body_parts( get_body_part_flags::sorted );
@@ -241,6 +243,9 @@ void body_status_ui::display()
             reset_window_size = false;
         }
     }
+
+    uistate.body_status_bodygraph_collapsed = bs_uistate.bodygraph_collapsed;
+    uistate.body_status_info_collapsed = bs_uistate.info_collapsed;
 }
 
 void body_status_ui::upon_switching_tab()
