@@ -73,59 +73,6 @@ struct enum_traits<medical_tab_mode> {
     static constexpr medical_tab_mode first = medical_tab_mode::TAB_LIMBS;
 };
 
-bool Character::disp_medical()
-{
-    medical_ui medic( this );
-    return medic.execute();
-}
-
-bool medical_ui::execute()
-{
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "SCROLL_UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "SCROLL_DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Scroll description up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Scroll description down" ) );
-    ctxt.register_action( "HOME", to_translation( "Scroll description to top" ) );
-    ctxt.register_action( "END", to_translation( "Scroll description to bottom" ) );
-    ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "APPLY", to_translation( "Use item" ) );
-    ctxt.register_action( "CONFIRM", to_translation( "Pick bodypart to be mended" ) );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.set_timeout( 16 );
-
-    while( true ) {
-        ui_manager::redraw_invalidated();
-        last_action = ctxt.handle_input();
-        if( last_action == "QUIT" || !get_is_open() ) {
-            break;
-        }
-
-        // creating a new window within main loop of draw_controls() causes destructor to destroy wrong window
-        // so moved here, outside of draw_controls()
-        if( last_action == "CONFIRM" ) {
-            if( you->pick_wound_fix( bp ) ) {
-                return true;
-            }
-        }
-
-        if( last_action == "APPLY" ) {
-            if( you->is_avatar() ) {
-                avatar_action::use_item( *you->as_avatar() );
-            } else {
-                popup( _( "Applying not implemented for NPCs." ) );
-            }
-        }
-
-    }
-    return false;
-}
-
 static std::string coloured_stat_display( int statCur, int statMax )
 {
     nc_color cstatus;
@@ -561,24 +508,6 @@ void medical_ui::summary_tab( const Character &you )
 
 }
 
-void medical_ui::limb_tab( const std::vector<bodypart_id> &bodyparts )
-{
-    if( ImGui::BeginTable( "##Limbs", 2, ImGuiTableFlags_SizingFixedFit ) ) {
-        ImGui::TableSetupColumn( _( "Limbs" ), ImGuiTableColumnFlags_WidthFixed,
-                                 get_table_column_width() * 0.7 );
-
-        const std::string limb_name = ""; //uppercase_first_letter(body_part_name(bp, 1));
-        ImGui::TableSetupColumn( limb_name.c_str(), ImGuiTableColumnFlags_WidthStretch );
-        ImGui::TableHeadersRow();
-        ImGui::TableNextColumn();
-        //draw_limbs_list(bodyparts);
-        ImGui::TableNextColumn();
-        //draw_limbs_details();
-
-        ImGui::EndTable();
-    }
-}
-
 void medical_ui::draw_limbs_details( const Character &you, const bodypart_id &bp )
 {
     ImGui::BeginChild( "##Limb_Info" );
@@ -609,78 +538,6 @@ void medical_ui::draw_limbs_details( const Character &you, const bodypart_id &bp
     }
 
     ImGui::EndChild();
-}
-
-void medical_ui::draw_hint_section()
-{
-    const std::string desc = string_format(
-                                 _( "[<color_yellow>%s</color>] Use item [<color_yellow>%s</color>] Treat, [<color_yellow>%s</color>] Keybindings" ),
-                                 ctxt.get_desc( "APPLY" ), ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-    cataimgui::draw_colored_text( desc, c_unset );
-    ImGui::Separator();
-}
-
-void medical_ui::draw_controls()
-{
-    // no need to draw anything if we are exiting
-    if( last_action == "QUIT" ) {
-        return;
-    } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
-        s = cataimgui::scroll::begin;
-        ++selected_tab;
-    } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
-        s = cataimgui::scroll::begin;
-        --selected_tab;
-    }
-
-    const std::vector<bodypart_id> bodyparts = you->get_all_body_parts( get_body_part_flags::sorted );
-    size_t num_entries = bodyparts.size();
-    const int last_entry = num_entries == 0 ? 0 : ( static_cast<int>( num_entries ) - 1 );
-
-    // initialize selected_limb either from already set bp, or from zero if not set
-    auto it = std::find( bodyparts.begin(), bodyparts.end(), bp );
-    int selected_limb = ( it != bodyparts.end() ) ? std::distance( bodyparts.begin(), it ) : 0;
-    if( last_action == "UP" ) {
-        selected_limb--;
-    } else if( last_action == "DOWN" ) {
-        selected_limb++;
-    }
-
-    if( last_action == "PAGE_UP" || last_action == "SCROLL_UP" ) {
-        s = cataimgui::scroll::page_up;
-    } else if( last_action == "PAGE_DOWN" || last_action == "SCROLL_DOWN" ) {
-        s = cataimgui::scroll::page_down;
-    } else if( last_action == "HOME" ) {
-        s = cataimgui::scroll::begin;
-    } else if( last_action == "END" ) {
-        s = cataimgui::scroll::end;
-    }
-
-    if( selected_limb < 0 ) {
-        selected_limb = last_entry;
-    } else if( selected_limb > last_entry ) {
-        selected_limb = 0;
-    };
-
-    bp = bodyparts[selected_limb];
-
-    draw_hint_section();
-
-    if( ImGui::BeginTabBar( "##Tabs" ) ) {
-        if( cataimgui::BeginTabItem( _( "Limbs" ), selected_tab == medical_tab_mode::TAB_LIMBS ) ) {
-            // if we picked the tab via mouse imput, update selected_tab
-            // TODO there seems to be some lag appearing when you pick it with mouse?
-            selected_tab = ImGui::IsItemActive() ? medical_tab_mode::TAB_LIMBS : selected_tab;
-            limb_tab( bodyparts );
-            ImGui::EndTabItem();
-        }
-        if( cataimgui::BeginTabItem( _( "Summary" ), selected_tab == medical_tab_mode::TAB_SUMMARY ) ) {
-            selected_tab = ImGui::IsItemActive() ? medical_tab_mode::TAB_SUMMARY : selected_tab;
-            //summary_tab();
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
-    }
 }
 
 namespace
