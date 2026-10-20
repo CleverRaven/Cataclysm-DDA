@@ -1,0 +1,77 @@
+[
+{
+    "id": "bruise_small",
+    "type": "wound",
+    "name": { "str": "light bruise" },
+    "description": "You have been bruiseed lightly, you should probably clean it.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 1, 10 ],
+    "pain": [ 4, 7 ],
+    "healing_time": [ "2 days", "4 days" ],
+    "wound_progression": [ { "id": "bruise_medium", "chance": 20 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.04 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_medium",
+    "type": "wound",
+    "name": { "str": "bruise" },
+    "description": "You have been bruised, you should at least clean it.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 10, 15 ],
+    "pain": [ 8, 12 ],
+    "healing_time": [ "4 days", "7 days" ],
+    "wound_progression": [ { "id": "bruise_bad", "chance": 20 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.07 }, { "score": "grip", "value": 0.04 }, { "score": "lift", "value": 0.6 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_bad",
+    "type": "wound",
+    "name": { "str": "bad bruise" },
+    "description": "You have been bruised badly, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 15, 20 ],
+    "pain": [ 10, 14 ],
+    "healing_time": [ "6 days", "10 days" ],
+    "wound_progression": [ { "id": "bruise_bader", "chance": 20 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.15 },
+      { "score": "grip", "value": 0.15 },
+      { "score": "lift", "value": 0.15 },
+      { "score": "move_speed", "value": 0.15 }
+    ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_bad",
+    "type": "wound",
+    "name": { "str": "bad bruise" },
+    "description": "You have been bruised badly, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 15, 20 ],
+    "pain": [ 30, 40 ],
+    "limb_scores": [
+      { "score": "manip", "value": 1 },
+      { "score": "grip", "value": 1 },
+      { "score": "lift", "value": 1 },
+      { "score": "balance", "value": 0.9 },
+      { "score": "footing", "value": 0.9 },
+      { "score": "block", "value": 1 },
+      { "score": "move_speed", "value": 1 }
+    ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  }
+]
