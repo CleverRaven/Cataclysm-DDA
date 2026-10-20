@@ -41,46 +41,50 @@
         "blacklist_flag": "BIONIC_LIMB"
       },
       {
-        "if": {
-          "or": [ { "u_has_trait": "PROF_MED" }, { "roll_contested": { "math": [ "u_skill('firstaid')" ] }, "difficulty": 7 } ]
+        "if": { "u_has_effect": "bleed", "bodypart": { "u_val": "pyrokin_cauterize_picked_bodypart" } },
+        "then": {
+          "if": {
+            "or": [ { "u_has_trait": "PROF_MED" }, { "roll_contested": { "math": [ "u_skill('firstaid')" ] }, "difficulty": 7 } ]
+          },
+          "then": [
+            {
+              "u_message": "There is a moment of searing pain, and when you look at the wound, The bleeding has stopped.",
+              "type": "good"
+            },
+            {
+              "u_add_effect": "effect_psi_post_cauterize",
+              "duration": { "math": [ "rand(10800) + 3600" ] },
+              "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" },
+              "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': u_pyrokin_cauterize_picked_bodypart) + 1" ] }
+            },
+            { "u_lose_effect": "bleed", "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" } },
+            { "math": [ "u_hp(u_pyrokin_cauterize_picked_bodypart) -= 1" ] },
+            { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
+            {
+              "run_eocs": "EOC_PYROKIN_CAUTERIZE_BODYPART_INFECTION_CHECK",
+              "time_in_future": [ "6 hours", "24 hours" ]
+            }
+          ],
+          "else": [
+            {
+              "u_message": "There is a moment of searing pain, but when you look at the wound, you're still bleeding.  You'll have to try again.",
+              "type": "bad"
+            },
+            {
+              "u_add_effect": "effect_psi_post_cauterize",
+              "duration": { "math": [ "rand(10800) + 3600" ] },
+              "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" },
+              "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': u_pyrokin_cauterize_picked_bodypart) + 1" ] }
+            },
+            { "math": [ "u_hp(u_pyrokin_cauterize_picked_bodypart) -= 3" ] },
+            { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
+            {
+              "run_eocs": "EOC_PYROKIN_CAUTERIZE_BODYPART_INFECTION_CHECK",
+              "time_in_future": [ "6 hours", "24 hours" ]
+            }
+          ]
         },
-        "then": [
-          {
-            "u_message": "There is a moment of searing pain, and when you look at the wound, The bleeding has stopped.",
-            "type": "good"
-          },
-          {
-            "u_add_effect": "effect_psi_post_cauterize",
-            "duration": { "math": [ "rand(10800) + 3600" ] },
-            "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" },
-            "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': u_pyrokin_cauterize_picked_bodypart) + 1" ] }
-          },
-          { "u_lose_effect": "bleed", "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" } },
-          { "math": [ "u_hp(u_pyrokin_cauterize_picked_bodypart) -= 1" ] },
-          { "math": [ "u_pain('type': 'perceived') += rng(1,2)" ] },
-          {
-            "run_eocs": "EOC_PYROKIN_CAUTERIZE_BODYPART_INFECTION_CHECK",
-            "time_in_future": [ "6 hours", "24 hours" ]
-          }
-        ],
-        "else": [
-          {
-            "u_message": "There is a moment of searing pain, but when you look at the wound, you're still bleeding.  You'll have to try again.",
-            "type": "bad"
-          },
-          {
-            "u_add_effect": "effect_psi_post_cauterize",
-            "duration": { "math": [ "rand(10800) + 3600" ] },
-            "target_part": { "u_val": "pyrokin_cauterize_picked_bodypart" },
-            "intensity": { "math": [ "u_effect_intensity('effect_psi_post_cauterize', 'bodypart': u_pyrokin_cauterize_picked_bodypart) + 1" ] }
-          },
-          { "math": [ "u_hp(u_pyrokin_cauterize_picked_bodypart) -= 3" ] },
-          { "math": [ "u_pain('type': 'perceived') += rng(1,3)" ] },
-          {
-            "run_eocs": "EOC_PYROKIN_CAUTERIZE_BODYPART_INFECTION_CHECK",
-            "time_in_future": [ "6 hours", "24 hours" ]
-          }
-        ]
+        "else": { "u_message": "That part isn't bleeding, cauterizing it would be pointless.", "type": "good" }
       }
     ],
     "false_effect": [ { "u_message": "You have no bleeding wounds to cauterize.", "type": "good" } ]
