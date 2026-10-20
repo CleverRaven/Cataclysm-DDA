@@ -377,7 +377,7 @@
     "type": "effect_type",
     "id": "effect_biokin_combat_dance",
     "name": [ "Combat Dance" ],
-    "desc": [ "You are a dynamo of death." ],
+    "desc": [ "You are a dynamo of death.  The effects of your other biokinetic powers are enhanced." ],
     "apply_message": "",
     "remove_message": "Your movements return to normal.",
     "rating": "good",
