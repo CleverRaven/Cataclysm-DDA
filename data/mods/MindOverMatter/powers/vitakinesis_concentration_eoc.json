@@ -168,7 +168,7 @@
     "//": "Hopefully there's eventually some way to get a dynamic list of body parts for this",
     "effect": [
       {
-        "foreach": "array",
+        "foreach": "ids",
         "target": "bodypart",
         "var": { "context_val": "id" },
         "effect": [
@@ -193,6 +193,10 @@
             "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
+      },
+      {
+        "u_lose_effect": "effect_vita_concentrated_healing_penalty",
+        "target_part": { "context_val": "vitakin_concentrated_healing_bodypart" }
       }
     ]
   },
