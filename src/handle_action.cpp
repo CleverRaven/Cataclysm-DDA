@@ -2999,14 +2999,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_morale();
             break;
 
-        case ACTION_MEDICAL:
-            if( player_character.disp_medical() ) {
-                return false;
-            }
+        case ACTION_MEDICAL: {
+            body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_MEDICAL );
+            bsui.display();
             break;
-
+        }
         case ACTION_BODYSTATUS: {
-            //display_bodygraph( get_player_character() );
             body_status_ui bsui( get_player_character() );
             bsui.display();
             break;

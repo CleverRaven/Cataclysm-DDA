@@ -2014,8 +2014,6 @@ class Character : public Creature, public visitable
         void disp_info( bool customize_character = false );
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Opens the medical window. Returns true if window was closed */
-        bool disp_medical();
         // return true if wound fix was successfully picked
         bool pick_wound_fix( const bodypart_id &bp_id );
         void conduct_blood_analysis();

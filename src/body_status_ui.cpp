@@ -190,7 +190,7 @@ void body_status_ui::setup_input_context( input_context &bs_ictxt )
     }
 }
 
-void body_status_ui::display()
+bool body_status_ui::display()
 {
 
     body_status_ui_impl bsui( this );
@@ -246,6 +246,7 @@ void body_status_ui::display()
 
     uistate.body_status_bodygraph_collapsed = bs_uistate.bodygraph_collapsed;
     uistate.body_status_info_collapsed = bs_uistate.info_collapsed;
+    return true;
 }
 
 void body_status_ui::upon_switching_tab()
