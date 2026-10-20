@@ -107,7 +107,15 @@
     "effect": [
       { "u_message": "You begin to sweat.", "type": "mixed" },
       { "u_add_wet": 8 },
-      { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_bionics": "bio_exodii_cyberframe_1b" } },
+            { "not": { "u_has_bionics": "bio_exodii_cyberframe_1a" } }
+          ]
+        },
+        "then": { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] }
+      },
       {
         "u_lose_effect": [ "poison", "badpoison", "venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "paralyzepoison" ],
         "target_part": "ALL"
@@ -1030,51 +1038,19 @@
       { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
       { "if": { "math": [ "u_vitamin('blood') < -10000" ] }, "then": { "math": [ "u_vitamin('blood') += 2500" ] } },
       {
-        "if": {
-          "or": [
-            { "math": [ "u_hp('arm_l') < u_hp_max('arm_l')" ] },
-            { "math": [ "u_hp('arm_r') < u_hp_max('arm_r')" ] },
-            { "math": [ "u_hp('leg_l') < u_hp_max('leg_l')" ] },
-            { "math": [ "u_hp('leg_r') < u_hp_max('leg_r')" ] },
-            { "math": [ "u_hp('torso') < u_hp_max('torso')" ] },
-            { "math": [ "u_hp('head') < u_hp_max('head')" ] }
-          ]
-        },
-        "then": {
-          "foreach": "array",
-          "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
-          "var": { "context_val": "id" },
-          "effect": [
-            {
-              "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-              "then": { "math": [ "u_hp(_id) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
-            }
-          ]
-        }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
-      },
-      {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
-        "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
+            "then": { "math": [ "u_hp(_id) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
+          },
+          {
+            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "then": { "u_add_effect": "bleed", "target_part": { "context_val": "id" }, "duration": 0, "intensity": -1 }
+          }
+        ]
       }
     ]
   },
