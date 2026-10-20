@@ -402,6 +402,7 @@
     "name": { "str": "Wired Reflexes" },
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity while powered.  However, you will suffer penalties while unpowered.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "torso", 6 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 7 ], [ "leg_r", 7 ] ],
+    "cant_remove_reason": "This CBM has replaced parts of the patient's nervous system and can't be removed.",
     "enchantments": [
       { "condition": "ACTIVE", "values": [ { "value": "DEXTERITY", "add": 5 } ] },
       { "values": [ { "value": "DEXTERITY", "add": -3 } ] }
@@ -576,6 +577,7 @@
     "type": "bionic",
     "name": { "str": "Ocular Amplifiers" },
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception while powered.  However, you suffer penalties while unpowered.",
+    "cant_remove_reason": "The CBM has completely replaced %1$s eyes now.  Removing them would leave %2$s blind.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "enchantments": [
       { "condition": "ACTIVE", "values": [ { "value": "PERCEPTION", "add": 5 } ] },
@@ -886,6 +888,7 @@
     "name": { "str": "Leukocyte Breeder System" },
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "cant_remove_reason": "The CBM has completely replaced %1$s immune system now.  Removing them would kill %2$s slowly.",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
