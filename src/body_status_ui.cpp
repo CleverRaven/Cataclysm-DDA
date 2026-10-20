@@ -614,7 +614,8 @@ void body_status_callback::refresh( uilist *menu )
 }
 
 body_status_ui_impl::body_status_ui_impl( body_status_ui *parent ) :
-    cataimgui::window( "", window_flags )
+    cataimgui::window( "", ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                       ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav )
 {
     ui_parent = parent;
 }
@@ -626,7 +627,7 @@ cataimgui::bounds body_status_ui_impl::get_bounds()
     const float WINDOW_THIRD = viewport.x * 0.333f;
     float displayed_windows = 1 + ( int )!bs_uistate.bodygraph_collapsed +
                               ( int )!bs_uistate.info_collapsed;
-    return { 0, 0, displayed_windows * WINDOW_THIRD, viewport.y};
+    return { 0, 0, displayed_windows == 3 ? viewport.x : displayed_windows * WINDOW_THIRD, viewport.y};
 }
 
 void body_status_ui_impl::draw_controls()
