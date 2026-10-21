@@ -490,8 +490,8 @@
         [ "f_military_generator", 5 ],
         [ "f_12000_gasoline_generator", 5 ]
       ],
-      "ɔ": "f_autodoc",
-      "Я": "f_autodoc_couch",
+      "ɔ": "f_dialysis",
+      "Я": "f_surgical_table",
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
       "Ø": "f_CTscan",
