@@ -290,5 +290,26 @@
     "flags": [ "SILENT" ],
     "min_duration": 4320000,
     "max_duration": 4320000
+  },
+  {
+    "id": "xe_shapeshifter_cardboard_palace",
+    "type": "SPELL",
+    "name": "Alleyway Bomb Shelter",
+    "description": "With a prayer to the patron of the indigent and destitute, an asphalt road, and a helpful cardboard box you are able to create a comfortable place to rest.",
+    "valid_targets": [ "ground" ],
+    "magic_type": "xe_werewolf_powers",
+    "skill": "survival",
+    "effect": "ter_transform",
+    "effect_str": "cardboard_palace",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "LOUD", "NO_PROJECTILE" ],
+    "spell_class": "WEREWOLF_SPELLS",
+    "components": "spell_components_xe_shapeshifter_cardboard_palace",
+    "difficulty": 1,
+    "base_casting_time": 150,
+    "base_energy_cost": 100,
+    "max_level": 1,
+    "min_range": 1,
+    "max_range": 1
   }
 ]
