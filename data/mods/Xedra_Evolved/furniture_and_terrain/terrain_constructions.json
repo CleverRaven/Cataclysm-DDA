@@ -1,5 +1,5 @@
 [
-	{
+  {
     "type": "terrain",
     "id": "t_cardboard_palace",
     "name": "alleyway bomb shelter",
@@ -25,12 +25,6 @@
       "EASY_DECONSTRUCT"
     ],
     "deconstruct": { "ter_set": "t_pavement", "items": [ { "item": "box_large", "count": 1 } ] },
-    "bash": {
-      "str_min": 4,
-      "str_max": 60,
-      "sound": "crunch.",
-      "sound_fail": "brush.",
-      "ter_set": "t_pavement"
-    }
+    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "brush.", "ter_set": "t_pavement" }
   }
 ]
