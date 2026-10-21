@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -13,6 +14,8 @@
 #include "coordinates.h"
 #include "point.h"
 #include "type_id.h"
+
+template <typename E> struct enum_traits;
 
 class Character;
 class Creature;
@@ -195,7 +198,7 @@ std::string colorized_compass_legend_text( int width, int max_height, int &heigh
 // Get color-coded body graph representing body part HP
 std::string colorized_bodygraph_text( const Character &u, const std::string &graph_id,
                                       bodygraph_var var, int width, int max_height, int &height,
-                                      bool blink_selected = false, std::optional<std::string> selected_part = std::nullopt );
+                                      bool blink_selected = false, const std::optional<std::string> &selected_part = std::nullopt );
 
 // Get color for bodygraph part
 nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,

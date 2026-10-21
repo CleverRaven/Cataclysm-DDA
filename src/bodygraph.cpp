@@ -1,14 +1,14 @@
 #include "bodygraph.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <cstddef>
 #include <initializer_list>
-#include <memory>
 #include <set>
-#include <tuple>
 
 #include "bodypart.h"
 #include "body_status_ui.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -16,28 +16,19 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "display.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "input_context.h"
-#include "memory_fast.h"
-#include "options.h"
 #include "output.h"
-#include "point.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
-#include "uilist.h"
-#include "ui_manager.h"
 #include "units.h"
 #include "weather.h"
 
 #define BPGRAPH_MAXROWS 20
 #define BPGRAPH_MAXCOLS 40
-
-static const bodygraph_id bodygraph_full_body( "full_body" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 
@@ -234,19 +225,20 @@ static const bodygraph_id &get_bg_rows( const bodygraph_id &bgid )
     return bgid;
 }
 
-void body_status_ui_impl::draw_graph_imgui( std::optional<std::string> bodypart_or_subpart_id )
+void body_status_ui_impl::draw_graph_imgui( const std::optional<std::string>
+        &bodypart_or_subpart_id )
 {
     cataimgui::draw_colored_text( ui_parent->bs_uistate.prepare_bodygraph_text(
                                       bodypart_or_subpart_id ) );
 }
 
-void body_status_ui_impl::draw_info_imgui( const std::vector<std::string> info_txt ) const
+void body_status_ui_impl::draw_info_imgui( const std::vector<std::string> &info_txt ) const
 {
-    for( unsigned i = 0; i < info_txt.size(); i++ ) {
-        if( info_txt[i] == "--" ) {
+    for( const std::string &line : info_txt ) {
+        if( line == "--" ) {
             ImGui::Separator();
         } else {
-            cataimgui::draw_colored_text( info_txt[i] );
+            cataimgui::draw_colored_text( line );
         }
     }
 }
@@ -257,13 +249,13 @@ void body_status_uistate::prepare_partlist()
     for( const auto &bgp : displayed_graph_id->parts ) {
         for( const bodypart_id &bid : bgp.second.bodyparts ) {
 
-            partlist.emplace_back( bodygraph_part_info{ bid, sub_bodypart_str_id::NULL_ID(),
-                                   &bgp.second, displayed_character.has_part( bid, body_part_filter::equivalent ) } );
+            partlist.emplace_back( bid, sub_bodypart_str_id::NULL_ID(),
+                                   &bgp.second, displayed_character.has_part( bid, body_part_filter::equivalent ) );
         }
         for( const sub_bodypart_id &sid : bgp.second.sub_bodyparts ) {
             const bodypart_id bid = sid->parent.id();
-            partlist.emplace_back( bodygraph_part_info{ bid, sid.id(), &bgp.second,
-                                   displayed_character.has_part( bid, body_part_filter::equivalent ) } );
+            partlist.emplace_back( bid, sid.id(), &bgp.second,
+                                   displayed_character.has_part( bid, body_part_filter::equivalent ) );
         }
     }
     std::sort( partlist.begin(), partlist.end(),

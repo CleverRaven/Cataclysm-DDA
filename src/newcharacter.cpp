@@ -72,6 +72,7 @@
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
+#include "tabbed_listinfo_ui.h"
 #include "text_snippets.h"
 #include "trait_group.h"
 #include "translation.h"

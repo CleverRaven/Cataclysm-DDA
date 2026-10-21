@@ -7,6 +7,7 @@
 #include <optional>
 #include <tuple>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "avatar.h"
@@ -1568,7 +1569,7 @@ static const std::vector<std::string> bodygraph_var_labels = { "Health", "Temper
 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height,
-        bool blink_selected, std::optional<std::string> selected_part )
+        bool blink_selected, const std::optional<std::string> &selected_part )
 {
     bodygraph_id graph( graph_id );
     const std::string bg_cache_key = disp_bodygraph_cache::get_cache_id( graph, var );
@@ -1697,4 +1698,4 @@ std::string enum_to_string<bodygraph_var>( bodygraph_var bgvar )
             cata_fatal( "Invalid based_on_type in enum_to_string" );
     }
 }
-}
+} // namespace io
