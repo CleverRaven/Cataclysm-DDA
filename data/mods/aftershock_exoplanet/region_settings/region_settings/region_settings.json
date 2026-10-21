@@ -119,13 +119,13 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover_forest",
     "ter_id": "t_region_groundcover_forest",
-    "replace_with_terrain": [ [ "t_snow", 410 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_fuma_ice", 1 ] ]
+    "replace_with_terrain": [ [ "t_snow", 50 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_fuma_ice", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover_swamp",
     "ter_id": "t_region_groundcover_swamp",
-    "replace_with_terrain": [ [ "t_snow", 410 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_fuma_ice", 1 ] ]
+    "replace_with_terrain": [ [ "t_snow", 410 ], [ "t_lichen", 300 ], [ "t_lichendirt", 300 ], [ "t_lichenyum", 3 ], [ "t_fuma_ice", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
@@ -155,7 +155,7 @@
     "type": "region_terrain_furniture",
     "id": "default_t_region_groundcover_ravine",
     "ter_id": "t_region_groundcover_ravine",
-    "replace_with_terrain": [ [ "t_region_shrub", 1 ] ]
+    "replace_with_terrain": [ [ "t_region_groundcover_forest", 6 ], [ "t_ice", 1 ], [ "t_ice_wall", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
