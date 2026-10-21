@@ -79,6 +79,7 @@
     "volume": "3 ml",
     "price": "50 cent",
     "price_postapoc": "1 cent",
+    "display_type": "BY_WEIGHT",
     "container": "bag_plastic",
     "material": [ "powder" ],
     "symbol": "=",
