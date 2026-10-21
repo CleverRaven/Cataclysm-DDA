@@ -243,7 +243,13 @@
   {
     "type": "item_group",
     "id": "camping",
-    "//": "camping stuff.",
+    "subtype": "distribution",
+    "entries": [ { "group": "camping_smallset", "prob": 90 }, { "group": "camping_largeset", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "camping_largeset",
+    "//": "Larger set of camping stuff.",
     "subtype": "collection",
     "entries": [
       { "group": "camping_bag_large", "prob": 50 },
@@ -264,6 +270,26 @@
       { "item": "sleeping_bag", "prob": 90 },
       { "group": "camping_foldedvehicle", "prob": 1 },
       { "group": "camping_powergen", "prob": 50 },
+      { "group": "camping_tool", "prob": 75 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "camping_smallset",
+    "//": "Smaller set of camping stuff.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "group": "camping_bag_large", "prob": 50 }, { "group": "camping_bag_small", "prob": 30 } ],
+        "prob": 20
+      },
+      { "group": "camping_manuals", "prob": 10 },
+      { "group": "camping_firestarter", "prob": 60 },
+      { "group": "camping_lighting", "prob": 80 },
+      { "group": "camping_cooking", "prob": 60 },
+      { "group": "camping_tent", "prob": 60 },
+      { "group": "camping_watercontainer", "prob": 80 },
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 60 },
       { "group": "camping_tool", "prob": 75 }
     ]
   },
@@ -488,12 +514,10 @@
         "distribution": [
           { "item": "portable_stove", "prob": 10, "container-item": "nylon_bag" },
           { "item": "hotplate", "prob": 10 },
-          { "item": "popcan_stove", "prob": 10, "charges": [ 0, 500 ] },
-          { "item": "esbit_stove", "prob": 10 }
+          { "item": "popcan_stove", "prob": 10, "charges": [ 0, 500 ] }
         ],
         "prob": 90
       },
-      { "item": "coffeemaker", "prob": 5 },
       { "group": "tinware", "prob": 10 },
       { "item": "mess_kit", "prob": 10 }
     ]
@@ -570,14 +594,12 @@
       { "item": "tourist_table", "prob": 30 },
       { "item": "coat_rain", "prob": 10 },
       { "item": "hood_rain", "prob": 5 },
-      { "item": "heatpack", "prob": 60, "count": [ 1, 5 ] },
-      { "item": "UPS_OFF", "prob": 8, "charges": [ 0, 1000 ] },
+      { "item": "heatpack", "prob": 60, "count": [ 1, 2 ] },
       { "item": "trailmap", "prob": 50 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "chem_hexamine", "prob": 60, "count": [ 5, 10 ] },
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
-      { "item": "rope_30", "prob": 35 },
+      { "item": "rope_30", "prob": 3 },
       { "item": "storage_line", "prob": 20 },
       { "item": "binoculars", "prob": 20 },
       { "group": "charcoal_bag_part", "prob": 20 },
@@ -593,9 +615,9 @@
       { "distribution": [ { "item": "umbrella", "prob": 47 }, { "item": "teleumbrella", "prob": 3 } ], "prob": 30 },
       {
         "distribution": [ { "item": "whistle", "prob": 10 }, { "item": "airhorn", "prob": 10 }, { "item": "whistle_multitool", "prob": 5 } ],
-        "prob": 20
+        "prob": 2
       },
-      { "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count": [ 1, 3 ] } ], "prob": 20 }
+      { "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count": [ 1, 3 ] } ], "prob": 2 }
     ]
   },
   {
