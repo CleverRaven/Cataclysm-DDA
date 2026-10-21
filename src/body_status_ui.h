@@ -136,7 +136,7 @@ struct body_status_uistate {
     // some of these should be removed
     int info_width = 0;
     int top_info = 0;
-    int blink = 0;
+    std::chrono::time_point<std::chrono::steady_clock> last_blink;
     bool symbol_blinking = false;
 
     // `all_bodyparts`, but combines parts with opposites into one
