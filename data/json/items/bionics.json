@@ -668,7 +668,7 @@
     "subtypes": [ "BIONIC_ITEM" ],
     "name": { "str": "Finger Lighter CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A pair of powerful fire starters which extend from the tip of both hands' index fingers.",
+    "description": "A powerful fire starter which extends from the tip of the left index finger.",
     "price": "1 kUSD 300 USD",
     "price_postapoc": "4 USD",
     "weight": "500 g",
