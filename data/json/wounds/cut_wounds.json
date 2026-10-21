@@ -27,7 +27,12 @@
     "pain": [ 7, 10 ],
     "healing_time": [ "7 days", "10 days" ],
     "wound_progression": [ { "id": "scratch_bad", "chance": 10 } ],
-    "limb_scores": [ { "score": "manip", "value": 0.7 }, { "score": "grip", "value": 0.04 }, { "score": "lift", "value": 0.6 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.1 },
+      { "score": "grip", "value": 0.1 },
+      { "score": "lift", "value": 0.1 },
+      { "score": "block", "value": 0.15 }
+    ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -45,6 +50,7 @@
       { "score": "manip", "value": 0.15 },
       { "score": "grip", "value": 0.15 },
       { "score": "lift", "value": 0.15 },
+      { "score": "block", "value": 0.2 },
       { "score": "move_speed", "value": 0.15 }
     ],
     "mod_values": [
@@ -64,13 +70,14 @@
     "weight": 50,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 15, 25 ],
+    "damage_required": [ 15, 20 ],
     "pain": [ 10, 14 ],
     "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 20 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.15 },
-      { "score": "grip", "value": 0.1 },
+      { "score": "grip", "value": 0.15 },
       { "score": "lift", "value": 0.15 },
+      { "score": "block", "value": 0.2 },
       { "score": "move_speed", "value": 0.1 }
     ],
     "mod_values": [
@@ -226,6 +233,6 @@
     "type": "wound",
     "name": { "str": "bandaged deep cut" },
     "description": "You have been badly cut, you should wait till it heals.",
-    "healing_time": [ "3 days", "5 days" ]
+    "healing_time": [ "4 days", "6 days" ]
   }
 ]
