@@ -1,0 +1,106 @@
+[
+  {
+    "type": "mutation",
+    "id": "XE_REVENANT_TRAITS",
+    "name": { "str": "Revenant" },
+    "description": "You are a walking corpse, animated by a terrible thirst for vengeance.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "types": [ "HERITAGE" ],
+    "visibility": 30,
+    "ugliness": 30,
+    "chargen_allow_npc": false,
+    "anger_relations": [ [ "FERAL", -120 ] ],
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR", "VAMPIRE" ],
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": { "npc_has_trait": "XE_REVENANT_SENSING_TRAIT" },
+            "distance": 60,
+            "descriptions": [ { "id": "vampire_sense", "symbol": "@", "color": "c_white", "text": "You sense the target of your vengeance here." } ]
+          }
+        ],
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 9999 },
+          { "value": "KCAL", "multiply": -100 },
+          { "value": "VITAMIN_ABSORB_MOD", "multiply": -100 },
+          { "value": "HUNGER", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 4 },
+          { "value": "DISINFECTANT_BONUS", "multiply": -1 },
+          { "value": "BANDAGE_BONUS", "multiply": -1 },
+          { "value": "NIGHT_VIS", "add": 8 }
+        ],
+        "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ],
+        "incoming_damage_mod": [
+          { "type": "bash", "add": -5 },
+          { "type": "bash", "multiply": -0.5 },
+          { "type": "stab", "add": -3 },
+          { "type": "stab", "multiply": -0.3333 },
+          { "type": "cut", "add": -3 },
+          { "type": "cut", "multiply": -0.3333 },
+          { "type": "cut", "multiply": -0.5 },
+          { "type": "bullet", "multiply": -0.3333 },
+          { "type": "electric", "add": -2 },
+          { "type": "electric", "multiply": -0.8 }
+        ]
+      },
+      {
+        "mutations": [
+          "STR_UP_3",
+          "PALE",
+          "MUT_TOUGH3",
+          "DEFORMED3",
+          "POISRESIST",
+          "INFIMMUNE",
+          "DISIMMUNE",
+          "PARAIMMUNE",
+          "NOHEAL",
+          "TOUGH_FEET",
+          "DREAMLESS"
+        ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [ { "type": "bash", "add": 4 }, { "type": "cut", "add": 2 } ]
+      }
+    ],
+    "flags": [
+      "HERITAGE",
+      "INHALED_TOXIN_IMMUNE ",
+      "SUFFOCATION_IMMUNE",
+      "GILLS",
+      "IMMUNE_HEARING_DAMAGE",
+      "IMMUNE_SPOIL",
+      "GLARE_RESIST",
+      "BLEED_IMMUNE",
+      "MAGICAL_MIND_PROTECTION",
+      "MYCUS_IMMUNE",
+      "NO_BODY_HEAT",
+      "NUMB",
+      "PAIN_IMMUNE",
+      "PRED4",
+      "BARKY",
+      "STOP_SLEEP_DEPRIVATION",
+      "WALK_UNDERWATER",
+      "BLOCK_SUPERNATURAL_HEALING",
+      "CANNOT_CONSUME_DRUGS",
+      "HUNGER_DISRUPTION"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "XE_REVENANT_SENSING_TRAIT",
+    "name": { "str": "Revenant Sense", "//~": "NO_I18N" },
+    "description": { "str": "This exists so the revenant can sense their target", "//~": "NO_I18N" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "chargen_allow_npc": false
+  }
+]

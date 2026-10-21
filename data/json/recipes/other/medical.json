@@ -31,10 +31,11 @@
     "time": "16 s",
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "//": "using brute force, so not very precise, but still relatively fast;  can't make str requirement for the recipe; so assume relatively weak character tries to rip it",
     "//2": "Too simple to learn any tailoring or healthcare.",
     "result_mult": 2,
-    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ],
+    "//": "Ripping the sheet uses brute force rather than precision, so relatively weak characters cannot do it.",
+    "character_requirements": { "str": 5 }
   },
   {
     "result": "bandages_makeshift",

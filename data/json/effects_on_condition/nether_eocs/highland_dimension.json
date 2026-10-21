@@ -17,7 +17,8 @@
         "success_message": "Your surroundings warp and fold before reforming into a strange landscape."
       },
       { "u_location_variable": { "u_val": "safe_highland" }, "target_params": { "om_terrain": "highlands", "z": 0 } },
-      { "u_teleport": { "u_val": "safe_highland" } }
+      { "u_teleport": { "u_val": "safe_highland" } },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {

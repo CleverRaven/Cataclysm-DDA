@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -29,6 +28,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -36,12 +36,14 @@ static const ammotype ammo_battery( "battery" );
 
 static const itype_id itype_acidchitin_harness_dog( "acidchitin_harness_dog" );
 static const itype_id itype_backpack_hiking( "backpack_hiking" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_blanket( "blanket" );
 static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_boxpack( "boxpack" );
 static const itype_id itype_bunker_coat( "bunker_coat" );
 static const itype_id itype_bunker_pants( "bunker_pants" );
 static const itype_id itype_burette( "burette" );
+static const itype_id itype_caltrops( "caltrops" );
 static const itype_id itype_camera( "camera" );
 static const itype_id itype_case_violin( "case_violin" );
 static const itype_id itype_cell_phone( "cell_phone" );
@@ -50,6 +52,7 @@ static const itype_id itype_down_mattress( "down_mattress" );
 static const itype_id itype_dress_wedding( "dress_wedding" );
 static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
 static const itype_id itype_flashlight( "flashlight" );
+static const itype_id itype_funnel( "funnel" );
 static const itype_id itype_kevlar_harness( "kevlar_harness" );
 static const itype_id itype_knife_huge( "knife_huge" );
 static const itype_id itype_laptop( "laptop" );
@@ -79,6 +82,11 @@ static const itype_id itype_wetsuit_hood( "wetsuit_hood" );
 static const itype_id itype_wetsuit_spring( "wetsuit_spring" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
+
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+
+static const skill_id skill_traps( "traps" );
 
 static monster *find_adjacent_monster( const tripoint_bub_ms &pos )
 {
@@ -372,4 +380,65 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( itype_leatherbone_harness_dog );
     cut_up_yields( itype_kevlar_harness );
     cut_up_yields( itype_rubber_harness_dog );
+}
+
+static const place_trap_actor &place_trap_actor_of( const itype_id &id )
+{
+    const use_function *use = id->get_use( "place_trap" );
+    REQUIRE( use != nullptr );
+    const place_trap_actor *actor = dynamic_cast<const place_trap_actor *>( use->get_actor_ptr() );
+    REQUIRE( actor != nullptr );
+    return *actor;
+}
+
+TEST_CASE( "place_trap_move_cost_scales_with_skill_and_proficiencies", "[iuse_actor][trap]" )
+{
+    clear_avatar();
+    Character &dummy = get_avatar();
+
+    GIVEN( "no traps skill" ) {
+        WHEN( "has neither trap proficiency" ) {
+            THEN( "cost is JSON moves times eight for every practice value" ) {
+                // practice: funnel 0, caltrops 2, beartrap 4
+                CHECK( place_trap_actor_of( itype_funnel ).unburied_data.move_cost( dummy ) == 800 );
+                CHECK( place_trap_actor_of( itype_caltrops ).unburied_data.move_cost( dummy ) == 1200 );
+                CHECK( place_trap_actor_of( itype_beartrap ).unburied_data.move_cost( dummy ) == 1600 );
+            }
+        }
+        WHEN( "only has prof_traps" ) {
+            dummy.add_proficiency( proficiency_prof_traps, true );
+            THEN( "only trapsetting penalty of two applies" ) {
+                CHECK( place_trap_actor_of( itype_beartrap ).unburied_data.move_cost( dummy ) == 400 );
+            }
+        }
+        WHEN( "only has prof_trapsetting" ) {
+            dummy.add_proficiency( proficiency_prof_trapsetting, true );
+            THEN( "only traps penalty of four applies" ) {
+                CHECK( place_trap_actor_of( itype_beartrap ).unburied_data.move_cost( dummy ) == 800 );
+            }
+        }
+    }
+
+    GIVEN( "both trap proficiencies and a fractional traps skill" ) {
+        dummy.add_proficiency( proficiency_prof_traps, true );
+        dummy.add_proficiency( proficiency_prof_trapsetting, true );
+        dummy.set_skill_level( skill_traps, 1 );
+
+        WHEN( "skill 1.5, trap practice 0" ) {
+            dummy.get_skill_level_object( skill_traps ).set_exercise( 50 );
+            REQUIRE( dummy.get_skill_level( skill_traps ) == Approx( 1.5f ) );
+            THEN( "cost is JSON moves / skill rounded to nearest" ) {
+                // 100 / 1.5 = 66.67, round 67, trunc 66
+                CHECK( place_trap_actor_of( itype_funnel ).unburied_data.move_cost( dummy ) == 67 );
+            }
+        }
+        WHEN( "skill 1.75, trap practice 2" ) {
+            dummy.get_skill_level_object( skill_traps ).set_exercise( 75 );
+            REQUIRE( dummy.get_skill_level( skill_traps ) == Approx( 1.75f ) );
+            THEN( "cost is JSON moves / skill rounded to nearest" ) {
+                // 150 / 1.75 = 85.71, round 86, trunc 85
+                CHECK( place_trap_actor_of( itype_caltrops ).unburied_data.move_cost( dummy ) == 86 );
+            }
+        }
+    }
 }

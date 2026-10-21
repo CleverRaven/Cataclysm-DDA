@@ -1,12 +1,15 @@
 #include <bitset>
 #include <cstdio>
+#include <memory>
 #include <sstream>
 #include <string>
 
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "level_cache.h"
 #include "lru_cache.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_memory.h"
 #include "map_scale_constants.h"
 #include "point.h"
@@ -260,4 +263,23 @@ TEST_CASE( "shift_map_memory_bitset_cache" )
             }
         }
     }
+}
+
+TEST_CASE( "cleared_level_cache_arms_the_memorize_sweep", "[map_memory]" )
+{
+    // several MB of arrays, so not on the stack
+    const std::unique_ptr<level_cache> cache = std::make_unique<level_cache>();
+    cache->map_memory_sweep_pending = false;
+    cache->clear();
+    CHECK( cache->map_memory_sweep_pending );
+}
+
+TEST_CASE( "map_shift_arms_the_memorize_sweep", "[map_memory]" )
+{
+    clear_map();
+    map &here = get_map();
+    here.access_cache( 0 ).map_memory_sweep_pending = false;
+    here.shift( point_rel_sm::east );
+    CHECK( here.access_cache( 0 ).map_memory_sweep_pending );
+    here.shift( point_rel_sm::west );
 }

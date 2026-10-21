@@ -304,12 +304,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
         jo.throw_error_at( "dependencies", "mod specifies self as a dependency" );
     }
 
-    // TODO: Temporary migration, remove after 0.I stable
-    if( !modfile.obsolete && modfile.ident.str() == "user:default" ) {
-        modfile.obsolete = true;
-        set_default_mods( modfile.dependencies );
-    }
-
     mod_map[modfile.ident] = std::move( modfile );
 }
 

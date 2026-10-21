@@ -362,5 +362,18 @@
     "volume": "4 ml",
     "weight": "1 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "HEW_printout_data_portal_storm_dungeon",
+    "name": { "str": "HEW printout MROTS-S" },
+    "category": "books",
+    "description": "A short paper report labeled with the mysterious title \"MROTS-S\".  Most of the document is coded in a series of complex equations and data that you cannot understand, but there are several obvious error messages starting with \"VALUE OUTSIDE EXPECTED RANGE\".  Printed on the bottom of the page is some sort of topological map, which has been overwritten several times in confusing patterns, making it difficult to decipher.",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "weight": "1 g",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

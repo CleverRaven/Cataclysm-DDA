@@ -86,142 +86,54 @@
   },
   {
     "type": "terrain",
-    "id": "t_scarlet_light",
-    "symbol": ".",
-    "looks_like": "t_utility_light",
-    "name": "scarlet light",
-    "roof": "t_null",
-    "color": "red",
-    "light_color": [ 110, 0, 0 ],
-    "light_emitted": 30,
-    "description": "A red lamp on rods protruding from the ground.  Hard to directly look at without eye protection.",
+    "id": "t_radiosphere_tree",
+    "copy-from": "t_alien_meadow_tree_1",
+    "delete": { "flags": [ "TREE" ] },
+    "color": "blue",
+    "name": "power tree",
+    "description": "A power pole with a crown of signal antennas on top.  You can hear intermittent buzzing from the \"tree\".",
+    "light_emitted": 50,
+    "light_color": [ 0, 200, 200 ],
     "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_water_sh_scarlet",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "hit_field": [ "fd_dust", 2 ],
-      "destroyed_field": [ "fd_splinters", 1 ]
-    },
-    "flags": [ "TRANSPARENT", "WALL" ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_water_sh_scarlet",
-    "name": "scarlet water",
-    "description": "The water, if you can call it that, isn't very deep here.  It's difficult to tell if the water is tinted, or if it's reflecting the dim, scarlet sky.  With a watertight container, you could gather it.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
-    "connects_to": "WATER",
-    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
-    "examine_action": "water_source",
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_water_sh_scarlet_wave",
-    "name": "scarlet water",
-    "description": "The water, if you can call it that, isn't too deep here.  It's difficult to tell if the water is tinted, or if it's reflecting the dim, scarlet sky.  With a watertight container, you could gather it.",
-    "symbol": " ",
-    "color": "black",
-    "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
-    "connect_groups": "WATER",
-    "connects_to": "WATER",
-    "liquid_source": { "id": "water_clean_scarlet", "min_temp": 2.2 },
-    "examine_action": "water_source",
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ],
-    "emissions": [ "emit_scarlet_sea_wave" ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_sand_scarlet",
-    "name": "scarlet glass",
-    "description": "What first appears to be scarlet-tinged sand is in fact dark, volcanic glass, covered in small pits and eroded curves, giving it a flowing appearance.  Gentle flecks of red and yellow minerals dot its exterior.",
-    "symbol": ".",
-    "color": "yellow",
-    "looks_like": "t_sand",
-    "move_cost": 1,
-    "connect_groups": "SAND",
-    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS" ],
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
-    "light_emitted": 5,
-    "light_color": [ 35, 0, 10 ]
-  },
-  {
-    "type": "terrain",
-    "id": "t_nl_obelisk_scarlet",
-    "copy-from": "t_nl_obelisk_0",
-    "name": "Obelisk",
-    "description": "A dark gray obelisk.  Despite its solid appearance, the face of it seems to slightly ripple, as if it were sand, loosely suspended in space.",
-    "symbol": "A",
-    "color": "dark_gray",
-    "light_color": [ 110, 0, 0 ],
-    "light_emitted": 200,
-    "examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_SCARLET_TO_LABYRINTH_OBELISK",
-          "effect": [
-            {
-              "run_eoc_selector": [ "EOC_LS_scarlet_Teleport_to_labyrinth" ],
-              "allow_cancel": true,
-              "names": [ "Place your hand upon the obelisk." ],
-              "title": "As you approach the massive obelisk,\nits surface starts to warp,\nlike sand in the wind.\nA depression quickly forms.\nIn the shape of your hand.",
-              "descriptions": [ "It looks like a perfect fit for you." ]
-            }
-          ]
-        }
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_grate",
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
       ]
     }
   },
   {
     "type": "terrain",
-    "id": "t_nl_scrap_wall_scarlet",
-    "name": "scrap metal spire",
-    "looks_like": "t_scrap_wall",
-    "description": "This great spire of twisted metal is held together by fraying wires and large bolts.  It looks like you could climb it.",
-    "symbol": "-",
-    "color": "dark_gray",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_nl_scrap_floor",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "CLIMBABLE" ],
-    "light_emitted": 5,
-    "light_color": [ 110, 0, 0 ],
-    "bash": {
-      "str_min": 80,
-      "str_max": 200,
-      "sound": "metal crying!",
-      "sound_fail": "clang!",
-      "ter_set": "t_nl_broken_metal_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ]
-    }
+    "id": "t_radiosphere_moss",
+    "copy-from": "t_moss",
+    "color": "blue",
+    "name": "moss",
+    "description": "A patch of moist, spongy moss.",
+    "light_emitted": 1,
+    "light_color": [ 0, 100, 100 ]
   },
   {
     "type": "terrain",
-    "id": "t_scrap_scaffolding_scarlet",
-    "name": "mass of climbable metal",
-    "description": "A mass of jagged metal, climbing into the sky.  It looks sharp, but also sturdy enough to climb.",
-    "symbol": "H",
-    "color": "dark_gray",
-    "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT", "SHARP", "ROUGH" ],
+    "id": "t_radiosphere_bush",
+    "name": "wire bush",
+    "description": "A giant tangle of copper wiring and steel pipes.  The moss covering the tangle gives it a plant-like appearance.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
     "bash": {
-      "str_min": 20,
-      "str_max": 150,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_null",
-      "items": [ { "item": "pipe", "count": [ 10, 46 ] }, { "item": "pipe_fittings", "count": [ 10, 55 ] } ]
+      "str_min": 40,
+      "str_max": 100,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_grate",
+      "items": [ { "item": "cable", "prob": 100, "count": [ 100, 200 ] }, { "item": "pipe", "count": [ 10, 30 ] } ]
     }
   }
 ]

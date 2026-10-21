@@ -41,7 +41,7 @@
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
-      "moves": 60000,
+      "moves": 30000,
       "practice": 2,
       "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
     },

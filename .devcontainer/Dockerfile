@@ -1,6 +1,10 @@
-FROM mcr.microsoft.com/devcontainers/cpp:0-ubuntu-22.04
+FROM mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04
 
+# Curses builds work out of the box here. Tiles builds need SDL3 >= 3.4.0,
+# which Ubuntu 24.04 does not package; use the graphical devcontainer, which
+# builds the SDL3 stack from source, or follow the SDL3 section of
+# doc/c++/COMPILING.md.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libsdl2-dev libsdl2-ttf-dev libharfbuzz-dev \
-    libsdl2-image-dev libjpeg-turbo8-dev libtiff-dev libwebp-dev libzip-dev libzstd-dev \
-    libsdl2-mixer-dev libflac-dev libasound2-dev libfreetype6-dev build-essential astyle ccache
+    && apt-get -y install --no-install-recommends libncursesw5-dev gettext \
+    build-essential astyle ccache cmake pkg-config \
+    && rm -rf /var/lib/apt/lists/*

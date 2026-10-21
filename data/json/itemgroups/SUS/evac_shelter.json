@@ -78,7 +78,7 @@
             "prob": 30
           },
           { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
-          { "group": "full_box_of_evacuation_protein_bar", "prob": 60 },
+          { "group": "full_box_of_evacuation_protein_bar", "count": 2, "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70, "charges": 100 },
@@ -141,7 +141,7 @@
             ],
             "prob": 50
           },
-          { "group": "box_of_evacuation_protein_bar", "prob": 60 },
+          { "group": "box_of_evacuation_protein_bar", "count": [ 1, 2 ], "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 50, "charges": 100 },

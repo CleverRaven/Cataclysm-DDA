@@ -1,0 +1,108 @@
+[
+  {
+    "id": "small_repairkit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "firearm repair kit" },
+    "description": "A portable tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires one charge of battery power per use.",
+    "weight": "2420 g",
+    "volume": "1500 ml",
+    "longest_side": "32 cm",
+    "price": "15 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "charges_per_use": 1,
+    "qualities": [
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "CHISEL", 3 ],
+      [ "CHISEL_WOOD", 3 ],
+      [ "PRYING_NAIL", 1 ]
+    ],
+    "use_action": [
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "large_repairkit",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "gunsmith repair kit" },
+    "description": "A complete tool kit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 1 charge of battery power per use.",
+    "weight": "9860 g",
+    "volume": "2500 ml",
+    "longest_side": "36 cm",
+    "price": "50 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "steel", "aluminum" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "charges_per_use": 1,
+    "qualities": [
+      [ "HAMMER_FINE", 1 ],
+      [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW_FINE", 1 ],
+      [ "SCREW", 1 ],
+      [ "CHISEL", 3 ],
+      [ "CHISEL_WOOD", 3 ],
+      [ "PRYING_NAIL", 1 ]
+    ],
+    "use_action": [
+      "GUN_REPAIR",
+      [ "CROWBAR", 0 ],
+      [ "HACKSAW", 0 ],
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "70 W" }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
+    ],
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
+  }
+]

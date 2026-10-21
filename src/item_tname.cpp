@@ -18,6 +18,7 @@
 #include "city.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -28,6 +29,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "mutation.h"
 #include "options.h"
@@ -225,36 +227,7 @@ std::string craft( item const &it, unsigned int /* quantity */,
         if( it.charges > 1 ) {
             maintext += string_format( " (%d)", it.charges );
         }
-        int effective_counter = it.item_counter;
-        const time_point pstart = it.get_passive_started_at();
-        const time_point saved_ready = it.get_saved_ready_at();
-        const time_point ready = saved_ready != calendar::before_time_starts
-                                 ? saved_ready : it.get_ready_at();
-        const int start_counter = it.get_passive_start_counter();
-        const int end_counter = it.get_passive_end_counter();
-        if( pstart != calendar::before_time_starts && ready > pstart && end_counter > start_counter ) {
-            // Freeze projection at pause time so a stalled craft does not
-            // keep ticking up.
-            const time_point pause_start = it.get_pause_started_at();
-            const time_point eff_now = pause_start != calendar::before_time_starts
-                                       ? pause_start : calendar::turn;
-            const time_duration step_dur = ready - pstart;
-            time_duration elapsed = eff_now - pstart;
-            if( elapsed < 0_seconds ) {
-                elapsed = 0_seconds;
-            }
-            if( elapsed > step_dur ) {
-                elapsed = step_dur;
-            }
-            const int64_t step_dur_moves = std::max( static_cast<int64_t>( 1 ),
-                                           to_moves<int64_t>( step_dur ) );
-            const double fraction = static_cast<double>( to_moves<int64_t>( elapsed ) ) / step_dur_moves;
-            const int projected = static_cast<int>( std::round( start_counter +
-                                                    fraction * ( end_counter - start_counter ) ) );
-            effective_counter = std::max( effective_counter, projected );
-        }
-        const int percent_progress = effective_counter / 100000;
-        return string_format( "%s (%d%%)", maintext, percent_progress );
+        return string_format( "%s (%d%%)", maintext, it.get_display_progress_percent() );
     }
     return {};
 }
@@ -626,6 +599,10 @@ std::string activity_occupany( item const &it, unsigned int /* quantity */,
     if( it.has_var( "activity_var" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
+        return _( " (in use)" );
+    }
+    // Direct mark only, so a container is not labelled for what it holds.
+    if( get_craft_reservations().is_reserved_uid( it.uid().get_value() ) ) {
         return _( " (in use)" );
     }
     return {};

@@ -36,6 +36,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "item_stack_use_charges.h" // IWYU pragma: keep
 #include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -61,6 +62,7 @@ class JsonOut;
 class monster;
 class veh_menu;
 class vehicle;
+class vehicle_cursor;
 class vpart_info;
 class vpart_variant;
 enum class ter_furn_flag : int;
@@ -351,7 +353,8 @@ struct vehicle_part {
          * @param wanted_energy Energy to consume
          * @return Energy actually consumed
          */
-        units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
+        units::energy consume_energy( const vehicle_cursor &cur, const itype_id &ftype,
+                                      units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -1551,6 +1554,8 @@ class vehicle
          */
         tripoint_bub_ms bub_part_pos( const map &here, int index ) const;
         tripoint_bub_ms bub_part_pos( const map &here, const vehicle_part &pt ) const;
+        // levels the vehicle's parts stand on, which a ramp can make several
+        std::set<int> occupied_levels( const map &here ) const;
         tripoint_abs_ms abs_part_pos( int index ) const;
         tripoint_abs_ms abs_part_pos( const vehicle_part &pt ) const;
         /**
@@ -1610,6 +1615,9 @@ class vehicle
         units::power engine_fuel_usage( const vehicle_part &vp ) const;
         // Returns all active, available, non-destroyed vehicle lights
         std::vector<vehicle_part *> lights();
+        // brightness every cone light of a vehicle shines at, summed over all of
+        // them with diminishing returns, whichever level each stands on
+        static float cone_light_luminance( const std::vector<vehicle_part *> &lights );
 
         void update_alternator_load( map &here );
 
@@ -2654,7 +2662,6 @@ class DefaultRemovePartHandler : public RemovePartHandler
         void set_transparency_cache_dirty( const int z ) override {
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
-            here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         }
         void set_floor_cache_dirty( const int z ) override {
             get_map().set_floor_cache_dirty( z );

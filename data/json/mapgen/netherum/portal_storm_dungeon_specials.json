@@ -33,5 +33,89 @@
       "terrain": { "T": "t_floor_warped" },
       "traps": { "T": "tr_portal_dungeon_teleporter" }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "portal_storm_dungeon_labyrinth_hallway_1" ],
+    "object": {
+      "rows": [
+        "----Q---Q--oo----Q-----Q",
+        "-         -  -          ",
+        "Q     Q   -  -          ",
+        "-     -   -  -------Q-  ",
+        "-- --------  -       -  ",
+        "-         o  o       -  ",
+        "Q         -  ------  -  ",
+        "--------  -  -       -  ",
+        "-     -  --  --  Q      ",
+        "Q     -  --  --  --- Q  ",
+        "-----o-----&&-----?-----",
+        "o         -&&&&&&@,,,,,,",
+        "o         -&&&&&&%,,,,,,",
+        "-----o-----&&-----?-----",
+        "Q   -    --  --  --- -  ",
+        "-   O     -  - ---      ",
+        "-  ----- --  -   -----  ",
+        "-   -     -  ---     -  ",
+        "Q   Q     -  -       -Q-",
+        "-   -- ----  -       -  ",
+        "--- -     -  --Q--- --  ",
+        "-   ----- -  -   -   - -",
+        "Q  --     -  -   -   o  ",
+        "-         -  -       -  "
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": {
+        "@": "t_floor_warped",
+        "%": "t_floor_warped",
+        ",": "t_floor_warped",
+        "?": "t_floor_warped",
+        "&": "t_floor_warped_nl_glow"
+      },
+      "furniture": { "?": [ [ "f_exodii_lamp", 1 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "traps": {
+        "@": "tr_portal_dungeon_to_labyrinth_teleporter_n",
+        "%": "tr_portal_dungeon_to_labyrinth_teleporter_s",
+        ",": "tr_portal_dungeon_how_dare_you_skip_the_real_teleporter"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "portal_storm_dungeon_labyrinth_hallway_2" ],
+    "object": {
+      "rows": [
+        "----Q---Q--oo----Q-----Q",
+        "-         -  -          ",
+        "Q     Q   -  -          ",
+        "-     -   -  -------Q-  ",
+        "-- --------  -       -  ",
+        "-         o  o       -  ",
+        "Q         -  ------  -  ",
+        "--------- -  -       -  ",
+        "-     -   - --   Q      ",
+        "Q     -  -    -  -   Q  ",
+        "-----------#############",
+        ",,,,,,,,,,,...........s-",
+        ",,,,,,,,,,,...........s-",
+        "-----------#############",
+        "Q   -     -  -   -   -  ",
+        "-   O     - ------   -  ",
+        "-  ----- --  -   -----  ",
+        "-   -     -  ---     -  ",
+        "Q   Q     -  -       -Q-",
+        "-   -- ----  -       -  ",
+        "--- -     -  --Q--- --  ",
+        "-   ----- -  -   -   - -",
+        "Q  --     -  -   -   o  ",
+        "-         -  -       -  "
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { ",": "t_floor_warped", ".": "t_nl_catwalk", "#": "t_nl_metal_wall", "s": "t_nl_mist" },
+      "traps": {
+        ".": "tr_portal_dungeon_how_dare_you_skip_the_real_teleporter",
+        ",": "tr_portal_dungeon_how_dare_you_skip_the_real_teleporter"
+      }
+    }
   }
 ]

@@ -15,7 +15,7 @@
     "salvaged_into": "fibercloth_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
-    "cut_dmg_verb": "cut",
+    "cut_dmg_verb": { "str": "cut", "ctxt": "material cut damage verb" },
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
       { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },

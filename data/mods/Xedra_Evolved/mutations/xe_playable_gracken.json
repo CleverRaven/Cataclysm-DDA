@@ -125,7 +125,6 @@
     "description": "Your legs have decreased in length providing you with a lower center of gravity and a slight improvement to agility.",
     "//": "This is the first stage short legs mutation.",
     "types": [ "LEGS" ],
-    "prereqs": [ "SHADE_LEGS" ],
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
     "purifiable": false,
     "mixed_effect": true,
@@ -149,7 +148,6 @@
     "ugliness": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
-    "prereqs": [ "SHADE_LEGS" ],
     "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.12 } ] } ]
   },
   {
@@ -190,7 +188,6 @@
     "description": "Your arms have begun bulking up and become stronger.  +1 Strength",
     "//": "This is the first stage strong arms mutation.",
     "types": [ "ARMS" ],
-    "prereqs": [ "SHADE_ARMS" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ],
     "purifiable": false,
     "mixed_effect": true,
@@ -214,7 +211,6 @@
     "ugliness": 1,
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
-    "prereqs": [ "SHADE_ARMS" ],
     "activated_is_setup": false,
     "active": true,
     "activated_eocs": [ "EOC_GRACKEN_ARM_PUSH1_activated" ]
@@ -241,7 +237,6 @@
     "description": "Your hands are humanoid but appear to be made of swirling shadows.  At the end of each finger you sport a razor sharp nail.  It increases your damage when unarmed.",
     "//": "This is the first stage unarmed melee hands mutation.",
     "types": [ "HANDS" ],
-    "prereqs": [ "SHADE_HANDS" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
@@ -258,7 +253,6 @@
     "description": "Your hands are humanoid but appear to be made of swirling shadows.  You sport an extra digit on each hand that improves your ability to get into tight situations.",
     "//": "This is the first stage crafting hands mutation.",
     "types": [ "HANDS" ],
-    "prereqs": [ "SHADE_HANDS" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,

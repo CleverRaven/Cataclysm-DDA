@@ -1,0 +1,270 @@
+[
+  {
+    "id": "rm13_armor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
+    "category": "armor",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": { "str": "RM13 combat armor" },
+    "description": "A full-body suit of sleek black military armor representing the pinnacle of powered armor technology.  A battery pack is slotted into the lower back, while the upper back houses connections for the built-in rebreather system.  Use it to turn it on.",
+    "flags": [
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "RAD_RESIST",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "PADDED",
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
+    ],
+    "price": "500 kUSD",
+    "price_postapoc": "100 USD",
+    "material": [ "hyperweave_off", "carbide" ],
+    "weight": "9540 g",
+    "volume": "9 L",
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
+    "pocket_data": [
+      {
+        "id": "battery",
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "item_restriction": [ "rm13_battery" ],
+        "default_magazine": "rm13_battery"
+      },
+      {
+        "id": "rebreather",
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "REBREATHER_CART" ],
+        "default_magazine": "rebreather_cartridge_regen"
+      }
+    ],
+    "tool_ammo": [ "battery", "rebreather_filter", "rebreather_o2_regenerator" ],
+    "consumption_per_use": [ { "pocket": "battery", "qty": 1 } ],
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Activate armor + cyclonic air scrubber",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_activate_rm13_sans_rebreather",
+            "effect": [
+              { "transform_item": "rm13_armor_on", "active": true },
+              {
+                "u_message": "You activate your RM13 combat armor.\nCyclonic air scrubber:          ONLINE.\nRebreather system:             <color_light_red>OFFLINE</color>.\nAcoustic dampening system:      ONLINE.\nDimensional dampening system:   ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems normal."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "transform",
+        "menu_text": "Activate armor + rebreather (requires rebreather cartridge)",
+        "msg": "You activate your RM13 combat armor.\nCyclonic air scrubber:          ONLINE.\nRebreather system:              ONLINE.\nAcoustic dampening system:      ONLINE.\nDimensional dampening system:   ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems normal.",
+        "target": "rm13_armor_rebreather_on"
+      }
+    ],
+    "warmth": 30,
+    "environmental_protection": 3,
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "eyes" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_off", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_off", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
+        ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "volume_encumber_modifier": 0
+      }
+    ],
+    "melee_damage": { "bash": 6 },
+    "passive_effects": [
+      { "id": "ench_climate_control_all" },
+      { "id": "ench_dampened_steps" },
+      { "id": "nvg_great" },
+      { "id": "ench_rm13_environmental" }
+    ]
+  },
+  {
+    "id": "rm13_armor_on",
+    "copy-from": "rm13_armor",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
+    "description": "A full-body suit of sleek black military armor representing the pinnacle of powered armor technology.  As you move your fingers over the surface, the armor tenses, almost as though it were alive.  <color_light_red>The rebreather system is currently disabled</color>.  Use it to turn it off.",
+    "flags": [
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "THERMOMETER",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "PADDED",
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE",
+      "USE_POWER_WHEN_HIT",
+      "PARTIAL_DEAF",
+      "PORTAL_PROOF",
+      "SPAWN_ACTIVE"
+    ],
+    "material": [ "hyperweave_on", "carbide" ],
+    "tool_ammo": [ "battery", "rebreather_filter", "rebreather_o2_regenerator" ],
+    "consumption_per_use": [ { "pocket": "battery", "qty": 1 } ],
+    "turns_per_charge": 10,
+    "revert_to": "rm13_armor",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "You deactivate your RM13 combat armor.\nShutdown sequence initiated.\nShutting down.\nYour RM13 combat armor turns off.",
+      "target": "rm13_armor",
+      "need_worn": true
+    },
+    "environmental_protection": 10,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "eyes" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
+        ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "rm13_armor_rebreather_on",
+    "copy-from": "rm13_armor_on",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARMOR" ],
+    "name": { "str": "RM13 combat armor (on) (rebreather)", "str_pl": "RM13 combat armors (on) (rebreather)" },
+    "description": "A full-body suit of sleek black military armor representing the pinnacle of powered armor technology.  As you move your fingers over the surface, the armor tenses, almost as though it were alive.  The rebreather system is enabled, protecting you from the outside atmosphere (or lack thereof).  Use it to turn it off.",
+    "environmental_protection": 40,
+    "extend": { "flags": [ "REBREATHER", "GAS_PROOF" ] },
+    "tool_ammo": [ "battery", "rebreather_filter", "rebreather_o2_regenerator" ],
+    "consumption_per_use": [ { "pocket": "battery", "qty": 3 }, { "pocket": "rebreather", "qty": 1 } ],
+    "turns_per_charge": 30,
+    "revert_to": "rm13_armor"
+  },
+  {
+    "id": "rm13_battery",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "category": "tool_magazine",
+    "name": "RM13 battery pack",
+    "description": "A simple, heavy, black battery pack labeled \"RM13\".",
+    "weight": "14000 g",
+    "volume": "10000 ml",
+    "longest_side": "300 mm",
+    "price": "10000 USD",
+    "price_postapoc": "50 USD",
+    "material": [ { "type": "budget_steel", "portion": 99 }, { "type": "plastic", "portion": 1 } ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "capacity": 5000,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ]
+  }
+]

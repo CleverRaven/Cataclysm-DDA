@@ -30,7 +30,7 @@
     "magazine": 100,
     "items": [
       { "item": "afs_military_vest" },
-      { "item": "legpouch_large", "contents-group": "army_mags_m4" },
+      { "item": "legpouch_large" },
       { "item": "afs_jumpsuit_military" },
       { "item": "boots_combat" },
       { "item": "under_armor" },

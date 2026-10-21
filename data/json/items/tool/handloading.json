@@ -48,5 +48,21 @@
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ],
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "arbor_press",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "arbor press", "str_pl": "arbor presses" },
+    "description": "A small hand operated press, it can be used for staking, rivetting, or various other small jobs.  If you had a swage and die, you could use it to make copper jackets for handloading.",
+    "weight": "6350 g",
+    "volume": "12000 ml",
+    "longest_side": "29 cm",
+    "price": "300 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "iron", "plastic" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   }
 ]

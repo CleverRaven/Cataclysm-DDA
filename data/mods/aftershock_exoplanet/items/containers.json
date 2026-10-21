@@ -97,7 +97,7 @@
     "category": "container",
     "name": { "str": "cryogenic flask" },
     "looks_like": "thermos",
-    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized Riemann barrier to achieve both perfect insulation and containment.  Although the scientific principles of Riemann barriers are not completely lost, its exceedingly difficult for contemporary industry to produce emitters of this size, making these containers extremely valuable.",
     "subtypes": [ "TOOL" ],
     "ascii_picture": "thermos",
     "weight": "530 g",
@@ -135,7 +135,7 @@
     "copy-from": "afs_sample_container",
     "name": { "str": "cryogenic flask" },
     "subtypes": [ "TOOL" ],
-    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized riemann barrier to achieve both perfect insulation and containment.  Its currently active, and its contents are completely inaccessible.",
+    "description": "A sealed flask used to transport hazardous and delicate materials.  Of advanced design, it utilizes a miniaturized Riemann barrier to achieve both perfect insulation and containment.  Its currently active, and its contents are completely inaccessible.",
     "power_draw": "11111 mW",
     "pocket_data": [
       {

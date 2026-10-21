@@ -26,7 +26,6 @@
 #include "input_context.h"
 #include "input_enums.h"
 #include "input_popup.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -38,6 +37,7 @@
 #include "map.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "uilist.h"
@@ -361,9 +361,12 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         cata::flat_set<itype_id> nearby_itypes;
         uilist selector_menu;
         selector_menu.title = _( "Select an item from nearby" );
-        for( const std::list<item> *it_list : get_player_character().crafting_inventory().const_slice() ) {
-            nearby_itypes.insert( it_list->front().typeId() );
+        get_player_character().crafting_inventory().visit_items(
+        [&]( item_location node ) {
+            nearby_itypes.insert( node->typeId() );
+            return VisitResponse::NEXT;
         }
+        );
 
         std::vector<std::pair<itype_id, std::string>> listed_names;
         std::vector<std::pair<itype_id, std::string>> nearby_names;
@@ -1642,18 +1645,6 @@ void item_contents::update_open_pockets()
         if( pocket.empty() ) {
             pocket.unseal();
         }
-    }
-}
-
-void item_contents::set_item_defaults()
-{
-    /* For Items with a magazine or battery in its contents */
-    for( item_pocket &pocket : contents ) {
-        if( !pocket.is_standard_type() ) {
-            continue;
-        }
-
-        pocket.set_item_defaults();
     }
 }
 

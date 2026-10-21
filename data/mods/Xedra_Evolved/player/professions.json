@@ -1234,5 +1234,19 @@
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_VAMPIRE_HUNTER" ]
+  },
+  {
+    "type": "profession",
+    "id": "xedra_revenant_prof",
+    "name": "Revenant",
+    "description": "You are dead, but you are still moving, and there is someone out there who will be very unpleasantly surprised when they learn that.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "items": {
+      "both": { "entries": [ { "item": "jeans" }, { "item": "tshirt" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "chargen_allow_npc": false
   }
 ]

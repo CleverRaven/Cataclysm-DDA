@@ -1065,7 +1065,8 @@ void highway_intersection_grid::generate_offset( overmap_feature_grid_node &node
 {
     const int max_offset_variance = this->max_offset_variance;
     auto no_lakes = [this]( const point_abs_om & pt ) {
-        const region_settings &settings = overmap_buffer.get_default_settings( pt );
+        const region_settings &settings = overmap_buffer.get_settings(
+                                              project_to<coords::omt>( tripoint_abs_om( pt, 0 ) ) );
         if( !settings.overmap_lake ) {
             return true;
         }

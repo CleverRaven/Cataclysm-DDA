@@ -1,0 +1,166 @@
+[
+  {
+    "om_terrain": "earth_scrap_metal_spire",
+    "type": "mapgen",
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "     *                  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": { "*": { "chunks": [ "earth_scrap_metal_spire_0" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "earth_scrap_metal_spire_0",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "   !!!!!    ",
+        " ,##...#!   ",
+        " ,##.####!  ",
+        "##.#......  ",
+        "#..##.....! ",
+        "#...,..###! ",
+        "####......# ",
+        " ....#######",
+        ",##..#..## ,",
+        " ,!!...!!,  ",
+        "  ,!!O!!,   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "!": "t_nl_scrap_wall_scarlet",
+        "#": [ [ "t_dirt", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": "t_nl_scrap_floor",
+        ",": "t_scrap_scaffolding_scarlet",
+        "L": "t_nl_scrap_floor",
+        "<": "t_ladder_up",
+        "O": "t_nl_archway"
+      },
+      "place_nested": [
+        { "chunks": [ "earth_scrap_metal_spire_1" ], "x": 0, "y": 1, "z": 1 },
+        { "chunks": [ "earth_scrap_metal_spire_2" ], "x": 1, "y": 2, "z": 2 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 3 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 4 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 5 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 6 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 7 },
+        { "chunks": [ "earth_scrap_metal_spire_3-8" ], "x": 2, "y": 3, "z": 8 },
+        { "chunks": [ "earth_scrap_metal_spire_9" ], "x": 3, "y": 4, "z": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "earth_scrap_metal_spire_1",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "    ,,,    ",
+        "   ,###,   ",
+        "  ,##.##,  ",
+        " ,##...##, ",
+        ",##.....##,",
+        ",#.......#,",
+        ",##.....##,",
+        " ,##...##, ",
+        "  ,##.##,  ",
+        "   ,###,   ",
+        "    ,,,    "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": [ [ "t_open_air", 50 ], [ "t_nl_scrap_wall_scarlet", 50 ] ],
+        ",": [ "t_scrap_scaffolding_scarlet" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "earth_scrap_metal_spire_2",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   ,,,   ",
+        "  ,###,  ",
+        " ,##.##, ",
+        ",##...##,",
+        ",#.....#,",
+        ",##...##,",
+        " ,##.##, ",
+        "  ,###,  ",
+        "   ,,,   "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": [ [ "t_open_air", 50 ], [ "t_nl_scrap_wall_scarlet", 50 ] ],
+        ",": [ "t_scrap_scaffolding_scarlet" ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "earth_scrap_metal_spire_3-8",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  ,,,  ",
+        " ,###, ",
+        ",##.##,",
+        ",#...#,",
+        ",##.##,",
+        " ,###, ",
+        "  ,,,  "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": [ [ "t_nl_scrap_floor", 10 ], [ "t_nl_scrap_wall_scarlet", 90 ] ],
+        ".": "t_open_air",
+        ",": "t_scrap_scaffolding_scarlet"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "earth_scrap_metal_spire_9",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " ... ",
+        ".....",
+        "..A..",
+        ".....",
+        " ... "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ".": "t_nl_scrap_floor", "L": "t_nl_scrap_floor", "A": "t_nl_obelisk_earth" }
+    }
+  }
+]

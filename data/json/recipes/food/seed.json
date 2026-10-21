@@ -739,8 +739,11 @@
   },
   {
     "result": "seed_potato_raw",
+    "charges": 4,
     "type": "recipe",
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_extraction_cutting",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "potato", 1 ] ] ]
   },
   {
@@ -750,7 +753,8 @@
     "name": "bulk %s",
     "time": "5 m",
     "result_mult": 10,
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_potato_raw",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "potato", 10 ] ] ]
   },
   {

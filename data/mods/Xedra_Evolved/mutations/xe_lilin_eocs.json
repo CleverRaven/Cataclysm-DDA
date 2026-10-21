@@ -324,5 +324,135 @@
         "duration": "PERMANENT"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_DISEASE_ENHANCEMENT_DAMAGE",
+    "recurrence": [ "6 hours", "168 hours" ],
+    "condition": { "u_has_trait": "LILIN_DISEASE_ENHANCEMENT_DAMAGE" },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_DISEASE_ENHANCEMENT_DAMAGE" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_STEALTH_MODIFIER_IN_DARKNESS",
+    "recurrence": [ "6 hours", "168 hours" ],
+    "condition": { "u_has_trait": "LILIN_STEALTH_MODIFIER_IN_DARKNESS" },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_STEALTH_MODIFIER_IN_DARKNESS" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_DISEASE_MELEE_STRIKES",
+    "recurrence": [ "6 hours", "168 hours" ],
+    "condition": { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" },
+    "deactivate_condition": { "not": { "u_has_trait": "LILIN_DISEASE_MELEE_STRIKES" } },
+    "effect": [ { "run_eocs": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE",
+    "condition": { "math": [ "u_characters_nearby('radius': 30 ) > 0" ] },
+    "effect": [
+      {
+        "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ],
+        "npc_range": 10,
+        "npc_must_see": false,
+        "local": true,
+        "z_min": -4,
+        "z_max": 3
+      },
+      {
+        "u_run_npc_eocs": [ "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC" ],
+        "npc_range": 30,
+        "npc_must_see": true,
+        "local": true,
+        "z_min": -4,
+        "z_max": 3
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LILIN_PLAGUE_DEMON_PROXIMITY_PLAGUE_NPC",
+    "effect": [
+      { "message": "Running Lilit plague check on <u_name>.", "type": "debug" },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_health() <= -185" ] },
+            { "u_has_any_effect": [ "common_cold", "influenza", "tetanus", "rat_bite_fever", "infected", "asthma" ] },
+            { "x_in_y_chance": { "x": 1, "y": 5 } }
+          ]
+        },
+        "then": [ "u_die" ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "pre_flu" },
+            {
+              "x_in_y_chance": {
+                "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] },
+                "y": { "math": [ "3 + (u_has_trait('DISRESISTANT') * 3) + (u_has_flag('NO_DISEASE') * 1000)" ] }
+              }
+            }
+          ]
+        },
+        "then": [
+          { "message": "Infecting <u_name> with the flu.", "type": "debug" },
+          { "u_lose_effect": "pre_flu" },
+          { "u_add_effect": "influenza", "duration": [ "4 days", "12 days" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "pre_common_cold" },
+            {
+              "x_in_y_chance": {
+                "x": { "math": [ "1 + u_health() <= -0 ? 1 : 0" ] },
+                "y": { "math": [ "3 + (u_has_trait('DISRESISTANT') * 3) + (u_has_flag('NO_DISEASE') * 1000)" ] }
+              }
+            }
+          ]
+        },
+        "then": [
+          { "message": "Infecting <u_name> with a cold.", "type": "debug" },
+          { "u_lose_effect": "pre_common_cold" },
+          { "u_add_effect": "common_cold", "duration": [ "4 days", "12 days" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "pre_common_cold", "common_cold", "pre_flu", "influenza" ] } },
+            {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "1 + (u_health() <= 0 ? 1 : 0) + (u_health() <= -100 ? 1 : 0) + (u_health() <= -150 ? 1 : 0) + (u_health() <= -175 ? 1 : 0)"
+                  ]
+                },
+                "y": { "math": [ "6 + (u_has_trait('DISRESISTANT') * 6) + (u_has_flag('NO_DISEASE') * 5000)" ] }
+              }
+            }
+          ]
+        },
+        "then": [
+          {
+            "if": { "math": [ "rand(1) == 1" ] },
+            "then": [
+              { "message": "Infecting <u_name> with pre-cold.", "type": "debug" },
+              { "u_add_effect": "pre_common_cold", "duration": [ "5 days", "9 days" ] }
+            ],
+            "else": [
+              { "message": "Infecting <u_name> with pre-flu.", "type": "debug" },
+              { "u_add_effect": "pre_flu", "duration": [ "5 days", "9 days" ] }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

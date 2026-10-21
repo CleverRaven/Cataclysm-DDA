@@ -534,7 +534,10 @@
     "items": [
       { "group": "regen_serum_kit", "prob": 1 },
       { "group": "super_soldier_serum_kit", "prob": 1 },
-      { "group": "resilience_serum_kit", "prob": 1 }
+      { "group": "resilience_serum_kit", "prob": 1 },
+      { "group": "learning_serum_kit", "prob": 1 },
+      { "group": "speed_serum_kit", "prob": 1 },
+      { "group": "night_ops_serum_kit", "prob": 1 }
     ]
   },
   {
@@ -571,6 +574,42 @@
       { "item": "serum_resilience", "prob": 100, "count": [ 8, 12 ] },
       { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
       { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_resilience" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "learning_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_learning", "prob": 100, "count": [ 8, 12 ] },
+      { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
+      { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_learning" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "speed_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_speed", "prob": 100, "count": [ 8, 12 ] },
+      { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
+      { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_speed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "night_ops_serum_kit",
+    "container-item": "box_small_plastic",
+    "subtype": "collection",
+    "items": [
+      { "item": "syringe", "prob": 100, "count": 1 },
+      { "item": "serum_night_operations", "prob": 100, "count": [ 8, 12 ] },
+      { "item": "bubblewrap", "prob": 100, "count": [ 12, 20 ] },
+      { "item": "lab_file_serum_testing", "prob": 100, "variant": "lab_file_serum_testing_night_ops" }
     ]
   },
   {

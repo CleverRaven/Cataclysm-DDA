@@ -5,6 +5,7 @@
     "name_unique": "Rhyzaea Johnny",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_rhyzaea_johnny",
     "class": "NC_REFUGEE_Rhyzaea",
     "attitude": 0,
     "mission": "GUARD",

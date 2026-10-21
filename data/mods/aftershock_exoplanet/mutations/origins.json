@@ -1,0 +1,94 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "ORIGIN_HOBBY"
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "Unknown background" },
+    "points": 0,
+    "description": "You have no idea where you came from, or what you were doing before you ended up in the frontier.",
+    "types": [ "ORIGIN_HOBBY" ],
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_EARTH",
+    "name": { "str": "Earthling" },
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "//": "Multiple origins are Earthlings, so this one doesn't conflict with other origins.",
+    "types": [  ]
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_NOETIC_SCION",
+    "name": { "str": "Noetic Scion" },
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "description": "Your appearance and distinctive tattoos mark you as a noetic scion, a member of one of the powerful families who maintained and even strengthened their esper powers through and after the Discontinuity by means of careful breeding programs.  Others may react to you with caution or seek to use you, despite that as a \"skip\", your family's powers have not been passed down to you.  Their legacy, however, remains in your genes."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_SPACER",
+    "name": { "str": "Spacer" },
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "cancels": [ "BKGR_EARTH" ],
+    "description": "You have lived most of your life aboard starships and stations.  Seeing the horizon still makes you uneasy.",
+    "points": 0
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_CORPORATE",
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "Corporate Aspirant" },
+    "description": "You were born and raised within a corporate creche, where your every action was monitored to asses your value."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_UICA",
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "UICA Veteran" },
+    "description": "You once fought within the ground assault forces of the United Interstellar Coordination Authority, the dominant government of the age.  Most of that was keeping watch over spaceports, but you do have some combat experience to your name.  Shared experiences with other veterans may help you find allies."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_INSURGENT",
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "Exiled Insurgent" },
+    "cancels": [ "BKGR_EARTH" ],
+    "description": "When Earth came to crush your dreams of freedom underfoot, you were one of the few wise enough to flee into the deep frontier.  You have lived as a fugitive and pariah ever since, wanted by the law and rejected by your own people."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_REDISCOVERED_TRIBAL",
+    "name": { "str": "Rediscovered Tribal" },
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "description": "During the centuries of the discontinuity, several nominally-habitable worlds maintained human life but lost all technologically advanced civilization.  Even today, most of them remain \"underdeveloped\" you were born in one such world."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_PERIPHERY",
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "Survivor" },
+    "description": "You are well acquainted with the hardships of life on the frontier, and with the dangers and promises of the ancient ruins within."
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_UPPER_CLASS",
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "name": { "str": "Shielded Youth" },
+    "description": "You remember the great luxury of your childhood, the endless parties underneath diamond-glass domes, the great entourages of servants and companions, and the backdoor plays and plots against your peers for the future of humanity.  How little they must think of you now, if they even remember you at all."
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_BRUTAL_STRENGTH",
+    "name": { "str": "Vatgrown Strength" },
+    "copy-from": "AFS_BKGR_ABSTRACT",
+    "description": "Genetic tampering made your body incredibly strong.  Strength + 7.",
+    "points": 2,
+    "cancels": [ "STR_UP" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
+  }
+]

@@ -476,7 +476,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -484,7 +484,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -492,7 +492,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -500,7 +500,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -508,7 +508,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       }
@@ -545,7 +545,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -553,7 +553,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -561,7 +561,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       }
@@ -604,7 +604,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -612,7 +612,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -620,7 +620,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -628,7 +628,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -636,7 +636,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -644,7 +644,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       },
@@ -652,7 +652,7 @@
         "moves": 140,
         "flag_restriction": [ "CYLINDER_GRENADE" ],
         "holster": true,
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "1200 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "30 cm"
       }

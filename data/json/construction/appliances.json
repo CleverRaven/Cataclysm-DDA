@@ -1019,5 +1019,17 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "NO_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_bulk_liquid_tank",
+    "group": "place_bulk_liquid_tank",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "10 m",
+    "components": [ [ [ "bulk_liquid_tank", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
   }
 ]

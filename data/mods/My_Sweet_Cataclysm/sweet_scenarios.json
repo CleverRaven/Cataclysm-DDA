@@ -8,6 +8,6 @@
     "allowed_locs": [ "sloc_candy_shop" ],
     "professions": [ "sugar_kin" ],
     "start_name": "Candy Shop",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   }
 ]

@@ -1,5 +1,6 @@
 #include "fault.h"
 
+#include <memory>
 #include <utility>
 #include <vector>
 
@@ -10,15 +11,33 @@
 #include "requirements.h"
 #include "rng.h"
 
+namespace io
+{
+template<>
+std::string enum_to_string<fault_severity>( fault_severity severity )
+{
+    switch( severity ) {
+        case fault_severity::none:
+            return "none";
+        case fault_severity::minor:
+            return "minor";
+        case fault_severity::major:
+            return "major";
+        case fault_severity::critical:
+            return "critical";
+        case fault_severity::last:
+            break;
+    }
+    cata_fatal( "Invalid fault_severity" );
+}
+} // namespace io
+
 namespace
 {
 
 generic_factory<fault> fault_factory( "fault", "id" );
 generic_factory<fault_fix> fault_fixes_factory( "fault_fix", "id" );
 generic_factory<fault_group> fault_group_factory( "fault_group", "id" );
-
-// we'll store requirement_ids here and wait for requirements to load in, then we can actualize them
-std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storage;
 
 // Have a list of faults by type, the type right now is item prefix to avoid adding more JSON data
 std::map<std::string, std::vector<fault_id>> faults_by_type;
@@ -86,7 +105,6 @@ void faults::finalize()
             faults_by_type[f.type()].emplace_back( f.id.str() );
         }
     }
-    reqs_temp_storage.clear();
 }
 
 void faults::check_consistency()
@@ -228,6 +246,11 @@ std::string fault::type() const
     return type_;
 }
 
+fault_severity fault::severity() const
+{
+    return severity_;
+}
+
 bool fault::has_flag( const std::string &flag ) const
 {
     return flags.count( flag );
@@ -252,6 +275,7 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "item_suffix", item_suffix_ );
     optional( jo, was_loaded, "message", message_ );
     optional( jo, was_loaded, "color", color_, "bad" );
+    optional( jo, was_loaded, "severity", severity_, fault_severity::none );
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "block_faults", block_faults );
@@ -315,19 +339,20 @@ void fault_fix::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "time_save_flags", time_save_flags );
 
     if( jo.has_array( "requirements" ) ) {
+        pending_requirements.clear();
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
             if( jv.test_array() ) {
                 // array of 2 elements filled with [requirement_id, count]
                 const JsonArray &req = static_cast<JsonArray>( jv );
-                const std::string req_id = req.get_string( 0 );
+                const requirement_id req_id( req.get_string( 0 ) );
                 const int req_amount = req.get_int( 1 );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id, req_amount ) );
+                pending_requirements.emplace_back( req_id, req_amount );
             } else if( jv.test_object() ) {
                 // defining single requirement inline
                 const JsonObject &req = static_cast<JsonObject>( jv );
                 const requirement_id req_id( "fault_fix_" + id.str() + "_inline_req" );
                 requirement_data::load_requirement( req, req_id );
-                reqs_temp_storage.emplace( id, std::make_pair( req_id.str(), 1 ) );
+                pending_requirements.emplace_back( req_id, 1 );
             } else {
                 debugmsg( "fault_fix '%s' has has invalid requirement element", id.str() );
             }
@@ -337,21 +362,22 @@ void fault_fix::load( const JsonObject &jo, std::string_view )
 
 void fault_fix::finalize()
 {
-    const auto range = reqs_temp_storage.equal_range( id );
-    for( auto it = range.first; it != range.second; ++it ) {
-        const requirement_id req_id( it->second.first );
-        const int amount = it->second.second;
+    for( const std::pair<requirement_id, int> &p : pending_requirements ) {
+        const requirement_id req_id = p.first;
+        const int amount = p.second;
         if( !req_id.is_valid() ) {
             debugmsg( "fault_fix '%s' has invalid requirement_id '%s'", id.str(), req_id.str() );
             continue;
         }
         *requirements = *requirements + ( *req_id ) * amount;
     }
+    pending_requirements.clear();
     requirements->consolidate();
+    requirement_data::finalize();
+
     for( const fault_id &fid : faults_removed ) {
         const_cast<fault &>( *fid ).fixes.emplace( id );
     }
-    requirement_data::finalize();
 }
 
 void fault_fix::check() const

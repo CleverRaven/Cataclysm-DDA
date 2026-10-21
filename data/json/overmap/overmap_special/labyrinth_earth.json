@@ -1,0 +1,11 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "earth_scrap_metal_spire",
+    "locations": [ "wilderness" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "earth_scrap_metal_spire" } ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 10, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
+  }
+]

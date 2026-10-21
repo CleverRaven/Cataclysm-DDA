@@ -176,7 +176,7 @@
     "type": "effect_type",
     "id": "effect_mom_artifact_telepathic_shield",
     "name": [ "Telepathic Shield Sight" ],
-    "desc": [ "You mind is a guarded fortress." ],
+    "desc": [ "Your mind is a guarded fortress." ],
     "apply_message": "",
     "rating": "good",
     "flags": [ "TEEPSHIELD" ]

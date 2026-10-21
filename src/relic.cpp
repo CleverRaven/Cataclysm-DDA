@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "item_location.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
@@ -25,6 +26,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "weather_type.h"
+
+static const weather_type_id weather_portal_storm( "portal_storm" );
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -67,6 +70,8 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::FOREST: return "forest";
+        case relic_recharge_type::UNDERGROUND: return "underground";
+        case relic_recharge_type::PORTAL_STORM: return "portal_storm";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -610,6 +615,20 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint_bub_m
         }
         case relic_recharge_type::FOREST: {
             if( can_recharge_forest( pos ) ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::UNDERGROUND: {
+            if( pos.z() < 0 &&
+                ( carrier == nullptr ||
+                  carrier->is_worn( parent ) || carrier->is_wielding( parent ) ) ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::PORTAL_STORM: {
+            if( get_weather().weather_id == weather_portal_storm ) {
                 charge.accumulate_charge( parent );
             }
             return;

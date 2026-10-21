@@ -5,6 +5,7 @@
     "name_unique": "Mangalpreet Kaur",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_mangalpreet_singh",
     "class": "NC_REFUGEE_Mangalpreet",
     "attitude": 0,
     "mission": "GUARD",

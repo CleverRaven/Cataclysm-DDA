@@ -92,15 +92,11 @@ int Character::get_armor_type( const damage_type_id &dt, bodypart_id bp ) const
     return ret + mutation_armor( bp, dt ) + bp->damage_resistance( dt );
 }
 
-std::map<bodypart_id, int> Character::get_all_armor_type( const damage_type_id &dt,
-        const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
+std::map<bodypart_id, int> Character::get_all_armor_type( const damage_type_id &dt ) const
 {
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, get_armor_type( dt, bp ) );
-        for( const item *it : clothing_map.at( bp ) ) {
-            ret[bp] += it->resist( dt, false, bp );
-        }
     }
     return ret;
 }

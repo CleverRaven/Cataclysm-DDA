@@ -10,7 +10,7 @@
     "type": "attack_vector",
     "id": "vector_headbutt",
     "limbs": [ "head" ],
-    "contact_area": [ "head_forehead" ],
+    "contact_area": [ "head_forehead", "head_slime_forehead" ],
     "bp_hp_limit": 50
   },
   {

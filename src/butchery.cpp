@@ -27,7 +27,6 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "harvest.h"
-#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -278,15 +277,16 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
     const requirement_id butchery_requirement = bd.req;
 
     if( !butchery_requirement->can_make_with_inventory(
-            you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
+            &you, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
         std::string popup_output = _( "You can't butcher this; you are missing some tools.\n" );
 
         for( const std::string &str : butchery_requirement->get_folded_components_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
+                 &you, 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ),
+                 is_crafting_component ) ) {
             popup_output += str + '\n';
         }
         for( const std::string &str : butchery_requirement->get_folded_tools_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ) ) ) {
+                 &you, 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ) ) ) {
             popup_output += str + '\n';
         }
 
@@ -353,6 +353,8 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
                     you.add_msg_if_player( m_good, SNIPPET.random_from_category(
                                                "msg_human_dissection_no_prof" ).value_or( translation() ).translated() );
                     you.add_morale( morale_butcher, -40, 0, 1_days, 2_hours );
+                    // Some trauma. You are methodically cutting a person up.
+                    you.mod_trauma( 5 );
                 }
             } else {
                 // standard refusal to butcher
@@ -367,6 +369,8 @@ bool set_up_butchery( player_activity &act, Character &you, butchery_data bd )
                 you.add_msg_if_player( m_good, SNIPPET.random_from_category(
                                            "msg_human_butchery" ).value_or( translation() ).translated() );
                 you.add_morale( morale_butcher, -50, 0, 2_days, 3_hours );
+                // LOTS of trauma. You are butchering a person.
+                you.mod_trauma( 10 );
             }
         } else {
             if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
@@ -1191,7 +1195,7 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
         if( index != -1 ) {
             const mtype &corpse = *corpses[index]->get_mtype();
             const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                     player_character.crafting_inventory(),
+                                     &player_character, player_character.crafting_inventory(),
                                      corpse.size, bt ).first;
             time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
             has_started[bt_i] = butcher_get_progress( *corpses[index], bt ) > 0;
@@ -1200,7 +1204,7 @@ std::optional<butcher_type> butcher_submenu( const std::vector<map_stack::iterat
             for( const map_stack::iterator &it : corpses ) {
                 const mtype &corpse = *it->get_mtype();
                 const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                         player_character.crafting_inventory(),
+                                         &player_character, player_character.crafting_inventory(),
                                          corpse.size, bt ).first;
                 time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
                 has_started[bt_i] |= butcher_get_progress( *it, bt ) > 0;

@@ -398,8 +398,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Dead tired -- sleep is feasible" ) {
-        // can_sleep threshold matches needs_sleep_badly at DEAD_TIRED.
-        // Utility scoring handles duty priority, not can_sleep gating.
+        // past TIRED, so can_sleep holds; utility scoring handles duty priority
         test_npc.set_sleepiness( 500 );
         REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
         REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
@@ -1905,7 +1904,11 @@ TEST_CASE( "bt_camp_resident_goals", "[npc][behavior]" )
         CHECK( bt_goal( guy ) != "free_time" );
     }
     SECTION( "away from camp: return_to_camp" ) {
-        guy.setpos( here, tripoint_bub_ms( 50 + SEEX * 2, 50, 0 ) );
+        // middle of next overmap tile east, wherever map's origin lies
+        const tripoint_abs_ms away = project_to<coords::ms>( camp_omt + point::east ) +
+                                     point( SEEX, SEEY );
+        REQUIRE( here.inbounds( away ) );
+        guy.setpos( here, here.get_bub( away ) );
         REQUIRE( guy.pos_abs_omt() != *guy.assigned_camp );
         CHECK( bt_goal( guy ) == "return_to_camp" );
     }

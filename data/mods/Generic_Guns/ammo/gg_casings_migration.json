@@ -37,7 +37,7 @@
     "replace": "pistol_casing"
   },
   {
-    "id": [ "410shot_hull", "shot_hull" ],
+    "id": [ "410shot_hull", "shot_hull", "20shot_hull" ],
     "type": "MIGRATION",
     "replace": "shot_casing"
   },

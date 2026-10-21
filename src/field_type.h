@@ -73,6 +73,7 @@ struct field_effect {
     bodypart_str_id bp;
     field_immunity_data immunity_data;
     bool is_environmental = true;
+    bool immune_inside  = false;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
     bool immune_outside_vehicle = false;
@@ -134,6 +135,10 @@ extern const field_type_str_id fd_acid;
 extern const field_type_str_id fd_acid_vent;
 extern const field_type_str_id fd_bile;
 extern const field_type_str_id fd_blood;
+extern const field_type_str_id fd_blood_footprint_n;
+extern const field_type_str_id fd_blood_footprint_w;
+extern const field_type_str_id fd_blood_footprint_s;
+extern const field_type_str_id fd_blood_footprint_e;
 extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
 extern const field_type_str_id fd_blood_veggy;

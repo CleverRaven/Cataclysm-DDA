@@ -44,8 +44,8 @@
       },
       "furniture": { "B": "f_straw_bed", "O": "f_firering" },
       "items": {
-        "_": { "item": "trash_forest", "chance": 40, "repeat": [ 1, 2 ] },
-        " ": { "item": "trash_forest", "chance": 2 },
+        "_": { "item": "SUS_trash_forest_no_manmade", "chance": 40, "repeat": [ 1, 2 ] },
+        " ": { "item": "SUS_trash_forest_no_manmade", "chance": 2 },
         "X": [ { "item": "corpses", "chance": 5, "repeat": 1 }, { "item": "ant_food", "chance": 25, "repeat": [ 2, 5 ] } ],
         "Y": [ { "item": "corpses", "chance": 100, "repeat": [ 1, 2 ] } ]
       },

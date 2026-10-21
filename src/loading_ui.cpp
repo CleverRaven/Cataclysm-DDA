@@ -32,6 +32,9 @@ struct ui_state {
     ImVec2 splash_size;
     SDL_Texture_Ptr splash;
     cata_path chosen_load_img;
+    // size of the source image, kept to refit it when the screen or fonts change
+    int img_w = 0;
+    int img_h = 0;
 #else
     size_t splash_width = 0;
     std::vector<std::string> splash;
@@ -68,7 +71,7 @@ static void redraw()
         const float center_x = ImGui::GetMainViewport()->Size.x / 2;
         const float image_start_pos_x = center_x - ( gLUI->splash_size.x / 2 );
         ImGui::SetCursorPosX( image_start_pos_x );
-        if( gLUI->splash ) {
+        if( gLUI->splash && gLUI->splash_size.x > 0.0f ) {
             ImGui::Image( reinterpret_cast<ImTextureID>( gLUI->splash.get() ), gLUI->splash_size );
         }
 
@@ -117,8 +120,55 @@ static void redraw()
 #endif
 }
 
+#ifdef TILES
+static void layout()
+{
+    // padding will eat some of it, but we cannot access padding without imgui window
+    // so eyeball a bit off the main viewport to compensate
+    const ImVec2 screen_size = ImGui::GetMainViewport()->Size * 0.98f;
+
+    // if our screen space is at least twice as large as minimal, we will use 1.5x font size
+    gLUI->large_hint_size = cataimgui::min_screen_res_y * 2.f < screen_size.y;
+
+    // calculate hint_height maybe with increased font
+    // ideally it would use proper ImGui::PopFont(), but it requires imgui window, which we do not have here
+    // so we just eyeball it to be 1.6x bigger than normal-sized string
+    if( gLUI->large_hint_size ) {
+        gLUI->hint_height = cataimgui::get_string_height( gLUI->tip, screen_size.x ) * 1.6f;
+    } else {
+        gLUI->hint_height = cataimgui::get_string_height( gLUI->tip, screen_size.x );
+    }
+
+    // no matter the size, loading message always fit in 1 line,
+    // so just use dummy line to calculate its height
+    gLUI->loading_msg_height = cataimgui::get_string_height( " ", 0 );
+
+    gLUI->text_height = gLUI->hint_height + gLUI->loading_msg_height;
+
+    // calculate max size of image, decreasing it by the size of text below
+    const ImVec2 max_img_size = { screen_size.x, screen_size.y - gLUI->text_height };
+    if( gLUI->img_w <= 0 || gLUI->img_h <= 0 || max_img_size.x <= 0.0f || max_img_size.y <= 0.0f ) {
+        // no room left above the text, or no image
+        gLUI->splash_size = ImVec2();
+    } else {
+        // preserve aspect ratio by finding the longest **relative** side and scaling both sides by its ratio to max_img_size
+        // scales both "up" and "down"
+        float width_ratio = static_cast<float>( gLUI->img_w ) / max_img_size.x;
+        float height_ratio = static_cast<float>( gLUI->img_h ) / max_img_size.y;
+        float longest_side_ratio = width_ratio > height_ratio ? width_ratio : height_ratio;
+        gLUI->splash_size = { static_cast<float>( gLUI->img_w ) / longest_side_ratio,
+                              static_cast<float>( gLUI->img_h ) / longest_side_ratio
+                            };
+    }
+    gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
+}
+#endif
+
 static void resize()
 {
+#ifdef TILES
+    layout();
+#endif
 }
 
 static void update_state( const std::string &context, const std::string &step )
@@ -136,31 +186,8 @@ static void update_state( const std::string &context, const std::string &step )
         } );
 
 #ifdef TILES
-        // padding will eat some of it, but we cannot access padding without imgui window
-        // so eyeball a bit off the main viewport to compensate
-        const ImVec2 screen_size = ImGui::GetMainViewport()->Size * 0.98f;
-
-        // get snippet text and calculate it's size ahead of time
         gLUI->tip = SNIPPET.random_from_category( "tip" ).value_or(
                         translation() ).translated();
-
-        // if our screen space is at least twice as large as minimal, we will use 1.5x font size
-        gLUI->large_hint_size = cataimgui::min_screen_res_y * 2.f < screen_size.y;
-
-        // calculate hint_height maybe with increased font
-        // ideally it would use proper ImGui::PopFont(), but it requires imgui window, which we do not have here
-        // so we just eyeball it to be 1.6x bigger than normal-sized string
-        if( gLUI->large_hint_size ) {
-            gLUI->hint_height = cataimgui::get_string_height( gLUI->tip, screen_size.x ) * 1.6f;
-        } else {
-            gLUI->hint_height = cataimgui::get_string_height( gLUI->tip, screen_size.x );
-        }
-
-        // no matter the size, loading message always fit in 1 line,
-        // so just use dummy line to calculate it's height
-        gLUI->loading_msg_height = cataimgui::get_string_height( " ", 0 );
-
-        gLUI->text_height = gLUI->hint_height + gLUI->loading_msg_height;
 
         // get image
         std::vector<cata_path> imgs;
@@ -200,23 +227,15 @@ static void update_state( const std::string &context, const std::string &step )
             gLUI->chosen_load_img = random_entry( imgs );
         }
         SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
-        // calculate max size of image, decreasing it by the size of text below
-        const ImVec2 max_img_size = { screen_size.x, screen_size.y - gLUI->text_height };
-        // preserve aspect ratio by finding the longest **relative** side and scaling both sides by its ratio to max_img_size
-        // scales both "up" and "down"
-        float width_ratio = static_cast<float>( surf->w ) / max_img_size.x;
-        float height_ratio = static_cast<float>( surf->h ) / max_img_size.y;
-        float longest_side_ratio = width_ratio > height_ratio ? width_ratio : height_ratio;
-        gLUI->splash_size = { static_cast<float>( surf->w ) / longest_side_ratio,
-                              static_cast<float>( surf->h ) / longest_side_ratio
-                            };
+        gLUI->img_w = surf->w;
+        gLUI->img_h = surf->h;
         if( !renderer_should_abort_frame() ) {
             // Skip the upload when recovery is queued: it would invalidate the
             // texture. The splash stays absent for this load rather than uploading
             // against a renderer about to be rebuilt.
             gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
         }
-        gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
+        layout();
 #else
         std::string splash = PATH_INFO::title( get_holiday_from_time() );
         if( get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {

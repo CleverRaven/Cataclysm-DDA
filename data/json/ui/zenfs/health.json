@@ -261,7 +261,7 @@
     "id": "zenfs_sleepiness_label_F",
     "type": "widget",
     "style": "text",
-    "string": "F",
+    "string": { "str": "F", "ctxt": "Label for sleepiness" },
     "width": 1,
     "padding": 0,
     "flags": [ "W_NO_PADDING" ]

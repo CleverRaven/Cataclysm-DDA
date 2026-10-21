@@ -3,13 +3,17 @@
     "type": "region_settings_city",
     "id": "default",
     "copy-from": "default",
-    "extend": { "houses": [ [ "safe_house", 5 ] ], "parks": [ [ "vampire_cathedral", 50 ] ] }
+    "extend": {
+      "houses": [ [ "safe_house", 5 ] ],
+      "shops": [ [ "xe_crystalline_spire", 5 ] ],
+      "parks": [ [ "vampire_cathedral", 50 ] ]
+    }
   },
   {
     "type": "map_extra_collection",
     "id": "road",
     "copy-from": "road",
-    "extend": { "extras": [ [ "mx_golden_monolith", 15 ] ] }
+    "extend": { "extras": [ [ "mx_golden_monolith", 15 ], [ "mx_XE_XEDRA_mutagen_transport", 3 ] ] }
   },
   {
     "type": "map_extra_collection",

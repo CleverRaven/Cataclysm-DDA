@@ -80,7 +80,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 19 9x19mm 10-round magazine" },
-    "description": "A compact, light-weight polymer magazine for use with the Glock 19, which has been limited to 10 rounds to comply with firearm regulations.",
+    "description": "A compact, light-weight polymer 10-round magazine for use with the glock 19, physically of the same size as a 17-round magazine.  It's made to comply with laws that limit maximum magazine capacity for firearms in some states.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
   },
   {
@@ -109,7 +109,7 @@
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
     "name": { "str": "Glock 9x19mm 10-round magazine" },
-    "description": "Made for the Glock 17, this magazine holds 10 rounds to comply with firearm regulations.",
+    "description": "A 10-round magazine for use with the glock 17, physically of the same size as a 17-round magazine.  It's made to comply with laws that limit maximum magazine capacity for firearms in some states.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
   },
   {

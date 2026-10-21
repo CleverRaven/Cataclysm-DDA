@@ -7,6 +7,7 @@
     "gender": "male",
     "name_suffix": "Computer Technician",
     "temp_suffix": "Beggar",
+    "portrait_filename": "Named_NPC_yusuke_taylor",
     "class": "NC_BEGGAR_5",
     "attitude": 0,
     "mission": "GUARD",

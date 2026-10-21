@@ -108,7 +108,6 @@ jobs:
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
-        SDL3: 1
         LOCALIZE: 1
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
     steps:

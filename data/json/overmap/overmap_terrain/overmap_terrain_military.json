@@ -227,7 +227,8 @@
     "name": "survivor's bunker",
     "sym": "b",
     "color": "green",
-    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ],
+    "delete": { "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",

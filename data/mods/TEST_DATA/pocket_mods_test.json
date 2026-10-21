@@ -115,14 +115,9 @@
         [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -131,9 +126,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       ]
@@ -144,14 +137,9 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -160,9 +148,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }

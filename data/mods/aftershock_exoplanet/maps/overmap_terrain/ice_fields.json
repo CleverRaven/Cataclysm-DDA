@@ -1,14 +1,13 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "field",
+    "id": "glacial_field",
     "copy-from": "generic_open_land",
     "name": "Ice Fields",
     "sym": ".",
     "travel_cost_type": "field",
     "color": "light_gray",
     "see_cost": "none",
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -59,6 +58,19 @@
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "builtin": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_ravine_forested" ],
+    "copy-from": "generic_open_land",
+    "name": "Aeolian flats",
+    "sym": ".",
+    "travel_cost_type": "field",
+    "color": "light_red",
+    "see_cost": "none",
+    "extras": "field",
+    "looks_like": "t_lichen",
+    "flags": [ "NO_ROTATE", "RAVINE" ]
   },
   {
     "type": "overmap_terrain",

@@ -7,6 +7,12 @@ level_cache::level_cache()
     clear();
 }
 
+uint64_t next_cache_generation()
+{
+    static uint64_t last = 0;
+    return ++last;
+}
+
 void level_cache::clear()
 {
     // Blast zeroes over the entire region. Some compilers, looking at you msvc, aren't smart enough
@@ -21,11 +27,28 @@ void level_cache::clear()
 #pragma GCC diagnostic pop
 
     transparency_cache_dirty.set();
+    vision_transparency_dirty.set();
     outside_cache_dirty = true;
     floor_cache_dirty = false;
     seen_cache_dirty = false;
     lightmap_dirty = true;
+    // the memset above marked every memory cache bit dirty
+    map_memory_sweep_pending = true;
     has_colored_lights = false;
+    vision_observer_overrides.clear();
+    built_sight_penalty = -1.0f;
+    outside_rewritten = true;
+    vehicle_opaque_any = false;
+    transparency_vehicle_opaque_any = false;
+    sight_revision = next_cache_generation();
+    geometry_revision = next_cache_generation();
+    field_revision = next_cache_generation();
+    sun_revision = next_cache_generation();
+    sun_uniform = -1.0f;
+    light_full = false;
+    light_changes_by_turn = false;
+    light_tint = light_color_rgb{};
+    lightmap_sun_revision = 0;
     no_floor_gaps = false;
 
     natural_light_level_cache = 0.0f;

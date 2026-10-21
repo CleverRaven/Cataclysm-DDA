@@ -66,6 +66,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         // for the reference to the backpack that the avatar is wearing now
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
+        item_location backpack_loc( they, &backpack );
 
         THEN( "they have a copy of the backpack" ) {
             // They have the same type
@@ -84,7 +85,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
 
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );
-                CHECK_FALSE( backpack.has_item( rope_map ) );
+                CHECK_FALSE( backpack_loc.has_item( rope_map ) );
             }
             THEN( "they have a copy of the rope in inventory" ) {
                 CHECK( character_has_item_with_var_val( they, "uid", rope_uid ) );
@@ -98,12 +99,12 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
 
             THEN( "a copy of the rope item is in inventory and in the backpack" ) {
                 CHECK( they.has_item( *rope_new ) );
-                CHECK( backpack.has_item( *rope_new ) );
+                CHECK( backpack_loc.has_item( *rope_new ) );
                 CHECK( character_has_item_with_var_val( they, "uid", rope_uid ) );
             }
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );
-                CHECK_FALSE( backpack.has_item( rope_map ) );
+                CHECK_FALSE( backpack_loc.has_item( rope_map ) );
             }
         }
     }
@@ -181,6 +182,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
         // Wear backpack from map and get the new item reference
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
+        item_location backpack_loc( they, &backpack );
         REQUIRE( they.has_item( backpack ) );
         // Put the rope in
         item_location rope = they.i_add( rope_map );
@@ -190,7 +192,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
             // Get item_location for m4 on the map
             item_location m4_loc( map_cursor( they.pos_abs() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
-            CHECK_FALSE( backpack.has_item( m4a1 ) );
+            CHECK_FALSE( backpack_loc.has_item( m4a1 ) );
             // Now pick up the M4
             they.pick_up( thing );
             process_activity( they );

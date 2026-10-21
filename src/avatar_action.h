@@ -77,7 +77,11 @@ void unload( avatar &you );
 void use_item( avatar &you, item_location &loc, std::string const &method = {} );
 void use_item( avatar &you );
 
-/** Check if avatar is stealing a weapon. */
+/**
+ * Whether who may take the item.  Any NPC passes, and so does an item that who owns or that
+ * nobody owns.
+ * For the player, THIEF_MODE or the owner faction's stored answer decides, else the player is asked.
+ */
 bool check_stealing( Character &who, item &weapon );
 } // namespace avatar_action
 

@@ -173,20 +173,24 @@
     "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "electrical doping agent" },
-    "description": "One part of ubiquitous superconductor insulation-protection sheathing, this viscuous goop is otherwise unremarkable.  A label with defunct digital link and printed text claims conductivity losses are reduced by an order of magnitude over competitors, and that the protection resists everything from lunar vacuum to stray laser fire.  The much smaller disclaimer clarifies that the claims only apply to industrial lasers, and that the manufacturer is not responsible for accidents resulting from misapplication outside of the approved specfications sheet  That spec sheet must be on the digital link, but even without it this is a valuable ingredient for reproducing pre-Discontinuity technology.",
+    "description": "One part of ubiquitous superconductor insulation-protection sheathing, this viscuous goop is otherwise unremarkable.  A label with defunct digital link and printed text claims conductivity losses are reduced by an order of magnitude over competitors, and that the protection resists everything from lunar vacuum to stray laser fire.  The much smaller disclaimer clarifies that the claims only apply to industrial lasers, and that the manufacturer is not responsible for accidents resulting from misapplication outside of the approved specfications sheet.  That spec sheet must be on the digital link, but even without it this is a valuable ingredient for reproducing pre-Discontinuity technology.",
     "weight": "90 g",
-    "volume": "80 ml",
-    "price": "75 USD",
-    "price_postapoc": "75 USD",
-    "count": 4,
-    "stack_size": 4,
+    "volume": "20 ml",
+    "price": "18 USD 75 cent",
+    "price_postapoc": "18 USD 75 cent",
     "material": [ "water" ],
     "container": "can_food",
     "phase": "liquid",
     "looks_like": "silver_small",
     "symbol": "o",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "FAKE_NO_SHOOTING_generic_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_titanium_small",
+    "name": "",
+    "default": "afs_titanium_small"
   },
   {
     "id": "afs_titanium_small",
@@ -206,7 +210,7 @@
     "looks_like": "silver_small",
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "afs_titanium_small"
   },
   {
     "id": "afs_titanium_implant",

@@ -467,10 +467,8 @@
       { "prob": 40, "group": "blt_wrapper_2" },
       { "item": "insta_salad", "prob": 60 },
       { "item": "pudding", "prob": 40 },
-      { "item": "sandwich_pb", "prob": 35 },
-      { "item": "sandwich_pbh", "prob": 35 },
       { "item": "sandwich_pbj", "prob": 40 },
-      { "item": "sandwich_pbm", "prob": 10 },
+      { "item": "sandwich_pbf", "prob": 10 },
       { "prob": 45, "group": "sandwich_t_wrapper_2" },
       { "item": "yoghurt", "prob": 40 }
     ]
@@ -639,10 +637,7 @@
     "entries": [
       { "prob": 50, "group": "blt_wrapper_2" },
       { "item": "sandwich_pbj", "prob": 50 },
-      { "item": "sandwich_pbh", "prob": 20 },
       { "item": "sandwich_pbf", "prob": 20 },
-      { "item": "sandwich_pbm", "prob": 10 },
-      { "item": "sandwich_pb", "prob": 35 },
       { "item": "fish_sandwich", "prob": 20 },
       { "prob": 50, "group": "sandwich_t_wrapper_2" },
       { "item": "junk_burrito", "prob": 30 },

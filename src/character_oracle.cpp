@@ -1,7 +1,6 @@
 #include "character_oracle.h"
 
 #include <algorithm>
-#include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -17,7 +16,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "npc.h"
-#include "npc_class.h"
+#include "npc_arbitration.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
@@ -29,9 +28,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 
 // Vehicle currently in motion that the player is inside, otherwise nullptr.
@@ -187,9 +186,15 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     if( !n ) {
         return status_t::failure;
     }
-    // Camp water is included in the candidate list as need_source::camp_water.
-    return const_cast<npc *>( n )->find_water_candidates().empty()
-           ? status_t::failure : status_t::running;
+    // obligation check as in execute_drink_water; failed targets still count, since the
+    // executor retries them once every source has failed
+    // TODO: const_cast as in can_obtain_food
+    for( const npc::need_candidate &c : const_cast<npc *>( n )->find_water_candidates() ) {
+        if( n->need_view( npc::need_goal_id::drink_water, n->water_option_cost( c ) ).may_consider() ) {
+            return status_t::running;
+        }
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
@@ -277,17 +282,25 @@ float character_oracle_t::warmth_urgency( std::string_view ) const
 
 status_t character_oracle_t::can_sleep( std::string_view ) const
 {
-    // Meth is the only hard blocker in Character::can_sleep().
+    // CANNOT_SLEEP (meth, learning serum) is the body's only hard blocker.
     // Stim, comfort, insomnia, and rng are soft score modifiers whose
     // net effect depends on location and luck -- the oracle can't
     // evaluate those without knowing where the NPC will sleep.
-    if( subject->has_effect( effect_meth ) ) {
+    if( subject->has_flag( json_flag_CANNOT_SLEEP ) ) {
         return status_t::failure;
     }
-    if( subject->get_sleepiness() >= static_cast<int>( sleepiness_levels::TIRED ) ) {
-        return status_t::running;
+    if( subject->get_sleepiness() < static_cast<int>( sleepiness_levels::TIRED ) ) {
+        return status_t::failure;
     }
-    return status_t::failure;
+    if( const npc *n = dynamic_cast<const npc *>( subject ) ) {
+        // judged for the best spot inside the reach, never for a trip to the leader or
+        // post: a follower on a bed walled off from the leader may still sleep there
+        if( n->sleep_on_hold() || n->sleep_stalled() ||
+            !n->need_view( npc::need_goal_id::go_to_sleep, n->rest_option_best_case() ).may_consider() ) {
+            return status_t::failure;
+        }
+    }
+    return status_t::running;
 }
 
 float character_oracle_t::sleepiness_urgency( std::string_view ) const
@@ -371,16 +384,7 @@ status_t character_oracle_t::displaced_from_post( std::string_view ) const
 status_t character_oracle_t::on_shift( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n || !n->get_guard_post() || !n->myclass.is_valid() ) {
-        return status_t::failure;
-    }
-    // Player-attached state suspends duty; mirrors has_sound_alerts.
-    if( n->is_walking_with() ) {
-        return status_t::failure;
-    }
-    const auto &[start, end] = n->myclass.obj().get_work_hours();
-    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
-    return is_within_work_hours( hour, start, end ) ? status_t::running : status_t::failure;
+    return n && n->is_on_shift() ? status_t::running : status_t::failure;
 }
 
 float character_oracle_t::duty_urgency( std::string_view ) const
@@ -396,9 +400,7 @@ float character_oracle_t::duty_urgency( std::string_view ) const
     if( n->is_walking_with() ) {
         return 0.0f;
     }
-    const auto &[start, end] = n->myclass.obj().get_work_hours();
-    const int hour = to_hours<int>( time_past_midnight( calendar::turn ) );
-    const bool on = is_within_work_hours( hour, start, end );
+    const bool on = n->is_on_shift();
 
     if( n->pos_abs() == *gp ) {
         // At post: on-shift returns a baseline that resists moderate
@@ -476,7 +478,15 @@ status_t character_oracle_t::npc_should_embark( std::string_view ) const
 
 float character_oracle_t::npc_embark_urgency( std::string_view ) const
 {
-    return npc_should_embark( "" ) == status_t::running ? 0.6f : 0.0f;
+    if( npc_should_embark( "" ) != status_t::running ) {
+        return 0.0f;
+    }
+    // already on a belted seat or bed: low enough that a tired passenger sleeps
+    const npc *n = dynamic_cast<const npc *>( subject );
+    if( n != nullptr && n->in_vehicle_bed() ) {
+        return 0.15f;
+    }
+    return 0.6f;
 }
 
 status_t character_oracle_t::npc_has_goto_order( std::string_view ) const

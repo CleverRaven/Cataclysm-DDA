@@ -226,5 +226,116 @@
       }
     ],
     "false_effect": [ { "u_message": "You must be outside and the temperature must be above freezing to call the rains.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_TURN_TARGET_INTO_TREE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_spring_turn_target_into_tree" } },
+    "effect": [
+      {
+        "math": [
+          "_glamour_min_duration = ( ( ( 172848.61 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 5184.31) + (u_skill('gramarye') * 29413.51) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "_glamour_max_duration = ( ( ( 483844.89 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 15861.23) + (u_skill('gramarye') * 45945.12) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_spring_turn_target_into_tree",
+        "duration": { "math": [ "rng(_glamour_min_duration, _glamour_max_duration)" ] }
+      },
+      { "u_add_trait": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" }
+    ],
+    "false_effect": [
+      { "u_lose_effect": "effect_changeling_spring_turn_target_into_tree" },
+      { "u_lose_effect": "effect_changeling_spring_turn_target_into_tracker" },
+      { "u_lose_trait": "CHANGELING_SPRING_TURN_INTO_TREE_TRACKER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_TURN_INTO_TREE_TRACKER",
+    "condition": { "math": [ "u_effect_intensity('effect_changeling_spring_turn_target_into_tracker') >= 60" ] },
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "not": { "u_has_trait": "VAMPIRE" } },
+            { "x_in_y_chance": { "x": 1, "y": 1000 } }
+          ]
+        },
+        "then": [
+          { "u_add_effect": "curevamp", "duration": "72 hours" },
+          { "u_message": "The blood cravings vanish like they were cut out of you with a knife.", "type": "good" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_trait": "VAMPIRE" },
+            { "not": { "u_has_trait": "VAMPIRE4" } },
+            { "math": [ "global_what_is_the_season == 1" ] },
+            { "x_in_y_chance": { "x": 1, "y": 20000 } }
+          ]
+        },
+        "then": [ { "run_eocs": "EOC_REDUCE_VAMPVIRUS" } ]
+      },
+      {
+        "if": { "and": [ { "u_has_effect": "blood_spiders" }, { "x_in_y_chance": { "x": 1, "y": 5000 } } ] },
+        "then": [ { "u_lose_effect": "blood_spiders" }, { "u_message": "The itching in your veins fades away.", "type": "good" } ]
+      },
+      {
+        "if": {
+          "and": [
+            { "u_has_any_effect": [ "xe_hydrating_gout_incubation", "xe_hydrating_gout" ] },
+            { "x_in_y_chance": { "x": 1, "y": 2500 } }
+          ]
+        },
+        "then": [
+          { "u_lose_effect": "xe_hydrating_gout_incubation" },
+          { "u_lose_effect": "xe_hydrating_gout" },
+          { "u_message": "You suddenly feel thirsty again.", "type": "good" }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_hp('torso') == u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head') == u_hp_max('head')" ] },
+            { "math": [ "u_hp('arm_l') == u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r') == u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l') == u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r') == u_hp_max('leg_r')" ] },
+            { "not": { "u_has_effect": "effect_changeling_spring_turn_target_one_more_day" } }
+          ]
+        },
+        "then": [
+          {
+            "if": {
+              "and": [
+                { "u_has_any_trait": [ "VAMPIRE" ] },
+                {
+                  "u_has_any_effect": [ "vampire_virus", "blood_spiders", "xe_hydrating_gout_incubation", "xe_hydrating_gout" ]
+                },
+                {
+                  "u_query": "Your body is healed but you are suffering from a supernatural illness.  Do you wish to remain in the form of a tree to attempt to purge it?",
+                  "default": true
+                }
+              ]
+            },
+            "then": [
+              { "u_lose_effect": "effect_changeling_spring_turn_target_into_tracker" },
+              { "u_add_effect": "effect_changeling_spring_turn_target_one_more_day", "duration": "24 hours" }
+            ],
+            "else": [ { "run_eocs": "EOC_CHANGELING_SPRING_TURN_TARGET_INTO_TREE_INITIATE" } ]
+          }
+        ],
+        "else": [ { "u_lose_effect": "effect_changeling_spring_turn_target_into_tracker" } ]
+      }
+    ],
+    "false_effect": [ { "u_add_effect": "effect_changeling_spring_turn_target_into_tracker", "duration": 600 } ]
   }
 ]

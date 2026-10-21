@@ -40,12 +40,12 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
@@ -53,7 +53,6 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -486,9 +485,9 @@ void advanced_inventory::print_items( side p, bool active )
             }
         } else {
             if( stolen ) {
-                item_name = string_format( "%s %s", stolen_string, it.display_name() );
+                item_name = string_format( "%s %s", stolen_string, it.display_name( 1, true ) );
             } else {
-                item_name = it.display_name();
+                item_name = it.display_name( 1, true );
             }
         }
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
@@ -497,7 +496,7 @@ void advanced_inventory::print_items( side p, bool active )
 
         //print item name
         trim_and_print( window, point( compact ? 1 : 4, 6 + item_line ), max_name_length, thiscolor,
-                        item_name );
+                        selected ? remove_color_tags( item_name ) : item_name );
 
         //print src column
         // TODO: specify this is coming from a vehicle!
@@ -616,12 +615,8 @@ struct advanced_inv_sorter {
             case SORTBY_AMMO: {
                 const std::string a1 = d1.items.front()->ammo_sort_name();
                 const std::string a2 = d2.items.front()->ammo_sort_name();
-                // There are many items with "false" ammo types (e.g.
-                // scrap metal has "components") that actually is not
-                // used as ammo, so we consider them as non-ammo.
-                // FIXME: Remove this insane fake ammo stuff.
-                const bool ammoish1 = !a1.empty() && a1 != "components" && a1 != "none" && a1 != "NULL";
-                const bool ammoish2 = !a2.empty() && a2 != "components" && a2 != "none" && a2 != "NULL";
+                const bool ammoish1 = !a1.empty() && a1 != "NULL";
+                const bool ammoish2 = !a2.empty() && a2 != "NULL";
                 if( ammoish1 != ammoish2 ) {
                     return ammoish1;
                 } else if( ammoish1 && ammoish2 ) {
@@ -1803,10 +1798,6 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         } else {
             uistate.transfer_save.exit_code = aim_exit::none;
         }
-        // Might have changed a stack (activated an item, repaired an item, etc.)
-        if( spane.get_area() == AIM_INVENTORY ) {
-            player_character.inv->restack( player_character );
-        }
         recalc = true;
     } else {
         item &it = *sitem->items.front();
@@ -1814,7 +1805,8 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         std::vector<iteminfo> vDummy;
         it.info( true, vThisItem );
 
-        item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+        item_info_data data( it.tname( 1, tname::unprefixed_tname, true ), it.type_name(), vThisItem,
+                             vDummy );
         data.handle_scrolling = true;
         data.arrow_scrolling = true;
 
@@ -2020,8 +2012,6 @@ void advanced_inventory::display()
 
     exit = false;
     if( !is_processing() ) {
-
-        player_character.inv->restack( player_character );
 
         recalc = true;
         g->wait_popup_reset();

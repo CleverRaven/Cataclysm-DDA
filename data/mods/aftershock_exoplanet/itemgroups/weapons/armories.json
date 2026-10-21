@@ -143,6 +143,35 @@
     ]
   },
   {
+    "id": "afs_pirates_lux_trader_rare_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "group": "afs_gun_trader_rectifier", "prob": 5 },
+      [ "afs_makeshift_fusion_gun", 5 ],
+      [ "afs_pam-41", 10 ],
+      [ "wasp_gun", 10 ],
+      [ "afs_magnadrive_230k", 5 ],
+      [ "afs_marsec_t72", 2 ]
+    ]
+  },
+  {
+    "id": "afs_augustmoon_guntrader_rare_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "afs_25mm_apfsds", 10 ],
+      [ "afs_25mm_frag", 10 ],
+      [ "3x35dart", 10 ],
+      [ "3x35toxic", 10 ],
+      [ "afs_20g_plasma", 10 ]
+    ]
+  },
+  {
     "id": "afs_gun_trader_rectifier",
     "type": "item_group",
     "subtype": "collection",

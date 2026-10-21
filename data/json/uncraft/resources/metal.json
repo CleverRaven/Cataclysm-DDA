@@ -466,7 +466,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "lc_steel_chunk", 3 ] ] ]
+    "components": [ [ [ "lc_steel_chunk", 79 ] ] ]
   },
   {
     "result": "mc_steel_bar_round",
@@ -474,7 +474,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "mc_steel_chunk", 3 ] ] ]
+    "components": [ [ [ "mc_steel_chunk", 79 ] ] ]
   },
   {
     "result": "hc_steel_bar_round",
@@ -482,7 +482,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
-    "components": [ [ [ "hc_steel_chunk", 3 ] ] ]
+    "components": [ [ [ "hc_steel_chunk", 79 ] ] ]
   },
   {
     "result": "aluminum_bar_round",
@@ -523,5 +523,21 @@
     "time": "30 m",
     "tools": [ [ [ "angle_grinder", 25 ] ] ],
     "components": [ [ [ "hc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "steel_section_long",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "using": [ [ "metal_removal_standard", 1 ] ],
+    "components": [ [ [ "steel_section_short", 2 ] ] ]
+  },
+  {
+    "result": "frame",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "using": [ [ "metal_removal_standard", 1 ] ],
+    "components": [ [ [ "lc_steel_lump", 20 ] ] ]
   }
 ]

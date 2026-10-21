@@ -877,5 +877,39 @@
       "<zombie_amalgamation_electric_inner><punc.>",
       "<zombie_amalgamation_electric_outer><punc.>  <zombie_amalgamation_electric_inner><punc.>"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<solar_beetle_outer_harvest>",
+    "//": "NO_I18N",
+    "text": [
+      "Digging into the corpse with your tools nets you with the feeling of pulling apart a cheap plastic toy<punc.>",
+      "Cutting into the lifeless beetle feels less like butchering a creature and more like dismantling a toy at first<punc.>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<solar_beetle_solar_harvest>",
+    "//": "NO_I18N",
+    "text": [
+      "You finish this bizarre process by inspecting the beetle's elytra, you manage to extract a number of the panels lining its interior, that it would have used to bask for light<punc.>",
+      "The elytra is covered in solar cells, which you try to recover<punc.>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<solar_beetle_harvest>",
+    "//": "NO_I18N",
+    "text": [
+      "<solar_beetle_outer_harvest>  As soon as you peel off the tough plastic shell however, you are met with supple flesh no different from mundane viscera at a glance.  Rather than an organic snapping of sinew, separating the meat from the shell comes with the soft crackling of what seems to be glass tendons.  You manage to find steel chunks haphazardly located throughout its body.  The elytra is covered in solar cells, which you try to recover."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<solar_beetle_malnourished_harvest>",
+    "//": "NO_I18N",
+    "text": [
+      "<solar_beetle_outer_harvest>  The plates protecting the creature's soft innards peel away in thinner sections without needing to sever the fragile glass-like strands of sinew.  You manage to find steel chunks haphazardly located throughout its body.  <solar_beetle_solar_harvest>"
+    ]
   }
 ]

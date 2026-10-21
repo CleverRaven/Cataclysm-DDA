@@ -13,7 +13,7 @@
     "base_faction": "zombie",
     "neutral": [ "zombie" ],
     "by_mood": [ "nether", "nightmares" ],
-    "hate": [ "changeling", "thornbeast", "werewolves" ]
+    "hate": [ "changeling", "thornbeast", "werewolves", "xe_daemon" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -118,26 +118,26 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "extend": { "hate": [ "changeling", "vampire_anathema", "werewolves" ], "neutral": [ "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire_anathema", "werewolves", "xe_daemon" ], "neutral": [ "vampire" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "copy-from": "triffid",
-    "extend": { "hate": [ "changeling", "werewolves" ] }
+    "extend": { "hate": [ "changeling", "werewolves", "xe_daemon" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
     "copy-from": "fungus",
-    "extend": { "hate": [ "changeling", "werewolves" ] }
+    "extend": { "hate": [ "changeling", "werewolves", "xe_daemon" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
     "copy-from": "nether",
     "extend": {
-      "hate": [ "werewolves" ],
+      "hate": [ "werewolves", "xe_daemon" ],
       "by_mood": [ "changeling", "arvore", "ierde", "sylph", "undine", "homullus", "salamander" ]
     }
   },
@@ -164,6 +164,12 @@
   {
     "type": "MONSTER_FACTION",
     "name": "werewolves",
+    "hate": [ "zombie", "nether", "triffid", "vampire", "fungus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "xe_daemon",
+    "friendly": [ "xe_daemon" ],
     "hate": [ "zombie", "nether", "triffid", "vampire", "fungus" ]
   }
 ]

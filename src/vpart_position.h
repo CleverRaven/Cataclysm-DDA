@@ -3,9 +3,10 @@
 #define CATA_SRC_VPART_POSITION_H
 
 #include <cstddef>
-#include <functional>
+#include <cstdint>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -14,8 +15,8 @@
 #include "type_id.h"
 
 class Character;
-class inventory;
 class map;
+class temp_crafting_inventory;
 class vehicle;
 class vehicle_stack;
 class vpart_info;
@@ -37,17 +38,26 @@ struct vehicle_part;
  * changed (parts added / removed or whole vehicle removed). There is no way
  * to detect this (it behaves like C++ references).
  */
+// get_tools() deduplicates by item and discards which part supplied each; reservation
+// needs the pairing, so this is the undeduplicated view beside it.
+struct vpart_tool_source {
+    item tool;
+    int hotkey = -1;
+    int part_index = -1;
+    int64_t part_base_uid = 0;
+};
+
 class vpart_position
 {
     private:
-        std::reference_wrapper<::vehicle> vehicle_;
+        ::vehicle *vehicle_;
         size_t part_index_;
 
     public:
-        vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
+        vpart_position( ::vehicle &v, const size_t part ) : vehicle_( &v ), part_index_( part ) { }
 
         ::vehicle &vehicle() const {
-            return vehicle_.get();
+            return *vehicle_;
         }
         // TODO: remove this, add a vpart_reference class instead
         size_t part_index() const {
@@ -94,10 +104,15 @@ class vpart_position
 
         // Finds vpart_reference to inner part with specified tool
         std::optional<vpart_reference> part_with_tool( map &here, const itype_id &tool_type ) const;
+        // The first part here supplying `tool_type` that no live craft has claimed.  A
+        // reserved part would otherwise hide an unreserved sibling at the same mount.
+        std::optional<vpart_reference> part_with_unreserved_tool( map &here,
+                const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
         std::map<item, int> get_tools( map &here ) const;
+        std::vector<vpart_tool_source> get_tools_with_sources( map &here ) const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( map &here, inventory &inv ) const;
+        void form_inventory( map &here, temp_crafting_inventory &inv, std::set<::vehicle *> &veh ) const;
 
         bool can_load_furniture() const;
         bool has_loaded_furniture() const;
@@ -138,6 +153,8 @@ class optional_vpart_position : public std::optional<vpart_position>
         std::optional<vpart_reference> obstacle_at_part() const;
         std::optional<vpart_reference> part_displayed() const;
         std::optional<vpart_reference> part_with_tool( map &here, const itype_id &tool_type ) const;
+        std::optional<vpart_reference> part_with_unreserved_tool( map &here,
+                const itype_id &tool_type ) const;
         std::vector<std::string> extended_description() const;
 };
 

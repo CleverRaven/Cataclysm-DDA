@@ -115,7 +115,7 @@
       { "item": "afs_frontier_cryo", "custom-flags": [ "FIT" ] },
       { "item": "backpack" },
       { "item": "afs_thermos" },
-      { "item": "multi_cooker" },
+      { "item": "military_mess_kit" },
       { "item": "afs_seyfert_84K", "container-item": "holster" },
       { "item": "afs_10mm_caseless_FMJ" }
     ]

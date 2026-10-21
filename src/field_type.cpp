@@ -13,6 +13,10 @@ const field_type_str_id fd_acid( "fd_acid" );
 const field_type_str_id fd_acid_vent( "fd_acid_vent" );
 const field_type_str_id fd_bile( "fd_bile" );
 const field_type_str_id fd_blood( "fd_blood" );
+const field_type_str_id fd_blood_footprint_e( "fd_blood_footprint_e" );
+const field_type_str_id fd_blood_footprint_n( "fd_blood_footprint_n" );
+const field_type_str_id fd_blood_footprint_s( "fd_blood_footprint_s" );
+const field_type_str_id fd_blood_footprint_w( "fd_blood_footprint_w" );
 const field_type_str_id fd_blood_insect( "fd_blood_insect" );
 const field_type_str_id fd_blood_invertebrate( "fd_blood_invertebrate" );
 const field_type_str_id fd_blood_veggy( "fd_blood_veggy" );
@@ -185,6 +189,7 @@ void field_effect::deserialize( const JsonObject &jo )
     optional( jo, false, "intensity", intensity );
     optional( jo, false, "body_part", bp, bodypart_str_id::NULL_ID() );
     optional( jo, false, "is_environmental", is_environmental );
+    optional( jo, false, "immune_inside", immune_inside );
     optional( jo, false, "immune_in_vehicle", immune_in_vehicle );
     optional( jo, false, "immune_inside_vehicle", immune_inside_vehicle );
     optional( jo, false, "immune_outside_vehicle", immune_outside_vehicle );

@@ -10,7 +10,7 @@ Runtime selects the matching artifact via SDL_GetGPUShaderFormats; build-time
 translation avoids the SPIRV-Cross + DXIL runtime dependency that
 SDL_shadercross would otherwise require at runtime.
 
-Invoked by Make/CMake/MSVC build rules under USE_SDL3 only. Skips writing if
+Invoked by Make/CMake/MSVC build rules for tiles builds. Skips writing if
 the source is older than the artifact.
 
 Tools required (override via env vars when not on PATH):

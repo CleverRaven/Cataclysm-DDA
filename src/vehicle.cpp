@@ -30,6 +30,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -48,6 +49,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -188,6 +190,11 @@ void DefaultRemovePartHandler::removed( map *here, vehicle &veh, const int part 
     }
 
     here->dirty_vehicle_list.insert( &veh );
+    // the part's walls, shelter and floor go with it, even if it was the last;
+    // its fake copy and the shelter of its neighbors may be on other levels
+    for( const int level : veh.occupied_levels( *here ) ) {
+        here->on_vehicle_moved( level );
+    }
     here->clear_vehicle_point_from_cache( &veh, part_pos );
     here->add_vehicle_to_cache( &veh );
     here->memory_cache_dec_set_dirty( part_pos, true );
@@ -2021,7 +2028,6 @@ bool vehicle::merge_rackable_vehicle( map *here, vehicle *carry_veh,
         here->destroy_vehicle( carry_veh );
         here->dirty_vehicle_list.insert( this );
         here->set_transparency_cache_dirty( sm_pos.z() );
-        here->set_seen_cache_dirty( tripoint_bub_ms::zero );
         here->invalidate_map_cache( here->get_abs_sub().z() );
         here->rebuild_vehicle_level_caches();
     } else {
@@ -2758,7 +2764,6 @@ bool vehicle::split_vehicles( map &here,
 
         here.dirty_vehicle_list.insert( new_vehicle );
         here.set_transparency_cache_dirty( sm_pos.z() );
-        here.set_seen_cache_dirty( tripoint_bub_ms::zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }
@@ -2887,6 +2892,42 @@ std::optional<vpart_reference> vpart_position::part_with_tool( map &here,
     return std::optional<vpart_reference>();
 }
 
+std::optional<vpart_reference> vpart_position::part_with_unreserved_tool( map &here,
+        const itype_id &tool_type ) const
+{
+    for( const int idx : vehicle().parts_at_relative( mount_pos(), false ) ) {
+        const vpart_reference vp( vehicle(), idx );
+        if( vp.part().is_broken() ||
+            get_craft_reservations().vehicle_part_reserved(
+                vp.part().get_base().uid().get_value() ) ) {
+            continue;
+        }
+        const std::map<item, int> tools = vehicle().prepare_tools( here, vp.part() );
+        if( std::find_if( tools.begin(), tools.end(),
+        [&tool_type]( const std::pair<const item, int> &pair ) {
+        return pair.first.typeId() == tool_type;
+        } ) != tools.end() ) {
+            return vp;
+        }
+    }
+    return std::optional<vpart_reference>();
+}
+
+std::vector<vpart_tool_source> vpart_position::get_tools_with_sources( map &here ) const
+{
+    std::vector<vpart_tool_source> res;
+    for( const int part_idx : this->vehicle().parts_at_relative( this->mount_pos(), false ) ) {
+        const vehicle_part &vp = this->vehicle().part( part_idx );
+        if( vp.is_broken() ) {
+            continue;
+        }
+        for( const auto &[tool_item, hk] : this->vehicle().prepare_tools( here, vp ) ) {
+            res.push_back( { tool_item, hk, part_idx, vp.get_base().uid().get_value() } );
+        }
+    }
+    return res;
+}
+
 std::map<item, int> vpart_position::get_tools( map &here ) const
 {
     std::map<item, int> res;
@@ -2985,6 +3026,12 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( here, tool_type ) : std::nullopt;
 }
 
+std::optional<vpart_reference> optional_vpart_position::part_with_unreserved_tool(
+    map &here, const itype_id &tool_type ) const
+{
+    return has_value() ? value().part_with_unreserved_tool( here, tool_type ) : std::nullopt;
+}
+
 std::vector<std::string> optional_vpart_position::extended_description() const
 {
     std::vector<std::string> ret;
@@ -2993,8 +3040,10 @@ std::vector<std::string> optional_vpart_position::extended_description() const
     }
 
     vehicle &v = value().vehicle();
-    ret.emplace_back( get_origin( v.type->src ) );
-    ret.emplace_back( "--" );
+    if( debug_mode ) {
+        ret.emplace_back( get_origin( v.type->src ) );
+        ret.emplace_back( "--" );
+    }
 
     ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->get_name() ) );
     ret.emplace_back( "--" );
@@ -3736,6 +3785,15 @@ tripoint_bub_ms vehicle::bub_part_pos( const map &here, const int index ) const
 tripoint_bub_ms vehicle::bub_part_pos( const map &here, const vehicle_part &pt ) const
 {
     return pos_bub( here ) + pt.precalc[0];
+}
+
+std::set<int> vehicle::occupied_levels( const map &here ) const
+{
+    std::set<int> levels;
+    for( const vehicle_part &vp : parts ) {
+        levels.insert( bub_part_pos( here, vp ).z() );
+    }
+    return levels;
 }
 
 tripoint_abs_ms vehicle::abs_part_pos( const int index ) const
@@ -5296,12 +5354,13 @@ std::map<itype_id, units::power> vehicle::fuel_usage() const
 units::energy vehicle::drain_energy( const itype_id &ftype, units::energy wanted_energy )
 {
     units::energy drained = 0_J;
-    for( vehicle_part &p : parts ) {
+    vehicle_cursor cur( *this, 0 );
+    for( cur.part = 0; cur.part < static_cast<ptrdiff_t>( parts.size() ); cur.part++ ) {
         if( wanted_energy <= 0_J ) {
             break;
         }
 
-        units::energy consumed = p.consume_energy( ftype, wanted_energy );
+        units::energy consumed = parts[cur.part].consume_energy( cur, ftype, wanted_energy );
         drained += consumed;
         wanted_energy -= consumed;
     }
@@ -5452,6 +5511,20 @@ std::vector<vehicle_part *> vehicle::lights()
         }
     }
     return res;
+}
+
+float vehicle::cone_light_luminance( const std::vector<vehicle_part *> &lights )
+{
+    float luminance = 0.0f;
+    float iteration = 1.0f;
+    for( const vehicle_part *pt : lights ) {
+        const vpart_info &vp = pt->info();
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) || vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+            luminance += vp.bonus / iteration;
+            iteration = iteration * 1.1f;
+        }
+    }
+    return luminance;
 }
 
 units::power vehicle::total_accessory_epower() const
@@ -8415,7 +8488,17 @@ std::list<item> vehicle::use_charges( map &here, const vpart_position &vp, const
                                    ? itype_water_faucet
                                    : type;
 
-    if( const std::optional<vpart_reference> tool_vp = vp.part_with_tool( here, veh_tool_type ) ) {
+    // A reserved part is skipped rather than ending the search, so a colocated
+    // unreserved one still supplies the tool.
+    std::optional<vpart_reference> tool_vp;
+    for( const vpart_tool_source &src_tool : vp.get_tools_with_sources( here ) ) {
+        if( src_tool.tool.typeId() == veh_tool_type &&
+            !get_craft_reservations().vehicle_part_reserved( src_tool.part_base_uid ) ) {
+            tool_vp.emplace( vp.vehicle(), src_tool.part_index );
+            break;
+        }
+    }
+    if( tool_vp ) {
         const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
         // use the tool's ammo charges
         const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
@@ -8433,8 +8516,9 @@ std::list<item> vehicle::use_charges( map &here, const vpart_position &vp, const
     }
 
     if( const std::optional<vpart_reference> cargo_vp = vp.cargo() ) {
-        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub( here ), filter,
-                              in_tools );
+        const vehicle_cursor cur( cargo_vp->vehicle(), cargo_vp->part_index() );
+        std::list<item> tmp = cargo_vp->items().use_charges( type, quantity, vp.pos_bub( here ),
+                              cur, filter, in_tools );
         ret.splice( ret.end(), tmp );
         if( quantity <= 0 ) {
             return ret;

@@ -1,13 +1,13 @@
 [
   {
-    "id": [ "TALK_FRIEND", "TALK_FRIEND_Liam", "TALK_FRIEND_Luo" ],
+    "id": [ "TALK_FRIEND_FOLLOWER_CAST_SPELL" ],
     "//": "Based on their respective abilities, dreamers produce more dross than dreamwalkers.",
     "//2": "This is why they gain experience for the spell and for deduction, like player dreamers.",
     "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
       {
-        "text": "[Ask them to produce dreamdross]",
+        "text": "You could produce some dreamdross?",
         "topic": "TALK_PRODUCE_DREAMDROSS",
         "//": "Based on the dreamer spell.  That's why it costs mana and has no cooldown.",
         "condition": { "and": [ { "npc_has_trait": "DREAMER" }, { "math": [ "n_val('mana') >= 1000" ] } ] },
@@ -80,7 +80,7 @@
   {
     "id": "TALK_PRODUCE_DREAMDROSS",
     "type": "talk_topic",
-    "dynamic_line": "Here's some dreamdross as you asked.",
+    "dynamic_line": "*<npc_name> cups <mypronoun> hands and closes <mypronoun> eyes, and over a few seconds, several fragments of shining metal slowly appear in a soft shimmering light.  <mypronoun> hands them to you.",
     "responses": [
       {
         "text": "[Ask them to produce more dreamdross]",

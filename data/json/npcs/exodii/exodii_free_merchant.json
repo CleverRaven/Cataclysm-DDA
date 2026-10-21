@@ -90,7 +90,7 @@
       },
       "no": {
         "u_has_trait": "EXODII_CYBERFRAME_GENERIC",
-        "yes": [ "Ah, an Exodii?  Welcome…", "Any Exodii?  Here to trade, I hope?", "Safe travels, Exodii." ],
+        "yes": [ "Ah, an Exodii?  Welcome…", "An Exodii?  Here to trade, I hope?", "Safe travels, Exodii." ],
         "no": [ "Welcome…", "Here to trade, I hope?", "Safe travels, scavenger." ]
       }
     },

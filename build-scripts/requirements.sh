@@ -80,20 +80,9 @@ if [ -n "${MXE_TARGET}" ]; then
   export CXX="$COMPILER"
   export CCACHE=1
 
-  set +e
-  retry=0
-  until [[ "$retry" -ge 5 ]]; do
-    curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz && shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256 && break
-    retry=$((retry+1))
-    rm -f SDL2-devel-2.26.2-mingw.tar.gz
-    sleep 10
-  done
-  if [[ "$retry" -ge 5 ]]; then
-    echo "Error downloading or checksum failed for SDL2-devel-2.26.2-mingw.tar.gz"
-    exit 1
-  fi
-  set -e
-  sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C ${MXE_DIR}/usr/${MXE_TARGET} --strip-components=2 SDL2-2.26.2/x86_64-w64-mingw32
+  # The SDL2 development package this used to fetch is gone. MXE does package
+  # sdl3, sdl3_image and sdl3_ttf, but no sdl3_mixer, and nobody has tried a
+  # tiles cross-build on them yet. The toolchain setup above is kept as it was.
 
   set +e
   retry=0
@@ -112,7 +101,7 @@ if [ -n "${MXE_TARGET}" ]; then
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache parallel
+  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl3 sdl3_image sdl3_ttf sdl3_mixer gettext ncurses ccache parallel
 fi
 
 if [[ "$NATIVE" == "android" ]]; then

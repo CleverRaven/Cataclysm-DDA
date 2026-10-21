@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PORTAL_STORM_MANA_MUTATOR",
+    "recurrence": [ "5 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+        },
+        { "u_has_trait": "perk_portal_storm_mutator_mana" },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+        "u_is_outside",
+        { "x_in_y_chance": { "x": 1, "y": 3 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_mana" } },
+    "effect": [
+      { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
+      { "math": [ "u_vitamin('mutagen_manatouched') += 2500" ] },
+      { "math": [ "u_vitamin('mutagen') += 1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_manatouched') -= 2500" ] },
+      { "math": [ "u_vitamin('mutagen') -= 1000" ] }
+    ]
+  }
+]

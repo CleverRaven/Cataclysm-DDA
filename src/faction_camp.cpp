@@ -47,7 +47,6 @@
 #include "iexamine.h"
 #include "input_context.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_components.h"
@@ -61,6 +60,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
@@ -92,6 +92,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
@@ -100,6 +101,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -474,6 +476,17 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
     }
 }
 
+// blueprint name, then each chosen argument's name in parentheses
+static std::string upgrade_mission_name( const mission_id &miss_id, const translation &bldg_name )
+{
+    std::string result = mission_ui_activity_of( miss_id ) + bldg_name;
+    const recipe &rec = *recipe_id( miss_id.parameters );
+    for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
+        result += string_format( " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
+    }
+    return result;
+}
+
 static std::map<std::string, comp_list> companion_per_recipe_building_type( comp_list &npc_list )
 {
     std::map<std::string, comp_list> result;
@@ -820,6 +833,8 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                     entry, avail );
         }
         // Generate upgrade missions for expansions
+        // no inventory-backed item or power changes until this block ends, so query caches hold
+        temp_crafting_inventory::query_cache_scope cache_scope;
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
 
         std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
@@ -832,7 +847,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
             comp_list npc_list = get_mission_workers( miss_id );
 
             if( npc_list.empty() ) {
-                std::string display_name = name_display_of( miss_id );
+                std::string display_name = upgrade_mission_name( miss_id, upgrade.name );
                 const recipe &making = *recipe_id( miss_id.parameters );
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
@@ -1501,7 +1516,7 @@ void basecamp::choose_new_leader()
             get_player_character().set_value( var_timer_time_of_last_succession, current_time_int );
             return;
         }
-        popup( _( "%1$s wins the election with a popularity of %2$s!  The runner-up had a popularity of %3$s." ),
+        popup( _( "%1$s wins the election with a popularity of %2$d!  The runner-up had a popularity of %3$d." ),
                elected->get_name(), followers.at( 0 ).second, followers.at( 1 ).second );
         get_avatar().control_npc( *elected, false );
     }
@@ -1530,8 +1545,8 @@ void basecamp::player_eats_meal()
         add_msg( _( "There's only one meal left.  Guess that's dinner!" ) );
         kcal_to_eat = food_available;
     }
-    nutrients dinner = camp_food_supply( -kcal_to_eat );
-    feed_workers( you, dinner, true );
+    camp_food_portion dinner = camp_food_supply( -kcal_to_eat );
+    feed_workers( you, dinner, camp_meal::personal );
 }
 
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
@@ -1811,7 +1826,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration total_
         if( must_feed ) {
             // TODO update spent food after assigning a specific worker to the mission and recalculating travel time
             feed_workers( *comp.get()->as_character(), camp_food_supply( total_time, exertion_level,
-                          travel_time ) );
+                          travel_time ), camp_meal::mission_cost );
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
@@ -1901,7 +1916,8 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             for( npc_ptr &comp : result ) {
                 work_party.emplace_back( *comp.get()->as_character() );
             }
-            feed_workers( work_party, camp_food_supply( work_days * result.size(), making.exertion_level() ) );
+            feed_workers( work_party, camp_food_supply( work_days * result.size(), making.exertion_level() ),
+                          camp_meal::mission_cost );
         }
         return result;
     }
@@ -1924,8 +1940,8 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     const requirement_data &reqs = bld_reqs.consolidated_reqs;
 
     //Stop upgrade if you don't have materials
-    if( reqs.can_make_with_inventory( _inv, making.get_component_filter(), 1, craft_flags::none,
-                                      false ) ) {
+    if( reqs.can_make_with_inventory( nullptr, _inv, making.get_component_filter(), 1,
+                                      craft_flags::none, false ) ) {
         bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, miss_id.mapgen_args, 1, *this );
@@ -2697,7 +2713,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
     if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                    travel_time, dist, trips, need_food ) ) ) {
         return;
-    } else if( !making.deduped_requirements().can_make_with_inventory( _inv,
+    } else if( !making.deduped_requirements().can_make_with_inventory( nullptr, _inv,
                making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
         popup( _( "You don't have the material to build the fortification." ) );
         return;
@@ -3414,10 +3430,10 @@ void basecamp::start_crafting( const mission_id &miss_id )
         components.consume_components();
         item_components used = components.consumed_components();
         for( const item &results : making->create_results( num_to_make, &used ) ) {
-            comp->companion_mission_inv.add_item( results );
+            comp->companion_mission_inv.insert( results );
         }
         for( const item &byproducts : making->create_byproducts( num_to_make ) ) {
-            comp->companion_mission_inv.add_item( byproducts );
+            comp->companion_mission_inv.insert( byproducts );
         }
     }
 }
@@ -3447,7 +3463,11 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
     std::set<std::string> plant_names;
     std::vector<item *> seed_inv;
     if( comp ) {
-        seed_inv = comp->companion_mission_inv.items_with( farm_valid_seed );
+        for( item &it : comp->companion_mission_inv ) {
+            if( farm_valid_seed( it ) ) {
+                seed_inv.push_back( &it );
+            }
+        }
     }
 
     // farm_map is what the area actually looks like
@@ -3538,7 +3558,14 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
                         farm_map.add_item_or_charges( pos, used_seed.front() );
                         farm_map.set( pos, ter_t_dirt, furn_f_plant_seed );
                         if( !tmp_seed->count_by_charges() ) {
-                            comp->companion_mission_inv.remove_item( tmp_seed );
+                            // remove_item
+                            for( auto iter = comp->companion_mission_inv.begin(); iter != comp->companion_mission_inv.end(); ) {
+                                if( tmp_seed == &*iter ) {
+                                    iter = comp->companion_mission_inv.erase( iter );
+                                } else {
+                                    ++iter;
+                                }
+                            }
                         }
                     }
                 }
@@ -3720,11 +3747,9 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
     if( !cancel ) {
-        for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-            for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
-                if( !it.count_by_charges() || it.charges > 0 ) {
-                    place_results( it );
-                }
+        for( const item &it : comp.companion_mission_inv ) {
+            if( !it.count_by_charges() || it.charges > 0 ) {
+                place_results( it );
             }
         }
     }
@@ -3735,7 +3760,9 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     validate_assignees();
 
     // Missions that are not fixed_time can try to draw more food than is in the food supply
-    feed_workers( comp, camp_food_supply( -need_food ) );
+    if( need_food > 0 ) {
+        feed_workers( comp, camp_food_supply( -need_food ), camp_meal::mission_cost );
+    }
     if( has_water() ) {
         comp.set_thirst( 0 );
     }
@@ -4570,13 +4597,12 @@ bool basecamp::farm_return( const mission_id &miss_id, const point_rel_omt &dir 
 
     Character &player_character = get_player_character();
     //Give any seeds the NPC didn't use back to you.
-    for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
-        for( const item &it : comp->companion_mission_inv.const_stack( i ) ) {
-            if( it.charges > 0 ) {
-                player_character.i_add( it );
-            }
+    for( const item &it : comp->companion_mission_inv ) {
+        if( it.charges > 0 ) {
+            player_character.i_add( it );
         }
     }
+
     finish_return( *comp, true, msg, skill_survival.str(), 2 );
     return true;
 }
@@ -4639,7 +4665,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
                                                  max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
-                                _inv, making.get_component_filter(), max_batch + batch_size );
+                                nullptr, _inv, making.get_component_filter(), max_batch + batch_size );
             if( can_make && fac()->food_supply().kcal() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -4713,6 +4739,11 @@ void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &gr
 {
     for( const MonsterGroupResult &monster : group ) {
         const mtype_id target = monster.id;
+
+        // This prevents followers from bringing back human corpses if a null is rolled on the hunting mongroups
+        if( target == mtype_id::NULL_ID() ) {
+            continue;
+        }
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
             int num_to_spawn = monster.pack_size;
@@ -4755,7 +4786,7 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
                 if( bash ) {
                     for( const item &itm : item_group::items_from( ter_tgt.bash->drop_group,
                             calendar::turn ) ) {
-                        comp.companion_mission_inv.push_back( itm );
+                        comp.companion_mission_inv.insert( itm );
                     }
                     harvested++;
                     target_bay.ter_set( p, ter_tgt.bash->ter_set );
@@ -4851,7 +4882,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                 total_num += 1;
                 if( take && x_in_y( chance, 100 ) ) {
                     if( comp ) {
-                        comp->companion_mission_inv.push_back( i );
+                        comp->companion_mission_inv.insert( i );
                     }
                     harvested_m += i.weight( true );
                     harvested_v += i.volume( true );
@@ -4955,10 +4986,10 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
         }
 
         if( split_item.is_null() ) {
-            comp.companion_mission_inv.add_item( *i );
+            comp.companion_mission_inv.insert( *i );
             target_bay.i_rem( relay_site_stash, i );
         } else {
-            comp.companion_mission_inv.add_item( split_item );
+            comp.companion_mission_inv.insert( split_item );
         }
     }
 
@@ -5279,8 +5310,8 @@ std::string basecamp::craft_description( const recipe_id &itm )
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
     const requirement_data &req = making.simple_requirements();
-    auto tools = req.get_folded_tools_list( pane, c_white, _inv, 1 );
-    auto comps = req.get_folded_components_list( pane, c_white, _inv,
+    auto tools = req.get_folded_tools_list( nullptr, pane, c_white, _inv, 1 );
+    auto comps = req.get_folded_components_list( nullptr, pane, c_white, _inv,
                  making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
@@ -5429,14 +5460,15 @@ int basecamp::camp_food_supply_days( float exertion_level ) const
     return fac()->food_supply().kcal() / time_to_food( 24_hours, exertion_level );
 }
 
-nutrients basecamp::camp_food_supply( nutrients change )
+camp_food_portion basecamp::camp_food_supply( nutrients change )
 {
     if( !fac()->consumes_food ) {
-        return change;
+        // larder doesn't shrink, but portion is still served
+        return camp_food_portion{ { { calendar::turn_zero, -change } } };
     }
     if( change.calories >= 0 ) {
         debugmsg( "camp_food_supply cannot add to stockpile" );
-        return change;
+        return camp_food_portion();
     }
     if( change.vitamins().empty() ) {
         // We've been passed a raw kcal value, we should also consume a proportional amount of vitamins
@@ -5451,7 +5483,11 @@ nutrients basecamp::camp_food_supply( nutrients change )
     }
 
     // change is negative, so flip the sign
-    nutrients left = fac()->consume_food_supply( -change );
+    const nutrients asked = -change;
+    camp_food_portion taken = fac()->consume_food_supply( asked );
+    nutrients left = asked;
+    left -= taken.total();
+    left.ensure_positive();
     if( left.calories >= 0 ) {
         //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
         faction *yours = get_player_character().get_faction();
@@ -5462,11 +5498,17 @@ nutrients basecamp::camp_food_supply( nutrients change )
             yours->trusts_u -= left.kcal() / 625;
         }
     }
-    // food consumed
-    return change - left;
+    return taken;
 }
 
-nutrients basecamp::camp_food_supply( int change )
+void basecamp::return_food_supply( const camp_food_portion &portion )
+{
+    if( fac()->consumes_food && !portion.by_expiry.empty() ) {
+        fac()->add_to_food_supply( portion.by_expiry );
+    }
+}
+
+camp_food_portion basecamp::camp_food_supply( int change )
 {
     nutrients added;
     // Kcal to calories
@@ -5474,65 +5516,86 @@ nutrients basecamp::camp_food_supply( int change )
     return camp_food_supply( added );
 }
 
-nutrients basecamp::camp_food_supply( const time_duration &total_time, float exertion_level,
-                                      const time_duration &travel_time )
+camp_food_portion basecamp::camp_food_supply( const time_duration &total_time,
+        float exertion_level, const time_duration &travel_time )
 {
     return camp_food_supply( -time_to_food( total_time, exertion_level, travel_time ) );
 }
 
-void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
-                             nutrients food, bool is_player_meal )
+int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
+                            camp_food_portion food, const camp_meal meal )
 {
     const int num_workers = workers.size();
     if( num_workers == 0 ) {
         debugmsg( "feed_workers called without any workers to feed!" );
-        return;
+        return 0;
     }
-    if( !is_player_meal && get_option<bool>( "NO_NPC_FOOD" ) ) {
-        return;
-    }
+    const bool refund = meal == camp_meal::personal;
+    const bool npcs_eat = !get_option<bool>( "NO_NPC_FOOD" );
 
-    // Split the food into equal sized portions.
-    food /= num_workers;
+    int delivered = 0;
+    int unserved = num_workers;
     for( const auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
+        const camp_food_portion share = food.take_share( unserved );
+        unserved--;
+        const auto not_eaten = [&]() {
+            if( refund ) {
+                return_food_supply( share );
+            }
+        };
+        if( worker.is_npc() && !npcs_eat ) {
+            not_eaten();
+            continue;
+        }
         if( !allowed_access_by( worker ) ) {
             debugmsg( "Character %s improperly tried to access food stores at camp %s, please report this error.",
                       worker.disp_name(), name );
         }
-        item food_item = make_fake_food( food );
+        item food_item = make_fake_food( share.total() );
         // Handle allergies and other stuff
         bool query_player = !worker.is_npc();
         const ret_val<edible_rating> rating = worker.will_eat( food_item, query_player );
         switch( rating.value() ) {
-            case EDIBLE:
+            case EDIBLE: {
+                const int kcal = worker.compute_effective_nutrients( food_item ).kcal();
                 // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
                 // item be consumed immediately.
-                worker.consume( food_item );
-                worker.update_stomach( calendar::turn, calendar::turn ); //Handles setting hunger appropriately
+                if( worker.consume( food_item ) == trinary::ALL ) {
+                    worker.update_stomach( calendar::turn, calendar::turn ); //Handles setting hunger appropriately
+                    delivered += kcal;
+                } else {
+                    not_eaten();
+                }
                 break;
+            }
             case TOO_FULL:
-                worker.add_msg_player_or_npc( m_neutral,
-                                              _( "You are too full to eat right now, and put the meal back into storage." ),
-                                              _( "<npcname> is too full to eat right now, and puts the meal back into storage." ) );
-                camp_food_supply( food );
+                if( refund ) {
+                    worker.add_msg_player_or_npc( m_neutral,
+                                                  _( "You are too full to eat right now, and put the meal back into storage." ),
+                                                  _( "<npcname> is too full to eat right now, and puts the meal back into storage." ) );
+                } else {
+                    worker.add_msg_player_or_npc( m_neutral, _( "You are too full to eat right now." ),
+                                                  _( "<npcname> is too full to eat right now." ) );
+                }
+                not_eaten();
                 break;
             case INEDIBLE:
             case INEDIBLE_MUTATION:
                 debugmsg( "Always-edible food somehow inedible, please report this error." );
-                camp_food_supply( food );
+                not_eaten();
                 break;
             case ALLERGY:
                 worker.add_msg_if_npc( m_bad,
                                        _( "%s takes one look at the food and declines, explaining they're allergic." ),
                                        worker.get_name() );
-                camp_food_supply( food );
+                not_eaten();
                 break;
             case ALLERGY_WEAK:
                 worker.add_msg_if_npc( m_bad,
                                        _( "%s takes a bite but spits it out.  It seems something in the food disagrees with them." ),
                                        worker.get_name() );
-                camp_food_supply( food );
+                not_eaten();
                 break;
             case CANNIBALISM:
                 worker.add_msg_if_npc( m_bad,
@@ -5541,24 +5604,40 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
                 if( worker.is_npc() ) {
                     worker.as_npc()->mutiny();
                 }
-                // Food specifically does not go back in the larder.
+                not_eaten();
+                break;
+            case NAUSEA:
+                if( refund ) {
+                    worker.add_msg_player_or_npc( m_bad,
+                                                  _( "You feel too sick to eat right now, and put the meal back into storage." ),
+                                                  _( "<npcname> feels too sick to eat right now, and puts the meal back into storage." ) );
+                } else {
+                    worker.add_msg_player_or_npc( m_bad, _( "You feel too sick to eat right now." ),
+                                                  _( "<npcname> feels too sick to eat right now." ) );
+                }
+                not_eaten();
                 break;
             case PARASITES:
             // None of these should ever happen.
             case ROTTEN:
-            case NAUSEA:
             case NO_TOOL:
                 debugmsg( "Unexpected food condition encountered in camp larder" );
+                not_eaten();
                 break;
         }
     }
+    // shares are whole kcal; what is under a kcal is left over
+    if( refund ) {
+        return_food_supply( food );
+    }
+    return delivered;
 }
 
-void basecamp::feed_workers( Character &worker, nutrients food, bool is_player_meal )
+int basecamp::feed_workers( Character &worker, camp_food_portion food, const camp_meal meal )
 {
     std::vector<std::reference_wrapper <Character>> work_party;
     work_party.emplace_back( worker );
-    feed_workers( work_party, std::move( food ), is_player_meal );
+    return feed_workers( work_party, std::move( food ), meal );
 }
 
 int basecamp::time_to_food( time_duration total_time, float work_exertion_level,
@@ -5658,19 +5737,21 @@ static void add_consumed_nutrients( std::map<time_point, nutrients> &into, time_
 // returns success if the item should be removed
 // Checks the contents of the item for nutrients, and removes ones with nutrients
 // nutrients gained from this item and it's contents are the value of the ret_val
-static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *const container,
+static ret_val<std::map<time_point, nutrients>> nutrients_from( item_location it,
+        item *const container,
         bool distribute_vitamins )
 {
     // nutrients consumed and when they will rot
     std::map<time_point, nutrients> consumed;
-    if( it.is_food_container() ) {
-        std::vector<item *> to_remove;
-        it.visit_items( [&]( item * content, item * const container ) {
+    if( it->is_food_container() ) {
+        std::vector<item_location> to_remove;
+        it.visit_items( [&]( item_location content ) {
             std::optional<nutrients> from_item = nutrients_if_distributable( *content, distribute_vitamins );
             if( from_item.has_value() ) {
                 // we perform a magic act here and remove the item that's preserving it while keeping it preserved
                 to_remove.push_back( content );
-                add_consumed_nutrients( consumed, rot_time( *content, container ), *from_item );
+                add_consumed_nutrients( consumed, rot_time( *content,
+                                        content.has_parent() ? content.parent_item().get_item() : container ), *from_item );
                 return VisitResponse::SKIP;
             }
             return VisitResponse::NEXT;
@@ -5679,17 +5760,17 @@ static ret_val<std::map<time_point, nutrients>> nutrients_from( item &it, item *
         if( to_remove.empty() ) {
             return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
         }
-        for( item *const food : to_remove ) {
+        for( item_location food : to_remove ) {
             it.remove_item( *food );
         }
-        it.on_contents_changed();
+        it->on_contents_changed();
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    std::optional<nutrients> from_this = nutrients_if_distributable( it, distribute_vitamins );
+    std::optional<nutrients> from_this = nutrients_if_distributable( *it, distribute_vitamins );
     if( !from_this.has_value() ) {
         return ret_val<std::map<time_point, nutrients>>::make_failure( consumed );
     }
-    add_consumed_nutrients( consumed, rot_time( it, container ), *from_this );
+    add_consumed_nutrients( consumed, rot_time( *it, container ), *from_this );
     return ret_val<std::map<time_point, nutrients>>::make_success( consumed );
 }
 
@@ -5728,8 +5809,9 @@ bool basecamp::distribute_food( bool player_command )
         const tripoint_bub_ms p_food_stock = here.get_bub( p_food_stock_abs );
         map_stack items = here.i_at( p_food_stock );
         for( auto iter = items.begin(); iter != items.end(); ) {
-            ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                  distribute_vitamins );
+            ret_val<std::map<time_point, nutrients>> ret =
+                    nutrients_from( item_location( map_cursor( p_food_stock ), &*iter ), nullptr,
+                                    distribute_vitamins );
             if( ret.success() ) {
                 iter = items.erase( iter );
             } else {
@@ -5743,8 +5825,8 @@ bool basecamp::distribute_food( bool player_command )
         if( const std::optional<vpart_reference> ovp = here.veh_at( p_food_stock ).cargo() ) {
             vehicle_stack items = ovp->items();
             for( auto iter = items.begin(); iter != items.end(); ) {
-                ret_val<std::map<time_point, nutrients>> ret = nutrients_from( *iter, nullptr,
-                                                      distribute_vitamins );
+                ret_val<std::map<time_point, nutrients>> ret = nutrients_from( item_location( vehicle_cursor(
+                        ovp->vehicle(), ovp->part_index() ), &*iter ), nullptr, distribute_vitamins );
                 if( ret.success() ) {
                     iter = items.erase( iter );
                 } else {
@@ -5826,41 +5908,17 @@ nutrients faction_template::add_to_food_supply( const std::map<time_point, nutri
     }
     // track vitamins/calories added
     nutrients accumulator;
-    // iteration over a map is lowest key -> highest key, the same direction of the list
+    // both sorted by expiry, so one pass merges
     auto list_iter = _food_supply.begin();
     for( const std::pair<const time_point, nutrients> &entry : added ) {
-        // on the exact right entry
-        if( entry.first == list_iter->first ) {
-            list_iter->second += entry.second;
-        }
-        // behind the entry we're looking for
-        while( entry.first > list_iter->first ) {
+        while( list_iter != _food_supply.end() && list_iter->first < entry.first ) {
             ++list_iter;
-            // end of list
-            if( list_iter == _food_supply.end() ) {
-                list_iter = _food_supply.emplace( list_iter, entry.first, entry.second );
-                continue;
-            }
-            // entry we're on is still behind this
-            if( entry.first > list_iter->first ) {
-                continue;
-            }
-            // we found an entry for this existing
-            if( entry.first == list_iter->first ) {
-                list_iter->second += entry.second;
-            }
-            // we've gone far enough that we found an entry further in the future, add behind it
-            if( list_iter->first > entry.first ) {
-                list_iter = _food_supply.emplace( list_iter, entry.first, entry.second );
-            }
-            break;
         }
-        // the next entry is further in the future, add behind it
-        if( entry.first < list_iter->first ) {
+        if( list_iter != _food_supply.end() && list_iter->first == entry.first ) {
+            list_iter->second += entry.second;
+        } else {
             list_iter = _food_supply.emplace( list_iter, entry.first, entry.second );
         }
-        // next list entry, we've inserted into this one
-        ++list_iter;
         accumulator += entry.second;
     }
     return accumulator;
@@ -5880,21 +5938,35 @@ static nutrients consume_left_behind( nutrients &consumer, const nutrients &sour
     return left;
 }
 
-nutrients faction_template::consume_food_supply( const nutrients &consumed )
+// moves as much of to_supply as the bucket holds into the portion
+static void take_from_bucket( nutrients &to_supply, std::pair<time_point, nutrients> &bucket,
+                              camp_food_portion &taken )
+{
+    const nutrients before = bucket.second;
+    bucket.second = consume_left_behind( to_supply, before );
+    nutrients part = before;
+    part -= bucket.second;
+    part.ensure_positive();
+    if( part.calories > 0 || !part.vitamins().empty() ) {
+        taken.by_expiry[bucket.first] += part;
+    }
+}
+
+camp_food_portion faction_template::consume_food_supply( const nutrients &consumed )
 {
     prune_food_supply();
     // the nutrients we need to supply
     nutrients to_supply = consumed;
+    camp_food_portion taken;
 
     // only non-perishable food
     if( _food_supply.size() < 2 ) {
         if( _food_supply.empty() ) {
             debugmsg( "Consuming food but no food in store??" );
-            return nutrients();
+            return taken;
         }
-        _food_supply.front().second = consume_left_behind( to_supply, _food_supply.front().second );
-        // whatever remains was not consumed
-        return to_supply;
+        take_from_bucket( to_supply, _food_supply.front(), taken );
+        return taken;
     }
     for( auto it = _food_supply.begin(); it != _food_supply.end(); ) {
         // start by skipping the non-perishable food
@@ -5902,7 +5974,7 @@ nutrients faction_template::consume_food_supply( const nutrients &consumed )
             ++it;
             continue;
         }
-        it->second = consume_left_behind( to_supply, it->second );
+        take_from_bucket( to_supply, *it, taken );
         // remove consumed entries
         if( it->second.calories == 0 && it->second.vitamins().empty() ) {
             it = _food_supply.erase( it );
@@ -5916,9 +5988,37 @@ nutrients faction_template::consume_food_supply( const nutrients &consumed )
     // we consumed everything perishable, consume non-perishable
     if( to_supply.calories > 0 ) {
         // eat everything here
-        _food_supply.front().second = consume_left_behind( to_supply, _food_supply.front().second );
+        take_from_bucket( to_supply, _food_supply.front(), taken );
     }
-    return to_supply;
+    return taken;
+}
+
+nutrients camp_food_portion::total() const
+{
+    nutrients sum;
+    for( const std::pair<const time_point, nutrients> &part : by_expiry ) {
+        sum += part.second;
+    }
+    return sum;
+}
+
+camp_food_portion camp_food_portion::take_share( int eaters )
+{
+    camp_food_portion share;
+    for( auto it = by_expiry.begin(); it != by_expiry.end(); ) {
+        nutrients part = it->second / eaters;
+        // a stomach takes whole kcal
+        part.calories = divide_round_up<int64_t>( it->second.kcal(), eaters ) * 1000;
+        it->second -= part;
+        it->second.ensure_positive();
+        share.by_expiry.emplace( it->first, part );
+        if( it->second.calories == 0 && it->second.vitamins().empty() ) {
+            it = by_expiry.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    return share;
 }
 
 void faction_template::empty_food_supply()
@@ -6002,14 +6102,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
             if( upgrade_it == upgrades.end() ) {
                 return mission_ui_activity_of( miss_id ) + _( "<No longer valid construction>" );
             }
-            std::string result = mission_ui_activity_of( miss_id ) + upgrade_it->name;
-            const recipe &rec = *recipe_id( upgrade_it->bldg );
-            for( const std::pair<const std::string, cata_variant> &arg : miss_id.mapgen_args.map ) {
-                result +=
-                    string_format(
-                        " (%s)", rec.blueprint_parameter_ui_string( arg.first, arg.second ) );
-            }
-            return result;
+            return upgrade_mission_name( miss_id, upgrade_it->name );
         }
         case Camp_Crafting: {
             const std::string dir_id = base_camps::all_directions.at( miss_id.dir.value() ).id;

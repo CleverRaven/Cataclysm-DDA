@@ -1,0 +1,22 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_abyssal_coffee",
+    "name": [ "A W A K E" ],
+    "desc": [ "Wow, that coffee was strong." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": -1 } ] } ],
+    "dur_add_perc": 10,
+    "base_mods": {
+      "sleepiness_min": [ -1 ],
+      "sleepiness_min_val": [ 0 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_chance": [ 4 ],
+      "heart_rate_tick": [ 120 ],
+      "heart_rate_min": [ 2 ],
+      "heart_rate_chance": [ 5 ],
+      "heart_rate_max_val": [ 150 ]
+    },
+    "flags": [ "CANNOT_SLEEP", "CANNOT_GAIN_WEARINESS" ]
+  }
+]

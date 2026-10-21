@@ -169,6 +169,12 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"You're safe now, I've found you.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"You mean it's not just parroting us?\"",
     "volume": 20
@@ -3722,7 +3728,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "\"BASTARD!\"",
     "volume": 12
@@ -3750,7 +3761,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "loud grunting.",
     "volume": 10
@@ -3778,7 +3794,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "\"BITCH!\"",
     "volume": 12
@@ -3806,7 +3827,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "\"FUCK!\"",
     "volume": 12
@@ -3834,7 +3860,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "loud screaming.",
     "volume": 12
@@ -3862,7 +3893,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "\"DIE!\"",
     "volume": 12
@@ -3890,7 +3926,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "heavy breathing.",
     "volume": 5
@@ -3918,7 +3959,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "mutterings.",
     "volume": 5
@@ -3946,7 +3992,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "garbled speech.",
     "volume": 8
@@ -3974,7 +4025,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "incoherent yelling.",
     "volume": 12
@@ -4002,7 +4058,12 @@
       "mon_feral_marine_bayonet",
       "mon_feral_officer",
       "mon_feral_cop",
-      "mon_feral_prisoner"
+      "mon_feral_prisoner",
+      "mon_feral_serum_user_lore",
+      "mon_feral_serum_user_landru",
+      "mon_feral_serum_user_armus",
+      "mon_feral_serum_user_noonien",
+      "mon_feral_serum_user_locutus"
     ],
     "sound": "exasperated screaming.",
     "volume": 12

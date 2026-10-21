@@ -1,0 +1,143 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_PIRATES_LUX_BUFFER",
+    "name": { "str": "Moons' Song Buffer" },
+    "job_description": "buffer",
+    "common": false,
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "group": "Appearance_demographics" },
+      { "trait": "AFS_NPC_CARGO_SPACE" }
+    ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "PIRATE_GRUNT_worn",
+    "carry_override": "PIRATE_GRUNT_carry",
+    "weapon_override": "PIRATE_GRUNT_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
+    ],
+    "shopkeeper_item_group": [ { "group": "pirates_lux_blackmarket", "rigid": true } ]
+  },
+  {
+    "id": "pirates_lux_blackmarket",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_uica_weapon_locker", "count": [ 1, 2 ] },
+      {
+        "item": "afs_military_vest",
+        "faults": [ { "id": [ "afs_fault_armor_worn" ], "chance": 85 } ],
+        "count": [ 2, 3 ]
+      },
+      {
+        "item": "afs_combat_cryo",
+        "faults": [ { "id": [ "afs_fault_armor_worn" ], "chance": 85 } ],
+        "count": [ 1, 2 ]
+      },
+      { "item": "afs_raketa_shotgun" },
+      { "group": "afs_augustmoon_guntrader_rare_ammo", "count": [ 1, 2 ], "prob": 35 },
+      { "group": "afs_pirates_lux_trader_rare_gun", "count": [ 1, 2 ], "prob": 35 }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "pirates_lux_smuggler_buffer",
+    "name_suffix": "Buffer",
+    "class": "NC_PIRATES_LUX_BUFFER",
+    "attitude": 0,
+    "mission": "SHOPKEEP",
+    "chat": "TALK_MS_GROUND_QUARTERMASTER",
+    "snip_bye": "Good, now fuck off.",
+    "faction": "pirates_lux"
+  },
+  {
+    "id": [ "TALK_MS_GROUND_QUARTERMASTER" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You find the Quartermaster lazily reclined against a stack of intermodal crates.",
+    "responses": [
+      {
+        "text": "[ Make him notice you ]",
+        "trial": { "type": "CONDITION", "condition": { "u_has_profession": "afs_han" } },
+        "success": { "topic": "TALK_MS_GROUND_QUARTERMASTER_HAN" },
+        "failure": { "topic": "TALK_MS_GROUND_QUARTERMASTER_OTHERS" }
+      },
+      {
+        "text": "[ You feel this guy hates you, better let him be ]",
+        "topic": "TALK_MS_GROUND_QUARTERMASTER_HAN",
+        "condition": { "and": [ { "math": [ "u_skill('speech') > 5" ] }, { "u_has_profession": "afs_han" } ] }
+      },
+      { "text": "[ Maybe later ]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_QUARTERMASTER_OTHERS" ],
+    "type": "talk_topic",
+    "dynamic_line": "Alright dirtboots, you got here.  Make it quick.",
+    "responses": [
+      { "text": "Start the deal", "effect": "start_trade", "topic": "TALK_DONE" },
+      { "text": "Give me a second.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_QUARTERMASTER_HAN" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "npc_val": "player_intro" } ],
+      "yes": "What do you want.  Can't you see I'm busy?",
+      "no": "Don't care what the Boss says.  I don't know what's your angle here, and I sure as hell don't like it."
+    },
+    "responses": [
+      {
+        "truefalsetext": {
+          "condition": "u_male",
+          "true": "My angle?  I'm just a helpful kind of guy.",
+          "false": "My angle?  I'm just a helpful kind of gal."
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 50 },
+        "success": { "topic": "TALK_MS_GROUND_QUARTERMASTER_SURE", "opinion": { "trust": 2, "fear": -2 } },
+        "failure": { "topic": "TALK_MS_GROUND_QUARTERMASTER_DONT_LIKE_YOU" },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "player_intro" } ] } }
+      },
+      {
+        "truefalsetext": {
+          "condition": "u_male",
+          "true": "[LIE] My angle?  I'm just a helpful kind of guy.",
+          "false": "[LIE] My angle?  I'm just a helpful kind of gal."
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 50 },
+        "success": { "topic": "TALK_MS_GROUND_QUARTERMASTER_SURE", "opinion": { "trust": 2, "fear": -2 } },
+        "failure": { "topic": "TALK_MS_GROUND_QUARTERMASTER_DONT_LIKE_YOU" },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "player_intro" } ] } }
+      },
+      {
+        "text": "You manage the cargo here?  I'm looking for some hardware.",
+        "topic": "TALK_DONE",
+        "effect": "start_trade",
+        "condition": { "math": [ "n_npc_trust() >= 1" ] }
+      },
+      { "text": "Nevermind me then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_QUARTERMASTER_SURE" ],
+    "type": "talk_topic",
+    "dynamic_line": "Exactly.  Who helps people out these days?",
+    "responses": [ { "text": "…", "topic": "TALK_DONE", "effect": [ { "npc_add_var": "player_intro", "value": "yes" } ] } ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_QUARTERMASTER_DONT_LIKE_YOU" ],
+    "type": "talk_topic",
+    "dynamic_line": "Good, help yourself out of here.",
+    "responses": [ { "text": "Fine.", "topic": "TALK_DONE", "effect": [ { "npc_add_var": "player_intro", "value": "yes" } ] } ]
+  }
+]

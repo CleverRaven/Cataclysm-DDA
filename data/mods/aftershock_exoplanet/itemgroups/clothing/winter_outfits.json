@@ -53,6 +53,17 @@
     ]
   },
   {
+    "id": "afs_frontier_xl_cryo_g",
+    "type": "item_group",
+    "//": "The matching uplift set. Includes suit, mask and possible future accessories",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_frontier_cryo_xl" },
+      { "item": "afs_frontier_cryomask_xl", "prob": 90 },
+      { "item": "afs_heavy_suit_battery_cell", "count": [ 1, 2 ], "prob": 25, "charges": [ 0, 1000 ] }
+    ]
+  },
+  {
     "id": "afs_cryopod_g",
     "type": "item_group",
     "//": "The high tech outfit you get cryo-sepulted in",
@@ -73,7 +84,6 @@
     "subtype": "collection",
     "entries": [
       { "item": "afs_combat_cryo" },
-      { "item": "afs_frontier_cryomask", "prob": 90 },
       { "item": "afs_heavy_suit_battery_cell", "count": [ 1, 2 ], "prob": 25, "charges": [ 0, 1000 ] }
     ]
   }

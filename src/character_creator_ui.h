@@ -14,6 +14,10 @@ const translation CHARACTER_CREATOR_TRAITS_COSMETIC = to_translation( "COSMETIC"
 const translation CHARACTER_CREATOR_TRAITS_POSITIVE = to_translation( "POSITIVE" );
 const translation CHARACTER_CREATOR_TRAITS_NEGATIVE = to_translation( "NEGATIVE" );
 const translation CHARACTER_CREATOR_TRAITS_NEUTRAL = to_translation( "NEUTRAL" );
+const translation CHARACTER_CREATOR_SCENARIOS_FORGIVING = to_translation( "FORGIVING" );
+const translation CHARACTER_CREATOR_SCENARIOS_STANDARD = to_translation( "STANDARD" );
+const translation CHARACTER_CREATOR_SCENARIOS_TOUGH = to_translation( "TOUGH" );
+const translation CHARACTER_CREATOR_SCENARIOS_CHALLENGE = to_translation( "CHALLENGE" );
 
 enum character_creator_tab : int {
     CHARCREATOR_SCENARIO,

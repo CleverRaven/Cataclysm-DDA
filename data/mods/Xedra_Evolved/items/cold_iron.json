@@ -2,7 +2,6 @@
   {
     "id": "cold_iron_ingot",
     "type": "ITEM",
-    "subtypes": [ "AMMO" ],
     "category": "spare_parts",
     "name": { "str": "cold iron ingot" },
     "description": "A five-liter ingot of solid cold iron.",
@@ -12,8 +11,7 @@
     "price_postapoc": "2 USD",
     "material": [ "iron" ],
     "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
+    "color": "dark_gray"
   },
   {
     "id": "cold_iron_arming_sword",

@@ -14,6 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "field_type.h"
+#include "lightmap.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -128,6 +129,10 @@ struct weather_type {
         // what effects are applied to you when you visit this dimension
         // and what protection you may use to counter it
         std::vector<field_effect> passive_effect;
+        // light color tint applied when weather is active.
+        // defaults to no color.
+        light_color_rgb tint_color{};
+        float tint_strength = 0.0f;
         void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;

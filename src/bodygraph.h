@@ -42,6 +42,7 @@ struct bodygraph_info {
     std::pair<int, nc_color> temperature;
     std::string temp_approx;
     int avg_coverage = 0;
+    int avg_env_protection = 0;
     int total_encumbrance = 0;
     int part_hp_cur = 0;
     int part_hp_max = 0;

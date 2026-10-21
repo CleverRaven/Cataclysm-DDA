@@ -118,6 +118,15 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "stairwell",
+    "id": "labyrinth2_stairs",
+    "sym": "<",
+    "color": "white",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_terrain",
     "name": "labyrinthian structure",
     "id": [
       "labyrinth2_scarlet_sea_portal_x0_y0",

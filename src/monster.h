@@ -33,6 +33,7 @@ class JsonObject;
 class JsonOut;
 class effect_source;
 class item;
+class item_location;
 class map;
 enum class mon_trigger : int;
 enum class phase_id : int;
@@ -142,7 +143,7 @@ class monster : public Creature
         std::string name( unsigned int quantity = 1 ) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
-        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        std::string disp_name( bool capitalize_first = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
@@ -207,7 +208,6 @@ class monster : public Creature
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
-        void deserialize( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         // Performs any necessary coordinate updates due to map shift.
         void shift( const point_rel_sm &sm_shift );
@@ -424,6 +424,7 @@ class monster : public Creature
         float get_dodge_base() const override;
 
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
+        int blocks_left = 0; // Remaining blocks
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
@@ -511,6 +512,8 @@ class monster : public Creature
         void hear_sound( const tripoint_bub_ms &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
+        // light the monster gives off by itself, with enchantments
+        float luminance() const;
 
         bool is_electrical() const override;    // true if the monster produces electric radiation
 
@@ -609,7 +612,7 @@ class monster : public Creature
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
          * and to reviving monsters that spawn from a corpse.
          */
-        void init_from_item( item &itm );
+        void init_from_item( item_location loc );
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -675,7 +678,6 @@ class monster : public Creature
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-        void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         void on_effect_int_change( const efftype_id &eid, int intensity,

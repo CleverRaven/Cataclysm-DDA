@@ -5,7 +5,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "eXtra strength aspirin" },
-    "description": "Alchemically altered aspirin.  Take to relieve pain and injury.",
+    "description": "Alchemically altered aspirin.  Take to relieve pain and injury.  Will only reduce injuries to body core, will not extend to limbs.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": "2 cent",

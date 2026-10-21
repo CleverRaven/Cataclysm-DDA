@@ -4,5 +4,11 @@
     "id": "vector_salamander_wing_slap",
     "limbs": [ "salamander_wing_r", "salamander_wing_l" ],
     "contact_area": [ "salamander_wing_subpart_r", "salamander_wing_subpart_l" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "vector_strix_wing_slap",
+    "limbs": [ "wing_strix_r", "wing_strix_l" ],
+    "contact_area": [ "wing_strix_lower_l", "wing_strix_lower_r" ]
   }
 ]

@@ -11,9 +11,9 @@
     "//": "a large pile of trash, made for goblin encampments.",
     "subtype": "collection",
     "items": [
-      { "group": "trash_forest", "prob": 95 },
-      { "group": "trash_forest", "prob": 70 },
-      { "group": "trash_forest", "prob": 25 }
+      { "group": "SUS_trash_forest_no_manmade", "prob": 95 },
+      { "group": "SUS_trash_forest_no_manmade", "prob": 70 },
+      { "group": "SUS_trash_forest_no_manmade", "prob": 25 }
     ]
   },
   {

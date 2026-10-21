@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <optional>
 #include <set>
@@ -25,6 +26,7 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "debug.h"
@@ -445,7 +447,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier && carrier->has_item( *this ) ) {
-        carrier->on_item_acquire( *this );
+        carrier->on_item_acquire( form_loc_recursive( *carrier, *this ) );
     }
 
     item_counter = 0;
@@ -1194,6 +1196,30 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
+nc_color item::get_fault_color( const nc_color base_color ) const
+{
+    fault_severity severity = fault_severity::none;
+    for( const fault_id &fault : faults ) {
+        severity = std::max( severity, fault->severity() );
+        if( severity == fault_severity::critical ) {
+            break;
+        }
+    }
+
+    switch( severity ) {
+        case fault_severity::none:
+            return base_color;
+        case fault_severity::minor:
+            return c_light_red;
+        case fault_severity::major:
+            return red_background( c_black );
+        case fault_severity::critical:
+            return yellow_background( c_yellow );
+        default:
+            return base_color;
+    }
+}
+
 nc_color item::color_in_inventory( const Character *const ch ) const
 {
     const Character &player_character = ch ? *ch : get_player_character();
@@ -1452,10 +1478,11 @@ void item::on_pickup( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
+
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.on_item_acquire( *this );
+    p.on_item_acquire( form_loc_recursive( p, *this ) );
 }
 
 void item::update_inherited_flags()
@@ -1527,20 +1554,35 @@ void item::update_prefix_suffix_flags( const flag_id &f )
     }
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, bool color_faults ) const
 {
-    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname );
+    return tname( quantity, with_prefix ? tname::default_tname : tname::unprefixed_tname,
+                  color_faults );
 }
 
-std::string item::tname( unsigned int quantity, tname::segment_bitset const &segments ) const
+std::string item::tname( unsigned int quantity, const tname::segment_bitset &segments,
+                         bool color_faults ) const
 {
     std::string ret;
+    size_t fault_color_start = 0;
 
     for( tname::segments idx : tname::get_tname_set() ) {
         if( !segments[idx] ) {
             continue;
         }
         ret += tname::print_segment( idx, *this, quantity, segments );
+
+        if( idx == tname::segments::DURABILITY ) {
+            fault_color_start = ret.size();
+        }
+    }
+
+    if( color_faults ) {
+        const nc_color fault_color = get_fault_color( c_white );
+        if( fault_color != c_white ) {
+            ret = ret.substr( 0, fault_color_start ) +
+                  colorize( ret.substr( fault_color_start ), fault_color );
+        }
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -1572,9 +1614,9 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
     }
 }
 
-std::string item::display_name( unsigned int quantity ) const
+std::string item::display_name( unsigned int quantity, bool color_faults ) const
 {
-    std::string name = tname( quantity );
+    std::string name = tname( quantity, tname::default_tname, color_faults );
     std::string sidetxt;
     std::string amt;
     std::string cable;
@@ -3742,7 +3784,16 @@ int item::getlight_emit() const
     return lumint;
 }
 
-bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+static int num_parents( const item_location &node )
+{
+    if( !node.has_parent() ) {
+        return 0;
+    } else {
+        return 1 + num_parents( node.parent_item() );
+    }
+}
+
+bool item::use_amount( item_location self, const itype_id &it, int &quantity, std::list<item> &used,
                        const std::function<bool( const item & )> &filter )
 {
     if( is_null() ) {
@@ -3750,29 +3801,37 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
-    std::vector<item *> removed_items;
-    const std::list<item *> temp_contained_list = all_items_ptr( pocket_type::CONTAINER );
-    std::list<item *> contained_list;
-    // Reverse the list, as it's created from the top down, but we have to remove items
-    // from the bottom up in order for the references to remain valid until used.
-    for( item *contained : temp_contained_list ) {
-        contained_list.emplace_front( contained );
+    std::vector<item_location> removed_items;
+    std::map<int, std::list<item_location>> contained_list; // int is how many parents deep it is
+    self.visit_items(
+    [&]( const item_location & node ) {
+        if( node == self ) {
+            return VisitResponse::NEXT;
+        }
+        contained_list[num_parents( node )].push_back( node );
+        return VisitResponse::NEXT;
     }
-    for( item *contained : contained_list ) {
-        if( contained->use_amount_internal( it, quantity, used, filter ) ) {
-            removed_items.push_back( contained );
+    );
+
+    // we have to remove items from the bottom up in order for the references to remain valid until used.
+    for( auto iter = contained_list.rbegin(); iter != contained_list.rend(); ++iter ) {
+        for( item_location loc : iter->second ) {
+            if( loc->use_amount_internal( it, quantity, used, filter ) ) {
+                removed_items.push_back( loc );
+            }
         }
     }
 
-    for( item *removed : removed_items ) {
+    for( item_location removed : removed_items ) {
         // Handle cases where items are removed but the pocket isn't emptied
-        item *parent = this->find_parent( *removed );
-        for( item_pocket *pocket : parent->get_standard_pockets() ) {
-            if( pocket->has_item( *removed ) ) {
-                pocket->unseal();
+        if( removed.has_parent() ) {
+            for( item_pocket *pocket : removed.parent_item()->get_standard_pockets() ) {
+                if( pocket->has_item( *removed ) ) {
+                    pocket->unseal();
+                }
             }
         }
-        this->remove_item( *removed );
+        removed.remove_item();
     }
 
     if( quantity != old_quantity ) {
@@ -3929,21 +3988,25 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter,
-                        Character *carrier, bool in_tools )
+bool item::use_charges( const item_location &self, const itype_id &what, int &qty,
+                        std::list<item> &used,
+                        const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter, bool in_tools )
 {
-    std::vector<item *> del;
+    std::vector<item_location> del;
 
-    visit_items(
-    [&what, &qty, &used, &pos, &del, &filter, &carrier, &in_tools]( item * e, item * parent ) {
+    self.visit_items(
+    [&what, &qty, &used, &pos, &del, &filter, &in_tools]( item_location e ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
         }
 
         if( !filter( *e ) ) {
-            return VisitResponse::NEXT;
+            // A reserved item hides its whole subtree, matching how the inventory guards
+            // prune roots.  Other filters keep descending.
+            return craft_reservation::contains_reserved( *e )
+                   ? VisitResponse::SKIP
+                   : VisitResponse::NEXT;
         }
 
         if( e->is_tool() || e->is_gun() ) {
@@ -3961,17 +4024,16 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                         return VisitResponse::NEXT;
                     }
                     const int wanted_uses = qty / factor;
-                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, carrier );
+                    const int got_uses = e->consume_tool_uses( wanted_uses, get_map(), pos, e.carrier() );
                     n = got_uses * factor;
-                } else if( carrier ) {
-                    n = e->ammo_consume( qty, pos, carrier );
+                } else if( e.carrier() ) {
+                    n = e->ammo_consume( qty, pos, e.carrier() );
                 } else {
                     n = e->ammo_consume( qty, pos, nullptr );
                 }
 
                 if( n > 0 ) {
-                    item temp( *e );
-                    used.push_back( temp );
+                    used.push_back( *e );
                     qty -= n;
                     return VisitResponse::SKIP;
                 }
@@ -3982,9 +4044,9 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
-                if( parent ) {
-                    parent->contained_where( *e )->on_contents_changed();
-                    parent->on_contents_changed();
+                if( e.has_parent() ) {
+                    e.parent_item()->contained_where( *e )->on_contents_changed();
+                    e.parent_item()->on_contents_changed();
                 }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
@@ -4005,14 +4067,18 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
     } );
 
     bool destroy = false;
-    for( item *e : del ) {
-        if( e == this ) {
+    bool removed = false;
+    for( item_location e : del ) {
+        if( e.get_item() == this ) {
             destroy = true; // cannot remove ourselves...
         } else {
-            remove_item( *e );
+            e.remove_item();
+            removed = true;
         }
     }
-
+    if( !destroy && removed ) {
+        on_contents_changed();
+    }
     return destroy;
 }
 
@@ -5425,6 +5491,88 @@ void item::set_awaiting_collection( bool v )
 {
     cata_assert( craft_data_ );
     craft_data_->awaiting_collection = v;
+}
+
+const std::vector<craft_reservation::binding> &item::get_reservations() const
+{
+    static const std::vector<craft_reservation::binding> none;
+    return craft_data_ ? craft_data_->reservations : none;
+}
+
+void item::set_reservations( std::vector<craft_reservation::binding> b )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservations = std::move( b );
+}
+
+std::optional<tripoint_abs_ms> item::get_reserved_tile() const
+{
+    return craft_data_ ? craft_data_->reserved_tile : std::nullopt;
+}
+
+void item::set_reserved_tile( std::optional<tripoint_abs_ms> tile )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reserved_tile = tile;
+}
+
+int64_t item::reservation_owner_token()
+{
+    cata_assert( craft_data_ );
+    if( craft_data_->reservation_owner == 0 ) {
+        // From the persisted uid counter, so this cannot collide with a restored token.
+        craft_data_->reservation_owner = generate_next_item_uid();
+    }
+    return craft_data_->reservation_owner;
+}
+
+int64_t item::peek_reservation_owner_token() const
+{
+    return craft_data_ ? craft_data_->reservation_owner : 0;
+}
+
+time_point item::get_reservation_expiry() const
+{
+    return craft_data_ ? craft_data_->reservation_expires_at : calendar::before_time_starts;
+}
+
+void item::set_reservation_expiry( time_point t )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_expires_at = t;
+}
+
+uint8_t item::get_reservation_search_attempts() const
+{
+    return craft_data_ ? craft_data_->reservation_search_attempts : 0;
+}
+
+void item::set_reservation_search_attempts( uint8_t n )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_search_attempts = n;
+}
+
+uint64_t item::get_reservation_pool_fingerprint() const
+{
+    return craft_data_ ? craft_data_->reservation_pool_fingerprint : 0;
+}
+
+void item::set_reservation_pool_fingerprint( uint64_t f )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_pool_fingerprint = f;
+}
+
+uint8_t item::get_reservation_pause_reason() const
+{
+    return craft_data_ ? craft_data_->reservation_pause_reason : 0;
+}
+
+void item::set_reservation_pause_reason( uint8_t r )
+{
+    cata_assert( craft_data_ );
+    craft_data_->reservation_pause_reason = r;
 }
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const

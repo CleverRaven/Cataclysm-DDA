@@ -31,6 +31,7 @@
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_l",
+    "bionic_slots": 40,
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -98,6 +99,7 @@
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_r",
+    "bionic_slots": 40,
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -159,6 +161,7 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "similar_bodypart": "hand_l",
+    "bionic_slots": 10,
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [
       "robofac_hand_bionic_basic_wrist_l",
@@ -198,6 +201,7 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "similar_bodypart": "hand_r",
+    "bionic_slots": 10,
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [
       "robofac_hand_bionic_basic_wrist_r",
@@ -232,6 +236,7 @@
     "limb_types": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
     "similar_bodypart": "leg_l",
+    "bionic_slots": 60,
     "side": "left",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -307,6 +312,7 @@
     "limb_types": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.5 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.2 ] ],
     "similar_bodypart": "leg_r",
+    "bionic_slots": 60,
     "side": "right",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -396,6 +402,7 @@
       "robofac_foot_bionic_basic_heel_l"
     ],
     "similar_bodypart": "foot_l",
+    "bionic_slots": 14,
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -437,6 +444,7 @@
       "robofac_foot_bionic_basic_heel_r"
     ],
     "similar_bodypart": "foot_r",
+    "bionic_slots": 14,
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -476,6 +484,7 @@
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_l",
+    "bionic_slots": 40,
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -538,6 +547,7 @@
     "smash_message": "You elbow-smash the %s.",
     "no_power_effect": "no_power_arm",
     "similar_bodypart": "arm_r",
+    "bionic_slots": 40,
     "effects_on_hit": [
       {
         "id": "staggered_character",
@@ -594,6 +604,7 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "similar_bodypart": "hand_l",
+    "bionic_slots": 10,
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [ "hand_bionic_basic_wrist_l", "hand_bionic_basic_palm_l", "hand_bionic_basic_back_l", "hand_bionic_basic_fingers_l" ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
@@ -628,6 +639,7 @@
     "base_hp": 150,
     "drench_capacity": 300,
     "similar_bodypart": "hand_r",
+    "bionic_slots": 10,
     "smash_message": "You smash the %s with your fist.",
     "sub_parts": [ "hand_bionic_basic_wrist_r", "hand_bionic_basic_palm_r", "hand_bionic_basic_back_r", "hand_bionic_basic_fingers_r" ],
     "flags": [ "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
@@ -657,6 +669,7 @@
     "limb_types": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.6 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.5 ] ],
     "similar_bodypart": "leg_l",
+    "bionic_slots": 60,
     "side": "left",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -732,6 +745,7 @@
     "limb_types": "leg",
     "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "move_speed", 0.6 ], [ "swim", 0.15 ], [ "block", 1 ], [ "crawl", 0.5 ] ],
     "similar_bodypart": "leg_r",
+    "bionic_slots": 60,
     "side": "right",
     "hot_morale_mod": 0.0,
     "cold_morale_mod": 0.0,
@@ -821,6 +835,7 @@
       "foot_bionic_basic_heel_l"
     ],
     "similar_bodypart": "foot_l",
+    "bionic_slots": 14,
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -862,6 +877,7 @@
       "foot_bionic_basic_heel_r"
     ],
     "similar_bodypart": "foot_r",
+    "bionic_slots": 14,
     "flags": [ "LIMB_LOWER", "IGNORE_TEMP", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 1000,
     "feels_discomfort": false,
@@ -897,6 +913,7 @@
     "drench_capacity": 1300,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "similar_bodypart": "torso",
+    "bionic_slots": 168,
     "windage_effect": "winded",
     "effects_on_hit": [
       {
@@ -1066,6 +1083,7 @@
       }
     ],
     "similar_bodypart": "head",
+    "bionic_slots": 36,
     "flags": [ "LIMB_UPPER", "NO_LIMB_FIRST_AID", "PARTIAL_BIONIC_LIMB" ],
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1108,6 +1126,7 @@
       }
     ],
     "similar_bodypart": "eyes",
+    "bionic_slots": 8,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "power_efficiency": 100,
     "no_power_effect": "no_power_eyes",
@@ -1141,6 +1160,7 @@
     "smash_efficiency": 0.25,
     "sub_parts": [ "mouth_bionic_basic_lips", "mouth_bionic_basic_nose", "mouth_bionic_basic_cheeks", "mouth_bionic_basic_chin" ],
     "similar_bodypart": "mouth",
+    "bionic_slots": 8,
     "flags": [ "IGNORE_TEMP", "LIMB_UPPER", "BIONIC_LIMB", "NO_LIMB_FIRST_AID" ],
     "feels_discomfort": false,
     "mend_rate": 0,
@@ -1179,6 +1199,7 @@
     "pain_mod": 0.0,
     "base_hp": 150,
     "drench_capacity": 700,
+    "bionic_slots": 0,
     "flags": [ "LIMB_LOWER", "BIONIC_LIMB", "IGNORE_TEMP", "NO_LIMB_FIRST_AID", "NONSTANDARD_BLOCK" ],
     "sub_parts": [ "bionic_treads_body", "bionic_treads_treads" ],
     "no_power_effect": "no_power_tank_treads",

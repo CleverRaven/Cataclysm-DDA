@@ -14,6 +14,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
+#include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
@@ -38,6 +39,7 @@ static const itype_id itype_test_baseball( "test_baseball" );
 static const itype_id itype_test_baseball_half_degradation( "test_baseball_half_degradation" );
 static const itype_id itype_test_baseball_x2_degradation( "test_baseball_x2_degradation" );
 static const itype_id itype_test_glock_degrade( "test_glock_degrade" );
+static const itype_id itype_test_pipe( "test_pipe" );
 static const itype_id itype_test_steelball( "test_steelball" );
 static const itype_id itype_thread( "thread" );
 
@@ -710,5 +712,39 @@ TEST_CASE( "refit_item_inside_spillable_container", "[item][repair][container]" 
             }
         }
 
+    }
+}
+
+TEST_CASE( "repair_target_check_without_consumption_ignores_material_availability",
+           "[item][repair]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    Character &u = get_player_character();
+    const repair_item_actor *actor = dynamic_cast<const repair_item_actor *>(
+                                         itype_tailors_kit->get_use( "repair_fabric" )->get_actor_ptr() );
+    REQUIRE( actor != nullptr );
+    item fix( itype_test_baseball );
+    fix.set_damage( 1000 );
+    REQUIRE( fix.damage() > fix.degradation() );
+
+    GIVEN( "no leather in reach" ) {
+        u.invalidate_crafting_inventory();
+        THEN( "bare check accepts target, material check refuses" ) {
+            CHECK( actor->can_repair_target( u, fix, false, false ) );
+            CHECK_FALSE( actor->can_repair_target( u, fix, false, true ) );
+        }
+    }
+    GIVEN( "damaged steel pipe, which a tailor's kit can't repair" ) {
+        item pipe( itype_test_pipe );
+        pipe.set_damage( 1000 );
+        REQUIRE( pipe.damage() > pipe.degradation() );
+        item leather( itype_leather );
+        u.i_add_or_drop( leather, 10 );
+        u.invalidate_crafting_inventory();
+        THEN( "even bare check refuses it" ) {
+            CHECK_FALSE( actor->can_repair_target( u, pipe, false, false ) );
+            CHECK_FALSE( actor->can_repair_target( u, pipe, false, true ) );
+        }
     }
 }

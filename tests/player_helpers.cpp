@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -18,12 +17,13 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "map_helpers.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -34,6 +34,7 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "stomach.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -46,7 +47,7 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
-    const inventory crafting_inv = get_player_character().crafting_inventory();
+    const temp_crafting_inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == tool_id;
@@ -60,7 +61,7 @@ int get_remaining_charges( const itype_id &tool_id )
 
 bool player_has_item_of_type( const itype_id &id )
 {
-    std::vector<item *> matching_items = get_player_character().inv->items_with(
+    std::vector<item *> matching_items = get_player_character().items_with(
     [&]( const item & i ) {
         return i.typeId() == id;
     } );
@@ -88,7 +89,6 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_worn();
     dummy.calc_encumbrance();
     dummy.invalidate_crafting_inventory();
-    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
     // clear_mutations() removes traits but does not rebuild bodypart topology.
@@ -129,6 +129,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
     dummy.set_moves( 0 );
+    dummy.set_trauma( 0 );
     dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
@@ -146,6 +147,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_dodges_left( dummy.get_num_dodges() );
     dummy.set_underwater( false );
 
     // Make stats nominal.
@@ -223,18 +225,20 @@ void arm_shooter( Character &shooter, const itype_id &gun_type,
 void clear_avatar()
 {
     avatar &avatar = get_avatar();
+    g->clear_kill_tracker();
     clear_character( avatar );
     avatar.grab( object_type::NONE );
     avatar.clear_identified();
     avatar.clear_nutrition();
     avatar.reset_all_missions();
+    // Records outlive the items they claim.
+    clear_reservations();
 }
 
 void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.clear_worn();
-    shooter.inv->clear();
     for( const itype_id &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
@@ -253,11 +257,40 @@ void process_activity( Character &dummy, bool pass_time )
     } while( dummy.activity );
 }
 
+bool process_activity_bounded( Character &dummy, const int max_turns, const int max_dispatches )
+{
+    int turns = 0;
+    int dispatches = 0;
+    while( dummy.activity && turns < max_turns ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+            if( ++dispatches >= max_dispatches ) {
+                return false;
+            }
+        }
+        ++turns;
+    }
+    return !dummy.activity;
+}
+
 npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
+    map &here = get_map();
+    const tripoint_bub_ms at( p, here.get_abs_sub().z() );
+    std::vector<tripoint_bub_ms> bare;
+    for( const tripoint_bub_ms &q : here.points_in_radius( at, 1 ) ) {
+        if( !here.has_items( q ) ) {
+            bare.push_back( q );
+        }
+    }
     const npc_template_id npc_template = npc_template_id( npc_class );
-    const character_id model_id = get_map().place_npc( p, npc_template );
+    const character_id model_id = here.place_npc( p, npc_template );
     g->load_npcs();
+    // a template's kit spills what its pockets don't hold where the NPC lands
+    for( const tripoint_bub_ms &q : bare ) {
+        here.i_clear( q );
+    }
 
     npc *guy = g->find_npc( model_id );
     REQUIRE( guy != nullptr );

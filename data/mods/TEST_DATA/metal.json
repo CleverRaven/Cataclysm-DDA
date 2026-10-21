@@ -1,21 +1,24 @@
 [
   {
-    "id": "test_platinum_bit",
+    "type": "ammunition_type",
+    "id": "test_1g_weight",
+    "name": "",
+    "default": "test_1g_weight"
+  },
+  {
+    "id": "test_1g_weight",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "category": "spare_parts",
-    "name": { "str": "TEST platinum bit" },
+    "name": { "str": "TEST weight" },
     "description": "A soft shiny metal.  Before the apocalypse this would've been worth a small fortune but now its value is greatly diminished.",
     "weight": "1 g",
-    "//": "Density 21.45g/cm³ ~ 5.4kg/250ml @ stack 1000 = 5g/unit",
-    "volume": "10ml",
-    "price": "1 kUSD",
-    "price_postapoc": "1 USD",
-    "count": 100,
-    "stack_size": 40,
-    "material": [ "platinum" ],
+    "volume": "1 ml",
+    "material": [ "water" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "test_1g_weight",
+    "count": 100,
+    "stack_size": 100
   }
 ]

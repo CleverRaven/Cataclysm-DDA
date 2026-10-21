@@ -93,21 +93,6 @@
     "proportional": { "recoil": 1.2 }
   },
   {
-    "id": "bp_9mm",
-    "copy-from": "9mm",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "9x19mm JHP, black powder" },
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "bp_9mmfmj",
     "copy-from": "9mmfmj",
     "type": "ITEM",
@@ -123,41 +108,11 @@
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "reloaded_9mm",
-    "copy-from": "9mm",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "9x19mm JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
     "id": "reloaded_9mmfmj",
     "copy-from": "9mmfmj",
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "9x19mm FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP",
-    "copy-from": "9mmP",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "9x19mm +P, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_9mmP2",
-    "copy-from": "9mmP2",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "name": { "str_sp": "9x19mm +P+, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -171,17 +126,6 @@
     "name": { "str_sp": "9x19mm FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_9mmfmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
-  },
-  {
-    "id": "matchhead_9mm",
-    "copy-from": "bp_9mm",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": "9x19mm JHP, matchhead powder" },
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "looks_like": "bp_9mm",
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

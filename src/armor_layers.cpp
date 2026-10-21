@@ -3,13 +3,13 @@
 #include <functional>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "catacharset.h"
@@ -31,7 +31,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "output.h"
-#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translation.h"
@@ -1155,10 +1154,12 @@ void outfit::sort_armor( Character &guy )
                     item &w = *witer;
                     if( invlet == w.invlet ) {
                         ++witer;
-                    } else if( guy.invlet_to_item( invlet ) != nullptr ) {
+                    } else if( guy.invlet_to_item( invlet ).where() != item_location::type::invalid ) {
                         ++iiter;
                     } else {
-                        guy.inv->reassign_item( w, invlet );
+                        if( guy.is_avatar() ) {
+                            guy.as_avatar()->reassign_item_cache( w, invlet, true );
+                        }
                         ++witer;
                         ++iiter;
                     }

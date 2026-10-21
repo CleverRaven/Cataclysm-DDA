@@ -2484,7 +2484,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
                     nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
-            jug_w_water->remove_item( jug_w_water->only_item() );
+            jug_w_water.remove_item( jug_w_water->only_item() );
             THEN( "liquid fills one of the worn container's pockets, none left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( jug_w_water->is_container_empty() );
@@ -2508,7 +2508,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
                     nullptr, -1, nullptr, liquid_target, false );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
-            jug_w_water->remove_item( jug_w_water->only_item() );
+            jug_w_water.remove_item( jug_w_water->only_item() );
             THEN( "liquid fills one of the worn container's pockets, none left over" ) {
                 CHECK( u.get_moves() == 0 );
                 CHECK( jug_w_water->is_container_empty() );
@@ -2537,7 +2537,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 CHECK( u.get_moves() == 0 );
                 CHECK( it->charges == 0 );
-                suit->remove_item( *it );
+                suit.remove_item( *it );
             }
             THEN( "liquid fills most of the empty container, none left over" ) {
                 CHECK( u.get_moves() == 0 );
@@ -2561,7 +2561,7 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
                 REQUIRE( it->charges == 6 );
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target, false );
                 if( u.get_moves() == 0 && it->charges == 0 ) {
-                    suit->remove_item( *it );
+                    suit.remove_item( *it );
                 }
             }
             THEN( "liquid fills the container, some left over" ) {
@@ -3014,16 +3014,19 @@ TEST_CASE( "pocket_mods", "[pocket][toolmod][gunmod]" )
             item mod_it( pocket_mod_data.second.mod_item );
 
             base_it.put_in( mod_it, pocket_type::MOD );
+            clear_avatar();
+            Character &guy = get_player_character();
+            item_location base_loc = guy.i_add( base_it );
 
             SECTION( "after inserting the mod" ) {
-                compare_pockets( base_it, pocket_mod_data.second, true );
+                compare_pockets( *base_loc, pocket_mod_data.second, true );
             }
 
             SECTION( "after removing the mod" ) {
-                base_it.remove_items_with( [mod_it]( const item & it ) {
+                base_loc.remove_items_with( [mod_it]( const item & it ) {
                     return mod_it.type == it.type;
                 } );
-                compare_pockets( base_it, pocket_mod_data.second, false );
+                compare_pockets( *base_loc, pocket_mod_data.second, false );
             }
         }
     }

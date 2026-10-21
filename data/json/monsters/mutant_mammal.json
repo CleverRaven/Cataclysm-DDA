@@ -40,7 +40,7 @@
     "fear_triggers": [ "SOUND" ],
     "harvest": "cerbearus_with_skulls",
     "dissect": "dissect_ursine_sample_small",
-    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_bear" ],
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [
       "SEES",
@@ -55,7 +55,7 @@
       "KEENNOSE",
       "EATS"
     ],
-    "armor": { "bash": 8, "cut": 12, "electric": 1 }
+    "armor": { "bash": 12, "cut": 12, "bullet": 8, "stab": 8, "electric": 1 }
   },
   {
     "id": "mon_beaver_mutant_huge",

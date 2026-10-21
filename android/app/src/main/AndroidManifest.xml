@@ -42,8 +42,8 @@
                   android:label="@string/app_name"
                   android:launchMode="singleInstance"
                   android:keepScreenOn="true"
-                  android:screenOrientation="userLandscape"
-                  android:configChanges="keyboardHidden|keyboard|orientation|screenSize|navigation"
+                  android:screenOrientation="fullUser"
+                  android:configChanges="keyboardHidden|keyboard|orientation|screenSize|smallestScreenSize|screenLayout|navigation"
                   android:exported="true"
                   >
             <intent-filter>
@@ -55,8 +55,9 @@
                   android:label="@string/app_name"
                   android:launchMode="singleInstance"
                   android:keepScreenOn="true"
-                  android:screenOrientation="userLandscape"
-                  android:configChanges="keyboardHidden|keyboard|orientation|screenSize|navigation"
+                  android:windowSoftInputMode="adjustNothing"
+                  android:screenOrientation="fullUser"
+                  android:configChanges="keyboardHidden|keyboard|orientation|screenSize|smallestScreenSize|screenLayout|navigation"
                   >
         </activity>
         <!-- Expose app's private data directory for backup without root -->

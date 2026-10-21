@@ -21,7 +21,7 @@
           ]
         },
         "failure": {
-          "effect": [ { "u_message": "Your fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
+          "effect": [ { "u_message": "You fail to antagonize them.", "popup": true }, { "math": [ "exodii_FM_annoyed += 1" ] } ],
           "topic": "TALK_FREE_MERCHANTS_MERCHANT_Exodii_mission_meet_free_merchants_negotiations_2"
         }
       }

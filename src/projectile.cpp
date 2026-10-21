@@ -224,6 +224,8 @@ void apply_ammo_effects( Creature *source, const tripoint_bub_ms &p,
                 Creature *critter = get_creature_tracker().creature_at( p );
                 dialogue d( get_talker_for( *source ), critter == nullptr ? nullptr : get_talker_for( critter ) );
                 write_var_value( var_type::context, "proj_damage", &d, dealt_damage );
+                const tripoint_abs_ms target_location = here.get_abs( p );
+                write_var_value( var_type::context, "targeted_location", &d, target_location );
                 eoc->activate( d );
             }
 
@@ -282,7 +284,7 @@ void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_
                                      damage_description );
         } else {
             //~ Phrase describing getting hit by multiple projectiles, i.e. "The zombie is hit by many bomb fragments, dealing 50 damage."
-            add_msg( _( "%s is hit by %s %s, %s." ), critter->disp_name( false, true ), impact_count,
+            add_msg( _( "%s is hit by %s %s, %s." ), critter->disp_name( true ), impact_count,
                      projectile_name, damage_description );
         }
     }

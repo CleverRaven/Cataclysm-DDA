@@ -6,5 +6,17 @@
     "locations": [ "portal_storm_dungeon" ],
     "occurrences": [ 50, 75 ],
     "flags": [ "PORTAL_STORM_DUNGEON", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "portal_storm_dungeon_labyrinth_hallway",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "portal_storm_dungeon_labyrinth_hallway_1" },
+      { "point": [ 1, 0, 0 ], "overmap": "portal_storm_dungeon_labyrinth_hallway_2" }
+    ],
+    "locations": [ "portal_storm_dungeon" ],
+    "occurrences": [ 0, 50 ],
+    "rotate": false,
+    "flags": [ "PORTAL_STORM_DUNGEON", "EXTRADIMENSIONAL" ]
   }
 ]

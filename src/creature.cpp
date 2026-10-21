@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
 #include "game.h"
@@ -100,6 +101,7 @@ static const damage_type_id damage_heat( "heat" );
 
 static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloody_feet( "bloody_feet" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_eff_mind_seeing_bonus_10( "eff_mind_seeing_bonus_10" );
 static const efftype_id effect_eff_mind_seeing_bonus_20( "eff_mind_seeing_bonus_20" );
@@ -107,6 +109,7 @@ static const efftype_id effect_eff_mind_seeing_bonus_30( "eff_mind_seeing_bonus_
 static const efftype_id effect_eff_mind_seeing_bonus_5( "eff_mind_seeing_bonus_5" );
 static const efftype_id effect_eff_monster_immune_to_telepathy( "eff_monster_immune_to_telepathy" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_knockdown( "knockdown" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_monster_locked_on( "monster_locked_on" );
@@ -134,6 +137,7 @@ static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_CANNOT_GAIN_EFFECTS( "CANNOT_GAIN_EFFECTS" );
 static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_CANNOT_TAKE_DAMAGE( "CANNOT_TAKE_DAMAGE" );
+static const json_character_flag json_flag_DISTRIBUTED_DAMAGE( "DISTRIBUTED_DAMAGE" );
 static const json_character_flag json_flag_FREEZE_EFFECTS( "FREEZE_EFFECTS" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
@@ -319,7 +323,25 @@ void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
     location = loc;
 }
 
-void Creature::on_move( const tripoint_abs_ms & ) {}
+void Creature::on_move( const tripoint_abs_ms &old_pos )
+{
+    if( old_pos == pos_abs() ) {
+        return;
+    }
+
+    if( has_effect( effect_gliding ) || has_flag( mon_flag_FLIES ) ) {
+        return;
+    }
+
+    map &here = get_map();
+    const optional_vpart_position vp_there = here.veh_at( old_pos );
+    if( vp_there ) {
+        return;
+    }
+
+    leave_bloody_footprint( old_pos );
+    check_bloody_feet( old_pos );
+}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
@@ -348,6 +370,78 @@ void Creature::reset()
 void Creature::bleed( map &here ) const
 {
     here.add_splatter( bloodType(), pos_bub( here ) );
+}
+
+void Creature::leave_bloody_footprint( const tripoint_abs_ms &old_pos ) const
+{
+    if( has_effect( effect_bloody_feet ) == false ) {
+        return;
+    }
+
+    map &here = get_map();
+
+    // Check if there is already blood or a footprint on the tile
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+    if( blood != nullptr ||
+        fields.find_field( fd_blood_footprint_n ) != nullptr ||
+        fields.find_field( fd_blood_footprint_w ) != nullptr ||
+        fields.find_field( fd_blood_footprint_s ) != nullptr ||
+        fields.find_field( fd_blood_footprint_e ) != nullptr ) {
+        return;
+    }
+
+    // Choose footprint direction
+    direction dir = direction_from( old_pos, pos_abs() );
+
+    field_type_str_id footprint = fd_blood_footprint_s;
+    switch( dir ) {
+        case direction::NORTH:
+            footprint = fd_blood_footprint_n;
+            break;
+        case direction::NORTHWEST:
+        case direction::SOUTHWEST:
+        case direction::WEST:
+            footprint = fd_blood_footprint_w;
+            break;
+        case direction::SOUTH:
+            footprint = fd_blood_footprint_s;
+            break;
+        case direction::NORTHEAST:
+        case direction::SOUTHEAST:
+        case direction::EAST:
+            footprint = fd_blood_footprint_e;
+            break;
+        default:
+            break;
+    }
+
+    // Place footprint
+    here.add_field( here.get_bub( old_pos ), footprint, 1 );
+    //get_effect( effect_bloody_feet ).set_duration(get_effect( effect_bloody_feet ).get_duration() - 1_turns);
+}
+
+void Creature::check_bloody_feet( const tripoint_abs_ms &old_pos )
+{
+    if( has_effect( effect_bloody_feet ) ) {
+        return;
+    }
+    map &here = get_map();
+
+    const field &fields = here.field_at( here.get_bub( old_pos ) );
+    const field_entry *blood = fields.find_field( fd_blood );
+
+    if( blood != nullptr ) {
+        time_duration dur = 3_turns;
+        if( blood->get_field_intensity() <= 1 ) {
+            return;
+        } else if( blood->get_field_intensity() == 2 ) {
+            dur = 3_turns;
+        } else if( blood->get_field_intensity() >= 3 ) {
+            dur = 5_turns;
+        }
+        add_effect( effect_bloody_feet, dur );
+    }
 }
 
 void Creature::reset_bonuses()
@@ -1111,10 +1205,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             time_duration duration = rng( 6_turns, 8_turns );
             target.add_effect( effect_source( source ), effect_stunned, duration );
             target.add_effect( effect_source( source ), effect_sensor_stun, duration );
-            add_msg( source->is_avatar() ?
-                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
-                     _( "The %1$s is stunned!" ),
-                     target.disp_name( true ) );
+            if( source->is_avatar() ) {
+                add_msg( _( "You land a clean shot on %1$s's sensors, stunning it." ), target.disp_name() );
+            } else {
+                add_msg( _( "%1$s is stunned!" ), target.disp_name( true ) );
+            }
         }
     }
 
@@ -1274,8 +1369,8 @@ void Creature::messaging_projectile_attack( const Creature *source,
             }
         } else if( total_damage == 0 ) {
             if( hit_selection.wp_hit.empty() ) {
-                //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-                add_msg( m_bad, _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                //~ 1$ - creature name, 2$ - character's bodypart or monster's skin/armor
+                add_msg( m_bad, _( "The shot reflects off the %2$s of %1$s!" ), disp_name(),
                          is_monster() ?
                          skin_name() :
                          body_part_name_accusative( hit_selection.bp_hit ) );
@@ -1286,10 +1381,15 @@ void Creature::messaging_projectile_attack( const Creature *source,
             }
         } else if( is_avatar() ) {
             //monster hits player ranged
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( hit_selection.bp_hit ),
-                               total_damage );
+            if( has_flag( json_flag_DISTRIBUTED_DAMAGE ) ) {
+                //~ Hit message. 2$d is damage value.
+                add_msg_if_player( m_bad, _( "You were hit for %2$d total damage." ) );
+            } else {
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                   body_part_name_accusative( hit_selection.bp_hit ),
+                                   total_damage );
+            }
         } else if( source != nullptr ) {
             if( source->is_avatar() ) {
                 //player hits monster ranged
@@ -1342,9 +1442,10 @@ void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view ) con
     if( source != nullptr && player_view.sees( here, *source ) ) {
         add_msg_player_or_npc(
             m_warning,
-            _( "You avoid %s projectile!" ),
-            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids %s projectile." ) : "",
-            source->disp_name( true ) );
+            _( "You avoid the projectile from %s!" ),
+            get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? _( "<npcname> avoids the projectile from %s." ) :
+            "",
+            source->disp_name() );
     } else {
         add_msg_player_or_npc(
             m_warning,
@@ -1642,17 +1743,17 @@ void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
         add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
                            name );
         if( c->is_avatar() ) {
-            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( false, true ), name );
+            add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( true ), name );
         }
         c->move_to( tripoint_abs_ms( line_to( pos_abs().raw(), c->pos_abs().raw(), 0,
                                               0 ).front() ) );
         c->add_effect( effect_stunned, 1_seconds );
         sounds::sound( c->pos_bub( here ), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
     } else {
-        add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
-                           c->disp_name( true, true ) );
+        add_msg_if_player( m_bad, _( "%s is too heavy to pull towards you." ),
+                           c->disp_name( true ) );
         if( c->is_avatar() ) {
-            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( false, true ) );
+            add_msg( m_info, _( "%1s tries to pull you in, but you resist!" ), disp_name( true ) );
         }
     }
 }
@@ -1670,8 +1771,8 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     }
     if( stumblemsg ) {
         const bool player_sees = player.sees( here, *this );
-        add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
-                 true ) : _( "Something" ) );
+        add_msg( m_bad, _( "%s stumbles into you!" ),
+                 player_sees ? this->disp_name( true ) : _( "Something" ) );
     }
     add_effect( effect_stumbled_into_invisible, 6_seconds );
     // Mark last known location, or extend duration if exists
@@ -1712,7 +1813,7 @@ bool Creature::attack_air( const tripoint_bub_ms &p )
     }
 
     add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
-                            disp_name( false, true ) );
+                            disp_name( true ) );
     return true;
 }
 
@@ -1875,6 +1976,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
             e.clamp_intensity();
             if( e.get_intensity() != prev_int ) {
                 on_effect_int_change( eff_id, e.get_intensity(), bp );
+
+                if( Character *ch = as_character() ) {
+                    get_event_bus().send<event_type::character_effect_intensity_changed>(
+                        ch->getID(), bp.id(), eff_id, e.get_intensity()
+                    );
+                }
             }
         }
     }

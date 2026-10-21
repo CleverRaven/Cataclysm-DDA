@@ -105,6 +105,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "crystalline_spire_nw", "crystalline_spire_ne", "crystalline_spire_sw", "crystalline_spire_se" ],
+    "name": "crystalline spire",
+    "sym": "C",
+    "color": "light_gray",
+    "see_cost": "full_high",
+    "vision_levels": "isolated_tower",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "cathedralv_4_NW",
       "cathedralv_4_NE",

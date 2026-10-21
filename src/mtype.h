@@ -257,6 +257,13 @@ struct pet_food_data {
     void deserialize( const JsonObject &data );
 };
 
+struct monster_block_data {
+    int chance = 0;
+    int effectiveness = 0;
+    int count = 0;
+    bool ranged = false;
+};
+
 /** movement data */
 struct move_skills_data {
     // 10 means max movecost of 500 * terrain-difficulty with 0 skill
@@ -497,6 +504,9 @@ struct mtype {
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
         int melee_dice_ap = 0;  /** ap value of the melee dice*/
+
+        monster_block_data
+        block; /**monsters ability to block attacks for reduced damage defaults to unable to block */
 
         int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
         int sk_dodge = 0;       /** dodge skill */

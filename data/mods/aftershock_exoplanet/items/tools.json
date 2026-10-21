@@ -866,56 +866,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "multi_cooker",
-    "copy-from": "multi_cooker",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "//": "Makes it look more sci-fi so it isn't out of place, not many actual changes otherwise.",
-    "name": { "str": "micro-cooker" },
-    "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness.  It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
-    "weight": "5 kg",
-    "volume": "3 L",
-    "price": "1500 USD",
-    "price_postapoc": "1500 USD",
-    "to_hit": -3,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
-    "faults": [ { "fault_group": "electronic_general" } ],
-    "power_draw": "100 W",
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "HOTPLATE", 2 ], [ "CHEM", 1 ] ],
-    "tick_action": "MULTICOOKER_TICK",
-    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "35 cm",
-        "moves": 50
-      }
-    ],
-    "tool_ammo": [ "battery" ]
-  },
-  {
-    "id": "multi_cooker_filled",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "copy-from": "multi_cooker",
-    "name": { "str": "micro-cooker - cooking", "str_pl": "micro-cookers - cooking" },
-    "description": "This micro-cooker is currently cooking a dish.",
-    "delete": { "qualities": [ "CONTAIN" ] }
-  },
-  {
     "id": "military_mess_kit",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
@@ -1050,6 +1000,7 @@
     "name": { "str": "atomic lamp (covered)", "str_pl": "atomic lamps (covered)" },
     "description": "A fairly hefty and frankly ugly lamp with a thick base and an odd spheroidal \"shade\".  While this is a commercial product, early versions were made from scavenged landing or spacecraft lights.  While the appeal of them there was to lower the maintence burden, as a lamp it's nothing more than a gimmick of infinite, albeit dim light.  This one has been closed.",
     "use_action": { "target": "afs_atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
+    "light": 0,
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1083,6 +1034,7 @@
     "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
     "description": "A commercially produced reading light, with the gimmick of never having to replace batteries thanks to its nuclear decay powered power source.  Instead of having an on/off switch, there is instead a cover you close over it.",
     "use_action": { "target": "afs_atomic_light", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
+    "light": 0,
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1137,6 +1089,7 @@
     "name": { "str": "atomic headlamp (covered)", "str_pl": "atomic headlamps (covered)" },
     "description": "A custom-made headlamp, salvaged from an atomic lamp.  While the weight on your head is light, you had to awkwardly find a way to carry the base of the lamp, which provided the actual power.  The base now proudly sits strapped to your back.  It is now covered, concealing the light.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "OVERSIZE", "PADDED", "ALLOWS_NATURAL_ATTACKS" ],
+    "light": 0,
     "use_action": {
       "type": "transform",
       "msg": "You open the headlamp's cover.",

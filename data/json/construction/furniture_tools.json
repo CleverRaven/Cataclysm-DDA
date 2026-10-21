@@ -249,7 +249,13 @@
     "time": "120m",
     "on_display": false,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
+    "components": [
+      [ [ "metal_tank", 2 ] ],
+      [ [ "water_faucet", 2 ] ],
+      [ [ "anvil", 1 ], [ "anvil_bronze", 1 ], [ "anvil_crude", 1 ], [ "anvil_scavenged", 1 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "pipe", 3 ] ]
+    ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "f_drophammer"
   },

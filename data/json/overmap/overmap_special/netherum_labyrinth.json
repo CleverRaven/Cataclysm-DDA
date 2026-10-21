@@ -304,5 +304,15 @@
     "rotate": false,
     "locations": [ "labyrinth2" ],
     "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "//": "spawned by EOC only",
+    "id": "labyrinth2_stairs",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "labyrinth2_stairs_north" } ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 0 ],
+    "locations": [ "labyrinth2" ],
+    "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ]
   }
 ]

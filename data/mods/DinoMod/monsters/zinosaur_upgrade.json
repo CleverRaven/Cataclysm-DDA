@@ -667,8 +667,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zoabosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -688,8 +696,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zaplocanthosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -709,8 +725,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamargasaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -730,8 +754,16 @@
     },
     "bleed_rate": 50,
     "upgrades": false,
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zapatosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -751,8 +783,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrontosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -772,8 +812,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "ziplodocus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -793,8 +841,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zarosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -814,8 +870,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zamarasaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -835,8 +899,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zrachiosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -856,8 +928,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zastrodon_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -877,8 +957,16 @@
     },
     "bleed_rate": 50,
     "upgrades": { "half_life": 168, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] }
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "zalamosaurus_brute_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ]
   },
   {
     "type": "MONSTER",
@@ -3337,6 +3425,16 @@
     "material": [ "bone" ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "soabosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3359,6 +3457,16 @@
     "material": [ "bone" ],
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "saplocanthosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3381,6 +3489,16 @@
     "material": [ "bone" ],
     "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "samargasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3403,6 +3521,16 @@
     "material": [ "bone" ],
     "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sapatosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3422,6 +3550,16 @@
     "name": { "str_sp": "armored brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "srontosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
   },
   {
@@ -3433,6 +3571,16 @@
     "material": [ "bone" ],
     "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "siplodocus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3455,6 +3603,16 @@
     "material": [ "bone" ],
     "description": "This zombified barosaurus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sarosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -3474,6 +3632,16 @@
     "name": { "str_sp": "armored camarasaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.8 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "samarasaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
   },
   {
@@ -3482,6 +3650,16 @@
     "name": { "str_sp": "armored brachiosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.6, "hp": 3 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "srachiosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
   },
   {
@@ -3490,6 +3668,16 @@
     "name": { "str": "armored astrodon" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.7, "hp": 2 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sastrodon_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
   },
   {
@@ -3501,6 +3689,16 @@
     "material": [ "bone" ],
     "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "salamosaurus_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      [ "tailsmash_long_DinoMod", 30 ]
+    ],
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
@@ -5551,5 +5749,51 @@
       "RANGED_ATTACKER"
     ],
     "armor": { "bash": 4, "cut": 5, "bullet": 2 }
+  },
+  {
+    "id": "mon_zauropod_brute_leg",
+    "type": "MONSTER",
+    "name": { "str": "huge zombie brute leg" },
+    "description": "A huge fleshy appendage holding up a much larger dinosaur, twisting and bulging with distended muscles and swollen, festering wounds.",
+    "copy-from": "mon_zapatosaurus_brute",
+    "symbol": "(",
+    "hp": 300,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 7,
+    "melee_dice_sides": 18,
+    "melee_skill": 3,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The sauropod zombie brute stumbles as one of its legs is badly hurt and collapses.",
+      "eoc": "EOC_ZAUROPOD_BRUTE_HURT"
+    },
+    "weakpoint_sets": [ "wps_sauropod_leg" ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "DESTROYS" ] },
+    "upgrades": false
+  },
+  {
+    "id": "mon_skauropod_leg",
+    "type": "MONSTER",
+    "name": { "str": "huge skeletal zombie leg" },
+    "description": "A huge appendage covered in a heavy bone sheath dotted with strange bumps and cracks.",
+    "copy-from": "mon_sapatosaurus",
+    "symbol": "(",
+    "hp": 250,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 7,
+    "melee_dice_sides": 18,
+    "melee_skill": 3,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 16 } ] } ],
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The armored sauropod zombie stumbles as one of its legs is badly hurt and collapses.",
+      "eoc": "EOC_SKAUROPOD_BRUTE_HURT"
+    },
+    "weakpoint_sets": [ "wps_sauropod_leg" ],
+    "extend": { "flags": [ "DESTROYS" ] }
   }
 ]

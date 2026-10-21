@@ -103,11 +103,8 @@ std::string pocket_data::check_definition() const
             return string_format( "invalid ammotype %s", at.str() );
         }
         const itype_id &it = at->default_ammotype();
-        // Abstract ammotypes (e.g. "components", "thrown") intentionally point
-        // their default at an undefined itype; ammunition_type::check_consistency
-        // skips them and so does the per-pocket phase check.
-        if( it.is_empty() || !item::type_is_defined( it ) ) {
-            continue;
+        if( !item::type_is_defined( it ) || it.is_null() ) {
+            return string_format( "undefined item %s", it.c_str() );
         }
         if( it->phase == phase_id::LIQUID && !watertight ) {
             return string_format( "restricted to liquid item %s but not watertight\n",
@@ -827,20 +824,42 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
+// NPCs can't answer liquid prompt; leftovers stay in the pocket
+static void npc_handle_liquid( Character &guy, item &liquid, const item *avoid )
+{
+    while( liquid.charges > 0 ) {
+        item_location container = guy.carried_container_for( liquid, avoid );
+        const int before = liquid.charges;
+        // pour_into may succeed and move nothing
+        if( !container || !guy.pour_into( container, liquid, true, true ) ||
+            liquid.charges == before ) {
+            break;
+        }
+        container.make_active();
+        guy.mod_moves( -100 );
+    }
+    while( liquid.charges > 0 && guy.wants_to_consume_now( liquid ) ) {
+        const time_duration consume_time = guy.get_consume_time( liquid );
+        if( guy.consume( liquid ) == trinary::NONE ) {
+            return;
+        }
+        guy.mod_moves( -to_moves<int>( consume_time ) );
+    }
+}
+
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
-    if( guy.is_npc() ) {
-        spill_contents( guy.pos_bub() );
-        return;
-    }
-
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            liquid_dest_opt liquid_target;
-            while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
-                // Reset so the next iteration re-prompts for a target,
-                // matching consume_liquid (handle_liquid.cpp).
-                liquid_target.dest_opt = LD_NULL;
+            if( guy.is_npc() ) {
+                npc_handle_liquid( guy, *iter, avoid );
+            } else {
+                liquid_dest_opt liquid_target;
+                while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, liquid_target, avoid, 1 ) ) {
+                    // Reset so the next iteration re-prompts for a target,
+                    // matching consume_liquid (handle_liquid.cpp).
+                    liquid_target.dest_opt = LD_NULL;
+                }
             }
             if( iter->charges == 0 ) {
                 iter = contents.erase( iter );
@@ -857,11 +876,12 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
     }
 }
 
-bool item_pocket::use_amount( const itype_id &it, int &quantity, std::list<item> &used )
+bool item_pocket::use_amount( item_location &parent, const itype_id &it, int &quantity,
+                              std::list<item> &used )
 {
     bool used_item = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, used ) ) {
+        if( a->use_amount( item_location( parent, &*a ), it, quantity, used ) ) {
             used_item = true;
             a = contents.erase( a );
         } else {
@@ -972,22 +992,6 @@ void item_pocket::remove_all_mods( Character &guy )
         }
     }
     on_contents_changed();
-}
-
-void item_pocket::set_item_defaults()
-{
-    for( item &contained_item : contents ) {
-        /* for guns and other items defined to have a magazine but don't use "ammo" */
-        if( contained_item.is_magazine() ) {
-            if( const std::optional<ammotype> at = item::ammotype_of( contained_item.ammo_default() ) ) {
-                contained_item.ammo_set( contained_item.ammo_default(),
-                                         contained_item.ammo_capacity( *at ) / 2 );
-            }
-        } else { //Contents are batteries or food
-            contained_item.charges =
-                item::find_type( contained_item.typeId() )->charges_default();
-        }
-    }
 }
 
 static void insert_separation_line( std::vector<iteminfo> &info )
@@ -1199,7 +1203,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             to_print.end(), []( const translation & t ) {
                 return t.translated();
             } );
-            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>:" ),
+            info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can't put hard armor on: %s</bold>." ),
                                bps ) );
         }
     }
@@ -1942,6 +1946,10 @@ void item_pocket::on_pickup( Character &guy, item *avoid )
     if( will_spill() ) {
         while( !empty() ) {
             handle_liquid_or_spill( guy, avoid );
+            // can't put down carried container, so spill what's left
+            if( guy.is_npc() && !empty() ) {
+                spill_contents( guy.pos_bub() );
+            }
         }
         restack();
     }
@@ -2327,6 +2335,11 @@ int item_pocket::obtain_cost( const item &it ) const
 bool item_pocket::is_type( pocket_type ptype ) const
 {
     return ptype == data->type;
+}
+
+bool item_pocket::is_type( const std::set<pocket_type> &ptype ) const
+{
+    return ptype.count( data->type ) == 1;
 }
 
 bool item_pocket::is_ablative() const

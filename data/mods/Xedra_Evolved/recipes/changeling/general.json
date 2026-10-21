@@ -1,0 +1,17 @@
+[
+  {
+    "id": "prac_gramarye_changeling",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_OCCULT",
+    "name": "gramarye (beginner)",
+    "description": "Practice using your newfound glamours to accustom yourself to the use of your powers.",
+    "skill_used": "gramarye",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "tools": [ [  ] ],
+    "character_resources": { "mana": 1000 },
+    "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ]
+  }
+]

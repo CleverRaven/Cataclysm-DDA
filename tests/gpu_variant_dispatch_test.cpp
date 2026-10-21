@@ -1,7 +1,4 @@
 #if defined(TILES)
-#include "sdl_wrappers.h"
-
-#if SDL_MAJOR_VERSION >= 3
 #include "cata_catch.h"
 #include "cata_shader.h"
 #include "cata_tiles.h"
@@ -57,5 +54,4 @@ TEST_CASE( "memory_preset_from_option_value_mapping", "[tiles][gpu]" )
         CHECK_FALSE( memory_preset_from_option_value( "garbage" ).has_value() );
     }
 }
-#endif // SDL_MAJOR_VERSION >= 3
 #endif // TILES

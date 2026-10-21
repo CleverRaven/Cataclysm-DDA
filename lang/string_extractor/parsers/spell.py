@@ -13,3 +13,7 @@ def parse_spell(json, origin):
                comment=f"Sound description of spell '{name}'")
     write_text(json.get("message"), origin,
                comment=f"Message of spell '{name}'")
+    write_text(json.get("caster_condition_fail_message"), origin,
+               comment=f"Caster condition failure message of spell '{name}'")
+    write_text(json.get("target_condition_fail_message"), origin,
+               comment=f"Target condition failure message of spell '{name}'")

@@ -26,7 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -38,11 +37,13 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
+#include "npc_turn_helpers.h"
+#include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -61,6 +62,8 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather_type.h"
@@ -74,6 +77,7 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_solar_cooker( "f_solar_cooker" );
+static const furn_str_id furn_f_workbench( "f_workbench" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -81,6 +85,7 @@ static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_amplifier( "amplifier" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bandages( "bandages" );
 static const itype_id itype_battery_ups( "battery_ups" );
 static const itype_id itype_blade( "blade" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -186,6 +191,7 @@ static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
+static const recipe_id recipe_prac_health_care_beg( "prac_health_care_beg" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_test_tallow2( "test_tallow2" );
@@ -198,6 +204,7 @@ static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
@@ -466,7 +473,6 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
     Character &player_character = get_player_character();
     player_character.clear_worn();
     player_character.calc_encumbrance();
-    player_character.inv->clear();
     player_character.remove_weapon();
     const item backpack( itype_debug_backpack );
     player_character.worn.wear_item( player_character, backpack, false, false );
@@ -539,10 +545,10 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
-    const inventory &crafting_inv = player_character.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r.deduped_requirements()
-                                       .can_make_with_inventory( crafting_inv, r.get_component_filter() );
+                                       .can_make_with_inventory( &player_character, crafting_inv, r.get_component_filter() );
     const std::string missing_alt_reqs = enumerate_as_string( r.deduped_requirements().alternatives(),
     []( const requirement_data & rd ) {
         return string_format( "req id: '%s' missing: %s", rd.id().str(), rd.list_missing() );
@@ -550,7 +556,8 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     CAPTURE( missing_alt_reqs );
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
     bool can_craft_with_temp_inv = r.deduped_requirements()
-                                   .can_make_with_inventory( temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+                                   .can_make_with_inventory( &player_character, temp_crafting_inventory( crafting_inv ),
+                                           r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
@@ -865,6 +872,148 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
     test_chances_for( armor_qt_lightplate, 98.f, 92.5, 89.f, 50.f, 81.f, 21.f, 2.25 );
 }
 
+static std::vector<item> stepless_cudgel_tools()
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    return tools;
+}
+
+static npc &spawn_crafting_helper( const recipe &making, bool qualified )
+{
+    avatar &u = get_avatar();
+    npc &helper = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    talk_function::follow( helper );
+    if( qualified ) {
+        grant_skills_to_character( helper, making, 0 );
+        grant_profs_to_character( helper, making );
+    } else {
+        helper.set_skill_level( making.skill_used, 0 );
+        helper.set_knowledge_level( making.skill_used, 0 );
+    }
+    return helper;
+}
+
+static int helper_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "helps with crafting" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "crafting_helper_message_once_per_craft", "[crafting]" )
+{
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true );
+    avatar &u = get_avatar();
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const bool qualified = GENERATE( true, false );
+    CAPTURE( qualified );
+    npc &helper = spawn_crafting_helper( making, qualified );
+    const std::vector<Character *> helpers = u.get_crafting_helpers();
+    REQUIRE( std::find( helpers.begin(), helpers.end(), &helper ) != helpers.end() );
+
+    // log cleared on each leaf section start: act and count in the same section
+    SECTION( "crafting menu recalculates chances repeatedly" ) {
+        for( int redraw = 0; redraw < 5; ++redraw ) {
+            u.recipe_success_chance( making );
+            u.item_destruction_chance( making );
+        }
+        CHECK( helper_messages() == 0 );
+    }
+    SECTION( "craft starts" ) {
+        setup_test_craft( recipe_cudgel_test_charged_fast_stepless );
+        CHECK( helper_messages() == ( qualified ? 1 : 0 ) );
+    }
+}
+
+TEST_CASE( "crafting_helper_changes_chance_only_when_qualified", "[crafting]" )
+{
+    // one level under the recipe, no crafting debug trait, so chance isn't already certain
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true, -1 );
+    avatar &u = get_avatar();
+    u.toggle_trait( trait_DEBUG_CNF );
+    REQUIRE_FALSE( u.has_trait( trait_DEBUG_CNF ) );
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const float alone = u.recipe_success_chance( making );
+    const float ruin_alone = u.item_destruction_chance( making );
+    CAPTURE( alone, ruin_alone );
+    REQUIRE( alone < 1.0f );
+
+    SECTION( "qualified helper raises the chance" ) {
+        spawn_crafting_helper( making, true );
+        CHECK( u.recipe_success_chance( making ) > alone );
+        CHECK( u.item_destruction_chance( making ) <= ruin_alone );
+    }
+    SECTION( "unqualified helper changes nothing" ) {
+        spawn_crafting_helper( making, false );
+        CHECK( u.recipe_success_chance( making ) == alone );
+        CHECK( u.item_destruction_chance( making ) == ruin_alone );
+    }
+}
+
+static int practice_stop_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "stops practicing" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "npc_practice_level_up_says_it_stops", "[crafting][npc]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    avatar &u = get_avatar();
+    npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    set_time( midday );
+    clear_character( guy );
+    talk_function::follow( guy );
+    const recipe &practice = recipe_prac_health_care_beg.obj();
+    guy.learn_recipe( &practice );
+    guy.set_skill_level( skill_firstaid, 0 );
+    guy.set_knowledge_level( skill_firstaid, 0 );
+    guy.get_skill_level_object( skill_firstaid ).set_exercise( 99 );
+    guy.i_add( item( itype_bandages ) );
+
+    const bool on_workbench = GENERATE( true, false );
+    CAPTURE( on_workbench );
+    if( on_workbench ) {
+        here.furn_set( guy.pos_bub() + point::east, furn_f_workbench );
+    }
+    REQUIRE( get_player_view().sees( here, guy ) );
+    Messages::clear_messages();
+
+    guy.make_craft( recipe_prac_health_care_beg, 1 );
+    item_location craft = guy.get_item_to_craft();
+    REQUIRE( craft );
+    REQUIRE( craft->is_craft() );
+    REQUIRE( craft.where() == ( on_workbench ? item_location::type::map :
+                                item_location::type::character ) );
+
+    run_npc_turns( guy, 300, []( const npc & n ) {
+        return n.get_skill_level( skill_firstaid ) >= 1;
+    } );
+    REQUIRE( static_cast<int>( guy.get_skill_level( skill_firstaid ) ) == 1 );
+
+    CHECK( practice_stop_messages() == 1 );
+    // empty practice craft removed, as for the player
+    CHECK_FALSE( craft );
+
+    run_npc_turns( guy, 5 );
+    CHECK( guy.activity.id() != ACT_CRAFT );
+    CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+    CHECK( practice_stop_messages() == 1 );
+}
+
 TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
 {
     avatar dummy;
@@ -925,7 +1074,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     temp_crafting_inventory tinv;
     tinv.add_all_ref( dummy );
     if( ups_on_ground ) {
-        tinv.add_item_ref( *ups_loc );
+        tinv.add_item_loc( ups_loc );
     }
     REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
 }
@@ -1310,7 +1459,7 @@ TEST_CASE( "select_step_tool_allocs_resume_reselects_only_current_step",
     u.set_skill_level( skill_fabrication, 10 );
     const recipe &r = recipe_cudgel_test_steps_charged.obj();
     REQUIRE( r.steps().size() == 3 );
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     bool cancelled = false;
 
     SECTION( "a full build selects the charged step's tool" ) {
@@ -2944,6 +3093,22 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
     }
 }
 
+static item *get_pseudo_item_by_type( const temp_crafting_inventory &crafting_inv,
+                                      const itype_id &id )
+{
+    item *ret = nullptr;
+    crafting_inv.visit_items(
+    [&id, &ret]( item_location node ) {
+        if( node->typeId() == id ) {
+            ret = node.get_item();
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    return ret;
+}
+
 TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 {
     clear_map_without_vision();
@@ -3007,10 +3172,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 0 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining( ) == 0 );
             }
         }
         WHEN( "the smoking rack contains charcoal" ) {
@@ -3018,10 +3182,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
                 player.invalidate_crafting_inventory();
                 CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                REQUIRE( pos >= 0 );
-                const item &rack = player.crafting_inventory().find_item( pos );
-                CHECK( rack.ammo_remaining( ) == 200 );
+                const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                REQUIRE( rack != nullptr );
+                CHECK( rack->ammo_remaining() == 200 );
             }
             GIVEN( "an additional smoking rack" ) {
                 REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
@@ -3030,10 +3193,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 200 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 200 );
                     }
                 }
                 WHEN( "the second smoking rack also contains charcoal" ) {
@@ -3041,10 +3203,9 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
                         player.invalidate_crafting_inventory();
                         CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
-                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
-                        REQUIRE( pos >= 0 );
-                        const item &rack = player.crafting_inventory().find_item( pos );
-                        CHECK( rack.ammo_remaining( ) == 300 );
+                        const item *rack = get_pseudo_item_by_type( player.crafting_inventory(), pseudo_tool );
+                        REQUIRE( rack != nullptr );
+                        CHECK( rack->ammo_remaining() == 300 );
                     }
                 }
             }

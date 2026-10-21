@@ -38,7 +38,14 @@ jobs:
           echo "No TX_TOKEN secret set in this repo, not pulling translations from Transifex"
           exit 1
           fi
-          tx pull -a --force -w 2
+          # Try to download all translations but don't abort on failure
+          tx pull -a --force -w 2 --skip
+          for delay in 0 15 30; do
+            sleep "$delay"
+            # Retry missing languages and exit the loop if all languages succeeded, else retry again with more backoff
+            tx pull -a -d --force -w 2 && exit 0
+          done
+          echo "::error file=.github/workflows/build-translations.yml,title=Missing translations in release::Pulling translations from Transifex failed, build will have some missing translations."
 
       - name: Discard invalid translations
         run: ./lang/discard_invalid_po.sh
@@ -54,3 +61,5 @@ jobs:
             lang/po
             lang/mo
             src/lang_stats.inc
+            data/credits
+            data/motd

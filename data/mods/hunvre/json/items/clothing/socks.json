@@ -1,0 +1,82 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "abstract_socks",
+    "copy-from": "abstract_garment_advanced_variants",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "shorts",
+    "name": { "str_sp": "abstract socks" },
+    "description": "Abstract socks.  If you see this it's a bug, please report.",
+    "material": [ "lycra" ],
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": "1 USD",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "warmth": 5,
+    "material_thickness": 0.2
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "short_socks",
+    "copy-from": "abstract_socks",
+    "name": { "str_sp": "short socks" },
+    "description": "Socks reaching below the ankle.",
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r", "foot_arch_l", "foot_arch_r", "foot_toes_l", "foot_toes_r" ]
+      }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "socks",
+    "copy-from": "abstract_socks",
+    "name": { "str_sp": "socks" },
+    "description": "Socks reaching above the ankle.",
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "long_socks",
+    "copy-from": "abstract_socks",
+    "name": { "str_sp": "long socks" },
+    "description": "Socks reaching the middle of the calves.",
+    "armor": [
+      { "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ] }
+    ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "thermal_socks",
+    "copy-from": "abstract_socks",
+    "name": { "str_sp": "socks" },
+    "description": "Thick socks reaching above the ankle.",
+    "proportional": { "weight": 2, "volume": 2, "warmth": 2 },
+    "material_thickness": 0.4,
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "long_thermal_socks",
+    "copy-from": "abstract_socks",
+    "name": { "str_sp": "long socks" },
+    "description": "Thick socks reaching the middle of the calves.",
+    "proportional": { "weight": 2, "volume": 2, "warmth": 2 },
+    "material_thickness": 0.4,
+    "armor": [
+      { "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      { "coverage": 60, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ] }
+    ]
+  }
+]

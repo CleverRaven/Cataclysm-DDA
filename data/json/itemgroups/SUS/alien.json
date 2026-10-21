@@ -95,7 +95,8 @@
           { "item": "exodiiBRmag", "count": [ 1, 2 ] },
           { "item": "exodiiBRmag_153", "count": [ 0, 1 ] },
           { "item": "exodiiBRmag_26", "count": [ 2, 4 ] },
-          { "item": "123ln", "count": [ 0, 100 ] }
+          { "item": "123ln", "count": [ 0, 100 ] },
+          { "item": "123ln_ap", "count": [ 0, 50 ] }
         ],
         "prob": 5
       },

@@ -30,7 +30,7 @@ static const itype_id itype_battery_car( "battery_car" );
 static const itype_id itype_battery_motorbike( "battery_motorbike" );
 static const itype_id itype_belt308( "belt308" );
 static const itype_id itype_belt40mm( "belt40mm" );
-static const itype_id itype_bp_9mm( "bp_9mm" );
+static const itype_id itype_bp_9mmfmj( "bp_9mmfmj" );
 static const itype_id itype_colt_army( "colt_army" );
 static const itype_id itype_compositebow( "compositebow" );
 static const itype_id itype_cordless_drill( "cordless_drill" );
@@ -192,7 +192,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         // Ammo for guns
         CHECK_FALSE( has_ammo_types( item( itype_38_special ) ) );
         CHECK_FALSE( has_ammo_types( item( itype_reloaded_308 ) ) );
-        CHECK_FALSE( has_ammo_types( item( itype_bp_9mm ) ) );
+        CHECK_FALSE( has_ammo_types( item( itype_bp_9mmfmj ) ) );
         CHECK_FALSE( has_ammo_types( item( itype_44magnum ) ) );
         // Not for guns but classified as ammo
         CHECK_FALSE( has_ammo_types( item( itype_sinew ) ) );

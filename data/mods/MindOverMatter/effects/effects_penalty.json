@@ -113,6 +113,7 @@
     "int_add_val": 2,
     "int_decay_tick": 1,
     "int_decay_remove": true,
+    "immune_flags": [ "HEADBLIND" ],
     "flags": [ "NO_PSIONICS" ]
   },
   {
@@ -124,6 +125,7 @@
     "apply_message": "You feel a dull pain behind your eyes and a terrible sense of loss.",
     "remove_message": "You have a sudden sense of regaining something you had lost.",
     "rating": "bad",
+    "immune_flags": [ "HEADBLIND" ],
     "flags": [ "NO_PSIONICS" ]
   },
   {
@@ -132,6 +134,7 @@
     "//": "This exists to trigger EoCs or as a rider on other psi effects",
     "name": [ "" ],
     "desc": [ "" ],
+    "immune_flags": [ "HEADBLIND" ],
     "flags": [ "NO_PSIONICS" ]
   },
   {
@@ -265,6 +268,7 @@
       "eff_mind_seeing_bonus_30"
     ],
     "max_duration": "24 hours",
+    "immune_flags": [ "HEADBLIND" ],
     "flags": [ "NO_PSIONICS" ]
   },
   {
@@ -274,6 +278,7 @@
     "desc": [ "You can't use your powers." ],
     "apply_message": "You're in so much pain you can't concentrate to use your powers!",
     "rating": "bad",
+    "immune_flags": [ "HEADBLIND" ],
     "flags": [ "NO_PSIONICS" ]
   },
   {

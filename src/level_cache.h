@@ -4,10 +4,12 @@
 
 #include <array>
 #include <bitset>
+#include <cstdint>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "coordinates.h"
 #include "lightmap.h"
@@ -18,11 +20,18 @@
 // IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
 
+// process wide count: equal generations mean the same cache state, even
+// across map instances. 64 bits do not wrap in practice
+uint64_t next_cache_generation();
+
 // level_cache is a huge struct and some compilers need help to zero these
 // members efficiently. Break them into a separate struct which can be memset
 // in a single call instead of a bunch of fill_n which don't optimize well.
 struct level_cache_default_zero_members {
     cata::mdarray<four_quadrants, point_bub_ms> lm;
+    // sunlight alone, which every level's lm starts from; only the sunlight
+    // pass writes it
+    cata::mdarray<four_quadrants, point_bub_ms> sun_lm;
     cata::mdarray<float, point_bub_ms> sm;
     // Accumulated colored light energy per tile. Populated during generate_lightmap
     // alongside lm/sm. Zero = uncolored (white) light only.
@@ -39,10 +48,12 @@ struct level_cache_default_zero_members {
     // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)
     cata::mdarray<bool, point_bub_ms> outside_cache;
 
-    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has ter_furn_flag::TFLAG_SUN_ROOF_ABOVE
-    //      or terrain doesn't have ter_furn_flag::TFLAG_NO_FLOOR flag
-    // false otherwise
-    // i.e. true == has floor
+    // false where this level's terrain has a floor gap flag (see has_floor_gap_flag:
+    //      NO_FLOOR, NO_FLOOR_WATER, GOES_DOWN, TRANSPARENT_FLOOR), unless furniture
+    //      below has ter_furn_flag::TFLAG_SUN_ROOF_ABOVE
+    // true otherwise, and where a boardable vehicle part on this level or a ROOF or
+    //      OPAQUE part below closes the gap
+    // sight and sunlight cross between this level and the one below only where false
     cata::mdarray<bool, point_bub_ms> floor_cache;
 
     // stores cached transparency of the tiles
@@ -55,18 +66,36 @@ struct level_cache_default_zero_members {
     // true, if tile is not opaque
     std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> transparent_cache_wo_fields;
 
+    // sight through the tiles for every observer: transparency_cache, but solid
+    // where TRANSLUCENT terrain or furniture passes light and blocks sight
+    cata::mdarray<float, point_bub_ms> sight_cache;
+    // sight_cache without fields as a bitset; true when sight passes
+    std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> sight_cache_wo_fields;
+    // tiles an opaque vehicle part covers, rewritten every build
+    cata::mdarray<bool, point_bub_ms> vehicle_opaque_cache;
+    // outside_cache and vehicle_opaque_cache as transparency build last read
+    // them; a difference marks the submaps it covers dirty
+    cata::mdarray<bool, point_bub_ms> transparency_outside;
+    cata::mdarray<bool, point_bub_ms> transparency_vehicle_opaque;
+
     // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
+    // initial values derived from sight_cache, uses same units
+    // the cover a crouching or prone avatar hides behind
     cata::mdarray<float, point_bub_ms> vision_transparency_cache;
 
     // stores "visibility" of the tiles to the player
     // values range from 1 (fully visible to player) to 0 (not visible)
     cata::mdarray<float, point_bub_ms> seen_cache;
 
-    // same as `seen_cache` (same units) but contains values for cameras and mirrors
-    // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
+    // same units as `seen_cache`: what monster and vehicle cameras transmit, each
+    // cast on its own and max-merged; mirrors the avatar sees go into seen_cache
+    // final classification reads max(seen_cache, camera_cache) with light and
+    // observer state
     cata::mdarray<float, point_bub_ms> camera_cache;
+
+    // tiles a cast reached that the ledge pass then hid; with seen_cache and
+    // camera_cache they are what a cast read, so changes elsewhere leave it alone
+    std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> ledge_hidden;
 
     // stores resulting apparent brightness to player, calculated by map::apparent_light_at
     cata::mdarray<lit_level, point_bub_ms> visibility_cache;
@@ -87,10 +116,56 @@ struct level_cache : level_cache_default_zero_members {
         void clear();
 
         std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
+        // submaps the transparency build rewrote since the vision build last
+        // copied them
+        std::bitset<MAPSIZE *MAPSIZE> vision_transparency_dirty;
+        // cells of vision_transparency_cache the observer overlay last wrote,
+        // with the value; they go back to scene value when overlay moves
+        std::vector<std::pair<point_bub_ms, float>> vision_observer_overrides;
+        // weather sight penalty transparency build last applied
+        float built_sight_penalty = -1.0f;
+        // outside_cache written since transparency build last read it
+        bool outside_rewritten = true;
+        // vehicle_opaque_cache, or the copy transparency build last read, holds
+        // an opaque tile; with neither, comparing is pointless
+        bool vehicle_opaque_any = false;
+        bool transparency_vehicle_opaque_any = false;
+        // set from next_cache_generation when a value in the four transparency
+        // and sight caches changes
+        uint64_t sight_revision = 0;
+        // set from next_cache_generation when terrain, furniture, floors or
+        // vehicle parts on this level change; ledges and vertical sight read them
+        uint64_t geometry_revision = 0;
+        // set from next_cache_generation whenever a field on the level changes
+        uint64_t field_revision = 0;
         bool outside_cache_dirty = false;
         bool floor_cache_dirty = false;
         bool seen_cache_dirty = false;
         bool lightmap_dirty = true;
+        // set from next_cache_generation each time the level's light grids are
+        // replaced, by a full build or by sunlight alone; a reader compares it
+        // to tell the light changed
+        uint64_t lightmap_generation = 0;
+        // set from next_cache_generation when the sunlight pass rewrites sun_lm
+        uint64_t sun_revision = 0;
+        // lm also holds the level's light sources, not just sunlight
+        bool light_full = false;
+        // last full build found a source that can change with no notice: a
+        // blinking lamp or a lit item
+        bool light_changes_by_turn = false;
+        // dawn, dusk and weather tint the last full build applied
+        light_color_rgb light_tint{};
+        // light of every tile when the level lies above all populated ones and
+        // the sunlight pass left sun_lm unwritten; negative otherwise
+        float sun_uniform = -1.0f;
+        // sun_revision of the sun_lm lm was last built from
+        uint64_t lightmap_sun_revision = 0;
+        // set from next_cache_generation each time update_visibility_cache
+        // recomputes visibility_cache
+        uint64_t visibility_generation = 0;
+        // set by any write that dirties map_memory_cache_dec or _ter on this
+        // level; a tiles memorize sweep of this level is due while set
+        bool map_memory_sweep_pending = true;
         // True when at least one light source on this z-level has non-white color.
         // Used to skip the color blur pass when all lights are white.
         bool has_colored_lights = false;
