@@ -186,7 +186,7 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     temp_text = clothing_info::clothing_flags_description( *worn_item_it );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_info::clothing_properties( *worn_item_it, c, bp );
+    temp_text = clothing_info::clothing_properties( *worn_item_it, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     temp_text = clothing_info::clothing_protection( *worn_item_it, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
@@ -232,8 +232,7 @@ std::string clothing_layer( const item &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties(
-    const item &worn_item, const Character &c, const bodypart_id &bp )
+std::vector<std::string> clothing_properties( const item &worn_item, const bodypart_id &bp )
 {
     std::vector<std::string> props;
     bodypart_id used_bp = bp;
@@ -275,15 +274,14 @@ std::vector<std::string> clothing_properties(
     coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_VITALS );
     props.emplace_back( string_format( _( "Coverage (Vitals): %3d" ), coverage ) );
 
-    const int encumbrance = worn_item.get_encumber( c, used_bp );
     props.emplace_back( string_format( _( "Encumbrance: %3d" ), coverage ) );
     props.emplace_back( string_format( _( "Warmth: %3d" ), worn_item.get_warmth( used_bp ) ) );
     return props;
 }
 
-void clothing_info::add_category_and_values( std::vector<std::string> &current_text,
-        const std::string &category_name,
-        const std::vector<std::pair<std::string, std::string>> &names_and_values )
+void add_category_and_values( std::vector<std::string> &current_text,
+                              const std::string &category_name,
+                              const std::vector<std::pair<std::string, std::string>> &names_and_values )
 {
     if( names_and_values.empty() ) {
         current_text.emplace_back( category_name );
@@ -300,20 +298,6 @@ void clothing_info::add_category_and_values( std::vector<std::string> &current_t
             assembled_value += names_and_values[i].first + spacer + names_and_values[i].second;
         }
         current_text.emplace_back( assembled_value );
-        /*
-        int required_oneline_width = utf8_width( category_name + spacer + assembled_value );
-        if( required_oneline_width <= field_width ) {
-            current_text.emplace_back( trimmed_name_and_value( category_name, assembled_value, field_width ) );
-        } else {
-
-            current_text.emplace_back( trim_by_length(category_name, field_width) );
-            for( const std::pair<std::string, std::string> &name_and_value : names_and_values ) {
-                current_text.emplace_back( trimmed_name_and_value( spacer + name_and_value.first,
-                                           name_and_value.second, field_width ) );
-            //}
-        }
-        */
-
     }
 }
 

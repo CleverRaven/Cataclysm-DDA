@@ -1,5 +1,15 @@
-#include "input_context.h"
+#pragma once
+#ifndef CATA_SRC_TABBED_LISTINFO_UI_H
+#define CATA_SRC_TABBED_LISTINFO_UI_H
+
+#include <memory>
+#include <string>
+
+#include "cata_imgui.h"
 #include "uilist.h"
+
+class input_context;
+struct ImVec2;
 
 /*
 * A general UI interface for displaying an arbitrary number of tabs containing the following:
@@ -11,6 +21,7 @@
 class tabbed_listinfo_ui
 {
     public:
+        virtual ~tabbed_listinfo_ui() = default;
         virtual void setup_new_uilist() = 0;
         // update uilist_entries for current tab, but do not modify uilist_entry count
         virtual void update_uilist_entries() = 0;
@@ -30,3 +41,4 @@ class tabbed_listinfo_ui
         // used to set scrolling for info window
         static void set_info_scroll( bool &scrolled_down, bool &scrolled_up );
 };
+#endif // CATA_SRC_TABBED_LISTINFO_UI_H

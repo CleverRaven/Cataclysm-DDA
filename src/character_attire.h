@@ -281,12 +281,12 @@ namespace clothing_info
 {
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
-    const item &worn_item, const Character &, const bodypart_id &bp );
+    const item &worn_item, const bodypart_id &bp );
 std::vector<std::string> clothing_protection( const item &worn_item,
         const bodypart_id &bp );
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 void add_category_and_values( std::vector<std::string> &current_text,
                               const std::string &category_name,
                               const std::vector<std::pair<std::string, std::string>> &names_and_values );
-}
+} // namespace clothing_info
 #endif // CATA_SRC_CHARACTER_ATTIRE_H

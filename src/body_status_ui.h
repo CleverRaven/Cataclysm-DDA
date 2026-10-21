@@ -1,12 +1,29 @@
+#include <array>
+#include <chrono>
+#include <list>
+#include <memory>
+#include <optional>
+#include <string>
+#include <tuple>
+#include <vector>
+
 #include "bodygraph.h"
+#include "bodypart.h"
 #include "cata_imgui.h"
-#include "character.h"
+#include "display.h"
+#include "flat_set.h"
 #include "input_context.h"
-#include "options.h"
+#include "item_location.h"
+#include "memory_fast.h"
+#include "subbodypart.h"
 #include "tabbed_listinfo_ui.h"
+#include "type_id.h"
 #include "uilist.h"
 
+class Character;
 class body_status_ui;
+class item;
+template <typename E> struct enum_traits;
 
 const int BODY_STATUS_UI_TAB_COUNT = 3;
 
@@ -105,7 +122,6 @@ struct armor_text_entry {
 };
 
 struct body_status_uistate {
-    body_status_uistate() = default;
     explicit body_status_uistate( Character &displayed_character, bodygraph_id bg_id,
                                   body_status_tab initial_tab );
 
@@ -165,7 +181,8 @@ struct body_status_uistate {
     void init();
 
     void update_blink();
-    std::string prepare_bodygraph_text( std::optional<std::string> bodypart_or_subpart_id );
+    std::string prepare_bodygraph_text( const std::optional<std::string> &bodypart_or_subpart_id )
+    const;
 
     bool bodygraph_collapsed = false;
     bool info_collapsed = false;
@@ -197,9 +214,9 @@ class body_status_ui : public tabbed_listinfo_ui
         bool reset_list_entries = false;
         bool reset_window_size = false;
 
-        body_status_ui( Character &disp_character,
-                        body_status_tab initial_tab = body_status_tab::BS_TAB_SUMMARY ) : displayed_character(
-                                disp_character ),
+        explicit body_status_ui( Character &disp_character,
+                                 body_status_tab initial_tab = body_status_tab::BS_TAB_SUMMARY ) : displayed_character(
+                                         disp_character ),
             bs_uistate( disp_character, bodygraph_id::NULL_ID(), initial_tab ) {
             bs_callback = body_status_callback( this );
         };
@@ -208,7 +225,7 @@ class body_status_ui : public tabbed_listinfo_ui
         void update_uilist_entries() override;
         void upon_switching_tab() override;
         void update_uilist_position( ImVec2 new_position ) override;
-        void setup_input_context( input_context &cc_ictxt ) override;
+        void setup_input_context( input_context &bs_ictxt ) override;
         bool handle_action( const std::string &action ) override;
         std::shared_ptr<uilist> get_current_tab_uilist() override;
         void set_current_tab_uilist( const std::shared_ptr<uilist> &new_uilist ) override;
@@ -234,10 +251,10 @@ class body_status_ui_impl : public cataimgui::window
         void draw_bodygraph();
 
         // @param subpart_graph - if true, use subpart instead of bodypart
-        void draw_graph_imgui( std::optional<std::string> bodypart_or_subpart_id );
-        void draw_info_imgui( const std::vector<std::string> info_txt ) const;
+        void draw_graph_imgui( const std::optional<std::string> &bodypart_or_subpart_id );
+        void draw_info_imgui( const std::vector<std::string> &info_txt ) const;
         void draw_worn_items_by_limb();
     protected:
-        void draw_controls();
+        void draw_controls() override;
         cataimgui::bounds get_bounds() override;
 };

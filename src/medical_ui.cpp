@@ -1,8 +1,6 @@
-#include <algorithm>
 #include <cstdlib>
 #include <functional>
 #include <imgui/imgui.h>
-#include <iterator>
 #include <map>
 #include <memory>
 #include <optional>
@@ -12,9 +10,8 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "avatar_action.h"
-#include "bodypart.h"
 #include "body_status_ui.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_imgui.h"
 #include "catacharset.h"
@@ -22,17 +19,14 @@
 #include "character_attire.h"
 #include "color.h"
 #include "coordinates.h"
-#include "creature.h"
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
 #include "enum_conversions.h"
-#include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
@@ -45,7 +39,6 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui_manager.h"
 #include "uilist.h"
 #include "units.h"
 #include "units_utility.h"

@@ -137,7 +137,7 @@ class character_creator_ui : public tabbed_listinfo_ui
         // returns true if character creation completed successfully
         bool display();
         // setup new uilist if necessary, assumes current tab has been set
-        void setup_new_uilist();
+        void setup_new_uilist() override;
         // setup the avatar for switching to a different tab
         void setup_avatar();
         void update_uilist_entries() override;

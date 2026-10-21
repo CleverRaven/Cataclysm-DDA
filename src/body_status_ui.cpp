@@ -1,19 +1,29 @@
 #include "body_status_ui.h" // IWYU pragma: associated
 
+#include <functional>
 #include <memory>
-#include <tuple>
 
 #include "avatar_action.h"
 #include "bodygraph.h"
+#include "character.h"
+#include "character_attire.h"
+#include "color.h"
+#include "creature.h"
 #include "display.h"
+#include "enum_traits.h"
 #include "flag.h"
-#include "game_inventory.h"
 #include "imgui/imgui.h"
+#include "item.h"
+#include "options.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
+#include "ui_manager.h"
 #include "uilist.h"
 #include "uistate.h"
-#include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
-#include "wcwidth.h"
 
 static const bodygraph_id bodygraph_full_body( "full_body" );
 
@@ -63,8 +73,8 @@ void body_status_uistate::update_blink()
     }
 }
 
-std::string body_status_uistate::prepare_bodygraph_text( std::optional<std::string>
-        bodypart_or_subpart_id )
+std::string body_status_uistate::prepare_bodygraph_text( const std::optional<std::string> &
+        bodypart_or_subpart_id ) const
 {
     int bg_height = 20;
     return display::colorized_bodygraph_text( displayed_character, displayed_graph_id.str(),
@@ -79,7 +89,6 @@ const bodygraph_part_info &body_status_uistate::get_selected_partlist() const
 
 std::string bodygraph_part_info::get_part() const
 {
-    const bodypart_id selected_part = bp_id;
     const sub_bodypart_str_id selected_subpart = sbp_id;
     return !sbp_id.is_null() ? selected_subpart->id.str() :
            bp_id.id().str();
@@ -98,8 +107,6 @@ void body_status_uistate::init()
 
 void body_status_uistate::update_sorted_armor()
 {
-    const outfit &worn = displayed_character.worn;
-
     sort_armor_categories.clear();
     sort_armor_categories.emplace_back( bodypart_str_id::NULL_ID() );
     for( bodypart_id bp_id : all_bodyparts ) {
@@ -145,7 +152,6 @@ void body_status_uistate::prepare_worn_items_by_limb()
             nc_color color = elem.penalties.color_for_stacking_badness();
             char plus = elem.penalties.badness() > 0 ? '+' : ' ';
             std::string encumbrance_string = string_format( "%d%c", elem.encumber, plus );
-            int encumbrance_char_allowance = utf8_width( encumbrance_string ) + 1;
             item_entry.item_name = colorize( elem.name, color );
             item_entry.encumbrance = colorize( encumbrance_string, c_light_gray );
             item_entry.hidden = colorize( ( elem.hidden ? "H" : "" ), c_light_gray );
@@ -269,10 +275,7 @@ void body_status_ui::upon_switching_tab()
             }
             break;
         }
-        case body_status_tab::BS_TAB_MEDICAL: {
-            bs_uistate.displayed_graph_id = bodygraph_full_body;
-            break;
-        }
+        case body_status_tab::BS_TAB_MEDICAL:
         case body_status_tab::BS_TAB_SORT_ARMOR: {
             bs_uistate.displayed_graph_id = bodygraph_full_body;
             break;
@@ -338,7 +341,7 @@ void body_status_ui::setup_new_uilist()
 
         if( bs_uistate.selected_tab == body_status_tab::BS_TAB_SORT_ARMOR ) {
             if( bs_uistate.selected_index_set > -1 &&
-                bs_uistate.selected_index_set < bs_uistate.worn_subset.size() ) {
+                bs_uistate.selected_index_set < static_cast<int>( bs_uistate.worn_subset.size() ) ) {
                 new_uilist->scrollby( uilist::scroll_amount{
                     uilist::scroll_amount::absolute, bs_uistate.selected_index_set } );
             } else {
@@ -426,7 +429,7 @@ bool body_status_ui::handle_action( const std::string &action )
     } else if( action == "RIGHT" ) {
         int &sort_armor_category_index = bs_uistate.sort_armor_category_index;
         sort_armor_category_index++;
-        if( sort_armor_category_index == bs_uistate.sort_armor_categories.size() ) {
+        if( sort_armor_category_index == static_cast<int>( bs_uistate.sort_armor_categories.size() ) ) {
             sort_armor_category_index = 0;
         }
         bs_uistate.update_sorted_armor();
@@ -446,7 +449,7 @@ bool body_status_ui::handle_action( const std::string &action )
         }
     } else if( action == "MOVE_ARMOR_OUT" ) {
         int outer_item_index = bs_uistate.selected_index + 1;
-        if( outer_item_index < bs_uistate.worn_subset.size() ) {
+        if( outer_item_index < static_cast<int>( bs_uistate.worn_subset.size() ) ) {
             std::list<item>::iterator selected_item = bs_uistate.worn_subset[bs_uistate.selected_index];
             std::list<item>::iterator outer_item = bs_uistate.worn_subset[outer_item_index];
             splice_worn_item( selected_item, outer_item, outer_item_index, true );
@@ -468,11 +471,15 @@ bool body_status_ui::handle_action( const std::string &action )
         displayed_character.worn.sort();
         bs_uistate.update_sorted_armor();
         reset_list_entries = true;
-    } else if( action == "EQUIP_ARMOR" ) {
+    }
+    /*
+    else if( action == "EQUIP_ARMOR" ) {
 
     } else if( action == "EQUIP_ARMOR_HERE" ) {
 
-    } else if( action == "REMOVE_ARMOR" ) {
+    }
+    */
+    else if( action == "REMOVE_ARMOR" ) {
         // query (for now)
         if( displayed_character.query_yn( _( "Remove selected armor?" ) ) ) {
             do_return_entry();
@@ -549,6 +556,8 @@ void body_status_ui::update_uilist_entries()
 
             break;
         }
+        default:
+            break;
     }
 }
 
@@ -665,8 +674,8 @@ cataimgui::bounds body_status_ui_impl::get_bounds()
     const body_status_uistate &bs_uistate = ui_parent->bs_uistate;
     const ImVec2 viewport = ImGui::GetMainViewport()->WorkSize;
     const float WINDOW_THIRD = viewport.x * 0.333f;
-    float displayed_windows = 1 + ( int )!bs_uistate.bodygraph_collapsed +
-                              ( int )!bs_uistate.info_collapsed;
+    float displayed_windows = 1 + static_cast<int>( !bs_uistate.bodygraph_collapsed ) +
+                              static_cast<int>( !bs_uistate.info_collapsed );
     return { 0, 0, displayed_windows == 3 ? viewport.x : displayed_windows * WINDOW_THIRD, viewport.y};
 }
 
@@ -691,8 +700,7 @@ void body_status_ui_impl::draw_controls()
         }
 
         const body_status_tab selected_tab = bs_uistate.selected_tab;
-        const body_status_tab switched_tab = bs_uistate.switched_tab;
-        auto check_new_tab = [this, &bs_uistate]( body_status_tab new_tab ) {
+        auto check_new_tab = [&bs_uistate]( body_status_tab new_tab ) {
             if( ImGui::IsItemActive() ) {
                 bs_uistate.selected_tab = new_tab;
                 bs_uistate.switched_tab = body_status_tab::BS_TAB_last;
@@ -762,7 +770,6 @@ void body_status_ui_impl::draw_info()
 
             if( bs_uistate.selected_armor ) {
                 const item &selected_armor = *bs_uistate.selected_armor;
-                const Character &displayed_character = bs_uistate.displayed_character;
                 const bodypart_id sort_armor_category = bs_uistate.sort_armor_category;
 
                 cataimgui::draw_colored_text( selected_armor.tname() );
@@ -774,7 +781,7 @@ void body_status_ui_impl::draw_info()
                 }
                 ImGui::Separator();
                 for( const std::string &lines : clothing_info::clothing_properties(
-                         selected_armor, displayed_character, sort_armor_category ) ) {
+                         selected_armor, sort_armor_category ) ) {
                     cataimgui::draw_colored_text( lines );
                 }
                 ImGui::Separator();
@@ -785,8 +792,8 @@ void body_status_ui_impl::draw_info()
             } else {
                 cataimgui::draw_colored_text( colorize( "Select a worn item to view its properties.", c_yellow ) );
             }
+            break;
         }
-        break;
         default:
             break;
     }
@@ -800,7 +807,7 @@ void body_status_ui_impl::draw_worn_items_by_limb()
 
     if( ImGui::BeginTable( "##Limbs", 4, ImGuiTableFlags_SizingStretchProp ) ) {
         ImGui::TableSetupColumn( _( "Armor by Limb" ) );
-        ImGui::TableSetupColumn( _( "Encb." ) );
+        ImGui::TableSetupColumn( _( "Enc." ) );
         ImGui::TableSetupColumn( _( "Vol." ) );
         ImGui::TableSetupColumn( _( "Hid." ) );
         ImGui::TableHeadersRow();

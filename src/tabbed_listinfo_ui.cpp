@@ -1,5 +1,11 @@
 #include "tabbed_listinfo_ui.h"
 
+#include <imgui/imgui.h>
+#include <algorithm>
+#include <optional>
+
+#include "color.h"
+#include "input_enums.h"
 #include "options.h"
 
 //TODO: these static functions are identical to character creator's

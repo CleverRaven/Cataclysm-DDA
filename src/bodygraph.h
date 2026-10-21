@@ -10,15 +10,12 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "damage.h"
-#include "display.h"
 #include "effect.h"
-#include "input_context.h"
-#include "output.h"
+#include "subbodypart.h"
 #include "type_id.h"
-#include "ui_manager.h"
 
 class Character;
 class JsonObject;
