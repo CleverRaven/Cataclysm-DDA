@@ -55,20 +55,17 @@ body_status_uistate::body_status_uistate( Character &displayed_character, bodygr
 
 void body_status_uistate::update_blink()
 {
-    // SX2: timing should not have to be reduced
-    if( blink > get_option<int>( "BLINK_SPEED" ) / 16 ) {
-        blink = 0;
+    std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
+    if( now > last_blink + std::chrono::milliseconds( get_option<int>( "BLINK_SPEED" ) ) ) {
+        last_blink = now;
         symbol_blinking = !symbol_blinking;
         disp_bodygraph_cache::clear_all();
     }
-    blink++;
 }
 
 std::string body_status_uistate::prepare_bodygraph_text( std::optional<std::string>
         bodypart_or_subpart_id )
 {
-    update_blink();
-
     int bg_height = 20;
     return display::colorized_bodygraph_text( displayed_character, displayed_graph_id.str(),
             display_mode, 40, 20, bg_height,
@@ -90,6 +87,7 @@ std::string bodygraph_part_info::get_part() const
 
 void body_status_uistate::init()
 {
+    last_blink = std::chrono::steady_clock::now();
     bodygraph_collapsed = uistate.body_status_bodygraph_collapsed;
     info_collapsed = uistate.body_status_info_collapsed;
     prepare_partlist();
@@ -218,6 +216,7 @@ bool body_status_ui::display()
     while( !bs_uistate.quit_menu ) {
         ui_manager::redraw_invalidated();
 
+        bs_uistate.update_blink();
         input_context &current_tab_input = get_current_tab_input();
         input_context::scoped_activation active_tab_context( current_tab_input );
 
@@ -617,7 +616,7 @@ void body_status_callback::confirm( uilist *menu )
 void body_status_callback::select( uilist *menu )
 {
     body_status_uistate &bs_uistate = ui_parent->bs_uistate;
-    bs_uistate.blink = 0;
+    bs_uistate.last_blink = std::chrono::steady_clock::now();
     bs_uistate.symbol_blinking = true;
     disp_bodygraph_cache::clear( bs_uistate.displayed_graph_id, bs_uistate.display_mode );
 
