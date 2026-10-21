@@ -296,5 +296,10 @@
       [ [ "apple", 1 ], [ "lemon", 1 ] ],
       [ [ "copper_necklace", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_xe_shapeshifter_cardboard_palace",
+    "type": "requirement",
+    "components": [ [ [ "box_large", 1 ] ] ]
   }
 ]
