@@ -1802,6 +1802,9 @@ void npc::move()
                     if( !completed_goal ) {
                         completed_goal = ( new_goal != "follow_player" );
                     }
+                } else if( bt_goal_to_category( committed ) == decision_category::combat ) {
+                    // only as long as behavior tree keeps choosing it
+                    completed_goal = ( new_goal != committed );
                 } else if( committed == "follow_embarked" ) {
                     completed_goal = ( new_goal != "follow_embarked" );
                 } else if( committed == "goto_ordered_position" ) {

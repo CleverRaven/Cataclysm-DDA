@@ -654,6 +654,74 @@ TEST_CASE( "next_goal_after_completion_is_adopted", "[npc][needs][water][obligat
     CHECK( adopted );
 }
 
+static const monster &zombie_in_view( const npc &guy );
+
+TEST_CASE( "fight_ends_when_threat_is_gone", "[npc][needs][obligation]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    GIVEN( "a follower committed to fighting a zombie" ) {
+        zombie_in_view( guy );
+        run_npc_turns( guy, 3 );
+        REQUIRE( guy.get_committed_goal() == "fight" );
+        WHEN( "zombie stays" ) {
+            const time_point since = guy.get_intention().since;
+            run_npc_turns( guy, 3 );
+            THEN( "fight goes on" ) {
+                CHECK( guy.get_committed_goal() == "fight" );
+                CHECK( guy.get_intention().since == since );
+            }
+        }
+        const auto fight_over = []( const npc & n ) {
+            return n.get_committed_goal() != "fight";
+        };
+        WHEN( "zombie gone, follower hungry, orange in pack" ) {
+            clear_creatures();
+            guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+            guy.set_hunger( 300 );
+            REQUIRE( guy.i_add( item( itype_orange ) ) );
+            here.build_map_cache( 0 );
+            run_npc_turns( guy, 2, fight_over );
+            THEN( "fight ends, it eats" ) {
+                CHECK( fight_over( guy ) );
+                run_npc_turns( guy, 3, []( const npc & n ) {
+                    return n.amount_of( itype_orange ) == 0;
+                } );
+                CHECK( guy.amount_of( itype_orange ) == 0 );
+            }
+        }
+        WHEN( "zombie gone, leader walks off" ) {
+            clear_creatures();
+            get_avatar().setpos( here, leader_pos + tripoint( -10, 0, 0 ) );
+            here.build_map_cache( 0 );
+            run_npc_turns( guy, 2, fight_over );
+            THEN( "fight ends, it follows" ) {
+                CHECK( guy.get_committed_goal() == "follow_player" );
+                run_npc_turns( guy, 20, []( const npc & n ) {
+                    return dist_to_leader( n ) <= 4;
+                } );
+                CHECK( dist_to_leader( guy ) <= 4 );
+            }
+        }
+        WHEN( "zombie gone, follower told to go somewhere" ) {
+            clear_creatures();
+            const tripoint_bub_ms order = leader_pos + tripoint( -3, 0, 0 );
+            guy.goto_to_this_pos = here.get_abs( order );
+            here.build_map_cache( 0 );
+            run_npc_turns( guy, 2, fight_over );
+            THEN( "fight ends, it goes there" ) {
+                CHECK( guy.get_committed_goal() == "goto_ordered_position" );
+                run_npc_turns( guy, 10, [&order]( const npc & n ) {
+                    return n.pos_bub() == order;
+                } );
+                CHECK( guy.pos_bub() == order );
+            }
+        }
+    }
+}
+
 TEST_CASE( "bt_score_matches_current_need_urgency", "[npc][needs]" )
 {
     drink_setup();
