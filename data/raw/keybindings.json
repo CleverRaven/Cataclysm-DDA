@@ -627,7 +627,7 @@
   {
     "type": "keybinding",
     "id": "USAGE_HELP",
-    "category": "BODY_STATUS_UI",
+    "category": "SORT_ARMOR",
     "name": "Display usage help",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
   },
@@ -672,8 +672,26 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_SIDE",
+    "category": "SORT_ARMOR",
+    "name": "Change side armor is worn on",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" }, { "input_method": "gamepad", "key": "L_RADIAL_N" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_CLOTH",
     "category": "BODY_STATUS_UI",
+    "name": "Toggle armor visibility on character sprite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "H" },
+      { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "L_RADIAL_NE" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_CLOTH",
+    "category": "SORT_ARMOR",
     "name": "Toggle armor visibility on character sprite",
     "bindings": [
       { "input_method": "keyboard_char", "key": "H" },
@@ -690,8 +708,26 @@
   },
   {
     "type": "keybinding",
+    "id": "ASSIGN_INVLETS",
+    "category": "SORT_ARMOR",
+    "name": "Assign invlets to armor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" }, { "input_method": "gamepad", "key": "L_RADIAL_E" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SORT_ARMOR",
     "category": "BODY_STATUS_UI",
+    "name": "Sort armor into natural layer order",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "S" },
+      { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "L_RADIAL_SE" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SORT_ARMOR",
+    "category": "SORT_ARMOR",
     "name": "Sort armor into natural layer order",
     "bindings": [
       { "input_method": "keyboard_char", "key": "S" },
@@ -712,8 +748,30 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "SORT_ARMOR",
+    "name": "Scroll info window up",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "<" },
+      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "ALT_UP" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "BODY_STATUS_UI",
+    "name": "Scroll info window down",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": ">" },
+      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] },
+      { "input_method": "gamepad", "key": "ALT_DOWN" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "SORT_ARMOR",
     "name": "Scroll info window down",
     "bindings": [
       { "input_method": "keyboard_char", "key": ">" },
@@ -738,14 +796,14 @@
   {
     "type": "keybinding",
     "id": "EQUIP_ARMOR",
-    "category": "BODY_STATUS_UI",
+    "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
     "bindings": [ { "input_method": "keyboard_any", "key": "e" }, { "input_method": "gamepad", "key": "L_RADIAL_S" } ]
   },
   {
     "type": "keybinding",
     "id": "EQUIP_ARMOR_HERE",
-    "category": "BODY_STATUS_UI",
+    "category": "SORT_ARMOR",
     "name": "Equip armor from inventory at this position",
     "bindings": [
       { "input_method": "keyboard_char", "key": "E" },
@@ -762,8 +820,26 @@
   },
   {
     "type": "keybinding",
+    "id": "REMOVE_ARMOR",
+    "category": "SORT_ARMOR",
+    "name": "Unequip selected armor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "gamepad", "key": "L_RADIAL_W" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "BODY_STATUS_UI",
+    "name": "Toggle item as favorite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "SORT_ARMOR",
     "name": "Toggle item as favorite",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
