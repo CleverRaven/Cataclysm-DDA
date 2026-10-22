@@ -1546,7 +1546,7 @@ void npc::revert_ended_task()
 void npc::end_cancelled_task()
 {
     if( has_activity() && !activity && !has_stashed_activity() && !has_destination() &&
-        get_destination_activity().is_null() && !task_on_mission ) {
+        get_destination_activity().is_null() && !task_on_mission && !suspended_task ) {
         revert_ended_task();
     }
 }
@@ -1931,7 +1931,14 @@ void npc::move()
                     }
                 }
             } else if( is_executor_goal( new_goal ) ) {
+                if( new_goal == "go_to_sleep" ) {
+                    suspend_task_for_rest();
+                }
                 const need_result result = execute_need_goal( new_goal );
+                if( result == need_result::impossible && suspended_task ) {
+                    // no rest after all, back to the task this turn
+                    resume_suspended_task();
+                }
                 if( result == need_result::progressed && activity ) {
                     // Undo attitude/mission change from assign_activity.
                     attitude = saved_att;
@@ -1985,6 +1992,9 @@ void npc::move()
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY && !has_flag( json_flag_CANNOT_MOVE ) ) {
+        if( suspended_task && !in_sleep_state() && get_committed_goal() != "go_to_sleep" ) {
+            resume_suspended_task();
+        }
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
@@ -2019,7 +2029,7 @@ void npc::move()
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off
         // like random NPCs
-        if( attitude == NPCATT_ACTIVITY && !activity ) {
+        if( attitude == NPCATT_ACTIVITY && !activity && !suspended_task ) {
             revert_ended_task();
         }
         // a follower keeps its camp but does no camp work while walking with the player
@@ -4867,7 +4877,7 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            if( is_player_ally() && attitude == NPCATT_ACTIVITY && !mute_activity ) {
+            if( is_player_ally() && attitude == NPCATT_ACTIVITY && !mute_activity && !suspended_task ) {
                 add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
@@ -7313,6 +7323,35 @@ npc_interrupt_cost npc::interrupt_cost( const need_goal_id id ) const
     return npc_interrupt_cost::costly;
 }
 
+bool npc::is_self_care_activity() const
+{
+    return activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ||
+           activity.id() == ACT_START_FIRE;
+}
+
+void npc::suspend_task_for_rest()
+{
+    if( suspended_task || !activity || attitude != NPCATT_ACTIVITY || is_self_care_activity() ) {
+        return;
+    }
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: puts %s aside to rest", get_name(),
+                   activity.id().str() );
+    // moved, not cancelled: cancelling would end a craft the NPC means to resume
+    suspended_task = npc_suspended_task{ activity, backlog };
+    activity = player_activity();
+    backlog.clear();
+}
+
+void npc::resume_suspended_task()
+{
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: goes back to %s", get_name(),
+                   suspended_task->task.id().str() );
+    activity = suspended_task->task;
+    backlog.splice( backlog.begin(), suspended_task->backlog );
+    current_activity_id = activity.id();
+    suspended_task.reset();
+}
+
 void npc::end_need_pursuit( const need_goal_id id )
 {
     clear_need_state( id );
@@ -7372,11 +7411,8 @@ void npc::clear_committed_goal()
         end_need_pursuit( *gid );
     }
     // drops any self-care activity, whichever goal started it
-    if( activity ) {
-        const activity_id &act = activity.id();
-        if( act == ACT_FORAGE || act == ACT_HARVEST || act == ACT_START_FIRE ) {
-            cancel_activity();
-        }
+    if( is_self_care_activity() ) {
+        cancel_activity();
     }
     ai_cache.intention = {};
 }

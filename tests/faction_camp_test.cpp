@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -631,6 +632,34 @@ TEST_CASE( "camp_mission_puts_the_workers_craft_aside", "[camp][npc]" )
             THEN( "it goes on with its craft as it left it" ) {
                 back_at_the_craft( *loaded );
             }
+        }
+    }
+    // as a need goal starts a forage: attitude and mission stay
+    const auto start_forage = [&]() {
+        const npc_attitude att = guy.get_attitude();
+        const npc_mission mis = guy.mission;
+        guy.assign_activity( forage_activity_actor( 1000 ) );
+        guy.set_attitude( att );
+        guy.set_mission( mis );
+        REQUIRE( guy.is_self_care_activity() );
+    };
+    GIVEN( "worker forages" ) {
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "forage is not taken up again" ) {
+            REQUIRE( comp->is_active() );
+            CHECK_FALSE( comp->activity );
+            CHECK( comp->backlog.empty() );
+        }
+    }
+    GIVEN( "worker stops its craft to forage" ) {
+        craft_until_progress();
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "it goes on with its craft, not the forage" ) {
+            back_at_the_craft( *comp );
         }
     }
     GIVEN( "worker on the way to workbench" ) {

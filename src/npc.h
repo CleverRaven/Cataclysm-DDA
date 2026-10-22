@@ -1418,6 +1418,12 @@ class npc : public Character
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );
+        // activity a need goal starts and owns
+        bool is_self_care_activity() const;
+        // task waits aside until the rest is over
+        void suspend_task_for_rest();
+        void resume_suspended_task();
+        void drop_suspended_task();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1547,6 +1553,9 @@ class npc : public Character
         }
         const npc_intention &get_intention() const {
             return ai_cache.intention;
+        }
+        const std::optional<npc_suspended_task> &get_suspended_task() const {
+            return suspended_task;
         }
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
@@ -1831,6 +1840,7 @@ class npc : public Character
         // comfort, less up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
         int score_sleep_spot( const tripoint_bub_ms &p );
         npc_sleep_session sleep_session;
+        std::optional<npc_suspended_task> suspended_task;
 
         npc_companion_mission comp_mission;
         // player's task, kept unworked while NPC is on a companion mission

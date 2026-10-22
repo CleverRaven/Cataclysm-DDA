@@ -1192,13 +1192,21 @@ void npc::starting_inv_wear_item( npc *who, item &it )
 
 void npc::revert_after_activity()
 {
-    mission = previous_mission;
-    attitude = previous_attitude;
+    // task put aside to rest keeps the NPC's mission and attitude
+    if( !suspended_task ) {
+        mission = previous_mission;
+        attitude = previous_attitude;
+    }
     activity = player_activity();
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
     activity_handlers::clean_may_activity_occupancy_items_var( *this );
+}
+
+void npc::drop_suspended_task()
+{
+    suspended_task.reset();
 }
 
 npc_mission npc::get_previous_mission() const
@@ -4005,6 +4013,15 @@ void npc::put_task_aside_for_mission()
 {
     if( task_on_mission ) {
         return;
+    }
+    if( is_self_care_activity() ) {
+        // self-care activity isn't kept for after the mission; the task it interrupted is
+        activity.canceled( *this );
+        activity = player_activity();
+        if( !backlog.empty() ) {
+            activity = backlog.front();
+            backlog.pop_front();
+        }
     }
     // the walk to the task is planned again when the task resumes
     const player_activity pending = activity ? activity : get_destination_activity();
