@@ -30,6 +30,7 @@
 #include "clzones.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -42,6 +43,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_uid.h"
 #include "itype.h"
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
@@ -72,6 +74,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "talker.h"
@@ -124,6 +127,7 @@ static const itype_id itype_apron_leather( "apron_leather" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_crackers( "crackers" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
@@ -176,6 +180,7 @@ static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_cargo_lock( "cargo_lock" );
@@ -1340,6 +1345,148 @@ TEST_CASE( "npc_camp_water_through_stomach", "[npc][needs][camp]" )
 
         CHECK( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
         CHECK( camp_faction->food_supply().kcal() < 50 );
+    }
+}
+
+// settled follower beside the leader with a backpack: whatever the test adds is its only supply
+static npc &spawn_supplied_follower( const tripoint_bub_ms &at )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    get_avatar().setpos( get_map(), at + tripoint::east );
+    npc &guy = spawn_npc( at.xy(), "test_talker" );
+    clear_character( guy, true );
+    // clear_character moves it away from the leader
+    guy.setpos( get_map(), at );
+    REQUIRE( rl_dist( guy.pos_bub(), get_avatar().pos_bub() ) == 1 );
+    guy.set_fac( faction_your_followers );
+    guy.set_attitude( NPCATT_FOLLOW );
+    guy.set_mission( NPC_MISSION_NULL );
+    guy.guard_pos = std::nullopt;
+    guy.clear_ai_guard_pos();
+    guy.rules.set_flag( ally_rule::follow_close );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 0 );
+    guy.set_thirst( 0 );
+    guy.set_sleepiness( 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    get_map().build_map_cache( 0 );
+    return guy;
+}
+
+TEST_CASE( "reserved_drink_is_not_a_water_source", "[npc][needs][water]" )
+{
+    npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_thirst( 600 );
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 2 ),
+                            pocket_type::CONTAINER ).success() );
+    item_location held = guy.i_add( bottle );
+    REQUIRE( held );
+    REQUIRE( held->num_item_stacks() == 1 );
+    item_location water( held, &held->only_item() );
+    behavior::character_oracle_t oracle( &guy );
+    behavior::tree decision;
+    decision.add( &behavior_node_t_npc_decision.obj() );
+
+    GIVEN( "water is free to use" ) {
+        CHECK( oracle.has_water( "" ) == behavior::status_t::running );
+        CHECK( decision.tick( &oracle ) == "drink_water" );
+    }
+    GIVEN( "a craft has reserved the water" ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 77000 + water->uid().get_value();
+        rec.provider_item_uids.push_back( water->uid().get_value() );
+        rec.expires_at = calendar::turn + 1_hours;
+        get_craft_reservations().set( rec );
+        REQUIRE( get_craft_reservations().is_reserved_uid( water->uid().get_value() ) );
+        on_out_of_scope release( []() {
+            get_craft_reservations().clear();
+        } );
+        THEN( "it's no water source" ) {
+            CHECK( oracle.has_water( "" ) == behavior::status_t::failure );
+            CHECK( decision.tick( &oracle ) != "drink_water" );
+        }
+        THEN( "a turn leaves it untouched" ) {
+            run_npc_turn( guy );
+            CHECK( water->charges == 2 );
+            CHECK( guy.stomach.get_water() == 0_ml );
+        }
+    }
+}
+
+TEST_CASE( "unacceptable_food_is_not_a_food_source", "[npc][needs]" )
+{
+    npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_stored_kcal( 1000 );
+    REQUIRE( guy.has_calorie_deficit() );
+    item_location meat = guy.i_add( item( itype_meat_cooked ) );
+    REQUIRE( meat );
+    REQUIRE( guy.has_item( *meat ) );
+    behavior::character_oracle_t oracle( &guy );
+    behavior::tree decision;
+    decision.add( &behavior_node_t_npc_decision.obj() );
+
+    GIVEN( "NPC eats meat" ) {
+        REQUIRE( guy.will_eat( *meat ).success() );
+        CHECK( oracle.has_food( "" ) == behavior::status_t::running );
+        CHECK( decision.tick( &oracle ) == "eat_food" );
+    }
+    GIVEN( "NPC is a vegetarian" ) {
+        guy.set_mutation( trait_VEGETARIAN );
+        REQUIRE_FALSE( guy.will_eat( *meat ).success() );
+        THEN( "it's no food source" ) {
+            CHECK( oracle.has_food( "" ) == behavior::status_t::failure );
+            CHECK( decision.tick( &oracle ) != "eat_food" );
+        }
+        THEN( "a turn leaves it untouched" ) {
+            run_npc_turn( guy );
+            CHECK( guy.has_item( *meat ) );
+            CHECK( guy.stomach.get_calories() == 0 );
+        }
+    }
+}
+
+TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
+{
+    npc &guy = spawn_supplied_follower( tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    REQUIRE( guy.has_calorie_deficit() );
+    map &here = get_map();
+    const tripoint_bub_ms adj = guy.pos_bub() + tripoint::south;
+    item &sandwich = here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
+    item_location loc( map_cursor( adj ), &sandwich );
+    here.build_map_cache( 0 );
+    REQUIRE_FALSE( guy.find_food_candidates().empty() );
+
+    GIVEN( "a craft has reserved the sandwich" ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 77000 + sandwich.uid().get_value();
+        rec.provider_item_uids.push_back( sandwich.uid().get_value() );
+        rec.expires_at = calendar::turn + 1_hours;
+        get_craft_reservations().set( rec );
+        REQUIRE( get_craft_reservations().is_reserved_uid( sandwich.uid().get_value() ) );
+        on_out_of_scope release( []() {
+            get_craft_reservations().clear();
+        } );
+        THEN( "neither offered nor eaten" ) {
+            CHECK( guy.find_food_candidates().empty() );
+            CHECK_FALSE( guy.may_use_source( loc ) );
+            CHECK_FALSE( guy.consume_food_at( loc ) );
+            CHECK( here.i_at( adj ).size() == 1 );
+        }
+        THEN( "a turn leaves it there" ) {
+            run_npc_turn( guy );
+            CHECK( here.i_at( adj ).size() == 1 );
+            CHECK( guy.stomach.get_calories() == 0 );
+        }
     }
 }
 

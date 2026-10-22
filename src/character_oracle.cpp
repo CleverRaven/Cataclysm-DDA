@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "basecamp.h"
@@ -12,6 +13,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
@@ -23,7 +25,6 @@
 #include "stomach.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -148,22 +149,32 @@ status_t character_oracle_t::can_take_shelter( std::string_view ) const
     return n->find_nearby_shelters().empty() ? status_t::failure : status_t::running;
 }
 
+static bool carries_supply_for( const Character &subject, const npc::need_goal_id id )
+{
+    const npc *n = dynamic_cast<const npc *>( &subject );
+    if( !n ) {
+        return false;
+    }
+    // const_cast: the inventory cache refreshes itself, so the query is not const
+    for( const item_location &loc : const_cast<npc *>( n )->cache_get_items_with( "is_food",
+            &item::is_food ) ) {
+        if( n->may_use_source( loc ) && n->can_satisfy( *loc, id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 status_t character_oracle_t::has_water( std::string_view ) const
 {
-    // Check if we know about water somewhere
-    bool found_water = subject->has_item_with( []( const item & cand ) {
-        return cand.is_food() && cand.get_comestible()->quench > 0;
-    } );
-    return found_water ? status_t::running : status_t::failure;
+    return carries_supply_for( *subject, npc::need_goal_id::drink_water ) ? status_t::running :
+           status_t::failure;
 }
 
 status_t character_oracle_t::has_food( std::string_view ) const
 {
-    // Check if we know about food somewhere
-    bool found_food = subject->has_item_with( []( const item & cand ) {
-        return cand.is_food() && cand.get_comestible()->has_calories();
-    } );
-    return found_food ? status_t::running : status_t::failure;
+    return carries_supply_for( *subject, npc::need_goal_id::eat_food ) ? status_t::running :
+           status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_food( std::string_view ) const

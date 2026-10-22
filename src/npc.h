@@ -1421,6 +1421,10 @@ class npc : public Character
         void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
         bool saw_player_recently() const;
+        // need's item filter plus will_eat (diet and stomach room)
+        bool can_satisfy( const item &it, npc_short_term_cache::need_goal_id id ) const;
+        // access: reservation, no-go areas and zones
+        bool may_use_source( const item_location &loc ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );
