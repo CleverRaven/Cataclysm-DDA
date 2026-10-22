@@ -36,7 +36,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "20 seconds",
     "skills": { "firstaid": 1 },
-    "requirements": [ { "components": [ [ [ "adhesive_bandages", 1 ] ] ] } ]
+    "requirements": [ [ "wound_bandage_small", 1 ] ]
   },
   {
     "abstract": "bandage_wound_medium",
