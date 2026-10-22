@@ -5465,6 +5465,48 @@ bool npc::consume_food_from_camp( consume_filter filter )
     return false;
 }
 
+static bool need_accepts( const item &it, const npc::need_goal_id id )
+{
+    if( !it.is_food() ) {
+        return false;
+    }
+    const cata::value_ptr<islot_comestible> &com = it.get_comestible();
+    if( !com ) {
+        return false;
+    }
+    switch( id ) {
+        case npc::need_goal_id::eat_food:
+            return com->get_default_nutr() > 0;
+        case npc::need_goal_id::drink_water:
+            return com->quench > 0;
+        case npc::need_goal_id::seek_warmth:
+        case npc::need_goal_id::go_to_sleep:
+            break;
+    }
+    return false;
+}
+
+bool npc::can_satisfy( const item &it, const need_goal_id id ) const
+{
+    return need_accepts( it, id ) && will_eat( it ).success();
+}
+
+bool npc::may_use_source( const item_location &loc ) const
+{
+    if( !loc || !craft_reservation::usable_by_automation( *loc ) ) {
+        return false;
+    }
+    if( loc.where_recursive() == item_location::type::character ) {
+        return true;
+    }
+    const map &here = get_map();
+    const tripoint_bub_ms p = loc.pos_bub( here );
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return false;
+    }
+    return !is_player_ally() || !g->check_zone( zone_type_NO_NPC_PICKUP, p );
+}
+
 bool npc::consume_food( consume_filter filter )
 {
     float best_weight = 0.0f;
@@ -5487,8 +5529,8 @@ bool npc::consume_food( consume_filter filter )
     std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
     // Eating consumes the item it names, so per-item predicate is the right one
     inv_food.erase( std::remove_if( inv_food.begin(), inv_food.end(),
-    []( const item_location & loc ) {
-        return !loc || !craft_reservation::usable_by_automation( *loc );
+    [this]( const item_location & loc ) {
+        return !may_use_source( loc );
     } ), inv_food.end() );
 
     if( inv_food.empty() ) {
@@ -6383,27 +6425,25 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
 
     // No thirst-dominant filter: rate_food() already penalizes dry food when
     // thirsty via the quench-vs-hunger ratio, so hydrating items rank higher.
-    const auto score_item = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
-        if( !it.is_food() )
-        {
-            return false;
-        }
+    const auto score_item = [&]( const item_location & loc, const tripoint_bub_ms & p ) -> bool {
+        const item &it = *loc;
         // food_only: skip items with no nutritional value (pure drinks).
         // drink_only: skip items with no hydration value (pure food).
         if( filter == consume_filter::food_only )
         {
-            const auto &com = it.get_comestible();
-            if( !com || com->get_default_nutr() <= 0 ) {
+            if( !need_accepts( it, need_goal_id::eat_food ) ) {
                 return false;
             }
         } else if( filter == consume_filter::drink_only )
         {
-            const auto &com = it.get_comestible();
-            if( !com || com->quench <= 0 ) {
+            if( !need_accepts( it, need_goal_id::drink_water ) ) {
                 return false;
             }
+        } else if( !it.is_food() )
+        {
+            return false;
         }
-        if( !would_take_that( it, p ) )
+        if( !would_take_that( it, p ) || !may_use_source( loc ) )
         {
             return false;
         }
@@ -6425,11 +6465,9 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
         // Ground items (need sees_some_items for visibility gate).
         if( here.sees_some_items( p, *this ) ) {
             for( item &it : here.i_at( p ) ) {
-                if( score_item( it, p ) ) {
-                    float w = rate_food( *this, it, want_hunger, want_quench );
-                    results.push_back( {
-                        item_location( map_cursor( p ), &it ), w
-                    } );
+                item_location loc( map_cursor( p ), &it );
+                if( score_item( loc, p ) ) {
+                    results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
                 }
             }
         }
@@ -6446,15 +6484,11 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
             continue;
         }
         for( item &it : cargo->items() ) {
-            if( score_item( it, p ) ) {
-                float w = rate_food( *this, it, want_hunger, want_quench );
-                results.push_back( {
-                    item_location{
-                        vehicle_cursor{
-                            cargo->vehicle(),
-                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
-                    }, w
-                } );
+            item_location loc( vehicle_cursor( cargo->vehicle(),
+                                               static_cast<ptrdiff_t>( cargo->part_index() ) ),
+                               &it );
+            if( score_item( loc, p ) ) {
+                results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
             }
         }
     }
@@ -6556,7 +6590,7 @@ bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
 
 bool npc::consume_food_at( item_location loc )
 {
-    if( !loc.get_item() ) {
+    if( !loc.get_item() || !may_use_source( loc ) ) {
         return false;
     }
     const time_duration &t = get_consume_time( *loc );
