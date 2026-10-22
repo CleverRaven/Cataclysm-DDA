@@ -162,7 +162,7 @@ int auto_eat_settings::spoil_score( const Character &guy, const potential_edible
 
 int auto_eat_settings::calorie_score( const Character &guy, const potential_edible &food ) const
 {
-    return guy.compute_calories_per_effective_volume( food ) / 10;
+    return guy.compute_calories_per_effective_volume( food.get_item_copy() ) / 10;
 }
 
 int auto_eat_settings::quench_score( const Character &guy, const potential_edible &food ) const

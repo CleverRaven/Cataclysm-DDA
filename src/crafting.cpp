@@ -3639,8 +3639,7 @@ static void assign_consume( Character &guy, item_location loc )
 {
     if( loc && loc->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
         player_activity act_eat = player_activity( consume_activity_actor( loc ) );
-        // eat it *first*
-        guy.backlog.push_front( act_eat );
+        guy.queue_activity_front( act_eat );
     }
 }
 

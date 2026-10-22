@@ -5335,6 +5335,28 @@ void Character::restore_scent()
     }
 }
 
+
+bool Character::has_queued_activities() const
+{
+    return !activity_queue.empty();
+}
+
+void Character::assign_queued_activity()
+{
+    assign_activity( activity_queue.front() );
+    activity_queue.pop_front();
+}
+
+void Character::queue_activity( const player_activity &act )
+{
+    activity_queue.push_back( act );
+}
+
+void Character::queue_activity_front( const player_activity &act )
+{
+    activity_queue.push_front( act );
+}
+
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
                                  const std::string &name )
 {
@@ -5454,13 +5476,6 @@ void Character::resume_backlog_activity()
         activity.allow_distractions();
         backlog.pop_front();
     }
-}
-
-void Character::assign_backlog_activity()
-{
-    player_activity to_assign = backlog.front();
-    backlog.pop_front();
-    assign_activity( to_assign );
 }
 
 void Character::process_activity()

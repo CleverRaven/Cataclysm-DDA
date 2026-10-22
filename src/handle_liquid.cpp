@@ -131,7 +131,7 @@ void handle_all_liquid( item liquid, const int radius, const item *const avoid )
         liquid_target_loc.visit_items( [&]( const item_location & node ) {
             if( node->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
                 player_activity act_eat = player_activity( consume_activity_actor( node ) );
-                get_player_character().backlog.push_front( act_eat );
+                get_player_character().queue_activity_front( act_eat );
             }
             return VisitResponse::NEXT;
         } );

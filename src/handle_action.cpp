@@ -876,24 +876,16 @@ void avatar_action::eat_some( avatar &you )
     const std::list<auto_eat_settings::potential_edible> to_eat_list =
         you.auto_eat_handler.get_surrounding_available_food( you );
 
-    you.backlog.clear();
-    std::vector<player_activity> to_consume;
     // placeholder for adding settings
     for( const auto_eat_settings::potential_edible &food : to_eat_list ) {
         if( !food.is_recipe() ) {
             player_activity act_eat = player_activity( consume_activity_actor( food.loc() ) );
-            to_consume.push_back( act_eat );
+            you.queue_activity_front( act_eat );
         } else {
             craft_command cmd( food.get_recipe(), 1, false, &you, std::nullopt );
             cmd.eat_after_craft = true;
             cmd.execute();
         }
-    }
-
-    you.backlog.insert( you.backlog.end(), to_consume.begin(), to_consume.end() );
-
-    if( !you.backlog.empty() ) {
-        you.assign_backlog_activity();
     }
 }
 

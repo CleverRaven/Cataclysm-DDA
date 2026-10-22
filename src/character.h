@@ -2910,8 +2910,17 @@ class Character : public Creature, public visitable
         std::optional<tripoint_abs_ms> destination_point;
         itype_id last_item;
     private:
+        // the activity queue is activities that don't need to be auto continue to do.
+        // each queued activity will be started via the start() function in their actor
+        // and the activity queue is prioritized over the backlog.
+        std::deque<player_activity> activity_queue;
         item weapon;
     public:
+        bool has_queued_activities() const;
+        void assign_queued_activity();
+        void queue_activity( const player_activity &act );
+        // prioritizes the activity over others queued
+        void queue_activity_front( const player_activity &act );
         item_location get_wielded_item() const;
         item_location get_wielded_item();
         // This invalidates the item_location returned by get_wielded_item
@@ -3179,8 +3188,6 @@ class Character : public Creature, public visitable
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
-        // this assigns the backlog activity. the backlog is a "queue" for this use case
-        void assign_backlog_activity();
         void cancel_activity();
         void cancel_stashed_activity();
         player_activity get_stashed_activity() const;

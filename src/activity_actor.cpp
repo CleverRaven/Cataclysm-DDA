@@ -6278,20 +6278,17 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
         };
     }
 
-    if( !who.backlog.empty() && who.backlog.front().id() == ACT_CONSUME ) {
-        who.assign_backlog_activity();
-    } else if( auto_eat && who.is_avatar() ) {
-        std::list<player_activity> to_push;
-        const auto visit = [&to_push]( item_location food ) {
+    if( auto_eat && who.is_avatar() ) {
+        const auto visit = [&who]( item_location food ) {
             if( food->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
                 if( !food->is_craft() ) {
                     player_activity act_eat = player_activity( consume_activity_actor( food ) );
                     // put consume items first, because craft will interrupt backlog queue
-                    to_push.push_front( act_eat );
+                    who.queue_activity_front( act_eat );
                 } else {
                     // resume craft
                     player_activity act_craft = player_activity( craft_activity_actor( food, false ) );
-                    to_push.push_back( act_craft );
+                    who.queue_activity( act_craft );
                 }
             }
             return VisitResponse::NEXT;
@@ -6303,13 +6300,6 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
             map_cursor( pt ).visit_items( visit );
         }
         who.visit_items( visit );
-
-        // don't delete the backlog, but prioritize eating all of the auto eat items
-        who.backlog.insert( who.backlog.begin(), to_push.begin(), to_push.end() );
-
-        if( !who.backlog.empty() ) {
-            who.assign_backlog_activity();
-        }
     }
 }
 
@@ -6723,8 +6713,9 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
+        return;
     }
-    activity_override = craft_item.get_item()->get_making().exertion_level();
+    activity_override = craft_item->get_making().exertion_level();
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;
@@ -6920,13 +6911,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         const bool will_continue = is_long;
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
-        if( eat_after_craft ) {
-            if( !crafter.backlog.empty() && crafter.backlog.front().id() == ACT_CONSUME ) {
-                crafter.assign_backlog_activity();
-            } else {
-                debugmsg( "lost craft to eat" );
-            }
-        } else if( will_continue ) {
+        if( will_continue ) {
             if( crafter.making_would_work( crafter.lastrecipe, craft_copy.get_making_batch_size() ) ) {
                 crafter.last_craft->execute( location );
             }

@@ -110,7 +110,7 @@ TEST_CASE( "water_food_score", "[auto_eat]" )
         }
         return VisitResponse::NEXT;
     } );
-    REQUIRE(clean_water_contained);
+    REQUIRE( clean_water_contained );
     clean_water_contained->set_owner( you );
     CAPTURE( clean_water_contained->tname() );
     REQUIRE( clean_water_contained->is_comestible() );
