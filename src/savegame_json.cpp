@@ -2254,6 +2254,11 @@ void npc_sleep_session::serialize( JsonOut &json ) const
     json.member( "stalled_until", stalled_until );
     json.member( "stay_awake_until", stay_awake_until );
     json.member( "stay_awake_floor", stay_awake_floor );
+    json.member( "noise_hold_until", noise_hold_until );
+    json.member( "noise_hold_at", noise_hold_at );
+    json.member( "noise_hold_deaf", noise_hold_deaf );
+    json.member( "noise_wakes", noise_wakes );
+    json.member( "last_noise_wake", last_noise_wake );
     json.end_object();
 }
 
@@ -2271,6 +2276,11 @@ void npc_sleep_session::deserialize( const JsonObject &data )
     data.read( "stalled_until", stalled_until );
     data.read( "stay_awake_until", stay_awake_until );
     data.read( "stay_awake_floor", stay_awake_floor );
+    data.read( "noise_hold_until", noise_hold_until );
+    data.read( "noise_hold_at", noise_hold_at );
+    data.read( "noise_hold_deaf", noise_hold_deaf );
+    data.read( "noise_wakes", noise_wakes );
+    data.read( "last_noise_wake", last_noise_wake );
 }
 
 void npc::store( JsonOut &json ) const

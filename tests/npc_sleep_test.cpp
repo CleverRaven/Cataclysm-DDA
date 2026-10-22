@@ -25,6 +25,7 @@
 #include "dialogue.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "input_enums.h"
 #include "item.h"
 #include "json.h"
@@ -74,11 +75,14 @@ static const furn_str_id furn_f_sofa( "f_sofa" );
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bandages( "bandages" );
+static const itype_id itype_ear_plugs( "ear_plugs" );
 
 static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
+
+static const mtype_id mon_zombie( "mon_zombie" );
 
 static const recipe_id recipe_prac_health_care_beg( "prac_health_care_beg" );
 
@@ -1561,4 +1565,106 @@ TEST_CASE( "task_whose_requirements_fail_while_asleep_reports_it", "[npc][needs]
     }
     CAPTURE( log );
     CHECK( reported );
+}
+
+// one turn beside an idling engine; true when the NPC lay down this turn
+static bool engine_turn( npc &guy, const bool running )
+{
+    const bool was_resting = guy.in_sleep_state();
+    if( running ) {
+        sounds::reset_sounds();
+        sounds::sound( guy.pos_bub() + tripoint::east, 20, sounds::sound_t::movement, "engine", true );
+        sounds::process_sound_markers( &guy );
+    }
+    const bool woken = guy.get_sleep_session().phase == npc_sleep_phase::woken;
+    run_npc_turn( guy );
+    return ( woken || !was_resting ) && guy.in_sleep_state();
+}
+
+static bool noise_until_held( npc &guy, const int max_turns )
+{
+    for( int turn = 0; turn < max_turns && !guy.noise_hold_active(); ++turn ) {
+        engine_turn( guy, true );
+    }
+    return guy.noise_hold_active();
+}
+
+TEST_CASE( "steady_noise_does_not_cause_wake_lie_down_churn", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    int lie_downs = 0;
+    int held_turns = 0;
+    for( int turn = 0; turn < to_turns<int>( 10_minutes ); ++turn ) {
+        lie_downs += engine_turn( guy, true ) ? 1 : 0;
+        if( guy.noise_hold_active() ) {
+            held_turns++;
+            CAPTURE( turn );
+            // other work may run meanwhile
+            CHECK_FALSE( guy.in_sleep_state() );
+            CHECK( guy.get_committed_goal() != "go_to_sleep" );
+        }
+    }
+    CAPTURE( lie_downs, guy.get_sleep_session().noise_wakes );
+    // one lie-down after the first wake, then one per expired hold (1, 2, 4, 8 minutes)
+    CHECK( lie_downs <= 5 );
+    CHECK( held_turns > to_turns<int>( 5_minutes ) );
+}
+
+TEST_CASE( "rest_resumes_when_the_noise_stops", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    REQUIRE( noise_until_held( guy, 300 ) );
+    REQUIRE_FALSE( guy.in_sleep_state() );
+
+    SECTION( "engine stops" ) {
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+    }
+    SECTION( "it puts ear plugs in" ) {
+        guy.worn.wear_item( guy, item( itype_ear_plugs ), false, false );
+        REQUIRE( guy.is_deaf() );
+        for( int turn = 0; turn < 5 && !settled( guy ); ++turn ) {
+            engine_turn( guy, true );
+        }
+        CHECK( settled( guy ) );
+    }
+    SECTION( "noise continues" ) {
+        for( int turn = 0; turn < 5; ++turn ) {
+            engine_turn( guy, true );
+        }
+        CHECK_FALSE( settled( guy ) );
+    }
+}
+
+TEST_CASE( "danger_still_wakes_a_resting_npc_despite_the_hold", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    REQUIRE( noise_until_held( guy, 300 ) );
+    // hold expires, lies back down under the same noise
+    calendar::turn = guy.get_sleep_session().noise_hold_until;
+    for( int turn = 0; turn < 5 && !settled( guy ); ++turn ) {
+        engine_turn( guy, true );
+    }
+    REQUIRE( settled( guy ) );
+    // can't fall asleep now, so lies awake
+    guy.remove_effect( effect_sleep );
+    guy.add_effect( effect_lying_down, 30_minutes, false, 1 );
+    guy.set_stim( 100 );
+    REQUIRE( g->place_critter_at( mon_zombie, guy.pos_bub() + tripoint( 3, 0, 0 ) ) != nullptr );
+    here.build_map_cache( 0 );
+    // the turn's rest review may have been asked before the zombie came
+    for( int turn = 0; turn < 2 && guy.in_sleep_state(); ++turn ) {
+        engine_turn( guy, true );
+    }
+    CHECK_FALSE( guy.in_sleep_state() );
 }
