@@ -284,9 +284,8 @@ void add_category_and_values( std::vector<std::string> &current_text,
                               const std::string &category_name,
                               const std::vector<std::pair<std::string, std::string>> &names_and_values )
 {
-    if( names_and_values.empty() ) {
-        current_text.emplace_back( category_name );
-    } else {
+    current_text.emplace_back( string_format( "%s:", category_name ) );
+    if( !names_and_values.empty() ) {
         const std::string separator = ", ";
         const std::string spacer = " ";
         std::string assembled_value;
