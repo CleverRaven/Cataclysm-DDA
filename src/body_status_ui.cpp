@@ -253,7 +253,7 @@ bool body_status_ui::display()
 
     uistate.body_status_bodygraph_collapsed = bs_uistate.bodygraph_collapsed;
     uistate.body_status_info_collapsed = bs_uistate.info_collapsed;
-    return true;
+    return bs_uistate.wound_fixed;
 }
 
 void body_status_ui::upon_switching_tab()
@@ -619,7 +619,10 @@ void body_status_callback::confirm( uilist *menu )
             break;
         }
         case body_status_tab::BS_TAB_MEDICAL: {
-            bs_uistate.displayed_character.pick_wound_fix( bs_uistate.selected_bodypart );
+            if( bs_uistate.displayed_character.pick_wound_fix( bs_uistate.selected_bodypart ) ) {
+                bs_uistate.wound_fixed = true;
+                bs_uistate.quit_menu = true;
+            }
             break;
         }
         case body_status_tab::BS_TAB_SORT_ARMOR: {
