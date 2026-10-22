@@ -12,10 +12,7 @@
     "components": [
       [
         [ "adhesive_bandages", 1 ],
-        [ "bandages", 1 ],
-        [ "bandages_makeshift", 1 ],
-        [ "bandages_makeshift_bleached", 1 ],
-        [ "bandages_makeshift_boiled", 1 ]
+        [ "wound_bandage", 1, "LIST" ]
       ]
     ]
   },
