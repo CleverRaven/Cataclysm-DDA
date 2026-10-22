@@ -186,7 +186,7 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     temp_text = clothing_info::clothing_flags_description( *worn_item_it );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_info::clothing_properties( *worn_item_it, bp );
+    temp_text = clothing_info::clothing_properties( *worn_item_it, c, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     temp_text = clothing_info::clothing_protection( *worn_item_it, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
@@ -232,7 +232,8 @@ std::string clothing_layer( const item &worn_item )
     return layer;
 }
 
-std::vector<std::string> clothing_properties( const item &worn_item, const bodypart_id &bp )
+std::vector<std::string> clothing_properties(
+    const item &worn_item, const Character &c, const bodypart_id &bp )
 {
     std::vector<std::string> props;
     bodypart_id used_bp = bp;
@@ -273,8 +274,8 @@ std::vector<std::string> clothing_properties( const item &worn_item, const bodyp
     props.emplace_back( string_format( _( "Coverage (Ranged): %3d" ), coverage ) );
     coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_VITALS );
     props.emplace_back( string_format( _( "Coverage (Vitals): %3d" ), coverage ) );
-
-    props.emplace_back( string_format( _( "Encumbrance: %3d" ), coverage ) );
+    const int encumbrance = worn_item.get_encumber( c, used_bp );
+    props.emplace_back( string_format( _( "Encumbrance: %3d" ), encumbrance ) );
     props.emplace_back( string_format( _( "Warmth: %3d" ), worn_item.get_warmth( used_bp ) ) );
     return props;
 }
