@@ -8541,32 +8541,9 @@ std::optional<int> iuse::strong_antibiotic( Character *p, item *it, const tripoi
     return 1;
 }
 
-static item *wield_before_use( Character *const p, item *const it, const std::string &msg )
-{
-    if( !p->is_wielding( *it ) ) {
-        if( !p->is_armed() || query_yn( msg.c_str(), it->tname() ) ) {
-            if( !p->wield( *it ) ) {
-                // Will likely happen if it is too heavy, or the player is
-                // wielding something that can't be unwielded
-                add_msg( m_bad, "%s", p->can_wield( *it ).str() );
-                return nullptr;
-            }
-            // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &*p->get_wielded_item();
-        } else {
-            return nullptr;
-        }
-    }
-    return it;
-}
-
-std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms &loc )
 {
     if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
-    if( !it ) {
         return std::nullopt;
     }
 
@@ -8577,7 +8554,12 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
         return std::nullopt;
     }
 
-    item_location craft_loc( *p, it );
+    item_location craft_loc;
+    if( p->has_item( *it ) ) {
+        craft_loc = item_location( *p, it );
+    } else {
+        craft_loc = item_location( map_cursor( loc ), it );
+    }
     craft_resolve_overdue_passive( *it, calendar::turn, craft_loc );
     if( !craft_loc || !craft_loc.get_item() ) {
         return std::nullopt;
