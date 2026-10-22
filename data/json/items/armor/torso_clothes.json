@@ -532,7 +532,24 @@
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 48, 48 ] }
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 85,
+        "encumbrance": [ 48, 48 ]
+      }
     ],
     "pocket_data": [
       {
@@ -633,7 +650,24 @@
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 21, 27 ] }
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 95,
+        "encumbrance": [ 21, 27 ]
+      }
     ],
     "pocket_data": [
       {
