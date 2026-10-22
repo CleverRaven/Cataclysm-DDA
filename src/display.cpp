@@ -1575,7 +1575,10 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     const std::string bg_cache_key = disp_bodygraph_cache::get_cache_id( graph, var );
 
     if( disp_bg_cache.count( bg_cache_key ) ) {
-        return disp_bg_cache.at( bg_cache_key ).get_val();
+        const disp_bodygraph_cache &dbg_cache = disp_bg_cache.at( bg_cache_key );
+        if( dbg_cache.is_valid_for( u, graph_id ) ) {
+            return dbg_cache.get_val();
+        }
     }
 
     if( graph.is_null() || !graph.is_valid() || ( graph->rows.empty() &&
