@@ -601,6 +601,8 @@ class item
          * @return Amount of "burn" that would be applied to the item.
          */
         float simulate_burn( fire_data &frd ) const;
+        /** The burn that @ref burn would apply to the item; 0 for an UNBREAKABLE item. */
+        float burn_amount( fire_data &frd ) const;
         /** Burns the item. Returns true if the item was destroyed. */
         bool burn( fire_data &frd );
 
