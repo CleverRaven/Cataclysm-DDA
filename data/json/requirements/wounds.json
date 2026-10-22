@@ -6,6 +6,20 @@
     "tools": [ [ [ "soapy_water", 1 ] ] ]
   },
   {
+    "id": "wound_bandage_small",
+    "type": "requirement",
+    "//": "For bandaging small wounds",
+    "components": [
+      [
+        [ "adhesive_bandages", 1 ],
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "wound_bandage",
     "type": "requirement",
     "//": "For bandaging wounds",
