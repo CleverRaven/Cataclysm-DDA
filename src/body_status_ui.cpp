@@ -790,7 +790,7 @@ void body_status_ui_impl::draw_info()
                 }
                 ImGui::Separator();
                 for( const std::string &lines : clothing_info::clothing_properties(
-                         selected_armor, sort_armor_category ) ) {
+                         selected_armor, bs_uistate.displayed_character, sort_armor_category ) ) {
                     cataimgui::draw_colored_text( lines );
                 }
                 ImGui::Separator();
