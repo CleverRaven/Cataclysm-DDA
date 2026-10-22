@@ -184,6 +184,7 @@ struct body_status_uistate {
     std::string prepare_bodygraph_text( const std::optional<std::string> &bodypart_or_subpart_id )
     const;
 
+    bool wound_fixed = false;
     bool bodygraph_collapsed = false;
     bool info_collapsed = false;
     bool info_scrolled_up = false;
