@@ -233,7 +233,9 @@ npc_trip npc::route_trip( const npc_trip_spec &spec, const npc_reach_policy *pol
 std::optional<npc_trip> npc::resolve_trip( const npc_trip_spec &spec ) const
 {
     npc_trip &cached = ai_cache.last_trip;
-    if( cached.turn == calendar::turn && cached.from == pos_bub() && cached.spec == spec ) {
+    const std::optional<npc_reach> reach = obligation_reach();
+    if( cached.turn == calendar::turn && cached.from == pos_bub() && cached.spec == spec &&
+        cached.reach.matches( reach ) ) {
         return cached.feasible ? std::optional<npc_trip>( cached ) : std::nullopt;
     }
     const std::optional<npc_reach_policy> policy = reach_policy_for( spec );
@@ -245,6 +247,7 @@ std::optional<npc_trip> npc::resolve_trip( const npc_trip_spec &spec ) const
         trip = route_trip( spec, nullptr );
         trip.route_in_reach = false;
     }
+    trip.reach = npc_reach_snapshot::of( reach );
     cached = trip;
     return trip.feasible ? std::optional<npc_trip>( trip ) : std::nullopt;
 }
