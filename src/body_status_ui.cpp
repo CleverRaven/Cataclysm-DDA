@@ -455,18 +455,25 @@ bool body_status_ui::handle_action( const std::string &action )
             splice_worn_item( selected_item, outer_item, outer_item_index, true );
         }
     } else if( action == "CHANGE_SIDE" ) {
-        if( displayed_character.query_yn( _( "Swap side for %s?" ),
-                                          bs_uistate.selected_armor->tname() ) ) {
-            displayed_character.change_side( *bs_uistate.selected_armor );
-            bs_uistate.update_sorted_armor();
+        item_location &changed_armor = bs_uistate.selected_armor;
+        if( changed_armor.valid() ) {
+            if( !changed_armor->is_sided() ) {
+                popup( _( "This armor isn't one-sided!" ) );
+            } else if( displayed_character.query_yn( _( "Swap side for %s?" ),
+                       changed_armor->tname() ) ) {
+                displayed_character.change_side( *changed_armor );
+                bs_uistate.update_sorted_armor();
+            }
         }
     } else if( action == "TOGGLE_CLOTH" ) {
-        if( !bs_uistate.selected_armor->has_flag( json_flag_HIDDEN ) ) {
-            bs_uistate.selected_armor->set_flag( json_flag_HIDDEN );
-        } else {
-            bs_uistate.selected_armor->unset_flag( json_flag_HIDDEN );
+        if( bs_uistate.selected_armor.valid() ) {
+            if( !bs_uistate.selected_armor->has_flag( json_flag_HIDDEN ) ) {
+                bs_uistate.selected_armor->set_flag( json_flag_HIDDEN );
+            } else {
+                bs_uistate.selected_armor->unset_flag( json_flag_HIDDEN );
+            }
+            bs_uistate.update_sorted_armor();
         }
-        bs_uistate.update_sorted_armor();
     } else if( action == "SORT_ARMOR" ) {
         displayed_character.worn.sort();
         bs_uistate.update_sorted_armor();
@@ -490,10 +497,12 @@ bool body_status_ui::handle_action( const std::string &action )
             bs_uistate.quit_menu = true;
         }
     } else if( action == "TOGGLE_FAVORITE" ) {
-        item &item_to_toggle = *bs_uistate.selected_armor;
-        item_to_toggle.set_favorite( !item_to_toggle.is_favorite );
-        bs_uistate.update_sorted_armor();
-        reset_list_entries = true;
+        if( bs_uistate.selected_armor.valid() ) {
+            item &item_to_toggle = *bs_uistate.selected_armor;
+            item_to_toggle.set_favorite( !item_to_toggle.is_favorite );
+            bs_uistate.update_sorted_armor();
+            reset_list_entries = true;
+        }
     } else if( action == "ASSIGN_INVLETS" ) {
         displayed_character.worn.assign_invlets( displayed_character );
     } else {
