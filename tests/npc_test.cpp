@@ -40,6 +40,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "fire.h"
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
@@ -105,6 +106,7 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_meth( "meth" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
@@ -116,10 +118,23 @@ static const faction_id faction_tacoma_commune( "tacoma_commune" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_FIREWOOD( "FIREWOOD" );
+static const flag_id json_flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
+static const flag_id json_flag_TINDER( "TINDER" );
+static const flag_id json_flag_UNBREAKABLE( "UNBREAKABLE" );
 
 static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_brazier( "f_brazier" );
+static const furn_str_id furn_f_chair( "f_chair" );
+static const furn_str_id furn_f_clay_oven( "f_clay_oven" );
+static const furn_str_id furn_f_fireplace( "f_fireplace" );
+static const furn_str_id furn_f_firering( "f_firering" );
+static const furn_str_id furn_f_gas_oven( "f_gas_oven" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_locker( "f_locker" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
+static const furn_str_id furn_f_makeshift_brazier( "f_makeshift_brazier" );
+static const furn_str_id furn_f_table( "f_table" );
 
 static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
@@ -129,14 +144,18 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_apron_leather( "apron_leather" );
 static const itype_id itype_arm_splint( "arm_splint" );
+static const itype_id itype_ash( "ash" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
+static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_crackers( "crackers" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
+static const itype_id itype_flint_steel( "flint_steel" );
 static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
+static const itype_id itype_leaves( "leaves" );
 static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
@@ -145,6 +164,8 @@ static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_mutagen( "mutagen" );
 static const itype_id itype_orange( "orange" );
+static const itype_id itype_paper( "paper" );
+static const itype_id itype_rock( "rock" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_space_cake( "space_cake" );
 static const itype_id itype_sweater( "sweater" );
@@ -187,6 +208,8 @@ static const trait_id trait_TRADE_BACKEND( "TRADE_BACKEND" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
+static const trap_str_id tr_firewood_source( "tr_firewood_source" );
+
 static const vpart_id vpart_cargo_lock( "cargo_lock" );
 static const vpart_id vpart_frame( "frame" );
 static const vpart_id vpart_seat( "seat" );
@@ -203,6 +226,7 @@ static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
+static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -1169,6 +1193,7 @@ TEST_CASE( "npc_warmth_response_in_address_needs", "[npc]" )
 
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
+        here.furn_set( guy.pos_bub() + point::west, furn_f_firering );
         here.build_map_cache( 0 );
         behavior::character_oracle_t oracle( &guy );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
@@ -6865,11 +6890,11 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
 
     SECTION( "charged lighter + adjacent flammable fuel: progressed" ) {
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
-        // Drop a 2x4 on an adjacent tile to make it flammable.
         const tripoint_bub_ms adj = guy.pos_bub() + point::east;
+        here.furn_set( adj, furn_f_firering );
         here.add_item_or_charges( adj, item( itype_2x4 ) );
         here.build_map_cache( 0 );
-        REQUIRE( guy.find_fire_spot().has_value() );
+        REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( adj ) );
 
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "seek_warmth" );
@@ -6878,11 +6903,13 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         CHECK( ( here.get_field( adj, fd_fire ) || guy.activity ) );
     }
 
-    SECTION( "charged lighter + firewood + nonflammable tile: starts fire" ) {
+    SECTION( "charged lighter + firewood + fire ring: starts fire in the ring" ) {
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
         // Default terrain is t_grass (outdoor, non-flammable, not shelter).
         // Verify preconditions: fire spot exists, no shelter/clothing candidates.
+        const tripoint_bub_ms ring = guy.pos_bub() + point::east;
+        here.furn_set( ring, furn_f_firering );
         here.build_map_cache( 0 );
         REQUIRE( guy.find_fire_spot().has_value() );
         REQUIRE( guy.find_nearby_warm_clothing().empty() );
@@ -6894,6 +6921,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.get_warmth_plan().active() );
         REQUIRE( guy.get_warmth_plan().source_kind == npc_short_term_cache::need_source::fire_spot );
         const tripoint_bub_ms target = here.get_bub( guy.get_warmth_plan().target );
+        CHECK( target == ring );
         CHECK( ( here.get_field( target, fd_fire ) || guy.activity ) );
     }
 
@@ -6918,11 +6946,15 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 here.ter_set( p, ter_t_concrete_wall );
             }
         }
-        // Place a monster on the only open tile.
         const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        here.furn_set( east, furn_f_firering );
+        here.build_map_cache( 0 );
+        REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
+        // Place a monster on the only open tile.
         monster &mon = spawn_test_monster( "mon_zombie", east );
         ( void ) mon;
         here.build_map_cache( 0 );
+        CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::occupied );
 
         // No valid fire spot (only open tile has a creature).
         CHECK_FALSE( guy.find_fire_spot().has_value() );
@@ -6937,12 +6969,17 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 here.ter_set( p, ter_t_concrete_wall );
             }
         }
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        here.furn_set( east, furn_f_firering );
+        here.build_map_cache( 0 );
+        REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
         // NPC_NO_GO zone covering the east tile.
         const tripoint_abs_ms east_abs = guy.pos_abs() + tripoint::east;
         zone_manager &mgr = zone_manager::get_manager();
         mgr.add( "test_no_go", zone_type_NPC_NO_GO, guy.get_fac_id(),
                  false, true, east_abs, east_abs );
         mgr.cache_data();
+        CHECK( guy.check_fire_spot( here.get_bub( east_abs ) ).check == npc::fire_spot_check::no_go );
         here.build_map_cache( 0 );
 
         CHECK_FALSE( guy.find_fire_spot().has_value() );
@@ -6960,6 +6997,8 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         REQUIRE( guy.get_wielded_item()->typeId() == itype_2x4 );
         // Also add a 2x4 to inventory so there IS valid fuel.
         guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms ring = guy.pos_bub() + point::east;
+        here.furn_set( ring, furn_f_firering );
         here.build_map_cache( 0 );
         REQUIRE( guy.find_fire_spot().has_value() );
 
@@ -6969,6 +7008,11 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
         // The wielded weapon must still be a 2x4.
         REQUIRE( guy.get_wielded_item() );
         CHECK( guy.get_wielded_item()->typeId() == itype_2x4 );
+        int planks_in_ring = 0;
+        for( const item &it : here.i_at( ring ) ) {
+            planks_in_ring += it.typeId() == itype_2x4 ? 1 : 0;
+        }
+        CHECK( planks_in_ring == 1 );
     }
 
     SECTION( "only wielded firewood: no fuel, impossible" ) {
@@ -6983,8 +7027,557 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][warmth][fire]" )
                 here.ter_set( p, ter_t_concrete );
             }
         }
+        here.furn_set( guy.pos_bub() + point::east, furn_f_firering );
         here.build_map_cache( 0 );
         CHECK_FALSE( guy.find_fire_spot().has_value() );
+        CHECK( guy.check_fire_spot( guy.pos_bub() + point::east ).check ==
+               npc::fire_spot_check::no_fuel );
+    }
+
+    SECTION( "indoors, next to a table and a chair" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        const tripoint_bub_ms north = guy.pos_bub() + point::north;
+        const tripoint_bub_ms west = guy.pos_bub() + point::west;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            const bool open = p == guy.pos_bub() || p == east || p == north || p == west;
+            here.ter_set( p, open ? ter_t_floor : ter_t_concrete_wall );
+        }
+        here.furn_set( east, furn_f_table );
+        here.furn_set( north, furn_f_chair );
+        const auto fires_near = [&]() {
+            int n = 0;
+            for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 2 ) ) {
+                n += here.get_field( p, fd_fire ) != nullptr ? 1 : 0;
+            }
+            return n;
+        };
+        const auto planks_at = [&]( const tripoint_bub_ms & p ) {
+            int n = 0;
+            for( const item &it : here.i_at( p ) ) {
+                n += it.typeId() == itype_2x4 ? 1 : 0;
+            }
+            return n;
+        };
+        // a lighter lights through the activity; run it to the end so its fire is on the map
+        const auto seek_warmth = [&]() {
+            guy.set_moves( 100 );
+            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            if( guy.activity ) {
+                REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
+            }
+            return result;
+        };
+
+        SECTION( "table and chair are not hearths" ) {
+            here.build_map_cache( 0 );
+            REQUIRE( here.has_flag( ter_furn_flag::TFLAG_INDOORS, guy.pos_bub() ) );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
+            CHECK( guy.check_fire_spot( north ).check == npc::fire_spot_check::not_a_hearth );
+            const npc::need_result result = seek_warmth();
+            CHECK( result == npc::need_result::holding );
+            CHECK_FALSE( guy.find_fire_spot().has_value() );
+            CHECK( fires_near() == 0 );
+            CHECK( here.furn( east ) == furn_f_table );
+            CHECK( here.furn( north ) == furn_f_chair );
+            CHECK( guy.has_amount( itype_2x4, 1 ) );
+        }
+
+        SECTION( "brazier with fire fueled by NPC's own firewood" ) {
+            here.furn_set( west, furn_f_brazier );
+            here.build_map_cache( 0 );
+            CHECK( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( west ) );
+            CHECK( guy.check_fire_spot( west ).check == npc::fire_spot_check::own_fuel );
+            const npc::need_result result = seek_warmth();
+            CHECK( result == npc::need_result::progressed );
+            CHECK( here.get_field( west, fd_fire ) != nullptr );
+            CHECK( fires_near() == 1 );
+            CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+            CHECK( planks_at( west ) == 1 );
+            CHECK( here.furn( east ) == furn_f_table );
+            CHECK( here.furn( north ) == furn_f_chair );
+            WHEN( "looks around and seeks warmth again" ) {
+                const tripoint_bub_ms stand = guy.pos_bub();
+                guy.regen_ai_cache();
+                guy.set_moves( 100 );
+                const npc::need_result again = guy.execute_need_goal( "seek_warmth" );
+                THEN( "it stays at the fire it lit" ) {
+                    CHECK_FALSE( guy.has_effect( effect_npc_fire_bad ) );
+                    CHECK( again == npc::need_result::holding );
+                    CHECK( guy.pos_bub() == stand );
+                }
+            }
+        }
+
+        SECTION( "planned brazier that became a table lights nothing" ) {
+            here.furn_set( west, furn_f_brazier );
+            here.build_map_cache( 0 );
+            npc::need_plan &plan = guy.plan_for( npc::need_goal_id::seek_warmth );
+            plan.goal = "seek_warmth";
+            plan.source_kind = npc_short_term_cache::need_source::fire_spot;
+            plan.target = here.get_abs( west );
+            here.furn_set( west, furn_f_table );
+            here.build_map_cache( 0 );
+            const npc::need_result result = seek_warmth();
+            CHECK( result == npc::need_result::holding );
+            CHECK( fires_near() == 0 );
+            CHECK( here.furn( west ) == furn_f_table );
+            CHECK( guy.has_amount( itype_2x4, 1 ) );
+            CHECK_FALSE( guy.get_warmth_plan().active() );
+        }
+    }
+
+    SECTION( "items already in a fireplace" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_fireplace );
+        const auto planks_in_hearth = [&]() {
+            int n = 0;
+            for( const item &it : here.i_at( east ) ) {
+                n += it.typeId() == itype_2x4 ? 1 : 0;
+            }
+            return n;
+        };
+
+        GIVEN( "a plank another faction owns" ) {
+            item plank( itype_2x4 );
+            plank.set_owner( faction_debuggers );
+            item &placed = here.add_item_or_charges( east, plank );
+            here.build_map_cache( 0 );
+            REQUIRE_FALSE( guy.may_use_source( item_location( map_cursor( east ), &placed ) ) );
+
+            WHEN( "the NPC has no firewood of its own" ) {
+                CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
+                guy.set_moves( 100 );
+                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                THEN( "plank is not fuel, nothing is lit" ) {
+                    CHECK_FALSE( guy.find_fire_spot().has_value() );
+                    CHECK( result == npc::need_result::impossible );
+                    CHECK( guy.activity.id() != ACT_START_FIRE );
+                    CHECK( here.get_field( east, fd_fire ) == nullptr );
+                    CHECK( planks_in_hearth() == 1 );
+                }
+            }
+            WHEN( "the NPC has its own plank" ) {
+                guy.i_add( item( itype_2x4 ) );
+                CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
+                guy.set_moves( 100 );
+                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                THEN( "fireplace is passed over, its own plank stays packed" ) {
+                    CHECK_FALSE( guy.find_fire_spot().has_value() );
+                    CHECK( result == npc::need_result::impossible );
+                    CHECK( guy.activity.id() != ACT_START_FIRE );
+                    CHECK( guy.has_amount( itype_2x4, 1 ) );
+                    CHECK( planks_in_hearth() == 1 );
+                }
+            }
+        }
+
+        GIVEN( "unowned plank, and a plank in the pack" ) {
+            here.add_item_or_charges( east, item( itype_2x4 ) );
+            guy.i_add( item( itype_2x4 ) );
+            here.build_map_cache( 0 );
+            WHEN( "it seeks warmth" ) {
+                REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
+                CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::tile_fuel );
+                guy.set_moves( 100 );
+                const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+                THEN( "it lights the plank in the fireplace and keeps its own" ) {
+                    CHECK( result == npc::need_result::progressed );
+                    CHECK( ( guy.activity.id() == ACT_START_FIRE ||
+                             here.get_field( east, fd_fire ) != nullptr ) );
+                    CHECK( guy.has_amount( itype_2x4, 1 ) );
+                    CHECK( planks_in_hearth() == 1 );
+                }
+            }
+        }
+    }
+
+    SECTION( "a cudgel left in a fire ring is not burned" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_firering );
+        // a weapon, not clothing: execute_seek_warmth dresses from adjacent clothing first
+        const item &cudgel = here.add_item_or_charges( east, item( itype_cudgel ) );
+        REQUIRE( cudgel.flammable() );
+        REQUIRE_FALSE( cudgel.has_flag( json_flag_FIREWOOD ) );
+        REQUIRE_FALSE( cudgel.has_flag( json_flag_TINDER ) );
+        here.build_map_cache( 0 );
+        REQUIRE( guy.find_nearby_warm_clothing().empty() );
+        CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
+
+        guy.set_moves( 100 );
+        const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        CHECK_FALSE( guy.find_fire_spot().has_value() );
+        CHECK( result == npc::need_result::impossible );
+        CHECK( guy.activity.id() != ACT_START_FIRE );
+        CHECK( guy.has_amount( itype_2x4, 1 ) );
+        CHECK( here.i_at( east ).size() == 1 );
+    }
+
+    SECTION( "ash from old fire doesn't block the ring" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_firering );
+        const item &ash = here.add_item_or_charges( east, item( itype_ash ) );
+        REQUIRE_FALSE( ash.flammable() );
+        here.build_map_cache( 0 );
+
+        CHECK( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
+        CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
+        guy.set_moves( 100 );
+        const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+        CHECK( result == npc::need_result::progressed );
+        CHECK( ( guy.activity.id() == ACT_START_FIRE || here.get_field( east, fd_fire ) != nullptr ) );
+        CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+    }
+
+    SECTION( "which fire containers are hearths" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        const auto seek_warmth = [&]() {
+            guy.set_moves( 100 );
+            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            if( guy.activity ) {
+                REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
+            }
+            return result;
+        };
+        const auto passed_over = [&]( const npc::need_result result ) {
+            CHECK_FALSE( guy.find_fire_spot().has_value() );
+            CHECK( result == npc::need_result::impossible );
+            CHECK( here.get_field( east, fd_fire ) == nullptr );
+            CHECK( guy.has_amount( itype_2x4, 1 ) );
+        };
+
+        GIVEN( "clay oven the NPC can't walk into" ) {
+            here.furn_set( east, furn_f_clay_oven );
+            here.build_map_cache( 0 );
+            REQUIRE( here.move_cost( east ) == 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
+            WHEN( "it seeks warmth" ) {
+                const npc::need_result result = seek_warmth();
+                THEN( "fire burns in the oven, fed with its own plank" ) {
+                    CHECK( result == npc::need_result::progressed );
+                    CHECK( here.get_field( east, fd_fire ) != nullptr );
+                    CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+                    CHECK( here.furn( east ) == furn_f_clay_oven );
+                }
+                AND_WHEN( "looks around and seeks warmth again" ) {
+                    guy.regen_ai_cache();
+                    guy.set_moves( 100 );
+                    const npc::need_result again = guy.execute_need_goal( "seek_warmth" );
+                    THEN( "it stays at the oven" ) {
+                        CHECK_FALSE( guy.has_effect( effect_npc_fire_bad ) );
+                        CHECK( again == npc::need_result::holding );
+                    }
+                }
+            }
+        }
+        GIVEN( "empty charcoal kiln" ) {
+            here.furn_set( east, furn_f_kiln_empty );
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
+            const npc::need_result result = seek_warmth();
+            THEN( "it is no hearth and stays an empty kiln" ) {
+                passed_over( result );
+                CHECK( here.furn( east ) == furn_f_kiln_empty );
+            }
+        }
+        GIVEN( "gas oven" ) {
+            here.furn_set( east, furn_f_gas_oven );
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::not_a_hearth );
+            const npc::need_result result = seek_warmth();
+            THEN( "it is no hearth" ) {
+                passed_over( result );
+            }
+        }
+        GIVEN( "fire ring inside a firewood source zone" ) {
+            here.furn_set( east, furn_f_firering );
+            zone_manager &mgr = zone_manager::get_manager();
+            on_out_of_scope clear_zones( [&mgr]() {
+                mgr.clear();
+                mgr.cache_data();
+            } );
+            const tripoint_abs_ms east_abs = here.get_abs( east );
+            mgr.add( "test_firewood", zone_type_SOURCE_FIREWOOD, faction_your_followers,
+                     false, true, east_abs, east_abs );
+            mgr.cache_data();
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::firewood_source );
+            const npc::need_result result = seek_warmth();
+            THEN( "the pile is not burned" ) {
+                passed_over( result );
+            }
+        }
+        GIVEN( "fire ring holding a firewood source trap" ) {
+            here.furn_set( east, furn_f_firering );
+            here.trap_set( east, tr_firewood_source );
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::firewood_source );
+            const npc::need_result result = seek_warmth();
+            THEN( "the pile is not burned" ) {
+                passed_over( result );
+            }
+        }
+    }
+
+    SECTION( "what a hearth may hold" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        const auto seek_warmth = [&]() {
+            guy.set_moves( 100 );
+            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            if( guy.activity ) {
+                REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
+            }
+            return result;
+        };
+        const auto planks_near = [&]() {
+            int n = 0;
+            for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 2 ) ) {
+                for( const item &it : here.i_at( p ) ) {
+                    n += it.typeId() == itype_2x4 ? 1 : 0;
+                }
+            }
+            return n;
+        };
+        // worked out apart from the NPC's check: a contained fire acts on an item
+        // that is not UNBREAKABLE when simulate_burn is positive
+        const auto burns_contained = []( const item & it ) {
+            fire_data probe( 1, true );
+            return !it.has_flag( json_flag_UNBREAKABLE ) && it.simulate_burn( probe ) > 0.0f;
+        };
+
+        GIVEN( "empty glass bottle in a fire ring" ) {
+            here.furn_set( east, furn_f_firering );
+            const item &bottle = here.add_item_or_charges( east, item( itype_bottle_glass ) );
+            // it gives no fuel, yet a contained fire shatters it
+            REQUIRE_FALSE( bottle.flammable() );
+            REQUIRE( burns_contained( bottle ) );
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );
+            const npc::need_result result = seek_warmth();
+            THEN( "ring is passed over, bottle stays whole" ) {
+                CHECK_FALSE( guy.find_fire_spot().has_value() );
+                CHECK( result == npc::need_result::impossible );
+                CHECK( here.get_field( east, fd_fire ) == nullptr );
+                CHECK( guy.has_amount( itype_2x4, 1 ) );
+            }
+        }
+        GIVEN( "leaves in a fire ring, which carry the fuel flags but give no fuel" ) {
+            here.furn_set( east, furn_f_firering );
+            const item &leaves = here.add_item_or_charges( east, item( itype_leaves ) );
+            REQUIRE( leaves.has_flag( json_flag_FIREWOOD ) );
+            REQUIRE( leaves.has_flag( json_flag_TINDER ) );
+            REQUIRE_FALSE( leaves.flammable() );
+            here.build_map_cache( 0 );
+            REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
+            const npc::need_result result = seek_warmth();
+            THEN( "its own plank goes in and the fire is lit" ) {
+                CHECK( result == npc::need_result::progressed );
+                CHECK( here.get_field( east, fd_fire ) != nullptr );
+                CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+            }
+        }
+        GIVEN( "an empty makeshift brazier" ) {
+            here.furn_set( east, furn_f_makeshift_brazier );
+            here.build_map_cache( 0 );
+            REQUIRE( here.free_volume( east ) >= item( itype_2x4 ).volume() );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::own_fuel );
+            const npc::need_result result = seek_warmth();
+            THEN( "plank goes in, fire is lit" ) {
+                CHECK( result == npc::need_result::progressed );
+                CHECK( here.get_field( east, fd_fire ) != nullptr );
+                CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+            }
+        }
+        GIVEN( "makeshift brazier with rocks, too full for the plank" ) {
+            here.furn_set( east, furn_f_makeshift_brazier );
+            for( int i = 0; i < 4; ++i ) {
+                here.add_item_or_charges( east, item( itype_rock ) );
+            }
+            for( const item &it : here.i_at( east ) ) {
+                REQUIRE_FALSE( burns_contained( it ) );
+            }
+            REQUIRE( here.free_volume( east ) < item( itype_2x4 ).volume() );
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_room );
+            const npc::need_result result = seek_warmth();
+            THEN( "brazier passed over, plank stays packed" ) {
+                CHECK_FALSE( guy.find_fire_spot().has_value() );
+                CHECK( result == npc::need_result::impossible );
+                CHECK( here.get_field( east, fd_fire ) == nullptr );
+                CHECK( guy.has_amount( itype_2x4, 1 ) );
+                CHECK( planks_near() == 0 );
+            }
+        }
+    }
+
+    SECTION( "carried firewood that gives no fuel" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_firering );
+        const item_location leaves = guy.i_add( item( itype_leaves ) );
+        REQUIRE( leaves );
+        REQUIRE( leaves->has_flag( json_flag_FIREWOOD ) );
+        REQUIRE( leaves->has_flag( json_flag_TINDER ) );
+        REQUIRE_FALSE( leaves->flammable() );
+        const auto seek_warmth = [&]() {
+            guy.set_moves( 100 );
+            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            if( guy.activity ) {
+                REQUIRE( process_activity_bounded( guy, 100, 2000 ) );
+            }
+            return result;
+        };
+        const auto fires_near = [&]() {
+            int n = 0;
+            for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 2 ) ) {
+                n += here.get_field( p, fd_fire ) != nullptr ? 1 : 0;
+            }
+            return n;
+        };
+
+        GIVEN( "only leaves in pack" ) {
+            here.build_map_cache( 0 );
+            CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_fuel );
+            WHEN( "it seeks warmth" ) {
+                const npc::need_result result = seek_warmth();
+                THEN( "ring is passed over, leaves stay packed" ) {
+                    CHECK_FALSE( guy.find_fire_spot().has_value() );
+                    CHECK( result == npc::need_result::impossible );
+                    CHECK( fires_near() == 0 );
+                    CHECK( guy.has_amount( itype_leaves, 1 ) );
+                    CHECK( here.i_at( east ).empty() );
+                }
+            }
+        }
+        GIVEN( "leaves then a plank in the pack" ) {
+            guy.i_add( item( itype_2x4 ) );
+            here.build_map_cache( 0 );
+            const npc::fire_spot_verdict spot = guy.check_fire_spot( east );
+            CHECK( spot.check == npc::fire_spot_check::own_fuel );
+            REQUIRE( spot.firewood );
+            CHECK( spot.firewood->typeId() == itype_2x4 );
+            WHEN( "it seeks warmth" ) {
+                const npc::need_result result = seek_warmth();
+                THEN( "plank goes in, fire is lit" ) {
+                    CHECK( result == npc::need_result::progressed );
+                    CHECK( here.get_field( east, fd_fire ) != nullptr );
+                    CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+                    CHECK( guy.has_amount( itype_leaves, 1 ) );
+                }
+            }
+        }
+    }
+
+    SECTION( "carried tinder is not carried fuel" ) {
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_firering );
+        const item_location paper = guy.i_add( item( itype_paper, calendar::turn, 1 ) );
+        REQUIRE( paper );
+        REQUIRE( paper->has_flag( json_flag_TINDER ) );
+        REQUIRE_FALSE( paper->has_flag( json_flag_FIREWOOD ) );
+        REQUIRE( paper->flammable() );
+        const auto seek_warmth = [&]() {
+            guy.set_moves( 100 );
+            const npc::need_result result = guy.execute_need_goal( "seek_warmth" );
+            if( guy.activity ) {
+                REQUIRE( process_activity_bounded( guy, 1000, 20000 ) );
+            }
+            return result;
+        };
+        const auto fires_near = [&]() {
+            int n = 0;
+            for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 2 ) ) {
+                n += here.get_field( p, fd_fire ) != nullptr ? 1 : 0;
+            }
+            return n;
+        };
+        const auto paper_and_plank = [&]( const bool tool_takes_tinder ) {
+            WHEN( "only paper is packed" ) {
+                here.build_map_cache( 0 );
+                CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::no_fuel );
+                const npc::need_result result = seek_warmth();
+                THEN( "ring is passed over, paper stays packed" ) {
+                    CHECK_FALSE( guy.find_fire_spot().has_value() );
+                    CHECK( result == npc::need_result::impossible );
+                    CHECK( fires_near() == 0 );
+                    CHECK( guy.has_charges( itype_paper, 1 ) );
+                    CHECK( here.i_at( east ).empty() );
+                }
+            }
+            WHEN( "a plank is packed after the paper" ) {
+                guy.i_add( item( itype_2x4 ) );
+                here.build_map_cache( 0 );
+                const npc::fire_spot_verdict spot = guy.check_fire_spot( east );
+                CHECK( spot.check == npc::fire_spot_check::own_fuel );
+                REQUIRE( spot.firewood );
+                CHECK( spot.firewood->typeId() == itype_2x4 );
+                const npc::need_result result = seek_warmth();
+                THEN( "plank goes in, fire is lit" ) {
+                    CHECK( result == npc::need_result::progressed );
+                    CHECK( here.get_field( east, fd_fire ) != nullptr );
+                    CHECK_FALSE( guy.has_amount( itype_2x4, 1 ) );
+                    // tool burns the paper as tinder or leaves it packed
+                    CHECK( guy.has_charges( itype_paper, 1 ) != tool_takes_tinder );
+                }
+            }
+        };
+
+        GIVEN( "a lighter" ) {
+            guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+            paper_and_plank( false );
+        }
+        GIVEN( "flint and steel, which needs tinder" ) {
+            const item_location flint = guy.i_add( item( itype_flint_steel ) );
+            REQUIRE( flint );
+            REQUIRE( flint->has_flag( json_flag_REQUIRES_TINDER ) );
+            paper_and_plank( true );
+        }
     }
 }
 
@@ -7691,12 +8284,16 @@ TEST_CASE( "npc_guard_uses_warmth_executor", "[npc][needs][warmth][guard]" )
     here.build_map_cache( 0 );
 
     SECTION( "cold guard with lighter starts fire" ) {
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        here.furn_set( east, furn_f_firering );
+        here.build_map_cache( 0 );
         guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
         guy.i_add( item( itype_2x4 ) );
 
         // Verify no warm clothing or shelter available.
         REQUIRE( guy.find_nearby_warm_clothing().empty() );
         REQUIRE( guy.find_nearby_shelters().empty() );
+        REQUIRE( guy.find_fire_spot() == std::optional<tripoint_bub_ms>( east ) );
 
         // Run a move cycle. The guard path should use the warmth executor.
         guy.set_moves( 100 );

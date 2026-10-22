@@ -55,6 +55,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "fire.h"
 #include "flag.h"
 #include "flat_set.h"  // IWYU pragma: keep // iwyu is being silly here
 #include "game.h"
@@ -6981,6 +6982,97 @@ static bool is_usable_npc_firestarter( const npc &who, const item &it )
     return true;
 }
 
+// whether contained fire would burn or break this item
+static bool burns_in_hearth( const item &it )
+{
+    fire_data probe( 1, true );
+    return it.burn_amount( probe ) > 0.0f;
+}
+
+// leaves carry both fuel flags but give no fuel
+static bool gives_fuel( const item &it )
+{
+    return it.flammable();
+}
+
+npc::fire_spot_verdict npc::check_fire_spot( const tripoint_bub_ms &p ) const
+{
+    map &here = get_map();
+    // the furniture decides when there is one, so a kiln on a fire pit is still a kiln
+    const map_data_common_t &top = here.has_furn( p ) ?
+                                   static_cast<const map_data_common_t &>( here.furn( p ).obj() ) :
+                                   static_cast<const map_data_common_t &>( here.ter( p ).obj() );
+    // regen_ai_cache ignores fires on FIRE_CONTAINER, so the NPC never runs from its own fire
+    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, p ) ||
+        !top.has_examine( iexamine::fireplace ) ) {
+        return { fire_spot_check::not_a_hearth, item_location() };
+    }
+    if( square_dist( pos_bub(), p ) != 1 ) {
+        return { fire_spot_check::not_adjacent, item_location() };
+    }
+    // a hearth may be impassable: the NPC lights it from where it stands
+    if( !here.can_put_items_ter_furn( p ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ) {
+        return { fire_spot_check::unusable_tile, item_location() };
+    }
+    if( here.get_field( p, fd_fire ) || get_creature_tracker().creature_at( p ) ||
+        here.veh_at( p ) ) {
+        return { fire_spot_check::occupied, item_location() };
+    }
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return { fire_spot_check::no_go, item_location() };
+    }
+    if( firestarter_actor::is_firewood_source( here, p ) ) {
+        return { fire_spot_check::firewood_source, item_location() };
+    }
+    bool fuel_here = false;
+    for( item &it : here.i_at( p ) ) {
+        if( !may_use_source( item_location( map_cursor( p ), &it ) ) || it.will_explode_in_fire() ) {
+            return { fire_spot_check::items_not_fuel, item_location() };
+        }
+        if( it.has_flag( flag_FIREWOOD ) || it.has_flag( flag_TINDER ) ) {
+            fuel_here = fuel_here || gives_fuel( it );
+        } else if( burns_in_hearth( it ) ) {
+            // TODO: move non-fuel items aside before lighting a fire
+            return { fire_spot_check::items_not_fuel, item_location() };
+        }
+    }
+    if( fuel_here ) {
+        return { fire_spot_check::tile_fuel, item_location() };
+    }
+    item_location firewood;
+    const item *wielded_ptr = get_wielded_item().get_item();
+    visit_items( [&firewood, wielded_ptr]( const item_location & it ) -> VisitResponse {
+        if( it.get_item() == wielded_ptr )
+        {
+            return VisitResponse::NEXT;
+        }
+        if( craft_reservation::contains_reserved( *it ) )
+        {
+            return VisitResponse::SKIP;
+        }
+        // only firewood: npc_start_fire may burn plain tinder before the fire takes,
+        // and a drop action could consume an item when it is dropped
+        if( it->has_flag( flag_FIREWOOD ) && gives_fuel( *it ) && !it->type->drop_action )
+        {
+            firewood = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( !firewood ) {
+        return { fire_spot_check::no_fuel, item_location() };
+    }
+    // same limits add_item_or_charges applies before it overflows to a neighbour
+    if( here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ||
+        here.free_volume( p ) < firewood->volume() ||
+        static_cast<int>( here.i_at( p ).size() ) >= MAX_ITEM_IN_SQUARE ) {
+        return { fire_spot_check::no_room, item_location() };
+    }
+    return { fire_spot_check::own_fuel, firewood };
+}
+
 std::optional<tripoint_bub_ms> npc::find_fire_spot()
 {
     // Check that the NPC has a usable firestarter tool.
@@ -6998,67 +7090,13 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
         return std::nullopt;
     }
 
-    // Scan adjacent tiles for a valid fire location.
     map &here = get_map();
-    std::optional<tripoint_bub_ms> best_flammable;
-    std::optional<tripoint_bub_ms> fallback;
-    // Exclude the wielded weapon from fuel consideration so the NPC
-    // doesn't drop its own weapon into the fire.
-    const item *wielded_ptr = get_wielded_item().get_item();
-    bool has_firewood = false;
-    visit_items( [&has_firewood, wielded_ptr]( const item_location & it ) -> VisitResponse {
-        if( it.get_item() == wielded_ptr )
-        {
-            return VisitResponse::NEXT;
-        }
-        if( craft_reservation::contains_reserved( *it ) )
-        {
-            return VisitResponse::SKIP;
-        }
-        if( it->has_flag( flag_FIREWOOD ) )
-        {
-            has_firewood = true;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-
     for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
-        if( adj == pos_bub() ) {
-            continue;
-        }
-        if( here.move_cost( adj ) == 0 ) {
-            continue;
-        }
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, adj ) ||
-            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, adj ) ) {
-            continue;
-        }
-        if( here.get_field( adj, fd_fire ) ) {
-            continue;
-        }
-        if( get_creature_tracker().creature_at( adj ) ) {
-            continue;
-        }
-        if( is_no_go_position( here.get_abs( adj ) ) ) {
-            continue;
-        }
-        if( here.veh_at( adj ) ) {
-            continue;
-        }
-        if( here.is_flammable( adj ) ) {
-            // Tile already has fuel (flammable terrain/items). No need
-            // for inventory firewood.
-            if( !best_flammable ) {
-                best_flammable = adj;
-            }
-        } else if( has_firewood && !fallback ) {
-            // Tile not flammable but NPC can drop firewood to make it so.
-            fallback = adj;
+        if( check_fire_spot( adj ).usable() ) {
+            return adj;
         }
     }
-
-    return best_flammable ? best_flammable : fallback;
+    return std::nullopt;
 }
 
 npc::need_result npc::execute_seek_warmth()
@@ -7252,32 +7290,17 @@ npc::need_result npc::execute_seek_warmth()
             plan.clear();
             return need_result::blocked;
         }
-        // Ensure the target tile is flammable; drop safe fuel if needed.
-        // Skip the wielded weapon so the NPC doesn't burn its own weapon.
-        if( !here.is_flammable( target_bub ) ) {
-            item *fuel = nullptr;
-            const item *wielded_ptr = get_wielded_item().get_item();
-            visit_items( [&fuel, wielded_ptr]( item_location it ) -> VisitResponse {
-                if( it.get_item() == wielded_ptr )
-                {
-                    return VisitResponse::NEXT;
-                }
-                if( craft_reservation::contains_reserved( *it ) )
-                {
-                    return VisitResponse::SKIP;
-                }
-                if( it->has_flag( flag_FIREWOOD ) )
-                {
-                    fuel = it.get_item();
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( !fuel ) {
-                plan.clear();
-                return need_result::impossible;
-            }
-            here.add_item_or_charges( target_bub, i_rem( fuel ) );
+        // the check that chose the spot, asked again before any fuel goes in
+        const fire_spot_verdict spot = check_fire_spot( target_bub );
+        if( !spot.usable() ) {
+            failed.insert( plan.target );
+            plan.clear();
+            plan.last_result = need_result::impossible;
+            return need_result::impossible;
+        }
+        if( spot.check == fire_spot_check::own_fuel ) {
+            // no_room was ruled out, so the item stays on the hearth
+            here.add_item_or_charges( target_bub, i_rem( spot.firewood.get_item() ), false );
         }
         if( actor->npc_start_fire( *this, *fire_tool, target_bub ) ) {
             plan.last_result = need_result::progressed;

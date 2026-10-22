@@ -1663,6 +1663,28 @@ class npc : public Character
         need_result execute_seek_warmth();
         need_result execute_go_to_sleep();
         std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
+        enum class fire_spot_check : int {
+            tile_fuel,      // the hearth holds fuel the NPC may burn
+            own_fuel,       // NPC places its own firewood in the hearth
+            not_a_hearth,
+            not_adjacent,
+            unusable_tile,  // water or takes no items
+            occupied,       // already burning, a creature, or a vehicle
+            no_go,
+            firewood_source, // the pile a fire is fed from, not a place to burn it
+            items_not_fuel, // the hearth holds something the NPC may not burn
+            no_fuel,
+            no_room         // its own firewood would not fit on the hearth
+        };
+        struct fire_spot_verdict {
+            fire_spot_check check = fire_spot_check::not_a_hearth;
+            // carried firewood to put in the hearth when check is own_fuel
+            item_location firewood;
+            bool usable() const {
+                return check == fire_spot_check::tile_fuel || check == fire_spot_check::own_fuel;
+            }
+        };
+        fire_spot_verdict check_fire_spot( const tripoint_bub_ms &p ) const;
         std::optional<tripoint_bub_ms> find_fire_spot();
         bool has_adjacent_fire() const;
         const need_plan &get_food_plan() const {
