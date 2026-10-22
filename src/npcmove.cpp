@@ -4623,16 +4623,16 @@ bool npc::empty_before_pickup()
 }
 
 template <typename T>
-static std::list<item> npc_pickup_from_stack( npc &who, T &items )
+static std::list<item> npc_pickup_from_stack( npc &who, T &items,
+        const std::function<bool( const item & )> &may_take )
 {
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         item &it = *iter;
-        // This erases all wanted items on the tile, otherwise one free item would
-        // sweep up the reserved ones next to it
+        // checked per item, so a free item doesn't take reserved or owned neighbours along
         const bool off_limits = craft_reservation::contains_reserved( it ) ||
-                                craft_reservation::contains_live_craft( it );
+                                craft_reservation::contains_live_craft( it ) || !may_take( it );
         if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
@@ -4677,71 +4677,107 @@ bool npc::wants_take_that( const item &it )
     return good;
 }
 
-bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
+bool npc::would_take_that( const item &it, const tripoint_bub_ms &p ) const
+{
+    if( it.is_owned_by( *this, true ) ) {
+        return true;
+    }
+    // Actual numeric relations are only relative to player faction
+    if( it.is_owned_by( get_player_character() ) ) {
+        return would_steal_from_player( p, [&it]() {
+            return it.tname();
+        } );
+    }
+    return would_take_faction_goods( it.get_owner() );
+}
+
+bool npc::would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const
+{
+    if( veh.is_owned_by( *this, true ) ) {
+        return true;
+    }
+    if( veh.is_owned_by( get_player_character() ) ) {
+        return would_steal_from_player( p, [&veh]() {
+            return veh.name;
+        } );
+    }
+    return would_take_faction_goods( veh.get_owner() );
+}
+
+bool npc::would_steal_from_player( const tripoint_bub_ms &p,
+                                   const std::function<std::string()> &what ) const
 {
     const map &here = get_map();
-
-    const bool is_stealing = !it.is_owned_by( *this, true );
-    if( !is_stealing ) {
+    const Character &player = get_player_character();
+    bool would_always_steal = false;
+    int stealing_threshold = 10;
+    // Trust = less likely to steal. Distrust? more likely!
+    stealing_threshold += ( get_faction()->trusts_u / 5 );
+    // We've already decided we want the item. So the primary motivator for stealing is aggression, not hoarding.
+    stealing_threshold -= personality.aggression;
+    stealing_threshold -= static_cast<int>( personality.collector / 3 );
+    if( stealing_threshold < 0 ) {
+        would_always_steal = true;
+    }
+    // Anyone willing to kill you no longer cares for your property rights
+    if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
+        would_always_steal = true;
+    }
+    if( would_always_steal ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
+                       what() );
         return true;
     }
-    Character &player = get_player_character();
-    // Actual numeric relations are only relative to player faction
-    if( it.is_owned_by( player ) ) {
-        bool would_always_steal = false;
-        int stealing_threshold = 10;
-        // Trust = less likely to steal. Distrust? more likely!
-        stealing_threshold += ( get_faction()->trusts_u / 5 );
-        // We've already decided we want the item. So the primary motivator for stealing is aggression, not hoarding.
-        stealing_threshold -= personality.aggression;
-        stealing_threshold -= static_cast<int>( personality.collector / 3 );
-        if( stealing_threshold < 0 ) {
-            would_always_steal = true;
-        }
-        // Anyone willing to kill you no longer cares for your property rights
-        if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
-            would_always_steal = true;
-        }
-        if( would_always_steal ) {
-            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
-                           it.tname() );
-            return true;
-        }
 
-        /*Handle player and follower vision*/
-        viewer &player_view = get_player_view();
-        if( player_view.sees( here, this->pos_bub( here ) ) || player_view.sees( here,  p ) ) {
+    /*Handle player and follower vision*/
+    const viewer &player_view = get_player_view();
+    if( player_view.sees( here, this->pos_bub( here ) ) || player_view.sees( here,  p ) ) {
+        return false;
+    }
+    std::vector<npc *> followers;
+    overmap_buffer.populate_followers_vec( followers );
+    for( npc *&elem : followers ) {
+        if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
             return false;
         }
-        std::vector<npc *> followers;
-        overmap_buffer.populate_followers_vec( followers );
-        for( npc *&elem : followers ) {
-            if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
-                return false;
-            }
-        }
-        //Fallthrough, no consequences if you won't be caught!
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s attempting to steal %s (owned by player) because it isn't guarded.",
-                       get_name(), it.tname() );
+    }
+    //Fallthrough, no consequences if you won't be caught!
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s attempting to steal %s (owned by player) because it isn't guarded.",
+                   get_name(), what() );
+    return true;
+}
+
+bool npc::would_take_faction_goods( const faction_id &owner ) const
+{
+    const faction *owner_fac = g->faction_manager_ptr->get( owner, false );
+    if( owner_fac == nullptr ) {
         return true;
     }
-
-
-    // Currently always willing to steal from other NPCs
-    return true;
+    if( my_fac != nullptr &&
+        ( owner_fac->has_relationship( my_fac->id, npc_factions::relationship::share_my_stuff ) ||
+          my_fac->has_relationship( owner, npc_factions::relationship::kill_on_sight ) ) ) {
+        return true;
+    }
+    return is_player_ally() && owner_fac->guaranteed_hostile();
 }
 
 std::list<item> npc::pick_up_item_map( const tripoint_bub_ms &where )
 {
     map_stack stack = get_map().i_at( where );
-    return npc_pickup_from_stack( *this, stack );
+    return npc_pickup_from_stack( *this, stack, [this, &where]( const item & it ) {
+        return would_take_that( it, where );
+    } );
 }
 
 std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
     vehicle_stack stack = veh.get_items( veh.part( part_index ) );
-    return npc_pickup_from_stack( *this, stack );
+    const tripoint_bub_ms where = veh.bub_part_pos( get_map(), part_index );
+    const bool may_take_cargo = would_take_that( veh, where );
+    return npc_pickup_from_stack( *this, stack, [this, &where, may_take_cargo]( const item & it ) {
+        return may_take_cargo && would_take_that( it, where );
+    } );
 }
 
 bool npc::find_corpse_to_pulp()
@@ -5504,7 +5540,23 @@ bool npc::may_use_source( const item_location &loc ) const
     if( is_no_go_position( here.get_abs( p ) ) ) {
         return false;
     }
-    return !is_player_ally() || !g->check_zone( zone_type_NO_NPC_PICKUP, p );
+    if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+        return false;
+    }
+    item_location top = loc;
+    while( true ) {
+        if( !would_take_that( *top, p ) ) {
+            return false;
+        }
+        if( !top.has_parent() ) {
+            break;
+        }
+        top = top.parent_item();
+    }
+    // ground items under a vehicle aren't its cargo
+    const vehicle_cursor *cargo = top.where() == item_location::type::vehicle ? top.veh_cursor() :
+                                  nullptr;
+    return cargo == nullptr || would_take_that( cargo->veh, p );
 }
 
 bool npc::consume_food( consume_filter filter )
@@ -6425,7 +6477,7 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
 
     // No thirst-dominant filter: rate_food() already penalizes dry food when
     // thirsty via the quench-vs-hunger ratio, so hydrating items rank higher.
-    const auto score_item = [&]( const item_location & loc, const tripoint_bub_ms & p ) -> bool {
+    const auto score_item = [&]( const item_location & loc ) -> bool {
         const item &it = *loc;
         // food_only: skip items with no nutritional value (pure drinks).
         // drink_only: skip items with no hydration value (pure food).
@@ -6443,7 +6495,7 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
         {
             return false;
         }
-        if( !would_take_that( it, p ) || !may_use_source( loc ) )
+        if( !may_use_source( loc ) )
         {
             return false;
         }
@@ -6466,7 +6518,7 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
         if( here.sees_some_items( p, *this ) ) {
             for( item &it : here.i_at( p ) ) {
                 item_location loc( map_cursor( p ), &it );
-                if( score_item( loc, p ) ) {
+                if( score_item( loc ) ) {
                     results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
                 }
             }
@@ -6487,7 +6539,7 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
             item_location loc( vehicle_cursor( cargo->vehicle(),
                                                static_cast<ptrdiff_t>( cargo->part_index() ) ),
                                &it );
-            if( score_item( loc, p ) ) {
+            if( score_item( loc ) ) {
                 results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
             }
         }
@@ -6511,8 +6563,8 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
     static const std::string locked_string( "LOCKED" );
     static const std::string cargo_locking_string( "CARGO_LOCKING" );
 
-    const auto score_clothing = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
-        return it.get_warmth() > 0 && can_wear( it ).success() && would_take_that( it, p );
+    const auto score_clothing = [&]( const item_location & loc ) -> bool {
+        return loc->get_warmth() > 0 && can_wear( *loc ).success() && may_use_source( loc );
     };
 
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
@@ -6529,11 +6581,9 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
         // Ground items.
         if( here.sees_some_items( p, *this ) ) {
             for( item &it : here.i_at( p ) ) {
-                if( score_clothing( it, p ) ) {
-                    results.push_back( {
-                        item_location( map_cursor( p ), &it ),
-                        static_cast<float>( it.get_warmth() )
-                    } );
+                item_location loc( map_cursor( p ), &it );
+                if( score_clothing( loc ) ) {
+                    results.push_back( { loc, static_cast<float>( it.get_warmth() ) } );
                 }
             }
         }
@@ -6550,15 +6600,10 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
             continue;
         }
         for( item &it : cargo->items() ) {
-            if( score_clothing( it, p ) ) {
-                results.push_back( {
-                    item_location{
-                        vehicle_cursor{
-                            cargo->vehicle(),
-                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
-                    },
-                    static_cast<float>( it.get_warmth() )
-                } );
+            item_location loc( vehicle_cursor( cargo->vehicle(),
+                                               static_cast<ptrdiff_t>( cargo->part_index() ) ), &it );
+            if( score_clothing( loc ) ) {
+                results.push_back( { loc, static_cast<float>( it.get_warmth() ) } );
             }
         }
     }

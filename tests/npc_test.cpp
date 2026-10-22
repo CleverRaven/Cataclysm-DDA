@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <bitset>
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
@@ -87,6 +88,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -108,7 +110,9 @@ static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_wet( "wet" );
 
+static const faction_id faction_debuggers( "debuggers" );
 static const faction_id faction_robofac( "robofac" );
+static const faction_id faction_tacoma_commune( "tacoma_commune" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
@@ -1923,6 +1927,198 @@ TEST_CASE( "npc_ownership_blocks_ground_food", "[npc][needs]" )
         here.add_item_or_charges( adj, owned_food );
         std::vector<npc::scored_item> food = guy.find_nearby_food();
         CHECK_FALSE( food.empty() );
+    }
+
+    faction &owner = *g->faction_manager_ptr->get( faction_debuggers );
+    faction &mine = *guy.get_faction();
+    REQUIRE( mine.id == faction_tacoma_commune );
+    const auto owner_relations = owner.relations;
+    const auto my_relations = mine.relations;
+    const int owner_likes_u = owner.likes_u;
+    on_out_of_scope restore_factions( [&]() {
+        owner.relations = owner_relations;
+        mine.relations = my_relations;
+        owner.likes_u = owner_likes_u;
+    } );
+    const auto relate = []( faction & from, const faction & to,
+    const npc_factions::relationship r ) {
+        from.relations[to.id.str()].set( static_cast<size_t>( r ) );
+    };
+    REQUIRE_FALSE( owner.guaranteed_hostile() );
+    const auto owned_by_debuggers = [&]() {
+        item food( itype_sandwich_cheese_grilled );
+        food.set_owner( faction_debuggers );
+        return item_location( map_cursor( adj ), &here.add_item_or_charges( adj, food ) );
+    };
+
+    SECTION( "another faction's food is left alone" ) {
+        owned_by_debuggers();
+        CHECK( guy.find_nearby_food().empty() );
+    }
+    SECTION( "an owner that shares its stuff with the NPC's faction" ) {
+        relate( owner, mine, npc_factions::relationship::share_my_stuff );
+        owned_by_debuggers();
+        CHECK_FALSE( guy.find_nearby_food().empty() );
+    }
+    SECTION( "NPC's faction sharing with the owner gives it no claim" ) {
+        relate( mine, owner, npc_factions::relationship::share_my_stuff );
+        owned_by_debuggers();
+        CHECK( guy.find_nearby_food().empty() );
+    }
+    SECTION( "an owner that shares only public goods keeps its food" ) {
+        relate( owner, mine, npc_factions::relationship::share_public_goods );
+        const item_location food = owned_by_debuggers();
+        CHECK( guy.find_nearby_food().empty() );
+        CHECK_FALSE( guy.may_use_source( food ) );
+    }
+    SECTION( "NPC's faction would kill the owner on sight" ) {
+        relate( mine, owner, npc_factions::relationship::kill_on_sight );
+        owned_by_debuggers();
+        CHECK_FALSE( guy.find_nearby_food().empty() );
+    }
+    SECTION( "owner would kill the NPC's faction on sight" ) {
+        relate( owner, mine, npc_factions::relationship::kill_on_sight );
+        owned_by_debuggers();
+        CHECK( guy.find_nearby_food().empty() );
+    }
+    SECTION( "an owner hostile to the player" ) {
+        owner.likes_u = -20;
+        REQUIRE( owner.guaranteed_hostile() );
+        owned_by_debuggers();
+        THEN( "the player's ally takes it" ) {
+            guy.set_fac( faction_your_followers );
+            guy.set_attitude( NPCATT_FOLLOW );
+            REQUIRE( guy.is_player_ally() );
+            CHECK_FALSE( guy.find_nearby_food().empty() );
+        }
+        THEN( "anyone else leaves it" ) {
+            CHECK( guy.find_nearby_food().empty() );
+        }
+    }
+    SECTION( "free food in an owned cart" ) {
+        vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart, adj, 0_degrees, 0,
+                                          veh_spawn_status::UNDAMAGED );
+        REQUIRE( cart != nullptr );
+        cart->set_owner( faction_debuggers );
+        const std::optional<vpart_reference> cargo = here.veh_at( adj ).cargo();
+        REQUIRE( cargo.has_value() );
+        cargo->vehicle().add_item( here, cargo->part(), item( itype_sandwich_cheese_grilled ) );
+        REQUIRE( here.i_at( adj ).empty() );
+        THEN( "cart's owner keeps it" ) {
+            CHECK( guy.find_nearby_food().empty() );
+        }
+        THEN( "an owner that shares lets it go" ) {
+            relate( owner, mine, npc_factions::relationship::share_my_stuff );
+            CHECK_FALSE( guy.find_nearby_food().empty() );
+        }
+    }
+    SECTION( "free food in an owned backpack" ) {
+        item pack( itype_backpack );
+        REQUIRE( pack.put_in( item( itype_sandwich_cheese_grilled ),
+                              pocket_type::CONTAINER ).success() );
+        pack.set_owner( faction_debuggers );
+        item &placed = here.add_item_or_charges( adj, pack );
+        REQUIRE( placed.all_items_top().size() == 1 );
+        item *sandwich = placed.all_items_top().front();
+        sandwich->remove_owner();
+        const item_location food( item_location( map_cursor( adj ), &placed ), sandwich );
+        REQUIRE( food->get_owner().is_null() );
+        THEN( "backpack's owner keeps it" ) {
+            CHECK_FALSE( guy.may_use_source( food ) );
+        }
+        THEN( "an owner that shares lets it go" ) {
+            relate( owner, mine, npc_factions::relationship::share_my_stuff );
+            CHECK( guy.may_use_source( food ) );
+        }
+    }
+    SECTION( "free food on the ground under an owned vehicle" ) {
+        vehicle *veh = here.add_vehicle( vehicle_prototype_none, adj, 0_degrees, 0,
+                                         veh_spawn_status::UNDAMAGED );
+        REQUIRE( veh != nullptr );
+        veh->install_part( here, point_rel_ms::zero, vpart_frame );
+        here.rebuild_vehicle_level_caches();
+        veh->set_owner( faction_debuggers );
+        REQUIRE( here.veh_at( adj ) );
+        REQUIRE_FALSE( here.veh_at( adj ).cargo() );
+        here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
+        REQUIRE_FALSE( here.i_at( adj ).empty() );
+        CHECK_FALSE( guy.find_nearby_food().empty() );
+    }
+}
+
+TEST_CASE( "npc_pickup_follows_the_ownership_rule", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    REQUIRE_FALSE( guy.is_player_ally() );
+    // anything's worth picking up
+    guy.personality.collector = 30;
+    map &here = get_map();
+    const tripoint_bub_ms adj = guy.pos_bub() + tripoint::east;
+    item &lighter = here.add_item_or_charges( adj, item( itype_lighter ) );
+    here.build_map_cache( 0 );
+    guy.wanted_item = item_location( map_cursor( adj ), &lighter );
+    guy.wanted_item_pos = adj;
+    guy.fetching_item = true;
+    const auto on_ground = [&]( const itype_id & id ) {
+        int n = 0;
+        for( const item &it : here.i_at( adj ) ) {
+            n += it.typeId() == id ? 1 : 0;
+        }
+        return n;
+    };
+
+    SECTION( "a free item is picked up" ) {
+        guy.pick_up_item();
+        CHECK( guy.has_amount( itype_lighter, 1 ) );
+        CHECK( on_ground( itype_lighter ) == 0 );
+    }
+    SECTION( "an item claimed after it was chosen is left" ) {
+        lighter.set_owner( faction_debuggers );
+        guy.pick_up_item();
+        CHECK_FALSE( guy.has_amount( itype_lighter, 1 ) );
+        CHECK( on_ground( itype_lighter ) == 1 );
+        CHECK_FALSE( guy.fetching_item );
+    }
+    SECTION( "an owned item beside the free one is left" ) {
+        item crackers( itype_crackers );
+        crackers.set_owner( faction_debuggers );
+        here.add_item_or_charges( adj, crackers );
+        REQUIRE( on_ground( itype_crackers ) == 1 );
+        guy.pick_up_item();
+        CHECK( guy.has_amount( itype_lighter, 1 ) );
+        CHECK( on_ground( itype_crackers ) == 1 );
+    }
+    SECTION( "free item in a cart" ) {
+        const tripoint_bub_ms cart_pos = guy.pos_bub() + tripoint::north;
+        vehicle *cart = here.add_vehicle( vehicle_prototype_test_shopping_cart, cart_pos, 0_degrees,
+                                          0, veh_spawn_status::UNDAMAGED );
+        REQUIRE( cart != nullptr );
+        const std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+        REQUIRE( cargo.has_value() );
+        const std::optional<vehicle_stack::iterator> added = cargo->vehicle().add_item( here,
+                cargo->part(), item( itype_flint_steel ) );
+        REQUIRE( added.has_value() );
+        item &flint = **added;
+        here.build_map_cache( 0 );
+        guy.wanted_item = item_location( vehicle_cursor( cargo->vehicle(),
+                                         static_cast<ptrdiff_t>( cargo->part_index() ) ), &flint );
+        guy.wanted_item_pos = cart_pos;
+        THEN( "unowned cart gives it up" ) {
+            guy.pick_up_item();
+            CHECK( guy.has_amount( itype_flint_steel, 1 ) );
+            CHECK( cargo->items().empty() );
+        }
+        THEN( "cart's owner keeps it" ) {
+            cart->set_owner( faction_debuggers );
+            guy.pick_up_item();
+            CHECK_FALSE( guy.has_amount( itype_flint_steel, 1 ) );
+            CHECK( cargo->items().size() == 1 );
+        }
     }
 }
 

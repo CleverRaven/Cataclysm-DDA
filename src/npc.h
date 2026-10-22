@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <iosfwd>
 #include <list>
 #include <map>
@@ -1385,7 +1386,14 @@ class npc : public Character
         // Consider hoarding
         bool wants_take_that( const item &it );
         // Consider a life of crime
-        bool would_take_that( const item &it, const tripoint_bub_ms &p );
+        bool would_take_that( const item &it, const tripoint_bub_ms &p ) const;
+        // same for a vehicle's cargo
+        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const;
+        // player's things go by trust and witnesses; what names the thing in the debug log
+        bool would_steal_from_player( const tripoint_bub_ms &p,
+                                      const std::function<std::string()> &what ) const;
+        // another faction's goods: only if it shares them or is hostile
+        bool would_take_faction_goods( const faction_id &owner ) const;
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1423,7 +1431,8 @@ class npc : public Character
         bool saw_player_recently() const;
         // need's item filter plus will_eat (diet and stomach room)
         bool can_satisfy( const item &it, npc_short_term_cache::need_goal_id id ) const;
-        // access: reservation, no-go areas and zones
+        // access: reservation, no-go areas and zones, plus owners of the item, its containers and
+        // cargo vehicle
         bool may_use_source( const item_location &loc ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
