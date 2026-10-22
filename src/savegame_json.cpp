@@ -2135,6 +2135,14 @@ void npc::load( const JsonObject &data )
         data.read( "task_on_mission", held );
         task_on_mission = held;
     }
+    suspended_task.reset();
+    if( data.has_object( "suspended_task" ) ) {
+        npc_suspended_task held;
+        data.read( "suspended_task", held );
+        if( held.task ) {
+            suspended_task = held;
+        }
+    }
 
     if( data.read( "companion_mission_role_id", companion_mission_role ) ) {
         companion_mission_role_id = companion_mission_role;
@@ -2313,6 +2321,9 @@ void npc::store( JsonOut &json ) const
     json.member( "comp_mission_role", comp_mission.role_id );
     if( task_on_mission ) {
         json.member( "task_on_mission", *task_on_mission );
+    }
+    if( suspended_task ) {
+        json.member( "suspended_task", *suspended_task );
     }
     json.member( "companion_mission_role_id", companion_mission_role_id );
     json.member( "companion_mission_points", companion_mission_points );
