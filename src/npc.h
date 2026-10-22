@@ -586,6 +586,12 @@ struct npc_short_term_cache {
         std::optional<npc_challenger> interruption;
     };
     mutable rest_review_memo rest_review;
+    // latest turn a sound reached the NPC, and how many turns in a row
+    struct noise_memo {
+        time_point last = calendar::before_time_starts;
+        int streak = 0;
+    };
+    noise_memo noise_heard;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1606,6 +1612,10 @@ class npc : public Character
         bool sleep_stalled() const;
         // rest cooldown or stay-awake grace holds sleep back
         bool sleep_on_hold() const;
+        // sound reached the NPC this turn; woke: whether it woke the NPC
+        void note_noise( bool woke );
+        // true while repeated noise wakes hold sleep back and the noise goes on
+        bool noise_hold_active() const;
         // woken by the player: a grace period, no rule change; false when narcosis keeps it under
         bool wake_by_player();
         void grant_stay_awake( const time_duration &dur, int sleepiness_floor );

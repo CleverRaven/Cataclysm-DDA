@@ -7553,6 +7553,12 @@ npc::need_result npc::execute_go_to_sleep()
     }
 
     need_plan &plan = ai_cache.sleep_plan;
+    // on hold (rest cooldown, grace or noise): a sleep goal from before the hold doesn't lie down
+    if( sleep_on_hold() ) {
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
     // can't fall asleep at all right now: no spot helps, so there is nothing to wait for
     if( has_flag( json_flag_CANNOT_SLEEP ) ) {
         plan.clear();
