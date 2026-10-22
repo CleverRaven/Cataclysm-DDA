@@ -5597,7 +5597,7 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
                 worker.add_msg_if_npc( m_bad,
                                        _( "%s says they don't want drugs." ),
                                        worker.get_name() );
-                camp_food_supply( food );
+                not_eaten();
                 break;
             case ALLERGY_WEAK:
                 worker.add_msg_if_npc( m_bad,
