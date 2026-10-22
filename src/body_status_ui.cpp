@@ -551,7 +551,7 @@ void body_status_ui::update_uilist_entries()
                 armor_count++;
             }
             if( armor_count == 0 ) {
-                menu->addentry( get_uilist_entry( "No armor found!" ) );
+                menu->addentry( get_uilist_entry( _( "No armor found!" ) ) );
             }
 
             break;
@@ -790,7 +790,8 @@ void body_status_ui_impl::draw_info()
                     cataimgui::draw_colored_text( lines );
                 }
             } else {
-                cataimgui::draw_colored_text( colorize( "Select a worn item to view its properties.", c_yellow ) );
+                cataimgui::draw_colored_text( colorize( _( "Select a worn item to view its properties." ),
+                                                        c_yellow ) );
             }
             break;
         }
@@ -846,7 +847,7 @@ void body_status_ui_impl::draw_bodygraph()
     }
     ImGui::Separator();
 
-    cataimgui::draw_colored_text( "Body Graph:" );
+    cataimgui::draw_colored_text( _( "Body Graph:" ) );
     if( ImGui::Button( string_format( _( "Displaying: %s" ),
                                       io::enum_to_string( bs_uistate.display_mode ) ).c_str() ) ) {
         bs_uistate.button_action = "BODYGRAPH_DISPLAY_CHANGE";
