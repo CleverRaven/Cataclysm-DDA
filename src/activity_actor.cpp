@@ -6905,7 +6905,6 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
         item craft_copy = craft;
-        const bool eat_after_craft = craft_item->has_flag( json_flag_EAT_AFTER_CRAFT );
         craft_item.remove_item();
         // We need to cache this before we cancel the activity else we risk Use After Free
         const bool will_continue = is_long;
