@@ -76,6 +76,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_tunnel_sinkhole_1" ],
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "########################",
         "########################",
@@ -112,6 +113,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_tunnel_sinkhole_2" ],
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "########################",
         "########################",
@@ -148,6 +150,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_tunnel_sinkhole_3" ],
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "########################",
         "########################",
@@ -184,6 +187,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_tunnel_sinkhole_4" ],
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "########################",
         "########################",
@@ -220,6 +224,7 @@
     "type": "mapgen",
     "om_terrain": [ "afs_tunnel_sinkhole_5" ],
     "object": {
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "#####...............####",
         "#######.........##.#####",
