@@ -311,7 +311,6 @@ void body_status_uistate::prepare_infolist()
 
 void body_status_uistate::prepare_infotext( bool reset_pos )
 {
-    top_info = reset_pos ? 0 : top_info;
     if( info.specific_sublimb ) {
         // parent part
         info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Sub part of" ), c_magenta ),
@@ -374,16 +373,12 @@ void body_status_uistate::prepare_infotext( bool reset_pos )
                                           colorize( info.specific_sublimb ? _( "Protection" ) : _( "Protection (Avg.)" ), c_magenta ) ) );
     std::string prot_legend = string_format( "%s %s %s", colorize( _( "worst" ), c_red ),
                               colorize( _( "median" ), c_yellow ), colorize( _( "best" ), c_light_green ) );
-    int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
-    prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
     info_txt.emplace_back( prot_legend );
     auto get_res_str = [&]( const damage_type_id & dt ) -> std::string {
-        const std::string wval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.worst_case.type_resist( dt ) );
-        const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
-        const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
+        const std::string wval = string_format( "%4.1f", info.worst_case.type_resist( dt ) );
+        const std::string mval = string_format( "%4.1f", info.median_case.type_resist( dt ) );
+        const std::string bval = string_format( "%4.1f", info.best_case.type_resist( dt ) );
         std::string txt = string_format( "%s %s %s", colorize( wval, c_red ), colorize( mval, c_yellow ), colorize( bval, c_light_green ) );
-        int res_avail = clamp( ( info_width - 2 ) - utf8_width( txt, true ), 0, info_width - 2 );
-        txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
     auto get_env_str = [&]( const damage_type_id & dt ) -> std::string {
