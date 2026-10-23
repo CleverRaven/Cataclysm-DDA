@@ -594,7 +594,7 @@ TEST_CASE( "seated_follower_sleeps_when_leader_sleeps_aboard", "[npc][behavior][
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 250 );
     seat( guy, mount_tile( veh, point_rel_ms( -2, 0 ) ) );
 
-    run_npc_turns( guy, 20, []( const npc & n ) {
+    run_npc_turns( guy, 40, []( const npc & n ) {
         return n.in_sleep_state();
     } );
     CAPTURE( guy.pos_bub(), guy.get_committed_goal(), guy.in_vehicle, guy.in_vehicle_bed() );

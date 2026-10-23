@@ -593,7 +593,7 @@ void npc::review_self_care_activity()
     // TODO: the pursuit isn't saved, so a load cancels an emergency harvest that
     // overrode an obligation; the activity would need to keep its need
     if( !may_occupy_here() ) {
-        cancel_activity();
+        abandon_activity();
     }
 }
 
