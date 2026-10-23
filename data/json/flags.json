@@ -117,6 +117,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_SPIDER_ARMS",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_WING_ARMS",
     "type": "json_flag"
   },
