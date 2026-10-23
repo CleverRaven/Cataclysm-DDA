@@ -160,7 +160,6 @@ TEST_CASE( "water_food_score", "[auto_eat]" )
 
 TEST_CASE( "auto_craft_eat", "[auto_eat]" )
 {
-
     clear_avatar();
     avatar &you = get_avatar();
 
@@ -181,14 +180,17 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         item &popcan_stove = get_map().add_item( you.pos_bub(), tool_with_ammo( itype_popcan_stove, 500 ) );
 
         REQUIRE( popcan_stove.has_ammo() );
-        REQUIRE( recipe_broth_meat->deduped_requirements().can_make_with_inventory( &you,
-                 you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
-                 1, craft_flags::start_only ) );
+        CHECK( recipe_broth_meat->deduped_requirements().can_make_with_inventory( &you,
+                you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
+                1, craft_flags::start_only ) );
+        CHECK( recipe_meat_cooked->deduped_requirements().can_make_with_inventory( &you,
+                you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
+                1, craft_flags::start_only ) );
 
-        broth_test.score_calorie_check_all( meat, 10 );
-        broth_test.score_calorie_check_all( meat_cooked, 10 );
-        broth_test.score_calorie_check_all( powder_eggs, 0 );
-        broth_test.score_calorie_check_all( broth, 0 );
+        broth_test.score_calorie_check_all( meat, 11 );
+        broth_test.score_calorie_check_all( meat_cooked, 11 );
+        broth_test.score_calorie_check_all( powder_eggs, 8 );
+        broth_test.score_calorie_check_all( broth, 1 );
 
         broth_test.score_quench_check_all( meat, 0 );
         broth_test.score_quench_check_all( meat_cooked, 0 );
@@ -215,20 +217,25 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         broth_test.score_spoil_check_all( powder_eggs, 0 );
         broth_test.score_spoil_check_all( broth, 15 );
 
-        broth_test.score_food_check_all( meat, -39 );
-        broth_test.score_food_check_all( meat_cooked, 1 );
-        broth_test.score_food_check_all( powder_eggs, -42 );
-        broth_test.score_food_check_all( broth, 26 );
+        broth_test.score_food_check_all( meat, -38 );
+        broth_test.score_food_check_all( meat_cooked, 2 );
+        broth_test.score_food_check_all( powder_eggs, -34 );
+        broth_test.score_food_check_all( broth, 27 );
 
+        you.set_thirst( 81 );
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
-        REQUIRE( food_iter->get_item_copy().typeId() == itype_water_clean );
+        REQUIRE( food_iter != food_list.end() );
+        CHECK( food_iter->get_item_copy().typeId() == itype_water_clean );
         ++food_iter;
-        REQUIRE( food_iter->get_item_copy().typeId() == itype_meat_cooked );
+        REQUIRE( food_iter != food_list.end() );
+        CHECK( food_iter->get_item_copy().typeId() == itype_meat_cooked );
         ++food_iter;
-        REQUIRE( food_iter->get_item_copy().typeId() == itype_rehydrated_eggs );
+        REQUIRE( food_iter != food_list.end() );
+        CHECK( food_iter->get_item_copy().typeId() == itype_rehydrated_eggs );
         ++food_iter;
-        REQUIRE( food_iter->get_item_copy().typeId() == itype_water_clean );
+        REQUIRE( food_iter != food_list.end() );
+        CHECK( food_iter->get_item_copy().typeId() == itype_water_clean );
 
         // note that broth does not show up at all. this is because it is a drink that has less quench than water
         // and not enough joy and nutrition to counteract the recipe score negative.
