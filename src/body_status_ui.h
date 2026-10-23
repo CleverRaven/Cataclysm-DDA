@@ -40,12 +40,6 @@ struct enum_traits<body_status_tab> {
     static constexpr body_status_tab last = body_status_tab::BS_TAB_last;
 };
 
-enum class medical_tab_mode {
-    TAB_LIMBS,
-    TAB_SUMMARY,
-    last
-};
-
 /*
 * Class of helper functions to display medical tab of body status UI
 */
@@ -59,10 +53,8 @@ class medical_ui
         static std::string get_modified_limb_name( const Character &you,
                 const bodypart_id &part );
 
-        //static void draw_limbs_list(const std::vector<bodypart_id>& bodyparts);
         static void summary_tab( const Character &you );
         static void draw_limbs_details( const Character &you, const bodypart_id &bp );
-        static void limb_tab( const std::vector<bodypart_id> &bodyparts );
 };
 
 // only for handling additional inputs, draws nothing
@@ -80,14 +72,6 @@ class body_status_callback : public uilist_callback
         void refresh( uilist *menu ) override;
 };
 
-using bodygraph_part_tuple =
-    std::tuple<bodypart_id, const sub_body_part_type *, const bodygraph_part *, bool>;
-
-// For each tuple:
-//   0 = bodypart or parent of subpart
-//   1 = subpart (if viewing a sub part)
-//   2 = bodygraph data for this part
-//   3 = part is present on character
 struct bodygraph_part_info {
     bodypart_id bp_id;
     sub_bodypart_str_id sbp_id;
@@ -149,9 +133,6 @@ struct body_status_uistate {
     bodygraph_info info;
     // limb summary info text block
     std::vector<std::string> info_txt;
-    // some of these should be removed
-    int info_width = 0;
-    int top_info = 0;
     std::chrono::time_point<std::chrono::steady_clock> last_blink;
     bool symbol_blinking = false;
 
@@ -209,7 +190,6 @@ class body_status_ui : public tabbed_listinfo_ui
         shared_ptr_fast<uilist_impl> bs_uilist_current;
 
     public:
-        // public?
         Character &displayed_character;
         body_status_uistate bs_uistate;
         bool reset_list_entries = false;
