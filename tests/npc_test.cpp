@@ -41,12 +41,15 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_uid.h"
 #include "itype.h"
+#include "json.h"
+#include "json_loader.h"
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
@@ -97,11 +100,14 @@
 
 enum npc_action : int;
 
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
+static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_lying_down( "lying_down" );
@@ -170,6 +176,8 @@ static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" )
 static const itype_id itype_space_cake( "space_cake" );
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water_clean( "water_clean" );
+
+static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 
 static const npc_class_id NC_ROBOFAC_INTERCOM_DAY( "NC_ROBOFAC_INTERCOM_DAY" );
 static const npc_class_id NC_ROBOFAC_INTERCOM_NIGHT( "NC_ROBOFAC_INTERCOM_NIGHT" );
@@ -285,6 +293,17 @@ static std::string get_list_of_monsters( const std::string &title )
         mon_list << "  " << m.get() << ": " << m->name() << '\n';
     }
     return mon_list.str();
+}
+
+// runs a started meal or drink to its end, as game turns would
+static void finish_meal( npc &guy )
+{
+    REQUIRE( guy.is_eating() );
+    for( int turn = 0; turn < 300 && guy.activity; ++turn ) {
+        guy.set_moves( 100 );
+        guy.activity.do_turn( guy );
+    }
+    REQUIRE_FALSE( guy.activity );
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -1372,7 +1391,8 @@ TEST_CASE( "npc_camp_water_through_stomach", "[npc][needs][camp]" )
         REQUIRE( guy.has_calorie_deficit() );
         REQUIRE( guy.get_hunger() <= 0 );
 
-        CHECK( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
+        REQUIRE( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
+        finish_meal( guy );
         CHECK( camp_faction->food_supply().kcal() < 50 );
     }
 }
@@ -1399,6 +1419,14 @@ static basecamp &place_camp( const tripoint_bub_ms &at, const faction_id &owner,
     return **bcp;
 }
 
+// earlier tests' NPCs drop cash where they stood when the map is cleared
+static void clear_dropped_cash( const tripoint_bub_ms &at )
+{
+    for( const tripoint_bub_ms &p : get_map().points_in_radius( at, 1 ) ) {
+        get_map().i_clear( p );
+    }
+}
+
 // hungry follower next to leader, so only a camp meal can draw it away
 static npc &spawn_camp_eater( const tripoint_bub_ms &at )
 {
@@ -1414,6 +1442,7 @@ static npc &spawn_camp_eater( const tripoint_bub_ms &at )
     guy.guard_pos = std::nullopt;
     guy.clear_ai_guard_pos();
     guy.rules.set_flag( ally_rule::follow_close );
+    clear_dropped_cash( at );
     guy.stomach.empty();
     guy.guts.empty();
     guy.set_stored_kcal( 1000 );
@@ -1491,14 +1520,15 @@ TEST_CASE( "camp_feeds_a_hungry_npc_at_healthy_weight", "[npc][needs][camp]" )
         guy.set_moves( 100 );
         const bool ate = guy.consume_food_from_camp( npc::consume_filter::food_only );
         THEN( "meal's worth comes out of the larder" ) {
-            CHECK( ate );
+            REQUIRE( ate );
+            finish_meal( guy );
             CHECK( own.food_supply().kcal() == 1500 );
             CHECK( guy.stomach.contains() > 0_ml );
         }
     }
 }
 
-TEST_CASE( "camp_meal_spends_moves", "[npc][needs][camp]" )
+TEST_CASE( "camp_meal_and_water_take_their_time", "[npc][needs][camp]" )
 {
     clear_avatar();
     clear_map_with_vision();
@@ -1514,12 +1544,23 @@ TEST_CASE( "camp_meal_spends_moves", "[npc][needs][camp]" )
         const faction &own = *g->faction_manager_ptr->get( your_fac );
         guy.set_moves( 100 );
         REQUIRE( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
-        CHECK( guy.stomach.contains() > 0_ml );
-        nutrients portion;
-        portion.calories = ( 500 - own.food_supply().kcal() ) * 1000;
-        REQUIRE( portion.kcal() > 0 );
-        const int cost = to_moves<int>( guy.get_consume_time( camp.make_fake_food( portion ) ) );
-        CHECK( guy.get_moves() == 100 - cost );
+        THEN( "it's a timed activity, larder pays when it ends" ) {
+            REQUIRE( guy.activity.id() == ACT_CAMP_MEAL );
+            CHECK( guy.get_moves() == 100 );
+            CHECK( own.food_supply().kcal() == 500 );
+            const int moves_total = guy.activity.moves_total;
+            finish_meal( guy );
+            CHECK( guy.stomach.contains() > 0_ml );
+            nutrients portion;
+            portion.calories = ( 500 - own.food_supply().kcal() ) * 1000;
+            REQUIRE( portion.kcal() > 0 );
+            CHECK( moves_total == to_moves<int>( guy.get_consume_time( camp.make_fake_food( portion ) ) ) );
+        }
+        THEN( "cancelled meal takes nothing from larder" ) {
+            guy.cancel_activity();
+            CHECK( own.food_supply().calories == 500 * 1000 );
+            CHECK( guy.stomach.contains() == 0_ml );
+        }
     }
     SECTION( "sip of water" ) {
         guy.set_thirst( 200 );
@@ -1527,6 +1568,210 @@ TEST_CASE( "camp_meal_spends_moves", "[npc][needs][camp]" )
         REQUIRE( guy.consume_food_from_camp( npc::consume_filter::drink_only ) );
         CHECK( guy.stomach.get_water() == guy.sip_of_water() );
         CHECK( guy.get_moves() == 100 - to_moves<int>( 1_turns ) );
+    }
+}
+
+TEST_CASE( "camp_meal_eater_answers_at_the_next_decision", "[npc][needs][camp][obligation]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 2000 );
+    const faction &own = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    // routine meal at a healthy weight: no need presses past an order or danger
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_hunger( 300 );
+    guy.set_sleepiness( 0 );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    map &here = get_map();
+    here.build_map_cache( 0 );
+    // idle care pass runs on one turn in three, at random
+    run_npc_turns( guy, 40, []( const npc & n ) {
+        return n.activity.id() == ACT_CAMP_MEAL;
+    } );
+    REQUIRE( guy.activity.id() == ACT_CAMP_MEAL );
+    REQUIRE( guy.activity.moves_left > 2 * guy.get_speed() );
+    const auto meal_in_backlog = []( const npc & n ) {
+        return std::any_of( n.backlog.begin(), n.backlog.end(), []( const player_activity & act ) {
+            return act.id() == ACT_CAMP_MEAL;
+        } );
+    };
+
+    WHEN( "it is told to go somewhere" ) {
+        const tripoint_bub_ms order = mid + tripoint( -4, 0, 0 );
+        guy.goto_to_this_pos = here.get_abs( order );
+        const tripoint_bub_ms before = guy.pos_bub();
+        run_npc_turn( guy );
+        THEN( "meal dropped at next decision, larder keeps it" ) {
+            CHECK( guy.activity.id() != ACT_CAMP_MEAL );
+            CHECK_FALSE( meal_in_backlog( guy ) );
+            CHECK( guy.get_committed_goal() == "goto_ordered_position" );
+            CHECK( own.food_supply().calories == 2000 * 1000 );
+            AND_THEN( "on its way the turn after" ) {
+                run_npc_turn( guy );
+                CHECK( guy.pos_bub() != before );
+            }
+        }
+    }
+    WHEN( "a hulk steps up to it" ) {
+        guy.rules.engagement = combat_engagement::ALL;
+        REQUIRE( g->place_critter_at( mon_zombie_hulk, guy.pos_bub() + tripoint( 2, 0, 0 ) ) !=
+                 nullptr );
+        here.build_map_cache( 0 );
+        run_npc_turn( guy );
+        THEN( "meal dropped at next decision, larder keeps it" ) {
+            CHECK( guy.activity.id() != ACT_CAMP_MEAL );
+            CHECK_FALSE( meal_in_backlog( guy ) );
+            CHECK( own.food_supply().calories == 2000 * 1000 );
+        }
+    }
+}
+
+TEST_CASE( "camp_meal_survives_a_save_mid_meal", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 2000 );
+    const faction &own = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_hunger( 300 );
+    REQUIRE( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
+    REQUIRE( guy.activity.id() == ACT_CAMP_MEAL );
+    guy.set_moves( 100 );
+    guy.activity.do_turn( guy );
+    const int left = guy.activity.moves_left;
+    REQUIRE( left > 0 );
+
+    std::ostringstream os;
+    JsonOut jsout( os );
+    guy.serialize( jsout );
+    guy.cancel_activity();
+    REQUIRE( own.food_supply().calories == 2000 * 1000 );
+    guy.setID( character_id(), true );
+    guy.deserialize( json_loader::from_string( os.str() ).get_object() );
+
+    THEN( "meal resumes where it stopped, larder pays once when it ends" ) {
+        REQUIRE( guy.activity.id() == ACT_CAMP_MEAL );
+        CHECK( guy.activity.moves_left == left );
+        CHECK( own.food_supply().calories == 2000 * 1000 );
+        finish_meal( guy );
+        CHECK( own.food_supply().kcal() < 2000 );
+        CHECK( guy.stomach.contains() > 0_ml );
+    }
+}
+
+TEST_CASE( "meal_from_carried_food_survives_a_save_mid_meal", "[npc][needs][food]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_hunger( 300 );
+    const auto is_sandwich = []( const item & it ) {
+        return it.typeId() == itype_sandwich_cheese_grilled;
+    };
+    const auto save_and_load = [&guy]() {
+        std::ostringstream os;
+        JsonOut jsout( os );
+        guy.serialize( jsout );
+        guy.cancel_activity();
+        guy.setID( character_id(), true );
+        guy.deserialize( json_loader::from_string( os.str() ).get_object() );
+    };
+    // held, not packed: the load finds a wielded item again
+    item sandwich( itype_sandwich_cheese_grilled );
+    REQUIRE( guy.wield( sandwich ) );
+    get_map().build_map_cache( 0 );
+    REQUIRE( guy.start_eating( guy.get_wielded_item() ) );
+    REQUIRE( guy.activity.id() == ACT_CONSUME );
+    guy.set_moves( 100 );
+    guy.activity.do_turn( guy );
+    const int left = guy.activity.moves_left;
+    REQUIRE( left > 0 );
+
+    WHEN( "it's saved and loaded mid-meal" ) {
+        save_and_load();
+        THEN( "it resumes the meal and eats the sandwich once" ) {
+            REQUIRE( guy.activity.id() == ACT_CONSUME );
+            CHECK( guy.activity.moves_left == left );
+            CHECK( guy.stomach.get_calories() == 0 );
+            finish_meal( guy );
+            CHECK( guy.items_with( is_sandwich ).empty() );
+            CHECK( guy.stomach.get_calories() > 0 );
+        }
+    }
+    WHEN( "sandwich is gone when the game is loaded" ) {
+        guy.remove_items_with( is_sandwich );
+        save_and_load();
+        run_npc_turn( guy );
+        THEN( "meal ends, nothing is eaten" ) {
+            CHECK_FALSE( guy.is_eating() );
+            CHECK( guy.stomach.get_calories() == 0 );
+        }
+    }
+    WHEN( "sandwich is taken while it eats" ) {
+        guy.remove_items_with( is_sandwich );
+        run_npc_turn( guy );
+        THEN( "meal ends, nothing is eaten" ) {
+            CHECK_FALSE( guy.is_eating() );
+            CHECK( guy.stomach.get_calories() == 0 );
+        }
+    }
+}
+
+TEST_CASE( "meal_claimed_while_it_is_eaten_is_left_alone", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_hunger( 300 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    map &here = get_map();
+    const tripoint_bub_ms adj = guy.pos_bub() + tripoint::east;
+    item &sandwich = here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
+    REQUIRE( guy.consume_food_at( item_location( map_cursor( adj ), &sandwich ) ) );
+    REQUIRE( guy.activity.id() == ACT_CONSUME );
+    on_out_of_scope release( []() {
+        get_craft_reservations().clear();
+    } );
+    const auto nothing_eaten = [&]() {
+        finish_meal( guy );
+        CHECK( here.i_at( adj ).size() == 1 );
+        CHECK( guy.stomach.get_calories() == 0 );
+    };
+
+    WHEN( "nothing changes" ) {
+        THEN( "eaten when the meal ends" ) {
+            finish_meal( guy );
+            CHECK( here.i_at( adj ).empty() );
+            CHECK( guy.stomach.get_calories() > 0 );
+        }
+    }
+    WHEN( "a craft reserves it" ) {
+        craft_reservation_index::record rec;
+        rec.craft_uid = 77000 + sandwich.uid().get_value();
+        rec.provider_item_uids.push_back( sandwich.uid().get_value() );
+        rec.expires_at = calendar::turn + 1_hours;
+        get_craft_reservations().set( rec );
+        THEN( "nothing eaten" ) {
+            nothing_eaten();
+        }
     }
 }
 
@@ -1559,6 +1804,7 @@ static npc &spawn_supplied_follower( const tripoint_bub_ms &at )
     guy.set_stored_kcal( guy.get_healthy_kcal() );
     guy.set_all_parts_temp_conv( BODYTEMP_NORM );
     guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    clear_dropped_cash( at );
     get_map().build_map_cache( 0 );
     return guy;
 }
@@ -1666,6 +1912,35 @@ TEST_CASE( "terrain_drink_spends_moves", "[npc][needs][water]" )
         CHECK( guy.stomach.get_water() == sip );
         CHECK( guy.get_moves() == 100 - turn );
     }
+    SECTION( "cost stays charged through a game turn" ) {
+        guy.set_moves( 0 );
+        run_npc_turn( guy );
+        CHECK( guy.stomach.get_water() == sip );
+        CHECK( guy.get_moves() == guy.get_speed() - turn );
+    }
+    SECTION( "fast NPC uses surplus for more sips in the same turn" ) {
+        // off the hour, so the pause's hourly upkeep doesn't spend the surplus
+        calendar::turn += 5_turns;
+        // speed bonus is recalculated every turn, base speed is what lasts
+        guy.set_speed_base( 250 );
+        guy.set_moves( 0 );
+        run_npc_turn( guy );
+        const int speed = guy.get_speed();
+        REQUIRE( speed > turn );
+        const int sips = ( speed + turn - 1 ) / turn;
+        CAPTURE( speed, sips );
+        CHECK( guy.stomach.get_water() == sips * sip );
+        CHECK( guy.get_moves() == speed - sips * turn );
+    }
+    SECTION( "bleeding drinker presses on its wound" ) {
+        guy.add_effect( effect_bleed, 2_minutes, body_part_leg_l );
+        const time_duration bleeding = guy.get_effect_dur( effect_bleed, body_part_leg_l );
+        guy.set_moves( 100 );
+        guy.move();
+        CHECK( guy.stomach.get_water() == sip );
+        CHECK( guy.get_moves() == 100 - turn );
+        CHECK( guy.get_effect_dur( effect_bleed, body_part_leg_l ) < bleeding );
+    }
 }
 
 TEST_CASE( "npc_dressing_spends_moves", "[npc][needs][temperature]" )
@@ -1702,6 +1977,74 @@ TEST_CASE( "npc_dressing_spends_moves", "[npc][needs][temperature]" )
         REQUIRE( guy.is_wearing( itype_sweater ) );
         CHECK( guy.get_moves() == 100 - cost );
     }
+    SECTION( "debt is owed and repaid through a game turn before the next act" ) {
+        REQUIRE( guy.i_add( item( itype_sweater ) ) );
+        REQUIRE( cost > guy.get_speed() );
+        guy.set_moves( 0 );
+        run_npc_turn( guy );
+        REQUIRE( guy.is_wearing( itype_sweater ) );
+        CHECK( guy.get_moves() == guy.get_speed() - cost );
+        const int owed = guy.get_moves();
+        const tripoint_bub_ms before = guy.pos_bub();
+        run_npc_turn( guy );
+        THEN( "next turn only pays" ) {
+            CHECK( guy.get_moves() == owed + guy.get_speed() );
+            CHECK( guy.pos_bub() == before );
+        }
+    }
+    SECTION( "failed wear charges nothing" ) {
+        const tripoint_bub_ms adj = guy.pos_bub() + tripoint::south;
+        item &plank = here.add_item_or_charges( adj, item( itype_2x4 ) );
+        here.build_map_cache( 0 );
+        guy.set_moves( 100 );
+        CHECK_FALSE( guy.wear_item_at( item_location( map_cursor( adj ), &plank ) ) );
+        CHECK( guy.get_moves() == 100 );
+        CHECK( here.i_at( adj ).size() == 1 );
+    }
+}
+
+TEST_CASE( "idle_camp_meal_is_eaten_turn_by_turn", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    basecamp &camp = place_camp( mid, your_fac, 2000 );
+    const faction &own = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_hunger( 100 );
+    guy.set_sleepiness( 0 );
+    guy.set_all_parts_temp_conv( BODYTEMP_NORM );
+    guy.set_all_parts_temp_cur( BODYTEMP_NORM );
+    get_map().build_map_cache( 0 );
+
+    // idle care pass runs on one turn in three, at random
+    run_npc_turns( guy, 40, []( const npc & n ) {
+        return n.activity.id() == ACT_CAMP_MEAL;
+    } );
+    REQUIRE( guy.activity.id() == ACT_CAMP_MEAL );
+    const int moves_total = guy.activity.moves_total;
+    // meal is spent turn by turn: no debt, nothing leaves the larder before the end
+    int turns = 0;
+    int lowest = guy.get_moves();
+    while( guy.activity.id() == ACT_CAMP_MEAL && turns < 600 ) {
+        CHECK( own.food_supply().kcal() == 2000 );
+        run_npc_turn( guy );
+        lowest = std::min( lowest, guy.get_moves() );
+        turns++;
+    }
+    REQUIRE( guy.activity.id() != ACT_CAMP_MEAL );
+    CHECK( lowest > -guy.get_speed() );
+    CHECK( guy.stomach.contains() > 0_ml );
+    nutrients portion;
+    portion.calories = ( 2000 - own.food_supply().kcal() ) * 1000;
+    REQUIRE( portion.kcal() > 0 );
+    CHECK( moves_total == to_moves<int>( guy.get_consume_time( camp.make_fake_food( portion ) ) ) );
+    // meal's first turn is spent on the turn it starts
+    CHECK( turns + 1 >= moves_total / guy.get_speed() );
 }
 
 TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
@@ -1711,6 +2054,7 @@ TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
     REQUIRE( guy.has_calorie_deficit() );
     map &here = get_map();
     const tripoint_bub_ms adj = guy.pos_bub() + tripoint::south;
+    REQUIRE( here.i_at( adj ).empty() );
     item &sandwich = here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
     item_location loc( map_cursor( adj ), &sandwich );
     here.build_map_cache( 0 );
@@ -2385,6 +2729,7 @@ TEST_CASE( "npc_consume_food_at_helper", "[npc][needs]" )
         const size_t count_before = here.i_at( adj ).size();
         item_location loc( map_cursor( adj ), &spawned );
         REQUIRE( guy.consume_food_at( loc ) );
+        finish_meal( guy );
         CHECK( here.i_at( adj ).size() < count_before );
     }
 
@@ -2659,6 +3004,7 @@ TEST_CASE( "npc_address_needs_ground_food", "[npc][needs]" )
         const tripoint_bub_ms before = guy.pos_bub();
 
         guy.address_needs( NPC_DANGER_VERY_LOW + 1 );
+        finish_meal( guy );
 
         CHECK( here.i_at( adj ).size() < items_before );
         CHECK( guy.pos_bub() == before );
@@ -3127,6 +3473,7 @@ TEST_CASE( "npc_find_food_vehicle_cargo", "[npc][needs]" )
         const tripoint_bub_ms before = guy.pos_bub();
 
         guy.address_needs( 0 );
+        finish_meal( guy );
 
         CHECK( cargo->items().size() < cargo_before );
         CHECK( guy.pos_bub() == before );
@@ -3342,9 +3689,10 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
         const size_t items_before = here.i_at( adj ).size();
 
         guy.address_needs( 0 );
+        // adjacent food starts a meal, not a harvest
+        finish_meal( guy );
 
         CHECK( here.i_at( adj ).size() < items_before );
-        CHECK_FALSE( guy.has_activity() );
     }
 
     SECTION( "distant reachable food preferred over nearby harvestable" ) {
@@ -3377,8 +3725,9 @@ TEST_CASE( "npc_harvest_scavenging", "[npc][needs]" )
         here.build_map_cache( 0 );
 
         guy.address_needs( 0 );
+        // adjacent food starts a meal, not a harvest
+        finish_meal( guy );
 
-        CHECK_FALSE( guy.has_activity() );
         CHECK( cargo->items().size() < cargo_before );
     }
 
@@ -5978,8 +6327,9 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
         const int kcal_before = guy.get_stored_kcal();
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "eat_food" );
-        // The NPC should eat the adjacent food, not return impossible.
-        CHECK( result == npc::need_result::satisfied );
+        // starts eating adjacent food instead of returning impossible
+        CHECK( result == npc::need_result::progressed );
+        finish_meal( guy );
         CHECK( guy.get_stored_kcal() + guy.stomach.get_calories() > kcal_before );
     }
 }
@@ -6186,7 +6536,9 @@ TEST_CASE( "npc_can_obtain_food_camp_fallback", "[npc][needs][forage][camp]" )
     SECTION( "execute_eat_food succeeds from camp food" ) {
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "eat_food" );
-        CHECK( result == npc::need_result::satisfied );
+        // camp meal runs as an activity; larder pays when it ends
+        CHECK( result == npc::need_result::progressed );
+        finish_meal( guy );
         CHECK( camp_faction->food_supply().kcal() < 500 );
     }
 
@@ -6201,7 +6553,8 @@ TEST_CASE( "npc_can_obtain_food_camp_fallback", "[npc][needs][forage][camp]" )
         REQUIRE( guy.has_amount( itype_meat_cooked, 1 ) );
         guy.set_moves( 100 );
         npc::need_result result = guy.execute_need_goal( "eat_food" );
-        CHECK( result == npc::need_result::satisfied );
+        CHECK( result == npc::need_result::progressed );
+        finish_meal( guy );
         CHECK_FALSE( guy.has_amount( itype_meat_cooked, 1 ) );
         CHECK( guy.stomach.get_calories() > 0 );
         CHECK( camp_faction->food_supply().kcal() == 500 );
@@ -6218,8 +6571,15 @@ TEST_CASE( "npc_can_obtain_food_camp_fallback", "[npc][needs][forage][camp]" )
         Messages::clear_messages();
         for( int turn = 0; turn < 5; ++turn ) {
             guy.set_moves( 100 );
-            guy.execute_need_goal( "eat_food" );
+            if( guy.is_eating() ) {
+                guy.activity.do_turn( guy );
+            } else {
+                guy.execute_need_goal( "eat_food" );
+            }
             calendar::turn += 1_turns;
+        }
+        if( guy.is_eating() ) {
+            finish_meal( guy );
         }
         int refusals = 0;
         for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
@@ -8329,7 +8689,8 @@ TEST_CASE( "npc_sleep_preemption", "[npc][needs][sleep]" )
     CHECK_FALSE( guy.has_effect( effect_sleep ) );
     CHECK_FALSE( guy.get_sleep_plan().active() );
     CHECK( guy.get_committed_goal().empty() );
-    run_npc_turns( guy, 3, []( const npc & n ) {
+    // bottle is drunk as an activity, so water takes time to arrive
+    run_npc_turns( guy, 30, []( const npc & n ) {
         return n.stomach.get_water() > 0_ml;
     } );
     CHECK( guy.stomach.get_water() > 0_ml );
