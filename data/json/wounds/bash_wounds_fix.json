@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bleed_laceration_medium_fix",
+    "copy-from": "bleed_wound_medium",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your laceration.",
+    "wounds_removed": [ "bleeding_laceration_medium" ],
+    "wounds_added": [ "laceration_medium" ],
+    "success_msg": "The laceration isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_laceration_bad_fix",
+    "copy-from": "bleed_wound_bad",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your bad laceration.",
+    "wounds_removed": [ "bleeding_laceration_bad" ],
+    "wounds_added": [ "laceration_bad" ],
+    "success_msg": "The bad laceration isn't bleeding anymore."
+  },
+  {
+    "id": "clean_laceration_medium_fix",
+    "copy-from": "clean_wound_medium",
+    "type": "wound_fix",
+    "name": "clean the laceration",
+    "description": "Clean your laceration.",
+    "wounds_removed": [ "laceration_medium" ],
+    "wounds_added": [ "clean_laceration_medium" ],
+    "success_msg": "The laceration is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_laceration_bad_fix",
+    "copy-from": "clean_wound_bad",
+    "type": "wound_fix",
+    "name": "clean the laceration",
+    "description": "Clean your bad laceration.",
+    "wounds_removed": [ "laceration_bad" ],
+    "wounds_added": [ "clean_laceration_bad" ],
+    "success_msg": "The bad laceration is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "bandage_laceration_medium_fix",
+    "copy-from": "bandage_wound_medium",
+    "type": "wound_fix",
+    "name": "bandage the laceration",
+    "description": "Bandage your laceration.",
+    "wounds_removed": [ "clean_laceration_medium" ],
+    "wounds_added": [ "bandaged_laceration_medium" ],
+    "success_msg": "The laceration is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_laceration_bad_fix",
+    "copy-from": "bandage_wound_bad",
+    "type": "wound_fix",
+    "name": "bandage the laceration",
+    "description": "Bandage your bad laceration.",
+    "wounds_removed": [ "clean_laceration_bad" ],
+    "wounds_added": [ "bandaged_laceration_bad" ],
+    "success_msg": "The bad laceration is bandaged, now, all you can do is wait for it to heal."
+  }
+]
