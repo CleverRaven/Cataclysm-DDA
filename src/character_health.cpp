@@ -2558,13 +2558,18 @@ void Character::update_wounds( time_duration time_passed )
                 if( calendar::once_every( mod_val.rate ) ) {
                     switch( mod_val.type ) {
                         case wound_mod_value_type::PAIN:
-                            mod_pain( mod_val.amount, bp_id );
+                            if( get_pain() > mod_val.cap_min &&
+                                get_pain() < mod_val.cap_max ) {
+                                wd.mod_pain( mod_val.amount );
+                            }
                             break;
                         case wound_mod_value_type::BLEED:
                             bleed( get_map() );
                             break;
                         case wound_mod_value_type::VITAMIN:
-                            if( mod_val.vitamin.has_value() ) {
+                            if( mod_val.vitamin.has_value() &&
+                                vitamin_get( *mod_val.vitamin ) > mod_val.cap_min &&
+                                vitamin_get( *mod_val.vitamin ) < mod_val.cap_max ) {
                                 vitamin_mod( *mod_val.vitamin, mod_val.amount );
                             }
                             break;
