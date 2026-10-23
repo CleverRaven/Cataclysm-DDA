@@ -4726,7 +4726,8 @@ bool npc::wants_take_that( const item &it )
     return good;
 }
 
-bool npc::would_take_that( const item &it, const tripoint_bub_ms &p ) const
+bool npc::would_take_that( const item &it, const tripoint_bub_ms &p,
+                           const take_kind take ) const
 {
     if( it.is_owned_by( *this, true ) ) {
         return true;
@@ -4737,10 +4738,11 @@ bool npc::would_take_that( const item &it, const tripoint_bub_ms &p ) const
             return it.tname();
         } );
     }
-    return would_take_faction_goods( it.get_owner() );
+    return would_take_faction_goods( it.get_owner(), take );
 }
 
-bool npc::would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const
+bool npc::would_take_that( const vehicle &veh, const tripoint_bub_ms &p,
+                           const take_kind take ) const
 {
     if( veh.is_owned_by( *this, true ) ) {
         return true;
@@ -4750,7 +4752,7 @@ bool npc::would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const
             return veh.name;
         } );
     }
-    return would_take_faction_goods( veh.get_owner() );
+    return would_take_faction_goods( veh.get_owner(), take );
 }
 
 bool npc::would_steal_from_player( const tripoint_bub_ms &p,
@@ -4797,16 +4799,21 @@ bool npc::would_steal_from_player( const tripoint_bub_ms &p,
     return true;
 }
 
-bool npc::would_take_faction_goods( const faction_id &owner ) const
+bool npc::would_take_faction_goods( const faction_id &owner, const take_kind take ) const
 {
     const faction *owner_fac = g->faction_manager_ptr->get( owner, false );
     if( owner_fac == nullptr ) {
         return true;
     }
-    if( my_fac != nullptr &&
-        ( owner_fac->has_relationship( my_fac->id, npc_factions::relationship::share_my_stuff ) ||
-          my_fac->has_relationship( owner, npc_factions::relationship::kill_on_sight ) ) ) {
-        return true;
+    if( my_fac != nullptr ) {
+        if( owner_fac->has_relationship( my_fac->id, npc_factions::relationship::share_my_stuff ) ||
+            ( take == take_kind::drink_extract &&
+              owner_fac->has_relationship( my_fac->id, npc_factions::relationship::share_public_goods ) ) ) {
+            return true;
+        }
+        if( my_fac->has_relationship( owner, npc_factions::relationship::kill_on_sight ) ) {
+            return true;
+        }
     }
     return is_player_ally() && owner_fac->guaranteed_hostile();
 }
@@ -5617,6 +5624,62 @@ bool npc::can_satisfy( const item &it, const need_goal_id id ) const
     return need_accepts( it, id ) && will_eat( it ).success();
 }
 
+namespace
+{
+// filter's needs that more intake still fits
+struct fitting_needs {
+    bool food = false;
+    bool drink = false;
+
+    bool any() const {
+        return food || drink;
+    }
+    bool accept( const item &it ) const {
+        return ( food && need_accepts( it, npc::need_goal_id::eat_food ) ) ||
+               ( drink && need_accepts( it, npc::need_goal_id::drink_water ) );
+    }
+};
+} // namespace
+
+static fitting_needs fitting_needs_of( const npc &guy, const npc::consume_filter filter )
+{
+    fitting_needs needs;
+    needs.food = filter != npc::consume_filter::drink_only &&
+                 guy.intake_fits( npc::need_goal_id::eat_food );
+    needs.drink = filter != npc::consume_filter::food_only &&
+                  guy.intake_fits( npc::need_goal_id::drink_water );
+    return needs;
+}
+
+std::pair<int, int> npc::consume_wants( const consume_filter filter ) const
+{
+    int want_hunger = std::max( 0, get_hunger() );
+    // When calorically starving but not short-term hungry (just ate but still
+    // underweight), force a minimum hunger signal so rate_food scores food > 0.
+    if( want_hunger == 0 && has_calorie_deficit() ) {
+        want_hunger = 100;
+    }
+    // food_only: hunger at least 100, thirst ignored. drink_only: hunger ignored.
+    if( filter == consume_filter::food_only ) {
+        want_hunger = std::max( want_hunger, 100 );
+    } else if( filter == consume_filter::drink_only ) {
+        want_hunger = 0;
+    }
+    const int want_quench = filter == consume_filter::food_only ? 0 : std::max( 0, get_thirst() );
+    return { want_hunger, want_quench };
+}
+
+npc::take_kind npc::take_kind_for( const item_location &loc )
+{
+    return loc.has_parent() && loc->made_of( phase_id::LIQUID ) ? take_kind::drink_extract :
+           take_kind::whole;
+}
+
+bool npc::may_take( const item_location &loc ) const
+{
+    return may_use_source( loc, take_kind_for( loc ) );
+}
+
 bool npc::intake_fits( const need_goal_id id ) const
 {
     if( !needs_food() || !can_stomach( 1_ml ) ) {
@@ -5653,7 +5716,7 @@ bool npc::intake_useful( const need_goal_id id ) const
     return false;
 }
 
-bool npc::may_use_source( const item_location &loc ) const
+bool npc::may_use_source( const item_location &loc, const take_kind take ) const
 {
     if( !loc || !craft_reservation::usable_by_automation( *loc ) ) {
         return false;
@@ -5671,7 +5734,7 @@ bool npc::may_use_source( const item_location &loc ) const
     }
     item_location top = loc;
     while( true ) {
-        if( !would_take_that( *top, p ) ) {
+        if( !would_take_that( *top, p, take ) ) {
             return false;
         }
         if( !top.has_parent() ) {
@@ -5682,56 +5745,30 @@ bool npc::may_use_source( const item_location &loc ) const
     // ground items under a vehicle aren't its cargo
     const vehicle_cursor *cargo = top.where() == item_location::type::vehicle ? top.veh_cursor() :
                                   nullptr;
-    return cargo == nullptr || would_take_that( cargo->veh, p );
+    return cargo == nullptr || would_take_that( cargo->veh, p, take );
 }
 
 bool npc::may_eat_from( const item_location &loc ) const
 {
-    return may_use_source( loc ) &&
+    return may_take( loc ) &&
            ( can_satisfy( *loc, need_goal_id::eat_food ) || can_satisfy( *loc, need_goal_id::drink_water ) );
 }
 
 bool npc::consume_food( consume_filter filter )
 {
     // meal's worth ends a meal on every path, not only under the executor
-    const bool wants_food = filter != consume_filter::drink_only &&
-                            intake_fits( need_goal_id::eat_food );
-    const bool wants_drink = filter != consume_filter::food_only &&
-                             intake_fits( need_goal_id::drink_water );
-    if( !wants_food && !wants_drink ) {
+    const fitting_needs fitting = fitting_needs_of( *this, filter );
+    if( !fitting.any() ) {
         return false;
     }
-    int want_hunger = std::max( 0, get_hunger() );
-    // When calorically starving but not short-term hungry (just ate but still
-    // underweight), force a minimum hunger signal so rate_food scores food > 0.
-    if( want_hunger == 0 && has_calorie_deficit() ) {
-        want_hunger = 100;
-    }
-    // food_only: ignore thirst. drink_only: ignore hunger.
-    if( filter == consume_filter::food_only ) {
-        want_hunger = std::max( want_hunger, 100 );
-    } else if( filter == consume_filter::drink_only ) {
-        want_hunger = 0;
-    }
-    int want_quench = ( filter == consume_filter::food_only ) ? 0 : std::max( 0, get_thirst() );
-
-    // what the filter's need accepts; consume_filter::any takes what either need accepts
-    const auto accepted = [filter]( const item & it ) {
-        switch( filter ) {
-            case consume_filter::food_only:
-                return need_accepts( it, need_goal_id::eat_food );
-            case consume_filter::drink_only:
-                return need_accepts( it, need_goal_id::drink_water );
-            case consume_filter::any:
-                break;
-        }
-        return need_accepts( it, need_goal_id::eat_food ) || need_accepts( it, need_goal_id::drink_water );
-    };
+    const std::pair<int, int> wants = consume_wants( filter );
+    const int want_hunger = wants.first;
+    const int want_quench = wants.second;
     std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
     // Eating consumes the item it names, so per-item predicate is the right one
     inv_food.erase( std::remove_if( inv_food.begin(), inv_food.end(),
-    [this, &accepted]( const item_location & loc ) {
-        return !may_use_source( loc ) || !accepted( *loc );
+    [this, &fitting]( const item_location & loc ) {
+        return !fitting.accept( *loc ) || !may_take( loc );
     } ), inv_food.end() );
 
     // will_eat is costly: rate all, then ask it best first
@@ -6579,18 +6616,14 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
     // Note: allow_pick_up is not checked here. All callers of this function
     // consume food in place (via consume_food_at), not pick up for storage.
     // The NO_NPC_PICKUP zone check and ownership filters below still apply.
-    int want_hunger = std::max( 0, get_hunger() );
-    if( want_hunger == 0 && has_calorie_deficit() ) {
-        want_hunger = 100;
+    // food consume_food_at() would refuse on arrival is not worth walking to
+    const fitting_needs fitting = fitting_needs_of( *this, filter );
+    if( !fitting.any() ) {
+        return results;
     }
-    // food_only: ignore thirst. drink_only: ignore hunger.
-    if( filter == consume_filter::food_only ) {
-        want_hunger = std::max( want_hunger, 100 );
-    } else if( filter == consume_filter::drink_only ) {
-        want_hunger = 0;
-    }
-    const int want_quench = ( filter == consume_filter::food_only ) ?
-                            0 : std::max( 0, get_thirst() );
+    const std::pair<int, int> wants = consume_wants( filter );
+    const int want_hunger = wants.first;
+    const int want_quench = wants.second;
     map &here = get_map();
 
     static const std::string locked_string( "LOCKED" );
@@ -6600,23 +6633,7 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
     // thirsty via the quench-vs-hunger ratio, so hydrating items rank higher.
     const auto score_item = [&]( const item_location & loc ) -> bool {
         const item &it = *loc;
-        // food_only: skip items with no nutritional value (pure drinks).
-        // drink_only: skip items with no hydration value (pure food).
-        if( filter == consume_filter::food_only )
-        {
-            if( !need_accepts( it, need_goal_id::eat_food ) ) {
-                return false;
-            }
-        } else if( filter == consume_filter::drink_only )
-        {
-            if( !need_accepts( it, need_goal_id::drink_water ) ) {
-                return false;
-            }
-        } else if( !it.is_food() )
-        {
-            return false;
-        }
-        if( !may_use_source( loc ) )
+        if( !fitting.accept( it ) || !may_take( loc ) )
         {
             return false;
         }
@@ -6685,7 +6702,8 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
     static const std::string cargo_locking_string( "CARGO_LOCKING" );
 
     const auto score_clothing = [&]( const item_location & loc ) -> bool {
-        return loc->get_warmth() > 0 && can_wear( *loc ).success() && may_use_source( loc );
+        return loc->get_warmth() > 0 && can_wear( *loc ).success() &&
+        may_use_source( loc, take_kind::whole );
     };
 
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
@@ -6781,15 +6799,12 @@ bool npc::start_eating( const item_location &loc )
 
 bool npc::consume_food_at( item_location loc )
 {
-    if( !loc.get_item() || !may_use_source( loc ) ) {
+    if( !loc.get_item() || !may_take( loc ) ) {
         return false;
     }
-    // the same stomach question consume_food() asks
-    const bool useful = ( need_accepts( *loc, need_goal_id::eat_food ) &&
-                          intake_fits( need_goal_id::eat_food ) ) ||
-                        ( need_accepts( *loc, need_goal_id::drink_water ) &&
-                          intake_fits( need_goal_id::drink_water ) );
-    if( !useful ) {
+    // stomach and diet check made when food was found, asked again
+    if( !fitting_needs_of( *this, consume_filter::any ).accept( *loc ) ||
+        !will_eat( *loc ).success() ) {
         return false;
     }
     return start_eating( loc );
@@ -7188,7 +7203,7 @@ npc::fire_spot_verdict npc::check_fire_spot( const tripoint_bub_ms &p ) const
     }
     bool fuel_here = false;
     for( item &it : here.i_at( p ) ) {
-        if( !may_use_source( item_location( map_cursor( p ), &it ) ) || it.will_explode_in_fire() ) {
+        if( !may_take( item_location( map_cursor( p ), &it ) ) || it.will_explode_in_fire() ) {
             return { fire_spot_check::items_not_fuel, item_location() };
         }
         if( it.has_flag( flag_FIREWOOD ) || it.has_flag( flag_TINDER ) ) {
