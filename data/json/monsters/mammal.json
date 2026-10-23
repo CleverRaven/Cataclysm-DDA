@@ -1839,6 +1839,7 @@
     "symbol": "m",
     "color": "dark_gray",
     "morale": 40,
+    "aggro_character": false,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 4,
