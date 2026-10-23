@@ -201,6 +201,19 @@
         "if": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
         "then": [ { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true } ]
       },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_BARRY_TRAVEL_HOME",
+            "effect": [
+              {
+                "u_set_goal": { "om_terrain": "horse_farm_isherwood_14", "om_special": "Isherwood Farm Mutable", "reveal_radius": 0 }
+              }
+            ]
+          }
+        ],
+        "unique_ids": [ "BARRY_MISSION" ]
+      },
       { "math": [ "barry_travelling_home = 1" ] }
     ]
   },
@@ -231,8 +244,7 @@
                 "time_in_future": 25
               },
               { "u_spawn_item": "NC_Isherwood_Barry_equip", "use_item_group": true, "force_equip": true },
-              { "u_spawn_item": "3006", "count": [ 8, 16 ] },
-		      	  "stop_following"
+              { "u_spawn_item": "3006", "count": [ 8, 16 ] }
             ]
           }
         ],
