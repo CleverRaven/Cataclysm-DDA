@@ -575,8 +575,9 @@
     "end": {
       "effect": [
         "stop_following",
-        { "math": [ "isherwood_barry_rescued = 1" ] },
-        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" }
+    		{ "run_eocs": "isherwood_mission_barry_return_home" },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
+    		{ "u_run_npc_eocs": [ "EOC_BARRY_TELEPORT_HOME" ], "unique_ids": [ "BARRY_MISSION" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
