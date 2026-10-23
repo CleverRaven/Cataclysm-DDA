@@ -51,6 +51,7 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class activity_actor;
 class cata_path;
 class character_id;
 class const_talker;
@@ -1370,6 +1371,8 @@ class npc : public Character
         bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
+        // hourly bionic and weapon checks a pause makes; true when wielding took the turn
+        bool pause_upkeep();
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -1406,6 +1409,10 @@ class npc : public Character
         bool empty_before_pickup();
         /** Whether a drink from a container on the ground may start or go on here. */
         bool may_drink_here() const;
+        /** Trouble that ends a meal or a drink and bars starting one. */
+        bool in_harms_way() const;
+        /** Drops the activity for good and a fetch with it; the task it interrupted takes over. */
+        void abandon_activity();
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint_bub_ms &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1436,9 +1443,13 @@ class npc : public Character
         // access: reservation, no-go areas and zones, plus owners of the item, its containers and
         // cargo vehicle
         bool may_use_source( const item_location &loc ) const;
+        // access and diet for a meal or drink from loc, asked again when the meal ends
+        bool may_eat_from( const item_location &loc ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );
+        // camp meal it didn't eat isn't served again for a while
+        void refuse_camp_meal();
         // activity a need goal starts and owns
         bool is_self_care_activity() const;
         // task waits aside until the rest is over
@@ -1447,6 +1458,12 @@ class npc : public Character
         void drop_suspended_task();
         // one turn's drink from a source without container
         units::volume sip_of_water() const;
+        // eats loc through the consume activity: real time, interruptible
+        bool start_eating( const item_location &loc );
+        // false in harm's way or when the activity doesn't start
+        bool start_meal( const activity_actor &meal );
+        // true while a meal from an item or a camp's larder runs
+        bool is_eating() const;
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1584,8 +1601,8 @@ class npc : public Character
         }
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
-        // Also cancels self-care activities (forage/harvest/fire) that
-        // bypass BT re-evaluation in move().
+        // Also cancels a self-care activity a need goal started, which bypasses BT
+        // re-evaluation in move().
         void clear_committed_goal();
         using need_result = npc_short_term_cache::need_result;
         using need_plan = npc_short_term_cache::need_plan;

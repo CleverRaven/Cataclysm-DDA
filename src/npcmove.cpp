@@ -126,6 +126,7 @@
 
 enum class side : int;
 
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
@@ -1529,12 +1530,39 @@ void npc::regen_ai_cache()
     }
 }
 
+static bool is_meal( const activity_id &id )
+{
+    return id == ACT_CONSUME || id == ACT_CAMP_MEAL;
+}
+
+bool npc::in_harms_way() const
+{
+    return get_ai_danger() > NPC_DANGER_VERY_LOW || sees_hostile_within( rest_watch_radius ) ||
+           sees_dangerous_field( pos_bub() ) || has_effect( effect_npc_fire_bad ) ||
+           !ai_cache.dangerous_explosives.empty();
+}
+
 // NPC drinks from a container on the ground only while this holds
 bool npc::may_drink_here() const
 {
-    return get_ai_danger() <= NPC_DANGER_VERY_LOW && !sees_hostile_within( rest_watch_radius ) &&
-           !sees_dangerous_field( pos_bub() ) && !has_effect( effect_npc_fire_bad ) &&
-           ai_cache.dangerous_explosives.empty() && may_occupy_here();
+    return !in_harms_way() && may_occupy_here();
+}
+
+void npc::abandon_activity()
+{
+    // not cancel_activity(): that keeps the activity for resuming and drops the task behind it
+    activity.canceled( *this );
+    activity = player_activity();
+    if( !backlog.empty() ) {
+        activity = backlog.front();
+        backlog.pop_front();
+        current_activity_id = activity.id();
+    } else {
+        current_activity_id = activity_id::NULL_ID();
+        end_cancelled_task();
+    }
+    fetching_item = false;
+    wanted_item = {};
 }
 
 void npc::revert_ended_task()
@@ -1563,6 +1591,7 @@ void npc::end_cancelled_task()
 
 void npc::move()
 {
+    const int moves_at_decision = get_moves();
     const map &here = get_map();
 
     // don't just return from this function without doing something
@@ -1594,35 +1623,29 @@ void npc::move()
         return;
     }
     act_on_danger_assessment();
-    // drink from container on ground stops once unsafe or out of reach
+    // meal ends when food is gone or out of reach; obligations and harm judged below
     if( activity.id() == ACT_CONSUME ) {
-        const consume_activity_actor *drink =
+        const consume_activity_actor *meal =
             dynamic_cast<const consume_activity_actor *>( activity.actor.get() );
-        const bool in_reach = drink == nullptr || !drink->location() ||
-                              rl_dist( pos_abs(), drink->location().pos_abs() ) <= 1;
-        if( in_reach && may_drink_here() ) {
-            execute_action( npc_player_activity );
-            return;
+        const item_location source = meal == nullptr ? item_location() : meal->location();
+        const bool food_gone = meal != nullptr && !meal->has_food();
+        if( food_gone || ( source && !source.held_by( *this ) &&
+                           rl_dist( pos_abs(), source.pos_abs() ) > 1 ) ) {
+            abandon_activity();
         }
-        cancel_activity();
-        // NPC decides again; the dropped drink is not resumed from the backlog
-        if( !backlog.empty() && backlog.front().id() == ACT_CONSUME ) {
-            backlog.pop_front();
-        }
-        fetching_item = false;
-        wanted_item = {};
     }
-    if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
+    if( is_self_care_activity() ) {
         review_self_care_activity();
     }
-    // Forage/harvest activities skip BT re-evaluation to prevent backlog
-    // flooding, but must yield to danger so the NPC can fight or flee.
-    if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
-        if( ai_cache.danger <= NPC_DANGER_VERY_LOW ) {
+    // self-care activities skip the decision tree, which would flood the backlog, but yield
+    // to danger so NPC can fight or flee
+    if( is_self_care_activity() ) {
+        if( !in_harms_way() ) {
             execute_action( npc_player_activity );
             return;
         }
-        cancel_activity();
+        abandon_activity();
+        clear_committed_goal();
     }
     npc_action action = npc_undecided;
 
@@ -2135,6 +2158,15 @@ void npc::move()
                        classify_comparison( bt_decision_cat, cascade_cat ) );
     }
 
+    if( action == npc_noop && get_moves() != moves_at_decision ) {
+        // decision paid its cost: pause tends the body but keeps the surplus or debt
+        if( !pause_upkeep() ) {
+            const int carried = get_moves();
+            pause();
+            set_moves( carried );
+        }
+        return;
+    }
     execute_action( action );
 }
 
@@ -3014,6 +3046,10 @@ npc_action npc::address_needs( float danger )
         mission = saved_mission;
         return npc_player_activity;
     };
+    // meal starts this turn; sip has already spent its moves
+    const auto consumed = [&]() -> npc_action {
+        return activity ? self_activity() : npc_noop;
+    };
 
     // Check if NPC needs warmth via the oracle predicate directly.
     // The full BT subtree is too narrow for gating -- it only knows about
@@ -3118,24 +3154,25 @@ npc_action npc::address_needs( float danger )
         }
     }
 
-    // Extreme thirst or hunger, bypass safety check.
+    // extreme thirst or hunger: food and water within reach, even where walking off is barred;
+    // start_meal() refuses in harm's way
     if( needs_food() && ( get_thirst() > 80 ||
                           get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) ) {
         if( consume_food_from_camp() ) {
-            return npc_noop;
+            return consumed();
         }
         if( consume_food() ) {
-            return npc_noop;
+            return consumed();
         }
-        // Adjacent ground food, instant.
+        // Adjacent ground food.
         for( scored_item &c : find_nearby_food() ) {
             if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
                 if( consume_food_at( c.loc ) ) {
-                    return npc_noop;
+                    return consumed();
                 }
             }
         }
-        // Adjacent water terrain, instant.
+        // Adjacent water terrain, a sip.
         for( scored_water_source &ws : find_nearby_water_sources() ) {
             if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
                 if( drink_from_water_source( ws.pos ) ) {
@@ -3174,7 +3211,7 @@ npc_action npc::address_needs( float danger )
         for( scored_item &c : find_nearby_food() ) {
             if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
                 if( consume_food_at( c.loc ) ) {
-                    return npc_noop;
+                    return consumed();
                 }
             } else {
                 const npc_trip_spec walk = npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false );
@@ -3215,15 +3252,15 @@ npc_action npc::address_needs( float danger )
     if( needs_food() && one_in( 3 ) && ( get_thirst() > NPC_THIRST_CONSUME ||
                                          get_hunger() > NPC_HUNGER_CONSUME ) ) {
         if( consume_food_from_camp() ) {
-            return npc_noop;
+            return consumed();
         }
         if( consume_food() ) {
-            return npc_noop;
+            return consumed();
         }
         for( scored_item &c : find_nearby_food() ) {
             if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 ) {
                 if( consume_food_at( c.loc ) ) {
-                    return npc_noop;
+                    return consumed();
                 }
             } else {
                 const npc_trip_spec walk = npc_trip_spec::within_range( c.loc.pos_bub( here ), 1, false );
@@ -4166,18 +4203,23 @@ void npc::worker_downtime()
     move_pause();
 }
 
-void npc::move_pause()
-
+bool npc::pause_upkeep()
 {
+    if( !calendar::once_every( 1_hours ) ) {
+        return false;
+    }
+    deactivate_bionic_by_id( bio_soporific );
+    for( const bionic_id &bio_id : health_cbms ) {
+        activate_bionic_by_id( bio_id );
+    }
     // make sure we're using the best weapon
-    if( calendar::once_every( 1_hours ) ) {
-        deactivate_bionic_by_id( bio_soporific );
-        for( const bionic_id &bio_id : health_cbms ) {
-            activate_bionic_by_id( bio_id );
-        }
-        if( wield_better_weapon() ) {
-            return;
-        }
+    return wield_better_weapon();
+}
+
+void npc::move_pause()
+{
+    if( pause_upkeep() ) {
+        return;
     }
     pause();
 }
@@ -4624,13 +4666,7 @@ bool npc::empty_before_pickup()
         return true;
     }
     if( wants_to_consume_now( *liquid ) && may_drink_here() ) {
-        const npc_attitude saved_att = attitude;
-        const npc_mission saved_mis = mission;
-        assign_activity( consume_activity_actor( liquid_loc ) );
-        // self-initiated drink, not a task: keep attitude and mission, as address_needs does
-        attitude = saved_att;
-        mission = saved_mis;
-        return activity.id() == ACT_CONSUME;
+        return start_eating( liquid_loc );
     }
     return false;
 }
@@ -4922,7 +4958,9 @@ bool npc::do_player_activity()
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
         // workaround: auto resuming craft activity may cause infinite loop
-        while( !backlog.empty() && backlog.front().id() == ACT_CRAFT ) {
+        // meal is never taken up again: whatever displaced it ended it
+        while( !backlog.empty() && ( backlog.front().id() == ACT_CRAFT ||
+                                     is_meal( backlog.front().id() ) ) ) {
             backlog.pop_front();
         }
         if( !backlog.empty() ) {
@@ -5462,6 +5500,11 @@ static int sip_moves()
     return to_moves<int>( 1_turns );
 }
 
+void npc::refuse_camp_meal()
+{
+    complaints.insert_or_assign( "camp_meal_refused", calendar::turn );
+}
+
 bool npc::consume_food_from_camp( consume_filter filter )
 {
     Character &player_character = get_player_character();
@@ -5522,17 +5565,10 @@ bool npc::consume_food_from_camp( consume_filter filter )
             // portion the NPC would refuse is never taken from the larder
             nutrients portion;
             portion.calories = kcals_to_eat * 1000;
-            const item meal = bcp->make_fake_food( portion );
-            if( !will_eat( meal ).success() ) {
+            if( !will_eat( bcp->make_fake_food( portion ) ).success() ) {
                 return false;
             }
-            if( bcp->feed_workers( *this, bcp->camp_food_supply( -kcals_to_eat ),
-                                   camp_meal::personal ) <= 0 ) {
-                complaints.insert_or_assign( "camp_meal_refused", calendar::turn );
-                return false;
-            }
-            mod_moves( -to_moves<int>( get_consume_time( meal ) ) );
-            return true;
+            return start_meal( camp_meal_activity_actor( bcp->camp_omt_pos(), kcals_to_eat ) );
         } else {
             // We need food but there's none to eat :(
             complain_about( "camp_larder_empty", 1_hours,
@@ -5603,6 +5639,12 @@ bool npc::may_use_source( const item_location &loc ) const
     return cargo == nullptr || would_take_that( cargo->veh, p );
 }
 
+bool npc::may_eat_from( const item_location &loc ) const
+{
+    return may_use_source( loc ) &&
+           ( can_satisfy( *loc, need_goal_id::eat_food ) || can_satisfy( *loc, need_goal_id::drink_water ) );
+}
+
 bool npc::consume_food( consume_filter filter )
 {
     item_location best_food;
@@ -5666,16 +5708,7 @@ bool npc::consume_food( consume_filter filter )
         }
 
         if( best_food ) {
-            const time_duration &consume_time = get_consume_time( *best_food );
-            consumed = consume( best_food ) != trinary::NONE;
-            if( consumed ) {
-                // TODO: Message that "X begins eating Y?" Right now it appears to the player
-                //       that "Urist eats a carp roast" and then stands still doing nothing
-                //       for a while.
-                mod_moves( -to_moves<int>( consume_time ) );
-            } else {
-                debugmsg( "%s failed to consume %s", get_name(), best_food->tname() );
-            }
+            consumed = start_eating( best_food );
         }
 
     }
@@ -6685,22 +6718,46 @@ bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
     return true;
 }
 
+bool npc::is_eating() const
+{
+    return is_meal( activity.id() );
+}
+
+bool npc::start_meal( const activity_actor &meal )
+{
+    // move() abandons meals in harm's way, so none starts there
+    if( in_harms_way() ) {
+        return false;
+    }
+    const npc_attitude att = attitude;
+    const npc_mission mis = mission;
+    assign_activity( meal );
+    // meal isn't a job: keep the attitude and mission assign_activity() replaced
+    attitude = att;
+    mission = mis;
+    return activity.id() == meal.get_type();
+}
+
+bool npc::start_eating( const item_location &loc )
+{
+    return start_meal( consume_activity_actor( loc ) );
+}
+
 bool npc::consume_food_at( item_location loc )
 {
     if( !loc.get_item() || !may_use_source( loc ) ) {
         return false;
     }
-    const time_duration &t = get_consume_time( *loc );
-    if( consume( loc ) != trinary::NONE ) {
-        mod_moves( -to_moves<int>( t ) );
-        return true;
-    }
-    return false;
+    return start_eating( loc );
 }
 
 bool npc::wear_item_at( item_location loc )
 {
     if( !loc.get_item() ) {
+        return false;
+    }
+    // wear() moves the item before it can fail and copies it back: refuse first
+    if( !can_wear( *loc ).success() ) {
         return false;
     }
     // wear() charges only an interactive wearer
@@ -6719,7 +6776,9 @@ std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c )
     }
     std::optional<npc_option_cost> cost =
         trip_cost( npc_trip_spec::within_range( get_map().get_bub( c.target ), 1, true ), true );
-    if( cost && c.source_kind == need_source::harvestable ) {
+    // a harvest or a drink by sips keeps the NPC there for a while
+    if( cost && ( c.source_kind == need_source::harvestable ||
+                  c.source_kind == need_source::water_terrain ) ) {
         cost->hold = npc_option_hold::occupy;
     }
     return cost;
@@ -7485,7 +7544,7 @@ npc_interrupt_cost npc::interrupt_cost( const need_goal_id id ) const
 bool npc::is_self_care_activity() const
 {
     return activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ||
-           activity.id() == ACT_START_FIRE;
+           activity.id() == ACT_START_FIRE || is_eating();
 }
 
 void npc::suspend_task_for_rest()
@@ -7522,14 +7581,15 @@ void npc::end_need_pursuit( const need_goal_id id )
             break;
         case need_goal_id::drink_water:
         case need_goal_id::eat_food:
-            // the harvest or forage it started ends with it
-            if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ) {
-                cancel_activity();
+            // the harvest, forage or meal it started ends with it
+            if( activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ||
+                is_eating() ) {
+                abandon_activity();
             }
             break;
         case need_goal_id::regulate_temperature:
             if( activity.id() == ACT_START_FIRE ) {
-                cancel_activity();
+                abandon_activity();
             }
             break;
     }
@@ -7551,6 +7611,10 @@ std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id )
         return has_effect( effect_lying_down ) || has_effect( effect_sleep ) ?
                rest_option_cost( pos_abs() ) : std::optional<npc_option_cost>( rest_option_best_case() );
     }
+    // meal, harvest or fire in progress keeps the NPC where it stands
+    if( is_self_care_activity() ) {
+        return npc_option_cost::stay( pos_abs() );
+    }
     return npc_option_cost::in_place( pos_abs() );
 }
 
@@ -7571,7 +7635,7 @@ void npc::clear_committed_goal()
     }
     // drops any self-care activity, whichever goal started it
     if( is_self_care_activity() ) {
-        cancel_activity();
+        abandon_activity();
     }
     ai_cache.intention = {};
 }
@@ -7838,15 +7902,16 @@ npc::need_result npc::execute_eat_food()
 
     // 1. Try camp food (calories only, skip the water path),
     //    inventory food, then adjacent ground food.
+    // every meal runs as an activity: progress, not yet satisfaction
     if( consume_food_from_camp( cf ) ) {
         plan.clear();
         failed.clear();
-        return need_result::satisfied;
+        return need_result::progressed;
     }
     if( consume_food( cf ) ) {
         plan.clear();
         failed.clear();
-        return need_result::satisfied;
+        return need_result::progressed;
     }
     {
         map &food_map = get_map();
@@ -7855,7 +7920,7 @@ npc::need_result npc::execute_eat_food()
                 if( consume_food_at( c.loc ) ) {
                     plan.clear();
                     failed.clear();
-                    return need_result::satisfied;
+                    return need_result::progressed;
                 }
             }
         }
@@ -7920,7 +7985,7 @@ npc::need_result npc::execute_eat_food()
                     consume_food_at( c.loc ) ) {
                     plan.clear();
                     failed.clear();
-                    return need_result::satisfied;
+                    return need_result::progressed;
                 }
             }
         } else if( low_danger &&
@@ -7987,7 +8052,7 @@ npc::need_result npc::execute_drink_water()
         record_selected_option( need_goal_id::drink_water, here_and_now );
         plan.clear();
         failed.clear();
-        return need_result::satisfied;
+        return need_result::progressed;
     }
     {
         map &water_map = get_map();
@@ -7997,7 +8062,7 @@ npc::need_result npc::execute_drink_water()
                     record_selected_option( need_goal_id::drink_water, here_and_now );
                     plan.clear();
                     failed.clear();
-                    return need_result::satisfied;
+                    return need_result::progressed;
                 }
             }
         }
@@ -8005,8 +8070,15 @@ npc::need_result npc::execute_drink_water()
     for( scored_water_source &ws : find_nearby_water_sources() ) {
         if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
             if( drink_from_water_source( ws.pos ) ) {
-                record_selected_option( need_goal_id::drink_water, here_and_now );
-                plan.clear();
+                // sipping by the turn: the source stays the plan, so obligations judge each sip
+                // as a stay
+                plan.goal = "drink_water";
+                plan.source_kind = need_source::water_terrain;
+                plan.target = here.get_abs( ws.pos );
+                plan.last_result = need_result::satisfied;
+                plan.no_progress_turns = 0;
+                record_selected_option( need_goal_id::drink_water,
+                                        water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or( here_and_now ) );
                 failed.clear();
                 return need_result::satisfied;
             }
@@ -8080,7 +8152,7 @@ npc::need_result npc::execute_drink_water()
                     consume_food_at( c.loc ) ) {
                     plan.clear();
                     failed.clear();
-                    return need_result::satisfied;
+                    return need_result::progressed;
                 }
             }
         } else if( low_danger &&
