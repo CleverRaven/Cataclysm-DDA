@@ -1399,15 +1399,21 @@ class npc : public Character
         bool can_take_that( const item &it );
         // Consider hoarding
         bool wants_take_that( const item &it );
+        // what's taken from a source: an item or a charge of it with its contents, or liquid
+        // poured out of its container
+        enum class take_kind : int { whole, drink_extract };
         // Consider a life of crime
-        bool would_take_that( const item &it, const tripoint_bub_ms &p ) const;
+        bool would_take_that( const item &it, const tripoint_bub_ms &p,
+                              take_kind take = take_kind::whole ) const;
         // same for a vehicle's cargo
-        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const;
+        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p,
+                              take_kind take = take_kind::whole ) const;
         // player's things go by trust and witnesses; what names the thing in the debug log
         bool would_steal_from_player( const tripoint_bub_ms &p,
                                       const std::function<std::string()> &what ) const;
-        // another faction's goods: only if it shares them or is hostile
-        bool would_take_faction_goods( const faction_id &owner ) const;
+        // another faction's goods: only if it shares them or is hostile; a drink poured out also
+        // when it shares public goods
+        bool would_take_faction_goods( const faction_id &owner, take_kind take ) const;
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1455,9 +1461,14 @@ class npc : public Character
         bool intake_useful( npc_short_term_cache::need_goal_id id ) const;
         // access: reservation, no-go areas and zones, plus owners of the item, its containers and
         // cargo vehicle
-        bool may_use_source( const item_location &loc ) const;
+        bool may_use_source( const item_location &loc, take_kind take ) const;
+        static take_kind take_kind_for( const item_location &loc );
+        // may_use_source() with the take_kind that loc implies
+        bool may_take( const item_location &loc ) const;
         // access and diet for a meal or drink from loc, asked again when the meal ends
         bool may_eat_from( const item_location &loc ) const;
+        // hunger and thirst as rate_food weighs them for filter's need
+        std::pair<int, int> consume_wants( consume_filter filter ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );

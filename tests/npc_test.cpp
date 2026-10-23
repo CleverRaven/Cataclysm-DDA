@@ -95,6 +95,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -1837,6 +1838,12 @@ TEST_CASE( "meal_claimed_while_it_is_eaten_is_left_alone", "[npc][needs]" )
             nothing_eaten();
         }
     }
+    WHEN( "another faction claims it" ) {
+        sandwich.set_owner( faction_debuggers );
+        THEN( "nothing eaten" ) {
+            nothing_eaten();
+        }
+    }
 }
 
 // settled follower beside the leader with a backpack: whatever the test adds is its only supply
@@ -2136,7 +2143,7 @@ TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
         } );
         THEN( "neither offered nor eaten" ) {
             CHECK( guy.find_food_candidates().empty() );
-            CHECK_FALSE( guy.may_use_source( loc ) );
+            CHECK_FALSE( guy.may_take( loc ) );
             CHECK_FALSE( guy.consume_food_at( loc ) );
             CHECK( here.i_at( adj ).size() == 1 );
         }
@@ -2688,11 +2695,12 @@ TEST_CASE( "npc_ownership_blocks_ground_food", "[npc][needs]" )
         owned_by_debuggers();
         CHECK( guy.find_nearby_food().empty() );
     }
-    SECTION( "an owner that shares only public goods keeps its food" ) {
+    SECTION( "public goods are poured out, not taken whole" ) {
         relate( owner, mine, npc_factions::relationship::share_public_goods );
         const item_location food = owned_by_debuggers();
         CHECK( guy.find_nearby_food().empty() );
-        CHECK_FALSE( guy.may_use_source( food ) );
+        CHECK_FALSE( guy.may_use_source( food, npc::take_kind::whole ) );
+        CHECK( guy.may_use_source( food, npc::take_kind::drink_extract ) );
     }
     SECTION( "NPC's faction would kill the owner on sight" ) {
         relate( mine, owner, npc_factions::relationship::kill_on_sight );
@@ -2747,11 +2755,11 @@ TEST_CASE( "npc_ownership_blocks_ground_food", "[npc][needs]" )
         const item_location food( item_location( map_cursor( adj ), &placed ), sandwich );
         REQUIRE( food->get_owner().is_null() );
         THEN( "backpack's owner keeps it" ) {
-            CHECK_FALSE( guy.may_use_source( food ) );
+            CHECK_FALSE( guy.may_take( food ) );
         }
         THEN( "an owner that shares lets it go" ) {
             relate( owner, mine, npc_factions::relationship::share_my_stuff );
-            CHECK( guy.may_use_source( food ) );
+            CHECK( guy.may_take( food ) );
         }
     }
     SECTION( "free food on the ground under an owned vehicle" ) {
@@ -2869,6 +2877,71 @@ TEST_CASE( "npc_consume_food_at_helper", "[npc][needs]" )
     SECTION( "null item_location returns false" ) {
         item_location empty;
         CHECK_FALSE( guy.consume_food_at( empty ) );
+    }
+}
+
+TEST_CASE( "item_sources_are_judged_alike_when_found_and_when_taken", "[npc][needs]" )
+{
+    clear_map_without_vision();
+    get_weather().forced_temperature = 20_C;
+    set_time_to_day();
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.set_hunger( 300 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    map &here = get_map();
+    const tripoint_bub_ms adj = guy.pos_bub() + tripoint::east;
+
+    SECTION( "food that NPC won't eat is not eaten when it is reached" ) {
+        guy.set_mutation( trait_VEGETARIAN );
+        item &meat = here.add_item_or_charges( adj, item( itype_meat_cooked ) );
+        const item_location loc( map_cursor( adj ), &meat );
+        REQUIRE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+        REQUIRE_FALSE( guy.will_eat( meat ).success() );
+        REQUIRE( guy.find_nearby_food( npc::consume_filter::food_only ).empty() );
+        CHECK_FALSE( guy.consume_food_at( loc ) );
+        CHECK( guy.activity.id() != ACT_CONSUME );
+        CHECK( here.i_at( adj ).size() == 1 );
+    }
+    SECTION( "food of no use now is neither found nor taken" ) {
+        item &sandwich = here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
+        const item_location loc( map_cursor( adj ), &sandwich );
+        REQUIRE_FALSE( guy.find_nearby_food().empty() );
+        nutrients meal;
+        meal.calories = 500 * 1000;
+        guy.stomach.ingest( { 0_ml, guy.stomach.capacity( guy ) * 13 / 25, meal } );
+        REQUIRE_FALSE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+        REQUIRE( guy.will_eat( sandwich ).success() );
+        CHECK( guy.find_nearby_food().empty() );
+        CHECK_FALSE( guy.consume_food_at( loc ) );
+    }
+    SECTION( "each source has the take kind its item implies" ) {
+        item &sandwich = here.add_item_or_charges( adj, item( itype_sandwich_cheese_grilled ) );
+        item bottle( itype_bottle_plastic );
+        REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 2 ),
+                                pocket_type::CONTAINER ).success() );
+        item &placed = here.add_item_or_charges( adj, bottle );
+        const item_location bottle_loc( map_cursor( adj ), &placed );
+        item *water = nullptr;
+        placed.visit_items( [&water]( item * it, item * ) {
+            if( it->typeId() == itype_water_clean ) {
+                water = it;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        REQUIRE( water != nullptr );
+        THEN( "drink poured out of its container is extracted" ) {
+            CHECK( npc::take_kind_for( item_location( bottle_loc, water ) ) ==
+                   npc::take_kind::drink_extract );
+        }
+        THEN( "container + meal taken whole" ) {
+            CHECK( npc::take_kind_for( bottle_loc ) == npc::take_kind::whole );
+            CHECK( npc::take_kind_for( item_location( map_cursor( adj ), &sandwich ) ) ==
+                   npc::take_kind::whole );
+        }
     }
 }
 
@@ -7863,7 +7936,7 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][temperature][fire]" )
             plank.set_owner( faction_debuggers );
             item &placed = here.add_item_or_charges( east, plank );
             here.build_map_cache( 0 );
-            REQUIRE_FALSE( guy.may_use_source( item_location( map_cursor( east ), &placed ) ) );
+            REQUIRE_FALSE( guy.may_take( item_location( map_cursor( east ), &placed ) ) );
 
             WHEN( "the NPC has no firewood of its own" ) {
                 CHECK( guy.check_fire_spot( east ).check == npc::fire_spot_check::items_not_fuel );

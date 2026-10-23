@@ -157,7 +157,7 @@ static bool carries_supply_for( const Character &subject, const npc::need_goal_i
     // const_cast: the inventory cache refreshes itself, so the query is not const
     for( const item_location &loc : const_cast<npc *>( n )->cache_get_items_with( "is_food",
             &item::is_food ) ) {
-        if( n->may_use_source( loc ) && n->can_satisfy( *loc, id ) ) {
+        if( n->may_take( loc ) && n->can_satisfy( *loc, id ) ) {
             return true;
         }
     }
