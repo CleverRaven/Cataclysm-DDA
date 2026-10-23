@@ -111,6 +111,7 @@
       "I": "f_flagpole",
       "©": [ [ "f_metal_crate_military", 40 ], [ "f_metal_crate_military_o", 10 ] ]
     },
+    "monster": { "{": { "monster": "mon_raccoon", "chance": 15, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
     "item": { "I": { "item": "american_flag" } },
     "items": {
       "W": [ { "item": "saline_bottle_random", "chance": 100 } ],
