@@ -491,13 +491,15 @@ bool body_status_ui::handle_action( const std::string &action )
     */
     else if( action == "REMOVE_ARMOR" ) {
         // query (for now)
-        if( displayed_character.query_yn( _( "Remove selected armor?" ) ) ) {
-            do_return_entry();
+        if( bs_uistate.selected_armor.valid() ) {
+            if( displayed_character.query_yn( _( "Remove selected armor?" ) ) ) {
+                do_return_entry();
 
-            // remove the item, asking to drop it if necessary
-            displayed_character.takeoff( bs_uistate.selected_armor );
-            bs_uistate.update_sorted_armor();
-            bs_uistate.quit_menu = true;
+                // remove the item, asking to drop it if necessary
+                displayed_character.takeoff( bs_uistate.selected_armor );
+                bs_uistate.update_sorted_armor();
+                bs_uistate.quit_menu = true;
+            }
         }
     } else if( action == "TOGGLE_FAVORITE" ) {
         if( bs_uistate.selected_armor.valid() ) {
