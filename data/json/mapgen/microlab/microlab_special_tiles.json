@@ -270,59 +270,6 @@
     }
   },
   {
-    "type": "mapgen",
-    "nested_mapgen_id": "microlab_generic_special_tile",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "^|FFF|c  c|  |c  c|     ",
-        " ||||||||||  |||||||||| ",
-        " |D      D|  |^^^^|ccc| ",
-        " |@@    @@|       2   2 ",
-        "^|D   T  D|       |   | ",
-        "||@@    @@|  |2(((||||||",
-        "r|        2  |       O| ",
-        "r|||||2||||  |  RR   O| ",
-        "r|l  | | l|  |  RR   O| ",
-        " |l  | 2 l|  |       O| ",
-        "2||||||||||22|  |-tt-|||",
-        "           YY|  |-((--|^",
-        "           YY|  |-@Ti-|^",
-        "|||||2||||||||5G|-@ ;-||",
-        " |        |---5----2--| ",
-        " | cc  cc |-p   Y   p-| ",
-        " | cc  cc |-p   7   p-|t",
-        " |     cc |-p   /   p-|t",
-        "||     cc |-         -||",
-        " |2|||    |-(- -(-   -| ",
-        " |   |dh d|-T-6-T-ppp-| ",
-        " 2   |dddd|-----------| ",
-        " |||||||||||||||||||||| ",
-        "     |ttt |^^| cc |     "
-      ],
-      "palettes": [ "microlab" ],
-      "terrain": { "G": "t_card_science" },
-      "furniture": { "7": "f_dialysis", "/": "f_surgical_table", "T": "f_counter", "p": "f_counter" },
-      "items": {
-        "T": [
-          { "item": "surgery", "chance": 100, "repeat": [ 4, 6 ] },
-          { "item": "drugs_emergency", "chance": 100, "repeat": [ 4, 6 ] }
-        ]
-      },
-      "place_loot": [ { "item": "anesthetic_kit", "x": 20, "y": 15, "ammo": 100 } ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
-      "computers": {
-        "6": {
-          "name": "Surgery room computer",
-          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
-          "security": 3,
-          "options": [ { "name": "Open Storage Chambers", "security": 5, "action": "release_bionics" } ],
-          "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
-        }
-      }
-    }
-  },
-  {
     "//": "nano_fabricator room",
     "type": "mapgen",
     "nested_mapgen_id": "microlab_generic_special_tile",
