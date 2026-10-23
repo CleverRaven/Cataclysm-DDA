@@ -3,7 +3,7 @@
     "id": "bruise_small",
     "type": "wound",
     "name": { "str": "light bruise" },
-    "description": "You have been bruiseed lightly.",
+    "description": "You have been bruised lightly.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "bash" ],
