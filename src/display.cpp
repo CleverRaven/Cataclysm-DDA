@@ -1688,15 +1688,15 @@ std::string enum_to_string<bodygraph_var>( bodygraph_var bgvar )
 {
     switch( bgvar ) {
         case bodygraph_var::hp:
-            return "Hit Points";
+            return _( "Hit Points" );
         case bodygraph_var::temp:
-            return "Temperature";
+            return _( "Temperature" );
         case bodygraph_var::encumb:
-            return "Encumberance";
+            return _( "Encumbrance" );
         case bodygraph_var::status:
-            return "Status";
+            return _( "Status" );
         case bodygraph_var::wet:
-            return "Wetness";
+            return _( "Wetness" );
         default:
             cata_fatal( "Invalid based_on_type in enum_to_string" );
     }
