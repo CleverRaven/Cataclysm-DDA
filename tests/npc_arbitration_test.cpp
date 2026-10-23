@@ -1903,6 +1903,65 @@ TEST_CASE( "orders_end_self_care", "[npc][needs][obligation]" )
     }
 }
 
+TEST_CASE( "bottled_drink_is_judged_as_occupying", "[npc][needs][water][obligation]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    settle_body( guy, 0 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 2 ),
+                            pocket_type::CONTAINER ).success() );
+    REQUIRE( guy.i_add( bottle ) );
+    here.build_map_cache( 0 );
+    const auto drinking = []( const npc & n ) {
+        return n.activity.id() == ACT_CONSUME;
+    };
+    behavior::character_oracle_t oracle( &guy );
+
+    GIVEN( "the leader stays" ) {
+        guy.set_thirst( 600 );
+        REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
+        run_npc_turn( guy );
+        THEN( "it drinks from its pack" ) {
+            CHECK( drinking( guy ) );
+            CHECK( guy.get_intention().verdict.permission == npc_permission::allowed );
+        }
+    }
+    GIVEN( "the leader walks off" ) {
+        get_avatar().setpos( here, leader_pos + tripoint( 12, 0, 0 ) );
+        REQUIRE_FALSE( guy.obligation_reach()->contains( guy.pos_abs() ) );
+        WHEN( "it's thirsty" ) {
+            guy.set_thirst( 600 );
+            THEN( "bottle waits and it keeps up" ) {
+                CHECK( oracle.has_water( "" ) == behavior::status_t::failure );
+                const int before = dist_to_leader( guy );
+                bool drank_on_the_way = false;
+                run_npc_turns( guy, 30, [&]( const npc & n ) {
+                    drank_on_the_way = drank_on_the_way || drinking( n );
+                    return dist_to_leader( n ) <= 4;
+                } );
+                CHECK_FALSE( drank_on_the_way );
+                CHECK( dist_to_leader( guy ) < before );
+                CHECK( guy.charges_of( itype_water_clean ) == 2 );
+            }
+        }
+        WHEN( "it's thirsty past insisting" ) {
+            guy.set_thirst( 850 );
+            run_npc_turn( guy );
+            THEN( "it drinks and says it holds up the group" ) {
+                CHECK( drinking( guy ) );
+                CHECK( guy.get_committed_goal() == "drink_water" );
+                CHECK( guy.get_intention().verdict.permission == npc_permission::discouraged );
+                CHECK( guy.last_complaint( "need_override_water" ) );
+            }
+        }
+    }
+}
+
 TEST_CASE( "routine_meal_at_healthy_weight_with_high_hunger", "[npc][needs][food]" )
 {
     drink_setup();
@@ -2039,6 +2098,292 @@ TEST_CASE( "idle_care_pass_drinks_from_the_pack_below_the_act_level", "[npc][nee
         THEN( "it drinks from its pack" ) {
             CHECK( guy.activity.id() == ACT_CONSUME );
         }
+    }
+}
+
+// stored calories short of healthy by urgency, nothing in the stomach
+static void make_hungry( npc &guy, const float urgency )
+{
+    guy.set_stored_kcal( static_cast<int>( guy.get_healthy_kcal() * ( 1.0f - urgency ) ) );
+    guy.stomach.empty();
+    guy.guts.empty();
+    REQUIRE( guy.current_need_urgency( npc::need_goal_id::eat_food ) == Approx( urgency ).margin(
+                 0.01 ) );
+}
+
+// calories eaten and not yet stored; make_hungry() starts it at zero
+static int pending_kcal( const npc &guy )
+{
+    return guy.stomach.get_calories() + guy.guts.get_calories();
+}
+
+static void put_oranges( const tripoint_bub_ms &p, const int count )
+{
+    for( int i = 0; i < count; ++i ) {
+        get_map().add_item_or_charges( p, item( itype_orange ) );
+    }
+    REQUIRE( oranges_at( p ) == count );
+}
+
+TEST_CASE( "follower_eats_within_reach_and_keeps_following", "[npc][needs][food][behavior]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    make_hungry( guy, 0.3f );
+
+    SECTION( "food inside the spacing" ) {
+        const tripoint_bub_ms pile = leader_pos + tripoint( 2, 3, 0 );
+        put_oranges( pile, 3 );
+        here.build_map_cache( 0 );
+        int farthest = 0;
+        run_npc_turns( guy, 200, [&]( const npc & n ) {
+            farthest = std::max( farthest, dist_to_leader( n ) );
+            return pending_kcal( n ) > 0;
+        } );
+        CHECK( pending_kcal( guy ) > 0 );
+        CHECK( oranges_at( pile ) < 3 );
+        CHECK( farthest <= 4 );
+        WHEN( "the leader walks on" ) {
+            get_avatar().setpos( here, leader_pos + tripoint( 12, 0, 0 ) );
+            run_npc_turns( guy, 60, []( const npc & n ) {
+                return dist_to_leader( n ) <= 4;
+            } );
+            THEN( "it follows" ) {
+                CHECK( dist_to_leader( guy ) <= 4 );
+            }
+        }
+    }
+    SECTION( "food past the spacing" ) {
+        // in sight, 8 tiles from the leader
+        const tripoint_bub_ms pile = leader_pos + tripoint( 8, 0, 0 );
+        put_oranges( pile, 3 );
+        here.build_map_cache( 0 );
+        int farthest = 0;
+        for( int turn = 0; turn < 20; ++turn ) {
+            run_npc_turn( guy );
+            farthest = std::max( farthest, dist_to_leader( guy ) );
+        }
+        CHECK( farthest <= 4 );
+        CHECK( oranges_at( pile ) == 3 );
+        CHECK_FALSE( guy.get_food_plan().active() );
+    }
+    SECTION( "meal from the pack waits while an order stands" ) {
+        guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+        REQUIRE( guy.i_add( item( itype_orange ) ) );
+        guy.goto_to_this_pos = here.get_abs( leader_pos + tripoint( -4, 0, 0 ) );
+        here.build_map_cache( 0 );
+        guy.set_moves( 100 );
+        guy.execute_need_goal( "eat_food" );
+        CHECK_FALSE( guy.is_eating() );
+        CHECK( guy.amount_of( itype_orange ) == 1 );
+        behavior::character_oracle_t oracle( &guy );
+        CHECK( oracle.has_food( "" ) == behavior::status_t::failure );
+    }
+}
+
+TEST_CASE( "follower_asks_for_a_food_stop", "[npc][needs][food][behavior]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 3, 0, 0 ) );
+    settle_body( guy, 0 );
+    // in sight, 8 tiles from the leader
+    const tripoint_bub_ms pile = leader_pos + tripoint( 8, 0, 0 );
+    put_oranges( pile, 3 );
+    here.build_map_cache( 0 );
+
+    WHEN( "hungry" ) {
+        make_hungry( guy, 0.3f );
+        int farthest = 0;
+        for( int turn = 0; turn < 20; ++turn ) {
+            run_npc_turn( guy );
+            farthest = std::max( farthest, dist_to_leader( guy ) );
+        }
+        THEN( "it stays there and says it's hungry" ) {
+            CHECK( farthest <= 4 );
+            CHECK( oranges_at( pile ) == 3 );
+            CHECK( guy.last_complaint( "food_out_of_reach" ) );
+            CHECK( guy.last_complaint( "hunger" ) == guy.last_complaint( "food_out_of_reach" ) );
+            const npc_need_view food = guy.best_need_view( npc::need_goal_id::eat_food );
+            CHECK( food.kind == npc_option_kind::actual );
+            CHECK( food.verdict.permission == npc_permission::discouraged );
+        }
+    }
+    WHEN( "hungry past insisting" ) {
+        make_hungry( guy, 0.5f );
+        run_npc_turn( guy );
+        THEN( "it says so and goes" ) {
+            CHECK( guy.get_committed_goal() == "eat_food" );
+            CHECK( guy.get_intention().verdict.permission == npc_permission::discouraged );
+            CHECK( guy.last_complaint( "need_override_food" ) );
+            run_npc_turns( guy, 200, []( const npc & n ) {
+                return pending_kcal( n ) > 0;
+            } );
+            CHECK( pending_kcal( guy ) > 0 );
+            CHECK( oranges_at( pile ) < 3 );
+        }
+    }
+}
+
+TEST_CASE( "follower_beyond_spacing_leaves_food_in_reach", "[npc][needs][food][water][obligation]" )
+{
+    drink_setup();
+    map &here = get_map();
+    // leader stands still, follower is past spacing of 4
+    npc &guy = spawn_follower( leader_pos + tripoint( 8, 0, 0 ) );
+    settle_body( guy, 0 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    const tripoint_bub_ms beside = guy.pos_bub() + tripoint::south;
+    behavior::character_oracle_t oracle( &guy );
+    const auto keeps_up = [&]( const std::function<bool( const npc & )> &consumed ) {
+        const int before = dist_to_leader( guy );
+        bool took = false;
+        for( int turn = 0; turn < 20; ++turn ) {
+            run_npc_turn( guy );
+            took = took || consumed( guy );
+        }
+        CAPTURE( before, dist_to_leader( guy ), guy.get_committed_goal() );
+        CHECK_FALSE( took );
+        CHECK( dist_to_leader( guy ) < before );
+    };
+
+    GIVEN( "hungry, short of insisting, an orange beside it" ) {
+        // hunger outweighs the leader's pull, short of the 0.4 insist level
+        make_hungry( guy, 0.38f );
+        put_oranges( beside, 1 );
+        here.build_map_cache( 0 );
+        THEN( "orange is judged as a stay outside the spacing" ) {
+            CHECK( oracle.can_obtain_food( "" ) == behavior::status_t::failure );
+            const npc_need_view food = guy.best_need_view( npc::need_goal_id::eat_food );
+            CHECK( food.kind == npc_option_kind::actual );
+            CHECK_FALSE( food.eligible() );
+            AND_THEN( "it keeps up with the leader and leaves the orange" ) {
+                keeps_up( []( const npc & n ) {
+                    return n.get_committed_goal() == "eat_food" || n.is_eating();
+                } );
+                CHECK( oranges_at( beside ) == 1 );
+            }
+        }
+    }
+    GIVEN( "thirsty, short of insisting, a juicy orange beside it" ) {
+        guy.set_thirst( 600 );
+        put_oranges( beside, 1 );
+        here.build_map_cache( 0 );
+        THEN( "orange is judged as a stay outside the spacing" ) {
+            CHECK( oracle.can_obtain_water( "" ) == behavior::status_t::failure );
+            const npc_need_view water = guy.best_need_view( npc::need_goal_id::drink_water );
+            CHECK( water.kind == npc_option_kind::actual );
+            CHECK_FALSE( water.eligible() );
+            AND_THEN( "it keeps up with the leader and leaves the orange" ) {
+                keeps_up( []( const npc & n ) {
+                    return n.get_committed_goal() == "drink_water" || n.is_eating();
+                } );
+                CHECK( oranges_at( beside ) == 1 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "guard_eats_without_leaving_post", "[npc][needs][food][guard]" )
+{
+    drink_setup();
+    map &here = get_map();
+    const tripoint_bub_ms post( 30, 30, 0 );
+    npc &guy = spawn_npc( post.xy(), "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( here, post );
+    guy.set_mission( NPC_MISSION_GUARD );
+    guy.set_guard_pos( guy.pos_abs() );
+    REQUIRE( guy.is_on_shift() );
+    settle_body( guy, 0 );
+    const auto from_post = [&]( const npc & n ) {
+        return rl_dist( n.pos_abs(), here.get_abs( post ) );
+    };
+
+    SECTION( "food near the post" ) {
+        // past the duty's pull, short of the post's emergency
+        make_hungry( guy, 0.5f );
+        const tripoint_bub_ms pile = post + tripoint( 3, 0, 0 );
+        put_oranges( pile, 3 );
+        here.build_map_cache( 0 );
+        int farthest = 0;
+        run_npc_turns( guy, 200, [&]( const npc & n ) {
+            farthest = std::max( farthest, from_post( n ) );
+            return pending_kcal( n ) > 0;
+        } );
+        CHECK( pending_kcal( guy ) > 0 );
+        CHECK( oranges_at( pile ) < 3 );
+        CHECK( farthest <= 4 );
+    }
+    SECTION( "food too far for a quick trip" ) {
+        make_hungry( guy, 0.5f );
+        const tripoint_bub_ms pile = post + tripoint( 6, 0, 0 );
+        put_oranges( pile, 3 );
+        here.build_map_cache( 0 );
+        for( int turn = 0; turn < 15; ++turn ) {
+            run_npc_turn( guy );
+            CHECK( guy.pos_bub() == post );
+        }
+        CHECK( oranges_at( pile ) == 3 );
+    }
+    SECTION( "too far, but starving" ) {
+        make_hungry( guy, 0.7f );
+        const tripoint_bub_ms pile = post + tripoint( 6, 0, 0 );
+        put_oranges( pile, 3 );
+        here.build_map_cache( 0 );
+        run_npc_turns( guy, 200, []( const npc & n ) {
+            return pending_kcal( n ) > 0;
+        } );
+        CHECK( pending_kcal( guy ) > 0 );
+        CHECK( oranges_at( pile ) < 3 );
+        CHECK( guy.last_complaint( "need_override_food" ) );
+    }
+}
+
+TEST_CASE( "food_harvest_ends_when_the_leader_walks_off", "[npc][needs][food][obligation]" )
+{
+    drink_setup();
+    map &here = get_map();
+    // apple trees bear fruit in autumn
+    set_time( calendar::turn_zero + 2 * calendar::season_length() + 12_hours );
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    settle_body( guy, 0 );
+    const tripoint_bub_ms tree = leader_pos + tripoint( 3, 0, 0 );
+    here.ter_set( tree, ter_t_tree_apple );
+    here.build_map_cache( 0 );
+    REQUIRE( here.is_harvestable( tree ) );
+    const auto harvesting = []( const npc & n ) {
+        return n.activity.id() == ACT_HARVEST || n.activity.id() == ACT_FORAGE;
+    };
+
+    SECTION( "hungry" ) {
+        make_hungry( guy, 0.3f );
+        run_npc_turn( guy );
+        REQUIRE( guy.get_committed_goal() == "eat_food" );
+        REQUIRE( guy.get_food_plan().source_kind == npc_short_term_cache::need_source::harvestable );
+        REQUIRE( harvesting( guy ) );
+        get_avatar().setpos( here, leader_pos + tripoint( -10, 0, 0 ) );
+        run_npc_turn( guy );
+        CHECK_FALSE( harvesting( guy ) );
+        CHECK( guy.get_committed_goal() != "eat_food" );
+    }
+    SECTION( "hungry past insisting" ) {
+        make_hungry( guy, 0.5f );
+        run_npc_turn( guy );
+        REQUIRE( guy.get_committed_goal() == "eat_food" );
+        REQUIRE( harvesting( guy ) );
+        get_avatar().setpos( here, leader_pos + tripoint( -10, 0, 0 ) );
+        run_npc_turn( guy );
+        CHECK( harvesting( guy ) );
+        CHECK( guy.get_intention().verdict.permission == npc_permission::discouraged );
+        const std::optional<time_point> said = guy.last_complaint( "need_override_food" );
+        REQUIRE( said );
+        run_npc_turn( guy );
+        CHECK( guy.last_complaint( "need_override_food" ) == said );
     }
 }
 

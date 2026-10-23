@@ -1636,6 +1636,44 @@ TEST_CASE( "camp_meal_and_water_take_their_time", "[npc][needs][camp]" )
     }
 }
 
+TEST_CASE( "camp_water_waits_while_the_leader_is_away", "[npc][needs][camp][obligation]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    basecamp &camp = place_camp( mid, your_fac, 500 );
+    REQUIRE( camp.has_water() );
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    get_avatar().setpos( get_map(), mid + tripoint( 12, 0, 0 ) );
+    REQUIRE( guy.obligation_reach() );
+    REQUIRE_FALSE( guy.obligation_reach()->contains( guy.pos_abs() ) );
+    get_map().build_map_cache( 0 );
+    behavior::character_oracle_t oracle( &guy );
+
+    WHEN( "it's thirsty" ) {
+        guy.set_thirst( 600 );
+        guy.set_moves( 100 );
+        THEN( "camp water is stay outside the spacing; no sip" ) {
+            CHECK( oracle.can_obtain_water( "" ) == behavior::status_t::failure );
+            CHECK( guy.execute_need_goal( "drink_water" ) != npc::need_result::satisfied );
+            CHECK( guy.stomach.get_water() == 0_ml );
+        }
+    }
+    WHEN( "it's thirsty past insisting" ) {
+        guy.set_thirst( 850 );
+        guy.set_moves( 100 );
+        THEN( "it sips camp water" ) {
+            CHECK( oracle.can_obtain_water( "" ) == behavior::status_t::running );
+            CHECK( guy.execute_need_goal( "drink_water" ) == npc::need_result::satisfied );
+            CHECK( guy.stomach.get_water() > 0_ml );
+        }
+    }
+}
+
 TEST_CASE( "camp_meal_eater_answers_at_the_next_decision", "[npc][needs][camp][obligation]" )
 {
     clear_avatar();
@@ -6435,6 +6473,11 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
 
     SECTION( "closer unreachable target skipped for farther reachable one" ) {
         calendar::turn = calendar::turn_zero + 2 * calendar::season_length() + 12_hours;
+        // no obligation: a trip is judged on its destination alone, so a walled-in target is
+        // planned and times out
+        guy.set_fac( faction_tacoma_commune );
+        guy.set_attitude( NPCATT_NULL );
+        REQUIRE_FALSE( guy.obligation_reach() );
         using need_source = npc_short_term_cache::need_source;
 
         // Close tree behind glass (visible through glass, but impassable
@@ -6479,6 +6522,11 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
 
     SECTION( "failed target becomes reachable after generation reset" ) {
         calendar::turn = calendar::turn_zero + 2 * calendar::season_length() + 12_hours;
+        // no obligation: a trip is judged on its destination alone, so a walled-in target is
+        // planned and times out
+        guy.set_fac( faction_tacoma_commune );
+        guy.set_attitude( NPCATT_NULL );
+        REQUIRE_FALSE( guy.obligation_reach() );
 
         // Single tree behind glass (visible, unreachable without bashing).
         const tripoint_bub_ms tree = guy.pos_bub() + tripoint( 2, 0, 0 );
@@ -6671,6 +6719,36 @@ TEST_CASE( "npc_can_obtain_food_filters_harvests", "[npc][needs][forage]" )
     SECTION( "no harvestable terrain nearby" ) {
         here.build_map_cache( 0 );
         CHECK( oracle.can_obtain_food( "" ) == behavior::status_t::failure );
+    }
+
+    SECTION( "follower takes only the harvest its reach allows" ) {
+        clear_avatar();
+        get_avatar().setpos( here, guy.pos_bub() + tripoint::north );
+        guy.set_fac( faction_your_followers );
+        guy.set_attitude( NPCATT_FOLLOW );
+        guy.rules.set_flag( ally_rule::follow_close );
+        REQUIRE( guy.is_walking_with() );
+        // hungry enough to eat, not to leave the leader for it
+        guy.set_stored_kcal( guy.get_healthy_kcal() * 7 / 10 );
+        guy.stomach.empty();
+        guy.guts.empty();
+        WHEN( "tree stands beside it" ) {
+            here.ter_set( adj, ter_t_tree_apple );
+            here.build_map_cache( 0 );
+            THEN( "it may harvest" ) {
+                CHECK( oracle.can_obtain_food( "" ) == behavior::status_t::running );
+            }
+        }
+        WHEN( "tree stands past the follow spacing" ) {
+            const tripoint_bub_ms far = guy.pos_bub() + tripoint( 6, 0, 0 );
+            here.ter_set( far, ter_t_tree_apple );
+            here.build_map_cache( 0 );
+            REQUIRE( here.is_harvestable( far ) );
+            REQUIRE_FALSE( guy.obligation_reach()->contains( here.get_abs( far ) ) );
+            THEN( "it may not" ) {
+                CHECK( oracle.can_obtain_food( "" ) == behavior::status_t::failure );
+            }
+        }
     }
 }
 
@@ -8602,11 +8680,11 @@ TEST_CASE( "impossible_dispatch_preserves_failed_targets", "[npc][needs]" )
 
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
-    guy.set_fac( faction_your_followers );
-    guy.set_attitude( NPCATT_FOLLOW );
     guy.set_stored_kcal( 20000 );
     guy.set_hunger( -1 );
     guy.set_thirst( 0 );
+    // no obligation: trip is judged on its destination alone
+    REQUIRE_FALSE( guy.obligation_reach() );
 
     map &here = get_map();
 

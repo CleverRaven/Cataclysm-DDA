@@ -1700,6 +1700,8 @@ class npc : public Character
         // is routed and nullopt only marks a stand_on spot nobody can stand on
         std::optional<npc_option_cost> trip_cost( const npc_trip_spec &spec, bool responsive ) const;
         std::optional<npc_option_cost> water_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> food_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> source_trip_cost( const need_candidate &c ) const;
         std::optional<npc_option_cost> rest_option_cost( const tripoint_abs_ms &spot ) const;
         npc_option_cost rest_option_best_case() const;
 

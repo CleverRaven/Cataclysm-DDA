@@ -6372,6 +6372,7 @@ bool npc::complain()
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
     static const std::string water_out_of_reach_string = "water_out_of_reach";
+    static const std::string food_out_of_reach_string = "food_out_of_reach";
 
     if( !is_player_ally() || !get_player_view().sees( here, *this ) ) {
         return false;
@@ -6425,6 +6426,20 @@ bool npc::complain()
 
     // Hunger and thirst complaints only fire when NPC has food needs
     if( needs_food() ) {
+        // food in sight, but obligations keep NPC from going: it says it's hungry
+        if( complaint_due( food_out_of_reach_string, 30_minutes ) ) {
+            behavior::character_oracle_t oracle( this );
+            if( oracle.needs_food_badly( "" ) == behavior::status_t::running ) {
+                const npc_need_view food = best_need_view( need_goal_id::eat_food );
+                if( food.kind == npc_option_kind::actual && !food.eligible() &&
+                    complain_about( food_out_of_reach_string, 30_minutes,
+                                    chat_snippets().snip_hungry.translated() ) ) {
+                    complaints.insert_or_assign( hunger_string, calendar::turn );
+                    return true;
+                }
+            }
+        }
+
         // Hunger every 3-6 hours
         // Complaint frequency scales with hunger level
         if( get_hunger() > NPC_HUNGER_COMPLAIN &&
@@ -6442,7 +6457,7 @@ bool npc::complain()
                 if( water.kind == npc_option_kind::actual && !water.eligible() &&
                     complain_about( water_out_of_reach_string, 30_minutes,
                                     chat_snippets().snip_thirsty.translated() ) ) {
-                    // plea is the thirst complaint, so it won't repeat next turn
+                    // plea counts as the thirst complaint, which waits out its interval
                     complaints.insert_or_assign( thirst_string, calendar::turn );
                     return true;
                 }
@@ -6828,19 +6843,31 @@ bool npc::wear_item_at( item_location loc )
     return true;
 }
 
-std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c ) const
+// walk to within reach of the source, then a stay there to eat or drink
+std::optional<npc_option_cost> npc::source_trip_cost( const need_candidate &c ) const
 {
-    if( c.source_kind == need_source::camp_water ) {
-        return npc_option_cost::in_place( pos_abs() );
-    }
     std::optional<npc_option_cost> cost =
         trip_cost( npc_trip_spec::within_range( get_map().get_bub( c.target ), 1, true ), true );
-    // a harvest or a drink by sips keeps the NPC there for a while
-    if( cost && ( c.source_kind == need_source::harvestable ||
-                  c.source_kind == need_source::water_terrain ) ) {
+    if( cost ) {
         cost->hold = npc_option_hold::occupy;
     }
     return cost;
+}
+
+std::optional<npc_option_cost> npc::water_option_cost( const need_candidate &c ) const
+{
+    if( c.source_kind == need_source::camp_water ) {
+        return npc_option_cost::stay( pos_abs() );
+    }
+    return source_trip_cost( c );
+}
+
+std::optional<npc_option_cost> npc::food_option_cost( const need_candidate &c ) const
+{
+    if( c.source_kind == need_source::camp_food ) {
+        return npc_option_cost::stay( pos_abs() );
+    }
+    return source_trip_cost( c );
 }
 
 std::optional<npc_option_cost> npc::rest_option_cost( const tripoint_abs_ms &spot ) const
@@ -7654,13 +7681,15 @@ void npc::end_need_pursuit( const need_goal_id id )
     }
 }
 
-// TODO: only water and sleep declare their pursued option; eat_food and regulate_temperature are
-// judged in place, so obligations never end their walks or activities
+// TODO: regulate_temperature is judged in place, so obligations never end its walks or activities
 std::optional<npc_option_cost> npc::pursued_option_cost( const need_goal_id id ) const
 {
     const need_plan &plan = plan_for( id );
     if( id == need_goal_id::drink_water && plan.active() ) {
         return water_option_cost( { plan.source_kind, plan.target, 0.0f } );
+    }
+    if( id == need_goal_id::eat_food && plan.active() ) {
+        return food_option_cost( { plan.source_kind, plan.target, 0.0f } );
     }
     if( id == need_goal_id::go_to_sleep ) {
         if( plan.active() ) {
@@ -7967,40 +7996,41 @@ npc::need_result npc::execute_eat_food()
 
     // 1. Try camp food (calories only, skip the water path),
     //    inventory food, then adjacent ground food.
-    // every meal runs as an activity: progress, not yet satisfaction
-    if( consume_food_from_camp( cf ) ) {
-        plan.clear();
-        failed.clear();
-        return need_result::progressed;
-    }
-    if( consume_food( cf ) ) {
-        plan.clear();
-        failed.clear();
-        return need_result::progressed;
-    }
-    {
-        map &food_map = get_map();
-        for( scored_item &c : find_nearby_food( cf ) ) {
-            if( square_dist( pos_bub(), c.loc.pos_bub( food_map ) ) <= 1 ) {
-                if( consume_food_at( c.loc ) ) {
-                    plan.clear();
-                    failed.clear();
-                    return need_result::progressed;
+    // a meal is an activity that holds the NPC here: progress, not satisfaction; obligations
+    // gate it
+    const npc_option_cost meal_here = npc_option_cost::stay( pos_abs() );
+    if( need_view( need_goal_id::eat_food, meal_here ).eligible() ) {
+        bool started = consume_food_from_camp( cf ) || consume_food( cf );
+        if( !started ) {
+            for( scored_item &c : find_nearby_food( cf ) ) {
+                if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 && consume_food_at( c.loc ) ) {
+                    started = true;
+                    break;
                 }
             }
+        }
+        if( started ) {
+            record_selected_option( need_goal_id::eat_food, meal_here );
+            plan.clear();
+            failed.clear();
+            return need_result::progressed;
         }
     }
 
     using need_source = npc_short_term_cache::need_source;
 
     const auto candidates = find_food_candidates();
+    // as in execute_drink_water()
+    const auto eligible = [this]( const need_candidate & c ) {
+        return need_view( need_goal_id::eat_food, food_option_cost( c ) ).eligible();
+    };
 
     // 2. Validate existing target against the candidate scan.
     if( plan.active() ) {
         bool still_valid = false;
         for( const need_candidate &c : candidates ) {
             if( c.target == plan.target && c.source_kind == plan.source_kind ) {
-                still_valid = true;
+                still_valid = eligible( c );
                 break;
             }
         }
@@ -8019,7 +8049,7 @@ npc::need_result npc::execute_eat_food()
                 c.source_kind == need_source::camp_water ) {
                 continue;
             }
-            if( failed.count( c.target ) == 0 ) {
+            if( failed.count( c.target ) == 0 && eligible( c ) ) {
                 plan.goal = "eat_food";
                 plan.source_kind = c.source_kind;
                 plan.target = c.target;
@@ -8040,21 +8070,17 @@ npc::need_result npc::execute_eat_food()
         return need_result::impossible;
     }
 
+    const npc_option_cost unrouted = npc_option_cost::unrouted( plan.target );
+    record_selected_option( need_goal_id::eat_food,
+                            food_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or( unrouted ) );
+
     // 4. Execute based on source kind.
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
 
     if( plan.source_kind == need_source::ground_item ) {
-        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
-            for( scored_item &c : find_nearby_food( cf ) ) {
-                if( here.get_abs( c.loc.pos_bub( here ) ) == plan.target &&
-                    consume_food_at( c.loc ) ) {
-                    plan.clear();
-                    failed.clear();
-                    return need_result::progressed;
-                }
-            }
-        } else if( low_danger &&
-                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
+        // food in reach is eaten in place or not at all
+        if( square_dist( pos_bub(), target_bub ) > 1 && low_danger &&
+            move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;
@@ -8102,9 +8128,6 @@ npc::need_result npc::execute_drink_water()
     std::set<tripoint_abs_ms> &failed = ai_cache.water_failed_targets;
     map &here = get_map();
 
-    // recorded only after drinking, so a failed try can't hide a walk's verdict
-    const npc_option_cost here_and_now = npc_option_cost::in_place( pos_abs() );
-
     if( !intake_useful( need_goal_id::drink_water ) ) {
         plan.clear();
         return need_result::satisfied;
@@ -8112,34 +8135,33 @@ npc::need_result npc::execute_drink_water()
 
     // 1. Try camp water, inventory drinks, adjacent ground drinks,
     //    then adjacent water terrain sources.
-    if( consume_food_from_camp( cf ) ) {
-        record_selected_option( need_goal_id::drink_water, here_and_now );
-        plan.clear();
-        failed.clear();
-        return need_result::satisfied;
-    }
-    if( consume_food( cf ) ) {
-        record_selected_option( need_goal_id::drink_water, here_and_now );
-        plan.clear();
-        failed.clear();
-        return need_result::progressed;
-    }
-    {
-        map &water_map = get_map();
-        for( scored_item &c : find_nearby_food( cf ) ) {
-            if( square_dist( pos_bub(), c.loc.pos_bub( water_map ) ) <= 1 ) {
-                if( consume_food_at( c.loc ) ) {
-                    record_selected_option( need_goal_id::drink_water, here_and_now );
-                    plan.clear();
-                    failed.clear();
-                    return need_result::progressed;
+    // a sip or a drink holds the NPC here, as a meal does; recorded only after drinking, so a
+    // failed try can't hide a walk's verdict
+    const npc_option_cost drink_here = npc_option_cost::stay( pos_abs() );
+    if( need_view( need_goal_id::drink_water, drink_here ).eligible() ) {
+        if( consume_food_from_camp( cf ) ) {
+            record_selected_option( need_goal_id::drink_water, drink_here );
+            plan.clear();
+            failed.clear();
+            return need_result::satisfied;
+        }
+        bool started = consume_food( cf );
+        if( !started ) {
+            for( scored_item &c : find_nearby_food( cf ) ) {
+                if( square_dist( pos_bub(), c.loc.pos_bub( here ) ) <= 1 && consume_food_at( c.loc ) ) {
+                    started = true;
+                    break;
                 }
             }
         }
-    }
-    for( scored_water_source &ws : find_nearby_water_sources() ) {
-        if( square_dist( pos_bub(), ws.pos ) <= 1 ) {
-            if( drink_from_water_source( ws.pos ) ) {
+        if( started ) {
+            record_selected_option( need_goal_id::drink_water, drink_here );
+            plan.clear();
+            failed.clear();
+            return need_result::progressed;
+        }
+        for( scored_water_source &ws : find_nearby_water_sources() ) {
+            if( square_dist( pos_bub(), ws.pos ) <= 1 && drink_from_water_source( ws.pos ) ) {
                 // sipping by the turn: the source stays the plan, so obligations judge each sip
                 // as a stay
                 plan.goal = "drink_water";
@@ -8148,7 +8170,7 @@ npc::need_result npc::execute_drink_water()
                 plan.last_result = need_result::satisfied;
                 plan.no_progress_turns = 0;
                 record_selected_option( need_goal_id::drink_water,
-                                        water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or( here_and_now ) );
+                                        water_option_cost( { plan.source_kind, plan.target, 0.0f } ).value_or( drink_here ) );
                 failed.clear();
                 return need_result::satisfied;
             }
@@ -8158,7 +8180,8 @@ npc::need_result npc::execute_drink_water()
     using need_source = npc_short_term_cache::need_source;
 
     const std::vector<need_candidate> candidates = find_water_candidates();
-    // a disallowed source never becomes a sticky plan; lazy because each judgment routes
+    // a disallowed source never becomes a sticky plan; judged lazily, as each judgment routes
+    // a trip
     const auto eligible = [this]( const need_candidate & c ) {
         return need_view( need_goal_id::drink_water, water_option_cost( c ) ).eligible();
     };
@@ -8216,17 +8239,9 @@ npc::need_result npc::execute_drink_water()
     const tripoint_bub_ms target_bub = here.get_bub( plan.target );
 
     if( plan.source_kind == need_source::ground_item ) {
-        if( square_dist( pos_bub(), target_bub ) <= 1 ) {
-            for( scored_item &c : find_nearby_food( cf ) ) {
-                if( here.get_abs( c.loc.pos_bub( here ) ) == plan.target &&
-                    consume_food_at( c.loc ) ) {
-                    plan.clear();
-                    failed.clear();
-                    return need_result::progressed;
-                }
-            }
-        } else if( low_danger &&
-                   move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
+        // a drink in reach is drunk in place or not at all
+        if( square_dist( pos_bub(), target_bub ) > 1 && low_danger &&
+            move_to_and_verify( npc_trip_spec::within_range( target_bub, 1, true ) ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;

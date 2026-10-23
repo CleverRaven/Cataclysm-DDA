@@ -147,11 +147,15 @@ status_t character_oracle_t::can_take_shelter( std::string_view ) const
     return n->find_nearby_shelters().empty() ? status_t::failure : status_t::running;
 }
 
-// carries an item it may consume for the need
+// carries an item it may consume for the need, and may stay put to consume it
 static bool carries_supply_for( const Character &subject, const npc::need_goal_id id )
 {
     const npc *n = dynamic_cast<const npc *>( &subject );
     if( !n || !n->intake_useful( id ) ) {
+        return false;
+    }
+    // meal or drink holds the NPC where it stands
+    if( !n->need_view( id, npc_option_cost::stay( n->pos_abs() ) ).may_consider() ) {
         return false;
     }
     // const_cast: the inventory cache refreshes itself, so the query is not const
@@ -182,10 +186,13 @@ status_t character_oracle_t::can_obtain_food( std::string_view ) const
     if( !n || !n->intake_useful( npc::need_goal_id::eat_food ) ) {
         return status_t::failure;
     }
-    // const_cast: see npc::find_food_candidates()
-    // Camp food is included in the candidate list as need_source::camp_food.
-    return const_cast<npc *>( n )->find_food_candidates().empty()
-           ? status_t::failure : status_t::running;
+    // as in can_obtain_water(); const_cast: see npc::find_food_candidates()
+    for( const npc::need_candidate &c : const_cast<npc *>( n )->find_food_candidates() ) {
+        if( n->need_view( npc::need_goal_id::eat_food, n->food_option_cost( c ) ).may_consider() ) {
+            return status_t::running;
+        }
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_water( std::string_view ) const
