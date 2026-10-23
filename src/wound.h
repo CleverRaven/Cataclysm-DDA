@@ -85,6 +85,7 @@ class wound_type
         void finalize();
         static const std::vector<wound_type> &get_all();
 
+        // conditions that can be checked on loading of wounds
         bool allowed_on_bodypart( bodypart_str_id bp_id ) const;
         std::string get_name() const;
         std::string get_description() const;
