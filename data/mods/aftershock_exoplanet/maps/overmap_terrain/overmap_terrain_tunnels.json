@@ -19,7 +19,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "afs_tunnel_sinkhole",
+    "id": [ "afs_tunnel_sinkhole_1", "afs_tunnel_sinkhole_2", "afs_tunnel_sinkhole_3", "afs_tunnel_sinkhole_4" ],
+    "name": "sinkhole ",
+    "sym": "v",
+    "color": "light_blue",
+    "see_cost": "all_clear"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_tunnel_sinkhole", "afs_tunnel_sinkhole_5" ],
     "name": "cavern",
     "sym": "^",
     "color": "light_blue",
@@ -28,7 +36,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "afs_tunnel_ravine_edge",
+    "id": [ "afs_tunnel_ravine_edge", "afs_tunnel_ravine_edge_bottom" ],
     "name": "cavern",
     "color": "light_blue",
     "sym": "v",

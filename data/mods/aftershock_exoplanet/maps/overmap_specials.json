@@ -95,6 +95,28 @@
   },
   {
     "type": "overmap_special",
+    "id": "sinkhole ravine",
+    "overmaps": [
+      { "point": [ -1, 0, 0 ], "overmap": "ravine_edge", "locations": [ "ravine_edge" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "ravine_edge", "locations": [ "ravine_edge" ] },
+      { "point": [ 3, 0, 0 ], "overmap": "ravine_edge", "locations": [ "ravine_edge" ] },
+      { "point": [ 0, 2, 0 ], "overmap": "afs_tunnel_sinkhole_surface_north", "locations": [ "land" ] },
+      { "point": [ 0, 2, -1 ], "overmap": "afs_tunnel_sinkhole_1_north", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 2, -2 ], "overmap": "afs_tunnel_sinkhole_2_north", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 2, -3 ], "overmap": "afs_tunnel_sinkhole_3_north", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 2, -4 ], "overmap": "afs_tunnel_sinkhole_4_north", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 2, -5 ], "overmap": "afs_tunnel_sinkhole_5_north", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 1, -5 ], "overmap": "afs_tunnel_ns", "locations": [ "subterranean_empty" ] },
+      { "point": [ 0, 0, -5 ], "overmap": "afs_tunnel_ravine_edge_bottom_south", "locations": [ "ravine_edge" ] }
+    ],
+    "locations": [ "ravine_edge" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 2, 4 ],
+    "flags": [ "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "smugglers landing",
     "overmaps": [
       { "point": [ 0, 0, 1 ], "overmap": "smuggler_ravine_aa0" },
