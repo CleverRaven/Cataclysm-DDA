@@ -720,7 +720,7 @@ void body_status_ui_impl::draw_controls()
         }
 
         auto check_new_tab = [&bs_uistate]( body_status_tab new_tab ) {
-            if( ImGui::IsItemActive() ) {
+            if( ImGui::IsItemActive() && bs_uistate.selected_tab != new_tab ) {
                 bs_uistate.switched_tab = new_tab;
             }
         };
