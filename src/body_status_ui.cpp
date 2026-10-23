@@ -245,6 +245,11 @@ bool body_status_ui::display()
             handle_action( bs_uistate.button_action );
             bs_uistate.button_action.clear();
         }
+        if( bs_uistate.switched_tab != body_status_tab::BS_TAB_last ) {
+            bs_uistate.selected_tab = bs_uistate.switched_tab;
+            bs_uistate.switched_tab = body_status_tab::BS_TAB_last;
+            upon_switching_tab();
+        }
         if( reset_window_size ) {
             bsui.mark_resized();
             reset_window_size = false;
@@ -388,13 +393,11 @@ bool body_status_ui::handle_action( const std::string &action )
             bs_uistate.quit_menu = true;
         }
     } else if( action == "PREV_TAB" ) {
-        --bs_uistate.selected_tab;
         bs_uistate.switched_tab = bs_uistate.selected_tab;
-        upon_switching_tab();
+        --bs_uistate.switched_tab;
     } else if( action == "NEXT_TAB" ) {
-        ++bs_uistate.selected_tab;
         bs_uistate.switched_tab = bs_uistate.selected_tab;
-        upon_switching_tab();
+        ++bs_uistate.switched_tab;
     } else if( action == "SCROLL_INFOBOX_UP" ) {
         bs_uistate.info_scrolled_up = true;
     } else if( action == "SCROLL_INFOBOX_DOWN" ) {
@@ -711,14 +714,13 @@ void body_status_ui_impl::draw_controls()
             bs_uistate.button_action = "BODYGRAPH_TOGGLE_WINDOW";
         }
 
-        const body_status_tab selected_tab = bs_uistate.selected_tab;
         auto check_new_tab = [&bs_uistate]( body_status_tab new_tab ) {
             if( ImGui::IsItemActive() ) {
-                bs_uistate.selected_tab = new_tab;
-                bs_uistate.switched_tab = body_status_tab::BS_TAB_last;
+                bs_uistate.switched_tab = new_tab;
             }
         };
 
+        const body_status_tab selected_tab = bs_uistate.selected_tab;
         if( ImGui::BeginTabBar( "##Tabs" ) ) {
             if( cataimgui::BeginTabItem( _( "SUMMARY" ), selected_tab == body_status_tab::BS_TAB_SUMMARY ) ) {
                 check_new_tab( body_status_tab::BS_TAB_SUMMARY );
