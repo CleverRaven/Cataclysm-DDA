@@ -168,164 +168,35 @@
     "//": "Hopefully there's eventually some way to get a dynamic list of body parts for this",
     "effect": [
       {
-        "run_eoc_selector": [
-          "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_ARM",
-          "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_ARM",
-          "EOC_VITAKIN_CONCENTRATED_HEALING_HEAD",
-          "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_LEG",
-          "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
-          "EOC_VITAKIN_CONCENTRATED_HEALING_TORSO"
-        ],
-        "title": "Choose body part.",
-        "names": [ "Left Arm", "Right Arm", "Head", "Left Leg", "Right Leg", "Torso" ],
-        "keys": [ "1", "2", "3", "4", "5", "6" ],
-        "descriptions": [
-          "Concentrate healing wounds on the left arm.",
-          "Concentrate healing wounds on the right arm.",
-          "Concentrate healing wounds on the head.",
-          "Concentrate healing wounds on the left leg.",
-          "Concentrate healing wounds on the right leg.",
-          "Concentrate healing wounds on the torso."
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "u_add_effect": "effect_vita_concentrated_healing_penalty",
+            "target_part": { "context_val": "id" },
+            "duration": "PERMANENT"
+          }
         ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_ARM",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
-      { "set_string_var": "arm_l", "target_var": { "u_val": "latest_concentrated_body_part" } },
+      },
+      {
+        "u_pick_bodypart": { "context_val": "vitakin_concentrated_healing_bodypart" },
+        "title": "Select body part for leukocyte accumulation.",
+        "blacklist_flag": "BIONIC_LIMB"
+      },
       {
         "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "arm_l",
+        "target_part": { "context_val": "vitakin_concentrated_healing_bodypart" },
         "duration": "PERMANENT",
         "intensity": {
           "math": [
             "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
           ]
         }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_ARM",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
-      { "set_string_var": "arm_r", "target_var": { "u_val": "latest_concentrated_body_part" } },
+      },
       {
-        "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "arm_r",
-        "duration": "PERMANENT",
-        "intensity": {
-          "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_TORSO",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
-      { "set_string_var": "torso", "target_var": { "u_val": "latest_concentrated_body_part" } },
-      {
-        "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "torso",
-        "duration": "PERMANENT",
-        "intensity": {
-          "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_RIGHT_LEG",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
-      { "set_string_var": "leg_r", "target_var": { "u_val": "latest_concentrated_body_part" } },
-      {
-        "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "leg_r",
-        "duration": "PERMANENT",
-        "intensity": {
-          "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_LEFT_LEG",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "head", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
-      { "set_string_var": "leg_l", "target_var": { "u_val": "latest_concentrated_body_part" } },
-      {
-        "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "leg_l",
-        "duration": "PERMANENT",
-        "intensity": {
-          "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_HEAD",
-    "condition": { "u_has_effect": "effect_vita_concentrated_healing" },
-    "effect": [
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "torso", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "arm_l", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_r", "duration": "PERMANENT" },
-      { "u_add_effect": "effect_vita_concentrated_healing_penalty", "target_part": "leg_l", "duration": "PERMANENT" },
-      { "set_string_var": "head", "target_var": { "u_val": "latest_concentrated_body_part" } },
-      {
-        "u_add_effect": "effect_vita_concentrated_healing_bonus",
-        "target_part": "head",
-        "duration": "PERMANENT",
-        "intensity": {
-          "math": [
-            "( ( (u_spell_level('vita_concentrated_healing') + u_spell_level('vita_concentrated_healing_knack') ) * 1.5 ) + 2) * psionic_power_modifiers()"
-          ]
-        }
+        "u_lose_effect": "effect_vita_concentrated_healing_penalty",
+        "target_part": { "context_val": "vitakin_concentrated_healing_bodypart" }
       }
     ]
   },

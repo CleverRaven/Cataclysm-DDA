@@ -57,6 +57,7 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
@@ -4264,7 +4265,15 @@ void Character::mend_item( item_location &&obj, bool interactive )
 
     if( mending_options.empty() ) {
         if( interactive ) {
-            add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
+
+            if( obj->faults.empty() ) {
+                add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname( 1,
+                         tname::item_identity_name ) );
+            } else {
+                add_msg( m_info, _( "The %s faults cannot be mended." ), obj->tname( 1,
+                         tname::item_identity_name ) );
+            }
+
             if( obj->damage() > obj->degradation() ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
                 if( rep.empty() ) {
@@ -5429,6 +5438,10 @@ void Character::cancel_activity()
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity = player_activity();
+    if( npc *guy = as_npc() ) {
+        // nothing reads stale task mission or attitude
+        guy->end_cancelled_task();
+    }
 }
 
 void Character::resume_backlog_activity()

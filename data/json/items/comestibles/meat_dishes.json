@@ -253,7 +253,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "human_cracklins",
-    "name": { "str_sp": "cracklins" },
+    "name": { "str_sp": "human cracklins" },
     "copy-from": "cracklins",
     "material": [ "hflesh" ],
     "vitamins": [ [ "meat_allergen", 1 ] ]
@@ -262,7 +262,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_cracklins",
-    "name": { "str_sp": "cracklins" },
+    "name": { "str_sp": "mutant cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
     "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
@@ -271,7 +271,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "mutant_human_cracklins",
-    "name": { "str_sp": "cracklins" },
+    "name": { "str_sp": "mutant humanoid cracklins" },
     "copy-from": "cracklins",
     "material": [ "hflesh" ],
     "vitamins": [ [ "mutant_toxin", 52 ], [ "meat_allergen", 1 ] ]
@@ -280,7 +280,7 @@
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
     "id": "demihuman_cracklins",
-    "name": { "str_sp": "cracklins" },
+    "name": { "str_sp": "demihuman cracklins" },
     "copy-from": "cracklins",
     "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ],

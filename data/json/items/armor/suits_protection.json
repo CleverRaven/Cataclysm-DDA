@@ -81,7 +81,7 @@
     "name": { "str": "chitinous scale mail suit" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_SPIDER_ARMS" ] }
   },
   {
     "id": "armor_chitin_xs",
@@ -113,7 +113,7 @@
     "name": { "str": "biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_SPIDER_ARMS" ] }
   },
   {
     "id": "armor_acidchitin_xs",
@@ -174,7 +174,7 @@
     "name": { "str": "fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_SPIDER_ARMS" ] }
   },
   {
     "id": "armor_farmor_xs",

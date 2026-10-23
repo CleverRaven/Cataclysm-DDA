@@ -412,6 +412,8 @@ class mission
         static mission *find( int id, bool ok_missing = false );
         /**
          * Remove all active missions, used to cleanup on exit and before reloading a new game.
+         * Also clears the mission pointers of NPCs the overmaps own. The avatar's mission lists
+         * are not touched; see avatar::reset_all_missions.
          */
         static void clear_all();
         /**

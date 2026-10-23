@@ -1,6 +1,11 @@
 # Wounds
 
-Wound is a type, that affects specific bodyparts. It's similar in this to effects, but it can be applied only on specific bodyparts, and their ability to be aided/repaired using wound_fix
+Wound is a type, that affects specific bodyparts. It's similar in this to effects, but it can be applied only on specific bodyparts, and their ability to be aided/repaired using wound_fix.
+Bad wounds should, generally, affect a lot of limb_scores. Most open untreated wounds shouldn't heal and should get infected when the ability for wounds to get infected/turn into another wound with time is added.
+
+Wounds should generally be tiered into: small/light, medium, bad. You should append _"tier" at the end of the id. The last tier is bad because small medium and bad do not neccesarily refer to how large the wound is. a bad stab wound be a deep stab wound, same for a bad cut.
+
+A light wounds should generally have minimal effects, a medium would should hinder you but not too much, a single bad wound should be a significant hinderance. Some wounds like broken bones should hinder you extremely.
 
 ### wound
 
@@ -45,7 +50,9 @@ Wound is a type, that affects specific bodyparts. It's similar in this to effect
 
 ### wound_fix
 
-Wound fix is a way for wounds to be treated
+Wound fix is a way for wounds to be treated. You should append _fix to the end of a wound fix.
+
+Wound fixes support everything recipes support.
 
 ```jsonc
   {
