@@ -114,7 +114,7 @@
       "rows": [ "/" ],
       "items": {
         "/": [
-          { "item": "armor_riot", "chance": 100, "repeat": 5 },
+          { "item": "armor_riot_torso", "chance": 100, "repeat": 5 },
           { "item": "helmet_riot", "chance": 100, "repeat": 5 },
           { "item": "armor_riot_arm", "chance": 100, "repeat": 5 },
           { "item": "armor_riot_leg", "chance": 100, "repeat": 5 }
@@ -168,7 +168,7 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "nest_Isherwood_lisa_add",
-    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_spawn" ], "x": 12, "y": 18 } ] }
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_spawn" ], "x": 7, "y": 18 } ] }
   },
   {
     "type": "mapgen",
@@ -193,7 +193,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "truck_bomb_spawn",
-    "object": { "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ] }
+    "object": { 
+	    "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ],
+    	"place_fields": [ { "field": "fd_fire", "x": [ 17 ], "y": [ 18 ], "intensity": [ 1 ], "repeat": 1 } ]
+  	}
   },
   {
     "type": "mapgen",
