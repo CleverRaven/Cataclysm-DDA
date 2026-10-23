@@ -197,7 +197,7 @@
     "see_cost": "high",
     "extras": "build",
     "mondensity": 1,
-    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION" ]
+    "flags": [ "SOURCE_VEHICLES", "SOURCE_FABRICATION", "LAKE_SHORE" ]
   },
   {
     "type": "overmap_terrain",
@@ -447,7 +447,8 @@
     "type": "overmap_terrain",
     "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
     "name": "lakeside cabin",
-    "copy-from": "cabin"
+    "copy-from": "cabin",
+    "extend": { "flags": [ "LAKE_SHORE" ] }
   },
   {
     "type": "overmap_terrain",
