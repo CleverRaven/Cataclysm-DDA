@@ -22,6 +22,7 @@
 #include "npc_class.h"
 #include "npc_decision_category.h"
 #include "npc_trip.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -99,8 +100,8 @@ static need_levels levels_for( const npc::need_goal_id id )
 {
     switch( id ) {
         case npc::need_goal_id::drink_water:
-            // 520 (thirsty predicate) and 800 on the 1200 dehydration scale, emergency at critical (900)
-            return { 520.0f / 1200.0f, 800.0f / 1200.0f, need_critical_urgency };
+            // act level and 800 on the 1200 dehydration scale, emergency at critical (900)
+            return { npc_thirst_act_level / 1200.0f, 800.0f / 1200.0f, need_critical_urgency };
         case npc::need_goal_id::go_to_sleep:
             return { static_cast<float>( sleepiness_levels::TIRED ) / 1000.0f,
                      static_cast<float>( sleepiness_levels::DEAD_TIRED ) / 1000.0f,
@@ -312,6 +313,12 @@ npc_need_view npc::need_view( const need_goal_id id,
     return need_view( id, *cost );
 }
 
+bool calories_short( const Character &who )
+{
+    const int pending = who.stomach.get_calories() + who.guts.get_calories();
+    return who.get_stored_kcal() + pending < who.get_healthy_kcal() * ( 1.0f - food_act_level );
+}
+
 bool should_interrupt( const npc_pursuit &current, const npc_challenger &challenger )
 {
     if( current.cost == npc_interrupt_cost::wake_only ) {
@@ -411,6 +418,9 @@ npc_need_view npc::best_need_view( const need_goal_id id )
         }
         npc_need_view held;
         held.raw = current_need_urgency( id );
+        if( !intake_useful( id ) ) {
+            return held;
+        }
         const std::set<tripoint_abs_ms> &failed = failed_targets_for( id );
         for( const need_candidate &c : find_water_candidates() ) {
             if( failed.count( c.target ) != 0 ) {

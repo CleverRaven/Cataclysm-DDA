@@ -1440,6 +1440,10 @@ class npc : public Character
         bool saw_player_recently() const;
         // need's item filter plus will_eat (diet and stomach room)
         bool can_satisfy( const item &it, npc_short_term_cache::need_goal_id id ) const;
+        // stomach room left for the need's intake; a meal already in stomach ends it
+        bool intake_fits( npc_short_term_cache::need_goal_id id ) const;
+        // intake_fits() with the need at its act level
+        bool intake_useful( npc_short_term_cache::need_goal_id id ) const;
         // access: reservation, no-go areas and zones, plus owners of the item, its containers and
         // cargo vehicle
         bool may_use_source( const item_location &loc ) const;
@@ -1458,6 +1462,8 @@ class npc : public Character
         void drop_suspended_task();
         // one turn's drink from a source without container
         units::volume sip_of_water() const;
+        // part of serving that fits now: all, part under the engorged line, or none
+        units::volume drinkable_part( const units::volume &serving ) const;
         // eats loc through the consume activity: real time, interruptible
         bool start_eating( const item_location &loc );
         // false in harm's way or when the activity doesn't start

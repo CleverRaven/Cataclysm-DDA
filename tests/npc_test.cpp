@@ -1465,7 +1465,7 @@ TEST_CASE( "camp_meal_refused_reports_no_consumption", "[npc][needs][camp]" )
     set_time_to_day();
     get_player_character().camps.clear();
     const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
-    place_camp( mid, your_fac, 500 );
+    const basecamp &camp = place_camp( mid, your_fac, 500 );
     const faction &camp_faction = *g->faction_manager_ptr->get( your_fac );
     npc &guy = spawn_camp_eater( mid );
     get_map().build_map_cache( 0 );
@@ -1492,6 +1492,37 @@ TEST_CASE( "camp_meal_refused_reports_no_consumption", "[npc][needs][camp]" )
             }
         }
     }
+    GIVEN( "underweight NPC that ate a meal, stomach short of full" ) {
+        nutrients eaten;
+        eaten.calories = 300 * 1000;
+        guy.stomach.ingest( { 0_ml, guy.stomach.capacity( guy ) * 3 / 5, eaten } );
+        guy.update_stomach( calendar::turn, calendar::turn );
+        nutrients portion;
+        portion.calories = 500 * 1000;
+        REQUIRE( guy.will_eat( camp.make_fake_food( portion ) ).success() );
+        REQUIRE_FALSE( guy.intake_fits( npc::need_goal_id::eat_food ) );
+        const int larder = camp_faction.food_supply().kcal();
+        WHEN( "asks the camp for a meal" ) {
+            guy.set_moves( 100 );
+            const bool ate = guy.consume_food_from_camp();
+            THEN( "no meal starts, larder untouched" ) {
+                CHECK_FALSE( ate );
+                CHECK( guy.activity.id() != ACT_CAMP_MEAL );
+                CHECK( camp_faction.food_supply().kcal() == larder );
+            }
+        }
+        WHEN( "it takes its turns" ) {
+            bool started = false;
+            for( int turn = 0; turn < 10; ++turn ) {
+                run_npc_turn( guy );
+                started = started || guy.activity.id() == ACT_CAMP_MEAL;
+            }
+            THEN( "no camp meal starts that would eat nothing" ) {
+                CHECK_FALSE( started );
+                CHECK( camp_faction.food_supply().kcal() == larder );
+            }
+        }
+    }
     GIVEN( "hungry NPC whose diet refuses fresh food" ) {
         guy.set_mutation( trait_SAPROPHAGE );
         const int larder = camp_faction.food_supply().kcal();
@@ -1503,6 +1534,33 @@ TEST_CASE( "camp_meal_refused_reports_no_consumption", "[npc][needs][camp]" )
                 CHECK( camp_faction.food_supply().kcal() == larder );
                 CHECK( guy.get_moves() == 100 );
             }
+        }
+    }
+}
+
+TEST_CASE( "camp_meal_short_of_healthy_calories_is_eaten", "[npc][needs][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 2000 );
+    const faction &own = *g->faction_manager_ptr->get( your_fac );
+    npc &guy = spawn_camp_eater( mid );
+    // under camp's meal line, above food worth fetching
+    guy.set_stored_kcal( guy.get_healthy_kcal() * 17 / 20 );
+    guy.set_hunger( 30 );
+    REQUIRE_FALSE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+    get_map().build_map_cache( 0 );
+
+    WHEN( "asks the camp for a meal" ) {
+        guy.set_moves( 100 );
+        REQUIRE( guy.consume_food_from_camp( npc::consume_filter::food_only ) );
+        finish_meal( guy );
+        THEN( "meal it started is eaten" ) {
+            CHECK( own.food_supply().kcal() < 2000 );
+            CHECK( guy.stomach.get_calories() > 0 );
         }
     }
 }
@@ -2086,6 +2144,75 @@ TEST_CASE( "reserved_ground_food_is_not_a_source", "[npc][needs]" )
             run_npc_turn( guy );
             CHECK( here.i_at( adj ).size() == 1 );
             CHECK( guy.stomach.get_calories() == 0 );
+        }
+    }
+}
+
+TEST_CASE( "water_serving_policy_is_shared", "[npc][needs][water][camp]" )
+{
+    clear_avatar();
+    clear_map_with_vision();
+    set_time_to_day();
+    get_player_character().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    const tripoint_bub_ms mid{ MAPSIZE_X / 2, MAPSIZE_Y / 2, 0 };
+    place_camp( mid, your_fac, 0 );
+    npc &guy = spawn_camp_eater( mid );
+    guy.set_stored_kcal( guy.get_healthy_kcal() );
+    guy.set_hunger( 0 );
+    guy.set_thirst( 700 );
+    map &here = get_map();
+    const tripoint_bub_ms stream = mid + tripoint::south;
+    here.ter_set( stream, ter_t_water_sh );
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 2 ),
+                            pocket_type::CONTAINER ).success() );
+    REQUIRE( guy.i_add( bottle ) );
+    here.build_map_cache( 0 );
+    const units::volume sip = guy.sip_of_water();
+    const units::volume charge = item( itype_water_clean, calendar::turn, 1 ).volume();
+    REQUIRE( sip < charge );
+    // fill with solids until only room is left under the engorged line
+    const auto fill_to_room = [&guy]( const units::volume & room ) {
+        guy.stomach.empty();
+        const units::volume line = guy.stomach.room_before_engorged( guy, guy.has_calorie_deficit() );
+        REQUIRE( line > room );
+        guy.stomach.ingest( { 0_ml, line - room, {} } );
+        REQUIRE( guy.stomach.room_before_engorged( guy, guy.has_calorie_deficit() ) == room );
+    };
+
+    GIVEN( "room for a sip but not for a bottle's charge" ) {
+        fill_to_room( 100_ml );
+        THEN( "charge is refused whole, both sources serve the same sip" ) {
+            CHECK_FALSE( guy.can_stomach( charge ) );
+            CHECK( guy.can_stomach( sip ) );
+            CHECK( guy.drinkable_part( sip ) == sip );
+            CHECK_FALSE( guy.consume_food( npc::consume_filter::drink_only ) );
+            REQUIRE( guy.drink_from_water_source( stream ) );
+            CHECK( guy.stomach.get_water() == sip );
+            REQUIRE( guy.consume_food_from_camp( npc::consume_filter::drink_only ) );
+            CHECK( guy.stomach.get_water() == 2 * sip );
+        }
+    }
+    GIVEN( "less room than a sip" ) {
+        fill_to_room( sip / 2 );
+        const units::volume room = guy.stomach.room_before_engorged( guy, guy.has_calorie_deficit() );
+        THEN( "drink without a container is cut to the room" ) {
+            CHECK( guy.drinkable_part( sip ) == room );
+            REQUIRE( guy.drink_from_water_source( stream ) );
+            CHECK( guy.stomach.get_water() == room );
+            CHECK( guy.stomach.room_before_engorged( guy, guy.has_calorie_deficit() ) == 0_ml );
+        }
+    }
+    GIVEN( "exactly at the line" ) {
+        fill_to_room( 0_ml );
+        THEN( "nothing drunk from anywhere, more of no use" ) {
+            CHECK_FALSE( guy.can_stomach( 1_ml ) );
+            CHECK( guy.drinkable_part( sip ) == 0_ml );
+            CHECK_FALSE( guy.drink_from_water_source( stream ) );
+            CHECK_FALSE( guy.consume_food_from_camp( npc::consume_filter::drink_only ) );
+            CHECK_FALSE( guy.consume_food( npc::consume_filter::drink_only ) );
+            CHECK_FALSE( guy.intake_useful( npc::need_goal_id::drink_water ) );
         }
     }
 }
@@ -6340,8 +6467,7 @@ TEST_CASE( "npc_food_executor_contract", "[npc][needs][forage]" )
     }
 }
 
-// Starving NPCs should eat foraged food immediately instead of dropping it.
-TEST_CASE( "npc_eats_foraged_food_immediately", "[npc][needs][forage]" )
+TEST_CASE( "npc_eats_the_food_it_forages", "[npc][needs][forage]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6369,9 +6495,10 @@ TEST_CASE( "npc_eats_foraged_food_immediately", "[npc][needs][forage]" )
     REQUIRE( here.is_harvestable( adj ) );
     REQUIRE_FALSE( guy.find_nearby_harvestable( true ).empty() );
 
-    // Run enough turns for the harvest activity to complete.
+    // harvest, then a timed meal of what it picked
     const int kcal_before = guy.get_stored_kcal();
-    for( int turn = 0; turn < 40; ++turn ) {
+    for( int turn = 0; turn < 300 &&
+         guy.get_stored_kcal() + guy.stomach.get_calories() <= kcal_before; ++turn ) {
         guy.set_moves( 100 );
         guy.move();
     }
@@ -6380,8 +6507,8 @@ TEST_CASE( "npc_eats_foraged_food_immediately", "[npc][needs][forage]" )
     CHECK( guy.get_stored_kcal() + guy.stomach.get_calories() > kcal_before );
 }
 
-// handle_harvest auto-eating must charge consume time, not eat for free.
-TEST_CASE( "npc_harvest_consume_charges_moves", "[npc][needs][forage]" )
+// harvest is kept for free; eating it costs its consume time through the meal activity
+TEST_CASE( "npc_harvest_is_free_and_its_meal_takes_consume_time", "[npc][needs][forage]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -6399,14 +6526,17 @@ TEST_CASE( "npc_harvest_consume_charges_moves", "[npc][needs][forage]" )
     guy.set_thirst( 0 );
     REQUIRE( guy.has_calorie_deficit() );
 
-    // Auto-eating only happens during self-care need execution.
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
     guy.set_committed_goal_for_test( "eat_food" );
     guy.set_moves( 200 );
-    const int moves_before = guy.get_moves();
     iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
+    REQUIRE( guy.amount_of( itype_sandwich_cheese_grilled ) == 1 );
+    CHECK( guy.get_moves() == 200 );
 
-    // Moves must decrease (consume time charged).
-    CHECK( guy.get_moves() < moves_before );
+    REQUIRE( guy.execute_need_goal( "eat_food" ) == npc::need_result::progressed );
+    REQUIRE( guy.activity.id() == ACT_CONSUME );
+    CHECK( guy.activity.moves_total ==
+           to_moves<int>( guy.get_consume_time( item( itype_sandwich_cheese_grilled ) ) ) );
 }
 
 // can_obtain_food should distinguish food-yielding terrain from non-food.
@@ -6718,7 +6848,7 @@ TEST_CASE( "npc_find_water_candidates", "[npc][needs][water]" )
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
     guy.set_hunger( 100 );
-    guy.set_thirst( 200 );
+    guy.set_thirst( 600 );
     guy.set_stored_kcal( 5000 );
 
     map &here = get_map();
@@ -6817,7 +6947,7 @@ TEST_CASE( "npc_water_executor_contract", "[npc][needs][water]" )
     guy.set_attitude( NPCATT_FOLLOW );
     guy.set_stored_kcal( 55000 );
     guy.set_hunger( 0 );
-    guy.set_thirst( 200 );
+    guy.set_thirst( 600 );
 
     map &here = get_map();
     // close enough that all sources below are inside the follower's spacing
@@ -8505,7 +8635,7 @@ TEST_CASE( "npc_can_obtain_water_predicate", "[npc][needs][water]" )
 
     npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( guy, true );
-    guy.set_thirst( 200 );
+    guy.set_thirst( 600 );
 
     map &here = get_map();
     const tripoint_bub_ms adj = guy.pos_bub() + point::east;
@@ -8779,10 +8909,8 @@ TEST_CASE( "npc_forage_yields_to_danger", "[npc][needs][forage]" )
     }
 }
 
-// Auto-eating harvested food must only happen when the NPC is executing
-// a self-care need goal (eat_food / drink_water), not during generic
-// harvest work (farming zones, player-assigned tasks).
-TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]" )
+// none eaten on the spot
+TEST_CASE( "npc_harvest_keeps_its_output_whatever_the_goal", "[npc][needs][forage]" )
 {
     clear_map_without_vision();
     clear_avatar();
@@ -8801,23 +8929,24 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
     guy.worn.wear_item( guy, item( itype_backpack ), false, false );
     REQUIRE( guy.has_calorie_deficit() );
 
-    SECTION( "NPC on eat_food goal: auto-eats harvested food" ) {
+    SECTION( "NPC on eat_food goal: keeps it, eats nothing on the spot" ) {
         guy.set_committed_goal_for_test( "eat_food" );
         guy.set_moves( 200 );
-        const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
 
-        // Should have eaten (moves charged).
-        CHECK( guy.get_moves() < moves_before );
+        CHECK( guy.get_moves() == 200 );
+        CHECK( guy.amount_of( itype_sandwich_cheese_grilled ) == 1 );
+        CHECK( guy.stomach.get_calories() == 0 );
     }
 
-    SECTION( "NPC on drink_water goal: auto-eats harvested food" ) {
+    SECTION( "NPC on drink_water goal: a harvest that quenches nothing is kept" ) {
         guy.set_committed_goal_for_test( "drink_water" );
         guy.set_moves( 200 );
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
 
-        CHECK( guy.get_moves() < moves_before );
+        CHECK( guy.get_moves() == moves_before );
+        CHECK( guy.amount_of( itype_sandwich_cheese_grilled ) == 1 );
     }
 
     SECTION( "NPC on generic work: food goes to inventory, not eaten" ) {
@@ -8827,8 +8956,8 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
         const int moves_before = guy.get_moves();
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
 
-        // Should NOT have eaten (no move cost).
         CHECK( guy.get_moves() == moves_before );
+        CHECK( guy.amount_of( itype_sandwich_cheese_grilled ) == 1 );
     }
 
     SECTION( "NPC committed to camp_work: food goes to inventory" ) {
@@ -8838,6 +8967,7 @@ TEST_CASE( "npc_harvest_auto_eat_restricted_to_self_care", "[npc][needs][forage]
         iexamine_helper::handle_harvest( guy, itype_sandwich_cheese_grilled, false );
 
         CHECK( guy.get_moves() == moves_before );
+        CHECK( guy.amount_of( itype_sandwich_cheese_grilled ) == 1 );
     }
 }
 

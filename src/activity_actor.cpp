@@ -6354,6 +6354,10 @@ void camp_meal_activity_actor::finish( player_activity &act, Character &who )
     if( bcp == nullptr || !bcp->allowed_access_by( who ) ) {
         return;
     }
+    // whether more food fits is asked again at the end, as for any meal
+    if( who.is_npc() && !who.as_npc()->intake_fits( npc::need_goal_id::eat_food ) ) {
+        return;
+    }
     // refused meal satisfies nothing; NPC turns to its own food
     if( bcp->feed_workers( who, bcp->camp_food_supply( -kcal ), camp_meal::personal ) <= 0 &&
         who.is_npc() ) {
