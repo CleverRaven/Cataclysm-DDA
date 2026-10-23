@@ -134,7 +134,6 @@
     "type": "faction",
     "id": "pirates_lux",
     "name": "Lux Inane",
-    "mon_faction": "pirates_lux",
     "description": "An anarchic mercenary faction bolstered around the eponymous Lux Inane, an advanced warship dating from the Hyperspace Era.  Even if the ship itself is unlikely to show in system, criminal activity under its banner is commonplace all along the frontier.",
     "likes_u": 0,
     "respects_u": 0,

@@ -9,5 +9,18 @@
         "message": "The rent in reality slowly collapses on itself and fades away."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "cardboard_palace",
+    "//": "Furniture alteration has to be able to reasonably check for most intervening furniture and remove it.",
+    "terrain": [
+      {
+        "result": "t_cardboard_palace",
+        "valid_flags": [ "ROAD" ],
+        "message": "You set up a surprisingly sturdy cardboard shelter."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
   }
 ]

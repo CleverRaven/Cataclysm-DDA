@@ -112,5 +112,20 @@
       },
       { "u_spawn_item": { "global_val": "item_type" } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_robofac_89193_fix_relations",
+    "//": "for updating from 0.I to 0.J, to account for changes to faction relations and their willingness to talk to you in #89193 and #89113",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "math": [ "robofac_fixed_like != 1" ] },
+    "effect": [
+      { "math": [ "robofac_fixed_like = 1" ] },
+      {
+        "if": { "and": [ { "math": [ "faction_like('robofac') <= -100" ] }, { "math": [ "hub01_intercom_locked != 1" ] } ] },
+        "then": { "math": [ "faction_like('robofac') = 0" ] }
+      }
+    ]
   }
 ]
