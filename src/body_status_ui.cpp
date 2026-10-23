@@ -617,9 +617,12 @@ void body_status_callback::confirm( uilist *menu )
                 // if in the top-level bodypart list, open the sub-bodypart list
                 bs_uistate.parent_bodypart = bs_uistate.selected_bodypart;
                 // get nested graph of original part
-                bs_uistate.displayed_graph_id = bs_uistate.get_selected_partlist().bg_part->nested_graph;
-                bs_uistate.prepare_partlist();
-                ui_parent->reset_list_entries = true;
+                const bodygraph_id next_graph = bs_uistate.get_selected_partlist().bg_part->nested_graph;
+                if( next_graph != bodygraph_id::NULL_ID() ) {
+                    bs_uistate.displayed_graph_id = next_graph;
+                    bs_uistate.prepare_partlist();
+                    ui_parent->reset_list_entries = true;
+                }
             }
             break;
         }
