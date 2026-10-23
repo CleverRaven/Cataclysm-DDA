@@ -1,0 +1,50 @@
+[
+  {
+    "id": "test_nested_outer",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "test nested outer",
+    "description": "Nested category whose second child is itself a nested category.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "test_tallow", "test_nested_weapons" ],
+    "difficulty": 0
+  },
+  {
+    "id": "test_nested_gate_charged",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "test nested charged tool",
+    "description": "Nested category whose only child needs a charged tool.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "cudgel_test_charged_fast_stepless" ],
+    "difficulty": 0
+  },
+  {
+    "id": "test_nested_gate_prof",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "test nested required proficiency",
+    "description": "Nested category whose only child requires a proficiency.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "cudgel_test_steps_required_prof" ],
+    "difficulty": 0
+  },
+  {
+    "id": "test_nested_gate_charreq",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "test nested character requirement",
+    "description": "Nested category whose only child requires a minimum strength.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "cudgel_character_requirements_restricted" ],
+    "difficulty": 0
+  }
+]

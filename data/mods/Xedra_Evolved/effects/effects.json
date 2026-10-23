@@ -239,6 +239,21 @@
   },
   {
     "type": "effect_type",
+    "id": "minoan_orchid_effect",
+    "name": [ "Minoan Joy", "Minoan Delight", "Minoan Elation", "Minoan Euphoria", "Minoan Rapture", "Minoan Ecstasy" ],
+    "desc": [
+      "The effect of the opioids in your system are increased.",
+      "As you consume more opioids your mood increases even more.",
+      "The combination of these drugs is clearly dangerously euphoric.",
+      "Your body is pairing endorphins and dopamine across every pathway.",
+      "Are you dead?  Is this heaven?",
+      "…………………………………………………………………"
+    ],
+    "rating": "neutral",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "visuals",
     "name": [ "Hallucinating" ],
     "desc": [ "You can't trust everything that you see." ],
@@ -1894,6 +1909,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_rebuilt_minds",
+    "name": [ "Rebuilt Minds" ],
+    "desc": [
+      "You have rebuilt human minds from the shattered remnants you could find.  It will take some time until you can do this again."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],
@@ -2990,34 +3013,34 @@
         "values": [
           {
             "value": "DODGE_CHANCE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('deduction') * 0.25) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('gramarye') * 0.25) )" ] }
           },
           {
             "value": "BONUS_DODGE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('deduction') * 0.2) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('gramarye') * 0.2) )" ] }
           },
           {
             "value": "THROW_STR",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('deduction') * 0.35) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('gramarye') * 0.35) )" ] }
           },
           {
             "value": "RANGE_DODGE",
             "add": {
               "math": [
-                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('deduction') * 0.02) )), 0.98)"
+                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('gramarye') * 0.02) )), 0.98)"
               ]
             }
           },
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           },
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           }
         ]

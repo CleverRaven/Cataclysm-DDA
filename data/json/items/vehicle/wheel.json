@@ -161,6 +161,7 @@
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "color": "dark_gray"
   },
   {
@@ -178,6 +179,7 @@
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "color": "dark_gray"
   },
   {
@@ -195,6 +197,7 @@
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "color": "dark_gray"
   },
   {
@@ -220,6 +223,7 @@
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "color": "dark_gray"
   },
   {
@@ -244,6 +248,7 @@
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "color": "dark_gray"
   },
   {
@@ -269,6 +274,7 @@
     "material": [ "mc_steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -287,6 +293,7 @@
     "material": [ "mc_steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "melee_damage": { "bash": 14 }
   },
   {
@@ -304,6 +311,7 @@
     "material": [ "mc_steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -329,6 +337,7 @@
     "material": [ "mc_steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
+    "faults": [ { "fault_group": "tire_defects" } ],
     "melee_damage": { "bash": 17 }
   },
   {

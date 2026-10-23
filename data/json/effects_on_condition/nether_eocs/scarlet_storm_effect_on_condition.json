@@ -14,13 +14,13 @@
       { "u_location_variable": { "global_val": "scarlet_storm_focus_b2" }, "z_override": true, "z_adjust": 0 },
       { "math": [ "scarlet_storm_offset = time_since('cataclysm', 'unit':'days') * 432 + rng( -20200, 20200 )" ] },
       { "math": [ "scarlet_storm_focus_a1.x = 50400 - scarlet_storm_offset" ] },
-      { "math": [ "scarlet_storm_focus_a1.y = 0" ] },
+      { "math": [ "scarlet_storm_focus_a1.y = 1" ] },
       { "math": [ "scarlet_storm_focus_a2.x = 50400 - scarlet_storm_offset" ] },
-      { "math": [ "scarlet_storm_focus_a2.y = 1500" ] },
+      { "math": [ "scarlet_storm_focus_a2.y = 1501" ] },
       { "math": [ "scarlet_storm_focus_b1.x = 50400 - scarlet_storm_offset + 900" ] },
-      { "math": [ "scarlet_storm_focus_b1.y = 0" ] },
+      { "math": [ "scarlet_storm_focus_b1.y = 1" ] },
       { "math": [ "scarlet_storm_focus_b2.x = 50400 - scarlet_storm_offset + 900" ] },
-      { "math": [ "scarlet_storm_focus_b2.y = 1100" ] },
+      { "math": [ "scarlet_storm_focus_b2.y = 1101" ] },
       { "math": [ "scarlet_storm_direction = 0" ] }
     ]
   },
@@ -96,20 +96,20 @@
       {
         "if": {
           "or": [
-            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x < 1200" ] },
-            { "math": [ "scarlet_storm_focus_a1.x - scarlet_storm_focus_a2.x < 1900" ] }
+            { "math": [ "scarlet_storm_focus_a1.y - scarlet_storm_focus_a2.y < 1200" ] },
+            { "math": [ "scarlet_storm_focus_a1.y - scarlet_storm_focus_a2.y > 1900" ] }
           ]
         },
-        "then": { "math": [ "scarlet_storm_focus_a2.x = scarlet_storm_focus_a1.x + 1500" ] }
+        "then": { "math": [ "scarlet_storm_focus_a2.y = scarlet_storm_focus_a1.y + 1500" ] }
       },
       {
         "if": {
           "or": [
-            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x < 1200" ] },
-            { "math": [ "scarlet_storm_focus_b1.x - scarlet_storm_focus_b2.x < 1900" ] }
+            { "math": [ "scarlet_storm_focus_b1.y - scarlet_storm_focus_b2.y < 1200" ] },
+            { "math": [ "scarlet_storm_focus_b1.y - scarlet_storm_focus_b2.y > 1900" ] }
           ]
         },
-        "then": { "math": [ "scarlet_storm_focus_b2.x = scarlet_storm_focus_b1.x + 1500" ] }
+        "then": { "math": [ "scarlet_storm_focus_b2.y = scarlet_storm_focus_b1.y + 1500" ] }
       },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 730" ] },
@@ -175,12 +175,18 @@
   {
     "type": "effect_on_condition",
     "id": "scarlet_thunder",
-    "recurrence": 1,
+    "recurrence": 60,
     "global": true,
     "condition": {
       "and": [
         {
-          "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+          "or": [
+            { "current_dimension": "scarlet" },
+            { "is_weather": "scarlet_storm_3" },
+            { "is_weather": "scarlet_storm_4" },
+            { "is_weather": "scarlet_storm_5" },
+            { "is_weather": "scarlet_dimension_storm" }
+          ]
         },
         { "one_in_chance": 100 },
         { "math": [ "u_val('pos_z') >= 0" ] }
@@ -188,7 +194,13 @@
     },
     "deactivate_condition": {
       "not": {
-        "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ]
+        "or": [
+          { "current_dimension": "scarlet" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" },
+          { "is_weather": "scarlet_storm_5" },
+          { "is_weather": "scarlet_dimension_storm" }
+        ]
       }
     },
     "effect": [
@@ -203,17 +215,111 @@
     "global": true,
     "condition": {
       "and": [
-        { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] },
+        {
+          "or": [
+            { "is_weather": "scarlet_storm_4" },
+            { "is_weather": "scarlet_storm_5" },
+            { "is_weather": "scarlet_dimension_storm" }
+          ]
+        },
         { "one_in_chance": 200 },
         { "math": [ "u_val('pos_z') >= 0" ] }
       ]
     },
-    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_4" }, { "is_weather": "scarlet_storm_5" } ] } },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_4" },
+          { "is_weather": "scarlet_storm_5" },
+          { "is_weather": "scarlet_dimension_storm" }
+        ]
+      }
+    },
     "effect": [
-      { "u_message": "A flash of lightning illuminates the scarlet sky!" },
+      {
+        "if": "u_is_outside",
+        "then": { "u_message": "A flash of lightning illuminates the scarlet sky!" },
+        "else": { "u_message": "You hear a loud crack of thunder!" }
+      },
+      { "u_set_field": "fd_scarlet_storm_lightning", "outdoor_only": true, "radius": 150 },
       { "sound_effect": "thunder_near", "id": "environment" },
       "lightning",
       { "custom_light_level": 100, "length": [ "1 seconds", "12 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM_FOG_GENERARATOR",
+    "recurrence": 1,
+    "global": true,
+    "condition": {
+      "or": [
+        { "is_weather": "scarlet_storm_1" },
+        { "is_weather": "scarlet_storm_2" },
+        { "is_weather": "scarlet_storm_3" },
+        { "is_weather": "scarlet_storm_4" }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "is_weather": "scarlet_storm_1" },
+          { "is_weather": "scarlet_storm_2" },
+          { "is_weather": "scarlet_storm_3" },
+          { "is_weather": "scarlet_storm_4" }
+        ]
+      }
+    },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 3,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SCARLET_STORM_FOG_GENERARATOR_2",
+    "recurrence": 1,
+    "global": true,
+    "condition": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] },
+    "deactivate_condition": { "not": { "or": [ { "is_weather": "scarlet_storm_3" }, { "is_weather": "scarlet_storm_4" } ] } },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc_2" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 6,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc_2" }
+      },
+      {
+        "u_location_variable": { "context_val": "scarlet_storm_smoke_loc_3" },
+        "x_adjust": [ -150, 150 ],
+        "y_adjust": [ -150, 150 ]
+      },
+      {
+        "u_set_field": "fd_scarlet_fog",
+        "outdoor_only": true,
+        "radius": 6,
+        "intensity": 3,
+        "age": "10 minutes",
+        "target_var": { "context_val": "scarlet_storm_smoke_loc_3" }
+      }
     ]
   },
   {
@@ -263,7 +369,8 @@
         "success_message": "Your surroundings warp and fold before reforming into a vast sea, bathed in scarlet light."
       },
       { "u_message": "Darkness envelops you.", "popup": true, "popup_w_interrupt_query": true },
-      { "run_eocs": "EOC_PORTAL_SCARLET_SEA_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] }
+      { "run_eocs": "EOC_PORTAL_SCARLET_SEA_RETURN", "time_in_future": [ "20 minutes", "2 hours" ] },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
@@ -290,7 +397,8 @@
         "u_message": "Your surroundings warp and fold into the recesses of the world you know.",
         "popup": true,
         "popup_w_interrupt_query": true
-      }
+      },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": [
       {

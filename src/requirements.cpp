@@ -25,9 +25,10 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
@@ -101,7 +102,7 @@ int provider_quality_level( const item &cand, const quality_id &id, const Charac
     // screwdriver is not part of the backpack.
     for( int pk = 0; pk < static_cast<int>( pocket_type::LAST ); ++pk ) {
         const pocket_type pk_type = static_cast<pocket_type>( pk );
-        if( pk_type == pocket_type::CONTAINER ) {
+        if( pk_type == pocket_type::CONTAINER || !cand.has_pocket_type( pk_type ) ) {
             continue;
         }
         for( const item *nested : cand.all_items_ptr( pk_type ) ) {
@@ -1445,8 +1446,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    temp_crafting_inventory craft_components;
+    for( const item_components::type_vector_pair &tvp : remaining_comps ) {
+        for( const item &inner : tvp.second ) {
+            craft_components.add_item_copy( inner );
+        }
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1459,26 +1464,26 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
             int qty = craft_components.charges_of( comp.type, comp.count );
             comp.count -= qty;
             // This is terrible but inventory doesn't have a use_charges() function so...
-            std::vector<item *> del;
-            craft_components.visit_items( [&comp, &qty, &del]( item * e, item * ) {
+            std::vector<item_location> del;
+            craft_components.visit_items( [&comp, &qty, &del]( item_location e ) {
                 std::list<item> used;
-                if( e->use_charges( comp.type, qty, used, tripoint_bub_ms::zero ) ) {
+                if( e->use_charges( e, comp.type, qty, used, tripoint_bub_ms::zero ) ) {
                     del.push_back( e );
                 }
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
             } );
-            craft_components.remove_items_with( [&del]( const item & e ) {
-                for( const item *it : del ) {
-                    if( it == &e ) {
-                        return true;
-                    }
-                }
-                return false;
-            } );
+            for( item_location &loc : del ) {
+                loc.remove_item();
+            }
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
-            craft_components.use_amount( comp.type, amount );
+            craft_components.remove_items_with(
+            [&comp]( const item & it ) {
+                return it.typeId() == comp.type;
+            }
+            , amount
+            );
         }
         return comp.count <= 0;
     } ), ret.components.end() );

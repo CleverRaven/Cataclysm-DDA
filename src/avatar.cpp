@@ -40,11 +40,13 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "level_cache.h"
 #include "map.h"
 #include "map_memory.h"
 #include "map_scale_constants.h"
@@ -54,6 +56,7 @@
 #include "move_mode.h"
 #include "npc.h"
 #include "npc_opinion.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -76,6 +79,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 static const bionic_id bio_cloak( "bio_cloak" );
@@ -327,6 +331,28 @@ mission *avatar::get_active_mission() const
 point_of_interest avatar::get_active_point_of_interest() const
 {
     return active_point_of_interest;
+}
+
+// moving further than this from the anchor counts as travelling
+static constexpr int relocation_radius = 6;
+
+void avatar::on_move( const tripoint_abs_ms &old_pos )
+{
+    Character::on_move( old_pos );
+    const tripoint_abs_ms now_pos = pos_abs();
+    if( !relocation_anchor || now_pos.z() != relocation_anchor->z() ||
+        rl_dist( now_pos, *relocation_anchor ) > relocation_radius ) {
+        relocation_anchor = now_pos;
+        relocated_at = calendar::turn;
+    }
+}
+
+time_duration avatar::time_since_relocated() const
+{
+    if( !relocation_anchor ) {
+        return 0_turns;
+    }
+    return std::max( calendar::turn - relocated_at, 0_turns );
 }
 
 void avatar::reset_all_missions()
@@ -998,13 +1024,9 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     get_name() ) - 1;
 }
 
-std::string avatar::display_name( bool possessive, bool capitalize_first ) const
+std::string avatar::display_name( bool capitalize_first ) const
 {
-    if( !possessive ) {
-        return capitalize_first ? _( "You" ) : _( "you" );
-    } else {
-        return capitalize_first ? _( "Your" ) : _( "your" );
-    }
+    return capitalize_first ? _( "You" ) : _( "you" );
 }
 
 mfaction_id avatar::get_monster_faction() const
@@ -1211,6 +1233,12 @@ bool avatar::cant_see( const tripoint_bub_ms &p ) const
     return aim_cache[p.x()][p.y()];
 }
 
+void avatar::mark_aim_cache_dirty()
+{
+    aim_cache_dirty = true;
+    aim_cache_generation = next_cache_generation();
+}
+
 void avatar::rebuild_aim_cache() const
 {
     map &here = get_map();
@@ -1277,7 +1305,6 @@ void avatar::rebuild_aim_cache() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    map &here = get_map();
 
     if( can_switch_to( new_mode ) ) {
         if( is_hauling() && new_mode->stop_hauling() ) {
@@ -1287,10 +1314,6 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         move_mode = new_mode;
         // Enchantments based on move modes can stack inappropriately without a recalc here
         recalculate_enchantment_cache();
-        // crouching affects visibility
-        //TODO: Replace with dirtying vision_transparency_cache
-        here.set_transparency_cache_dirty( pos_bub() );
-        here.set_seen_cache_dirty( posz() );
         recoil = MAX_RECOIL;
     } else {
         add_msg( new_mode->change_message( false, get_steed_type() ) );
@@ -1795,27 +1818,39 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
+void avatar::reassign_item_cache( item &it, char invlet, bool remove_old )
+{
+    if( it.invlet == invlet ) { // no change needed
+        return;
+    }
+    if( remove_old && it.invlet ) {
+        invlet_cache.erase( it.invlet );
+    }
+    it.invlet = invlet;
+    update_cache_with_item( it );
+}
+
 void avatar::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
     if( invlet ) {
-        item *prev = invlet_to_item( invlet );
-        if( prev != nullptr ) {
+        item_location prev = invlet_to_item( invlet );
+        if( prev.valid() ) {
             remove_old = it.typeId() != prev->typeId();
-            inv->reassign_item( *prev, it.invlet, remove_old );
+            reassign_item_cache( *prev, it.invlet, remove_old );
         }
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = inv->assigned_invlet.find( it.invlet );
-        bool found = iter != inv->assigned_invlet.end();
+        const auto iter = assigned_invlet.find( it.invlet );
+        bool found = iter != assigned_invlet.end();
         if( found ) {
-            inv->assigned_invlet.erase( iter );
+            assigned_invlet.erase( iter );
         }
         if( invlet && ( !found || it.invlet != invlet ) ) {
-            inv->assigned_invlet[invlet] = it.typeId();
+            assigned_invlet[invlet] = it.typeId();
         }
-        inv->reassign_item( it, invlet, remove_old );
+        reassign_item_cache( it, invlet, remove_old );
     }
 }
 
@@ -1932,4 +1967,176 @@ void monster_visible_info::remove_npc( npc *n )
             t.erase( it );
         }
     }
+}
+
+char avatar::find_usable_cached_invlet( const itype_id &item_type )
+{
+
+    for( char invlet : invlet_cache.invlets_for( item_type ) ) {
+        // Don't overwrite user assignments.
+        if( assigned_invlet.count( invlet ) ) {
+            continue;
+        }
+        // Check if anything is using this invlet.
+        if( invlet_to_item( invlet ).valid() ) {
+            continue;
+        }
+        return invlet;
+    }
+
+    return 0;
+}
+
+void avatar::update_cache_with_item( item &newit )
+{
+    // This function does two things:
+    // 1. It adds newit's invlet to the list of favorite letters for newit's item type.
+    // 2. It removes newit's invlet from the list of favorite letters for all other item types.
+
+    // no invlet item, just return.
+    // TODO: Should we instead remember that the invlet was cleared?
+    if( newit.invlet == 0 ) {
+        return;
+    }
+
+    invlet_cache.set( newit.invlet, newit.typeId() );
+}
+
+bool avatar::invlet_is_assigned( const char invlet ) const
+{
+    return assigned_invlet.count( invlet ) != 0;
+}
+
+void avatar::add_invlet_to_new_item( item &newit )
+{
+    update_invlet( newit );
+    update_cache_with_item( newit );
+}
+
+void avatar::update_invlet( item &newit, const item *ignore_invlet_collision_with )
+{
+    if( newit.invlet ) {
+        // Avoid letters that have been manually assigned to other things.
+        if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
+            if( assigned_invlet[newit.invlet] != newit.typeId() ) {
+                newit.invlet = '\0';
+            }
+
+            // Remove letters that are not in the favorites cache
+        } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
+            newit.invlet = '\0';
+        }
+    }
+
+    // Remove letters that have been assigned to other items in the inventory
+    if( newit.invlet ) {
+        char tmp_invlet = newit.invlet;
+        newit.invlet = '\0';
+        item_location collidingItem = invlet_to_item( tmp_invlet );
+
+        if( !collidingItem.valid() || collidingItem.get_item() == ignore_invlet_collision_with ) {
+            newit.invlet = tmp_invlet;
+        }
+    }
+
+    // Assign a cached letter to the item
+    if( !newit.invlet ) {
+        newit.invlet = find_usable_cached_invlet( newit.typeId() );
+    }
+
+    // Give the item an invlet if it has none
+    if( !newit.invlet ) {
+        assign_empty_invlet( newit );
+    }
+}
+
+itype_id avatar::get_itype_by_invlet( const char invlet ) const
+{
+    auto iter = assigned_invlet.find( invlet );
+    if( iter == assigned_invlet.end() ) {
+        return null_item_reference().typeId();
+    }
+    return iter->second;
+}
+
+char avatar::free_assigned_invlet( const itype_id &id )
+{
+
+    const invlets_bitset cur_inv = allocated_invlets();
+    for( const auto &iter : assigned_invlet ) {
+        if( iter.second == id && !cur_inv[iter.first] ) {
+            return iter.first;
+        }
+    }
+    return 0;
+}
+
+void avatar::assign_empty_invlet( item &it, const bool force )
+{
+    const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
+        return;
+    }
+
+    itype_id target_type = it.typeId();
+    if( const char invlet = free_assigned_invlet( target_type ) ) {
+        it.invlet = invlet;
+        return;
+    }
+    const invlets_bitset cur_inv = allocated_invlets();
+    if( cur_inv.count() < inv_chars.size() ) {
+        // XXX YUCK I don't know how else to get the keybindings
+        // FIXME: Find a better way to get bound keys
+        inventory_selector selector( *this );
+
+        for( const char &inv_char : inv_chars ) {
+            if( assigned_invlet.count( inv_char ) ) {
+                // don't overwrite assigned keys
+                continue;
+            }
+            if( selector.action_bound_to_key( inv_char ) != "ERROR" ) {
+                // don't auto-assign bound keys
+                continue;
+            }
+            if( !cur_inv[inv_char] ) {
+                it.invlet = inv_char;
+                return;
+            }
+        }
+    }
+    if( !force ) {
+        it.invlet = 0;
+        return;
+    }
+    bool found = false;
+    // No free hotkey exist, re-use some of the existing ones
+    visit_items(
+    [&it, &found]( item_location node ) {
+        if( node->invlet != 0 ) {
+            it.invlet = node->invlet;
+            node->invlet = 0;
+            found = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    }
+    );
+    if( !found ) {
+        debugmsg( "could not find a hotkey for %s", it.tname() );
+    }
+}
+
+invlets_bitset avatar::allocated_invlets() const
+{
+    invlets_bitset invlets;
+
+    visit_items(
+    [&invlets]( item_location node ) {
+        invlets.set( node->invlet );
+        return VisitResponse::NEXT;
+    }
+    );
+
+    invlets[0] = false;
+    return invlets;
 }

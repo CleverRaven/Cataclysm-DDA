@@ -6,6 +6,7 @@
     "name_unique": "Dino Dave",
     "gender": "male",
     "temp_suffix": "Beggar",
+    "portrait_filename": "Named_NPC_dino_dave",
     "class": "NC_BEGGAR_2",
     "attitude": 0,
     "mission": "GUARD",

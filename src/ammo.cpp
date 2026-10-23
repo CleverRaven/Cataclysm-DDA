@@ -26,6 +26,7 @@
 
 static const ammotype ammo_120mm( "120mm" );
 static const ammotype ammo_afs_titanium_small( "afs_titanium_small" );
+static const ammotype ammo_chem_black_powder( "chem_black_powder" );
 static const ammotype ammo_gunpowder( "gunpowder" );
 static const ammotype ammo_gunpowder_artillery( "gunpowder_artillery" );
 static const ammotype ammo_gunpowder_large_rifle( "gunpowder_large_rifle" );
@@ -109,6 +110,7 @@ void ammunition_type::check_consistency()
         ammo_gunpowder_pistol, // Ditto
         ammo_gunpowder_rifle, // Ditto
         ammo_gunpowder_shotgun, // Ditto
+        ammo_chem_black_powder, // Ditto
         ammo_afs_titanium_small, // Just waiting for someone to do the work on de-charging this
         ammo_120mm, // Has some hardcoded references despite the fact nothing can actually shoot this. Need to clean those up before it can be safely removed
         ammo_rolling_paper, // Removing it causes an inexplicable autopickup test failure.

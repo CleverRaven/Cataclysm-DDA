@@ -89,7 +89,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "100 L",
-        "max_contains_weight": "250 kg"
+        "max_contains_weight": "500 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -119,7 +119,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "200 L",
-        "max_contains_weight": "500 kg"
+        "max_contains_weight": "1000 kg"
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -1278,6 +1278,23 @@
     ]
   },
   {
+    "id": "box_tiny",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "tiny cardboard box", "str_pl": "tiny cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "A very small cardboard box.",
+    "//todo": "merge with box_tea",
+    "weight": "10 g",
+    "volume": "105 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
     "id": "box_snack",
     "type": "ITEM",
     "category": "container",
@@ -1982,7 +1999,7 @@
         "transparent": true,
         "max_contains_volume": "3000 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "20 kg"
+        "max_contains_weight": "4 kg"
       }
     ],
     "flags": [ "BELTED", "COLLAPSE_CONTENTS" ],
@@ -3111,7 +3128,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "60 L",
-        "max_contains_weight": "120 kg"
+        "max_contains_weight": "600 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -3143,7 +3160,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg"
+        "max_contains_weight": "20 kg"
       }
     ],
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
@@ -5427,11 +5444,36 @@
     "flags": [ "NO_RELOAD" ]
   },
   {
+    "id": "spool_tiny",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "tiny spool" },
+    "description": "A tiny plastic spool designed to hold various materials, like threads",
+    "//": "0.5 lbs or 3 ft of solder",
+    "weight": "2 g",
+    "volume": "5 ml",
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "100 g",
+        "max_item_length": "50 cm",
+        "item_restriction": [ "thread" ],
+        "transparent": true,
+        "moves": 200
+      }
+    ]
+  },
+  {
     "id": "spool_small",
     "type": "ITEM",
     "category": "container",
     "name": { "str": "small spool" },
-    "description": "A small plastic spool designed to hold various materials.",
+    "description": "A small plastic spool designed to hold various materials, like wires and cables.",
     "//": "0.5 lbs or 3 ft of solder",
     "weight": "20 g",
     "volume": "50 ml",

@@ -46,15 +46,8 @@ void draw_texture( const string_id<T> &id, const tripoint_bub_ms &p, ImVec2 size
 #ifdef TILES
     TILE_CATEGORY category = get_category( id );
 
-    std::optional<texture_draw_data> data = tilecontext->get_texture_draw_data( id.str(), category, p );
-
-    switch( category ) {
-        case TILE_CATEGORY::PORTRAIT:
-            data = portrait_tilecontext->get_texture_draw_data( id.str(), category, p );
-            break;
-        default:
-            data = tilecontext->get_texture_draw_data( id.str(), category, p );
-    }
+    cata_tiles &ctx = category == TILE_CATEGORY::PORTRAIT ? *portrait_tilecontext : *tilecontext;
+    const std::optional<texture_draw_data> data = ctx.get_texture_draw_data( id.str(), category, p );
 
     if( !data ) {
         return;

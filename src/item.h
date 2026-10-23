@@ -38,6 +38,7 @@
 #include "item_uid.h"
 #include "material.h"
 #include "math_parser_diag_value.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
@@ -67,7 +68,6 @@ class optional_vpart_position;
 class recipe;
 class relic;
 class vehicle;
-enum class pocket_type;
 struct armor_portion_data;
 struct islot_comestible;
 struct itype;
@@ -203,7 +203,7 @@ struct stacking_info {
     }
 };
 
-class item : public visitable
+class item
 {
     public:
         using FlagsSetType = cata::flat_set<flag_id>;
@@ -235,7 +235,7 @@ class item : public visitable
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
 
-        ~item() override;
+        ~item();
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -856,9 +856,9 @@ class item : public visitable
          * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint_bub_ms &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item>,
-                          Character *carrier = nullptr, bool in_tools = false );
+        bool use_charges( const item_location &self, const itype_id &what, int &qty, std::list<item> &used,
+                          const tripoint_bub_ms &pos, const std::function<bool( const item & )> &filter = return_true<item>,
+                          bool in_tools = false );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -886,7 +886,7 @@ class item : public visitable
          * @param used On success all consumed items will be stored here.
          * @param filter Must return true for use to occur.
          */
-        bool use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+        bool use_amount( item_location self, const itype_id &it, int &quantity, std::list<item> &used,
                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /** Permits filthy components, should only be used as a helper in creating filters */
@@ -1616,8 +1616,8 @@ class item : public visitable
             tripoint_abs_ms t_abs_pos = tripoint_abs_ms::invalid;
             /// The linked part's mount offset on the target vehicle.
             point_rel_ms t_mount = point_rel_ms::zero;
-            /// Reality bubble position of the link's source cable item.
-            tripoint_bub_ms s_bub_pos = tripoint_bub_ms::invalid; // NOLINT(cata-serialize)
+            /// Absolute position of the link's source cable item when the length was last checked.
+            tripoint_abs_ms s_abs_pos = tripoint_abs_ms::invalid; // NOLINT(cata-serialize)
             /// The last turn process_link was called on this cable. Used to find how much time the cable spends outside the reality bubble.
             time_point last_processed = calendar::turn;
             /// The current slack of the cable.
@@ -3210,6 +3210,15 @@ class item : public visitable
         int get_making_batch_size() const;
 
         /**
+         * Format craft's name and primary skill for display in a list.
+         * eg. 50% medium steel spear [fabrication 4]
+         * eg. 95% disassembly of wedding ring
+         * Causes a debugmsg if called on a non-craft and returns the tname.
+         * @return craft/disassembly name in uilist format
+         */
+        std::string get_craft_listing_name( const Character &crafter ) const;
+
+        /**
          * Get the failure point stored in this item.
          * returns INT_MAX if the failure point is unset.
          * Causes a debugmsg and returns INT_MAX if called on a non-craft.
@@ -3268,6 +3277,9 @@ class item : public visitable
         double get_step_progress() const;
         void set_step_progress( double progress );
         void mod_step_progress( double delta );
+
+        // Get displayable progress percentage [0-100] for in-progress crafts.
+        int get_display_progress_percent() const;
 
         // Per-step plan from the craft planning modal.
         const std::vector<attention_plan> &get_step_plans() const;
@@ -3334,19 +3346,26 @@ class item : public visitable
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
 
-        // inherited from visitable
-        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
-        override;
-        /**
-         * @relates visitable
-         * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
-         */
-        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
-                                      item *parent = nullptr );
+        // this is outdated, deprecate me!!
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
+
+        // "parent" will be self plus the required other ref for the item_location constructor
+        VisitResponse visit_contents( const std::function<VisitResponse( const item_location & )> &func,
+                                      const item_location &parent, const std::set<pocket_type> &allowed_pockets = {pocket_type::CONTAINER} );
+        VisitResponse visit_contents_legacy( const std::function<VisitResponse( item *, item * )> &func,
+                                             item *parent,
+                                             const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
+        std::vector<const item *> items_with( const item_filter &filter ) const;
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
+        bool has_item_with( const std::function<bool( const item & )> &filter ) const;
+        bool has_item( const item & ) const;
+        int amount_of( const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+                       const item_filter &filter = return_true<item> ) const;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const item_filter &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const;
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
-        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX ) override;
 
         /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
@@ -3662,14 +3681,13 @@ class item : public visitable
     public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-        int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
-
+        int charges = 0;
         int recipe_charges = 1;    // The number of charges a recipe creates.
         int burnt = 0;             // How badly we're burnt
         int poison = 0;            // How badly poisoned is it?
-        int frequency = 0;         // Radio frequency
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
+        int frequency = 0;         // Radio frequency
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
 
@@ -3681,7 +3699,6 @@ class item : public visitable
         units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
-        bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
@@ -3704,7 +3721,10 @@ class item : public visitable
             return contents;
         };
 
+        bool ethereal = false;
+
     private:
+        light_emission light = nolight;
         /**
          * Accumulated rot, expressed as time the item has been in standard temperature.
          * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
@@ -3715,7 +3735,6 @@ class item : public visitable
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
         time_point bday;
-        item_uid uid_; // persistent unique identifier, survives save/load
         /**
          * Current phase state, inherits a default at room temperature from
          * itype and can be changed through item processing.  This is a static
@@ -3723,13 +3742,14 @@ class item : public visitable
          * PNULL.
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
+        /** persistent unique identifier, survives save/load */
+        item_uid uid_;
         /** The faction that owns this item. */
         mutable faction_id owner = faction_id::NULL_ID();
         /** The faction that previously owned this item. */
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         int degradation_ = 0;
-        light_emission light = nolight;
         mutable std::optional<float> cached_relative_encumbrance;
         mutable cata::value_ptr<link_data> link_;
 
@@ -3739,10 +3759,10 @@ class item : public visitable
         };
         mutable cat_cache cached_category;
 
-        /** Is this item electronically browsed? */
-        bool browsed;
         /** Additional encumbrance this item, not itype, has. */
         units::volume additional_encumbrance = 0_ml;
+        /** Is this item electronically browsed? */
+        bool browsed;
 
     public:
         char invlet = 0;      // Inventory letter
@@ -3795,12 +3815,6 @@ inline units::mass lifting_quality_to_mass( int quality_level )
 {
     return TOOL_LIFT_FACTOR * quality_level;
 }
-
-/**
- * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
- * and stays valid until the program ends.
- */
-item &null_item_reference();
 
 /**
  * Default filter for crafting component searches

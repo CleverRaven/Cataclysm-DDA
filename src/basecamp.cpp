@@ -40,6 +40,7 @@
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
@@ -274,6 +275,21 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, const map
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
     return comp;
+}
+
+basecamp *basecamp::any_claim_at( tripoint_abs_omt there )
+{
+    std::optional<basecamp *> any_camp = overmap_buffer.find_camp( there.xy() );
+    if( !any_camp ) {
+        return nullptr;
+    }
+    basecamp *actual_camp = *any_camp;
+    if( actual_camp->get_owner()->limited_area_claim && there != actual_camp->camp_omt_pos() ) {
+        return nullptr; // outside of claimed area
+    }
+
+    // A camp exists in range, and this area is claimed.
+    return actual_camp;
 }
 
 // upgrade levels

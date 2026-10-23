@@ -43,6 +43,7 @@
 #include "maptile_fwd.h"
 #include "point.h"
 #include "rng.h"
+#include "tile_tint.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -130,13 +131,40 @@ struct visibility_variables {
     bool variables_set = false;
     bool u_sight_impaired = false;
     bool u_is_boomered = false;
-    bool visibility_cache_dirty = true;
     // Cached values for map visibility calculations
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
     std::optional<field_type_id> clairvoyance_field;
-    tripoint_bub_ms last_pos;
+};
+
+// what map::update_visibility_cache reads for one level; it rebuilds the level
+// only when these differ from last build
+struct visibility_inputs {
+    tripoint_abs_ms pos;
+    uint64_t fov_generation = 0;
+    uint64_t lightmap_generation = 0;
+    uint64_t sight_revision = 0;
+    // clairvoyant fields light a tile wherever no cast reaches
+    uint64_t field_revision = 0;
+    uint64_t forced = 0;
+    uint64_t aim_generation = 0;
+    float vision_threshold = -1.0f;
+    int clairvoyance = -1;
+    int unimpaired_range = -1;
+    int g_light_level = -1;
+    bool boomered = false;
+    bool aiming = false;
+
+    bool operator==( const visibility_inputs &o ) const {
+        return pos == o.pos && fov_generation == o.fov_generation &&
+               lightmap_generation == o.lightmap_generation && sight_revision == o.sight_revision &&
+               field_revision == o.field_revision &&
+               forced == o.forced && aim_generation == o.aim_generation &&
+               vision_threshold == o.vision_threshold && clairvoyance == o.clairvoyance &&
+               unimpaired_range == o.unimpaired_range && g_light_level == o.g_light_level &&
+               boomered == o.boomered && aiming == o.aiming;
+    }
 };
 
 struct bash_params {
@@ -361,9 +389,7 @@ struct tile_render_info {
         sprite_screen_bounds bounds;
         small_literal_vector<tint_sprite_record, 4> tint_sprites;
         bool needs_tint = false;
-        struct {
-            uint8_t r, g, b, a;
-        } tint_color = { 0, 0, 0, 0 };
+        tile_tint tint_color;
 
         common( const tripoint_bub_ms &pos, const int height_3d )
             : pos( pos ), height_3d( height_3d ) {}
@@ -392,6 +418,14 @@ struct tile_render_info {
 
     tile_render_info( const common &com, const sprite &var )
         : com( com ), var( var ) {}
+};
+
+// what a line between two points must pass
+enum class los_trace : int {
+    // sight: TRANSLUCENT terrain and furniture block it
+    optical,
+    // light and projectiles: TRANSLUCENT passes them
+    physical,
 };
 
 /**
@@ -495,6 +529,10 @@ class map
         void set_seen_cache_dirty( int zlevel );
         void set_outside_cache_dirty( int zlev );
         void set_floor_cache_dirty( int zlev );
+        // terrain, furniture, floors or vehicle parts on zlev changed
+        void bump_geometry_revision( int zlev );
+        // last avatar or camera cast reached p, seen or hidden by a ledge
+        bool cast_reached( const tripoint_bub_ms &p ) const;
         void set_lightmap_cache_dirty( int zlev );
         void set_lightmap_cache_dirty_below( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
@@ -525,6 +563,9 @@ class map
          * Callback invoked when a vehicle has moved.
          */
         void on_vehicle_moved( int smz );
+        // once a turn: marks dirty the light of levels whose sources change with
+        // time alone, such as a blinking lamp or a lit item burning down
+        void mark_turn_light_dirty();
 
         struct apparent_light_info {
             bool obstructed;
@@ -713,9 +754,11 @@ class map
         // Sees:
         /**
         * Returns whether `F` sees `T` with a view range of `range`.
+        * The optical trace is blocked by TRANSLUCENT tiles; the physical trace
+        * models light and projectiles and is not.
         */
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range,
-                   bool with_fields = true ) const;
+                   bool with_fields = true, los_trace trace = los_trace::optical ) const;
     private:
         /**
          * Don't expose the slope adjust outside map functions.
@@ -728,7 +771,8 @@ class map
          * Set to zero if the function returns false.
         **/
         bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range, int &bresenham_slope,
-                   bool with_fields = true, bool allow_cached = true ) const;
+                   bool with_fields = true, bool allow_cached = true,
+                   los_trace trace = los_trace::optical ) const;
         point sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
     public:
         /**
@@ -738,6 +782,9 @@ class map
         */
         int obstacle_coverage( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2 ) const;
         int ledge_coverage( const Creature &viewer, const tripoint_bub_ms &target_p ) const;
+        // viewer's eyes above its tile, in grids: size, posture and furniture
+        // it stands on
+        float eye_level( const Creature &viewer ) const;
         int ledge_coverage( const tripoint_bub_ms &viewer_p, const tripoint_bub_ms &target_p,
                             const float &eye_level = 1.0f ) const;
         /**
@@ -830,6 +877,10 @@ class map
          * @param target The destination to which to path.
          */
         std::vector<tripoint_bub_ms> route( const Creature &who, const pathfinding_target &target ) const;
+
+        // route() could step from cur to p with these settings, level changes included
+        bool can_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                       const pathfinding_settings &settings ) const;
 
         // Get a straight route from f to t, only along non-rough terrain. Returns an empty vector
         // if that is not possible.
@@ -1830,8 +1881,16 @@ class map
         void apply_faction_ownership( const point_bub_ms &p1, const point_bub_ms &p2,
                                       const faction_id &id );
         void do_vehicle_caching( int z );
-        // Note: in 3D mode, will actually build caches on ALL z-levels
+        // Note: in 3D mode, builds scene and view caches on ALL z-levels, and light
+        // on zlev and the levels final visibility reads
         void build_map_cache( int zlev, bool skip_lightmap = false );
+        // rebuilds every vision cache from nothing; incremental build of same
+        // scene must match it
+        void rebuild_vision_caches_from_scratch( int zlev );
+        // avatar's level, then each level below it within fov_3d_z_range that the
+        // avatar or a camera sees part of, as of the last cast; build_map_cache
+        // keeps their light current
+        const std::vector<int> &vision_levels() const;
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache(
             const tripoint_bub_ms &start, const tripoint_bub_ms &end,
@@ -1865,10 +1924,14 @@ class map
         // Raw values for tilesets
         float ambient_light_at( const tripoint_bub_ms &p ) const;
         /**
-         * Returns whether the tile at `p` is transparent(you can look past it).
+         * Returns whether light and projectiles pass the tile at `p`.
+         * TRANSLUCENT tiles pass; for sight use is_sight_clear.
          */
         bool is_transparent( const tripoint_bub_ms &p ) const;
         bool is_transparent_wo_fields( const tripoint_bub_ms &p ) const;
+        // whether sight passes the tile for any observer; TRANSLUCENT blocks it
+        bool is_sight_clear( const tripoint_bub_ms &p ) const;
+        bool is_sight_clear_wo_fields( const tripoint_bub_ms &p ) const;
         // End of light/transparency
 
         /**
@@ -2062,31 +2125,51 @@ class map
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
 
-        // Builds a transparency cache and returns true if the cache was invalidated.
-        // Used to determine if seen cache should be rebuilt.
+        // Builds the transparency and sight caches of dirty submaps and returns
+        // true if any value changed.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        // fills lm with sunlight. pzlev is current player's zlevel
-        void build_sunlight_cache( int pzlev );
+        // cover cells the avatar's posture overrides in vision_transparency_cache
+        // on level zlev, with the value each takes
+        std::vector<std::pair<point_bub_ms, float>> observer_vision_overrides( int zlev ) const;
+        // fills sun_lm of every level up to the highest populated one, and
+        // sun_uniform of the open sky above
+        void build_sunlight_cache();
+        // rebuilds sun_lm when natural light or the scene changed
+        void update_sunlight();
+        // gives level zlev sunlight alone when its light predates the last
+        // sunlight pass; light_at, ambient_light_at, pl_sees and
+        // update_visibility_cache call it, so a level build_map_cache did not
+        // light holds sunlight, never zeros
+        void ensure_light( int zlev ) const;
+        // replaces level zlev's light with its sunlight alone and publishes it
+        void set_sunlight_only( int zlev ) const;
+        void refresh_vision_levels();
+        // lowest level final visibility reads for a request at zlev
+        int lowest_vision_level( int zlev ) const;
+        // avatar's or a camera's cast reached a tile of level zlev
+        bool level_reached_by_cast( int zlev ) const;
     public:
         void build_outside_cache( int zlev );
         // Get a bitmap indicating which layers are potentially visible from the target layer.
         std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( int origin_zlevel )const ;
-        // Builds a floor cache and returns true if the cache was invalidated.
-        // Used to determine if seen cache should be rebuilt.
-        bool build_floor_cache( int zlev );
+        // Builds floor cache if invalidated, marks level's seen cache dirty when
+        // it does
+        void build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
+        // hides tiles below origin a ledge covers from an eye eye_level grids
+        // above origin's ground
         void seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                                         const array_of_grids_of<const bool> &floor_caches,
-                                        const std::optional<tripoint_bub_ms> &override_p ) const;
+                                        const tripoint_bub_ms &origin, float eye_level = 1.0f ) const;
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint_bub_ms &origin, int target_z,
-                               int extension_range = MAX_VIEW_DISTANCE,
-                               bool cumulative = false,
-                               bool camera = false, int penalty = 0 );
+        // casts avatar view into seen_cache, or camera view (max-merged) into
+        // camera_cache; eye_level feeds the ledge pass
+        void build_seen_cache( const tripoint_bub_ms &origin, int target_z, int extension_range,
+                               bool camera, int penalty, float eye_level );
         void apply_character_light( Character &p );
 
         int my_MAPSIZE;
@@ -2324,8 +2407,26 @@ class map
          * Cache of coordinate pairs recently checked for visibility.
          */
         using lru_cache_t = lru_cache<point, char>;
-        mutable lru_cache_t skew_vision_cache;
-        mutable lru_cache_t skew_vision_wo_fields_cache;
+        // one per trace, with or without fields; see skew_vision_cache_for
+        mutable std::array<lru_cache_t, 4> skew_vision_caches;
+        // last_scene_change the cached answers were computed against
+        mutable uint64_t skew_vision_scene_stamp = 0;
+        lru_cache_t &skew_vision_cache_for( los_trace trace, bool with_fields ) const;
+        // set from next_cache_generation whenever a level's sight or geometry
+        // revision changes
+        uint64_t last_scene_change = 0;
+        // a writer marked outside, floor or transparency caches dirty since
+        // last scene build
+        bool scene_build_pending = true;
+        // outside, floor, vehicle, transparency and sight caches of every level
+        void build_scene_caches();
+        // builds scene caches only when a writer changed them, so a trace between
+        // two cache builds reads the current scene; weather only scales
+        // attenuation, which no trace reads
+        void ensure_scene_caches() const;
+        // vision parts (mirrors, cameras, their controls) of the vehicle at
+        // origin the avatar cast may use, flattened for comparison
+        std::vector<int> vision_parts_key( const tripoint_bub_ms &origin, int extension_range ) const;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
@@ -2345,6 +2446,51 @@ class map
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
+        uint64_t seen_cache_generation = 0;
+        // levels a camera cast wrote camera_cache on since it was last cleared
+        std::bitset<OVERMAP_LAYERS> camera_levels_written;
+        // level_reached_by_cast answers as of level_reached_generation, the
+        // seen_cache_generation they were taken at; -1 is not asked yet
+        mutable std::array<int8_t, OVERMAP_LAYERS> level_reached = {};
+        mutable uint64_t level_reached_generation = 0;
+        // what last avatar cast read, besides scene changes it reached
+        tripoint_abs_ms avatar_fov_pos;
+        int avatar_fov_range = -1;
+        float avatar_fov_eye_level = -1.0f;
+        std::vector<int> avatar_fov_vision_parts;
+        // what this map's last camera casts read of each active monster camera
+        struct camera_fov_input {
+            const monster *mon;
+            tripoint_abs_ms pos;
+            int range;
+            int size;
+            bool operator==( const camera_fov_input &o ) const {
+                return mon == o.mon && pos == o.pos && range == o.range && size == o.size;
+            }
+        };
+        std::vector<camera_fov_input> camera_fov_moncams;
+        // what the last sunlight pass read
+        std::vector<float> sunlight_natural_light;
+        std::vector<uint64_t> sunlight_scene_revisions;
+        // what each level's last visibility build read
+        std::array<visibility_inputs, OVERMAP_LAYERS> visibility_keys;
+        // inputs visibility_variables_cache was last set from
+        visibility_inputs visibility_variables_inputs;
+        // invalidate_visibility_cache moves it, which no key can match
+        uint64_t visibility_force_generation = 0;
+        // levels whose light final visibility reads; see vision_levels
+        std::vector<int> vision_levels_list;
+        // a light source as build_map_cache last saw it
+        struct light_source_state {
+            float light;
+            tripoint_bub_ms pos;
+            // facing in whole degrees, for lamps that shine an arc
+            int dir;
+            bool operator==( const light_source_state &o ) const {
+                return light == o.light && pos == o.pos && dir == o.dir;
+            }
+        };
+        std::vector<light_source_state> cached_light_sources;
 
         // caches the highest zlevel above which all zlevels are uniform
         // !value || value->first != map::abs_sub means cache is invalid
@@ -2372,8 +2518,14 @@ class map
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
+        // no cast reaches the level and nothing else can light a tile of it
+        bool level_reads_as_blank( int zlev, int clairvoyance ) const;
         void invalidate_visibility_cache();
         const visibility_variables &get_visibility_variables_cache() const;
+        // changes each time build_seen_cache rewrites seen_cache or camera_cache
+        uint64_t seen_generation() const {
+            return seen_cache_generation;
+        }
 
         void update_submaps_with_active_items();
 
@@ -2431,6 +2583,8 @@ class map
         point_rel_ms prev_top_left;
         point_rel_ms prev_bottom_right;
         point prev_o;
+        // bubble corner the tiles memorize sweep last covered
+        tripoint_abs_ms prev_memory_sweep_origin = tripoint_abs_ms::invalid;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
 #endif

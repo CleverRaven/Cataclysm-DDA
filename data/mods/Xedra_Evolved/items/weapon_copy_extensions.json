@@ -352,7 +352,6 @@
     "type": "ITEM",
     "id": "stick",
     "copy-from": "stick",
-    "name": { "str": "stick" },
     "extend": { "flags": [ "WOODEN_WEAPON" ] }
   },
   {

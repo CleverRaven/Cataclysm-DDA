@@ -6,7 +6,7 @@
     "points": 1,
     "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
     "allowed_locs": [ "sloc_robot_dispatch" ],
-    "flags": [ "CITY_START" ],
+    "flags": [ "CITY_START", "TOUGH" ],
     "requirement": "afs_achievement_many_ruins",
     "hard_requirement": true,
     "start_name": "Robot Dispatch"
@@ -20,6 +20,7 @@
     "allowed_locs": [ "sloc_augustmoon_docking" ],
     "professions": [ "afs_salvor", "afs_academic", "afs_holo_fighter", "afs_wraitheon_executive", "rocket_jumper", "robot_scavenger" ],
     "whitelist_hobbies": true,
+    "requirement": "afs_achievement_crashed_spaceship",
     "hobbies": [
       "bionic_interface",
       "driving_license",
@@ -41,7 +42,7 @@
       "afs_origin_rebel_exile",
       "afs_origin_tribal_hobby"
     ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "STANDARD" ],
     "start_name": "Port Augustmoon"
   },
   {
@@ -63,7 +64,7 @@
       "afs_origin_periphery",
       "afs_origin_upper_class"
     ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "STANDARD" ],
     "eoc": [ "EOC_SHIP_VANISHING_ARC_START" ],
     "start_name": "The Vanishing Arc"
   },
@@ -101,7 +102,7 @@
     "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
     "requirement": "afs_achievement_crashed_spaceship",
     "hard_requirement": true,
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -111,7 +112,7 @@
     "description": "You must have hit your head when the first explosion happened.  You sit up and realize everyone is gone, the air smells like smoke, and that the ship's computer is calmly announcing in its posh English voice: \"Abandon vessel immediately, seven minutes to atmospheric entry.  Abandon vessel immediately…\" Time to grab what you can and find an escape pod.",
     "allowed_locs": [ "sloc_crashing_ship" ],
     "professions": [ "afs_espatier", "afs_rating", "afs_ship_escape" ],
-    "flags": [ "LONE_START", "HELI_CRASH" ],
+    "flags": [ "LONE_START", "HELI_CRASH", "CHALLENGE" ],
     "start_name": "Crashing Ship",
     "whitelist_hobbies": true,
     "requirement": "afs_achievement_crashed_spaceship",
@@ -142,7 +143,7 @@
     "forced_traits": [ "ESPER", "ESPER_STARTER_ADVANCEMENT_OKAY" ],
     "allowed_locs": [ "sloc_afs_glacial_tunnels" ],
     "professions": [ "afs_esper_electrokinetic", "afs_esper_precog", "afs_esper_telepath", "afs_esper_telekinetic" ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "TOUGH" ],
     "start_name": "Lost on the Surface",
     "reveal_locale": false,
     "whitelist_hobbies": true,
@@ -192,7 +193,7 @@
       "afs_origin_rebel_exile",
       "afs_origin_tribal_hobby"
     ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "TOUGH" ],
     "requirement": "afs_achievement_crashed_spaceship",
     "hard_requirement": true,
     "start_name": "Escape Pod"

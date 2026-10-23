@@ -218,6 +218,8 @@ if (TILES)
         string(REPLACE "," "-" _SHADER_STAMP_TAG "${CATA_SHADER_FORMATS}")
         set(_SHADERS_STAMP ${_SHADERS_DIR}/build-${_SHADER_STAMP_TAG}.stamp)
         file(GLOB _SHADER_SOURCES "${_SHADERS_DIR}/*.frag" "${_SHADERS_DIR}/*.vert")
+        # included by the shader sources, never compiled on their own
+        file(GLOB _SHADER_INCLUDES "${_SHADERS_DIR}/*.glsl")
         if(VCPKG_MANIFEST_MODE AND WIN32)
             foreach(SHADER ${_SHADER_SOURCES})
                 get_filename_component(_filename ${SHADER} NAME)
@@ -235,6 +237,7 @@ if (TILES)
                 add_custom_command(
                     OUTPUT "${_SPV}"
                     MAIN_DEPENDENCY ${SHADER}
+                    DEPENDS ${_SHADER_INCLUDES}
                     COMMAND
                         "${VCPKG_TOOLS_DIR}/glslang/glslangValidator.exe"
                         --quiet -V -S frag -o "${_SPV}" "${SHADER}"
@@ -252,6 +255,7 @@ if (TILES)
                         --stamp ${_SHADERS_STAMP}
                     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
                     DEPENDS ${_SHADER_SOURCES}
+                            ${_SHADER_INCLUDES}
                             ${CMAKE_SOURCE_DIR}/tools/build_shaders.py
                     COMMENT "Compiling shader artifacts (${CATA_SHADER_FORMATS})"
             )

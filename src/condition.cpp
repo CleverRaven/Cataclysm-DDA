@@ -815,7 +815,8 @@ conditional_t::func f_has_software( const JsonObject &jo, std::string_view membe
 
     str_or_var software_id = get_str_or_var( has_software.get_member( "item" ), "item", true );
     dbl_or_var charges = get_dbl_or_var( has_software, "charges", false, 0.0 );
-    str_or_var device_id = get_str_or_var( has_software.get_member( "device" ), "device", false );
+    str_or_var device_id;
+    optional( has_software, false, "device", device_id );
 
     return [software_id, charges, device_id, is_npc]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
@@ -1636,10 +1637,15 @@ conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view me
 
 conditional_t::func f_is_underwater( bool is_npc )
 {
-    const map &here = get_map();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_underwater();
+    };
+}
 
-    return [is_npc, &here]( const_dialogue const & d ) {
-        return here.is_divable( d.const_actor( is_npc )->pos_bub( here ) );
+conditional_t::func f_is_swimming( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_swimming();
     };
 }
 
@@ -1721,6 +1727,16 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         } else {
             return here.furn( loc )->has_flag( furn_type.evaluate( d ) );
         }
+    };
+}
+
+conditional_t::func f_map_is_passable( const JsonObject &jo, std::string_view member )
+{
+    var_info loc_var = read_var_info( jo.get_object( member ) );
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_bub_ms loc = here.get_bub( read_var_value( loc_var, d ).tripoint() );
+        return !here.impassable( loc );
     };
 }
 
@@ -2558,6 +2574,7 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_is_passable", jarg::object, &conditional_fun::f_map_is_passable },
     {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_field_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
@@ -2618,6 +2635,7 @@ parsers_simple = {
     {"u_has_stolen_item", "npc_has_stolen_item", &conditional_fun::f_has_stolen_item },
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
+    {"u_is_swimming", "npc_is_swimming", &conditional_fun::f_is_swimming },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
     {"npc_has_assigned_camp", &conditional_fun::f_npc_has_assigned_camp },
     {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },

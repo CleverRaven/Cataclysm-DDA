@@ -758,7 +758,7 @@ npc_attack_rating npc_attack_throw::evaluate(
     }
     const temp_crafting_inventory &available_weapons = source.crafting_inventory( tripoint_bub_ms::zero,
             -1 );
-    if( &thrown_item == source.evaluate_best_weapon() &&
+    if( &thrown_item == best_weapon &&
         available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
         available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
         // Don't throw if it's the best individual killy-thing we've got
@@ -853,7 +853,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
         return npc_attack_rating( std::nullopt, location );
     }
 
-    const float throw_mult = throw_cost( source, single_item ) * source.speed_rating() / 100.0f;
+    const float throw_mult = throw_cost( source, single_item ) * source_speed_rating / 100.0f;
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos_bub() );

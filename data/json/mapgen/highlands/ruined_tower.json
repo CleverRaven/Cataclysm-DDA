@@ -265,7 +265,7 @@
         "        ##.>>.##        ",
         "       ##  ..  ##       ",
         "       #    , ,.#       ",
-        "       w   ##. .w       ",
+        "       w   ##a .w       ",
         "       w  ,##.,.w       ",
         "       #   , ,  #       ",
         "       ##  ,,  ##       ",
@@ -281,11 +281,13 @@
       ],
       "terrain": {
         ".": [ [ "t_floor_rotted", 2 ], [ "t_open_air", 1 ] ],
+        "a": [ [ "t_floor_rotted", 1 ] ],
         ",": [ [ "t_floor_rotted", 1 ], [ "t_open_air", 1 ] ],
         "w": "t_window_empty_stone",
         ">": "t_stairs_down",
         "#": [ [ "t_rock_wall", 2 ], [ "t_rock_wall_half", 4 ], [ "t_open_air", 1 ] ]
-      }
+      },
+      "items": { "a": { "item": "art_book", "chance": 2 } }
     }
   }
 ]

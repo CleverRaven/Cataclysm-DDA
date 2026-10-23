@@ -83,6 +83,9 @@
 #include "veh_type.h"
 #include "worldfactory.h"
 
+static const std::string flag_FORGIVING( "FORGIVING" );
+static const std::string flag_STANDARD( "STANDARD" );
+static const std::string flag_TOUGH( "TOUGH" );
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
@@ -920,6 +923,8 @@ void Character::initialize( bool learn_recipes )
     }
 
     set_skills_from_hobbies();
+
+    set_trauma( prof->starting_trauma );
 
     // setup staring bank money
     cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
@@ -2576,6 +2581,47 @@ void character_creator_ui::setup_new_uilist()
                 } );
                 break;
             }
+            case CHARCREATOR_SCENARIO: {
+                std::vector<const scenario *> &sorted_scenarios = cc_uistate.sorted_scenarios;
+
+                new_uilist->set_category_filter( [&]( const uilist_entry & entry,
+                const std::string & key )->bool {
+                    const scenario *entry_scenario = sorted_scenarios[entry.retval];
+                    if( key == CHARACTER_CREATOR_UILIST_ALL.translated() )
+                    {
+                        return true;
+                    }
+                    if( key == CHARACTER_CREATOR_SCENARIOS_FORGIVING.translated() && entry_scenario->has_flag( flag_FORGIVING ) )
+                    {
+                        return true;
+                    }
+                    if( key == CHARACTER_CREATOR_SCENARIOS_STANDARD.translated() && entry_scenario->has_flag( flag_STANDARD ) )
+                    {
+                        return true;
+                    }
+                    if( key == CHARACTER_CREATOR_SCENARIOS_TOUGH.translated() && entry_scenario->has_flag( flag_TOUGH ) )
+                    {
+                        return true;
+                    }
+                    if( key == CHARACTER_CREATOR_SCENARIOS_CHALLENGE.translated() && entry_scenario->has_flag( flag_CHALLENGE ) )
+                    {
+                        return true;
+                    }
+                    return false;
+                } );
+
+                new_uilist->add_category( CHARACTER_CREATOR_UILIST_ALL.translated(),
+                                          CHARACTER_CREATOR_UILIST_ALL.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_SCENARIOS_FORGIVING.translated(),
+                                          CHARACTER_CREATOR_SCENARIOS_FORGIVING.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_SCENARIOS_STANDARD.translated(),
+                                          CHARACTER_CREATOR_SCENARIOS_STANDARD.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_SCENARIOS_TOUGH.translated(),
+                                          CHARACTER_CREATOR_SCENARIOS_TOUGH.translated() );
+                new_uilist->add_category( CHARACTER_CREATOR_SCENARIOS_CHALLENGE.translated(),
+                                          CHARACTER_CREATOR_SCENARIOS_CHALLENGE.translated() );
+                break;
+            }
             default:
                 // do nothing; doesn't use a uilist
                 break;
@@ -2586,14 +2632,6 @@ void character_creator_ui::setup_new_uilist()
             new_uilist->setup();
         }
         set_current_tab_input( new_uilist_input );
-    }
-}
-
-static void set_uilist_selected( std::shared_ptr<uilist> &menu, int idx )
-{
-    if( !menu->entries.empty() ) {
-        menu->set_selected( idx );
-        menu->scrollby( uilist::scroll_amount::abs( idx ) );
     }
 }
 
@@ -2609,35 +2647,46 @@ void character_creator_ui::update_uilist_entries()
     switch( cc_uistate.selected_tab ) {
         case CHARCREATOR_SCENARIO: {
             cc_uistate.recalc_scenario_list( u );
+            const int scenario_count = cc_uistate.sorted_scenarios.size();
 
-            for( const scenario *scen : cc_uistate.sorted_scenarios ) {
-                uilist_entry entry = get_uilist_entry( scen->gender_appropriate_name( u.male ) );
-                entry.text_color = scen == cc_uistate.get_selected_scenario() ? COL_SELECTED : COL_NOT_SELECTED;
-                entry.enabled = scen->can_pick().success();
+            for( int i = 0; i < scenario_count; i++ ) {
+                const scenario *current_scenario = cc_uistate.sorted_scenarios[i];
+                uilist_entry entry = get_uilist_entry( current_scenario->gender_appropriate_name( u.male ) );
+                entry.retval = i;
+                entry.text_color = current_scenario == cc_uistate.get_selected_scenario() ? COL_SELECTED :
+                                   COL_NOT_SELECTED;
+                entry.enabled = current_scenario->can_pick().success();
                 menu->addentry( entry );
             }
-            set_uilist_selected( menu, cc_uistate.selected_scenario_index );
+            menu->set_selected( cc_uistate.selected_scenario_index );
             break;
         }
         case CHARCREATOR_PROFESSION: {
             cc_uistate.recalc_profession_list( u );
+            const int profession_count = cc_uistate.sorted_professions.size();
 
-            for( const profession_id prof_id : cc_uistate.sorted_professions ) {
-                uilist_entry entry = get_uilist_entry( prof_id->gender_appropriate_name( u.male ) );
-                entry.text_color = prof_id == cc_uistate.get_selected_profession() ? COL_SELECTED :
+            for( int i = 0; i < profession_count; i++ ) {
+                const profession_id current_profession = cc_uistate.sorted_professions[i];
+                uilist_entry entry = get_uilist_entry( current_profession->gender_appropriate_name( u.male ) );
+                entry.retval = i;
+                entry.text_color = current_profession == cc_uistate.get_selected_profession() ? COL_SELECTED :
                                    COL_NOT_SELECTED;
-                entry.enabled = prof_id->can_pick().success();
+                entry.enabled = current_profession->can_pick().success();
                 menu->addentry( entry );
             }
-            set_uilist_selected( menu, cc_uistate.selected_profession_index );
+            menu->set_selected( cc_uistate.selected_profession_index );
             break;
         }
         case CHARCREATOR_BACKGROUND: {
             cc_uistate.recalc_hobby_list( u );
+            const int hobby_count = cc_uistate.sorted_hobbies.size();
 
-            for( const profession_id prof_id : cc_uistate.sorted_hobbies ) {
-                uilist_entry entry = get_uilist_entry( prof_id->gender_appropriate_name( u.male ) );
-                entry.text_color = u.hobbies.count( &*prof_id ) ? COL_SELECTED : COL_NOT_SELECTED;
+            for( int i = 0; i < hobby_count; i++ ) {
+                const profession_id current_hobby = cc_uistate.sorted_hobbies[i];
+                uilist_entry entry = get_uilist_entry( current_hobby->gender_appropriate_name( u.male ) );
+                entry.retval = i;
+                entry.text_color = u.hobbies.count( &*current_hobby ) ? COL_SELECTED : COL_NOT_SELECTED;
+                entry.enabled = current_hobby->can_pick().success();
                 menu->addentry( entry );
             }
             break;
@@ -2660,13 +2709,13 @@ void character_creator_ui::update_uilist_entries()
             const int trait_count = cc_uistate.sorted_traits.size();
             for( int i = 0; i < trait_count; i++ ) {
                 trait_id current_trait = cc_uistate.sorted_traits[i];
-                uilist_entry trait_entry = get_uilist_entry( current_trait->name() );
-                trait_entry.retval = i;
-                trait_entry.text_color = u.has_trait( current_trait ) ? COL_SELECTED : COL_NOT_SELECTED;
-                trait_entry.enabled = !( u.has_conflicting_trait( current_trait ) ||
-                                         get_scenario()->is_forbidden_trait( current_trait ) ||
-                                         u.prof->is_forbidden_trait( current_trait ) );
-                menu->addentry( trait_entry );
+                uilist_entry entry = get_uilist_entry( current_trait->name() );
+                entry.retval = i;
+                entry.text_color = u.has_trait( current_trait ) ? COL_SELECTED : COL_NOT_SELECTED;
+                entry.enabled = !( u.has_conflicting_trait( current_trait ) ||
+                                   get_scenario()->is_forbidden_trait( current_trait ) ||
+                                   u.prof->is_forbidden_trait( current_trait ) );
+                menu->addentry( entry );
             }
             break;
         }
@@ -2687,6 +2736,7 @@ void character_creator_ui::update_uilist_entries()
     if( menu ) {
         menu->desired_bounds = uilist_reset_desired_bounds();
         menu->filterlist();
+        menu->scrollby( uilist::scroll_amount::abs( menu->fselected ) );
         menu->setup();
     }
 }
@@ -3124,7 +3174,7 @@ void character_creator_uistate::recalc_scenario_list( const avatar &u )
             }
             new_scenarios.push_back( &scen );
         }
-        scenario_sorter scen_sorter{ true, u.male, cities_enabled() };
+        scenario_sorter scen_sorter{ u.male, cities_enabled() };
         std::stable_sort( new_scenarios.begin(), new_scenarios.end(), scen_sorter );
         sorted_scenarios = new_scenarios;
         selected_scenario_index = find_index( sorted_scenarios, get_scenario() );
@@ -3429,14 +3479,29 @@ bool character_creator_ui::handle_action( const std::string &action )
         }
     } else if( action == "NEXT_TAB" ) {
         if( cc_uistate.selected_tab == CHARCREATOR_SUMMARY ) {
-            if( you.name.empty() ) {
-                if( query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
-                    you.pick_name();
-                    cc_uistate.finished_character_creator = true;
+            bool is_overpowered = false;
+
+            std::string query = _( "Are you finished creating your character?" );
+            std::map<rating_category, OP_level> ratings_map = player_difficulty::getInstance().get_ratings();
+            for( std::pair<const rating_category, OP_level> pair : ratings_map ) {
+                query += "\n";
+                //~This is a rating when creating a new custom character. e.g. "Defense: overpowered"
+                query += string_format( _( "%1$s: %2$s" ),
+                                        io::enum_to_string( pair.first ),
+                                        player_difficulty::format_text_for( pair.second ) );
+                if( pair.second > OP_level::Average && get_option<bool>( "CHARACTER_CREATION_HARD_LIMIT" ) ) {
+                    is_overpowered = true;
                 }
-            } else {
-                if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
+            }
+            query += "\n\n"; // Extra empty lines so the (Case Sensitive) prompt doesn't appear on the same line as some of our text.
+            if( query_yn( query ) ) {
+                if( !is_overpowered ) {
                     cc_uistate.finished_character_creator = true;
+                    if( you.name.empty() ) { // This can be changed at any time ingame. Assume someone who left it at random wants random.
+                        you.pick_name();
+                    }
+                } else {
+                    popup( _( "Your character is too powerful!  Reduce your character's ratings to continue." ) );
                 }
             }
         } else {
@@ -3478,10 +3543,17 @@ bool character_creator_ui::handle_action( const std::string &action )
     } else if( action == "REROLL_CHARACTER" ) {
         cc_uistate.reset();
         you.randomize( true );
+        // "Single selection" tabs that have categories need to be set to "ALL" before updating uilist entries.
+        // If we don't, and a non-visible entry is chosen, filterlist() will select the next
+        // visible entry instead, and select() will write that back into selected scenario index.
+        get_tab_uilist( CHARCREATOR_SCENARIO )->set_category( CHARACTER_CREATOR_UILIST_ALL.translated() );
         update_uilist_entries();
     } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" ) {
         cc_uistate.reset();
         you.randomize( false );
+        // We don't need to adjust tabs here as above since scenarios are the only "single selection" tab with categories.
+        // On the other hand, if say, professions get categories later on, the category WILL need to be reset to here
+        // to one that has all options for the same reasons as abhove.
         update_uilist_entries();
     } else if( action == "CHANGE_GENDER" ) {
         you.male = !you.male;
@@ -3604,14 +3676,12 @@ void character_creator_callback::confirm( uilist *menu )
             const scenario *selected_scenario = cc_uistate.get_selected_scenario();
             ret_val<void> can_pick = selected_scenario->can_pick();
 
-            scenario_sorter sorter{ true, u.male, cities_enabled() };
-
             if( !can_pick.success() ) {
                 popup( can_pick.str() );
                 return;
             }
 
-            if( selected_scenario->has_flag( "CITY_START" ) && !sorter.cities_enabled ) {
+            if( selected_scenario->has_flag( "CITY_START" ) && !cities_enabled() ) {
                 return;
             }
             reset_scenario( u, selected_scenario );

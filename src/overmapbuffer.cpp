@@ -2063,7 +2063,6 @@ void overmapbuffer::display_description_at( const tripoint_abs_sm &where, bool d
         if( draw_origin ) {
             ImGui::NewLine();
             cataimgui::TextColoredParagraph( c_light_gray, get_origin( oter->get_type_id()->src ) );
-            ImGui::NewLine();
         }
     };
 

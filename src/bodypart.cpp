@@ -10,6 +10,7 @@
 
 #include "body_part_set.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -21,6 +22,7 @@
 #include "messages.h"
 #include "pimpl.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "subbodypart.h"
 #include "type_id.h"
 #include "wound.h"
@@ -1224,11 +1226,34 @@ void bodypart::remove_all_wounds_of_type( const wound_type_id wd )
     } ), wounds.end() );
 }
 
-void bodypart::update_wounds( time_duration time_passed )
+void bodypart::update_wounds( const Character &who, time_duration time_passed )
 {
-    wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [time_passed]( wound & wd ) {
-        return wd.update_wound( time_passed );
-    } ), wounds.end() );
+    std::vector<wound> new_wounds;
+    new_wounds.reserve( wounds.size() );
+
+    for( std::vector<wound>::iterator it = wounds.begin(); it != wounds.end(); ) {
+        const wound_update_ret ret = it->update_wound( time_passed );
+
+        switch( ret ) {
+            case wound_update_ret::ADVANCE:
+                // todo: carry over the time difference into a new wound, when time_passed will vary
+                who.add_msg_if_player(
+                    m_bad, string_format( it->type->get_progress_timer_message(), body_part_name( id ) ) );
+
+                new_wounds.emplace_back( it->wound_progress_timer.value().first );
+                it = wounds.erase( it );
+                break;
+            case wound_update_ret::REMOVE:
+                it = wounds.erase( it );
+                break;
+            default:
+                ++it;
+        }
+    }
+
+    for( const wound &new_wd : new_wounds ) {
+        add_wound( new_wd );
+    }
 }
 
 int bodypart::get_hp_cur() const

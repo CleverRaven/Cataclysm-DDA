@@ -29,7 +29,6 @@ static void prepare_avatar( avatar &u )
 {
     clear_avatar();
     u.clear_worn();
-    u.inv->clear();
     u.remove_weapon();
     u.wear_item( item( itype_backpack ) );
 }

@@ -165,6 +165,7 @@ static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CHURN( "ACT_CHURN" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
+static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
@@ -221,6 +222,7 @@ static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
 static const activity_id ACT_MULTIPLE_STUDY( "ACT_MULTIPLE_STUDY" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
+static const activity_id ACT_OPEN_TILE( "ACT_OPEN_TILE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -306,6 +308,7 @@ static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
@@ -912,7 +915,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
         return;
     }
     act.set_to_null();
-    gunmod_remove( who, *it_gun, *it_mod );
+    gunmod_remove( who, gun, *it_mod );
     it_gun->on_contents_changed();
 }
 
@@ -932,13 +935,13 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     return !( gunmod.ammo_remaining( ) && !who.unload( loc, true ) );
 }
 
-void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
+void gunmod_remove_activity_actor::gunmod_remove( Character &who, item_location gun, item &mod )
 {
     if( !gunmod_unload( who, mod ) ) {
         return;
     }
 
-    gun.gun_set_mode( gun_mode_DEFAULT );
+    gun->gun_set_mode( gun_mode_DEFAULT );
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
@@ -946,7 +949,7 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
 
     //~ %1$s - gunmod, %2$s - gun.
     who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
-                           gun.tname() );
+                           gun->tname() );
 }
 
 void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
@@ -1340,8 +1343,8 @@ static void tool_out_of_charges( Character &who, const std::string &tool_name )
     if( who.is_avatar() ) {
         who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool_name );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
-                                true ), tool_name );
+        add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ),
+                                who.disp_name( true ), tool_name );
     }
     who.cancel_activity();
 }
@@ -2181,10 +2184,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
-        add_msg_if_player_sees(
-            who,
-            _( "%1$s %2$s ran out of batteries." ),
-            who.disp_name( true, true ),
+        who.add_msg_player_or_npc(
+            _( "Your %s ran out of batteries." ),
+            _( "<npcname>'s %s ran out of batteries." ),
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
@@ -3662,10 +3664,9 @@ void ebooksave_activity_actor::do_turn( player_activity &act, Character &who )
     // only consume charges every pages_per_charge pages
     if( calendar::once_every( pages_per_charge * time_per_page ) ) {
         if( !ereader->ammo_sufficient( &who ) ) {
-            add_msg_if_player_sees(
-                who,
-                _( "%1$s %2$s ran out of batteries." ),
-                who.disp_name( true, true ),
+            who.add_msg_player_or_npc(
+                _( "Your %s ran out of batteries." ),
+                _( "<npcname>'s %s ran out of batteries." ),
                 item::nname( ereader->typeId() ) );
             who.cancel_activity();
             return;
@@ -3714,11 +3715,11 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
         completed_scanning_current_book( act, who );
     }
     if( who.is_avatar() ) {
-        add_msg( m_info, _( "You scan %d %s into your device." ), handled_books,
+        add_msg( m_info, _( "You scan %1$d %2$s into your device." ), handled_books,
                  n_gettext( "book", "books", handled_books ) );
     } else { // who.is_npc()
-        add_msg_if_player_sees( who, _( "%s scans %d %s into their device." ),
-                                who.disp_name( false, true ), handled_books, n_gettext( "book", "books", handled_books ) );
+        add_msg_if_player_sees( who, _( "%1$s scans %2$d %3$s into their device." ),
+                                who.disp_name( true ), handled_books, n_gettext( "book", "books", handled_books ) );
     }
     act.set_to_null();
 }
@@ -3729,7 +3730,7 @@ void ebooksave_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop scanning the remaining books." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s stops scanning books." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -3750,12 +3751,6 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
 
     JsonObject data = jsin.get_object();
     data.read( "books", actor.books );
-    if( data.has_member( "book" ) ) {
-        // legacy compatibility: in 0.G, this activity only handled one book each
-        item_location book;
-        data.read( "book", book );
-        actor.books.push_back( book );
-    }
     data.read( "ereader", actor.ereader );
     data.read( "handled_books", actor.handled_books );
     data.read( "turns_left_on_current_book", actor.turns_left_on_current_book );
@@ -3785,6 +3780,74 @@ std::string enum_to_string<zone_activity_stage>( zone_activity_stage stage )
     }
 }
 template<>
+std::string enum_to_string<do_activity_reason>( do_activity_reason reason )
+{
+    switch( reason ) {
+        case do_activity_reason::CAN_DO_CONSTRUCTION:
+            return _( "The construction can be performed." );
+        case do_activity_reason::CAN_DO_FETCH:
+            return _( "The needed items are being fetched." );
+        case do_activity_reason::NO_COMPONENTS:
+            return _( "The required components or tools are missing." );
+        case do_activity_reason::DONT_HAVE_SKILL:
+            return _( "The required skill is missing." );
+        case do_activity_reason::NO_ZONE:
+            return _( "The required zone could not be found." );
+        case do_activity_reason::NO_VEHICLE:
+            return _( "No accessible vehicle was found at this location." );
+        case do_activity_reason::ALREADY_DONE:
+            return _( "The work has already been completed." );
+        case do_activity_reason::UNKNOWN_ACTIVITY:
+            return _( "The activity could not be identified." );
+        case do_activity_reason::NEEDS_CLEARING:
+            return _( "This tile can be cleared." );
+        case do_activity_reason::NEEDS_HARVESTING:
+            return _( "This tile can be harvested." );
+        case do_activity_reason::NEEDS_PLANTING:
+            return _( "This tile can be planted." );
+        case do_activity_reason::NEEDS_TILLING:
+            return _( "This tile can be tilled." );
+        case do_activity_reason::NEEDS_FERTILIZING:
+            return _( "This tile can be fertilized." );
+        case do_activity_reason::BLOCKING_TILE:
+            return _( "Something is blocking this tile." );
+        case do_activity_reason::NEEDS_BOOK_TO_LEARN:
+            return _( "There is a book here to learn from." );
+        case do_activity_reason::NEEDS_CHOPPING:
+            return _( "There is wood here to chop." );
+        case do_activity_reason::NEEDS_TREE_CHOPPING:
+            return _( "There is a tree here to chop." );
+        case do_activity_reason::NEEDS_BIG_BUTCHERING:
+            return _( "There is a large corpse here to butcher." );
+        case do_activity_reason::NEEDS_BUTCHERING:
+            return _( "There is a corpse here to butcher." );
+        case do_activity_reason::NEEDS_CUT_HARVESTING:
+            return _( "This plant needs a grass-cutting tool to harvest." );
+        case do_activity_reason::ALREADY_WORKING:
+            return _( "Someone is already working here." );
+        case do_activity_reason::NEEDS_VEH_DECONST:
+            return _( "There is a vehicle part here to deconstruct." );
+        case do_activity_reason::NEEDS_VEH_REPAIR:
+            return _( "There is a vehicle part here to repair." );
+        case do_activity_reason::WOULD_PREVENT_VEH_FLYING:
+            return _( "This work would prevent the vehicle from flying." );
+        case do_activity_reason::NEEDS_MINING:
+            return _( "This spot can be mined with the right tool." );
+        case do_activity_reason::NEEDS_MOP:
+            return _( "This spot can be mopped." );
+        case do_activity_reason::NEEDS_FISHING:
+            return _( "This spot can be fished with the right tool." );
+        case do_activity_reason::NEEDS_CRAFT:
+            return _( "There is at least one item to craft." );
+        case do_activity_reason::NEEDS_DISASSEMBLE:
+            return _( "There is at least one item to disassemble." );
+        case do_activity_reason::REFUSES_THIS_WORK:
+            return _( "The character refuses to do this work." );
+        default:
+            cata_fatal( "Invalid do_activity_reason in enum_to_string" );
+    }
+}
+template<>
 std::string enum_to_string<efile_action>( efile_action data )
 {
     return efile_activity_actor::efile_action_name( data );
@@ -3796,6 +3859,31 @@ std::string enum_to_string<efile_combo>( efile_combo data )
             // *INDENT-OFF*
         case efile_combo::COMBO_MOVE_ONTO_BROWSE: return "COMBO_MOVE_ONTO_BROWSE";
         case efile_combo::COMBO_NONE: return "COMBO_NONE";
+            // *INDENT-ON*
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+template<>
+std::string enum_to_string<open_tile_result>( open_tile_result data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case open_tile_result::OPEN_DOOR: return "OPEN_DOOR";
+        case open_tile_result::OPEN_VEHICLE_SINGLE: return "OPEN_VEHICLE_SINGLE";
+        case open_tile_result::OPEN_VEHICLE_ALL: return "OPEN_VEHICLE_ALL";
+            // *INDENT-ON*
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+template<>
+std::string enum_to_string<close_tile_result>( close_tile_result data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case close_tile_result::CLOSE_DOOR: return "CLOSE_DOOR";
+        case close_tile_result::CLOSE_VEHICLE: return "CLOSE_VEHICLE";
             // *INDENT-ON*
         default:
             cata_fatal( "Invalid based_on_type in enum_to_string" );
@@ -4039,9 +4127,38 @@ void efile_activity_actor::completed_processing_current_efile( player_activity &
         }
     };
 
-    add_msg_if_player_sees( who, m_info, string_format( _( "%s %s %s." ),
-                            who.disp_name( false, true ), efile_action_name( action_type, true, false ),
-                            current_efile->display_name() ) );
+    const auto add_completion_message = [&]( const std::string & player_message,
+    const std::string & npc_message ) {
+        who.add_msg_player_or_npc( m_info, player_message, npc_message,
+                                   current_efile->display_name() );
+    };
+    switch( action_type ) {
+        case EF_BROWSE:
+            add_completion_message( _( "You finish browsing a file: %s." ),
+                                    _( "<npcname> finishes browsing a file: %s." ) );
+            break;
+        case EF_READ:
+            add_completion_message( _( "You finish reading a file: %s." ),
+                                    _( "<npcname> finishes reading a file: %s." ) );
+            break;
+        case EF_MOVE_FROM_THIS:
+        case EF_MOVE_ONTO_THIS:
+            add_completion_message( _( "You finish moving a file: %s." ),
+                                    _( "<npcname> finishes moving a file: %s." ) );
+            break;
+        case EF_COPY_FROM_THIS:
+        case EF_COPY_ONTO_THIS:
+            add_completion_message( _( "You finish copying a file: %s." ),
+                                    _( "<npcname> finishes copying a file: %s." ) );
+            break;
+        case EF_WIPE:
+            add_completion_message( _( "You finish wiping a file: %s." ),
+                                    _( "<npcname> finishes wiping a file: %s." ) );
+            break;
+        case EF_INVALID:
+        case EF_ACTION_COUNT:
+            break;
+    }
     switch( action_type ) {
         case EF_BROWSE:
             if( current_efile->typeId() == itype_efile_junk ) {
@@ -4141,10 +4258,9 @@ item_location efile_activity_actor::find_external_transfer_estorage( Character &
     units::ememory largest_efile_size = efile->ememory_size();
     //search for fastest, large-enough, browsed, non-tool, estorage device in radius or on person
     units::ememory fastest_rate = 0_KB;
-    const std::function<bool( const item *it, const item * )> func = [&]( const item * it,
-    const item * ) {
+    const std::function<bool( item_location )> func = [&]( item_location it ) {
         return it->is_browsed() &&
-               !edevice_has_use( it ) && //is not a usable e-device (e.g. a USB drive)
+               !edevice_has_use( it.get_item() ) && //is not a usable e-device (e.g. a USB drive)
                it->is_estorage() &&
                it->remaining_ememory() >= largest_efile_size &&
                it->is_tool();
@@ -4244,7 +4360,7 @@ void efile_activity_actor::canceled( player_activity &act, Character &who )
         add_msg( m_info, _( "You stop processing the remaining devices." ) );
     } else {
         add_msg_if_player_sees( who, _( "%s stops processing devices." ),
-                                who.disp_name( false, true ) );
+                                who.disp_name( true ) );
     }
     act.set_to_null();
 }
@@ -4455,8 +4571,8 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         } );
 
         // get first physical cash item; deposit exactly one bill per turn
-        item *cash_item = nullptr;
-        who.visit_items( [&]( item * e, const item * ) {
+        item_location cash_item;
+        who.visit_items( [&]( item_location e ) {
             if( e->type->has_flag( flag_OLD_CURRENCY ) ) {
                 cash_item = e;
                 return VisitResponse::ABORT;
@@ -4480,7 +4596,7 @@ void atm_activity_actor::do_turn( player_activity &act, Character &who )
         if( cash_item->charges > 1 ) {
             cash_item->charges--;
         } else {
-            item_location( who, cash_item ).remove_item();
+            cash_item.remove_item();
         }
         destination_cash_card->ammo_set( destination_cash_card->ammo_default(),
                                          destination_cash_card->ammo_remaining() + value );
@@ -5431,8 +5547,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         if( !multi_activity_actor::can_do_in_dark( current_activity ) &&
             you.fine_detail_vision_mod( you.pos_bub() ) > LIGHT_AMBIENT_DIM ) {
             you.add_msg_player_or_npc( m_info, _( "It is too dark to work here." ),
-                                       _( "%s aborts the %s activity because it's too dark to continue." ), you.disp_name(),
-                                       current_activity.c_str() );
+                                       _( "%s aborts the \"%s\" activity because it's too dark to continue." ), you.disp_name(),
+                                       current_activity.obj().verb().translated() );
             return false;
         }
 
@@ -5512,12 +5628,14 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         if( you.is_npc() ) {
             if( zone ) {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\" in zone %3$s. %4$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(), zone->get_name(),
+                                        io::enum_to_string( reason ) );
             } else {
                 add_msg_if_player_sees( you, m_info,
-                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
-                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+                                        _( "%1$s is trying to find necessary items for \"%2$s\". %3$s" ),
+                                        you.disp_name(), act_id.obj().verb().translated(),
+                                        io::enum_to_string( reason ) );
             }
         }
 
@@ -5556,12 +5674,12 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
             const tripoint_bub_ms you_pos_bub = you.pos_bub();
             if( zone ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task at zone %s." ),
-                                            act_id.c_str(), zone->get_name() ) );
+                                            _( "The required items are not available to complete the \"%1$s\" task at zone %2$s." ),
+                                            act_id.obj().verb().translated(), zone->get_name() ) );
             } else {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
-                                            _( "The required items are not available to complete the %s task." ),
-                                            act_id.c_str() ) );
+                                            _( "The required items are not available to complete the \"%s\" task." ),
+                                            act_id.obj().verb().translated() ) );
             }
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
@@ -5772,25 +5890,340 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+void open_tile_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = to_moves<int>( 1_seconds );
+    act.moves_left = act.moves_total;
+
+    map &here = get_map();
+
+    avatar &player_character = get_avatar();
+    if( !tile_location ) {
+        tile_location = choose_adjacent_highlight( here, _( "Open where?" ),
+                        pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                        ACTION_OPEN, false );
+    }
+
+    // no valid tile selected or provided
+    if( !tile_location ) {
+        act.set_to_null();
+        return;
+    }
+
+    const tripoint_bub_ms openp = *tile_location;
+    if( const optional_vpart_position vp = here.veh_at( openp ) ) {
+        vehicle *const veh = &vp->vehicle();
+
+        // vehicle theft denied
+        if( !veh->handle_potential_theft( who ) ) {
+            act.set_to_null();
+            return;
+        }
+
+        // Check if vehicle has a part here that can be opened
+        opened_vehicle_part = veh->next_part_to_open( vp->part_index() );
+        if( opened_vehicle_part >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
+            const vehicle *player_veh = veh_pointer_or_null( here.veh_at( who.pos_bub() ) );
+            const std::string part_name = veh->part( opened_vehicle_part ).name();
+            bool outside = !player_veh || player_veh != veh;
+            if( !outside ) {
+                open_success = open_tile_result::OPEN_VEHICLE_SINGLE;
+            } else {
+                // Outside means we check if there's anything in that tile outside-openable.
+                // If there is, we open everything on tile. This means opening a closed,
+                // curtained door from outside is possible, but it will magically open the
+                // curtains as well.
+                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
+                if( outside_openable == -1 ) {
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
+                    act.set_to_null();
+                    return;
+                } else {
+                    open_success = open_tile_result::OPEN_VEHICLE_ALL;
+                }
+            }
+        } else {
+            // If there are any OPENABLE parts here, they must be already open or locked
+            if( const std::optional<vpart_reference> openable_part = vp.part_with_feature( "OPENABLE",
+                    true ); openable_part.has_value() ) {
+                const std::string name = openable_part->info().name();
+                if( vp->vehicle().part( openable_part->part_index() ).locked ) {
+                    add_msg( m_info, _( "That %s is locked." ), name );
+                } else {
+                    add_msg( m_info, _( "That %s is already open." ), name );
+                }
+            }
+            act.set_to_null();
+            return;
+        }
+    } else {
+        // Not a vehicle part, just a regular door
+        bool could_open_door = here.open_door( player_character, openp,
+                                               !here.is_outside( player_character.pos_bub() ), true );
+        if( !could_open_door ) {
+            const ter_str_id tid = here.ter( openp ).id();
+
+            if( here.has_flag( ter_furn_flag::TFLAG_LOCKED, openp ) ) {
+                add_msg( m_info, _( "The door is locked!" ) );
+                act.set_to_null();
+                return;
+            } else if( tid.obj().close ) {
+                // if the following message appears unexpectedly, the prior check was for t_door_o
+                add_msg( m_info, _( "The door is already open." ) );
+                act.set_to_null();
+                return;
+            }
+            add_msg( m_info, _( "No door there." ) );
+            act.set_to_null();
+        }
+        open_success = open_tile_result::OPEN_DOOR;
+    }
+}
+
+void open_tile_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    const tripoint_bub_ms openp = *tile_location;
+
+    if( open_success == open_tile_result::OPEN_FAIL ) {
+        debugmsg( "invalid open_tile_activity_actor finish state" );
+        act.set_to_null();
+        return;
+    }
+
+    if( open_success == open_tile_result::OPEN_DOOR ) {
+        who.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+        here.open_door( who, openp,
+                        !here.is_outside( who.pos_bub() ) );
+    } else if( optional_vpart_position vp = here.veh_at( *tile_location ) ) {
+        vehicle *const veh = &vp->vehicle();
+        const std::string part_name = veh->part( opened_vehicle_part ).name();
+
+        switch( open_success ) {
+            case open_tile_result::OPEN_VEHICLE_SINGLE: {
+                who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
+                veh->open( here, opened_vehicle_part );
+                break;
+            }
+            case open_tile_result::OPEN_VEHICLE_ALL: {
+                who.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
+                veh->open_all_at( here, opened_vehicle_part );
+                break;
+            }
+            default:
+                debugmsg( "invalid open_tile_activity_actor finish state" );
+        }
+    }
+    act.set_to_null();
+}
+
+void open_tile_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "tile_location", tile_location );
+    jsout.member( "open_success", open_success );
+    jsout.member( "opened_vehicle_part", opened_vehicle_part );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> open_tile_activity_actor::deserialize( JsonValue &jsin )
+{
+    open_tile_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "tile_location", actor.tile_location );
+    data.read( "open_success", actor.open_success );
+    data.read( "opened_vehicle_part", actor.opened_vehicle_part );
+
+    return actor.clone();
+}
+
+void close_tile_activity_actor::start( player_activity &act, Character &who )
+{
+    act.moves_total = 90; // TODO: Vary this? Based on strength, broken legs, and so on.
+    map &here = get_map();
+
+    const bool inside = !here.is_outside( who.pos_bub() );
+    const tripoint_bub_ms closep = tile_location;
+
+    if( doors::check_mon_blocking_door( who, here.get_abs( closep ) ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( optional_vpart_position vp = here.veh_at( closep ) ) {
+        // There is a vehicle part here; see if it has anything that can be closed
+        vehicle *const veh = &vp->vehicle();
+        const int vpart = vp->part_index();
+        closed_vehicle_part = veh->next_part_to_close( vpart,
+                              veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != veh );
+        const int inside_closable = veh->next_part_to_close( vpart );
+        const int openable = veh->next_part_to_open( vpart );
+        if( closed_vehicle_part >= 0 ) {
+            if( !veh->handle_potential_theft( get_avatar() ) ) {
+                act.set_to_null();
+                return;
+            }
+            if( veh->can_close( closed_vehicle_part, who ) ) {
+                close_success = close_tile_result::CLOSE_VEHICLE;
+                act.moves_left = act.moves_total;
+                return;
+            }
+        } else if( inside_closable >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
+                                   veh->part( inside_closable ).name() );
+        } else if( openable >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s is already closed." ),
+                                   veh->part( openable ).name() );
+        } else {
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->part( vpart ).name() );
+        }
+        act.set_to_null();
+        return;
+    } else if( here.furn( closep ) == furn_f_crate_o ) {
+        who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
+        act.set_to_null();
+        return;
+    } else if( !here.close_door( closep, inside, true ) ) {
+        if( here.close_door( closep, true, true ) ) {
+            who.add_msg_if_player( m_info,
+                                   _( "You cannot close the %s from outside.  You must be inside the building." ),
+                                   here.name( closep ) );
+        } else {
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), here.name( closep ) );
+        }
+        act.set_to_null();
+        return;
+    } else {
+        map_stack items_in_way = here.i_at( closep );
+        // Scoot up to 25 liters of items out of the way
+        if( here.furn( closep ) != furn_f_safe_o && !items_in_way.empty() ) {
+            const units::volume max_nudge = 25_liter;
+
+            const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
+            [&max_nudge]( const item & it ) {
+                return it.volume() > max_nudge;
+            } );
+            if( toobig != items_in_way.end() ) {
+                who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
+                                       toobig->tname() );
+                act.set_to_null();
+                return;
+            } else if( items_in_way.stored_volume() > max_nudge ) {
+                who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
+                act.set_to_null();
+                return;
+            }
+            act.moves_total += std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 );
+        }
+        close_success = close_tile_result::CLOSE_DOOR;
+    }
+
+    act.moves_left = act.moves_total;
+}
+
+void close_tile_activity_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    const tripoint_bub_ms closep = tile_location;
+    const bool inside = !here.is_outside( who.pos_bub() );
+    map_stack items_in_way = here.i_at( closep );
+
+    if( close_success == close_tile_result::CLOSE_FAIL ) {
+        debugmsg( "invalid close_tile_activity_actor finish state" );
+        act.set_to_null();
+        return;
+    }
+
+    if( close_success == close_tile_result::CLOSE_VEHICLE ) {
+        // vehicle might have moved since start(): close what's on the tile now, if anything
+        const optional_vpart_position vp = here.veh_at( closep );
+        if( !vp ) {
+            act.set_to_null();
+            return;
+        }
+        vehicle *const veh = &vp->vehicle();
+        closed_vehicle_part = veh->next_part_to_close( vp->part_index(),
+                              veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != veh );
+        if( closed_vehicle_part < 0 ) {
+            act.set_to_null();
+            return;
+        }
+        who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name,
+                               veh->part( closed_vehicle_part ).name() );
+        // close vehicle part
+        veh->close( here, closed_vehicle_part );
+    } else if( close_success == close_tile_result::CLOSE_DOOR ) {
+
+        const std::string door_name = here.obstacle_name( closep );
+        who.add_msg_if_player( _( "You close the %s." ), door_name );
+        here.close_door( closep, inside, false );
+        // push items if necessary
+        if( !items_in_way.empty() ) {
+            who.add_msg_if_player( m_info, _( "You push the %s out of the way." ),
+                                   items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
+
+            if( here.has_flag( ter_furn_flag::TFLAG_NOITEM, closep ) ) {
+                // Just plopping items back on their origin square will displace them to adjacent squares
+                // since the door is closed now.
+                for( item &elem : items_in_way ) {
+                    here.add_item_or_charges( closep, elem );
+                }
+                here.i_clear( closep );
+            }
+        }
+    }
+    act.set_to_null();
+}
+
+void close_tile_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "tile_location", tile_location );
+    jsout.member( "close_success", close_success );
+    jsout.member( "closed_vehicle_part", closed_vehicle_part );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> close_tile_activity_actor::deserialize( JsonValue &jsin )
+{
+    close_tile_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "tile_location", actor.tile_location );
+    data.read( "close_success", actor.close_success );
+    data.read( "closed_vehicle_part", actor.closed_vehicle_part );
+
+    return actor.clone();
+}
+
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves = 0;
-    Character &player_character = get_player_character();
-    //TODO: why use both `player_character` and `guy`?
-    auto player_will_eat = [this, &moves, &player_character, &guy]( const item & it ) {
-        ret_val<edible_rating> ret = player_character.will_eat( it, true );
+    auto will_eat = [this, &moves, &guy]( const item & it ) {
+        ret_val<edible_rating> ret = guy.will_eat( it, guy.is_avatar() );
         if( !ret.success() ) {
             was_canceled = true;
-            uistate.consume_uistate.clear();
+            if( guy.is_avatar() ) {
+                uistate.consume_uistate.clear();
+            }
         } else {
             moves = to_moves<int>( guy.get_consume_time( it ) );
         }
     };
 
     if( consume_location ) {
-        player_will_eat( *consume_location );
+        will_eat( *consume_location );
     } else if( !consume_item.is_null() ) {
-        player_will_eat( consume_item );
+        will_eat( consume_item );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
         was_canceled = true;
@@ -5800,7 +6233,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     act.moves_left = moves;
 }
 
-void consume_activity_actor::finish( player_activity &act, Character & )
+void consume_activity_actor::finish( player_activity &act, Character &who )
 {
     // Prevent interruptions from this point onwards, so that e.g. pain from
     // injecting serum doesn't pop up messages about cancelling consuming (it's
@@ -5809,12 +6242,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
 
     item_location consume_loc = consume_location;
 
-    avatar &player_character = get_avatar();
     if( !was_canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true );
+            who.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true );
+            who.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -5829,10 +6261,14 @@ void consume_activity_actor::finish( player_activity &act, Character & )
         act.set_to_null();
     }
 
+    if( !who.is_avatar() ) {
+        return;
+    }
     if( act.id() == ACT_FIRSTAID && consume_loc ) {
         uistate.consume_uistate.consume_menu_selected_items = { consume_loc };
     }
 
+    avatar &player_character = *who.as_avatar();
     if( !avatar_action::eat_here( player_character ) && reprompt_consume_menu ) {
         uistate.open_menu = []() {
             avatar_action::eat_or_use( get_avatar(),
@@ -6124,7 +6560,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
                     handler.unseal_pocket_containing( item_location( target, contained ) );
                 }
                 if( consumed ) {
-                    it.remove_item( *contained );
+                    target.remove_item( *contained );
                 }
             }
 
@@ -6144,20 +6580,25 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         return;
     }
 
-    std::vector<item *> remove_contained;
-    for( item *contained : it.all_items_top() ) {
+    std::vector<item_location> remove_contained;
+    it.visit_contents(
+    [&]( item_location contained ) {
         if( contained->ammo_type() == ammo_plutonium ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
+        if( who.add_or_drop_with_msg( *contained, true, &it, contained.get_item() ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
         }
-    }
+
+        return VisitResponse::SKIP;
+    },
+    target, {pocket_type::CONTAINER, pocket_type::MAGAZINE, pocket_type::MAGAZINE_WELL}
+    );
     // remove the ammo leads in the belt
-    for( item *remove : remove_contained ) {
-        it.remove_item( *remove );
+    for( item_location remove : remove_contained ) {
+        target.remove_item( *remove );
         actually_unloaded = true;
     }
 
@@ -6271,121 +6712,12 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
 
-    // Legacy migration: older saves have step recipes with item_counter but no
-    // current_step/step_progress. Derive step state once, before any work or
-    // exertion computation. Guard ensures this runs at most once.
-    if( rec.has_steps() && craft.get_current_step() == 0 &&
-        craft.get_step_progress() == 0.0 && craft.item_counter > 0 ) {
-        // Need base_total_moves for conversion; compute it fresh here.
-        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
-                compute_tool_speeds( rec, crafter ) };
-        const double migration_base = std::max( 1.0,
-                                                static_cast<double>( rec.batch_time( crafter, craft.get_making_batch_size(), 1.0f, 0,
-                                                        migration_ctx ) ) );
-        double accumulated = craft.item_counter * migration_base / 10000000.0;
-        for( size_t i = 0; i < rec.steps().size(); ++i ) {
-            double budget = rec.step_budget_moves( crafter, i,
-                                                   craft.get_making_batch_size(), migration_ctx );
-            if( accumulated < budget || i == rec.steps().size() - 1 ) {
-                craft.set_current_step( static_cast<int>( i ) );
-                craft.set_step_progress( accumulated );
-                break;
-            }
-            accumulated -= budget;
-        }
-    }
+    migrate_craft_step( crafter );
 
-    // Mode is derived from craft state every turn so wakeup handlers that
-    // advance current_step do not need to reach into the live actor.
-    auto derive_mode = [&]() -> mode {
-        if( !rec.has_steps() )
-        {
-            return mode::active;
-        }
-        const recipe_step &s = rec.steps()[craft.get_current_step()];
-        if( s.attention != step_attention::unattended )
-        {
-            return mode::active;
-        }
-        if( craft.get_passive_started_at() == calendar::before_time_starts )
-        {
-            return mode::active;
-        }
-        const std::vector<attention_plan> &plans = craft.get_step_plans();
-        const int idx = craft.get_current_step();
-        if( idx >= static_cast<int>( plans.size() ) )
-        {
-            return mode::waiting;
-        }
-        return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
-    };
     mode_ = derive_mode();
 
-    if( rec.has_steps() ) {
-        const recipe_step &cur_step = rec.steps()[craft.get_current_step()];
-        if( cur_step.attention == step_attention::unattended ) {
-            // Parked awaiting collection: stop the actor instead of re-stamping a
-            // fresh passive entry.  The player collects via an explicit activate.
-            if( craft.is_awaiting_collection() ) {
-                act.set_to_null();
-                crafter.set_moves( 0 );
-                return;
-            }
-            const std::vector<attention_plan> &plans = craft.get_step_plans();
-            const int idx = craft.get_current_step();
-            const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
-                                        attention_plan{};
-
-            // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
-            if( craft.get_passive_started_at() != calendar::before_time_starts &&
-                craft.get_ready_at() != calendar::before_time_starts &&
-                calendar::turn >= craft.get_ready_at() ) {
-                craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
-                                           calendar::turn, craft_item );
-                return;
-            }
-
-            if( craft.get_passive_started_at() == calendar::before_time_starts ) {
-                // Unattended steps cannot draw resources from the crafter over time, so consume
-                // the remaining character resource cost before the passive work begins.
-                if( !crafter.craft_consume_character_resources( craft, 10000000 ) ) {
-                    craft.erase_var( "crafter" );
-                    crafter.cancel_activity();
-                    return;
-                }
-
-                craft_stamp_passive_entry( craft, crafter, calendar::turn, craft_item );
-                mode_ = derive_mode();
-                // Back-dated entry can leave alarm and/or ready already due.
-                // Alarm runs first; the alarm handler elides itself if ready
-                // also fires same turn.
-                if( craft.get_alarm_at() != calendar::before_time_starts &&
-                    calendar::turn >= craft.get_alarm_at() ) {
-                    craft_actualize_scheduled( craft, item_wakeup_kind::alarm,
-                                               calendar::turn, craft_item );
-                }
-                if( craft.get_ready_at() != calendar::before_time_starts &&
-                    calendar::turn >= craft.get_ready_at() ) {
-                    craft_actualize_scheduled( craft, item_wakeup_kind::ready_check,
-                                               calendar::turn, craft_item );
-                    return;
-                }
-            }
-
-            if( plan.choice == step_choice::do_wait ) {
-                // Per-turn env check fast-path.  do_something / set_timer
-                // rely on the periodic env_check wakeup at 1-minute cadence
-                // since no actor runs for those modes.
-                craft_actualize_scheduled( craft, item_wakeup_kind::env_check,
-                                           calendar::turn, craft_item );
-                crafter.set_moves( 0 );
-                return;
-            }
-            // do_something / set_timer: end activity without backlog.
-            act.set_to_null();
-            crafter.set_moves( 0 );
-            return;
-        }
+    if( unattended_craft_step( act, crafter ) ) {
+        return;
     }
 
     if( !use_cached_workbench_multiplier ) {
@@ -6564,6 +6896,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                     return;
                 }
             } else if( crafter.is_npc() ) {
+                add_msg_if_player_sees( crafter, _( "%s stops practicing." ),
+                                        crafter.disp_name( true ) );
                 crafter.cancel_activity();
                 return;
             }
@@ -6580,6 +6914,125 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
             }
         }
     }
+}
+
+void craft_activity_actor::migrate_craft_step( Character &crafter )
+{
+    const recipe &rec = craft_item->get_making();
+    if( rec.has_steps() && craft_item->get_current_step() == 0 &&
+        craft_item->get_step_progress() == 0.0 && craft_item->item_counter > 0 ) {
+        // Need base_total_moves for conversion; compute it fresh here.
+        const crafting_cost_context migration_ctx{ crafter.book_bonuses_nearby(),
+                compute_tool_speeds( rec, crafter ) };
+        const double migration_base = std::max( 1.0,
+                                                static_cast<double>( rec.batch_time( crafter, craft_item->get_making_batch_size(), 1.0f, 0,
+                                                        migration_ctx ) ) );
+        double accumulated = craft_item->item_counter * migration_base / 10000000.0;
+        for( size_t i = 0; i < rec.steps().size(); ++i ) {
+            double budget = rec.step_budget_moves( crafter, i,
+                                                   craft_item->get_making_batch_size(), migration_ctx );
+            if( accumulated < budget || i == rec.steps().size() - 1 ) {
+                craft_item->set_current_step( static_cast<int>( i ) );
+                craft_item->set_step_progress( accumulated );
+                break;
+            }
+            accumulated -= budget;
+        }
+    }
+}
+
+craft_activity_actor::mode craft_activity_actor::derive_mode() const
+{
+    const recipe &rec = craft_item->get_making();
+    if( !rec.has_steps() ) {
+        return mode::active;
+    }
+    const recipe_step &s = rec.steps()[craft_item->get_current_step()];
+    if( s.attention != step_attention::unattended ) {
+        return mode::active;
+    }
+    if( craft_item->get_passive_started_at() == calendar::before_time_starts ) {
+        return mode::active;
+    }
+    const std::vector<attention_plan> &plans = craft_item->get_step_plans();
+    const int idx = craft_item->get_current_step();
+    if( idx >= static_cast<int>( plans.size() ) ) {
+        return mode::waiting;
+    }
+    return plans[idx].choice == step_choice::do_wait ? mode::waiting : mode::active;
+}
+
+bool craft_activity_actor::unattended_craft_step( player_activity &act, Character &crafter )
+{
+    const recipe &rec = craft_item->get_making();
+    if( !rec.has_steps() ) {
+        return false;
+    }
+    if( rec.steps()[craft_item->get_current_step()].attention != step_attention::unattended ) {
+        return false;
+    }
+
+    // Parked awaiting collection: stop the actor instead of re-stamping a
+    // fresh passive entry.  The player collects via an explicit activate.
+    if( craft_item->is_awaiting_collection() ) {
+        act.set_to_null();
+        crafter.set_moves( 0 );
+        return true;
+    }
+    const std::vector<attention_plan> &plans = craft_item->get_step_plans();
+    const int idx = craft_item->get_current_step();
+    const attention_plan plan = idx < static_cast<int>( plans.size() ) ? plans[idx] :
+                                attention_plan{};
+
+    // Past-due wakeup (off-bubble drop or same-turn race): advance inline.
+    if( craft_item->get_passive_started_at() != calendar::before_time_starts &&
+        craft_item->get_ready_at() != calendar::before_time_starts &&
+        calendar::turn >= craft_item->get_ready_at() ) {
+        craft_actualize_scheduled( *craft_item, item_wakeup_kind::ready_check,
+                                   calendar::turn, craft_item );
+        return true;
+    }
+
+    if( craft_item->get_passive_started_at() == calendar::before_time_starts ) {
+        // Unattended steps cannot draw resources from the crafter over time, so consume
+        // the remaining character resource cost before the passive work begins.
+        if( !crafter.craft_consume_character_resources( *craft_item, 10000000 ) ) {
+            craft_item->erase_var( "crafter" );
+            crafter.cancel_activity();
+            return true;
+        }
+
+        craft_stamp_passive_entry( *craft_item, crafter, calendar::turn, craft_item );
+        mode_ = derive_mode();
+        // Back-dated entry can leave alarm and/or ready already due.
+        // Alarm runs first; the alarm handler elides itself if ready
+        // also fires same turn.
+        if( craft_item->get_alarm_at() != calendar::before_time_starts &&
+            calendar::turn >= craft_item->get_alarm_at() ) {
+            craft_actualize_scheduled( *craft_item, item_wakeup_kind::alarm,
+                                       calendar::turn, craft_item );
+        }
+        if( craft_item->get_ready_at() != calendar::before_time_starts &&
+            calendar::turn >= craft_item->get_ready_at() ) {
+            craft_actualize_scheduled( *craft_item, item_wakeup_kind::ready_check,
+                                       calendar::turn, craft_item );
+            return true;
+        }
+    }
+
+    if( plan.choice == step_choice::do_wait ) {
+        // Per-turn env check fast-path.  do_something / set_timer
+        // rely on the periodic env_check wakeup at 1-minute cadence
+        // since no actor runs for those modes.
+        craft_actualize_scheduled( *craft_item, item_wakeup_kind::env_check,
+                                   calendar::turn, craft_item );
+        crafter.set_moves( 0 );
+        return true;
+    }
+    // do_something / set_timer: end activity without backlog.
+    act.set_to_null();
+    crafter.set_moves( 0 );
+    return true;
 }
 
 void craft_activity_actor::finish( player_activity &act, Character & )
@@ -7258,6 +7711,7 @@ static void stash_on_pet( const std::list<item> &items, monster &pet, Character 
             remaining_weight -= it.weight();
         }
         // TODO: if NPCs can have pets or move items onto pets
+        // Create a new temporary, handle pickup ownership on it, immediately throw away the temporary??
         item( it ).handle_pickup_ownership( who );
     }
 }
@@ -8385,8 +8839,8 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( false,
-                                       true ) : mon->unique_name;
+    std::string pet_name_capitalized = mon->unique_name.empty() ? mon->disp_name( true ) :
+                                       mon->unique_name;
 
     if( !mon->shearable() ) {
         add_msg( _( "%1$s has nothing %2$s could shear." ), pet_name_capitalized, who.disp_name() );
@@ -8400,7 +8854,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
     const int shearing_quality = who.max_quality( qual_SHEAR );
     if( !( shearing_quality > 0 ) ) {
         if( who.is_avatar() ) {
-            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( false, true ) );
+            add_msg( m_info, _( "%1$s don't have a shearing tool." ), who.disp_name( true ) );
         } else { // who.is_npc
             // npcs can't shear monsters yet, this is for when they are able to
             add_msg_if_player_sees( who, _( "%1$s doesn't have a shearing tool." ), who.disp_name(),
@@ -8419,7 +8873,7 @@ void shearing_activity_actor::start( player_activity &act, Character &who )
 
     if( who.is_avatar() ) {
         add_msg( m_info,
-                 _( "%1$s start shearing %2$s." ), who.disp_name( false, true ), mon->disp_name() );
+                 _( "%1$s start shearing %2$s." ), who.disp_name( true ), mon->disp_name() );
     } else { // who.is_npc
         // npcs can't shear monsters yet, this is for when they are able to
         add_msg_if_player_sees( who, _( "%1$s starts shearing %2$s." ), who.disp_name(),
@@ -8437,7 +8891,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
             add_msg(
                 m_bad,
                 _( "%1$s don't have a shearing tool anymore." ),
-                who.disp_name( false, true ) );
+                who.disp_name( true ) );
         } else {
             add_msg_if_player_sees(
                 who,
@@ -8472,7 +8926,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
     add_msg_if_player_sees( who,
                             string_format(
                                 _( "%1$s finished shearing %2$s and got:" ),
-                                who.disp_name( false, true ),
+                                who.disp_name( true ),
                                 mon->unique_name.empty() ? mon->disp_name() : mon->unique_name ) );
 
     const std::vector<shearing_roll> shear_roll = shear_data.roll_all( *mon );
@@ -9274,7 +9728,7 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     if( !playstr.empty() ) {
-        who.add_msg_if_player( m_good, playstr, pet_name );
+        who.add_msg_if_player( m_good, _( playstr ), pet_name );
     }
 
     if( !who.has_flag( json_flag_PSYCHOPATH ) && !who.has_flag( json_flag_NUMB ) ) {
@@ -9357,7 +9811,7 @@ void prying_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    if( prying_nails && !tool->has_quality( qual_PRYING_NAIL ) ) {
+    if( prying_nails && !tool.has_quality( qual_PRYING_NAIL ) ) {
         who.add_msg_if_player( _( "You can't use your %1$s to pry up the nails." ), tool->tname() );
         act.set_to_null();
         return;
@@ -9671,6 +10125,9 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue &
 
 static bool check_stealing( Character &who, item &it )
 {
+    if( !who.is_avatar() ) {
+        return true;
+    }
     if( !it.is_owned_by( who, true ) ) {
         const std::string thief_mode = who.get_value( "THIEF_MODE" ).str();
         if( thief_mode == "THIEF_HONEST" ) {
@@ -10212,7 +10669,7 @@ void fertilize_plant_activity_actor::finish( player_activity &act, Character &wh
     }
 
     // Reduce the amount of time it takes until the next stage of the plant by
-    // 20% of a seasons length. (default 2.8 days).
+    // 20% of a seasons length. (default 18.2 days).
     const time_duration fertilizerEpoch = calendar::season_length() * 0.2;
 
     // Can't use item_stack::only_item() since there might be fertilizer
@@ -10447,7 +10904,7 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
+            it->use_charges( it, it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
@@ -11324,8 +11781,14 @@ void unload_loot_activity_actor::stage_do( player_activity &, Character &you )
 
         const std::unordered_set<tripoint_abs_ms> dest_set;
 
+        item_location loc;
+        if( it->second ) {
+            loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it->first );
+        } else {
+            loc = item_location( map_cursor( src ), it->first );
+        }
         zone_sorting::unload_item( you, src,
-                                   zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set,
+                                   zone_unload_options, it->second ? vp : std::nullopt, loc, dest_set,
                                    num_processed );
 
         if( you.get_moves() <= 0 ) {
@@ -13656,11 +14119,38 @@ void zone_activity_actor::do_turn( player_activity &act, Character &you )
     }
     if( stage == DO ) {
         //to end this activity, THINK stage must resolve all zone tiles
+        if( zero_move_turn != calendar::turn ) {
+            zero_move_turn = calendar::turn;
+            zero_move_dispatches = 0;
+        }
+        const int moves_before = you.get_moves();
+        const activity_actor *const dispatched = act.actor.get();
         stage_do( act, you );
+        // stage_do can null this activity (routing) or swap in another one
+        // (gunmod removal); either destroys this actor, so read no member
+        // unless the activity still holds the dispatched actor
+        if( act.is_null() || act.actor.get() != dispatched ) {
+            return;
+        }
+        if( you.get_moves() != moves_before ) {
+            zero_move_dispatches = 0;
+            return;
+        }
+        if( stage == DO && ++zero_move_dispatches > zero_move_budget() ) {
+            // passes that spend nothing are normal; an unbroken run of them in one
+            // turn is not, and the caller re-enters while moves remain
+            add_msg_debug( debugmode::DF_ACTIVITY,
+                           "zone activity: %d zero-move DO dispatches in one turn, forcing THINK",
+                           zero_move_dispatches );
+            zero_move_dispatches = 0;
+            on_no_progress( you );
+            stage = THINK;
+            you.mod_moves( -1 );
+        }
         return;
     }
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
+    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( true ) );
     if( you.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &you );
         guy->revert_after_activity();
@@ -13986,6 +14476,16 @@ bool zone_sort_activity_actor::stage_think( player_activity &act, Character &you
     return true;
 }
 
+void zone_sort_activity_actor::on_no_progress( Character &you )
+{
+    // stage_think clears picked_up_stuff and dropoff_coords, so a staged batch
+    // has to go back to its source tile or it rides along untracked
+    if( !picked_up_stuff.empty() ) {
+        return_items_to_source( you, get_map().get_bub( placement ) );
+    }
+    unreachable_sources.emplace( placement );
+}
+
 void zone_sort_activity_actor::return_items_to_source( Character &you,
         const tripoint_bub_ms &src_bub )
 {
@@ -14150,6 +14650,9 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
 
             bool routed = false;
             auto dest_it = dropoff_coords.begin();
+            // routing copies the activity, so the stall counter has to be clear
+            // before the copy is taken, not after this call returns
+            note_progress();
             while( dest_it != dropoff_coords.end() ) {
                 if( zone_sorting::route_to_destination( you, act, here.get_bub( *dest_it ), stage ) ) {
                     routed = true;
@@ -14218,6 +14721,8 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
     // Track whether the knock-down gate blocked any item (item so heavy it
     // would cause the character to collapse under its weight).
     bool knockdown_gate_fired = false;
+    // whether this call took anything or only staged state
+    bool picked_anything_this_call = false;
     // picked_up_this_pass is a member variable that persists across do_turn
     // calls so batching still fires when move exhaustion splits pickup and
     // batching into separate turns. Reset after the batching check evaluates.
@@ -14260,8 +14765,15 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
 
+
+        item_location loc;
+        if( it->second ) {
+            loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it->first );
+        } else {
+            loc = item_location( map_cursor( src ), it->first );
+        }
         std::optional<bool> move_and_reset = zone_sorting::unload_item( you, src,
-                                             zone_unload_options, it->second ? vp : std::nullopt, it->first, dest_set, num_processed );
+                                             zone_unload_options, it->second ? vp : std::nullopt, loc, dest_set, num_processed );
         // out of moves, or unloaded item container was destroyed or prompted an activity restart
         if( !move_and_reset ) {
             return;
@@ -14315,6 +14827,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 }
                 num_processed--;
                 delivered = true;
+                note_progress();
                 break;
             }
             if( delivered ) {
@@ -14438,38 +14951,32 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             drag_ok = false;
                         }
                     }
-                    if( !drag_ok ) {
-                        // Cart would be too heavy to drag - stop loading.
+                    if( drag_ok ) {
+                        std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
+                                copy_thisitem );
+                        if( vehstack ) {
+                            thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
+                                                          &*vehstack.value() );
+                        }
+                    } else {
+                        // cart is at its drag limit, so carry the item instead of
+                        // leaving it
                         cart_or_carry_blocked = true;
                         drag_gate_fired = true;
-                        continue;
-                    }
-                    std::optional<vehicle_stack::iterator> vehstack = veh.add_item( here, ovp->part(),
-                            copy_thisitem );
-                    if( vehstack ) {
-                        thisitem_loc = item_location( vehicle_cursor( veh, ovp->part_index() ),
-                                                      &*vehstack.value() );
                     }
                 }
             }
             if( !thisitem_loc ) {
-                if( !you.is_avatar() || you.as_avatar()->get_grab_type() != object_type::VEHICLE ) {
-                    // Knock-down gate: never pick up items so heavy they would
-                    // cause the character to collapse (exceed max_pickup_capacity).
-                    // TODO: handle these items via hauling instead of skipping them.
-                    if( you.weight_carried() + copy_thisitem.weight() > you.max_pickup_capacity() ) {
-                        cart_or_carry_blocked = true;
+                // every way into the inventory goes through the same gate: cart
+                // refused the item, cargo was full, or there is no cart
+                const zone_sorting::carry_gate_result gate =
+                    zone_sorting::carry_gate_check( you, copy_thisitem, !picked_up_stuff.empty() );
+                if( gate != zone_sorting::carry_gate_result::ok ) {
+                    cart_or_carry_blocked = true;
+                    if( gate == zone_sorting::carry_gate_result::knockdown ) {
                         knockdown_gate_fired = true;
-                        continue;
                     }
-                    // No-grab weight gate: stop picking up when over capacity.
-                    // Always allow at least one item so heavy things like corpses
-                    // can be sorted one at a time.
-                    if( !picked_up_stuff.empty() &&
-                        you.weight_carried() + copy_thisitem.weight() > you.weight_capacity() ) {
-                        cart_or_carry_blocked = true;
-                        continue;
-                    }
+                    continue;
                 }
                 thisitem_loc = you.try_add( copy_thisitem );
             }
@@ -14526,10 +15033,19 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         // OK, we can sort this!
         picked_up_stuff.emplace_back( thisitem_loc );
         picked_up_this_pass = true;
+        picked_anything_this_call = true;
+        note_progress();
         // out of moves or item was unloaded
         if( you.get_moves() <= 0 || *move_and_reset ) {
             return;
         }
+    }
+
+    if( !picked_anything_this_call && drag_gate_fired ) {
+        // cart is at its drag limit and nothing here fits the character, so
+        // this tile stays unusable until the load or the position changes.
+        // stage_think clears unreachable_sources on either
+        unreachable_sources.emplace( src );
     }
 
     if( picked_up_stuff.empty() ) {
@@ -14620,6 +15136,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
             }
         }
         if( picked_up_this_pass ) {
+            // evaluate batching at most once per pickup pass. every exit below
+            // (including early returns) must leave this false: a pass returning
+            // with it true re-enters DO without spending a move, and the caller
+            // keeps re-entering while moves remain.
+            picked_up_this_pass = false;
             // Pre-fetch cart cargo for per-item volume check
             std::optional<vpart_reference> batch_cart_vp;
             if( you.is_avatar() && you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
@@ -14738,14 +15259,11 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                             fits = true;
                         }
                     }
-                    if( !fits && you.can_stash( *it ) ) {
-                        if( you.is_avatar() &&
-                            you.as_avatar()->get_grab_type() == object_type::VEHICLE ) {
-                            fits = true;
-                        } else {
-                            fits = ( you.weight_carried() + it->weight() <=
-                                     you.weight_capacity() );
-                        }
+                    if( !fits ) {
+                        // same gate the pickup path uses. a looser predicate picks
+                        // targets nothing can be taken from
+                        fits = zone_sorting::carry_gate_check( you, *it, !picked_up_stuff.empty() ) ==
+                               zone_sorting::carry_gate_result::ok;
                     }
                     if( fits ) {
                         should_batch = true;
@@ -14768,6 +15286,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                     // Already adjacent, re-enter DO to process batch target
                     return;
                 }
+                note_progress();
                 if( zone_sorting::route_to_destination( you, act,
                                                         here.get_bub( batch_target ), stage ) ) {
                     return;
@@ -14775,9 +15294,6 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
                 // Can't reach batch target, mark unreachable and fall through to delivery
                 unreachable_sources.emplace( batch_target );
             }
-            // Reset after evaluation. Prevents infinite loops when a batch
-            // target has no pickable items (zero moves consumed per cycle).
-            picked_up_this_pass = false;
         }
 
         bool match = false;
@@ -14849,6 +15365,7 @@ void zone_sort_activity_actor::stage_do( player_activity &act, Character &you )
         if( square_dist( abspos, destination ) <= 1 ) {
             return;
         }
+        note_progress();
         if( !zone_sorting::route_to_destination( you, act, here.get_bub( destination ), stage ) ) {
             // Defensive: route_length passed (destination was in dropoff_coords)
             // but route_to_destination failed. Both use the same A* in a single
@@ -14962,6 +15479,7 @@ deserialize_functions = {
     { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },
     { ACT_CHURN, &churn_activity_actor::deserialize },
     { ACT_CLEAR_RUBBLE, &clear_rubble_activity_actor::deserialize },
+    { ACT_CLOSE_TILE, &close_tile_activity_actor::deserialize },
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
@@ -15018,6 +15536,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_READ, &multi_read_activity_actor::deserialize },
     { ACT_MULTIPLE_STUDY, &multi_study_activity_actor::deserialize },
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
+    { ACT_OPEN_TILE, &open_tile_activity_actor::deserialize },
     { ACT_OPERATION, &bionic_operation_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKAXE, &pickaxe_activity_actor::deserialize },

@@ -663,5 +663,35 @@
     "energy_consumption": "100000 W",
     "description": "A spartan, prototype engine-generator made to burn all fuels.",
     "noise_factor": 1
+  },
+  {
+    "id": "diesel_engine_multifuel_i6",
+    "copy-from": "diesel_engine_i6",
+    "type": "vehicle_part",
+    "item": "i6_diesel_multifuel",
+    "description": "An old military diesel engine designed to run with extended list of fuel options, including even gasoline.  Extensively heavy and not as efficient as modern engines, but very sturdy.",
+    "durability": 700,
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil", "motor_oil", "jp8", "gasoline" ],
+    "epower": "-150 W",
+    "power": "104397 W",
+    "energy_consumption": "367712 W",
+    "//": "~28.4% energy efficiency, calculated",
+    "//2": "As a reference for specs were used real life LDT-465-1C multifuel engine.",
+    "breaks_into": [
+      { "item": "ch_steel_lump", "count": [ 40, 50 ] },
+      { "item": "ch_steel_chunk", "count": [ 40, 50 ] },
+      { "item": "scrap", "count": [ 40, 50 ] },
+      { "item": "motor_oil", "count": [ 15000, 20000 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "65 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "35 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "70 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "damage_reduction": { "all": 100 }
   }
 ]

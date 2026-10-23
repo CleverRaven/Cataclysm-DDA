@@ -346,5 +346,34 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "motor_oil", 12000 ] ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "i6_diesel_multifuel",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": "60 m",
+    "components": [
+      [ [ "drivebelt", 3 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 2 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "pump_complex", 1 ] ],
+      [ [ "hd_compressor", 1 ] ],
+      [ [ "cable", 16 ] ],
+      [ [ "glowplug", 1 ] ],
+      [ [ "engine_block_massive", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 19000 ] ],
+      [ [ "scrap", 855 ] ],
+      [ [ "steel_chunk", 830 ] ],
+      [ [ "steel_lump", 256 ] ],
+      [ [ "material_aluminium_ingot", 30 ] ],
+      [ [ "hd_pipe", 6 ] ],
+      [ [ "pipe", 4 ] ]
+    ]
   }
 ]

@@ -629,7 +629,8 @@
     "entries": [
       { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cold_damage_over_time", "prob": 1 },
       { "item": "nether_sorcery_grimoire_xe_nether_sorcery_summon_kreck_pack", "prob": 1 },
-      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cause_withering_damage", "prob": 1 }
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_cause_withering_damage", "prob": 1 },
+      { "item": "nether_sorcery_grimoire_xe_nether_sorcery_wind_dodge_shell", "prob": 1 }
     ]
   },
   {

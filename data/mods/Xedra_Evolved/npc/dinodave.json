@@ -1,0 +1,27 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Gift_Given",
+    "dynamic_line": "Indeed, my knight.  I was hesitant to grant you this power, but you have proven your worth and fealty many times over.  Make sure it does not fall into the wrong hands.  May it help you on your journey as you have helped this servant of Rat.",
+    "responses": [
+      {
+        "text": "[Take the gift.] [Shapeshifter Spirit Gift]",
+        "topic": "TALK_DINODAVE_Gift_Bye",
+        "effect": [
+          { "u_spawn_item": "recipe_dave_manual" },
+          { "u_spawn_item": "badge_cardboard" },
+          { "math": [ "u_spell_level('xe_shapeshifter_cardboard_palace') = 1" ] },
+          {
+            "u_message": "There is intense chittering, whuffling and other sounds rats make.  You learn a spell from the patron spirit of the homeless and downtrodden."
+          }
+        ],
+        "condition": { "u_has_trait": "NATIVE_SHAPESHIFTER" }
+      },
+      {
+        "text": "[Take the gift.] Servant of Rat.  What's that about?",
+        "topic": "TALK_DINODAVE_Gift_Bye",
+        "effect": [ { "u_spawn_item": "recipe_dave_manual" }, { "u_spawn_item": "badge_cardboard" } ]
+      }
+    ]
+  }
+]

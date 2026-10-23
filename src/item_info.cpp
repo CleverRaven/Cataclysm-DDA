@@ -51,6 +51,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "item_uid.h"
 #include "iteminfo_query.h"
@@ -81,6 +82,7 @@
 #include "string_id_utils.h"
 #include "subbodypart.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -128,7 +130,6 @@ static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
-class temp_crafting_inventory;
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
@@ -1122,12 +1123,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 insert_separation_line( info );
                 if( default_bore_type_id != itype_id::NULL_ID() ) {
                     info.emplace_back( "GUN",
-                                       _( "Weapon is <bad>not attached a bore mod</bad>, so stats below assume the default bore mod: " ),
+                                       _( "Weapon is <bad>missing a bore mod</bad>, stats below assume the default bore mod: " ),
                                        string_format( "<stat>%s</stat>",
                                                       default_bore_type_id->nname( 1 ) ) );
                 } else {
                     info.emplace_back( "GUN",
-                                       _( "Weapon is <bad>not attached a bore mod</bad>. " ) );
+                                       _( "Weapon is <bad>missing a bore mod</bad>. " ) );
                     return;
                 }
 
@@ -1141,7 +1142,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             // clear out empty magazines so put_in below doesn't error
             for( item *i : tmp.contents.all_items_top() ) {
                 if( i->is_magazine() ) {
-                    tmp.remove_item( *i );
+                    // item_location hack warning!
+                    item_location( get_player_character(), &tmp ).remove_item( *i );
                     tmp.on_contents_changed();
                 }
             }
@@ -2002,7 +2004,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
         if( !printed_any ) {
             info.emplace_back( bp_cat, string_format( "%s%s", space, _( "Negligible Protection" ) ) );
         }
-        if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
+        if( type->can_use( "GASMASK" ) || type->can_use( "PAPR_MASK_ACTIVATE" ) ) {
             info.emplace_back( "ARMOR", string_format( "<bold>%s</bold>:",
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",
@@ -3470,12 +3472,10 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
-    // TODO: Unhide when enforcing limits
-    if( get_option < bool >( "CBM_SLOTS_ENABLED" )
-        && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+    if( parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
         info.emplace_back( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                            _( "This bionic is installed in the following body "
-                              "part(s):" ) ) );
+                              "part(s), or their equivalent part(s):" ) ) );
     }
 
     if( is_bionic() && has_flag( flag_NO_STERILE ) ) {
@@ -4258,6 +4258,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( item_recipes.empty() ) {
             info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
+            // no inventory-backed item or power changes in this loop, so query caches hold
+            temp_crafting_inventory::query_cache_scope cache_scope;
             std::vector<std::string> crafts;
             crafts.reserve( item_recipes.size() );
             for( const recipe *r : item_recipes ) {

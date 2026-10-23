@@ -249,8 +249,7 @@
     "type": "ITEM",
     "id": "material_quicklime",
     "category": "chems",
-    "price": "1 USD",
-    "price_postapoc": "10 cent",
+    "price_postapoc": "0 cent",
     "name": { "str_sp": "quicklime powder" },
     "display_type": "BY_WEIGHT",
     "symbol": "=",
@@ -265,7 +264,7 @@
     "id": "chem_slaked_lime",
     "category": "chems",
     "price": "2 cent",
-    "price_postapoc": "2 cent",
+    "price_postapoc": "0 cent",
     "name": { "str_sp": "slaked lime powder" },
     "symbol": "=",
     "color": "white",
@@ -850,7 +849,7 @@
     "id": "chem_chromium_oxide",
     "category": "chems",
     "price": "5 USD",
-    "price_postapoc": "1 USD",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "chromium oxide powder" },
     "symbol": "=",
     "color": "green",
@@ -1124,6 +1123,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1135,7 +1135,9 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "container": "bag_plastic_small"
+    "ammo_type": "chem_black_powder",
+    "container": "bag_plastic_small",
+    "count": 1000
   },
   {
     "type": "ITEM",
@@ -1921,6 +1923,7 @@
     "material": [ "veggy" ],
     "color": "light_blue",
     "fun": -50,
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ANTIFUNGAL_STRONG" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {

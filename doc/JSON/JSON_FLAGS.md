@@ -179,6 +179,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALLOWS_GASTROPOD_FOOT``` You can wear this item even if you have a gastropod foot instead of human legs.
 - ```ALLOWS_LEG_TENTACLES``` You can wear this item even if you have cephalopod tentacles instead of human legs.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
+- ```ALLOWS_SPIDER_ARMS``` You can wear this item even if you have spider arms in addition to your normal arms.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
 - ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
 - ```ALLOWS_WING_ARMS``` People whose arms have turned into wings can still wear this armor.
@@ -390,6 +391,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```CUT_IMMUNE``` You are immune to cutting damage.
 - ```DEAF``` Makes you deaf.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.  Also protects you from any dangerous effects of portal storms.
+- ```DISTRIBUTED_DAMAGE``` All damage you take is divided equally among your bodyparts.
 - ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```ETHEREAL```  You will not drop your items if you gain the `incorporeal` effect.
@@ -417,6 +419,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
+- ```INFECTION_RECOVERY``` You can recover from infections easier to the same degree as the Infection Resistant mutation (which it stacks with)
 - ```INSECTBLOOD``` Your body drip insect blood if wounded.
 - ```INSTANT_BLEED``` You bleed corpses in 1 second each.
 - ```INVERTEBRATEBLOOD``` Your body drip invertebrate blood if wounded
@@ -451,6 +454,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```PHASE_MOVEMENT``` DEBUG. Completely ignores all impassable tiles, gravity checks, etc. and forces movement anyway.
 - ```PLANTBLOOD``` Your body drip veggy blood if wounded.
 - ```PORTAL_PROOF``` You are immune to personal portal storm effects.
+- ```PERK``` Turns a mutation with this flag light cyan on the list.  Currently used in the Bombastic Perks mod to sort perks.
 - ```PRED1``` Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
 - ```PRED2``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills.  Small morale bonus from foods with the `PREDATOR_FUN` flag.  Lower morale penalty from the guilt mondeath effect.
 - ```PRED3``` Learn combat skills with double catchup modifier.  Resist skill rust on combat skills.  Medium morale bonus from foods with the `PREDATOR_FUN` flag.  Immune to the guilt mondeath effect.
@@ -542,6 +546,7 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` Food causes hallucinations, visible only with a certain survival skill level.
 - ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level.  Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
+- ```MARLOSS``` Marloss food, refused by NPCs and characters with `MARLOSS_AVOID` or `THRESH_MYCUS` before consumption effects, nutrition or addictions are applied.  Does not apply to Mycus food.
 - ```MELTS``` Provides half fun unless frozen.  Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
@@ -603,8 +608,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```HONEYCOMB``` Spawns wax.
 - ```INHALER``` Removes disease `asthma`.
 - ```IODINE``` Adds disease `iodine`.
-- ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
-- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 sleepiness, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 sleepiness.  Only applies to mycus fruit by default.
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
 - ```PETFOOD``` "Lets you feed the item to animals. Specify in `petfood` i.e. `[ "CATTLEFOOD", "DOGFOOD", "CATFOOD", "BIRDFOOD" ]`."
@@ -1244,7 +1247,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
 - ```PLANT_BLOOD``` Forces monster to bleed sap.
-- ```PLASTIC``` Absorbs physical damage to a great degree.
+- ```PLASTIC``` Absorbs physical damage (and telekinetic damage, in Mind Over Matter) to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```PUSH_MON``` Can push creatures out of its way.
@@ -1473,13 +1476,16 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 ## Scenarios
 
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
-- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CHALLENGE``` Sorted into the "CHALLENGE" category in the character creation UI. Also, game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
+- ```FORGIVING``` Sorted into the "FORGIVING" category in the character creation UI.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
 - ```LONE_START``` This scenario won't spawn a fellow NPC on game start.
 - ```NO_BONUS_ITEMS``` This scenario prevent bonus items (such as inhalers with the `ASTHMA` trait) from being given to this profession
+- ```STANDARD``` Sorted into the "STANDARD" category in the character creation UI.
 - ```SUR_START``` Write `Zombies nearby` in the scenario info, doesn't spawn monsters by itself (put close to `LONE_START`)
+- ```TOUGH``` Sorted into the "TOUGH" category in the character creation UI.
 
 
 ### Profession
@@ -1589,7 +1595,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
 - ```DIG``` Clear rubble.
 - ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
-- ```DIVE_TANK``` Use compressed air tank to breathe.
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
 - ```EXTINGUISHER``` Put out fires.
@@ -1632,6 +1637,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```RESTAURANTMAP``` Learn of local eateries, and show roads.
 - ```ROADMAP``` Learn of local common points-of-interest and show roads.
 - ```SCISSORS``` Cut up clothing.
+- ```SCBA_MASK_ACTIVATE``` Prep SCBA regulator for breathing.  Transforms into an item with string <item_id>_scba_on.
+- ```SCBA_TANK_ACTIVATE``` Prep SCBA air source for breathing.
 - ```SEED``` Asks if you are sure that you want to eat the seed.  As it is better to plant seeds.
 - ```SEW``` Sew clothing.
 - ```SHELTER``` Put up a full-blown shelter.

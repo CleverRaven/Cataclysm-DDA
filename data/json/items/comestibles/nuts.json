@@ -757,8 +757,9 @@
     "price_postapoc": "23 cent",
     "material": [ "nut" ],
     "volume": "15 ml",
-    "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -1,
+    "//COMMENT": "This food is a spread and cannot be eaten directly. It can be eaten automatically as a 'seasoning' or used in crafting/cooking.",
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
+    "fun": 2,
     "vitamins": [ [ "nut_allergen", 1 ] ]
   }
 ]

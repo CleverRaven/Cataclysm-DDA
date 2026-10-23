@@ -7,8 +7,8 @@
     "name": "scarlet light",
     "roof": "t_null",
     "color": "red",
-    "light_color": [ 110, 0, 0 ],
-    "light_emitted": 30,
+    "light_color": [ 240, 0, 0 ],
+    "light_emitted": 60,
     "description": "A red lamp on rods protruding from the ground.  Hard to directly look at without eye protection.",
     "bash": {
       "sound": "SMASH!",
