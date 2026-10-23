@@ -60,12 +60,6 @@ template <typename T> struct enum_traits;
 
 class temp_crafting_inventory;
 
-template<>
-struct enum_traits<medical_tab_mode> {
-    static constexpr medical_tab_mode last = medical_tab_mode::last;
-    static constexpr medical_tab_mode first = medical_tab_mode::TAB_LIMBS;
-};
-
 static std::string coloured_stat_display( int statCur, int statMax )
 {
     nc_color cstatus;
