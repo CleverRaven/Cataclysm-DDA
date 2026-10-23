@@ -8,7 +8,7 @@
     "limit": 8,
     "damage_types": [ "cut" ],
     "damage_required": [ 1, 12 ],
-    "pain": [ 2, 5 ],
+    "pain": [ 1, 2 ],
     "healing_time": [ "3 days", "5 days" ],
     "wound_progression": [ { "id": "scratch_medium", "chance": 10 } ],
     "limb_scores": [ { "score": "manip", "value": 0.04 } ],
