@@ -164,20 +164,24 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
     avatar &you = get_avatar();
 
     WHEN( "recipe is more valuable than ingredients" ) {
+        map &here = get_map();
+        const tripoint_bub_ms you_at = you.pos_bub();
+        const map_cursor cur_at( you_at );
+
         auto_eat_test broth_test( you );
         auto_eat_settings::potential_edible broth( &recipe_broth_meat.obj() );
         auto_eat_settings::potential_edible meat_cooked( &recipe_meat_cooked.obj() );
-        auto_eat_settings::potential_edible meat( item_location( map_cursor( you.pos_bub() ),
-                &get_map().add_item( you.pos_bub(), item( itype_meat ) ) ) );
-        auto_eat_settings::potential_edible powder_eggs( item_location( map_cursor( you.pos_bub() ),
-                &get_map().add_item( you.pos_bub(), item( itype_powder_eggs ) ) ) );
+        auto_eat_settings::potential_edible meat( item_location( cur_at,
+                &here.add_item( you_at, item( itype_meat ) ) ) );
+        auto_eat_settings::potential_edible powder_eggs( item_location( cur_at,
+                &here.add_item( you_at, item( itype_powder_eggs ) ) ) );
 
         // add some ingredients
-        get_map().add_item( you.pos_bub(), item( itype_water_clean, calendar::turn,
-                            2 ).in_its_container() );
-        get_map().add_item( you.pos_bub(), item( itype_salt ), 4 );
-        get_map().add_item( you.pos_bub(), item( itype_pot ) );
-        item &popcan_stove = get_map().add_item( you.pos_bub(), tool_with_ammo( itype_popcan_stove, 500 ) );
+        here.add_item( you_at, item( itype_water_clean, calendar::turn,
+                                     2 ).in_its_container() );
+        here.add_item( you_at, item( itype_salt ), 4 );
+        here.add_item( you_at, item( itype_pot ) );
+        item &popcan_stove = here.add_item( you_at, tool_with_ammo( itype_popcan_stove, 500 ) );
 
         REQUIRE( popcan_stove.has_ammo() );
         CHECK( recipe_broth_meat->deduped_requirements().can_make_with_inventory( &you,
@@ -222,7 +226,7 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         broth_test.score_food_check_all( powder_eggs, -34 );
         broth_test.score_food_check_all( broth, 27 );
 
-        you.set_thirst( 81 );
+        you.set_thirst( -41 );
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
         REQUIRE( food_iter != food_list.end() );
