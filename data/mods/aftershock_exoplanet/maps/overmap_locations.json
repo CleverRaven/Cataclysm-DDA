@@ -20,7 +20,7 @@
   {
     "type": "overmap_location",
     "id": "ravine_edge",
-    "terrains": [ "ravine_edge" ]
+    "terrains": [ "ravine_edge", "ravine_floor_edge" ]
   },
   {
     "type": "start_location",
