@@ -5255,7 +5255,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "barry_mi-go_scout_tower_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "barry_mi-go_scout_tower_3_north" },
       { "point": [ 0, 0, 3 ], "overmap": "barry_mi-go_scout_tower_4_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field" },
+      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field_north" },
       { "point": [ 1, 1, 0 ], "overmap": "field" },
       { "point": [ -1, 1, 0 ], "overmap": "field" },
       { "point": [ 1, 0, 0 ], "overmap": "field" },
