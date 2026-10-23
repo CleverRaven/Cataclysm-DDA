@@ -3000,7 +3000,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_MEDICAL: {
             body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_MEDICAL );
-            return bsui.display();
+            if( bsui.display() ) {
+                return false;
+            }
             break;
         }
         case ACTION_BODYSTATUS: {
