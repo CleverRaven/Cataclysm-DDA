@@ -1849,10 +1849,9 @@ void npc::move()
                     bool satisfied = false;
                     switch( *gid ) {
                         case need_goal_id::eat_food:
-                            satisfied = oracle.needs_food_badly( "" ) != behavior::status_t::running;
-                            break;
                         case need_goal_id::drink_water:
-                            satisfied = oracle.needs_water_badly( "" ) != behavior::status_t::running;
+                            // meal ends when it's enough, not when the body has caught up
+                            satisfied = !intake_useful( *gid );
                             break;
                         case need_goal_id::regulate_temperature:
                             satisfied = oracle.needs_temperature_regulation( "" ) != behavior::status_t::running;
@@ -5500,6 +5499,17 @@ static int sip_moves()
     return to_moves<int>( 1_turns );
 }
 
+units::volume npc::drinkable_part( const units::volume &serving ) const
+{
+    if( can_stomach( serving ) ) {
+        return serving;
+    }
+    // drink without a container is cut to what still fits; an item's charge is whole or
+    // nothing, which will_eat decides
+    const units::volume room = stomach.room_before_engorged( *this, has_calorie_deficit() );
+    return room > 0_ml && can_stomach( room ) ? room : 0_ml;
+}
+
 void npc::refuse_camp_meal()
 {
     complaints.insert_or_assign( "camp_meal_refused", calendar::turn );
@@ -5528,8 +5538,7 @@ bool npc::consume_food_from_camp( consume_filter filter )
         get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
         const units::volume want = std::max( 0_ml,
                                              units::from_milliliter( get_thirst() * 5 ) );
-        const units::volume room = stomach.stomach_remaining( *this );
-        const units::volume intake = std::min( { want, room, sip_of_water() } );
+        const units::volume intake = std::min( want, drinkable_part( sip_of_water() ) );
         if( intake > 0_ml ) {
             stomach.ingest( { intake, 0_ml, {} } );
             mod_moves( -sip_moves() );
@@ -5539,8 +5548,8 @@ bool npc::consume_food_from_camp( consume_filter filter )
         }
     }
 
-    // Handle food (skipped in drink_only mode, and for an NPC that does not eat).
-    if( filter == consume_filter::drink_only || !needs_food() ) {
+    // Handle food (skipped in drink_only mode, and once no more food fits, as at a meal's end).
+    if( filter == consume_filter::drink_only || !intake_fits( need_goal_id::eat_food ) ) {
         return false;
     }
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
@@ -5607,6 +5616,42 @@ bool npc::can_satisfy( const item &it, const need_goal_id id ) const
     return need_accepts( it, id ) && will_eat( it ).success();
 }
 
+bool npc::intake_fits( const need_goal_id id ) const
+{
+    if( !needs_food() || !can_stomach( 1_ml ) ) {
+        return false;
+    }
+    switch( id ) {
+        case need_goal_id::drink_water:
+            return get_thirst() > 0 && drinkable_part( sip_of_water() ) > 0_ml;
+        case need_goal_id::eat_food:
+            // meal in the stomach ends it, whatever hunger says before the next body update
+            return !stomach.holds_a_meal( *this );
+        case need_goal_id::regulate_temperature:
+        case need_goal_id::go_to_sleep:
+            break;
+    }
+    return false;
+}
+
+bool npc::intake_useful( const need_goal_id id ) const
+{
+    if( !intake_fits( id ) ) {
+        return false;
+    }
+    switch( id ) {
+        case need_goal_id::drink_water:
+            // adjusted thirst already subtracts water waiting in the stomach
+            return get_thirst() > npc_thirst_act_level;
+        case need_goal_id::eat_food:
+            return get_hunger() > NPC_HUNGER_CONSUME || calories_short( *this );
+        case need_goal_id::regulate_temperature:
+        case need_goal_id::go_to_sleep:
+            break;
+    }
+    return false;
+}
+
 bool npc::may_use_source( const item_location &loc ) const
 {
     if( !loc || !craft_reservation::usable_by_automation( *loc ) ) {
@@ -5647,8 +5692,14 @@ bool npc::may_eat_from( const item_location &loc ) const
 
 bool npc::consume_food( consume_filter filter )
 {
-    item_location best_food;
-    bool consumed = false;
+    // meal's worth ends a meal on every path, not only under the executor
+    const bool wants_food = filter != consume_filter::drink_only &&
+                            intake_fits( need_goal_id::eat_food );
+    const bool wants_drink = filter != consume_filter::food_only &&
+                             intake_fits( need_goal_id::drink_water );
+    if( !wants_food && !wants_drink ) {
+        return false;
+    }
     int want_hunger = std::max( 0, get_hunger() );
     // When calorically starving but not short-term hungry (just ate but still
     // underweight), force a minimum hunger signal so rate_food scores food > 0.
@@ -5682,38 +5733,23 @@ bool npc::consume_food( consume_filter filter )
         return !may_use_source( loc ) || !accepted( *loc );
     } ), inv_food.end() );
 
-    if( inv_food.empty() ) {
-        if( !needs_food() ) {
-            // When NO_NPC_FOOD is active and NPC has no food, silently reset hunger/thirst
-            set_hunger( 0 );
-            set_thirst( 0 );
+    // will_eat is costly: rate all, then ask it best first
+    std::vector<std::pair<float, item_location>> rated;
+    for( const item_location &food_item : inv_food ) {
+        const float weight = rate_food( *this, *food_item, want_hunger, want_quench );
+        if( weight > 0.0f ) {
+            rated.emplace_back( weight, food_item );
         }
-    } else {
-        // will_eat is costly: rate all, then ask it best first
-        std::vector<std::pair<float, item_location>> rated;
-        for( const item_location &food_item : inv_food ) {
-            const float weight = rate_food( *this, *food_item, want_hunger, want_quench );
-            if( weight > 0.0f ) {
-                rated.emplace_back( weight, food_item );
-            }
-        }
-        std::stable_sort( rated.begin(), rated.end(), []( const auto & a, const auto & b ) {
-            return a.first > b.first;
-        } );
-        for( const std::pair<float, item_location> &candidate : rated ) {
-            if( will_eat( *candidate.second ).success() ) {
-                best_food = candidate.second;
-                break;
-            }
-        }
-
-        if( best_food ) {
-            consumed = start_eating( best_food );
-        }
-
     }
-
-    return consumed;
+    std::stable_sort( rated.begin(), rated.end(), []( const auto & a, const auto & b ) {
+        return a.first > b.first;
+    } );
+    for( const std::pair<float, item_location> &candidate : rated ) {
+        if( will_eat( *candidate.second ).success() ) {
+            return start_eating( candidate.second );
+        }
+    }
+    return false;
 }
 
 void npc::mug_player( Character &mark )
@@ -6705,8 +6741,7 @@ bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
     }
     const units::volume want = std::max( 0_ml,
                                          units::from_milliliter( get_thirst() * 5 ) );
-    const units::volume room = stomach.stomach_remaining( *this );
-    const units::volume intake = std::min( { want, room, sip_of_water() } );
+    const units::volume intake = std::min( want, drinkable_part( sip_of_water() ) );
     if( intake <= 0_ml ) {
         return false;
     }
@@ -6746,6 +6781,14 @@ bool npc::start_eating( const item_location &loc )
 bool npc::consume_food_at( item_location loc )
 {
     if( !loc.get_item() || !may_use_source( loc ) ) {
+        return false;
+    }
+    // the same stomach question consume_food() asks
+    const bool useful = ( need_accepts( *loc, need_goal_id::eat_food ) &&
+                          intake_fits( need_goal_id::eat_food ) ) ||
+                        ( need_accepts( *loc, need_goal_id::drink_water ) &&
+                          intake_fits( need_goal_id::drink_water ) );
+    if( !useful ) {
         return false;
     }
     return start_eating( loc );
@@ -7900,6 +7943,11 @@ npc::need_result npc::execute_eat_food()
 
     std::set<tripoint_abs_ms> &failed = ai_cache.food_failed_targets;
 
+    if( !intake_useful( need_goal_id::eat_food ) ) {
+        plan.clear();
+        return need_result::satisfied;
+    }
+
     // 1. Try camp food (calories only, skip the water path),
     //    inventory food, then adjacent ground food.
     // every meal runs as an activity: progress, not yet satisfaction
@@ -8039,6 +8087,11 @@ npc::need_result npc::execute_drink_water()
 
     // recorded only after drinking, so a failed try can't hide a walk's verdict
     const npc_option_cost here_and_now = npc_option_cost::in_place( pos_abs() );
+
+    if( !intake_useful( need_goal_id::drink_water ) ) {
+        plan.clear();
+        return need_result::satisfied;
+    }
 
     // 1. Try camp water, inventory drinks, adjacent ground drinks,
     //    then adjacent water terrain sources.

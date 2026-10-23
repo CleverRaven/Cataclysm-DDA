@@ -22,7 +22,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
@@ -90,7 +89,7 @@ status_t character_oracle_t::needs_water_badly( std::string_view ) const
         return status_t::success;
     }
     // Check thirst threshold.
-    if( subject->get_thirst() > 520 ) {
+    if( subject->get_thirst() > npc_thirst_act_level ) {
         return status_t::running;
     }
     return status_t::success;
@@ -106,9 +105,8 @@ status_t character_oracle_t::needs_food_badly( std::string_view ) const
     if( subject->get_hunger() >= 300 && subject->get_starvation() > base_metabolic_rate ) {
         return status_t::running;
     }
-    // Long-term: severe caloric deficit (same threshold as address_needs extreme path).
-    if( subject->get_stored_kcal() + subject->stomach.get_calories() <
-        subject->get_healthy_kcal() * 3 / 4 ) {
+    // Long-term: short of calories, the same line where intake stops
+    if( calories_short( *subject ) ) {
         return status_t::running;
     }
     return status_t::success;
@@ -153,7 +151,7 @@ status_t character_oracle_t::can_take_shelter( std::string_view ) const
 static bool carries_supply_for( const Character &subject, const npc::need_goal_id id )
 {
     const npc *n = dynamic_cast<const npc *>( &subject );
-    if( !n ) {
+    if( !n || !n->intake_useful( id ) ) {
         return false;
     }
     // const_cast: the inventory cache refreshes itself, so the query is not const
@@ -181,7 +179,7 @@ status_t character_oracle_t::has_food( std::string_view ) const
 status_t character_oracle_t::can_obtain_food( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n ) {
+    if( !n || !n->intake_useful( npc::need_goal_id::eat_food ) ) {
         return status_t::failure;
     }
     // const_cast: see npc::find_food_candidates()
@@ -193,7 +191,7 @@ status_t character_oracle_t::can_obtain_food( std::string_view ) const
 status_t character_oracle_t::can_obtain_water( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n ) {
+    if( !n || !n->intake_useful( npc::need_goal_id::drink_water ) ) {
         return status_t::failure;
     }
     // obligation check as in execute_drink_water; failed targets still count, since the

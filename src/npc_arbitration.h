@@ -9,6 +9,8 @@
 #include "coordinates.h"
 #include "point.h"
 
+class Character;
+
 // what keeps the NPC from answering an obligation once at the option's spot
 enum class npc_option_hold : int {
     // usable from there, adjacent tiles too, left at once
@@ -192,6 +194,13 @@ struct npc_challenger {
 constexpr float need_critical_urgency = 0.75f;
 // how far an NPC that's resting or drinking notices trouble walking up
 constexpr int rest_watch_radius = 6;
+// stored calories short of healthy by this share make food worth acquiring
+constexpr float food_act_level = 0.2f;
+// adjusted thirst above which water need fires
+constexpr int npc_thirst_act_level = 520;
+
+// calories stored and on their way short of the healthy amount by food_act_level
+bool calories_short( const Character &who );
 
 bool should_interrupt( const npc_pursuit &current, const npc_challenger &challenger );
 

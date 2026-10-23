@@ -27,6 +27,7 @@
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "iexamine.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -82,6 +83,7 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_can_medium( "can_medium" );
 static const itype_id itype_knife_combat( "knife_combat" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_orange( "orange" );
 static const itype_id itype_plastic_chunk( "plastic_chunk" );
 static const itype_id itype_soup_chicken( "soup_chicken" );
@@ -102,6 +104,7 @@ static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
@@ -877,8 +880,6 @@ TEST_CASE( "follower_drinks_within_reach_and_keeps_following", "[npc][needs][wat
         CHECK( drank( guy ) );
         CHECK( farthest <= 4 );
         WHEN( "the leader walks on" ) {
-            guy.stomach.empty();
-            guy.set_thirst( 0 );
             get_avatar().setpos( here, leader_pos + tripoint( 12, 0, 0 ) );
             run_npc_turns( guy, 60, []( const npc & n ) {
                 return dist_to_leader( n ) <= 4;
@@ -1323,6 +1324,229 @@ TEST_CASE( "idle_harvest_keeps_to_obligations", "[npc][needs][water][obligation]
     }
 }
 
+// next 5-minute digestion tick is a full interval away
+static void align_to_digestion_tick()
+{
+    const int into = to_turns<int>( calendar::turn - calendar::turn_zero ) % to_turns<int>( 5_minutes );
+    calendar::turn += time_duration::from_turns( to_turns<int>( 5_minutes ) - into + 1 );
+}
+
+static void fill_stomach_with_food( npc &guy, const units::volume &amount )
+{
+    guy.stomach.ingest( { 0_ml, amount, {} } );
+}
+
+TEST_CASE( "parched_npc_stops_drinking_at_a_full_stomach", "[npc][needs][water]" )
+{
+    drink_setup();
+    align_to_digestion_tick();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 1100 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    // 100 ml of room under the engorged line
+    fill_stomach_with_food( guy, guy.stomach.capacity( guy ) * 5 / 6 - 100_ml );
+    put_water( leader_pos + tripoint( 2, 3, 0 ) );
+    here.build_map_cache( 0 );
+    const int parched = guy.Character::get_thirst();
+
+    // sips until engorged line, pursuit ends on its own
+    run_npc_turns( guy, 60, []( const npc & n ) {
+        return drank( n ) && n.get_committed_goal() != "drink_water";
+    } );
+    REQUIRE( drank( guy ) );
+    const int pending_ml = units::to_milliliter( guy.stomach.get_water() );
+    CAPTURE( pending_ml );
+    THEN( "body still parched while water waits in stomach" ) {
+        CHECK( guy.Character::get_thirst() >= parched );
+        CHECK( guy.get_thirst() == guy.Character::get_thirst() - pending_ml / 5 );
+        CHECK( guy.get_thirst() > 520 );
+        // sips end where consume would refuse a drink: at the line, or once full
+        CHECK_FALSE( guy.can_stomach( guy.sip_of_water() ) );
+    }
+    THEN( "no drink pursued while stomach has no room" ) {
+        int pursuing = 0;
+        for( int turn = 0; turn < 80; ++turn ) {
+            run_npc_turn( guy );
+            if( guy.get_water_plan().active() || guy.get_committed_goal() == "drink_water" ) {
+                pursuing++;
+            }
+        }
+        CHECK( pursuing == 0 );
+        CHECK( guy.stomach.get_water() == units::from_milliliter( pending_ml ) );
+        CHECK( guy.failed_targets_for( npc::need_goal_id::drink_water ).empty() );
+    }
+}
+
+TEST_CASE( "emergency_water_excursion_drinks_and_returns", "[npc][needs][water][obligation]" )
+{
+    drink_setup();
+    align_to_digestion_tick();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    // past the emergency level; dehydration also slows NPC, so sips take long
+    settle_body( guy, 1000 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    const tripoint_bub_ms water = leader_pos + tripoint( 7, 0, 0 );
+    put_water( water );
+    here.build_map_cache( 0 );
+    REQUIRE( rl_dist( water, leader_pos ) > 4 );
+    REQUIRE( rl_dist( water, guy.pos_bub() ) <= 6 );
+
+    run_npc_turns( guy, 60, drank );
+    REQUIRE( drank( guy ) );
+    const int back = run_npc_turns( guy, 900, []( const npc & n ) {
+        return dist_to_leader( n ) <= 4;
+    } );
+    CAPTURE( back );
+    CHECK( dist_to_leader( guy ) <= 4 );
+    // sips while the emergency lasts, comes back once obligation outranks thirst
+    CHECK( guy.get_thirst() <= 900 );
+    CHECK( guy.get_thirst() > 520 );
+    CHECK( guy.failed_targets_for( npc::need_goal_id::drink_water ).empty() );
+}
+
+TEST_CASE( "retained_drink_pursuit_ends_when_intake_is_pending", "[npc][needs][water]" )
+{
+    drink_setup();
+    align_to_digestion_tick();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 1150 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    // room for two cups under the engorged line
+    fill_stomach_with_food( guy, guy.stomach.capacity( guy ) * 5 / 6 - 500_ml );
+    put_water( leader_pos + tripoint( 2, 3, 0 ) );
+    here.build_map_cache( 0 );
+
+    run_npc_turns( guy, 30, drank );
+    REQUIRE( drank( guy ) );
+    REQUIRE( guy.get_thirst() > 520 );
+    // full stomach never blames the water source
+    for( int turn = 0; turn < 400; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        CHECK( guy.get_water_plan().last_result != npc::need_result::blocked );
+        CHECK( guy.failed_targets_for( npc::need_goal_id::drink_water ).empty() );
+    }
+    CHECK( guy.get_thirst() > 520 );
+    CHECK_FALSE( guy.get_water_plan().active() );
+}
+
+TEST_CASE( "parched_npc_drinks_until_its_stomach_is_full", "[npc][needs][water]" )
+{
+    drink_setup();
+    align_to_digestion_tick();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 700 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    put_water( leader_pos + tripoint( 2, 3, 0 ) );
+    here.build_map_cache( 0 );
+
+    GIVEN( "half a stomach of food, under the full line" ) {
+        fill_stomach_with_food( guy, guy.stomach.capacity( guy ) / 2 );
+        guy.update_stomach( calendar::turn, calendar::turn );
+        REQUIRE( guy.can_stomach( 1_ml ) );
+        THEN( "it drinks" ) {
+            run_npc_turns( guy, 30, drank );
+            CHECK( drank( guy ) );
+        }
+    }
+    GIVEN( "food past the full line" ) {
+        fill_stomach_with_food( guy, guy.stomach.capacity( guy ) * 3 / 5 );
+        guy.update_stomach( calendar::turn, calendar::turn );
+        REQUIRE_FALSE( guy.can_stomach( 1_ml ) );
+        THEN( "it waits for digestion to make room" ) {
+            run_npc_turns( guy, 30, drank );
+            CHECK_FALSE( drank( guy ) );
+        }
+    }
+}
+
+static int oranges_at( const tripoint_bub_ms &p )
+{
+    int count = 0;
+    for( const item &it : get_map().i_at( p ) ) {
+        if( it.typeId() == itype_orange ) {
+            count += it.count();
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "food_excursion_returns_while_digesting", "[npc][needs][food]" )
+{
+    drink_setup();
+    align_to_digestion_tick();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    // starving: a meal beyond the spacing is an emergency the obligation yields to
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 5 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    // one more bite makes a meal
+    fill_stomach_with_food( guy, guy.stomach.capacity( guy ) / 2 - 50_ml );
+    const tripoint_bub_ms pile = leader_pos + tripoint( 8, 0, 0 );
+    for( int i = 0; i < 5; ++i ) {
+        here.add_item_or_charges( pile, item( itype_orange ) );
+    }
+    REQUIRE( oranges_at( pile ) == 5 );
+    here.build_map_cache( 0 );
+
+    run_npc_turns( guy, 60, [&pile]( const npc & ) {
+        return oranges_at( pile ) < 5;
+    } );
+    REQUIRE( oranges_at( pile ) == 4 );
+    REQUIRE( guy.stomach.contains() >= guy.stomach.capacity( guy ) / 2 );
+    const int back = run_npc_turns( guy, 200, []( const npc & n ) {
+        return dist_to_leader( n ) <= 4;
+    } );
+    CAPTURE( back );
+    CHECK( dist_to_leader( guy ) <= 4 );
+    CHECK( oranges_at( pile ) == 4 );
+}
+
+TEST_CASE( "depleted_npc_with_pending_calories_stops_after_a_meal", "[npc][needs][food]" )
+{
+    drink_setup();
+    map &here = get_map();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    settle_body( guy, 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    const tripoint_bub_ms pile = guy.pos_bub() + tripoint::south;
+    for( int i = 0; i < 20; ++i ) {
+        here.add_item_or_charges( pile, item( itype_orange ) );
+    }
+    here.build_map_cache( 0 );
+    const units::volume meal = guy.stomach.capacity( guy ) / 2;
+
+    int meals_ended = 0;
+    for( int turn = 0; turn < 400; ++turn ) {
+        const bool full = guy.stomach.contains() >= meal;
+        const int before = oranges_at( pile );
+        run_npc_turn( guy );
+        CAPTURE( turn, guy.stomach.contains(), before );
+        if( full ) {
+            // digestion has to make room before next orange is touched
+            CHECK( oranges_at( pile ) == before );
+            CHECK( guy.activity.id() != ACT_CONSUME );
+            CHECK_FALSE( guy.get_food_plan().active() );
+            meals_ended++;
+        }
+    }
+    CHECK( meals_ended > 0 );
+    CHECK( oranges_at( pile ) > 0 );
+    CHECK( oranges_at( pile ) < 20 );
+}
+
 TEST_CASE( "eating_or_sipping_npc_answers_at_the_next_decision", "[npc][needs][obligation]" )
 {
     drink_setup();
@@ -1675,6 +1899,145 @@ TEST_CASE( "orders_end_self_care", "[npc][needs][obligation]" )
                 CHECK_FALSE( self_care_in_backlog( guy ) );
                 CHECK( guy.get_committed_goal() == "goto_ordered_position" );
             }
+        }
+    }
+}
+
+TEST_CASE( "routine_meal_at_healthy_weight_with_high_hunger", "[npc][needs][food]" )
+{
+    drink_setup();
+    npc &guy = spawn_follower( leader_pos + tripoint::east );
+    settle_body( guy, 0 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 100 );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    REQUIRE( guy.i_add( item( itype_orange ) ) );
+    get_map().build_map_cache( 0 );
+    REQUIRE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+
+    run_npc_turns( guy, 60, []( const npc & n ) {
+        return n.stomach.get_calories() > 0;
+    } );
+    CHECK( guy.stomach.get_calories() > 0 );
+    CHECK( guy.amount_of( itype_orange ) == 0 );
+    // body updates every 10 seconds, next one will settle hunger
+    run_npc_turns( guy, 12 );
+    CHECK( guy.get_hunger() <= 80 );
+    CHECK_FALSE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+}
+
+TEST_CASE( "urgent_calorie_eating_is_not_gated_by_routine_hunger", "[npc][needs][food]" )
+{
+    drink_setup();
+    npc &guy = spawn_follower( leader_pos + tripoint::east );
+    settle_body( guy, 0 );
+    guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.set_hunger( 0 );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    REQUIRE( guy.i_add( item( itype_orange ) ) );
+
+    SECTION( "empty stomach" ) {
+        get_map().build_map_cache( 0 );
+        REQUIRE( guy.intake_useful( npc::need_goal_id::eat_food ) );
+        // meal runs as an activity: real eating time before the calories arrive
+        run_npc_turns( guy, 45, []( const npc & n ) {
+            return n.stomach.get_calories() > 0;
+        } );
+        CHECK( guy.stomach.get_calories() > 0 );
+    }
+    SECTION( "stomach more than half full of water" ) {
+        guy.stomach.ingest( { guy.stomach.capacity( guy ) * 11 / 20, 0_ml, {} } );
+        get_map().build_map_cache( 0 );
+        CHECK( guy.intake_useful( npc::need_goal_id::eat_food ) );
+        const int turns = run_npc_turns( guy, 45, []( const npc & n ) {
+            return n.activity.id() == ACT_CONSUME;
+        } );
+        CAPTURE( turns, units::to_milliliter( guy.stomach.get_water() ) );
+        CHECK( guy.activity.id() == ACT_CONSUME );
+    }
+}
+
+TEST_CASE( "harvest_is_eaten_only_when_intake_is_useful", "[npc][needs][food]" )
+{
+    drink_setup();
+    npc &guy = spawn_follower( leader_pos + tripoint::east );
+    settle_body( guy, 0 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    guy.set_committed_goal_for_test( "eat_food" );
+
+    GIVEN( "healthy-weight NPC with a little hunger" ) {
+        guy.set_hunger( 50 );
+        WHEN( "harvest yields an orange" ) {
+            iexamine_helper::handle_harvest( guy, itype_orange, false );
+            REQUIRE( guy.amount_of( itype_orange ) == 1 );
+            THEN( "food goal finds nothing worth eating" ) {
+                CHECK( guy.execute_need_goal( "eat_food" ) == npc::need_result::satisfied );
+                CHECK_FALSE( guy.is_eating() );
+                CHECK( guy.amount_of( itype_orange ) == 1 );
+            }
+        }
+    }
+    GIVEN( "hungry NPC" ) {
+        guy.set_hunger( 100 );
+        WHEN( "harvest yields an orange" ) {
+            iexamine_helper::handle_harvest( guy, itype_orange, false );
+            THEN( "orange is kept, then eaten through the meal activity" ) {
+                REQUIRE( guy.amount_of( itype_orange ) == 1 );
+                CHECK( guy.stomach.get_calories() == 0 );
+                REQUIRE( guy.execute_need_goal( "eat_food" ) == npc::need_result::progressed );
+                REQUIRE( guy.activity.id() == ACT_CONSUME );
+                for( int turn = 0; turn < 300 && guy.activity; ++turn ) {
+                    guy.set_moves( 100 );
+                    guy.activity.do_turn( guy );
+                }
+                CHECK( guy.amount_of( itype_orange ) == 0 );
+                CHECK( guy.stomach.get_calories() > 0 );
+            }
+        }
+        WHEN( "harvest yields what it will not eat" ) {
+            guy.set_mutation( trait_VEGETARIAN );
+            iexamine_helper::handle_harvest( guy, itype_meat_cooked, false );
+            THEN( "harvest is kept exactly once, on it or at its feet, not eaten" ) {
+                int kept = guy.amount_of( itype_meat_cooked );
+                for( const item &it : get_map().i_at( guy.pos_bub() ) ) {
+                    if( it.typeId() == itype_meat_cooked ) {
+                        kept++;
+                    }
+                }
+                CHECK( kept == 1 );
+                guy.execute_need_goal( "eat_food" );
+                CHECK_FALSE( guy.is_eating() );
+                CHECK( guy.stomach.get_calories() == 0 );
+            }
+        }
+    }
+}
+
+TEST_CASE( "idle_care_pass_drinks_from_the_pack_below_the_act_level", "[npc][needs][water]" )
+{
+    drink_setup();
+    npc &guy = spawn_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    settle_body( guy, 100 );
+    guy.stomach.empty();
+    guy.guts.empty();
+    item bottle( itype_bottle_plastic );
+    REQUIRE( bottle.put_in( item( itype_water_clean, calendar::turn, 2 ),
+                            pocket_type::CONTAINER ).success() );
+    REQUIRE( guy.i_add( bottle ) );
+    get_map().build_map_cache( 0 );
+    REQUIRE_FALSE( guy.intake_useful( npc::need_goal_id::drink_water ) );
+
+    WHEN( "its care pass runs" ) {
+        guy.set_moves( 100 );
+        guy.address_needs( 0 );
+        THEN( "it drinks from its pack" ) {
+            CHECK( guy.activity.id() == ACT_CONSUME );
         }
     }
 }
@@ -2528,7 +2891,8 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
             return i.typeId() == itype_can_medium;
         } ).front()->get_owner();
         WHEN( "NPC drinks one portion" ) {
-            eat_one_portion( guy.consume_food() );
+            // sated NPC chooses no meal itself: it's handed the portion
+            eat_one_portion( guy.start_eating( soup_in_inventory( guy ) ) );
             THEN( "open can is set down on its tile with the rest inside" ) {
                 CHECK( guy.charges_of( itype_soup_chicken ) == 0 );
                 const std::vector<const item *> cans = cans_at( guy.pos_bub() );
@@ -2572,7 +2936,7 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
         const item_location soup = fill_the_pack( { itype_waterskin } );
         WHEN( "NPC drinks one portion" ) {
             REQUIRE_FALSE( guy.carried_container_for( *soup ) );
-            eat_one_portion( guy.consume_food() );
+            eat_one_portion( guy.start_eating( soup ) );
             THEN( "waterskin stays empty, open can with the soup is set down" ) {
                 CHECK( soup_in( *carried( itype_waterskin ) ) == 0 );
                 const std::vector<const item *> cans = cans_at( guy.pos_bub() );
@@ -2588,7 +2952,7 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
             const item_location target = guy.carried_container_for( *soup );
             REQUIRE( target );
             REQUIRE( target->typeId() == itype_bottle_plastic );
-            eat_one_portion( guy.consume_food() );
+            eat_one_portion( guy.start_eating( soup ) );
             THEN( "rest goes in the bottle, not the waterskin" ) {
                 CHECK( soup_in( *carried( itype_bottle_plastic ) ) == 1 );
                 CHECK( soup_in( *carried( itype_waterskin ) ) == 0 );
@@ -2611,6 +2975,8 @@ TEST_CASE( "npc_eating_soup_from_a_can_keeps_the_rest_of_it", "[npc][needs][food
         } );
         REQUIRE( soup != nullptr );
         WHEN( "NPC drinks one portion" ) {
+            // hungry enough that a portion is of use
+            guy.set_hunger( 200 );
             eat_one_portion( guy.consume_food_at( item_location( can_loc, soup ) ) );
             THEN( "rest stays in the can on that tile" ) {
                 const std::vector<const item *> cans = cans_at( spot );
