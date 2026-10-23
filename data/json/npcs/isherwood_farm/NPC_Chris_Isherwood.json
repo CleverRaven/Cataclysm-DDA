@@ -70,6 +70,7 @@
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
             { "math": [ "isherwood_barry_rescued != 1" ] },
+            { "compare_string": [ "yes", { "u_val": "u_met_Luke_Isherwood" } ] },
             { "compare_string": [ "yes", { "u_val": "u_heard_about_chris_ideas" } ] }
           ]
         }
@@ -91,9 +92,16 @@
         }
       },
       {
+        "text": "Is there anyone else around here that could help us?",
+        "condition": {
+          "and": [ { "math": [ "isherwood_family_coming == 0" ] }, { "math": [ "isherwood_barry_rescued == 0" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
+      },
+      {
         "text": "Have you had any ideas for what your family could do?",
         "condition": {
-          "and": [ { "math": [ "npc_timer_thinking_about_plan >= time('1 h')" ] }, { "math": [ "isherwood_barry_rescued == 0" ] } ]
+          "and": [ { "math": [ "npc_timer_thinking_about_plan >= time('1 h')" ] }, { "math": [ "isherwood_barry_rescued == 0" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
       },
@@ -243,7 +251,7 @@
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] } ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] }, { "compare_string": [ "yes", { "u_val": "u_met_Luke_Isherwood" } ] } ]
         }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -304,7 +312,7 @@
       {
         "text": "I might be able to help you get Barry back, but we've got to plan this out.",
         "condition": {
-          "and": [ { "math": [ "isherwood_barry_rescued != 1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } } ]
+          "and": [ { "math": [ "isherwood_barry_rescued != 1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } }, { "not": { "compare_string": [ "true", { "global_val": "is_barry_dead" } ] } } ]
         },
         "effect": { "add_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY"
@@ -341,7 +349,7 @@
       {
         "text": "I was talking to Luke earlier, he said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued != 1" ] } ] }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "isherwood_barry_rescued != 1" ] }, { "compare_string": [ "yes", { "u_val": "u_met_Luke_Isherwood" } ] } ] }
       },
       {
         "text": "Do you think, monsters that kidnaped Barry are responsible for end of the world?",
@@ -531,7 +539,12 @@
       },
       {
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
-        "condition": { "math": [ "isherwood_gear_status < 1" ] },
+        "condition": { 
+	    		"and": [
+	    			{ "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" } },
+    				{ "math": [ "isherwood_gear_status < 1" ] }
+    			]
+    		},
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
@@ -587,7 +600,12 @@
       },
       {
         "text": "I'm a bit worried about defenses.  Do you folks have any armor or equipment to help keep yourselves safe?",
-        "condition": { "math": [ "isherwood_gear_status < 1" ] },
+        "condition": { 
+	    		"and": [
+	    			{ "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" } },
+	    			{ "math": [ "isherwood_gear_status < 1" ] }
+    			]
+    		},
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
@@ -805,7 +823,8 @@
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
     "name": { "str": "Free Barry from the mysterious structure" },
-    "goal": "MGOAL_NULL",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "u_saved_barry_isherwood" } ] },
     "difficulty": 5,
     "value": 50000,
     "start": {
