@@ -107,6 +107,8 @@ static need_levels levels_for( const npc::need_goal_id id )
                      static_cast<float>( sleepiness_levels::DEAD_TIRED ) / 1000.0f,
                      static_cast<float>( sleepiness_levels::EXHAUSTED ) / 1000.0f };
         case npc::need_goal_id::eat_food:
+            // calorie urgency, share of healthy stored calories missing
+            return { food_act_level, 0.4f, 0.6f };
         case npc::need_goal_id::regulate_temperature:
             break;
     }
@@ -401,6 +403,9 @@ void npc::explain_override( const need_goal_id id )
             speech = _( "I can't stay awake any longer." );
             break;
         case need_goal_id::eat_food:
+            issue = "need_override_food";
+            speech = _( "I really need something to eat.  I'll be right back." );
+            break;
         case need_goal_id::regulate_temperature:
             return;
     }
@@ -411,10 +416,12 @@ void npc::explain_override( const need_goal_id id )
 npc_need_view npc::best_need_view( const need_goal_id id )
 {
     const npc_option_cost in_place = npc_option_cost::in_place( pos_abs() );
-    if( id == need_goal_id::drink_water ) {
+    if( id == need_goal_id::drink_water || id == need_goal_id::eat_food ) {
+        const bool water = id == need_goal_id::drink_water;
         behavior::character_oracle_t oracle( this );
-        if( oracle.has_water( "" ) == behavior::status_t::running ) {
-            return need_view( id, in_place );
+        const behavior::status_t carried = water ? oracle.has_water( "" ) : oracle.has_food( "" );
+        if( carried == behavior::status_t::running ) {
+            return need_view( id, npc_option_cost::stay( pos_abs() ) );
         }
         npc_need_view held;
         held.raw = current_need_urgency( id );
@@ -422,11 +429,11 @@ npc_need_view npc::best_need_view( const need_goal_id id )
             return held;
         }
         const std::set<tripoint_abs_ms> &failed = failed_targets_for( id );
-        for( const need_candidate &c : find_water_candidates() ) {
+        for( const need_candidate &c : water ? find_water_candidates() : find_food_candidates() ) {
             if( failed.count( c.target ) != 0 ) {
                 continue;
             }
-            const npc_need_view v = need_view( id, water_option_cost( c ) );
+            const npc_need_view v = need_view( id, water ? water_option_cost( c ) : food_option_cost( c ) );
             if( v.eligible() ) {
                 return v;
             }
