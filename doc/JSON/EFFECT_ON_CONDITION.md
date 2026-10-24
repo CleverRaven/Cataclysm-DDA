@@ -885,6 +885,23 @@ checks are you hot or cold
 { "u_has_any_effect": [ "hot", "cold" ], "bodypart": "torso" }
 ```
 
+### `u_has_any_wound`, `npc_has_any_wound`
+- type: string, [variable object](#variable-object) or array
+- return true if alpha or beta talker has any of the wound listed
+- `bodypart` can be used to check if wound is presented on specific body part
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+{ "u_has_any_wound": [ "bruise_bad", "bone_broken" ], "bodypart": "torso" }
+```
+
 ### `u_has_proficiency`, `npc_has_proficiency`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has mastered a proficiency (to 100%).
