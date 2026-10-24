@@ -230,8 +230,10 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 namespace io
 {
@@ -2565,7 +2567,15 @@ void Character::update_wounds( time_duration time_passed )
                             break;
                         case wound_mod_value_type::VITAMIN:
                             if( mod_val.vitamin.has_value() ) {
-                                vitamin_mod( *mod_val.vitamin, mod_val.amount );
+                                const vitamin_id vit = *mod_val.vitamin;
+                                int final_amt = mod_val.amount;
+
+                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                                    final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
+                                                                mod_val.amount ) );
+                                }
+
+                                vitamin_mod( vit, final_amt );
                             }
                             break;
                         default:
