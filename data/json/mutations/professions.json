@@ -249,5 +249,18 @@
     "points": 0,
     "valid": false,
     "initial_ma_styles": [ "style_fencing" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DAMAGED_MIND",
+    "name": { "str": "Damaged Mind" },
+    "description": "Though you no longer feel the ever present bloodthirsty rage you felt during the riots, a fog is still cast over your every action.  You're not in the mental shape you were before the world ended.",
+    "points": -2,
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "//": "You're rather offputting and obviously damaged. It's way harder to relate to people but your unpredictable demenor kind of scares them and you're harder to read in general.",
+    "social_modifiers": { "persuade": -10, "intimidate": 5, "lie": 5 },
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -2 } ] } ]
   }
 ]
