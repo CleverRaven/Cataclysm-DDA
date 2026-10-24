@@ -1202,7 +1202,7 @@ Limb scores act as the basis of calculating the effect of limb encumbrance and d
   "affected_by_wounds": true,
   "affected_by_encumb": false
 }
-```
+```c
 - `"type"`: Always "limb_score".
 - `"id"`: Identifies this limb score
 - `"name"`: Mandatory. Defines a translatable name for this limb score that will be displayed in the UI.
@@ -1215,19 +1215,20 @@ Here are the currently defined limb scores:
 |------                  |------
 | `consume_liquid`       | Speed modifier when consuming liquids.
 | `consume_solid`        | Speed multiplier when consuming solids.
-| `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
+| `manip`                | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
-| `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
-| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
-| `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
-| `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
-| `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance, block chance, melee weakpoint hit chances.
-| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
-| `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost.
-| `swim_score`           | Modifies swim speed.
+| `lift`                 | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip`                 | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
+| `block`                | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
+| `breathing`            | Modifies stamina recovery speed and shout volume.
+| `vision`               | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
+| `night_vis`            | Modifies night vision range (multiplier on the calculated range).
+| `reaction`             | Modifies dodge chance, block chance, melee weakpoint hit chances.
+| `balance`              | Modifies thrown attack speed, movement cost and melee attack rolls.
+| `footing`              | Modifies movement cost.
+| `move_speed`           | Modifies movement cost.
+| `swim`                 | Modifies swim speed.
+| `crawl`                | Modifies crawling movement speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
 
