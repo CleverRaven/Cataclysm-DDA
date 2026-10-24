@@ -327,6 +327,8 @@ void talk_function::do_fishing( npc &p )
 
 void talk_function::revert_activity( npc &p )
 {
+    // told to stop, doesn't go back to task it put aside to rest
+    p.drop_suspended_task();
     p.revert_after_activity();
 }
 

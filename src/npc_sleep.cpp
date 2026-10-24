@@ -8,6 +8,8 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "debug.h"
+#include "messages.h"
 #include "npc.h"
 #include "npc_arbitration.h"
 #include "point.h"
@@ -36,6 +38,12 @@ constexpr time_duration restless_window = 30_minutes;
 constexpr time_duration stall_duration = 30_minutes;
 // a woken NPC that hasn't lain back down forgets the attempt after this
 constexpr time_duration stale_wake_timeout = 1_minutes;
+// a second noise wake holds sleep back this long, doubling with each further wake up to
+// noise_hold_doublings times
+constexpr time_duration noise_hold_base = 1_minutes;
+constexpr int noise_hold_doublings = 4;
+// heard this many turns in a row, a noise counts as steady
+constexpr int steady_noise_turns = 2;
 // woken by the player, it stays up this long unless it gets this much more tired
 constexpr time_duration player_wake_grace = 1_hours;
 constexpr int player_wake_grace_margin = 100;
@@ -72,13 +80,16 @@ void npc_sleep_session::stall()
 
 void npc_sleep_session::end()
 {
-    const time_point stalled = stalled_until;
-    const time_point until = stay_awake_until;
-    const int floor = stay_awake_floor;
+    npc_sleep_session holds = *this;
     *this = npc_sleep_session();
-    stalled_until = stalled;
-    stay_awake_until = until;
-    stay_awake_floor = floor;
+    stalled_until = holds.stalled_until;
+    stay_awake_until = holds.stay_awake_until;
+    stay_awake_floor = holds.stay_awake_floor;
+    noise_hold_until = holds.noise_hold_until;
+    noise_hold_at = holds.noise_hold_at;
+    noise_hold_deaf = holds.noise_hold_deaf;
+    noise_wakes = holds.noise_wakes;
+    last_noise_wake = holds.last_noise_wake;
 }
 
 bool npc_sleep_session::in_grace( const int sleepiness ) const
@@ -223,5 +234,44 @@ void npc::grant_stay_awake( const time_duration &dur, const int sleepiness_floor
 
 bool npc::sleep_on_hold() const
 {
-    return rest_cooldown_active() || sleep_session.in_grace( get_sleepiness() );
+    return rest_cooldown_active() || sleep_session.in_grace( get_sleepiness() ) ||
+           noise_hold_active();
+}
+
+void npc::note_noise( const bool woke )
+{
+    npc_short_term_cache::noise_memo &heard = ai_cache.noise_heard;
+    if( heard.last != calendar::turn ) {
+        heard.streak = heard.last == calendar::turn - 1_turns ? heard.streak + 1 : 1;
+        heard.last = calendar::turn;
+    }
+    if( !woke ) {
+        return;
+    }
+    npc_sleep_session &ses = sleep_session;
+    if( calendar::turn - ses.last_noise_wake > restless_window ) {
+        ses.noise_wakes = 0;
+    }
+    ses.noise_wakes++;
+    ses.last_noise_wake = calendar::turn;
+    if( ses.noise_wakes < 2 ) {
+        return;
+    }
+    const int doublings = std::min( ses.noise_wakes - 2, noise_hold_doublings );
+    ses.noise_hold_until = calendar::turn + noise_hold_base * ( 1 << doublings );
+    ses.noise_hold_at = pos_abs();
+    ses.noise_hold_deaf = is_deaf();
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: woken by noise %d times, waits %s to rest",
+                   get_name(), ses.noise_wakes, to_string_writable( ses.noise_hold_until - calendar::turn ) );
+}
+
+bool npc::noise_hold_active() const
+{
+    const npc_sleep_session &ses = sleep_session;
+    const npc_short_term_cache::noise_memo &heard = ai_cache.noise_heard;
+    // heard on steady_noise_turns turns in a row, the latest this turn or the last
+    const bool steady = heard.streak >= steady_noise_turns &&
+                        calendar::turn - heard.last <= 1_turns;
+    return steady && calendar::turn < ses.noise_hold_until && pos_abs() == ses.noise_hold_at &&
+           is_deaf() == ses.noise_hold_deaf;
 }
