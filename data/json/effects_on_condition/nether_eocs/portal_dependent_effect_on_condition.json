@@ -10,7 +10,7 @@
         {
           "or": [
             { "is_weather": "portal_storm" },
-            { "not": { "current_dimension": "default" } },
+            { "current_dimension": "portal_storm_dungeon_dimension" },
             { "and": [ { "is_weather": "early_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
             { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 6, "y": 10 } } ] },
             { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 8, "y": 10 } } ] },
@@ -92,76 +92,91 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1",
-    "//": "Your feel faintly more accepted by the world, it could be related with the decay of reality in here.",
+    "id": "EOC_PS_REWARD_GOOD_EFFECTS_IN_STORMS_GIVE_EFFECT",
+    "//": "Mainly good effects, since your boon will benefit you within the distorted reality of the portal storms.",
+    "//2": "Most portal-dependent messages are vague enough for the EOCs to be reused without issue.",
+    "recurrence": [ "5 minutes", "15 minutes" ],
     "condition": {
-      "or": [
-        { "current_dimension": "default" },
-        { "current_dimension": "portal_storm_dungeon_dimension" },
-        { "current_dimension": "string_dimension" },
-        { "current_dimension": "string_dimension_ka" }
+      "and": [
+        { "u_has_trait": "PS_REWARD_GOOD_EFFECTS_IN_STORMS" },
+        {
+          "or": [
+            { "is_weather": "portal_storm" },
+            { "current_dimension": "portal_storm_dungeon_dimension" },
+            { "and": [ { "is_weather": "early_portal_storm" }, { "x_in_y_chance": { "x": 5, "y": 10 } } ] },
+            { "and": [ { "is_weather": "distant_portal_storm" }, { "x_in_y_chance": { "x": 6, "y": 10 } } ] },
+            { "and": [ { "is_weather": "near_portal_storm" }, { "x_in_y_chance": { "x": 8, "y": 10 } } ] },
+            { "and": [ { "u_has_effect": "pd_strengthened_reality" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] }
+          ]
+        },
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
       ]
     },
+    "deactivate_condition": {
+      "not": {
+        "or": [
+          { "u_has_trait": "PS_REWARD_GOOD_EFFECTS_IN_STORMS" },
+          { "is_weather": "portal_storm" },
+          { "is_weather": "early_portal_storm" },
+          { "is_weather": "near_portal_storm" },
+          { "is_weather": "distant_portal_storm" },
+          { "u_has_effect": "pd_strengthened_reality" }
+        ]
+      }
+    },
+    "effect": {
+      "if": { "math": [ "ps_str > 4" ] },
+      "then": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 6 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 3 ],
+          [ "PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE", 1 ]
+        ]
+      },
+      "else": {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
+          [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 5 ],
+          [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 2 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE",
+    "//": "Some small effects as you feel yourself invigorated by the storms.",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TIMER",
+          "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
+          "effect": {
+            "weighted_list_eocs": [
+              [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", 4 ],
+              [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2", 3 ],
+              [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_3", 2 ]
+            ]
+          },
+          "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1", 2 ], [ "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2", 1 ] ] }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1",
+    "//": "Your feel faintly more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
       { "u_message": "You suddenly feel a weight you didn't know you had on you, being lifted away.", "type": "good" },
       { "math": [ "u_pain() -= 5" ] }
-    ],
-    "false_effect": [
-      {
-        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
-        "then": { "u_add_effect": "highland_resonance_increaser", "duration": { "math": [ "6000 * rng(0.5,1.5)" ] }, "intensity": 1 }
-      },
-      {
-        "if": {
-          "or": [
-            { "current_dimension": "netherum_labyrinth" },
-            { "current_dimension": "netherum_labyrinth2" },
-            { "current_dimension": "netherum_labyrinth_safehouse" }
-          ]
-        },
-        "then": [
-          {
-            "if": { "or": [ { "math": [ "u_vitamin('blood') < 0" ] }, { "math": [ "u_vitamin('redcells') += < 0" ] } ] },
-            "then": { "u_message": "Your blood loss feels a little less acute.", "type": "good" }
-          },
-          { "math": [ "u_vitamin('blood') += 500" ] },
-          { "math": [ "u_vitamin('redcells') += 500" ] }
-        ]
-      },
-      {
-        "if": {
-          "or": [ { "current_dimension": "radiosphere" }, { "current_dimension": "cabins" }, { "current_dimension": "inner_cabins" } ]
-        },
-        "then": [
-          { "math": [ "u_random_reverberation_effect = rng(1,3)" ] },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 1" ] },
-            "then": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "600 * rng(0.5,1.5)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 2" ] },
-            "then": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "600 * rng(0.5,1.5)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 3" ] },
-            "then": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "600 * rng(0.5,1.5)" ] } }
-          }
-        ]
-      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_2",
     "//": "Your feel more accepted by the world, it could be related with the decay of reality in here.",
-    "condition": {
-      "or": [
-        { "current_dimension": "default" },
-        { "current_dimension": "portal_storm_dungeon_dimension" },
-        { "current_dimension": "string_dimension" },
-        { "current_dimension": "string_dimension_ka" }
-      ]
-    },
     "effect": [
       {
         "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
@@ -169,63 +184,12 @@
       },
       { "math": [ "u_val('sleepiness') -= 20" ] },
       { "math": [ "u_val('stamina') += 20" ] }
-    ],
-    "false_effect": [
-      {
-        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
-        "then": { "u_add_effect": "highland_resonance_increaser", "duration": { "math": [ "6000 * rng(0.5,2)" ] }, "intensity": 2 }
-      },
-      {
-        "if": {
-          "or": [
-            { "current_dimension": "netherum_labyrinth" },
-            { "current_dimension": "netherum_labyrinth2" },
-            { "current_dimension": "netherum_labyrinth_safehouse" }
-          ]
-        },
-        "then": [
-          {
-            "if": { "or": [ { "math": [ "u_vitamin('blood') < 0" ] }, { "math": [ "u_vitamin('redcells') += < 0" ] } ] },
-            "then": { "u_message": "Your blood loss feels less acute.", "type": "good" }
-          },
-          { "math": [ "u_vitamin('blood') += 1000" ] },
-          { "math": [ "u_vitamin('redcells') += 1000" ] }
-        ]
-      },
-      {
-        "if": {
-          "or": [ { "current_dimension": "radiosphere" }, { "current_dimension": "cabins" }, { "current_dimension": "inner_cabins" } ]
-        },
-        "then": [
-          { "math": [ "u_random_reverberation_effect = rng(1,3)" ] },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 1" ] },
-            "then": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "600 * rng(0.5,2)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 2" ] },
-            "then": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "600 * rng(0.5,2)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 3" ] },
-            "then": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "600 * rng(0.5,2)" ] } }
-          }
-        ]
-      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_3",
     "//": "Your feel even more accepted by the world, it could be related with the decay of reality in here.",
-    "condition": {
-      "or": [
-        { "current_dimension": "default" },
-        { "current_dimension": "portal_storm_dungeon_dimension" },
-        { "current_dimension": "string_dimension" },
-        { "current_dimension": "string_dimension_ka" }
-      ]
-    },
     "effect": [
       { "u_message": "You suddenly feel as if invisible shackles are being lifted away…", "type": "good" },
       {
@@ -234,49 +198,6 @@
         "max_bonus": 40,
         "duration": "60 minutes",
         "decay_start": "60 minutes"
-      }
-    ],
-    "false_effect": [
-      {
-        "if": { "or": [ { "current_dimension": "highlands" }, { "current_dimension": "imperial_road" } ] },
-        "then": { "u_add_effect": "highland_resonance_increaser", "duration": { "math": [ "6000 * rng(0.5,2.5)" ] }, "intensity": 3 }
-      },
-      {
-        "if": {
-          "or": [
-            { "current_dimension": "netherum_labyrinth" },
-            { "current_dimension": "netherum_labyrinth2" },
-            { "current_dimension": "netherum_labyrinth_safehouse" }
-          ]
-        },
-        "then": [
-          {
-            "if": { "or": [ { "math": [ "u_vitamin('blood') < 0" ] }, { "math": [ "u_vitamin('redcells') += < 0" ] } ] },
-            "then": { "u_message": "Your blood loss much less acute.", "type": "good" }
-          },
-          { "math": [ "u_vitamin('blood') += 2000" ] },
-          { "math": [ "u_vitamin('redcells') += 2000" ] }
-        ]
-      },
-      {
-        "if": {
-          "or": [ { "current_dimension": "radiosphere" }, { "current_dimension": "cabins" }, { "current_dimension": "inner_cabins" } ]
-        },
-        "then": [
-          { "math": [ "u_random_reverberation_effect = rng(1,3)" ] },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 1" ] },
-            "then": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "600 * rng(0.5,2.5)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 2" ] },
-            "then": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "600 * rng(0.5,2.5)" ] } }
-          },
-          {
-            "if": { "math": [ "u_random_reverberation_effect = 3" ] },
-            "then": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "600 * rng(0.5,2.5)" ] } }
-          }
-        ]
       }
     ]
   },

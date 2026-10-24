@@ -5227,24 +5227,6 @@
     "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "portal_dungeon_slow_strength", "default": -1 } } ] } ]
   },
   {
-    "type": "effect_type",
-    "id": "highland_resonance_increaser",
-    "name": [ "Attuned to Something" ],
-    "desc": [ "You feel more attuned, but to what exactly?" ],
-    "apply_message": "You feel more attuned all of a sudden.",
-    "remove_message": "You no longer feel attuned to something you can't name.",
-    "//": "Max intensity gives enough resonance to use the censer, but not to use the imperial key.",
-    "rating": "mixed",
-    "max_intensity": 3,
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ARTIFACT_RESONANCE", "add": { "math": [ "u_effect_intensity('highland_resonance_increaser') * 850)" ] } }
-        ]
-      }
-    ]
-  },
-  {
     "id": "effect_portal_storm_dungeon_time_tracker",
     "//": "Hidden effect, tracks how long you've been in the portal storm dungeon.  Increments by 1 every minute",
     "type": "effect_type",

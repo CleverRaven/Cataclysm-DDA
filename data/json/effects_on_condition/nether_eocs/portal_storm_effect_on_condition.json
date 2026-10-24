@@ -1223,6 +1223,9 @@
         }
       },
       { "clear_dimension": "portal_storm_dungeon_dimension" },
+      {
+        "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REMOVE_ITEM", "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD" ]
+      },
       { "math": [ "portal_dungeon_level = 0" ] },
       { "alter_timed_events": "portal_dungeon" },
       { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } },
@@ -1246,18 +1249,352 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD",
+    "//": "If the player ignored the possibility furnitures, nothing at all happens unless they're portal-dependent.",
+    "//2": "If the player touched a few possibility furnitures, they get a message encouraging finding more of these and clarifies when they get the reward.",
+    "//3": "If the player touched more possibility furnitures, they get a random reward.",
+    "//4": "If the player touched a bit more possibility furnitures than that, they get a random effect reward and a random stone reward.",
+    "//5": "If the player touched even more possibility furnitures, they get to choose a reward of each.",
+    "//6": "If the player touched even more possibility furnitures than that, they get to choose a permanent reward.",
+    "//7": "The portal-dependent without reality grasp only get the acceptance effect as a reward, with the highest tier giving reality grasp.  Portal-dependent with reality grasp gain the same rewards as the non-dependent.",
+    "effect": [
+      {
+        "switch": { "math": [ "portal_dungeon_reward" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+              "then": [ { "u_message": "You survived to this so…  What is this feeling of regret for leaving that place?", "type": "bad" } ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+              "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0" ] ],
+              "else": [
+                {
+                  "u_message": "You feel like you could've become better than you were if you found more possibilities.",
+                  "type": "bad"
+                }
+              ]
+            }
+          },
+          {
+            "case": 5,
+            "effect": [
+              {
+                "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1" ] ],
+                "else": [
+                  {
+                    "weighted_list_eocs": [
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_UNSTABLE_RIFT", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_CALMING_STONE", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_BECKONING_STONE", 1 ]
+                    ]
+                  },
+                  { "u_message": "You feel like you're better than before.", "type": "good" }
+                ]
+              }
+            ]
+          },
+          {
+            "case": 10,
+            "effect": [
+              {
+                "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2" ] ],
+                "else": [
+                  {
+                    "weighted_list_eocs": [
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", 1 ]
+                    ]
+                  },
+                  {
+                    "weighted_list_eocs": [
+                      [ "EOC_PORTAL_DUNGEON_REWARD_UNSTABLE_RIFT", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_CALMING_STONE", 1 ],
+                      [ "EOC_PORTAL_DUNGEON_REWARD_BECKONING_STONE", 1 ]
+                    ]
+                  },
+                  { "u_message": "You feel like you're much better than before.", "type": "good" }
+                ]
+              }
+            ]
+          },
+          {
+            "case": 15,
+            "effect": [
+              {
+                "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3" ] ],
+                "else": [
+                  {
+                    "run_eoc_selector": [
+                      "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
+                      "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
+                      "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY"
+                    ],
+                    "title": "You should…",
+                    "names": [
+                      "Partially break the chains of inertia.",
+                      "Increase your ability to see what this reality contains.",
+                      "Weaken gravity's influence on your body."
+                    ]
+                  },
+                  {
+                    "run_eoc_selector": [
+                      "EOC_PORTAL_DUNGEON_REWARD_UNSTABLE_RIFT",
+                      "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
+                      "EOC_PORTAL_DUNGEON_REWARD_CALMING_STONE",
+                      "EOC_PORTAL_DUNGEON_REWARD_BECKONING_STONE"
+                    ],
+                    "title": "You should…",
+                    "names": [ "Obtain a portable portal.", "Obtain an unstable rift.", "Obtain a calming anomaly.", "Obtain a strange conduct." ]
+                  },
+                  {
+                    "u_message": "You feel like you're much better than before, exactly as you wanted to be.",
+                    "type": "good"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "case": 20,
+            "effect": [
+              {
+                "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
+                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4" ] ],
+                "else": [
+                  {
+                    "if": {
+                      "not": {
+                        "u_has_any_trait": [
+                          "TAINTED_SHADOW",
+                          "PS_REWARD_GOOD_EFFECTS_IN_STORMS",
+                          "PS_REWARD_REDUCED_ARTIFACT_RESONANCE",
+                          "PS_REWARD_GAIN_DOUBLE_EFFECT_DURATION",
+                          "PS_REWARD_GAIN_DOUBLE_STONES",
+                          "PS_REWARD_SEE_PORTAL_BEINGS"
+                        ]
+                      }
+                    },
+                    "then": [
+                      {
+                        "run_eoc_selector": [
+                          "EOC_PORTAL_DUNGEON_REWARD_PSYSHIELD_PARTIAL",
+                          "EOC_PORTAL_DUNGEON_REWARD_GOOD_EFFECTS_IN_STORMS",
+                          "EOC_PORTAL_DUNGEON_REWARD_REDUCED_ARTIFACT_RESONANCE",
+                          "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION",
+                          "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES",
+                          "EOC_PORTAL_DUNGEON_REWARD_SEE_PORTAL_BEINGS"
+                        ],
+                        "title": "You should be someone who…",
+                        "names": [
+                          "Can resist mental attacks more easily.",
+                          "Is empowered by the portal storms.",
+                          "Resists the artifacts' resonance.",
+                          "Benefits from the possibilities' temporary boons for longer.",
+                          "Receives more items from the possibilities' rewards.",
+                          "Can see all stormwrought beings near them, even through walls."
+                        ],
+                        "hide_failing": true,
+                        "keys": [ "1", "2", "3", "4", "5", "6" ]
+                      },
+                      { "u_message": "You feel like you're better than before, forever.", "type": "good" }
+                    ],
+                    "else": [
+                      {
+                        "run_eoc_selector": [
+                          "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD_KEEP_TRAIT",
+                          "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD_CHANGE_TRAIT"
+                        ],
+                        "title": "You should…",
+                        "names": [ "Keep your permanent improvement.", "Swap your permanent improvement for another." ],
+                        "keys": [ "1", "2" ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      { "math": [ "portal_dungeon_reward = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD_KEEP_TRAIT",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
+          "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
+          "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY"
+        ],
+        "title": "You should…",
+        "names": [
+          "Partially break the chains of inertia.",
+          "Increase your ability to see what this reality contains.",
+          "Weaken gravity's influence on your body."
+        ]
+      },
+      {
+        "run_eoc_selector": [
+          "EOC_PORTAL_DUNGEON_REWARD_UNSTABLE_RIFT",
+          "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
+          "EOC_PORTAL_DUNGEON_REWARD_CALMING_STONE",
+          "EOC_PORTAL_DUNGEON_REWARD_BECKONING_STONE"
+        ],
+        "title": "You should…",
+        "names": [ "Obtain a portable portal.", "Obtain an unstable rift.", "Obtain a calming anomaly.", "Obtain a strange conduct." ]
+      },
+      { "u_message": "You feel like you're much better than before, exactly as you wanted to be.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD_CHANGE_TRAIT",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_PORTAL_DUNGEON_REWARD_PSYSHIELD_PARTIAL",
+          "EOC_PORTAL_DUNGEON_REWARD_GOOD_EFFECTS_IN_STORMS",
+          "EOC_PORTAL_DUNGEON_REWARD_REDUCED_ARTIFACT_RESONANCE",
+          "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION",
+          "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES",
+          "EOC_PORTAL_DUNGEON_REWARD_SEE_PORTAL_BEINGS"
+        ],
+        "title": "You should be someone who…",
+        "names": [
+          "Can resist mental attacks more easily.",
+          "Is empowered by the portal storms.",
+          "Resists the artifacts' resonance.",
+          "Benefits from the possibilities' temporary boons for longer.",
+          "Receives more items from the possibilities' rewards.",
+          "Can see all stormwrought beings near them, even through walls."
+        ],
+        "hide_failing": true,
+        "keys": [ "1", "2", "3", "4", "5", "6" ]
+      },
+      { "u_message": "You feel like you're better than before, in a certain way.", "type": "good" },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_DIMENSION_RETURN_REWARD_KEEP_TRAIT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
-    "effect": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
+    "effect": {
+      "u_add_effect": "weakened_inertia",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+    },
+    "false_effect": {
+      "u_add_effect": "weakened_inertia",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
-    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
+    "effect": {
+      "u_add_effect": "warped_viewpoint",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+    },
+    "false_effect": {
+      "u_add_effect": "warped_viewpoint",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+    }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
-    "effect": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
+    "effect": {
+      "u_add_effect": "weakened_gravity",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+    },
+    "false_effect": {
+      "u_add_effect": "weakened_gravity",
+      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_UNSTABLE_RIFT",
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES" },
+    "effect": { "u_spawn_item": "unstable_rift", "count": 2 },
+    "false_effect": { "u_spawn_item": "unstable_rift", "count": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES" },
+    "effect": { "u_spawn_item": "escape_stone", "count": 2 },
+    "false_effect": { "u_spawn_item": "escape_stone", "count": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_CALMING_STONE",
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES" },
+    "effect": { "u_spawn_item": "calming_stone", "count": 2 },
+    "false_effect": { "u_spawn_item": "calming_stone", "count": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_BECKONING_STONE",
+    "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES" },
+    "effect": { "u_spawn_item": "beckoning_stone", "count": 2 },
+    "false_effect": { "u_spawn_item": "beckoning_stone", "count": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_PSYSHIELD_PARTIAL",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_PSYSHIELD_PARTIAL" } },
+    "effect": { "u_add_trait": "PS_REWARD_PSYSHIELD_PARTIAL" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_GOOD_EFFECTS_IN_STORMS",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_GOOD_EFFECTS_IN_STORMS" } },
+    "effect": { "u_add_trait": "PS_REWARD_GOOD_EFFECTS_IN_STORMS" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_REDUCED_ARTIFACT_RESONANCE",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_REDUCED_ARTIFACT_RESONANCE" } },
+    "effect": { "u_add_trait": "PS_REWARD_REDUCED_ARTIFACT_RESONANCE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_GAIN_DOUBLE_EFFECT_DURATION" } },
+    "effect": { "u_add_trait": "PS_REWARD_GAIN_DOUBLE_EFFECT_DURATION" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_STONES",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_GAIN_DOUBLE_STONES" } },
+    "effect": { "u_add_trait": "PS_REWARD_GAIN_DOUBLE_STONES" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_SEE_PORTAL_BEINGS",
+    "condition": { "not": { "u_has_trait": "PS_REWARD_SEE_PORTAL_BEINGS" } },
+    "effect": { "u_add_trait": "PS_REWARD_SEE_PORTAL_BEINGS" }
   },
   {
     "type": "effect_on_condition",
@@ -1291,6 +1628,17 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT",
     "effect": { "u_add_effect": "narrow_viewpoint", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BECKONING_STONE_SUMMON",
+    "effect": {
+      "u_spawn_monster": "GROUP_NETHER_REALITY_TEAR_FIELD",
+      "real_count": [ 2, 5 ],
+      "group": true,
+      "min_radius": 3,
+      "max_radius": 5
+    }
   },
   {
     "type": "effect_on_condition",

@@ -77,5 +77,20 @@
       "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
     },
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the calm at the end of a portal storm."
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "id": "beckoning_stone",
+    "name": { "str_sp": "strange conduct" },
+    "color": "red",
+    "copy-from": "escape_stone",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": true,
+      "description": "Seems like it could summon something.",
+      "effect_on_conditions": [ "EOC_BECKONING_STONE_SUMMON" ]
+    },
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the horrors that crawl out of the holes in reality."
   }
 ]
