@@ -171,7 +171,6 @@ class wound
         wound_update_ret update_wound( time_duration time_passed );
 
         wound &operator+=( const wound &wd ) {
-            healing_time += wd.get_healing_time();
             pain += wd.get_pain();
             // reset healing progress? maybe not necessary?
             healing_progress = 0_seconds;
