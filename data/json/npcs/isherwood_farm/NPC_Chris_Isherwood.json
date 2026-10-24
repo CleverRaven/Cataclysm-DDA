@@ -94,7 +94,11 @@
       {
         "text": "Is there anyone else around here that could help us?",
         "condition": {
-          "and": [ { "math": [ "isherwood_family_coming == 0" ] }, { "math": [ "isherwood_barry_rescued == 0" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ]
+          "and": [
+            { "math": [ "isherwood_family_coming == 0" ] },
+            { "math": [ "isherwood_barry_rescued == 0" ] },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }
+          ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
       },
