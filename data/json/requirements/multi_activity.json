@@ -10,6 +10,11 @@
     "qualities": [ { "id": "BUTCHER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
+    "id": "multi_dissect",
+    "type": "requirement",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
+  },
+  {
     "id": "multi_farm_tilling",
     "type": "requirement",
     "qualities": [ { "id": "DIG", "level": 1 } ]

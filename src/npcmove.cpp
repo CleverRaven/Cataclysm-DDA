@@ -139,6 +139,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
@@ -4064,6 +4065,9 @@ bool npc::find_job_to_perform()
             return true;
         } else if( elem == ACT_MULTIPLE_BUTCHER ) {
             assign_activity( multi_butchery_activity_actor() );
+            return true;
+        } else if( elem == ACT_MULTIPLE_DISSECT ) {
+            assign_activity( multi_dissection_activity_actor() );
             return true;
         }
     }
