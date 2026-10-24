@@ -342,5 +342,21 @@
     "resist": { "bash": 1, "cut": 3, "acid": 8, "heat": 4, "bullet": 6 },
     "//1": "Once it's dead it requires dreamstuff to hold a shape.  The material isn't dead, just the mind controlling it.",
     "repair_difficulty": 3
+  },
+  {
+    "type": "material",
+    "id": "frozen_flames",
+    "name": { "str": "Frozen Flames" },
+    "density": 9,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 1000,
+    "conductive": true,
+    "chip_resist": 40,
+    "dmg_adj": [ "marked", { "ctxt": "adjective", "str": "dented" }, "smashed", "shattered" ],
+    "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
+    "cut_dmg_verb": "scratched",
+    "resist": { "bash": 4, "cut": 5, "acid": 1, "heat": 75, "bullet": 2 },
+    "repair_difficulty": 7
   }
 ]
