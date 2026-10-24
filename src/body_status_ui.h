@@ -4,7 +4,6 @@
 #include <memory>
 #include <optional>
 #include <string>
-#include <tuple>
 #include <vector>
 
 #include "bodygraph.h"
@@ -15,7 +14,6 @@
 #include "input_context.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "subbodypart.h"
 #include "tabbed_listinfo_ui.h"
 #include "type_id.h"
 #include "uilist.h"
