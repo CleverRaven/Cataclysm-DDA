@@ -2455,6 +2455,7 @@ int game::inventory_item_menu( item_location locThisItem,
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
+    cata_timer handle_mousemove_timer( "handle_mousemove" );
     std::optional<tripoint_bub_ms> liveview_pos;
 
     do {
@@ -3828,6 +3829,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_
 
 void game::mon_info_update( )
 {
+    cata_timer mon_info_update_timer( "mon_info_update" );
     const map &here = get_map();
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -4052,6 +4054,7 @@ void game::mon_info_update( )
 
 void game::cleanup_dead()
 {
+    cata_timer cleanup_dead_timer( "cleanup_dead" );
     map &here = get_map();
 
     // Dead monsters need to stay in the tracker until everything else that needs to die does so
