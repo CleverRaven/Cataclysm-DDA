@@ -561,12 +561,9 @@
       },
       {
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
-        "condition": { 
-	    		"and": [
-	    			{ "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" } },
-    				{ "math": [ "isherwood_gear_status < 1" ] }
-    			]
-    		},
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" } }, { "math": [ "isherwood_gear_status < 1" ] } ]
+        },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
