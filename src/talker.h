@@ -335,6 +335,13 @@ class const_talker
         virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
             return effect::null_effect;
         }
+
+        virtual bool has_wound( const wound_type_id & ) const {
+            return false;
+        }
+        virtual bool has_wound( const wound_type_id &, const bodypart_id & ) const {
+            return false;
+        }
         virtual float get_limb_score( const limb_score_id & /*score*/, const bp_type & /*bp*/ ) const {
             return 0.0;
         }

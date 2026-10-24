@@ -554,6 +554,16 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+bool talker_character_const::has_wound( const wound_type_id &wound_id ) const
+{
+    return me_chr_const->has_wound( wound_id );
+}
+
+bool talker_character_const::has_wound( const wound_type_id &wound_id, const bodypart_id &bp ) const
+{
+    return me_chr_const->has_wound( wound_id, bp.id() );
+}
+
 float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
 {
     return me_chr_const->get_limb_score( score, bp );
