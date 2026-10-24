@@ -4826,11 +4826,10 @@ void inventory_haul_selector::apply_selection( std::vector<item_location> &items
     std::unordered_map<inventory_entry *, int> counts;
     for( item_location &item : items ) {
         inventory_entry *entry = find_entry_by_location( item );
-        if( counts.count( entry ) ) {
-            counts.at( entry ) += 1;
-        } else {
-            counts.emplace( entry, 1 );
+        if( entry == nullptr ) {
+            continue;
         }
+        counts[entry] += 1;
     }
     for( std::pair<inventory_entry *, int> count : counts ) {
         // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better
