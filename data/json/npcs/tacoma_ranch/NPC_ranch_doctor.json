@@ -118,12 +118,12 @@
     },
     "responses": [
       {
-        "text": "No, i mean something, eeh, more sci-fi.  There are robo-guys in a stone castle, they say they have such technology.  They even installed something into me, look!",
+        "text": "No, I mean something, eeh, more sci-fi.  There are robo-guys in a stone castle.  They say they have such technology.  They even installed something into me, look!",
         "topic": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
         "condition": { "u_has_bionics": "ANY" }
       },
       {
-        "text": "No, i mean something, eeh, more sci-fi.  There are robo-guys in a stone castle, they say they have such technology.",
+        "text": "No, I mean something, eeh, more sci-fi.  There are robo-guys in a stone castle.  They say they have such technology.",
         "topic": "TALK_RANCH_DOCTOR_BIONICS_DUNNO",
         "condition": { "not": { "u_has_bionics": "ANY" } }
       },

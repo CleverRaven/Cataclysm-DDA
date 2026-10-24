@@ -230,8 +230,10 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 namespace io
 {
@@ -2567,10 +2569,21 @@ void Character::update_wounds( time_duration time_passed )
                             bleed( get_map() );
                             break;
                         case wound_mod_value_type::VITAMIN:
-                            if( mod_val.vitamin.has_value() &&
-                                vitamin_get( *mod_val.vitamin ) > mod_val.cap_min &&
-                                vitamin_get( *mod_val.vitamin ) < mod_val.cap_max ) {
-                                vitamin_mod( *mod_val.vitamin, mod_val.amount );
+                            if( mod_val.vitamin.has_value() ) {
+                                const vitamin_id vit = *mod_val.vitamin;
+
+                                if( vitamin_get( vit ) <= mod_val.cap_min &&
+                                    vitamin_get( vit ) >= mod_val.cap_max ) {
+                                    break;
+                                }
+
+                                int final_amt = mod_val.amount;
+                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                                    final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
+                                                                mod_val.amount ) );
+                                }
+
+                                vitamin_mod( vit, final_amt );
                             }
                             break;
                         default:

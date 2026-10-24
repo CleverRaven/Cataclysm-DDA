@@ -3,6 +3,8 @@
 #define CATA_SRC_NPC_SLEEP_H
 
 #include "calendar.h"
+#include "coordinates.h"
+#include "point.h"
 
 class JsonObject;
 class JsonOut;
@@ -33,6 +35,13 @@ struct npc_sleep_session {
     // no new sleep before this passes, unless sleepiness reaches the floor
     time_point stay_awake_until = calendar::turn_zero;
     int stay_awake_floor = 0;
+    // no new sleep before this while steady noise goes on, the NPC stays put and its deafness
+    // is unchanged
+    time_point noise_hold_until = calendar::turn_zero;
+    tripoint_abs_ms noise_hold_at;
+    bool noise_hold_deaf = false;
+    int noise_wakes = 0;
+    time_point last_noise_wake = calendar::turn_zero;
 
     void begin_settling();
     // settling or asleep -> woken; too many wakes inside restless_window stall the sleep

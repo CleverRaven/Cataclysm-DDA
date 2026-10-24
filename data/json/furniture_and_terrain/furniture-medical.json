@@ -240,6 +240,48 @@
   },
   {
     "type": "furniture",
+    "id": "f_surgical_table",
+    "name": "lab workbench",
+    "description": "A padded surgical table mounted to a sturdy base.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "epoxy_chunk", "count": [ 50, 75 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] }
+      ]
+    },
+    "max_volume": "1750 L",
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "epoxy_chunk", "count": [ 30, 50 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "count": [ 1, 2 ] },
+        { "item": "cu_pipe", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.15, "mass": "300 kg", "volume": "100 L" }
+  },
+  {
+    "type": "furniture",
     "id": "f_fume_hood",
     "description": "A metal hood atop a lab workspace, with durable glass shutters.  A fan in the hood draws fumes and smoke from dangerous chemicals up into a ventilation duct.",
     "name": "fume hood",

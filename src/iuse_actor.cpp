@@ -1458,6 +1458,13 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
+bool firestarter_actor::is_firewood_source( const map &here, const tripoint_bub_ms &pos )
+{
+    return here.tr_at( pos ).id == tr_firewood_source ||
+           !zone_manager::get_manager().get_zones( zone_type_SOURCE_FIREWOOD,
+                   here.get_abs( pos ) ).empty();
+}
+
 firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character &p,
         map *here, tripoint_bub_ms &pos )
 {
@@ -1498,20 +1505,9 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         return start_type::NONE;
     }
     // check if there's a fire fuel source spot
-    bool target_is_firewood = false;
-    if( here->tr_at( pos ).id == tr_firewood_source ) {
-        target_is_firewood = true;
-    } else {
-        zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here->get_abs( pos ) );
-        if( !zones.empty() ) {
-            target_is_firewood = true;
-        }
-    }
-    if( target_is_firewood ) {
-        if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
-            return start_type::NONE;
-        }
+    if( is_firewood_source( *here, pos ) &&
+        !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
+        return start_type::NONE;
     }
     // Don't check if we're setting a fire on top of a fireplace
     if( !here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
