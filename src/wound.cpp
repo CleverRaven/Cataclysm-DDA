@@ -32,6 +32,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "periodic_message", periodic_message );
     optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "progress_timer", progress_timer );
+    optional( jo, was_loaded, "whitelist_flags", whitelist_flags );
+    optional( jo, was_loaded, "blacklist_flag", blacklist_flags );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );

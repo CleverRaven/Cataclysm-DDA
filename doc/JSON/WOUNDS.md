@@ -41,6 +41,8 @@ A light wounds should generally have minimal effects, a medium would should hind
       "message": "OH NO YOUR WOUND ON YOUR %s IS BLEEDING CLOSE IT CLOSE IT CLOSE IT!", // argument %s is body part name
       "rate": "2 seconds"
     },
+    "whitelist_flags": [ "FLAG_A", "FLAG_B" ], // only character that has any of these flags can receive this wound
+    "blacklist_flag": [ "FLAG_C", "FLAG_D" ], // if chartacter has any of these flags, they cannot receive this wound
     "whitelist_body_part_types": [ "leg", "arm" ], // if used, this wound can be applied only at bodyparts of this type. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other
     "blacklist_body_part_types": [ "torso", "sensor" ], // if used, this wound cannot be applied on bodyparts of this type.
     "whitelist_bp_with_flag": [ "LIMB_UPPER" ], // only body parts with this flags can receive the wound.
