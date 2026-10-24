@@ -324,7 +324,11 @@
       {
         "text": "I might be able to help you get Barry back, but we've got to plan this out.",
         "condition": {
-          "and": [ { "math": [ "isherwood_barry_rescued != 1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } }, { "not": { "compare_string": [ "true", { "global_val": "is_barry_dead" } ] } } ]
+          "and": [
+            { "math": [ "isherwood_barry_rescued != 1" ] },
+            { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
+            { "not": { "compare_string": [ "true", { "global_val": "is_barry_dead" } ] } }
+          ]
         },
         "effect": { "add_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY"
