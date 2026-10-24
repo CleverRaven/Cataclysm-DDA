@@ -148,7 +148,7 @@ struct body_status_uistate {
     // formerly `bodygraph_display` functions
     void prepare_partlist();
     void prepare_infolist();
-    void prepare_infotext( bool reset_pos );
+    void prepare_infotext();
     const bodygraph_part_info &get_selected_partlist() const;
 
     void update_selected( int index );

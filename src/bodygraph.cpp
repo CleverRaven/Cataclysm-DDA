@@ -305,10 +305,10 @@ void body_status_uistate::prepare_infolist()
     displayed_character.worn.prepare_bodymap_info( info, bp, sub_parts, displayed_character );
 
     // update info text cache
-    prepare_infotext( true );
+    prepare_infotext();
 }
 
-void body_status_uistate::prepare_infotext( bool reset_pos )
+void body_status_uistate::prepare_infotext()
 {
     if( info.specific_sublimb ) {
         // parent part
