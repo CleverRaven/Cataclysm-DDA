@@ -843,7 +843,6 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Enchantments" ), &enchantment::finalize_all },
             { _( "Event Statistics" ), &event_statistic::finalize_all },
             { _( "Event Transformations" ), &event_transformation::finalize_all },
-            { _( "Faults" ), &faults::finalize },
             { _( "Post-process generators" ), &pp_generators::finalize },
             { _( "Furniture" ), &finalize_furniture },
             { _( "Gates" ), &gates::finalize },
@@ -851,6 +850,7 @@ void DynamicDataLoader::finalize_loaded_data()
             { _( "Item Categories" ), &item_category::finalize_all },
             { _( "Materials" ), &material_type::finalize_all },
             { _( "Items" ), &items::finalize_all },
+            { _( "Faults" ), &faults::finalize },
             { _( "Limb Scores" ), &limb_score::finalize_all },
             {
                 _( "Crafting requirements" ), []()
