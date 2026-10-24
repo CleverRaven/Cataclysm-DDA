@@ -193,10 +193,10 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "truck_bomb_spawn",
-    "object": { 
-	    "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ],
-    	"place_fields": [ { "field": "fd_fire", "x": [ 17 ], "y": [ 18 ], "intensity": [ 1 ], "repeat": 1 } ]
-  	}
+    "object": {
+      "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 17 ], "y": [ 18 ], "intensity": [ 1 ], "repeat": 1 } ]
+    }
   },
   {
     "type": "mapgen",
