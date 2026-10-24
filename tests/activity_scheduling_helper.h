@@ -2,6 +2,7 @@
 #define CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -38,6 +39,19 @@ class activity_schedule : public schedule
         }
         activity_schedule( const activity_actor &assigned,
                            const time_duration &ticks ) : actor( assigned.clone() ) {
+            interval = ticks;
+        }
+};
+
+class action_schedule : public schedule
+{
+        std::function<void( avatar & )> action;
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar &guy ) const override;
+
+        action_schedule( std::function<void( avatar & )> p_action,
+                         const time_duration &ticks ) : action( std::move( p_action ) ) {
             interval = ticks;
         }
 };
