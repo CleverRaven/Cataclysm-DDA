@@ -586,8 +586,8 @@ bool outfit::items_cover_opposite_bp( const Character &who, const bodypart_id &c
 {
     const bodypart_id opposite = cover.obj().opposite_part;
     return cover != opposite &&
-           who.worn.items_cover_bp( who, cover ) ==
-           who.worn.items_cover_bp( who, opposite );
+           items_cover_bp( who, cover ) ==
+           items_cover_bp( who, opposite );
 }
 
 
