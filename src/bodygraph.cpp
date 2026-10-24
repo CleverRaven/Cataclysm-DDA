@@ -6,10 +6,9 @@
 #include <initializer_list>
 #include <set>
 
-#include "bodypart.h"
 #include "body_status_ui.h"
+#include "bodypart.h"
 #include "cata_imgui.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"

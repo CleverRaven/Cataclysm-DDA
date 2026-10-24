@@ -17,6 +17,7 @@
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
