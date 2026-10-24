@@ -1619,7 +1619,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     // Rebuild bodygraph text cache
     disp_bodygraph_cache new_cache( var );
     new_cache.rebuild( u, graph_id, ret );
-    disp_bg_cache.emplace( bg_cache_key, new_cache );
+    disp_bg_cache[bg_cache_key] = new_cache;
 
     return ret;
 }
