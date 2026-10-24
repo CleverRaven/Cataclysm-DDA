@@ -8,7 +8,7 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 1, 10 ],
-    "pain": [ 2, 4 ],
+    "pain": [ 1, 2 ],
     "healing_time": [ "2 days", "4 days" ],
     "wound_progression": [ { "id": "bruise_medium", "chance": 20 } ],
     "limb_scores": [ { "score": "manip", "value": 0.04 } ],
@@ -115,7 +115,7 @@
     "name": { "str": "broken bone" },
     "description": "Your bone broke.",
     "weight": 40,
-    "limit": 8,
+    "limit": 2,
     "damage_types": [ "bash" ],
     "damage_required": [ 25, 50 ],
     "pain": [ 40, 49 ],
@@ -128,42 +128,52 @@
       { "score": "block", "value": 1 },
       { "score": "move_speed", "value": 0.95 }
     ],
-    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_body_part_types": [ "torso", "sensor", "head" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
-    "id": "bone_broken_healing_partial",
+    "id": "bone_broken_healing_good",
+    "copy-from": "bone_broken",
     "type": "wound",
-    "name": { "str": "broken bone" },
-    "description": "Your bone broken bone healed, somewhat.",
+    "name": { "str": "set bone" },
+    "description": "You set the broken bone.",
     "weight": 0,
-    "limit": 8,
+    "limit": 2,
+    "healing_time": [ "30 days", "45 days" ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ]
+  },
+  {
+    "id": "bone_broken_healing_partial",
+    "copy-from": "bone_broken",
+    "type": "wound",
+    "name": { "str": "improperly set bone" },
+    "description": "You somehow set the broken bone.",
+    "weight": 0,
+    "limit": 2,
+    "pain": [ 45, 50 ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
     "progress_timer": {
       "id": "bone_broken_healed_partial",
       "time": [ "30 days", "45 days" ],
-      "message": "The broken bone of your %s finally healed."
+      "message": "Your %s broken bone finally healed."
     }
   },
   {
     "id": "bone_broken_healing_bad",
+    "copy-from": "bone_broken_healing_partial",
     "type": "wound",
-    "name": { "str": "broken bone" },
-    "description": "Your broken bone healed, badly.",
-    "weight": 0,
-    "limit": 8,
-    "progress_timer": {
-      "id": "bone_broken_healed_bad",
-      "time": [ "30 days", "45 days" ],
-      "message": "The broken bone of your %s finally healed."
-    }
+    "name": { "str": "badly set bone" },
+    "description": "Your broken bone was set by a lunatic, badly.",
+    "pain": [ 50, 56 ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
+    "progress_timer": { "id": "bone_broken_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your %s broken bone finally healed." }
   },
   {
     "id": "bone_broken_healed_partial",
+    "copy-from": "bone_broken_healing_partial",
     "type": "wound",
-    "name": { "str": "broken bone" },
+    "name": { "str": "improperly set bone" },
     "description": "Your bone broken bone healed, somewhat.",
-    "weight": 0,
-    "limit": 8,
     "pain": [ 4, 6 ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
@@ -177,11 +187,10 @@
   },
   {
     "id": "bone_broken_healed_bad",
+    "copy-from": "bone_broken_healing_partial",
     "type": "wound",
-    "name": { "str": "broken bone" },
+    "name": { "str": "badly set bone" },
     "description": "Your broken bone healed, badly.",
-    "weight": 0,
-    "limit": 8,
     "pain": [ 10, 14 ],
     "limb_scores": [
       { "score": "manip", "value": 0.7 },

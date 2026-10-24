@@ -58,5 +58,43 @@
     "wounds_removed": [ "clean_laceration_bad" ],
     "wounds_added": [ "bandaged_laceration_bad" ],
     "success_msg": "The bad laceration is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "set_bone_good_fix",
+    "type": "wound_fix",
+    "name": "set the bone properly",
+    "description": "Set your bone properly.",
+    "time": "10 minutes",
+    "skills": { "firstaid": 6 },
+    "wounds_removed": [ "bone_broken" ],
+    "wounds_added": [ "bone_broken_healing_good" ],
+    "success_msg": "You set the bone, ow.",
+    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ],
+    "proficiencies": [ { "proficiency": "prof_wound_care_expert", "is_mandatory": true } ]
+  },
+  {
+    "id": "set_bone_partial_fix",
+    "type": "wound_fix",
+    "name": "set the bone",
+    "description": "Set your bone carefully.",
+    "time": "10 minutes",
+    "skills": { "firstaid": 4 },
+    "wounds_removed": [ "bone_broken" ],
+    "wounds_added": [ "bone_broken_healing_partial" ],
+    "success_msg": "When setting the bone, you hear loud cracks and your pain gets even worse.",
+    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "is_mandatory": true } ]
+  },
+  {
+    "id": "set_bone_bad_fix",
+    "type": "wound_fix",
+    "name": "set your bone?",
+    "description": "Set your bone, whatever that means.",
+    "time": "10 minutes",
+    "skills": { "firstaid": 2 },
+    "wounds_removed": [ "bone_broken" ],
+    "wounds_added": [ "bone_broken_healing_bad" ],
+    "success_msg": "You did something, you aren't sure what but at least now its kind of bent in the right direction.",
+    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ]
   }
 ]
