@@ -2946,22 +2946,6 @@
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" }
   },
   {
-    "id": "cash_card",
-    "type": "ITEM",
-    "subtypes": [ "TOOL" ],
-    "category": "currency",
-    "copy-from": "card_plastic_abstract",
-    "symbol": "$",
-    "color": "yellow",
-    "name": { "str": "cash card" },
-    "ascii_picture": "cashcard",
-    "description": "A yellow plastic card used to electronically store money.  It holds up to 2 million dollars.",
-    "price": "10 USD",
-    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "tool_ammo": [ "money" ]
-  },
-  {
     "id": "credit_card",
     "type": "ITEM",
     "category": "currency",

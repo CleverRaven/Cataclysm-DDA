@@ -308,5 +308,11 @@
     "type": "MIGRATION",
     "id": "matchead_9mm",
     "replace": "9mm"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "money",
+    "replace": "thread",
+    "charges": 0
   }
 ]
