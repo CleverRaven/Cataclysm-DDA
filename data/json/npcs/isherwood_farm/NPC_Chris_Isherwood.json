@@ -105,7 +105,11 @@
       {
         "text": "Have you had any ideas for what your family could do?",
         "condition": {
-          "and": [ { "math": [ "npc_timer_thinking_about_plan >= time('1 h')" ] }, { "math": [ "isherwood_barry_rescued == 0" ] }, { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } ]
+          "and": [
+            { "math": [ "npc_timer_thinking_about_plan >= time('1 h')" ] },
+            { "math": [ "isherwood_barry_rescued == 0" ] },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }
+          ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
       },
