@@ -1,0 +1,98 @@
+[
+  {
+    "type": "ITEM",
+    "category": "other",
+    "id": "spoon_of_full_belly",
+    "ascii_picture": "spoon",
+    "name": { "str": "silver spoon of the full belly", "str_pl": "silver spoons of the full belly" },
+    "description": "An engraved silver spoon.  On it are the words 'I will spare you from hunger'.",
+    "weight": "43 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": "69 cent",
+    "copy-from": "spoon",
+    "material": "silver",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "consume": false,
+      "description": "Pantomine eating with the spoon.",
+      "effect_on_conditions": [ "EOC_FULL_BELLY" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FULL_BELLY",
+    "effect": [ { "math": [ "u_hunger() = 0" ] } ]
+  },
+  {
+    "id": "thorn_brocade_vest",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "thorn brocade vest" },
+    "description": "A fancy dress vest with an intricate thorned vine brocade.  You can feel the magic emanating from this item, or maybe that's psychosomatic from where you can see the vines moving and twining around each other.",
+    "weight": "720 g",
+    "volume": "1 L",
+    "price": "390 USD",
+    "price_postapoc": "95 USD",
+    "material": [ "elemental_fae_cotton" ],
+    "symbol": "[",
+    "looks_like": "tank_top",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "250 g",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "glamour_charge": 1 }, "airtight": true }
+    ],
+    "warmth": 5,
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "BELTED", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "volume_encumber_modifier": 0.2,
+        "coverage": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ],
+    "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_SELECTOR_THORNED_VEST" ] },
+    "charges_per_use": 1,
+    "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELECTOR_THORNED_VEST",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_THORNED_VEST_AURA", "EOC_THORNED_VEST_GRAPPLING_ARMS", "EOC_NONE" ],
+        "names": [ "Thorned Skin", "Prehensile Thorned Vines", "Do nothing" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [ "Encase your body in protective thorns.", "Summon prehensile vines that can trip your enemies.", "Do nothing." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THORNED_VEST_AURA",
+    "effect": [ { "u_cast_spell": { "id": "dummy_spell" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_THORNED_VEST_GRAPPLING_ARMS",
+    "effect": [ { "u_cast_spell": { "id": "dummy_spell" }, "targeted": true } ]
+  }
+]
