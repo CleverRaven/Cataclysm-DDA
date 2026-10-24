@@ -306,6 +306,7 @@ static const faction_id faction_your_followers( "your_followers" );
 static const fault_id fault_fail_to_feed( "fault_fail_to_feed" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+static const flag_id json_flag_EAT_AFTER_CRAFT( "EAT_AFTER_CRAFT" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
@@ -6241,6 +6242,7 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
     act.interruptable = false;
 
     item_location consume_loc = consume_location;
+    const bool auto_eat = consume_loc && consume_loc->has_flag( json_flag_EAT_AFTER_CRAFT );
 
     if( !was_canceled ) {
         if( consume_loc ) {
@@ -6274,6 +6276,30 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
             avatar_action::eat_or_use( get_avatar(),
                                        game_menus::inv::consume( uistate.consume_uistate.consume_menu_comestype ) );
         };
+    }
+
+    if( auto_eat && who.is_avatar() ) {
+        const auto visit = [&who]( item_location food ) {
+            if( food->has_flag( json_flag_EAT_AFTER_CRAFT ) ) {
+                if( !food->is_craft() ) {
+                    player_activity act_eat = player_activity( consume_activity_actor( food ) );
+                    // put consume items first, because craft will interrupt backlog queue
+                    who.queue_activity_front( act_eat );
+                } else {
+                    // resume craft
+                    player_activity act_craft = player_activity( craft_activity_actor( food, false ) );
+                    who.queue_activity( act_craft );
+                }
+            }
+            return VisitResponse::NEXT;
+        };
+
+        // note: crafting_inventory can't be used here as it makes item copies
+        // we are also limiting the range of eating to "right next to you"
+        for( const tripoint_bub_ms &pt : points_in_radius( who.pos_bub(), 1 ) ) {
+            map_cursor( pt ).visit_items( visit );
+        }
+        who.visit_items( visit );
     }
 }
 
@@ -6687,8 +6713,9 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
+        return;
     }
-    activity_override = craft_item.get_item()->get_making().exertion_level();
+    activity_override = craft_item->get_making().exertion_level();
     cached_crafting_speed = 0;
     cached_workbench_multiplier = 0;
     use_cached_workbench_multiplier = false;

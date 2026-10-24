@@ -6,6 +6,7 @@
 #include <bitset>
 #include <climits>
 #include <cstdint>
+#include <deque>
 #include <functional>
 #include <list>
 #include <map>
@@ -297,7 +298,13 @@ enum edible_rating {
     /// We can eat this, but we'll suffer from overeat
     TOO_FULL,
     /// Some weird stuff that requires a tool we don't have
-    NO_TOOL
+    NO_TOOL,
+    /// you don't own the item. should only be a failure for auto eat
+    NOT_OWNED,
+    /// will not eat unless player directed
+    NO_AUTO_EAT,
+    /// will not eat unless addicted
+    ADDICTIVE,
 };
 
 enum crush_tool_type {
@@ -2904,8 +2911,17 @@ class Character : public Creature, public visitable
         std::optional<tripoint_abs_ms> destination_point;
         itype_id last_item;
     private:
+        // the activity queue is activities that don't need to be auto continue to do.
+        // each queued activity will be started via the start() function in their actor
+        // and the activity queue is prioritized over the backlog.
+        std::deque<player_activity> activity_queue;
         item weapon;
     public:
+        bool has_queued_activities() const;
+        void assign_queued_activity();
+        void queue_activity( const player_activity &act );
+        // prioritizes the activity over others queued
+        void queue_activity_front( const player_activity &act );
         item_location get_wielded_item() const;
         item_location get_wielded_item();
         // This invalidates the item_location returned by get_wielded_item
@@ -3554,6 +3570,9 @@ class Character : public Creature, public visitable
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Whether this character is hungry or thirsty for this, and may eat or drink it. */
         bool wants_to_consume_now( const item &food ) const;
+        virtual ret_val<edible_rating> will_auto_eat( const item &food ) const;
+        virtual ret_val<edible_rating> will_auto_eat( const item &food,
+                bool /* zone_override_food */ ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
@@ -3580,6 +3599,9 @@ class Character : public Creature, public visitable
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
+        // is this a frozen treat, or something you can't eat because it's frozen?
+        // assumes it's already a comestible
+        bool can_consume_frozen( const item &it ) const;
         /** True if the character has enough skill (in cooking or survival) to estimate time to rot */
         bool can_estimate_rot() const;
         /**

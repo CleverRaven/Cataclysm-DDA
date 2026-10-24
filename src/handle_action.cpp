@@ -13,6 +13,7 @@
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "advanced_inv.h"
+#include "auto_eat.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -30,6 +31,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
+#include "craft_command.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -78,6 +80,7 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
+#include "player_activity.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
@@ -866,6 +869,24 @@ static void haul()
 static void haul_toggle()
 {
     get_avatar().toggle_hauling();
+}
+
+void avatar_action::eat_some( avatar &you )
+{
+    const std::list<auto_eat_settings::potential_edible> to_eat_list =
+        you.auto_eat_handler.get_surrounding_available_food( you );
+
+    // placeholder for adding settings
+    for( const auto_eat_settings::potential_edible &food : to_eat_list ) {
+        if( !food.is_recipe() ) {
+            player_activity act_eat = player_activity( consume_activity_actor( food.loc() ) );
+            you.queue_activity_front( act_eat );
+        } else {
+            craft_command cmd( food.get_recipe(), 1, false, &you, std::nullopt );
+            cmd.eat_after_craft = true;
+            cmd.execute();
+        }
+    }
 }
 
 static void smash( const std::optional<tripoint_bub_ms> &p = std::nullopt )
@@ -2666,6 +2687,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_TAKE_OFF:
             takeoff();
+            break;
+
+        case ACTION_EAT_SOME:
+            avatar_action::eat_some( player_character );
             break;
 
         case ACTION_EAT:

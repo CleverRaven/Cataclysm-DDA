@@ -225,6 +225,8 @@ std::string action_ident( action_id act )
             return "wear";
         case ACTION_TAKE_OFF:
             return "take_off";
+        case ACTION_EAT_SOME:
+            return "eat_some";
         case ACTION_EAT:
             return "eat";
         case ACTION_OPEN_CONSUME:
@@ -935,6 +937,7 @@ action_id handle_action_menu( map &here )
             REGISTER_ACTION( ACTION_ADVANCEDINV );
             REGISTER_ACTION( ACTION_SORT_ARMOR );
             REGISTER_ACTION( ACTION_DIR_DROP );
+            REGISTER_ACTION( ACTION_EAT_SOME );
 
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the

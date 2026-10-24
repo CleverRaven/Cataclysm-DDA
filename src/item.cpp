@@ -1286,6 +1286,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         const ret_val<edible_rating> rating = player_character.will_eat( *this );
         // TODO: More colors
         switch( rating.value() ) {
+            case ADDICTIVE:
+            case NO_AUTO_EAT:
             case EDIBLE:
             case TOO_FULL:
                 ret = c_cyan;
@@ -1316,6 +1318,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
             case NAUSEA:
                 ret = c_pink;
                 break;
+            case NOT_OWNED:
+                ret = c_light_red;
             case NO_TOOL:
                 break;
         }
