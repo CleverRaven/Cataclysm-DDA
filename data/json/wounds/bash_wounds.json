@@ -201,5 +201,59 @@
       { "score": "block", "value": 0.6 },
       { "score": "move_speed", "value": 0.6 }
     ]
+  },
+  {
+    "id": "laceration_medium",
+    "copy-from": "bleeding_laceration_medium",
+    "type": "wound",
+    "name": { "str": "laceration" },
+    "description": "You have a laceration, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_laceration_medium", "chance": 40 } ]
+  },
+  {
+    "id": "laceration_bad",
+    "copy-from": "bleeding_laceration_bad",
+    "type": "wound",
+    "name": { "str": "bad laceration" },
+    "description": "You have a bad laceration, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_laceration_bad", "chance": 45 } ]
+  },
+  {
+    "id": "clean_laceration_medium",
+    "copy-from": "laceration_medium",
+    "type": "wound",
+    "name": { "str": "clean laceration" },
+    "description": "You have a laceration you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_laceration_bad",
+    "copy-from": "laceration_bad",
+    "type": "wound",
+    "name": { "str": "clean bad laceration" },
+    "description": "You have a bad laceration, you should probably bandage it.",
+    "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "bandaged_laceration_medium",
+    "copy-from": "laceration_medium",
+    "type": "wound",
+    "name": { "str": "bandaged laceration" },
+    "description": "You have a laceration, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_laceration_bad",
+    "copy-from": "laceration_bad",
+    "type": "wound",
+    "name": { "str": "bandaged bad laceration" },
+    "description": "You have a bad laceration, you should wait till it heals.",
+    "healing_time": [ "3 days", "5 days" ]
   }
 ]
