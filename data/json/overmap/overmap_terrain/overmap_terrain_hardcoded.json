@@ -37,6 +37,7 @@
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "travel_cost_type": "field"
+  },
   {
     "type": "overmap_terrain",
     "id": "forest",
