@@ -22,8 +22,10 @@
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "npc.h"
 #include "omdata.h"
@@ -150,7 +152,7 @@ std::unordered_set<itype_id> present_mission_items( const std::unordered_set<ity
     }
 
     avatar &player_character = get_avatar();
-    player_character.visit_items( [&]( item * it, item * ) {
+    player_character.visit_items( [&]( item_location it ) {
         if( targets.count( it->typeId() ) != 0 ) {
             result.insert( it->typeId() );
         }
@@ -239,6 +241,11 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 
 void mission::clear_all()
 {
+    for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_overmap_npcs() ) {
+        guy->chatbin.missions.clear();
+        guy->chatbin.missions_assigned.clear();
+        guy->chatbin.mission_selected = nullptr;
+    }
     world_missions.clear();
 }
 

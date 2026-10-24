@@ -5,7 +5,7 @@
     "dynamic_line": "&You see a black computer screen with a flickering cursor and some text.  The cursor looks to be controlled by an old mouse that has been hard-wired to the side of terminal.  Only one option appears:\n\n<color_light_green> Labyrinth AB02123.3-4a</color>",
     "responses": [
       {
-        "text": "[Select \"Labyrinth AB02123.3-4a\"]",
+        "text": "[Select \"Labyrinth AB02123.3-4a - ERROR: NAY\"]",
         "condition": { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] } },
         "topic": "COMP_LS_Entrance_Controls2_no"
       },
@@ -13,6 +13,8 @@
         "text": "[Select \"Labyrinth AB02123.3-4a\"]",
         "condition": {
           "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_exodii_wrist_computer" } ] } },
+            { "math": [ "labyrinth_access_points > 0" ] },
             { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
             {
               "or": [
@@ -25,7 +27,68 @@
         "topic": "COMP_LS_Entrance_Controls2"
       },
       {
-        "text": "[Select \"Labyrinth AB02123.3-4a\"]",
+        "text": "[Plug in your Exodii wrist computer and select \"Labyrinth AB02123.3-4a\"]",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_exodii_wrist_computer" } ] },
+            { "or": [ { "u_has_item": "exodii_wrist_computer" }, { "u_has_item": "exodii_wrist_computer_on" } ] },
+            { "math": [ "labyrinth_access_points > 0" ] },
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            {
+              "or": [
+                { "not": { "math": [ "has_var(u_timer_exodii_labyrinth_cooldown)" ] } },
+                { "math": [ "time_since(u_timer_exodii_labyrinth_cooldown) >= time('5 d')" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "COMP_LS_Entrance_Controls2"
+      },
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a - ERROR: 'wobble()' terminated.\"]",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "not": { "compare_string": [ "yes", { "u_val": "rubik_told_about_exodii_wrist_computer" } ] } },
+                {
+                  "and": [ { "not": { "u_has_item": "exodii_wrist_computer" } }, { "not": { "u_has_item": "exodii_wrist_computer_on" } } ]
+                }
+              ]
+            },
+            { "math": [ "labyrinth_access_points == 0" ] },
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            {
+              "or": [
+                { "not": { "math": [ "has_var(u_timer_exodii_labyrinth_cooldown)" ] } },
+                { "math": [ "time_since(u_timer_exodii_labyrinth_cooldown) >= time('5 d')" ] }
+              ]
+            }
+          ]
+        },
+        "effect": { "u_add_var": "encountered_labyrinth_entry_error", "value": "yes" },
+        "topic": "COMP_LS_Entrance_Controls2_no_access"
+      },
+      {
+        "text": "[Plug in your Exodii wrist computer and select \"Labyrinth AB02123.3-4a\"]",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_exodii_wrist_computer" } ] },
+            { "or": [ { "u_has_item": "exodii_wrist_computer" }, { "u_has_item": "exodii_wrist_computer_on" } ] },
+            { "math": [ "labyrinth_access_points == 0" ] },
+            { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
+            {
+              "or": [
+                { "not": { "math": [ "has_var(u_timer_exodii_labyrinth_cooldown)" ] } },
+                { "math": [ "time_since(u_timer_exodii_labyrinth_cooldown) >= time('5 d')" ] }
+              ]
+            }
+          ]
+        },
+        "topic": "COMP_LS_Entrance_Controls2_no_charges"
+      },
+      {
+        "text": "[Select \"Labyrinth AB02123.3-4a - ERROR: CYCLE\"]",
         "condition": {
           "and": [
             { "compare_string": [ "yes", { "u_val": "rubik_told_about_labyrinth" } ] },
@@ -52,6 +115,18 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2_no_access",
+    "dynamic_line": "& ERROR: Doing 'wobble()' terminated unwarly.  DIAGNOSTIC: Labyrinth coordinate update required.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Entrance_Controls2_no_charges",
+    "dynamic_line": "& ERROR: Doing 'wobble()' terminated unwarly.  DIAGNOSTIC: No valid coordinates in attached device.",
+    "responses": [ { "text": "[Step away]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "COMP_LS_Entrance_Controls2",
     "dynamic_line": "& Truly?  Aye/Nay",
     "responses": [
@@ -59,6 +134,7 @@
         "text": "[Select \"Aye\"]",
         "effect": [
           { "finish_mission": "MISSION_EXODII_LABYRINTHS_INTRO", "success": true },
+          { "math": [ "labyrinth_access_points -= 1" ] },
           { "math": [ "u_timer_exodii_labyrinth_cooldown = time('now')" ] },
           { "run_eocs": "EOC_LS_Teleport_to_labyrinth" }
         ],

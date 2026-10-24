@@ -2970,14 +2970,14 @@ void tab_creatures_view::draw_body( debug_console &host )
         } else {
             ImGui::TextDisabled( "%s", "(empty hands)" );
         }
-        const std::vector<item_location> all = sel_npc->all_items_loc();
-        ImGui::TextDisabled( "%d carried", static_cast<int>( all.size() ) );
-        for( const item_location &loc : all ) {
-            if( loc ) {
-                ImGui::Bullet();
-                cataimgui::draw_colored_text( loc->tname(), c_white );
-            }
-        }
+        int items_carried = 0;
+        sel_npc->visit_carried( [&items_carried]( const item_location & loc ) {
+            ImGui::Bullet();
+            cataimgui::draw_colored_text( loc->tname(), c_white );
+            items_carried++;
+            return VisitResponse::NEXT;
+        } );
+        ImGui::TextDisabled( "%d carried", items_carried );
     }
 }
 
@@ -3206,8 +3206,8 @@ void tab_items_view::draw_body( debug_console &host )
                 }
             }
             if( target ) {
-                target->visit_items( [&]( const item * it, item * parent ) {
-                    const std::string loc = parent ? parent->tname( 1, false )
+                target->visit_items( [&]( const item_location & it ) {
+                    const std::string loc = it.has_parent() ? it.parent_item()->tname( 1, false )
                                             : std::string( "self" );
                     add( *it, remove_color_tags( loc ) );
                     return VisitResponse::NEXT;
@@ -3231,8 +3231,8 @@ void tab_items_view::draw_body( debug_console &host )
             }
             break;
         case item_source_ref::kind::avatar:
-            you.visit_items( [&]( const item * it, item * parent ) {
-                const std::string loc = parent ? parent->tname( 1, false )
+            you.visit_items( [&]( const item_location & it ) {
+                const std::string loc = it.has_parent() ? it.parent_item()->tname( 1, false )
                                         : std::string( "self" );
                 add( *it, remove_color_tags( loc ) );
                 return VisitResponse::NEXT;

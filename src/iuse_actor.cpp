@@ -196,17 +196,6 @@ item_location form_loc_recursive( T &loc, item &it )
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
-template<>
-item_location form_loc_recursive( item_location &loc, item &it )
-{
-    item *parent = loc->find_parent( it );
-    if( parent != nullptr ) {
-        return item_location( form_loc_recursive( loc, *parent ), &it );
-    }
-
-    return item_location( loc, &it );
-}
-
 static std::optional<item_location> try_form_loc( Character &you, map *here,
         const tripoint_bub_ms &p, item &it )
 {
@@ -1061,7 +1050,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
 
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
-    newmon.init_from_item( it );
+    newmon.init_from_item( item_location( *p, &it ) );
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
         if( !g->place_critter_around( newmon_ptr, p->pos_bub( *here ), 1 ) ) {
@@ -1469,6 +1458,13 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
+bool firestarter_actor::is_firewood_source( const map &here, const tripoint_bub_ms &pos )
+{
+    return here.tr_at( pos ).id == tr_firewood_source ||
+           !zone_manager::get_manager().get_zones( zone_type_SOURCE_FIREWOOD,
+                   here.get_abs( pos ) ).empty();
+}
+
 firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character &p,
         map *here, tripoint_bub_ms &pos )
 {
@@ -1509,20 +1505,9 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         return start_type::NONE;
     }
     // check if there's a fire fuel source spot
-    bool target_is_firewood = false;
-    if( here->tr_at( pos ).id == tr_firewood_source ) {
-        target_is_firewood = true;
-    } else {
-        zone_manager &mgr = zone_manager::get_manager();
-        auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here->get_abs( pos ) );
-        if( !zones.empty() ) {
-            target_is_firewood = true;
-        }
-    }
-    if( target_is_firewood ) {
-        if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
-            return start_type::NONE;
-        }
+    if( is_firewood_source( *here, pos ) &&
+        !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
+        return start_type::NONE;
     }
     // Don't check if we're setting a fire on top of a fireplace
     if( !here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
@@ -1746,10 +1731,10 @@ bool firestarter_actor::npc_start_fire( npc &who, item &tool,
         // Search inventory and adjacent tiles (same scope as the
         // tinder picker in fire_start_activity_actor::do_turn).
         item_location tinder;
-        who.visit_items( [&tinder, &who]( item * it, item * ) -> VisitResponse {
+        who.visit_items( [&tinder]( item_location it ) -> VisitResponse {
             if( it->has_flag( flag_TINDER ) )
             {
-                tinder = item_location( who, it );
+                tinder = it;
                 return VisitResponse::ABORT;
             }
             return VisitResponse::NEXT;
@@ -1986,11 +1971,13 @@ static std::optional<recipe> find_uncraft_recipe( const item &x )
     return std::nullopt;
 }
 
-void salvage_actor::cut_up( Character &p, item_location &cut ) const
+std::map<itype_id, int> salvage_actor::salvage_results( item_location cut, double efficiency )
 {
-    map &here = get_map();
+    if( efficiency > 1.0 ) {
+        debugmsg( "Salvaging for more materials than exists in item.  Salvage eff %f%% item %s",
+                  efficiency * 100.0, cut.get_item()->tname() );
+    }
 
-    // Map of salvaged items (id, count)
     std::map<itype_id, int> salvage;
     std::map<material_id, units::mass> mat_to_weight;
     std::set<material_id> mat_set;
@@ -1998,24 +1985,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         mat_set.insert( mat.first );
     }
 
-    // Calculate efficiency losses
-    float efficiency = 1.0;
-    // Higher fabrication, less chance of entropy, but still a chance.
-    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 0,
-                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        efficiency *= 0.9;
-    }
-
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.get_dex() ) {
-        efficiency *= 0.95;
-    }
-
-    // If the item being cut is damaged, additional losses will be incurred.
-    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         for( const auto &type : x.made_of() )
@@ -2100,15 +2069,43 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
 
-    // Not much practice, and you won't get very far ripping things up.
-    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
-
     // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
         if( const std::optional<itype_id> id = iter.first->salvaged_into() ) {
             salvage[*id] += iter.second / id->obj().weight;
         }
     }
+
+    return salvage;
+}
+
+void salvage_actor::cut_up( Character &p, item_location &cut ) const
+{
+    map &here = get_map();
+
+    // Calculate efficiency losses
+    float efficiency = 1.0;
+    // Higher fabrication, less chance of entropy, but still a chance.
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
+    int entropy_threshold = std::max( 0,
+                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
+    if( rng( 1, 10 ) <= entropy_threshold ) {
+        efficiency *= 0.9;
+    }
+
+    // Fail dex roll, potentially lose more parts.
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    if( dice( 3, 4 ) > p.get_dex() ) {
+        efficiency *= 0.95;
+    }
+
+    // If the item being cut is damaged, additional losses will be incurred.
+    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
+
+    // Not much practice, and you won't get very far ripping things up.
+    p.practice( skill_fabrication, rng( 0, 5 ), 1 );
+
+    std::map<itype_id, int> salvage = salvage_results( cut, efficiency );
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
              cut.get_item()->tname() );
@@ -3166,6 +3163,11 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         return false;
     }
 
+    // a bare check never reads the counts below, so skip walking the crafting inventory
+    if( just_check && !check_consumed_available ) {
+        return true;
+    }
+
     const temp_crafting_inventory &crafting_inv = pl.crafting_inventory();
 
     // Repairing or modifying items requires at least 1 repair item,
@@ -3360,7 +3362,6 @@ std::pair<float, float> repair_item_actor::repair_chance(
             action_difficulty = material_difficulty;
             break;
         default:
-            // 5 is obsoleted reinforcing, remove after 0.H
             action_difficulty = 1000000; // ensure failure
             break;
     }
@@ -4146,6 +4147,19 @@ void place_trap_actor::data::load( const JsonObject &obj )
     optional( obj, false, "moves", moves, 100 );
 }
 
+int place_trap_actor::data::move_cost( const Character &you ) const
+{
+    const float skill = you.get_skill_level( skill_traps );
+    int move_cost_final = std::round( moves / ( skill <= 1 ? 1 : skill ) );
+    if( !you.has_proficiency( proficiency_prof_trapsetting ) ) {
+        move_cost_final = move_cost_final * 2;
+    }
+    if( !you.has_proficiency( proficiency_prof_traps ) ) {
+        move_cost_final = move_cost_final * 4;
+    }
+    return move_cost_final;
+}
+
 void place_trap_actor::load( const JsonObject &obj, const std::string & )
 {
     optional( obj, false, "allow_underwater", allow_underwater, false );
@@ -4306,19 +4320,8 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
     p->practice_proficiency( proficiency_prof_trapsetting,
                              time_duration::from_seconds( data.practice * 30 ) );
 
-    //Total time to set the trap will be determined by player's skills and proficiencies
-    int move_cost_final = std::round( ( data.moves * std::min( 1,
-                                        ( data.practice ^ 2 ) ) ) / ( p->get_skill_level( skill_traps ) <= 1 ? 1 : p->get_skill_level(
-                                                skill_traps ) ) );
-    if( !p->has_proficiency( proficiency_prof_trapsetting ) ) {
-        move_cost_final = move_cost_final * 2;
-    }
-    if( !p->has_proficiency( proficiency_prof_traps ) ) {
-        move_cost_final = move_cost_final * 4;
-    }
-
     //This probably needs to be done via assign_activity
-    p->mod_moves( -move_cost_final );
+    p->mod_moves( -data.move_cost( *p ) );
 
     place_and_add_as_known( *p, pos, data.trap );
     const trap &placed_trap = here->tr_at( pos );
@@ -4701,7 +4704,7 @@ std::optional<int> detach_gunmods_actor::use( Character *p, item &it,
     }
 
     if( mod_index >= 0 ) {
-        gun_copy.remove_item( *mods_copy[mod_index] );
+        item_location( *p, &gun_copy ).remove_item( *mods_copy[mod_index] );
 
         if( p->meets_requirements( *mods[mod_index], gun_copy ) ||
             query_yn( _( "Are you sure?  You may be lacking the skills needed to reattach this modification." ) ) ) {

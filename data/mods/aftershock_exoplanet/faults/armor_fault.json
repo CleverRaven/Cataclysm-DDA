@@ -74,5 +74,24 @@
       { "damage_id": "afs_laser", "multiply": 0.4 },
       { "damage_id": "afs_plasma", "multiply": 0.1 }
     ]
+  },
+  {
+    "type": "fault",
+    "id": "afs_fault_armor_worn",
+    "name": { "str": "upcycled" },
+    "description": "This piece of gear has been thoroughly patched, repaired, and jury-rigged to perform its current function.  It's not as reliable as a purpose-built piece of kit.",
+    "item_prefix": "<color_red>[d]</color>",
+    "message": "%s was heavily damaged!",
+    "degradation_mod": 100,
+    "price_modifier": 0.2,
+    "encumbrance_mult": 1.5,
+    "armor_mod": [
+      { "damage_id": "bash", "multiply": 0.8 },
+      { "damage_id": "cut", "multiply": 0.8 },
+      { "damage_id": "stab", "multiply": 0.8 },
+      { "damage_id": "bullet", "multiply": 0.8 },
+      { "damage_id": "afs_laser", "multiply": 0.8 },
+      { "damage_id": "afs_plasma", "multiply": 0.8 }
+    ]
   }
 ]

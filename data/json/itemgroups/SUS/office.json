@@ -121,7 +121,8 @@
       { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
       { "group": "detergent_small_box_part", "prob": 40 },
       { "group": "borax_box_part", "prob": 40 },
-      { "item": "paper", "count": [ 1, 2 ], "prob": 90 }
+      { "item": "paper", "count": [ 1, 2 ], "prob": 90 },
+      { "group": "bag_garbage_box_medium", "prob": 75 }
     ]
   },
   {

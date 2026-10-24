@@ -1,0 +1,69 @@
+[
+  {
+    "id": "headache_small",
+    "type": "wound",
+    "name": { "str_sp": "small headache" },
+    "description": "You have a bit of a headache.",
+    "weight": 60,
+    "limit": 1,
+    "damage_types": [ "psi_telepathic_damage" ],
+    "damage_required": [ 1, 7 ],
+    "pain": [ 2, 5 ],
+    "healing_time": [ "10 minutes", "60 minutes" ],
+    "mod_values": [ { "type": "PAIN", "rate": "4 minutes", "amount": 1 } ],
+    "wound_progression": [ { "id": "headache", "chance": 33 } ],
+    "limb_scores": [ { "score": "balance", "value": 0.05 }, { "score": "vision", "value": 0.05 }, { "score": "reaction", "value": 0.06 } ],
+    "whitelist_body_part_types": [ "head" ]
+  },
+  {
+    "id": "headache",
+    "type": "wound",
+    "name": { "str_sp": "headache" },
+    "description": "You have a headache.",
+    "weight": 40,
+    "limit": 1,
+    "damage_types": [ "psi_telepathic_damage" ],
+    "damage_required": [ 8, 20 ],
+    "pain": [ 4, 10 ],
+    "mod_values": [ { "type": "PAIN", "rate": "3 minutes", "amount": 1 } ],
+    "progress_timer": {
+      "id": "headache_small",
+      "time": [ "30 minutes", "90 minutes" ],
+      "message": "Your headache isn't quite as bad anymore."
+    },
+    "wound_progression": [ { "id": "headache_severe", "chance": 15 } ],
+    "limb_scores": [ { "score": "balance", "value": 0.07 }, { "score": "vision", "value": 0.1 }, { "score": "reaction", "value": 0.12 } ],
+    "whitelist_body_part_types": [ "head" ]
+  },
+  {
+    "id": "headache_severe",
+    "type": "wound",
+    "name": { "str_sp": "severe headache" },
+    "description": "You have a terrible headache.",
+    "weight": 35,
+    "limit": 1,
+    "damage_types": [ "psi_telepathic_damage" ],
+    "damage_required": [ 21, 35 ],
+    "pain": [ 7, 15 ],
+    "mod_values": [ { "type": "PAIN", "rate": "2 minutes", "amount": 1 } ],
+    "progress_timer": { "id": "headache", "time": [ "15 minutes", "45 minutes" ], "message": "Your headache isn't so awful now." },
+    "wound_progression": [ { "id": "headache_extreme", "chance": 10 } ],
+    "limb_scores": [ { "score": "balance", "value": 0.1 }, { "score": "vision", "value": 0.18 }, { "score": "reaction", "value": 0.2 } ],
+    "whitelist_body_part_types": [ "head" ]
+  },
+  {
+    "id": "headache_extreme",
+    "type": "wound",
+    "name": { "str_sp": "blinding headache" },
+    "description": "You can barely act through the pain of your headache.",
+    "weight": 20,
+    "limit": 1,
+    "damage_types": [ "psi_telepathic_damage" ],
+    "damage_required": [ 35, 120 ],
+    "pain": [ 10, 20 ],
+    "mod_values": [ { "type": "PAIN", "rate": "1 minutes", "amount": 1 } ],
+    "progress_timer": { "id": "headache_severe", "time": [ "5 minutes", "30 minutes" ], "message": "Your headache isn't so awful now." },
+    "limb_scores": [ { "score": "balance", "value": 0.3 }, { "score": "vision", "value": 0.25 }, { "score": "reaction", "value": 0.35 } ],
+    "whitelist_body_part_types": [ "head" ]
+  }
+]

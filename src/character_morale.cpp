@@ -168,6 +168,28 @@ void Character::apply_persistent_morale()
     }
 }
 
+void Character::clamp_trauma()
+{
+    trauma_counter = std::clamp( trauma_counter, 0, 1000 );
+}
+
+int Character::get_trauma() const
+{
+    return trauma_counter;
+}
+
+void Character::mod_trauma( int amt )
+{
+    trauma_counter += amt;
+    clamp_trauma();
+}
+
+void Character::set_trauma( int amt )
+{
+    trauma_counter = amt;
+    clamp_trauma();
+}
+
 double Character::get_modifier_for_ALL_morale() const
 {
     if( has_flag( json_flag_NUMB ) ) {
@@ -183,7 +205,9 @@ double Character::get_modifier_for_ALL_morale() const
 
     // Sanity check, at 1000 kills we're down to all morale modifiers being ~5% of max.
     const int num_kills = std::clamp( g->get_kill_tracker().guilt_kill_count(), 0, 1000 );
-    return std::pow( 0.997, num_kills );
+    const int trauma_experiences = get_trauma();
+    const int total_trauma = num_kills + trauma_experiences;
+    return std::pow( 0.997, total_trauma );
 }
 
 int Character::get_morale_level( bool raw ) const
@@ -259,11 +283,11 @@ void Character::check_and_recover_morale()
     if( !morale->consistent_with( test_morale ) ) {
 
         add_msg_debug( debugmode::DF_CHARACTER, "Test morale:\n%s\n", test_morale.to_string_writable() );
-        add_msg_debug( debugmode::DF_CHARACTER, "Actual %s morale:\n%s\n", disp_name( true ),
+        add_msg_debug( debugmode::DF_CHARACTER, "Actual %s morale:\n%s\n", disp_name(),
                        morale->to_string_writable() );
 
         morale->sync_permanent( test_morale ); // Recover only permanent morale
-        add_msg_debug( debugmode::DF_CHARACTER, "%s morale was recovered.", disp_name( true ) );
+        add_msg_debug( debugmode::DF_CHARACTER, "%s's morale was recovered.", disp_name() );
     }
 }
 

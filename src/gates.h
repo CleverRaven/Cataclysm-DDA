@@ -38,11 +38,6 @@ namespace doors
 bool check_mon_blocking_door( const Creature &who, const tripoint_abs_ms &p );
 
 /**
- * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,
- * checking if it can be closed, etc.
-*/
-void close_door( map &m, Creature &who, const tripoint_bub_ms &closep );
-/**
  * Forcefully closes a door
  * Checks for creatures/items/vehicles at the door tile and attempts to displace them, dealing bash damage.
  * If something remains that prevents the door from closing

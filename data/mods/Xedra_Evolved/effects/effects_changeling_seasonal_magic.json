@@ -51,7 +51,7 @@
             "value": "SCENT_MASK",
             "multiply": {
               "math": [
-                "( -0.15 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.015) - (u_skill('deduction') * 0.035) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+                "( -0.15 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.015) - (u_skill('gramarye') * 0.035) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
               ]
             }
           }
@@ -128,7 +128,7 @@
             "value": "REGEN_HP",
             "multiply": {
               "math": [
-                "( 10 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + (u_skill('deduction') * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+                "( 10 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + (u_skill('gramarye') * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
               ]
             }
           },
@@ -136,11 +136,12 @@
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
-                "(3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') / 3) + u_skill('deduction') ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+                "(3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') / 3) + u_skill('gramarye') ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
               ]
             }
           }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
       },
       {
         "condition": { "and": [ "u_is_outside", "u_is_npc" ] },
@@ -162,9 +163,63 @@
               ]
             }
           }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_into_tree",
+    "//": "Once permanent damage is possible, this glamour should let you recover from it.",
+    "name": [ "Branch of Yggdrasil" ],
+    "desc": [ "You are in the form of a tree." ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": 50 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 2 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 25 },
+          { "value": "SLEEPY", "add": 150 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 150 }
+        ],
+        "ench_effects": [ { "effect": "effect_xe_hidden_infection_recovery", "intensity": 1 } ]
+      }
+    ],
+    "flags": [
+      "DEAF",
+      "BLIND",
+      "SEESLEEP",
+      "NO_SCENT",
+      "NO_SPELLCASTING",
+      "NO_FEY_MAGIC",
+      "IMMUNE_HEARING_DAMAGE",
+      "CANNOT_MOVE",
+      "CANNOT_ATTACK",
+      "SUFFOCATION_IMMUNE",
+      "CANNOT_CONSUME_DRUGS",
+      "PAUSE_INFECTIONS",
+      "CANOT_GAIN_WEARINESS"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_into_tracker",
+    "//": "Used to de-tree the target when they're healed",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 300,
+    "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_spring_turn_target_one_more_day",
+    "//": "Used to remain as a tree to heal esoteric conditions",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -413,6 +468,66 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_combat_prowess_powerful_buff",
+    "name": [ "Ríastrad" ],
+    "desc": [ "Your foes shall fall." ],
+    "rating": "good",
+    "remove_message": "Your body twist back into place as the Ríastrad fades from you.",
+    "enchantments": [
+      {
+        "melee_damage_bonus": [
+          {
+            "type": "bash",
+            "multiply": {
+              "math": [ "0.1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.01) + (u_skill('gramarye') * 0.05)" ]
+            }
+          },
+          {
+            "type": "cut",
+            "multiply": {
+              "math": [ "0.1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.01) + (u_skill('gramarye') * 0.05)" ]
+            }
+          },
+          {
+            "type": "stab",
+            "multiply": {
+              "math": [ "0.1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.01) + (u_skill('gramarye') * 0.05)" ]
+            }
+          }
+        ],
+        "values": [
+          { "value": "LUMINATION", "add": 20 },
+          { "value": "ATTACK_SPEED", "multiply": -0.3333 },
+          { "value": "MELEE_TO_HIT", "add": 3 },
+          { "value": "KNOCKBACK_RESIST", "add": 100 },
+          { "value": "ARMOR_ALL", "multiply": -0.15 },
+          {
+            "value": "STRENGTH",
+            "add": { "math": [ "3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.1) + (u_skill('gramarye') * 0.2)" ] }
+          },
+          {
+            "value": "DEXTERITY",
+            "add": { "math": [ "3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.1) + (u_skill('gramarye') * 0.2)" ] }
+          },
+          {
+            "value": "THROW_STR",
+            "add": {
+              "math": [ "2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.05) + (u_skill('gramarye') * 0.25)" ]
+            }
+          },
+          { "value": "THROW_DAMAGE", "multiply": 0.4 },
+          {
+            "value": "OVERKILL_DAMAGE",
+            "add": { "math": [ "-20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * -2) + (u_skill('gramarye') * -5)" ] }
+          },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 1 },
+          { "value": "FORCEFIELD", "add": 0.05 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
@@ -447,9 +562,7 @@
               "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
             },
             "distance": {
-              "math": [
-                "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('deduction') * 0.5)), 25)"
-              ]
+              "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('gramarye') * 0.5)), 25)" ]
             },
             "descriptions": [ { "id": "wizard_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
           }
@@ -521,7 +634,7 @@
             "value": "RANGE_DODGE",
             "multiply": {
               "math": [
-                "min( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.75) + (u_skill('deduction') * 1.5) ), 50 )"
+                "min( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.75) + (u_skill('gramarye') * 1.5) ), 50 )"
               ]
             }
           }

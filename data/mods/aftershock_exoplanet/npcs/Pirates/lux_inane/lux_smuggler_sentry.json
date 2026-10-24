@@ -1,0 +1,51 @@
+[
+  {
+    "id": [ "TALK_MS_GROUND_SENTRY" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "faction_like('pirates_lux') > 79" ],
+      "yes": "Careful out there.",
+      "no": "The salvor addresses you with a long arm at the ready.  \"If you know what's good for you, you'll turn around and forget about this place.\""
+    },
+    "responses": [
+      {
+        "text": "Woah!  Easy!",
+        "topic": "TALK_MS_GROUND_SENTRY_2",
+        "effect": [
+          { "run_eocs": "EOC_PIRATES_LUX_HOSTILE", "time_in_future": [ "60 seconds", "120 seconds" ] },
+          { "run_eocs": "EOC_PIRATES_LUX_RESET_HOSTILE", "time_in_future": "1 days" }
+        ],
+        "condition": { "math": [ "faction_like('pirates_lux') < 80" ] }
+      },
+      {
+        "text": "Easy!  I was told to come here by…",
+        "topic": "TALK_MS_GROUND_SENTRY_ALLOWED_IN",
+        "condition": { "math": [ "faction_like('pirates_lux') < 80" ] },
+        "effect": [ { "math": [ "allowed_inside_s_ravine = 1" ] } ]
+      },
+      {
+        "text": "Hey, fuck you!",
+        "effect": [ "hostile", { "u_message": "The salvor drops into cover and an alarm sounds from the cavern's mouth." } ],
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "faction_like('pirates_lux') < 80" ] }
+      },
+      {
+        "text": "I'll see you around.",
+        "condition": { "math": [ "faction_like('pirates_lux') > 79" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_SENTRY_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "Don't care who you are or what you want.  I'm giving you one minute to get lost.",
+    "responses": [ { "text": "Alright, I'm leaving.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": [ "TALK_MS_GROUND_SENTRY_ALLOWED_IN" ],
+    "type": "talk_topic",
+    "dynamic_line": "The boss is in the hangar below, make it quick.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+  }
+]

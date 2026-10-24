@@ -13,6 +13,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_actor_definitions.h"
@@ -39,7 +40,6 @@
 #include "item_uid.h"
 #include "itype.h"
 #include "line.h"
-#include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -380,6 +380,8 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 {
     Character &player_character = get_player_character();
     const temp_crafting_inventory &inv = player_character.crafting_inventory();
+    // no inventory-backed item or power changes while the text is built, so query caches hold
+    temp_crafting_inventory::query_cache_scope cache_scope;
     bool ok = reqs.can_make_with_inventory( &player_character, inv, is_crafting_component, 1,
                                             craft_flags::none, false );
 
@@ -574,6 +576,7 @@ void veh_interact::do_main_loop( map &here )
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
+                    move_cursor( here, point_rel_ms::zero );
                 }
             }
         } else if( action == "UNLOAD" ) {
@@ -628,6 +631,7 @@ void veh_interact::cache_tool_availability()
 
     Character &player_character = get_player_character();
     crafting_inv = &player_character.crafting_inventory();
+    install_options = veh_utils::list_install_candidates( player_character, *crafting_inv, *veh );
 
     cache_tool_availability_update_lifting( player_character.pos_bub() );
     int mech_jack = 0;
@@ -2179,32 +2183,6 @@ int veh_interact::part_at( const point_rel_ms &d )
 }
 
 /**
- * Checks to see if you can potentially install this part at current position.
- * Affects coloring in display_list() and is also used to
- * sort can_mount so potentially installable parts come first.
- */
-bool veh_interact::can_potentially_install( const vpart_info &vpart )
-{
-    bool engine_reqs_met = true;
-    bool can_make = vpart.install_requirements().can_make_with_inventory( &get_player_character(),
-                    *crafting_inv,
-                    is_crafting_component, 1, craft_flags::none, false );
-    bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
-
-    int engines = 0;
-    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
-        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
-            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
-                engines++;
-            }
-        }
-        engine_reqs_met = engines < 2;
-    }
-
-    return hammerspace || ( can_make && engine_reqs_met && !vpart.has_flag( VPFLAG_APPLIANCE ) );
-}
-
-/**
  * Moves the cursor on the vehicle editing window.
  * @param d How far to move the cursor.
  * @param dstart_at How far to change the start position for vehicle part descriptions
@@ -2233,27 +2211,10 @@ void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at 
 
     can_mount.clear();
     if( !obstruct ) {
-        std::vector<const vpart_info *> req_missing;
-        for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-            if( has_critter && vpi.has_flag( VPFLAG_OBSTACLE ) ) {
-                continue;
-            }
-            if( vpi.has_flag( "NO_INSTALL_HIDDEN" ) ||
-                vpi.has_flag( VPFLAG_APPLIANCE ) ) {
-                continue; // hide parts with incompatible flags
-            }
-            if( can_potentially_install( vpi ) ) {
-                can_mount.push_back( &vpi );
-            } else {
-                req_missing.push_back( &vpi );
-            }
-        }
-        auto vpart_localized_sort = []( const vpart_info * a, const vpart_info * b ) {
-            return localized_compare( a->name(), b->name() );
-        };
-        std::sort( can_mount.begin(), can_mount.end(), vpart_localized_sort );
-        std::sort( req_missing.begin(), req_missing.end(), vpart_localized_sort );
-        can_mount.insert( can_mount.end(), req_missing.cbegin(), req_missing.cend() );
+        std::copy_if( install_options.parts.begin(), install_options.parts.end(),
+        std::back_inserter( can_mount ), [has_critter]( const vpart_info * vpi ) {
+            return !( has_critter && vpi->has_flag( VPFLAG_OBSTACLE ) );
+        } );
     }
 
     need_repair.clear();
@@ -2770,7 +2731,7 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         const vpart_variant &vv = info.variants.at( info.variant_default );
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, point( 1, y ), info.color, vv.get_symbol_curses( 0_degrees, false ) );
-        nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
+        nc_color col = install_options.installable.count( &info ) ? c_white : c_dark_gray;
         trim_and_print( w_list, point( 3, y ), getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name() );
     }

@@ -1794,6 +1794,9 @@ void map::maybe_apply_field_effect( const std::vector<field_effect> &vfe, Creatu
     }
 
     for( const field_effect &fe : vfe ) {
+        if( fe.immune_inside && !is_outside( critter.pos_bub() ) ) {
+            continue;
+        }
         if( in_vehicle && fe.immune_in_vehicle ) {
             continue;
         }

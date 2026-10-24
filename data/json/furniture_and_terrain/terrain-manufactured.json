@@ -25,6 +25,44 @@
   },
   {
     "type": "terrain",
+    "id": "t_electric_car_charger",
+    "name": "electric car charger",
+    "looks_like": "t_gas_pump",
+    "description": "A machine once used for charging electric vehicles.  Now, with the power grid offline, it has become no more than a source of electrical components.",
+    "symbol": "&",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 75,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_sidewalk",
+      "items": [
+        { "item": "e_scrap", "count": [ 8, 12 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "processor", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_sidewalk",
+      "items": [
+        { "item": "e_scrap", "count": [ 4, 10 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "power_supply", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_gas_pump",
     "name": "gasoline pump",
     "looks_like": "f_machinery_heavy",

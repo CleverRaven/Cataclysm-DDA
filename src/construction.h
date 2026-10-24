@@ -128,6 +128,7 @@ std::vector<const construction *> constructions_by_filter(
     const &filter );
 void check_constructions();
 void finalize_constructions();
+void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp );
 std::vector<construction_id> find_build_sequence( const std::string &target_id,
         std::function<bool( construction const & )> const &filter,
         std::function<bool( construction const & )> const &can_build );

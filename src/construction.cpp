@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
@@ -41,6 +42,7 @@
 #include "input_popup.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
 #include "iuse.h"
 #include "map.h"
@@ -63,6 +65,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
@@ -518,6 +521,9 @@ static std::string has_pre_flags_colorize( const construction &con );
 
 construction_id construction_menu( const bool blueprint )
 {
+    // place_construction runs after the scope is reset, so query caches hold
+    std::optional<temp_crafting_inventory::query_cache_scope> cache_scope;
+    cache_scope.emplace();
     // filter_mode: 0 = all, 1 = ready (skills & materials satisfied, but location not satisfied),
     // 2 = buildable here (skills & materials satisfied and location satisfied)
     static int filter_mode = 0;
@@ -1126,6 +1132,7 @@ construction_id construction_menu( const bool blueprint )
                         restore_view.reset();
                         restore_ui.reset();
                         ui.reset();
+                        cache_scope.reset();
                         place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
                     }
@@ -1423,8 +1430,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     // This shouldn't normally happen, unless it's a spike pit being built on a pit for example.
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
-        add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
+        prompt_partial_construction( player_character, pnt );
         return;
     }
     std::list<item> used;
@@ -1541,7 +1547,7 @@ void build_construction_activity_actor::complete_construction( player_activity &
                           calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( true ),
              built.group->name() );
     // clear the activity
     act.set_to_null();
@@ -2597,6 +2603,56 @@ void finalize_constructions()
     }
 
     construction_factory.finalize();
+}
+
+
+void prompt_partial_construction( Character &you, tripoint_bub_ms const &examp )
+{
+    map &here = get_map();
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
+        if( you.fine_detail_vision_mod() > 4 &&
+            !you.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
+            return;
+        }
+        const construction &built = pc->id.obj();
+        // lower case: windows.h defines IGNORE
+        enum options {
+            resume,
+            cancel,
+            ignore,
+        };
+        uilist selectmenu;
+        //~ $1 - task name, $2 - percentage complete
+        selectmenu.text = string_format( _( "%1$s    %2$d%% complete" ),
+                                         built.group->name(), pc->counter / 100000 );
+        selectmenu.addentry( resume, true, MENU_AUTOASSIGN,
+                             _( "Resume %s" ), built.group->name() );
+        selectmenu.addentry( cancel, true, MENU_AUTOASSIGN,
+                             _( "Cancel %s" ), built.group->name() );
+        selectmenu.addentry( ignore, true, MENU_AUTOASSIGN, _( "Ignore" ) );
+        selectmenu.query();
+
+        switch( selectmenu.ret ) {
+            case resume: {
+                you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
+                return;
+            }
+
+            case cancel: {
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( you.pos_bub(), it );
+                }
+                here.partial_con_remove( examp );
+                return;
+            }
+
+            case ignore:
+                [[fallthrough]];
+            default:
+                return;
+        }
+    }
 }
 
 void construction::finalize()

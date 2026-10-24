@@ -8,13 +8,17 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "enums.h"
 #include "item.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_full( "hunger_full" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 
 static const itype_id itype_beansnrice( "beansnrice" );
@@ -487,4 +491,156 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 180 );
+}
+
+namespace
+{
+struct fullness_line {
+    const char *name;
+    bool deficit;
+    bool is_engorged_line;
+    // first integer milliliter that triggers the line
+    int first_ml;
+};
+} // namespace
+
+static int first_at_least( int cap_ml, int num, int den )
+{
+    return ( cap_ml * num + den - 1 ) / den;
+}
+
+static int first_more_than( int cap_ml, int num, int den )
+{
+    return cap_ml * num / den + 1;
+}
+
+static std::vector<fullness_line> fullness_lines( int cap_ml )
+{
+    return {
+        { "engorged, fed", false, true, first_at_least( cap_ml, 5, 6 ) },
+        { "full, fed", false, false, first_more_than( cap_ml, 11, 20 ) },
+        { "engorged, short of calories", true, true, cap_ml },
+        { "full, short of calories", true, false, first_more_than( cap_ml, 3, 4 ) },
+    };
+}
+
+TEST_CASE( "stomach_fullness_lines", "[stomach]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_stomach( dummy );
+    const int cap_ml = units::to_milliliter( dummy.stomach.capacity( dummy ) );
+    CAPTURE( cap_ml );
+    // 5/6 line must fall between whole milliliters, full lines exactly on one
+    REQUIRE( cap_ml * 5 % 6 != 0 );
+    REQUIRE( cap_ml * 11 % 20 == 0 );
+    REQUIRE( cap_ml * 3 % 4 == 0 );
+
+    // second pass already holds part of the total, water included
+    const units::volume held_water = 100_ml;
+    const units::volume held_solids = 200_ml;
+    for( int pass = 0; pass < 2; ++pass ) {
+        const bool held = pass == 1;
+        for( const fullness_line &line : fullness_lines( cap_ml ) ) {
+            for( int offset = -1; offset <= 1; ++offset ) {
+                const int ml = line.first_ml + offset;
+                CAPTURE( held, line.name, ml, offset );
+                clear_stomach( dummy );
+                units::volume intake = units::from_milliliter( ml );
+                if( held ) {
+                    dummy.stomach.ingest( food_summary{ held_water, held_solids, nutrients{} } );
+                    intake -= held_water + held_solids;
+                }
+                const bool on_line = line.is_engorged_line ?
+                                     dummy.stomach.would_be_engorged_with( dummy, intake, line.deficit ) :
+                                     dummy.stomach.would_be_full_with( dummy, intake, line.deficit );
+                CHECK( on_line == ( offset >= 0 ) );
+            }
+        }
+    }
+    clear_stomach( dummy );
+}
+
+TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    clear_stomach( dummy );
+    const int cap_ml = units::to_milliliter( dummy.stomach.capacity( dummy ) );
+    const bool deficit = GENERATE( false, true );
+    CAPTURE( cap_ml, deficit );
+    // half the healthy store counts as a calorie deficit
+    dummy.set_stored_kcal( deficit ? dummy.get_healthy_kcal() / 2 : dummy.get_healthy_kcal() );
+    REQUIRE( dummy.has_calorie_deficit() == deficit );
+
+    for( const fullness_line &line : fullness_lines( cap_ml ) ) {
+        if( line.deficit != deficit ) {
+            continue;
+        }
+        for( int offset = -1; offset <= 1; ++offset ) {
+            const int ml = line.first_ml + offset;
+            CAPTURE( line.name, ml, offset );
+            clear_stomach( dummy );
+            dummy.stomach.ingest( food_summary{ 0_ml, units::from_milliliter( ml ), nutrients{} } );
+            dummy.update_stomach( calendar::turn, calendar::turn );
+
+            // under an engorged line the stomach is already past the full line
+            const bool engorged = line.is_engorged_line && offset >= 0;
+            const bool full = line.is_engorged_line ? offset < 0 : offset >= 0;
+            CHECK( dummy.has_effect( effect_hunger_engorged ) == engorged );
+            CHECK( dummy.has_effect( effect_hunger_full ) == full );
+
+            item meal( itype_meat_cooked );
+            const units::volume meal_volume = meal.volume( false, false, 1 ) *
+                                              dummy.compute_effective_food_volume_ratio( meal );
+            CAPTURE( units::to_milliliter( meal_volume ) );
+            const ret_val<edible_rating> rating = dummy.will_eat( meal, false );
+            CAPTURE( rating.str() );
+            const units::volume before = dummy.stomach.contains();
+            const trinary eaten = dummy.consume( meal );
+            if( engorged || full ) {
+                CHECK( rating.value() == TOO_FULL );
+                CHECK( eaten == trinary::NONE );
+                CHECK( dummy.stomach.contains() == before );
+            } else {
+                // the meal must stay below the engorged line
+                const int engorged_ml = deficit ? cap_ml : first_at_least( cap_ml, 5, 6 );
+                REQUIRE( ml + units::to_milliliter( meal_volume ) < engorged_ml );
+                CHECK( rating.success() );
+                CHECK( eaten == trinary::ALL );
+                CHECK( dummy.stomach.contains() > before );
+            }
+        }
+    }
+
+    // without a full or engorged effect, only the meal's own volume can refuse it
+    const int engorged_ml = deficit ? cap_ml : first_at_least( cap_ml, 5, 6 );
+    for( int offset = -1; offset <= 1; ++offset ) {
+        item meal( itype_meat_cooked );
+        const int meal_ml = units::to_milliliter( meal.volume( false, false, 1 ) *
+                            dummy.compute_effective_food_volume_ratio( meal ) );
+        const int held_ml = engorged_ml - meal_ml + offset;
+        CAPTURE( meal_ml, held_ml, offset );
+        clear_stomach( dummy );
+        dummy.clear_effects();
+        dummy.stomach.ingest( food_summary{ 0_ml, units::from_milliliter( held_ml ), nutrients{} } );
+        REQUIRE( !dummy.has_effect( effect_hunger_engorged ) );
+        REQUIRE( !dummy.has_effect( effect_hunger_full ) );
+
+        const ret_val<edible_rating> rating = dummy.will_eat( meal, false );
+        CAPTURE( rating.str() );
+        const units::volume before = dummy.stomach.contains();
+        const trinary eaten = dummy.consume( meal );
+        if( offset >= 0 ) {
+            CHECK( rating.value() == TOO_FULL );
+            CHECK( eaten == trinary::NONE );
+            CHECK( dummy.stomach.contains() == before );
+        } else {
+            CHECK( rating.success() );
+            CHECK( eaten == trinary::ALL );
+            CHECK( dummy.stomach.contains() > before );
+        }
+    }
+    clear_stomach( dummy );
+    dummy.clear_effects();
 }

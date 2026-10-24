@@ -4,6 +4,7 @@
     "id": "guard",
     "//": "A generic guard for the Free Merchants faction.",
     "name_suffix": "Guard",
+    "portrait_filename": "Generic_NPC_free_merch_guard",
     "class": "NC_FREE_MERCH_GUARD",
     "attitude": 0,
     "mission": "GUARD_PATROL",

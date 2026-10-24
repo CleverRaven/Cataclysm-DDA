@@ -1,0 +1,25 @@
+[
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "scenario_megacity" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_megacity",
+    "name": "Megacity",
+    "terrain": [ { "om_terrain": "megacity_landing" } ]
+  },
+  {
+    "type": "scenario",
+    "id": "scenario_megacity",
+    "name": "Megacity",
+    "points": 0,
+    "description": "The president's dead and the city stretches on.  Whether you walk for 24 hours or 24 days, there is only more city.  There is no escape from this steel and concrete hell.",
+    "allowed_locs": [ "sloc_megacity" ],
+    "reveal_locale": false,
+    "distance_initial_visibility": 30,
+    "start_name": "Megacity",
+    "flags": [ "CITY_START", "LONE_START" ]
+  }
+]

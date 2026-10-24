@@ -2,7 +2,6 @@
 
 #include <imgui/imgui.h>
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -57,7 +56,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
@@ -163,8 +161,6 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
     const consume_menu_uistate &cm_uistate = uistate.consume_uistate;
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -243,8 +239,6 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    u.inv->restack( u );
-
     inv_s.clear_items();
 
     if( container ) {
@@ -287,7 +281,6 @@ void game_menus::inv::common()
     item_location location;
     std::string filter;
     do {
-        you.inv->restack( you );
         inv_s.drag_enabled = true;
         inv_s.clear_items();
         inv_s.add_character_items( you );
@@ -1638,8 +1631,8 @@ class ebookread_inventory_preset : public read_inventory_preset
 item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ?
-                            string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
-                            string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
+                            string_format( _( "%1$s have nothing to read." ), you.disp_name( true ) ) :
+                            string_format( _( "%1$s has nothing to read." ), you.disp_name( true ) );
     return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
                          true );
 }
@@ -1648,8 +1641,8 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
 {
     const std::string none_message =
         you.is_avatar() ?
-        string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
-        string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
+        string_format( _( "%1$s have nothing to read." ), you.disp_name( true ) ) :
+        string_format( _( "%1$s has nothing to read." ), you.disp_name( true ) );
 
     const ebookread_inventory_preset preset( you );
     inventory_pick_selector inv_s( you, preset );
@@ -2494,8 +2487,6 @@ item_location game_menus::inv::veh_tool_attach( Character &you, const std::strin
 
 drop_locations game_menus::inv::multidrop( Character &you )
 {
-    you.inv->restack( you );
-
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
         return you.can_drop( *location ).success() &&
                ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
@@ -2755,7 +2746,6 @@ bool game_menus::inv::compare_item_menu::show()
 void game_menus::inv::compare( const std::optional<tripoint_rel_ms> &offset )
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
 
@@ -2815,7 +2805,6 @@ void game_menus::inv::reassign_letter( item &it )
 void game_menus::inv::swap_letters()
 {
     avatar &you = get_avatar();
-    you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
 
@@ -2831,9 +2820,9 @@ void game_menus::inv::swap_letters()
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &you ]( const std::string::value_type & elem ) {
-            if( you.inv->assigned_invlet.count( elem ) ) {
+            if( you.invlet_is_assigned( elem ) ) {
                 return c_yellow;
-            } else if( you.invlet_to_item( elem ) != nullptr ) {
+            } else if( you.invlet_to_item( elem ).valid() ) {
                 return c_white;
             } else {
                 return c_dark_gray;
@@ -2867,7 +2856,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         } else {
             const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-                return it.has_quality( qual_ANESTHESIA );
+                return it.get_quality( qual_ANESTHESIA ) > 0;
             } );
             for( const item *anesthesia_item : a_filter ) {
                 if( anesthesia_item->ammo_remaining( ) >= 1 ) {
@@ -2892,8 +2881,6 @@ static item_location autodoc_internal( Character &you, Character &patient,
     inv_s.set_display_stats( false );
 
     do {
-        you.inv->restack( you );
-
         inv_s.clear_items();
         inv_s.add_character_items( you );
         if( you.getID() != patient.getID() ) {
@@ -3151,8 +3138,6 @@ std::pair<item_location, bool> game_menus::inv::unload( Character &you )
 
     inv_s.set_title( _( "Unload item" ) );
     inv_s.set_display_stats( false );
-
-    you.inv->restack( you );
 
     inv_s.clear_items();
 

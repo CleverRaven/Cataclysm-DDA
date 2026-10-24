@@ -11,6 +11,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "explosion.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -446,6 +447,8 @@ TEST_CASE( "vehicle_turret_multimag", "[vehicle][turret][multimag]" )
         item mag( itype_glockmag );
         mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
         item base_copy( vp.get_base() );
+        // This test should stop firing because the battery is empty, not because the gun jams.
+        base_copy.set_flag( flag_NEVER_JAMS );
         REQUIRE( base_copy.put_in( mag, pocket_type::MAGAZINE_WELL ).success() );
         vp.set_base( std::move( base_copy ) );
 

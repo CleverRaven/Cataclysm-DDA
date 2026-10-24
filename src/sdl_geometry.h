@@ -32,14 +32,6 @@ class GeometryRenderer
         /// Renders a point+width+height defined rectangle with given color.
         void rect( const SDL_Renderer_Ptr &renderer, const point &pos, int width, int height,
                    const SDL_Color &color ) const;
-
-        /// Renders a straight horizontal line with given thickness and color.
-        void horizontal_line( const SDL_Renderer_Ptr &renderer, const point &pos, int x2, int thickness,
-                              const SDL_Color &color ) const;
-
-        /// Renders a straight vertical line with given thickness and color.
-        void vertical_line( const SDL_Renderer_Ptr &renderer, const point &pos, int y2, int thickness,
-                            const SDL_Color &color ) const;
 };
 using GeometryRenderer_Ptr = std::unique_ptr<GeometryRenderer>;
 

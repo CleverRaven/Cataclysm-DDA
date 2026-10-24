@@ -1058,7 +1058,7 @@ void surroundings_menu::draw_monster_tab()
                     att_text = att.first;
                     att_color = att.second;
                 } else if( mon->is_npc() ) {
-                    att_text = npc_attitude_name( mon->as_npc()->get_attitude() );
+                    att_text = mon->as_npc()->get_current_status();
                     att_color = mon->symbol_color();
                 }
                 cataimgui::TextColoredTrimmed( att_text, att_color );

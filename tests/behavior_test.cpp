@@ -57,6 +57,8 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const furn_str_id furn_f_firering( "f_firering" );
+
 static const item_group_id Item_spawn_data_test_bottle_water( "test_bottle_water" );
 
 static const itype_id itype_2x4( "2x4" );
@@ -235,6 +237,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.i_add( tool_with_ammo( itype_lighter, 20 ) );
         test_npc.i_add( item( itype_2x4 ) );
+        get_map().furn_set( test_npc.pos_bub() + point::east, furn_f_firering );
         get_map().build_map_cache( 0 );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
         // Fire supplies make can_obtain_warmth return running (fire is
@@ -387,7 +390,8 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         const item_group::ItemList water_items = item_group::items_from(
                     Item_spawn_data_test_bottle_water );
         test_npc.i_add( water_items.front() );
-        // find_fire_spot needs map cache for move_cost/is_flammable.
+        // find_fire_spot needs the map cache.
+        get_map().furn_set( test_npc.pos_bub() + point::east, furn_f_firering );
         get_map().build_map_cache( 0 );
         // Fire supplies make can_obtain_warmth return running (fire is
         // a warmth strategy inside find_warmth_candidates).
@@ -398,8 +402,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
     }
     SECTION( "Dead tired -- sleep is feasible" ) {
-        // can_sleep threshold matches needs_sleep_badly at DEAD_TIRED.
-        // Utility scoring handles duty priority, not can_sleep gating.
+        // past TIRED, so can_sleep holds; utility scoring handles duty priority
         test_npc.set_sleepiness( 500 );
         REQUIRE( oracle.needs_sleep_badly( "" ) == behavior::status_t::running );
         REQUIRE( oracle.can_sleep( "" ) == behavior::status_t::running );
@@ -1905,7 +1908,11 @@ TEST_CASE( "bt_camp_resident_goals", "[npc][behavior]" )
         CHECK( bt_goal( guy ) != "free_time" );
     }
     SECTION( "away from camp: return_to_camp" ) {
-        guy.setpos( here, tripoint_bub_ms( 50 + SEEX * 2, 50, 0 ) );
+        // middle of next overmap tile east, wherever map's origin lies
+        const tripoint_abs_ms away = project_to<coords::ms>( camp_omt + point::east ) +
+                                     point( SEEX, SEEY );
+        REQUIRE( here.inbounds( away ) );
+        guy.setpos( here, here.get_bub( away ) );
         REQUIRE( guy.pos_abs_omt() != *guy.assigned_camp );
         CHECK( bt_goal( guy ) == "return_to_camp" );
     }

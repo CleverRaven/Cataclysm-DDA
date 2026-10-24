@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_START_BALTHAZAR_COUNTERS",
+    "//": "disabled since balthazar does not exist in sky island",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAILY_BALTHAZAR_POWER",
+    "//": "disabled since balthazar does not exist in sky island",
+    "effect": [  ]
+  }
+]

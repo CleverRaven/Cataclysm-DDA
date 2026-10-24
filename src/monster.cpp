@@ -14,6 +14,7 @@
 
 #include "ascii_art.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
@@ -99,6 +100,7 @@ static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_psi_telekinetic_damage( "psi_telekinetic_damage" );
 static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_absorbed_electric( "absorbed_electric" );
@@ -341,8 +343,7 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
         return;
     }
     g->update_zombie_pos( *this, old_pos, pos_abs() );
-    if( has_effect( effect_onfire ) ||
-        calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true ) > 0 ) {
+    if( has_effect( effect_onfire ) || luminance() > 0 ) {
         map &here = get_map();
         here.set_lightmap_cache_dirty( old_pos.z() );
         here.set_lightmap_cache_dirty( pos_bub().z() );
@@ -356,6 +357,11 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     if( has_dest() && pos_abs() == get_dest() ) {
         unset_dest();
     }
+}
+
+float monster::luminance() const
+{
+    return calculate_by_enchantment( type->luminance, enchant_vals::mod::LUMINATION, true );
 }
 
 void monster::on_effect_int_change( const efftype_id &/*eid*/, int /*intensity*/,
@@ -763,13 +769,9 @@ std::string monster::name_with_armor() const
     return ret;
 }
 
-std::string monster::disp_name( bool possessive, bool capitalize_first ) const
+std::string monster::disp_name( bool capitalize_first ) const
 {
-    if( !possessive ) {
-        return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
-    } else {
-        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
-    }
+    return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
 }
 
 std::string monster::skin_name() const
@@ -2294,14 +2296,14 @@ bool monster::melee_attack( Creature &target, float accuracy )
         if( u_see_my_spot && !target.in_sleep_state() ) {
             if( target.is_avatar() ) {
                 if( monster_missed ) {
-                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : _( "Something" ) );
+                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( true ) : _( "Something" ) );
                 } else {
                     add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 }
             } else if( target.is_npc() ) {
                 if( monster_missed ) {
                     add_msg( _( "%1$s misses %2$s!" ),
-                             u_see_me ? disp_name( false, true ) : _( "Something" ), target.disp_name() );
+                             u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name() );
                 } else {
                     add_msg( _( "%1$s dodges %2$s attack." ),
                              target.disp_name(), u_see_me ? name() : _( "something" ) );
@@ -2321,7 +2323,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 }
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( mon_flag_RIDEABLE_MECH ) &&
@@ -2331,8 +2333,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : _( "Something" ),
-                             target.disp_name( true ),
+                    add_msg( _( "%1$s hits %2$s in the %3$s." ),
+                             u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name(),
                              body_part_name_accusative( dealt_dam.bp_hit ) );
                 }
             } else {
@@ -2363,24 +2365,21 @@ bool monster::melee_attack( Creature &target, float accuracy )
         if( u_see_my_spot ) {
             if( target.is_avatar() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
-                         true ) : _( "Something" ),
+                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ),
+                         u_see_me ? disp_name( true ) : _( "Something" ),
                          body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
-                //~ $1s is monster name, %2$s is that monster target name,
-                //~ $3s is target bodypart name in accusative, $4s is the monster target name,
-                //~ 5$s is target armor name.
-                add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), u_see_me ? disp_name( false,
-                         true ) : _( "Something" ),
-                         target.disp_name( true ),
+                //~ $1s is monster name, %2$s is target NPC name,
+                //~ $3s is target bodypart name in accusative, $4s is target armor name.
+                add_msg( _( "%1$s hits %2$s in the %3$s but is stopped by the %4$s." ),
+                         u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name(),
                          body_part_name_accusative( dealt_dam.bp_hit ),
-                         target.disp_name( true ),
                          target.skin_name() );
             } else if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
                 add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
-                         u_see_me ? disp_name( false, true ) : _( "Something" ),
+                         u_see_me ? disp_name( true ) : _( "Something" ),
                          target.disp_name(),
                          target.skin_name() );
             }
@@ -2472,7 +2471,7 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
         return; // immunity
     }
     // FIXME: Hardcoded damage type effects (bash, bullet)
-    if( du.type == damage_bash ) {
+    if( du.type == damage_bash || du.type == damage_psi_telekinetic_damage ) {
         if( has_flag( mon_flag_PLASTIC ) ) {
             damage += du.amount / rng( 2, 4 ); // lessened effect
             pain += du.amount / 4;
@@ -3305,6 +3304,20 @@ void monster::die( map *here, Creature *nkiller )
         }
     }
     if( corpse ) {
+        // We re-acquire killer here, in case of shenanigans earlier in the function (summoner kill credit assignment, etc)
+        Creature *killer = get_killer();
+        basecamp *camp = basecamp::any_claim_at( pos_abs_omt() );
+
+        // Corpse ownership priority: If on faction territory, the faction always owns the resulting corpse and items. No buts.
+        // If not in a faction's territory, the killer owns the resulting corpse and items.
+        // If no killer, or the killer is not in a faction, then it's set to unowned and is owned by the first person to pick it up. Finders keepers. (Standard spawned item rules)
+        // FIXME: Exodii quadrupeds/monsters/etc do not set ownership.
+        if( camp ) {
+            corpse->set_owner( camp->get_owner() );
+        } else if( killer && killer->as_character() ) {
+            corpse->set_owner( *killer->as_character() );
+        }
+
         corpse->process( *here, nullptr, corpse.pos_bub( *here ) );
         if( reality_bubble().inbounds( pos_abs() ) ) {
             corpse.make_active();
@@ -3925,8 +3938,9 @@ bool monster::is_nemesis() const
     return has_flag( mon_flag_NEMESIS );
 }
 
-void monster::init_from_item( item &itm )
+void monster::init_from_item( item_location loc )
 {
+    item &itm = *loc;
     if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
@@ -3959,12 +3973,12 @@ void monster::init_from_item( item &itm )
                 }
             }
             inv.push_back( *it );
-            itm.remove_item( *it );
+            loc.remove_item( *it );
         }
         //Move dissectables (installed bionics, etc)
         for( item *dissectable : itm.all_items_top( pocket_type::CORPSE ) ) {
             dissectable_inv.push_back( *dissectable );
-            itm.remove_item( *dissectable );
+            loc.remove_item( *dissectable );
         }
     } else {
         // must be a robot

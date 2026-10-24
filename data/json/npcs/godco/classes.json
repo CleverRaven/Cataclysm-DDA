@@ -1187,7 +1187,7 @@
     "type": "item_group",
     "id": "GODCO_theresa_carried",
     "subtype": "collection",
-    "entries": [ { "item": "knitting_needles" }, { "item": "thread", "count": 5 } ]
+    "entries": [ { "item": "knitting_needles" }, { "group": "thread_spool_part" } ]
   },
   {
     "type": "item_group",

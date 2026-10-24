@@ -52,7 +52,6 @@
 #include "handle_liquid.h"
 #include "input_popup.h"
 #include "iexamine.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
@@ -710,9 +709,9 @@ const temp_crafting_inventory &Character::crafting_inventory( map *here,
     std::map<itype_id, int> tmp_liq_list;
 
     visit_items(
-    [&]( item * it, item * parent ) {
+    [&]( const item_location & it ) {
         // Only roots: a reserved provider takes the container carrying it along.
-        if( parent == nullptr && craft_reservation::contains_reserved( *it ) ) {
+        if( !it.has_parent() && craft_reservation::contains_reserved( *it ) ) {
             return VisitResponse::SKIP;
         }
         if( !it->empty_container() ) {
@@ -768,10 +767,10 @@ book_proficiency_bonuses Character::book_bonuses_nearby( int radius ) const
     };
 
     // Character inventory (wielded, worn, carried -- includes e-readers)
-    for( const item_location &it :
-         const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&]( const item_location & it ) {
         collect( *it );
-    }
+        return VisitResponse::NEXT;
+    } );
 
     // Map items in range (shared reachability/accessibility/vehicle logic)
     get_map().for_each_reachable_item( pos_bub(), radius, this, collect );
@@ -824,7 +823,9 @@ static item_location set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_or_npc_liquid( p, newit, PICKUP_RANGE );
     } else {
-        p.inv->assign_empty_invlet( newit, p );
+        if( p.is_avatar() ) {
+            p.as_avatar()->assign_empty_invlet( newit );
+        }
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
@@ -973,7 +974,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms_lifting() ) {
+        if( !ch.has_two_arms_lifting() || !ch.can_pickWeight( craft ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos_bub(), craft );
         } else if( !ch.has_wield_conflicts( craft ) || ch.is_npc() ) {
             craft_wield();
@@ -1459,14 +1460,14 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
     const std::vector<tripoint_bub_ms> reachable =
         m.reachable_flood_steps( src.origin, src.radius, 1, 100 );
 
-    const auto admit_tree = [&out]( const item & root, bool carried ) {
-        const int64_t root_uid = root.uid().get_value();
-        root.visit_items( [&out, root_uid, carried]( const item * node, const item * parent ) {
+    const auto admit_tree = [&out]( item_location root, bool carried ) {
+        const int64_t root_uid = root->uid().get_value();
+        root.visit_items( [&out, root_uid, carried]( item_location node ) {
             provider_candidate cand;
             cand.kind = craft_reservation::provider_kind::item;
-            cand.it = node;
+            cand.it = node.get_item();
             cand.provider_uid = node->uid().get_value();
-            cand.nested = parent != nullptr;
+            cand.nested = node.has_parent();
             cand.root_uid = root_uid;
             cand.carried = carried;
             out.push_back( cand );
@@ -1488,16 +1489,18 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
             if( stack_item.made_of( phase_id::LIQUID ) ) {
                 continue;
             }
-            admit_tree( stack_item, false );
+            admit_tree( item_location( map_cursor( p ), const_cast<item *>( &stack_item ) ), false );
         }
     }
 
     if( src.present_char != nullptr ) {
-        for( const item_location &carried : src.present_char->all_items_loc() ) {
-            if( carried && carried.parent_item() == item_location::nowhere ) {
-                admit_tree( *carried, true );
+        src.present_char->visit_carried( [&admit_tree]( const item_location & carried ) {
+            if( carried && !carried.has_parent() ) {
+                admit_tree( carried, true );
             }
-        }
+            // only worn, wielded
+            return VisitResponse::SKIP;
+        } );
     }
 
     // Vehicle cargo enters outside the accessibility block, mirroring form_inventory.
@@ -1505,7 +1508,8 @@ static std::vector<provider_candidate> enumerate_admitted_providers(
         if( const std::optional<vpart_reference> vp = m.veh_at( p ).cargo() ) {
             for( const item &it : vp->items() ) {
                 if( !it.made_of( phase_id::LIQUID ) ) {
-                    admit_tree( it, false );
+                    admit_tree( item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ),
+                                               const_cast<item *>( &it ) ), false );
                 }
             }
         }
@@ -2351,8 +2355,8 @@ void craft_relocated( const item_location &landed )
         root = root.parent_item();
     }
 
-    std::vector<item *> crafts;
-    root->visit_items( [&crafts]( item * node, item * ) {
+    std::vector<item_location> crafts;
+    root.visit_items( [&crafts]( item_location node ) {
         if( node->is_craft() &&
             node->get_passive_started_at() != calendar::before_time_starts ) {
             crafts.push_back( node );
@@ -2363,20 +2367,17 @@ void craft_relocated( const item_location &landed )
         return;
     }
 
-    for( item *craft : crafts ) {
-        const item_location craft_loc = craft == root.get_item()
-                                        ? root
-                                        : item_location( root, craft );
-        craft->set_reserved_tile( craft_site_tile( craft_loc ) );
+    for( item_location &craft : crafts ) {
+        craft->set_reserved_tile( craft_site_tile( craft ) );
         // A craft that had nothing to poll for gains a site lock when dropped, and the
         // lease needs a poll to refresh it.
         if( craft->get_reserved_tile() &&
             craft->get_env_check_at() == calendar::before_time_starts ) {
             craft->set_env_check_at( calendar::turn + 1_minutes );
         }
-        get_item_wakeups().rebuild_for_item( craft_loc );
+        get_item_wakeups().rebuild_for_item( craft );
         if( craft->peek_reservation_owner_token() != 0 ) {
-            get_craft_reservations().rebuild_for_craft( craft_loc );
+            get_craft_reservations().rebuild_for_craft( craft );
         }
     }
 }
@@ -3054,6 +3055,19 @@ void craft_actualize_scheduled( item &craft, item_wakeup_kind kind, time_point n
     }
 }
 
+static bool helper_can_craft( const Character &guy, const recipe &making )
+{
+    if( guy.get_skill_level( making.skill_used ) < making.difficulty ) {
+        return false;
+    }
+    for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
+        if( guy.get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+            return false;
+        }
+    }
+    return making.character_has_required_proficiencies( guy );
+}
+
 void Character::start_craft( craft_command &command, const std::optional<tripoint_bub_ms> &loc,
                              std::vector<attention_plan> plans )
 {
@@ -3105,6 +3119,12 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ),
         craft.tname() );
+
+    for( const Character *guy : get_crafting_helpers() ) {
+        if( helper_can_craft( *guy, making ) ) {
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->get_name() );
+        }
+    }
 }
 
 bool Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
@@ -3322,23 +3342,10 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
 
     float helpers_weighted_average = 0.0f;
     for( const Character *guy : get_crafting_helpers() ) {
-        // can they actually craft this recipe?
-        bool has_all_skills = guy->get_skill_level( making.skill_used ) >= making.difficulty;
-        if( has_all_skills ) {
-            for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
-                if( guy->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
-                    has_all_skills = false;
-                }
-            }
-        }
-        if( has_all_skills && !making.character_has_required_proficiencies( *guy ) ) {
-            has_all_skills = false;
-        }
-        if( has_all_skills ) {
+        if( helper_can_craft( *guy, making ) ) {
             const float helper_skill_average = std::max( guy->get_recipe_weighted_skill_average( making ),
                                                0.0f );
             helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->get_name() );
         }
     }
 
@@ -3784,7 +3791,6 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
 
     recoil = MAX_RECOIL;
 
-    inv->restack( *this );
     // Positive morale bonuses only happen on completion, to avoid the player repeatedly re-crafting to spam morale
     making.apply_positive_morale_mods( *this );
 
@@ -4494,20 +4500,28 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
 
 bool Character::consume_software_container( const itype_id &software_id )
 {
-    for( item_location it : all_items_loc() ) {
-        if( !it.get_item() ) {
-            continue;
+    bool consume = false;
+    item_location to_consume;
+    visit_items( [&software_id, &consume, &to_consume]( item_location it ) {
+        if( !it.valid() ) {
+            return VisitResponse::SKIP;
         }
-        if( it.get_item()->is_estorage() ) {
+        if( it->is_estorage() ) {
             for( const item *soft : it.get_item()->softwares() ) {
                 if( soft->typeId() == software_id ) {
-                    it.remove_item();
-                    return true;
+                    to_consume = it;
+                    consume = true;
+                    return VisitResponse::ABORT;
                 }
             }
+            return VisitResponse::SKIP;
         }
+        return VisitResponse::NEXT;
+    } );
+    if( consume ) {
+        remove_item( *to_consume );
     }
-    return false;
+    return consume;
 }
 
 comp_selection<tool_comp>
@@ -5513,7 +5527,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
     } else {
         add_msg_if_player_sees( *this, _( "%1s disassembles the %2s into its components." ),
-                                this->disp_name( false, true ), dis_item.tname() );
+                                this->disp_name( true ), dis_item.tname() );
     }
 
     // Get rid of the disassembled item
@@ -5550,6 +5564,16 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
             for( ; compcount > 0; compcount-- ) {
                 components.add( newit );
+            }
+        }
+    }
+
+    // Inherit faults during disassembly.
+    for( fault_id some_fault : dis_item.faults ) {
+        for( auto &pair : components ) {
+            for( item &it : pair.second ) {
+                // Does nothing if item can't have the fault. Always safe to call.
+                it.set_fault( some_fault );
             }
         }
     }
@@ -5654,7 +5678,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         } else {
             //~ %1$s: NPC name, %2$d: quantity destroyed, %2$s: pluralized name of destroyed item
             add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$d %3$s." ),
-                                    this->disp_name( false, true ), destroyed.second, it_name );
+                                    this->disp_name( true ), destroyed.second, it_name );
         }
     }
 
@@ -5669,7 +5693,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         } else {
             //~ %1$s: NPC name, %2$d: quantity recovered, %2$s: pluralized name of recovered item
             add_msg_if_player_sees( *this, m_good, _( "%1$s recovers %2$d %3$s." ),
-                                    this->disp_name( false, true ), recovered.second, it_name );
+                                    this->disp_name( true ), recovered.second, it_name );
         }
     }
 
@@ -5714,7 +5738,7 @@ void drop_or_handle( const item &newit, Character &p )
 
 void remove_ammo( item &dis_item, Character &p )
 {
-    dis_item.remove_items_with( [&p]( const item & it ) {
+    item_location( p, &dis_item ).remove_items_with( [&p]( const item & it ) {
         if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || ( it.is_magazine() &&
                                       !it.is_tool() ) ) ) {
             return false;
@@ -5784,9 +5808,9 @@ item_location npc::get_item_to_craft()
 {
     // check inventory
     item_location to_craft;
-    visit_items( [ this, &to_craft ]( item * itm, item * ) {
+    visit_items( [this, &to_craft]( item_location itm ) {
         if( itm->get_var( "crafter", "" ) == name ) {
-            to_craft = item_location( *this, itm );
+            to_craft = itm;
             if( !is_anyone_crafting( to_craft, this ) ) {
                 return VisitResponse::ABORT;
             }
@@ -5830,11 +5854,10 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
     std::vector<item_location> craft_item_list;
     std::string dummy;
 
-    visit_items( [ this, &craft_item_list, &dummy ]( item * itm, item * ) {
+    visit_items( [ this, &craft_item_list, &dummy ]( const item_location & itm ) {
         if( itm->is_craft() && itm->get_making().npc_can_craft( dummy ) ) {
-            item_location to_craft = item_location( *this, itm );
-            if( !is_anyone_crafting( to_craft, this ) ) {
-                craft_item_list.push_back( to_craft );
+            if( !is_anyone_crafting( itm, this ) ) {
+                craft_item_list.push_back( itm );
             }
         }
         return VisitResponse::NEXT;
@@ -5869,7 +5892,7 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
         craft( loc, goto_recipe );
     } else {
         uilist menu;
-        menu.text = "Craft what?";
+        menu.text = _( "Craft what?" );
         menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Craft new item" ) );
         menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Work on craft" ) );
         menu.query();
@@ -5881,10 +5904,10 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
             uilist item_selection;
             do {
                 item_selection.init();
-                item_selection.text = "Craft what?";
+                item_selection.text = _( "Craft what?" );
                 item_selection.selected = selected;
-                item_selection.addentry( 0, true, MENU_AUTOASSIGN, "Start crafting" );
-                item_selection.addentry( 1, true, MENU_AUTOASSIGN, "Select all" );
+                item_selection.addentry( 0, true, MENU_AUTOASSIGN, _( "Start crafting" ) );
+                item_selection.addentry( 1, true, MENU_AUTOASSIGN, _( "Select all" ) );
                 int index = 2;
 
                 for( item_location &itm : craft_item_list ) {
@@ -5903,10 +5926,11 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
                             enable = true;
                         }
                     }
+
                     if( enable ) {
-                        entry = string_format( "[x] %s", itm->tname() );
+                        entry = string_format( "[x] %s", itm->get_craft_listing_name( *this ) );
                     } else {
-                        entry = string_format( "[ ] %s", itm->tname() );
+                        entry = string_format( "[ ] %s", itm->get_craft_listing_name( *this ) );
                     }
                     item_selection.addentry( index, true, MENU_AUTOASSIGN, entry );
                     index++;
@@ -5920,4 +5944,67 @@ void npc::do_npc_craft( const std::optional<tripoint_bub_ms> &loc, const recipe_
             } while( selected >= 1 );
         }
     }
+}
+
+std::string item::get_craft_listing_name( const Character &crafter ) const
+{
+    if( !is_craft() ) {
+        std::string name = tname();
+        debugmsg( "get_craft_listing_name() called on non-craft '%s.'  Aborting.", name );
+        return name;
+    }
+
+    const recipe &recipe = get_making();
+
+    // eg. medium steel spear 50% [fabrication 4]
+    // eg. disassembly of wedding ring 95%
+    // eg. disassembly of sophisticated computer thing 0% [electronics 7]
+    std::string desc;
+    if( typeId() == itype_disassembly ) {
+        desc.append( _( "disassembly of" ) );
+        desc.push_back( ' ' );
+    }
+    desc.append( recipe.result_name() );
+    desc.append( string_format( " %d%%", get_display_progress_percent() ) );
+    if( recipe.difficulty > 0 || typeId() != itype_disassembly ) {
+        desc.append( " [" );
+        desc.append( recipe.primary_skill_string( crafter ) );
+        desc.push_back( ']' );
+    }
+    return desc;
+}
+
+int item::get_display_progress_percent() const
+{
+    cata_assert( craft_data_ );
+
+    int effective_counter = item_counter;
+    const time_point pstart = get_passive_started_at();
+    const time_point saved_ready = get_saved_ready_at();
+    const time_point ready = saved_ready != calendar::before_time_starts
+                             ? saved_ready : get_ready_at();
+    const int start_counter = get_passive_start_counter();
+    const int end_counter = get_passive_end_counter();
+    if( pstart != calendar::before_time_starts && ready > pstart && end_counter > start_counter ) {
+        // Freeze projection at pause time so a stalled craft does not
+        // keep ticking up.
+        const time_point pause_start = get_pause_started_at();
+        const time_point eff_now = pause_start != calendar::before_time_starts
+                                   ? pause_start : calendar::turn;
+        const time_duration step_dur = ready - pstart;
+        time_duration elapsed = eff_now - pstart;
+        if( elapsed < 0_seconds ) {
+            elapsed = 0_seconds;
+        }
+        if( elapsed > step_dur ) {
+            elapsed = step_dur;
+        }
+        const int64_t step_dur_moves = std::max( static_cast<int64_t>( 1 ),
+                                       to_moves<int64_t>( step_dur ) );
+        const double fraction = static_cast<double>( to_moves<int64_t>( elapsed ) ) / step_dur_moves;
+        const int projected = static_cast<int>( std::round( start_counter +
+                                                fraction * ( end_counter - start_counter ) ) );
+        effective_counter = std::max( effective_counter, projected );
+    }
+    return effective_counter / 100000;
 }

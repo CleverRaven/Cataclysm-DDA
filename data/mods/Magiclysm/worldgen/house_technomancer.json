@@ -228,7 +228,6 @@
       "items": {
         "N": [
           { "item": "tools_common", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "enchanted_tools_plus1", "chance": 20 },
           { "item": "hardware", "chance": 30 },
           { "item": "mechanics", "chance": 30, "repeat": [ 1, 2 ] }
         ],

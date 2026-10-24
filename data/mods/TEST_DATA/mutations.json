@@ -64,7 +64,7 @@
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('hunger') > 110" ] },
+          "condition": { "math": [ "u_hunger() > 110" ] },
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -110,7 +110,7 @@
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "math": [ "u_val('hunger') < 110" ] },
+          "condition": { "math": [ "u_hunger() < 110" ] },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {

@@ -93,6 +93,10 @@ void SetTextureBlendMode( const std::shared_ptr<SDL_Texture> &texture, SDL_Blend
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
 bool SetTextureColorMod( const std::shared_ptr<SDL_Texture> &texture, Uint32 r, Uint32 g,
                          Uint32 b );
+// Upload `pixels` (in texture's own format) to `rect` (or whole texture if
+// null). False on failure.
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect *rect, const void *pixels,
+                    int pitch );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
 void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
@@ -234,13 +238,17 @@ void RenderCopyEx( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
                    const SDL_Rect *srcrect, const SDL_Rect *dstrect,
                    double angle, const SDL_Point *center, CataFlipMode flip );
 void RenderSetClipRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
-// Untextured per-vertex-color triangles. SDL permits the null texture/uv
-// pair, and untextured geometry blends with the renderer draw blend mode.
-void RenderGeometryRaw( const SDL_Renderer_Ptr &renderer,
-                        const float *xy, int xy_stride,
-                        const SDL_FColor *color, int color_stride,
-                        int num_vertices,
-                        const Uint32 *indices, int num_indices );
+// triangles through SDL_RenderGeometry. SDL_Vertex keeps position, color and uv
+// at one stride, which the software renderer's quad detection needs: it reads
+// uv at the color stride. null texture draws untextured triangles blended with
+// the renderer draw blend mode; a texture's color and alpha mod do not apply
+void RenderGeometry( const SDL_Renderer_Ptr &renderer, SDL_Texture *texture,
+                     const SDL_Vertex *vertices, int num_vertices,
+                     const int *indices, int num_indices );
+// upload `surface` into `rect` of `texture`. surface must already be in the
+// texture's pixel format.
+bool UpdateTexture( const SDL_Texture_Ptr &texture, const SDL_Rect &rect,
+                    const SDL_Surface_Ptr &surface );
 void RenderGetClipRect( const SDL_Renderer_Ptr &renderer, SDL_Rect *rect );
 // Returns whether the intersection is non-empty. result is written either way.
 bool GetRectIntersection( const SDL_Rect &a, const SDL_Rect &b, SDL_Rect &result );
@@ -280,6 +288,9 @@ bool GetDesktopDisplayMode( int displayIndex, SDL_DisplayMode *mode );
 // SDL_GetRenderDriver returns the driver name directly.
 int GetNumRenderDrivers();
 const char *GetRenderDriverName( int index );
+// GPU drivers compiled into SDL, like "vulkan" or "direct3d12"
+int GetNumGPUDrivers();
+const char *GetGPUDriverName( int index );
 
 // Name via SDL_GetRendererName, capabilities via SDL_GetRendererProperties.
 const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
@@ -287,6 +298,15 @@ const char *GetRendererName( const SDL_Renderer_Ptr &renderer );
 // off the gpu driver
 const char *GetGPUBackendName( const SDL_Renderer_Ptr &renderer );
 bool IsRendererSoftware( const SDL_Renderer_Ptr &renderer );
+// block until event is queued or `timeout_ms` passes (0 polls, -1 has no
+// timeout); the event stays queued for SDL_PollEvent. false on timeout
+bool WaitForEvent( int timeout_ms );
+// queue an empty event from any thread so a blocked WaitForEvent returns
+void PushWakeEvent();
+// whether an event of this type is queued, without taking it
+bool HasEvent( Uint32 type );
+// posted by PushWakeEvent; SDL_EVENT_USER + 1 is the gamepad scheduler
+inline constexpr Uint32 CATA_WAKE_EVENT = SDL_EVENT_USER + 2;
 bool GetRendererMaxTextureSize( const SDL_Renderer_Ptr &renderer, int *max_w, int *max_h );
 
 void RenderPresent( const SDL_Renderer_Ptr &renderer );
@@ -415,6 +435,7 @@ inline SDL_FingerID GetFingerID( const SDL_Event &ev )
 inline constexpr Uint32 CATA_FINGERMOTION = SDL_EVENT_FINGER_MOTION;
 inline constexpr Uint32 CATA_FINGERDOWN   = SDL_EVENT_FINGER_DOWN;
 inline constexpr Uint32 CATA_FINGERUP     = SDL_EVENT_FINGER_UP;
+inline constexpr Uint32 CATA_FINGERCANCELED = SDL_EVENT_FINGER_CANCELED;
 
 inline constexpr Uint32 CATA_KEYDOWN         = SDL_EVENT_KEY_DOWN;
 inline constexpr Uint32 CATA_KEYUP           = SDL_EVENT_KEY_UP;

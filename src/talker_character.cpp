@@ -125,6 +125,11 @@ units::temperature talker_character_const::get_cur_part_temp( const bodypart_id 
     return me_chr_const->get_part_temp_conv( bp );
 }
 
+int talker_character_const::get_trauma() const
+{
+    return me_chr_const->get_trauma();
+}
+
 int talker_character_const::get_artifact_resonance() const
 {
     return me_chr_const->enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
@@ -178,6 +183,11 @@ void talker_character::set_pos( tripoint_bub_ms new_pos )
 void talker_character::set_pos( tripoint_abs_ms new_pos )
 {
     me_chr->setpos( new_pos );
+}
+
+void talker_character::set_trauma( int value )
+{
+    me_chr->set_trauma( value );
 }
 
 void talker_character::set_str_max( int value )
@@ -547,6 +557,16 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
 float talker_character_const::get_limb_score( const limb_score_id &score, const bp_type &bp ) const
 {
     return me_chr_const->get_limb_score( score, bp );
+}
+
+bool talker_character_const::is_underwater() const
+{
+    return me_chr_const->is_underwater();
+}
+
+bool talker_character_const::is_swimming() const
+{
+    return me_chr_const->is_swimming;
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -965,6 +985,11 @@ void talker_character::mod_daily_health( int amount, int cap )
     me_chr->mod_daily_health( amount, cap );
 }
 
+void talker_character::set_hunger( int amount )
+{
+    me_chr->set_hunger( amount );
+}
+
 void talker_character::mod_livestyle( int amount )
 {
     me_chr->mod_livestyle( amount );
@@ -1165,6 +1190,11 @@ int talker_character_const::get_fine_detail_vision_mod() const
 int talker_character_const::get_health() const
 {
     return me_chr_const->get_lifestyle();
+}
+
+int talker_character_const::get_daily_health() const
+{
+    return me_chr_const->get_daily_health();
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )

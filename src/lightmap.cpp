@@ -1,6 +1,7 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cmath>
@@ -9,7 +10,6 @@
 #include <map>
 #include <memory>
 #include <optional>
-#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -19,6 +19,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
@@ -153,208 +154,254 @@ void map::add_light_from_items( const tripoint_bub_ms &p, const item_stack &item
     }
 }
 
+// TRANSLUCENT terrain or furniture passes light but blocks sight
+static bool blocks_sight( const ter_t &ter, const furn_t &furn )
+{
+    return ter.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ||
+           furn.has_flag( ter_furn_flag::TFLAG_TRANSLUCENT );
+}
+
+// marks dirty the submaps where an input of the transparency build differs from
+// the copy it last read
+static void mark_changed_submaps_dirty( level_cache &map_cache,
+                                        const cata::mdarray<bool, point_bub_ms> &input,
+                                        const cata::mdarray<bool, point_bub_ms> &consumed, const int map_size )
+{
+    if( std::memcmp( &input, &consumed, sizeof( input ) ) == 0 ) {
+        return;
+    }
+    for( int smx = 0; smx < map_size; ++smx ) {
+        for( int smy = 0; smy < map_size; ++smy ) {
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                const int x = sx + smx * SEEX;
+                if( !std::equal( &input[x][smy * SEEY], &input[x][smy * SEEY] + SEEY,
+                                 &consumed[x][smy * SEEY] ) ) {
+                    map_cache.transparency_cache_dirty.set( smx * MAPSIZE + smy );
+                    break;
+                }
+            }
+        }
+    }
+}
+
 // TODO: Consider making this just clear the cache and dynamically fill it in as is_transparent() is called
 bool map::build_transparency_cache( const int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
     auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
-    auto &outside_cache = map_cache.outside_cache;
+    auto &sight_cache = map_cache.sight_cache;
+    auto &sight_cache_wo_fields = map_cache.sight_cache_wo_fields;
+    const auto &outside_cache = map_cache.outside_cache;
+
+    const cata::mdarray<bool, point_bub_ms> &vehicle_opaque = map_cache.vehicle_opaque_cache;
+
+    // weather, shelter and vehicles are inputs too but nothing marks them dirty,
+    // so compare with what last build read
+    const float sight_penalty = get_weather().weather_id->sight_penalty;
+    if( sight_penalty != map_cache.built_sight_penalty ) {
+        map_cache.transparency_cache_dirty.set();
+    } else {
+        if( map_cache.outside_rewritten ) {
+            mark_changed_submaps_dirty( map_cache, outside_cache, map_cache.transparency_outside,
+                                        my_MAPSIZE );
+        }
+        if( map_cache.vehicle_opaque_any || map_cache.transparency_vehicle_opaque_any ) {
+            mark_changed_submaps_dirty( map_cache, vehicle_opaque, map_cache.transparency_vehicle_opaque,
+                                        my_MAPSIZE );
+        }
+    }
+    map_cache.outside_rewritten = false;
 
     if( map_cache.transparency_cache_dirty.none() ) {
         return false;
     }
 
-    // if true, all submaps are invalid (can use batch init)
-    bool rebuild_all = map_cache.transparency_cache_dirty.all();
-
-    if( rebuild_all ) {
-        // Default to just barely not transparent.
-        std::uninitialized_fill_n( &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
-                                   static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
-        for( auto &row : transparent_cache_wo_fields ) {
-            row.set(); // true means transparent
+    // compared whole after the pass: a per-tile check costs every tile of a
+    // weather rebuild, and weather never changes this array
+    const std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> wo_fields_before = transparent_cache_wo_fields;
+    bool changed = false;
+    const auto write = [&]( const point_bub_ms & p, const float light, const bool light_wo_fields,
+    const float sight, const bool sight_wo_fields ) {
+        const bool tile_changed = transparency_cache[p.x()][p.y()] != light ||
+                                  transparent_cache_wo_fields[p.x()][p.y()] != light_wo_fields ||
+                                  sight_cache[p.x()][p.y()] != sight ||
+                                  sight_cache_wo_fields[p.x()][p.y()] != sight_wo_fields;
+        changed |= tile_changed;
+        // only a change where a cast reached alters what any cast sees
+        if( tile_changed && cast_reached( tripoint_bub_ms( p, zlev ) ) ) {
+            map_cache.seen_cache_dirty = true;
         }
-    }
-
-    const float sight_penalty = get_weather().weather_id->sight_penalty;
+        transparency_cache[p.x()][p.y()] = light;
+        transparent_cache_wo_fields[p.x()][p.y()] = light_wo_fields;
+        sight_cache[p.x()][p.y()] = sight;
+        sight_cache_wo_fields[p.x()][p.y()] = sight_wo_fields;
+    };
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            if( !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
+                continue;
+            }
             const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
                 continue;
             }
-
-            const point_bub_ms sm_offset = coords::project_to<coords::ms>( point_bub_sm( smx, smy ) );
-
-            if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
-                continue;
-            }
-
-            // calculates transparency of a single tile
-            // x,y - coords in map local coords
-            auto calc_transp = [&]( const point_bub_ms & p ) {
-                const point_sm_ms sp = rebase_sm( p - sm_offset );
-                float value = LIGHT_TRANSPARENCY_OPEN_AIR;
-
-                if( !( cur_submap->get_ter( sp ).obj().transparent &&
-                       cur_submap->get_furn( sp ).obj().transparent ) ) {
-                    return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
-                }
-                if( outside_cache[p.x()][p.y()] ) {
-                    // FIXME: Places inside vehicles haven't been marked as
-                    // inside yet so this is incorrectly penalising for
-                    // weather in vehicles.
-                    value *= sight_penalty;
-                }
-                float value_wo_fields = value;
-                for( const auto &fld : cur_submap->get_field( sp ) ) {
-                    const field_intensity_level &i_level = fld.second.get_intensity_level();
-                    if( i_level.transparent ) {
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    const point_sm_ms sp( sx, sy );
+                    const point_bub_ms p( sx + smx * SEEX, sy + smy * SEEY );
+                    const ter_t &ter = cur_submap->get_ter( sp ).obj();
+                    const furn_t &furn = cur_submap->get_furn( sp ).obj();
+                    if( vehicle_opaque[p.x()][p.y()] || !( ter.transparent && furn.transparent ) ) {
+                        write( p, LIGHT_TRANSPARENCY_SOLID, false, LIGHT_TRANSPARENCY_SOLID, false );
                         continue;
                     }
-                    // Fields are either transparent or not, however we want some to be translucent
-                    value = value * i_level.translucency;
-                }
-                // TODO: [lightmap] Have glass reduce light as well.
-                // Note, binary transluceny is implemented in build_vision_transparency_cache below
-                return std::make_pair( value, value_wo_fields );
-            };
-
-            if( cur_submap->is_uniform() ) {
-                float value;
-                float dummy;
-                std::tie( value, dummy ) = calc_transp( sm_offset );
-                // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
-                if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
-                    bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
-                    for( int sx = 0; sx < SEEX; ++sx ) {
-                        // init all sy indices in one go
-                        std::uninitialized_fill_n( &transparency_cache[sm_offset.x() + sx][sm_offset.y()], SEEY, value );
-                        if( opaque ) {
-                            auto &bs = transparent_cache_wo_fields[sm_offset.x() + sx];
-                            for( int i = 0; i < SEEY; i++ ) {
-                                bs[sm_offset.y() + i] = false;
-                            }
+                    float value = LIGHT_TRANSPARENCY_OPEN_AIR;
+                    if( outside_cache[p.x()][p.y()] ) {
+                        value *= sight_penalty;
+                    }
+                    const float value_wo_fields = value;
+                    for( const auto &fld : cur_submap->get_field( sp ) ) {
+                        const field_intensity_level &i_level = fld.second.get_intensity_level();
+                        if( i_level.transparent ) {
+                            continue;
                         }
+                        // Fields are either transparent or not, however we want some to be translucent
+                        value = value * i_level.translucency;
                     }
-                }
-            } else {
-                for( int sx = 0; sx < SEEX; ++sx ) {
-                    const int x = sx + sm_offset.x();
-                    for( int sy = 0; sy < SEEY; ++sy ) {
-                        const int y = sy + sm_offset.y();
-                        float transp_wo_fields;
-                        std::tie( transparency_cache[x][y], transp_wo_fields ) = calc_transp( {x, y } );
-                        transparent_cache_wo_fields[x][y] = transp_wo_fields > LIGHT_TRANSPARENCY_SOLID;
-                    }
+                    // TODO: [lightmap] Have glass reduce light as well.
+                    const bool sight_blocked = blocks_sight( ter, furn );
+                    write( p, value, value_wo_fields > LIGHT_TRANSPARENCY_SOLID,
+                           sight_blocked ? LIGHT_TRANSPARENCY_SOLID : value,
+                           !sight_blocked && value_wo_fields > LIGHT_TRANSPARENCY_SOLID );
                 }
             }
         }
     }
-    //build_vision_transparency_cache copies the transparency_cache so don't reset transparency_cache_dirty until it's resolved
-    return true;
+
+    map_cache.transparency_outside = outside_cache;
+    map_cache.transparency_vehicle_opaque = vehicle_opaque;
+    map_cache.transparency_vehicle_opaque_any = map_cache.vehicle_opaque_any;
+    map_cache.built_sight_penalty = sight_penalty;
+    map_cache.vision_transparency_dirty |= map_cache.transparency_cache_dirty;
+    map_cache.transparency_cache_dirty.reset();
+    if( changed ) {
+        map_cache.sight_revision = next_cache_generation();
+        last_scene_change = map_cache.sight_revision;
+    }
+    // creature zones flood through tiles clear without fields, and vehicle
+    // doors change them with no tile write
+    if( transparent_cache_wo_fields != wo_fields_before && this == &reality_bubble() ) {
+        get_creature_tracker().invalidate_reachability_cache();
+    }
+    return changed;
+}
+
+std::vector<std::pair<point_bub_ms, float>> map::observer_vision_overrides( const int zlev ) const
+{
+    std::vector<std::pair<point_bub_ms, float>> overrides;
+    const Character &player_character = get_player_character();
+    const tripoint_bub_ms p = player_character.pos_bub( *this );
+    if( p.z() != zlev || !inbounds( p ) ) {
+        return overrides;
+    }
+    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+    // If you change this, also consider creature::sees and map::obstacle_coverage.
+    // only the avatar's own cast and display read these cells; other observers trace
+    // sight_cache, so cover the avatar crouches behind hides nothing from them
+    const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
+                             player_character.is_running();
+    if( player_character.is_crouching() || player_character.is_prone() || low_profile ) {
+        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
+            if( loc != p && coverage( loc ) >= 30 ) {
+                overrides.emplace_back( loc.xy(), LIGHT_TRANSPARENCY_SOLID );
+            }
+        }
+    }
+    return overrides;
 }
 
 bool map::build_vision_transparency_cache( int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
+    const cata::mdarray<float, point_bub_ms> &sight_cache = map_cache.sight_cache;
+    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
+    std::vector<std::pair<point_bub_ms, float>> &applied = map_cache.vision_observer_overrides;
+    std::vector<std::pair<point_bub_ms, float>> wanted = observer_vision_overrides( zlev );
 
-    // We copy the transparency_cache so we need to recalc if it's dirty
-    if( map_cache.transparency_cache_dirty.none() /*&& map_cache.vision_transparency_cache_dirty.none()*/ ) {
+    const bool scene_dirty = map_cache.vision_transparency_dirty.any();
+    if( !scene_dirty && wanted == applied ) {
         return false;
     }
 
-    const cata::mdarray<float, point_bub_ms> &transparency_cache = map_cache.transparency_cache;
-    cata::mdarray<float, point_bub_ms> &vision_transparency_cache = map_cache.vision_transparency_cache;
+    // what last cast saw on cells either overlay touches
+    std::vector<std::pair<point_bub_ms, float>> before;
+    before.reserve( applied.size() + wanted.size() );
+    const auto remember = [&]( const std::vector<std::pair<point_bub_ms, float>> &cells ) {
+        for( const std::pair<point_bub_ms, float> &cell : cells ) {
+            before.emplace_back( cell.first, vision_transparency_cache[cell.first.x()][cell.first.y()] );
+        }
+    };
+    remember( applied );
+    remember( wanted );
 
-    // TODO: Should only copy if transparency_cache was dirty
-    memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
-    const Character &player_character = get_player_character();
-    const tripoint_bub_ms p = player_character.pos_bub();
-    const bool is_player_z = p.z() == zlev;
+    // last overlay comes off first, so the copy below compares scene with scene
+    for( const std::pair<point_bub_ms, float> &cell : applied ) {
+        const point_bub_ms &p = cell.first;
+        vision_transparency_cache[p.x()][p.y()] = sight_cache[p.x()][p.y()];
+    }
 
     bool dirty = false;
-
-    if( is_player_z ) {
-        // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
-        // If you change this, also consider creature::sees and map::obstacle_coverage.
-        // TODO: Is fairly nonsense because it changes vision for everyone only (eg if you @ crouch behind the window W then the NPC N and monster M can't see each other bc the window is counted as opaque)
-        // .N.
-        // .@.
-        // #W#
-        // .M.
-        const bool is_crouching = player_character.is_crouching();
-        const bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
-                                 player_character.is_running();
-        const bool is_prone = player_character.is_prone();
-        if( is_crouching || is_prone || low_profile ) {
-            for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
-                if( loc != p && coverage( loc ) >= 30 ) {
-                    // If we're crouching or prone behind an obstacle, we can't see past it.
-                    dirty |= vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID;
-                    vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
-                }
-            }
-        }
-    }
-
-    // This segment handles blocking vision through TRANSLUCENT flagged terrain.
-    // Traverse the submaps in order (else map::ter() calls get_submap each time)
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
-            if( cur_submap == nullptr ) {
-                debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
-                          zlev );
+            if( !map_cache.vision_transparency_dirty[smx * MAPSIZE + smy] ) {
                 continue;
             }
-            if( !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
-                continue;
-            }
-            for( int smi = 0; smi < SEEX; smi++ ) {
-                for( int smj = 0; smj < SEEY; smj++ ) {
-                    if( cur_submap->get_ter( point_sm_ms{smi, smj} ).obj().has_flag(
-                            ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
-                        const int i = smi + ( smx * SEEX );
-                        const int j = smj + ( smy * SEEY );
-                        dirty |= vision_transparency_cache[i][j] != LIGHT_TRANSPARENCY_SOLID;
-                        vision_transparency_cache[i][j] = LIGHT_TRANSPARENCY_SOLID;
-                    }
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                const int x = sx + smx * SEEX;
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    const int y = sy + smy * SEEY;
+                    dirty |= vision_transparency_cache[x][y] != sight_cache[x][y] &&
+                             cast_reached( tripoint_bub_ms( x, y, zlev ) );
+                    vision_transparency_cache[x][y] = sight_cache[x][y];
                 }
             }
         }
     }
+    map_cache.vision_transparency_dirty.reset();
 
-    // The tile player is standing on should always be visible
-    // Shouldn't this be handled in the player's seen cache instead??
-    if( is_player_z && inbounds( p ) ) {
-        vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+    for( const std::pair<point_bub_ms, float> &cell : wanted ) {
+        vision_transparency_cache[cell.first.x()][cell.first.y()] = cell.second;
     }
-
-    map_cache.transparency_cache_dirty.reset();
+    for( const std::pair<point_bub_ms, float> &cell : before ) {
+        dirty |= vision_transparency_cache[cell.first.x()][cell.first.y()] != cell.second;
+    }
+    applied = std::move( wanted );
     return dirty;
 }
 
 void map::apply_character_light( Character &p )
 {
+    const tripoint_bub_ms pos = p.pos_bub( *this );
+    if( !inbounds( pos ) ) {
+        return;
+    }
     if( p.has_effect( effect_onfire ) ) {
-        apply_light_source( p.pos_bub(), 8 );
+        apply_light_source( pos, 8 );
     } else if( p.has_effect( effect_haslight ) ) {
-        apply_light_source( p.pos_bub(), 4 );
+        apply_light_source( pos, 4 );
     }
 
     const float held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
-        apply_light_source( p.pos_bub(), held_luminance );
+        apply_light_source( pos, held_luminance );
     }
 
-    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos_bub() ) - 0.5f ) {
+    if( held_luminance >= 4 && held_luminance > ambient_light_at( pos ) - 0.5f ) {
         p.add_effect( effect_haslight, 1_turns );
     }
 }
@@ -363,13 +410,19 @@ void map::apply_character_light( Character &p )
 // toward the lower limit. Since it's sunlight, the rays are parallel.
 // Each layer consults the next layer up to determine the intensity of the light that reaches it.
 // Once this is complete, additional operations add more dynamic lighting.
-void map::build_sunlight_cache( int pzlev )
+void map::build_sunlight_cache()
 {
     const int zlev_min = -OVERMAP_DEPTH;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = clamp( calc_max_populated_zlev() + 1, std::min( pzlev + 1, OVERMAP_HEIGHT ),
-                                OVERMAP_HEIGHT );
+    const int zlev_max = std::min( calc_max_populated_zlev() + 1, OVERMAP_HEIGHT );
+    // levels above that are open sky: one value each, no grid to fill
+    for( int zlev = OVERMAP_HEIGHT; zlev > zlev_max; zlev-- ) {
+        level_cache &map_cache = get_cache( zlev );
+        map_cache.natural_light_level_cache = g->natural_light_level( zlev );
+        map_cache.sun_revision = next_cache_generation();
+        map_cache.sun_uniform = g->natural_light_level( 0 );
+    }
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -386,14 +439,11 @@ void map::build_sunlight_cache( int pzlev )
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int zlev = zlev_max; zlev >= zlev_min; zlev-- ) {
-        if( pzlev != get_avatar().posz() && zlev == get_avatar().posz() ) {
-            // Don't trash the lighting for the PC when this is called for someone else at a different
-            // Z level, as only the specified Z level is being rebuilt with light sources by the caller.
-            continue;
-        }
         level_cache &map_cache = get_cache( zlev );
         map_cache.natural_light_level_cache = g->natural_light_level( zlev );
-        auto &lm = map_cache.lm;
+        map_cache.sun_revision = next_cache_generation();
+        map_cache.sun_uniform = -1.0f;
+        auto &lm = map_cache.sun_lm;
         // Grab illumination at ground level.
         const float outside_light_level = g->natural_light_level( 0 );
         // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
@@ -435,7 +485,7 @@ void map::build_sunlight_cache( int pzlev )
         // At first compress the angle such that it takes no more than one tile of shift per level.
         // To exceed that, we'll have to handle casting light from the side instead of the top.
         const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
-        const auto &prev_lm = prev_map_cache.lm;
+        const auto &prev_lm = prev_map_cache.sun_lm;
         const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
         const auto &prev_floor_cache = prev_map_cache.floor_cache;
         const auto &outside_cache = map_cache.outside_cache;
@@ -500,20 +550,71 @@ void map::build_sunlight_cache( int pzlev )
     }
 }
 
+void map::ensure_light( const int zlev ) const
+{
+    // light built from the current sunlight stays valid as of the last
+    // build_map_cache, full or not, like the views
+    if( get_cache_ref( zlev ).lightmap_sun_revision != get_cache_ref( zlev ).sun_revision ) {
+        set_sunlight_only( zlev );
+    }
+}
+
+void map::set_sunlight_only( const int zlev ) const
+{
+    // a level no cast reaches gets sunlight alone, as every level did before
+    // light was built per level; build_map_cache adds the sources where a cast
+    // reached
+    level_cache &ch = get_cache( zlev );
+    if( ch.sun_uniform >= 0.0f ) {
+        ch.lm.fill( four_quadrants( ch.sun_uniform ) );
+    } else {
+        ch.lm = ch.sun_lm;
+    }
+    ch.sm.fill( 0 );
+    ch.light_color_cache.fill( light_color_rgb{} );
+    ch.has_colored_lights = false;
+    ch.light_full = false;
+    ch.lightmap_sun_revision = ch.sun_revision;
+    ch.lightmap_generation = next_cache_generation();
+}
+
 void map::generate_lightmap( const int zlev )
 {
     level_cache &map_cache = get_cache( zlev );
-    if( !map_cache.lightmap_dirty ) {
+    // Dawn/dusk tint: color sunlit tiles during twilight.
+    // Weather tint: sunlight can be tinted by active weather, respecting dawn/dusk
+    const light_color_rgb twilight_tint =
+        dawn_dusk_color_for_lightmap( g->get_dimension_prefix() );
+    const light_color_rgb weather_tint = cached_weather_color();
+    const light_color_rgb ddc = {
+        std::max( twilight_tint.r, weather_tint.r ),
+        std::max( twilight_tint.g, weather_tint.g ),
+        std::max( twilight_tint.b, weather_tint.b )
+    };
+    // no writer marks a tint change dirty, so the level keeps the tint it was lit with
+    const bool same_tint = ddc.r == map_cache.light_tint.r && ddc.g == map_cache.light_tint.g &&
+                           ddc.b == map_cache.light_tint.b;
+    if( map_cache.light_full && !map_cache.lightmap_dirty && same_tint &&
+        map_cache.lightmap_sun_revision == map_cache.sun_revision ) {
         return;
     }
+    map_cache.light_tint = ddc;
+    map_cache.light_full = true;
+    map_cache.light_changes_by_turn = false;
     map_cache.lightmap_dirty = false;
+    map_cache.lightmap_sun_revision = map_cache.sun_revision;
 
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;
     auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
     bool top_floor = zlev == OVERMAP_DEPTH;
-    lm.fill( four_quadrants{} );
+    // artificial light goes on top of what the sunlight pass left
+    if( map_cache.sun_uniform >= 0.0f ) {
+        lm.fill( four_quadrants( map_cache.sun_uniform ) );
+    } else {
+        lm = map_cache.sun_lm;
+    }
     sm.fill( 0 );
     map_cache.light_color_cache.fill( light_color_rgb{} );
     map_cache.has_colored_lights = false;
@@ -543,20 +644,8 @@ void map::generate_lightmap( const int zlev )
 
     const float natural_light = g->natural_light_level( zlev );
 
-    build_sunlight_cache( zlev );
-
-    // Dawn/dusk tint: color sunlit tiles during twilight. At this point lm
-    // contains only sunlight (no artificial sources yet), so any excess over
-    // the indoor baseline is sunlight that reached the tile.
-    // Weather tint: sunlight can be tinted by active weather, respecting dawn/dusk
-    const light_color_rgb twilight_tint =
-        dawn_dusk_color_for_lightmap( g->get_dimension_prefix() );
-    const light_color_rgb weather_tint = cached_weather_color();
-    const light_color_rgb ddc = {
-        std::max( twilight_tint.r, weather_tint.r ),
-        std::max( twilight_tint.g, weather_tint.g ),
-        std::max( twilight_tint.b, weather_tint.b )
-    };
+    // At this point lm contains only sunlight (no artificial sources yet), so
+    // any excess over the indoor baseline is sunlight that reached the tile.
     if( ddc.is_colored() ) {
         const float outside_light = g->natural_light_level( 0 );
         const float inside_light = ( zlev >= 0 && outside_light > LIGHT_SOURCE_BRIGHT )
@@ -581,9 +670,17 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-    apply_character_light( get_player_character() );
+    // each source lights only the level it stands on, when that level is built;
+    // light written here into another level would land after that level's
+    // overrides and outlive its publication
+    Character &you = get_player_character();
+    if( you.posz() == zlev ) {
+        apply_character_light( you );
+    }
     for( npc &guy : g->all_npcs() ) {
-        apply_character_light( guy );
+        if( guy.posz() == zlev ) {
+            apply_character_light( guy );
+        }
     }
 
     std::vector<std::pair<tripoint_bub_ms, float>> lm_override;
@@ -630,7 +727,15 @@ void map::generate_lightmap( const int zlev )
                     }
 
                     if( cur_submap->get_lum( { sx, sy } ) ) {
-                        add_light_from_items( p, i_at( p ) );
+                        const map_stack items = i_at( p );
+                        add_light_from_items( p, items );
+                        // a lit item can burn down with no notice; the tile's
+                        // light count outlives an item burnt out in place
+                        if( std::any_of( items.begin(), items.end(), []( const item & it ) {
+                        return it.is_emissive();
+                        } ) ) {
+                            map_cache.light_changes_by_turn = true;
+                        }
                     }
 
                     const ter_id &terrain = cur_submap->get_ter( { sx, sy } );
@@ -661,16 +766,15 @@ void map::generate_lightmap( const int zlev )
         if( critter.is_hallucination() ) {
             continue;
         }
-        const tripoint_bub_ms mp = critter.pos_bub();
-        if( inbounds( mp ) ) {
+        const tripoint_bub_ms mp = critter.pos_bub( *this );
+        if( inbounds( mp ) && mp.z() == zlev ) {
             if( critter.has_effect( effect_onfire ) ) {
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            float critter_luminance = critter.calculate_by_enchantment( critter.type->luminance,
-                                      enchant_vals::mod::LUMINATION, true );
+            const float critter_luminance = critter.luminance();
             if( critter_luminance > 0 ) {
                 apply_light_source( mp, critter_luminance );
             }
@@ -683,24 +787,13 @@ void map::generate_lightmap( const int zlev )
         vehicle *v = vv.v;
 
         auto lights = v->lights();
-
-        float veh_luminance = 0.0f;
-        float iteration = 1.0f;
-
-        for( const vehicle_part *pt : lights ) {
-            const vpart_info &vp = pt->info();
-            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
-                vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                veh_luminance += vp.bonus / iteration;
-                iteration = iteration * 1.1f;
-            }
-        }
+        const float veh_luminance = vehicle::cone_light_luminance( lights );
 
         for( const vehicle_part *pt : lights ) {
             const vpart_info &vp = pt->info();
             tripoint_bub_ms src = v->bub_part_pos( *this, *pt );
 
-            if( !inbounds( src ) ) {
+            if( !inbounds( src ) || src.z() != zlev ) {
                 continue;
             }
 
@@ -736,6 +829,9 @@ void map::generate_lightmap( const int zlev )
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
+                if( vp.has_flag( VPFLAG_ODDTURN ) || vp.has_flag( VPFLAG_EVENTURN ) ) {
+                    map_cache.light_changes_by_turn = true;
+                }
                 if( ( odd_turn && vp.has_flag( VPFLAG_ODDTURN ) ) ||
                     ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
@@ -750,10 +846,16 @@ void map::generate_lightmap( const int zlev )
 
         for( const vpart_reference &vpr : v->get_any_parts( VPFLAG_CARGO ) ) {
             const tripoint_bub_ms pos = vpr.pos_bub( *this );
-            if( !inbounds( pos ) || vpr.info().has_flag( "COVERED" ) ) {
+            if( !inbounds( pos ) || pos.z() != zlev || vpr.info().has_flag( "COVERED" ) ) {
                 continue;
             }
             add_light_from_items( pos, vpr.items() );
+            for( const item &it : vpr.items() ) {
+                if( it.is_emissive() ) {
+                    map_cache.light_changes_by_turn = true;
+                    break;
+                }
+            }
         }
     }
 
@@ -806,6 +908,8 @@ void map::generate_lightmap( const int zlev )
             }
         }
     }
+    // only place a level's light is complete, so the only one that publishes it
+    map_cache.lightmap_generation = next_cache_generation();
 }
 
 void map::add_light_source( const tripoint_bub_ms &p, float luminance,
@@ -860,6 +964,7 @@ lit_level map::light_at( const tripoint_bub_ms &p ) const
     if( !inbounds( p ) ) {
         return lit_level::DARK;    // Out of bounds
     }
+    ensure_light( p.z() );
 
     const level_cache &map_cache = get_cache_ref( p.z() );
     const auto &lm = map_cache.lm;
@@ -885,7 +990,7 @@ float map::ambient_light_at( const tripoint_bub_ms &p ) const
     if( !this->inbounds( p ) ) {
         return 0.0f;
     }
-
+    ensure_light( p.z() );
     return get_cache_ref( p.z() ).lm[p.x()][p.y()].max();
 }
 
@@ -899,6 +1004,16 @@ bool map::is_transparent_wo_fields( const tripoint_bub_ms &p ) const
     return get_cache_ref( p.z() ).transparent_cache_wo_fields[p.x()][p.y()];
 }
 
+bool map::is_sight_clear( const tripoint_bub_ms &p ) const
+{
+    return get_cache_ref( p.z() ).sight_cache[p.x()][p.y()] > LIGHT_TRANSPARENCY_SOLID;
+}
+
+bool map::is_sight_clear_wo_fields( const tripoint_bub_ms &p ) const
+{
+    return get_cache_ref( p.z() ).sight_cache_wo_fields[p.x()][p.y()];
+}
+
 float map::light_transparency( const tripoint_bub_ms &p ) const
 {
     return get_cache_ref( p.z() ).transparency_cache[p.x()][p.y()];
@@ -910,14 +1025,21 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         const tripoint_bub_ms &p )
 {
     avatar const &u = get_avatar();
-    const int dist = rl_dist( u.pos_bub(), p );
+    // static, so its callers' level caches are the reality bubble's
+    const tripoint_bub_ms u_pos = u.pos_bub();
+    const int dist = rl_dist( u_pos, p );
     const float abs_vis =
         std::max( map_cache.seen_cache[p.x()][p.y()], map_cache.camera_cache[p.x()][p.y()] );
     const float vis = dist > u.unimpaired_range() ? map_cache.camera_cache[p.x()][p.y()] : abs_vis;
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
     const bool abs_obstructed = abs_vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
-    auto is_opaque = [&map_cache]( const point_bub_ms & p ) {
+    // avatar always sees the tile it's standing on, whatever fills it
+    const bool on_avatar_level = p.z() == u_pos.z();
+    auto is_opaque = [&map_cache, &u_pos, on_avatar_level]( const point_bub_ms & p ) {
+        if( on_avatar_level && p == u_pos.xy() ) {
+            return false;
+        }
         return map_cache.transparency_cache[p.x()][p.y()] <= LIGHT_TRANSPARENCY_SOLID &&
                map_cache.vision_transparency_cache[p.x()][p.y()] <= LIGHT_TRANSPARENCY_SOLID;
     };
@@ -962,7 +1084,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( ( rl_dist( u.pos_bub().xy(), neighbour ) > u.unimpaired_range() &&
+            if( ( rl_dist( u_pos.xy(), neighbour ) > u.unimpaired_range() &&
                   map_cache.camera_cache[neighbour.x()][neighbour.y()] == 0 ) ||
                 ( map_cache.seen_cache[neighbour.x()][neighbour.y()] == 0 &&
                   map_cache.camera_cache[neighbour.x()][neighbour.y()] == 0 ) ) {
@@ -986,7 +1108,7 @@ lit_level map::apparent_light_at( const tripoint_bub_ms &p,
                                   const visibility_variables &cache ) const
 {
     Character &player_character = get_player_character();
-    const int dist = rl_dist( player_character.pos_bub(), p );
+    const int dist = rl_dist( player_character.pos_bub( *this ), p );
 
     // Clairvoyance overrides everything.
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
@@ -1036,6 +1158,7 @@ bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const
     if( !inbounds( t ) ) {
         return false;
     }
+    ensure_light( t.z() );
 
     const level_cache &map_cache = get_cache_ref( t.z() );
     Character &player_character = get_player_character();
@@ -1251,32 +1374,36 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y
- * coordinates. Returns a lightmap for a result where the values represent a
- * percentage of fully lit.
+ * coordinates into seen_cache, or for a camera into camera_cache. Values
+ * represent a percentage of fully lit.
  *
  * A value equal to or below 0 means that cell is not in the
  * field of view, whereas a value equal to or above 1 means that cell is
  * in the field of view.
  *
  * @param origin the starting location
- * @param target_z Z-level to draw light map on
+ * @param target_z Z-level the origin is seeded on
+ * @param extension_range range of vehicle mirrors and cameras around origin
+ * @param camera true to cast for a camera, merged into camera_cache
+ * @param penalty distance added to the cast, shortening a camera's range
+ * @param eye_level height of the observer's eyes, for ledges
  */
 void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, int extension_range,
-                            bool cumulative, bool camera, int penalty )
+                            bool camera, int penalty, const float eye_level )
 {
     level_cache &map_cache = get_cache( target_z );
     using mdarray = cata::mdarray<float, point_bub_ms>;
     mdarray &transparency_cache = map_cache.vision_transparency_cache;
     mdarray &seen_cache = map_cache.seen_cache;
     mdarray &camera_cache = map_cache.camera_cache;
-    mdarray &out_cache = camera ? camera_cache : seen_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
-    if( !cumulative ) {
-        std::uninitialized_fill_n(
-            &camera_cache[0][0], map_dimensions, light_transparency_solid );
-    }
+    // a camera casts into its own grids and merges after its own ledge pass, so
+    // one camera's ledges never hide what another sees
+    static const std::unique_ptr<std::array<mdarray, OVERMAP_LAYERS>> camera_scratch_storage =
+                std::make_unique<std::array<mdarray, OVERMAP_LAYERS>>();
+    std::array<mdarray, OVERMAP_LAYERS> &camera_scratch = *camera_scratch_storage;
 
     // Cache the caches (pointers to them)
     array_of_grids_of<const float> transparency_caches;
@@ -1285,14 +1412,17 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
     vertical_direction directions_to_cast = vertical_direction::BOTH;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         level_cache &cur_cache = get_cache( z );
-        transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
-        seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
+        // a camera sees past the avatar's own cover
+        transparency_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.sight_cache :
+                &cur_cache.vision_transparency_cache;
+        seen_caches[z + OVERMAP_DEPTH] = camera ? &camera_scratch[z + OVERMAP_DEPTH] :
+                                         &cur_cache.seen_cache;
         floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-        if( !cumulative ) {
-            std::uninitialized_fill_n(
-                &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
+        std::uninitialized_fill_n(
+            &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
+        if( !camera ) {
+            cur_cache.seen_cache_dirty = false;
         }
-        cur_cache.seen_cache_dirty = false;
         if( origin.z() == z && cur_cache.no_floor_gaps ) {
             directions_to_cast = vertical_direction::UP;
         }
@@ -1304,10 +1434,37 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
     cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
         seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
         directions_to_cast );
-    seen_cache_process_ledges( seen_caches, floor_caches, std::nullopt );
+    seen_cache_process_ledges( seen_caches, floor_caches, origin, eye_level );
+    // set here too: the early returns below skip the final set after the
+    // mirror pass
+    seen_cache_generation = next_cache_generation();
+
+    // mirrors too
+    mdarray &out_cache = camera ? camera_scratch[target_z + OVERMAP_DEPTH] : seen_cache;
+    const mdarray &mirror_transparency = camera ? map_cache.sight_cache : transparency_cache;
+    const auto merge_camera = [&]() {
+        if( !camera ) {
+            return;
+        }
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            mdarray &merged = get_cache( z ).camera_cache;
+            const mdarray &cast = camera_scratch[z + OVERMAP_DEPTH];
+            bool wrote = false;
+            for( int x = 0; x < MAPSIZE_X; ++x ) {
+                for( int y = 0; y < MAPSIZE_Y; ++y ) {
+                    wrote |= cast[x][y] > LIGHT_TRANSPARENCY_SOLID;
+                    merged[x][y] = std::max( merged[x][y], cast[x][y] );
+                }
+            }
+            if( wrote ) {
+                camera_levels_written.set( z + OVERMAP_DEPTH );
+            }
+        }
+    };
 
     const optional_vpart_position vp = veh_at( origin );
     if( !vp ) {
+        merge_camera();
         return;
     }
     vehicle *const veh = &vp->vehicle();
@@ -1359,7 +1516,11 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         } else {
             offsetDistance = MAX_VIEW_DISTANCE - vpi_mirror.bonus * vp_mirror.hp() / vpi_mirror.durability;
             mocache = &camera_cache;
+            camera_levels_written.set( target_z + OVERMAP_DEPTH );
             ( *mocache )[mirror_pos.x()][mirror_pos.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+                *mocache, map_cache.sight_cache, mirror_pos.xy(), offsetDistance );
+            continue;
         }
 
         // TODO: Factor in the mirror facing and only cast in the
@@ -1368,17 +1529,16 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
+            *mocache, mirror_transparency, mirror_pos.xy(), offsetDistance );
     }
+    merge_camera();
+    seen_cache_generation = next_cache_generation();
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                                      const array_of_grids_of<const bool> &floor_caches,
-                                     const std::optional<tripoint_bub_ms> &override_p ) const
+                                     const tripoint_bub_ms &origin, const float eye_level ) const
 {
-    Character &player_character = get_player_character();
-    // If override is not given, use player character for calculations
-    const tripoint_bub_ms origin = override_p.value_or( player_character.pos_bub() );
     const int min_z = std::max( origin.z() - fov_3d_z_range, -OVERMAP_DEPTH );
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -1396,9 +1556,9 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                         // Or floor reached
                         if( ( *floor_caches[cache_z] ) [p.x()][p.y()] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character,
-                                    p ) > 100 ) {
+                            if( ledge_coverage( origin, p, eye_level ) > 100 ) {
                                 ( *seen_caches[cache_z] )[p.x()][p.y()] = 0.0f;
+                                get_cache( sz ).ledge_hidden[p.x()][p.y()] = true;
                             }
                             break;
                         }

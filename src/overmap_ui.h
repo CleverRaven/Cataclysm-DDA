@@ -169,6 +169,16 @@ struct tiles_redraw_info {
 extern tiles_redraw_info redraw_info;
 #endif
 
+// what an overmap loop pass can change without input
+struct map_view_state {
+    tripoint_abs_omt cursor;
+    bool show_overlays = false;
+};
+// whether the overmap map area must be redrawn after a pass: any action but
+// TIMEOUT may have changed what the draw reads
+bool map_redraw_needed( const std::string &action, const map_view_state &drawn,
+                        const map_view_state &now, bool animated_tiles );
+
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
 std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note );
 bool is_generated_omt( const point_abs_omt &omp );

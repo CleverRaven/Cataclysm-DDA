@@ -1,6 +1,5 @@
 #include "advanced_inv_area.h"
 
-#include <memory>
 #include <optional>
 #include <set>
 #include <unordered_map>
@@ -14,12 +13,10 @@
 #include "field.h"
 #include "field_type.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mdarray.h"
-#include "pimpl.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -32,12 +29,10 @@
 int advanced_inv_area::get_item_count() const
 {
     Character &player_character = get_player_character();
-    if( id == AIM_INVENTORY ) {
-        return player_character.inv->size();
+    if( id == AIM_INVENTORY || id == AIM_ALL ) {
+        return 0;
     } else if( id == AIM_WORN ) {
         return player_character.worn.size();
-    } else if( id == AIM_ALL ) {
-        return 0;
     } else if( id == AIM_DRAGGED ) {
         return can_store_in_vehicle() ? get_vehicle_stack().size() : 0;
     } else {
