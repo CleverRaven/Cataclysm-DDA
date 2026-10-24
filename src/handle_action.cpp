@@ -78,6 +78,7 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
+#include "perf.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
@@ -241,6 +242,7 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
+    cata_timer get_player_input_timer( "get_player_input" );
     map &here = get_map();
 
     const tripoint_bub_ms pos = u.pos_bub( here );
@@ -3169,6 +3171,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
 bool game::handle_action()
 {
+    cata_timer handle_action_timer( "handle_action" );
     map &here = get_map();
 
     std::string action;
