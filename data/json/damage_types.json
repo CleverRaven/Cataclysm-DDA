@@ -105,8 +105,6 @@
     "environmental": true,
     "magic_color": "light_green",
     "name": { "ctxt": "damage_type", "str": "acid" },
-    "//2": "derived from cut only for monster defs",
-    "derived_from": [ "cut", 0.5 ],
     "material_required": true,
     "immune_flags": { "character": [ "ACID_IMMUNE" ], "monster": [ "ACIDPROOF" ] }
   },
