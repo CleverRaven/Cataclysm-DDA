@@ -95,6 +95,7 @@ struct disp_bodygraph_cache {
         std::string _graph_wgt_str;
 
     public:
+        disp_bodygraph_cache() = default;
         explicit disp_bodygraph_cache( bodygraph_var var );
 
         // Returns true if the stored map of current/max HP values differ from the character.
