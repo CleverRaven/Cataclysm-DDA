@@ -78,6 +78,7 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
+#include "perf.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
@@ -3163,6 +3164,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
 bool game::handle_action()
 {
+    cata_timer handle_action_timer( "handle_action" );
     map &here = get_map();
 
     std::string action;

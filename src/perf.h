@@ -26,9 +26,22 @@ struct cata_timer {
             explicit timer_stats( std::string_view name ) : name{ name } {}
 
             void print_stats_recursively( std::string_view prefix = "" ) const {
-                DebugLog( DebugLevel::D_WARNING,
-                          D_MAIN ) << prefix << name << ": " << std::to_string( duration ) << "us (avg: " << std::to_string(
-                                       duration / count ) << "us) (count: " << count << ")";
+                uint64_t child_duration_sum = 0;
+                for( const auto& [name, timer] : child_timers ) {
+                    child_duration_sum += timer.duration;
+                }
+                std::string terminal_string = ")";
+                if( child_duration_sum != 0 ) {
+                    uint64_t inclusive_duration = duration - child_duration_sum;
+                    uint64_t inclusive_percentage = ( inclusive_duration ) * 100 / duration;
+                    terminal_string = ") (inclusive duration: " +
+                                      std::to_string( inclusive_duration ) + "us, " + std::to_string( inclusive_percentage ) + "%)";
+                }
+                DebugLog( DebugLevel::D_WARNING, D_MAIN )
+                        << prefix << name << ": " << std::to_string( duration )
+                        << "us (avg: " << std::to_string( duration / count )
+                        << "us) (count: " << count
+                        << terminal_string;
                 std::string child_prefix;
                 child_prefix.reserve( prefix.length() + 2 );
                 child_prefix += prefix;
