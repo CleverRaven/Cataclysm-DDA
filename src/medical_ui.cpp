@@ -56,8 +56,6 @@ static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 
-template <typename T> struct enum_traits;
-
 class temp_crafting_inventory;
 
 static std::string coloured_stat_display( int statCur, int statMax )
