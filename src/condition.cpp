@@ -882,6 +882,36 @@ conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
     };
 }
 
+conditional_t::func f_has_any_wound( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    std::vector<str_or_var> wounds_to_check;
+    for( JsonValue jv : jo.get_array( member ) ) {
+        wounds_to_check.emplace_back( get_str_or_var( jv, member ) );
+    }
+    str_or_var bp;
+    optional( jo, false, "bodypart", bp );
+
+    return [wounds_to_check, bp, is_npc]( const_dialogue const & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? bodypart_str_id::NULL_ID() :
+                          bodypart_id( bp.evaluate( d ) );
+        for( const str_or_var &wd_id : wounds_to_check ) {
+            wound_type_id wd( wd_id.evaluate( d ) );
+
+            if( bid == bodypart_str_id::NULL_ID() ) {
+                if( d.const_actor( is_npc )->has_wound( wd ) ) {
+                    return true;
+                }
+            } else {
+                if( d.const_actor( is_npc )->has_wound( wd, bid ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
@@ -2533,6 +2563,7 @@ parsers = {
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
+    {"u_has_any_wound", "npc_has_any_wound", jarg::array, &conditional_fun::f_has_any_wound },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },

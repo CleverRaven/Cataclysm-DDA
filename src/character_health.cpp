@@ -2538,6 +2538,21 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wound( wound_type_id wd ) const
+{
+    for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
+        if( bp.second.has_wound( wd ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_wound( wound_type_id wd, const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wound( wd );
+}
+
 bool Character::has_wounds( const bodypart_str_id &part ) const
 {
     return get_part( part )->has_wounds();
