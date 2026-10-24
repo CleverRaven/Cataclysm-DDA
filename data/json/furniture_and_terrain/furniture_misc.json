@@ -123,11 +123,12 @@
     "type": "furniture",
     "id": "f_portal_dungeon_reward_increaser",
     "name": "metanoiac possibility",
-    "//": "Invented adjective form of the term metanoia, or changing one's mind.  It's related to this furniture's theme of making you closer to what you should be.",
+    "//": "Invented adjective form of the term metanoia, or changing one's mind.  It's related to this furniture's theme of making you closer to what you should be, no matter what that actually is.",
     "symbol": "#",
     "description": "Something is there.  It is what you could have been.  It is what you could be.  It is something you will touch.",
     "color": "dark_gray",
     "required_str": -1,
+    "move_cost_mod": -1,
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PORTAL_DUNGEON_REWARD_INCREASER" ] }
   },
   {
@@ -178,7 +179,7 @@
   {
     "type": "ter_furn_transform",
     "id": "claimed_portal_dungeon_reward_increaser",
-    "terrain": [
+    "furniture": [
       { "result": [ "f_portal_dungeon_reward_increaser_inert" ], "valid_furniture": [ "f_portal_dungeon_reward_increaser" ] }
     ]
   },
@@ -190,6 +191,7 @@
     "description": "Something is there.  It is something you touched.",
     "color": "black",
     "required_str": -1,
+    "move_cost_mod": -1,
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PORTAL_DUNGEON_REWARD_INCREASER_CLAIMED" ] }
   },
   {

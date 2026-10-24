@@ -131,7 +131,7 @@
           [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
           [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 6 ],
           [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 3 ],
-          [ "PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE", 1 ]
+          [ "EOC_PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE", 1 ]
         ]
       },
       "else": {
@@ -145,12 +145,12 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE",
+    "id": "EOC_PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE",
     "//": "Some small effects as you feel yourself invigorated by the storms.",
     "effect": {
       "run_eocs": [
         {
-          "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_TIMER",
+          "id": "EOC_PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE_TIMER",
           "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
           "effect": {
             "weighted_list_eocs": [

@@ -1272,7 +1272,7 @@
             "case": 1,
             "effect": {
               "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
-              "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0" ] ],
+              "then": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_0" },
               "else": [
                 {
                   "u_message": "You feel like you could've become better than you were if you found more possibilities.",
@@ -1286,7 +1286,7 @@
             "effect": [
               {
                 "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
-                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1" ] ],
+                "then": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_1" },
                 "else": [
                   {
                     "weighted_list_eocs": [
@@ -1309,7 +1309,7 @@
             "effect": [
               {
                 "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
-                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2" ] ],
+                "then": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_2" },
                 "else": [
                   {
                     "weighted_list_eocs": [
@@ -1336,7 +1336,7 @@
             "effect": [
               {
                 "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
-                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3" ] ],
+                "then": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_3" },
                 "else": [
                   {
                     "run_eoc_selector": [
@@ -1374,7 +1374,7 @@
             "effect": [
               {
                 "if": { "and": [ { "u_has_trait": "PORTAL_DEPENDENT" }, { "not": { "u_has_trait": "REALITY_GRASP" } } ] },
-                "then": [ [ "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4" ] ],
+                "then": { "run_eocs": "EOC_PORTAL_DEPENDENT_DUNGEON_REWARD_4" },
                 "else": [
                   {
                     "if": {
@@ -1499,11 +1499,11 @@
     "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
     "effect": {
       "u_add_effect": "weakened_inertia",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
     },
     "false_effect": {
       "u_add_effect": "weakened_inertia",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
     }
   },
   {
@@ -1512,11 +1512,11 @@
     "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
     "effect": {
       "u_add_effect": "warped_viewpoint",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
     },
     "false_effect": {
       "u_add_effect": "warped_viewpoint",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
     }
   },
   {
@@ -1525,11 +1525,11 @@
     "condition": { "u_has_trait": "EOC_PORTAL_DUNGEON_REWARD_GAIN_DOUBLE_EFFECT_DURATION" },
     "effect": {
       "u_add_effect": "weakened_gravity",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('6 h'), time('14 h'))" ] }
     },
     "false_effect": {
       "u_add_effect": "weakened_gravity",
-      "duration": { "math": [ "(portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
+      "duration": { "math": [ "portal_dungeon_reward * rng(time('3 h'), time('7 h'))" ] }
     }
   },
   {
