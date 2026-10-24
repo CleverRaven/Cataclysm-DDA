@@ -2570,7 +2570,7 @@ void Character::update_wounds( time_duration time_passed )
                                 const vitamin_id vit = *mod_val.vitamin;
                                 int final_amt = mod_val.amount;
 
-                                if( vit == vitamin_blood || vit == vitamin_iron ) {
+                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
                                     final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
                                                                 mod_val.amount ) );
                                 }
