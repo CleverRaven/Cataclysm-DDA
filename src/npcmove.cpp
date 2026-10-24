@@ -1544,11 +1544,18 @@ void npc::revert_ended_task()
     }
 }
 
+void npc::show_destination_task()
+{
+    current_activity_id = peek_destination_activity().id();
+}
+
 void npc::end_cancelled_task()
 {
     if( has_activity() && !activity && !has_stashed_activity() && !has_destination() &&
         get_destination_activity().is_null() && !task_on_mission && !suspended_task ) {
         revert_ended_task();
+    } else if( has_destination() ) {
+        show_destination_task();
     }
 }
 
@@ -4897,7 +4904,8 @@ bool npc::do_player_activity()
     // to satisfy the infinite loop counter.
     const bool multi_type = activity ? activity.is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity && !has_destination() ) {
+    // a picked-up activity, such as closing a door, runs before the walk goes on
+    while( moves > 0 && activity ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
@@ -4905,6 +4913,9 @@ bool npc::do_player_activity()
     }
     if( multi_type && moves == moves_before ) {
         mod_moves( -1 );
+    }
+    if( has_destination() && !activity ) {
+        show_destination_task();
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {

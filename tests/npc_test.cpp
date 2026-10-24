@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "basecamp.h"
@@ -41,12 +42,15 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_uid.h"
 #include "itype.h"
+#include "json.h"
+#include "json_loader.h"
 #include "list.h" // IWYU pragma: keep
 #include "map.h"
 #include "map_helpers.h"
@@ -97,9 +101,11 @@
 
 enum npc_action : int;
 
+static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -145,6 +151,7 @@ static const itype_id itype_M24( "M24" );
 static const itype_id itype_apron_leather( "apron_leather" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_ash( "ash" );
+static const itype_id itype_ax( "ax" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -157,6 +164,7 @@ static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
 static const itype_id itype_leaves( "leaves" );
 static const itype_id itype_lighter( "lighter" );
+static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
 static const itype_id itype_meat( "meat" );
@@ -224,6 +232,7 @@ static const weather_type_id weather_rainstorm( "rainstorm" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
@@ -8739,6 +8748,135 @@ TEST_CASE( "follower_closing_a_door_stays_a_follower", "[npc][behavior]" )
                 return a.id() == ACT_CLOSE_TILE;
             } ) );
             CHECK( guy.name_and_activity() == guy.disp_name() );
+        }
+    }
+}
+
+TEST_CASE( "worker_closing_a_door_on_the_way_keeps_its_task", "[npc][behavior]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    set_time_to_day();
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    on_out_of_scope clear_zones( [&mgr]() {
+        mgr.clear();
+        mgr.cache_data();
+    } );
+    get_player_character().setpos( here, tripoint_bub_ms( 45, 50, 0 ) );
+    npc &guy = spawn_npc( { 50, 50 }, "test_talker" );
+    clear_character( guy, true );
+    guy.setpos( here, tripoint_bub_ms( 50, 50, 0 ) );
+    guy.set_fac( faction_your_followers );
+    guy.rules.set_flag( ally_rule::close_doors );
+    item axe( itype_ax );
+    REQUIRE( guy.wield( axe ) );
+
+    // long wall with one open door: the walk to the log goes through it
+    const tripoint_bub_ms door( 52, 50, 0 );
+    for( int y = 30; y <= 70; ++y ) {
+        here.ter_set( tripoint_bub_ms( door.x(), y, 0 ), ter_t_wall );
+    }
+    // shopkeeper class restocks on spawn, stock can land in the doorway
+    here.i_clear( door );
+    here.ter_set( door, ter_t_door_o );
+    const tripoint_bub_ms wood( 56, 50, 0 );
+    here.i_clear( wood );
+    here.add_item_or_charges( wood, item( itype_log ) );
+    const tripoint_abs_ms wood_abs = here.get_abs( wood );
+    mgr.add( "test_wood", zone_type_LOOT_WOOD, faction_your_followers, false, true,
+             wood_abs, wood_abs );
+    mgr.cache_data();
+    here.build_map_cache( 0 );
+
+    const auto log_at_wood = [&here, &wood]() {
+        for( const item &it : here.i_at( wood ) ) {
+            if( it.typeId() == itype_log ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    const auto closing = []( const npc & n ) {
+        return n.activity.id() == ACT_CLOSE_TILE;
+    };
+    const std::string task_verb = ACT_MULTIPLE_CHOP_PLANKS.obj().verb().translated();
+    // until it reaches the log, the task waits for the walk and the NPC shows it
+    const auto walk_to_the_task = [&]() {
+        for( int turn = 0; turn < 30 && guy.activity.id() != ACT_CHOP_PLANKS; ++turn ) {
+            run_npc_turn( guy );
+            if( guy.has_destination() && !guy.activity ) {
+                CAPTURE( turn, guy.pos_bub() );
+                CHECK( guy.get_destination_activity().id() == ACT_MULTIPLE_CHOP_PLANKS );
+                CHECK( guy.get_current_activity() == task_verb );
+                CHECK( log_at_wood() );
+            }
+        }
+    };
+    const auto at_the_task = [&]() {
+        CHECK( here.ter( door ) == ter_t_door_c );
+        CHECK_FALSE( guy.has_effect( effect_npc_suspend ) );
+        CHECK( guy.get_attitude() == NPCATT_ACTIVITY );
+        CHECK_FALSE( guy.has_destination() );
+        CHECK( square_dist( guy.pos_bub(), wood ) <= 1 );
+        CHECK( guy.activity.id() == ACT_CHOP_PLANKS );
+        CHECK_FALSE( log_at_wood() );
+        CHECK( std::none_of( guy.backlog.begin(), guy.backlog.end(), []( const player_activity & a ) {
+            return a.id() == ACT_CLOSE_TILE;
+        } ) );
+    };
+
+    // "tell someone to work on" -> chopping logs into planks
+    talk_function::do_chop_plank( guy );
+    REQUIRE( guy.activity.id() == ACT_MULTIPLE_CHOP_PLANKS );
+    // job plans walk, keeps only the task it walks to, once wielding the axe is paid for
+    run_npc_turns( guy, 5, []( const npc & n ) {
+        return n.has_destination();
+    } );
+    REQUIRE( guy.has_destination() );
+    REQUIRE_FALSE( guy.activity );
+    REQUIRE( guy.get_destination_activity().id() == ACT_MULTIPLE_CHOP_PLANKS );
+    const std::vector<tripoint_bub_ms> &route = guy.get_auto_move_route();
+    REQUIRE( std::find( route.begin(), route.end(), door ) != route.end() );
+
+    WHEN( "walks through the open door to the log" ) {
+        walk_to_the_task();
+        THEN( "closes door on the way, starts job at the log" ) {
+            at_the_task();
+        }
+    }
+    WHEN( "game saved and loaded while closing the door on the way" ) {
+        run_npc_turns( guy, 10, closing );
+        REQUIRE( closing( guy ) );
+        REQUIRE( guy.has_destination() );
+        std::ostringstream os;
+        JsonOut jsout( os );
+        guy.serialize( jsout );
+        guy.cancel_activity();
+        guy.clear_destination();
+        // loaded NPC starts without an id; the save brings it back
+        guy.setID( character_id(), true );
+        guy.deserialize( json_loader::from_string( os.str() ).get_object() );
+        REQUIRE( closing( guy ) );
+        REQUIRE( guy.has_destination() );
+        REQUIRE( guy.get_destination_activity().id() == ACT_MULTIPLE_CHOP_PLANKS );
+        walk_to_the_task();
+        THEN( "finishes the close, walks on and starts the job at the log" ) {
+            at_the_task();
+        }
+    }
+    WHEN( "collapses asleep from exhaustion while closing the door on the way" ) {
+        run_npc_turns( guy, 10, closing );
+        REQUIRE( closing( guy ) );
+        REQUIRE( guy.get_current_activity() == ACT_CLOSE_TILE.obj().verb().translated() );
+        guy.set_sleepiness( sleepiness_levels::MASSIVE_SLEEPINESS );
+        guy.check_needs_extremes();
+        THEN( "sleeps with the close dropped and the walk ahead, and shows its task" ) {
+            CHECK( guy.has_effect( effect_sleep ) );
+            CHECK_FALSE( guy.activity );
+            CHECK( guy.has_destination() );
+            CHECK( guy.get_destination_activity().id() == ACT_MULTIPLE_CHOP_PLANKS );
+            CHECK( guy.get_current_activity() == task_verb );
         }
     }
 }
