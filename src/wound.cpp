@@ -22,8 +22,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "healing_time", healing_time_,
               std::make_pair( calendar::INDEFINITELY_LONG_DURATION, calendar::INDEFINITELY_LONG_DURATION ) );
 
-    mandatory( jo, was_loaded, "damage_types", damage_types );
-    mandatory( jo, was_loaded, "damage_required", damage_required );
+    optional( jo, was_loaded, "damage_types", damage_types );
+    optional( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
