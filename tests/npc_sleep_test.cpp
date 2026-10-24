@@ -1595,6 +1595,8 @@ TEST_CASE( "steady_noise_does_not_cause_wake_lie_down_churn", "[npc][needs][slee
     scoped_weather_override clear_weather( weather_clear );
     npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
     make_asleep_on_bed( guy );
+    // below EXHAUSTED: an exhausted NPC kept awake past the five-minute needs tick may nod off
+    guy.set_sleepiness( 500 );
     int lie_downs = 0;
     int held_turns = 0;
     for( int turn = 0; turn < to_turns<int>( 10_minutes ); ++turn ) {
