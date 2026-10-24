@@ -544,7 +544,19 @@ void body_part_type::finalize()
 
     for( const wound_type &wd : wound_type::get_all() ) {
         if( wd.allowed_on_bodypart( id ) ) {
-            const bp_wounds bpw = { wd.id, wd.damage_types, wd.damage_required };
+
+            std::vector final_damage_types = wd.damage_types;
+
+            // if any of loaded damage types are derived from one used in wound definition, include it into
+            for( const damage_type &dt : damage_type::get_all() ) {
+                for( const damage_type_id &wd_dt : wd.damage_types ) {
+                    if( dt.derived_from.first == wd_dt ) {
+                        final_damage_types.emplace_back( dt.id );
+                    }
+                }
+            }
+
+            const bp_wounds bpw = { wd.id, final_damage_types, wd.damage_required };
             potential_wounds.add( bpw, wd.weight );
         }
     }
