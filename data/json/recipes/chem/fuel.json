@@ -107,5 +107,25 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "components": [ [ [ "edible_tallow", 5, "LIST" ], [ "cooking_oil", 16 ] ] ],
     "flags": [ "ALLOW_ROTTEN" ]
+  },
+  {
+    "result": "improvised_diesel",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "chemistry",
+    "difficulty": 0,
+    "charges": 250,
+    "result_mult": 11,
+    "time": "5 s",
+    "book_learn": [
+      [ "textbook_biodiesel", 2 ],
+      [ "atomic_survival", 0 ],
+      [ "book_icef", 3 ],
+      [ "adv_chemistry", 4 ],
+      [ "textbook_chemistry", 4 ]
+    ],
+    "components": [ [ [ "gasoline", 2500 ] ], [ [ "cooking_oil", 10 ], [ "motor_oil", 250 ] ] ]
   }
 ]
