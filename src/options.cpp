@@ -1439,7 +1439,16 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 
     std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
     [&lang_list]( const options_manager::id_and_option & pair ) {
-        return lang_list.count( pair.first );
+        if( pair.first == "en" || pair.first == "" ) {
+            return true;
+        }
+        if( !lang_list.count( pair.first ) ) {
+            return false;
+        }
+        if( const lang_stats *stats = lang_stats_for( pair.first ) ) {
+            return stats->percent_translated() > 0.0;
+        }
+        return false;
     } );
     return options;
 }
