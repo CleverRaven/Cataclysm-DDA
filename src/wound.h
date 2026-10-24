@@ -116,6 +116,10 @@ class wound_type
         std::vector<bp_type> whitelist_body_part_types;
         std::vector<bp_type> blacklist_body_part_types;
 
+        // condiitons that are checked every time applying wound is called
+        std::vector<json_character_flag> blacklist_flags;
+        std::vector<json_character_flag> whitelist_flags;
+
         std::set<wound_fix_id> fixes;
 
         // list of wounds this wound can lead to

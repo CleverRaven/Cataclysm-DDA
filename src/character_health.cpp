@@ -2543,6 +2543,23 @@ bool Character::has_wounds( const bodypart_str_id &part ) const
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
+    for( const json_character_flag &fl_wl : wd->whitelist_flags ) {
+        if( !has_flag( fl_wl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "wound %s require flag %s character %s do not have, wound is not applied",
+                           wd.str(), fl_wl.str(), name );
+            return;
+        }
+    }
+
+    for( const json_character_flag &fl_bl : wd->blacklist_flags ) {
+        if( has_flag( fl_bl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS, "%s has flag %s, wound %s is not applied",
+                           name, fl_bl.str(), wd.str() );
+            return;
+        }
+    }
+
     bodypart &body_bp = body.at( bp.id() );
     body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
