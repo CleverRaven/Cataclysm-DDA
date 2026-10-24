@@ -1370,34 +1370,52 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 44> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
             { "en", R"(English)" },
+            { "ace", R"(Bahsa Acèh)" },
             { "ar", R"(العربية)" },
+            { "be", R"(Беларуская)" },
+            { "bg", R"(български език)" },
+            { "ca", R"(Català)" },
             { "cs", R"(Český Jazyk)" },
             { "da", R"(Dansk)" },
             { "de", R"(Deutsch)" },
             { "el", R"(Ελληνικά)" },
+            { "en@pirate", R"(Pirate English)" },
+            { "eo", R"(Esperanto)" },
             { "es_AR", R"(Español (Argentina))" },
             { "es_ES", R"(Español (España))" },
+            { "et", R"(Eesti)" },
+            { "fa_IR", R"(فارسی)" },
+            { "fi", R"(Suomi)" },
+            { "fil_PH", R"(Wikang Pilipino)" },
             { "fr", R"(Français)" },
+            { "ga_IE", R"(Gaeilge)" },
+            { "he", R"(עִבְרִית)" },
             { "hu", R"(Magyar)" },
             { "id", R"(Bahasa Indonesia)" },
             { "is", R"(Íslenska)" },
             { "it_IT", R"(Italiano)" },
             { "ja", R"(日本語)" },
             { "ko", R"(한국어)" },
+            { "ms", R"(Bahasa Melayu)" },
             { "nb", R"(Norsk)" },
+            { "nl_BE", R"(Vlaams)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
-            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
+            { "pt", R"(Português (Portugal))" },
+            { "ro", R"(Română)" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
+            { "sv", R"(Svenska)" },
+            { "th_TH", R"(ภาษาไทย)" },
             { "tr", R"(Türkçe)" },
             { "uk_UA", R"(Українська)" },
+            { "vi", R"(tiếng Việt)" },
             { "zh_CN", R"(中文 (中国))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
@@ -1421,7 +1439,16 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 
     std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
     [&lang_list]( const options_manager::id_and_option & pair ) {
-        return lang_list.count( pair.first );
+        if( pair.first == "en" || pair.first == "" ) {
+            return true;
+        }
+        if( !lang_list.count( pair.first ) ) {
+            return false;
+        }
+        if( const lang_stats *stats = lang_stats_for( pair.first ) ) {
+            return stats->percent_translated() > 0.0;
+        }
+        return false;
     } );
     return options;
 }
@@ -4412,7 +4439,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "fr_FR.UTF-8" ) );
         } else if( lang == "hu" ) {
             std::locale::global( std::locale( "hu_HU.UTF-8" ) );
-        } else if( lang == "id" ) {
+        } else if( lang == "id" || lang == "ace" ) {
             std::locale::global( std::locale( "id_ID.UTF-8" ) );
         } else if( lang == "is" ) {
             std::locale::global( std::locale( "is_IS.UTF-8" ) );
@@ -4444,6 +4471,38 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
+        } else if( lang == "be" ) {
+            std::locale::global( std::locale( "be_BY.UTF-8" ) );
+        } else if( lang == "bg" ) {
+            std::locale::global( std::locale( "bg_BG.UTF-8" ) );
+        } else if( lang == "ca" ) {
+            std::locale::global( std::locale( "ca_ES.UTF-8" ) );
+        } else if( lang == "eo" ) {
+            std::locale::global( std::locale( "eo.UTF-8" ) );
+        } else if( lang == "et" ) {
+            std::locale::global( std::locale( "et_EE.UTF-8" ) );
+        } else if( lang == "fa_IR" ) {
+            std::locale::global( std::locale( "fa_IR.UTF-8" ) );
+        } else if( lang == "fi" ) {
+            std::locale::global( std::locale( "fi_FI.UTF-8" ) );
+        } else if( lang == "fil_PH" ) {
+            std::locale::global( std::locale( "fil_PH.UTF-8" ) );
+        } else if( lang == "ga_IE" ) {
+            std::locale::global( std::locale( "ga_IE.UTF-8" ) );
+        } else if( lang == "he" ) {
+            std::locale::global( std::locale( "he_IL.UTF-8" ) );
+        } else if( lang == "ms" ) {
+            std::locale::global( std::locale( "ms_MY.UTF-8" ) );
+        } else if( lang == "nl_BE" ) {
+            std::locale::global( std::locale( "nl_BE.UTF-8" ) );
+        } else if( lang == "ro" ) {
+            std::locale::global( std::locale( "ro_RO.UTF-8" ) );
+        } else if( lang == "sv" ) {
+            std::locale::global( std::locale( "sv_SE.UTF-8" ) );
+        } else if( lang == "th_TH" ) {
+            std::locale::global( std::locale( "th_TH.UTF-8" ) );
+        } else if( lang == "vi" ) {
+            std::locale::global( std::locale( "vi_VN.UTF-8" ) );
         }
     } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );
