@@ -621,8 +621,6 @@
   },
   {
     "type": "oter_id_migration",
-    "oter_ids": {
-      "isherwood_barry_rescue_field": "isherwood_barry_rescue_field_north"
-    }
+    "oter_ids": { "isherwood_barry_rescue_field": "isherwood_barry_rescue_field_north" }
   }
 ]
