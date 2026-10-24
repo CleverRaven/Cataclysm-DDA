@@ -237,11 +237,13 @@ An extraordinarily dedicated modder could hack some of this kind of thing in wit
 
 #### “Enhancing” or “modding” melee weapons: Most likely mod only
 
-People frequently suggest that we add a system where melee weapons can have mods attached to them like guns can. Previously, a reason for rejecting this outright was that the mod system for guns was terrible and a poor choice to imitate, which has been fixed over time with the introduction of specialized container types on guns. Unfortunately, most suggestions still boil down to fantasy-type modifications of weapons which are one or both of non-sensible within the vanilla game's setting or would just be a downgrade when taking into account the game's method of calculating melee damage. 
+People frequently suggest that we add a system where melee weapons can have mods attached to them like guns can. Previously, a reason for rejecting this outright was that the mod system for guns was terrible and a poor choice to imitate, which has been fixed over time with the introduction of specialized container types on guns. 
+
+Unfortunately, most suggestions still boil down to fantasy-type modifications of weapons which are either non-sensible within the vanilla game's setting or a straight downgrade when taking into account the game's method of calculating melee damage. 
 
 The damage melee weapons cause is a complex combination of dynamic leverage as they are swung, weight distribution, and the interaction of the striking surface(s) with the target, and that doesn’t even get into the complexities of maneuvering past a targets defenses without opening your own guard.
 
-There are occasionally ideas for melee weapon mods that aren't subject to this issue, such as literal magic you might find in a mod or straight upgrades, but no one has yet to put the work in to enable the functionality. Often times in the latter case where improvement to a melee weapon is obvious, it would be better served as a new craftable weapon instead, such as the baseball bat being crafted into a nail bat. 
+There are occasionally ideas for melee weapon mods that aren't subject to this issue, such as literal magic you might find in a mod or highly specific straight upgrades, but no one has yet to put the work in to enable the functionality. Often times in the latter case where improvement to a melee weapon is obvious, it would be better served as a new craftable weapon instead, such as the baseball bat being crafted into a nail bat. 
 
 #### Mining and smelting: Not a Minecraft
 
