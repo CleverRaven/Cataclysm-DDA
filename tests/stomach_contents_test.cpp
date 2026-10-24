@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <cstdio>
+#include <initializer_list>
 #include <string>
 #include <vector>
 
@@ -556,6 +557,30 @@ TEST_CASE( "stomach_fullness_lines", "[stomach]" )
                                      dummy.stomach.would_be_full_with( dummy, intake, line.deficit );
                 CHECK( on_line == ( offset >= 0 ) );
             }
+        }
+    }
+    clear_stomach( dummy );
+}
+
+TEST_CASE( "room_before_engorged_is_the_last_intake_short_of_the_line", "[stomach]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+    for( const bool deficit : {
+             false, true
+         } ) {
+        for( const units::volume &held : {
+                 0_ml, 300_ml
+             } ) {
+            CAPTURE( deficit, units::to_milliliter( held ) );
+            clear_stomach( dummy );
+            dummy.stomach.ingest( food_summary{ 0_ml, held, nutrients{} } );
+            const units::volume room = dummy.stomach.room_before_engorged( dummy, deficit );
+            REQUIRE( room > 0_ml );
+            CHECK_FALSE( dummy.stomach.would_be_engorged_with( dummy, room, deficit ) );
+            CHECK( dummy.stomach.would_be_engorged_with( dummy, room + 1_ml, deficit ) );
+            dummy.stomach.ingest( food_summary{ 0_ml, room + 1_ml, nutrients{} } );
+            CHECK( dummy.stomach.room_before_engorged( dummy, deficit ) == 0_ml );
         }
     }
     clear_stomach( dummy );

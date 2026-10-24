@@ -21,7 +21,7 @@ class character_oracle_t : public oracle_t
         /**
          * Predicates used by AI to determine goals.
          */
-        status_t needs_warmth_badly( std::string_view ) const;
+        status_t needs_temperature_regulation( std::string_view ) const;
         status_t needs_water_badly( std::string_view ) const;
         status_t needs_food_badly( std::string_view ) const;
         status_t can_wear_warmer_clothes( std::string_view ) const;
@@ -31,7 +31,7 @@ class character_oracle_t : public oracle_t
         status_t has_food( std::string_view ) const;
         status_t can_obtain_food( std::string_view ) const;
         status_t can_obtain_water( std::string_view ) const;
-        status_t can_obtain_warmth( std::string_view ) const;
+        status_t can_regulate_temperature( std::string_view ) const;
         status_t needs_sleep_badly( std::string_view ) const;
         status_t can_sleep( std::string_view ) const;
         /**
@@ -54,7 +54,7 @@ class character_oracle_t : public oracle_t
          */
         float thirst_urgency( std::string_view ) const;
         float hunger_urgency( std::string_view ) const;
-        float warmth_urgency( std::string_view ) const;
+        float temperature_urgency( std::string_view ) const;
         float sleepiness_urgency( std::string_view ) const;
         float duty_urgency( std::string_view ) const;
         float npc_following_urgency( std::string_view ) const;

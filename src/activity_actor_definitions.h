@@ -1945,6 +1945,10 @@ class consume_activity_actor : public activity_actor
         const item_location &location() const {
             return consume_location;
         }
+        // false once food is gone, taken or not found by a load
+        bool has_food() const {
+            return consume_location || !consume_item.is_null();
+        }
 
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
@@ -1958,6 +1962,34 @@ class consume_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// meal from a camp's larder, eaten over its consume time; portion leaves the larder only when
+// the meal ends, so an interrupted meal takes nothing
+class camp_meal_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_omt camp;
+        int kcal = 0;
+
+    public:
+        camp_meal_activity_actor( const tripoint_abs_omt &camp, int kcal ) : camp( camp ), kcal( kcal ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+            return ACT_CAMP_MEAL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<camp_meal_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

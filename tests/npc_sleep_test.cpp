@@ -188,7 +188,7 @@ static void make_asleep_on_bed( npc &guy )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 0 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     guy.execute_need_goal( "go_to_sleep" );
     REQUIRE( asleep( guy ) );
@@ -383,7 +383,7 @@ TEST_CASE( "need_floor_order_holds_for_every_need", "[npc][needs][obligation]" )
 {
     for( const npc::need_goal_id id : {
              npc::need_goal_id::drink_water, npc::need_goal_id::go_to_sleep,
-             npc::need_goal_id::eat_food, npc::need_goal_id::seek_warmth
+             npc::need_goal_id::eat_food, npc::need_goal_id::regulate_temperature
          } ) {
         const float strict = npc_need_floor( id, { npc_permission::discouraged, npc_obligation::none, 0.0f } );
         const float emergency = npc_need_floor( id, { npc_permission::emergency_only, npc_obligation::none, 0.0f } );
@@ -410,8 +410,10 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
     sleep_setup();
     map &here = get_map();
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
-    const npc_option_cost here_rest = npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 2, 0,
-                                      0 ) ), false, false, true );
+    npc_option_cost here_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 2, 0,
+                                0 ) ),
+                                npc_option_basis::routed );
+    here_rest.responsive = false;
     const auto rest_view = [&guy]( const npc_option_cost & c ) {
         return guy.need_view( npc::need_goal_id::go_to_sleep, c );
     };
@@ -443,8 +445,12 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
             CHECK( w.floor == Approx( 0.575f ) );
         }
         WHEN( "the spot is past the spacing" ) {
-            const npc_need_view w = rest_view( npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 8, 0,
-                                               0 ) ), true, false, true ) );
+            npc_option_cost far_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 8, 0,
+                                       0 ) ),
+                                       npc_option_basis::routed );
+            far_rest.walks = true;
+            far_rest.responsive = false;
+            const npc_need_view w = rest_view( far_rest );
             CHECK( w.verdict.by == npc_obligation::accompany );
             CHECK( w.floor == Approx( 0.575f ) );
         }
@@ -491,7 +497,9 @@ TEST_CASE( "vehicle_bed_relaxes_accompaniment_only_on_a_belted_seat_or_bed",
     seat( get_avatar(), leader_pos );
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 0 );
     const auto rest_here = [&guy]() {
-        return guy.judge_option( npc_option_cost::trip( guy.pos_abs(), false, false, true ) );
+        npc_option_cost rest = npc_option_cost::located( guy.pos_abs(), npc_option_basis::routed );
+        rest.responsive = false;
+        return guy.judge_option( rest );
     };
 
     SECTION( "a belted seat" ) {
@@ -586,7 +594,7 @@ TEST_CASE( "seated_follower_sleeps_when_leader_sleeps_aboard", "[npc][behavior][
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 250 );
     seat( guy, mount_tile( veh, point_rel_ms( -2, 0 ) ) );
 
-    run_npc_turns( guy, 20, []( const npc & n ) {
+    run_npc_turns( guy, 40, []( const npc & n ) {
         return n.in_sleep_state();
     } );
     CAPTURE( guy.pos_bub(), guy.get_committed_goal(), guy.in_vehicle, guy.in_vehicle_bed() );
@@ -646,7 +654,7 @@ TEST_CASE( "npc_settling_ignores_player_sleep_throttle", "[npc][needs][sleep]" )
     // a roll now starts the player's 30-minute throttle
     guy.can_sleep();
     REQUIRE_FALSE( guy.can_sleep() );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     CHECK( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::progressed );
     CHECK( asleep( guy ) );
@@ -663,7 +671,7 @@ TEST_CASE( "npc_settling_rolls_until_asleep_or_gives_the_spot_up", "[npc][needs]
     here.furn_set( bed, furn_f_bed );
     guy.set_sleepiness( 300 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -796,7 +804,7 @@ TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 600 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         const npc_sleep_session before = guy.get_sleep_session();
@@ -817,7 +825,7 @@ TEST_CASE( "settling_rolls_only_on_its_cadence", "[npc][needs][sleep]" )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     // every roll from here succeeds: on a bed at 600 with no stim
@@ -859,7 +867,7 @@ TEST_CASE( "loaded_settler_rechecks_obligations_on_its_first_turn",
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     round_trip( guy );
@@ -988,7 +996,7 @@ TEST_CASE( "woken_below_tired_resumes_only_where_rest_is_allowed", "[npc][needs]
         npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
         make_asleep_on_bed( guy );
         guy.set_sleepiness( 150 );
-        guy.set_committed_goal( "" );
+        guy.set_committed_goal_for_test( "" );
         wake_by_noise( guy );
         run_npc_turns( guy, 5, settled );
         CHECK( settled( guy ) );
@@ -1222,7 +1230,7 @@ TEST_CASE( "wake_up_dialogue_keeps_rule_and_grants_grace", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 300 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         talk_function::wake_up( guy );
@@ -1324,7 +1332,7 @@ TEST_CASE( "npc_that_cannot_sleep_does_not_try", "[npc][needs][sleep]" )
     }
     SECTION( "the serum takes hold while it lies down: it gets up" ) {
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         guy.set_stim( 0 );
