@@ -575,9 +575,9 @@
     "end": {
       "effect": [
         "stop_following",
-    		{ "run_eocs": "isherwood_mission_barry_return_home" },
+        { "run_eocs": "isherwood_mission_barry_return_home" },
         { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
-    		{ "u_run_npc_eocs": [ "EOC_BARRY_TELEPORT_HOME" ], "unique_ids": [ "BARRY_MISSION" ] }
+        { "u_run_npc_eocs": [ "EOC_BARRY_TELEPORT_HOME" ], "unique_ids": [ "BARRY_MISSION" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
