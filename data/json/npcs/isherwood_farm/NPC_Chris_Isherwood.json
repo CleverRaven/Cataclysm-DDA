@@ -259,7 +259,11 @@
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] }, { "compare_string": [ "yes", { "u_val": "u_met_Luke_Isherwood" } ] } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_heard_about_chris" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_met_Luke_Isherwood" } ] }
+          ]
         }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
