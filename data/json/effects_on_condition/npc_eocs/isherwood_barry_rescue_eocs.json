@@ -460,10 +460,22 @@
         ],
         "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
       },
-	  { "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" }, "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false } ] },
-	  { "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" }, "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": false } ] },
-	  { "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" }, "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK", "success": false } ] },
-	  { "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" }, "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES", "success": false } ] }
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" },
+        "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
+        "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES", "success": false } ]
+      }
     ]
   },
   {
