@@ -710,6 +710,7 @@
   {
     "id": "slow_cooker",
     "type": "ITEM",
+    "subtypes": [ "TOOL" ],
     "category": "tools",
     "name": { "str": "slow cooker" },
     "weight": "4500 g",
