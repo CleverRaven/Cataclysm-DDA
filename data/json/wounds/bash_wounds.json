@@ -26,7 +26,7 @@
     "damage_required": [ 10, 15 ],
     "pain": [ 9, 16 ],
     "healing_time": [ "4 days", "7 days" ],
-    "wound_progression": [ { "id": "bruise_bad", "chance": 20 } ],
+    "wound_progression": [ { "id": "bruise_bad", "chance": 20 }, { "id": "bleeding_laceration_medium", "chance": 15 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.07 },
       { "score": "grip", "value": 0.04 },
@@ -47,7 +47,7 @@
     "damage_required": [ 15, 25 ],
     "pain": [ 20, 26 ],
     "healing_time": [ "6 days", "10 days" ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 10 } ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 30 }, { "id": "bleeding_laceration_bad", "chance": 30 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.25 },
       { "score": "block", "value": 0.3 },
@@ -90,7 +90,7 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 15, 25 ],
-    "pain": [ 15, 19 ],
+    "pain": [ 20, 26 ],
     "limb_scores": [
       { "score": "manip", "value": 0.25 },
       { "score": "block", "value": 0.3 },
@@ -117,7 +117,7 @@
     "weight": 40,
     "limit": 2,
     "damage_types": [ "bash" ],
-    "damage_required": [ 25, 50 ],
+    "damage_required": [ 25, 120 ],
     "pain": [ 40, 49 ],
     "limb_scores": [
       { "score": "manip", "value": 1 },
@@ -179,7 +179,7 @@
       { "score": "manip", "value": 0.3 },
       { "score": "grip", "value": 0.4 },
       { "score": "lift", "value": 0.4 },
-      { "score": "balance", "value": 0.2 },
+      { "score": "balance", "value": 0.3 },
       { "score": "footing", "value": 0.3 },
       { "score": "block", "value": 0.5 },
       { "score": "move_speed", "value": 0.3 }
