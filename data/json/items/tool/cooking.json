@@ -724,7 +724,7 @@
     "color": "light_gray",
     "looks_like": "multi_cooker",
     "//": "The ceramic pot can be taken out and used for other methods of cooking, and the heating element found underneath could serve as a improvised hotplate",
-    "pocket_data": [ { "max_contains_volume": "3500 ml", "max_contains_weight": "100 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "3250 ml", "max_contains_weight": "100 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 2 ] ],
     "//1": "160-175W",
     "use_action": [ "HEAT_ALL_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "160 W" } ],
