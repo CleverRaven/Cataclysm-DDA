@@ -1244,7 +1244,7 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
     new_wounds.reserve( wounds.size() );
 
     for( std::vector<wound>::iterator it = wounds.begin(); it != wounds.end(); ) {
-        const wound_update_ret ret = it->update_wound( time_passed );
+        const wound_update_ret ret = it->update_wound( &who, time_passed );
 
         switch( ret ) {
             case wound_update_ret::ADVANCE:

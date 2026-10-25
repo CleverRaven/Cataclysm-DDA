@@ -150,12 +150,16 @@ std::string medical_ui::get_limb_wounds( const Character &you, const bodypart_id
                 detail_str += string_format( "%s (%s) - %s\n",
                                              colorize( wd.type->get_name(), c_cyan ), wd.type.str(), wd.type->get_description() );
                 detail_str += string_format( "healing time: %s\n", to_string( wd.get_healing_time() ) );
-                detail_str += string_format( "lifetime: %s\n", to_string( wd.get_healing_progress() ) );
+                detail_str += string_format( "lifetime: %s\n",
+                                             to_string( time_duration::from_seconds( wd.get_healing_progress() ) ) );
                 detail_str += string_format( "healing percentage: %.3f%%\n", wd.healing_percentage() );
+                detail_str += string_format( "healing speed multiplier: %.3fx\n",
+                                             wd.get_wound_healing_modifier( &you ) );
                 detail_str += string_format( "gives pain: %d\n", wd.get_pain() );
                 if( wd.wound_progress_timer.has_value() ) {
                     detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
-                                                 to_string( wd.wound_progress_timer->second - wd.get_healing_progress() ) );
+                                                 to_string( wd.wound_progress_timer->second -
+                                                            time_duration::from_seconds( wd.get_healing_progress() ) ) );
                 }
 
                 for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
