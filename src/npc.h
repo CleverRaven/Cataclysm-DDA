@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <iosfwd>
 #include <list>
 #include <map>
@@ -586,6 +587,12 @@ struct npc_short_term_cache {
         std::optional<npc_challenger> interruption;
     };
     mutable rest_review_memo rest_review;
+    // latest turn a sound reached the NPC, and how many turns in a row
+    struct noise_memo {
+        time_point last = calendar::before_time_starts;
+        int streak = 0;
+    };
+    noise_memo noise_heard;
 
     // Result of the last execute_need_goal call.
     enum class need_result : int {
@@ -1379,7 +1386,14 @@ class npc : public Character
         // Consider hoarding
         bool wants_take_that( const item &it );
         // Consider a life of crime
-        bool would_take_that( const item &it, const tripoint_bub_ms &p );
+        bool would_take_that( const item &it, const tripoint_bub_ms &p ) const;
+        // same for a vehicle's cargo
+        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const;
+        // player's things go by trust and witnesses; what names the thing in the debug log
+        bool would_steal_from_player( const tripoint_bub_ms &p,
+                                      const std::function<std::string()> &what ) const;
+        // another faction's goods: only if it shares them or is hostile
+        bool would_take_faction_goods( const faction_id &owner ) const;
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1415,9 +1429,20 @@ class npc : public Character
         void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
         bool saw_player_recently() const;
+        // need's item filter plus will_eat (diet and stomach room)
+        bool can_satisfy( const item &it, npc_short_term_cache::need_goal_id id ) const;
+        // access: reservation, no-go areas and zones, plus owners of the item, its containers and
+        // cargo vehicle
+        bool may_use_source( const item_location &loc ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );
+        // activity a need goal starts and owns
+        bool is_self_care_activity() const;
+        // task waits aside until the rest is over
+        void suspend_task_for_rest();
+        void resume_suspended_task();
+        void drop_suspended_task();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1480,6 +1505,8 @@ class npc : public Character
         void revert_after_activity();
         // ends a player's task whose activity was cancelled, unless it is set aside or walked to
         void end_cancelled_task();
+        // after a picked-up activity ends or is cancelled
+        void show_destination_task();
         // Craft related stuff
         void do_npc_craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                            const recipe_id &goto_recipe = recipe_id() );
@@ -1548,6 +1575,9 @@ class npc : public Character
         const npc_intention &get_intention() const {
             return ai_cache.intention;
         }
+        const std::optional<npc_suspended_task> &get_suspended_task() const {
+            return suspended_task;
+        }
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
         // Also cancels self-care activities (forage/harvest/fire) that
@@ -1597,6 +1627,10 @@ class npc : public Character
         bool sleep_stalled() const;
         // rest cooldown or stay-awake grace holds sleep back
         bool sleep_on_hold() const;
+        // sound reached the NPC this turn; woke: whether it woke the NPC
+        void note_noise( bool woke );
+        // true while repeated noise wakes hold sleep back and the noise goes on
+        bool noise_hold_active() const;
         // woken by the player: a grace period, no rule change; false when narcosis keeps it under
         bool wake_by_player();
         void grant_stay_awake( const time_duration &dur, int sleepiness_floor );
@@ -1631,6 +1665,28 @@ class npc : public Character
         need_result execute_seek_warmth();
         need_result execute_go_to_sleep();
         std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
+        enum class fire_spot_check : int {
+            tile_fuel,      // the hearth holds fuel the NPC may burn
+            own_fuel,       // NPC places its own firewood in the hearth
+            not_a_hearth,
+            not_adjacent,
+            unusable_tile,  // water or takes no items
+            occupied,       // already burning, a creature, or a vehicle
+            no_go,
+            firewood_source, // the pile a fire is fed from, not a place to burn it
+            items_not_fuel, // the hearth holds something the NPC may not burn
+            no_fuel,
+            no_room         // its own firewood would not fit on the hearth
+        };
+        struct fire_spot_verdict {
+            fire_spot_check check = fire_spot_check::not_a_hearth;
+            // carried firewood to put in the hearth when check is own_fuel
+            item_location firewood;
+            bool usable() const {
+                return check == fire_spot_check::tile_fuel || check == fire_spot_check::own_fuel;
+            }
+        };
+        fire_spot_verdict check_fire_spot( const tripoint_bub_ms &p ) const;
         std::optional<tripoint_bub_ms> find_fire_spot();
         bool has_adjacent_fire() const;
         const need_plan &get_food_plan() const {
@@ -1831,6 +1887,7 @@ class npc : public Character
         // comfort, less up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
         int score_sleep_spot( const tripoint_bub_ms &p );
         npc_sleep_session sleep_session;
+        std::optional<npc_suspended_task> suspended_task;
 
         npc_companion_mission comp_mission;
         // player's task, kept unworked while NPC is on a companion mission

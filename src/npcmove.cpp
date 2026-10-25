@@ -55,6 +55,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "fire.h"
 #include "flag.h"
 #include "flat_set.h"  // IWYU pragma: keep // iwyu is being silly here
 #include "game.h"
@@ -1543,11 +1544,18 @@ void npc::revert_ended_task()
     }
 }
 
+void npc::show_destination_task()
+{
+    current_activity_id = peek_destination_activity().id();
+}
+
 void npc::end_cancelled_task()
 {
     if( has_activity() && !activity && !has_stashed_activity() && !has_destination() &&
-        get_destination_activity().is_null() && !task_on_mission ) {
+        get_destination_activity().is_null() && !task_on_mission && !suspended_task ) {
         revert_ended_task();
+    } else if( has_destination() ) {
+        show_destination_task();
     }
 }
 
@@ -1801,6 +1809,9 @@ void npc::move()
                     if( !completed_goal ) {
                         completed_goal = ( new_goal != "follow_player" );
                     }
+                } else if( bt_goal_to_category( committed ) == decision_category::combat ) {
+                    // only as long as behavior tree keeps choosing it
+                    completed_goal = ( new_goal != committed );
                 } else if( committed == "follow_embarked" ) {
                     completed_goal = ( new_goal != "follow_embarked" );
                 } else if( committed == "goto_ordered_position" ) {
@@ -1931,7 +1942,14 @@ void npc::move()
                     }
                 }
             } else if( is_executor_goal( new_goal ) ) {
+                if( new_goal == "go_to_sleep" ) {
+                    suspend_task_for_rest();
+                }
                 const need_result result = execute_need_goal( new_goal );
+                if( result == need_result::impossible && suspended_task ) {
+                    // no rest after all, back to the task this turn
+                    resume_suspended_task();
+                }
                 if( result == need_result::progressed && activity ) {
                     // Undo attitude/mission change from assign_activity.
                     attitude = saved_att;
@@ -1985,6 +2003,9 @@ void npc::move()
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY && !has_flag( json_flag_CANNOT_MOVE ) ) {
+        if( suspended_task && !in_sleep_state() && get_committed_goal() != "go_to_sleep" ) {
+            resume_suspended_task();
+        }
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
@@ -2019,7 +2040,7 @@ void npc::move()
     if( action == npc_undecided ) {
         // an interrupted activity can cause this situation. stops allied NPCs zooming off
         // like random NPCs
-        if( attitude == NPCATT_ACTIVITY && !activity ) {
+        if( attitude == NPCATT_ACTIVITY && !activity && !suspended_task ) {
             revert_ended_task();
         }
         // a follower keeps its camp but does no camp work while walking with the player
@@ -4613,16 +4634,16 @@ bool npc::empty_before_pickup()
 }
 
 template <typename T>
-static std::list<item> npc_pickup_from_stack( npc &who, T &items )
+static std::list<item> npc_pickup_from_stack( npc &who, T &items,
+        const std::function<bool( const item & )> &may_take )
 {
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         item &it = *iter;
-        // This erases all wanted items on the tile, otherwise one free item would
-        // sweep up the reserved ones next to it
+        // checked per item, so a free item doesn't take reserved or owned neighbours along
         const bool off_limits = craft_reservation::contains_reserved( it ) ||
-                                craft_reservation::contains_live_craft( it );
+                                craft_reservation::contains_live_craft( it ) || !may_take( it );
         if( !off_limits && who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
@@ -4667,71 +4688,107 @@ bool npc::wants_take_that( const item &it )
     return good;
 }
 
-bool npc::would_take_that( const item &it, const tripoint_bub_ms &p )
+bool npc::would_take_that( const item &it, const tripoint_bub_ms &p ) const
+{
+    if( it.is_owned_by( *this, true ) ) {
+        return true;
+    }
+    // Actual numeric relations are only relative to player faction
+    if( it.is_owned_by( get_player_character() ) ) {
+        return would_steal_from_player( p, [&it]() {
+            return it.tname();
+        } );
+    }
+    return would_take_faction_goods( it.get_owner() );
+}
+
+bool npc::would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const
+{
+    if( veh.is_owned_by( *this, true ) ) {
+        return true;
+    }
+    if( veh.is_owned_by( get_player_character() ) ) {
+        return would_steal_from_player( p, [&veh]() {
+            return veh.name;
+        } );
+    }
+    return would_take_faction_goods( veh.get_owner() );
+}
+
+bool npc::would_steal_from_player( const tripoint_bub_ms &p,
+                                   const std::function<std::string()> &what ) const
 {
     const map &here = get_map();
-
-    const bool is_stealing = !it.is_owned_by( *this, true );
-    if( !is_stealing ) {
+    const Character &player = get_player_character();
+    bool would_always_steal = false;
+    int stealing_threshold = 10;
+    // Trust = less likely to steal. Distrust? more likely!
+    stealing_threshold += ( get_faction()->trusts_u / 5 );
+    // We've already decided we want the item. So the primary motivator for stealing is aggression, not hoarding.
+    stealing_threshold -= personality.aggression;
+    stealing_threshold -= static_cast<int>( personality.collector / 3 );
+    if( stealing_threshold < 0 ) {
+        would_always_steal = true;
+    }
+    // Anyone willing to kill you no longer cares for your property rights
+    if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
+        would_always_steal = true;
+    }
+    if( would_always_steal ) {
+        add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
+                       what() );
         return true;
     }
-    Character &player = get_player_character();
-    // Actual numeric relations are only relative to player faction
-    if( it.is_owned_by( player ) ) {
-        bool would_always_steal = false;
-        int stealing_threshold = 10;
-        // Trust = less likely to steal. Distrust? more likely!
-        stealing_threshold += ( get_faction()->trusts_u / 5 );
-        // We've already decided we want the item. So the primary motivator for stealing is aggression, not hoarding.
-        stealing_threshold -= personality.aggression;
-        stealing_threshold -= static_cast<int>( personality.collector / 3 );
-        if( stealing_threshold < 0 ) {
-            would_always_steal = true;
-        }
-        // Anyone willing to kill you no longer cares for your property rights
-        if( has_faction_relationship( player, npc_factions::relationship::kill_on_sight ) ) {
-            would_always_steal = true;
-        }
-        if( would_always_steal ) {
-            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
-                           it.tname() );
-            return true;
-        }
 
-        /*Handle player and follower vision*/
-        viewer &player_view = get_player_view();
-        if( player_view.sees( here, this->pos_bub( here ) ) || player_view.sees( here,  p ) ) {
+    /*Handle player and follower vision*/
+    const viewer &player_view = get_player_view();
+    if( player_view.sees( here, this->pos_bub( here ) ) || player_view.sees( here,  p ) ) {
+        return false;
+    }
+    std::vector<npc *> followers;
+    overmap_buffer.populate_followers_vec( followers );
+    for( npc *&elem : followers ) {
+        if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
             return false;
         }
-        std::vector<npc *> followers;
-        overmap_buffer.populate_followers_vec( followers );
-        for( npc *&elem : followers ) {
-            if( elem->sees( here, this->pos_bub( here ) ) || elem->sees( here,  p ) ) {
-                return false;
-            }
-        }
-        //Fallthrough, no consequences if you won't be caught!
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s attempting to steal %s (owned by player) because it isn't guarded.",
-                       get_name(), it.tname() );
+    }
+    //Fallthrough, no consequences if you won't be caught!
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s attempting to steal %s (owned by player) because it isn't guarded.",
+                   get_name(), what() );
+    return true;
+}
+
+bool npc::would_take_faction_goods( const faction_id &owner ) const
+{
+    const faction *owner_fac = g->faction_manager_ptr->get( owner, false );
+    if( owner_fac == nullptr ) {
         return true;
     }
-
-
-    // Currently always willing to steal from other NPCs
-    return true;
+    if( my_fac != nullptr &&
+        ( owner_fac->has_relationship( my_fac->id, npc_factions::relationship::share_my_stuff ) ||
+          my_fac->has_relationship( owner, npc_factions::relationship::kill_on_sight ) ) ) {
+        return true;
+    }
+    return is_player_ally() && owner_fac->guaranteed_hostile();
 }
 
 std::list<item> npc::pick_up_item_map( const tripoint_bub_ms &where )
 {
     map_stack stack = get_map().i_at( where );
-    return npc_pickup_from_stack( *this, stack );
+    return npc_pickup_from_stack( *this, stack, [this, &where]( const item & it ) {
+        return would_take_that( it, where );
+    } );
 }
 
 std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
     vehicle_stack stack = veh.get_items( veh.part( part_index ) );
-    return npc_pickup_from_stack( *this, stack );
+    const tripoint_bub_ms where = veh.bub_part_pos( get_map(), part_index );
+    const bool may_take_cargo = would_take_that( veh, where );
+    return npc_pickup_from_stack( *this, stack, [this, &where, may_take_cargo]( const item & it ) {
+        return may_take_cargo && would_take_that( it, where );
+    } );
 }
 
 bool npc::find_corpse_to_pulp()
@@ -4847,7 +4904,8 @@ bool npc::do_player_activity()
     // to satisfy the infinite loop counter.
     const bool multi_type = activity ? activity.is_multi_type() : false;
     const int moves_before = moves;
-    while( moves > 0 && activity && !has_destination() ) {
+    // a picked-up activity, such as closing a door, runs before the walk goes on
+    while( moves > 0 && activity ) {
         activity.do_turn( *this );
         if( !is_active() ) {
             return true;
@@ -4855,6 +4913,9 @@ bool npc::do_player_activity()
     }
     if( multi_type && moves == moves_before ) {
         mod_moves( -1 );
+    }
+    if( has_destination() && !activity ) {
+        show_destination_task();
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
@@ -4867,7 +4928,7 @@ bool npc::do_player_activity()
             backlog.pop_front();
             current_activity_id = activity.id();
         } else {
-            if( is_player_ally() && attitude == NPCATT_ACTIVITY && !mute_activity ) {
+            if( is_player_ally() && attitude == NPCATT_ACTIVITY && !mute_activity && !suspended_task ) {
                 add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
@@ -5455,6 +5516,64 @@ bool npc::consume_food_from_camp( consume_filter filter )
     return false;
 }
 
+static bool need_accepts( const item &it, const npc::need_goal_id id )
+{
+    if( !it.is_food() ) {
+        return false;
+    }
+    const cata::value_ptr<islot_comestible> &com = it.get_comestible();
+    if( !com ) {
+        return false;
+    }
+    switch( id ) {
+        case npc::need_goal_id::eat_food:
+            return com->get_default_nutr() > 0;
+        case npc::need_goal_id::drink_water:
+            return com->quench > 0;
+        case npc::need_goal_id::seek_warmth:
+        case npc::need_goal_id::go_to_sleep:
+            break;
+    }
+    return false;
+}
+
+bool npc::can_satisfy( const item &it, const need_goal_id id ) const
+{
+    return need_accepts( it, id ) && will_eat( it ).success();
+}
+
+bool npc::may_use_source( const item_location &loc ) const
+{
+    if( !loc || !craft_reservation::usable_by_automation( *loc ) ) {
+        return false;
+    }
+    if( loc.where_recursive() == item_location::type::character ) {
+        return true;
+    }
+    const map &here = get_map();
+    const tripoint_bub_ms p = loc.pos_bub( here );
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return false;
+    }
+    if( is_player_ally() && g->check_zone( zone_type_NO_NPC_PICKUP, p ) ) {
+        return false;
+    }
+    item_location top = loc;
+    while( true ) {
+        if( !would_take_that( *top, p ) ) {
+            return false;
+        }
+        if( !top.has_parent() ) {
+            break;
+        }
+        top = top.parent_item();
+    }
+    // ground items under a vehicle aren't its cargo
+    const vehicle_cursor *cargo = top.where() == item_location::type::vehicle ? top.veh_cursor() :
+                                  nullptr;
+    return cargo == nullptr || would_take_that( cargo->veh, p );
+}
+
 bool npc::consume_food( consume_filter filter )
 {
     float best_weight = 0.0f;
@@ -5477,8 +5596,8 @@ bool npc::consume_food( consume_filter filter )
     std::vector<item_location> inv_food = cache_get_items_with( "is_food", &item::is_food );
     // Eating consumes the item it names, so per-item predicate is the right one
     inv_food.erase( std::remove_if( inv_food.begin(), inv_food.end(),
-    []( const item_location & loc ) {
-        return !loc || !craft_reservation::usable_by_automation( *loc );
+    [this]( const item_location & loc ) {
+        return !may_use_source( loc );
     } ), inv_food.end() );
 
     if( inv_food.empty() ) {
@@ -6373,27 +6492,25 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
 
     // No thirst-dominant filter: rate_food() already penalizes dry food when
     // thirsty via the quench-vs-hunger ratio, so hydrating items rank higher.
-    const auto score_item = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
-        if( !it.is_food() )
-        {
-            return false;
-        }
+    const auto score_item = [&]( const item_location & loc ) -> bool {
+        const item &it = *loc;
         // food_only: skip items with no nutritional value (pure drinks).
         // drink_only: skip items with no hydration value (pure food).
         if( filter == consume_filter::food_only )
         {
-            const auto &com = it.get_comestible();
-            if( !com || com->get_default_nutr() <= 0 ) {
+            if( !need_accepts( it, need_goal_id::eat_food ) ) {
                 return false;
             }
         } else if( filter == consume_filter::drink_only )
         {
-            const auto &com = it.get_comestible();
-            if( !com || com->quench <= 0 ) {
+            if( !need_accepts( it, need_goal_id::drink_water ) ) {
                 return false;
             }
+        } else if( !it.is_food() )
+        {
+            return false;
         }
-        if( !would_take_that( it, p ) )
+        if( !may_use_source( loc ) )
         {
             return false;
         }
@@ -6415,11 +6532,9 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
         // Ground items (need sees_some_items for visibility gate).
         if( here.sees_some_items( p, *this ) ) {
             for( item &it : here.i_at( p ) ) {
-                if( score_item( it, p ) ) {
-                    float w = rate_food( *this, it, want_hunger, want_quench );
-                    results.push_back( {
-                        item_location( map_cursor( p ), &it ), w
-                    } );
+                item_location loc( map_cursor( p ), &it );
+                if( score_item( loc ) ) {
+                    results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
                 }
             }
         }
@@ -6436,15 +6551,11 @@ std::vector<npc::scored_item> npc::find_nearby_food( consume_filter filter )
             continue;
         }
         for( item &it : cargo->items() ) {
-            if( score_item( it, p ) ) {
-                float w = rate_food( *this, it, want_hunger, want_quench );
-                results.push_back( {
-                    item_location{
-                        vehicle_cursor{
-                            cargo->vehicle(),
-                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
-                    }, w
-                } );
+            item_location loc( vehicle_cursor( cargo->vehicle(),
+                                               static_cast<ptrdiff_t>( cargo->part_index() ) ),
+                               &it );
+            if( score_item( loc ) ) {
+                results.push_back( { loc, rate_food( *this, it, want_hunger, want_quench ) } );
             }
         }
     }
@@ -6467,8 +6578,8 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
     static const std::string locked_string( "LOCKED" );
     static const std::string cargo_locking_string( "CARGO_LOCKING" );
 
-    const auto score_clothing = [&]( item & it, const tripoint_bub_ms & p ) -> bool {
-        return it.get_warmth() > 0 && can_wear( it ).success() && would_take_that( it, p );
+    const auto score_clothing = [&]( const item_location & loc ) -> bool {
+        return loc->get_warmth() > 0 && can_wear( *loc ).success() && may_use_source( loc );
     };
 
     for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
@@ -6485,11 +6596,9 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
         // Ground items.
         if( here.sees_some_items( p, *this ) ) {
             for( item &it : here.i_at( p ) ) {
-                if( score_clothing( it, p ) ) {
-                    results.push_back( {
-                        item_location( map_cursor( p ), &it ),
-                        static_cast<float>( it.get_warmth() )
-                    } );
+                item_location loc( map_cursor( p ), &it );
+                if( score_clothing( loc ) ) {
+                    results.push_back( { loc, static_cast<float>( it.get_warmth() ) } );
                 }
             }
         }
@@ -6506,15 +6615,10 @@ std::vector<npc::scored_item> npc::find_nearby_warm_clothing()
             continue;
         }
         for( item &it : cargo->items() ) {
-            if( score_clothing( it, p ) ) {
-                results.push_back( {
-                    item_location{
-                        vehicle_cursor{
-                            cargo->vehicle(),
-                            static_cast<ptrdiff_t>( cargo->part_index() ) }, &it
-                    },
-                    static_cast<float>( it.get_warmth() )
-                } );
+            item_location loc( vehicle_cursor( cargo->vehicle(),
+                                               static_cast<ptrdiff_t>( cargo->part_index() ) ), &it );
+            if( score_clothing( loc ) ) {
+                results.push_back( { loc, static_cast<float>( it.get_warmth() ) } );
             }
         }
     }
@@ -6546,7 +6650,7 @@ bool npc::drink_from_water_source( const tripoint_bub_ms &water_pos )
 
 bool npc::consume_food_at( item_location loc )
 {
-    if( !loc.get_item() ) {
+    if( !loc.get_item() || !may_use_source( loc ) ) {
         return false;
     }
     const time_duration &t = get_consume_time( *loc );
@@ -6892,6 +6996,97 @@ static bool is_usable_npc_firestarter( const npc &who, const item &it )
     return true;
 }
 
+// whether contained fire would burn or break this item
+static bool burns_in_hearth( const item &it )
+{
+    fire_data probe( 1, true );
+    return it.burn_amount( probe ) > 0.0f;
+}
+
+// leaves carry both fuel flags but give no fuel
+static bool gives_fuel( const item &it )
+{
+    return it.flammable();
+}
+
+npc::fire_spot_verdict npc::check_fire_spot( const tripoint_bub_ms &p ) const
+{
+    map &here = get_map();
+    // the furniture decides when there is one, so a kiln on a fire pit is still a kiln
+    const map_data_common_t &top = here.has_furn( p ) ?
+                                   static_cast<const map_data_common_t &>( here.furn( p ).obj() ) :
+                                   static_cast<const map_data_common_t &>( here.ter( p ).obj() );
+    // regen_ai_cache ignores fires on FIRE_CONTAINER, so the NPC never runs from its own fire
+    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, p ) ||
+        !top.has_examine( iexamine::fireplace ) ) {
+        return { fire_spot_check::not_a_hearth, item_location() };
+    }
+    if( square_dist( pos_bub(), p ) != 1 ) {
+        return { fire_spot_check::not_adjacent, item_location() };
+    }
+    // a hearth may be impassable: the NPC lights it from where it stands
+    if( !here.can_put_items_ter_furn( p ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p ) ) {
+        return { fire_spot_check::unusable_tile, item_location() };
+    }
+    if( here.get_field( p, fd_fire ) || get_creature_tracker().creature_at( p ) ||
+        here.veh_at( p ) ) {
+        return { fire_spot_check::occupied, item_location() };
+    }
+    if( is_no_go_position( here.get_abs( p ) ) ) {
+        return { fire_spot_check::no_go, item_location() };
+    }
+    if( firestarter_actor::is_firewood_source( here, p ) ) {
+        return { fire_spot_check::firewood_source, item_location() };
+    }
+    bool fuel_here = false;
+    for( item &it : here.i_at( p ) ) {
+        if( !may_use_source( item_location( map_cursor( p ), &it ) ) || it.will_explode_in_fire() ) {
+            return { fire_spot_check::items_not_fuel, item_location() };
+        }
+        if( it.has_flag( flag_FIREWOOD ) || it.has_flag( flag_TINDER ) ) {
+            fuel_here = fuel_here || gives_fuel( it );
+        } else if( burns_in_hearth( it ) ) {
+            // TODO: move non-fuel items aside before lighting a fire
+            return { fire_spot_check::items_not_fuel, item_location() };
+        }
+    }
+    if( fuel_here ) {
+        return { fire_spot_check::tile_fuel, item_location() };
+    }
+    item_location firewood;
+    const item *wielded_ptr = get_wielded_item().get_item();
+    visit_items( [&firewood, wielded_ptr]( const item_location & it ) -> VisitResponse {
+        if( it.get_item() == wielded_ptr )
+        {
+            return VisitResponse::NEXT;
+        }
+        if( craft_reservation::contains_reserved( *it ) )
+        {
+            return VisitResponse::SKIP;
+        }
+        // only firewood: npc_start_fire may burn plain tinder before the fire takes,
+        // and a drop action could consume an item when it is dropped
+        if( it->has_flag( flag_FIREWOOD ) && gives_fuel( *it ) && !it->type->drop_action )
+        {
+            firewood = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( !firewood ) {
+        return { fire_spot_check::no_fuel, item_location() };
+    }
+    // same limits add_item_or_charges applies before it overflows to a neighbour
+    if( here.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ||
+        here.free_volume( p ) < firewood->volume() ||
+        static_cast<int>( here.i_at( p ).size() ) >= MAX_ITEM_IN_SQUARE ) {
+        return { fire_spot_check::no_room, item_location() };
+    }
+    return { fire_spot_check::own_fuel, firewood };
+}
+
 std::optional<tripoint_bub_ms> npc::find_fire_spot()
 {
     // Check that the NPC has a usable firestarter tool.
@@ -6909,67 +7104,13 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
         return std::nullopt;
     }
 
-    // Scan adjacent tiles for a valid fire location.
     map &here = get_map();
-    std::optional<tripoint_bub_ms> best_flammable;
-    std::optional<tripoint_bub_ms> fallback;
-    // Exclude the wielded weapon from fuel consideration so the NPC
-    // doesn't drop its own weapon into the fire.
-    const item *wielded_ptr = get_wielded_item().get_item();
-    bool has_firewood = false;
-    visit_items( [&has_firewood, wielded_ptr]( const item_location & it ) -> VisitResponse {
-        if( it.get_item() == wielded_ptr )
-        {
-            return VisitResponse::NEXT;
-        }
-        if( craft_reservation::contains_reserved( *it ) )
-        {
-            return VisitResponse::SKIP;
-        }
-        if( it->has_flag( flag_FIREWOOD ) )
-        {
-            has_firewood = true;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-
     for( const tripoint_bub_ms &adj : here.points_in_radius( pos_bub(), 1 ) ) {
-        if( adj == pos_bub() ) {
-            continue;
-        }
-        if( here.move_cost( adj ) == 0 ) {
-            continue;
-        }
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, adj ) ||
-            here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, adj ) ) {
-            continue;
-        }
-        if( here.get_field( adj, fd_fire ) ) {
-            continue;
-        }
-        if( get_creature_tracker().creature_at( adj ) ) {
-            continue;
-        }
-        if( is_no_go_position( here.get_abs( adj ) ) ) {
-            continue;
-        }
-        if( here.veh_at( adj ) ) {
-            continue;
-        }
-        if( here.is_flammable( adj ) ) {
-            // Tile already has fuel (flammable terrain/items). No need
-            // for inventory firewood.
-            if( !best_flammable ) {
-                best_flammable = adj;
-            }
-        } else if( has_firewood && !fallback ) {
-            // Tile not flammable but NPC can drop firewood to make it so.
-            fallback = adj;
+        if( check_fire_spot( adj ).usable() ) {
+            return adj;
         }
     }
-
-    return best_flammable ? best_flammable : fallback;
+    return std::nullopt;
 }
 
 npc::need_result npc::execute_seek_warmth()
@@ -7163,32 +7304,17 @@ npc::need_result npc::execute_seek_warmth()
             plan.clear();
             return need_result::blocked;
         }
-        // Ensure the target tile is flammable; drop safe fuel if needed.
-        // Skip the wielded weapon so the NPC doesn't burn its own weapon.
-        if( !here.is_flammable( target_bub ) ) {
-            item *fuel = nullptr;
-            const item *wielded_ptr = get_wielded_item().get_item();
-            visit_items( [&fuel, wielded_ptr]( item_location it ) -> VisitResponse {
-                if( it.get_item() == wielded_ptr )
-                {
-                    return VisitResponse::NEXT;
-                }
-                if( craft_reservation::contains_reserved( *it ) )
-                {
-                    return VisitResponse::SKIP;
-                }
-                if( it->has_flag( flag_FIREWOOD ) )
-                {
-                    fuel = it.get_item();
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } );
-            if( !fuel ) {
-                plan.clear();
-                return need_result::impossible;
-            }
-            here.add_item_or_charges( target_bub, i_rem( fuel ) );
+        // the check that chose the spot, asked again before any fuel goes in
+        const fire_spot_verdict spot = check_fire_spot( target_bub );
+        if( !spot.usable() ) {
+            failed.insert( plan.target );
+            plan.clear();
+            plan.last_result = need_result::impossible;
+            return need_result::impossible;
+        }
+        if( spot.check == fire_spot_check::own_fuel ) {
+            // no_room was ruled out, so the item stays on the hearth
+            here.add_item_or_charges( target_bub, i_rem( spot.firewood.get_item() ), false );
         }
         if( actor->npc_start_fire( *this, *fire_tool, target_bub ) ) {
             plan.last_result = need_result::progressed;
@@ -7313,6 +7439,35 @@ npc_interrupt_cost npc::interrupt_cost( const need_goal_id id ) const
     return npc_interrupt_cost::costly;
 }
 
+bool npc::is_self_care_activity() const
+{
+    return activity.id() == ACT_FORAGE || activity.id() == ACT_HARVEST ||
+           activity.id() == ACT_START_FIRE;
+}
+
+void npc::suspend_task_for_rest()
+{
+    if( suspended_task || !activity || attitude != NPCATT_ACTIVITY || is_self_care_activity() ) {
+        return;
+    }
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: puts %s aside to rest", get_name(),
+                   activity.id().str() );
+    // moved, not cancelled: cancelling would end a craft the NPC means to resume
+    suspended_task = npc_suspended_task{ activity, backlog };
+    activity = player_activity();
+    backlog.clear();
+}
+
+void npc::resume_suspended_task()
+{
+    add_msg_debug( debugmode::DF_NPC_NEEDS, "NPC %s: goes back to %s", get_name(),
+                   suspended_task->task.id().str() );
+    activity = suspended_task->task;
+    backlog.splice( backlog.begin(), suspended_task->backlog );
+    current_activity_id = activity.id();
+    suspended_task.reset();
+}
+
 void npc::end_need_pursuit( const need_goal_id id )
 {
     clear_need_state( id );
@@ -7372,11 +7527,8 @@ void npc::clear_committed_goal()
         end_need_pursuit( *gid );
     }
     // drops any self-care activity, whichever goal started it
-    if( activity ) {
-        const activity_id &act = activity.id();
-        if( act == ACT_FORAGE || act == ACT_HARVEST || act == ACT_START_FIRE ) {
-            cancel_activity();
-        }
+    if( is_self_care_activity() ) {
+        cancel_activity();
     }
     ai_cache.intention = {};
 }
@@ -7517,6 +7669,12 @@ npc::need_result npc::execute_go_to_sleep()
     }
 
     need_plan &plan = ai_cache.sleep_plan;
+    // on hold (rest cooldown, grace or noise): a sleep goal from before the hold doesn't lie down
+    if( sleep_on_hold() ) {
+        plan.clear();
+        plan.last_result = need_result::impossible;
+        return need_result::impossible;
+    }
     // can't fall asleep at all right now: no spot helps, so there is nothing to wait for
     if( has_flag( json_flag_CANNOT_SLEEP ) ) {
         plan.clear();

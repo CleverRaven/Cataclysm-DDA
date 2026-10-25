@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_WOUND_H
 #define CATA_SRC_WOUND_H
 
+#include <climits>
 #include <map>
 #include <optional>
 #include <set>
@@ -57,6 +58,8 @@ struct wound_mod_values {
     std::optional<vitamin_id> vitamin;
     time_duration rate;
     int amount;
+    int cap_min = INT_MIN;
+    int cap_max = INT_MAX;
 
     void deserialize( const JsonObject &jo );
 };
@@ -85,6 +88,7 @@ class wound_type
         void finalize();
         static const std::vector<wound_type> &get_all();
 
+        // conditions that can be checked on loading of wounds
         bool allowed_on_bodypart( bodypart_str_id bp_id ) const;
         std::string get_name() const;
         std::string get_description() const;
@@ -114,6 +118,10 @@ class wound_type
 
         std::vector<bp_type> whitelist_body_part_types;
         std::vector<bp_type> blacklist_body_part_types;
+
+        // condiitons that are checked every time applying wound is called
+        std::vector<json_character_flag> blacklist_flags;
+        std::vector<json_character_flag> whitelist_flags;
 
         std::set<wound_fix_id> fixes;
 
@@ -161,6 +169,7 @@ class wound
         void deserialize( const JsonObject &jsin );
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
+        void mod_pain( int mod );
         // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
         int get_pain() const;
         // exposes healing_time
@@ -170,7 +179,6 @@ class wound
         wound_update_ret update_wound( time_duration time_passed );
 
         wound &operator+=( const wound &wd ) {
-            healing_time += wd.get_healing_time();
             pain += wd.get_pain();
             // reset healing progress? maybe not necessary?
             healing_progress = 0_seconds;

@@ -22,8 +22,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "healing_time", healing_time_,
               std::make_pair( calendar::INDEFINITELY_LONG_DURATION, calendar::INDEFINITELY_LONG_DURATION ) );
 
-    mandatory( jo, was_loaded, "damage_types", damage_types );
-    mandatory( jo, was_loaded, "damage_required", damage_required );
+    optional( jo, was_loaded, "damage_types", damage_types );
+    optional( jo, was_loaded, "damage_required", damage_required );
     optional( jo, was_loaded, "weight", weight, 1 );
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
@@ -32,6 +32,8 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "periodic_message", periodic_message );
     optional( jo, was_loaded, "wound_progression", wound_progression );
     optional( jo, was_loaded, "progress_timer", progress_timer );
+    optional( jo, was_loaded, "whitelist_flags", whitelist_flags );
+    optional( jo, was_loaded, "blacklist_flag", blacklist_flags );
     optional( jo, was_loaded, "whitelist_bp_with_flag", whitelist_bp_with_flag );
     optional( jo, was_loaded, "whitelist_body_part_types", whitelist_body_part_types );
     optional( jo, was_loaded, "blacklist_bp_with_flag", blacklist_bp_with_flag );
@@ -253,6 +255,8 @@ void wound_mod_values::deserialize( const JsonObject &jo )
     mandatory( jo, false, "rate", rate );
     optional( jo, false, "vitamin_id", vitamin );
     optional( jo, false, "amount", amount );
+    optional( jo, false, "cap_min", cap_min, INT_MIN );
+    optional( jo, false, "cap_max", cap_max, INT_MAX );
 }
 
 void wound_periodic_message::deserialize( const JsonObject &jo )
@@ -420,6 +424,11 @@ void wound::deserialize( const JsonObject &jsin )
 float wound::healing_percentage() const
 {
     return healing_progress / healing_time;
+}
+
+void wound::mod_pain( const int mod )
+{
+    pain += mod;
 }
 
 int wound::get_pain() const

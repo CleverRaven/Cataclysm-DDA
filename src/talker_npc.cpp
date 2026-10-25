@@ -844,7 +844,7 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
 
 bool talker_npc_const::has_activity() const
 {
-    return !me_npc->activity.is_null();
+    return !me_npc->activity.is_null() || me_npc->get_suspended_task();
 }
 
 bool talker_npc_const::is_myclass( const npc_class_id &class_to_check ) const
