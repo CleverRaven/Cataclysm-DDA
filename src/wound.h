@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_WOUND_H
 #define CATA_SRC_WOUND_H
 
+#include <climits>
 #include <map>
 #include <optional>
 #include <set>
@@ -57,6 +58,8 @@ struct wound_mod_values {
     std::optional<vitamin_id> vitamin;
     time_duration rate;
     int amount;
+    int cap_min = INT_MIN;
+    int cap_max = INT_MAX;
 
     void deserialize( const JsonObject &jo );
 };
@@ -166,6 +169,7 @@ class wound
         void deserialize( const JsonObject &jsin );
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
+        void mod_pain( int mod );
         // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
         int get_pain() const;
         // exposes healing_time

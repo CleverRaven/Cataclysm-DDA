@@ -2577,7 +2577,10 @@ void Character::update_wounds( time_duration time_passed )
                 if( calendar::once_every( mod_val.rate ) ) {
                     switch( mod_val.type ) {
                         case wound_mod_value_type::PAIN:
-                            mod_pain( mod_val.amount, bp_id );
+                            if( get_pain() > mod_val.cap_min &&
+                                get_pain() < mod_val.cap_max ) {
+                                wd.mod_pain( mod_val.amount );
+                            }
                             break;
                         case wound_mod_value_type::BLEED:
                             bleed( get_map() );
@@ -2585,8 +2588,13 @@ void Character::update_wounds( time_duration time_passed )
                         case wound_mod_value_type::VITAMIN:
                             if( mod_val.vitamin.has_value() ) {
                                 const vitamin_id vit = *mod_val.vitamin;
-                                int final_amt = mod_val.amount;
 
+                                if( vitamin_get( vit ) <= mod_val.cap_min &&
+                                    vitamin_get( vit ) >= mod_val.cap_max ) {
+                                    break;
+                                }
+
+                                int final_amt = mod_val.amount;
                                 if( vit == vitamin_blood || vit == vitamin_redcells ) {
                                     final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
                                                                 mod_val.amount ) );

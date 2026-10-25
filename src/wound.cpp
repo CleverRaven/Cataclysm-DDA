@@ -255,6 +255,8 @@ void wound_mod_values::deserialize( const JsonObject &jo )
     mandatory( jo, false, "rate", rate );
     optional( jo, false, "vitamin_id", vitamin );
     optional( jo, false, "amount", amount );
+    optional( jo, false, "cap_min", cap_min, INT_MIN );
+    optional( jo, false, "cap_max", cap_max, INT_MAX );
 }
 
 void wound_periodic_message::deserialize( const JsonObject &jo )
@@ -422,6 +424,11 @@ void wound::deserialize( const JsonObject &jsin )
 float wound::healing_percentage() const
 {
     return healing_progress / healing_time;
+}
+
+void wound::mod_pain( const int mod )
+{
+    pain += mod;
 }
 
 int wound::get_pain() const
