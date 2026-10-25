@@ -117,6 +117,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_morale();
     dummy.activity.set_to_null();
     dummy.backlog.clear();
+    dummy.clear_destination();
     // Reset age/height before stored kcal since get_healthy_kcal()
     // depends on height.
     dummy.reset_chargen_attributes();
