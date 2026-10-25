@@ -17,8 +17,8 @@ A light wounds should generally have minimal effects, a medium would should hind
     "description": "Foobar.",
     "weight": 10, // weight of a wound, determines the chance of this specific wound to be picked when limb takes damage. Default 1
     "limit": 2, // limits amount of wounds of this type you can get per limb
-    "damage_types": [ "cut", "bash" ], // only taking these type of damage can apply wound. Mandatory
-    "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied. Mandatory
+    "damage_types": [ "cut", "bash" ], // taking these type of damage can apply wound
+    "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
             // Default infinite duration
@@ -33,7 +33,9 @@ A light wounds should generally have minimal effects, a medium would should hind
       {
         "type": "PAIN", // type of said effect. Currently supported are PAIN (increases the pain value of wound until treated), BLEED (drips some blood on the ground) and VITAMIN (decreases specific vitamin in character body)
         "rate": "2 seconds", // how often said effect happens
-        "amount": 3 // when happens, how big the change would be? +3 pain every 2 seconds, in case of this particulare object
+        "amount": 3, // when happens, how big the change would be? +3 pain every 2 seconds, in case of this particulare object
+        "cap_min": -20, // if used, value will not be decreased beyond this value. Default INT_MIN
+        "cap_max": 20 // if used, value will not be increased beyond this value, Default INT_MAX
       },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -1 } // if VITAMIN type, `vitamin_id` is used to specify the vitamin that should be modified
     ],
@@ -41,6 +43,8 @@ A light wounds should generally have minimal effects, a medium would should hind
       "message": "OH NO YOUR WOUND ON YOUR %s IS BLEEDING CLOSE IT CLOSE IT CLOSE IT!", // argument %s is body part name
       "rate": "2 seconds"
     },
+    "whitelist_flags": [ "FLAG_A", "FLAG_B" ], // only character that has any of these flags can receive this wound
+    "blacklist_flag": [ "FLAG_C", "FLAG_D" ], // if chartacter has any of these flags, they cannot receive this wound
     "whitelist_body_part_types": [ "leg", "arm" ], // if used, this wound can be applied only at bodyparts of this type. Possible values are: head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other
     "blacklist_body_part_types": [ "torso", "sensor" ], // if used, this wound cannot be applied on bodyparts of this type.
     "whitelist_bp_with_flag": [ "LIMB_UPPER" ], // only body parts with this flags can receive the wound.

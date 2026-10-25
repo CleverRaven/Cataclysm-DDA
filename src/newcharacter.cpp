@@ -72,6 +72,7 @@
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
+#include "tabbed_listinfo_ui.h"
 #include "text_snippets.h"
 #include "trait_group.h"
 #include "translation.h"
@@ -145,19 +146,6 @@ static void draw_spacer()
     ImGui::NewLine();
 }
 
-static void set_detail_scroll()
-{
-    if( cc_uistate.scrolled_down ) {
-        cc_uistate.scrolled_down = false;
-        ImGui::SetScrollY( std::clamp( ImGui::GetScrollY() + ImGui::GetContentRegionAvail().y, 0.0f,
-                                       ImGui::GetScrollMaxY() ) );
-    } else if( cc_uistate.scrolled_up ) {
-        cc_uistate.scrolled_up = false;
-        ImGui::SetScrollY( std::clamp( ImGui::GetScrollY() - ImGui::GetContentRegionAvail().y, 0.0f,
-                                       ImGui::GetScrollMaxY() ) );
-    }
-}
-
 static void setup_list_detail_ui( const std::string &header = std::string(),
                                   float uilist_width = 0.33f )
 {
@@ -171,7 +159,7 @@ static void setup_list_detail_ui( const std::string &header = std::string(),
     ImGui::TableNextColumn();
     ImGui::TableNextColumn();
 
-    set_detail_scroll();
+    tabbed_listinfo_ui::set_info_scroll( cc_uistate.scrolled_down, cc_uistate.scrolled_up );
 }
 
 static std::string get_character_stat_name( int selected_stat_index )
@@ -210,15 +198,6 @@ static std::string get_skill_entry_text( const skill_id selected_skill, const av
                                    string_format( "%s (%d + %d)", selected_skill->name(), my_skill, prof_skill_level );
 
     return green_if_positive( skill_entry_text );
-}
-
-static uilist_entry get_uilist_entry( const std::string &name )
-{
-    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
-    uilist_entry cc_entry( screen_reader_mode ? std::string() : name );
-    cc_entry.hotkey = input_event();
-
-    return cc_entry;
 }
 
 static void append_screen_reader_active( std::string &entry_text )
@@ -2440,6 +2419,11 @@ void character_creator_ui::upon_switching_tab()
     update_uilist_entries();
 }
 
+void character_creator_ui::setup_input_context( input_context &cc_ictxt )
+{
+    setup_input_context( cc_ictxt, false );
+}
+
 void character_creator_ui::setup_input_context( input_context &cc_ictxt, bool quick_value_change )
 {
     const bool allow_reroll = cc_uistate.generation_type == character_type::RANDOM;
@@ -2476,11 +2460,6 @@ void character_creator_ui::setup_input_context( input_context &cc_ictxt, bool qu
         cc_ictxt.register_action( "INCREASE_VALUE" );
         cc_ictxt.register_action( "DECREASE_VALUE" );
     }
-}
-
-static cataimgui::bounds uilist_reset_desired_bounds()
-{
-    return { 0, -1.0f, 0.33f * ImGui::GetMainViewport()->WorkSize.x, -1.0f };
 }
 
 void character_creator_ui::setup_new_uilist()
@@ -2796,7 +2775,7 @@ void character_creator_ui_impl::draw_controls()
         if( current_uilist ) {
             const ImVec2 cursor_pos = ImGui::GetCursorScreenPos();
             if( current_uilist->desired_bounds->y != cursor_pos.y ||
-                current_uilist->desired_bounds->w != uilist_reset_desired_bounds().w ) {
+                current_uilist->desired_bounds->w != tabbed_listinfo_ui::uilist_reset_desired_bounds().w ) {
                 ui_parent->update_uilist_position( cursor_pos );
             }
         }
@@ -2932,6 +2911,8 @@ bool character_creator_ui::display()
     // load scenarios so that the past_games_info::ensure_loaded
     // redraw isn't called during uilist setup
     cc_uistate.recalc_scenario_list( get_avatar() );
+
+    // TODO: move to interface
 
     // set first tab
     upon_switching_tab();
@@ -3143,7 +3124,7 @@ void character_creator_ui_impl::draw_summary()
         bool dummy = true;
         char_creation::draw_profession_bionics( dummy, _( "Bionics" ), *who.prof );
 
-        set_detail_scroll();
+        tabbed_listinfo_ui::set_info_scroll( cc_uistate.scrolled_down, cc_uistate.scrolled_up );
 
         ImGui::EndTable();
     }

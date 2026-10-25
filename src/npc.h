@@ -1505,6 +1505,8 @@ class npc : public Character
         void revert_after_activity();
         // ends a player's task whose activity was cancelled, unless it is set aside or walked to
         void end_cancelled_task();
+        // after a picked-up activity ends or is cancelled
+        void show_destination_task();
         // Craft related stuff
         void do_npc_craft( const std::optional<tripoint_bub_ms> &loc = std::nullopt,
                            const recipe_id &goto_recipe = recipe_id() );
