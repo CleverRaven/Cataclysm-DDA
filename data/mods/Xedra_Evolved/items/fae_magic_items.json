@@ -29,7 +29,7 @@
   {
     "id": "thorn_brocade_vest",
     "type": "ITEM",
-    "subtypes": [ "ARMOR", "TOOL" ],
+    "subtypes": [ , "ARTIFACT", "ARMOR", "TOOL" ],
     "name": { "str": "thorn brocade vest" },
     "description": "A fancy dress vest with an intricate thorned vine brocade.  You can feel the magic emanating from this item, or maybe that's psychosomatic from where you can see the vines moving and twining around each other.",
     "weight": "720 g",
