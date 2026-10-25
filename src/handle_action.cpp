@@ -760,11 +760,15 @@ static void haul()
 
     uilist menu;
 
-    bool hauling = player_character.is_hauling();
-    bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
     std::vector<item_location> haulable_items = get_map().get_haulable_items(
                 player_character.pos_bub() );
+    player_character.trim_haul_list( haulable_items );
+    if( player_character.is_hauling() && haul_list.empty() && !player_character.is_autohauling() ) {
+        player_character.stop_hauling();
+    }
+    bool hauling = player_character.is_hauling();
+    bool autohaul = player_character.is_autohauling();
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
