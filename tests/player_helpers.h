@@ -24,6 +24,9 @@ void process_activity( Character &dummy, bool pass_time = false );
 // the inner loop of process_activity spins forever when no moves are spent.
 // returns true only when the activity ended inside both budgets
 bool process_activity_bounded( Character &dummy, int max_turns, int max_dispatches );
+// run activity, teleport to each travel destination; true if finished within
+// max_turns
+bool process_activity_with_travel( Character &u, int max_turns );
 
 npc &spawn_npc( const point_bub_ms &, const std::string &npc_class );
 

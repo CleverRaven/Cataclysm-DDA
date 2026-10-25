@@ -1,5 +1,7 @@
 #include <algorithm>
+#include <functional>
 #include <initializer_list>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -19,6 +21,7 @@
 #include "clzones.h"
 #include "construction.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
@@ -37,6 +40,9 @@
 #include "point.h"
 #include "requirements.h"
 #include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "weather_type.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
@@ -58,6 +64,8 @@ static const faction_id faction_free_merchants( "free_merchants" );
 static const itype_id itype_bow_saw( "bow_saw" );
 static const itype_id itype_e_tool( "e_tool" );
 static const itype_id itype_hammer( "hammer" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_rock( "rock" );
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_multitool( "test_multitool" );
 static const itype_id itype_wearable_test_lamp( "wearable_test_lamp" );
@@ -72,6 +80,8 @@ static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass"
 static const ter_str_id ter_t_window_empty( "t_window_empty" );
 static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
+
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 
@@ -79,23 +89,9 @@ namespace
 {
 void run_activities( Character &u, int max_moves )
 {
-    map &here = get_map();
-
     u.assign_activity( multi_build_construction_activity_actor() );
-    int turns = 0;
-    while( !u.activity.is_null() || u.is_auto_moving() ) {
-        if( turns == max_moves ) {
-            FAIL( "turn count exceeded, infinite loop possible" );
-            return;
-        }
-        u.set_moves( u.get_speed() );
-        if( u.is_auto_moving() ) {
-            u.setpos( here, here.get_bub( *u.destination_point ) );
-            here.build_map_cache( u.posz() );
-            u.start_destination_activity();
-        }
-        u.activity.do_turn( u );
-        turns++;
+    if( !process_activity_with_travel( u, max_moves ) ) {
+        FAIL( "turn count exceeded, infinite loop possible" );
     }
 }
 
@@ -319,6 +315,55 @@ void run_test_case( Character &u )
                  ( build.pre_terrain.begin() ) ) );
     }
 
+    SECTION( "1-step construction activity fetching its tools" ) {
+        u.setpos( here, tripoint_bub_ms::zero );
+        here.build_map_cache( u.posz() );
+        u.remove_items_with( []( const item & it ) {
+            return it.typeId() == itype_test_multitool || it.typeId() == itype_hammer ||
+                   it.typeId() == itype_bow_saw || it.typeId() == itype_e_tool;
+        } );
+        tripoint_bub_ms const tri_door( tripoint::south );
+        tripoint_bub_ms const loot( 0, PICKUP_RANGE * 2 + 1, 0 );
+        construction const build = setup_testcase( u, "test_constr_door", tri_door, loot );
+        here.add_item_or_charges( loot, item( itype_hammer ) );
+        here.add_item_or_charges( loot, item( itype_bow_saw ) );
+        here.ter_set( tri_door, ter_id( build.pre_terrain.empty() ? "" : *
+                                        build.pre_terrain.begin() ) );
+        run_activities( u, build.time * 100 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+        int tools_moved = 0;
+        for( const tripoint_bub_ms &p : here.points_in_radius( tri_door, PICKUP_RANGE ) ) {
+            for( const item &it : here.i_at( p ) ) {
+                if( it.typeId() == itype_hammer || it.typeId() == itype_bow_saw ) {
+                    ++tools_moved;
+                    CAPTURE( it.typeId().str(), p );
+                    CHECK_FALSE( it.has_var( "activity_var" ) );
+                }
+            }
+        }
+        // both tools must be near door, or check above proves nothing
+        CHECK( tools_moved == 2 );
+    }
+
+    SECTION( "1-step construction activity with a component partly carried" ) {
+        u.setpos( here, tripoint_bub_ms::zero );
+        here.build_map_cache( u.posz() );
+        tripoint_bub_ms const tri_door( tripoint::south );
+        tripoint_bub_ms const loot( 0, PICKUP_RANGE * 2 + 1, 0 );
+        construction const build = setup_testcase( u, "test_constr_door", tri_door, loot );
+        // door needs 12 nails: 4 carried, 8 in loot zone
+        map_stack loot_items = here.i_at( loot );
+        for( auto it = loot_items.begin(); it != loot_items.end(); ) {
+            it = it->typeId() == itype_nail ? loot_items.erase( it ) : std::next( it );
+        }
+        here.add_item_or_charges( loot, item( itype_nail, calendar::turn, 8 ) );
+        REQUIRE( u.i_add( item( itype_nail, calendar::turn, 4 ) ) );
+        here.ter_set( tri_door, ter_id( build.pre_terrain.empty() ? "" : *
+                                        build.pre_terrain.begin() ) );
+        run_activities( u, build.time * 100 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
     SECTION( "multiple-step construction activity with fetch required" ) {
         u.setpos( here, tripoint_bub_ms::zero );
         here.build_map_cache( u.posz() );
@@ -366,6 +411,61 @@ TEST_CASE( "npc_act_multiple_construction", "[npc][zones][activities][constructi
     u.set_body();
     u.set_fac( faction_free_merchants );
     run_test_case( u );
+}
+
+TEST_CASE( "fetched_charges_split_into_cargo_all_lose_their_mark", "[activities][zones][fetch]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms cart_pos = u.pos_bub() + tripoint::east;
+    REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart, cart_pos, 0_degrees, 0,
+                               veh_spawn_status::UNDAMAGED ) );
+    std::optional<vpart_reference> cargo = here.veh_at( cart_pos ).cargo();
+    REQUIRE( cargo );
+    while( cargo->vehicle().add_item( here, cargo->part(), item( itype_rock ) ) ) {}
+    for( int i = 0; i < 2; ++i ) {
+        cargo->vehicle().remove_item( cargo->part(), &*cargo->items().begin() );
+    }
+    const item nails( itype_nail, calendar::turn, 1000000 );
+    const int fit = cargo->items().amount_can_fit( nails );
+    REQUIRE( fit > 0 );
+    REQUIRE( fit < nails.charges );
+    u.assign_activity( multi_build_construction_activity_actor() );
+    activity_handlers::drop_fetched_items( u, { nails }, &here, cart_pos );
+    int in_cargo = 0;
+    for( const item &it : cargo->items() ) {
+        in_cargo += it.typeId() == itype_nail ? it.charges : 0;
+    }
+    REQUIRE( in_cargo == fit );
+    const auto cargo_marked = [&cargo]() {
+        bool marked = false;
+        for( const item &it : cargo->items() ) {
+            marked = marked || it.has_var( "activity_var" );
+        }
+        return marked;
+    };
+    const auto ground_marked = [&here, &u]() {
+        bool marked = false;
+        for( const tripoint_bub_ms &p : here.points_in_radius( u.pos_bub(), 2 ) ) {
+            for( const item &it : here.i_at( p ) ) {
+                marked = marked || it.has_var( "activity_var" );
+            }
+        }
+        return marked;
+    };
+    // overflows into character's hands
+    const auto held_marked = [&u]() {
+        return character_has_item_with_var_val( u, "activity_var", u.name );
+    };
+    REQUIRE( cargo_marked() );
+    REQUIRE( held_marked() );
+
+    u.cancel_activity();
+    CHECK_FALSE( cargo_marked() );
+    CHECK_FALSE( held_marked() );
+    CHECK_FALSE( ground_marked() );
 }
 
 TEST_CASE( "camp_blueprint_autocalc", "[camp][construction]" )
