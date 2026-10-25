@@ -33,7 +33,9 @@ A light wounds should generally have minimal effects, a medium would should hind
       {
         "type": "PAIN", // type of said effect. Currently supported are PAIN (increases the pain value of wound until treated), BLEED (drips some blood on the ground) and VITAMIN (decreases specific vitamin in character body)
         "rate": "2 seconds", // how often said effect happens
-        "amount": 3 // when happens, how big the change would be? +3 pain every 2 seconds, in case of this particulare object
+        "amount": 3, // when happens, how big the change would be? +3 pain every 2 seconds, in case of this particulare object
+        "cap_min": -20, // if used, value will not be decreased beyond this value. Default INT_MIN
+        "cap_max": 20 // if used, value will not be increased beyond this value, Default INT_MAX
       },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -1 } // if VITAMIN type, `vitamin_id` is used to specify the vitamin that should be modified
     ],
