@@ -715,7 +715,7 @@
     "name": { "str": "slow cooker" },
     "weight": "4500 g",
     "volume": "3500 ml",
-    "description": "A self heating pot, designed to cook food at constant temperatures all day long. These are used for tenderizing meat in hot juices and for cooking soups, stews, chilles and casseroles.",
+    "description": "A electric pot that cooks food at constant temperatures all day long. These are used for tenderizing food in hot juices and cooking soups, stews and casseroles.",
     "price": "65 USD",
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
