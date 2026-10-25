@@ -21,7 +21,8 @@ A light wounds should generally have minimal effects, a medium would should hind
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
-            // Default infinite duration
+                                              // Affected by health/lifestyle, with -200 slowing down to 0.5x, and +200 speeding up to 1.5x, and `REGEN_WOUND` enchantment
+                                              // Default infinite duration
     "wound_progression": [ { "id": "deep_scratch", "chance": 10 } ], // taking damage on bodypart with this limb may worsen it. chance is range from 0% to 100%
     "limb_scores": [ { "score": "lift", "value": 0.25 } ], // if wounded part has this limb score, it will be decreased by this amount
     "progress_timer": {   // this wound may transform into another wound over time
