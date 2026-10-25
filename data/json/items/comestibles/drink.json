@@ -1278,7 +1278,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitC", "47400 μg" ] ]
   },
   {
     "type": "ITEM",
