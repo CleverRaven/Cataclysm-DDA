@@ -3,7 +3,7 @@
     "id": "wound_bandage",
     "type": "requirement",
     "extend": {
-	  "components": [
+      "components": [
         [
           [ "bandages_birchbark", 1 ],
           [ "bandages_birchbark_adv", 1 ]
