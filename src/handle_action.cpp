@@ -18,7 +18,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "bodygraph.h"
+#include "body_status_ui.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -3002,16 +3002,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_morale();
             break;
 
-        case ACTION_MEDICAL:
-            if( player_character.disp_medical() ) {
+        case ACTION_MEDICAL: {
+            body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_MEDICAL );
+            if( bsui.display() ) {
                 return false;
             }
             break;
-
-        case ACTION_BODYSTATUS:
-            display_bodygraph( get_player_character() );
+        }
+        case ACTION_BODYSTATUS: {
+            body_status_ui bsui( get_player_character() );
+            bsui.display();
             break;
-
+        }
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;
