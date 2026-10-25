@@ -510,6 +510,10 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
             return ACT_FETCH_REQUIRED;
         }
 
+        // from last requirements_map call
+        enum class fetch_plan : int { met, fetching, cannot_supply };
+        fetch_plan last_plan = fetch_plan::fetching; // NOLINT(cata-serialize)
+
         void set_npc_fetch_history( Character &you );
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
                 int distance = MAX_VIEW_DISTANCE );
