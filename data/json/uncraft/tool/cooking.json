@@ -22,6 +22,12 @@
     "skill_used": "electronics",
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "casserole", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "element", 4 ] ], [ [ "scrap", 20 ] ], [ [ "cable", 4 ] ] ]
+    "components": [
+      [ [ "casserole", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "sheet_metal_small", 9 ] ],
+      [ [ "cable", 4 ] ]
+    ]
   }
 ]
