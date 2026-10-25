@@ -39,6 +39,9 @@
 #include "type_id.h"
 #include "weather_type.h"
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
 static const construction_str_id construction_constr_floor( "constr_floor" );
 static const construction_str_id
 construction_constr_ov_smreb_cage_thconc_floor( "constr_ov_smreb_cage_thconc_floor" );
@@ -182,6 +185,25 @@ void run_test_case( Character &u )
                                         build.pre_terrain.begin() ) );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
+    SECTION( "1-step construction activity keeps one task to come back to" ) {
+        u.setpos( here, tripoint_bub_ms::zero );
+        here.build_map_cache( u.posz() );
+        tripoint_bub_ms const tri_door( tripoint::south );
+        construction const build =
+            setup_testcase( u, "test_constr_door", tri_door, tripoint_bub_ms() );
+        here.ter_set( tri_door, ter_id( build.pre_terrain.empty() ? "" : *
+                                        build.pre_terrain.begin() ) );
+        u.assign_activity( multi_build_construction_activity_actor() );
+        for( int turn = 0; turn < 100 && u.activity.id() != ACT_BUILD; ++turn ) {
+            u.set_moves( u.get_speed() );
+            u.activity.do_turn( u );
+        }
+        REQUIRE( u.activity.id() == ACT_BUILD );
+        REQUIRE( u.backlog.size() == 1 );
+        CHECK( u.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION );
+        CHECK( u.backlog.front().actor );
     }
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {

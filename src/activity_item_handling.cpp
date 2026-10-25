@@ -3251,8 +3251,7 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
 
 static bool construction_activity( Character &you, const zone_data * /*zone*/,
                                    const tripoint_bub_ms &src_loc,
-                                   const activity_reason_info &act_info,
-                                   const activity_id &activity_to_restore )
+                                   const activity_reason_info &act_info )
 {
     // the actual desired construction
     if( !act_info.con_idx ) {
@@ -3287,7 +3286,6 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         you.consume_tools( it );
     }
-    you.backlog.emplace_front( activity_to_restore );
     you.assign_activity( build_construction_activity_actor( here.get_abs( src_loc ) ) );
     return true;
 }
@@ -3948,7 +3946,7 @@ bool multi_build_construction_activity_actor::multi_activity_do( Character &you,
             you.assign_activity( build_construction_activity_actor( src ) );
             return false;
         }
-        if( construction_activity( you, zone, src_loc, act_info, ACT_MULTIPLE_CONSTRUCTION ) ) {
+        if( construction_activity( you, zone, src_loc, act_info ) ) {
             return false;
         }
     }
