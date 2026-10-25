@@ -359,10 +359,7 @@
     "id": "fae_treasures",
     "//": "random magic treasures.",
     "subtype": "collection",
-    "items": [
-      { "item": "spoon_of_full_belly", "prob": 10 },
-      { "item": "thorn_brocade_vest", "prob": 5 }
-    ]
+    "items": [ { "item": "spoon_of_full_belly", "prob": 10 }, { "item": "thorn_brocade_vest", "prob": 5 } ]
   },
   {
     "type": "item_group",
