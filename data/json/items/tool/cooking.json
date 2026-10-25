@@ -732,7 +732,8 @@
     "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 20,
     "tool_ammo": [ "battery" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "//2": "Based on https://commercial.appliancesonline.com.au/p/crockpot-traditional-3-5l-slow-cooker-chp200"
   },
   {
     "id": "rock_quern",
