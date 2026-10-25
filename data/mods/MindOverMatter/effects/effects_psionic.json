@@ -2686,6 +2686,10 @@
             "value": "REGEN_HP",
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
+          { 
+          "value": "REGEN_WOUNDS", 
+          "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
+          },
           {
             "value": "MENDING_MODIFIER",
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * psionic_power_modifiers()" ] }
@@ -2773,7 +2777,12 @@
     "desc": [ "You are healing extraordinarily quickly." ],
     "apply_message": "",
     "remove_message": "Your body aches as your preternatural healing slows to a stop.",
-    "rating": "good"
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_WOUNDS", "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 85 ) + 500 ) * psionic_power_modifiers()" ] } } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
