@@ -2990,7 +2990,7 @@
     "material_thickness": 0.3,
     "//": "NO_SALVAGE is to prevent an infinite yarn/wool exploit because the salvage system sucks.",
     "flags": [ "VARSIZE", "SKINTIGHT", "NO_SALVAGE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "xlsocks_wool",
