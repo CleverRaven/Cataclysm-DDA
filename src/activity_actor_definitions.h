@@ -513,6 +513,7 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
         void set_npc_fetch_history( Character &you );
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
                 int distance = MAX_VIEW_DISTANCE );
+        // true when this turn's fetch step is over: item moved or task called off
         bool fetch_activity( Character &you, const tripoint_bub_ms &src_loc,
                              const activity_id &activity_to_restore, int distance = MAX_VIEW_DISTANCE );
         // is the front of the activity backlog a multi-activity?
