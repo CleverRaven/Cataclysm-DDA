@@ -5530,6 +5530,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         // can_resume_with_internal() in Character::assign_activity()
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !you.activity ) {
+            debugmsg( "%s lost its \"%s\" activity while routing to a work spot", you.disp_name(),
+                      current_activity.str() );
+            return false;
+        }
         if( !route_result ) {
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5562,6 +5567,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
                 // then a new activity was assigned
                 // and the multi-act is now in the backlog
                 return true;
+            }
+            if( !you.activity ) {
+                debugmsg( "%s lost its \"%s\" activity in a work step that went on scanning",
+                          you.disp_name(), current_activity.str() );
+                return false;
             }
         } else {
             return true;

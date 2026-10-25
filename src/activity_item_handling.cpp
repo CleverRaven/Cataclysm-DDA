@@ -3290,6 +3290,13 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
     return true;
 }
 
+static void call_off_fetch( Character &you )
+{
+    you.set_moves( 0 );
+    you.activity = player_activity();
+    you.backlog.clear();
+}
+
 bool fetch_required_activity_actor::fetch_activity(
     Character &you, const tripoint_bub_ms &src_loc, const activity_id &activity_to_restore,
     int distance )
@@ -3386,10 +3393,8 @@ bool fetch_required_activity_actor::fetch_activity(
     // if we got here, then the fetch failed for reasons that weren't predicted before assigning it.
     // nothing was moved or picked up, and nothing can be moved or picked up
     // so call the whole thing off to stop it looping back to this point ad nauseum.
-    you.set_moves( 0 );
-    you.activity = player_activity();
-    you.backlog.clear();
-    return false;
+    call_off_fetch( you );
+    return true;
 }
 
 static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_loc,
@@ -4181,7 +4186,6 @@ std::optional<bool> route( Character &you, player_activity &act, const tripoint_
         }
         // check if we found path to source / adjacent tile
         if( route.empty() ) {
-            check_npc_revert( you );
             fail_reason.no_craft_disassembly_location_route_found = true;
             return std::nullopt;
         }
