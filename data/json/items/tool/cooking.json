@@ -736,7 +736,7 @@
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 2 ] ],
     "//1": "160-175W",
     "use_action": [ "HEAT_ALL_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "160 W" } ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "ALARMCLOCK" ],
     "faults": [ { "fault_group": "electronic_general" } ],
     "charges_per_use": 20,
     "tool_ammo": [ "battery" ],
