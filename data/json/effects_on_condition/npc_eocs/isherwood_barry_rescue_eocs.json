@@ -22,12 +22,15 @@
         }
       },
       {
-        "if": { "math": [ "isherwood_luke_truck_coming == 1" ] },
-        "then": {
-          "mapgen_update": "truck_bomb_spawn",
-          "om_terrain": "barry_mi-go_scout_tower_1",
-          "om_special": "Barry's Mi-Go Scout Tower"
-        }
+		    "if": { "and": [ { "math": [ "isherwood_luke_truck_coming == 1" ] }, { "math": [ "isherwood_truck_bomb_deployed == 0" ] } ] },
+        "then": [
+		      {
+            "mapgen_update": "truck_bomb_spawn",
+            "om_terrain": "barry_mi-go_scout_tower_1",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          },
+		      { "math": [ "isherwood_truck_bomb_deployed = 1" ] }
+	    	]
       }
     ]
   },
