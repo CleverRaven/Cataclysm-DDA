@@ -128,5 +128,35 @@
     "wounds_removed": [ "clean_cut_bad" ],
     "wounds_added": [ "bandaged_cut_bad" ],
     "success_msg": "The bad cut is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bleed_scratch_bad_fix",
+    "copy-from": "bleed_wound_bad_quick",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your bad scratch with hemostatic powder.",
+    "wounds_removed": [ "bleeding_scratch_bad" ],
+    "wounds_added": [ "scratch_bad" ],
+    "success_msg": "The bad scratch isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_cut_medium_fix",
+    "copy-from": "bleed_wound_medium_quick",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your cut with hemostatic powder.",
+    "wounds_removed": [ "bleeding_cut_medium" ],
+    "wounds_added": [ "cut_medium" ],
+    "success_msg": "The cut isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_cut_bad_fix",
+    "copy-from": "bleed_wound_bad_quick",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your deep cut with hemostatic powder.",
+    "wounds_removed": [ "bleeding_cut_bad" ],
+    "wounds_added": [ "cut_bad" ],
+    "success_msg": "The deep cut isn't bleeding anymore."
   }
 ]

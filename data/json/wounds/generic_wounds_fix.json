@@ -77,5 +77,24 @@
     "skills": { "firstaid": 2 },
     "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.2 } ]
+  },
+  {
+    "abstract": "bleed_wound_medium_quick",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "5 seconds",
+    "skills": { "firstaid": 2 },
+    "//0": "have to know what hemostatic powder is to use it",
+    "requirements": [ { "components": [ [ [ "quikclot", 1 ] ] ] } ]
+  },
+  {
+    "abstract": "bleed_wound_bad",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "5 seconds",
+    "skills": { "firstaid": 2 },
+    "requirements": [ { "components": [ [ [ "quikclot", 2 ] ] ] } ]
   }
 ]
