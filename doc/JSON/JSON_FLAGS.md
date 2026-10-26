@@ -1490,6 +1490,7 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 
 ### Profession
 
+- ```HAS_ITEMS``` Used by backgrounds to explicitly flag them as being allowed to give the player items. Should only be used for backgrounds restricted to scenarios where the player is expected to be in a safe place or base of some kind.
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SKIP_DEFAULT_BACKGROUND``` This profession will not add the default background package of hobbies (`adult_basic_background`).
 
