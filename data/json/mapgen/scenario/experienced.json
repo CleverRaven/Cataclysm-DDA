@@ -1,127 +1,127 @@
 [
-	{
-	 "type": "mapgen",
-	 "om_terrain": [ "shelter_experienced" ],
-	 "//": "Made with the Experienced start in mind. Its own variant due to different furniture and item spawn locations.",
-	 "object": {
-		"fill_ter": "t_region_groundcover_urban",
-		"rows": [
-			"    !!!!!!!!!!!!!!!!    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    `!!!!`!!!!`!!!!`    ",
-			"    &&&####++####&&&    ",
-			"       #§.......#       ",
-			"    ##:#........#       ",
-			"    #...........#:##    ",
-			"    #.bbbbb.....c.s#    ",
-			"    #...........C.R#    ",
-			"    :.bbbbb.....c..:    ",
-			"    #...........cc.#    ",
-			"    #.bbbbb........#    ",
-			"    #.......t|||..f#    ",
-			"    #.|||||.w|*+..§#    ",
-			"    :.......A|||...:    ",
-			"    #...b.b...c||+|#    ",
-			"    #...b.b...c|..r#    ",
-			"    #...b.b...c|>.B#    ",
-			"    #9.........|>.l#4   ",
-			"    #####:##+#:#####    "
-		  ],
-		  "palettes": [ "shelter_shared" ],
-	    "terrain": { 
-		  "+": "t_door_c", 
-		  ":": "t_window_boarded", 
-		  "=": "t_door_c",
-		  "9": "t_floor",
-		  "t": "t_floor",
-		  "w": "t_floor",
-		  "A": "t_floor",
-		  "f": "t_floor",
-		  "s": "t_floor",
-		  "C": "t_floor",
-		  "r": "t_floor",
-		  "B": "t_floor",
-		  "R": "t_floor"
-		},
-		"furniture": { 
-		  "l": "f_locker", 
-		  "9": "f_floor_mattress", 
-		  "t": "f_locker", 
-		  "w": "f_locker", 
-		  "A": "f_locker",
-		  "f": "f_locker",
-		  "s": "f_woodstove"
-		},
-	    "items": {
-		  "l": { "item": "SUS_evac_shelter_locker_used", "chance": 50 },
-		  "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 30 },
-		  "S": { "item": "SUS_evac_shelter_sink_used", "chance": 50 },
-		  "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
-		  "t": { "item": "tools_experienced", "chance": 100 },
-		  "A": [ { "item": "survivorzed_tops", "chance": 90 }, { "item": "sewing_experienced", "chance": 100 } ], 
-		  "w": { "item": "melee_intermediate", "chance": 100, "repeat": [ 1, 2 ] },
-		  "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
-		  "9": { "item": "bed", "chance": 90 },
-		  "f": { "item": "cannedfood", "chance": 100, "repeat": [ 6, 9 ] },
-		  "C": [ 
-			{ "item": "SUS_cookware", "chance": 100, "repeat": 2 }, 
-			{"item": "tools_lighting", "chance": 100}, 
-			{"item": "firestarter_experienced", "chance": 100 }
-		  ]
-		},
-		"item": {  
-		  "r": [ { "item": "box_battery_charger" }, { "item": "extension_cable" } ],
-	      "B": { "item": "battery_car" },
-		  "C": {"item": "knife_small" }
-		}
-	  }
-	},
-	{
-	"type": "mapgen",
-		"om_terrain": "shelter_experienced_under",
-		"//": "because each evac shelter type is a subnest, mapgen doesn't play nice if a specific roof/basement isn't set here",
-		"object": {
-		  "palettes": [ "shelter_basic", "shelter_under" ],
-		  "fill_ter": "t_soil",
-		  "rows": [
-			"------------------------",
-			"------------------------",
-			"------------------------",
-			"------------------------",
-			"------------------------",
-			"------------------------",
-			"------------------------",
-			"-------;;;;;;;;;;-------",
-			"-------;|bbbbbbb;-------",
-			"----;;;;|b_____b;-------",
-			"----;T|T|b_____b;;;;----",
-			"----;_|_|b_____bbbb;----",
-			"----;___|b________b;----",
-			"----;S__|b________b;----",
-			"----;S_%|b________b;----",
-			"----;|+||b________b;----",
-			"----;B____________b;----",
-			"----;|+||b________b;----",
-			"----;S_%|b________b;----",
-			"----;S__|b________b;----",
-			"----;___|b____b||+|;----",
-			"----;_|_|b____b|<__;----",
-			"----;T|T|bbbbbb|<__;----",
-			"----;;;;;;;;;;;;;;;;----"
-		  ]
-		}
-	},
-	{
+  {
+    "type": "mapgen",
+    "om_terrain": [ "shelter_experienced" ],
+    "//": "Made with the Experienced start in mind. Its own variant due to different furniture and item spawn locations.",
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "    !!!!!!!!!!!!!!!!    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    `!!!!`!!!!`!!!!`    ",
+        "    &&&####++####&&&    ",
+        "       #§.......#       ",
+        "    ##:#........#       ",
+        "    #...........#:##    ",
+        "    #.bbbbb.....c.s#    ",
+        "    #...........C.R#    ",
+        "    :.bbbbb.....c..:    ",
+        "    #...........cc.#    ",
+        "    #.bbbbb........#    ",
+        "    #.......t|||..f#    ",
+        "    #.|||||.w|*+..§#    ",
+        "    :.......A|||...:    ",
+        "    #...b.b...c||+|#    ",
+        "    #...b.b...c|..r#    ",
+        "    #...b.b...c|>.B#    ",
+        "    #9.........|>.l#4   ",
+        "    #####:##+#:#####    "
+      ],
+      "palettes": [ "shelter_shared" ],
+      "terrain": {
+        "+": "t_door_c",
+        ":": "t_window_boarded",
+        "=": "t_door_c",
+        "9": "t_floor",
+        "t": "t_floor",
+        "w": "t_floor",
+        "A": "t_floor",
+        "f": "t_floor",
+        "s": "t_floor",
+        "C": "t_floor",
+        "r": "t_floor",
+        "B": "t_floor",
+        "R": "t_floor"
+      },
+      "furniture": {
+        "l": "f_locker",
+        "9": "f_floor_mattress",
+        "t": "f_locker",
+        "w": "f_locker",
+        "A": "f_locker",
+        "f": "f_locker",
+        "s": "f_woodstove"
+      },
+      "items": {
+        "l": { "item": "SUS_evac_shelter_locker_used", "chance": 50 },
+        "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 30 },
+        "S": { "item": "SUS_evac_shelter_sink_used", "chance": 50 },
+        "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
+        "t": { "item": "tools_experienced", "chance": 100 },
+        "A": [ { "item": "survivorzed_tops", "chance": 90 }, { "item": "sewing_experienced", "chance": 100 } ],
+        "w": { "item": "melee_intermediate", "chance": 100, "repeat": [ 1, 2 ] },
+        "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
+        "9": { "item": "bed", "chance": 90 },
+        "f": { "item": "cannedfood", "chance": 100, "repeat": [ 6, 9 ] },
+        "C": [
+          { "item": "SUS_cookware", "chance": 100, "repeat": 2 },
+          { "item": "tools_lighting", "chance": 100 },
+          { "item": "firestarter_experienced", "chance": 100 }
+        ]
+      },
+      "item": {
+        "r": [ { "item": "box_battery_charger" }, { "item": "extension_cable" } ],
+        "B": { "item": "battery_car" },
+        "C": { "item": "knife_small" }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "shelter_experienced_under",
+    "//": "because each evac shelter type is a subnest, mapgen doesn't play nice if a specific roof/basement isn't set here",
+    "object": {
+      "palettes": [ "shelter_basic", "shelter_under" ],
+      "fill_ter": "t_soil",
+      "rows": [
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "-------;;;;;;;;;;-------",
+        "-------;|bbbbbbb;-------",
+        "----;;;;|b_____b;-------",
+        "----;T|T|b_____b;;;;----",
+        "----;_|_|b_____bbbb;----",
+        "----;___|b________b;----",
+        "----;S__|b________b;----",
+        "----;S_%|b________b;----",
+        "----;|+||b________b;----",
+        "----;B____________b;----",
+        "----;|+||b________b;----",
+        "----;S_%|b________b;----",
+        "----;S__|b________b;----",
+        "----;___|b____b||+|;----",
+        "----;_|_|b____b|<__;----",
+        "----;T|T|bbbbbb|<__;----",
+        "----;;;;;;;;;;;;;;;;----"
+      ]
+    }
+  },
+  {
     "type": "mapgen",
     "om_terrain": "shelter_experienced_roof",
-	"//": "because each evac shelter type is a subnest, mapgen doesn't play nice if a specific roof/basement isn't set here",
+    "//": "because each evac shelter type is a subnest, mapgen doesn't play nice if a specific roof/basement isn't set here",
     "object": {
-	  "palettes": [ "shelter_shared", "parametrized_roof_palette" ],
-	  "fill_ter": "t_open_air",
+      "palettes": [ "shelter_shared", "parametrized_roof_palette" ],
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",
