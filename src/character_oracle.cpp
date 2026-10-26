@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <memory>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "basecamp.h"
@@ -12,6 +13,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "mapdata.h"
@@ -20,10 +22,8 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
-#include "stomach.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -71,7 +71,7 @@ namespace behavior
 // To avoid a local minima when the character has access to warmth in a shelter but gets cold
 // when they go outside, this method needs to only alert when travel time to known shelter
 // approaches time to freeze.
-status_t character_oracle_t::needs_warmth_badly( std::string_view ) const
+status_t character_oracle_t::needs_temperature_regulation( std::string_view ) const
 {
     // Use player::temp_conv to predict whether the Character is "in trouble".
     for( const bodypart_id &bp : subject->get_all_body_parts() ) {
@@ -89,7 +89,7 @@ status_t character_oracle_t::needs_water_badly( std::string_view ) const
         return status_t::success;
     }
     // Check thirst threshold.
-    if( subject->get_thirst() > 520 ) {
+    if( subject->get_thirst() > npc_thirst_act_level ) {
         return status_t::running;
     }
     return status_t::success;
@@ -105,9 +105,8 @@ status_t character_oracle_t::needs_food_badly( std::string_view ) const
     if( subject->get_hunger() >= 300 && subject->get_starvation() > base_metabolic_rate ) {
         return status_t::running;
     }
-    // Long-term: severe caloric deficit (same threshold as address_needs extreme path).
-    if( subject->get_stored_kcal() + subject->stomach.get_calories() <
-        subject->get_healthy_kcal() * 3 / 4 ) {
+    // Long-term: short of calories, the same line where intake stops
+    if( calories_short( *subject ) ) {
         return status_t::running;
     }
     return status_t::success;
@@ -148,47 +147,63 @@ status_t character_oracle_t::can_take_shelter( std::string_view ) const
     return n->find_nearby_shelters().empty() ? status_t::failure : status_t::running;
 }
 
+// carries an item it may consume for the need, and may stay put to consume it
+static bool carries_supply_for( const Character &subject, const npc::need_goal_id id )
+{
+    const npc *n = dynamic_cast<const npc *>( &subject );
+    if( !n || !n->intake_useful( id ) ) {
+        return false;
+    }
+    // meal or drink holds the NPC where it stands
+    if( !n->need_view( id, npc_option_cost::stay( n->pos_abs() ) ).may_consider() ) {
+        return false;
+    }
+    // const_cast: the inventory cache refreshes itself, so the query is not const
+    for( const item_location &loc : const_cast<npc *>( n )->cache_get_items_with( "is_food",
+            &item::is_food ) ) {
+        if( n->may_take( loc ) && n->can_satisfy( *loc, id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 status_t character_oracle_t::has_water( std::string_view ) const
 {
-    // Check if we know about water somewhere
-    bool found_water = subject->has_item_with( []( const item & cand ) {
-        return cand.is_food() && cand.get_comestible()->quench > 0;
-    } );
-    return found_water ? status_t::running : status_t::failure;
+    return carries_supply_for( *subject, npc::need_goal_id::drink_water ) ? status_t::running :
+           status_t::failure;
 }
 
 status_t character_oracle_t::has_food( std::string_view ) const
 {
-    // Check if we know about food somewhere
-    bool found_food = subject->has_item_with( []( const item & cand ) {
-        return cand.is_food() && cand.get_comestible()->has_calories();
-    } );
-    return found_food ? status_t::running : status_t::failure;
+    return carries_supply_for( *subject, npc::need_goal_id::eat_food ) ? status_t::running :
+           status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_food( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n ) {
+    if( !n || !n->intake_useful( npc::need_goal_id::eat_food ) ) {
         return status_t::failure;
     }
-    // TODO: const_cast because will_eat/rate_food are not const-qualified.
-    // Safe today (they do not mutate), but fragile if they gain side effects.
-    // Fix by making the candidate query const once those methods are.
-    // Camp food is included in the candidate list as need_source::camp_food.
-    return const_cast<npc *>( n )->find_food_candidates().empty()
-           ? status_t::failure : status_t::running;
+    // as in can_obtain_water(); const_cast: see npc::find_food_candidates()
+    for( const npc::need_candidate &c : const_cast<npc *>( n )->find_food_candidates() ) {
+        if( n->need_view( npc::need_goal_id::eat_food, n->food_option_cost( c ) ).may_consider() ) {
+            return status_t::running;
+        }
+    }
+    return status_t::failure;
 }
 
 status_t character_oracle_t::can_obtain_water( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
-    if( !n ) {
+    if( !n || !n->intake_useful( npc::need_goal_id::drink_water ) ) {
         return status_t::failure;
     }
     // obligation check as in execute_drink_water; failed targets still count, since the
     // executor retries them once every source has failed
-    // TODO: const_cast as in can_obtain_food
+    // const_cast: see npc::find_food_candidates()
     for( const npc::need_candidate &c : const_cast<npc *>( n )->find_water_candidates() ) {
         if( n->need_view( npc::need_goal_id::drink_water, n->water_option_cost( c ) ).may_consider() ) {
             return status_t::running;
@@ -197,7 +212,7 @@ status_t character_oracle_t::can_obtain_water( std::string_view ) const
     return status_t::failure;
 }
 
-status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
+status_t character_oracle_t::can_regulate_temperature( std::string_view ) const
 {
     const npc *n = dynamic_cast<const npc *>( subject );
     if( !n ) {
@@ -212,9 +227,8 @@ status_t character_oracle_t::can_obtain_warmth( std::string_view ) const
     } ) ) {
         return status_t::running;
     }
-    // TODO: same const_cast caveat as can_obtain_food above.
-    // find_nearby_warm_clothing uses can_wear which is not const-qualified.
-    if( !const_cast<npc *>( n )->find_warmth_candidates().empty() ) {
+    // const_cast: see npc::find_food_candidates()
+    if( !const_cast<npc *>( n )->find_temperature_candidates().empty() ) {
         return status_t::running;
     }
     // Already indoors with no other warmth sources: the executor will
@@ -262,7 +276,7 @@ float character_oracle_t::hunger_urgency( std::string_view ) const
     return std::clamp( 1.0f - kcal_frac, 0.0f, 1.0f );
 }
 
-float character_oracle_t::warmth_urgency( std::string_view ) const
+float character_oracle_t::temperature_urgency( std::string_view ) const
 {
     // 0 = all bodyparts at BODYTEMP_NORM (37C),
     // 1 = coldest bodypart at BODYTEMP_FREEZING (28C).

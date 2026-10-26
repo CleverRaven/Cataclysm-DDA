@@ -230,8 +230,10 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 namespace io
 {
@@ -2543,6 +2545,23 @@ bool Character::has_wounds( const bodypart_str_id &part ) const
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
+    for( const json_character_flag &fl_wl : wd->whitelist_flags ) {
+        if( !has_flag( fl_wl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "wound %s require flag %s character %s do not have, wound is not applied",
+                           wd.str(), fl_wl.str(), name );
+            return;
+        }
+    }
+
+    for( const json_character_flag &fl_bl : wd->blacklist_flags ) {
+        if( has_flag( fl_bl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS, "%s has flag %s, wound %s is not applied",
+                           name, fl_bl.str(), wd.str() );
+            return;
+        }
+    }
+
     bodypart &body_bp = body.at( bp.id() );
     body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
@@ -2558,14 +2577,30 @@ void Character::update_wounds( time_duration time_passed )
                 if( calendar::once_every( mod_val.rate ) ) {
                     switch( mod_val.type ) {
                         case wound_mod_value_type::PAIN:
-                            mod_pain( mod_val.amount, bp_id );
+                            if( get_pain() > mod_val.cap_min &&
+                                get_pain() < mod_val.cap_max ) {
+                                wd.mod_pain( mod_val.amount );
+                            }
                             break;
                         case wound_mod_value_type::BLEED:
                             bleed( get_map() );
                             break;
                         case wound_mod_value_type::VITAMIN:
                             if( mod_val.vitamin.has_value() ) {
-                                vitamin_mod( *mod_val.vitamin, mod_val.amount );
+                                const vitamin_id vit = *mod_val.vitamin;
+
+                                if( vitamin_get( vit ) <= mod_val.cap_min &&
+                                    vitamin_get( vit ) >= mod_val.cap_max ) {
+                                    break;
+                                }
+
+                                int final_amt = mod_val.amount;
+                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                                    final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
+                                                                mod_val.amount ) );
+                                }
+
+                                vitamin_mod( vit, final_amt );
                             }
                             break;
                         default:

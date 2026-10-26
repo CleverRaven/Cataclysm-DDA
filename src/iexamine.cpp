@@ -2363,34 +2363,9 @@ void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bo
     if( harvest.has_temperature() ) {
         harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
-    // Only auto-eat when the NPC is actively seeking food or water
-    // (self-care need execution). Generic harvest jobs (farming zones,
-    // player-assigned tasks) should collect, not consume.
-    bool npc_self_care = false;
-    if( you.is_npc() ) {
-        const npc &n = dynamic_cast<const npc &>( you );
-        const std::string &goal = n.get_committed_goal();
-        npc_self_care = ( goal == "eat_food" || goal == "drink_water" );
-    }
-    if( npc_self_care && harvest.is_food() &&
-        ( you.get_hunger() > 0 || you.has_calorie_deficit() ) &&
-        you.will_eat( harvest ).success() ) {
-        const time_duration consume_time = you.get_consume_time( harvest );
-        trinary result = you.consume( harvest );
-        if( result != trinary::NONE ) {
-            you.mod_moves( -to_moves<int>( consume_time ) );
-        }
-        if( result == trinary::SOME ) {
-            // Partial consumption: stash or drop the remainder.
-            if( !force_drop && you.can_pickVolume( harvest, true ) &&
-                you.can_pickWeight( harvest, true ) ) {
-                you.i_add( harvest );
-            } else {
-                get_map().add_item_or_charges( you.pos_bub(), harvest );
-            }
-        }
-    } else if( !force_drop && you.can_pickVolume( harvest, true ) &&
-               you.can_pickWeight( harvest, false ) ) {
+    // harvest is kept; NPC eats it later like any carried food
+    if( !force_drop && you.can_pickVolume( harvest, true ) &&
+        you.can_pickWeight( harvest, false ) ) {
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
         you.add_msg_if_npc( _( "<npcname> harvests: %s." ), harvest.tname() );

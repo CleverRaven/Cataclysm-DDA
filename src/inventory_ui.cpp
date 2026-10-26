@@ -410,6 +410,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "recent_recipes", recent_recipes );
     json.member( "crafting_expand_details", crafting_expand_details );
     json.member( "crafting_expand_steps", crafting_expand_steps );
+    json.member( "body_status_info_collapsed", body_status_info_collapsed );
+    json.member( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
@@ -501,6 +503,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "crafting_expand_details", crafting_expand_details );
+    jo.read( "body_status_info_collapsed", body_status_info_collapsed );
+    jo.read( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     jo.read( "crafting_expand_steps", crafting_expand_steps );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
@@ -4826,11 +4830,10 @@ void inventory_haul_selector::apply_selection( std::vector<item_location> &items
     std::unordered_map<inventory_entry *, int> counts;
     for( item_location &item : items ) {
         inventory_entry *entry = find_entry_by_location( item );
-        if( counts.count( entry ) ) {
-            counts.at( entry ) += 1;
-        } else {
-            counts.emplace( entry, 1 );
+        if( entry == nullptr ) {
+            continue;
         }
+        counts[entry] += 1;
     }
     for( std::pair<inventory_entry *, int> count : counts ) {
         // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better

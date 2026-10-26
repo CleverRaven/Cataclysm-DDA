@@ -999,6 +999,15 @@
     "can_resume": false
   },
   {
+    "id": "ACT_CAMP_MEAL",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "eating",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "based_on": "time",
+    "can_resume": false
+  },
+  {
     "id": "ACT_CONSUME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
