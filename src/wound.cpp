@@ -4,10 +4,13 @@
 #include <set>
 
 #include "bodypart.h"
+#include "character.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "magic_enchantment.h"
+#include "pimpl.h"
 #include "rng.h"
 
 enum class bp_type;
@@ -423,7 +426,7 @@ void wound::deserialize( const JsonObject &jsin )
 
 float wound::healing_percentage() const
 {
-    return healing_progress / healing_time;
+    return healing_progress / to_seconds<float>( healing_time );
 }
 
 void wound::mod_pain( const int mod )
@@ -441,20 +444,40 @@ time_duration wound::get_healing_time() const
     return healing_time;
 }
 
-time_duration wound::get_healing_progress() const
+float wound::get_healing_progress() const
 {
     return healing_progress;
 }
 
-wound_update_ret wound::update_wound( const time_duration time_passed )
+wound_update_ret wound::update_wound( const Character *who, const time_duration time_passed )
 {
-    healing_progress += time_passed;
+    if( healing_time == calendar::INDEFINITELY_LONG_DURATION ) {
+        return wound_update_ret::DO_NOTHING;
+    }
 
-    if( wound_progress_timer && wound_progress_timer->second <= healing_progress ) {
+    const float time = to_seconds<float>( time_passed );
+
+    healing_progress += time * get_wound_healing_modifier( who );
+
+    const time_duration heal_progress = time_duration::from_seconds( healing_progress );
+
+    if( wound_progress_timer && wound_progress_timer->second <= heal_progress ) {
         return wound_update_ret::ADVANCE;
-    } else if( healing_progress >= healing_time ) {
+    } else if( heal_progress >= healing_time ) {
         return wound_update_ret::REMOVE;
     }
 
     return wound_update_ret::DO_NOTHING;
+}
+
+float wound::get_wound_healing_modifier( const Character *who ) const
+{
+    float mod = 1.f;
+
+    // -200 health is 0.5x to healing, +200 is 1.5x
+    mod = mod + ( who->get_lifestyle() / 400.f );
+
+    mod = who->enchantment_cache->modify_value( enchant_vals::mod::REGEN_WOUND, mod );
+
+    return mod;
 }

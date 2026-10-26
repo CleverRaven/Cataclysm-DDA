@@ -17,6 +17,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
 enum class bp_type;
@@ -174,27 +175,29 @@ class wound
         int get_pain() const;
         // exposes healing_time
         time_duration get_healing_time() const;
-        time_duration get_healing_progress() const;
+        float get_healing_progress() const;
         // update the wound healing progress
-        wound_update_ret update_wound( time_duration time_passed );
+        wound_update_ret update_wound( const Character *who, time_duration time_passed );
+
+        float get_wound_healing_modifier( const Character *who ) const;
 
         wound &operator+=( const wound &wd ) {
             pain += wd.get_pain();
             // reset healing progress? maybe not necessary?
-            healing_progress = 0_seconds;
+            healing_progress = 0.f;
 
             return *this;
         }
 
-        bool operator==( const wound &wd ) {
+        bool operator==( const wound &wd ) const {
             return type == wd.type && healing_progress == wd.healing_progress;
         }
 
     private:
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;
-        // how much time passed since this wound was applied
-        time_duration healing_progress;
+        // how much time passed since this wound was applied, in seconds
+        float healing_progress;
         // how much pain this specific wound provide.
         int pain;
 
