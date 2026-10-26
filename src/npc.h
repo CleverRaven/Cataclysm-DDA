@@ -45,11 +45,13 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Creature;
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class activity_actor;
 class cata_path;
 class character_id;
 class const_talker;
@@ -606,7 +608,7 @@ struct npc_short_term_cache {
     };
 
     // Typed identifiers for executorized need goals.
-    enum class need_goal_id : int { eat_food, drink_water, seek_warmth, go_to_sleep };
+    enum class need_goal_id : int { eat_food, drink_water, regulate_temperature, go_to_sleep };
 
     // Per-goal executor state. Tracks a concrete target so the executor
     // does not rescan and dither every turn.
@@ -639,8 +641,8 @@ struct npc_short_term_cache {
     // interact with failure history.
     std::set<tripoint_abs_ms> food_failed_targets;
     std::set<tripoint_abs_ms> water_failed_targets;
-    need_plan warmth_plan;
-    std::set<tripoint_abs_ms> warmth_failed_targets;
+    need_plan temperature_plan;
+    std::set<tripoint_abs_ms> temperature_failed_targets;
     need_plan sleep_plan;
     std::set<tripoint_abs_ms> sleep_failed_targets;
 
@@ -662,6 +664,9 @@ struct npc_short_term_cache {
 
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint_abs_ms, int> searched_tiles;
+    // diagnostics: number of move() decisions and need executor runs
+    int decisions = 0;
+    int executor_calls = 0;
     // returns the value of the distance between a friendly creature and the closest enemy to that
     // friendly creature.
     // returns nullopt if not applicable
@@ -1282,10 +1287,11 @@ class npc : public Character
         // Shared query layer: both BT predicates and executor target
         // acquisition use these, so policy (visibility, locks, zones,
         // will_eat, rate_food) is defined in one place. Non-const because
-        // the underlying will_eat/rate_food calls are not const-qualified.
+        // basecamp::allowed_access_by() takes non-const Character, find_fire_spot() is
+        // non-const
         std::vector<need_candidate> find_food_candidates();
         std::vector<need_candidate> find_water_candidates();
-        std::vector<need_candidate> find_warmth_candidates();
+        std::vector<need_candidate> find_temperature_candidates();
         std::vector<scored_item> find_nearby_food( consume_filter filter = consume_filter::any );
         std::vector<scored_item> find_nearby_warm_clothing();
         std::vector<scored_shelter> find_nearby_shelters() const;
@@ -1301,6 +1307,12 @@ class npc : public Character
         std::optional<npc_trip> resolve_trip( const npc_trip_spec &spec ) const;
         int trip_route_calls() const {
             return ai_cache.trip_route_calls;
+        }
+        int decisions_made() const {
+            return ai_cache.decisions;
+        }
+        int executor_calls() const {
+            return ai_cache.executor_calls;
         }
         npc_action address_player();
         npc_action long_term_goal_action();
@@ -1368,6 +1380,8 @@ class npc : public Character
         bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
+        // hourly bionic and weapon checks a pause makes; true when wielding took the turn
+        bool pause_upkeep();
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -1385,15 +1399,21 @@ class npc : public Character
         bool can_take_that( const item &it );
         // Consider hoarding
         bool wants_take_that( const item &it );
+        // what's taken from a source: an item or a charge of it with its contents, or liquid
+        // poured out of its container
+        enum class take_kind : int { whole, drink_extract };
         // Consider a life of crime
-        bool would_take_that( const item &it, const tripoint_bub_ms &p ) const;
+        bool would_take_that( const item &it, const tripoint_bub_ms &p,
+                              take_kind take = take_kind::whole ) const;
         // same for a vehicle's cargo
-        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p ) const;
+        bool would_take_that( const vehicle &veh, const tripoint_bub_ms &p,
+                              take_kind take = take_kind::whole ) const;
         // player's things go by trust and witnesses; what names the thing in the debug log
         bool would_steal_from_player( const tripoint_bub_ms &p,
                                       const std::function<std::string()> &what ) const;
-        // another faction's goods: only if it shares them or is hostile
-        bool would_take_faction_goods( const faction_id &owner ) const;
+        // another faction's goods: only if it shares them or is hostile; a drink poured out also
+        // when it shares public goods
+        bool would_take_faction_goods( const faction_id &owner, take_kind take ) const;
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1404,6 +1424,10 @@ class npc : public Character
         bool empty_before_pickup();
         /** Whether a drink from a container on the ground may start or go on here. */
         bool may_drink_here() const;
+        /** Trouble that ends a meal or a drink and bars starting one. */
+        bool in_harms_way() const;
+        /** Drops the activity for good and a fetch with it; the task it interrupted takes over. */
+        void abandon_activity();
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint_bub_ms &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1431,18 +1455,41 @@ class npc : public Character
         bool saw_player_recently() const;
         // need's item filter plus will_eat (diet and stomach room)
         bool can_satisfy( const item &it, npc_short_term_cache::need_goal_id id ) const;
+        // stomach room left for the need's intake; a meal already in stomach ends it
+        bool intake_fits( npc_short_term_cache::need_goal_id id ) const;
+        // intake_fits() with the need at its act level
+        bool intake_useful( npc_short_term_cache::need_goal_id id ) const;
         // access: reservation, no-go areas and zones, plus owners of the item, its containers and
         // cargo vehicle
-        bool may_use_source( const item_location &loc ) const;
+        bool may_use_source( const item_location &loc, take_kind take ) const;
+        static take_kind take_kind_for( const item_location &loc );
+        // may_use_source() with the take_kind that loc implies
+        bool may_take( const item_location &loc ) const;
+        // access and diet for a meal or drink from loc, asked again when the meal ends
+        bool may_eat_from( const item_location &loc ) const;
+        // hunger and thirst as rate_food weighs them for filter's need
+        std::pair<int, int> consume_wants( consume_filter filter ) const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food( consume_filter filter = consume_filter::any );
         bool consume_food_from_camp( consume_filter filter = consume_filter::any );
+        // camp meal it didn't eat isn't served again for a while
+        void refuse_camp_meal();
         // activity a need goal starts and owns
         bool is_self_care_activity() const;
         // task waits aside until the rest is over
         void suspend_task_for_rest();
         void resume_suspended_task();
         void drop_suspended_task();
+        // one turn's drink from a source without container
+        units::volume sip_of_water() const;
+        // part of serving that fits now: all, part under the engorged line, or none
+        units::volume drinkable_part( const units::volume &serving ) const;
+        // eats loc through the consume activity: real time, interruptible
+        bool start_eating( const item_location &loc );
+        // false in harm's way or when the activity doesn't start
+        bool start_meal( const activity_actor &meal );
+        // true while a meal from an item or a camp's larder runs
+        bool is_eating() const;
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1568,8 +1615,8 @@ class npc : public Character
         const std::string &get_committed_goal() const {
             return ai_cache.intention.goal;
         }
-        // tests only: commits without ending the old pursuit or recording an option
-        void set_committed_goal( const std::string &goal ) {
+        // commits without ending the old pursuit or recording an option
+        void set_committed_goal_for_test( const std::string &goal ) {
             ai_cache.intention = { goal, calendar::turn, {}, npc_permission::allowed };
         }
         const npc_intention &get_intention() const {
@@ -1580,9 +1627,8 @@ class npc : public Character
         }
         // Clear the committed goal and any associated executor state
         // (plan + failed_targets + side effects like effect_lying_down).
-        // Also cancels self-care activities (forage/harvest/fire) that
-        // bypass BT re-evaluation in move().  Use this instead of
-        // set_committed_goal("") to avoid stale state across transitions.
+        // Also cancels a self-care activity a need goal started, which bypasses BT
+        // re-evaluation in move().
         void clear_committed_goal();
         using need_result = npc_short_term_cache::need_result;
         using need_plan = npc_short_term_cache::need_plan;
@@ -1654,6 +1700,8 @@ class npc : public Character
         // is routed and nullopt only marks a stand_on spot nobody can stand on
         std::optional<npc_option_cost> trip_cost( const npc_trip_spec &spec, bool responsive ) const;
         std::optional<npc_option_cost> water_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> food_option_cost( const need_candidate &c ) const;
+        std::optional<npc_option_cost> source_trip_cost( const need_candidate &c ) const;
         std::optional<npc_option_cost> rest_option_cost( const tripoint_abs_ms &spot ) const;
         npc_option_cost rest_option_best_case() const;
 
@@ -1662,7 +1710,7 @@ class npc : public Character
         need_result execute_need_goal( std::string_view goal );
         need_result execute_eat_food();
         need_result execute_drink_water();
-        need_result execute_seek_warmth();
+        need_result execute_regulate_temperature();
         need_result execute_go_to_sleep();
         std::vector<npc_short_term_cache::need_candidate> find_sleep_candidates();
         enum class fire_spot_check : int {
@@ -1695,8 +1743,8 @@ class npc : public Character
         const need_plan &get_water_plan() const {
             return ai_cache.water_plan;
         }
-        const need_plan &get_warmth_plan() const {
-            return ai_cache.warmth_plan;
+        const need_plan &get_temperature_plan() const {
+            return ai_cache.temperature_plan;
         }
         const need_plan &get_sleep_plan() const {
             return ai_cache.sleep_plan;
