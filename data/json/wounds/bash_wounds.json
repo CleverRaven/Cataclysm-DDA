@@ -110,48 +110,74 @@
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
-    "id": "bone_broken",
+    "id": "bone_broken_arm",
     "type": "wound",
-    "name": { "str": "broken bone" },
-    "description": "Your bone broke.",
+    "name": { "str": "broken arm" },
+    "description": "Your arm is broken.",
     "weight": 40,
     "limit": 2,
     "damage_types": [ "bash" ],
     "damage_required": [ 25, 120 ],
     "pain": [ 40, 49 ],
     "limb_scores": [
-      { "score": "manip", "value": 1 },
-      { "score": "grip", "value": 1 },
-      { "score": "lift", "value": 1 },
-      { "score": "balance", "value": 0.9 },
-      { "score": "footing", "value": 0.9 },
-      { "score": "block", "value": 1 },
-      { "score": "move_speed", "value": 0.95 }
+      { "score": "manip", "value": 0.5 },
+      { "score": "grip", "value": 0.5 },
+      { "score": "lift", "value": 0.5 },
+      { "score": "block", "value": 0.5 }
     ],
-    "blacklist_body_part_types": [ "torso", "sensor", "head" ],
+    "whitelist_body_part_types": [ "arm" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+   {
+    "id": "bone_broken_leg",
+    "type": "wound",
+    "name": { "str": "broken leg" },
+    "description": "Your leg is broken.",
+    "weight": 40,
+    "limit": 2,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 25, 120 ],
+    "pain": [ 40, 49 ],
+    "limb_scores": [
+      { "score": "balance", "value": 0.45 },
+      { "score": "footing", "value": 0.45 },
+      { "score": "move_speed", "value": 0.47 }
+    ],
+    "whitelist_body_part_types": [ "leg" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
-    "id": "bone_broken_healing_good",
-    "copy-from": "bone_broken",
+    "id": "bone_broken_arm_healing_good",
+    "copy-from": "bone_broken_arm",
     "type": "wound",
-    "name": { "str": "set bone" },
+    "name": { "str": "set broken arm" },
     "description": "You set the broken bone.",
     "weight": 0,
     "limit": 2,
     "healing_time": [ "30 days", "45 days" ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ]
+    "wound_progression": [ { "id": "bone_broken_arm", "chance": 100 } ]
   },
   {
-    "id": "bone_broken_healing_partial",
-    "copy-from": "bone_broken",
+    "id": "bone_broken_leg_healing_good",
+    "copy-from": "bone_broken_leg",
     "type": "wound",
-    "name": { "str": "improperly set bone" },
+    "name": { "str": "set broken leg" },
+    "description": "You set the broken bone.",
+    "weight": 0,
+    "limit": 2,
+    "healing_time": [ "30 days", "45 days" ],
+    "wound_progression": [ { "id": "bone_broken_leg", "chance": 100 } ]
+  },
+  {
+    "id": "bone_broken_arm_healing_partial",
+    "copy-from": "bone_broken_arm",
+    "type": "wound",
+    "name": { "str": "improperly set arm" },
     "description": "You somehow set the broken bone.",
     "weight": 0,
     "limit": 2,
     "pain": [ 45, 50 ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
+    "wound_progression": [ { "id": "bone_broken_arm", "chance": 100 } ],
     "progress_timer": {
       "id": "bone_broken_healed_partial",
       "time": [ "30 days", "45 days" ],
@@ -159,47 +185,93 @@
     }
   },
   {
-    "id": "bone_broken_healing_bad",
-    "copy-from": "bone_broken_healing_partial",
+    "id": "bone_broken_leg_healing_partial",
+    "copy-from": "bone_broken_leg",
     "type": "wound",
-    "name": { "str": "badly set bone" },
-    "description": "Your broken bone was set by a lunatic, badly.",
-    "pain": [ 50, 56 ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
-    "progress_timer": { "id": "bone_broken_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your %s broken bone finally healed." }
+    "name": { "str": "improperly set leg" },
+    "description": "You somehow set the broken bone.",
+    "weight": 0,
+    "limit": 2,
+    "pain": [ 45, 50 ],
+    "wound_progression": [ { "id": "bone_broken_leg", "chance": 100 } ],
+    "progress_timer": {
+      "id": "bone_broken_healed_partial",
+      "time": [ "30 days", "45 days" ],
+      "message": "Your %s broken bone finally healed."
+    }
   },
   {
-    "id": "bone_broken_healed_partial",
-    "copy-from": "bone_broken_healing_partial",
+    "id": "bone_broken_arm_healing_bad",
+    "copy-from": "bone_broken_arm_healing_partial",
     "type": "wound",
-    "name": { "str": "improperly set bone" },
-    "description": "Your bone broken bone healed, somewhat.",
+    "name": { "str": "badly set arm" },
+    "description": "Your broken bone was set by a lunatic, badly.",
+    "pain": [ 50, 56 ],
+    "wound_progression": [ { "id": "bone_broken_arm", "chance": 100 } ],
+    "progress_timer": { "id": "bone_broken_arm_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your broken arm finally healed." }
+  },
+  {
+    "id": "bone_broken_leg_healing_bad",
+    "copy-from": "bone_broken_leg_healing_partial",
+    "type": "wound",
+    "name": { "str": "badly set leg" },
+    "description": "Your broken bone was set by a lunatic, badly.",
+    "pain": [ 50, 56 ],
+    "wound_progression": [ { "id": "bone_broken_leg", "chance": 100 } ],
+    "progress_timer": { "id": "bone_broken_leg_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your broken leg finally healed." }
+  },
+  {
+    "id": "bone_broken_arm_healed_partial",
+    "copy-from": "bone_broken_arm_healing_partial",
+    "type": "wound",
+    "name": { "str": "improperly set arm" },
+    "description": "Your broken arm has healed, somewhat.",
     "pain": [ 4, 6 ],
     "limb_scores": [
-      { "score": "manip", "value": 0.3 },
-      { "score": "grip", "value": 0.4 },
-      { "score": "lift", "value": 0.4 },
-      { "score": "balance", "value": 0.3 },
-      { "score": "footing", "value": 0.3 },
-      { "score": "block", "value": 0.5 },
-      { "score": "move_speed", "value": 0.3 }
+      { "score": "manip", "value": 0.15 },
+      { "score": "grip", "value": 0.25 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "block", "value": 0.3 }
     ]
   },
   {
-    "id": "bone_broken_healed_bad",
-    "copy-from": "bone_broken_healing_partial",
+    "id": "bone_broken_leg_healed_partial",
+    "copy-from": "bone_broken_leg_healing_partial",
     "type": "wound",
-    "name": { "str": "badly set bone" },
-    "description": "Your broken bone healed, badly.",
+    "name": { "str": "improperly set leg" },
+    "description": "Your broken leg healed, somewhat.",
+    "pain": [ 4, 6 ],
+    "limb_scores": [
+      { "score": "balance", "value": 0.2 },
+      { "score": "footing", "value": 0.3 },
+      { "score": "move_speed", "value": 0.2 }
+    ]
+  },
+  {
+    "id": "bone_broken_arm_healed_bad",
+    "copy-from": "bone_broken_arm_healing_partial",
+    "type": "wound",
+    "name": { "str": "badly set arm" },
+    "description": "Your broken arm healed, badly.",
     "pain": [ 10, 14 ],
     "limb_scores": [
-      { "score": "manip", "value": 0.7 },
-      { "score": "grip", "value": 0.7 },
-      { "score": "lift", "value": 0.7 },
-      { "score": "balance", "value": 0.5 },
-      { "score": "footing", "value": 0.6 },
-      { "score": "block", "value": 0.6 },
-      { "score": "move_speed", "value": 0.6 }
+      { "score": "manip", "value": 0.4 },
+      { "score": "grip", "value": 0.4 },
+      { "score": "lift", "value": 0.4 },
+      { "score": "block", "value": 0.4 }
+    ]
+  },
+  {
+    "id": "bone_broken_leg_healed_bad",
+    "copy-from": "bone_broken_leg_healing_partial",
+    "type": "wound",
+    "name": { "str": "badly set leg" },
+    "description": "Your broken leg healed, badly.",
+    "pain": [ 10, 14 ],
+    "limb_scores": [
+      { "score": "balance", "value": 0.4 },
+      { "score": "footing", "value": 0.4 },
+      { "score": "move_speed", "value": 0.4 }
     ]
   },
   {
