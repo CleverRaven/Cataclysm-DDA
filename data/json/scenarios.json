@@ -622,10 +622,10 @@
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 30, "season": "summer", "year": 1 },
     "add_professions": true,
-	"distance_initial_visibility": 50,
+    "distance_initial_visibility": 50,
     "professions": [ "winter_scavenger", "winter_army" ],
     "requirement": "achievement_survive_28_days",
-	"flags": [ "LONE_START", "FORGIVING" ]
+    "flags": [ "LONE_START", "FORGIVING" ]
   },
   {
     "type": "scenario",
