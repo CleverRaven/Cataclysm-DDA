@@ -611,6 +611,22 @@
     "distance_initial_visibility": 50,
     "requirement": "achievement_survive_91_days"
   },
+    {
+    "type": "scenario",
+    "id": "experienced_start",
+    "name": "Experienced",
+    "points": 1,
+    "description": "It's still strange for you to think of it, but it's been a good month or so since the world ended and not only are you still alive, you've managed to get a proper base set up for yourself. Here's to many months more, you hope.",
+    "allowed_locs": [ "sloc_shelter_experienced" ],
+    "start_name": "Fortified Evac Shelter",
+    "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 8, "day": 30, "season": "summer", "year": 1 },
+    "add_professions": true,
+	"distance_initial_visibility": 50,
+    "professions": [ "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_28_days",
+	"flags": [ "LONE_START", "FORGIVING" ]
+  },
   {
     "type": "scenario",
     "id": "faction_camp_start",

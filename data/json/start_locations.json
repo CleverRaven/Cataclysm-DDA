@@ -24,6 +24,12 @@
     "terrain": [ { "om_terrain": "shelter_under", "parameters": { "shelter_palette": "shelter_infested_scenario" } } ]
   },
   {
+	"type": "start_location",
+	"id": "sloc_shelter_experienced",
+	"name": "Fortified Evacuation Shelter",
+	"terrain": [ {"om_terrain": "shelter_experienced" } ]
+  },
+  {
     "type": "start_location",
     "id": "sloc_town_hall",
     "name": "Town Hall",

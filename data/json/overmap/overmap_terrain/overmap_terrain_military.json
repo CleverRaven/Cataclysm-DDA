@@ -81,20 +81,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_unfinished" ],
+    "id": [ "shelter", "shelter_unfinished", "shelter_experienced" ],
     "name": "evac shelter A-23",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "shelter_roof",
+    "id": [ "shelter_roof", "shelter_experienced_roof" ],
     "name": "evac shelter roof A-23",
     "copy-from": "shelter_abstract"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_unfinished" ],
+    "id": [ "shelter_under", "shelter_under_unfinished", "shelter_experienced_under" ],
     "name": "evac shelter basement A-23",
     "copy-from": "shelter_abstract",
     "flags": [ "KNOWN_UP" ]
