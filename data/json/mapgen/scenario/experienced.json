@@ -179,7 +179,7 @@
     "//": "Common battery-powered or hand tools that a survivor would have stashed. Guaranteed spawns, so mostly for scenario use only.",
     "entries": [
       { "item": "hacksaw", "prob": 100 },
-	  { "item": "saw", "prob": 100 },
+      { "item": "saw", "prob": 100 },
       { "item": "hammer", "prob": 100 },
       {
         "distribution": [ { "item": "pliers", "prob": 60 }, { "item": "pliers_locking", "prob": 20 }, { "item": "big_pliers", "prob": 2 } ],
