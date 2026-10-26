@@ -611,7 +611,7 @@
     "distance_initial_visibility": 50,
     "requirement": "achievement_survive_91_days"
   },
-    {
+  {
     "type": "scenario",
     "id": "experienced_start",
     "name": "Experienced",
