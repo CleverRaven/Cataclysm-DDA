@@ -215,24 +215,24 @@
     ]
   },
   {
-	"id": "sewing_experienced",
-	"type": "item_group",
-	"subtype": "distribution",
-	"//": "charges in the sewing tools can't be added directly in the mapgen item list",
-	"entries": [
-	  { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
-	  { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
-	]
+    "id": "sewing_experienced",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "charges in the sewing tools can't be added directly in the mapgen item list",
+    "entries": [
+      { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
+      { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
+    ]
   },
   {
-	"id": "firestarter_experienced",
-	"type": "item_group",
-	"subtype": "distribution",
-	"//": "no other itemgroup for just firestarting equipment",
-	"entries": [
+    "id": "firestarter_experienced",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "no other itemgroup for just firestarting equipment",
+    "entries": [
       { "item": "ref_lighter", "prob": 20, "charges": [ 10, 50 ] },
       { "item": "flint_steel", "prob": 10 },
-	  { "item": "matches", "prob": 20, "charges": [ 5, 20 ] }
-	]
+      { "item": "matches", "prob": 20, "charges": [ 5, 20 ] }
+    ]
   }
 ]
