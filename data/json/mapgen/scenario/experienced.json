@@ -151,26 +151,26 @@
       "terrain": { "2": { "param": "roof_type", "fallback": "t_flat_roof" } },
       "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 17 ], "y": [ 9, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
-	},
+  },
   {
-	 "type": "item_group",
-	 "id": "melee_intermediate",
-	 "subtype": "distribution",
-	 "//": "represents various mid-tier weapons a survivor made or scavenged that are appropriate for this stage of game",
-	 "entries": [
-	  { "item": "spear_knife_proper", "prob": 10 },
-	  { "item": "fire_ax", "prob": 10 },
-	  { "item": "mace_trench", "prob": 10 },
-	  { "item": "halberd_crude", "prob": 10 },
-	  { "item": "bat", "prob": 10 },
-	  { "item": "crude_goedendag", "prob": 10 },
-	  { "item": "mace_pipe", "prob": 10 },
-	  { "item": "makeshift_glaive", "prob": 10 },
-	  { "item": "bo", "prob": 10 },
-	  { "item": "i_staff", "prob": 10 },
-	  { "item": "machete", "prob": 5 },
-	  { "item": "hatchet", "prob": 5 }
-	 ]
+    "type": "item_group",
+    "id": "melee_intermediate",
+    "subtype": "distribution",
+    "//": "represents various mid-tier weapons a survivor made or scavenged that are appropriate for this stage of game",
+    "entries": [
+      { "item": "spear_knife_proper", "prob": 10 },
+      { "item": "fire_ax", "prob": 10 },
+      { "item": "mace_trench", "prob": 10 },
+      { "item": "halberd_crude", "prob": 10 },
+      { "item": "bat", "prob": 10 },
+      { "item": "crude_goedendag", "prob": 10 },
+      { "item": "mace_pipe", "prob": 10 },
+      { "item": "makeshift_glaive", "prob": 10 },
+      { "item": "bo", "prob": 10 },
+      { "item": "i_staff", "prob": 10 },
+      { "item": "machete", "prob": 5 },
+      { "item": "hatchet", "prob": 5 }
+    ]
   },
   {
     "id": "tools_experienced",
