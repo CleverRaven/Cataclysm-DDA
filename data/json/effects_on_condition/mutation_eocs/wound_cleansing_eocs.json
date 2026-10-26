@@ -1,0 +1,77 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS",
+    "condition": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] } },
+    "recurrence": [ "15 minutes", "90 minutes" ],
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "one_in_chance": 10 },
+            { "not": { "u_has_trait": "INFRESIST" } },
+            { "not": { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } }
+          ]
+        },
+        "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+      },
+      {
+        "if": {
+          "and": [
+            { "one_in_chance": 3 },
+            { "or": [ { "u_has_trait": "INFRESIST" }, { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } ] }
+          ]
+        },
+        "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+      },
+      {
+        "if": {
+          "and": [
+            { "x_in_y_chance": { "x": 2, "y": 3 } },
+            { "and": [ { "u_has_trait": "INFRESIST" }, { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } ] }
+          ]
+        },
+        "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+      },
+      {
+        "if": { "and": [ { "u_has_trait": "INFRESIST" }, { "u_has_trait": "DISIMMUNE" } ] },
+        "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+    "effect": [
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "u_has_any_wound": [ "scratch_bad" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bp" }, "wound_id": "scratch_bad" },
+              { "u_add_wound": { "context_val": "bp" }, "wound_id": "clean_scratch_bad" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "cut_medium" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bp" }, "wound_id": "cut_medium" },
+              { "u_add_wound": { "context_val": "bp" }, "wound_id": "clean_cut_medium" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "cut_bad" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bp" }, "wound_id": "cut_bad" },
+              { "u_add_wound": { "context_val": "bp" }, "wound_id": "clean_cut_bad" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
