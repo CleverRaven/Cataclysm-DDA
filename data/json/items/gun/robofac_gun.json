@@ -17,7 +17,6 @@
     "color": "blue",
     "ammo": [ "NULL" ],
     "flags": [ "NO_TURRET" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
@@ -155,7 +154,6 @@
     "handling_modifier": 2,
     "loudness_modifier": -50,
     "//2": "this gives similar attributes to other 9mm pdws",
-    "damage_modifier": { "damage_type": "bullet", "amount": 4 },
     "range_modifier": 20,
     "overwrite_min_cycle_recoil": 450,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"9mm Parabellum PDW\" stamped into the metal and an integrated silencer."
@@ -188,7 +186,6 @@
     "handling_modifier": 2,
     "loudness_modifier": -50,
     "//2": "this gives similar attributes to other pdws",
-    "damage_modifier": { "damage_type": "bullet", "amount": 4 },
     "range_modifier": 20,
     "overwrite_min_cycle_recoil": 81,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a short barrel with \"5.7mm NATO PDW\" stamped into the metal and an integrated silencer."
@@ -221,7 +218,6 @@
     "dispersion_modifier": 12,
     "handling_modifier": 2,
     "loudness_modifier": -10,
-    "damage_modifier": { "damage_type": "bullet", "amount": -1 },
     "overwrite_min_cycle_recoil": 2700,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"7.62 NATO DMR\" stamped into the metal and an integrated flash hider."
   },
@@ -250,7 +246,6 @@
     "install_time": "1 m",
     "ammo_modifier": [ "shot" ],
     "min_skills": [ [ "weapon", 1 ] ],
-    "damage_modifier": { "damage_type": "bullet", "amount": 2 },
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
     "overwrite_min_cycle_recoil": 1250,
@@ -352,8 +347,6 @@
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ],
     "handling_modifier": 18,
-    "//1": "this makes damage the same as pamd68",
-    "damage_modifier": { "damage_type": "bullet", "amount": 2 },
     "overwrite_min_cycle_recoil": 3500,
     "flags": [ "BIPOD", "SLOW_WIELD" ],
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a heavy barrel with an integrated bipod, threaded muzzle and \"EXODIC\" stamped into the metal.  The typo appears to be intentional."
