@@ -84,7 +84,7 @@
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "5 seconds",
-    "skills": { "firstaid": 2 },
+    "skills": { "firstaid": 0 },
     "//0": "have to know what hemostatic powder is to use it",
     "requirements": [ { "components": [ [ [ "quikclot", 1 ] ] ] } ]
   },
@@ -94,7 +94,7 @@
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "5 seconds",
-    "skills": { "firstaid": 2 },
+    "skills": { "firstaid": 0 },
     "requirements": [ { "components": [ [ [ "quikclot", 2 ] ] ] } ]
   }
 ]

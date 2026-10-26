@@ -82,8 +82,8 @@
     ],
     "mod_values": [
       { "type": "BLEED", "rate": "5 seconds", "amount": 8 },
-      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -8 },
-      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -8 }
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -7 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -7 }
     ],
     "periodic_message": { "message": "Your cut on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
@@ -111,8 +111,8 @@
     ],
     "mod_values": [
       { "type": "BLEED", "rate": "2 seconds", "amount": 15 },
-      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -15 },
-      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -15 }
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -10 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -10 }
     ],
     "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
