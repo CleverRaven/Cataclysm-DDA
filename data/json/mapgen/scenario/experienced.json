@@ -207,8 +207,11 @@
       { "item": "multitool", "prob": 100 },
       { "item": "metal_file", "prob": 100 },
       { "item": "sandpaper", "prob": 100 },
-	  { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
-	  { "distribution": [ { "item": "cordless_drill", "prob": 100, "charges": [ 150, 500 ] }, { "item": "hand_drill", "prob": 10 } ], "prob": 100 }
+      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+      {
+        "distribution": [ { "item": "cordless_drill", "prob": 100, "charges": [ 150, 500 ] }, { "item": "hand_drill", "prob": 10 } ],
+        "prob": 100
+      }
     ]
   },
   {
