@@ -223,14 +223,13 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather.clear_temp_cache();
         REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos_bub() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.wear_item( test_npc, item( itype_backpack ), false, false );
         item_location sweater = test_npc.i_add( item( itype_sweater ) );
-        // With warmth unified under seek_warmth, inventory clothing
-        // triggers can_obtain_warmth (not legacy can_wear_warmer_clothes).
-        CHECK( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
-        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
+        // carried clothing: one way to regulate temperature
+        CHECK( oracle.can_regulate_temperature( "" ) == behavior::status_t::running );
+        CHECK( npc_needs.tick( &oracle ) == "regulate_temperature" );
         item sweater_copy = *sweater;
         test_npc.wear_item( sweater_copy );
         sweater.remove_item();
@@ -240,9 +239,8 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         get_map().furn_set( test_npc.pos_bub() + point::east, furn_f_firering );
         get_map().build_map_cache( 0 );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
-        // Fire supplies make can_obtain_warmth return running (fire is
-        // a warmth strategy), so npc_obtain_warmth succeeds with seek_warmth.
-        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
+        // fire supplies: one way to regulate temperature
+        CHECK( npc_needs.tick( &oracle ) == "regulate_temperature" );
     }
     SECTION( "Hungry" ) {
         test_npc.set_hunger( 500 );
@@ -353,7 +351,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
         test_npc.update_bodytemp();
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
 
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
@@ -364,21 +362,21 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         const item_group::ItemList water_items = item_group::items_from(
                     Item_spawn_data_test_bottle_water );
         test_npc.i_add( water_items.front() );
-        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_regulate_temperature( "" ) == behavior::status_t::running );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
 
-        // warmth_urgency (near 1.0) >> thirst_urgency (0.58)
-        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
+        // temperature_urgency (near 1.0) >> thirst_urgency (0.58)
+        CHECK( npc_needs.tick( &oracle ) == "regulate_temperature" );
     }
     SECTION( "Freezing with fire supplies also wins over thirst" ) {
         // Proves the score lives on npc_homeostasis (the fallback branch),
-        // not on npc_obtain_warmth. If the score were misplaced on the
+        // not on npc_regulate_temperature. If the score were misplaced on the
         // leaf, this path through npc_make_fire would be unscored.
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
         test_npc.update_bodytemp();
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
 
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
@@ -393,13 +391,12 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         // find_fire_spot needs the map cache.
         get_map().furn_set( test_npc.pos_bub() + point::east, furn_f_firering );
         get_map().build_map_cache( 0 );
-        // Fire supplies make can_obtain_warmth return running (fire is
-        // a warmth strategy inside find_warmth_candidates).
-        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::running );
+        // fire supplies: one way to regulate temperature
+        REQUIRE( oracle.can_regulate_temperature( "" ) == behavior::status_t::running );
         REQUIRE( oracle.can_make_fire( "" ) == behavior::status_t::running );
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
 
-        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
+        CHECK( npc_needs.tick( &oracle ) == "regulate_temperature" );
     }
     SECTION( "Dead tired -- sleep is feasible" ) {
         // past TIRED, so can_sleep holds; utility scoring handles duty priority
@@ -522,7 +519,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
         test_npc.update_bodytemp();
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
 
         // No warm clothes, no fire, but indoor tile adjacent
         map &here = get_map();
@@ -530,17 +527,16 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         here.ter_set( adj, ter_t_floor );
         REQUIRE( oracle.can_take_shelter( "" ) == behavior::status_t::running );
 
-        // seek_warmth fires before legacy take_shelter because
-        // npc_obtain_warmth is first in the warmth fallback chain.
-        CHECK( npc_needs.tick( &oracle ) == "seek_warmth" );
+        // adjacent shelter: one way to regulate temperature
+        CHECK( npc_needs.tick( &oracle ) == "regulate_temperature" );
     }
     SECTION( "Freezing outdoors with no shelter" ) {
         weather_manager &weather = get_weather();
         weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
         test_npc.update_bodytemp();
-        REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
-        REQUIRE( oracle.can_obtain_warmth( "" ) == behavior::status_t::failure );
+        REQUIRE( oracle.needs_temperature_regulation( "" ) == behavior::status_t::running );
+        REQUIRE( oracle.can_regulate_temperature( "" ) == behavior::status_t::failure );
 
         // No warmth sources, no fire supplies -> idle
         CHECK( npc_needs.tick( &oracle ) == "idle" );
@@ -959,20 +955,20 @@ TEST_CASE( "npc_urgency_score_predicates", "[npc][behavior]" )
         CHECK( oracle.hunger_urgency( "" ) == Approx( 1.0f ).margin( 0.01f ) );
     }
 
-    SECTION( "warmth_urgency responds to cold bodyparts" ) {
+    SECTION( "temperature_urgency responds to cold bodyparts" ) {
         // Explicitly set baseline -- clear_character does not guarantee temps
         guy.set_all_parts_temp_conv( BODYTEMP_NORM );
-        CHECK( oracle.warmth_urgency( "" ) < 0.01f );
+        CHECK( oracle.temperature_urgency( "" ) < 0.01f );
 
         // Single cold bodypart drives the score
         guy.set_part_temp_conv( body_part_torso, BODYTEMP_VERY_COLD );
-        float cold_score = oracle.warmth_urgency( "" );
+        float cold_score = oracle.temperature_urgency( "" );
         CHECK( cold_score > 0.5f );
         CHECK( cold_score < 1.0f );
 
         // At BODYTEMP_FREEZING the score saturates near 1.0
         guy.set_part_temp_conv( body_part_torso, BODYTEMP_FREEZING );
-        CHECK( oracle.warmth_urgency( "" ) == Approx( 1.0f ).margin( 0.05f ) );
+        CHECK( oracle.temperature_urgency( "" ) == Approx( 1.0f ).margin( 0.05f ) );
     }
 
     SECTION( "sleepiness_urgency scales from 0 to 1" ) {
@@ -989,7 +985,7 @@ TEST_CASE( "npc_urgency_score_predicates", "[npc][behavior]" )
     SECTION( "score predicates registered in score_predicate_map" ) {
         CHECK( behavior::score_predicate_map.count( "npc_thirst_urgency" ) == 1 );
         CHECK( behavior::score_predicate_map.count( "npc_hunger_urgency" ) == 1 );
-        CHECK( behavior::score_predicate_map.count( "npc_warmth_urgency" ) == 1 );
+        CHECK( behavior::score_predicate_map.count( "npc_temperature_urgency" ) == 1 );
         CHECK( behavior::score_predicate_map.count( "npc_sleepiness_urgency" ) == 1 );
     }
 
@@ -1270,7 +1266,7 @@ TEST_CASE( "npc_decision_category_mapping", "[npc][behavior]" )
         CHECK( bt_goal_to_category( "eat_food" ) == decision_category::needs );
         CHECK( bt_goal_to_category( "go_to_sleep" ) == decision_category::needs );
         CHECK( bt_goal_to_category( "start_fire" ) == decision_category::needs );
-        CHECK( bt_goal_to_category( "seek_warmth" ) == decision_category::needs );
+        CHECK( bt_goal_to_category( "regulate_temperature" ) == decision_category::needs );
         // Legacy warmth goals removed from BT; now unmodeled.
         CHECK( bt_goal_to_category( "wear_warmer_clothes" ) == decision_category::unmodeled );
         CHECK( bt_goal_to_category( "take_shelter" ) == decision_category::unmodeled );

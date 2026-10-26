@@ -1099,9 +1099,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     units::volume in_stomach_volume =
         food.volume( false, false, 1 ) * compute_effective_food_volume_ratio( food );
-    if( food.is_food() &&
-        ( stomach.would_be_engorged_with( *this, in_stomach_volume, has_calorie_deficit() ) ||
-          has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
+    if( food.is_food() && !can_stomach( in_stomach_volume ) ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
@@ -1646,6 +1644,12 @@ void Character::modify_morale( item &food, const int nutr )
         }
         add_morale( morale_honey, honey_fun, 100 );
     }
+}
+
+bool Character::can_stomach( const units::volume &serving ) const
+{
+    return !stomach.would_be_engorged_with( *this, serving, has_calorie_deficit() ) &&
+           !has_effect( effect_hunger_full ) && !has_effect( effect_hunger_engorged );
 }
 
 // Used when determining stomach fullness from eating.
