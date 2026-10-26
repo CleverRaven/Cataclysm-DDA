@@ -1,0 +1,259 @@
+[
+  {
+    "id": "bruise_small",
+    "type": "wound",
+    "name": { "str": "light bruise" },
+    "description": "You have been bruised lightly.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 1, 10 ],
+    "pain": [ 1, 2 ],
+    "healing_time": [ "2 days", "4 days" ],
+    "wound_progression": [ { "id": "bruise_medium", "chance": 20 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.04 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_medium",
+    "type": "wound",
+    "name": { "str": "bruise" },
+    "description": "You have been bruised.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 10, 15 ],
+    "pain": [ 9, 16 ],
+    "healing_time": [ "4 days", "7 days" ],
+    "wound_progression": [ { "id": "bruise_bad", "chance": 20 }, { "id": "bleeding_laceration_medium", "chance": 15 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.07 },
+      { "score": "grip", "value": 0.04 },
+      { "score": "lift", "value": 0.06 },
+      { "score": "block", "value": 0.1 }
+    ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_bad",
+    "type": "wound",
+    "name": { "str": "bad bruise" },
+    "description": "You have been bruised badly.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 15, 25 ],
+    "pain": [ 20, 26 ],
+    "healing_time": [ "6 days", "10 days" ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 30 }, { "id": "bleeding_laceration_bad", "chance": 30 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.25 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.3 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.2 },
+      { "score": "lift", "value": 0.25 }
+    ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_laceration_medium",
+    "type": "wound",
+    "name": { "str": "bleeding laceration" },
+    "description": "You have been bruised.",
+    "weight": 20,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 10, 15 ],
+    "pain": [ 10, 16 ],
+    "wound_progression": [ { "id": "laceration_bad", "chance": 20 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.07 }, { "score": "grip", "value": 0.04 }, { "score": "lift", "value": 0.6 } ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "6 seconds", "amount": 8 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
+    ],
+    "periodic_message": { "message": "Your laceration on your %s is bleeding!", "rate": "80 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_laceration_bad",
+    "type": "wound",
+    "name": { "str": "bad bleeding laceration" },
+    "description": "You have been bruised badly.",
+    "weight": 20,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 15, 25 ],
+    "pain": [ 20, 26 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.25 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.2 },
+      { "score": "lift", "value": 0.25 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "4 seconds", "amount": 12 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -9 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -9 }
+    ],
+    "periodic_message": { "message": "Your bad laceration on your %s is bleeding!", "rate": "60 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bone_broken",
+    "type": "wound",
+    "name": { "str": "broken bone" },
+    "description": "Your bone broke.",
+    "weight": 40,
+    "limit": 2,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 25, 120 ],
+    "pain": [ 40, 49 ],
+    "limb_scores": [
+      { "score": "manip", "value": 1 },
+      { "score": "grip", "value": 1 },
+      { "score": "lift", "value": 1 },
+      { "score": "balance", "value": 0.9 },
+      { "score": "footing", "value": 0.9 },
+      { "score": "block", "value": 1 },
+      { "score": "move_speed", "value": 0.95 }
+    ],
+    "blacklist_body_part_types": [ "torso", "sensor", "head" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bone_broken_healing_good",
+    "copy-from": "bone_broken",
+    "type": "wound",
+    "name": { "str": "set bone" },
+    "description": "You set the broken bone.",
+    "weight": 0,
+    "limit": 2,
+    "healing_time": [ "30 days", "45 days" ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ]
+  },
+  {
+    "id": "bone_broken_healing_partial",
+    "copy-from": "bone_broken",
+    "type": "wound",
+    "name": { "str": "improperly set bone" },
+    "description": "You somehow set the broken bone.",
+    "weight": 0,
+    "limit": 2,
+    "pain": [ 45, 50 ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
+    "progress_timer": {
+      "id": "bone_broken_healed_partial",
+      "time": [ "30 days", "45 days" ],
+      "message": "Your %s broken bone finally healed."
+    }
+  },
+  {
+    "id": "bone_broken_healing_bad",
+    "copy-from": "bone_broken_healing_partial",
+    "type": "wound",
+    "name": { "str": "badly set bone" },
+    "description": "Your broken bone was set by a lunatic, badly.",
+    "pain": [ 50, 56 ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
+    "progress_timer": { "id": "bone_broken_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your %s broken bone finally healed." }
+  },
+  {
+    "id": "bone_broken_healed_partial",
+    "copy-from": "bone_broken_healing_partial",
+    "type": "wound",
+    "name": { "str": "improperly set bone" },
+    "description": "Your bone broken bone healed, somewhat.",
+    "pain": [ 4, 6 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.3 },
+      { "score": "grip", "value": 0.4 },
+      { "score": "lift", "value": 0.4 },
+      { "score": "balance", "value": 0.3 },
+      { "score": "footing", "value": 0.3 },
+      { "score": "block", "value": 0.5 },
+      { "score": "move_speed", "value": 0.3 }
+    ]
+  },
+  {
+    "id": "bone_broken_healed_bad",
+    "copy-from": "bone_broken_healing_partial",
+    "type": "wound",
+    "name": { "str": "badly set bone" },
+    "description": "Your broken bone healed, badly.",
+    "pain": [ 10, 14 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.7 },
+      { "score": "grip", "value": 0.7 },
+      { "score": "lift", "value": 0.7 },
+      { "score": "balance", "value": 0.5 },
+      { "score": "footing", "value": 0.6 },
+      { "score": "block", "value": 0.6 },
+      { "score": "move_speed", "value": 0.6 }
+    ]
+  },
+  {
+    "id": "laceration_medium",
+    "copy-from": "bleeding_laceration_medium",
+    "type": "wound",
+    "name": { "str": "laceration" },
+    "description": "You have a laceration, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_laceration_medium", "chance": 40 } ]
+  },
+  {
+    "id": "laceration_bad",
+    "copy-from": "bleeding_laceration_bad",
+    "type": "wound",
+    "name": { "str": "bad laceration" },
+    "description": "You have a bad laceration, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_laceration_bad", "chance": 45 } ]
+  },
+  {
+    "id": "clean_laceration_medium",
+    "copy-from": "laceration_medium",
+    "type": "wound",
+    "name": { "str": "clean laceration" },
+    "description": "You have a laceration you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_laceration_bad",
+    "copy-from": "laceration_bad",
+    "type": "wound",
+    "name": { "str": "clean bad laceration" },
+    "description": "You have a bad laceration, you should probably bandage it.",
+    "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "bandaged_laceration_medium",
+    "copy-from": "laceration_medium",
+    "type": "wound",
+    "name": { "str": "bandaged laceration" },
+    "description": "You have a laceration, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_laceration_bad",
+    "copy-from": "laceration_bad",
+    "type": "wound",
+    "name": { "str": "bandaged bad laceration" },
+    "description": "You have a bad laceration, you should wait till it heals.",
+    "healing_time": [ "3 days", "5 days" ]
+  }
+]
