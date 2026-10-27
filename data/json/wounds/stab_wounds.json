@@ -1,0 +1,86 @@
+[
+
+  {
+    "id": "bleeding_stab_medium",
+    "type": "wound",
+    "name": { "str": "bleeding cut" },
+    "description": "You have been cut, you should stop the bleeding.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 10, 15 ],
+    "pain": [ 10, 14 ],
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 20 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.15 },
+      { "score": "grip", "value": 0.15 },
+      { "score": "lift", "value": 0.15 },
+      { "score": "block", "value": 0.2 },
+      { "score": "move_speed", "value": 0.1 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "5 seconds", "amount": 8 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -9 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -9 }
+    ],
+    "periodic_message": { "message": "Your cut on your %s is bleeding!", "rate": "60 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_stab_bad",
+    "type": "wound",
+    "name": { "str": "bleeding deep cut" },
+    "description": "You have been deeply cut, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 15, 24 ],
+    "pain": [ 15, 19 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.25 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.2 },
+      { "score": "lift", "value": 0.25 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "2 seconds", "amount": 15 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -14 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -14 }
+    ],
+    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_stab_terrible",
+    "type": "wound",
+    "name": { "str": "bleeding deep cut" },
+    "description": "You have been deeply cut, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 25, 40 ],
+    "pain": [ 15, 19 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.25 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.2 },
+      { "score": "lift", "value": 0.25 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds", "amount": 20 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -20 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -20 }
+    ],
+    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+]
