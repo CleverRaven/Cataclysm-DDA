@@ -796,7 +796,8 @@
       "INHALED_TOXIN_IMMUNE",
       "MYCUS_IMMUNE",
       "GILLS",
-      "CANNOT_CONSUME_DRUGS"
+      "CANNOT_CONSUME_DRUGS",
+      "BLEED_IMMUNE"
     ]
   },
   {
