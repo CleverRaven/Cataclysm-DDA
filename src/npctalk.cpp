@@ -156,6 +156,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "wound.h"
 
 class recipe_subset;
 
