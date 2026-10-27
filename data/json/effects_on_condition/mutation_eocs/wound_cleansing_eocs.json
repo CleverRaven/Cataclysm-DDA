@@ -20,7 +20,47 @@
       },
       {
         "if": { "and": [ { "one_in_chance": 5 }, { "math": [ "u_eathealth_counter == 60" ] } ] },
-        "then": [ { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" } ]
+        "then": [
+          {
+            "if": {
+              "and": [
+                { "one_in_chance": 10 },
+                { "not": { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] } },
+                { "not": { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } }
+              ]
+            },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+          },
+          {
+            "if": {
+              "and": [
+                { "one_in_chance": 3 },
+                { "or": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] }
+              ]
+            },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+          },
+          {
+            "if": {
+              "and": [
+                { "x_in_y_chance": { "x": 2, "y": 3 } },
+                {
+                  "or": [
+                    { "and": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] },
+                    {
+                      "and": [ { "not": { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] } }, { "u_has_trait": "DISIMMUNE" } ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+          },
+          {
+            "if": { "and": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISIMMUNE" } ] },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+          }
+        ]
       },
       { "math": [ "u_eathealth_counter ++" ] }
     ]
@@ -36,7 +76,7 @@
         "if": {
           "and": [
             { "one_in_chance": 10 },
-            { "not": { "u_has_any trait": [ "INFRESIST", "INFIMMUNE" ] } },
+            { "not": { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] } },
             { "not": { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } }
           ]
         },
@@ -46,7 +86,7 @@
         "if": {
           "and": [
             { "one_in_chance": 3 },
-            { "or": [ { "u_has_any trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] }
+            { "or": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] }
           ]
         },
         "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
@@ -57,9 +97,9 @@
             { "x_in_y_chance": { "x": 2, "y": 3 } },
             {
               "or": [
-                { "and": [ { "u_has_any trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] },
+                { "and": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] },
                 {
-                  "and": [ { "not": { "u_has_any trait": [ "INFRESIST", "INFIMMUNE" ] } }, { "u_has_trait": "DISIMMUNE" } ]
+                  "and": [ { "not": { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] } }, { "u_has_trait": "DISIMMUNE" } ]
                 }
               ]
             }
@@ -68,7 +108,7 @@
         "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
       },
       {
-        "if": { "and": [ { "u_has_any trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISIMMUNE" } ] },
+        "if": { "and": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISIMMUNE" } ] },
         "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
       }
     ]
