@@ -126,10 +126,6 @@ Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 cut wounds
-Hub 01 kills on sight, but doesn't have starting -200 likes_u
-Add switch off heat requirements and some unattended recipes for them
-Don't spam body temperature messages when just entering hot/chilly temperature range
-Add steps to pie recipes and have second unattended versions of them
 
 
 ## Content:
@@ -230,8 +226,6 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
-Add multifuel diesel engine and special military container for engines
-Get rid of final autodocs/CBMs in labs
 
 
 ## Interface:
@@ -402,17 +396,6 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
-[MoM] You cannot gain the effects that make you lose access to psionics if you're Headblind
-Aftershock: Color Spaceport lights
-[MoM] Exodization affects vitakinesis, vitakinesis affects mutated limbs
-[MoM] Update Combat dance description, Intuitive Artistry has a turn-off message
-Aftershock: More natural Ravine floors
-[MoM] Genericize Pyrokinetic power Cauterize to affect any bodypart
-Aftershock: Add Sinkholes to the bottom of ravines
-[MoM] Telepathic damage causes headache wounds
-Remove manmade trash from forest_trails in innawoods
-Aftershock: Broken pipes leading into ravines.
-[Sky Island] Add lab CBM nest back to sky island
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -481,11 +464,6 @@ Scarlet Storm is less punishing with acute exposure, more punishing with chronic
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
-Accept solar panel arrays in radio tower recipes
-Acetylene torches can start fires
-Arachnid Arms clothing coverage
-Regular bandages do anything adhesive bandages can do
-reduce pain scratches can give you
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -691,16 +669,11 @@ Duplicating items on 'become huge -> remove armor' interaction
 Fix plugged-in appliances coming loose when leaving the reality bubble
 Traps with practice 2 no longer take zero time to place
 NPCs walk to fulfill their needs better
-Fix hammerhand wind resist calc
 Fix NPC camp meals, camp missions and guards crafting
 Fungal infections don't randomly happen
-Fix Finger Lighter CBM item description to match its left-hand slot
-Update weight of bullwhip & scourge
 Factions that are mad at you won't talk to you.
 NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
-Fix mink and beaver rage
 NPCs don't freeze when something comes up on the way to their job
-Fix crash when choosing items to haul
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
