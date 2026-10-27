@@ -128,6 +128,7 @@
       { "score": "block", "value": 1 },
       { "score": "move_speed", "value": 0.95 }
     ],
+    "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
