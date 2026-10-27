@@ -1,6 +1,32 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_EATHEALTH_activated",
+    "effect": { "math": [ "u_eathealth_counter = 0" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATHEALTH_processed",
+    "effect": [
+      { "if": { "math": [ "u_eathealth_counter > 60" ] }, "then": { "math": [ "u_eathealth_counter = 0" ] } },
+      {
+        "if": {
+          "and": [
+            { "one_in_chance": 4 },
+            { "or": [ { "math": [ "u_eathealth_counter == 15" ] }, { "math": [ "u_eathealth_counter == 45" ] } ] }
+          ]
+        },
+        "then": [ { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" } ]
+      },
+      {
+        "if": { "and": [ { "one_in_chance": 5 }, { "math": [ "u_eathealth_counter == 60" ] } ] },
+        "then": [ { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" } ]
+      },
+      { "math": [ "u_eathealth_counter ++" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS",
     "condition": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] },
     "deactivate_condition": { "not": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] } },

@@ -4077,7 +4077,9 @@
     "cost": 9,
     "kcal": true,
     "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 },
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.85 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.85 } ] } ],
+    "activated_eocs": [ "EOC_EATHEALTH_activated" ],
+    "processed_eocs": [ "EOC_EATHEALTH_processed" ]
   },
   {
     "type": "mutation",
