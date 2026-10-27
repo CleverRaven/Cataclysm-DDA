@@ -131,22 +131,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gas_b11",
-    "copy-from": "s_gas_b11",
-    "name": "bunker reception",
-    "sym": "B",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_gas_b20", "s_gas_b21" ],
-    "copy-from": "s_gas_b20",
-    "name": "bunker",
-    "sym": "B",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "aircraft_carrier_1a",
       "aircraft_carrier_1b",

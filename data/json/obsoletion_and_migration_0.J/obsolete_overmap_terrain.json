@@ -618,5 +618,23 @@
       "lmoe_under_empty_west": "lmoe_under_west",
       "lmoe_zombie_under_empty_west": "lmoe_under_west"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "Removed in 0.J experimental",
+    "oter_ids": {
+      "s_gas_b20_north": "empty_rock",
+      "s_gas_b21_north": "empty_rock",
+      "s_gas_b11_north": "solid_earth",
+      "s_gas_b20_south": "empty_rock",
+      "s_gas_b21_south": "empty_rock",
+      "s_gas_b11_south": "solid_earth",
+      "s_gas_b20_east": "empty_rock",
+      "s_gas_b21_east": "empty_rock",
+      "s_gas_b11_east": "solid_earth",
+      "s_gas_b20_west": "empty_rock",
+      "s_gas_b21_west": "empty_rock",
+      "s_gas_b11_west": "solid_earth"
+    }
   }
 ]
