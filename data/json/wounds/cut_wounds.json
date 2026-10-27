@@ -120,9 +120,9 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 20, 60 ],
-    "//0": "change the max damage required after more wounds are added that have a higher min damage",
+    "damage_required": [ 20, 30 ],
     "pain": [ 15, 19 ],
+    "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 30 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "block", "value": 0.3 },
@@ -144,6 +144,37 @@
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
+    "id": "bleeding_cut_terrible",
+    "type": "wound",
+    "name": { "str": "bleeding horrible cut" },
+    "description": "You have been horribly cut, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 31, 60 ],
+    "//0": "change the max damage required after more wounds are added that have a higher min damage",
+    "pain": [ 15, 19 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.4 },
+      { "score": "block", "value": 0.4 },
+      { "score": "grip", "value": 0.4 },
+      { "score": "lift", "value": 0.4 },
+      { "score": "swim", "value": 0.4 },
+      { "score": "crawl", "value": 0.4 },
+      { "score": "balance", "value": 0.4 },
+      { "score": "footing", "value": 0.4 },
+      { "score": "move_speed", "value": 0.4 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds", "amount": 19 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -18 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -18 }
+    ],
+    "periodic_message": { "message": "Your horrible cut on your %s is bleeding!", "rate": "20 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
     "id": "scratch_bad",
     "copy-from": "bleeding_scratch_bad",
     "type": "wound",
@@ -152,7 +183,7 @@
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": {  },
-    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 45 } ]
+    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 50 } ]
   },
   {
     "id": "cut_medium",
@@ -163,7 +194,7 @@
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": {  },
-    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 40 } ]
+    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 50 } ]
   },
   {
     "id": "cut_bad",
@@ -174,7 +205,18 @@
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": {  },
-    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 45 } ]
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 50 } ]
+  },
+  {
+    "id": "cut_terrible",
+    "copy-from": "bleeding_cut_terrible",
+    "type": "wound",
+    "name": { "str": "horrible cut" },
+    "description": "You have been horribly cut, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": {  },
+    "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 50 } ]
   },
   {
     "id": "clean_scratch_small",
@@ -221,6 +263,13 @@
     "healing_time": [ "5 days", "9 days" ]
   },
   {
+    "id": "clean_cut_terrible",
+    "copy-from": "cut_terrible",
+    "type": "wound",
+    "name": { "str": "clean horrible cut" },
+    "description": "You have been horribly cut, you should really bandage it."
+  },
+  {
     "id": "bandaged_scratch_small",
     "copy-from": "clean_scratch_small",
     "type": "wound",
@@ -259,5 +308,13 @@
     "name": { "str": "bandaged deep cut" },
     "description": "You have been badly cut, you should wait till it heals.",
     "healing_time": [ "4 days", "6 days" ]
+  },
+  {
+    "id": "bandaged_cut_terrible",
+    "copy-from": "cut_terrible",
+    "type": "wound",
+    "name": { "str": "bandaged horrible cut" },
+    "description": "You have been horribly cut, you should wait till it heals.",
+    "healing_time": [ "6 days", "8 days" ]
   }
 ]
