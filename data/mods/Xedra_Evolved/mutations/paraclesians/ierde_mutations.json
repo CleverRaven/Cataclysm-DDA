@@ -434,7 +434,11 @@
             }
           ]
         },
-        "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 }, { "value": "REGEN_HP", "multiply": 0.33 } ]
+        "values": [
+          { "value": "REGEN_STAMINA", "multiply": 0.5 },
+          { "value": "REGEN_HP", "multiply": 0.33 },
+          { "value": "REGEN_WOUND", "multiply": 0.33 }
+        ]
       }
     ]
   },
@@ -493,6 +497,7 @@
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_WOUND", "multiply": 10 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
