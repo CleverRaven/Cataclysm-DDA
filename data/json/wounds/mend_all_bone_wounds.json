@@ -15,6 +15,6 @@
     "skills": { "firstaid": 2 },
     "wounds_removed": [ "bone_broken_mend_all" ],
     "wounds_added": [ "bone_broken_healing_good" ],
-    "success_msg": "You shove your bones back into place.  It's all up to your body now, and it's never failed you before."
+    "success_msg": "You shove your bones back into place.  It's all up to your body now, and it hasn't failed you yet."
   }
 ]
