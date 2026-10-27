@@ -182,7 +182,7 @@
     "description": "You have been scratched badly, you should probably clean it and bandage it.",
     "weight": 0,
     "mod_values": [  ],
-    "periodic_message": {  },
+    "periodic_message": { "message": "", "rate": "999 hours" },
     "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 50 } ]
   },
   {
@@ -193,7 +193,7 @@
     "description": "You have been cut, you should probably clean it and bandage it.",
     "weight": 0,
     "mod_values": [  ],
-    "periodic_message": {  },
+    "periodic_message": { "message": "", "rate": "999 hours" },
     "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 50 } ]
   },
   {
@@ -204,7 +204,7 @@
     "description": "You have been deeply cut, you should probably clean it and bandage it.",
     "weight": 0,
     "mod_values": [  ],
-    "periodic_message": {  },
+    "periodic_message": { "message": "", "rate": "999 hours" },
     "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 50 } ]
   },
   {
@@ -215,7 +215,7 @@
     "description": "You have been horribly cut, you should probably clean it and bandage it.",
     "weight": 0,
     "mod_values": [  ],
-    "periodic_message": {  },
+    "periodic_message": { "message": "", "rate": "999 hours" },
     "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 50 } ]
   },
   {
