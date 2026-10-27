@@ -186,6 +186,7 @@
       { "score": "footing", "value": 0.7 },
       { "score": "move_speed", "value": 0.7 }
     ],
+    "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
