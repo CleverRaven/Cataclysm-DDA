@@ -664,6 +664,21 @@ conditional_t::func f_has_part_temp( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_has_body_part( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var sov = get_str_or_var( jo.get_member( member ), member, true );
+    return [sov, is_npc]( const_dialogue const & d ) {
+        for( const bodypart_id &bid : d.const_actor( is_npc )->get_all_body_parts(
+                 get_body_part_flags::none ) ) {
+            if( bid == get_bp_from_str( sov.evaluate( d ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
                                   bool is_npc )
 {
@@ -2521,6 +2536,7 @@ parsers = {
     {"u_has_intelligence", "npc_has_intelligence", jarg::member | jarg::array, &conditional_fun::f_has_intelligence },
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
+    {"u_has_body_part", "npc_has_body_part", jarg::member, &conditional_fun::f_has_body_part },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
     {"is_outside", jarg::member, &conditional_fun::f_tile_is_outside },
     {"current_dimension", jarg::member, &conditional_fun::current_dimension },
