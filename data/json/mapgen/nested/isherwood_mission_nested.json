@@ -195,6 +195,7 @@
     "update_mapgen_id": "truck_bomb_spawn",
     "object": {
       "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ],
+      "//": "A suggestion on #89250 infered that active items on submap which will be updated by update_mapgen won't be updated correctly by the process, so the bomb won't explode even once be activated. So the fire here put on the bomb is the temporary measure to surely let the bomb explode. This fire should be removed once the map update process problem solved.",
       "place_fields": [ { "field": "fd_fire", "x": [ 17 ], "y": [ 18 ], "intensity": [ 1 ], "repeat": 1 } ]
     }
   },
