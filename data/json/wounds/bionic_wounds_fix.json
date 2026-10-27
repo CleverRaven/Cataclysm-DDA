@@ -1,0 +1,160 @@
+[
+  {
+    "id": "fix_bionic_wound_damaged_plate_small",
+    "type": "wound_fix",
+    "name": "replace worn plating",
+    "description": "You can remove and replace damaged plating.",
+    "time": "2 hours",
+    "wounds_removed": [ "bionic_wound_damaged_plate_small" ],
+    "success_msg": "You patch your metal plating.",
+    "mod_hp": 15,
+    "skills": { "fabrication": 3 },
+    "requirements": [
+      [ "welding_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_damaged_plate_medium",
+    "type": "wound_fix",
+    "name": "replace damaged plating",
+    "description": "You can remove and replace damaged plating.",
+    "time": "2 hours",
+    "wounds_removed": [ "bionic_wound_damaged_plate_medium" ],
+    "success_msg": "You patch your metal plating.",
+    "mod_hp": 20,
+    "skills": { "fabrication": 3 },
+    "requirements": [
+      [ "welding_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_damaged_plate_bad",
+    "type": "wound_fix",
+    "name": "replace broken plating",
+    "description": "You can remove and replace damaged plating.",
+    "time": "2 hours",
+    "wounds_removed": [ "bionic_wound_damaged_plate_bad" ],
+    "success_msg": "You patch your metal plating.",
+    "mod_hp": 25,
+    "skills": { "fabrication": 3 },
+    "requirements": [
+      [ "welding_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_circuit",
+    "type": "wound_fix",
+    "name": "swap fried circuit",
+    "description": "You can replace blown electronics with new parts.",
+    "time": "2 hours",
+    "wounds_removed": [ "bionic_wound_circuit" ],
+    "success_msg": "You repair the circuit.",
+    "mod_hp": 10,
+    "skills": { "electronics": 6 },
+    "requirements": [
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ] ] ] }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_circuits", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_integrated_circuits", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.3, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_sensor",
+    "type": "wound_fix",
+    "name": "repair malfunctioning sensor",
+    "description": "You can repair the broken sensor.",
+    "time": "1 hour",
+    "wounds_removed": [ "bionic_wound_sensor" ],
+    "success_msg": "You repair the sensor.",
+    "mod_hp": 10,
+    "skills": { "electronics": 7 },
+    "requirements": [ [ "soldering_standard", 5 ], { "components": [ [ [ "e_scrap", 2 ] ] ] } ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_circuits", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_integrated_circuits", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.3, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_wire",
+    "type": "wound_fix",
+    "name": "solder damaged wires",
+    "description": "You can splice and solder the broken wires.",
+    "time": "30 minutes",
+    "skills": { "electronics": 5 },
+    "wounds_removed": [ "bionic_wound_wire" ],
+    "success_msg": "You solder the wires back together.",
+    "mod_hp": 10,
+    "requirements": [ [ "soldering_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_circuits", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.5, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_actuator",
+    "type": "wound_fix",
+    "name": "mend broken actuator",
+    "description": "You can repair your broken actuator.",
+    "time": "1 hour",
+    "wounds_removed": [ "bionic_wound_actuator" ],
+    "success_msg": "You repair the actuator.",
+    "mod_hp": 10,
+    "skills": { "fabrication": 5, "mechanics": 5 },
+    "requirements": [
+      [ "soldering_standard", 5 ],
+      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "scrap", 1 ] ] ] }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.7, "is_mandatory": false }
+    ]
+  },
+  {
+    "id": "fix_bionic_wound_hydraulics",
+    "type": "wound_fix",
+    "name": "fix hydraulics system",
+    "description": "You can repair and refill your broken hydraulics.",
+    "time": "1 hour",
+    "wounds_removed": [ "bionic_wound_hydraulics" ],
+    "success_msg": "You repair the broken hydraulics.",
+    "mod_hp": 10,
+    "skills": { "fabrication": 5, "mechanics": 6 },
+    "requirements": [
+      [ "soldering_standard", 5 ],
+      {
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "components": [ [ [ "scrap", 1 ] ], [ [ "hydraulic_oil", 60 ] ] ]
+      }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_high_pressure_systems", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_wp_cyborg", "time_save": 0.5, "is_mandatory": false }
+    ]
+  }
+]
