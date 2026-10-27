@@ -122,6 +122,13 @@
   },
   {
     "type": "effect_type",
+    "id": "test_no_radiation",
+    "name": [ "Test radiation immunity" ],
+    "desc": [ "Radiation immunity for testing." ],
+    "flags": [ "NO_RADIATION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "debug_no_staggered",
     "name": [ "Debug No Staggered" ],
     "desc": [ "You can't be staggered." ],

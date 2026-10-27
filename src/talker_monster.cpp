@@ -149,7 +149,7 @@ void talker_monster::set_anger( int new_val )
     me_mon->anger = new_val;
 }
 
-int talker_monster_const::morale_cur() const
+int talker_monster_const::morale_cur( bool ) const
 {
     return me_mon_const->morale;
 }
@@ -208,6 +208,16 @@ int talker_monster_const::get_weight() const
 bool talker_monster_const::is_warm() const
 {
     return me_mon_const->is_warm();
+}
+
+bool talker_monster_const::is_underwater() const
+{
+    return me_mon_const->is_underwater();
+}
+
+bool talker_monster_const::is_swimming() const
+{
+    return me_mon_const->is_swimming;
 }
 
 void talker_monster::set_friendly( int new_val )

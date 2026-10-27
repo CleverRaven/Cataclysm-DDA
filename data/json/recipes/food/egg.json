@@ -253,19 +253,27 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "boiled_egg",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "10 m",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
-    "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
-    "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
+        "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
+        "batch_time_factors": [ 80, 4 ],
+        "attention": "unattended",
+        "//2": "At 15 minutes the egg white becomes rubbery and the yoke becomes dry, but at 2 hours the egg becomes inedible",
+        "max_time": "2 h"
+      }
+    ],
     "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ] ]
   },
   {

@@ -573,7 +573,7 @@ bool assure_essential_dirs_exist()
     return true;
 }
 
-}  // namespace
+} // namespace
 
 #if defined(EMSCRIPTEN)
 EM_ASYNC_JS( void, mount_idbfs, (), {
@@ -616,19 +616,10 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
 } );
 #endif
 
-#if defined(USE_WINMAIN)
-int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
-                      _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
+namespace
 {
-    int argc = __argc;
-    char **argv = __argv;
-#elif defined(__ANDROID__)
-extern "C" int SDL_main( int argc, char **argv ) {
-#else
-int main( int argc, const char *argv[] )
+void initialize_runtime()
 {
-#endif
-
     cata::init_allocator();
 
     ordered_static_globals();
@@ -637,16 +628,10 @@ int main( int argc, const char *argv[] )
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
 #endif
+}
 
-#if defined(EMSCRIPTEN)
-    mount_idbfs();
-#endif
-
-    on_out_of_scope json_member_reporting_guard{ [] {
-            // Disable reporting unvisited members if stack unwinding leaves main early.
-            Json::globally_report_unvisited_members( false );
-        } };
-
+void initialize_platform_output()
+{
 #if defined(_WIN32) and defined(TILES)
     const HANDLE std_output { GetStdHandle( STD_OUTPUT_HANDLE ) }, std_error { GetStdHandle( STD_ERROR_HANDLE ) };
     if( std_output != INVALID_HANDLE_VALUE and std_error != INVALID_HANDLE_VALUE ) {
@@ -663,7 +648,12 @@ int main( int argc, const char *argv[] )
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
     start_logger( "cdda" );
+#endif
+}
 
+void initialize_default_paths()
+{
+#if defined(__ANDROID__)
     // On Android first launch, we copy all data files from the APK into the app's writeable folder so std::io stuff works.
     // Use the external storage so it's publicly modifiable data (so users can mess with installed data, save games etc.)
     std::string external_storage_path( GetAndroidExternalStoragePath() );
@@ -688,11 +678,10 @@ int main( int argc, const char *argv[] )
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
+}
 
-    MAP_SHARING::setDefaults();
-
-    cli_opts cli = parse_commandline( argc, const_cast<const char **>( argv ) );
-
+void validate_directories()
+{
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
                 PATH_INFO::datadir().c_str() );
@@ -704,7 +693,10 @@ int main( int argc, const char *argv[] )
                 PATH_INFO::user_dir().c_str() );
         exit( 1 );
     }
+}
 
+void initialize_debugging()
+{
 #if defined(EMSCRIPTEN)
     setupDebug( DebugOutput::std_err );
 #else
@@ -712,7 +704,10 @@ int main( int argc, const char *argv[] )
 #endif
     // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     json_error_output_colors = json_error_output_colors_t::color_tags;
+}
 
+void initialize_locale()
+{
     /**
      * OS X does not populate locale env vars correctly (they usually default to
      * "C") so don't bother trying to set the locale based on them.
@@ -740,23 +735,27 @@ int main( int argc, const char *argv[] )
 
     DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
     DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
+}
 
+void log_sdl_versions()
+{
 #if defined(TILES) || defined(SDL_SOUND)
-    {
-        const SDLVersionInfo compiled = GetCompiledSDLVersion();
-        DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
-                                   << compiled.major << "."
-                                   << compiled.minor << "."
-                                   << compiled.patch;
+    const SDLVersionInfo compiled = GetCompiledSDLVersion();
+    DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
+                               << compiled.major << "."
+                               << compiled.minor << "."
+                               << compiled.patch;
 
-        const SDLVersionInfo linked = GetLinkedSDLVersion();
-        DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
-                                   << linked.major << "."
-                                   << linked.minor << "."
-                                   << linked.patch;
-    }
+    const SDLVersionInfo linked = GetLinkedSDLVersion();
+    DebugLog( D_INFO, DC_ALL ) << "SDL version used during linking and in runtime is "
+                               << linked.major << "."
+                               << linked.minor << "."
+                               << linked.patch;
 #endif
+}
 
+bool initialize_interface( const cli_opts &cli )
+{
 #if !defined(TILES)
     get_options().init();
     get_options().load();
@@ -773,21 +772,18 @@ int main( int argc, const char *argv[] )
             // can't use any curses function as it has not been initialized
             std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
             DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
-            return 1;
+            return false;
         }
     } else if( cli.check_mods ) {
         get_options().init();
         get_options().load();
     }
 
-    set_language_from_options();
+    return true;
+}
 
-    rng_set_engine_seed( cli.seed );
-
-    game_ui::init_ui();
-
-    g = std::make_unique<game>();
-
+void load_static_game_data( const cli_opts &cli )
+{
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -804,7 +800,10 @@ int main( int argc, const char *argv[] )
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
+}
 
+void initialize_imgui()
+{
     // Load the colors of ImGui to match the colors set by the user.
     cataimgui::init_colors();
 
@@ -812,8 +811,11 @@ int main( int argc, const char *argv[] )
     // uses system locale, because that's what imgui uses to parse and display floats
     ImGui::GetPlatformIO().Platform_LocaleDecimalPoint =
         static_cast<unsigned char>( *localeconv()->decimal_point );
+}
 
-    // Override existing settings from cli  options
+void apply_runtime_cli_overrides( const cli_opts &cli )
+{
+    // Override existing settings from cli options
     if( cli.disable_ascii_art ) {
         get_options().get_option( "ENABLE_ASCII_ART" ).setValue( "false" );
         get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
@@ -822,9 +824,10 @@ int main( int argc, const char *argv[] )
     if( cli.noverify ) {
         get_options().get_option( "SKIP_VERIFICATION" ).setValue( "true" );
     }
+}
 
-    // Now we do the actual game.
-
+void configure_curses_cursor()
+{
 #if defined(DEBUG_CURSES_CURSOR)
     catacurses::curs_set( 2 );
 #else
@@ -832,7 +835,10 @@ int main( int argc, const char *argv[] )
     // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 #endif
+}
 
+void install_signal_handlers()
+{
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
     sigIntHandler.sa_handler = exit_handler;
@@ -840,12 +846,10 @@ int main( int argc, const char *argv[] )
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
+}
 
-    if( !assure_essential_dirs_exist() ) {
-        exit_handler( -999 );
-        return 0;
-    }
-
+void select_initial_language()
+{
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
 #if defined(TILES)
@@ -862,8 +866,10 @@ int main( int argc, const char *argv[] )
 #endif
     }
 #endif
-    replay_buffered_debugmsg_prompts();
+}
 
+void run_game_loop( cli_opts &cli )
+{
     main_menu::queued_world_to_load = std::move( cli.world );
 
     while( true ) {
@@ -876,6 +882,73 @@ int main( int argc, const char *argv[] )
         get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !g->do_turn() ) {}
     }
+}
+
+}  // namespace
+
+#if defined(USE_WINMAIN)
+int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
+                      _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
+{
+    int argc = __argc;
+    char **argv = __argv;
+#elif defined(__ANDROID__)
+extern "C" int SDL_main( int argc, char **argv ) {
+#else
+int main( int argc, const char *argv[] )
+{
+#endif
+
+    initialize_runtime();
+
+#if defined(EMSCRIPTEN)
+    mount_idbfs();
+#endif
+
+    on_out_of_scope json_member_reporting_guard{ [] {
+            // Disable reporting unvisited members if stack unwinding leaves main early.
+            Json::globally_report_unvisited_members( false );
+        } };
+
+    initialize_platform_output();
+    initialize_default_paths();
+
+    MAP_SHARING::setDefaults();
+
+    cli_opts cli = parse_commandline( argc, const_cast<const char **>( argv ) );
+
+    validate_directories();
+    initialize_debugging();
+    initialize_locale();
+    log_sdl_versions();
+
+    if( !initialize_interface( cli ) ) {
+        return 1;
+    }
+
+    set_language_from_options();
+    rng_set_engine_seed( cli.seed );
+    game_ui::init_ui();
+
+    g = std::make_unique<game>();
+    load_static_game_data( cli );
+
+    initialize_imgui();
+    apply_runtime_cli_overrides( cli );
+
+    // Now we do the actual game.
+    configure_curses_cursor();
+    install_signal_handlers();
+
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
+
+    select_initial_language();
+    replay_buffered_debugmsg_prompts();
+
+    run_game_loop( cli );
 
     exit_handler( -999 );
     return 0;

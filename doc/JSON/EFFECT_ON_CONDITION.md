@@ -86,7 +86,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
 | monster weakpoint: "effect_on_conditions"        | attacker (Creature, if exists, otherwise NONE) | victim (Creature) | note that if weakpoint was hit without attacker, EoC would be built without alpha talker, so using EoC referencing `u_` would result in error. Use `has_alpha` condition before manipulating alpha talker
 | monster death: "death_function"                  | killer (Creature, if exists, otherwise NONE)| victim (Creature) | Note that if monster was killed without a killer (falling anvil, explosion of a bomb etc), EoC would be built without alpha talker, so using EoC referencing `u_` would result in error. Use `has_alpha` condition before manipulating alpha talker
-| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `proj_damage`, int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating npc
+| ammo_effect: "eoc"                               | shooter (Creature)          | victim (if exist, otherwise NONE) (Creature) | `targeted_location`: location_variable, the tile impacted by the projectile, `proj_damage`: int, amount of damage projectile dealt. Detonation via SPECIAL_COOKOFF ammo effect return `proj_damage` as 1. Note that if projectile miss the target, EoC would be built without beta talker, so using EoC referencing `npc_` or `n_` would result in error. Use `has_beta` condition before manipulating npc
 
 Some actions sent additional context variables, that can be used in EoC, in format:
 
@@ -603,6 +603,22 @@ Check if `map_cache` contain value `has`, `lack` or `read`
 
 #### Examples
 
+### `mod_is_loaded`
+- type: string
+- Return true if mod_id is loaded
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+True if the world has Sky Island loaded
+```jsonc
+{ "mod_is_loaded": "sky_island" }
+```
+
 Check if two variables are `yes`
 ```jsonc
 "compare_string": [ "yes", { "context_val": "some_context_should_be_yes" }, { "context_val": "some_another_context_also_should_be_yes" } ]
@@ -669,6 +685,22 @@ check is your torso is 37 centigrade
 { "u_has_part_temp": 5000, "bodypart": "torso" }
 ```
 
+### `u_has_body_part`, `npc_has_body_part`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker has the specified body part 
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+check is you have a torso
+```jsonc
+{ "u_has_body_part": "torso" }
+```
+
 ### `u_has_item`, `npc_has_item`, `u_has_items`, `npc_has_items`
 - type: string or [variable object](#variable-object)
 - return true if item or items are presented in your or NPC inventory;
@@ -718,8 +750,8 @@ check do you have 3 manuals in inventory
 - type: [variable object](#variable-object)
 - return true if alpha or beta talker has software specified as `item` in one of the devices in their inventory
 - `item` - the software we are looking for
-- `charges` - optionally, the device in which the software is found has to have at least this number of charges or be plugged into a power grid (if omitted or 0, devices with no charges are matched too)
-- `device` - optionally, match only the software in this device
+- `charges` - optional, the device in which the software is found has to have at least this number of charges or be plugged into a power grid (if omitted or 0, devices with no charges are matched too)
+- `device` - optional, match only the software in this device
 
 #### Valid talkers:
 
@@ -1156,6 +1188,26 @@ You can hear
 { "not": "u_is_deaf" }
 ```
 
+### `u_is_swimming`, `npc_is_swimming`
+- type: simple string
+- return true if alpha or beta talker is currently swimming 
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ❌ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_swimming"
+```
+=
+```jsonc
+{ "not": "u_is_swimming" }
+```
+
 ### `u_is_alive`, `npc_is_alive`
 - type: simple string
 - return true if alpha or beta talker is not dead
@@ -1327,6 +1379,19 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
   "effect": [ { "u_message": "it is a grass" } ],
   "false_effect": [ { "u_message": "it is NOT a grass" } ]
 }
+```
+
+### `map_is_passable`
+- type: [location variable](#location-variable)
+- returns true if the map tile at that location is passable
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+```jsonc
+{ "map_is_passable": { "context_val": "loc" } }
 ```
 
 ### `map_in_city`
@@ -2590,8 +2655,8 @@ NPC run EoCs, provided by this effect; can work outside of reality bubble
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_run_npc_eocs"/ "npc_run_npc_eocs" | **mandatory** | array of eocs | EoCs that would be run by NPCs |
-| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble, if `"local": true`, and to every NPC in the world, if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
-| "local" | optional | boolean | default false; if true, the effect is run for every NPC in the world; if false, effect is run only to NPC in your reality bubble |
+| "unique_ids" | optional | string, [variable objects](#variable-object) or array | id of NPCs that would be affected; lack of ids make effect run EoC on every NPC in your reality bubble if `"local": true`, and to every NPC in the world if `"local": false`; unique ID of every npc is specified in mapgen, using `npcs` or `place_npcs` |
+| "local" | optional | boolean | default false; if true, the effect is run for every NPC in your reality bubble; if false, effect is run for every NPC in the world |
 | "npc_range" | optional | int or [variable object](#variable-object) | if used and neither 'z_min' nor 'z_max' is specified, only NPC having the same z position as the player in this range are affected |
 | "z_min" | optional | int or [variable object](#variable-object) | if used, only NPC'z position >= z_min are affected |
 | "z_max" | optional | int or [variable object](#variable-object) | if used, only NPC'z position <= z_max are affected |
@@ -3273,6 +3338,38 @@ Removes all scratch and deep_scratch wounds from bodypart alpha talker picks fro
       { "u_pick_bodypart": { "context_val": "bp" } },
       { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "scratch", "deep_scratch" ] },
       { "u_message": "Removed scratch and deep_scratch wounds from <context_val:bp>" }
+    ]
+  }
+```
+
+#### `u_remove_all_wounds`, `npc_remove_all_wounds`
+
+Removes all wounds from a specific bodypart
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- |
+| "u_remove_all_wounds", "npc_remove_all_wounds" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wounds should be removed |
+
+##### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+Removes all wounds from all body parts
+```jsonc
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_ALL_WOUNDS",
+    "effect": [      
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [ { "if": { "u_has_body_part": { "context_val": "id" } }, "then": { "u_remove_all_wounds": { "context_val": "id" } } } ]
+      }
     ]
   }
 ```
@@ -4268,24 +4365,72 @@ Would pick a random swear from `<swear>` snippet, and always would be the same (
 ```
 
 
-#### `u_mod_healthy`, `npc_mod_healthy`
-Increases or decreases your healthiness (respond for disease immunity and regeneration).
+#### `u_add_addiction`, `npc_add_addiction`, `u_lose_addiction`, `npc_lose_addiction`
+Adds an addiction with the supplied strength, or removes an addiction entirely.
 
-| Syntax | Optionality | Value  | Info |
+| Syntax | Optionality | Value | Info |
 | --- | --- | --- | --- |
-| "u_mod_healthy" / "npc_mod_healthy" | **mandatory** | int, float or [variable object](#variable-object) | Amount of health to be added |
-| "cap" | optional | int, float or [variable object](#variable-object) | cap for healthiness, beyond which it can't go further |
+| "u_add_addiction" / "npc_add_addiction" | **mandatory** | string or [variable object](#variable-object) | addiction type to add |
+| "strength" | **mandatory** | int, float or [variable object](#variable-object) | addiction strength passed to the normal addiction system |
+| "u_lose_addiction" / "npc_lose_addiction" | **mandatory** | string or [variable object](#variable-object) | addiction type to remove |
 
-##### Valid talkers:
-
-| Avatar | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | ---- | ------- | --- | ---- |
-| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
-
-##### Examples
-Your health is decreased by 1, but not smaller than -200
 ```jsonc
-{ "u_mod_healthy": -1, "cap": -200 }
+{ "u_add_addiction": "nicotine", "strength": 10 }
+{ "u_lose_addiction": "nicotine" }
+```
+
+#### `u_vomit`, `npc_vomit`
+Makes the character vomit.
+
+```jsonc
+"u_vomit"
+```
+
+#### `u_fall_asleep`, `npc_fall_asleep`
+Makes the character fall asleep for the given duration.
+This can cancel the character's current activity.  When called from a consumption EOC, queue a separate EOC with `run_eocs` and `"time_in_future": 0` so the consume activity finishes before falling asleep.
+
+```jsonc
+{ "u_fall_asleep": "2 hours" }
+```
+
+#### `u_heal_all`, `npc_heal_all`, `u_hurt_all`, `npc_hurt_all`
+Heals or damages every body part by the given amount.  `u_hurt_all` uses the normal all-body damage and pain handling.
+
+```jsonc
+{ "u_heal_all": 4 }
+{ "u_hurt_all": { "math": [ "rng( 10, 20 )" ] } }
+```
+
+#### `u_fill_stomach`, `npc_fill_stomach`
+Fills the character's stomach up to a fraction of its current capacity, adding the specified calories for each milliliter added.  `true_eocs` run if anything was added; otherwise `false_eocs` run.
+
+| Syntax | Optionality | Value | Info |
+| --- | --- | --- | --- |
+| "u_fill_stomach" / "npc_fill_stomach" | **mandatory** | float or [variable object](#variable-object) | target fraction of stomach capacity |
+| "calories_per_ml" | **mandatory** | int, float or [variable object](#variable-object) | calories added per milliliter |
+| "true_eocs" / "false_eocs" | optional | EOC or array of EOCs | results for a successful fill or an already-full stomach |
+
+```jsonc
+{ "u_fill_stomach": 0.25, "calories_per_ml": 2, "true_eocs": "EOC_FILLED" }
+```
+
+#### `u_marlossify`, `npc_marlossify`
+Applies the normal fungal Marloss transformation to the character's tile when used as a string.  The object form takes a location variable instead.
+
+```jsonc
+"u_marlossify"
+{ "u_marlossify": { "context_val": "loc" } }
+```
+
+#### `u_add_memorial`, `npc_add_memorial`
+Adds an entry to the avatar's memorial log.  The value is the male translation; `female` optionally supplies the female translation and defaults to the same text.
+
+```jsonc
+{
+  "u_add_memorial": { "str": "Found something strange.", "ctxt": "memorial_male" },
+  "female": { "str": "Found something strange.", "ctxt": "memorial_female" }
+}
 ```
 
 

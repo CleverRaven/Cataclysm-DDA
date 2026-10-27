@@ -88,6 +88,24 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "distribution_matrix_dust_survivor",
+    "container-item": "bottle_glass",
+    "items": [
+      { "item": "matrix_crystal_biokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_clair_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_electrokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_photokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_pyrokin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_telekin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_telepath_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_teleport_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_vitakin_dust", "prob": 1, "count": [ 4, 12 ] },
+      { "item": "matrix_crystal_drained_dust", "prob": 1, "count": [ 4, 12 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "matrix_crystal_biokin_dust_group",
     "items": [
       { "item": "matrix_crystal_biokin_dust", "prob": 3, "container-item": "test_tube" },

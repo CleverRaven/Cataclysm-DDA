@@ -25,13 +25,13 @@
 #include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "construction_group.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "crafting.h"
 #include "crafting_enums.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -85,6 +85,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "talker.h"  // IWYU pragma: keep
+#include "temp_crafting_inventory.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translation.h"
@@ -190,6 +191,9 @@ static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
+static const itype_id itype_iso_material_disc_ammo( "iso_material_disc_ammo" );
+static const itype_id itype_iso_material_disc_basic( "iso_material_disc_basic" );
+static const itype_id itype_iso_material_disc_quality( "iso_material_disc_quality" );
 static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
@@ -301,7 +305,6 @@ static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CANNOT_GAIN_PSIONICS( "CANNOT_GAIN_PSIONICS" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ESPER_ADVANCEMENT_OKAY( "ESPER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ESPER_STARTER_ADVANCEMENT_OKAY( "ESPER_STARTER_ADVANCEMENT_OKAY" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -371,6 +374,75 @@ void iexamine::change_appearance( Character &you, const tripoint_bub_ms & )
     }
 }
 
+void iexamine::iso_recycler( Character &, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+    map_cursor cur = map_cursor( examp );
+    std::vector<item_location> recyclables;
+    units::mass ammo_mass = 0_gram;
+    int basic_count = 0;
+    int premium_count = 0;
+    bool chastize = false;
+
+    cur.visit_items( [&basic_count, &ammo_mass, &premium_count, &chastize,
+                  &recyclables ]( const item_location & it ) {
+
+        if( it->is_ammo() ) {
+            const damage_instance &dam = it->ammo_data()->ammo->damage;
+            dam.total_damage() > 12 ? ammo_mass += it->weight() * 0.6 : ammo_mass += it->weight() * 0.05;
+            recyclables.emplace_back( it );
+        } else if( it->is_gun() || it->is_magazine() ) {
+            //Recycling contained ammo
+            if( it->has_ammo() ) {
+                const item &ammo = it->first_ammo();
+                const damage_instance &dam = ammo.ammo_data()->ammo->damage;
+                dam.total_damage() > 12 ? ammo_mass += ammo.weight() * 0.6 : ammo_mass += ammo.weight() * 0.05;
+
+            }
+            //Recycling the gun
+            if( !it->ammo_default().is_null() ) {
+                const damage_instance &damd = it->ammo_default()->ammo->damage;
+                if( damd.total_damage() > 30 ) {
+                    premium_count++;
+                    recyclables.emplace_back( it );
+
+                } else if( damd.total_damage() > 5 ) {
+                    basic_count++;
+                    recyclables.emplace_back( it );
+
+                }
+            } else {
+                chastize = true;
+            }
+        } else {
+            chastize = true;
+
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    if( chastize ) {
+        add_msg( _( "Non recyclables detected.  Please clasify residues properly." ) );
+    }
+
+    for( item_location it : recyclables ) {
+        it.remove_item();
+    }
+
+    if( premium_count > 0 ) {
+        here.spawn_item( examp, itype_iso_material_disc_quality, premium_count, 0, calendar::turn );
+    }
+    if( basic_count > 0 ) {
+        here.spawn_item( examp, itype_iso_material_disc_basic, basic_count, 0, calendar::turn );
+    }
+    if( ammo_mass / itype_iso_material_disc_ammo->weight > 1 ) {
+        here.spawn_item( examp, itype_iso_material_disc_ammo,
+                         ammo_mass / itype_iso_material_disc_ammo->weight, 0, calendar::turn );
+    }
+
+}
+
+
 /**
 * Remove the current threshold and devolve all post thresh mutations to their pre threshold level, unless the new threshold is compatible.
 */
@@ -410,11 +482,12 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
     std::vector<trait_id>available_traits;
     std::vector<item_location> genetech;
 
-    for( item_location &loc : you.all_items_loc() ) {
+    you.visit_items( [&genetech]( const item_location & loc ) {
         if( loc->has_flag( flag_GENE_TECH ) ) {
             genetech.push_back( loc );
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
 
     if( genetech.empty() ) {
@@ -657,7 +730,7 @@ void iexamine::nanofab( Character &you, const tripoint_bub_ms &examp )
         new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -1735,7 +1808,7 @@ void iexamine::portable_structure( Character &you, const tripoint_bub_ms &examp 
  */
 void iexamine::pit( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_amount( itype_2x4, 1 ) ) {
         none( you, examp );
         return;
@@ -2290,34 +2363,9 @@ void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bo
     if( harvest.has_temperature() ) {
         harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
-    // Only auto-eat when the NPC is actively seeking food or water
-    // (self-care need execution). Generic harvest jobs (farming zones,
-    // player-assigned tasks) should collect, not consume.
-    bool npc_self_care = false;
-    if( you.is_npc() ) {
-        const npc &n = dynamic_cast<const npc &>( you );
-        const std::string &goal = n.get_committed_goal();
-        npc_self_care = ( goal == "eat_food" || goal == "drink_water" );
-    }
-    if( npc_self_care && harvest.is_food() &&
-        ( you.get_hunger() > 0 || you.has_calorie_deficit() ) &&
-        you.will_eat( harvest ).success() ) {
-        const time_duration consume_time = you.get_consume_time( harvest );
-        trinary result = you.consume( harvest );
-        if( result != trinary::NONE ) {
-            you.mod_moves( -to_moves<int>( consume_time ) );
-        }
-        if( result == trinary::SOME ) {
-            // Partial consumption: stash or drop the remainder.
-            if( !force_drop && you.can_pickVolume( harvest, true ) &&
-                you.can_pickWeight( harvest, true ) ) {
-                you.i_add( harvest );
-            } else {
-                get_map().add_item_or_charges( you.pos_bub(), harvest );
-            }
-        }
-    } else if( !force_drop && you.can_pickVolume( harvest, true ) &&
-               you.can_pickWeight( harvest, false ) ) {
+    // harvest is kept; NPC eats it later like any carried food
+    if( !force_drop && you.can_pickVolume( harvest, true ) &&
+        you.can_pickWeight( harvest, false ) ) {
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
         you.add_msg_if_npc( _( "<npcname> harvests: %s." ), harvest.tname() );
@@ -2710,14 +2758,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
 
     const auto add = [&]( const itype_id & id, const int count ) {
         item new_item( id, calendar::turn );
-        if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges *= count;
-            new_item.charges /= seed_data.fruit_div;
-            if( new_item.charges <= 0 ) {
-                new_item.charges = 1;
-            }
-            result.push_back( new_item );
-        } else if( count > 0 ) {
+        if( count > 0 ) {
             result.insert( result.begin(), count, new_item );
         }
     };
@@ -2821,7 +2862,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
             you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
             return;
@@ -3436,7 +3477,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
     }
     requirement_data reqs = *requirement_data_autoclave;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( &you, you.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -4470,7 +4511,7 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
     if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
@@ -4524,12 +4565,13 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint_bub_ms &examp )
     const std::string maple_sap_name = item::nname( itype_maple_sap );
 
     map &here = get_map();
+    const map_cursor cur( examp );
     map_stack items = here.i_at( examp );
     for( item &it : items ) {
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
+            item_location( cur, container ).visit_items( [&charges, &has_sap]( const item_location & it ) {
                 if( it->typeId() == itype_maple_sap ) {
                     has_sap = true;
                     charges = it->charges;
@@ -4776,27 +4818,7 @@ void trap::examine( const tripoint_bub_ms &examp ) const
 
 void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
 {
-    map &here = get_map();
-    if( partial_con *const pc = here.partial_con_at( examp ) ) {
-        if( you.fine_detail_vision_mod() > 4 &&
-            !you.has_trait( trait_DEBUG_HS ) ) {
-            add_msg( m_info, _( "It is too dark to construct right now." ) );
-            return;
-        }
-        const construction &built = pc->id.obj();
-        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.group->name(), pc->counter / 100000 ) ) {
-            if( query_yn( _( "Cancel construction?" ) ) ) {
-                for( const item &it : pc->components ) {
-                    here.add_item_or_charges( you.pos_bub(), it );
-                }
-                here.partial_con_remove( examp );
-            }
-        } else {
-            you.assign_activity( build_construction_activity_actor( here.get_abs( examp ) ) );
-        }
-        return;
-    }
+    prompt_partial_construction( you, examp );
 }
 
 void iexamine::water_source( Character &, const tripoint_bub_ms &examp )
@@ -4840,45 +4862,6 @@ std::vector<const itype *> furn_t::crafting_ammo_item_types() const
         }
     }
     return output;
-}
-
-/**
-* Finds the number of charges of the first item that matches type.
-*
-* @param type       Search target.
-* @param items      Stack of items. Search stops at first match.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const itype *type, const map_stack &items )
-{
-    for( const item &candidate : items ) {
-        if( candidate.type == type ) {
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
-/**
-* Finds the number of charges of the first item that matches ammotype.
-*
-* @param ammotype   Search target.
-* @param items      Stack of items. Search stops at first match.
-* @param [out] item_type Matching type.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
-{
-    for( const item &candidate : items ) {
-        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
-            item_type = candidate.typeId();
-            return candidate.charges;
-        }
-    }
-    return 0;
 }
 
 static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool allow_unload )
@@ -4987,7 +4970,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     place_item( moved );
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
-    if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
+    if( opt.ammo.get_item()->use_charges( opt.ammo, opt_type->get_id(), amount, used,
                                           opt.ammo.pos_bub( here ) ) ) {
         opt.ammo.remove_item();
     }
@@ -5916,9 +5899,9 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        const inventory &crafting_inv = you.crafting_inventory();
+        const temp_crafting_inventory &crafting_inv = you.crafting_inventory();
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
-            return it.has_quality( qual_ANESTHESIA );
+            return it.get_quality( qual_ANESTHESIA ) > 0;
         } );
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining( ) >= 1 ) {
@@ -6755,7 +6738,7 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
         return;
     }
     // filter millable food
-    inventory inv = you.crafting_inventory();
+    temp_crafting_inventory inv = you.crafting_inventory();
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -7416,7 +7399,7 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
             std::vector<std::string> item_names;
             for( item_location &it : crafts ) {
                 if( it ) {
-                    item_names.emplace_back( it.get_item()->tname() );
+                    item_names.emplace_back( it->get_craft_listing_name( you ) );
                 }
             }
             uilist amenu2( _( "Which craft or disassembly to work on?" ), item_names );
@@ -7521,6 +7504,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
     static const std::map<std::string, function_data> function_map = {{
             { "none", { no_translation( "none" ), &iexamine::none } },
             { "deployed_furniture", { to_translation( "Take down or deploy furniture" ), &iexamine::deployed_furniture } },
+            { "iso_recycler", { to_translation( "Use recycler" ), &iexamine::iso_recycler } },
             { "change_appearance", { to_translation( "Change your appearance" ), &iexamine::change_appearance } },
             { "genemill", { to_translation( "Use genemill" ), &iexamine::genemill } },
             { "nanofab", { to_translation( "Use nanofab" ), &iexamine::nanofab } },

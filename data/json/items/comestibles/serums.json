@@ -79,5 +79,86 @@
         ]
       }
     ]
+  },
+  {
+    "id": "serum_learning",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str_sp": "76x-\"Lore\"" },
+    "description": "A little, sealed ampule with some blue, semi-transparent liquid of unknown origin.  The label on it says \"76x-\"Lore\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
+    "weight": "7 g",
+    "volume": "10 ml",
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "color": "blue",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "consume": true,
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_LEARNING",
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_LEARNING" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "serum_speed",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str_sp": "51x-\"Landru\"" },
+    "description": "A little, sealed ampule with some yellow, semi-transparent liquid of unknown origin.  The label on it says \"51x-\"Landru\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
+    "weight": "7 g",
+    "volume": "10 ml",
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "color": "yellow",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "consume": true,
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_SPEED",
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_SPEED" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "serum_night_operations",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str_sp": "09x-\"Anaximander\"" },
+    "description": "A little, sealed ampule with some black, semi-transparent liquid of unknown origin.  The label on it says \"09x-\"Anaximander\"\", whatever that means.",
+    "display_type": "BY_VOLUME",
+    "weight": "7 g",
+    "volume": "10 ml",
+    "material": [ "alien_liquid" ],
+    "symbol": "[",
+    "color": "black",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "consume": true,
+        "menu_text": "Inject",
+        "description": "Inject the liquid.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_RUN_SERUM_NIGHT_OPS",
+            "effect": { "run_eocs": "EOC_SERUM_GENERIFIED", "variables": { "eoc": "EOC_SERUM_NIGHT_OPS" } }
+          }
+        ]
+      }
+    ]
   }
 ]

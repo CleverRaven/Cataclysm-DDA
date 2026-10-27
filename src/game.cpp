@@ -54,6 +54,7 @@
 #include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "butchery_requirements.h"
 #include "butchery.h"
 #include "cached_options.h"
@@ -198,6 +199,7 @@
 #include "string_input_popup.h"
 #include "surroundings_menu.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -541,9 +543,13 @@ void game_ui::init_ui()
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
+#if !defined(__ANDROID__)
+    // On Android the grid follows the orientation, so a portrait grid must not
+    // be stored as landscape size
     get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
+#endif
 #else
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -630,6 +636,14 @@ void game::reload_tileset()
         } catch( const std::exception &err ) {
             popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
         }
+    }
+    try {
+        portrait_tilecontext->reinit();
+        portrait_tilecontext->load_tileset( get_option<std::string>( "PORTRAIT_TILES" ),
+                                            /*precheck=*/false, /*force=*/true,
+                                            /*pump_events=*/true, /*terrain=*/false );
+    } catch( const std::exception &err ) {
+        popup( _( "Loading the portrait tileset failed: %s" ), err.what() );
     }
     try {
         overmap_tilecontext->reinit();
@@ -803,8 +817,6 @@ bool game::start_game()
 
     // Make sure the items are added after the calendar is started
     u.add_profession_items();
-    // Move items from the raw inventory to item_location s. See header TODO.
-    u.migrate_items_to_storage( true );
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
@@ -857,7 +869,7 @@ bool game::start_game()
     start_loc.place_player( u, omtstart );
     // Set spawn location for starting items (maps need it to be readable)
     const tripoint_abs_ms player_pos = u.pos_abs();
-    u.visit_items( [&player_pos]( item * it, item * ) {
+    u.visit_items( [&player_pos]( item_location it ) {
         it->preserve_location( player_pos );
         return VisitResponse::NEXT;
     } );
@@ -1066,6 +1078,8 @@ bool game::start_game()
     if( debug_menu::is_debug_character() ) {
         debug_menu::do_debug_quick_setup();
         add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
+    } else {
+        debug_mode = false;
     }
     return true;
 }
@@ -1301,6 +1315,11 @@ void game::reload_npcs()
 const kill_tracker &game::get_kill_tracker() const
 {
     return *kill_tracker_ptr;
+}
+
+void game::clear_kill_tracker() const
+{
+    kill_tracker_ptr->clear();
 }
 
 void game::create_starting_npcs()
@@ -1658,7 +1677,7 @@ units::temperature_delta get_heat_radiation( const tripoint_bub_ms &location )
             if( !heat_can_spread ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest, -1, true, los_trace::physical ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
@@ -1694,7 +1713,7 @@ int get_best_fire( const tripoint_bub_ms &location )
             if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest, -1, true, los_trace::physical ) ) {
             continue;
         }
         if( square_dist( dest, location ) <= 1 ) {
@@ -1939,11 +1958,11 @@ static void view_recipe_crafting_menu( const item &it )
     you.craft( std::nullopt, recipe_id(), filterstring );
 }
 
-static hint_rating rate_action_eat( const avatar &you, const item &it )
+static hint_rating rate_action_eat( const avatar &you, const item_location &it )
 {
-    if( it.is_container() ) {
+    if( it->is_container() ) {
         hint_rating best_rate = hint_rating::cant;
-        it.visit_items( [&you, &best_rate]( item * node, item * ) {
+        it.visit_items( [&you, &best_rate]( item_location node ) {
             if( you.can_consume_as_is( *node ) )  {
                 ret_val<edible_rating> rate = you.will_eat( *node );
                 if( rate.success() ) {
@@ -1958,11 +1977,11 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
         return best_rate;
     }
 
-    if( !you.can_consume_as_is( it ) ) {
+    if( !you.can_consume_as_is( *it ) ) {
         return hint_rating::cant;
     }
 
-    const auto rating = you.will_eat( it );
+    const auto rating = you.will_eat( *it );
     if( rating.success() ) {
         return hint_rating::good;
     } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
@@ -2154,7 +2173,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 };
                 addentry( 'a', pgettext( "action", "activate" ), rate_action_use( u, oThisItem ) );
                 addentry( 'R', pgettext( "action", "read" ), rate_action_read( u, oThisItem ) );
-                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, oThisItem ) );
+                addentry( 'E', pgettext( "action", "eat" ), rate_action_eat( u, locThisItem ) );
                 addentry( 'W', pgettext( "action", "wear" ), rate_action_wear( u, oThisItem ) );
                 addentry( 'w', pgettext( "action", "wield" ), rate_action_wield( u, oThisItem ) );
                 addentry( 't', pgettext( "action", "throw" ), rate_action_wield( u, oThisItem ) );
@@ -2231,7 +2250,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 } );
 
                 action_menu.additional_actions = {
-                    { "RIGHT", translation() }
+                    { "RIGHT", translation() },
+                    { "SCROLL_ITEM_INFO_UP", translation() },
+                    { "SCROLL_ITEM_INFO_DOWN", translation() }
                 };
 
                 lang_version = detail::get_current_language_version();
@@ -2252,6 +2273,9 @@ int game::inventory_item_menu( item_location locThisItem,
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
                 action_menu.fselected = prev_selected;
+            } else if( action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ||
+                       action_menu.ret_act == "SCROLL_ITEM_INFO_DOWN" ) {
+                cMenu = action_menu.ret_act == "SCROLL_ITEM_INFO_UP" ? KEY_PPAGE : KEY_NPAGE;
             } else {
                 cMenu = 0;
             }
@@ -4936,7 +4960,7 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         newmon_ptr = make_shared_fast<monster>( it.get_mtype()->id );
     }
     monster &critter = *newmon_ptr;
-    critter.init_from_item( it );
+    critter.init_from_item( item_location( map_cursor( p ), &it ) );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
         return false;
@@ -5359,7 +5383,8 @@ bool game::npc_menu( npc &who )
         if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
                                               who.is_friendly( u ) ) ) ||
             who.in_sleep_state() ) {
-            display_bodygraph( who );
+            body_status_ui bsui( who );
+            bsui.display();
         } else {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         }
@@ -5675,24 +5700,17 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
         bool asking_for_public_goods )
 {
     Character &player_character = get_player_character();
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.pos_abs_omt().xy() );
-    if( !bcp ) {
+    basecamp *actual_camp = basecamp::any_claim_at( player_character.pos_abs_omt() );
+    if( !actual_camp ) {
         return true; // Nobody to piss off
     }
-    basecamp *actual_camp = *bcp;
-    if( actual_camp->get_owner()->limited_area_claim &&
-        player_character.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
-        return true; // outside of claimed area
-    }
+
     if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
         return true; // You're allowed to do this anyway
     }
 
-    // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
-    // TODO: Make this magic number into a constant
-    if( actual_camp->get_owner()->likes_u < -10 ) {
-        return true;
+    if( actual_camp->get_owner()->guaranteed_hostile() ) {
+        return true; // Already trying to kill you.
     }
 
     // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
@@ -6501,6 +6519,7 @@ void game::try_activate_zone_sort_viewport()
     u.zone_sort_viewport.active = true;
     u.zone_sort_viewport.center = bbox.centroid;
     u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.saved_zoom = actor->viewport_saved_zoom;
     u.zone_sort_viewport.bbox_min = bbox.min_corner;
     u.zone_sort_viewport.bbox_max = bbox.max_corner;
     if( !test_mode ) {
@@ -6766,7 +6785,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
     map_stack items = here.i_at( pos );
-    const inventory &crafting_inv = u.crafting_inventory();
+    const temp_crafting_inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
@@ -8280,7 +8299,12 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     if( u.is_hauling() && ( !here.can_put_items( dest_loc ) ||
                             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, dest_loc ) ||
                             vp1 ) ) {
-        u.stop_hauling();
+        // returns false if not automoving in the first place
+        if( cancel_auto_move( *u.as_character(), _( "You're about to stop hauling!" ) ) ) {
+            return point_rel_sm::zero;
+        } else {
+            u.stop_hauling();
+        }
     }
     u.setpos( here, dest_loc );
     if( u.is_mounted() ) {
@@ -8486,6 +8510,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     here.rebuild_vehicle_level_caches();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
+    here.access_cache( here.get_abs_sub().z() ).map_memory_sweep_pending = true;
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =
@@ -9021,46 +9046,76 @@ void game::on_move_effects()
 void game::on_options_changed()
 {
 #if defined(TILES)
-    tilecontext->on_options_changed();
+    on_tiles_options_changed();
 #endif
     refresh_mouse_config();
 }
 
+wet_items visit_water_affect_items( Character &you )
+{
+    wet_items ret;
+    if( !you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+        you.visit_carried( [&ret]( const item_location & loc ) {
+            if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
+                ret.dissolved.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
+                ret.destroyed.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
+                ret.wet.emplace_back( loc );
+            } else if( loc->typeId() == itype_towel ) {
+                ret.towels.emplace_back( loc );
+            }
+            if( loc->is_watertight_container() && !loc->will_spill() ) {
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return ret;
+}
+
+static std::vector<item_location> apply_water_damage( Character &ch )
+{
+    wet_items wet_items_lists = visit_water_affect_items( ch );
+
+    for( item_location loc : wet_items_lists.dissolved ) {
+        ch.add_msg_player_or_npc( m_bad,
+                                  _( "One of your items dissolves in the water: %s!" ),
+                                  _( "<npcname> loses an item as it dissolves "
+                                     "in the water: %s!" ),
+                                  loc->display_name() );
+    }
+    for( item_location loc : wet_items_lists.destroyed ) {
+        ch.add_msg_player_or_npc( m_bad,
+                                  _( "The water destroys one of your items: %s!" ),
+                                  _( "<npcname> loses an item to water damage: %s!" ),
+                                  loc->display_name() );
+        loc->deactivate();
+        // TODO: Maybe different types of wet faults? But I can't think of any.
+        // This just means it's still too wet to use.
+        // TODO2: add fault types to electronics, remove `force` argument from here
+        loc->set_random_fault_of_type( "wet", true );
+        // An electronic item in water is also shorted.
+        if( loc->has_flag( flag_ELECTRONIC ) ) {
+            loc->set_random_fault_of_type( "shorted", true );
+        }
+    }
+    for( item_location loc : wet_items_lists.wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
+        loc->wetness += wetness_add;
+        loc->wetness = std::min( loc->wetness, 5 * wetness_add );
+    }
+    for( item_location loc : wet_items_lists.towels ) {
+        loc->convert( itype_towel_wet, &ch ).active = true;
+    }
+    std::reverse( wet_items_lists.dissolved.begin(), wet_items_lists.dissolved.end() );
+    return wet_items_lists.dissolved;
+}
+
 void game::water_affect_items( Character &ch ) const
 {
-    bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
-
-    for( item_location &loc : ch.all_items_loc() ) {
-        if( gear_waterproofed ) {
-            break;
-        }
-        // check flag first because its cheaper
-        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                    ch.disp_name( true, true ), loc->display_name() );
-            loc.remove_item();
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                    ch.disp_name( true ), loc->display_name() );
-            loc->deactivate();
-            // TODO: Maybe different types of wet faults? But I can't think of any.
-            // This just means it's still too wet to use.
-            // TODO2: add fault types to electronics, remove `force` argument from here
-            loc->set_random_fault_of_type( "wet", true );
-            // An electronic item in water is also shorted.
-            if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_random_fault_of_type( "shorted", true );
-            }
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
-            loc->wetness += wetness_add;
-            loc->wetness = std::min( loc->wetness, 5 * wetness_add );
-        } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet, &ch ).active = true;
-        }
+    for( item_location &to_remove : apply_water_damage( ch ) ) {
+        to_remove.remove_item();
     }
 }
 
@@ -9809,6 +9864,9 @@ bool game::travel_to_dimension( dimension_id dimension_destination,
     // so i'm using 'default' as empty/main dimension
     dimension_id previous_dimension = dimension_prefix;
     dimension_prefix = dimension_destination;
+
+    // Reset the overmap first before loading the dimension data
+    overmap_buffer.clear();
     // Load in data specific to the dimension (like weather)
     load_dimension_data();
 
@@ -9817,11 +9875,11 @@ bool game::travel_to_dimension( dimension_id dimension_destination,
     // hack to prevent crashes from temperature checks
     // This returns to false in 'on_turn()' so it should be fine?
     swapping_dimensions = true;
-    // Clear the overmap
-    overmap_buffer.clear();
-    overmap_buffer.init_region_layout();
+
     // load/create new overmap
+    overmap_buffer.init_region_layout();
     overmap &new_om = overmap_buffer.get( project_to<coords::om>( player.pos_abs().xy() ) );
+
     // insert travelled NPCs
     for( const npc_ptr &guy : moving_npcs ) {
         new_om.insert_npc( guy );
@@ -10403,7 +10461,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
     }
     // Create a new NPC?
 
-    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    const double spawn_time = overmap_buffer.get_settings( u.pos_abs_omt() ).npc_spawn_time;
     if( !ignore_spawn_timers_and_rates && spawn_time == 0.0 ) {
         return;
     }

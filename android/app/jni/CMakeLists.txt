@@ -14,7 +14,6 @@ get_filename_component(CATA_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../.."
                        ABSOLUTE)
 
 set(TILES ON)
-set(USE_SDL3 ON)
 set(DYNAMIC_LINKING ON)
 
 find_package(SDL3 CONFIG REQUIRED)
@@ -57,7 +56,6 @@ target_compile_definitions(
   main
   PRIVATE TILES
           SDL_SOUND
-          USE_SDL3
           BACKTRACE
           LOCALIZE
           ZSTD_STATIC_LINKING_ONLY

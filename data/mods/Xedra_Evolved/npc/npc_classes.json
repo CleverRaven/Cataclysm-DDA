@@ -76,5 +76,36 @@
       { "group": "NPC_starting_traits" },
       { "distribution": [ { "group": "trait_group_dreamer_danger" }, { "group": "trait_group_dreamer_hero" } ] }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "bandit_revenant",
+    "name_suffix": "Bandit",
+    "class": "NC_SCAVENGER_REVENANT",
+    "attitude": 0,
+    "mission": "GUARD_PATROL",
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_REVENANT",
+    "//": "Exists to carry a trait so the revenant can sense them",
+    "name": "Scavenger",
+    "job_description": "I'm just trying to survive.",
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "XE_REVENANT_SENSING_TRAIT" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": 2 },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "shotgun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
   }
 ]

@@ -1894,5 +1894,36 @@
       [ "scompact_tandem_electric_3wheel_stow", 150 ],
       [ "scompact_tandem_electric_3wheel_hboard", 150 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "electric_cars_only",
+    "vehicles": [
+      [ "car_micro_electric", 150 ],
+      [ "scompact_electric", 350 ],
+      [ "scompact_tandem_electric_stow", 50 ],
+      [ "scompact_tandem_electric_hboard", 50 ],
+      [ "scompact_tandem_electric_2wheel_stow", 50 ],
+      [ "scompact_tandem_electric_2wheel_hboard", 50 ],
+      [ "scompact_tandem_electric_3wheel_stow", 50 ],
+      [ "scompact_tandem_electric_3wheel_hboard", 50 ],
+      [ "car_sedan_electric", 250 ],
+      [ "car_sedan_luxury_electric", 200 ],
+      [ "car_sedan_sports_electric", 200 ],
+      [ "car_coupe_electric", 300 ],
+      [ "car_coupe_luxury_electric", 50 ],
+      [ "car_coupe_sports_electric", 150 ],
+      [ "car_super_electric", 100 ],
+      [ "car_super_electric_alt", 100 ],
+      [ "car_sports_electric", 200 ],
+      [ "car_racing_electric", 10 ],
+      [ "electric_car", 500 ],
+      [ "suv_electric", 500 ],
+      [ "suv_electric_rack", 500 ],
+      [ "car_hybrid_rack", 500 ],
+      [ "car_hybrid", 500 ],
+      [ "car_micro_hybrid", 250 ],
+      [ "scompact_hybrid", 250 ]
+    ]
   }
 ]

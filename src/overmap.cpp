@@ -2430,7 +2430,7 @@ void overmap::place_ravines()
 
     const oter_id rift( "ravine" );
     const oter_id rift_edge( "ravine_edge" );
-    const oter_id rift_floor( "ravine_floor" );
+    const oter_id rift_floor = settings_ravine.ravine_bottom_terrain_str_id.id();
     const oter_id rift_floor_edge( "ravine_floor_edge" );
 
     std::set<point_om_omt> rift_points;
@@ -3380,22 +3380,22 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             point_abs_om new_om_addr = random_entry( nearest_candidates );
             overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
-            std::string msg =
-                "The following specials could not be placed, some missions may fail to initialize: ";
+            std::string unplaced_specials;
             int n = 0;
             for( auto iter = custom_overmap_specials.begin(); iter != custom_overmap_specials.end(); ) {
                 if( iter->instances_placed < iter->special_details->get_constraints().occurrences.min ) {
-                    msg.append( iter->special_details->id.c_str() ).append( ", " );
+                    unplaced_specials.append( iter->special_details->id.c_str() ).append( ", " );
                     n++;
                 }
                 ++iter;
             }
             if( n > 0 ) {
-                msg = msg.substr( 0, msg.length() - 2 );
+                unplaced_specials = unplaced_specials.substr( 0, unplaced_specials.length() - 2 );
             } else {
-                msg = msg.append( "<unknown>" );
+                unplaced_specials = _( "<unknown>" );
             }
-            add_msg( _( msg ) );
+            add_msg( _( "The following specials could not be placed, "
+                        "some missions may fail to initialize: %s" ), unplaced_specials );
         }
     }
     // Then fill in non-mandatory specials.
@@ -3906,12 +3906,11 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
 
 void overmap::add_camp( const point_abs_omt &p, const basecamp &camp )
 {
-    //TODO: After 0.I stable this should debugmsg on failed emplace
-    //auto it = camps.emplace( p, camp );
-    //if( !it.second ) {
-    //  debugmsg( "Tried to add a basecamp %s at %s when basecamp %s is already present", camp.camp_name(), p.to_string(), it.first->second.camp_name() );
-    //}
-    camps.emplace( p, camp );
+    auto it = camps.emplace( p, camp );
+    if( !it.second ) {
+        debugmsg( "Tried to add a basecamp %s at %s when basecamp %s is already present", camp.camp_name(),
+                  p.to_string(), it.first->second.camp_name() );
+    }
 }
 
 std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )

@@ -1115,7 +1115,8 @@
       "IMMUNE_HEARING_DAMAGE",
       "CANNOT_MOVE",
       "CANNOT_ATTACK",
-      "SUFFOCATION_IMMUNE"
+      "SUFFOCATION_IMMUNE",
+      "CANNOT_CONSUME_DRUGS"
     ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },

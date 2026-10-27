@@ -25,7 +25,6 @@
       { "group": "mil_food", "prob": 10 },
       { "group": "mil_food_nodrugs", "prob": 10 },
       { "group": "shelter", "prob": 3 },
-      { "group": "mil_surplus", "prob": 15 },
       { "group": "default_zombie_items_bags", "prob": 15 },
       { "group": "default_zombie_items_pockets", "prob": 15 },
       { "item": "credit_card" },
@@ -176,8 +175,7 @@
           { "group": "gear_survival", "prob": 18 },
           { "group": "mil_food", "prob": 22 },
           { "group": "mil_food_nodrugs", "prob": 34 },
-          { "group": "shelter", "prob": 8 },
-          { "group": "mil_surplus", "prob": 6 }
+          { "group": "shelter", "prob": 8 }
         ]
       },
       { "item": "credit_card" }

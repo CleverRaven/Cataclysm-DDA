@@ -24,10 +24,6 @@ Remove /RTC1
 
 #]=======================================================================]
 
-# Path has changed, so this configure run will find cl.exe
-set(CMAKE_C_COMPILER   cl.exe)
-set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
-
 # C++ flags used by all builds
 add_compile_options(
     /MP    # cl.exe build with multiple processes
@@ -50,7 +46,6 @@ add_compile_options(
     /wd26495 # uninitialized mamber
     /WX-     # do not tread warnings as errors
     /W1      # warning level
-    /TP      # every source file is a C++ file
     /Zc:forScope # force conformace in for loop scope
     /Zc:inline   # remove unreferenced COMDAT
     /Zc:wchar_t  # wchar_t is native type

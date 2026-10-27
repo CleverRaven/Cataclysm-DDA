@@ -69,6 +69,7 @@ namespace io
             case enchant_vals::mod::SPEED: return "SPEED";
             case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchant_vals::mod::AIMING_SPEED: return "AIMING_SPEED";
+            case enchant_vals::mod::RELOADING_SPEED: return "RELOADING_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
@@ -82,6 +83,7 @@ namespace io
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
+            case enchant_vals::mod::REGEN_WOUND: return "REGEN_WOUND";
             case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
             case enchant_vals::mod::MUT_ADDITIONAL_OPTIONS: return "MUT_ADDITIONAL_OPTIONS";
             case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";

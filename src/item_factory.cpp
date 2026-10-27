@@ -161,6 +161,7 @@ static const item_category_id item_category_veh_parts( "veh_parts" );
 static const item_category_id item_category_weapons( "weapons" );
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+static const item_group_id Item_spawn_data_seasonings_universal( "seasonings_universal" );
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 
@@ -2065,8 +2066,6 @@ void Item_factory::init()
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
-    add_iuse( "DIVE_TANK", &iuse::dive_tank );
-    add_iuse( "DIVE_TANK_ACTIVATE", &iuse::dive_tank_activate );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
@@ -2123,9 +2122,6 @@ void Item_factory::init()
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
-    add_iuse( "MARLOSS", &iuse::marloss );
-    add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
-    add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
     add_iuse( "MA_MANUAL", &iuse::ma_manual );
     add_iuse( "MANAGE_EXOSUIT", &iuse::manage_exosuit );
     add_iuse( "MEDITATE", &iuse::meditate );
@@ -2135,7 +2131,6 @@ void Item_factory::init()
     add_iuse( "MP3_ON", &iuse::mp3_on );
     add_iuse( "MULTICOOKER", &iuse::multicooker );
     add_iuse( "MULTICOOKER_TICK", &iuse::multicooker_tick );
-    add_iuse( "MYCUS", &iuse::mycus );
     add_iuse( "NOISE_EMITTER_ON", &iuse::noise_emitter_on );
     add_iuse( "OXYGEN_BOTTLE", &iuse::oxygen_bottle );
     add_iuse( "OXYTORCH", &iuse::oxytorch );
@@ -2167,6 +2162,9 @@ void Item_factory::init()
     add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
+    add_iuse( "SCBA_MASK", &iuse::scba_mask );
+    add_iuse( "SCBA_MASK_ACTIVATE", &iuse::scba_mask_activate );
+    add_iuse( "SCBA_TANK_ACTIVATE", &iuse::scba_tank_activate );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SIPHON", &iuse::siphon );
@@ -3766,6 +3764,7 @@ void islot_comestible::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "petfood", petfood, string_reader{} );
     optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
     optional( jo, was_loaded, "calories", default_nutrition.calories );
+    optional( jo, was_loaded, "seasonings", seasonings, {Item_spawn_data_seasonings_universal} );
 
     optional( jo, was_loaded, "contamination", contamination,
               weighted_string_id_reader<diseasetype_id, float> { 1.0f } );
@@ -3828,7 +3827,6 @@ void islot_compostable::deserialize( const JsonObject &jo )
 
 void islot_seed::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
     mandatory( jo, was_loaded, "plant_name", plant_name );
     mandatory( jo, was_loaded, "fruit", fruit_id );
     mandatory( jo, was_loaded, "growth_stages", growth_stages,

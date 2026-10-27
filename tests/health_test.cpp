@@ -9,6 +9,7 @@
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_test_no_radiation( "test_no_radiation" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -86,3 +87,19 @@ TEST_CASE( "unhealthy_lifestyle", "[health]" )
 
 }
 
+TEST_CASE( "no_radiation_flag_blocks_only_radiation_gain", "[health][radiation]" )
+{
+    standard_npc dude( "radiation immunity" );
+    dude.set_rad( 10 );
+    dude.add_effect( effect_test_no_radiation, 1_hours );
+
+    SECTION( "radiation gain is blocked" ) {
+        dude.mod_rad( 5 );
+        CHECK( dude.get_rad() == 10 );
+    }
+
+    SECTION( "radiation loss is allowed" ) {
+        dude.mod_rad( -5 );
+        CHECK( dude.get_rad() == 5 );
+    }
+}

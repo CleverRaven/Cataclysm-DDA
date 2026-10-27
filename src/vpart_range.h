@@ -43,9 +43,27 @@ class vehicle_part_iterator
         }
 
     public:
-        vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ) {
+        vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ), vp_( std::nullopt ) {
             cata_assert( i <= range().part_count() );
             skip_to_next_valid( i );
+        }
+
+        vehicle_part_iterator( const vehicle_part_iterator &rhs ) : range_( rhs.range_ ),
+            vp_( std::nullopt ) {
+            if( rhs.vp_ ) {
+                vp_.emplace( rhs.vp_->vehicle(), rhs.vp_->part_index() );
+            }
+        }
+
+        vehicle_part_iterator &operator=( const vehicle_part_iterator &rhs ) {
+            if( this != &rhs ) {
+                range_ = rhs.range_;
+                vp_.reset();
+                if( rhs.vp_ ) {
+                    vp_.emplace( rhs.vp_->vehicle(), rhs.vp_->part_index() );
+                }
+            }
+            return *this;
         }
 
         const vpart_reference &operator*() const {
@@ -109,20 +127,20 @@ template<typename range_type>
 class generic_vehicle_part_range
 {
     private:
-        std::reference_wrapper<::vehicle> vehicle_;
+        ::vehicle *vehicle_;
         bool with_fake_;
 
     public:
-        explicit generic_vehicle_part_range( ::vehicle &v, bool with_fake = false ) : vehicle_( v ),
+        explicit generic_vehicle_part_range( ::vehicle &v, bool with_fake = false ) : vehicle_( &v ),
             with_fake_( with_fake ) { }
 
         // Templated because see top of file.
         template<typename T = ::vehicle>
         size_t part_count() const {
             if( with_fake_ ) {
-                return static_cast<const T &>( vehicle_.get() ).part_count();
+                return static_cast<const T &>( *vehicle_ ).part_count();
             } else {
-                return static_cast<const T &>( vehicle_.get() ).part_count_real_cached();
+                return static_cast<const T &>( *vehicle_ ).part_count_real_cached();
             }
 
         }
@@ -150,7 +168,7 @@ class generic_vehicle_part_range
         }
 
         ::vehicle &vehicle() const {
-            return vehicle_.get();
+            return *vehicle_;
         }
 };
 

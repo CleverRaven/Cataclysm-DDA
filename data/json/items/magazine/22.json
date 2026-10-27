@@ -22,7 +22,7 @@
     "looks_like": "stanag30",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "small game rifle 19-round tube loader" },
+    "name": { "str": "high capacity lever-action rifle tube loader" },
     "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
     "variant_type": "gun",
     "variants": [

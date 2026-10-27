@@ -1,0 +1,178 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_SPEED",
+    "effect": [
+      { "u_consume_item": { "context_val": "id" } },
+      { "math": [ "_serum_duration = rng(time('3 d'), time('6 d'))" ] },
+      { "math": [ "_serum_duration *= serum_duration_adjustments()" ] },
+      { "u_add_effect": "speed_serum_main", "duration": { "context_val": "serum_duration" } },
+      {
+        "if": { "math": [ "u_effect_intensity('speed_serum_main') <= 1" ] },
+        "then": { "run_eocs": "EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "25 minutes", "65 minutes" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_SPEED_SERUM_CRASH",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "and": [ { "compare_string": [ "speed_serum_main", { "context_val": "effect" } ] } ] },
+    "effect": [ { "run_eocs": "EOC_APPLY_SPEED_SERUM_CRASH_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_APPLY_SPEED_SERUM_CRASH_2",
+    "//": "This is necessary because character_loses_effect triggers before the effect is actually removed",
+    "effect": [ { "u_add_effect": "speed_serum_crash", "duration": [ "1 d", "2 d" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS",
+    "condition": { "u_has_effect": "speed_serum_main" },
+    "effect": [
+      { "run_eocs": "EOC_SERUM_SPEED_PERIODIC_SIDE_EFFECTS", "time_in_future": [ "25 minutes", "65 minutes" ] },
+      {
+        "if": { "not": { "u_has_effect": "valium" } },
+        "then": {
+          "switch": { "math": [ "rand(5)" ] },
+          "cases": [
+            {
+              "case": 4,
+              "effect": {
+                "if": {
+                  "and": [
+                    "u_has_weapon",
+                    { "not": { "u_has_effect": "sleep" } },
+                    {
+                      "math": [
+                        "(u_limb_score('grip', 'type': 'hand') + (rand(u_val('dexterity') ) * 0.1) + (u_has_trait('CLUMSY') * -0.2) + (u_effect_intensity('shakes') > -1 ? -0.2 : 0) + (u_has_trait('DEFT') * 0.1) ) < 0.6"
+                      ]
+                    }
+                  ]
+                },
+                "then": [
+                  { "u_add_effect": "effect_zero_manip", "duration": 0 },
+                  { "u_message": "Your hands suddenly twitch, releasing your grip!", "type": "bad" }
+                ]
+              }
+            },
+            {
+              "case": 5,
+              "effect": {
+                "if": {
+                  "and": [
+                    { "not": { "u_has_effect": "sleep" } },
+                    {
+                      "math": [
+                        "(u_limb_score('balance') + (rand(u_val('dexterity') ) * 0.1) + (u_has_trait('BADKNEES') * -0.1) + (u_has_trait('REALLYBADKNEES') * -0.4) ) < 0.6"
+                      ]
+                    }
+                  ]
+                },
+                "then": [
+                  { "u_add_effect": "downed", "duration": 5 },
+                  { "u_message": "Your legs twitch and you fall to the ground!", "type": "bad" }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "speed_serum_main",
+    "name": [ "Injected 51x-\"Landru\"" ],
+    "desc": [ "You just took a shot of that strange vial you found.  Time seems to have slowed down." ],
+    "apply_message": "Without hesitation, you draw the liquid from the ampule, smack it a bit to release any air, and inject it right into a vein, hoping it won't kill you.",
+    "remove_message": "The world around you speeds up.",
+    "rating": "mixed",
+    "max_intensity": 100,
+    "int_add_val": 1,
+    "show_intensity": false,
+    "dur_add_perc": 10,
+    "removes_effects": [ "speed_serum_crash", "stim_overdose" ],
+    "base_mods": {
+      "stim_tick": [ 60 ],
+      "stim_chance": [ 5 ],
+      "stim_min": [ 2 ],
+      "stim_max_val": [ 45 ],
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ 2 ],
+      "heart_rate_chance": [ 5 ],
+      "heart_rate_max_val": [ 150 ],
+      "respiratory_rate_tick": [ 180 ],
+      "respiratory_rate_min": [ 1 ],
+      "respiratory_rate_chance": [ 7 ],
+      "respiratory_rate_max_val": [ 45 ]
+    },
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": 5,
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ],
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.1 },
+          { "value": "ATTACK_SPEED", "multiply": -0.33 },
+          { "value": "AIMING_SPEED", "multiply": 0.8 },
+          { "value": "RELOADING_SPEED", "multiply": -0.5 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.2 },
+          { "value": "PAIN", "multiply": 0.333 },
+          { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
+          { "value": "PAIN_PENALTY_MOD_STR", "multiply": 0.4 },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": 0.4 },
+          { "value": "PAIN_PENALTY_MOD_INT", "multiply": 0.4 },
+          { "value": "PAIN_PENALTY_MOD_PER", "multiply": 0.4 },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": 0.4 },
+          { "value": "SLEEPY", "add": -25 },
+          { "value": "KCAL", "multiply": -0.15 }
+        ]
+      },
+      {
+        "condition": { "math": [ "u_pain('type': 'perceived') <= 40" ] },
+        "values": [ { "value": "BONUS_BLOCK", "add": 1 }, { "value": "BONUS_DODGE", "add": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "speed_serum_crash",
+    "name": [ "Injected Serum Crash" ],
+    "desc": [ "The world seems jittery and moving too quickly, your stomach hurts, and you're very tired." ],
+    "apply_message": "",
+    "remove_message": "",
+    "base_mods": {
+      "heart_rate_tick": [ 200 ],
+      "heart_rate_min": [ -1 ],
+      "heart_rate_chance": [ 10 ],
+      "heart_rate_min_val": [ 50 ],
+      "respiratory_rate_tick": [ 180 ],
+      "respiratory_rate_min": [ -1 ],
+      "respiratory_rate_chance": [ 13 ],
+      "respiratory_rate_min_val": [ 15 ]
+    },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "EXTRA_ELEC_PAIN", "multiply": 1 },
+          { "value": "KCAL", "multiply": -0.15 },
+          { "value": "SLEEPINESS_REGEN", "multiply": -0.3333 }
+        ]
+      }
+    ]
+  }
+]

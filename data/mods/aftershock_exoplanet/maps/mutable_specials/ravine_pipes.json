@@ -1,0 +1,44 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "ravine_pipes",
+    "subtype": "mutable",
+    "locations": [ "ravine_edge", "ravine", "subterranean_empty" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 3, 10 ],
+    "flags": [ "MAN_MADE", "EXOPLANET" ],
+    "check_for_locations": [ [ [ 0, 0, 0 ], [ "ravine_edge" ] ], [ [ 0, 0, -4 ], [ "ravine_edge" ] ], [ [ 0, 0, -1 ], [ "ravine_edge" ] ] ],
+    "joins": [ "pipe", "start" ],
+    "overmaps": {
+      "ravine_edge": { "overmap": "ravine_edge", "below": "start", "locations": [ "ravine_edge" ] },
+      "ravine_connector": { "overmap": "ravine_edge", "above": "start", "locations": [ "ravine_edge" ] },
+      "pipe_straight": { "overmap": "afs_pipe_ns", "north": "pipe", "south": "pipe", "locations": [ "subterranean_empty" ] },
+      "straight_invisible": { "overmap": "ravine", "north": "pipe", "south": "pipe", "locations": [ "ravine" ] },
+      "to_invisible": { "overmap": "afs_pipe_ravine_north", "north": "pipe", "south": "pipe", "locations": [ "ravine_edge" ] },
+      "end": { "overmap": "afs_pipe_end_south", "north": "pipe", "locations": [ "subterranean_empty" ] },
+      "edge_end": { "overmap": "ravine_edge", "north": "pipe", "locations": [ "ravine_edge" ] },
+      "ravine_end": { "overmap": "ravine", "north": "pipe", "locations": [ "ravine" ] },
+      "none": { "overmap": "ravine_edge", "above": "start" }
+    },
+    "root": "ravine_edge",
+    "phases": [
+      [
+        {
+          "name": "gate_chunk",
+          "chunk": [ { "overmap": "ravine_connector", "pos": [ 0, 0, 0 ] }, { "overmap": "to_invisible", "pos": [ 0, 0, -3 ] } ],
+          "max": 1
+        }
+      ],
+      [
+        { "overmap": "straight_invisible", "weight": 100 },
+        { "overmap": "pipe_straight", "weight": 100 },
+        { "overmap": "to_invisible", "weight": 100 },
+        { "overmap": "end", "weight": 10 },
+        { "overmap": "edge_end", "weight": 1 },
+        { "overmap": "ravine_end", "weight": 1 },
+        { "overmap": "none", "weight": 1 }
+      ]
+    ]
+  }
+]

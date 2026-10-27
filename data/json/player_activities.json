@@ -553,6 +553,22 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_OPEN_TILE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "opening",
+    "based_on": "time",
+    "mute_npc_completion": true
+  },
+  {
+    "id": "ACT_CLOSE_TILE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "closing",
+    "based_on": "time",
+    "mute_npc_completion": true
+  },
+  {
     "id": "ACT_FILL_LIQUID",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -980,6 +996,15 @@
     "activity_level": "NO_EXERCISE",
     "verb": "canceling activity serialized with legacy code",
     "based_on": "neither",
+    "can_resume": false
+  },
+  {
+    "id": "ACT_CAMP_MEAL",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "eating",
+    "ignored_distractions": [ "hunger", "thirst" ],
+    "based_on": "time",
     "can_resume": false
   },
   {

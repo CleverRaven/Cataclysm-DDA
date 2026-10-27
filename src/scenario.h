@@ -115,7 +115,7 @@ class scenario
 
         bool has_hard_requirement() const;
         bool get_reveal_locale() const;
-        bool get_distance_initial_visibility() const;
+        int get_distance_initial_visibility() const;
 
         void normalize_calendar() const;
         void reset_calendar() const;
@@ -171,7 +171,6 @@ class scenario
 };
 
 struct scenario_sorter {
-    bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
     /** @related player */

@@ -1,3 +1,9 @@
+# UNSUPPORTED: this workflow cannot currently produce a working build.
+# The target was abandoned in 2025; its caller in matrix.yml was commented out
+# on 2025-07-14 in commit f530407bda (PR #81827). SDL2 support has since been
+# removed. Emscripten ships an SDL3 port and SDL3_ttf, but no SDL3_image or
+# SDL3_mixer, so how to build tiles here is an open question. Kept in its
+# bit-rotted state for anyone who wants to revive the path.
 name: Emscripten build
 
 on:

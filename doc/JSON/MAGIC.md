@@ -919,7 +919,7 @@ The field `charge_info` supports the following:
 Identifier           | Description
 ---                  |---
 `regenerate_ammo`    | `true`.
-`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, `forest` or `none`.
+`recharge_type`      | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, `forest`, `underground`, `portal_storm` or `none`.
 `time`               | Time required per charge.
 `recharge_condition` | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
 
@@ -1076,8 +1076,10 @@ Character status value  | Description
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
 `REGEN_HP`              | Affects the rate you recover hp, at all time, both natural and using medicine. Default 1; Negative value (so `multiply: -1.1` or smaller) would cause character lose it's HP all the time 
 `REGEN_HP_AWAKE`        | Affects the rate you recover hp when you do not sleep. Default value is 0, meaning if this enchantment is not specified, character can not regenerate hp when awake. Negative value causes character to lost HP over time when awake. Since it's a percent, using `multiply` is recommended; `multiply: 0.2` would make character able to regenerate at 20% of it's default regen
+`REGEN_WOUND`           | speeds up the regeneration of all wounds character has. Works as multiplier, so `multiply: 0.2` would increase it for 20%
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
+`RELOADING_SPEED`       | Affects the speed at which you reload ranged weapons. `"multiply": 1` means reloading takes twice the time.
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
 `SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )

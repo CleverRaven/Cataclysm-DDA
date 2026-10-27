@@ -155,6 +155,8 @@ enum class relic_recharge_type : int {
     SOLAR_SUNNY,
     SOLAR_CLOUDY,
     FOREST,
+    UNDERGROUND,
+    PORTAL_STORM,
     NUM
 };
 

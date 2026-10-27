@@ -234,7 +234,33 @@
     "id": "bleach_jug_part",
     "type": "item_group",
     "container-item": "jug_plastic",
-    "items": [ { "item": "bleach", "count": [ 1, 3750 ] } ]
+    "items": [ { "item": "bleach", "count": [ 125, 3750 ] } ]
+  },
+  {
+    "id": "lye_bottle_twoliter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "67.6 oz, or 2L",
+    "items": [ { "item": "lye", "count": 40 } ]
+  },
+  {
+    "id": "lye_bottle_twoliter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 40 ] } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "//": "32 oz, or 1L",
+    "items": [ { "item": "lye", "count": 20 } ]
+  },
+  {
+    "id": "lye_potassium_bottle_liter_part",
+    "type": "item_group",
+    "container-item": "bottle_twoliter",
+    "items": [ { "item": "lye", "count": [ 1, 20 ] } ]
   },
   {
     "id": "ammonia_hydroxide_bottle_twoliter",
@@ -378,6 +404,36 @@
     "id": "paintcans",
     "type": "item_group",
     "items": [ { "item": "paint_can_steel" }, { "item": "paint_can_plastic" } ]
+  },
+  {
+    "id": "thread_spool",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "//1": "150 yard, roughly 137 m.",
+    "items": [ { "item": "thread", "charges": 550 } ]
+  },
+  {
+    "id": "thread_spool_part",
+    "type": "item_group",
+    "container-item": "spool_tiny",
+    "items": [ { "item": "thread", "charges": [ 6, 550 ] } ]
+  },
+  {
+    "id": "thread_spool_boxed",
+    "type": "item_group",
+    "container-item": "box_tiny",
+    "items": [ { "group": "thread_spool", "count": 6 } ]
+  },
+  {
+    "id": "thread_used",
+    "type": "item_group",
+    "items": [
+      { "collection": [ { "group": "thread_spool", "count": [ 2, 7 ] }, { "group": "thread_spool_part" } ] },
+      {
+        "collection": [ { "group": "thread_spool_boxed" }, { "group": "thread_spool_part", "prob": 25 } ],
+        "prob": 10
+      }
+    ]
   },
   {
     "id": "cable_roll",
@@ -642,6 +698,12 @@
     "items": [ { "item": "solder_wire", "count": [ 0, 113 ] } ]
   },
   {
+    "id": "bag_garbage_box_medium",
+    "type": "item_group",
+    "container-item": "box_medium",
+    "items": [ { "item": "bag_garbage", "count": [ 0, 500 ] } ]
+  },
+  {
     "id": "bag_garbage_box",
     "type": "item_group",
     "container-item": "box_small",
@@ -735,7 +797,9 @@
       { "group": "nail_box_15lb", "prob": 80, "count": [ 1, 10 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] },
       { "item": "tempered_glass_sheet", "prob": 30, "count": [ 5, 20 ] },
-      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
+      { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] },
+      { "item": "steel_section_long", "prob": 20, "count": [ 5, 20 ] },
+      { "item": "steel_section_short", "prob": 20, "count": [ 5, 20 ] }
     ]
   },
   {
@@ -878,6 +942,7 @@
       { "group": "glue_strong_professional", "prob": 10 },
       [ "sandpaper", 40 ],
       [ "screwdriver", 5 ],
+      [ "dremel", 20 ],
       [ "chisel", 10 ],
       [ "hammer", 5 ]
     ]
@@ -1039,8 +1104,8 @@
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "oxy_powder_bottle_part", "prob": 10 },
       [ "ash", 5 ],
-      [ "lye", 5 ],
-      [ "lye_potassium", 5 ],
+      { "group": "lye_bottle_twoliter_part", "prob": 5 },
+      { "group": "lye_potassium_bottle_liter_part", "prob": 5 },
       { "group": "lye_powder_bottle_part", "prob": 10 },
       { "group": "magnesiumpowder_small_bag_part", "prob": 10 },
       { "group": "charcoal_bag_part", "prob": 10 },
@@ -1230,7 +1295,11 @@
     "id": "supplies_metal_precious",
     "type": "item_group",
     "//": "Metals of significant economic value before the Cataclysm",
-    "items": [ [ "gold_small", 100 ], [ "silver_small", 100 ] ]
+    "items": [
+      { "item": "gold_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "silver_small", "prob": 100, "count": [ 50, 150 ] },
+      { "item": "platinum_small", "prob": 100, "count": [ 50, 150 ] }
+    ]
   },
   {
     "id": "supplies_mechanics",

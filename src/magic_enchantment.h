@@ -44,6 +44,7 @@ enum class mod : int {
     SPEED,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
     AIMING_SPEED,
+    RELOADING_SPEED,
     MOVE_COST,
     METABOLISM,
     MAX_MANA,
@@ -60,6 +61,7 @@ enum class mod : int {
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
+    REGEN_WOUND,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     SLEEPINESS,       // sleepiness rate

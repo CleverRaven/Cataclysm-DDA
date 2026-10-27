@@ -60,6 +60,7 @@
     "name_unique": "Draco Dune",
     "gender": "male",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_draco_dune",
     "class": "NC_REFUGEE_Draco",
     "attitude": 0,
     "mission": "GUARD",

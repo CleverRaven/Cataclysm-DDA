@@ -312,7 +312,7 @@
     "text": [
       {
         "id": "serum_testing_regen_1",
-        "text": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects were rounded off.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject cataract were not cured, for some reason."
+        "text": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects had ceased.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject's cataract were not cured; investigation is ongoing."
       }
     ]
   },
@@ -322,7 +322,42 @@
     "text": [
       {
         "id": "serum_testing_super_soldier_1",
-        "text": "Inject subject with 10 ml of 29x-\"Noonien\" compound\nPhysical activity regimen: standard US Armed Forces Army Fitness Test\nResults: Subject, previously in the 60% percentile for AFT results, placed in the 99% percentile on three consecutive days of taking the test.  On the fourth day, subject complained of muscle soreness and was placed under observation and ordered to perform only light activity the following day.  On the fifth day, subject expressed eagerness to try again and once again scored in the 99% percentile.  However, a physical examination following the testing period revealed a sprained ankle; the subject repeatedly expressed a wish to continue trying and that there was no need for medical treatment.  Subject was placed on light activity for the remainder of the observation period.\nLong term effects: on the first day the subject did not eat at all.  Following a continued disinterest in eating they were placed on a standard diet on following days, modified to a high-calorie diet when they continually left meals unfinished.  Recipients of 29x-\"Noonien\" will been strict dietary instructions to obtain proper nutrition.  Seven days after initial application of 29x-\"Noonien\", subject complained of serious ankle pain and requested painkillers, which were provided."
+        "text": "Inject subject with 10 ml of 29x-\"Noonien\" compound\nPhysical activity regimen: standard US Armed Forces Army Fitness Test\nResults: Subject, previously in the 60% percentile for AFT results, placed in the 99% percentile on three consecutive days of taking the test.  On the fourth day, subject complained of muscle soreness and was placed under observation and ordered to perform only light activity the following day.  On the fifth day, subject expressed eagerness to try again and once again scored in the 99% percentile.  However, a physical examination following the testing period revealed a sprained ankle; the subject repeatedly expressed a wish to continue trying and that there was no need for medical treatment.  Subject was placed on light activity for the remainder of the observation period.\nLong term effects: on the first day the subject did not eat at all.  Following a continued disinterest in eating they were placed on a standard diet on following days, modified to a high-calorie diet when they continually left meals unfinished.  Recipients of 29x-\"Noonien\" will require strict dietary instructions in order to obtain proper nutrition.  Seven days after initial application of 29x-\"Noonien\", subject complained of serious ankle pain and requested painkillers, which were provided."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_resilience>",
+    "text": [ { "id": "serum_testing_resilience_1", "text": "Inject subject with 10 ml of 16x-\"Armus\" compound\n" } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_learning>",
+    "text": [
+      {
+        "id": "serum_testing_learning_1",
+        "text": "Inject subject with 10 ml of 7x-\"Lore\" compound\nSubject was provided with a set of reference textbooks and the latest version of the ACT test (sans writing section) and instructed to complete it as quickly as possible while freely referencing the provided textbooks.  Despite having to occasionally reference the textbooks, subject completed each section in full before the allotted time expired (English in 27 minutes, 12 seconds; math in 40 minutes, 4 seconds; reading in 33 minutes, 56 seconds; and science in 32 minutes, 1 second).  The final score was 27, in the 88th percentile (admittedly, of high school students).\nDuring the testing period, researchers carefully observed the subject's behavior, particularly for any evidence of fidgeting or loss of concentration.  Fidgeting was observed within normal parameters (e.g. drumming fingers on table while thinking), but the subject did not lose concentration or cease working on the test for longer than ten seconds during any testing section.\nFollowing the ACT test administration, the subject was immediately given a series of logic puzzles to complete, and did so without taking a break or losing concentration.\nFollowing expiration of compound, subject reported to infirmary two hours after experiment ended, complaining of severe eye pain following a walk outside.  Further research necessary to counteract photosensitive effects."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_speed>",
+    "text": [
+      {
+        "id": "serum_testing_speed_1",
+        "text": "Inject subject with 10 ml of 51x-\"Landru\" compound\nSubject was first asked to run distances of 100m, 400m, and 1 km; times were compared to previously-set reference times taken the previous day.  While the subject measureably improved their performance, finishing an average of 7% faster, the difference was still within normative athletic performance for subject's age and sex.\nFollowing period of rest, subject was asked to perform a target-shooting demonstration using a standard-issue sidearm at 50m and completed it less than ten seconds.  Observers at the time stated the that the subject barely appeared to aim at all; playback of recorded video shows subject making extremely-rapid small adjustments to aim at a greatly-increased speed.\nFollowing demonstration, subject was leaving the room when they accidentally struck the table with their knee.  They collapsed on the ground, grabbing their knee, but a subsequent examination showed no serious or lasting injury.  Subject would only say that it, \"hurt like absolute hell\" and refused further treatment.\nOver the course of the observation period, subject ate approximately 25% more food than normal without an appreciable gain in body mass (measured at the beginning and end of the week-long period).  Recipients of 51x-\"Landru\" should be sure to follow proper dietary protocols."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_night_ops>",
+    "text": [
+      {
+        "id": "serum_testing_night_ops_1",
+        "text": "Inject subject with 10 ml of 09x-\"Anaximander\" compound\nSubject was provided with a standard glowstick and ordered to navigate a three-dimensional maze.  Subject found the exit in three minutes and ten seconds, compared to control who found the exit in ten minutes and forty-five seconds (lacking effective amnestics, we cannot test the subject both with and without Anaximander in the same maze).\nSubject was released into the forest nearby and given a ten minute headstart before a team of five trained search-and-rescue personnel were dispatched to locate them.  Subject remained undetected for the full fifteen minutes of the trial and was only found when they returned to base.  When asked how they had evaded the searchers, the subject was unable to answer.  Further testing indicated that the subject had completely lost their voice.\nSubject was asked to walk a mile through the woods to a predetermined point, reaching it in twenty-five minutes.  When asked to write down the reason for the slower time, the subject indicated that they had stopped to take frequent rest breaks due to fatigue.\nWhen the serum wore off after approximately nine hours, the subject reported great sensitivity to light, as well as that they had \"sweated like a pig in heat.\"  They underwent a full medical examination the next day, which showed no lasting ill effects."
       }
     ]
   },

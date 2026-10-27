@@ -15,7 +15,7 @@
 
 #include "addiction.h"
 #include "bionics.h"
-#include "bodygraph.h"
+#include "body_status_ui.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -592,13 +592,11 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
     werase( w_info );
-    bodypart_id bp;
     if( line < bps.size() ) {
-        bp = bps[line].first;
+        const std::vector<std::string> s = get_encumbrance_description( you, bps[line].first );
+        const std::string desc = string_join( s, "\n" );
+        draw_x_info( w_info, desc, info_line );
     }
-    const std::vector<std::string> s = get_encumbrance_description( you, bp );
-    const std::string desc = string_join( s, "\n" );
-    draw_x_info( w_info, desc, info_line );
     wnoutrefresh( w_info );
 }
 
@@ -1400,7 +1398,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 break;
             case player_display_tab::stats:
                 if( header_clicked ) {
-                    display_bodygraph( you );
+                    body_status_ui bsui( you );
+                    bsui.display();
                 }
 
                 invalidate_tab( curtab );
@@ -1428,7 +1427,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "morale" ) {
         you.disp_morale( );
     } else if( action == "VIEW_BODYSTAT" ) {
-        display_bodygraph( you );
+        body_status_ui bsui( you );
+        bsui.display();
     } else if( customize_character && action == "SWITCH_GENDER" ) {
         on_customize_character( you );
     } else if( action == "SCROLL_INFOBOX_UP" ) {
@@ -1440,7 +1440,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        if( you.disp_medical() ) {
+        body_status_ui bsui( you, body_status_tab::BS_TAB_MEDICAL );
+        if( bsui.display() ) {
             done = true;
         }
     } else if( action == "SELECT_STATS_TAB" ) {

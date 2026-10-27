@@ -506,6 +506,8 @@ class firestarter_actor : public iuse_actor
         };
 
         static start_type prep_firestarter_use( Character &p, map *here, tripoint_bub_ms &pos );
+        // a firewood source trap or a SOURCE_FIREWOOD zone: the pile a fire is fed from
+        static bool is_firewood_source( const map &here, const tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
         static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos,
                                              start_type st );
@@ -549,6 +551,13 @@ class salvage_actor : public iuse_actor
         std::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const Character *p, const item &it ) const;
+
+        /*
+        * params:
+        * cut - thing to cut up, obviously.
+        * efficiency - percent of basic components (by mass) to return, normalized at 1.0. 1.0 == 100% returns.
+        */
+        static std::map<itype_id, int> salvage_results( item_location cut, double efficiency );
 
         explicit salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
@@ -993,6 +1002,8 @@ class place_trap_actor : public iuse_actor
             int practice = 0;
             /** Move points that are used when placing the trap. */
             int moves = 100;
+            /** Move points the character spends placing this trap, after skill and proficiencies. */
+            int move_cost( const Character &you ) const;
             void load( const JsonObject &obj );
             void deserialize( const JsonObject &obj ) {
                 load( obj );

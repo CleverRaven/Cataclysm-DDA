@@ -239,6 +239,21 @@
   },
   {
     "type": "effect_type",
+    "id": "minoan_orchid_effect",
+    "name": [ "Minoan Joy", "Minoan Delight", "Minoan Elation", "Minoan Euphoria", "Minoan Rapture", "Minoan Ecstasy" ],
+    "desc": [
+      "The effect of the opioids in your system are increased.",
+      "As you consume more opioids your mood increases even more.",
+      "The combination of these drugs is clearly dangerously euphoric.",
+      "Your body is pairing endorphins and dopamine across every pathway.",
+      "Are you dead?  Is this heaven?",
+      "…………………………………………………………………"
+    ],
+    "rating": "neutral",
+    "max_intensity": 6
+  },
+  {
+    "type": "effect_type",
     "id": "visuals",
     "name": [ "Hallucinating" ],
     "desc": [ "You can't trust everything that you see." ],
@@ -297,8 +312,13 @@
     "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
     "resist_effects": [ "relative_physics" ],
-    "blood_analysis_description": "Hallucinations"
+    "blood_analysis_description": "Hallucinations",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -506,7 +526,10 @@
       "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": [
-      [ "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.", "bad" ],
+      [
+        "You feel the blood rushing from the wound and then a pressure that reminds you of backwash as a liquid that feels heavier than normal blood is forced through the wound into your body.",
+        "bad"
+      ],
       [ "Your iris slowly turns red from the outside in.", "bad" ],
       [ "There is an emptiness in your stomach and soul that can no longer be filled with mortal joys.", "bad" ]
     ],
@@ -1886,6 +1909,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_rebuilt_minds",
+    "name": [ "Rebuilt Minds" ],
+    "desc": [
+      "You have rebuilt human minds from the shattered remnants you could find.  It will take some time until you can do this again."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],
@@ -2982,34 +3013,34 @@
         "values": [
           {
             "value": "DODGE_CHANCE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('deduction') * 0.25) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('gramarye') * 0.25) )" ] }
           },
           {
             "value": "BONUS_DODGE",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('deduction') * 0.2) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('gramarye') * 0.2) )" ] }
           },
           {
             "value": "THROW_STR",
-            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('deduction') * 0.35) )" ] }
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('gramarye') * 0.35) )" ] }
           },
           {
             "value": "RANGE_DODGE",
             "add": {
               "math": [
-                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('deduction') * 0.02) )), 0.98)"
+                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('gramarye') * 0.02) )), 0.98)"
               ]
             }
           },
           {
             "value": "MOVE_COST",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           },
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('gramarye') * 0.015) )" ]
             }
           }
         ]
@@ -3366,7 +3397,7 @@
       { "limb_score": "block", "modifier": 1.0, "scaling": -0.035 },
       { "limb_score": "vision", "modifier": 1.0, "scaling": -0.035 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "PSYCHOPATH" ]
   },
   {
     "type": "effect_type",
@@ -3426,12 +3457,15 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MOVE_COST", "multiply": -0.5 },
           { "value": "ATTACK_SPEED", "multiply": -0.66 },
           { "value": "BONUS_DODGE", "add": 1 },
           { "value": "DODGE_CHANCE", "add": { "math": [ "2 + (u_has_trait('THRESH_LILIN') * 2)" ] } },
           { "value": "RANGE_DODGE", "add": { "math": [ "0.25 + (u_has_trait('THRESH_LILIN') * 0.25)" ] } }
         ]
+      },
+      {
+        "condition": { "not": { "u_has_trait": "TURN_INTO_OWL_TRAITS" } },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
       }
     ]
   },

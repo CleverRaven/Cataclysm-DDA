@@ -5,18 +5,50 @@
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
-        { "chunks": [ "microlab_generic_tile" ], "x": 0, "y": 0 },
         {
+          "chunks": [
+            [ "microlab_generic_tile", 75 ],
+            [
+              {
+                "switch": { "param": "labtype", "fallback": "microlab_generic" },
+                "cases": {
+                  "microlab_meat": "microlab_generic_special_tile",
+                  "microlab_serum": "microlab_serum_special_tile",
+                  "microlab_generic": "microlab_generic_special_tile"
+                }
+              },
+              25
+            ]
+          ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "//": "These chunks are analogous to mapgen_extras",
           "chunks": [
             {
               "switch": { "param": "labtype", "fallback": "microlab_generic" },
-              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_serum": "null", "microlab_generic": "null" }
             }
           ],
           "x": 0,
           "y": 0
         },
-        { "chunks": [ { "param": "unique_foe", "fallback": "nmn_more_density" } ], "x": 0, "y": 0 },
+        {
+          "//": "These chunks spawn theme-specific monsters.",
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": {
+                "microlab_meat": "microlab_meat_unique_foe",
+                "microlab_serum": "microlab_serum_unique_foe",
+                "microlab_generic": "microlab_unique_foe"
+              }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
@@ -26,7 +58,7 @@
         {
           "group": {
             "switch": { "param": "labtype", "fallback": "microlab_generic" },
-            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_MICROLAB" }
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_serum": "GROUP_SERUM_LAB", "microlab_generic": "GROUP_MICROLAB" }
           },
           "chance": 80,
           "x": [ 0, 23 ],

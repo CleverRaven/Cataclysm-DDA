@@ -377,7 +377,7 @@
     "type": "effect_type",
     "id": "effect_biokin_combat_dance",
     "name": [ "Combat Dance" ],
-    "desc": [ "You are a dynamo of death." ],
+    "desc": [ "You are a dynamo of death.  The effects of your other biokinetic powers are enhanced." ],
     "apply_message": "",
     "remove_message": "Your movements return to normal.",
     "rating": "good",
@@ -961,7 +961,6 @@
     "remove_message": "The world lurches as apparent distances snap back into place.",
     "rating": "good",
     "max_duration": "7 days",
-    "max_intensity": 46,
     "enchantments": [
       {
         "values": [
@@ -970,8 +969,8 @@
             "add": { "math": [ "( ( u_spell_level('clair_ranged_enhance') * 0.25 ) + 1 ) * psionic_power_modifiers()" ] }
           },
           {
-            "value": "WEAPON_DISPERSION",
-            "multiply": { "math": [ "max( ( ( u_spell_level('clair_ranged_enhance') * -0.025) * psionic_power_modifiers() ),-0.6)" ] }
+            "value": "AIMING_SPEED",
+            "multiply": { "math": [ "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.025) + 0.1) * psionic_power_modifiers() ), 5)" ] }
           }
         ]
       },
@@ -1078,6 +1077,8 @@
     "desc": [
       "You just know what you need to do next.  It's harder for you to pay attention to anything else due to the shifting futures, however, and you will lose awareness of the outside world entirely when making something."
     ],
+    "apply_message": "",
+    "remove_message": "The visions of your next step fade away.",
     "rating": "good",
     "max_duration": "7 days",
     "enchantments": [

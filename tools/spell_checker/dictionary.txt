@@ -187,6 +187,7 @@ An
 Anáhuac
 ananassa
 Anatolia
+Anaximander
 anchisaurus
 Ancien
 Andean
@@ -1946,6 +1947,7 @@ emplate
 EMT
 EMTs
 enactors
+enc
 Ender
 endochitin
 Endsville
@@ -3729,6 +3731,7 @@ Landborn
 landline
 Landough
 landrover
+Landru
 landshark
 Landstreicher
 Landwenn
@@ -5243,8 +5246,10 @@ Peran
 Percy
 Perenez
 perforators
+periapt
 periapta
 periaptas
+periapts
 Perioù
 peripheric
 Perlezennn

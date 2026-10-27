@@ -287,7 +287,6 @@ void DynamicDataLoader::initialize()
     add( "weather_generator", &weather_generator::load_weather_generator );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
-    add( "help", &help::load );
     add( "activity_type", &activity_type::load_all );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -336,6 +335,9 @@ void DynamicDataLoader::initialize()
     // Non Static Function Access
     add( "snippet", []( const JsonObject & jo, const std::string & src ) {
         SNIPPET.load_snippet( jo, src );
+    } );
+    add( "help", []( const JsonObject & jo, const std::string & src ) {
+        get_help().load( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
         item_controller->load_item_group( jo );
@@ -669,7 +671,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
-    help::reset();
+    get_help().reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();

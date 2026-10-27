@@ -120,7 +120,10 @@
         [ "f_pallet_brick", 2 ],
         [ "f_pallet_brick_adobe", 2 ],
         [ "f_pallet_cement", 2 ],
-        [ "f_stack_plank", 6 ]
+        [ "f_stack_plank", 6 ],
+        [ "f_rebar_stack_short", 2 ],
+        [ "f_rebar_stack_mid", 4 ],
+        [ "f_rebar_stack_tall", 4 ]
       ],
       "{": "f_null"
     },
@@ -192,7 +195,10 @@
         [ "f_pallet_brick", 2 ],
         [ "f_pallet_brick_adobe", 2 ],
         [ "f_pallet_cement", 4 ],
-        [ "f_stack_plank", 6 ]
+        [ "f_stack_plank", 6 ],
+        [ "f_rebar_stack_short", 1 ],
+        [ "f_rebar_stack_mid", 3 ],
+        [ "f_rebar_stack_tall", 4 ]
       ],
       "M": "f_null",
       "{": "f_null"
@@ -264,7 +270,10 @@
         [ "f_pallet_brick", 2 ],
         [ "f_pallet_brick_adobe", 2 ],
         [ "f_pallet_cement", 2 ],
-        [ "f_stack_plank", 3 ]
+        [ "f_stack_plank", 3 ],
+        [ "f_rebar_stack_short", 3 ],
+        [ "f_rebar_stack_mid", 2 ],
+        [ "f_rebar_stack_tall", 1 ]
       ],
       "M": "f_mailbox",
       "F": "f_fridge",

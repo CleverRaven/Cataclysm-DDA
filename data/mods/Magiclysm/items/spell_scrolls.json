@@ -935,6 +935,16 @@
     "type": "ITEM",
     "subtypes": [ "BOOK" ],
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_air_blast",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Air Blast", "str_pl": "Scrolls of Air Blast" },
+    "description": "A concentrated puff of air that knocks down a single foe.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_air_blast" ] }
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "BOOK" ],
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_windstrike",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Windstrike", "str_pl": "Scrolls of Windstrike" },

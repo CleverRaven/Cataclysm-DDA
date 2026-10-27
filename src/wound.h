@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_WOUND_H
 #define CATA_SRC_WOUND_H
 
+#include <climits>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -15,11 +17,12 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
-
 enum class bp_type;
 
+// worsening wound when the same wound is hit again
 struct wound_progress {
     wound_type_id id;
     int chance;
@@ -30,6 +33,42 @@ struct wound_progress {
 struct wound_limb_score {
     limb_score_id score;
     float value;
+
+    void deserialize( const JsonObject &jo );
+};
+
+// replacing wound A with wound B over time
+struct wound_type_progress_timer {
+    wound_type_id id;
+    std::pair<time_duration, time_duration> time;
+    translation message;
+
+    void deserialize( const JsonObject &jo );
+};
+
+enum class wound_mod_value_type {
+    PAIN,
+    BLEED, // drips blood field
+    VITAMIN,
+    LAST
+};
+
+struct wound_mod_values {
+
+    wound_mod_value_type type;
+    std::optional<vitamin_id> vitamin;
+    time_duration rate;
+    int amount;
+    int cap_min = INT_MIN;
+    int cap_max = INT_MAX;
+
+    void deserialize( const JsonObject &jo );
+};
+
+//TODO maybe expand to NPC shouting as well?
+struct wound_periodic_message {
+    translation message;
+    time_duration rate;
 
     void deserialize( const JsonObject &jo );
 };
@@ -50,14 +89,22 @@ class wound_type
         void finalize();
         static const std::vector<wound_type> &get_all();
 
+        // conditions that can be checked on loading of wounds
         bool allowed_on_bodypart( bodypart_str_id bp_id ) const;
         std::string get_name() const;
         std::string get_description() const;
         int evaluate_pain() const;
         time_duration evaluate_healing_time() const;
+        std::optional<std::pair<wound_type_id, time_duration>> evaluate_progress_timer() const;
+
+        std::string get_progress_timer_message() const;
         int get_limit() const;
 
         std::vector<wound_limb_score> get_limb_scores() const;
+
+        std::vector<wound_mod_values> get_modify_values() const;
+
+        std::optional<wound_periodic_message> get_periodic_message() const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
@@ -67,16 +114,22 @@ class wound_type
         int weight;
 
         // this wound can or cannot be applied to this bodyparts
-        json_character_flag whitelist_bp_with_flag;
-        json_character_flag blacklist_bp_with_flag;
+        std::vector<json_character_flag> whitelist_bp_with_flag;
+        std::vector<json_character_flag> blacklist_bp_with_flag;
 
         std::vector<bp_type> whitelist_body_part_types;
         std::vector<bp_type> blacklist_body_part_types;
+
+        // condiitons that are checked every time applying wound is called
+        std::vector<json_character_flag> blacklist_flags;
+        std::vector<json_character_flag> whitelist_flags;
 
         std::set<wound_fix_id> fixes;
 
         // list of wounds this wound can lead to
         std::vector<wound_progress> wound_progression;
+
+        std::optional<wound_type_progress_timer> progress_timer;
     private:
         translation name_;
         translation description_;
@@ -85,12 +138,24 @@ class wound_type
         // 0 means any amount
         unsigned int limit = 0;
 
+        std::optional<wound_periodic_message> periodic_message;
+
         std::vector<wound_limb_score> limb_scores;
 
         // if applied, how long it may take for it to heal
         std::pair<time_duration, time_duration> healing_time_;
         // if applied, how much pain it might provide to you
         std::pair<int, int> pain_;
+
+        // variety of effects and character modifications that happen when this wound is present
+        std::vector<wound_mod_values> mod_values;
+};
+
+enum class wound_update_ret {
+    DO_NOTHING,
+    ADVANCE,
+    REMOVE,
+    LAST
 };
 
 class wound
@@ -105,33 +170,41 @@ class wound
         void deserialize( const JsonObject &jsin );
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
+        void mod_pain( int mod );
         // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
         int get_pain() const;
         // exposes healing_time
         time_duration get_healing_time() const;
-        // update the wound healing progress, if it's healed, return true
-        bool update_wound( time_duration time_passed );
+        float get_healing_progress() const;
+        // update the wound healing progress
+        wound_update_ret update_wound( const Character *who, time_duration time_passed );
+
+        float get_wound_healing_modifier( const Character *who ) const;
 
         wound &operator+=( const wound &wd ) {
-            healing_time += wd.get_healing_time();
             pain += wd.get_pain();
             // reset healing progress? maybe not necessary?
-            healing_progress = 0_seconds;
+            healing_progress = 0.f;
 
             return *this;
         }
 
-        bool operator==( const wound &wd ) {
-            return type == wd.type && healing_progress == wd.healing_progress ;
+        bool operator==( const wound &wd ) const {
+            return type == wd.type && healing_progress == wd.healing_progress;
         }
 
     private:
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;
-        // how much time passed since this wound was applied
-        time_duration healing_progress;
+        // how much time passed since this wound was applied, in seconds
+        float healing_progress;
         // how much pain this specific wound provide.
         int pain;
+
+    public:
+
+        // our wound will transform into this one, in time
+        std::optional<std::pair<wound_type_id, time_duration>> wound_progress_timer;
 };
 
 struct wound_proficiency {
@@ -174,6 +247,10 @@ class wound_fix
         static void finalize_all();
         static void check_consistency();
     private:
+
+        // used to store requirements, since requirement ids are unavailable at the moment of loading
+        // transferred into requirements at finalization
+        std::vector<std::pair<requirement_id, int>> pending_requirements;
 
         friend class wound;
         cata::value_ptr<requirement_data> requirements = cata::make_value<requirement_data>();

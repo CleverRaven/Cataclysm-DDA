@@ -14,6 +14,7 @@
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "craft_reservation.h"
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -82,22 +83,7 @@ static bool within_autopickup_limits( const item *pickup_item )
  */
 static rule_state get_autopickup_rule( const item *pickup_item )
 {
-    std::string item_name = pickup_item->tname( 1, false );
-    rule_state pickup_state = get_auto_pickup().check_item( item_name );
-
-    if( pickup_state == rule_state::WHITELISTED ) {
-        return rule_state::WHITELISTED;
-    } else if( pickup_state != rule_state::BLACKLISTED ) {
-        //No prematched pickup rule found, check rules in more detail
-        get_auto_pickup().create_rule( pickup_item );
-
-        if( get_auto_pickup().check_item( item_name ) == rule_state::WHITELISTED ) {
-            return rule_state::WHITELISTED;
-        }
-    } else {
-        return rule_state::BLACKLISTED;
-    }
-    return rule_state::NONE;
+    return get_auto_pickup().check_item( *pickup_item );
 }
 
 /**
@@ -107,7 +93,7 @@ static rule_state get_autopickup_rule( const item *pickup_item )
  * @param from container to drop items from.
  * @param where location on the map to drop items to.
  */
-static void empty_autopickup_target( item *what, tripoint_bub_ms where )
+static void empty_autopickup_target( item_location what, tripoint_bub_ms where )
 {
     bool is_rigid = what->all_pockets_rigid();
     for( item *entry : what->all_items_top() ) {
@@ -115,8 +101,10 @@ static void empty_autopickup_target( item *what, tripoint_bub_ms where )
         // rigid containers want to keep as much items as possible so drop only blacklisted items
         // non-rigid containers want to drop as much items as possible so keep only whitelisted items
         if( is_rigid ? ap_rule == rule_state::BLACKLISTED : ap_rule != rule_state::WHITELISTED ) {
+            item nitem( *entry );
+            what.remove_item( *entry );
             // drop the items on the same tile the container is on
-            get_map().add_item( where, what->remove_item( *entry ) );
+            get_map().add_item( where, nitem );
         }
     }
 }
@@ -172,6 +160,11 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
     std::list<item *>::iterator it;
     for( it = contents.begin(); it != contents.end(); ++it ) {
         item *item_entry = *it;
+        // Before empty_autopickup_target below, which turns a container out.
+        if( craft_reservation::contains_reserved( *item_entry ) ) {
+            pick_all_items = false;
+            continue;
+        }
         if( !within_autopickup_limits( item_entry ) ) {
             pick_all_items = false;
             continue;
@@ -182,7 +175,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
             if( !force_pick_container ) {
                 if( item_entry->is_container() ) {
                     // whitelisted containers should exclude contained blacklisted items
-                    empty_autopickup_target( item_entry, from.pos_bub( here ) );
+                    empty_autopickup_target( item_location( from, item_entry ), from.pos_bub( here ) );
                 } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                     // liquid items should never be picked up without container
                     force_pick_container = true;
@@ -279,13 +272,18 @@ drop_locations auto_pickup::select_items(
         if( item_entry->made_of( phase_id::LIQUID ) ) {
             continue;
         }
+        // Before empty_autopickup_target below, which turns a container out as part of
+        // selection.  Manual pickup stays unguarded.
+        if( craft_reservation::contains_reserved( *item_entry ) ) {
+            continue;
+        }
         rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
 
         // before checking contents check if item is on pickup list
         if( pickup_state == rule_state::WHITELISTED ) {
             if( item_entry->is_container() ) {
-                empty_autopickup_target( item_entry, location );
+                empty_autopickup_target( item_location( map_location, item_entry ), location );
             }
             // skip if the container is still above the limit after emptying it
             if( !within_autopickup_limits( item_entry ) ) {
@@ -787,6 +785,20 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
 
         map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
+}
+
+rule_state player_settings::check_item( const item &it )
+{
+    const std::string item_name = it.tname( 1, false );
+    const rule_state cached_state = base_settings::check_item( item_name );
+
+    // NONE = uncached OR cached unmatched.
+    if( cached_state != rule_state::NONE || map_items.find( item_name ) != map_items.end() ) {
+        return cached_state;
+    }
+
+    create_rule( &it );
+    return map_items.try_emplace( item_name, rule_state::NONE ).first->second;
 }
 
 void player_settings::create_rule( const item *it )

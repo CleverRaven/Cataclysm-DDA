@@ -710,7 +710,7 @@
     "id": "commercial_cleaning_supplies",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "soap", 6 ], [ "liquid_soap", 1 ] ]
+    "items": [ [ "soap", 12 ], [ "liquid_soap", 2 ], { "group": "bag_garbage_box_medium", "prob": 1 } ]
   },
   {
     "id": "SUS_shelf_commercial_cleaning_supplies",

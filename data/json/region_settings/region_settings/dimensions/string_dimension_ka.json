@@ -14,6 +14,7 @@
     "map_extras": "no_map_extras",
     "terrain_furniture": "default",
     "weather": "string_dimension_weather",
+    "npc_spawntime": 0,
     "place_roads": false,
     "place_specials": false,
     "neighbor_connections": false,

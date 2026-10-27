@@ -61,7 +61,7 @@ git pull
 ./vcpkg.exe integrate install
 ```
 
-If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl2 at 2.26.5`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
+If during the compilation you're getting a vcpkg error along the lines of `error: no version database entry for sdl3`, that probably means that your vcpkg install is too old. Running a `git pull` in vcpkg directory should fix the issue.
 
 ## Cloning and compilation:
 

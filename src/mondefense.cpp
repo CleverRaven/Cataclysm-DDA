@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -10,6 +12,7 @@
 
 #include "ballistics.h"
 #include "bodypart.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
@@ -25,6 +28,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -206,4 +210,30 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
             }
         }
     }
+}
+
+void mdefense::ricochet( monster &m, Creature *source, const dealt_projectile_attack *proj )
+{
+    const map &here = get_map();
+
+    if( !proj || !source ) {
+        return;
+    }
+
+    tripoint_bub_ms target_pos = m.pos_bub();
+    // Shooting our own position is an error, so just in case.
+    while( target_pos == m.pos_bub() ) {
+        target_pos = *random_point_on_level( here, m.posz(), return_true<tripoint_bub_ms> );
+    }
+
+    //TODO: Play ricochet sound effect?
+
+    dealt_projectile_attack proj_copy( *proj );
+
+    // The shot's damage is multiplied to encourage (and make more dangerous!) multiple bounces.
+    proj_copy.proj.impact.mult_damage( 1.5, true );
+
+    // Copies the projectile and fires it in a random direction.
+    projectile_attack( proj_copy, proj_copy.proj, m.pos_bub(), target_pos, dispersion_sources{ 2500 },
+                       &m );
 }

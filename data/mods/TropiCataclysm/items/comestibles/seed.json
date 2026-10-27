@@ -13,7 +13,6 @@
     "volume": "2 ml",
     "plant_name": "melon",
     "fruit": "melon",
-    "fruit_div": 3,
     "byproducts": [ "withered" ],
     "growth_stages": [
       { "GROWTH_SEED": "23 days" },
@@ -37,7 +36,6 @@
     "volume": "2 ml",
     "plant_name": "banana",
     "fruit": "banana",
-    "fruit_div": 3,
     "growth_stages": [
       { "GROWTH_SEED": "23 days" },
       { "GROWTH_SEEDLING": "23 days" },
@@ -60,7 +58,6 @@
     "volume": "2 ml",
     "plant_name": "kiwi",
     "fruit": "kiwi",
-    "fruit_div": 3,
     "byproducts": [ "withered" ],
     "growth_stages": [
       { "GROWTH_SEED": "23 days" },

@@ -59,6 +59,8 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
 
+static const region_settings_id region_settings_default( "default" );
+
 class overmap_test_helper
 {
     public:
@@ -175,8 +177,7 @@ TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
 {
     overmap_buffer.clear();
-    const int city_size = overmap_buffer.get_default_settings(
-                              point_abs_om() ).get_settings_city().city_size;
+    const int city_size = region_settings_default->get_settings_city().city_size;
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
@@ -561,8 +562,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         int occ_max;
     };
     std::unordered_map<oter_type_id, std::vector<special_spawn_info>> terrain_to_specials;
-    const int city_size = overmap_buffer.get_default_settings(
-                              point_abs_om() ).get_settings_city().city_size;
+    const int city_size = region_settings_default->get_settings_city().city_size;
     for( const overmap_special &sp : overmap_specials::get_all() ) {
         if( !sp.can_spawn( city_size ) ) {
             continue;
@@ -581,7 +581,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         }
     }
 
-    constexpr int max_attempts = 3;
+    constexpr int max_attempts = 10;
     for( int attempt_no = 0; attempt_no < max_attempts && !yet_to_be_seen.empty();
          ++attempt_no ) {
         if( attempt_no > 0 ) {
@@ -605,7 +605,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             point_abs_omt omt_end = omt_start + ( point::south_east * OMAPX );
             for( point_abs_omt p = omt_start; p.y() < omt_end.y(); p.y()++ ) {
                 for( p.x() = omt_start.x(); p.x() < omt_end.x(); p.x()++ ) {
-                    REQUIRE( !main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) );
+                    if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
+                        FAIL( "overmap point is inbounds of main map" );
+                    }
                     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
                         tripoint_abs_omt tp( p, z );
                         oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
@@ -702,12 +704,12 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
             overmap_buffer.reset();
             overmap_special_batch custom_batch( overmap_origin, filtered );
             for( const point_abs_om &om_cur :
-                 closest_points_first( overmap_origin, 0, 3 ) ) {
+                 closest_points_first( overmap_origin, 0, 9 ) ) {
                 overmap_buffer.create_custom_overmap( om_cur, custom_batch );
             }
             // Scan the custom overmaps for newly-placed terrains.
             for( const point_abs_om &om_cur :
-                 closest_points_first( overmap_origin, 0, 5 ) ) {
+                 closest_points_first( overmap_origin, 0, 9 ) ) {
                 point_abs_omt omt_start = project_to<coords::omt>( om_cur );
                 if( overmap_buffer.ter_existing( { omt_start, 0 } ) == oter_id() ) {
                     continue;

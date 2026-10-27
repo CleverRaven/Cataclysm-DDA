@@ -136,10 +136,10 @@
                 "effect": {
                   "switch": { "u_val": "number_artisans_blacksmith_thickness" },
                   "cases": [
-                    { "case": 1.2, "effect": { "u_spawn_item": "hc_chainmail_suit" } },
-                    { "case": 2, "effect": { "u_spawn_item": "armor_hc_lightplate" } },
-                    { "case": 4, "effect": { "u_spawn_item": "armor_hc_plate" } },
-                    { "case": 6, "effect": { "u_spawn_item": "armor_hc_heavyplate" } }
+                    { "case": 1.2, "effect": { "u_spawn_item": "hc_chainmail_suit", "flags": [ "FIT" ] } },
+                    { "case": 2, "effect": { "u_spawn_item": "armor_hc_lightplate", "flags": [ "FIT" ] } },
+                    { "case": 4, "effect": { "u_spawn_item": "armor_hc_plate", "flags": [ "FIT" ] } },
+                    { "case": 6, "effect": { "u_spawn_item": "armor_hc_heavyplate", "flags": [ "FIT" ] } }
                   ]
                 }
               },
@@ -148,10 +148,10 @@
                 "effect": {
                   "switch": { "u_val": "number_artisans_blacksmith_thickness" },
                   "cases": [
-                    { "case": 1.2, "effect": { "u_spawn_item": "qt_chainmail_suit" } },
-                    { "case": 2, "effect": { "u_spawn_item": "armor_qt_lightplate" } },
-                    { "case": 4, "effect": { "u_spawn_item": "armor_qt_plate" } },
-                    { "case": 6, "effect": { "u_spawn_item": "armor_qt_heavyplate" } }
+                    { "case": 1.2, "effect": { "u_spawn_item": "qt_chainmail_suit", "flags": [ "FIT" ] } },
+                    { "case": 2, "effect": { "u_spawn_item": "armor_qt_lightplate", "flags": [ "FIT" ] } },
+                    { "case": 4, "effect": { "u_spawn_item": "armor_qt_plate", "flags": [ "FIT" ] } },
+                    { "case": 6, "effect": { "u_spawn_item": "armor_qt_heavyplate", "flags": [ "FIT" ] } }
                   ]
                 }
               },
@@ -160,10 +160,10 @@
                 "effect": {
                   "switch": { "u_val": "number_artisans_blacksmith_thickness" },
                   "cases": [
-                    { "case": 1.2, "effect": { "u_spawn_item": "armor_nomad_chainmail" } },
-                    { "case": 2, "effect": { "u_spawn_item": "armor_nomad_lightplate" } },
-                    { "case": 4, "effect": { "u_spawn_item": "armor_nomad_plate" } },
-                    { "case": 6, "effect": { "u_spawn_item": "armor_nomad_heavyplate" } }
+                    { "case": 1.2, "effect": { "u_spawn_item": "armor_nomad_chainmail", "flags": [ "FIT" ] } },
+                    { "case": 2, "effect": { "u_spawn_item": "armor_nomad_lightplate", "flags": [ "FIT" ] } },
+                    { "case": 4, "effect": { "u_spawn_item": "armor_nomad_plate", "flags": [ "FIT" ] } },
+                    { "case": 6, "effect": { "u_spawn_item": "armor_nomad_heavyplate", "flags": [ "FIT" ] } }
                   ]
                 }
               }

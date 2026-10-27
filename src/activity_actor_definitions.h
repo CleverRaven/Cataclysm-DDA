@@ -60,6 +60,29 @@ struct enum_traits<zone_activity_stage> {
     static constexpr zone_activity_stage last = LAST;
 };
 
+enum class open_tile_result {
+    OPEN_FAIL,
+    OPEN_DOOR,
+    OPEN_VEHICLE_SINGLE,
+    OPEN_VEHICLE_ALL,
+    OPEN_TILE_RESULT_LAST
+};
+enum class close_tile_result {
+    CLOSE_FAIL,
+    CLOSE_DOOR,
+    CLOSE_VEHICLE,
+    CLOSE_TILE_RESULT_LAST
+};
+
+template<>
+struct enum_traits<open_tile_result> {
+    static constexpr open_tile_result last = open_tile_result::OPEN_TILE_RESULT_LAST;
+};
+template<>
+struct enum_traits<close_tile_result> {
+    static constexpr close_tile_result last = close_tile_result::CLOSE_TILE_RESULT_LAST;
+};
+
 /**
 * Any activity that does operations in one or more zone types.
 */
@@ -87,12 +110,35 @@ class zone_activity_actor : public activity_actor
 
         void update_vehicle_zone_cache();
 
+        // called when a run of DO passes stops making progress, before the stage
+        // resets. base does nothing; overriders release what the stage held
+        virtual void on_no_progress( Character & ) {}
+
     protected:
         int moves;
         int num_processed;
         zone_activity_stage stage = UNINIT;
         std::unordered_set<tripoint_abs_ms> coord_set;
         tripoint_abs_ms placement;
+
+        // DO passes in one turn that spent no moves. the caller re-enters
+        // do_turn while moves remain, so an unbroken run of these never ends the
+        // turn. stamped with its turn so a stale count cannot outlive it
+        int zero_move_dispatches = 0; // NOLINT(cata-serialize)
+        time_point zero_move_turn = calendar::turn_zero; // NOLINT(cata-serialize)
+
+        // call from stage_do wherever real progress happens: route_to_destination
+        // copies the activity, so a clone taken later in the same pass carries
+        // the cleared count
+        void note_progress() {
+            zero_move_dispatches = 0;
+        }
+
+        // zero-move dispatches tolerated in one turn. one per source tile is
+        // legitimate, so twice that plus a margin
+        int zero_move_budget() const {
+            return 2 * static_cast<int>( coord_set.size() ) + 8;
+        }
 };
 
 /*
@@ -648,7 +694,7 @@ class gunmod_remove_activity_actor : public activity_actor
         }
 
         static bool gunmod_unload( Character &who, item &gunmod );
-        static void gunmod_remove( Character &who, item &gun, item &mod );
+        static void gunmod_remove( Character &who, item_location gun, item &mod );
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
@@ -1391,6 +1437,12 @@ std::string enum_to_string<efile_action>( efile_action data );
 
 template<>
 std::string enum_to_string<efile_combo>( efile_combo data );
+
+template<>
+std::string enum_to_string<open_tile_result>( open_tile_result data );
+
+template<>
+std::string enum_to_string<close_tile_result>( close_tile_result data );
 } // namespace io
 
 /**
@@ -1807,6 +1859,64 @@ class open_gate_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
+// open a terrain, furniture, or vehicle tile if possible
+class open_tile_activity_actor : public activity_actor
+{
+    public:
+        open_tile_activity_actor() = default;
+        explicit open_tile_activity_actor( std::optional<tripoint_bub_ms> tile_location ) : tile_location(
+                tile_location ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_OPEN_TILE( "ACT_OPEN_TILE" );
+            return ACT_OPEN_TILE;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<open_tile_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        std::optional<tripoint_bub_ms> tile_location;
+        open_tile_result open_success;
+        int opened_vehicle_part = -1;
+};
+
+// close a terrain, furniture, or vehicle tile if possible
+class close_tile_activity_actor : public activity_actor
+{
+    public:
+        close_tile_activity_actor() = default;
+        explicit close_tile_activity_actor( tripoint_bub_ms tile_location ) : tile_location(
+                tile_location ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
+            return ACT_CLOSE_TILE;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<close_tile_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+    private:
+        tripoint_bub_ms tile_location;
+        close_tile_result close_success;
+        int closed_vehicle_part = -1;
+};
+
 class consume_activity_actor : public activity_actor
 {
     private:
@@ -1832,6 +1942,14 @@ class consume_activity_actor : public activity_actor
         explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
             consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
+        const item_location &location() const {
+            return consume_location;
+        }
+        // false once food is gone, taken or not found by a load
+        bool has_food() const {
+            return consume_location || !consume_item.is_null();
+        }
+
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
             return ACT_CONSUME;
@@ -1844,6 +1962,34 @@ class consume_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// meal from a camp's larder, eaten over its consume time; portion leaves the larder only when
+// the meal ends, so an interrupted meal takes nothing
+class camp_meal_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_omt camp;
+        int kcal = 0;
+
+    public:
+        camp_meal_activity_actor( const tripoint_abs_omt &camp, int kcal ) : camp( camp ), kcal( kcal ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+            return ACT_CAMP_MEAL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<camp_meal_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -1978,6 +2124,16 @@ class craft_activity_actor : public activity_actor
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
+
+        // Legacy migration: older saves have step recipes with item_counter but no
+        // current_step/step_progress. Derive step state once, before any work or
+        // exertion computation. Guard ensures this runs at most once.
+        void migrate_craft_step( Character &crafter );
+        // Mode is derived from craft state every turn so wakeup handlers that
+        // advance current_step do not need to reach into the live actor.
+        mode derive_mode() const;
+        // returns whether we abort do_turn early
+        bool unattended_craft_step( player_activity &act, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -4163,6 +4319,8 @@ class zone_sort_activity_actor : public zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         void update_other_activity_items();
+
+        void on_no_progress( Character &you ) override;
 
         // Viewport lock: restore zoom and clear Character viewport state.
         void restore_viewport( Character &you );

@@ -149,7 +149,7 @@
     "id": "beer_in_six_pack_cardboard",
     "type": "item_group",
     "subtype": "distribution",
-    "container-item": "box_medium",
+    "container-item": "six_bottle_box",
     "entries": [
       { "prob": 35, "container-item": "bottle_glass_330ml", "count": 6, "item": "beer" },
       { "prob": 25, "container-item": "bottle_glass_330ml", "count": 6, "item": "european_pilsner" },

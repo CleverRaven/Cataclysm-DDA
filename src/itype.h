@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -292,10 +293,15 @@ struct islot_comestible {
             return default_nutrition.kcal() / kcal_per_nutr;
         }
 
+        std::list<itype_id> get_seasonings() const;
+
         /** The monster that is drawn from when the item rots away */
         rot_spawn_data rot_spawn;
 
     private:
+        // What seasonings can be eaten with this food for a morale bonus?
+        std::vector<item_group_id> seasonings;
+
         /** Nutrition values to use for this type when they aren't calculated from
          * components */
         nutrients default_nutrition;
@@ -1252,10 +1258,6 @@ struct islot_seed {
         bool was_loaded = false;
         void deserialize( const JsonObject &jo );
 
-        /**
-         * Amount of harvested charges of fruits is divided by this number.
-         */
-        int fruit_div = 1;
         /**
          * Name of the plant.
          */

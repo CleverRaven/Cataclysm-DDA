@@ -49,8 +49,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-class item;
-
 static const addiction_id addiction_nicotine( "nicotine" );
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
@@ -90,8 +88,6 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_wet( "wet" );
-
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
 static const json_character_flag json_flag_BARKY( "BARKY" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
@@ -441,15 +437,14 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
     bool sheltered = g->is_sheltered( pos_bub() );
-    int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                                            pos_abs(), weather_man.winddirection, sheltered );
+    const int windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                          pos_abs(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_flag( json_flag_BARKY );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
-    const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
-                              heat_immune;
+    const bool has_heatsink = has_flag( json_flag_HEATSINK ) || heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
     const std::pair<int, int> climate_control = climate_control_strength();
     const int climate_control_heat = climate_control.first;
@@ -506,10 +501,6 @@ void Character::update_bodytemp()
     const int radiation_blister_count = h_radiation > 44_C_delta ? static_cast<int>( std::sqrt(
                                             units::to_fahrenheit_delta( h_radiation - 44_C_delta ) ) ) : 0;
 
-    std::map<bodypart_id, std::vector<const item *>> clothing_map;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-    }
     // fat insulates and increases total heat production of body, but it should have a diminishing effect.
     // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
     // effects start to kick in halfway through overweightness
@@ -517,7 +508,7 @@ void Character::update_bodytemp()
             ( get_bmi_fat() - 8.0f ) ) );
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
-    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
+    std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance();
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
     std::map<bodypart_id, int> fire_armor_per_bp;
@@ -541,8 +532,8 @@ void Character::update_bodytemp()
                 bonus_warmth_per_bp[bp];
         // WINDCHILL
 
-        bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) *
-                                         ( 1 - wind_res_per_bp[bp] / 100.0 ) );
+        const int bp_windpower = static_cast<int>( static_cast<float>( windpower ) *
+                                 ( 1 - wind_res_per_bp[bp] / 100.0 ) );
         // Calculate windchill
         units::temperature_delta windchill = get_local_windchill( player_local_temp,
                                              get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
@@ -606,7 +597,7 @@ void Character::update_bodytemp()
             blister_count -= 20;
         }
         if( fire_armor_per_bp.empty() && blister_count > 0 ) {
-            fire_armor_per_bp = get_all_armor_type( damage_heat, clothing_map );
+            fire_armor_per_bp = get_all_armor_type( damage_heat );
         }
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
@@ -763,10 +754,6 @@ void Character::update_bodytemp()
             //~ %s is bodypart
             add_msg_if_player( m_warning, _( "You feel your %s getting very cold." ),
                                body_part_name( bp ) );
-        } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
-            //~ %s is bodypart
-            add_msg_if_player( m_warning, _( "You feel your %s getting chilly." ),
-                               body_part_name( bp ) );
         } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
             add_msg_if_player( m_bad, _( "You feel your %s getting red hot from the heat!" ),
@@ -774,10 +761,6 @@ void Character::update_bodytemp()
         } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
             add_msg_if_player( m_warning, _( "You feel your %s getting very hot." ),
-                               body_part_name( bp ) );
-        } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
-            //~ %s is bodypart
-            add_msg_if_player( m_warning, _( "You feel your %s getting warm." ),
                                body_part_name( bp ) );
         }
 

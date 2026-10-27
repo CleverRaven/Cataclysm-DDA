@@ -1,0 +1,45 @@
+[
+  {
+    "type": "snippet",
+    "category": "<color_prefix>",
+    "text": [
+      { "id": "brightness", "text": { "ctxt": "<color_prefix>", "str": "<color_prefix_brightness>" }, "weight": 9 },
+      { "id": "neon", "text": { "ctxt": "<color_prefix>", "str": "neon" }, "weight": 1 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<color_prefix_brightness>",
+    "text": [
+      { "id": "light", "text": { "ctxt": "<color_prefix>", "str": "light" } },
+      { "id": "dark", "text": { "ctxt": "<color_prefix>", "str": "dark" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<animal_pattern>",
+    "text": [
+      { "id": "zebra", "text": { "ctxt": "<clothing_pattern>", "str": "zebra" } },
+      { "id": "leopard", "text": { "ctxt": "<clothing_pattern>", "str": "leopard" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<generic_fancy_pattern>",
+    "text": [
+      { "id": "paisley", "text": { "ctxt": "<clothing_pattern>", "str": "paisley" } },
+      { "id": "floral", "text": { "ctxt": "<clothing_pattern>", "str": "floral" } },
+      { "id": "dot", "text": { "ctxt": "<clothing_pattern>", "str": "polka dot" } },
+      { "id": "stripe", "text": { "ctxt": "<clothing_pattern>", "str": "stripe" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<generic_casual_pattern>",
+    "text": [
+      { "id": "celtic", "text": { "ctxt": "<clothing_pattern>", "str": "celtic knot" } },
+      { "id": "psychedelic", "text": { "ctxt": "<clothing_pattern>", "str": "psychedelic" } },
+      { "id": "plaid", "text": { "ctxt": "<clothing_pattern>", "str": "plaid" } }
+    ]
+  }
+]

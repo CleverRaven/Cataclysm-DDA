@@ -1,0 +1,51 @@
+[
+  {
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "id": "sweatshirt",
+    "symbol": "[",
+    "color": "blue",
+    "looks_like": "longshirt",
+    "name": { "str": "sweatshirt" },
+    "description": "Warm garment that covers the torso.",
+    "material": [ "nylon" ],
+    "weight": "400 g",
+    "volume": "400 ml",
+    "price": "1 USD",
+    "price_postapoc": "50 cent",
+    "faults": [ { "fault_group": "fabric_cotton" } ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "coverage": 100, "covers": [ "torso" ] }, { "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "hoodie",
+    "copy-from": "sweatshirt",
+    "proportional": { "weight": 1.1, "volume": 1.1 },
+    "extend": { "flags": [ "HOOD", "POCKETS" ] },
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "hoodie" },
+    "description": "Warm garment that covers the torso.  It has a hood and a front pocket to warm your hands.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "36 cm",
+        "moves": 80
+      }
+    ]
+  },
+  {
+    "id": "zip_hoodie",
+    "copy-from": "sweatshirt",
+    "proportional": { "weight": 1.1, "volume": 1.1 },
+    "extend": { "flags": [ "HOOD" ] },
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "zip-up hoodie" },
+    "description": "Warm garment that covers the torso.  It has a hood."
+  }
+]
