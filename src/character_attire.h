@@ -56,6 +56,10 @@ struct layering_item_info {
     int encumber;
     std::string name;
 
+    // these members are informational-only
+    units::volume storage;
+    bool hidden;
+
     // Operator overload required to leverage vector equality operator.
     bool operator ==( const layering_item_info &o ) const {
         // This is used to merge e.g. both arms into one entry when their items
@@ -199,15 +203,26 @@ class outfit
                             std::list<item> &worn_remains, bool &armor_destroyed );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor( Character &guy );
+        void sort();
+        void splice( std::list<item>::iterator to, std::list<item>::iterator pos );
+        std::vector<std::list<item>::iterator> filter_by_bodypart( bodypart_id bp );
+        void assign_invlets( Character &guy );
         /*
          * when you break out of a grab you have a chance to lose some things from your pockets
          * that are hanging off your character
          */
         std::vector<item_pocket *> grab_drop_pockets();
         std::vector<item_pocket *> grab_drop_pockets( const bodypart_id &bp );
-        std::vector<layering_item_info> items_cover_bp( const Character &c, const bodypart_id &bp );
+        std::vector<layering_item_info> items_cover_bp( const Character &c, const bodypart_id &bp ) const;
+        /*
+        * @return true if ALL items worn on one bodypart with an opposite also cover that opposite part
+        * a pair of pants covers both legs -- returns true
+        * an ring on a right hand covers one hand -- returns false
+        * a hat covers the head, which has no opposite bodypart -- returns false
+        */
+        bool items_cover_opposite_bp( const Character &who, const bodypart_id &cover ) const;
         item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
-                                           const Character &c, const bodypart_id &_bp );
+                                           const Character &c, const bodypart_id &_bp ) const;
         std::vector<advanced_inv_listitem> get_AIM_inventory( size_t &item_index, avatar &you,
                 const advanced_inventory_pane &pane, advanced_inv_area &square );
         void add_AIM_items_from_area( avatar &you, advanced_inv_area &square,
@@ -262,4 +277,16 @@ class outfit
 units::mass get_selected_stack_weight( const item *i, const std::map<const item *, int> &without );
 void destroyed_armor_msg( Character &who, const std::string &pre_damage_name );
 
+namespace clothing_info
+{
+std::string clothing_layer( const item &worn_item );
+std::vector<std::string> clothing_properties(
+    const item &worn_item, const Character &c, const bodypart_id &bp );
+std::vector<std::string> clothing_protection( const item &worn_item,
+        const bodypart_id &bp );
+std::vector<std::string> clothing_flags_description( const item &worn_item );
+void add_category_and_values( std::vector<std::string> &current_text,
+                              const std::string &category_name,
+                              const std::vector<std::pair<std::string, std::string>> &names_and_values );
+} // namespace clothing_info
 #endif // CATA_SRC_CHARACTER_ATTIRE_H

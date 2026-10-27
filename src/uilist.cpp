@@ -46,6 +46,11 @@ void uilist_impl::draw_controls()
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     }
 #endif
+    uilist::draw_controls( parent );
+}
+
+void uilist::draw_controls( uilist &parent )
+{
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -760,7 +765,7 @@ void uilist::calc_data()
     }
     if( force_desired_bounds && desired_bounds.has_value() ) {
         calculated_menu_size.x = desired_bounds->w;
-        calculated_menu_size.y = desired_bounds->h;
+        calculated_menu_size.y = desired_bounds->h - additional_height;
     }
 }
 
@@ -1140,6 +1145,7 @@ void uilist::settext( const std::string &str )
 void uilist::set_selected( int index )
 {
     selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    filterlist();
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )

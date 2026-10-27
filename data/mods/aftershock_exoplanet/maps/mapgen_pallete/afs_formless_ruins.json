@@ -54,9 +54,10 @@
     "terrain": {
       "|": "t_wall_metal",
       "°": "t_open_air",
+      "o": [ [ "t_snow", 5 ], [ "t_ice", 1 ] ],
       "-": [ [ "t_snow", 5 ], [ "t_ice", 1 ] ],
       "~": [ [ "t_snow", 1 ], [ "t_ice", 5 ] ]
     },
-    "furniture": { "o": "f_snow_medium" }
+    "furniture": { "o": [ [ "f_null", 5 ], [ "f_snow_medium", 1 ] ] }
   }
 ]

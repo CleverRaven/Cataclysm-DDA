@@ -280,6 +280,10 @@ class uistatedata
 
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 
+        // Body Status UI
+        bool body_status_bodygraph_collapsed = false;
+        bool body_status_info_collapsed = false;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
