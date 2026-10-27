@@ -431,7 +431,7 @@
     "id": "WEREWOLF_CURE_OUTSIDE_EFFECTS",
     "name": "Strike the Inner Outsider",
     "points": 4,
-    "description": "The People is meant to fight the things from Outside, but sometimes they must fight what is inside their own bodies.  You can focus your mana to try and cure most ailments caused by beings from the Nether, from Under the Hill and from wherever vampires come from.  The amount of mana this requires increases with the amount and severity of your afflictions, and will fail if your mana is insufficient.",
+    "description": "The People are meant to fight the things from Outside, but sometimes they must fight what is inside their own bodies.  You can focus your mana to try and cure most ailments caused by beings from the Nether, from Under the Hill and from wherever vampires come from.  The amount of mana this requires increases with the amount and severity of your afflictions, and will fail if your mana is insufficient.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

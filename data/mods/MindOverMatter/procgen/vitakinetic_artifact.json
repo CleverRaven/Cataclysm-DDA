@@ -119,6 +119,15 @@
       },
       {
         "weight": 100,
+        "min_value": -0.5,
+        "max_value": 4,
+        "type": "REGEN_WOUND",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
         "min_value": 0,
         "max_value": 0.75,
         "type": "REGEN_HP_AWAKE",
@@ -305,6 +314,15 @@
         "min_value": -0.5,
         "max_value": 4,
         "type": "REGEN_HP",
+        "increment": 0.25,
+        "power_per_increment": 100,
+        "ench_has": "WIELD"
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 4,
+        "type": "REGEN_WOUND",
         "increment": 0.25,
         "power_per_increment": 100,
         "ench_has": "WIELD"

@@ -98,7 +98,7 @@
     "apply_message": "The cut begins to burn!",
     "remove_message": "The ache from your wounds finally fades.",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 15 ], "pain_tick": [ 60 ] },
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 }, { "value": "REGEN_WOUND", "multiply": -0.6 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1093,6 +1093,14 @@
         "values": [
           {
             "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
+              ]
+            }
+          },
+          {
+            "value": "REGEN_WOUND",
             "multiply": {
               "math": [
                 "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
@@ -2132,7 +2140,7 @@
     "name": [ "Phoenix's Rejuvenation" ],
     "desc": [ "Like the phoenix, the flames are renewing your flesh." ],
     "remove_message": "The aftereffects of the phoenix fire finally fade.",
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 }, { "value": "REGEN_WOUND", "multiply": 2 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2647,7 +2655,7 @@
     "id": "effect_hedge_increase_healing_rate",
     "name": [ "Convalescence" ],
     "desc": [ "Your wounds are healing more quickly, as long as you don't do too much to upset the charm." ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 }, { "value": "REGEN_WOUND", "multiply": 0.33 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3378,6 +3386,10 @@
             "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -1)" ] }
           },
           {
+            "value": "REGEN_WOUND",
+            "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -1)" ] }
+          },
+          {
             "value": "REGEN_STAMINA",
             "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -0.95)" ] }
           },
@@ -3599,7 +3611,8 @@
           { "value": "SPEED", "multiply": -0.1 },
           { "value": "ARMOR_ALL", "multiply": 0.05 },
           { "value": "VISION_RANGE", "multiply": -0.15 },
-          { "value": "REGEN_HP", "multiply": -0.5 }
+          { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_WOUND", "multiply": -0.5 }
         ]
       }
     ],
@@ -3835,6 +3848,10 @@
         "values": [
           {
             "value": "REGEN_HP",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          {
+            "value": "REGEN_WOUND",
             "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
           },
           {
@@ -4528,6 +4545,6 @@
     "desc": [ { "str": "You feel strangely enervated." } ],
     "rating": "bad",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 }, { "value": "REGEN_WOUND", "multiply": -0.5 } ] } ]
   }
 ]
