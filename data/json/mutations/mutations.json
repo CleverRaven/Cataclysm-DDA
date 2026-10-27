@@ -601,7 +601,15 @@
     "types": [ "HEALING" ],
     "points": -2,
     "starting_trait": true,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.25 }, { "value": "REGEN_HP", "multiply": -0.25 }, { "value": "REGEN_WOUNDS", "multiply": -0.25 }] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": -0.25 },
+          { "value": "REGEN_HP", "multiply": -0.25 },
+          { "value": "REGEN_WOUNDS", "multiply": -0.25 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -613,7 +621,15 @@
     "starting_trait": true,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 }, { "value": "REGEN_WOUNDS", "multiply": -0.67 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": -0.67 },
+          { "value": "REGEN_HP", "multiply": -0.67 },
+          { "value": "REGEN_WOUNDS", "multiply": -0.67 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -625,7 +641,15 @@
     "starting_trait": true,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 }, { "value": "REGEN_HP", "multiply": -0.9 }, { "value": "REGEN_WOUNDS", "multiply": -0.9 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": -0.9 },
+          { "value": "REGEN_HP", "multiply": -0.9 },
+          { "value": "REGEN_WOUNDS", "multiply": -0.9 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -637,7 +661,15 @@
     "starting_trait": true,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 }, { "value": "REGEN_WOUNDS", "multiply": -1 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -1 },
+          { "value": "REGEN_WOUNDS", "multiply": -1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4079,7 +4111,15 @@
     "cost": 9,
     "kcal": true,
     "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 },
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 }, { "value": "REGEN_WOUNDS", "multiply": 349 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.85 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP", "multiply": 349 },
+          { "value": "REGEN_WOUNDS", "multiply": 349 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.85 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6789,7 +6829,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
-          { "value": "REGEN_WOUNDS", "multiply": 1.5 }
+          { "value": "REGEN_WOUNDS", "multiply": 1.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }

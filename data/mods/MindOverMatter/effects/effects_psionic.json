@@ -2686,9 +2686,9 @@
             "value": "REGEN_HP",
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
-          { 
-          "value": "REGEN_WOUNDS", 
-          "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
+          {
+            "value": "REGEN_WOUNDS",
+            "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
           {
             "value": "MENDING_MODIFIER",
@@ -2708,7 +2708,15 @@
     "max_duration": "300 minutes",
     "show_in_info": true,
     "base_mods": { "hit_mod": [ -1 ] },
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.05 }, { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SPEED", "multiply": -0.05 },
+          { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_WOUNDS", "multiply": -0.5 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -2780,7 +2788,12 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "REGEN_WOUNDS", "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 85 ) + 500 ) * psionic_power_modifiers()" ] } } ]
+        "values": [
+          {
+            "value": "REGEN_WOUNDS",
+            "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 85 ) + 500 ) * psionic_power_modifiers()" ] }
+          }
+        ]
       }
     ]
   },
