@@ -63,6 +63,7 @@
 #include "uilist.h"
 #include "viewer.h"
 #include "visitable.h"
+#include "wound.h"
 
 static const efftype_id effect_asked_for_item( "asked_for_item" );
 static const efftype_id effect_asked_personal_info( "asked_personal_info" );
