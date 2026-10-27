@@ -784,7 +784,7 @@ void talk_function::repair_bionic_limbs( npc &p )
     for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
         if( bp->has_flag( json_flag_BIONIC_LIMB ) || bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
             price += ( player_character.get_part_hp_max( bp ) - player_character.get_part_hp_cur( bp ) ) * 20;
-            price += player_character.get_part( bp )->get_wounds().size()*100;
+            price += player_character.get_part( bp )->get_wounds().size() * 100;
         }
     }
     if( price == 0 ) {
@@ -796,9 +796,8 @@ void talk_function::repair_bionic_limbs( npc &p )
         return;
     }
 
-    for( const bodypart_id &bp :
-         player_character.get_all_body_parts() ) {
-        if( bp->has_flag( json_flag_BIONIC_LIMB ) ||  bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
+    for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+        if( bp->has_flag( json_flag_BIONIC_LIMB ) || bp->has_flag( json_flag_PARTIAL_BIONIC_LIMB ) ) {
             player_character.heal( bp, player_character.get_part_hp_max( bp ) -
                                    player_character.get_part_hp_cur( bp ) );
             if( player_character.has_effect( effect_bite, bp.id() ) ) {
@@ -807,7 +806,7 @@ void talk_function::repair_bionic_limbs( npc &p )
             if( player_character.has_effect( effect_bleed, bp.id() ) ) {
                 player_character.remove_effect( effect_bleed, bp );
             }
-            player_character.get_part ( bp )->get_wounds().clear();
+            player_character.get_part( bp )->get_wounds().clear();
         }
     }
     player_character.assign_activity( wait_npc_activity_actor( 30_minutes, p.get_name() ) );
