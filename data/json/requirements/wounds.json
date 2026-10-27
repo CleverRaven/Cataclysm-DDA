@@ -39,5 +39,20 @@
         [ "medical_gauze", 1 ]
       ]
     ]
+  },
+  {
+    "id": "wound_bone",
+    "type": "requirement",
+    "//": "For setting broken bones.",
+    "components": [
+      [
+        [ "arm_splint", 1 ],
+        [ "arm_xs_splint", 1 ],
+        [ "arm_xlsplint", 1 ],
+        [ "leg_splint", 1 ],
+        [ "leg_xs_splint", 1 ],
+        [ "leg_xlsplint", 1 ]
+      ]
+    ]
   }
 ]

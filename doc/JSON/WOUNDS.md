@@ -9,6 +9,8 @@ A light wounds should generally have minimal effects, a medium would should hind
 
 Scratches should bleed less than cuts, lacerations caused by bash damage should be less common than bruises and bleed about as much as scrathes.
 
+Bruises should hinder you less than other types of wounds.
+
 Align bleed values to the ones in body_parts.json unless being instructed otherwise by a dev with medical experience.
 
 ### wound
