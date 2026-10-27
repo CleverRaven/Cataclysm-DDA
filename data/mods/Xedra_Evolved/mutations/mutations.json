@@ -366,8 +366,12 @@
     "enchantments": [
       {
         "values": [
-        { "value": "REGEN_WOUNDS", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } },
-        { "value": "MENDING_MODIFIER", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } } ]
+          { "value": "REGEN_WOUNDS", "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] } },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": { "math": [ "max( (u_vitamin('human_blood_vitamin') / 250), 0)" ] }
+          }
+        ]
       }
     ],
     "flags": [ "MEND_ALL" ]
@@ -478,9 +482,12 @@
       },
       {
         "condition": { "u_has_any_trait": [ "SLOWHEALER", "SLOWHEALER2" ] },
-        "values": [ { "value": "REGEN_HP", "multiply": -0.2 }, { "value": "REGEN_WOUNDS", "multiply": -0.2 }]
+        "values": [ { "value": "REGEN_HP", "multiply": -0.2 }, { "value": "REGEN_WOUNDS", "multiply": -0.2 } ]
       },
-      { "condition": { "u_has_trait": "SLOWHEALER3" }, "values": [ { "value": "REGEN_HP", "multiply": -0.05 }, { "value": "REGEN_WOUNDS", "multiply": -0.05 }] }
+      {
+        "condition": { "u_has_trait": "SLOWHEALER3" },
+        "values": [ { "value": "REGEN_HP", "multiply": -0.05 }, { "value": "REGEN_WOUNDS", "multiply": -0.05 } ]
+      }
     ]
   },
   {
@@ -1256,7 +1263,11 @@
       },
       {
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') <= 0" ] },
-        "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 }, { "value": "REGEN_HP", "multiply": -1 }, { "value": "REGEN_WOUNDS", "multiply": -1 } ]
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": -1 },
+          { "value": "REGEN_HP", "multiply": -1 },
+          { "value": "REGEN_WOUNDS", "multiply": -1 }
+        ]
       },
       {
         "condition": {
@@ -1278,7 +1289,10 @@
         },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "11 + ((u_vitamin('human_blood_vitamin') - 1800 ) / 325)" ] } },
-          { "value": "REGEN_WOUNDS", "multiply": { "math": [ "11 + ((u_vitamin('human_blood_vitamin') - 1800 ) / 325)" ] } },
+          {
+            "value": "REGEN_WOUNDS",
+            "multiply": { "math": [ "11 + ((u_vitamin('human_blood_vitamin') - 1800 ) / 325)" ] }
+          },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 6 }
         ]
@@ -1287,7 +1301,10 @@
         "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= 4400" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
-          { "value": "REGEN_WOUNDS", "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] } },
+          {
+            "value": "REGEN_WOUNDS",
+            "multiply": { "math": [ "19 + ((u_vitamin('human_blood_vitamin') - 4400 ) / 600)" ] }
+          },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           { "value": "MENDING_MODIFIER", "multiply": 12 }
         ]

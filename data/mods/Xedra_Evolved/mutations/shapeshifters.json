@@ -41,7 +41,11 @@
     "flags": [ "MEND_ALL", "HERITAGE", "NO_CBM_INSTALLATION" ],
     "enchantments": [
       {
-        "values": [ { "value": "REGEN_HP", "multiply": 0.25 }, { "value": "REGEN_WOUNDS", "multiply": 0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.1 } ],
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.25 },
+          { "value": "REGEN_WOUNDS", "multiply": 0.25 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.1 }
+        ],
         "ench_effects": [ { "effect": "effect_xe_nonhuman_super_soldier_serum_immune", "intensity": 1 } ]
       }
     ],
