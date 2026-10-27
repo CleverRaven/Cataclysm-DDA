@@ -1241,7 +1241,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE", "MEND_ALL" ],
+    "flags": [ "CANNIBAL", "DAYFEAR", "HEMOVORE", "MEND_ALL", "BLEED_IMMUNE" ],
     "enchantments": [
       {
         "values": [
