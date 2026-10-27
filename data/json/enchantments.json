@@ -478,5 +478,20 @@
     "type": "enchantment",
     "has": "HELD",
     "condition": "ALWAYS"
+  },
+  {
+    "type": "enchantment",
+    "id": "bio_creeyncaggii_bloodreplenish",
+    "condition": "ALWAYS",
+    "effect": [
+      {
+        "if": { "math": [ "u_vitamin('redcells') < -1" ] },
+        "then": [ { "math": [ "u_vitamin('redcells') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
+      },
+      {
+        "if": { "math": [ "u_vitamin('blood') < -1" ] },
+        "then": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
+      }
+    ]
   }
 ]

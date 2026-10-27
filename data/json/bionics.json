@@ -2018,5 +2018,30 @@
     "name": { "str": "Mysterious collar implant" },
     "description": "You can feel something implanted in the nape of your neck, but you're not sure what it is.  The whole thing makes you feel a little stiff.",
     "encumbrance": [ [ "head", 1 ] ]
+  },
+  {
+    "id": "bio_creeyncaggii",
+    "type": "bionic",
+    "name": { "str": "Heart of The Warrior CBM" },
+    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  You feel the strength of its previous owner with you in every beat.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SLEEPINESS", "multiply": -0.1 },
+          { "value": "STAMINA_REGEN_MOD", "multiply": 0.2 },
+          { "value": "METABOLISM", "multiply": 0.2 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.4 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.15 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_WOUNDS ", "multiply": 0.5 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 },
+          { "value": "bio_creeyncaggii_bloodreplenish" }
+        ]
+      }
+    ],
+    "cant_remove_reason": "The CBM has replaced the patient's heart and cannot be removed."
   }
 ]

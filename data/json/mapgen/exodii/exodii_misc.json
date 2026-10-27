@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "dead_exodii_transform",
+    "furniture": [ { "result": [ "f_string_dimension_dead_exodii_heartless" ], "valid_furniture": [ "f_string_dimension_dead_exodii" ] } ]
+  }
+]
