@@ -10,7 +10,7 @@
     "damage_required": [ 1, 10 ],
     "pain": [ 1, 2 ],
     "healing_time": [ "2 days", "4 days" ],
-    "wound_progression": [ { "id": "bruise_medium", "chance": 30 } ],
+    "wound_progression": [ { "id": "bruise_medium", "chance": 50 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.03 },
       { "score": "block", "value": 0.03 },
@@ -34,9 +34,9 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 10, 14 ],
-    "pain": [ 5, 9 ],
+    "pain": [ 5, 8 ],
     "healing_time": [ "4 days", "7 days" ],
-    "wound_progression": [ { "id": "bruise_bad", "chance": 20 } ],
+    "wound_progression": [ { "id": "bruise_bad", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.1 },
       { "score": "block", "value": 0.1 },
@@ -46,7 +46,7 @@
       { "score": "crawl", "value": 0.05 },
       { "score": "balance", "value": 0.05 },
       { "score": "footing", "value": 0.05 },
-      { "score": "move_speed", "value": 0.3 }
+      { "score": "move_speed", "value": 0.03 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
@@ -60,9 +60,9 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 15, 25 ],
-    "pain": [ 12, 19 ],
+    "pain": [ 10, 15 ],
     "healing_time": [ "5 days", "8 days" ],
-    "wound_progression": [ { "id": "bleeding_laceration_medium", "chance": 40 } ],
+    "wound_progression": [ { "id": "bruise_terrible", "chance": 70 }, { "id": "bleeding_laceration_medium", "chance": 50 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
@@ -86,9 +86,9 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 26, 34 ],
-    "pain": [ 22, 29 ],
+    "pain": [ 16, 21 ],
     "healing_time": [ "6 days", "10 days" ],
-    "wound_progression": [ { "id": "bone_fractured", "chance": 30 }, { "id": "bleeding_laceration_bad", "chance": 40 } ],
+    "wound_progression": [ { "id": "bone_fractured", "chance": 50 }, { "id": "bleeding_laceration_bad", "chance": 80 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "block", "value": 0.3 },
@@ -113,7 +113,7 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 20, 25 ],
     "pain": [ 14, 20 ],
-    "wound_progression": [ { "id": "laceration_bad", "chance": 20 } ],
+    "wound_progression": [ { "id": "laceration_bad", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "block", "value": 0.3 },
@@ -174,7 +174,7 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 35, 59 ],
     "pain": [ 35, 45 ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 90 } ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 95 } ],
     "limb_scores": [
       { "score": "manip", "value": 1 },
       { "score": "grip", "value": 1 },
