@@ -22,6 +22,7 @@
 #include "npc_class.h"
 #include "npc_decision_category.h"
 #include "npc_trip.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -99,14 +100,16 @@ static need_levels levels_for( const npc::need_goal_id id )
 {
     switch( id ) {
         case npc::need_goal_id::drink_water:
-            // 520 (thirsty predicate) and 800 on the 1200 dehydration scale, emergency at critical (900)
-            return { 520.0f / 1200.0f, 800.0f / 1200.0f, need_critical_urgency };
+            // act level and 800 on the 1200 dehydration scale, emergency at critical (900)
+            return { npc_thirst_act_level / 1200.0f, 800.0f / 1200.0f, need_critical_urgency };
         case npc::need_goal_id::go_to_sleep:
             return { static_cast<float>( sleepiness_levels::TIRED ) / 1000.0f,
                      static_cast<float>( sleepiness_levels::DEAD_TIRED ) / 1000.0f,
                      static_cast<float>( sleepiness_levels::EXHAUSTED ) / 1000.0f };
         case npc::need_goal_id::eat_food:
-        case npc::need_goal_id::seek_warmth:
+            // calorie urgency, share of healthy stored calories missing
+            return { food_act_level, 0.4f, 0.6f };
+        case npc::need_goal_id::regulate_temperature:
             break;
     }
     // no option costs declared: overrides wait for the critical level
@@ -243,8 +246,8 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
     };
     const Character &leader = get_player_character();
     const std::optional<npc_reach> reach = obligation_reach();
-    const bool holds_up = cost.needs_walk || cost.occupies;
-    const bool beyond = cost.where_known && reach &&
+    const bool holds_up = cost.holds_up();
+    const bool beyond = cost.where_known() && reach &&
                         ( !reach->contains( cost.where ) || !cost.route_in_reach );
     if( is_walking_with() ) {
         npc_permission_verdict v{ npc_permission::allowed, npc_obligation::accompany, 0.0f };
@@ -252,7 +255,7 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
             // strapped in or bedded down aboard the group's vehicle is riding along, not
             // dropping out; the best case assumes such a spot exists
             const bool on_a_bed = reach && reach->aboard != nullptr && in_vehicle &&
-                                  ( !cost.where_known || npc_vehicle_bed_at( cost.where, *reach->aboard ) );
+                                  ( !cost.where_known() || npc_vehicle_bed_at( cost.where, *reach->aboard ) );
             if( beyond ) {
                 v.permission = npc_permission::emergency_only;
             } else if( !leader_is_resting( leader ) && !on_a_bed ) {
@@ -292,7 +295,7 @@ npc_permission_verdict npc::judge_option( const npc_option_cost &cost ) const
 npc_need_view npc::need_view( const need_goal_id id, const npc_option_cost &cost ) const
 {
     npc_need_view view;
-    view.kind = cost.where_known ? npc_option_kind::actual : npc_option_kind::best_case;
+    view.kind = cost.where_known() ? npc_option_kind::actual : npc_option_kind::best_case;
     view.raw = current_need_urgency( id );
     view.verdict = judge_option( cost );
     view.floor = npc_need_floor( id, view.verdict );
@@ -310,6 +313,12 @@ npc_need_view npc::need_view( const need_goal_id id,
         return none;
     }
     return need_view( id, *cost );
+}
+
+bool calories_short( const Character &who )
+{
+    const int pending = who.stomach.get_calories() + who.guts.get_calories();
+    return who.get_stored_kcal() + pending < who.get_healthy_kcal() * ( 1.0f - food_act_level );
 }
 
 bool should_interrupt( const npc_pursuit &current, const npc_challenger &challenger )
@@ -394,7 +403,10 @@ void npc::explain_override( const need_goal_id id )
             speech = _( "I can't stay awake any longer." );
             break;
         case need_goal_id::eat_food:
-        case need_goal_id::seek_warmth:
+            issue = "need_override_food";
+            speech = _( "I really need something to eat.  I'll be right back." );
+            break;
+        case need_goal_id::regulate_temperature:
             return;
     }
     // said even with complaints turned off, unless it would wake the player
@@ -404,19 +416,24 @@ void npc::explain_override( const need_goal_id id )
 npc_need_view npc::best_need_view( const need_goal_id id )
 {
     const npc_option_cost in_place = npc_option_cost::in_place( pos_abs() );
-    if( id == need_goal_id::drink_water ) {
+    if( id == need_goal_id::drink_water || id == need_goal_id::eat_food ) {
+        const bool water = id == need_goal_id::drink_water;
         behavior::character_oracle_t oracle( this );
-        if( oracle.has_water( "" ) == behavior::status_t::running ) {
-            return need_view( id, in_place );
+        const behavior::status_t carried = water ? oracle.has_water( "" ) : oracle.has_food( "" );
+        if( carried == behavior::status_t::running ) {
+            return need_view( id, npc_option_cost::stay( pos_abs() ) );
         }
         npc_need_view held;
         held.raw = current_need_urgency( id );
+        if( !intake_useful( id ) ) {
+            return held;
+        }
         const std::set<tripoint_abs_ms> &failed = failed_targets_for( id );
-        for( const need_candidate &c : find_water_candidates() ) {
+        for( const need_candidate &c : water ? find_water_candidates() : find_food_candidates() ) {
             if( failed.count( c.target ) != 0 ) {
                 continue;
             }
-            const npc_need_view v = need_view( id, water_option_cost( c ) );
+            const npc_need_view v = need_view( id, water ? water_option_cost( c ) : food_option_cost( c ) );
             if( v.eligible() ) {
                 return v;
             }
@@ -593,13 +610,11 @@ void npc::review_self_care_activity()
     // TODO: the pursuit isn't saved, so a load cancels an emergency harvest that
     // overrode an obligation; the activity would need to keep its need
     if( !may_occupy_here() ) {
-        cancel_activity();
+        abandon_activity();
     }
 }
 
 bool npc::may_occupy_here() const
 {
-    npc_option_cost here = npc_option_cost::in_place( pos_abs() );
-    here.occupies = true;
-    return judge_option( here ).permission == npc_permission::allowed;
+    return judge_option( npc_option_cost::stay( pos_abs() ) ).permission == npc_permission::allowed;
 }
