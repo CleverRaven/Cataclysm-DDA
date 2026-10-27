@@ -68,7 +68,7 @@
     "show_in_info": true,
     "enchantments": [
       { "values": [ { "value": "REGEN_HP", "multiply": -0.75 } ] },
-      { "values": [ { "value": "REGEN_WOUNDS", "multiply": -0.75 } ] }
+      { "values": [ { "value": "REGEN_WOUND", "multiply": -0.75 } ] }
     ],
     "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
   },

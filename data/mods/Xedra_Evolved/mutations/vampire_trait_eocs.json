@@ -1951,7 +1951,7 @@
             }
           },
           {
-            "value": "REGEN_WOUNDS",
+            "value": "REGEN_WOUND",
             "multiply": {
               "math": [
                 "(u_vampire_total_tier_one_traits_plus_potency * 0.05) + (u_vampire_total_tier_two_traits * 0.075) + (u_vampire_total_tier_three_traits * 0.1) + (vampire_total_tier_four_traits_plus_potence() * 0.2) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.3)"

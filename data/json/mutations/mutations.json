@@ -566,7 +566,7 @@
           { "value": "MENDING_MODIFIER", "multiply": 1 },
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.133 },
-          { "value": "REGEN_WOUNDS", "multiply": 0.5 }
+          { "value": "REGEN_WOUND", "multiply": 0.5 }
         ]
       }
     ]
@@ -588,7 +588,7 @@
           { "value": "MENDING_MODIFIER", "multiply": 3 },
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.44 },
-          { "value": "REGEN_WOUNDS", "multiply": 0.75 }
+          { "value": "REGEN_WOUND", "multiply": 0.75 }
         ]
       }
     ]
@@ -606,7 +606,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": -0.25 },
           { "value": "REGEN_HP", "multiply": -0.25 },
-          { "value": "REGEN_WOUNDS", "multiply": -0.25 }
+          { "value": "REGEN_WOUND", "multiply": -0.25 }
         ]
       }
     ]
@@ -626,7 +626,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": -0.67 },
           { "value": "REGEN_HP", "multiply": -0.67 },
-          { "value": "REGEN_WOUNDS", "multiply": -0.67 }
+          { "value": "REGEN_WOUND", "multiply": -0.67 }
         ]
       }
     ]
@@ -646,7 +646,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": -0.9 },
           { "value": "REGEN_HP", "multiply": -0.9 },
-          { "value": "REGEN_WOUNDS", "multiply": -0.9 }
+          { "value": "REGEN_WOUND", "multiply": -0.9 }
         ]
       }
     ]
@@ -666,7 +666,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": -1 },
           { "value": "REGEN_HP", "multiply": -1 },
-          { "value": "REGEN_WOUNDS", "multiply": -1 }
+          { "value": "REGEN_WOUND", "multiply": -1 }
         ]
       }
     ]
@@ -4115,7 +4115,7 @@
       {
         "values": [
           { "value": "REGEN_HP", "multiply": 349 },
-          { "value": "REGEN_WOUNDS", "multiply": 349 },
+          { "value": "REGEN_WOUND", "multiply": 349 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.85 }
         ]
       }
@@ -4831,7 +4831,7 @@
           { "value": "SLEEPINESS", "multiply": 0.5 },
           { "value": "METABOLISM", "multiply": 0.333 },
           { "value": "REGEN_HP", "multiply": 0.5 },
-          { "value": "REGEN_WOUNDS", "multiply": 0.5 },
+          { "value": "REGEN_WOUND", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.133 }
         ]
       }
@@ -4927,7 +4927,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": 19 },
           { "value": "REGEN_HP", "multiply": 0.5 },
-          { "value": "REGEN_WOUNDS", "multiply": 0.5 },
+          { "value": "REGEN_WOUND", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.2 }
         ]
       }
@@ -6829,7 +6829,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
-          { "value": "REGEN_WOUNDS", "multiply": 1.5 },
+          { "value": "REGEN_WOUND", "multiply": 1.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }

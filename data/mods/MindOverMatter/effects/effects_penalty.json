@@ -480,7 +480,7 @@
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "-0.125 - ( u_vitamin('vitamin_psionic_drain') * -0.0035)" ] } },
           {
-            "value": "REGEN_WOUNDS",
+            "value": "REGEN_WOUND",
             "multiply": { "math": [ "-0.125 - ( u_vitamin('vitamin_psionic_drain') * -0.0035)" ] }
           }
         ]

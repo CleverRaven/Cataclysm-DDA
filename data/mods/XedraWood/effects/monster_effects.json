@@ -16,7 +16,7 @@
       {
         "values": [
           { "value": "REGEN_HP", "multiply": 10 },
-          { "value": "REGEN_WOUNDS", "multiply": 100 },
+          { "value": "REGEN_WOUND", "multiply": 100 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }
         ]
       }

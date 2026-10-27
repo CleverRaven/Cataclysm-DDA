@@ -2687,7 +2687,7 @@
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
           {
-            "value": "REGEN_WOUNDS",
+            "value": "REGEN_WOUND",
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * psionic_power_modifiers()" ] }
           },
           {
@@ -2713,7 +2713,7 @@
         "values": [
           { "value": "SPEED", "multiply": -0.05 },
           { "value": "REGEN_HP", "multiply": -0.5 },
-          { "value": "REGEN_WOUNDS", "multiply": -0.5 }
+          { "value": "REGEN_WOUND", "multiply": -0.5 }
         ]
       }
     ]
@@ -2790,7 +2790,7 @@
       {
         "values": [
           {
-            "value": "REGEN_WOUNDS",
+            "value": "REGEN_WOUND",
             "multiply": { "math": [ "( ( u_spell_level('vita_healing_trance') * 85 ) + 500 ) * psionic_power_modifiers()" ] }
           }
         ]

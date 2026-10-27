@@ -237,7 +237,7 @@
       {
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
-          { "value": "REGEN_WOUNDS", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } }
+          { "value": "REGEN_WOUND", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } }
         ]
       },
       {
