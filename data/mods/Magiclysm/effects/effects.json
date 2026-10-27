@@ -1219,7 +1219,8 @@
             "value": "METABOLISM",
             "multiply": { "math": [ "(-0.2 - (0.04 * u_spell_level('earthshaper_fortitude_of_stone')))" ] }
           },
-          { "value": "REGEN_HP", "multiply": -1.0 }
+          { "value": "REGEN_HP", "multiply": -1.0 },
+          { "value": "REGEN_WOUND", "multiply": -1 }
         ]
       }
     ]
@@ -2150,7 +2151,7 @@
     "rating": "bad",
     "max_duration": "48 hours",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -1 }, { "value": "REGEN_WOUND", "multiply": -1 } ] } ],
     "flags": [ "BLOCK_SUPERNATURAL_HEALING" ]
   },
   {

@@ -521,6 +521,7 @@
         "values": [
           { "value": "REGEN_HP_AWAKE", "multiply": -1 },
           { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_WOUND", "multiply": -0.5 },
           { "value": "REGEN_STAMINA", "multiply": -0.15 }
         ]
       }
@@ -549,6 +550,7 @@
         "values": [
           { "value": "REGEN_HP_AWAKE", "multiply": -1 },
           { "value": "REGEN_HP", "multiply": -0.8 },
+          { "value": "REGEN_WOUND", "multiply": -0.8 },
           { "value": "REGEN_STAMINA", "multiply": -0.3 }
         ]
       }

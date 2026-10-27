@@ -121,6 +121,6 @@
     ],
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.7 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.7 }, { "value": "REGEN_WOUND", "multiply": -0.7 } ] } ]
   }
 ]

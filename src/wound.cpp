@@ -319,17 +319,21 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
 {
 
     // doesn't have bp type we want
+    bool is_whitelisted = false;
     for( const bp_type &bp_type : whitelist_body_part_types ) {
-        if( !bp_id->has_type( bp_type ) ) {
-            return false;
-        }
+        is_whitelisted = is_whitelisted || bp_id->has_type( bp_type );
+    }
+    if( !is_whitelisted && !whitelist_body_part_types.empty() ) {
+        return false;
     }
 
     // has no flag we want
+    is_whitelisted = false;
     for( const json_character_flag &bp_flag : whitelist_bp_with_flag ) {
-        if( !bp_id->has_flag( bp_flag ) ) {
-            return false;
-        }
+        is_whitelisted = is_whitelisted || bp_id->has_flag( bp_flag );
+    }
+    if( !is_whitelisted && !whitelist_bp_with_flag.empty() ) {
+        return false;
     }
 
     // has type we do not want

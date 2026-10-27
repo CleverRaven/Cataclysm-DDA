@@ -12,7 +12,15 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 10 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 30 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "REGEN_HP", "multiply": 10 },
+          { "value": "REGEN_WOUND", "multiply": 100 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }
+        ]
+      }
+    ],
     "flags": [ "INVISIBLE", "DEAF" ]
   }
 ]
