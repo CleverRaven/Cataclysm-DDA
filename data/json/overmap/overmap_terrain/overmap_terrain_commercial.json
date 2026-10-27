@@ -1939,22 +1939,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gas_b11",
-    "name": "bunker reception",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "sym": "R",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "s_gas_b20", "s_gas_b21" ],
-    "name": "bunker",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "sym": "B",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "salon",
     "copy-from": "generic_city_building",
     "name": "salon",

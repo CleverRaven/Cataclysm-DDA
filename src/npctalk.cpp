@@ -156,6 +156,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "wound.h"
 
 class recipe_subset;
 
@@ -3869,6 +3870,30 @@ talk_effect_fun_t::func f_remove_wound( const JsonObject &jo, std::string_view m
         wound_to_be_removed.reserve( wound_to_be_removed_var.size() );
         for( const str_or_var &v : wound_to_be_removed_var ) {
             wound_to_be_removed.emplace_back( v.evaluate( d ) );
+        }
+
+        for( const wound_type_id &wd_id : wound_to_be_removed ) {
+            bp->remove_all_wounds_of_type( wd_id );
+        }
+
+    };
+}
+
+talk_effect_fun_t::func f_remove_all_wounds( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    return [is_npc, bodypart_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        std::vector<wound_type_id> wound_to_be_removed;
+        wound_to_be_removed.reserve( bp->get_wounds().size() );
+        for( const wound &v : bp->get_wounds() ) {
+            wound_to_be_removed.emplace_back( v.type );
         }
 
         for( const wound_type_id &wd_id : wound_to_be_removed ) {
@@ -8678,6 +8703,7 @@ parsers = {
     { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
     { "u_add_wound", "npc_add_wound", jarg::member, &talk_effect_fun::f_add_wound },
     { "u_remove_wound", "npc_remove_wound", jarg::member, &talk_effect_fun::f_remove_wound },
+    { "u_remove_all_wounds", "npc_remove_all_wounds", jarg::member, &talk_effect_fun::f_remove_all_wounds },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },
