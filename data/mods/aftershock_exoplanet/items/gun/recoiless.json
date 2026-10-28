@@ -8,12 +8,12 @@
     "symbol": "(",
     "color": "green",
     "name": { "str": "ST-84 recoilless rifle" },
-    "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons. Still, it remains generally effective.",
+    "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons.  Still, it remains generally effective.",
     "variants": [
       {
         "id": "military",
         "name": { "str": "ST-84 recoilless rifle" },
-        "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons. Still, it remains generally effective.",
+        "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons.  Still, it remains generally effective.",
         "weight": 3
       },
       {
