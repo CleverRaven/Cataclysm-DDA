@@ -10,7 +10,7 @@
     "damage_required": [ 1, 7 ],
     "pain": [ 2, 5 ],
     "healing_time": [ "10 minutes", "60 minutes" ],
-    "mod_values": [ { "type": "PAIN", "rate": "4 minutes", "amount": 1 } ],
+    "mod_values": [ { "type": "PAIN", "rate": "4 minutes", "amount": 1, "cap_min": 5, "cap_max": 10 } ],
     "wound_progression": [ { "id": "headache", "chance": 33 } ],
     "limb_scores": [ { "score": "balance", "value": 0.05 }, { "score": "vision", "value": 0.05 }, { "score": "reaction", "value": 0.06 } ],
     "whitelist_body_part_types": [ "head" ]
@@ -25,7 +25,7 @@
     "damage_types": [ "psi_telepathic_damage" ],
     "damage_required": [ 8, 20 ],
     "pain": [ 4, 10 ],
-    "mod_values": [ { "type": "PAIN", "rate": "3 minutes", "amount": 1 } ],
+    "mod_values": [ { "type": "PAIN", "rate": "3 minutes", "amount": 1, "cap_min": 11, "cap_max": 22 } ],
     "progress_timer": {
       "id": "headache_small",
       "time": [ "30 minutes", "90 minutes" ],
@@ -45,7 +45,7 @@
     "damage_types": [ "psi_telepathic_damage" ],
     "damage_required": [ 21, 35 ],
     "pain": [ 7, 15 ],
-    "mod_values": [ { "type": "PAIN", "rate": "2 minutes", "amount": 1 } ],
+    "mod_values": [ { "type": "PAIN", "rate": "2 minutes", "amount": 1, "cap_min": 23, "cap_max": 40 } ],
     "progress_timer": { "id": "headache", "time": [ "15 minutes", "45 minutes" ], "message": "Your headache isn't so awful now." },
     "wound_progression": [ { "id": "headache_extreme", "chance": 10 } ],
     "limb_scores": [ { "score": "balance", "value": 0.1 }, { "score": "vision", "value": 0.18 }, { "score": "reaction", "value": 0.2 } ],
@@ -61,7 +61,7 @@
     "damage_types": [ "psi_telepathic_damage" ],
     "damage_required": [ 35, 120 ],
     "pain": [ 10, 20 ],
-    "mod_values": [ { "type": "PAIN", "rate": "1 minutes", "amount": 1 } ],
+    "mod_values": [ { "type": "PAIN", "rate": "1 minutes", "amount": 1, "cap_min": 41, "cap_max": 80 } ],
     "progress_timer": { "id": "headache_severe", "time": [ "5 minutes", "30 minutes" ], "message": "Your headache isn't so awful now." },
     "limb_scores": [ { "score": "balance", "value": 0.3 }, { "score": "vision", "value": 0.25 }, { "score": "reaction", "value": 0.35 } ],
     "whitelist_body_part_types": [ "head" ]
