@@ -9,6 +9,7 @@
 
 #include <fmt/format.h>
 
+#include "char8_t-remediation/char8_t-remediation.h"
 /**
  * One of the problems of filesystem paths is they lack contextual awareness
  * of 'where' they are. They're just a list of segments pointing into the
