@@ -7605,9 +7605,10 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
 void harvest_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
+    const tripoint_bub_ms pos = here.get_bub( target );
 
-    if( here.has_furn( target ) ) {
-        const furn_id &furn = here.furn( target );
+    if( here.has_furn( pos ) ) {
+        const furn_id &furn = here.furn( pos );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
             // TODO: Should be generified as a harvest field
@@ -7626,7 +7627,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         }
     }
 
-    const harvest_id harvest = here.get_harvest( target );
+    const harvest_id harvest = here.get_harvest( pos );
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
@@ -7634,7 +7635,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         }
 
         if( who.manual_examine ) {
-            iexamine::none( who, target );
+            iexamine::none( who, pos );
         }
 
         act.set_to_null();
@@ -7652,6 +7653,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 
     map &here = get_map();
+    const tripoint_bub_ms pos = here.get_bub( target );
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority TODO: Allow separating nectar seasons
@@ -7661,7 +7663,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 
     const float survival_skill = who.get_skill_level( skill_survival );
     bool got_anything = false;
-    for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
+    for( const harvest_entry &entry : here.get_harvest( pos ).obj() ) {
         const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
         const float max_num = entry.scale_num.second * survival_skill + entry.base_num.second;
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
@@ -7677,9 +7679,9 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( exam_furn ) {
-        here.furn_set( target, furn_str_id::NULL_ID() );
+        here.furn_set( pos, furn_str_id::NULL_ID() );
     } else {
-        here.ter_set( target, here.get_ter_transforms_into( target ) );
+        here.ter_set( pos, here.get_ter_transforms_into( pos ) );
     }
 
     iexamine::practice_survival_while_foraging( who );
@@ -7688,7 +7690,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 void harvest_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "target", target );
+    jsout.member( "target_abs", target );
     jsout.member( "exam_furn", exam_furn );
     jsout.member( "nectar", nectar );
     jsout.member( "auto_forage", auto_forage );
@@ -7697,10 +7699,18 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor{ tripoint_bub_ms::invalid };
+    harvest_activity_actor actor{ tripoint_abs_ms::invalid };
 
     JsonObject jsobj = jsin.get_object();
-    jsobj.read( "target", actor.target );
+    if( jsobj.has_member( "target_abs" ) ) {
+        jsobj.read( "target_abs", actor.target );
+    } else {
+        // save without target_abs holds a bubble position, read on the map loaded at its origin
+        tripoint_bub_ms legacy_target = tripoint_bub_ms::invalid;
+        if( jsobj.read( "target", legacy_target ) ) {
+            actor.target = get_map().get_abs( legacy_target );
+        }
+    }
     jsobj.read( "exam_furn", actor.exam_furn );
     jsobj.read( "nectar", actor.nectar );
     jsobj.read( "auto_forage", actor.auto_forage );

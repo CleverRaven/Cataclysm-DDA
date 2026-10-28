@@ -2314,7 +2314,7 @@ class stash_activity_actor: public activity_actor
 class harvest_activity_actor : public activity_actor
 {
     public:
-        explicit harvest_activity_actor( const tripoint_bub_ms &target,
+        explicit harvest_activity_actor( const tripoint_abs_ms &target,
                                          bool auto_forage = false ) :
             target( target ), auto_forage( auto_forage ) {};
 
@@ -2335,7 +2335,7 @@ class harvest_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint_bub_ms target;
+        tripoint_abs_ms target;
         bool exam_furn = false;
         bool nectar = false;
         bool auto_forage = false;
