@@ -134,13 +134,12 @@ JsonValue json_loader::from_path_at_offset( const cata_path &source_file,
 {
     std::filesystem::path unrelative_path = source_file.get_unrelative_path();
     if( !file_exist( unrelative_path ) ) {
-        throw JsonError( unrelative_path.generic_u8string() + " does not exist." );
+        throw JsonError( fmt::format( "{} does not exist.", unrelative_path ) );
     }
     auto obj = from_path_at_offset_opt_impl( source_file, offset );
 
     if( !obj ) {
-        throw JsonError( "Json file " + unrelative_path.generic_u8string() +
-                         " did not contain valid json" );
+        throw JsonError( fmt::format( "Json file {} did not contain valid json", unrelative_path ) );
     }
     return std::move( *obj );
 }
