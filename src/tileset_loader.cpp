@@ -310,7 +310,7 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
 {
     cata_assert( sprite_width > 0 );
     cata_assert( sprite_height > 0 );
-    const SDL_Surface_Ptr tile_atlas = load_image( img_path.get_unrelative_path().u8string().c_str() );
+    const SDL_Surface_Ptr tile_atlas = load_image( img_path.generic_u8string().c_str() );
     cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
 
@@ -318,7 +318,7 @@ void tileset_cache::loader::read_image_dimensions( const cata_path &img_path,
                                    ( tile_atlas->h / sprite_height );
 
     atlas_replay_descriptor desc;
-    desc.image_path_u8 = img_path.get_unrelative_path().u8string();
+    desc.image_path_u8 = from_u8string( img_path.get_unrelative_path().u8string() );
     desc.color_key_r = kr;
     desc.color_key_g = kg;
     desc.color_key_b = kb;
