@@ -35,7 +35,8 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->maintainers.empty() ) {
         info += colorize( n_gettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
-                          c_light_blue ) + u8":\u00a0"/*non-breaking space*/ + enumerate_as_string( mod->maintainers ) + "\n";
+                          c_light_blue ) + U8(":\u00a0")/*non-breaking space*/ + enumerate_as_string(
+                    mod->maintainers ) + "\n";
     }
 
     if( !mod->dependencies.empty() ) {
