@@ -395,7 +395,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
             try {
                 deserialize( jsin );
             } catch( std::exception &err ) {
-                debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), zzip_name.generic_u8string() + ":" + file_name,
+                debugmsg( _( "Failed to read from \"%1$s:%2$s\": %3$s" ), zzip_name.generic_u8string(), file_name,
                           err.what() );
                 return false;
             }
