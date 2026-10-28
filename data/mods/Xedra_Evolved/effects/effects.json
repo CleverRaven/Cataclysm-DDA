@@ -950,6 +950,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_blood_heal_aftermath",
+    "//": "Hidden effect, grants dhampirs and vampires increased wound regen after using Sanguine Restoration",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_WOUND",
+            "add": {
+              "math": [ "100 + (u_has_trait('VAMPIRE3') * 75 ) + (u_has_trait('VAMPIRE4') * 150) + (u_has_trait('BLOOD_DRINKER') * 300)" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vampire_stamina_for_blood_cardio_bonus",
     "//": "Hidden effect, boost cardio when using Unholy Endurance and possessing the Incarnadine Relentlessness refinement.",
     "name": [ "" ],
