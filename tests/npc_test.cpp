@@ -7649,7 +7649,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         // Cold NPC indoors (holding), critically thirsty, water in inventory.
         // At current thresholds: warmth ~0.67, thirst ~0.88.
         // Thirst exceeds warmth + preempt_margin (0.15).
-        get_weather().forced_temperature = -30_C;
+        get_weather().forced_temperature = units::from_celsius( -30 );
         here.ter_set( guy.pos_bub(), ter_t_floor );
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 1050 );
@@ -7674,7 +7674,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         // Cold NPC actively moving toward clothing (progressed).
         // Moderate thirst (600/1200 = 0.5) should NOT preempt because
         // the committed goal is making progress.
-        get_weather().forced_temperature = -30_C;
+        get_weather().forced_temperature = units::from_celsius( -30 );
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 600 );
         // Place clothing so regulate_temperature has a plan.
@@ -7702,7 +7702,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
         // Cold NPC actively moving toward clothing (progressed), but
         // critically thirsty (urgency > 0.75 critical threshold and
         // exceeds warmth urgency). Should preempt.
-        get_weather().forced_temperature = -30_C;
+        get_weather().forced_temperature = units::from_celsius( -30 );
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 1050 );
         const tripoint_bub_ms clothing = guy.pos_bub() + tripoint( 5, 0, 0 );
@@ -7727,7 +7727,7 @@ TEST_CASE( "same_category_preemption", "[npc][needs]" )
     SECTION( "deferred warmth preempted by urgent thirst" ) {
         // Cold NPC deferred (danger blocked movement). Urgent thirst
         // should preempt with the same margin as blocked state.
-        get_weather().forced_temperature = -30_C;
+        get_weather().forced_temperature = units::from_celsius( -30 );
         guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
         guy.set_thirst( 1050 );
         const item_group::ItemList water_items = item_group::items_from(
