@@ -637,9 +637,9 @@
       "s_gas_b11_west": "solid_earth"
     }
   },
-  ｛
+  {
     "type": "oter_id_migration",
     "//": "Replaced to be rotatable in 0.J experimental, by #89250",
     "oter_ids": { "isherwood_barry_rescue_field": "isherwood_barry_rescue_field_north" }
-　　｝
+  }
 ]
