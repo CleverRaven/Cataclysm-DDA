@@ -19,6 +19,7 @@
   {
     "result": "chem_ethanol",
     "type": "recipe",
+    "id_suffix": "from_moonshine",
     "activity_level": "NO_EXERCISE",
     "charges": 250,
     "byproducts": [ [ "water_clean" ] ],
