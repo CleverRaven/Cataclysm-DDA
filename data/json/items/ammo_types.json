@@ -452,6 +452,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydraulic_oil",
+    "name": "hydraulic oil",
+    "default": "hydraulic_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "crude_oil",
     "name": "crude oil",
     "default": "crude_oil"
