@@ -1223,15 +1223,22 @@
         "var": { "context_val": "id" },
         "effect": [
           {
-            "math": [
-              "u_hp(_id)",
-              "+=",
-              "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-            ]
+            "if": { "u_has_body_part": { "context_val": "id" } },
+            "then": {
+              "math": [
+                "u_hp(_id)",
+                "+=",
+                "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+              ]
+            }
           }
         ]
       },
       { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" },
+      {
+        "if": { "u_has_trait": "VAMPIRE" },
+        "then": { "run_eocs": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" } }
+      },
       {
         "u_add_effect": "effect_vampire_blood_heal_aftermath",
         "duration": {
