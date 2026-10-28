@@ -7,6 +7,7 @@
 
 #include <filesystem>
 
+#include <char8_t-remediation/char8_t-remediation.h>
 #include <fmt/format.h>
 
 /**
