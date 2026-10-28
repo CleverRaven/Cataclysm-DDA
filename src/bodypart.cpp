@@ -847,21 +847,6 @@ std::vector<bodypart_str_id> body_part_type::get_all_combined_similar_bodyparts(
     return std::vector<bodypart_str_id>();
 }
 
-weighted_int_list<wound_type_id> body_part_type::get_applicable_wounds( const Character *who,
-        const damage_instance &d ) const
-{
-    weighted_int_list<wound_type_id> possible_wounds;
-
-    for( const auto &[potential_wound, wound_weight] : potential_wounds ) {
-
-        if( potential_wound.id->can_be_applied( who, potential_wound, id, d ) ) {
-            possible_wounds.add( potential_wound.id, wound_weight );
-        }
-    }
-
-    return possible_wounds;
-}
-
 bool encumbrance_data::add_sub_location(
     const layer_level level, const sub_bodypart_id sbp )
 {

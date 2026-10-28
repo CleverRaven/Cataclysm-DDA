@@ -11,6 +11,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "magic_enchantment.h"
+#include "messages.h"
 #include "options.h"
 #include "pimpl.h"
 #include "rng.h"
@@ -458,13 +459,37 @@ bool wound_type::can_be_applied( const Character *who, const bp_wounds pt_wd, co
     }
 
     if( !damage_instance_match ) {
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "%s: trying to apply wound %s, but mismatches damage amount or damage type, wound is not applied",
+                       who->name, id.str() );
         return false;
     }
 
     const bool iwwlfb = who->get_part( bp )->is_within_wound_limit_for_bp( pt_wd.id );
 
     if( !iwwlfb ) {
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "%s: trying to apply wound %s to bodypart %s, but hits the wound limit, wound is not applied",
+                       who->name, id.str(), bp.id().str() );
         return false;
+    }
+
+    for( const json_character_flag &fl_wl : whitelist_flags ) {
+        if( !who->has_flag( fl_wl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "%s: wound %s require flag %s character do not have, wound is not applied",
+                           who->name, id.str(), fl_wl.str() );
+            return false;
+        }
+    }
+
+    for( const json_character_flag &fl_bl : blacklist_flags ) {
+        if( who->has_flag( fl_bl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "%s: wound %s blacklists characters with flag %s, wound is not applied",
+                           who->name, id.str(), fl_bl.str() );
+            return false;
+        }
     }
 
     return true;

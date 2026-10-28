@@ -391,9 +391,6 @@ struct body_part_type {
                 &covered );
 
         std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
-
-        weighted_int_list<wound_type_id> get_applicable_wounds( const Character *who,
-                const damage_instance &d ) const;
 };
 
 struct layer_details {

@@ -2560,23 +2560,6 @@ bool Character::has_wounds( const bodypart_str_id &part ) const
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
-    for( const json_character_flag &fl_wl : wd->whitelist_flags ) {
-        if( !has_flag( fl_wl ) ) {
-            add_msg_debug( debugmode::DF_WOUNDS,
-                           "wound %s require flag %s character %s do not have, wound is not applied",
-                           wd.str(), fl_wl.str(), name );
-            return;
-        }
-    }
-
-    for( const json_character_flag &fl_bl : wd->blacklist_flags ) {
-        if( has_flag( fl_bl ) ) {
-            add_msg_debug( debugmode::DF_WOUNDS, "%s has flag %s, wound %s is not applied",
-                           name, fl_bl.str(), wd.str() );
-            return;
-        }
-    }
-
     bodypart &body_bp = body.at( bp.id() );
     body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
@@ -2731,7 +2714,14 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
 void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
 {
-    weighted_int_list<wound_type_id> possible_wounds = bp->get_applicable_wounds( this, d );
+    weighted_int_list<wound_type_id> possible_wounds;
+
+    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
+
+        if( potential_wound.id->can_be_applied( this, potential_wound, bp, d ) ) {
+            possible_wounds.add( potential_wound.id, wound_weight );
+        }
+    }
 
     if( !possible_wounds.empty() ) {
         apply_wound( bp, *possible_wounds.pick() );

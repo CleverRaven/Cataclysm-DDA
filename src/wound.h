@@ -11,7 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "requirements.h"
 #include "translation.h"

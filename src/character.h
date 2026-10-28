@@ -985,7 +985,7 @@ class Character : public Creature, public visitable
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
-        /** Adds this specific wound to bodypart */
+        /** Adds this specific wound to bodypart. 'force' bypasses all conditional checks and applies the wound directly */
         void apply_wound( bodypart_id bp, wound_type_id wd );
         /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
