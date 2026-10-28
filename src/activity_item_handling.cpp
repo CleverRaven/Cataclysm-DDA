@@ -791,6 +791,18 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     return true;
 }
 
+static void drop_moved_item( Character &you, const item &it, const tripoint_bub_ms &src,
+                             const tripoint_bub_ms &dest, const activity_id &activity_to_restore )
+{
+    map &here = get_map();
+    you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
+    if( activity_to_restore == ACT_FETCH_REQUIRED ) {
+        activity_handlers::drop_fetched_items( you, { it }, &here, dest );
+    } else {
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
+    }
+}
+
 static void move_item( Character &you, item &it, const int quantity, const tripoint_bub_ms &src,
                        const tripoint_bub_ms &dest, const std::optional<vpart_reference> &vpr_src,
                        const activity_id &activity_to_restore = activity_id::NULL_ID() )
@@ -810,12 +822,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     map &here = get_map();
     // Check that we can pick it up.
     if( !it.made_of_from_type( phase_id::LIQUID ) ) {
-        you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
-        if( activity_to_restore == ACT_FETCH_REQUIRED ) {
-            activity_handlers::drop_fetched_items( you, { it }, &here, dest );
-        } else {
-            put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
-        }
+        drop_moved_item( you, it, src, dest, activity_to_restore );
         // Remove from map or vehicle.
         if( vpr_src ) {
             vpr_src->vehicle().remove_item( vpr_src->part(), &it );
@@ -834,6 +841,51 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
             here.add_item_or_charges( src, leftovers );
         }
     }
+}
+
+// loose first. top-level item holding anything reserved is skipped whole, as
+// fill_requirement_inventory does; contained liquid would spill if taken out
+static std::vector<item_location> fetchable_items_at( const tripoint_bub_ms &p )
+{
+    std::vector<item_location> loose;
+    std::vector<item_location> contained;
+    for( item &top : get_map().i_at( p ) ) {
+        if( craft_reservation::contains_reserved( top ) ) {
+            continue;
+        }
+        const item_location top_loc( map_cursor( p ), &top );
+        loose.push_back( top_loc );
+        top_loc.visit_contents( [&contained]( const item_location & node ) {
+            if( !node->made_of_from_type( phase_id::LIQUID ) ) {
+                contained.push_back( node );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    loose.insert( loose.end(), contained.begin(), contained.end() );
+    return loose;
+}
+
+// like item::use_amount, whatever's left inside is no longer sealed
+static void unseal_source_pocket( const item_location &loc )
+{
+    if( item_pocket *const pocket = loc.parent_pocket() ) {
+        pocket->unseal();
+    }
+}
+
+// rest of a split stack stays in the container
+static item take_out_of_container( item_location &loc, const int quantity )
+{
+    unseal_source_pocket( loc );
+    item taken = loc->split( quantity );
+    if( !taken.is_null() ) {
+        loc.on_contents_changed();
+        return taken;
+    }
+    taken = *loc;
+    loc.remove_item();
+    return taken;
 }
 
 namespace zone_sorting
@@ -3124,10 +3176,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     // will be filtered for amounts/charges afterwards.
     for( const tripoint_bub_ms &point_elem : pickup_task ? loot_spots : combined_spots ) {
         std::map<itype_id, int> temp_map;
-        for( item &stack_elem : here.i_at( point_elem ) ) {
-            if( craft_reservation::contains_reserved( stack_elem ) ) {
-                continue;
-            }
+        for( const item_location &loc : fetchable_items_at( point_elem ) ) {
+            const item &stack_elem = *loc;
             for( std::vector<item_comp> &elem : req_comps ) {
                 for( item_comp &comp_elem : elem ) {
                     if( comp_elem.type == stack_elem.typeId() ) {
@@ -3385,7 +3435,6 @@ bool fetch_required_activity_actor::fetch_activity(
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_item_map =
                 requirements_map( you, distance );
     int pickup_count = 1;
-    map_stack items_there = here.i_at( src_loc );
     const units::volume volume_allowed = you.free_space();
     const units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
 
@@ -3411,19 +3460,21 @@ bool fetch_required_activity_actor::fetch_activity(
             }
         }
     }
-    for( auto item_iter = items_there.begin(); item_iter != items_there.end(); item_iter++ ) {
-        item &it = *item_iter;
-        if( craft_reservation::contains_reserved( it ) ) {
-            continue;
-        }
+    for( item_location &loc : fetchable_items_at( src_loc ) ) {
+        item &it = *loc;
         for( auto elem : mental_item_map ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // some tasks (construction/crafting) want the required item moved near the work spot.
                 if( !fetch_for_activity->fetch_items_to_zone() ) {
+                    const int quantity = it.count_by_charges() ? std::get<2>( elem ) : 1;
+                    const tripoint_bub_ms dest = here.get_bub( fetched_item_destination );
                     //TODO: this teleports the item, assign an item moving activity
-                    move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.get_bub( fetched_item_destination ), ovp, activity_to_restore );
-
+                    if( loc.has_parent() ) {
+                        drop_moved_item( you, take_out_of_container( loc, quantity ), src_loc, dest,
+                                         activity_to_restore );
+                    } else {
+                        move_item( you, it, quantity, src_loc, dest, ovp, activity_to_restore );
+                    }
                     return true;
                     // other tasks want the item picked up
                 } else {
@@ -3460,7 +3511,8 @@ bool fetch_required_activity_actor::fetch_activity(
                         // i_add dropped it; nothing clears a mark on the floor
                         fetched->erase_var( "activity_var" );
                     }
-                    items_there.erase( item_iter );
+                    unseal_source_pocket( loc );
+                    loc.remove_item();
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
                         here.add_item_or_charges( src_loc, leftovers );

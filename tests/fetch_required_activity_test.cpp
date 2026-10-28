@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <functional>
 #include <list>
 #include <optional>
@@ -16,23 +17,29 @@
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "construction.h"
+#include "craft_reservation.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "faction.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
+#include "item_uid.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_turn_helpers.h"
 #include "npctalk.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -50,19 +57,27 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const furn_str_id furn_f_butcher_rack( "f_butcher_rack" );
 
+static const item_group_id Item_spawn_data_pelmeni_can_medium_2( "pelmeni_can_medium_2" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_backpack_small( "backpack_small" );
 static const itype_id itype_bow_saw( "bow_saw" );
+static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_briefcase( "briefcase" );
 static const itype_id itype_e_tool( "e_tool" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_hoe( "hoe" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_mc_nodachi( "mc_nodachi" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_pelmeni( "pelmeni" );
+static const itype_id itype_pockknife( "pockknife" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_saw_bronze( "saw_bronze" );
 static const itype_id itype_test_hacksaw( "test_hacksaw" );
+static const itype_id
+itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 static const itype_id itype_wearable_test_lamp( "wearable_test_lamp" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
@@ -70,10 +85,15 @@ static const mtype_id mon_cow( "mon_cow" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
+static const skill_id skill_fabrication( "fabrication" );
+
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_frame( "t_door_frame" );
 static const ter_str_id ter_t_wall( "t_wall" );
 
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -441,6 +461,33 @@ TEST_CASE( "big_butchery_fetch_takes_one_of_each_tool", "[activities][zones][fet
     CHECK_FALSE( any_item_marked( u ) );
 }
 
+TEST_CASE( "butchery_fetch_unseals_container_it_takes_a_knife_from",
+           "[activities][zones][fetch]" )
+{
+    butchery_setup( mon_chicken );
+    map &here = get_map();
+    avatar &u = get_avatar();
+    u.wear_item( item( itype_backpack ), false, false );
+    item jug( itype_test_watertight_open_sealed_container_1L );
+    REQUIRE( jug.put_in( item( itype_pockknife ), pocket_type::CONTAINER ).success() );
+    // an emptied pocket unseals itself, so something stays behind
+    REQUIRE( jug.put_in( item( itype_nail, calendar::turn, 10 ), pocket_type::CONTAINER ).success() );
+    REQUIRE( jug.seal() );
+    const item &stored = here.add_item( loot_near, jug );
+    REQUIRE( stored.all_pockets_sealed() );
+
+    u.assign_activity( multi_butchery_activity_actor() );
+    REQUIRE( process_activity_with_travel( u, 100000 ) );
+    CHECK( corpses_at( corpse_pos ) == 0 );
+    CHECK( carried( u, itype_pockknife ) == 1 );
+    REQUIRE( here.i_at( loot_near ).size() == 1 );
+    const item &left = here.i_at( loot_near ).only_item();
+    CHECK( left.typeId() == itype_test_watertight_open_sealed_container_1L );
+    CHECK( left.only_item().typeId() == itype_nail );
+    CHECK_FALSE( left.any_pockets_sealed() );
+    CHECK_FALSE( any_item_marked( u ) );
+}
+
 TEST_CASE( "fetch_brings_a_second_item_for_a_constructed_tool_and_component_pair",
            "[activities][zones][fetch]" )
 {
@@ -505,4 +552,128 @@ TEST_CASE( "fetch_counts_filthy_carried_items_for_qualities_not_components",
             CHECK( planned( itype_2x4 ) == 2 );
         }
     }
+}
+
+TEST_CASE( "construction_fetch_takes_components_out_of_containers",
+           "[activities][zones][fetch][construction]" )
+{
+    get_craft_reservations().clear();
+    avatar &u = construction_fetch_setup();
+    map &here = get_map();
+    const auto box_nails = [&here]( int nails ) -> item & {
+        item box( itype_box_small );
+        REQUIRE( box.put_in( item( itype_nail, calendar::turn, nails ),
+                             pocket_type::CONTAINER ).success() );
+        return here.add_item( far_loot, box );
+    };
+    const auto nails_with = [&here]( const std::function<bool( const item & )> &pick ) {
+        int n = 0;
+        for( const item &top : here.i_at( far_loot ) ) {
+            top.visit_items( [&n, &pick]( const item * e, const item * ) {
+                n += e->typeId() == itype_nail && pick( *e ) ? e->charges : 0;
+                return VisitResponse::NEXT;
+            } );
+        }
+        return n;
+    };
+    REQUIRE( here.i_at( far_loot ).empty() );
+
+    GIVEN( "only nail source is box of 30 nails on a loot tile" ) {
+        box_nails( 30 );
+        WHEN( "12 nails planned for fetch" ) {
+            const requirement_id twelve_nails = multi_activity_actor::synthesize_requirements(
+            { { item_comp( itype_nail, 12 ) } }, {}, {} );
+            fetch_required_activity_actor fetch( twelve_nails, do_activity_reason::NO_COMPONENTS,
+                                                 here.get_abs( work_pos + tripoint::north ), here.get_abs( work_pos ) );
+            const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> plan =
+                        fetch.requirements_map( u );
+            THEN( "12 nails planned from loot tile" ) {
+                CHECK( fetch.last_plan == fetch_required_activity_actor::fetch_plan::fetching );
+                REQUIRE( plan.size() == 1 );
+                CHECK( std::get<0>( plan.front() ) == far_loot );
+                CHECK( std::get<1>( plan.front() ) == itype_nail );
+                CHECK( std::get<2>( plan.front() ) == 12 );
+            }
+        }
+    }
+
+    GIVEN( "sealed can of two pelmeni from a loot spawn, on a loot tile" ) {
+        const item_group::ItemList spawned =
+            item_group::items_from( Item_spawn_data_pelmeni_can_medium_2 );
+        REQUIRE( spawned.size() == 1 );
+        const item &can = here.add_item( far_loot, spawned.front() );
+        REQUIRE( can.all_pockets_sealed() );
+        REQUIRE( can.all_items_top( pocket_type::CONTAINER ).size() == 2 );
+        WHEN( "one pelmeni fetched" ) {
+            const requirement_id one_pelmeni = multi_activity_actor::synthesize_requirements(
+            { { item_comp( itype_pelmeni, 1 ) } }, {}, {} );
+            fetch_required_activity_actor fetch( one_pelmeni, do_activity_reason::NO_COMPONENTS,
+                                                 here.get_abs( work_pos + tripoint::north ), here.get_abs( work_pos ) );
+            REQUIRE( fetch.fetch_activity( u, far_loot, ACT_FETCH_REQUIRED, MAX_VIEW_DISTANCE ) );
+            THEN( "one pelmeni at work spot, other stays in can, can unsealed" ) {
+                CHECK( count_on_map( work_pos, itype_pelmeni ) == 1 );
+                CHECK( can.all_items_top( pocket_type::CONTAINER ).size() == 1 );
+                CHECK_FALSE( can.any_pockets_sealed() );
+            }
+        }
+    }
+
+    GIVEN( "door blueprint on a frame, door's nails only in boxes, one box reserved" ) {
+        u.backlog.clear();
+        here.ter_set( work_pos, ter_t_door_frame );
+        const construction &door = construction_test_constr_door.obj();
+        zone_manager::get_manager().add( "door", zone_type_CONSTRUCTION_BLUEPRINT,
+                                         u.get_faction()->id, false, true, here.get_abs( work_pos ), here.get_abs( work_pos ),
+                                         make_shared_fast<blueprint_options>( ter_t_door_frame.str(), door.group, door.id ) );
+        u.set_skill_level( skill_fabrication, 2 );
+        REQUIRE( u.meets_skill_requirements( door ) );
+        REQUIRE( u.i_add( item( itype_hammer ) ) );
+        REQUIRE( u.i_add( item( itype_bow_saw ) ) );
+        int nails_needed = 0;
+        for( const std::vector<item_comp> &line : door.requirements->get_components() ) {
+            const item one( line.front().type );
+            if( one.typeId() == itype_nail ) {
+                nails_needed = line.front().count;
+                continue;
+            }
+            for( int i = 0; i < ( one.count_by_charges() ? 1 : line.front().count ); ++i ) {
+                here.add_item_or_charges( far_loot, one.count_by_charges() ?
+                                          item( one.typeId(), calendar::turn, line.front().count ) : one );
+            }
+        }
+        REQUIRE( nails_needed > 0 );
+        const item &reserved_nails = box_nails( 30 ).only_item();
+        const int64_t reserved_uid = reserved_nails.uid().get_value();
+        craft_reservation_index::record claim;
+        claim.craft_uid = 4242;
+        claim.provider_item_uids.push_back( reserved_uid );
+        claim.expires_at = calendar::turn + 1_days;
+        get_craft_reservations().set( claim );
+        REQUIRE( craft_reservation::contains_reserved( reserved_nails ) );
+        const item &free_box = box_nails( nails_needed + 8 );
+        here.build_map_cache( 0 );
+
+        WHEN( "character works construction zone" ) {
+            u.assign_activity( multi_build_construction_activity_actor() );
+            const std::string debugmsgs = capture_debugmsg_during( [&u]() {
+                REQUIRE( process_activity_with_travel( u, 20000 ) );
+            } );
+            THEN( "free box's nails taken out, door built, reserved box untouched" ) {
+                CHECK( debugmsgs.empty() );
+                CHECK( here.ter( work_pos ) == ter_t_door_c );
+                CHECK( nails_with( [reserved_uid]( const item & e ) {
+                    return e.uid().get_value() == reserved_uid;
+                } ) == 30 );
+                CHECK( nails_with( [reserved_uid]( const item & e ) {
+                    return e.uid().get_value() != reserved_uid;
+                } ) == 8 );
+                CHECK( free_box.only_item().charges == 8 );
+                for( const item &top : here.i_at( far_loot ) ) {
+                    CHECK( top.typeId() != itype_nail );
+                }
+                CHECK_FALSE( any_item_marked( u ) );
+            }
+        }
+    }
+    get_craft_reservations().clear();
 }
