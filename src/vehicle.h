@@ -2043,6 +2043,9 @@ class vehicle
          * @returns The number of charges added.
          */
         int add_charges( map &here, vehicle_part &vp, const item &itm );
+        // returns stack the charges went into, or nullopt; added gets the count
+        std::optional<vehicle_stack::iterator> add_charges_where( map &here, vehicle_part &vp,
+                const item &itm, int &added );
 
         // remove item from part's cargo
         bool remove_item( vehicle_part &vp, item *it );

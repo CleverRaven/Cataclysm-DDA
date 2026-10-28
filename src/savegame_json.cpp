@@ -2213,6 +2213,31 @@ void npc::load( const JsonObject &data )
     generate_personality_traits();
     data.read( "may_activity_occupancy_after_end_items_loc",
                may_activity_occupancy_after_end_items_loc );
+
+    // saves from before camp residents existed kept camp members as guards
+    if( savegame_loading_version <= 38 ) {
+        const bool migrate_current = mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
+        const bool migrate_previous = previous_mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
+        if( migrate_current ) {
+            mission = NPC_MISSION_CAMP_RESIDENT;
+        }
+        if( migrate_previous ) {
+            previous_mission = NPC_MISSION_CAMP_RESIDENT;
+        }
+        if( migrate_current || migrate_previous ) {
+            guard_pos = std::nullopt;
+            clear_ai_guard_pos();
+            if( mission != NPC_MISSION_ACTIVITY ) {
+                goal = no_goal_point;
+                omt_path.clear();
+                path.clear();
+                chair_pos = std::nullopt;
+                wander_pos = std::nullopt;
+                clear_destination();
+                chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+            }
+        }
+    }
 }
 
 /*
