@@ -220,7 +220,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "denat_alcohol", "amount": [ 200, 500 ] } } }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "denat_alcohol", "amount": [ 500, 20000 ] } } }
     }
   },
   {
@@ -230,7 +230,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_methanol", "amount": [ 200, 500 ] } } }
+      "mapping": { "X": { "furniture": [ "f_standing_tank" ], "liquids": { "liquid": "chem_methanol", "amount": [ 500, 20000 ] } } }
     }
   },
   {
