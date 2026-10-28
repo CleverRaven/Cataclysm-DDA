@@ -138,5 +138,13 @@
         "then": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_bloodreplenish",
+    "effect": [
+      { "if": { "math": [ "u_vitamin('redcells') < -1" ] }, "then": { "math": [ "u_vitamin('redcells') += 2" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -1" ] }, "then": { "math": [ "u_vitamin('blood') += 2" ] } }
+    ]
   }
 ]

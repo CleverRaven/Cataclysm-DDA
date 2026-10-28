@@ -2036,12 +2036,11 @@
           { "value": "CARDIO_MULTIPLIER", "multiply": 0.4 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.15 },
           { "value": "REGEN_HP", "multiply": 0.5 },
-          { "value": "REGEN_WOUNDS ", "multiply": 0.5 },
-          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 },
-          { "value": "bio_creeyncaggii_bloodreplenish" }
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 5 }
         ]
       }
     ],
-    "cant_remove_reason": "The CBM has replaced the patient's heart and cannot be removed."
+    "cant_remove_reason": "The CBM has replaced the patient's heart and cannot be removed.",
+    "processed_eocs": [ "EOC_bio_creeyncaggii_bloodreplenish" ]
   }
 ]
