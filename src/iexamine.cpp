@@ -2543,7 +2543,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint_bub_ms &examp
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_furn( Character &you, const tripoint_bub_ms &examp )
@@ -2553,7 +2553,7 @@ void iexamine::harvest_furn( Character &you, const tripoint_bub_ms &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_ter_nectar( Character &you, const tripoint_bub_ms &examp )
@@ -2565,7 +2565,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint_bub_ms &examp 
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
@@ -2576,7 +2576,7 @@ void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 /**
@@ -4497,7 +4497,7 @@ void iexamine::tree_hickory( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 static item_location maple_tree_sap_container()

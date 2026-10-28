@@ -9091,7 +9091,7 @@ TEST_CASE( "npc_forage_yields_to_danger", "[npc][needs][forage]" )
         REQUIRE( guy.get_ai_danger() > NPC_DANGER_VERY_LOW );
         REQUIRE( here.is_harvestable( tree ) );
 
-        guy.assign_activity( harvest_activity_actor( tree, false ) );
+        guy.assign_activity( harvest_activity_actor( here.get_abs( tree ), false ) );
         REQUIRE( guy.activity.id() == ACT_HARVEST );
 
         guy.set_moves( 100 );
@@ -9313,7 +9313,7 @@ TEST_CASE( "npc_clear_goal_cancels_self_care_activities", "[npc][needs]" )
         here.ter_set( tree, ter_t_tree_apple );
         here.build_map_cache( 0 );
         REQUIRE( here.is_harvestable( tree ) );
-        guy.assign_activity( harvest_activity_actor( tree, false ) );
+        guy.assign_activity( harvest_activity_actor( here.get_abs( tree ), false ) );
         REQUIRE( guy.activity );
         REQUIRE( guy.activity.id() == ACT_HARVEST );
 
