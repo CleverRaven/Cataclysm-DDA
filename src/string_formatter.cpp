@@ -60,7 +60,8 @@ std::string string_vprintf( fmt::string_view format, fmt::printf_args args )
 auto fmt::formatter<cata_path>::format( const cata_path &path,
                                         fmt::format_context &ctx ) const -> decltype( ctx.out() )
 {
-    return formatter<std::string_view>::format( path.generic_u8string(), ctx );
+    return formatter<std::string_view>::format( from_u8string( path.generic_u8string() ), ctx );
+}
 
 auto fmt::formatter<std::filesystem::path>::format( const std::filesystem::path &path,
         fmt::format_context &ctx ) const -> decltype( ctx.out() )

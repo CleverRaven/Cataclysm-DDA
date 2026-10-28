@@ -974,7 +974,7 @@ void color_manager::show_gui()
                 ui_templates.text = _( "Color templates:" );
 
                 for( const cata_path &file : vFiles ) {
-                    ui_templates.addentry( file.get_relative_path().filename().generic_u8string() );
+                    ui_templates.addentry( from_u8string( file.get_relative_path().filename().generic_u8string() ) );
                 }
 
                 ui_templates.query();
@@ -1004,7 +1004,8 @@ void color_manager::show_gui()
                 ui_templates.text = _( "Color themes:" );
 
                 for( const cata_path &filename : vFiles ) {
-                    ui_templates.addentry( filename.get_relative_path().filename().generic_u8string() );
+                    ui_templates.addentry( from_u8string(
+                                               filename.get_relative_path().filename().generic_u8string() ) );
                 }
 
                 ui_templates.query();

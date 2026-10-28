@@ -438,8 +438,8 @@ bool _trim_mapbuffer( std::filesystem::path const &dep, rdi_t &iter,
 bool _trim_overmapbuffer( std::filesystem::path const &dep, tripoint_range<tripoint> const &oms )
 {
     std::string const fname = dep.extension() == zzip_suffix ?  // NOLINT(cata-u8-path)
-                              dep.filename().replace_extension( "" ).generic_u8string() : // NOLINT(cata-u8-path)
-                              dep.filename().generic_u8string();
+                              from_u8string( dep.filename().replace_extension( "" ).generic_u8string() ) : // NOLINT(cata-u8-path)
+                              from_u8string( dep.filename().generic_u8string() );
 
     std::string::size_type const seenpos = fname.find( ".seen." );
     if( seenpos != std::string::npos ) {

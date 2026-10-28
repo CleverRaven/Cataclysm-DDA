@@ -30,7 +30,7 @@ void style_picker::show()
 
     std::vector<cata_path> styles = load_styles();
     for( const cata_path &style : styles ) {
-        picker.addentry( style.get_relative_path().filename().generic_u8string() );
+        picker.addentry( from_u8string( style.get_relative_path().filename().generic_u8string() ) );
     }
     picker.query();
     int selected = picker.ret;

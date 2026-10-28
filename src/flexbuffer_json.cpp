@@ -86,7 +86,7 @@ std::string Json::get_root_source_path() const
     if( root_->get_source_path().empty() ) {
         return std::string{ "<unknown source file>" };
     }
-    return root_->get_source_path().u8string();
+    return from_u8string( root_->get_source_path().u8string() );
 
 }
 
