@@ -23,6 +23,7 @@ class JsonObject;
 class JsonOut;
 enum class bp_type;
 struct damage_instance;
+struct bp_wounds;
 
 // worsening wound when the same wound is hit again
 struct wound_progress {
