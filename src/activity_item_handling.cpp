@@ -2022,7 +2022,8 @@ bool are_requirements_nearby(
     temp_crafting_inventory temp_inv;
     fill_requirement_inventory( temp_inv, loot_spots, you, activity_to_restore, in_loot_zones,
                                 src_loc );
-    return needed_things.obj().can_make_with_inventory( &you, temp_inv, is_crafting_component );
+    return needed_things.obj().can_make_with_inventory( &you, temp_inv, is_crafting_component, 1,
+            craft_flags::ignore_hammerspace );
 }
 
 } //namespace multi_activity_actor
@@ -3019,7 +3020,8 @@ static fetch_lines open_fetch_lines( const requirement_data &reference, Characte
     fetch_lines open;
     const auto meets = [&]( const fetch_lines & trial ) {
         return requirement_data( trial.tools, trial.qualities, trial.components )
-               .can_make_with_inventory( &you, have, is_crafting_component );
+               .can_make_with_inventory( &you, have, is_crafting_component, 1,
+                                         craft_flags::ignore_hammerspace );
     };
     // tools first: item that can be tool and component counts as the tool
     for( const std::vector<tool_comp> &line : reference.get_tools() ) {
@@ -3081,7 +3083,8 @@ std::vector<std::tuple<tripoint_bub_ms, itype_id, int>>
     multi_activity_actor::fill_requirement_inventory( have, pickup_task ?
             std::vector<tripoint_bub_ms>() : already_there_spots, you, activity_to_restore, false,
             src_loc );
-    if( things_to_fetch.can_make_with_inventory( &you, have, is_crafting_component ) ) {
+    if( things_to_fetch.can_make_with_inventory( &you, have, is_crafting_component, 1,
+            craft_flags::ignore_hammerspace ) ) {
         last_plan = fetch_plan::met;
         return requirement_map;
     }

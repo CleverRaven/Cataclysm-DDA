@@ -1,8 +1,10 @@
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <optional>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "activity_actor.h"
@@ -27,6 +29,7 @@
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_turn_helpers.h"
@@ -36,6 +39,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
@@ -73,6 +77,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_wall( "t_wall" );
+
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
@@ -407,6 +413,45 @@ TEST_CASE( "farm_fetch_takes_one_digging_tool", "[activities][zones][fetch]" )
                 CHECK( count_on_map( plot_pos, itype_hoe ) == 1 );
                 CHECK( here.ter( plot_pos ) == ter_t_dirt );
                 CHECK_FALSE( any_item_marked( u ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "farm_fetch_ignores_debug_hammerspace", "[activities][zones][fetch]" )
+{
+    avatar &u = get_avatar();
+    map &here = get_map();
+    farm_setup( u );
+    u.set_mutation( trait_DEBUG_HS );
+    Messages::clear_messages();
+
+    GIVEN( "hoe in loot zone" ) {
+        here.add_item_or_charges( loot_centre, item( itype_hoe ) );
+        WHEN( "farm plot worked" ) {
+            u.assign_activity( multi_farm_activity_actor() );
+            THEN( "hoe fetched, plot tilled" ) {
+                REQUIRE( process_activity_with_travel( u, 2000 ) );
+                CHECK( carried_dig_tools( u ) == 1 );
+                CHECK( here.ter( plot_pos ) == ter_t_dirtmound );
+            }
+        }
+    }
+    GIVEN( "no digging tool anywhere" ) {
+        WHEN( "farm plot worked" ) {
+            u.assign_activity( multi_farm_activity_actor() );
+            THEN( "task ends with missing items message, plot untouched" ) {
+                REQUIRE( process_activity_with_travel( u, 2000 ) );
+                CHECK( u.backlog.empty() );
+                CHECK( here.ter( plot_pos ) == ter_t_dirt );
+                const std::string expected = string_format(
+                                                 "The required items are not available to complete the \"%1$s\" task at zone %2$s.",
+                                                 "farming", "plot" );
+                const std::vector<std::pair<std::string, std::string>> msgs = Messages::recent_messages( 0 );
+                CHECK( std::any_of( msgs.begin(), msgs.end(),
+                [&]( const std::pair<std::string, std::string> &m ) {
+                    return m.second == expected;
+                } ) );
             }
         }
     }
