@@ -69,7 +69,7 @@
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_good" ],
     "success_msg": "You set the bone, ow.",
-    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ],
+    "requirements": [ [ "wound_bone", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "is_mandatory": true } ]
   },
   {
@@ -82,7 +82,7 @@
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_partial" ],
     "success_msg": "When setting the bone, you hear loud cracks and your pain gets even worse.",
-    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ],
+    "requirements": [ [ "wound_bone", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "is_mandatory": true } ]
   },
   {
@@ -95,6 +95,18 @@
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_bad" ],
     "success_msg": "You did something, you aren't sure what but at least now its kind of bent in the right direction.",
-    "requirements": [ { "components": [ [ [ "arm_splint", 1 ], [ "leg_splint", 1 ] ] ] } ]
+    "requirements": [ [ "wound_bone", 1 ] ]
+  },
+  {
+    "id": "splint_bone_fix",
+    "type": "wound_fix",
+    "name": "splint your bone",
+    "description": "Splint your bone.",
+    "time": "1 minutes",
+    "skills": { "firstaid": 2 },
+    "wounds_removed": [ "bone_fractured" ],
+    "wounds_added": [ "bone_fractured_healing" ],
+    "success_msg": "You put a splint your bone, now all you can do is wait for it to heal.",
+    "requirements": [ [ "wound_bone", 1 ] ]
   }
 ]

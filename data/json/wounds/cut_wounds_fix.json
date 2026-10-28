@@ -30,6 +30,16 @@
     "success_msg": "The deep cut isn't bleeding anymore."
   },
   {
+    "id": "bleed_cut_terrible_fix",
+    "copy-from": "bleed_wound_terrible",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your horrible cut.",
+    "wounds_removed": [ "bleeding_cut_terrible" ],
+    "wounds_added": [ "cut_terrible" ],
+    "success_msg": "The horrible cut isn't bleeding anymore."
+  },
+  {
     "id": "clean_scratch_small_fix",
     "copy-from": "clean_wound_small",
     "type": "wound_fix",
@@ -80,6 +90,16 @@
     "success_msg": "The bad cut is clean now.  You should bandage it but it'll heal as is."
   },
   {
+    "id": "clean_cut_terrible_fix",
+    "copy-from": "clean_wound_terrible",
+    "type": "wound_fix",
+    "name": "clean the cut",
+    "description": "Clean your horrible cut.",
+    "wounds_removed": [ "cut_terrible" ],
+    "wounds_added": [ "clean_cut_terrible" ],
+    "success_msg": "The horrible cut is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
     "id": "bandage_scratch_small_fix",
     "copy-from": "bandage_wound_small",
     "type": "wound_fix",
@@ -128,5 +148,15 @@
     "wounds_removed": [ "clean_cut_bad" ],
     "wounds_added": [ "bandaged_cut_bad" ],
     "success_msg": "The bad cut is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_cut_terrible_fix",
+    "copy-from": "bandage_wound_terrible",
+    "type": "wound_fix",
+    "name": "bandage the cut",
+    "description": "Bandage your horrible cut.",
+    "wounds_removed": [ "clean_cut_terrible" ],
+    "wounds_added": [ "bandaged_cut_terrible" ],
+    "success_msg": "The horrible cut is bandaged, now, all you can do is wait for it to heal."
   }
 ]

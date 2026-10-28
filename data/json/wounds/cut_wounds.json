@@ -5,13 +5,23 @@
     "name": { "str": "light scratch", "str_pl": "light scratches" },
     "description": "You have been scratched lightly, you should probably clean it.",
     "weight": 50,
-    "limit": 8,
+    "limit": 12,
     "damage_types": [ "cut" ],
-    "damage_required": [ 1, 12 ],
+    "damage_required": [ 1, 9 ],
     "pain": [ 1, 2 ],
     "healing_time": [ "3 days", "5 days" ],
-    "wound_progression": [ { "id": "scratch_medium", "chance": 10 } ],
-    "limb_scores": [ { "score": "manip", "value": 0.04 } ],
+    "wound_progression": [ { "id": "scratch_medium", "chance": 50 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.05 },
+      { "score": "block", "value": 0.05 },
+      { "score": "grip", "value": 0.05 },
+      { "score": "lift", "value": 0.05 },
+      { "score": "swim", "value": 0.05 },
+      { "score": "crawl", "value": 0.05 },
+      { "score": "balance", "value": 0.02 },
+      { "score": "footing", "value": 0.02 },
+      { "score": "move_speed", "value": 0 }
+    ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -23,15 +33,20 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 10, 20 ],
+    "damage_required": [ 10, 14 ],
     "pain": [ 7, 10 ],
     "healing_time": [ "7 days", "10 days" ],
-    "wound_progression": [ { "id": "scratch_bad", "chance": 10 } ],
+    "wound_progression": [ { "id": "scratch_bad", "chance": 70 } ],
     "limb_scores": [
-      { "score": "manip", "value": 0.1 },
-      { "score": "grip", "value": 0.1 },
-      { "score": "lift", "value": 0.1 },
-      { "score": "block", "value": 0.15 }
+      { "score": "manip", "value": 0.15 },
+      { "score": "block", "value": 0.15 },
+      { "score": "grip", "value": 0.15 },
+      { "score": "lift", "value": 0.15 },
+      { "score": "swim", "value": 0.15 },
+      { "score": "crawl", "value": 0.15 },
+      { "score": "balance", "value": 0.1 },
+      { "score": "footing", "value": 0.1 },
+      { "score": "move_speed", "value": 0.5 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
@@ -44,19 +59,23 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 15, 20 ],
+    "damage_required": [ 15, 19 ],
     "pain": [ 17, 24 ],
     "limb_scores": [
-      { "score": "manip", "value": 0.15 },
-      { "score": "grip", "value": 0.15 },
-      { "score": "lift", "value": 0.15 },
+      { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
-      { "score": "move_speed", "value": 0.15 }
+      { "score": "grip", "value": 0.2 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "swim", "value": 0.2 },
+      { "score": "crawl", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.1 }
     ],
     "mod_values": [
       { "type": "BLEED", "rate": "5 seconds", "amount": 10 },
-      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -8 },
-      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -8 }
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
     "periodic_message": { "message": "Your scratch on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
@@ -70,14 +89,18 @@
     "weight": 50,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 15, 20 ],
+    "damage_required": [ 15, 19 ],
     "pain": [ 10, 14 ],
-    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 20 } ],
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 80 } ],
     "limb_scores": [
-      { "score": "manip", "value": 0.15 },
-      { "score": "grip", "value": 0.15 },
-      { "score": "lift", "value": 0.15 },
+      { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "swim", "value": 0.2 },
+      { "score": "crawl", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
       { "score": "move_speed", "value": 0.1 }
     ],
     "mod_values": [
@@ -97,24 +120,57 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
-    "damage_required": [ 20, 60 ],
+    "damage_required": [ 20, 30 ],
+    "pain": [ 15, 19 ],
+    "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 80 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.3 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.3 },
+      { "score": "lift", "value": 0.3 },
+      { "score": "swim", "value": 0.3 },
+      { "score": "crawl", "value": 0.3 },
+      { "score": "balance", "value": 0.25 },
+      { "score": "footing", "value": 0.25 },
+      { "score": "move_speed", "value": 0.2 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "2 seconds", "amount": 13 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -13 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -13 }
+    ],
+    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_cut_terrible",
+    "type": "wound",
+    "name": { "str": "bleeding horrible cut" },
+    "description": "You have been horribly cut, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "cut" ],
+    "damage_required": [ 31, 60 ],
     "//0": "change the max damage required after more wounds are added that have a higher min damage",
     "pain": [ 15, 19 ],
     "limb_scores": [
-      { "score": "manip", "value": 0.25 },
-      { "score": "block", "value": 0.3 },
-      { "score": "grip", "value": 0.2 },
-      { "score": "balance", "value": 0.15 },
-      { "score": "footing", "value": 0.15 },
-      { "score": "move_speed", "value": 0.2 },
-      { "score": "lift", "value": 0.25 }
+      { "score": "manip", "value": 0.4 },
+      { "score": "block", "value": 0.4 },
+      { "score": "grip", "value": 0.4 },
+      { "score": "lift", "value": 0.4 },
+      { "score": "swim", "value": 0.4 },
+      { "score": "crawl", "value": 0.4 },
+      { "score": "balance", "value": 0.4 },
+      { "score": "footing", "value": 0.4 },
+      { "score": "move_speed", "value": 0.4 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "2 seconds", "amount": 15 },
-      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -15 },
-      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -15 }
+      { "type": "BLEED", "rate": "1 seconds", "amount": 19 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -18 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -18 }
     ],
-    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "periodic_message": { "message": "Your horrible cut on your %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -127,7 +183,7 @@
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
-    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 45 } ]
+    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 100 } ]
   },
   {
     "id": "cut_medium",
@@ -138,18 +194,29 @@
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
-    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 40 } ]
+    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 100 } ]
   },
   {
     "id": "cut_bad",
     "copy-from": "bleeding_cut_bad",
     "type": "wound",
     "name": { "str": "deep cut" },
-    "description": "You have been cut, you should probably clean it and bandage it.",
+    "description": "You have been deeply cut, you should probably clean it and bandage it.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
-    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 45 } ]
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 100 } ]
+  },
+  {
+    "id": "cut_terrible",
+    "copy-from": "bleeding_cut_terrible",
+    "type": "wound",
+    "name": { "str": "horrible cut" },
+    "description": "You have been horribly cut, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 100 } ]
   },
   {
     "id": "clean_scratch_small",
@@ -159,7 +226,7 @@
     "description": "You have been scratched lightly.",
     "weight": 0,
     "healing_time": [ "2 days", "4 days" ],
-    "wound_progression": [ { "id": "scratch_small", "chance": 35 } ]
+    "wound_progression": [ { "id": "scratch_small", "chance": 100 } ]
   },
   {
     "id": "clean_scratch_medium",
@@ -169,7 +236,7 @@
     "description": "You have been scratched.",
     "weight": 0,
     "healing_time": [ "3 days", "5 days" ],
-    "wound_progression": [ { "id": "scratch_medium", "chance": 40 } ]
+    "wound_progression": [ { "id": "scratch_medium", "chance": 100 } ]
   },
   {
     "id": "clean_scratch_bad",
@@ -184,7 +251,7 @@
     "copy-from": "cut_medium",
     "type": "wound",
     "name": { "str": "clean cut" },
-    "description": "You have been cut you should probably bandage it.",
+    "description": "You have been cut, you should probably bandage it.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -194,6 +261,13 @@
     "name": { "str": "clean deep cut" },
     "description": "You have been badly cut, you should probably bandage it.",
     "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "clean_cut_terrible",
+    "copy-from": "cut_terrible",
+    "type": "wound",
+    "name": { "str": "clean horrible cut" },
+    "description": "You have been horribly cut, you should really bandage it."
   },
   {
     "id": "bandaged_scratch_small",
@@ -234,5 +308,13 @@
     "name": { "str": "bandaged deep cut" },
     "description": "You have been badly cut, you should wait till it heals.",
     "healing_time": [ "4 days", "6 days" ]
+  },
+  {
+    "id": "bandaged_cut_terrible",
+    "copy-from": "cut_terrible",
+    "type": "wound",
+    "name": { "str": "bandaged horrible cut" },
+    "description": "You have been horribly cut, you should wait till it heals.",
+    "healing_time": [ "6 days", "8 days" ]
   }
 ]

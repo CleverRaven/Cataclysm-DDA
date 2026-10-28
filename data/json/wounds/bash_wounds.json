@@ -10,8 +10,18 @@
     "damage_required": [ 1, 10 ],
     "pain": [ 1, 2 ],
     "healing_time": [ "2 days", "4 days" ],
-    "wound_progression": [ { "id": "bruise_medium", "chance": 20 } ],
-    "limb_scores": [ { "score": "manip", "value": 0.04 } ],
+    "wound_progression": [ { "id": "bruise_medium", "chance": 50 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.03 },
+      { "score": "block", "value": 0.03 },
+      { "score": "grip", "value": 0.03 },
+      { "score": "swim", "value": 0.03 },
+      { "score": "crawl", "value": 0.03 },
+      { "score": "lift", "value": 0.03 },
+      { "score": "balance", "value": 0 },
+      { "score": "footing", "value": 0 },
+      { "score": "move_speed", "value": 0 }
+    ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -23,15 +33,20 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "bash" ],
-    "damage_required": [ 10, 15 ],
-    "pain": [ 9, 16 ],
+    "damage_required": [ 10, 14 ],
+    "pain": [ 5, 8 ],
     "healing_time": [ "4 days", "7 days" ],
-    "wound_progression": [ { "id": "bruise_bad", "chance": 20 }, { "id": "bleeding_laceration_medium", "chance": 15 } ],
+    "wound_progression": [ { "id": "bruise_bad", "chance": 70 } ],
     "limb_scores": [
-      { "score": "manip", "value": 0.07 },
-      { "score": "grip", "value": 0.04 },
-      { "score": "lift", "value": 0.06 },
-      { "score": "block", "value": 0.1 }
+      { "score": "manip", "value": 0.1 },
+      { "score": "block", "value": 0.1 },
+      { "score": "grip", "value": 0.1 },
+      { "score": "lift", "value": 0.1 },
+      { "score": "swim", "value": 0.1 },
+      { "score": "crawl", "value": 0.05 },
+      { "score": "balance", "value": 0.05 },
+      { "score": "footing", "value": 0.05 },
+      { "score": "move_speed", "value": 0.03 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
@@ -45,17 +60,45 @@
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 15, 25 ],
-    "pain": [ 20, 26 ],
-    "healing_time": [ "6 days", "10 days" ],
-    "wound_progression": [ { "id": "bone_broken", "chance": 30 }, { "id": "bleeding_laceration_bad", "chance": 30 } ],
+    "pain": [ 10, 15 ],
+    "healing_time": [ "5 days", "8 days" ],
+    "wound_progression": [ { "id": "bruise_terrible", "chance": 70 }, { "id": "bleeding_laceration_medium", "chance": 50 } ],
     "limb_scores": [
-      { "score": "manip", "value": 0.25 },
-      { "score": "block", "value": 0.3 },
-      { "score": "grip", "value": 0.3 },
+      { "score": "manip", "value": 0.2 },
+      { "score": "block", "value": 0.2 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "swim", "value": 0.2 },
+      { "score": "crawl", "value": 0.2 },
       { "score": "balance", "value": 0.15 },
       { "score": "footing", "value": 0.15 },
-      { "score": "move_speed", "value": 0.2 },
-      { "score": "lift", "value": 0.25 }
+      { "score": "move_speed", "value": 0.1 }
+    ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bruise_terrible",
+    "type": "wound",
+    "name": { "str": "terrible bruise" },
+    "description": "You have been bruised terribly.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 26, 34 ],
+    "pain": [ 16, 21 ],
+    "healing_time": [ "6 days", "10 days" ],
+    "wound_progression": [ { "id": "bone_fractured", "chance": 50 }, { "id": "bleeding_laceration_bad", "chance": 80 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.3 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.3 },
+      { "score": "lift", "value": 0.3 },
+      { "score": "swim", "value": 0.3 },
+      { "score": "crawl", "value": 0.3 },
+      { "score": "balance", "value": 0.25 },
+      { "score": "footing", "value": 0.25 },
+      { "score": "move_speed", "value": 0.2 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
@@ -64,14 +107,24 @@
     "id": "bleeding_laceration_medium",
     "type": "wound",
     "name": { "str": "bleeding laceration" },
-    "description": "You have been bruised.",
+    "description": "You have been lacerated.",
     "weight": 20,
     "limit": 8,
     "damage_types": [ "bash" ],
-    "damage_required": [ 10, 15 ],
-    "pain": [ 10, 16 ],
-    "wound_progression": [ { "id": "laceration_bad", "chance": 20 } ],
-    "limb_scores": [ { "score": "manip", "value": 0.07 }, { "score": "grip", "value": 0.04 }, { "score": "lift", "value": 0.6 } ],
+    "damage_required": [ 20, 25 ],
+    "pain": [ 14, 20 ],
+    "wound_progression": [ { "id": "laceration_bad", "chance": 70 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.3 },
+      { "score": "block", "value": 0.3 },
+      { "score": "grip", "value": 0.3 },
+      { "score": "lift", "value": 0.3 },
+      { "score": "swim", "value": 0.3 },
+      { "score": "crawl", "value": 0.3 },
+      { "score": "balance", "value": 0.25 },
+      { "score": "footing", "value": 0.25 },
+      { "score": "move_speed", "value": 0.2 }
+    ],
     "mod_values": [
       { "type": "BLEED", "rate": "6 seconds", "amount": 8 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
@@ -85,28 +138,56 @@
     "id": "bleeding_laceration_bad",
     "type": "wound",
     "name": { "str": "bad bleeding laceration" },
-    "description": "You have been bruised badly.",
+    "description": "You have been lacerated badly.",
     "weight": 20,
     "limit": 8,
     "damage_types": [ "bash" ],
-    "damage_required": [ 15, 25 ],
+    "damage_required": [ 26, 34 ],
     "pain": [ 20, 26 ],
     "limb_scores": [
-      { "score": "manip", "value": 0.25 },
-      { "score": "block", "value": 0.3 },
-      { "score": "grip", "value": 0.2 },
-      { "score": "balance", "value": 0.15 },
-      { "score": "footing", "value": 0.15 },
-      { "score": "move_speed", "value": 0.2 },
-      { "score": "lift", "value": 0.25 }
+      { "score": "manip", "value": 0.4 },
+      { "score": "block", "value": 0.4 },
+      { "score": "grip", "value": 0.4 },
+      { "score": "lift", "value": 0.4 },
+      { "score": "swim", "value": 0.4 },
+      { "score": "crawl", "value": 0.4 },
+      { "score": "balance", "value": 0.35 },
+      { "score": "footing", "value": 0.35 },
+      { "score": "move_speed", "value": 0.35 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "4 seconds", "amount": 12 },
-      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -9 },
-      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -9 }
+      { "type": "BLEED", "rate": "3 seconds", "amount": 10 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -11 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -11 }
     ],
-    "periodic_message": { "message": "Your bad laceration on your %s is bleeding!", "rate": "60 seconds" },
+    "periodic_message": { "message": "Your bad laceration on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bone_fractured",
+    "type": "wound",
+    "name": { "str": "fractured bone" },
+    "description": "Your bone is fractured but still in alingnment.",
+    "weight": 40,
+    "limit": 2,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 35, 59 ],
+    "pain": [ 35, 45 ],
+    "wound_progression": [ { "id": "bone_broken", "chance": 95 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 1 },
+      { "score": "grip", "value": 1 },
+      { "score": "lift", "value": 1 },
+      { "score": "block", "value": 1 },
+      { "score": "swim", "value": 1 },
+      { "score": "crawl", "value": 0.7 },
+      { "score": "balance", "value": 0.7 },
+      { "score": "footing", "value": 0.7 },
+      { "score": "move_speed", "value": 0.7 }
+    ],
+    "blacklist_flag": [ "MEND_ALL" ],
+    "blacklist_body_part_types": [ "torso", "sensor", "head" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
@@ -117,15 +198,17 @@
     "weight": 40,
     "limit": 2,
     "damage_types": [ "bash" ],
-    "damage_required": [ 25, 120 ],
+    "damage_required": [ 60, 120 ],
     "pain": [ 40, 49 ],
     "limb_scores": [
       { "score": "manip", "value": 1 },
       { "score": "grip", "value": 1 },
       { "score": "lift", "value": 1 },
+      { "score": "block", "value": 1 },
+      { "score": "swim", "value": 1 },
+      { "score": "crawl", "value": 0.9 },
       { "score": "balance", "value": 0.9 },
       { "score": "footing", "value": 0.9 },
-      { "score": "block", "value": 1 },
       { "score": "move_speed", "value": 0.95 }
     ],
     "blacklist_flag": [ "MEND_ALL" ],
@@ -204,6 +287,17 @@
     ]
   },
   {
+    "id": "bone_fractured_healing",
+    "copy-from": "bone_fractured",
+    "type": "wound",
+    "name": { "str": "splinted bone" },
+    "description": "You splinted the fractured bone.",
+    "weight": 0,
+    "limit": 2,
+    "healing_time": [ "15 days", "20 days" ],
+    "wound_progression": [ { "id": "bone_fractured", "chance": 100 } ]
+  },
+  {
     "id": "laceration_medium",
     "copy-from": "bleeding_laceration_medium",
     "type": "wound",
@@ -247,7 +341,7 @@
     "type": "wound",
     "name": { "str": "bandaged laceration" },
     "description": "You have a laceration, you should wait till it heals.",
-    "healing_time": [ "2 days", "4 days" ]
+    "healing_time": [ "3 days", "5 days" ]
   },
   {
     "id": "bandaged_laceration_bad",
@@ -255,6 +349,6 @@
     "type": "wound",
     "name": { "str": "bandaged bad laceration" },
     "description": "You have a bad laceration, you should wait till it heals.",
-    "healing_time": [ "3 days", "5 days" ]
+    "healing_time": [ "4 days", "7 days" ]
   }
 ]
