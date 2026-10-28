@@ -6,16 +6,10 @@
 #include <string_view>
 #include <type_traits>
 #include <utility>
+#include <filesystem>
 
 class cata_path;
 class translation;
-namespace std
-{
-namespace filesystem
-{
-class path;
-}
-};
 
 template<typename T, typename Enable = void>
 struct printf_converter {
