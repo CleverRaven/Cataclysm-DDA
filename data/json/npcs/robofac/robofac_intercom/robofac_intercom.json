@@ -777,7 +777,7 @@
         "text": "I need some gear to outfit my crew, I think five sets of police riot armor would do the trick.",
         "condition": {
           "and": [
-            { "u_has_faction_trust": 1 },
+            { "u_has_faction_trust": 2 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             { "math": [ "isherwood_gear_status < 1" ] },
             {
