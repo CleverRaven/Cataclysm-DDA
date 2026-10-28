@@ -6,7 +6,9 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-
+#ifdef _WIN32
+#include <io.h>
+#endif
 #include "cata_catch.h"
 #include "catacharset.h"
 #include "localized_comparator.h"
@@ -212,3 +214,12 @@ TEST_CASE( "utf8_view", "[catacharset][nogame]" )
     CHECK( actual_code_points == expected_code_points );
 }
 
+TEST_CASE( "tty", "[catacharset][nogame][!mayfail]" )
+{
+#ifdef _WIN32
+    REQUIRE( _isatty( _fileno( stdout ) ) );
+#else
+    REQUIRE( isatty( fileno( stdout ) ) );
+#endif
+    std::cout << U8("Hello, 世界! à y\u0300 à̸̠你⃫") << std::endl;
+}
