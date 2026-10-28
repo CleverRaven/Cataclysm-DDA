@@ -1095,7 +1095,7 @@ bool color_manager::save_custom() const
 {
     const cata_path savefile = PATH_INFO::custom_colors();
 
-    return write_to_file( savefile.generic_u8string(), [&](
+    return write_to_file( savefile, [&](
     std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
