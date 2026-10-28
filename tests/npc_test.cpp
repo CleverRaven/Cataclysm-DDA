@@ -84,6 +84,7 @@
 #include "ret_val.h"
 #include "sounds.h"
 #include "stomach.h"
+#include "string_formatter.h"
 #include "talker.h"
 #include "test_data.h"
 #include "text_snippets.h"
@@ -8130,6 +8131,57 @@ TEST_CASE( "npc_fire_executor_contract", "[npc][needs][temperature][fire]" )
         CHECK( guy.activity.id() != ACT_START_FIRE );
         CHECK( guy.has_amount( itype_2x4, 1 ) );
         CHECK( here.i_at( east ).size() == 1 );
+    }
+
+    SECTION( "hearth checked again when fire takes" ) {
+        guy.i_add( tool_with_ammo( itype_lighter, 20 ) );
+        guy.i_add( item( itype_2x4 ) );
+        const tripoint_bub_ms east = guy.pos_bub() + point::east;
+        for( const tripoint_bub_ms &p : here.points_in_radius( guy.pos_bub(), 1 ) ) {
+            if( p != guy.pos_bub() && p != east ) {
+                here.ter_set( p, ter_t_concrete_wall );
+            }
+        }
+        here.furn_set( east, furn_f_firering );
+        here.build_map_cache( 0 );
+        const auto light_until_done = [&]() {
+            for( int turn = 0; turn < 1000 && guy.activity; ++turn ) {
+                guy.set_moves( 100 );
+                guy.activity.do_turn( guy );
+            }
+        };
+        GIVEN( "NPC starts lighting its own plank" ) {
+            guy.set_moves( 100 );
+            REQUIRE( guy.execute_need_goal( "regulate_temperature" ) == npc::need_result::progressed );
+            REQUIRE( guy.activity.id() == ACT_START_FIRE );
+            WHEN( "cudgel dropped into the ring before the fire takes" ) {
+                here.add_item_or_charges( east, item( itype_cudgel ) );
+                Messages::clear_messages();
+                light_until_done();
+                // entering a section clears message log
+                const std::string expected = string_format( "%s can't light a fire there.",
+                                             guy.get_name() );
+                const std::vector<std::pair<std::string, std::string>> msgs =
+                            Messages::recent_messages( 0 );
+                const bool told = std::any_of( msgs.begin(), msgs.end(),
+                [&]( const std::pair<std::string, std::string> &m ) {
+                    return m.second == expected;
+                } );
+                THEN( "no fire lit, cudgel stays, player told" ) {
+                    CHECK_FALSE( guy.activity );
+                    CHECK( here.get_field( east, fd_fire ) == nullptr );
+                    CHECK( here.i_at( east ).size() == 2 );
+                    CHECK( told );
+                }
+            }
+            WHEN( "nothing changes before the fire takes" ) {
+                light_until_done();
+                THEN( "fire is lit" ) {
+                    CHECK_FALSE( guy.activity );
+                    CHECK( here.get_field( east, fd_fire ) != nullptr );
+                }
+            }
+        }
     }
 
     SECTION( "ash from old fire doesn't block the ring" ) {
