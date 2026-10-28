@@ -90,7 +90,7 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }
       },
       {
-        "text": "Okay then, your family's outside.  Let me go get them.",
+        "text": "Okay then, let's get you out of here. Your family's waiting for you.",
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
         "effect": [
           "follow_only",
