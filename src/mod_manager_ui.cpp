@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <exception>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "color.h"
 #include "debug.h"
 #include "dependency_tree.h"

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "filesystem.h"
 #include "cata_imgui.h"
 #include "cata_path.h"

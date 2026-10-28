@@ -28,6 +28,8 @@
 #include <utility>
 #include <vector>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "achievement.h"
 #include "action.h"
 #include "activity_tracker.h"

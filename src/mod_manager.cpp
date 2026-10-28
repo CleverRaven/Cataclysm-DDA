@@ -9,6 +9,8 @@
 #include <queue>
 #include <stdexcept>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"

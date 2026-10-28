@@ -1,7 +1,9 @@
 #include "string_formatter.h"
 
 #include <exception>
+#include <filesystem>
 
+#include <char8_t-remediation/char8_t-remediation.h>
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
@@ -9,7 +11,6 @@
 #include "cata_path.h"
 #include "debug.h"
 #include "translation.h"
-#include "unicode.h"
 
 std::string string_vfmt( fmt::string_view format, fmt::format_args args )
 {

@@ -17,6 +17,8 @@
 #include <utility>
 #include <vector>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include <flatbuffers/flexbuffers.h>
 
 #include <zstd/zstd.h>

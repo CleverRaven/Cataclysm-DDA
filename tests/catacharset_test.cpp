@@ -8,7 +8,11 @@
 #include <vector>
 #ifdef _WIN32
 #include <io.h>
+#else
+#include <stdio.h>
+#include <unistd.h>
 #endif
+#include <char8_t-remediation/char8_t-remediation.h>
 #include "cata_catch.h"
 #include "catacharset.h"
 #include "localized_comparator.h"
