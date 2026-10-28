@@ -12936,6 +12936,15 @@ void fire_start_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    // hearth may have changed during lighting
+    const npc *guy = who.as_npc();
+    if( guy != nullptr && !guy->check_fire_spot( here.get_bub( fire_placement ) ).usable() ) {
+        //~ %s: NPC name
+        add_msg_if_player_sees( who, m_info, _( "%s can't light a fire there." ), who.get_name() );
+        act.set_to_null();
+        return;
+    }
+
     who.practice( skill_survival, potential_skill_gain, 5 );
 
     const furn_id &f_id = here.furn( here.get_bub( fire_placement ) );
