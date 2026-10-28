@@ -162,7 +162,8 @@ void ofstream_wrapper::close()
     std::filesystem::rename( temp_path, path, ec2 );
     if( ec2 ) {
         // Leave the temp path, so the user can move it if possible.
-        throw std::runtime_error( "moving temporary file \"" + temp_path.u8string() + "\" failed" );
+        throw std::runtime_error( fmt::format( "moving temporary file \"{}\" failed",
+                                               from_u8string( temp_path.u8string() ) ) );
     }
 
 #if defined(EMSCRIPTEN)
