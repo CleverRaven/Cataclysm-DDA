@@ -3358,7 +3358,16 @@
     "id": "effect_lilin_bonus_healing_active",
     "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } },
+          { "value": "REGEN_WOUND", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
