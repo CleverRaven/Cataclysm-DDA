@@ -29,7 +29,9 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
@@ -42,6 +44,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
@@ -75,12 +78,15 @@ static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_test_100_kcal( "test_100_kcal" );
 static const itype_id itype_test_200_kcal( "test_200_kcal" );
 static const itype_id itype_test_500_kcal( "test_500_kcal" );
+static const itype_id itype_water( "water" );
 
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_fbmh_2_room_1_1( "fbmh_2_room_1_1" );
 static const recipe_id recipe_test_base_stove_1( "test_base_stove_1" );
 
 static const skill_id skill_menial( "menial" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -854,4 +860,71 @@ TEST_CASE( "camp_upgrade_offers_follow_the_camp_storage", "[camp]" )
         }
     }
 }
+
+namespace
+{
+struct omt_items {
+    int planks = 0;
+    int liquids = 0;
+};
+
+omt_items items_on_omt( const tripoint_abs_omt &omt )
+{
+    tinymap bay;
+    bay.load( omt, false );
+    omt_items found;
+    for( const tripoint_omt_ms &p : bay.points_in_rectangle( { 0, 0, omt.z() },
+    { 2 * SEEX - 1, 2 * SEEY - 1, omt.z() } ) ) {
+        for( const item &it : bay.i_at( p ) ) {
+            found.planks += it.typeId() == itype_2x4 ? 1 : 0;
+            found.liquids += it.made_of_from_type( phase_id::LIQUID ) ? 1 : 0;
+        }
+    }
+    return found;
+}
+} // namespace
+
+TEST_CASE( "camp_item_collection_leaves_what_it_does_not_take", "[camp]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    const tripoint_abs_omt omt = get_avatar().pos_abs_omt() + tripoint_rel_omt( 10, 0, 0 );
+    GIVEN( "OMT out of the bubble with five planks and some water" ) {
+        {
+            tinymap bay;
+            bay.load( omt, false );
+            for( const tripoint_omt_ms &p : bay.points_in_rectangle( { 0, 0, omt.z() },
+            { 2 * SEEX - 1, 2 * SEEY - 1, omt.z() } ) ) {
+                // plain ground: mapgen plant furniture left without its seed logs an error on load
+                bay.ter_set( p, ter_t_dirt );
+                bay.furn_set( p, furn_str_id::NULL_ID() );
+                bay.i_clear( p );
+            }
+            const tripoint_omt_ms spot( SEEX, SEEY, omt.z() );
+            for( int i = 0; i < 5; ++i ) {
+                bay.add_item( spot, item( itype_2x4 ) );
+            }
+            bay.add_item( spot + tripoint::east, item( itype_water ) );
+            bay.save();
+        }
+        REQUIRE( items_on_omt( omt ).planks == 5 );
+        REQUIRE( items_on_omt( omt ).liquids == 1 );
+        WHEN( "worker collects with no chance to take an item" ) {
+            const talk_function::mass_volume taken = talk_function::om_harvest_itm( nullptr, omt, 0 );
+            THEN( "nothing taken, every item stays" ) {
+                CHECK( taken.count == 0 );
+                CHECK( items_on_omt( omt ).planks == 5 );
+                CHECK( items_on_omt( omt ).liquids == 1 );
+            }
+        }
+        WHEN( "worker collects at log cutting chance" ) {
+            const talk_function::mass_volume taken = talk_function::om_harvest_itm( nullptr, omt, 95 );
+            THEN( "each plank taken or left, water stays" ) {
+                CHECK( taken.count + items_on_omt( omt ).planks == 5 );
+                CHECK( items_on_omt( omt ).liquids == 1 );
+            }
+        }
+    }
+}
+
 // TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts, costs calories)
