@@ -9,6 +9,13 @@
 
 class cata_path;
 class translation;
+namespace std
+{
+namespace filesystem
+{
+class path;
+}
+};
 
 template<typename T, typename Enable = void>
 struct printf_converter {
@@ -32,6 +39,13 @@ struct printf_converter<cata_path> {
 };
 
 template<>
+struct printf_converter<std::filesystem::path> {
+    std::string buffer;
+    const char *convert( const std::filesystem::path &p );
+};
+
+
+template<>
 struct printf_converter<translation> {
     const char *convert( const translation &t );
 };
@@ -42,5 +56,13 @@ struct printf_converter<std::string> {
         return s.c_str();
     }
 };
+
+#ifdef __cpp_char8_t
+template<>
+struct printf_converter<std::u8string> {
+    std::string buffer;
+    const char *convert( const std::u8string & );
+};
+#endif
 
 #endif // CATA_SRC_PRINTF_CONVERTER_H
