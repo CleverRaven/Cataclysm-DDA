@@ -2156,7 +2156,7 @@ bool WORLD::set_compression_enabled( bool enabled )
                     // overmap files whose names start with `o.`.
                     std::filesystem::path overmap_file_path = overmap.get_unrelative_path();
                     std::filesystem::path overmap_file_name = overmap_file_path.filename();
-                    if( overmap_file_name.generic_u8string().find( "o." ) != 0 ) {
+                    if( from_u8string( overmap_file_name.generic_u8string() ).find( "o." ) != 0 ) {
                         continue;
                     }
                     popup.message( _( "Compressing overmaps [%d/%d]" ), done++, overmaps.size() );
@@ -2449,10 +2449,10 @@ size_t worldfactory::get_world_index( const std::string &name )
 static bool isForbidden( const cata_path &candidate )
 {
     std::filesystem::path candidate_path = candidate.get_unrelative_path();
-    std::string filename = candidate_path.filename().generic_u8string();
+    std::string filename = from_u8string( candidate_path.filename().generic_u8string() );
     return filename == PATH_INFO::worldoptions()
            || filename == "mods.json"
-           || candidate_path.extension().generic_u8string() == ".dict";
+           || from_u8string( candidate_path.extension().generic_u8string() ) == ".dict";
 }
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
