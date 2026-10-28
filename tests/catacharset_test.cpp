@@ -221,5 +221,5 @@ TEST_CASE( "tty", "[catacharset][nogame][!mayfail]" )
 #else
     REQUIRE( isatty( fileno( stdout ) ) );
 #endif
-    std::cout << U8("Hello, 世界! à y\u0300 à̸̠你⃫") << std::endl;
+    std::cout << U8( "Hello, 世界! à y\u0300 à̸̠你⃫" ) << std::endl;
 }
