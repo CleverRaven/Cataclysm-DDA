@@ -434,8 +434,8 @@ std::string wound_type::get_description() const
     return description_.translated();
 }
 
-bool wound_type::can_be_applied( const Character *who, bp_wounds &pt_wd, bodypart_id bp,
-                                 damage_instance &d ) const
+bool wound_type::can_be_applied( const Character *who, const bp_wounds &pt_wd,
+                                 const bodypart_id &bp, const damage_instance &d ) const
 {
 
     if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {

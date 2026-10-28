@@ -111,8 +111,8 @@ class wound_type
 
         std::optional<wound_periodic_message> get_periodic_message() const;
 
-        bool can_be_applied( const Character *who, bp_wounds &pt_wd, bodypart_id bp,
-                             damage_instance &d ) const;
+        bool can_be_applied( const Character *who, const bp_wounds &pt_wd,
+                             const bodypart_id &bp, const damage_instance &d ) const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
