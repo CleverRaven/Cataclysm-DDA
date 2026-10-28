@@ -287,8 +287,14 @@
             "if": { "math": [ "u_vitamin('blood') < -10000" ] },
             "then": { "math": [ "u_vitamin('blood') += 2500" ] }
           },
-          { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" },
-          { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" },
+          {
+            "if": { "test_eoc": "EOC_CONDITION_U_HAS_A_WOUND_NEED_CLEANING" },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" }
+          },
+          {
+            "if": { "and": [ { "test_eoc": "EOC_CONDITION_U_HAS_BLEEDING_WOUND" }, { "one_in_chance": 3 } ] },
+            "then": { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" }
+          },
           {
             "if": {
               "or": [
