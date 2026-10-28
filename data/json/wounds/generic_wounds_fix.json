@@ -84,7 +84,7 @@
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "3 minutes",
-    "skills": { "firstaid": 2 },
+    "skills": { "firstaid": 1 },
     "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.8 } ]
   },
@@ -94,7 +94,7 @@
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "6 minutes",
-    "skills": { "firstaid": 2 },
+    "skills": { "firstaid": 1 },
     "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
@@ -104,7 +104,7 @@
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "9 minutes",
-    "skills": { "firstaid": 2 },
+    "skills": { "firstaid": 1 },
     "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   }
