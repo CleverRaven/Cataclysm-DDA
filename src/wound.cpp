@@ -5,16 +5,23 @@
 
 #include "bodypart.h"
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic_enchantment.h"
+#include "options.h"
 #include "pimpl.h"
 #include "rng.h"
 
 enum class bp_type;
 template <typename E> struct enum_traits;
+
+struct damage_instance;
+
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 void wound_type::load( const JsonObject &jo, const std::string_view & )
 {
@@ -102,7 +109,7 @@ void wound_type::finalize_all()
 
 void wound_type::finalize()
 {
-
+    _is_bleeding_wound = assign_bleeding_wound();
 }
 
 namespace
@@ -353,6 +360,25 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
     return true;
 }
 
+bool wound_type::assign_bleeding_wound() const
+{
+    for( const wound_mod_values &mv : mod_values ) {
+        if( mv.vitamin.has_value() ) {
+            const vitamin_id vit = *mv.vitamin;
+            if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool wound_type::is_bleeding_wound() const
+{
+    return _is_bleeding_wound;
+}
+
 int wound_type::evaluate_pain() const
 {
     return rng( pain_.first, pain_.second );
@@ -407,6 +433,43 @@ std::string wound_type::get_description() const
 {
     return description_.translated();
 }
+
+bool wound_type::can_be_applied( const Character *who, const bp_wounds pt_wd, const bodypart_id bp,
+                                 const damage_instance d ) const
+{
+
+    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
+        return false;
+    }
+
+    bool damage_instance_match = false;
+
+    for( const damage_unit &du : d.damage_units ) {
+        const bool damage_within_limits = du.amount >= pt_wd.damage_required.first &&
+                                          du.amount <= pt_wd.damage_required.second;
+
+        bool damage_type_matches = std::find( pt_wd.damage_type.begin(),
+                                              pt_wd.damage_type.end(), du.type ) != pt_wd.damage_type.end();
+
+        if( damage_within_limits && damage_type_matches ) {
+            damage_instance_match = true;
+            break;
+        }
+    }
+
+    if( !damage_instance_match ) {
+        return false;
+    }
+
+    const bool iwwlfb = who->get_part( bp )->is_within_wound_limit_for_bp( pt_wd.id );
+
+    if( !iwwlfb ) {
+        return false;
+    }
+
+    return true;
+}
+
 
 void wound::serialize( JsonOut &jsout ) const
 {

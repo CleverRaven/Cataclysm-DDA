@@ -2595,7 +2595,7 @@ void Character::update_wounds( time_duration time_passed )
                                 }
 
                                 int final_amt = mod_val.amount;
-                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                                if( wd.type->is_bleeding_wound() ) {
                                     final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
                                                                 mod_val.amount ) );
                                 }
@@ -2617,6 +2617,17 @@ void Character::update_wounds( time_duration time_passed )
     }
 
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+bool Character::is_bleeding( const bodypart_id bp ) const
+{
+    for( const wound &wd : get_part( bp )->get_wounds() ) {
+        if( wd.type->is_bleeding_wound() ) {
+            return true;
+        }
+    }
+
+    return true;
 }
 
 /*
@@ -2703,41 +2714,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
-bool Character::is_within_wound_limit_for_bp( const bodypart_id bp, wound_type_id wound_id ) const
-{
-    if( wound_id->get_limit() == 0 ) {
-        return true;
-    }
-
-    const std::vector present_wounds = get_part( bp )->get_wounds();
-    const int amount = std::count_if( present_wounds.begin(),
-    present_wounds.end(), [wound_id]( wound wd ) {
-        return wd.type == wound_id;
-    } );
-
-    return amount < wound_id->get_limit();
-}
-
 void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
 {
-    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
-        return;
-    }
+    weighted_int_list<wound_type_id> possible_wounds = bp->get_applicable_wounds( this, d );
 
-    weighted_int_list<wound_type_id> possible_wounds;
-    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
-        for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits = du.amount >= potential_wound.damage_required.first &&
-                                              du.amount <= potential_wound.damage_required.second;
-            const bool damage_type_matches = std::find( potential_wound.damage_type.begin(),
-                                             potential_wound.damage_type.end(), du.type ) != potential_wound.damage_type.end();
-            const bool iwwlfb = is_within_wound_limit_for_bp( bp, potential_wound.id );
-
-            if( damage_within_limits && damage_type_matches && iwwlfb ) {
-                possible_wounds.add( potential_wound.id, wound_weight );
-            }
-        }
-    }
     if( !possible_wounds.empty() ) {
         apply_wound( bp, *possible_wounds.pick() );
     }

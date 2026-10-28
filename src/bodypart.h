@@ -391,6 +391,9 @@ struct body_part_type {
                 &covered );
 
         std::vector<bodypart_str_id> get_all_combined_similar_bodyparts() const;
+
+        weighted_int_list<wound_type_id> get_applicable_wounds( const Character *who,
+                const damage_instance &d ) const;
 };
 
 struct layer_details {
@@ -520,6 +523,10 @@ class bodypart
         void remove_wound( wound_type_id wd );
         void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( const Character &who, time_duration time_passed );
+
+        // checks if amount of specific wounds on bodypart is not higher than `limit`
+        // return false if more than limit
+        bool is_within_wound_limit_for_bp( wound_type_id wound_id ) const;
 
         int get_hp_cur() const;
         int get_hp_max() const;
