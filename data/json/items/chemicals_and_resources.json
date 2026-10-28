@@ -1752,7 +1752,7 @@
     "color": "green",
     "description": "A piece of unshielded radioactive material that used to be a part of some nuclear industry equipment.  You have yet to find some use for it, and you probably shouldn't stand near it.",
     "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID", "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "90 ml",
     "weight": "80 g"
   },
