@@ -4499,7 +4499,7 @@
         "values": [
           {
             "value": "REGEN_WOUND",
-            "add": { "math": [ "50000 + (werewolf_tier_four_traits() * 5000 ) + (werewolf_tier_five_traits() * 10000 )" ] }
+            "multiply": { "math": [ "50000 + (werewolf_tier_four_traits() * 5000 ) + (werewolf_tier_five_traits() * 10000 )" ] }
           }
         ]
       }
