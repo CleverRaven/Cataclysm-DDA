@@ -3664,32 +3664,6 @@ void npc::on_load( map *here )
     }
     effect_on_conditions::load_existing_character( *this );
 
-    // Migrate legacy camp assignees from GUARD_ALLY to CAMP_RESIDENT.
-    const bool migrate_current =
-        mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
-    const bool migrate_previous =
-        previous_mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
-    if( migrate_current || migrate_previous ) {
-        if( migrate_current ) {
-            mission = NPC_MISSION_CAMP_RESIDENT;
-        }
-        if( migrate_previous ) {
-            previous_mission = NPC_MISSION_CAMP_RESIDENT;
-        }
-        guard_pos = std::nullopt;
-        clear_ai_guard_pos();
-        if( mission != NPC_MISSION_ACTIVITY ) {
-            goal = no_goal_point;
-            omt_path.clear();
-            path.clear();
-            chair_pos = std::nullopt;
-            wander_pos = std::nullopt;
-            clear_destination();
-            clear_committed_goal();
-            chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
-        }
-    }
-
     reconcile_schedule_on_load();
     shop_restock();
 }
