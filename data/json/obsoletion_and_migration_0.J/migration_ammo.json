@@ -1,6 +1,11 @@
 [
   {
     "type": "MIGRATION",
+    "id": "methed_alcohol",
+    "replace": "denat_alcohol"
+  },
+  {
+    "type": "MIGRATION",
     "id": "reloaded_338lapua_api",
     "replace": "338lapua_api"
   },

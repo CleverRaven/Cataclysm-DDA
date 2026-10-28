@@ -716,6 +716,86 @@
     "items": [ { "item": "bag_garbage", "count": [ 0, 20 ] } ]
   },
   {
+    "id": "methanol_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "methanol_bottle", "prob": 100 }, { "group": "methanol_jug", "prob": 25 } ]
+  },
+  {
+    "id": "methanol_part",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "methanol_bottle_part", "prob": 100 }, { "group": "methanol_jug_part", "prob": 25 } ]
+  },
+  {
+    "id": "methanol_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "chem_methanol", "count": 500 } ]
+  },
+  {
+    "id": "methanol_bottle_part",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "chem_methanol", "count": [ 20, 500 ] } ]
+  },
+  {
+    "id": "methanol_jug",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "chem_methanol", "count": 3750 } ]
+  },
+  {
+    "id": "methanol_jug_part",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "chem_methanol", "count": [ 300, 3750 ] } ]
+  },
+  {
+    "id": "denatured_alcohol_full",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "denatured_alcohol_bottle", "prob": 100 }, { "group": "denatured_alcohol_jug", "prob": 25 } ]
+  },
+  {
+    "id": "denatured_alcohol_part",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "denatured_alcohol_bottle_part", "prob": 100 }, { "group": "denatured_alcohol_jug_part", "prob": 25 } ]
+  },
+  {
+    "id": "denatured_alcohol_bottle",
+    "type": "item_group",
+    "container-item": "bottle_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "denat_alcohol", "count": 500 } ]
+  },
+  {
+    "id": "denatured_alcohol_bottle_part",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "denat_alcohol", "count": [ 20, 500 ] } ]
+  },
+  {
+    "id": "denatured_alcohol_jug",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "denat_alcohol", "count": 3750 } ]
+  },
+  {
+    "id": "denatured_alcohol_jug_part",
+    "type": "item_group",
+    "container-item": "jug_plastic",
+    "//": "1 gal",
+    "items": [ { "item": "denat_alcohol", "count": [ 300, 3750 ] } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -1076,8 +1156,7 @@
       [ "peephole", 25 ],
       { "group": "chromiumoxide_small_bottle_part", "prob": 5 },
       { "group": "zincpowder_small_bottle_part", "prob": 5 },
-      [ "denat_alcohol", 3 ],
-      [ "methed_alcohol", 2 ],
+      { "group": "denatured_alcohol_part", "prob": 5 },
       [ "lamp_oil", 25 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
@@ -1144,8 +1223,7 @@
       { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
       [ "material_rocksalt", 2 ],
       { "item": "ether", "prob": 10, "charges": [ 100, -1 ] },
-      { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
-      { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
+      { "group": "denatured_alcohol_part", "prob": 10 },
       { "item": "chem_DMSO", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_phenol", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_glycerol", "prob": 10, "charges": [ 10, -1 ] },
@@ -1230,9 +1308,8 @@
     "//": "Combustible fuels within their default containers",
     "items": [
       { "group": "ethanol_bottle_liter_part", "prob": 10 },
-      [ "denat_alcohol", 12 ],
-      [ "denat_alcohol", 8 ],
-      [ "chem_methanol", 10 ],
+      { "group": "denatured_alcohol_part", "prob": 20 },
+      { "group": "methanol_part", "prob": 10 },
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
