@@ -95,6 +95,12 @@
     "id": "EOC_healextras",
     "//": "Clears up various conditions beyond just your hp.  Should cover most diseases and infections, prevent extreme thirst and starvation, wipe pain, and even cure a few edge cases like being covered in acid.",
     "effect": [
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [ { "if": { "u_has_body_part": { "context_val": "id" } }, "then": { "u_remove_all_wounds": { "context_val": "id" } } } ]
+      },
       { "math": [ "u_calories() = max( u_calories(), 9000)" ] },
       { "math": [ "u_val('thirst') = min( u_val('thirst'), 800)" ] },
       { "math": [ "u_vitamin('redcells') = 0" ] },

@@ -506,6 +506,8 @@ class firestarter_actor : public iuse_actor
         };
 
         static start_type prep_firestarter_use( Character &p, map *here, tripoint_bub_ms &pos );
+        // a firewood source trap or a SOURCE_FIREWOOD zone: the pile a fire is fed from
+        static bool is_firewood_source( const map &here, const tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
         static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos,
                                              start_type st );

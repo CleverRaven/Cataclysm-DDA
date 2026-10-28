@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -58,7 +59,10 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+
 static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -630,6 +634,88 @@ TEST_CASE( "camp_mission_puts_the_workers_craft_aside", "[camp][npc]" )
             camp.finish_return( *loaded, false, "returns.", skill_menial.str(), 0 );
             THEN( "it goes on with its craft as it left it" ) {
                 back_at_the_craft( *loaded );
+            }
+        }
+    }
+    // as a need goal starts a forage: attitude and mission stay
+    const auto start_forage = [&]() {
+        const npc_attitude att = guy.get_attitude();
+        const npc_mission mis = guy.mission;
+        guy.assign_activity( forage_activity_actor( 1000 ) );
+        guy.set_attitude( att );
+        guy.set_mission( mis );
+        REQUIRE( guy.is_self_care_activity() );
+    };
+    GIVEN( "worker forages" ) {
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "forage is not taken up again" ) {
+            REQUIRE( comp->is_active() );
+            CHECK_FALSE( comp->activity );
+            CHECK( comp->backlog.empty() );
+        }
+    }
+    GIVEN( "worker stops its craft to forage" ) {
+        craft_until_progress();
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "it goes on with its craft, not the forage" ) {
+            back_at_the_craft( *comp );
+        }
+    }
+    // start camp meal like a need goal
+    const auto start_camp_meal = [&]() {
+        REQUIRE( guy.start_meal( camp_meal_activity_actor( camp_omt, 300 ) ) );
+        REQUIRE( guy.is_self_care_activity() );
+    };
+    GIVEN( "worker eats a camp meal" ) {
+        start_camp_meal();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "meal not resumed" ) {
+            REQUIRE( comp->is_active() );
+            CHECK_FALSE( comp->activity );
+            CHECK( comp->backlog.empty() );
+        }
+    }
+    GIVEN( "worker stops crafting for a camp meal" ) {
+        craft_until_progress();
+        start_camp_meal();
+        REQUIRE( guy.backlog.size() == backlog_size + 1 );
+        WHEN( "it goes off on a mission and returns" ) {
+            go_on_mission();
+            camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it continues with its craft, not the meal" ) {
+                back_at_the_craft( *comp );
+            }
+        }
+        WHEN( "saved and loaded during the mission" ) {
+            go_on_mission();
+            const shared_ptr_fast<npc> loaded = saved_and_loaded();
+            camp.finish_return( *loaded, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it continues with its craft, not the meal" ) {
+                back_at_the_craft( *loaded );
+            }
+        }
+        WHEN( "harm interrupts the meal" ) {
+            guy.add_effect( effect_npc_fire_bad, 1_minutes );
+            guy.set_moves( 100 );
+            guy.move();
+            THEN( "meal dropped, craft resumes, larder untouched" ) {
+                CHECK( guy.activity.id() != ACT_CAMP_MEAL );
+                const auto has = []( const std::list<player_activity> &acts, const activity_id & id ) {
+                    return std::any_of( acts.begin(), acts.end(), [&id]( const player_activity & act ) {
+                        return act.id() == id;
+                    } );
+                };
+                CHECK_FALSE( has( guy.backlog, ACT_CAMP_MEAL ) );
+                // at its task, or queued behind a step away from harm
+                CHECK( guy.has_activity() );
+                CHECK( ( guy.activity.id() == task ||
+                         ( !guy.backlog.empty() && guy.backlog.front().id() == task ) ) );
+                CHECK( fac.food_supply().kcal() == 10000 );
             }
         }
     }

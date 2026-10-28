@@ -510,9 +510,14 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
             return ACT_FETCH_REQUIRED;
         }
 
+        // from last requirements_map call
+        enum class fetch_plan : int { met, fetching, cannot_supply };
+        fetch_plan last_plan = fetch_plan::fetching; // NOLINT(cata-serialize)
+
         void set_npc_fetch_history( Character &you );
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
                 int distance = MAX_VIEW_DISTANCE );
+        // true when this turn's fetch step is over: item moved or task called off
         bool fetch_activity( Character &you, const tripoint_bub_ms &src_loc,
                              const activity_id &activity_to_restore, int distance = MAX_VIEW_DISTANCE );
         // is the front of the activity backlog a multi-activity?
@@ -1945,6 +1950,10 @@ class consume_activity_actor : public activity_actor
         const item_location &location() const {
             return consume_location;
         }
+        // false once food is gone, taken or not found by a load
+        bool has_food() const {
+            return consume_location || !consume_item.is_null();
+        }
 
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
@@ -1958,6 +1967,34 @@ class consume_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// meal from a camp's larder, eaten over its consume time; portion leaves the larder only when
+// the meal ends, so an interrupted meal takes nothing
+class camp_meal_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_omt camp;
+        int kcal = 0;
+
+    public:
+        camp_meal_activity_actor( const tripoint_abs_omt &camp, int kcal ) : camp( camp ), kcal( kcal ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+            return ACT_CAMP_MEAL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<camp_meal_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

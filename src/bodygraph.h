@@ -10,9 +10,11 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "color.h"
 #include "damage.h"
 #include "effect.h"
+#include "subbodypart.h"
 #include "type_id.h"
 
 class Character;
@@ -29,6 +31,9 @@ struct bodygraph_part {
     nc_color sel_color;
     // What symbol to use for fragments that belong to this section
     std::string sym;
+
+    // whether `bodyparts` or `sub_bodyparts` has `part`
+    bool has_bodypart( const std::string &part ) const;
 };
 
 // info that needs to be passed around
@@ -59,6 +64,7 @@ struct bodygraph {
     std::map<std::string, bodygraph_part> parts;
     std::string label_fill;
     std::string fill_sym;
+    std::string fill_sym_blink = ".";
     nc_color fill_color = c_white;
     bool was_loaded = false;
 
@@ -71,9 +77,6 @@ struct bodygraph {
     void finalize();
     void check() const;
 };
-
-// Draws the bodygraph UI for the given character and bodygraph (defaults to Full Body graph)
-void display_bodygraph( const Character &u, const bodygraph_id &id = bodygraph_id::NULL_ID() );
 
 using bodygraph_callback =
     std::function<std::string( const bodygraph_part *, std::string )>;

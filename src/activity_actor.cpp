@@ -29,6 +29,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery.h"
@@ -123,6 +124,7 @@
 #include "shearing.h"
 #include "skill.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "temp_crafting_inventory.h"
@@ -160,6 +162,7 @@ static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -5460,10 +5463,19 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     // may cause infinite loop if something goes wrong
     // TODO: this could be moved to a multi_zone_activity_actor virtual function for post-location checking
     if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
-        // remind what you failed to fetch
+        fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
         if( !check_only ) {
-            fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
+            // remind what you failed to fetch
             as_fetch->set_npc_fetch_history( you );
+        }
+        if( !check_only &&
+            as_fetch->last_plan == fetch_required_activity_actor::fetch_plan::cannot_supply ) {
+            // task asks for same fetch every turn if left alone
+            add_msg_if_player_sees( you, m_info,
+                                    _( "%1$s can't bring what the \"%2$s\" task still needs." ),
+                                    you.disp_name( true ), you.backlog.front().id().obj().verb().translated() );
+            multi_activity_actor::call_off_fetch_and_task( you );
+            return false;
         }
         act.set_to_null();
         return true;
@@ -5527,6 +5539,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         // can_resume_with_internal() in Character::assign_activity()
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !you.activity ) {
+            debugmsg( "%s lost its \"%s\" activity while routing to a work spot", you.disp_name(),
+                      current_activity.str() );
+            return false;
+        }
         if( !route_result ) {
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5559,6 +5576,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
                 // then a new activity was assigned
                 // and the multi-act is now in the backlog
                 return true;
+            }
+            if( !you.activity ) {
+                debugmsg( "%s lost its \"%s\" activity in a work step that went on scanning",
+                          you.disp_name(), current_activity.str() );
+                return false;
             }
         } else {
             return true;
@@ -6242,6 +6264,10 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
 
     item_location consume_loc = consume_location;
 
+    // food that changed hands, was claimed or serves no need is left uneaten
+    if( !was_canceled && consume_loc && who.is_npc() && !who.as_npc()->may_eat_from( consume_loc ) ) {
+        was_canceled = true;
+    }
     if( !was_canceled ) {
         if( consume_loc ) {
             who.consume( consume_loc, /*force=*/true );
@@ -6319,6 +6345,59 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     data.read( "consume_menu_filter", obsolete_cconsume_menu_filter );
     data.read( "type", obsolete_type );
 
+    return actor.clone();
+}
+
+static item camp_meal_of( const basecamp &camp, const int kcal )
+{
+    nutrients portion;
+    portion.calories = static_cast<int64_t>( kcal ) * 1000;
+    return camp.make_fake_food( portion );
+}
+
+void camp_meal_activity_actor::start( player_activity &act, Character &who )
+{
+    const basecamp *bcp = overmap_buffer.find_camp( camp.xy() ).value_or( nullptr );
+    if( bcp == nullptr || kcal <= 0 ) {
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = to_moves<int>( who.get_consume_time( camp_meal_of( *bcp, kcal ) ) );
+    act.moves_left = act.moves_total;
+}
+
+void camp_meal_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    basecamp *bcp = overmap_buffer.find_camp( camp.xy() ).value_or( nullptr );
+    if( bcp == nullptr || !bcp->allowed_access_by( who ) ) {
+        return;
+    }
+    // whether more food fits is asked again at the end, as for any meal
+    if( who.is_npc() && !who.as_npc()->intake_fits( npc::need_goal_id::eat_food ) ) {
+        return;
+    }
+    // refused meal satisfies nothing; NPC turns to its own food
+    if( bcp->feed_workers( who, bcp->camp_food_supply( -kcal ), camp_meal::personal ) <= 0 &&
+        who.is_npc() ) {
+        who.as_npc()->refuse_camp_meal();
+    }
+}
+
+void camp_meal_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "camp", camp );
+    jsout.member( "kcal", kcal );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> camp_meal_activity_actor::deserialize( JsonValue &jsin )
+{
+    camp_meal_activity_actor actor( tripoint_abs_omt(), 0 );
+    JsonObject data = jsin.get_object();
+    data.read( "camp", actor.camp );
+    data.read( "kcal", actor.kcal );
     return actor.clone();
 }
 
@@ -15474,6 +15553,7 @@ deserialize_functions = {
     { ACT_BUILD, &build_construction_activity_actor::deserialize },
     { ACT_BUTCHER, &butchery_activity_actor::deserialize },
     { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
+    { ACT_CAMP_MEAL, &camp_meal_activity_actor::deserialize },
     { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },
     { ACT_CHOP_PLANKS, &chop_planks_activity_actor::deserialize },
     { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },

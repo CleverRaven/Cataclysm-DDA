@@ -871,6 +871,7 @@
       [ "hd_tow_cable", 1 ],
       [ "storage_battery", 6 ],
       [ "motor_oil", 100 ],
+      [ "hydraulic_oil", 100 ],
       [ "solar_panel", 3 ],
       [ "recharge_station", 8 ]
     ]

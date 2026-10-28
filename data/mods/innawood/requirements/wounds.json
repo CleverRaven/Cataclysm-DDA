@@ -1,0 +1,17 @@
+[
+  {
+    "id": "wound_bandage_small",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "bandages_birchbark", 1 ], [ "bandages_birchbark_adv", 1 ] ] ] }
+  },
+  {
+    "id": "wound_bandage",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "bandages_birchbark", 1 ], [ "bandages_birchbark_adv", 1 ] ] ] }
+  },
+  {
+    "id": "wound_bleed",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "bandages_birchbark", 1 ], [ "bandages_birchbark_adv", 1 ] ] ] }
+  }
+]

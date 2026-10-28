@@ -1,0 +1,28 @@
+[
+  {
+    "id": "bone_broken_mend_all",
+    "copy-from": "bone_broken",
+    "type": "wound",
+    "whitelist_flags": [ "MEND_ALL" ],
+    "blacklist_flag": [  ]
+  },
+  {
+    "id": "bone_broken_mend_all_fix",
+    "type": "wound_fix",
+    "name": "set your bone",
+    "description": "Set your bone and rely on your natural healing to do the rest.",
+    "time": "10 minutes",
+    "skills": { "firstaid": 2 },
+    "wounds_removed": [ "bone_broken_mend_all" ],
+    "wounds_added": [ "bone_broken_healing_good" ],
+    "success_msg": "You shove your bones back into place.  It's all up to your body now, and it hasn't failed you yet."
+  },
+  {
+    "id": "bone_fractured_mend_all",
+    "copy-from": "bone_fractured",
+    "type": "wound",
+    "healing_time": [ "15 days", "20 days" ],
+    "whitelist_flags": [ "MEND_ALL" ],
+    "blacklist_flag": [  ]
+  }
+]
