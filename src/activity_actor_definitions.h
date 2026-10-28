@@ -2895,7 +2895,7 @@ class build_construction_activity_actor : public activity_actor
             return ACT_BUILD;
         }
 
-        void start( player_activity &, Character & ) override {};
+        void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &, Character & ) override {};
 
@@ -2911,6 +2911,8 @@ class build_construction_activity_actor : public activity_actor
 
     private:
         tripoint_abs_ms construction_location;
+        // not saved; the first turn after loading sets it again
+        construction_id building = construction_id( -1 );
 
 };
 

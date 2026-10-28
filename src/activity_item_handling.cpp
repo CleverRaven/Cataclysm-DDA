@@ -89,6 +89,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_MULTIPLE_BUTCHER( "ACT_MULTIPLE_BUTCHER" );
@@ -3754,6 +3755,21 @@ void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_
     }
 }
 
+std::unordered_set<tripoint_abs_ms> occupied_construction_sites( const Character &you )
+{
+    std::unordered_set<tripoint_abs_ms> sites;
+    const auto add_site = [&you, &sites]( const Character & guy ) {
+        if( &guy != &you && guy.activity.id() == ACT_BUILD ) {
+            sites.insert( guy.activity.placement );
+        }
+    };
+    add_site( get_avatar() );
+    for( const npc &guy : g->all_npcs() ) {
+        add_site( guy );
+    }
+    return sites;
+}
+
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id )
 {
@@ -3838,7 +3854,6 @@ multi_build_construction_activity_actor::multi_activity_locations(
         }
     }
     multi_activity_actor::prune_dangerous_field_locations( src_set );
-    multi_activity_actor::prune_same_tile_locations( you, src_set );
     multi_activity_actor::prune_dark_locations( you, src_set, act_id );
 
     return src_set;

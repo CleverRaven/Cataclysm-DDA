@@ -216,6 +216,8 @@ std::optional<requirement_id> vehicle_work_requirements( Character &you,
 //general function for non-specific multi activities
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
+// sites another character's build activity is placed on
+std::unordered_set<tripoint_abs_ms> occupied_construction_sites( const Character &you );
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id );
 void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set );

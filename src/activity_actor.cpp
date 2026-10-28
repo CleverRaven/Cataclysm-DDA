@@ -5456,6 +5456,15 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     }
 
     std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    if( current_activity == ACT_MULTIPLE_CONSTRUCTION ) {
+        // joins another builder's site only once no free site can be worked
+        const std::unordered_set<tripoint_abs_ms> occupied =
+            multi_activity_actor::occupied_construction_sites( you );
+        std::stable_partition( src_sorted.begin(), src_sorted.end(),
+        [&occupied]( const tripoint_abs_ms & site ) {
+            return occupied.count( site ) == 0;
+        } );
+    }
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
@@ -9464,11 +9473,39 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+// tile shows what the construction makes, so whoever else worked on it completed it
+static bool construction_done_at( const construction_id &built, const tripoint_bub_ms &p )
+{
+    if( !built.is_valid() || built->post_terrain.empty() ) {
+        return false;
+    }
+    const map &here = get_map();
+    if( built->post_is_furniture ) {
+        return here.furn( p ).id() == furn_str_id( built->post_terrain );
+    }
+    return here.ter( p ).id() == ter_str_id( built->post_terrain );
+}
+
+void build_construction_activity_actor::start( player_activity &act, Character & )
+{
+    // other builders try the tile a builder's activity is placed on last
+    act.placement = construction_location;
+    map &here = get_map();
+    if( const partial_con *pc = here.partial_con_at( here.get_bub( construction_location ) ) ) {
+        building = pc->id;
+    }
+}
+
 void build_construction_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
     const tripoint_bub_ms construction_bub = here.get_bub( construction_location );
     partial_con *pc = here.partial_con_at( construction_bub );
+    if( !pc && construction_done_at( building, construction_bub ) ) {
+        // another builder finished it; a multi-activity in the backlog goes on
+        act.set_to_null();
+        return;
+    }
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( you.is_npc() ) {
@@ -9482,6 +9519,7 @@ void build_construction_activity_actor::do_turn( player_activity &act, Character
                  you.disp_name() );
         return;
     }
+    building = pc->id;
     you.set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();

@@ -4,6 +4,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "activity_actor.h"
@@ -33,6 +34,7 @@
 #include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mtype.h"
 #include "npc.h"
 #include "npc_turn_helpers.h"
@@ -47,7 +49,9 @@
 #include "units.h"
 #include "visitable.h"
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_str_id construction_test_constr_door( "test_constr_door" );
 
@@ -125,7 +129,7 @@ void butchery_setup( const mtype_id &kind )
     here.build_map_cache( 0 );
 }
 
-npc &butcher_follower( const tripoint_bub_ms &pos )
+npc &spawn_follower( const tripoint_bub_ms &pos )
 {
     map &here = get_map();
     npc &guy = spawn_npc( pos.xy(), "test_talker" );
@@ -274,7 +278,7 @@ TEST_CASE( "zone_task_skips_a_work_spot_it_cannot_reach", "[activities][zones]" 
                                      faction_your_followers, false, true, here.get_abs( walled ),
                                      here.get_abs( walled ) );
     here.build_map_cache( 0 );
-    npc &guy = butcher_follower( corpse_pos + tripoint( -6, 0, 0 ) );
+    npc &guy = spawn_follower( corpse_pos + tripoint( -6, 0, 0 ) );
     REQUIRE( rl_dist( guy.pos_bub(), walled ) < rl_dist( guy.pos_bub(), corpse_pos ) );
     REQUIRE( route_adjacent( guy, walled ).empty() );
     REQUIRE( guy.wield( *guy.i_add( item( itype_knife_hunting ) ) ) );
@@ -295,7 +299,7 @@ TEST_CASE( "fetch_that_cannot_take_its_item_ends_the_task", "[activities][zones]
     butchery_setup( mon_cow );
     map &here = get_map();
     REQUIRE( mon_cow->size > creature_size::medium );
-    npc &guy = butcher_follower( corpse_pos + tripoint::west );
+    npc &guy = spawn_follower( corpse_pos + tripoint::west );
     REQUIRE( guy.wear_item( item( itype_briefcase ), false, false ) );
     const activity_reason_info first =
         multi_butchery_activity_actor().multi_activity_can_do( guy, corpse_pos );
@@ -676,4 +680,239 @@ TEST_CASE( "construction_fetch_takes_components_out_of_containers",
         }
     }
     get_craft_reservations().clear();
+}
+
+TEST_CASE( "followers_build_separate_construction_sites", "[activities][zones][construction]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    zone_manager::get_manager().clear();
+    set_time_to_day();
+    Messages::clear_messages();
+    map &here = get_map();
+    get_avatar().setpos( here, work_pos + tripoint( -15, 0, 0 ) );
+    const tripoint_bub_ms near_site = work_pos;
+    const tripoint_bub_ms far_site = work_pos + tripoint( 4, 0, 0 );
+    // within both sites' PICKUP_RANGE, so nothing is fetched
+    const tripoint_bub_ms stock = work_pos + tripoint( 2, 2, 0 );
+    const construction &door = construction_test_constr_door.obj();
+    const auto add_door_site = [&here, &stock, &door]( const tripoint_bub_ms & site ) {
+        here.ter_set( site, ter_t_door_frame );
+        zone_manager::get_manager().add( "door", zone_type_CONSTRUCTION_BLUEPRINT,
+                                         faction_your_followers, false, true, here.get_abs( site ), here.get_abs( site ),
+                                         make_shared_fast<blueprint_options>( ter_t_door_frame.str(), door.group, door.id ) );
+        for( const std::vector<item_comp> &line : door.requirements->get_components() ) {
+            const item one( line.front().type );
+            for( int i = 0; i < ( one.count_by_charges() ? 1 : line.front().count ); ++i ) {
+                here.add_item_or_charges( stock, one.count_by_charges() ?
+                                          item( one.typeId(), calendar::turn, line.front().count ) : one );
+            }
+        }
+    };
+    const auto builder = [&door]( const tripoint_bub_ms & pos ) -> npc & {
+        npc &guy = spawn_follower( pos );
+        guy.set_skill_level( skill_fabrication, 2 );
+        REQUIRE( guy.meets_skill_requirements( door ) );
+        REQUIRE( guy.i_add( item( itype_hammer ) ) );
+        REQUIRE( guy.i_add( item( itype_bow_saw ) ) );
+        return guy;
+    };
+    const auto start_building = [&here]( npc & guy ) {
+        talk_function::do_construction( guy );
+        run_npc_turns( guy, 500, []( const npc & n ) {
+            return n.activity.id() == ACT_BUILD;
+        } );
+        REQUIRE( guy.activity.id() == ACT_BUILD );
+        here.build_map_cache( 0 );
+    };
+    const auto avatar_turn = [&here]( avatar & u ) {
+        u.set_moves( u.get_speed() );
+        if( u.is_auto_moving() ) {
+            u.setpos( here, here.get_bub( *u.destination_point ) );
+            here.build_map_cache( u.posz() );
+            u.start_destination_activity();
+        }
+        u.activity.do_turn( u );
+    };
+    const auto avatar_starts_building = [&here, &door, &avatar_turn]( const tripoint_bub_ms & pos ) {
+        avatar &u = get_avatar();
+        u.setpos( here, pos );
+        u.set_skill_level( skill_fabrication, 2 );
+        REQUIRE( u.meets_skill_requirements( door ) );
+        REQUIRE( u.i_add( item( itype_hammer ) ) );
+        REQUIRE( u.i_add( item( itype_bow_saw ) ) );
+        u.assign_activity( multi_build_construction_activity_actor() );
+        for( int i = 0; i < 500 && u.activity.id() != ACT_BUILD; ++i ) {
+            avatar_turn( u );
+        }
+        REQUIRE( u.activity.id() == ACT_BUILD );
+        here.build_map_cache( 0 );
+    };
+    // section start clears message log, so count before entering THEN
+    const auto reports_of = []( const Character & guy, const std::string & what ) {
+        int n = 0;
+        for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 1000 ) ) {
+            if( msg.second.find( guy.disp_name() ) != std::string::npos &&
+                msg.second.find( what ) != std::string::npos ) {
+                ++n;
+            }
+        }
+        return n;
+    };
+    const auto failures_of = [&reports_of]( const Character & guy ) {
+        return reports_of( guy, "failed to perform" ) + reports_of( guy, "did not find" );
+    };
+    const auto ended_cleanly = []( const npc & guy ) {
+        if( guy.activity ) {
+            return false;
+        }
+        for( const player_activity &act : guy.backlog ) {
+            if( act.id() == ACT_MULTIPLE_CONSTRUCTION ) {
+                return false;
+            }
+        }
+        return true;
+    };
+    // both nearer near_site
+    const tripoint_bub_ms first_pos = work_pos + tripoint( -1, 2, 0 );
+    const tripoint_bub_ms second_pos = work_pos + tripoint( -1, 3, 0 );
+
+    GIVEN( "two door sites, first follower builds one" ) {
+        add_door_site( near_site );
+        add_door_site( far_site );
+        here.build_map_cache( 0 );
+        npc &first = builder( first_pos );
+        npc &second = builder( second_pos );
+        REQUIRE( second.is_player_ally() );
+        start_building( first );
+        const bool near_taken = here.partial_con_at( near_site ) != nullptr;
+        const tripoint_bub_ms taken = near_taken ? near_site : far_site;
+        const tripoint_bub_ms free_site = near_taken ? far_site : near_site;
+        REQUIRE( here.partial_con_at( taken ) != nullptr );
+        REQUIRE( here.partial_con_at( free_site ) == nullptr );
+
+        WHEN( "second follower told to construct too" ) {
+            talk_function::do_construction( second );
+            run_npc_turns( second, 500, []( const npc & n ) {
+                return n.activity.id() == ACT_BUILD;
+            } );
+            THEN( "second builds free site while first still builds taken one" ) {
+                CHECK( first.activity.id() == ACT_BUILD );
+                CHECK( first.activity.placement == here.get_abs( taken ) );
+                CHECK( second.activity.id() == ACT_BUILD );
+                CHECK( second.activity.placement == here.get_abs( free_site ) );
+                CHECK( here.partial_con_at( taken ) != nullptr );
+                CHECK( here.partial_con_at( free_site ) != nullptr );
+                AND_WHEN( "both work on" ) {
+                    const auto built = [&here, &near_site, &far_site]() {
+                        return here.ter( near_site ) == ter_t_door_c && here.ter( far_site ) == ter_t_door_c;
+                    };
+                    for( int i = 0; i < 20000 && !built(); ++i ) {
+                        run_npc_turn( first );
+                        run_npc_turn( second );
+                    }
+                    const int first_failures = failures_of( first );
+                    const int second_failures = failures_of( second );
+                    THEN( "both doors built, neither follower fails" ) {
+                        CHECK( built() );
+                        CHECK( first_failures == 0 );
+                        CHECK( second_failures == 0 );
+                    }
+                }
+            }
+        }
+    }
+
+    GIVEN( "one door site, first follower builds it" ) {
+        add_door_site( near_site );
+        here.build_map_cache( 0 );
+        npc &first = builder( first_pos );
+        npc &second = builder( second_pos );
+        REQUIRE( second.is_player_ally() );
+        start_building( first );
+        REQUIRE( here.partial_con_at( near_site ) != nullptr );
+
+        WHEN( "second follower told to construct too" ) {
+            talk_function::do_construction( second );
+            run_npc_turns( second, 500, []( const npc & n ) {
+                return n.activity.id() == ACT_BUILD;
+            } );
+            THEN( "second helps first on the one site" ) {
+                CHECK( first.activity.placement == here.get_abs( near_site ) );
+                CHECK( second.activity.id() == ACT_BUILD );
+                CHECK( second.activity.placement == here.get_abs( near_site ) );
+                AND_WHEN( "both work on" ) {
+                    for( int i = 0; i < 20000 && here.ter( near_site ) != ter_t_door_c; ++i ) {
+                        run_npc_turn( first );
+                        run_npc_turn( second );
+                    }
+                    run_npc_turns( first, 10 );
+                    run_npc_turns( second, 10 );
+                    const int first_failures = failures_of( first );
+                    const int second_failures = failures_of( second );
+                    THEN( "door built, both followers end without failing" ) {
+                        CHECK( here.ter( near_site ) == ter_t_door_c );
+                        CHECK( ended_cleanly( first ) );
+                        CHECK( ended_cleanly( second ) );
+                        CHECK( first_failures == 0 );
+                        CHECK( second_failures == 0 );
+                    }
+                }
+            }
+        }
+
+        WHEN( "site cancelled before door stands" ) {
+            here.partial_con_remove( near_site );
+            run_npc_turn( first );
+            const int site_gone_reports = reports_of( first, "did not find" );
+            THEN( "first follower stops building and says site is gone" ) {
+                CHECK( here.ter( near_site ) == ter_t_door_frame );
+                CHECK( first.activity.id() != ACT_BUILD );
+                CHECK( site_gone_reports == 1 );
+            }
+        }
+    }
+
+    GIVEN( "two door sites, avatar builds the near one" ) {
+        add_door_site( near_site );
+        add_door_site( far_site );
+        here.build_map_cache( 0 );
+        avatar_starts_building( near_site + tripoint::west );
+        REQUIRE( get_avatar().activity.placement == here.get_abs( near_site ) );
+        npc &guy = builder( first_pos );
+        WHEN( "follower told to construct" ) {
+            start_building( guy );
+            THEN( "follower builds the far site" ) {
+                CHECK( guy.activity.placement == here.get_abs( far_site ) );
+                CHECK( here.partial_con_at( far_site ) != nullptr );
+            }
+        }
+    }
+
+    GIVEN( "one door site, avatar builds it" ) {
+        add_door_site( near_site );
+        here.build_map_cache( 0 );
+        avatar_starts_building( near_site + tripoint::west );
+        npc &guy = builder( first_pos );
+        WHEN( "follower told to construct" ) {
+            start_building( guy );
+            THEN( "follower helps" ) {
+                CHECK( guy.activity.placement == here.get_abs( near_site ) );
+                AND_WHEN( "both work on" ) {
+                    avatar &u = get_avatar();
+                    for( int i = 0; i < 20000 && here.ter( near_site ) != ter_t_door_c; ++i ) {
+                        avatar_turn( u );
+                        run_npc_turn( guy );
+                    }
+                    run_npc_turns( guy, 10 );
+                    const int failures = failures_of( guy );
+                    THEN( "door built, follower ends without failing" ) {
+                        CHECK( here.ter( near_site ) == ter_t_door_c );
+                        CHECK( ended_cleanly( guy ) );
+                        CHECK( failures == 0 );
+                    }
+                }
+            }
+        }
+    }
 }
