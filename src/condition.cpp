@@ -78,6 +78,7 @@
 #include "weather.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 // IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
