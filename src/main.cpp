@@ -561,8 +561,8 @@ bool assure_essential_dirs_exist()
         savedir(),
         templatedir(),
         user_font(),
-        user_sound().get_unrelative_path().u8string(),
-        user_gfx().get_unrelative_path().u8string()
+        user_sound().generic_u8string(),
+        user_gfx().generic_u8string()
     };
     for( const std::string &path : essential_paths ) {
         if( !assure_dir_exist( path ) ) {

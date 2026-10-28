@@ -144,7 +144,7 @@ class cata_path
         }
 
         inline std::string generic_u8string() const {
-            return get_unrelative_path().generic_u8string();
+            return from_u8string( get_unrelative_path().generic_u8string() );
         }
 
     private:

@@ -258,7 +258,7 @@ void mapbuffer::save_quad(
                         ( PATH_INFO::world_base_save_path() / "maps.dict" ).get_unrelative_path() );
         if( !z ) {
             throw std::runtime_error( "Failed opening compressed save file " +
-                                      zzip_name.get_unrelative_path().generic_u8string() );
+                                      zzip_name.generic_u8string() );
         }
         file_exists = z->has_file( filename.get_relative_path().filename() );
     } else {
