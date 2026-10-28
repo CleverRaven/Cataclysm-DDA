@@ -5,7 +5,7 @@
 
 #include "bodypart.h"
 #include "character.h"
-#include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
@@ -18,8 +18,6 @@
 
 enum class bp_type;
 template <typename E> struct enum_traits;
-
-struct damage_instance;
 
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
