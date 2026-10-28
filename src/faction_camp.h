@@ -10,8 +10,10 @@
 #include <vector>
 
 #include "coords_fwd.h"
+#include "memory_fast.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units.h"
 
 template <typename E> struct enum_traits;
 
@@ -57,6 +59,17 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> om_building_region(
             const tripoint_abs_omt &omt_pos, int range, bool purge = false );
 /// Returns the x and y coordinates of ( omt_tar - omt_pos ), clamped to [-1, 1]
 point_rel_omt om_simple_dir( const tripoint_abs_omt &omt_pos, const tripoint_abs_omt &omt_tar );
+
+struct mass_volume {
+    units::mass wgt = 0_gram;
+    units::volume vol = 0_ml;
+    int count = 0;
+};
+/// Collects items in @ref omt_tgt, each with a @ref chance percent from 0 to 100, returns
+/// total mass and volume. Items not taken and liquids stay on the map.
+/// @ref take, whether you take the item or count it
+mass_volume om_harvest_itm( const shared_ptr_fast<npc> &comp, const tripoint_abs_omt &omt_tgt,
+                            int chance = 100, bool take = true );
 } // namespace talk_function
 
 enum class risk_diff_level {
