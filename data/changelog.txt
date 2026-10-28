@@ -125,7 +125,7 @@ Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
-cut wounds
+New wound system, first implemented with cut wounds
 
 
 ## Content:
