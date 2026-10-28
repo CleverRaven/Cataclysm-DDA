@@ -339,6 +339,12 @@ class const_talker
         virtual const bodypart *get_bodypart( const bodypart_id & ) const {
             return nullptr;
         }
+        virtual bool has_wound( const wound_type_id & ) const {
+            return false;
+        }
+        virtual bool has_wound( const wound_type_id &, const bodypart_id & ) const {
+            return false;
+        }
         virtual float get_limb_score( const limb_score_id & /*score*/, const bp_type & /*bp*/ ) const {
             return 0.0;
         }
