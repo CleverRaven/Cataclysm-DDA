@@ -20,6 +20,7 @@ template <typename E> struct enum_traits;
 enum class craft_flags : int {
     none = 0,
     start_only = 1, // Only require 5% (plus remainder) of tool charges
+    ignore_hammerspace = 2, // leave out actor's debug hammerspace
 };
 
 template<>
