@@ -63,7 +63,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "AEA_HEAL_WOUND",
+    "id": "EOC_AEA_HEAL_WOUND",
     "effect": [
       { "u_pick_bodypart": { "context_val": "bodypart" }, "wounded": true, "pick_random": true },
       {
