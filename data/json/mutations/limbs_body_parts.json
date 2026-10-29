@@ -740,7 +740,7 @@
       "torso_slime_waist"
     ],
     "similar_bodypart": "torso",
-    "flags": [ "BONELESS" ] 
+    "flags": [ "BONELESS" ]
   },
   {
     "id": "crustacean_pincer_r",
@@ -1282,7 +1282,7 @@
     ],
     "sub_parts": [ "arm_slime_shoulder_l", "arm_slime_upper_l", "arm_slime_elbow_l", "arm_slime_lower_l" ],
     "similar_bodypart": "arm_l",
-    "flags": [ "BONELESS" ] 
+    "flags": [ "BONELESS" ]
   },
   {
     "id": "arm_slime_r",
@@ -2879,7 +2879,7 @@
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
-    "flags": [ "BONELESS" ], 
+    "flags": [ "BONELESS" ],
     "sub_parts": [ "tail_scorpion_base", "tail_scorpion_center", "tail_scorpion_stinger" ],
     "smash_message": "You smash %s with your tail.",
     "smash_efficiency": 0.25,
