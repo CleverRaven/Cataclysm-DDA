@@ -1,0 +1,296 @@
+[
+  {
+    "//": "Calculates healing based on the damage required to cause the wound.  All bleeding wounds first, in order of severity, then all other wounds, in order of severity.  No broken bones.",
+    "type": "effect_on_condition",
+    "id": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+    "condition": { "expects_vars": [ "bodypart", "minimum_healing_threshold", "maximum_healing_threshold" ] },
+    "effect": [
+      { "math": [ "_healing_threshold = rng(-minimum_healing_threshold, -maximum_healing_threshold)" ] },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_bad" ] },
+              { "math": [ "_healing_threshold -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_bad" ] },
+              { "math": [ "_healing_threshold -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_scratch_bad" ] },
+              { "math": [ "_healing_threshold -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_medium" ] },
+              { "math": [ "_healing_threshold -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_medium" ] },
+              { "math": [ "_healing_threshold -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_bad" ] },
+              { "math": [ "_healing_threshold -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_bad" ] },
+              { "math": [ "_healing_threshold -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_bad" ] },
+              { "math": [ "_healing_threshold -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_bad" ] },
+              { "math": [ "_healing_threshold -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_medium" ] },
+              { "math": [ "_healing_threshold -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_medium" ] },
+              { "math": [ "_healing_threshold -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_medium" ] },
+              { "math": [ "_healing_threshold -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_medium" ] },
+              { "math": [ "_healing_threshold -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-12",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 12)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_small" ] },
+              { "math": [ "_healing_threshold -= 12" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-10",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_threshold >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_threshold = _healing_threshold" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_threshold / 10)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_small" ] },
+              { "math": [ "_healing_threshold -= 10" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
