@@ -920,7 +920,7 @@
     "description": { "str": "Will heal wounds on one limb.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
-    "effect_str": "EOC_MoM_AEA_FEAR_AURA",
+    "effect_str": "EOC_MoM_AEA_MAJOR_HEAL_WOUNDS",
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "base_casting_time": 100,
@@ -928,7 +928,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_MoM_AEA_FEAR_AURA",
+    "id": "EOC_MoM_AEA_MAJOR_HEAL_WOUNDS",
     "effect": [
       {
         "foreach": "ids",
