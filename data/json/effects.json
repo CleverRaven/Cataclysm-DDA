@@ -5988,5 +5988,25 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_creeyncaggii_bonus_human",
+    "name": [ "Deja Vu" ],
+    "desc": [
+      "Your arms and fingers twitch with muscle memory you don't recall having.  How long have you been fighting the undead?"
+    ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 1.1 ], "dodge_mod": [ 1.1 ] },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.05 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_creeyncaggii_bonus_cyberframe",
+    "name": [ "Memento Mortuorum" ],
+    "desc": [ "Your cyberframe moves with memories you don't recall - digital dreams of forgotten battles with the Enemy." ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 1.25 ], "dodge_mod": [ 1.25 ] },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "add": -0.25 } ] } ]
   }
 ]
