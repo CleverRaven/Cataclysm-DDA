@@ -58,6 +58,7 @@
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "base_casting_time": 100,
+    "difficulty": 0,
     "message": "Your wounds close."
   },
   {
