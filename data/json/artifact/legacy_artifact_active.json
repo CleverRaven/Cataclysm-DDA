@@ -67,7 +67,7 @@
       { "u_pick_bodypart": { "context_val": "bodypart" }, "wounded": true, "pick_random": true },
       {
         "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
-        "variables": { "bodypart": { "context_val": "bodypart" }, "minimum_healing_threshold": 30, "maximum_healing_threshold": 100 }
+        "variables": { "bodypart": { "context_val": "bodypart" }, "minimum_healing_pool": 30, "maximum_healing_pool": 100 }
       }
     ]
   },
