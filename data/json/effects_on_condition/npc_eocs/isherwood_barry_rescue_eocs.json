@@ -185,7 +185,7 @@
             "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION" ]
           }
         ],
-		    "else": [ { "mapgen_update": "nest_cabin_isherwood_update", "om_terrain": "cabin_isherwood" } ]
+        "else": [ { "mapgen_update": "nest_cabin_isherwood_update", "om_terrain": "cabin_isherwood" } ]
       },
       {
         "if": {
