@@ -14,7 +14,8 @@
     ],
     "active_procgen_values": [
       { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 350, "ench_has": "WIELD" },
-      { "weight": 100, "spell_id": "MoM_AEA_MAJOR_HEAL", "base_power": 850, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "AEA_HEAL_WOUND", "base_power": 500, "ench_has": "WIELD" },
+      { "weight": 100, "spell_id": "MoM_AEA_MAJOR_HEAL", "base_power": 1200, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_REMOVE_SLEEPINESS", "base_power": 400, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_AOE_DOT_AND_EFFECT", "base_power": 400, "ench_has": "WIELD" },
       { "weight": 100, "spell_id": "MoM_AEA_BLOOD_PURGE", "base_power": 1000, "ench_has": "WIELD" },
