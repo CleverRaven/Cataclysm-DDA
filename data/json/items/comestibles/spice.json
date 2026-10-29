@@ -49,7 +49,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "DRINK",
     "name": { "str_sp": "Buffalo sauce" },
-    "description": "A vinegar based buttery hot sauce most commonly served with wings. It's not as spicy as other hot sauces but drinking it on it's own isn't a wise idea",
+    "description": "A vinegar based buttery hot sauce most commonly served with wings.  It's not as spicy as other hot sauces but drinking it on it's own isn't a wise idea",
     "display_type": "BY_VOLUME",
     "weight": "10 g",
     "charges": 50,
