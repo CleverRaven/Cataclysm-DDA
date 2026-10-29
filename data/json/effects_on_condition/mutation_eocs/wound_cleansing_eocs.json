@@ -239,42 +239,42 @@
           {
             "if": { "u_has_any_wound": [ "scratch_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "scratch_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_scratch_bad" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "cut_medium" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "cut_medium" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_medium" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_cut_medium" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "cut_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "cut_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_cut_bad" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "cut_terrible" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "cut_terrible" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_terrible" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_cut_terrible" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "laceration_medium" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "laceration_medium" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_medium" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_laceration_medium" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "laceration_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "laceration_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_laceration_bad" }
             ]
           }
@@ -293,42 +293,42 @@
           {
             "if": { "u_has_any_wound": [ "bleeding_scratch_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "bleeding_scratch_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_scratch_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "scratch_bad" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "bleeding_cut_medium" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "bleeding_cut_medium" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_medium" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_medium" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "bleeding_cut_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "bleeding_cut_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_bad" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "bleeding_cut_terrible" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "bleeding_cut_terrible" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_terrible" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_terrible" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "bleeding_laceration_medium" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bp" }, "wound_id": "bleeding_laceration_medium" },
+              { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "bleeding_laceration_medium" ] },
               { "u_add_wound": { "context_val": "bp" }, "wound_id": "laceration_medium" }
             ]
           },
           {
             "if": { "u_has_any_wound": [ "bleeding_laceration_bad" ] },
             "then": [
-              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": "bleeding_laceration_bad" },
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "laceration_bad" }
             ]
           }
