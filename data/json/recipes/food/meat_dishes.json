@@ -1882,11 +1882,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 2 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "components": [
-      [ [ "chicken_fried", 1 ] ],
-      [ [ "buffalo_sauce", 2 ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ]
-    ],
+    "components": [ [ [ "chicken_fried", 1 ] ], [ [ "buffalo_sauce", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ],
     "charges": 2
   },
   {
