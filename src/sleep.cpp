@@ -69,10 +69,10 @@ int comfort_data::human_comfort_at( const tripoint_bub_ms &p )
     if( vp ) {
         const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
         return board ? board->info().comfort : -here.move_cost( p );
-    } else if( furn != furn_str_id::NULL_ID() ) {
-        return furn->comfort;
     } else if( !trap.is_null() ) {
         return trap.comfort;
+    } else if( furn != furn_str_id::NULL_ID() ) {
+        return furn->comfort;
     } else {
         return here.ter( p )->comfort - here.move_cost( p );
     }
