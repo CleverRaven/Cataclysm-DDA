@@ -29,8 +29,8 @@
             "om_terrain": "barry_mi-go_scout_tower_1",
             "om_special": "Barry's Mi-Go Scout Tower"
           },
-		      { "math": [ "isherwood_truck_bomb_deployed = 1" ] }
-	    	]
+          { "math": [ "isherwood_truck_bomb_deployed = 1" ] }
+        ]
       }
     ]
   },
