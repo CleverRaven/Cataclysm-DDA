@@ -133,6 +133,14 @@
             }
           },
           {
+            "value": "REGEN_WOUND",
+            "multiply": {
+              "math": [
+                "( 10 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + (u_skill('gramarye') * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          },
+          {
             "value": "MENDING_MODIFIER",
             "multiply": {
               "math": [
@@ -149,6 +157,14 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
           {
             "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(10 + u_spring_magic_spell_count + (u_spring_magic_deduction_level * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          },
+          {
+            "value": "REGEN_WOUND",
             "multiply": {
               "math": [
                 "(10 + u_spring_magic_spell_count + (u_spring_magic_deduction_level * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
@@ -180,6 +196,7 @@
           { "value": "METABOLISM", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
           { "value": "REGEN_HP", "multiply": 50 },
+          { "value": "REGEN_WOUND", "multiply": 150 },
           { "value": "REGEN_HP_AWAKE", "multiply": 2 },
           { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 25 },
@@ -190,6 +207,7 @@
       }
     ],
     "flags": [
+      "MEND_ALL",
       "DEAF",
       "BLIND",
       "SEESLEEP",

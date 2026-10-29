@@ -6468,20 +6468,33 @@ void vehicle::make_active( item_location &loc )
     active_items.add( target, cargo_part->mount );
 }
 
-int vehicle::add_charges( map &here, vehicle_part &vp, const item &itm )
+std::optional<vehicle_stack::iterator> vehicle::add_charges_where( map &here, vehicle_part &vp,
+        const item &itm, int &added )
 {
+    added = 0;
     if( !itm.count_by_charges() ) {
         debugmsg( "Add charges was called for an item not counted by charges!" );
-        return 0;
+        return std::nullopt;
     }
     const int ret = get_items( vp ).amount_can_fit( itm );
     if( ret == 0 ) {
-        return 0;
+        return std::nullopt;
     }
 
     item itm_copy = itm;
     itm_copy.charges = ret;
-    return add_item( here, vp, itm_copy ) ? ret : 0;
+    std::optional<vehicle_stack::iterator> where = add_item( here, vp, itm_copy );
+    if( where ) {
+        added = ret;
+    }
+    return where;
+}
+
+int vehicle::add_charges( map &here, vehicle_part &vp, const item &itm )
+{
+    int added = 0;
+    add_charges_where( here, vp, itm, added );
+    return added;
 }
 
 std::optional<vehicle_stack::iterator> vehicle::add_item( map &here, vehicle_part &vp,

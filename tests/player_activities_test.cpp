@@ -2148,3 +2148,17 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
         }
     }
 }
+
+TEST_CASE( "clear_avatar_ends_a_walk_an_earlier_test_left", "[activities]" )
+{
+    clear_avatar();
+    avatar &u = get_avatar();
+    u.set_destination( { u.pos_bub() + tripoint::east },
+                       player_activity( multi_farm_activity_actor() ) );
+    REQUIRE( u.has_destination() );
+    REQUIRE_FALSE( u.get_destination_activity().is_null() );
+    clear_avatar();
+    CHECK_FALSE( u.has_destination() );
+    CHECK( u.get_destination_activity().is_null() );
+    CHECK_FALSE( u.destination_point );
+}
