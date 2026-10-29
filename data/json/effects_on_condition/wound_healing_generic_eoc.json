@@ -11,7 +11,7 @@
         "if": {
           "and": [
             { "u_has_any_wound": [ "bleeding_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
-            { "math": [ "_healing_pool >= 15" ] }
+            { "math": [ "_healing_pool >= 20" ] }
           ]
         },
         "then": [
@@ -106,7 +106,7 @@
         "if": {
           "and": [
             { "u_has_any_wound": [ "cut_bad" ], "bodypart": { "context_val": "bodypart" } },
-            { "math": [ "_healing_pool >= 15" ] }
+            { "math": [ "_healing_pool >= 20" ] }
           ]
         },
         "then": [
@@ -298,7 +298,7 @@
     "if": {
       "and": [
         { "u_has_any_wound": [ "clean_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
-        { "math": [ "_healing_pool >= 15" ] }
+        { "math": [ "_healing_pool >= 20" ] }
       ]
     },
     "then": [
@@ -317,7 +317,7 @@
     "if": {
       "and": [
         { "u_has_any_wound": [ "bandaged_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
-        { "math": [ "_healing_pool >= 15" ] }
+        { "math": [ "_healing_pool >= 20" ] }
       ]
     },
     "then": [
