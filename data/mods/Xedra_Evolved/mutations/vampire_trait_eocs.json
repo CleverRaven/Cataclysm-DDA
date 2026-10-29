@@ -1240,12 +1240,27 @@
         "then": { "run_eocs": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" } }
       },
       {
-        "u_add_effect": "effect_vampire_blood_heal_aftermath",
-        "duration": {
-          "math": [
-            "300 + (vampire_total_tier_one_traits() * 10) + (vampire_total_tier_two_traits() * 25) + (vampire_total_tier_three_traits() * 40) + (vampire_total_tier_four_traits_plus_potence() * 65) + (vampire_total_tier_five_traits() * 90)"
-          ]
-        }
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+            "variables": {
+              "bodypart": { "context_val": "bodypart" },
+              "minimum_healing_pool": {
+                "math": [
+                  "min((5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 1.6) + (vampire_total_tier_three_traits() * 2.4) + (vampire_total_tier_four_traits_plus_potence() * 3.8) + (vampire_total_tier_five_traits() * 5)), 200)"
+                ]
+              },
+              "maximum_healing_pool": {
+                "math": [
+                  "min((15 + (vampire_total_tier_one_traits() * 2.25) + (vampire_total_tier_two_traits() * 3.6) + (vampire_total_tier_three_traits() * 5.4) + (vampire_total_tier_four_traits_plus_potence() * 8.5) + (vampire_total_tier_five_traits() * 11.25)), 450)"
+                ]
+              }
+            }
+          }
+        ]
       }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to heal your wounds.", "type": "bad" } ]

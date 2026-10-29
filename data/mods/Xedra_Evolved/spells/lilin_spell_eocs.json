@@ -710,6 +710,21 @@
             "then": [ { "math": [ "u_hp(bodypart) += 25 * min( (u_vitamin('lilin_ruach_vitamin') / 4000),1)" ] } ]
           }
         ]
+      },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+            "variables": {
+              "bodypart": { "context_val": "bodypart" },
+              "minimum_healing_pool": { "math": [ "25 * (u_vitamin('lilin_ruach_vitamin') / 1250)" ] },
+              "maximum_healing_pool": { "math": [ "65 * (u_vitamin('lilin_ruach_vitamin') / 650)" ] }
+            }
+          }
+        ]
       }
     ],
     "false_effect": [
