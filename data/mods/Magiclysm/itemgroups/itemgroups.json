@@ -451,7 +451,8 @@
       [ "flask_charm", 10 ],
       [ "flask_mood", 10 ],
       [ "flask_toxin", 10 ],
-      [ "flask_venom", 10 ]
+      [ "flask_venom", 10 ],
+      [ "flask_glass", 1 ]
     ]
   },
   {
