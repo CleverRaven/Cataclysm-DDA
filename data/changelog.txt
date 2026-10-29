@@ -125,6 +125,7 @@ Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
+New wound system, first implemented with cut wounds
 
 
 ## Content:
@@ -286,6 +287,7 @@ Add a GPU backend option to the graphics settings
 Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
 Scenarios are now divided into separate difficulty categories
 Display NPCs' current activity when looking at them
+Body Status Menu
 
 
 ## Mods:
@@ -667,6 +669,11 @@ Duplicating items on 'become huge -> remove armor' interaction
 Fix plugged-in appliances coming loose when leaving the reality bubble
 Traps with practice 2 no longer take zero time to place
 NPCs walk to fulfill their needs better
+Fix NPC camp meals, camp missions and guards crafting
+Fungal infections don't randomly happen
+Factions that are mad at you won't talk to you.
+NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
+NPCs don't freeze when something comes up on the way to their job
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -815,6 +822,7 @@ deprecate inventory class structure
 Moved the dead marloss code to eoc
 move open/close action to activity_actor
 change visitable to use item_location
+Move fungal infection code from C++ to JSON via EOC
 
 
 ## Build:
@@ -845,6 +853,7 @@ Add documentation for C++ translation context comments
 Add missing translation
 Publish translations archive with experimental releases
 Fix missing and hard-to-translate game and mod text
+Add 12 new languages from Transifex
 
 
 # 0.I
