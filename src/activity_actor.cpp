@@ -5463,10 +5463,19 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     // may cause infinite loop if something goes wrong
     // TODO: this could be moved to a multi_zone_activity_actor virtual function for post-location checking
     if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
-        // remind what you failed to fetch
+        fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
         if( !check_only ) {
-            fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
+            // remind what you failed to fetch
             as_fetch->set_npc_fetch_history( you );
+        }
+        if( !check_only &&
+            as_fetch->last_plan == fetch_required_activity_actor::fetch_plan::cannot_supply ) {
+            // task asks for same fetch every turn if left alone
+            add_msg_if_player_sees( you, m_info,
+                                    _( "%1$s can't bring what the \"%2$s\" task still needs." ),
+                                    you.disp_name( true ), you.backlog.front().id().obj().verb().translated() );
+            multi_activity_actor::call_off_fetch_and_task( you );
+            return false;
         }
         act.set_to_null();
         return true;
@@ -5530,6 +5539,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         // can_resume_with_internal() in Character::assign_activity()
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !you.activity ) {
+            debugmsg( "%s lost its \"%s\" activity while routing to a work spot", you.disp_name(),
+                      current_activity.str() );
+            return false;
+        }
         if( !route_result ) {
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5562,6 +5576,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
                 // then a new activity was assigned
                 // and the multi-act is now in the backlog
                 return true;
+            }
+            if( !you.activity ) {
+                debugmsg( "%s lost its \"%s\" activity in a work step that went on scanning",
+                          you.disp_name(), current_activity.str() );
+                return false;
             }
         } else {
             return true;
