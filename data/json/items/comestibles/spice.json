@@ -43,6 +43,27 @@
     "phase": "liquid"
   },
   {
+    "id": "buffalo_sauce",
+    "container": "bottle_plastic",
+    "type": "ITEM",
+    "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "Buffalo sauce" },
+    "description": "A vinegar based buttery hot sauce most commonly served with wings. It's not as spicy as other hot sauces but drinking it on it's own isn't a wise idea"
+    "display_type": "BY_VOLUME",
+    "weight": "10 g",
+    "charges": 50,
+    "volume": "500 ml",
+    "material": [ { "type": "water", "portion": 5 }, { "type": "vinegar", "portion": 5 }, { "type": "veggy", "portion": 1 } ],
+    "calories": 20,
+    "fun": 2,
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
+    "symbol": "~",
+    "color": "red",
+    "freezing_point": -18,
+    "phase": "liquid"
+  },
+  {
     "id": "cinnamon",
     "copy-from": "spice",
     "type": "ITEM",
