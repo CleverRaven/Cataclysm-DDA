@@ -198,6 +198,15 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_DISSECT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "dissecting",
+    "based_on": "neither",
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_TREES",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",

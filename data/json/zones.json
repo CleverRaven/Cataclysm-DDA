@@ -49,6 +49,13 @@
     "description": "Items in this zone are marked for disassembly."
   },
   {
+    "id": "DISSECT",
+    "type": "LOOT_ZONE",
+    "name": "Work: Dissect Corpses",
+    "display_field": "fd_dissection_work_zone",
+    "description": "Corpses in this zone are marked for dissection."
+  },
+  {
     "id": "FARM_PLOT",
     "type": "LOOT_ZONE",
     "name": "Work: Farm Plot",

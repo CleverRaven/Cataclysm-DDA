@@ -76,6 +76,7 @@ void do_chop_trees( npc & );
 void do_fishing( npc & );
 void do_farming( npc & );
 void do_butcher( npc & );
+void do_dissect( npc & );
 void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );

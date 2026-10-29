@@ -296,6 +296,11 @@ void talk_function::do_butcher( npc &p )
     p.assign_activity( multi_butchery_activity_actor() );
 }
 
+void talk_function::do_dissect( npc &p )
+{
+    p.assign_activity( multi_dissection_activity_actor() );
+}
+
 void talk_function::do_chop_plank( npc &p )
 {
     p.assign_activity( multi_chop_planks_activity_actor() );

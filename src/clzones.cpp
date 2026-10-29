@@ -62,6 +62,7 @@ static const zone_type_id zone_type_AUTO_EAT( "AUTO_EAT" );
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_DISASSEMBLE( "DISASSEMBLE" );
+static const zone_type_id zone_type_DISSECT( "DISSECT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
@@ -1425,6 +1426,9 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     if( it.is_corpse() ) {
         if( has_near( zone_type_LOOT_CORPSE, where, range, fac ) ) {
             return zone_type_LOOT_CORPSE;
+        }
+        if( has_near( zone_type_DISSECT, where, range, fac ) ) {
+            return zone_type_DISSECT;
         }
     }
     if( it.typeId() == itype_disassembly ) {

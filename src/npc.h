@@ -148,6 +148,7 @@ class job_data
     private:
         std::map<activity_id, int> task_priorities = {
             { activity_id( "ACT_MULTIPLE_BUTCHER" ), 0 },
+            { activity_id( "ACT_MULTIPLE_DISSECT" ), 0 },
             { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), 0 },
             { activity_id( "ACT_VEHICLE_REPAIR" ), 0 },
             { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), 0 },
