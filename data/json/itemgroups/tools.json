@@ -1244,7 +1244,9 @@
     "id": "glue_strong_domestic",
     "entries": [
       { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
+      { "item": "glue_strong_metal", "container-item": "small_squeeze_tube", "charges": [ 0, 4 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
+      { "item": "glue_strong_metal", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 250 ] }
     ]
   },
@@ -1254,7 +1256,9 @@
     "id": "glue_strong_domestic_full",
     "entries": [
       { "item": "glue_strong", "container-item": "small_squeeze_tube", "charges": 4 },
+      { "item": "glue_strong_metal", "container-item": "small_squeeze_tube", "charges": 4 },
       { "item": "glue_strong", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
+      { "item": "glue_strong_metal", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 250 }
     ]
   },
@@ -1263,6 +1267,7 @@
     "subtype": "distribution",
     "id": "glue_strong_professional",
     "entries": [
+      { "item": "glue_strong_metal", "container-item": "bottle_plastic_tiny_glue", "charges": [ 0, 30 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": [ 0, 500 ] },
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": [ 0, 1000 ] },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": [ 0, 2000 ] },
@@ -1274,6 +1279,7 @@
     "subtype": "distribution",
     "id": "glue_strong_professional_full",
     "entries": [
+      { "item": "glue_strong_metal", "container-item": "bottle_plastic_tiny_glue", "charges": 30 },
       { "item": "glue_strong", "container-item": "bottle_plastic_small_glue", "charges": 500 },
       { "item": "glue_strong", "container-item": "bottle_plastic_glue", "charges": 1000 },
       { "item": "glue_strong", "container-item": "bottle_twoliter_glue", "charges": 2000 },
