@@ -12,6 +12,7 @@
 #include "units_fwd.h"
 #include <list>
 
+class bodypart;
 class computer;
 class faction;
 class item_location;
@@ -335,7 +336,9 @@ class const_talker
         virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
             return effect::null_effect;
         }
-
+        virtual const bodypart *get_bodypart( const bodypart_id & ) const {
+            return nullptr;
+        }
         virtual bool has_wound( const wound_type_id & ) const {
             return false;
         }

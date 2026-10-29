@@ -78,6 +78,7 @@
 #include "weather.h"
 #include "widget.h"
 #include "worldfactory.h"
+#include "wound.h"
 
 // IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
@@ -927,6 +928,26 @@ conditional_t::func f_has_any_wound( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_bodypart_is_bleeding( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var bp = get_str_or_var( jo.get_member( member ), member, true );;
+
+    return [bp, is_npc]( const_dialogue const & d ) {
+        bodypart_id bid = bp.evaluate( d ).empty() ? bodypart_str_id::NULL_ID() :
+                          bodypart_id( bp.evaluate( d ) );
+        const const_talker &who = *d.const_actor( is_npc );
+
+        for( const wound &wd : who.get_bodypart( bid )->get_wounds() ) {
+            if( wd.type->is_bleeding_wound() ) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+}
+
 conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var need = get_str_or_var( jo.get_member( member ), member, true );
@@ -1691,6 +1712,23 @@ conditional_t::func f_is_swimming( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
         return d.const_actor( is_npc )->is_swimming();
+    };
+}
+
+conditional_t::func f_is_bleeding( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        const const_talker &who = *d.const_actor( is_npc );
+
+        for( const bodypart_id &bp_id : who.get_all_body_parts( get_body_part_flags::none ) ) {
+            for( const wound &wd : who.get_bodypart( bp_id )->get_wounds() ) {
+                if( wd.type->is_bleeding_wound() ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     };
 }
 
@@ -2580,6 +2618,7 @@ parsers = {
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
     {"u_has_any_wound", "npc_has_any_wound", jarg::array, &conditional_fun::f_has_any_wound },
+    {"u_bodypart_is_bleeding", "npc_bodypart_is_bleeding", jarg::member, &conditional_fun::f_bodypart_is_bleeding },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
@@ -2683,6 +2722,7 @@ parsers_simple = {
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
     {"u_is_swimming", "npc_is_swimming", &conditional_fun::f_is_swimming },
+    {"u_is_bleeding", "npc_is_bleeding", &conditional_fun::f_is_bleeding },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
     {"npc_has_assigned_camp", &conditional_fun::f_npc_has_assigned_camp },
     {"u_has_pickup_list", "has_pickup_list", &conditional_fun::f_has_pickup_list },
