@@ -123,7 +123,10 @@
         "item_restriction": [ "co2_12g_cartridge" ]
       }
     ],
-    "firing_requirements": { "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "co2", "qty": 5 } ] },
+    "firing_requirements": {
+      "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "co2", "qty": 5 } ],
+      "AUTO": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "co2", "qty": 5 } ]
+    },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "melee_damage": { "bash": 4 }
   }
