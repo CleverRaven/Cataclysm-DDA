@@ -2072,7 +2072,7 @@
             "true_eocs": {
               "id": "exodii_buy_riot_gear_success",
               "effect": [
-                { "u_spawn_item": "armor_riot", "count": 5 },
+                { "u_spawn_item": "armor_riot_torso", "count": 5 },
                 { "u_spawn_item": "helmet_riot", "count": 5 },
                 { "u_spawn_item": "armor_riot_arm", "count": 5 },
                 { "u_spawn_item": "armor_riot_leg", "count": 5 },
@@ -2102,7 +2102,7 @@
       {
         "text": "Thanks Rubik, I'll be back with your payment soon.",
         "effect": [
-          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_torso", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },

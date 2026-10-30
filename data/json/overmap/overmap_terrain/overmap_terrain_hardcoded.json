@@ -13,7 +13,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "field", "isherwood_barry_rescue_field" ],
+    "id": [ "field" ],
     "copy-from": "generic_open_land",
     "name": "field",
     "sym": ".",
@@ -24,6 +24,19 @@
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
     "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "isherwood_barry_rescue_field" ],
+    "copy-from": "generic_open_land",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "vision_levels": "always_full",
+    "see_cost": "none",
+    "extras": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "travel_cost_type": "field"
   },
   {
     "type": "overmap_terrain",
