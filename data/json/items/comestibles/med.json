@@ -1743,8 +1743,6 @@
     "variants": [ { "id": "prozac", "name": { "str_sp": "Prozac" }, "append": true, "description": "Its generic name is fluoxetine." } ],
     "stim": -5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
-    "addiction_potential": 5,
-    "addiction_type": "amphetamine",
     "use_action": [ "PROZAC" ]
   },
   {
