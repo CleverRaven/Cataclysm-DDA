@@ -14,6 +14,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "clone_ptr.h"
 #include "clzones.h"
@@ -29,6 +30,7 @@
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mtype.h"
 #include "npc.h"
@@ -46,6 +48,7 @@
 
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 
+static const construction_str_id construction_constr_wall_wood( "constr_wall_wood" );
 static const construction_str_id construction_test_constr_door( "test_constr_door" );
 
 static const faction_id faction_your_followers( "your_followers" );
@@ -64,6 +67,7 @@ static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_hoe( "hoe" );
 static const itype_id itype_knife_hunting( "knife_hunting" );
 static const itype_id itype_mc_nodachi( "mc_nodachi" );
+static const itype_id itype_nail( "nail" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_saw_bronze( "saw_bronze" );
 static const itype_id itype_test_hacksaw( "test_hacksaw" );
@@ -74,12 +78,16 @@ static const mtype_id mon_cow( "mon_cow" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 
+static const skill_id skill_fabrication( "fabrication" );
+
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_wall( "t_wall" );
+static const ter_str_id ter_t_wall_half( "t_wall_half" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
@@ -452,6 +460,70 @@ TEST_CASE( "farm_fetch_ignores_debug_hammerspace", "[activities][zones][fetch]" 
                 [&]( const std::pair<std::string, std::string> &m ) {
                     return m.second == expected;
                 } ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "construction_scan_reports_missing_items_once", "[activities][zones][construction]" )
+{
+    clear_map();
+    clear_avatar();
+    zone_manager &mgr = zone_manager::get_manager();
+    on_out_of_scope clear_zones( [&mgr]() {
+        mgr.clear();
+        mgr.cache_data();
+    } );
+    mgr.clear();
+    set_time_to_day();
+    map &here = get_map();
+    get_avatar().setpos( here, tripoint_bub_ms( 54, 66, 0 ) );
+
+    GIVEN( "ten half walls built, no sheets/panels for wood wall stage" ) {
+        const construction &wood_wall = construction_constr_wall_wood.obj();
+        mgr.add( "Build Wood Wall", zone_type_CONSTRUCTION_BLUEPRINT, faction_your_followers, false, true,
+                 here.get_abs( tripoint_bub_ms( 50, 60, 0 ) ), here.get_abs( tripoint_bub_ms( 59, 60, 0 ) ),
+                 make_shared_fast<blueprint_options>( "t_wall_wood", wood_wall.group, wood_wall.id ) );
+        for( int x = 50; x < 60; ++x ) {
+            here.ter_set( tripoint_bub_ms( x, 60, 0 ), ter_t_wall_half );
+        }
+        const tripoint_bub_ms stock( 54, 53, 0 );
+        mgr.add( "storage", zone_type_LOOT_UNSORTED, faction_your_followers, false, true,
+                 here.get_abs( stock ), here.get_abs( stock ) );
+        for( int i = 0; i < 40; ++i ) {
+            here.add_item_or_charges( stock, item( itype_2x4 ) );
+        }
+        here.add_item_or_charges( stock, item( itype_nail, calendar::turn, 400 ) );
+        here.build_map_cache( 0 );
+
+        npc &guy = spawn_npc( { 55, 61 }, "test_talker" );
+        clear_character( guy, true );
+        guy.setpos( here, tripoint_bub_ms( 55, 61, 0 ) );
+        guy.set_fac( faction_your_followers );
+        guy.set_attitude( NPCATT_FOLLOW );
+        guy.set_mission( NPC_MISSION_NULL );
+        guy.set_skill_level( skill_fabrication, 2 );
+        REQUIRE( guy.i_add( item( itype_hammer ) ) );
+        REQUIRE( guy.i_add( item( itype_bow_saw ) ) );
+        Messages::clear_messages();
+
+        WHEN( "follower ordered to build, scans every site" ) {
+            talk_function::do_construction( guy );
+            run_npc_turns( guy, 6 );
+            // section start clears log, so count before THEN
+            int trying = 0;
+            int unavailable = 0;
+            for( const std::pair<std::string, std::string> &m : Messages::recent_messages( 1000 ) ) {
+                if( m.second.find( "is trying to find necessary items" ) != std::string::npos ) {
+                    ++trying;
+                }
+                if( m.second.find( "required items are not available" ) != std::string::npos ) {
+                    ++unavailable;
+                }
+            }
+            THEN( "it only reports missing items once" ) {
+                CHECK( trying == 1 );
+                CHECK( unavailable == 1 );
             }
         }
     }
