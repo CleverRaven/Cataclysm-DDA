@@ -672,7 +672,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "bb",
-    "price": "3 usd 30 cent",
+    "price": "330 cent",
     "price_postapoc": "5 cent",
     "name": { "str": "BB" },
     "symbol": "=",

@@ -1,6 +1,6 @@
 [
   {
-    "id": "co2_12g_cartridge",
+    "id": "co2_12g_cartridge_gg",
     "copy-from": "co2_12g_cartridge",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ]
