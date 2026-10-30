@@ -717,11 +717,14 @@
         "var": { "context_val": "bodypart" },
         "effect": [
           {
-            "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
-            "variables": {
-              "bodypart": { "context_val": "bodypart" },
-              "minimum_healing_pool": { "math": [ "25 * (u_vitamin('lilin_ruach_vitamin') / 1250)" ] },
-              "maximum_healing_pool": { "math": [ "65 * (u_vitamin('lilin_ruach_vitamin') / 650)" ] }
+            "if": { "u_has_body_part": { "context_val": "bodypart" } },
+            "then": {
+              "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+              "variables": {
+                "bodypart": { "context_val": "bodypart" },
+                "minimum_healing_pool": { "math": [ "25 * (u_vitamin('lilin_ruach_vitamin') / 1250)" ] },
+                "maximum_healing_pool": { "math": [ "65 * (u_vitamin('lilin_ruach_vitamin') / 650)" ] }
+              }
             }
           }
         ]
@@ -732,13 +735,9 @@
         "if": { "math": [ "moon_phase() == 0" ] },
         "then": { "u_message": "You cannot heal yourself during the new moon!", "type": "bad" },
         "else": {
-          "if": { "or": [ { "not": "u_is_outside" }, "is_day" ] },
-          "then": { "u_message": "You must be outside in direct moonlight to heal yourself!", "type": "bad" },
-          "else": {
-            "if": { "not": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } },
-            "then": { "u_message": "The moon is obscured by clouds and you cannot draw on its light to heal yourself!", "type": "bad" },
-            "else": { "u_message": "[Debug] For some unknown reason you cannot heal yourself.", "type": "bad" }
-          }
+          "if": { "not": { "or": [ { "is_weather": "sunny" }, { "is_weather": "clear" } ] } },
+          "then": { "u_message": "The moon is obscured by clouds and you cannot draw on its light to heal yourself!", "type": "bad" },
+          "else": { "u_message": "[Debug] For some unknown reason you cannot heal yourself.", "type": "bad" }
         }
       }
     ]
