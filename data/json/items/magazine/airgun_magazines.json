@@ -24,6 +24,6 @@
     "color": "light_gray",
     "ammo_type": [ "airgun_pellet", "BB" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "airgun_pellet": 18, "bb": 18 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "airgun_pellet": 18, "BB": 18 } } ]
   }
 ]
