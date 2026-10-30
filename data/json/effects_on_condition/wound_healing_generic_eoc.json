@@ -7,6 +7,25 @@
     "effect": [
       { "math": [ "_healing_pool = rng(_minimum_healing_pool, _maximum_healing_pool)" ] },
       {
+        "//": "Range 30-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_cut_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 29" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 31)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_terrible" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
         "//": "Range 20-60",
         "if": {
           "and": [
@@ -102,6 +121,25 @@
         ]
       },
       {
+        "//": "Range 30-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "cut_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 29" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 31)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_terrible" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
         "//": "Range 20-60",
         "if": {
           "and": [
@@ -116,6 +154,25 @@
             "then": [
               { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_bad" ] },
               { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 26-34",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 26" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 25" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 9)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_terrible" ] },
+              { "math": [ "_healing_pool -= 34" ] }
             ]
           }
         ]
@@ -287,6 +344,44 @@
             "then": [
               { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_small" ] },
               { "math": [ "_healing_pool -= 10" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 30-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_cut_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 29" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 31)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_cut_terrible" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 30-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_cut_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 29" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 31)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_cut_terrible" ] },
+              { "math": [ "_healing_pool -= 60" ] }
             ]
           }
         ]
