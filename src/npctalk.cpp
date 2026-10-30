@@ -3304,8 +3304,8 @@ struct item_eoc_runner {
     const std::vector<item_search_data> &data;
     const std::vector<effect_on_condition_id> &true_eocs;
     const std::vector<effect_on_condition_id> &false_eocs;
-    const item_menu &f;
-    const item_menu_mul &f_mul;
+    const item_menu f;
+    const item_menu_mul f_mul;
     Character *guy;
     std::deque<item_location> true_items;
     std::string option;
