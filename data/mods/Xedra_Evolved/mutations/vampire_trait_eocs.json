@@ -1237,7 +1237,17 @@
       { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" },
       {
         "if": { "u_has_trait": "VAMPIRE" },
-        "then": { "run_eocs": { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" } }
+        "then": {
+          "foreach": "ids",
+          "target": "bodypart",
+          "var": { "context_val": "bodypart" },
+          "effect": [
+            {
+              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+              "variables": { "bodypart": { "context_val": "bodypart" } }
+            }
+          ]
+        }
       },
       {
         "foreach": "ids",

@@ -142,8 +142,28 @@
       { "if": { "math": [ "u_vitamin('blood') < 0" ] }, "then": { "math": [ "u_vitamin('blood') += 150" ] } },
       { "if": { "math": [ "u_vitamin('blood') < -1000" ] }, "then": { "math": [ "u_vitamin('blood') += 500" ] } },
       { "if": { "math": [ "u_vitamin('blood') < -10000" ] }, "then": { "math": [ "u_vitamin('blood') += 2500" ] } },
-      { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" },
-      { "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS" },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
+          }
+        ]
+      },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
+          }
+        ]
+      },
       {
         "if": {
           "or": [
