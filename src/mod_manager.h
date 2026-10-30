@@ -149,6 +149,11 @@ class mod_manager
             return usable_mods;
         }
 
+        // Checks if the world has enabled the recommended mods we ship with the game.
+        bool has_dev_recommended_mods( const WORLD *world );
+
+        bool set_default_mods( const mod_id &ident );
+
     private:
         // Make this accessible for now
         friend class mod_ui;
@@ -177,8 +182,6 @@ class mod_manager
          * @throws JsonError on all kind of errors.
          */
         void load_modfile( const JsonObject &jo, const cata_path &path );
-
-        bool set_default_mods( const mod_id &ident );
 
         pimpl<dependency_tree> tree;
 
