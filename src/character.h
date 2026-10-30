@@ -1331,7 +1331,8 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
-        void apply_random_wound( bodypart_id bp, const damage_instance &d );
+        // applies one or two wounds depending on damage dealt
+        void apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,

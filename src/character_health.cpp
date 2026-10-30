@@ -2712,19 +2712,64 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
-void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
+static weighted_int_list<wound_type_id> populate_potential_wounds( const Character *who,
+        const bodypart_id &bp, const dealt_damage_instance &d )
 {
     weighted_int_list<wound_type_id> possible_wounds;
 
     for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
-
-        if( potential_wound.id->can_be_applied( this, potential_wound, bp, d ) ) {
+        if( potential_wound.id->can_be_applied( who, potential_wound, bp, d ) ) {
             possible_wounds.add( potential_wound.id, wound_weight );
         }
     }
 
+    return possible_wounds;
+}
+
+void Character::apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d )
+{
+    weighted_int_list<wound_type_id> possible_wounds;
+    weighted_int_list<wound_type_id> secondary_possible_wounds;
+
+    if( d.dealt_dams.size() > 1 ) {
+
+        // sort dealt_dams in vector, so we can compare the highest and second highest damages
+        std::vector<std::pair<damage_type_id, int>> dealt_damage;
+        dealt_damage.reserve( d.dealt_dams.size() );
+        dealt_damage.insert( dealt_damage.end(), d.dealt_dams.begin(), d.dealt_dams.end() );
+
+        std::partial_sort( dealt_damage.begin(), dealt_damage.begin() + 2, dealt_damage.end(),
+        []( const std::pair<damage_type_id, int> &a, const std::pair<damage_type_id, int> &b ) -> bool {
+            // descending
+            return a.second > b.second;
+        } );
+
+        // if second biggest damage is at least 75% as strong as main damage, two wounds will be applied
+        const float threshold = 0.75;
+        if( dealt_damage[1].second > dealt_damage[0].second * threshold ) {
+            dealt_damage_instance new_d( d );
+            new_d.dealt_dams.clear();
+            dealt_damage_instance new_secondary_d( new_d );
+
+            new_d.dealt_dams.emplace( dealt_damage[0] );
+            new_secondary_d.dealt_dams.emplace( dealt_damage[1] );
+
+            possible_wounds = populate_potential_wounds( this, bp, new_d );
+            secondary_possible_wounds = populate_potential_wounds( this, bp, new_secondary_d );
+        } else {
+            // only one would will be applied, so just pass damage instance as is
+            possible_wounds = populate_potential_wounds( this, bp, d );
+        }
+    } else {
+        possible_wounds = populate_potential_wounds( this, bp, d );
+    }
+
     if( !possible_wounds.empty() ) {
         apply_wound( bp, *possible_wounds.pick() );
+    }
+
+    if( !secondary_possible_wounds.empty() ) {
+        apply_wound( bp, *secondary_possible_wounds.pick() );
     }
 }
 
@@ -2844,7 +2889,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    apply_random_wound( bp, d );
+    apply_random_wound_from_damage( bp, dealt_dams );
 
     on_hurt( source );
     return dealt_dams;
