@@ -1840,10 +1840,10 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS",
     "type": "talk_topic",
-    "dynamic_line": "[thanks bro this will be very interesting where's the tower?]",
+    "dynamic_line": "Excellent.  Please give us detailed directions.",
     "responses": [
       {
-        "text": "[tell them where scout tower is]",
+        "text": "[Tell them where alien tower is]",
         "effect": [ { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
