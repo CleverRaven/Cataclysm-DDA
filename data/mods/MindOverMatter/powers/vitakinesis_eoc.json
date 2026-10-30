@@ -154,23 +154,72 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_STOP_BLEEDING_EOC",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('vita_stop_bleeding')" ] },
-      "cases": [
-        {
-          "case": 0,
-          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01" } ]
-        },
-        {
-          "case": 6,
-          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02" } ]
-        },
-        {
-          "case": 12,
-          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03" } ]
-        }
-      ]
-    }
+    "effect": [
+      { "u_pick_bodypart": { "context_val": "bodypart" }, "wounded": true },
+      {
+        "if": { "math": [ "(u_spell_level('vita_stop_bleeding') * psionic_power_modifiers() >= 1)" ] },
+        "then": [
+          {
+            "if": { "u_has_any_wound": [ "bleeding_laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bp" }, "wound_id": [ "bleeding_laceration_medium" ] },
+              { "u_add_wound": { "context_val": "bp" }, "wound_id": "laceration_medium" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_medium" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_medium" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "(u_spell_level('vita_stop_bleeding') * psionic_power_modifiers() >= 8)" ] },
+        "then": [
+          {
+            "if": { "u_has_any_wound": [ "bleeding_scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_scratch_bad" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "scratch_bad" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_bad" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_bad" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_bad" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "laceration_bad" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "(u_spell_level('vita_stop_bleeding') * psionic_power_modifiers() >= 16)" ] },
+        "then": [
+          {
+            "if": { "u_has_any_wound": [ "bleeding_cut_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_terrible" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "cut_terrible" },
+              { "u_message": "The bleeding slows to a stop.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -397,7 +446,8 @@
         "run_eocs": [
           "EOC_VITAKIN_CURE_DISEASE_VS_COMMON_COLD",
           "EOC_VITAKIN_CURE_DISEASE_VS_FLU",
-          "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER"
+          "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER",
+          "EOC_VITAKIN_CURE_DISEASE_VS_UNCLEAN_WOUNDS"
         ]
       },
       {
@@ -453,6 +503,29 @@
     "effect": [
       { "u_message": "Your eyes burn and your nose is clogged with mucus.", "type": "bad" },
       { "u_add_effect": "severe_hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_UNCLEAN_WOUNDS",
+    "condition": {
+      "x_in_y_chance": {
+        "x": { "math": [ "15 + (u_spell_level('vita_cure_disease') + u_spell_level('vita_cure_disease_knack') )" ] },
+        "y": 100
+      }
+    },
+    "effect": [
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
+          }
+        ]
+      }
     ]
   },
   {
