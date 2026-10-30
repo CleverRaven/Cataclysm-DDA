@@ -31,6 +31,7 @@
 #include "character_oracle.h"
 #include "clzones.h"
 #include "common_types.h"
+#include "construction.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
 #include "creature.h"
@@ -104,6 +105,7 @@
 
 enum npc_action : int;
 
+static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CLOSE_TILE( "ACT_CLOSE_TILE" );
@@ -111,7 +113,10 @@ static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
 static const activity_id ACT_MULTIPLE_CHOP_PLANKS( "ACT_MULTIPLE_CHOP_PLANKS" );
+static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+
+static const construction_str_id construction_constr_wall_half( "constr_wall_half" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -162,10 +167,12 @@ static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_bat( "bat" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
+static const itype_id itype_bow_saw( "bow_saw" );
 static const itype_id itype_crackers( "crackers" );
 static const itype_id itype_cudgel( "cudgel" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flint_steel( "flint_steel" );
+static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_honeycomb( "honeycomb" );
 static const itype_id itype_leather_belt( "leather_belt" );
 static const itype_id itype_leaves( "leaves" );
@@ -193,6 +200,8 @@ static const npc_class_id NC_ROBOFAC_INTERCOM_SUPPLY( "NC_ROBOFAC_INTERCOM_SUPPL
 static const npc_class_id test_shop_class( "test_shop_class" );
 
 static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
+
+static const skill_id skill_fabrication( "fabrication" );
 
 static const string_id<behavior::node_t> behavior_node_t_npc_decision( "npc_decision" );
 
@@ -240,6 +249,7 @@ static const weather_type_id weather_rainstorm( "rainstorm" );
 
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
@@ -9825,6 +9835,89 @@ TEST_CASE( "worker_closing_a_door_on_the_way_keeps_its_task", "[npc][behavior]" 
             CHECK( guy.has_destination() );
             CHECK( guy.get_destination_activity().id() == ACT_MULTIPLE_CHOP_PLANKS );
             CHECK( guy.get_current_activity() == task_verb );
+        }
+    }
+}
+
+TEST_CASE( "builder_shoved_aside_keeps_its_build", "[npc][behavior][construction]" )
+{
+    clear_map();
+    clear_avatar();
+    set_time_to_day();
+    map &here = get_map();
+    zone_manager &mgr = zone_manager::get_manager();
+    on_out_of_scope clear_zones( [&mgr]() {
+        mgr.clear();
+        mgr.cache_data();
+    } );
+    mgr.clear();
+    get_avatar().setpos( here, tripoint_bub_ms( 54, 66, 0 ) );
+    const tripoint_bub_ms site( 59, 60, 0 );
+    const construction &half_wall = construction_constr_wall_half.obj();
+    mgr.add( "Build Half Wall", zone_type_CONSTRUCTION_BLUEPRINT, faction_your_followers, false, true,
+             here.get_abs( site ), here.get_abs( site ),
+             make_shared_fast<blueprint_options>( "t_wall_half", half_wall.group, half_wall.id ) );
+    partial_con pc;
+    pc.id = half_wall.id;
+    pc.counter = 7000000;
+    here.partial_con_set( site, pc );
+
+    const auto follower_at = [&here]( const tripoint_bub_ms & pos ) -> npc & {
+        npc &guy = spawn_npc( pos.xy(), "test_talker" );
+        clear_character( guy, true );
+        guy.setpos( here, pos );
+        guy.set_fac( faction_your_followers );
+        guy.set_attitude( NPCATT_FOLLOW );
+        guy.set_mission( NPC_MISSION_NULL );
+        guy.rules.set_flag( ally_rule::close_doors );
+        return guy;
+    };
+    npc &builder = follower_at( tripoint_bub_ms( 58, 61, 0 ) );
+    builder.set_skill_level( skill_fabrication, 2 );
+    REQUIRE( builder.i_add( item( itype_hammer ) ) );
+    REQUIRE( builder.i_add( item( itype_bow_saw ) ) );
+    talk_function::do_construction( builder );
+    builder.assign_activity( build_construction_activity_actor( here.get_abs( site ) ) );
+    REQUIRE( builder.activity.id() == ACT_BUILD );
+    REQUIRE( builder.get_attitude() == NPCATT_ACTIVITY );
+    const tripoint_bub_ms start = builder.pos_bub();
+
+    GIVEN( "builder on plain ground" ) {
+        here.build_map_cache( 0 );
+        WHEN( "another follower walks into builder's tile" ) {
+            npc &walker = follower_at( tripoint_bub_ms( 59, 62, 0 ) );
+            here.build_map_cache( 0 );
+            walker.set_moves( 100 );
+            walker.move_to( start );
+            REQUIRE( builder.pos_bub() != start );
+            THEN( "builder steps aside and keeps building" ) {
+                CHECK( builder.activity.id() == ACT_BUILD );
+                run_npc_turns( builder, 8 );
+                CHECK( builder.activity.id() == ACT_BUILD );
+                CHECK( builder.get_attitude() == NPCATT_ACTIVITY );
+                CHECK( std::any_of( builder.backlog.begin(), builder.backlog.end(),
+                []( const player_activity & a ) {
+                    return a.id() == ACT_MULTIPLE_CONSTRUCTION;
+                } ) );
+            }
+        }
+    }
+    GIVEN( "builder in an open doorway" ) {
+        // shopkeeper class restocks on spawn; stock in doorway blocks the close
+        here.i_clear( start );
+        here.ter_set( start, ter_t_door_o );
+        here.build_map_cache( 0 );
+        WHEN( "steps out of the doorway" ) {
+            builder.set_moves( 100 );
+            builder.move_away_from( tripoint_bub_ms( 59, 62, 0 ), true );
+            REQUIRE( builder.pos_bub() != start );
+            THEN( "closes the door behind itself" ) {
+                CHECK( builder.activity.id() == ACT_CLOSE_TILE );
+                run_npc_turns( builder, 8, []( const npc & n ) {
+                    return n.activity.id() != ACT_CLOSE_TILE;
+                } );
+                CHECK( here.ter( start ) == ter_t_door_c );
+            }
         }
     }
 }
