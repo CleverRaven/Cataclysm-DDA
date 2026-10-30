@@ -76,6 +76,7 @@ static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
 static const addiction_id addiction_amphetamine( "amphetamine" );
+static const addiction_id addiction_antidepressant( "antidepressants" );
 static const addiction_id addiction_caffeine( "caffeine" );
 static const addiction_id addiction_cocaine( "cocaine" );
 static const addiction_id addiction_crack( "crack" );
