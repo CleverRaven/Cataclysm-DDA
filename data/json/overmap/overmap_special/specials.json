@@ -895,6 +895,16 @@
   },
   {
     "type": "overmap_special",
+    "id": "Floral Outcropping",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "highland_dead_exodii_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 33, 100 ],
+    "rotate": false,
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL", "GLOBALLY_UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Standing stones",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],

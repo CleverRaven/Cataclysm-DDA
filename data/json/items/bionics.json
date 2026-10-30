@@ -1863,5 +1863,26 @@
     "price_postapoc": "0 USD",
     "weight": "100 g",
     "difficulty": 1
+  },
+  {
+    "type": "ITEM",
+    "id": "bio_creeyncaggii",
+    "subtypes": [ "BIONIC_ITEM" ],
+    "category": "bionics",
+    "looks_like": "jabberwock_heart",
+    "symbol": "%",
+    "color": "black_red",
+    "name": { "str": "Heart of The Warrior CBM" },
+    "description": "The Cree'yn Cag'gii, a forgotten relic of the Exodii.  Legends say it continues beating long after its user expires.  Nevertheless, it would take constant bionic power to keep it beating at a physiologically appropriate level.",
+    "//": "this is Manx, and vaguely translates to warrior heart or similar.  Some artistic liberties were taken.",
+    "volume": "850 ml",
+    "weight": "500 g",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "CBM", "BIONIC_NPC_USABLE" ],
+    "price": "60710 kUSD 614 USD",
+    "price_postapoc": "1 kUSD 460 USD",
+    "use_action": [ "install_bionic" ],
+    "is_upgrade": false,
+    "difficulty": 1
   }
 ]

@@ -122,6 +122,30 @@
         "topic": "TALK_EXODII_MERCHANT_String_Dimension_Exodii"
       },
       {
+        "text": "Do you know anything about this strange, bionic heart I've found?",
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "u_has_item": "bio_creeyncaggii" },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_saw_bio_creeyncaggii" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_exodii_saw_bio_creeyncaggii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_bio_creeyncaggii"
+      },
+      {
+        "text": "Do you know anything about this strange, bionic heart I now have?",
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "u_has_bionics": "bio_creeyncaggii" },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_saw_bio_creeyncaggii" } ] } }
+          ]
+        },
+        "effect": { "u_add_var": "dialogue_exodii_saw_bio_creeyncaggii", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_bio_creeyncaggii"
+      },
+      {
         "text": "Actually, I was wondering were I might get more of these CBMs.  Anything I can do to help make or find them?",
         "condition": {
           "and": [
@@ -1405,6 +1429,18 @@
         "text": "So you use these cybernetics to prevent zombification, but they don't work perfectly?  Why not?",
         "topic": "TALK_EXODII_MERCHANT_Robot_Make"
       },
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_bio_creeyncaggii",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Not a clue, but I've sent word to the others.  That's a question for the Great Grey.  Maybe we find out, maybe we don't.  But for now, I've got nothing.",
+      "str": "Not a lick of a clue, but Ol' Rubik spit a dickey around the Exodii.  S'a riddle for the Great Grey, methinks.  Mayhaps us'll ken it, mayhaps not.  For now, us'n couldn't say more."
+    },
+    "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
