@@ -626,7 +626,7 @@
       [ "cheongsam", 5 ],
       { "group": "airgun_pellet_target_packed", "prob": 7 },
       { "group": "airgun_pellet_hunting_packed", "prob": 3 },
-      { "group": "bb_packed_new", "prob": 5 }
+      { "group": "bb_packed", "prob": 5 }
     ]
   },
   {
