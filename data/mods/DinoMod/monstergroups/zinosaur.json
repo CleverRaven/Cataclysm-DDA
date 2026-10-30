@@ -826,7 +826,7 @@
     "monsters": [
       { "monster": "mon_dilophosaurus_feral" },
       { "monster": "mon_ceratosaurus_feral" },
-	  { "monster": "mon_nanotyrannus_feral" },
+      { "monster": "mon_nanotyrannus_feral" },
       { "monster": "mon_gallimimus_feral" },
       { "monster": "mon_struthiomimus_feral" },
       { "monster": "mon_ornithomimus_feral" },
