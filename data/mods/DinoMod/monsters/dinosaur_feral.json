@@ -10,8 +10,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A medium dinosaur with sharp teeth and two prominent bony crests on its head.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_dilophosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_dilophosaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -24,10 +24,10 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A large, fast predatory bipedal dinosaur, decorated with three colorful horns on its head and dotted with bright skin bones with sharp teeth and a long tail.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_dilophosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_dilophosaurus",
+    "fear_triggers": []
   },
-  {
+    {
     "type": "MONSTER",
     "id": "mon_nanotyrannus_feral",
     "name": { "str_sp": "crazed nanotyrannus" },
@@ -38,8 +38,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "Large sharp teeth and long legs, with a feathered mullet and tail.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_nanotyrannus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_nanotyrannus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -52,8 +52,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A feathered and beaked bipedal dinosaur, standing as tall as a human.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_gallimimus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_gallimimus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -66,8 +66,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A feathered and beaked bipedal dinosaur with a long stiff tail.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_struthiomimus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_struthiomimus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -80,8 +80,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A feathered and beaked bipedal dinosaur with curved claws.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_ornithomimus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_ornithomimus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -94,8 +94,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A large feathered dinosaur with a head crest and claws.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_anzu",
-    "fear_triggers": [  ]
+	"copy-from": "mon_anzu",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -108,8 +108,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A feathered dinosaur with a long claw on each foot.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_deinonychus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_deinonychus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -122,8 +122,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A large dinosaur with feathered arms and a long claw on each foot.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_utahraptor",
-    "fear_triggers": [  ]
+	"copy-from": "mon_utahraptor",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -136,8 +136,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A bipedal plant-eating dinosaur with a long neck and tail.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_sarahsaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_sarahsaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -150,8 +150,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A four legged plant eating dinosaur with a long neck, dexterous hands and leathery skin.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_anchisaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_anchisaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -164,8 +164,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "This lightly armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_gargoyleosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_gargoyleosaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -178,8 +178,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "This heavily armored four legged dinosaur has a beak, a long tail, and long wicked-looking spikes jutting out of the neck.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_sauropelta",
-    "fear_triggers": [  ]
+	"copy-from": "mon_sauropelta",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -192,8 +192,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "This four-legged armored dinosaur has horns on the head and large spikes along the back and side and a tail tipped with a pointy bone club.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_zuul",
-    "fear_triggers": [  ]
+	"copy-from": "mon_zuul",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -206,8 +206,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A feathered dinosaur with four legs, a beak, and a long broad tail.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_tenontosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_tenontosaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -220,8 +220,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A small feathered dinosaur standing on two legs with short arms, a long neck, and a horned beak.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_dryosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_dryosaurus",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -234,8 +234,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A rhino-like dinosaur with a bony crest and sharp beak able to walk on two legs and four.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_leptoceratops",
-    "fear_triggers": [  ]
+	"copy-from": "mon_leptoceratops",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -248,8 +248,8 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A rhino-like dinosaur with a tall thin bony head crest, two long brow horns, and a beak.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_zuniceratops",
-    "fear_triggers": [  ]
+	"copy-from": "mon_zuniceratops",
+    "fear_triggers": []
   },
   {
     "type": "MONSTER",
@@ -262,7 +262,7 @@
     "melee_skill": 3,
     "dodge": 1,
     "description": "A sturdily built feathered bipedal dinosaur with a long narrow beak and strong arms about the size of a cow.  The pupils are dilated and the breathing is rapid and noisy.",
-    "copy-from": "mon_thescelosaurus",
-    "fear_triggers": [  ]
+	"copy-from": "mon_thescelosaurus",
+    "fear_triggers": []
   }
 ]
