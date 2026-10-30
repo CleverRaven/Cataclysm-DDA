@@ -83,13 +83,13 @@
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "M9 air pistol" },
-    "description": "Pneumatic replica of US army standard issue sidearm, pefect tool for an outdoor recreation and for some basic firearm training.",
+    "description": "Pneumatic replica of US army standard issue sidearm, perfect tool for an outdoor recreation and for some basic firearm training.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "beretta_9mm",
         "name": { "str": "Beretta M92A1 air pistol" },
-        "description": "Pneumatic replica of US army standard issue sidearm, pefect tool for an outdoor recreation and for some basic firearm training."
+        "description": "Pneumatic replica of US army standard issue sidearm, perfect tool for an outdoor recreation and for some basic firearm training."
       }
     ],
     "ascii_picture": "beretta_m9",

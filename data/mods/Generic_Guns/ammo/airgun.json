@@ -1,0 +1,8 @@
+[
+  {
+    "id": "co2_12g_cartridge",
+    "copy-from": "co2_12g_cartridge",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ]
+  }
+]

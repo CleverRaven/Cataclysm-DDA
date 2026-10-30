@@ -1,0 +1,10 @@
+[
+  {
+    "id": "air_pistol_beretta_9mm_mag",
+    "copy-from": "air_pistol_beretta_9mm_mag",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "air pistol magazine" },
+    "description": "Air pistol magazine, capable of holding 18 airgun pellets."
+  }
+]

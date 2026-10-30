@@ -18,5 +18,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ]
+  },
+  {
+    "id": "air_pistol_beretta_9mm",
+    "copy-from": "air_pistol_beretta_9mm",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "name": { "str": "air pistol" },
+    "description": "Pneumatic replica of US army standard issue sidearm, perfect tool for an outdoor recreation and for some basic firearm training.",
+    "variants": [  ]
   }
 ]
