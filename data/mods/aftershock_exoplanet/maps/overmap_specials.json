@@ -322,6 +322,23 @@
   },
   {
     "type": "overmap_special",
+    "id": "ravine_data_vault",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "ravine_edge" },
+      { "point": [ 0, 1, 0 ], "overmap": "glacial_field", "locations": [ "land" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "ravine_edge" },
+      { "point": [ -1, 0, 0 ], "overmap": "ravine_edge" },
+      { "point": [ 0, 0, -5 ], "overmap": "ravine_data_vault_north" },
+      { "point": [ 0, 0, -6 ], "overmap": "ravine_data_vault_main_north" }
+    ],
+    "locations": [ "ravine_edge" ],
+    "city_distance": [ 0, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 2, 4 ],
+    "flags": [ "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Port Augustmoon",
     "overmaps": [
       { "point": [ 0, -1, -9 ], "overmap": "augustmoon_docking_arm_north" },
