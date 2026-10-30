@@ -20,7 +20,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ]
   },
   {
-    "id": "air_pistol_beretta_9mm",
+    "id": "air_pistol",
     "copy-from": "air_pistol_beretta_9mm",
     "type": "ITEM",
     "subtypes": [ "GUN" ],

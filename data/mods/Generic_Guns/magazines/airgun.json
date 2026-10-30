@@ -1,6 +1,6 @@
 [
   {
-    "id": "air_pistol_beretta_9mm_mag",
+    "id": "air_pistol_mag",
     "copy-from": "air_pistol_beretta_9mm_mag",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
