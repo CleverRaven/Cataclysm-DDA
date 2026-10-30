@@ -27,7 +27,7 @@
 	"copy-from": "mon_dilophosaurus",
     "fear_triggers": []
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_nanotyrannus_feral",
     "name": { "str_sp": "crazed nanotyrannus" },
