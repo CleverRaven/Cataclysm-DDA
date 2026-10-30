@@ -1218,61 +1218,71 @@
     "id": "EOC_BLOODHEAL_activated",
     "effect": [
       {
-        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_l" } ] },
-        "then": { "u_message": "But your left arm is too damaged.  Only time can heal it.", "type": "bad" },
-        "else": {
-          "math": [
-            "u_hp('arm_l')",
-            "+=",
-            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-          ]
-        }
-      },
-      {
-        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "arm_r" } ] },
-        "then": { "u_message": "But your right arm is too damaged.  Only time can heal it.", "type": "bad" },
-        "else": {
-          "math": [
-            "u_hp('arm_r')",
-            "+=",
-            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-          ]
-        }
-      },
-      {
-        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
-        "then": { "u_message": "But your left leg is too damaged.  Only time can heal it.", "type": "bad" },
-        "else": {
-          "math": [
-            "u_hp('leg_l')",
-            "+=",
-            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-          ]
-        }
-      },
-      {
-        "if": { "and": [ { "u_has_trait": "DHAMPIR_TRAIT" }, { "u_has_effect": "disabled", "bodypart": "leg_l" } ] },
-        "then": { "u_message": "But your right leg is too damaged.  Only time can heal it.", "type": "bad" },
-        "else": {
-          "math": [
-            "u_hp('leg_r')",
-            "+=",
-            "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
-          ]
-        }
-      },
-      {
-        "math": [
-          "u_hp('torso')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "id" },
+        "effect": [
+          {
+            "if": { "u_has_body_part": { "context_val": "id" } },
+            "then": {
+              "math": [
+                "u_hp(_id)",
+                "+=",
+                "min((5 + (vampire_total_tier_one_traits() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits() * 3.5)), 25)"
+              ]
+            }
+          }
         ]
       },
       {
-        "math": [
-          "u_hp('head')",
-          "+=",
-          "min((5 + (vampire_total_tier_one_traits_plus_potency() * 0.75) + (vampire_total_tier_two_traits() * 1) + (vampire_total_tier_three_traits() * 1.25) + (vampire_total_tier_four_traits_plus_potence() * 2.5) + (vampire_total_tier_five_traits_plus_cauldron() * 3.5)), 25)"
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
+          }
+        ]
+      },
+      {
+        "if": { "u_has_trait": "VAMPIRE" },
+        "then": {
+          "foreach": "ids",
+          "target": "bodypart",
+          "var": { "context_val": "bodypart" },
+          "effect": [
+            {
+              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+              "variables": { "bodypart": { "context_val": "bodypart" } }
+            }
+          ]
+        }
+      },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "if": { "u_has_body_part": { "context_val": "bodypart" } },
+            "then": {
+              "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+              "variables": {
+                "bodypart": { "context_val": "bodypart" },
+                "minimum_healing_pool": {
+                  "math": [
+                    "min((5 + (vampire_total_tier_one_traits() * 1) + (vampire_total_tier_two_traits() * 1.6) + (vampire_total_tier_three_traits() * 2.4) + (vampire_total_tier_four_traits_plus_potence() * 3.8) + (vampire_total_tier_five_traits() * 5)), 200)"
+                  ]
+                },
+                "maximum_healing_pool": {
+                  "math": [
+                    "min((15 + (vampire_total_tier_one_traits() * 2.25) + (vampire_total_tier_two_traits() * 3.6) + (vampire_total_tier_three_traits() * 5.4) + (vampire_total_tier_four_traits_plus_potence() * 8.5) + (vampire_total_tier_five_traits() * 11.25)), 450)"
+                  ]
+                }
+              }
+            }
+          }
         ]
       }
     ],

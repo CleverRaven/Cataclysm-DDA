@@ -454,7 +454,13 @@
     "cost": 7,
     "time": 1,
     "activation_msg": "Your natural regeneration kicks into overdrive.",
-    "processed_eocs": [ "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated" ]
+    "processed_eocs": [ "EOC_WEREWOLF_SUPER_FAST_REGENERATION_activated" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "effect_xe_werewolf_super_fast_regeneration", "intensity": 1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
