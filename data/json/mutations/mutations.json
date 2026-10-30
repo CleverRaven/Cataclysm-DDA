@@ -4119,7 +4119,9 @@
           { "value": "REGEN_HP_AWAKE", "multiply": 0.85 }
         ]
       }
-    ]
+    ],
+    "activated_eocs": [ "EOC_EATHEALTH_activated" ],
+    "processed_eocs": [ "EOC_EATHEALTH_processed" ]
   },
   {
     "type": "mutation",
