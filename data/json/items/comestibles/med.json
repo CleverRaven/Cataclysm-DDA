@@ -1744,7 +1744,7 @@
     "stim": -5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "NO_TEMP" ],
     "addiction_potential": 5,
-    "addiction_type": "amphetamine",
+    "addiction_type": "antidepressant",
     "use_action": [ "PROZAC" ]
   },
   {
