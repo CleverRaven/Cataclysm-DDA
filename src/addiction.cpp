@@ -25,7 +25,6 @@ static const efftype_id effect_shakes( "shakes" );
 
 static const morale_type morale_craving_alcohol( "morale_craving_alcohol" );
 static const morale_type morale_craving_cocaine( "morale_craving_cocaine" );
-static const morale_type morale_craving_crack( "morale_craving_crack" );
 static const morale_type morale_craving_diazepam( "morale_craving_diazepam" );
 static const morale_type morale_craving_nicotine( "morale_craving_nicotine" );
 static const morale_type morale_craving_opiate( "morale_craving_opiate" );
@@ -127,7 +126,7 @@ static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
     return ret;
 }
 
-static bool crack_coke_add( Character &u, int in, int stim, bool is_crack )
+static bool crack_coke_add( Character &u, int in, int stim )
 {
     static time_point last_coke_dream = calendar::turn_zero;
     static time_point last_crack_dream = calendar::turn_zero;
@@ -323,15 +322,11 @@ static bool cocaine_effect( Character &u, addiction &add )
 {
     const int in = std::min( 20, add.intensity );
     const int current_stim = u.get_stim();
-    return crack_coke_add( u, in, current_stim, false );
+    bool ret = false;
+    return crack_coke_add( u, in, current_stim);
 }
 
-static bool crack_effect( Character &u, addiction &add )
-{
-    const int in = std::min( 20, add.intensity );
-    const int current_stim = u.get_stim();
-    return crack_coke_add( u, in, current_stim, true );
-}
+
 
 /*********************************************/
 
@@ -341,8 +336,7 @@ static const std::map<std::string, std::function<bool( Character &, addiction & 
     {"diazepam_effect",    ::diazepam_effect},
     {"opiate_effect",      ::opiate_effect},
     {"amphetamine_effect", ::amphetamine_effect},
-    {"cocaine_effect",     ::cocaine_effect},
-    {"crack_effect",       ::crack_effect}
+    {"cocaine_effect",     ::cocaine_effect}
 };
 
 bool addiction::run_effect( Character &u )
