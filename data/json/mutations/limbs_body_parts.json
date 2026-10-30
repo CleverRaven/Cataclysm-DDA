@@ -38,32 +38,6 @@
     ],
     "effects_on_hit": [
       {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
         "id": "stunned",
         "dmg_type": "bash",
         "dmg_threshold": 10,
@@ -153,33 +127,7 @@
       { "weight": "5600 g", "encumbrance": 80 },
       { "weight": "10000 g", "encumbrance": 160 }
     ],
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "similar_bodypart": "head",
     "flags": [ "LIMB_UPPER", "BONELESS" ],
     "feels_discomfort": false
@@ -696,31 +644,6 @@
     "bmi_encumbrance_scalar": 0.8,
     "windage_effect": "winded",
     "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 45,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
       {
         "id": "winded",
         "dmg_type": "bash",
@@ -1251,35 +1174,7 @@
     "bionic_slots": 0,
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.6,
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 1500
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      }
-    ],
+    "effects_on_hit": [  ],
     "sub_parts": [ "arm_slime_shoulder_l", "arm_slime_upper_l", "arm_slime_elbow_l", "arm_slime_lower_l" ],
     "similar_bodypart": "arm_l",
     "flags": [ "BONELESS" ]
@@ -1956,32 +1851,6 @@
     ],
     "effects_on_hit": [
       {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
         "id": "bouldering",
         "dmg_threshold": 10,
         "dmg_scale_increment": 5,
@@ -2022,33 +1891,6 @@
     "smash_message": "You bring your pseudopod down on the %s, smashing it.",
     "bionic_slots": 0,
     "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2.5,
-        "duration": 60,
-        "duration_dmg_scaling": 45,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
       {
         "id": "bouldering",
         "dmg_threshold": 5,
@@ -2159,33 +2001,6 @@
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 6,
     "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2.5,
-        "duration": 60,
-        "duration_dmg_scaling": 45,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 3,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
       {
         "id": "bouldering",
         "dmg_threshold": 5,
@@ -2356,33 +2171,6 @@
     "smash_message": "You whip the %s with your tentacle, smashing it.",
     "bionic_slots": 5,
     "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 4,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 45,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 2,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 2,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1800
-      },
       {
         "id": "bouldering",
         "dmg_threshold": 5,
@@ -2727,34 +2515,7 @@
     "base_hp": 25,
     "health_limit": 5,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -2787,34 +2548,7 @@
     "base_hp": 25,
     "health_limit": 5,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -2848,34 +2582,7 @@
     "techniques": [ "TAIL_SCORPION_STING", "TAIL_SCORPION_STING_NATURAL", "TAIL_SCORPION_STING_CRIT" ],
     "technique_encumbrance_limit": 5,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -2912,34 +2619,7 @@
     "similar_bodypart": "tail",
     "techniques": [ "TAIL_THICK_BASH", "TAIL_THICK_BASH_NATURAL", "TAIL_THICK_BASH_CRIT_VS_STUMBLE" ],
     "technique_encumbrance_limit": 5,
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -2979,34 +2659,7 @@
       "TAIL_CLUB_BASH_CRIT"
     ],
     "technique_encumbrance_limit": 5,
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -3038,34 +2691,7 @@
     "base_hp": 15,
     "health_limit": 2,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 300,
     "bionic_slots": 0,
     "is_limb": true,
@@ -3098,34 +2724,7 @@
     "base_hp": 25,
     "health_limit": 5,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
@@ -3158,34 +2757,7 @@
     "base_hp": 30,
     "health_limit": 10,
     "similar_bodypart": "tail",
-    "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "cut",
-        "dmg_threshold": 5,
-        "dmg_scale_increment": 2,
-        "duration": 60,
-        "duration_dmg_scaling": 30,
-        "max_duration": 960
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1.5,
-        "duration": 60,
-        "duration_dmg_scaling": 60,
-        "max_duration": 1200
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 1,
-        "dmg_scale_increment": 1,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      }
-    ],
+    "effects_on_hit": [  ],
     "drench_capacity": 7000,
     "bionic_slots": 0,
     "is_limb": true,
