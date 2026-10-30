@@ -2978,7 +2978,7 @@
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "wool socks (pair)" },
     "description": "Warm socks made of wool.",
-    "weight": "65 g",
+    "weight": "44 g",
     "volume": "250 ml",
     "price": "12 USD",
     "price_postapoc": "1 USD 50 cent",
@@ -2997,7 +2997,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "wool socks (pair)" },
-    "weight": "90 g",
+    "weight": "87 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
