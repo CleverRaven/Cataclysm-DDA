@@ -188,7 +188,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
   },
   {
     "id": "bone_broken",
@@ -213,7 +213,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
   },
   {
     "id": "bone_broken_healing_good",
