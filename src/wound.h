@@ -21,8 +21,8 @@ class Character;
 class JsonObject;
 class JsonOut;
 enum class bp_type;
-struct damage_instance;
 struct bp_wounds;
+struct dealt_damage_instance;
 
 // worsening wound when the same wound is hit again
 struct wound_progress {
@@ -112,7 +112,7 @@ class wound_type
         std::optional<wound_periodic_message> get_periodic_message() const;
 
         bool can_be_applied( const Character *who, const bp_wounds &pt_wd,
-                             const bodypart_id &bp, const damage_instance &d ) const;
+                             const bodypart_id &bp, const dealt_damage_instance &d ) const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
