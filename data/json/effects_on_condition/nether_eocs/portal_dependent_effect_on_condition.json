@@ -128,19 +128,12 @@
       "if": { "math": [ "ps_str > 4" ] },
       "then": {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
           [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 6 ],
           [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 3 ],
           [ "EOC_PS_REWARD_GOOD_EFFECTS_IN_STORMS_ACCEPTANCE", 1 ]
         ]
       },
-      "else": {
-        "weighted_list_eocs": [
-          [ "EOC_PORTAL_DEPENDENT_MESSAGES_GOOD", 10 ],
-          [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 5 ],
-          [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 2 ]
-        ]
-      }
+      "else": { "weighted_list_eocs": [ [ "EOC_PORTAL_DEPENDENT_MORALE_GOOD", 5 ], [ "EOC_PORTAL_DEPENDENT_FOCUS_GOOD", 2 ] ] }
     }
   },
   {

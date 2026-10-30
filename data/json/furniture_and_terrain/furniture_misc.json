@@ -141,11 +141,11 @@
         "switch": { "math": [ "portal_dungeon_reward" ] },
         "cases": [
           {
-            "case": 0,
+            "case": 1,
             "effect": { "u_message": "You are a little closer to what you should be.  You should repeat this action.", "type": "good" }
           },
           {
-            "case": 5,
+            "case": 2,
             "effect": [
               {
                 "u_message": "You see glimpses of what you could have been.  You should repeat this action so you may be better than what you were.",
@@ -154,7 +154,7 @@
             ]
           },
           {
-            "case": 10,
+            "case": 3,
             "effect": [
               {
                 "u_message": "You see glimpses of what you could be.  You should repeat this action so you may steer towards what you should be.",
@@ -163,7 +163,7 @@
             ]
           },
           {
-            "case": 15,
+            "case": 4,
             "effect": [
               {
                 "u_message": "You see glimpses of what you should be.  You should repeat this action so you may become closer to them.",
@@ -171,7 +171,7 @@
               }
             ]
           },
-          { "case": 20, "effect": [ { "u_message": "You will be as you should be.", "type": "good" } ] }
+          { "case": 5, "effect": [ { "u_message": "You will be as you should be.", "type": "good" } ] }
         ]
       }
     ]
