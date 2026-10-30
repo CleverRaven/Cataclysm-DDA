@@ -1113,15 +1113,24 @@
       {
         "foreach": "ids",
         "target": "bodypart",
-        "var": { "context_val": "id" },
+        "var": { "context_val": "bodypart" },
         "effect": [
           {
-            "if": { "math": [ "u_hp(_id) < u_hp_max(_id)" ] },
-            "then": { "math": [ "u_hp(_id) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
-          },
-          {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
-            "then": { "u_add_effect": "bleed", "target_part": { "context_val": "id" }, "duration": 0, "intensity": -1 }
+            "if": { "u_has_body_part": { "context_val": "bodypart" } },
+            "then": [
+              {
+                "if": { "math": [ "u_hp(_bodypart) < u_hp_max(_bodypart)" ] },
+                "then": { "math": [ "u_hp(_bodypart) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
+              },
+              {
+                "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+                "variables": {
+                  "bodypart": { "context_val": "bodypart" },
+                  "minimum_healing_pool": { "math": [ "( (u_spell_level('vita_super_heal') * 2.1) + 10) * psionic_power_modifiers()" ] },
+                  "maximum_healing_pool": { "math": [ "( (u_spell_level('vita_super_heal') * 4.9) + 25) * psionic_power_modifiers()" ] }
+                }
+              }
+            ]
           }
         ]
       }
