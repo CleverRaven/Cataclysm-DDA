@@ -3662,6 +3662,18 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
           );
 }
 
+// matches close_tile_activity_actor::start; a close that ends at once drops the running task
+static bool can_close_behind( map &here, Character &who, const tripoint_bub_ms &closep )
+{
+    if( const optional_vpart_position vp = here.veh_at( closep ) ) {
+        vehicle &veh = vp->vehicle();
+        const int part = veh.next_part_to_close( vp->part_index(),
+                         veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != &veh );
+        return part >= 0 && veh.can_close( part, who );
+    }
+    return here.close_door( closep, !here.is_outside( who.pos_bub() ), true );
+}
+
 void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint_bub_ms> *nomove )
 {
     if( has_flag( json_flag_CANNOT_MOVE ) ) {
@@ -3903,7 +3915,8 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
         }
 
         // Close doors behind self (if you can)
-        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
+        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() &&
+            can_close_behind( here, *this, old_pos ) ) {
             assign_activity( close_tile_activity_actor( old_pos ) );
         }
         // Lock doors as well
