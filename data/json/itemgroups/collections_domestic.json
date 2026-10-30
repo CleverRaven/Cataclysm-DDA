@@ -119,6 +119,7 @@
       [ "microwave", 30 ],
       { "item": "coffeemaker", "prob": 30 },
       { "item": "food_processor", "prob": 30 },
+      { "item": "slow_cooker", "prob": 30 },
       [ "waffleiron", 25 ],
       { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },

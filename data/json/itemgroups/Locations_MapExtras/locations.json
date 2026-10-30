@@ -683,6 +683,7 @@
       { "item": "coffeemaker", "prob": 5 },
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
+      { "item": "slow_cooker", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]

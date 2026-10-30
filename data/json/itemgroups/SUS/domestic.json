@@ -542,6 +542,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "microwave", "prob": 90 },
+      { "item": "slow_cooker", "prob": 80 },
       { "item": "food_processor", "prob": 70 },
       { "item": "waffleiron", "prob": 45 },
       { "item": "pastaextruder", "prob": 10 },
