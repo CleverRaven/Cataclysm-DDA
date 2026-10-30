@@ -955,5 +955,29 @@
     "weight": "100 g",
     "volume": "1640 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1170 ml", "max_contains_weight": "7500 g", "rigid": true } ]
+  },
+  {
+    "id": "177_tin_can_500",
+    "type": "ITEM",
+    "category": "container",
+    "name": { "str": "small pellet tin can" },
+    "description": "Small, round tin can, designed to hold air pellets.",
+    "material": [ "tin" ],
+    "weight": "30 g",
+    "volume": "75 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "70 ml", "max_contains_weight": "700 g", "rigid": true } ],
+    "symbol": "o",
+    "color": "white",
+    "looks_like": "box_small"
+  },
+  {
+    "id": "177_tin_can_200",
+    "copy-from": "177_tin_can_500",
+    "type": "ITEM",
+    "name": { "str": "tiny pellet tin can" },
+    "description": "Tiny, round tin can, designed to hold air pellets.",
+    "weight": "15 g",
+    "volume": "33 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "30 ml", "max_contains_weight": "300 g", "rigid": true } ]
   }
 ]

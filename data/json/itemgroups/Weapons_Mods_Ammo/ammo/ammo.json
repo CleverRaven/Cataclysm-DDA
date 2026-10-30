@@ -224,7 +224,8 @@
       { "group": "boxed_50beowulf", "prob": 14 },
       { "group": "boxed_77x58", "prob": 11 },
       { "group": "boxed_50AE", "prob": 10 },
-      { "group": "boxed_458", "prob": 5 }
+      { "group": "boxed_458", "prob": 5 },
+      { "group": "airgun_pellet_hunting_packed", "prob": 200 }
     ]
   },
   {

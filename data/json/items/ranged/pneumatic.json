@@ -73,5 +73,58 @@
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "air_pistol_beretta_9mm",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "looks_like": "m9",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "M9 air pistol" },
+    "description": "Pneumatic replica of US army standard issue sidearm, pefect tool for an outdoor recreation and for some basic firearm training.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "beretta_9mm",
+        "name": { "str": "Beretta M92A1 air pistol" },
+        "description": "Pneumatic replica of US army standard issue sidearm, pefect tool for an outdoor recreation and for some basic firearm training."
+      }
+    ],
+    "ascii_picture": "beretta_m9",
+    "price": "184 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "steel", "plastic" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "skill": "pistol",
+    "ammo": [ "airgun_pellet", "BB" ],
+    "clip_size": 1,
+    "weight": "2400 g",
+    "volume": "1500 ml",
+    "longest_side": "85 mm",
+    "to_hit": -1,
+    "range": 30,
+    "dispersion": 150,
+    "durability": 7,
+    "reload": 300,
+    "valid_mod_locations": [ [ "barrel", 1 ], [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [
+      {
+        "id": "ammo",
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "air_pistol_beretta_9mm_mag" ]
+      },
+      {
+        "id": "co2",
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "250 ml",
+        "item_restriction": [ "co2_12g_cartridge" ]
+      }
+    ],
+    "firing_requirements": { "DEFAULT": [ { "pocket": "ammo", "qty": 1 }, { "pocket": "co2", "qty": 5 } ] },
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "melee_damage": { "bash": 4 }
   }
 ]

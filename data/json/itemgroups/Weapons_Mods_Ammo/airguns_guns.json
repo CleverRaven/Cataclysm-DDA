@@ -1,0 +1,30 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "airgun_recreational",
+    "items": [
+      { "group": "airgun_bb" },
+      { "distribution": [ { "group": "airgun_pellets_loose" }, { "item": "bb_loose" } ] },
+      { "group": "airgun_co2_cartridge_loose" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "airgun_hunting",
+    "items": [ { "group": "airgun_hunting" }, { "group": "airgun_pellet_hunting_loose" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "airgun_bb",
+    "items": [ { "item": "bbgun", "prob": 100 }, { "item": "air_pistol_beretta_9mm", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "airgun_hunting",
+    "items": [ { "item": "varmint_airgun", "prob": 100 } ]
+  }
+]

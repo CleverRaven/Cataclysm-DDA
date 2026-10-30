@@ -1,0 +1,29 @@
+[
+  {
+    "id": "air_pistol_beretta_9mm_mag",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "M9 air pistol magazine" },
+    "description": "Air pistol magazine, capable of holding 18 airgun pellets.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "beretta_9mm",
+        "name": { "str": "Beretta M92A1 air pistol magazine" },
+        "description": "Air pistol magazine, capable of holding 18 airgun pellets."
+      }
+    ],
+    "weight": "122 g",
+    "volume": "84 ml",
+    "longest_side": "134 mm",
+    "price": "60 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "airgun_pellet", "BB" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "airgun_pellet": 18, "bb": 18 } } ]
+  }
+]
