@@ -1,0 +1,562 @@
+[
+  {
+    "//": "Calculates healing based on the damage required to cause the wound.  All bleeding wounds first, in order of severity, then all other wounds, in order of severity.  No broken bones.",
+    "type": "effect_on_condition",
+    "id": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+    "condition": { "expects_vars": [ "bodypart", "minimum_healing_pool", "maximum_healing_pool" ] },
+    "effect": [
+      { "math": [ "_healing_pool = rng(_minimum_healing_pool, _maximum_healing_pool)" ] },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 20" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_bad" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_bad" ] },
+              { "math": [ "_healing_pool -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_scratch_bad" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_cut_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bleeding_laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_medium" ] },
+              { "math": [ "_healing_pool -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 20" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_bad" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_bad" ] },
+              { "math": [ "_healing_pool -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_bad" ] },
+              { "math": [ "_healing_pool -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_bad" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "cut_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_medium" ] },
+              { "math": [ "_healing_pool -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_medium" ] },
+              { "math": [ "_healing_pool -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-12",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "scratch_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 12)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_small" ] },
+              { "math": [ "_healing_pool -= 12" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-10",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bruise_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 10)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bruise_small" ] },
+              { "math": [ "_healing_pool -= 10" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 20" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_cut_bad" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 20-60",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_cut_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 20" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 19" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 41)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_cut_bad" ] },
+              { "math": [ "_healing_pool -= 60" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_laceration_bad" ] },
+              { "math": [ "_healing_pool -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-25",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_laceration_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_laceration_bad" ] },
+              { "math": [ "_healing_pool -= 25" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_scratch_bad" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_scratch_bad" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_cut_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 15-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_cut_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 15" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 14" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_cut_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_scratch_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_scratch_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-20",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_scratch_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 11)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_scratch_medium" ] },
+              { "math": [ "_healing_pool -= 20" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_laceration_medium" ] },
+              { "math": [ "_healing_pool -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 10-15",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_laceration_medium" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 10" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool - 9" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 6)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_laceration_medium" ] },
+              { "math": [ "_healing_pool -= 15" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-12",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "clean_scratch_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 12)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "clean_scratch_small" ] },
+              { "math": [ "_healing_pool -= 12" ] }
+            ]
+          }
+        ]
+      },
+      {
+        "//": "Range 1-12",
+        "if": {
+          "and": [
+            { "u_has_any_wound": [ "bandaged_scratch_small" ], "bodypart": { "context_val": "bodypart" } },
+            { "math": [ "_healing_pool >= 1" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "_temp_healing_pool = _healing_pool" ] },
+          {
+            "if": { "math": [ "rng(0,1) <= (_temp_healing_pool / 12)" ] },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bandaged_scratch_small" ] },
+              { "math": [ "_healing_pool -= 12" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

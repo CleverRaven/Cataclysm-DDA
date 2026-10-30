@@ -68,5 +68,53 @@
     "id": "VAHAGN",
     "type": "ammo_effect",
     "eoc": [ "EOC_vahagn_check_shootfoes" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "cluster_84x24",
+    "name": { "str": "cluster rocket spell", "//~": "NO_I18N" },
+    "description": { "str": "Lots of bombs.", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "max_level": 1,
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" },
+      { "id": "cluster_bomblet" }
+    ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 75,
+    "shape": "blast",
+    "min_range": 0
+  },
+  {
+    "type": "SPELL",
+    "id": "cluster_bomblet",
+    "name": { "str": "cluster munition", "//~": "NO_I18N" },
+    "description": { "str": "Causes an explosion at the target.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "flags": [ "LOUD", "RANDOM_TARGET", "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "min_damage": 80,
+    "max_damage": 110,
+    "min_aoe": 5,
+    "max_aoe": 8,
+    "message": "",
+    "min_range": 12,
+    "max_range": 12,
+    "damage_type": "bash"
+  },
+  {
+    "id": "CLUSTER_84x24",
+    "type": "ammo_effect",
+    "explosion": { "power": 450, "shrapnel": { "casing_mass": 150, "fragment_mass": 0.08 } },
+    "spell_data": [ { "id": "cluster_84x24" } ]
   }
 ]

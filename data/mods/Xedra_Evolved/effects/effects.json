@@ -936,6 +936,24 @@
               ]
             }
           }
+        ],
+        "incoming_damage_mod_post_absorbed": [
+          {
+            "type": "bash",
+            "add": { "math": [ "-3 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 2) + ( u_has_trait('BLOOD_DRINKER') * 4 )" ] }
+          },
+          {
+            "type": "cut",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 3 )" ] }
+          },
+          {
+            "type": "stab",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 2 )" ] }
+          },
+          {
+            "type": "bullet",
+            "add": { "math": [ "-1 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 1 )" ] }
+          }
         ]
       }
     ]

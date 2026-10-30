@@ -106,7 +106,7 @@
       { "weight": "6100 g", "encumbrance": 88 },
       { "weight": "11000 g", "encumbrance": 176 }
     ],
-    "flags": [ "SEESLEEP", "LIMB_UPPER" ]
+    "flags": [ "SEESLEEP", "LIMB_UPPER", "BONELESS" ]
   },
   {
     "id": "head_slime",
@@ -181,7 +181,7 @@
       }
     ],
     "similar_bodypart": "head",
-    "flags": [ "LIMB_UPPER" ],
+    "flags": [ "LIMB_UPPER", "BONELESS" ],
     "feels_discomfort": false
   },
   {
@@ -739,7 +739,8 @@
       "torso_slime_hanging_back",
       "torso_slime_waist"
     ],
-    "similar_bodypart": "torso"
+    "similar_bodypart": "torso",
+    "flags": [ "BONELESS" ]
   },
   {
     "id": "crustacean_pincer_r",
@@ -768,7 +769,7 @@
     "smash_message": "You smash the %s with your pincer.",
     "smash_efficiency": 2,
     "sub_parts": [ "crustacean_pincer_wrist_r", "crustacean_pincer_claws_r" ],
-    "flags": [ "NONSTANDARD_BLOCK" ],
+    "flags": [ "NONSTANDARD_BLOCK", "BONELESS" ],
     "unarmed_damage": [ { "damage_type": "bash", "amount": 12 }, { "damage_type": "cut", "amount": 3 } ]
   },
   {
@@ -1025,7 +1026,7 @@
     "cold_morale_mod": 0.1,
     "fire_warmth_bonus": 300,
     "squeamish_penalty": 1,
-    "flags": [ "NONSTANDARD_BLOCK" ],
+    "flags": [ "NONSTANDARD_BLOCK", "BONELESS" ],
     "sub_parts": [ "arm_insect_upper_l", "arm_insect_elbow_l", "arm_insect_lower_l" ],
     "ugliness": 3
   },
@@ -1280,7 +1281,8 @@
       }
     ],
     "sub_parts": [ "arm_slime_shoulder_l", "arm_slime_upper_l", "arm_slime_elbow_l", "arm_slime_lower_l" ],
-    "similar_bodypart": "arm_l"
+    "similar_bodypart": "arm_l",
+    "flags": [ "BONELESS" ]
   },
   {
     "id": "arm_slime_r",
@@ -1648,7 +1650,8 @@
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_UPPER",
-      "NONSTANDARD_BLOCK"
+      "NONSTANDARD_BLOCK",
+      "BONELESS"
     ],
     "side": "right",
     "sub_parts": [ "vine_sublimb_ur" ],
@@ -1688,7 +1691,8 @@
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_UPPER",
-      "NONSTANDARD_BLOCK"
+      "NONSTANDARD_BLOCK",
+      "BONELESS"
     ],
     "side": "left",
     "sub_parts": [ "vine_sublimb_ul" ]
@@ -1718,7 +1722,8 @@
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_LOWER",
-      "NONSTANDARD_BLOCK"
+      "NONSTANDARD_BLOCK",
+      "BONELESS"
     ],
     "sub_parts": [ "vine_sublimb_lr" ]
   },
@@ -1746,7 +1751,8 @@
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_LOWER",
-      "NONSTANDARD_BLOCK"
+      "NONSTANDARD_BLOCK",
+      "BONELESS"
     ],
     "sub_parts": [ "vine_sublimb_ll" ]
   },
@@ -1833,7 +1839,7 @@
     "drench_capacity": 150,
     "bionic_slots": 0,
     "drying_rate": 2,
-    "flags": [ "NO_LIMB_FIRST_AID", "LIMB_UPPER" ],
+    "flags": [ "NO_LIMB_FIRST_AID", "LIMB_UPPER", "BONELESS" ],
     "limb_scores": [ [ "reaction", -0.07 ] ],
     "smash_message": "You buffet the %s with your wing.",
     "side": "left",
@@ -1887,7 +1893,7 @@
     "squeamish_penalty": 10,
     "drench_capacity": 150,
     "bionic_slots": 0,
-    "flags": [ "NO_LIMB_FIRST_AID", "LIMB_UPPER" ],
+    "flags": [ "NO_LIMB_FIRST_AID", "LIMB_UPPER", "BONELESS" ],
     "drying_rate": 2,
     "smash_message": "You buffet the %s with your wing.",
     "side": "left",
@@ -1936,7 +1942,7 @@
     "base_hp": 120,
     "drench_capacity": 700,
     "bionic_slots": 58,
-    "flags": [ "LIMB_LOWER" ],
+    "flags": [ "LIMB_LOWER", "BONELESS" ],
     "sub_parts": [ "leg_hip_gastropod_l", "leg_hip_gastropod_r", "leg_upper_gastropod", "leg_lower_gastropod" ],
     "encumbrance_per_weight": [
       { "weight": "1 mg", "encumbrance": 1 },
@@ -2054,7 +2060,7 @@
       }
     ],
     "sub_parts": [ "leg_slime_hip_l", "leg_slime_upper_l", "leg_slime_knee_l", "leg_slime_lower_l", "leg_slime_draped_l" ],
-    "flags": [ "LIMB_LOWER" ],
+    "flags": [ "LIMB_LOWER", "BONELESS" ],
     "windage_effect": "winded_leg",
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.7,
@@ -2210,7 +2216,7 @@
       }
     ],
     "sub_parts": [ "leg_crab_basis_fl", "leg_crab_merus_fl", "leg_crab_carpus_fl", "leg_crab_manus_fl", "leg_crab_dactyl_fl" ],
-    "flags": [ "LIMB_LOWER" ],
+    "flags": [ "LIMB_LOWER", "BONELESS", "TOUGH_FEET" ],
     "windage_effect": "winded_crab_leg",
     "bmi_encumbrance_threshold": 7,
     "bmi_encumbrance_scalar": 0.5
@@ -2408,7 +2414,7 @@
     ],
     "sub_parts": [ "tentacle_lower_front_base_l", "tentacle_lower_front_middle_l", "tentacle_lower_front_tip_l" ],
     "similar_bodypart": "tentacle_default_l",
-    "flags": [ "LIMB_LOWER", "MEND_LIMB", "TOUGH_FEET" ],
+    "flags": [ "LIMB_LOWER", "MEND_LIMB", "TOUGH_FEET", "BONELESS" ],
     "windage_effect": "winded_tentacle",
     "bmi_encumbrance_threshold": 7,
     "bmi_encumbrance_scalar": 0.5
@@ -2873,6 +2879,7 @@
     "drench_capacity": 700,
     "bionic_slots": 0,
     "is_limb": true,
+    "flags": [ "BONELESS" ],
     "sub_parts": [ "tail_scorpion_base", "tail_scorpion_center", "tail_scorpion_stinger" ],
     "smash_message": "You smash %s with your tail.",
     "smash_efficiency": 0.25,

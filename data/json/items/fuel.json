@@ -19,15 +19,6 @@
     "ammo_type": "conc_alcohol"
   },
   {
-    "id": "methed_alcohol",
-    "name": { "str_sp": "methylated spirits" },
-    "copy-from": "chem_ethanol",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent"
-  },
-  {
     "id": "denat_alcohol",
     "name": { "str_sp": "denatured alcohol" },
     "copy-from": "chem_ethanol",
