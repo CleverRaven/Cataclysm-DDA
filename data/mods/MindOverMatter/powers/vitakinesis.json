@@ -72,7 +72,7 @@
     "type": "SPELL",
     "name": "[Ψ]Staunch Wound",
     "description": "You concentrate on your injuries, and they close and the blood flow stops.",
-    "message": "You summon up the energy to close your wounds!",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
@@ -91,69 +91,9 @@
     "base_energy_cost": 3000,
     "final_energy_cost": 750,
     "energy_increment": -125,
-    "base_casting_time": 50,
-    "final_casting_time": 20,
-    "casting_time_increment": -3
-  },
-  {
-    "id": "vita_stop_bleeding_01",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Staunch Wound #1", "//~": "NO_I18N" },
-    "description": {
-      "str": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
-      "//~": "NO_I18N"
-    },
-    "valid_targets": [ "self" ],
-    "skill": "metaphysics",
-    "teachable": false,
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "vita_bandage_01",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": 200,
-    "max_duration": 200
-  },
-  {
-    "id": "vita_stop_bleeding_02",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Staunch Wound #2", "//~": "NO_I18N" },
-    "description": {
-      "str": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
-      "//~": "NO_I18N"
-    },
-    "valid_targets": [ "self" ],
-    "skill": "metaphysics",
-    "teachable": false,
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "vita_bandages_02",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": 200,
-    "max_duration": 200
-  },
-  {
-    "id": "vita_stop_bleeding_03",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Staunch Wound #3", "//~": "NO_I18N" },
-    "description": {
-      "str": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
-      "//~": "NO_I18N"
-    },
-    "valid_targets": [ "self" ],
-    "skill": "metaphysics",
-    "teachable": false,
-    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "spawn_item",
-    "effect_str": "vita_bandages_03",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "min_duration": 200,
-    "max_duration": 200
+    "base_casting_time": 3000,
+    "final_casting_time": 500,
+    "casting_time_increment": -50
   },
   {
     "id": "vita_concentrated_healing",
