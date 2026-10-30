@@ -1234,7 +1234,17 @@
           }
         ]
       },
-      { "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS" },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
+          }
+        ]
+      },
       {
         "if": { "u_has_trait": "VAMPIRE" },
         "then": {
