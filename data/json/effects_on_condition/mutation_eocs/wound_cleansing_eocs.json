@@ -237,6 +237,20 @@
         "if": { "u_has_body_part": { "context_val": "bodypart" } },
         "then": [
           {
+            "if": { "u_has_any_wound": [ "scratch_small" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_small" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_scratch_small" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "scratch_medium" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_medium" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_scratch_medium" }
+            ]
+          },
+          {
             "if": { "u_has_any_wound": [ "scratch_bad" ], "bodypart": { "context_val": "bodypart" } },
             "then": [
               { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "scratch_bad" ] },

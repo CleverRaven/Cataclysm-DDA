@@ -250,7 +250,7 @@
     "id": "vita_cure_disease",
     "type": "SPELL",
     "name": "[Ψ]Immunostimulus (C)",
-    "description": "Kick your immune system into overdrive in order to overcome any illnesses you may be suffering from.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Kick your immune system into overdrive in order to overcome any illnesses you may be suffering from.  It can also clean your wounds.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
