@@ -100,11 +100,6 @@
     "text": "Craving cocaine"
   },
   {
-    "id": "morale_craving_crack",
-    "type": "morale_type",
-    "text": "Craving crack cocaine"
-  },
-  {
     "id": "morale_craving_mutagen",
     "type": "morale_type",
     "text": "Craving mutagen"
