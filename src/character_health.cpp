@@ -95,6 +95,7 @@ static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
+static const bionic_id bio_creeyncaggii( "bio_creeyncaggii" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_synlungs( "bio_synlungs" );
@@ -259,7 +260,8 @@ bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
            !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
-                   !has_active_bionic( bio_synlungs ) );
+                   !has_active_bionic( bio_synlungs ) ) && !( has_bionic( bio_creeyncaggii ) &&
+                           !has_active_bionic( bio_creeyncaggii ) );
 }
 
 bool Character::is_warm() const

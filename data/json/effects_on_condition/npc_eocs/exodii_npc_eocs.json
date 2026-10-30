@@ -13,5 +13,40 @@
     "type": "effect_on_condition",
     "id": "EOC_EXODII_MERCHANT_Exodize_Cyberframe_done",
     "effect": { "open_dialogue": { "topic": "TALK_EXODII_MERCHANT_Exodize_Cyberframe_done" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_location_gl_set",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "not": { "math": [ "bio_creeyncaggii_location > 0" ] } },
+    "effect": { "math": [ "bio_creeyncaggii_location = rand(3)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_location_gs_set",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "not": { "math": [ "bio_creeyncaggii_location > 0" ] } },
+    "effect": { "math": [ "bio_creeyncaggii_location = rand(3)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_check_location",
+    "effect": [
+      {
+        "if": { "and": [ { "math": [ "bio_creeyncaggii_location == 1" ] }, { "current_dimension": "string_dimension" } ] },
+        "then": { "open_dialogue": { "topic": "TALK_DEAD_EXODII_MAIN_SD" } },
+        "else": {
+          "if": { "and": [ { "math": [ "bio_creeyncaggii_location == 2" ] }, { "current_dimension": "highlands" } ] },
+          "then": { "open_dialogue": { "topic": "TALK_DEAD_EXODII_MAIN_HIGHLANDS" } },
+          "else": {
+            "if": { "and": [ { "math": [ "bio_creeyncaggii_location == 3" ] }, { "current_dimension": "netherum_labyrinth2" } ] },
+            "then": { "open_dialogue": { "topic": "TALK_DEAD_EXODII_MAIN_NL" } },
+            "else": { "open_dialogue": { "topic": "TALK_DEAD_EXODII_MAIN_DUD" } }
+          }
+        }
+      }
+    ]
   }
 ]

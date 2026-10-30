@@ -138,5 +138,58 @@
         "then": [ { "math": [ "u_vitamin('blood') += 2" ] }, { "math": [ "u_calories() -= 2" ] } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_bloodreplenish",
+    "effect": [
+      { "if": { "math": [ "u_vitamin('redcells') < -1" ] }, "then": { "math": [ "u_vitamin('redcells') += 2" ] } },
+      { "if": { "math": [ "u_vitamin('blood') < -1" ] }, "then": { "math": [ "u_vitamin('blood') += 2" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_memories",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_bionics": "bio_creeyncaggii" }, { "math": [ "u_bio_creeyncaggii_bonus_activated != 1" ] } ] },
+    "effect": [
+      {
+        "if": { "one_in_chance": 3 },
+        "then": { "u_message": "bio_creeyncaggii_dream", "snippet": true, "popup": true },
+        "else": {
+          "if": { "one_in_chance": 15 },
+          "then": [
+            { "math": [ "u_bio_creeyncaggii_bonus_activated = 1" ] },
+            {
+              "u_message": "Your arms and fingers twitch with muscle memory you don't recall having.  The threat of violence lingers on your mind, and you quickly take account of all the deadly possibilities ahead.  But, you feel more prepared than ever.  How long have <color_red>you</color> been fighting the undead?",
+              "popup": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_creeyncaggii_bonus_activated",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_creeyncaggii" },
+        { "math": [ "u_bio_creeyncaggii_bonus_activated == 1" ] },
+        { "not": { "u_has_effect": "bio_creeyncaggii_bonus_cyberframe" } },
+        { "not": { "u_has_effect": "bio_creeyncaggii_bonus_human" } }
+      ]
+    },
+    "effect": [
+      { "if": { "one_in_chance": 7 }, "then": { "u_message": "bio_creeyncaggii_dream", "snippet": true, "popup": false } },
+      {
+        "if": { "u_has_trait": "EXODII_CYBERFRAME_GENERIC" },
+        "then": { "u_add_effect": "bio_creeyncaggii_bonus_cyberframe", "duration": "12 h" },
+        "else": { "u_add_effect": "bio_creeyncaggii_bonus_human", "duration": "12 h" }
+      }
+    ]
   }
 ]

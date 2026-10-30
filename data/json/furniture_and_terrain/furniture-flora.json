@@ -720,5 +720,17 @@
       "hit_field": [ "fd_dust", 2 ],
       "destroyed_field": [ "fd_splinters", 1 ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_string_dimension_dead_flower",
+    "name": "frosted flowers",
+    "description": "Glistening spindles with black, frostbitten pedals spring from cracks in the ancient rocky ground.  These flowers were flash frozen - perhaps ages ago.",
+    "symbol": "f",
+    "color": "black",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 1, "str_max": 3, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]
