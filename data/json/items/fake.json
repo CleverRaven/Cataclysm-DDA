@@ -599,7 +599,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 18779 },
+    "explosion": { "power": 18779, "max_noise": 0 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 18779, "max_noise": 0 } },
     "countdown_interval": "1 seconds",
     "flags": [ "BOMB" ],
