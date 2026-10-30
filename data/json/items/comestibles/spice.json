@@ -54,7 +54,7 @@
     "weight": "10 g",
     "charges": 50,
     "volume": "500 ml",
-    "material": [ { "type": "water", "portion": 5 }, { "type": "vinegar", "portion": 5 }, { "type": "veggy", "portion": 1 } ],
+    "material": [ { "type": "water", "portion": 10 },  { "type": "veggy", "portion": 2 } ],
     "calories": 20,
     "fun": 2,
     "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
