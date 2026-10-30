@@ -2,57 +2,43 @@
   {
     "id": "fix_bionic_wound_damaged_plate_small",
     "type": "wound_fix",
-    "name": "replace worn plating",
-    "description": "You can remove and replace damaged plating.",
-    "time": "2 hours",
+    "name": "solder worn plating",
+    "description": "You can solder, then sand down, some of the surface damage.",
+    "time": "45 minutes",
     "wounds_removed": [ "bionic_wound_damaged_plate_small" ],
     "success_msg": "You patch your metal plating.",
     "mod_hp": 15,
     "skills": { "fabrication": 3 },
-    "requirements": [
-      [ "welding_standard", 5 ],
-      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
-    ],
+    "requirements": [ [ "soldering_standard", 10 ], [ "metal_polish_any", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
-      { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
+      { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
       { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false }
     ]
+  },
+  {
+    "id": "fix_bionic_wound_damaged_plate_small_epoxy",
+    "type": "wound_fix",
+    "name": "epoxy worn plating",
+    "description": "You can epoxy, then sand down, some of the surface damage.",
+    "time": "30 minutes",
+    "wounds_removed": [ "bionic_wound_damaged_plate_small" ],
+    "success_msg": "You patch your metal plating.",
+    "mod_hp": 15,
+    "skills": { "fabrication": 3 },
+    "requirements": [ [ "metal_polish_any", 1 ], { "components": [ [ [ "glue_strong_metal", 30 ] ] ] } ],
+    "proficiencies": [ { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false } ]
   },
   {
     "id": "fix_bionic_wound_damaged_plate_medium",
     "type": "wound_fix",
-    "name": "replace damaged plating",
-    "description": "You can remove and replace damaged plating.",
+    "name": "weld damaged plating",
+    "description": "You can weld together damaged plating.",
     "time": "2 hours",
     "wounds_removed": [ "bionic_wound_damaged_plate_medium" ],
     "success_msg": "You patch your metal plating.",
     "mod_hp": 20,
-    "skills": { "fabrication": 3 },
-    "requirements": [
-      [ "welding_standard", 5 ],
-      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
-      { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
-      { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false }
-    ]
-  },
-  {
-    "id": "fix_bionic_wound_damaged_plate_bad",
-    "type": "wound_fix",
-    "name": "replace broken plating",
-    "description": "You can remove and replace damaged plating.",
-    "time": "2 hours",
-    "wounds_removed": [ "bionic_wound_damaged_plate_bad" ],
-    "success_msg": "You patch your metal plating.",
-    "mod_hp": 25,
-    "skills": { "fabrication": 3 },
-    "requirements": [
-      [ "welding_standard", 5 ],
-      { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "qt_sheet_metal_small", 1 ] ] ] }
-    ],
+    "skills": { "fabrication": 5 },
+    "requirements": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
       { "proficiency": "prof_welding", "time_save": 0.2, "is_mandatory": false },
