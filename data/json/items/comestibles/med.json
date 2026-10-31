@@ -947,7 +947,7 @@
     "healthy": -2,
     "fun": 50,
     "addiction_potential": 80,
-    "addiction_type": "crack",
+    "addiction_type": "cocaine",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_TEMP" ],
     "use_action": {
       "type": "consume_drug",
