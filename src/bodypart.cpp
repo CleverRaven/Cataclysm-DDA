@@ -1268,6 +1268,21 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
     }
 }
 
+bool bodypart::is_within_wound_limit_for_bp( wound_type_id wound_id ) const
+{
+    if( wound_id->get_limit() == 0 ) {
+        return true;
+    }
+
+    const std::vector present_wounds = get_wounds();
+    const int amount = std::count_if( present_wounds.begin(),
+    present_wounds.end(), [wound_id]( wound wd ) {
+        return wd.type == wound_id;
+    } );
+
+    return amount < wound_id->get_limit();
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;

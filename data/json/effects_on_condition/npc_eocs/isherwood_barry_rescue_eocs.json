@@ -3,7 +3,6 @@
     "type": "effect_on_condition",
     "id": "isherwood_mission_initialization_eoc",
     "effect": [
-      { "u_location_variable": { "u_val": "mission_return_position" } },
       {
         "if": { "math": [ "isherwood_family_coming == 1" ] },
         "then": [
@@ -17,20 +16,21 @@
               "u_location_variable": { "global_val": "invasion_map" },
               "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "z": 0 }
             },
-            { "u_teleport": { "global_val": "invasion_map" }, "force": true },
             { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
-            { "u_teleport": { "u_val": "mission_return_position" }, "force": true },
             { "math": [ "is_isherwood_flee_eoc_activated = 0" ] }
           ]
         }
       },
       {
-        "if": { "math": [ "isherwood_luke_truck_coming == 1" ] },
-        "then": {
-          "mapgen_update": "truck_bomb_spawn",
-          "om_terrain": "barry_mi-go_scout_tower_1",
-          "om_special": "Barry's Mi-Go Scout Tower"
-        }
+        "if": { "and": [ { "math": [ "isherwood_luke_truck_coming == 1" ] }, { "math": [ "isherwood_truck_bomb_deployed == 0" ] } ] },
+        "then": [
+          {
+            "mapgen_update": "truck_bomb_spawn",
+            "om_terrain": "barry_mi-go_scout_tower_1",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          },
+          { "math": [ "isherwood_truck_bomb_deployed = 1" ] }
+        ]
       }
     ]
   },
@@ -154,6 +154,7 @@
     },
     "deactivate_condition": { "math": [ "isherwood_barry_rescued == 1" ] },
     "effect": [
+      { "math": [ "isherwood_barry_rescued = 1" ] },
       {
         "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
         "type": "good",
@@ -183,7 +184,8 @@
             ],
             "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION" ]
           }
-        ]
+        ],
+        "else": [ { "mapgen_update": "nest_cabin_isherwood_update", "om_terrain": "cabin_isherwood" } ]
       },
       {
         "if": {
@@ -196,10 +198,6 @@
           { "assign_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
           { "finish_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM", "success": true }
         ]
-      },
-      {
-        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true } ]
       },
       {
         "if": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" },
@@ -220,6 +218,11 @@
       },
       { "math": [ "barry_travelling_home = 1" ] }
     ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "nest_cabin_isherwood_update",
+    "object": { "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] }
   },
   {
     "type": "effect_on_condition",
@@ -459,9 +462,26 @@
             "min_radius": 0,
             "max_radius": 0
           },
-          { "u_teleport": { "global_val": "isherwood_mission_success_return_map" }, "force": true }
+          { "u_teleport": { "global_val": "isherwood_mission_success_return_map" }, "force": true },
+          { "math": [ "currently_invading_map = 0" ] }
         ],
         "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
+      },
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
+        "then": [ { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" },
+        "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK", "success": false } ]
+      },
+      {
+        "if": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
+        "then": [ { "finish_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES", "success": false } ]
       }
     ]
   },

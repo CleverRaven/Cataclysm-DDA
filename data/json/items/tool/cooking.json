@@ -708,6 +708,42 @@
     "melee_damage": { "bash": 6 }
   },
   {
+    "id": "slow_cooker",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "category": "tools",
+    "name": { "str": "slow cooker" },
+    "weight": "4500 g",
+    "volume": "3500 ml",
+    "description": "A electric pot that cooks food at constant temperatures all day long.  These are used for tenderizing food in hot juices and cooking soups, stews and casseroles.",
+    "price": "65 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
+    "material": [ "steel", "ceramic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "looks_like": "multi_cooker",
+    "//": "The ceramic pot can be taken out and used for other methods of cooking, and the heating element found underneath could serve as a improvised hotplate",
+    "pocket_data": [
+      {
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "100 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 2 ] ],
+    "//1": "160-175W",
+    "use_action": [ "HEAT_ALL_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "160 W" } ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE", "ALARMCLOCK" ],
+    "faults": [ { "fault_group": "electronic_general" } ],
+    "charges_per_use": 20,
+    "tool_ammo": [ "battery" ],
+    "melee_damage": { "bash": 6 },
+    "//2": "Based on https://commercial.appliancesonline.com.au/p/crockpot-traditional-3-5l-slow-cooker-chp200"
+  },
+  {
     "id": "rock_quern",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],

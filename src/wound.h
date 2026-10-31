@@ -21,6 +21,8 @@ class Character;
 class JsonObject;
 class JsonOut;
 enum class bp_type;
+struct damage_instance;
+struct bp_wounds;
 
 // worsening wound when the same wound is hit again
 struct wound_progress {
@@ -91,6 +93,9 @@ class wound_type
 
         // conditions that can be checked on loading of wounds
         bool allowed_on_bodypart( bodypart_str_id bp_id ) const;
+        bool assign_bleeding_wound() const;
+        bool is_bleeding_wound() const;
+
         std::string get_name() const;
         std::string get_description() const;
         int evaluate_pain() const;
@@ -105,6 +110,9 @@ class wound_type
         std::vector<wound_mod_values> get_modify_values() const;
 
         std::optional<wound_periodic_message> get_periodic_message() const;
+
+        bool can_be_applied( const Character *who, const bp_wounds &pt_wd,
+                             const bodypart_id &bp, const damage_instance &d ) const;
 
         // what damage types can apply this wound
         std::vector<damage_type_id> damage_types;
@@ -137,6 +145,9 @@ class wound_type
         // how many of this specific wound character can receive
         // 0 means any amount
         unsigned int limit = 0;
+
+        // is assigned at finalization
+        bool _is_bleeding_wound = false;
 
         std::optional<wound_periodic_message> periodic_message;
 

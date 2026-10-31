@@ -936,6 +936,24 @@
               ]
             }
           }
+        ],
+        "incoming_damage_mod_post_absorbed": [
+          {
+            "type": "bash",
+            "add": { "math": [ "-3 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 2) + ( u_has_trait('BLOOD_DRINKER') * 4 )" ] }
+          },
+          {
+            "type": "cut",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 3 )" ] }
+          },
+          {
+            "type": "stab",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 2 )" ] }
+          },
+          {
+            "type": "bullet",
+            "add": { "math": [ "-1 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 1 )" ] }
+          }
         ]
       }
     ]
@@ -3339,7 +3357,16 @@
     "id": "effect_lilin_bonus_healing_active",
     "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } },
+          { "value": "REGEN_WOUND", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -4448,7 +4475,7 @@
   {
     "type": "effect_type",
     "id": "effect_xe_werewolf_walk_through_walls",
-    "//": "Hidden effect, used to make sure werewolves don't drink their items when Ghostwalking.",
+    "//": "Hidden effect, used to make sure werewolves don't drop their items when Ghostwalking.",
     "name": [ "" ],
     "desc": [ "" ],
     "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 }, { "value": "PHASE_DISTANCE", "add": 1 } ] } ],
@@ -4459,6 +4486,23 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_super_fast_regeneration",
+    "//": "Hidden effect, ",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_WOUND",
+            "multiply": { "math": [ "50000 + (werewolf_tier_four_traits() * 5000 ) + (werewolf_tier_five_traits() * 10000 )" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

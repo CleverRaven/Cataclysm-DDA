@@ -27,6 +27,8 @@
 
 class Creature;
 
+static const bodypart_str_id body_part_test_torso( "test_torso" );
+
 static const damage_type_id damage_cut( "cut" );
 
 static const efftype_id effect_bleed( "bleed" );
@@ -41,6 +43,8 @@ static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 static const itype_id itype_test_vitfood( "test_vitfood" );
 
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
+
+static const trait_id trait_TEST_MUTATION_TORSO( "TEST_MUTATION_TORSO" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
 static const vitamin_id vitamin_test_vitx( "test_vitx" );
@@ -644,6 +648,8 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         return guy;
     };
 
+
+
     static const tripoint_bub_ms target_location{ 5, 0, 0 };
     clear_npcs();
     clear_vehicles();
@@ -672,9 +678,11 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
             npc &test_npc = *spawn_npc( player.pos_bub().xy() + point::south_west, "thug" );
             test_npc.clear_worn(); // Ensure the victim doesn't generate with too much protection.
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
+            test_npc.set_mutation( trait_TEST_MUTATION_TORSO ); // Give them the test_torso that actually bleeds
+            REQUIRE( test_npc.has_trait( trait_TEST_MUTATION_TORSO ) );
             THEN( "bleed effect gets attributed to player" ) {
-                test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );
-                const effect &bleed = test_npc.get_effect( effect_bleed, body_part_torso );
+                test_npc.deal_damage( player.as_character(), body_part_test_torso, cut_damage );
+                const effect &bleed = test_npc.get_effect( effect_bleed, body_part_test_torso );
                 CHECK( test_npc.get_hp() < test_npc.get_hp_max() );
                 CHECK( !bleed.is_null() );
                 const Creature *bleed_source = bleed.get_source().resolve_creature();
@@ -686,13 +694,15 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         npc &npc_src = *spawn_npc( player.pos_bub().xy() + point::south, "bandit" );
         npc &npc_dst = *spawn_npc( player.pos_bub().xy() + point::south_east, "thug" );
         npc_dst.clear_worn(); // Ensure the victim doesn't generate with too much protection.
+        npc_dst.set_mutation( trait_TEST_MUTATION_TORSO ); // Give them the test_torso that actually bleeds
+        REQUIRE( npc_dst.has_trait( trait_TEST_MUTATION_TORSO ) );
         WHEN( "when npc_src cuts npc_dst" ) {
             REQUIRE( npc_dst.get_hp() == npc_dst.get_hp_max() );
             THEN( "bleed effect gets attributed to npc_src" ) {
-                const dealt_damage_instance dealt = npc_dst.deal_damage( npc_src.as_character(), body_part_torso,
-                                                    cut_damage );
+                const dealt_damage_instance dealt = npc_dst.deal_damage( npc_src.as_character(),
+                                                    body_part_test_torso, cut_damage );
                 REQUIRE( dealt.total_damage() > 0 );
-                const effect &bleed = npc_dst.get_effect( effect_bleed, body_part_torso );
+                const effect &bleed = npc_dst.get_effect( effect_bleed, body_part_test_torso );
                 CHECK( npc_dst.get_hp() < npc_dst.get_hp_max() );
                 CHECK( !bleed.is_null() );
                 const Creature *bleed_source = bleed.get_source().resolve_creature();
