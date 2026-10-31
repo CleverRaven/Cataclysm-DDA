@@ -167,7 +167,8 @@ class multi_zone_activity_actor : public activity_actor
         /** Check whether activity can be done immediately if it has requirements */
         requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-                const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+                const std::unordered_set<tripoint_abs_ms> &src_set, bool &missing_items_reported,
+                bool check_only = false );
         // assigns fetch activity to find provided requirements
         requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
                 activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
@@ -2314,7 +2315,7 @@ class stash_activity_actor: public activity_actor
 class harvest_activity_actor : public activity_actor
 {
     public:
-        explicit harvest_activity_actor( const tripoint_bub_ms &target,
+        explicit harvest_activity_actor( const tripoint_abs_ms &target,
                                          bool auto_forage = false ) :
             target( target ), auto_forage( auto_forage ) {};
 
@@ -2335,7 +2336,7 @@ class harvest_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint_bub_ms target;
+        tripoint_abs_ms target;
         bool exam_furn = false;
         bool nectar = false;
         bool auto_forage = false;

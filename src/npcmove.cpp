@@ -2660,20 +2660,7 @@ npc_action npc::address_needs()
 
 int npc::evaluate_sleep_spot( tripoint_bub_ms p )
 {
-    // Base evaluation is based on ability to actually fall sleep there
-    int sleep_eval = get_comfort_at( p ).comfort;
-    // Only evaluate further if the possible bed isn't already considered very comfortable.
-    // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
-    if( sleep_eval < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
-        const units::temperature_delta ideal_bed_value = 2_C_delta;
-        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p );
-        if( sleep_spot_value < ideal_bed_value ) {
-            double bed_similarity = sleep_spot_value / ideal_bed_value;
-            // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
-            sleep_eval *= pow( bed_similarity, 2 );
-        }
-    }
-    return sleep_eval;
+    return get_comfort_at( p ).comfort;
 }
 
 // TODO(multimag): NPC reload desirability still consults legacy scalar
@@ -3675,6 +3662,18 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
           );
 }
 
+// matches close_tile_activity_actor::start; a close that ends at once drops the running task
+static bool can_close_behind( map &here, Character &who, const tripoint_bub_ms &closep )
+{
+    if( const optional_vpart_position vp = here.veh_at( closep ) ) {
+        vehicle &veh = vp->vehicle();
+        const int part = veh.next_part_to_close( vp->part_index(),
+                         veh_pointer_or_null( here.veh_at( who.pos_bub() ) ) != &veh );
+        return part >= 0 && veh.can_close( part, who );
+    }
+    return here.close_door( closep, !here.is_outside( who.pos_bub() ), true );
+}
+
 void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint_bub_ms> *nomove )
 {
     if( has_flag( json_flag_CANNOT_MOVE ) ) {
@@ -3916,7 +3915,8 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
         }
 
         // Close doors behind self (if you can)
-        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
+        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() &&
+            can_close_behind( here, *this, old_pos ) ) {
             assign_activity( close_tile_activity_actor( old_pos ) );
         }
         // Lock doors as well
@@ -7769,12 +7769,18 @@ npc::need_result npc::execute_need_goal( const std::string_view goal )
     return need_result::idle;
 }
 
-int npc::score_sleep_spot( const tripoint_bub_ms &p )
+bool npc::sleep_spot_rank::operator>( const sleep_spot_rank &other ) const
+{
+    return std::tie( comfort, other.sun_penalty, warmth ) >
+           std::tie( other.comfort, sun_penalty, other.warmth );
+}
+
+npc::sleep_spot_rank npc::score_sleep_spot( const tripoint_bub_ms &p )
 {
     const float light = get_map().ambient_light_at( p );
     const int sun_penalty = light <= LIGHT_AMBIENT_LIT ? 0 :
                             std::min( 5, 1 + static_cast<int>( ( light - LIGHT_AMBIENT_LIT ) / 20.0f ) );
-    return evaluate_sleep_spot( p ) - sun_penalty;
+    return { evaluate_sleep_spot( p ), sun_penalty, floor_warmth( p ) };
 }
 
 std::vector<npc::need_candidate> npc::find_sleep_candidates()
@@ -7794,10 +7800,10 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
     };
 
     // own tile first: g->is_empty() skips tiles with creatures, so the scan below never sees it
-    int best_sleepy = INT_MIN;
+    std::optional<sleep_spot_rank> best;
     if( eligible_here( pos_bub() ) ) {
-        best_sleepy = score_sleep_spot( pos_bub() );
-        candidates.push_back( { need_source::sleep_spot, pos_abs(), static_cast<float>( best_sleepy ) } );
+        best = score_sleep_spot( pos_bub() );
+        candidates.push_back( { need_source::sleep_spot, pos_abs(), static_cast<float>( best->comfort ) } );
     }
 
     const Character &player_character = get_player_character();
@@ -7824,28 +7830,29 @@ std::vector<npc::need_candidate> npc::find_sleep_candidates()
     }
 
     for( const tripoint_bub_ms &p : search_positions ) {
-        if( best_sleepy >= comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
+        // very comfortable spot in the shade ends the scan
+        if( best && best->comfort >= comfort_data::COMFORT_VERY_COMFORTABLE - 1 &&
+            best->sun_penalty == 0 ) {
             break;
         }
         if( p == pos_bub() || !could_move_onto( p ) || !g->is_empty( p ) ) {
             continue;
         }
-        // comfort first, it needs no route
-        const int sleepy = score_sleep_spot( p );
-        if( sleepy > best_sleepy && eligible_here( p ) ) {
-            best_sleepy = sleepy;
+        // rank first, it needs no route
+        const sleep_spot_rank rank = score_sleep_spot( p );
+        if( ( !best || rank > *best ) && eligible_here( p ) ) {
+            best = rank;
             candidates.push_back( {
                 need_source::sleep_spot,
                 here.get_abs( p ),
-                static_cast<float>( sleepy )
+                static_cast<float>( rank.comfort )
             } );
         }
     }
 
-    std::sort( candidates.begin(), candidates.end(),
-    []( const need_candidate & a, const need_candidate & b ) {
-        return a.score > b.score;
-    } );
+    // each kept spot outranks earlier ones; the free scan around the NPC goes
+    // nearest first, so there the nearest of equally ranked spots is kept
+    std::reverse( candidates.begin(), candidates.end() );
 
     return candidates;
 }
