@@ -127,5 +127,112 @@
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "stab_small",
+    "copy-from": "bleeding_stab_small",
+    "type": "wound",
+    "name": { "str": "stab" },
+    "description": "You have been lightly stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 100 } ]
+  },
+  {
+    "id": "stab_medium",
+    "copy-from": "bleeding_stab_medium",
+    "type": "wound",
+    "name": { "str": "stab" },
+    "description": "You have been stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 100 } ]
+  },
+  {
+    "id": "stab_bad",
+    "copy-from": "bleeding_stab_bad",
+    "type": "wound",
+    "name": { "str": "deep stab" },
+    "description": "You have been deeply stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_bad", "chance": 100 } ]
+  },
+  {
+    "id": "stab_terrible",
+    "copy-from": "bleeding_stab_terrible",
+    "type": "wound",
+    "name": { "str": "horrible stab" },
+    "description": "You have been horribly stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 100 } ]
+  },
+  {
+    "id": "clean_stab_small",
+    "copy-from": "stab_small",
+    "type": "wound",
+    "name": { "str": "clean light stab" },
+    "description": "You have been lightly stab, you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_stab_medium",
+    "copy-from": "stab_medium",
+    "type": "wound",
+    "name": { "str": "clean stab" },
+    "description": "You have been stab, you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_stab_bad",
+    "copy-from": "stab_bad",
+    "type": "wound",
+    "name": { "str": "clean deep stab" },
+    "description": "You have been badly stab, you should probably bandage it.",
+    "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "clean_stab_terrible",
+    "copy-from": "stab_terrible",
+    "type": "wound",
+    "name": { "str": "clean horrible stab" },
+    "description": "You have been horribly stabbed, you should really bandage it."
+  },
+  {
+    "id": "bandaged_stab_small",
+    "copy-from": "stab_small",
+    "type": "wound",
+    "name": { "str": "bandaged light stab" },
+    "description": "You have been lightly stabbed, you should wait till it heals.",
+    "healing_time": [ "1 days", "2 days" ]
+  },
+  {
+    "id": "bandaged_stab_medium",
+    "copy-from": "stab_medium",
+    "type": "wound",
+    "name": { "str": "bandaged stab" },
+    "description": "You have been stabbed, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_stab_bad",
+    "copy-from": "stab_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep stab" },
+    "description": "You have been badly stabbed, you should wait till it heals.",
+    "healing_time": [ "4 days", "6 days" ]
+  },
+  {
+    "id": "bandaged_stab_terrible",
+    "copy-from": "stab_terrible",
+    "type": "wound",
+    "name": { "str": "bandaged horrible stab" },
+    "description": "You have been horribly stabbed, you should wait till it heals.",
+    "healing_time": [ "6 days", "8 days" ]
   }
 ]
