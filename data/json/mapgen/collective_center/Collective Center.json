@@ -1,0 +1,357 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_1", "collective_center_2", "collective_center_3", "collective_center_4", "collective_center_5" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
+	  "fill_ter": "t_floor",
+      "rows": [
+        "....................................`..............`...............`....................................................",
+        "...............``.........`.......``....................................`...............``......................`.......",
+        ".....ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.....",
+        "....ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss....",
+        "....ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss....",
+        "....ssss.................................................................`......................................ssss....",
+        "....sss....................`............`...........................................``...........`...............sss.`..",
+        "....sss....``................`..........`.....`......................`..............................`............sss....",
+        "....sss..............................`.........`.................................................................sss`...",
+        "....sss...`####################################...............................#############################..`...sss....",
+        "....sss....####################################.....`.........................#############################...`..sss....",
+        "....sss....##~#~#~#;#~#;#D   SSS   SSS;;  bbb##...............`...........`...##$L@@ @@L$ 2 $L@@ @@L$ 2 D##......sss....",
+        "``..sss....## # # # # # # 2   2   2   ;;;   b##...............`...............##$       $   $       $    ##......sss....",
+        "....sss....##2          2 ;;L  LM L  L ;L 2 b##......`.................`......##$L@@ @@L$   $L@@ @@L$  M 1!......sss....",
+        "....sss....##;#m# # # # #;;;L  L  L  L  L   b##........`.`..........`.........##$       *   *       $    1!......sss....",
+        "....sss....#3;3;#~#~#~#~#LLLLLLLLLLLLLLLLD   ##...............................##$L@@ @@L$ 2 $L@@ @@L$ 2  1!......sss....",
+        "....sss....################################# ###################################$$$$$$$$$   $$$$$$$$$    1!......sss.`..",
+        "....sss....##   bbbbbb ;;; D    bbbbbb   D   ###################################$  L$L  $   $  ;$L  $    ##..`...sss....",
+        "....sss...`!18          ;;                   #2; ;;#S~#t#t#;3;#t#t#t#t#P ;;;#D  *  @$@  $   * ;;;;; *    ##.``...sss....",
+        "....sss....!18 2      2   ;     2         2  # C;; #  # # #;# # # # # #PC;C;#   $  @$@  $ m $ ;;$; ;$    ##......sss....",
+        "`...sss....##8  77777  88;88  99999  77777   +CCCC;##+#+#+#+#+#+#+#+#+# CC;;#   $$$$$$$$$ 2 $$$$$$$$$ 2  ##......sss....",
+        "....sss....##8                     M         +CCCCC+     2   ;; 2     +CCCC # 2 $  L$L  $   $  L$L  $    ##......sss....",
+        "....sss....!18  77777  88888  99999  77777   # CCCP#DcccSSSc;;;SSScccD# CCCP#   *  @$@  $   *  @$@  *    ##......sss.`..",
+        "....sss....!18;;      2         2;;       2  # CCCP#################### CCCP#   $  @$@  $   $  @$@  $   D##......sss...."
+		],
+	    "palettes": [ "collective_center" ],
+        "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 0, 23 ], "y": [ 12, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 24, 47 ], "y": [ 1, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 72, 95 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 96, 119 ], "y": [ 23, 23 ] }
+      ],
+        "items": {
+        "@": { "item": "bed", "chance": 80 },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] }
+      }
+	}
+  },
+    {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_6", "collective_center_7", "collective_center_8", "collective_center_9", "collective_center_10" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+		],
+		"fill_ter": "t_floor",
+		"rows": [
+        "....sss....##;;;             ;;;;;           #2CCC2#################### CCC #   $$$$$$$$$ 2 $$$$$$$$$ 2  1!.....`sss....",
+        "....sss....##;;;bbbbbb   D    ;;;;bbbb       # CCC #Dc;;;SSccccSSScccD#2C;CC+     2               2      1!......sss....",
+        "..`.sss....################################### CCCC+  ;; 2      2     +CC;CC+                  m         1!......sss....",
+        "....sss.`..##ccccccccOOOcccdccdccSSccDccFFFFF#PCCC ##+#+#+#+#+#+#+#+#+# ;;CP# 2 $$$$$$$$$ 2 $$$$$$$$$ 2  1!..`...sss....",
+        "....sss....##c    ;; ;                       #PCCCP#; # # # # # # # # #;;CCP#   $  L$L  $   $ ;;;L; $    ##.`....sss..`.",
+        "....sss....##c   ;;OOOc  cSScccccSSc  cOOOOc # CCCP#;;#t#t#t#t#t#t#t#t#PCCC #   *  @$@  *   *; @;;;;*    ##......sss....",
+        "....sss....##c   ;;;;cc2 ccccccccccc 2cccccc # CCC ####################PCCC #   $  @$@  $   $ ;;$@; $    ##......sss....",
+        "....sss....##c    ;                          #2CCC 2    PP   2  PP     2CCC # 2 $$$$$$$$$ 2 $$$$$$$$$ 2  ##......sss....",
+        "....sss....###++#####ccc#ccc#ccc#ccc#ccc###++# ;CCCCCCCCCC;;CCCCCCCCCCCCCCCP#   $ ;L;;  $;  $  L$L  $    ##......sss....",
+        "....sss....##v  v#D                 M    D   #;;;CCCCCCCCC;C;;CCCCCCCCCCCCCP#   * ;;;;  ; ; *  @$@  *    ##......sss`...",
+        "....sss....##v  v#   2        2         2    #P;CCCCCCCCCCCCCCCCCCCCCCCCCCC #D  $  ;$@ ;$   $  @$@  $  D###..``..sss....",
+        "....sss....##v  v#  bTTb  bTTb  bTTb  bTTb   #PCCC2  PP    PP 2  PP    PP  2#############111##############`......sss.`..",
+        "....sss....##F  F#  bTTb  b;;b  bTTb  bTTb  h# CCC ######################################!!!############.........sss....",
+        "....sss....##v  v#  bTTb  ;;;b; bTTb  bTTb  T# CCCP#ooooooooooooooooooooooooooooo##.`..............`............sssss...",
+        "....sss....##v  v#  bTTb  ;;T;; bTTb  bTTb  T#2CCCP#o  2       2  m    2     ;; o##......sssyyyyysssssssyyyyysssssssss..",
+        "....sss....##v  v#  bTTb  bT;;  bTTb  bTTb  h# CCC #D   ;;h h h h h h h h h ;   21!...`.ssssssssssssssssssssssssssssss..",
+        "....sss....##2  2#D  2  m     2         2  ; # CCCC+    ;;;T;T6T6T6T6T T6T6;;   D1!..`..ssssssssssssssssssssssssssssss..",
+        "....sss....##v  v#  bTTb  bTTb  bTTb  bTT;; h# CCCC+   ;;T;;6T6T6T6T6T6T6T6T;;  21!.`...ssss.........%....%.......ssss..",
+        ".`..sss....##v  v#  bTTb  bTTb  bTTb  ;;;;  T#PCCC2#D   h;; h h h h h h h h;h; o###.....sss....%...%.``.%.`.`.%....sss..",
+        "....sss....##v  v#  bTTb  bTTb  bTTb ;;;;b  T#PCCCP#o  2       2       2   ;  o###......sss......%.``````````.`.%..sss`.",
+        ".`..sss....##F  F#  bTTb  bTTb  bTTb  bT;;  h# CCCP#o; oooooooooooooooooo    o###.......sss..%.``````````````````.%sss..",
+        "....sss....##2  2#  bTTb  bTTb  bTTb  bTT;;  #2CC;;#;;;2    ;; 2       2 Mooo###...`....sss.%.``````````````````.%.sss..",
+        "....sss....##FFFF#   2        2         2;   +CC;; #;; oooo;;;;ooooooooo  o###......`...sss..```````````````````.`.sss..",
+        "....sss....###########D  ;h;   h    h        +CCCC2#;; 2   ;;; 2   ;;  2   1!...........sss..%````````````````.`%.`sss.."
+		],
+ 	    "palettes": [ "collective_center" ],
+        "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 0, 23 ], "y": [ 12, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 24, 47 ], "y": [ 1, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 72, 95 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 96, 119 ], "y": [ 23, 23 ] }
+      ],
+        "items": {
+        "@": { "item": "bed", "chance": 80 },
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "F": { "item": "SUS_fridge_survivor", "chance": 60 },
+        "L": { "item": "allclothes", "chance": 90, "repeat": [ 1, 5 ] },
+        "c": [ { "item": "kitchen_appliances", "chance": 5 }, { "item": "dishes_utility", "chance": 25 } ],
+        "d": [
+          { "item": "dishes_utility", "chance": 80, "repeat": [ 1, 3 ] },
+          { "item": "dishes_dining", "chance": 80, "repeat": [ 5, 25 ] }
+        ],
+        "u": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
+        "v": [
+          { "item": "cannedfood", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "pasta_ingredients", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] }
+        ],
+        "o": [
+	  	  { "item": "maps", "chance": 10 },
+          { "item": "SUS_business_bookcase", "chance": 20 },
+          { "item": "SUS_engineering_bookcase", "chance": 5 },
+          { "item": "SUS_crafts_bookcase", "chance": 15 },
+          { "item": "SUS_cooking_bookcase", "chance": 15 },
+          { "item": "SUS_tailoring_bookcase", "chance": 15 },
+          { "item": "SUS_computers_bookcase", "chance": 10 },
+          { "item": "SUS_electronics_bookcase", "chance": 5 },
+          { "item": "SUS_historical_manufacturing_bookcase", "chance": 5 },
+          { "item": "SUS_chemistry_bookcase", "chance": 5 },
+          { "item": "SUS_medicine_bookcase", "chance": 10 },
+          { "item": "SUS_bushcraft_bookcase", "chance": 10 },
+          { "item": "SUS_fiction_bookcase", "chance": 25 }
+        ]
+      },
+     "place_computers": [
+    {
+    "name": "Marloss Evangelist Computer",
+    "eocs": [ "EOC_COLLECTIVE_CENTER_COMPUTER" ],
+    "chat_topics": [ "COMP_COLLECITVE_CENTER_MAIN" ],
+    "x": 70,
+    "y": 16
+    }
+]
+	 }
+	},
+    {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_11", "collective_center_12", "collective_center_13", "collective_center_14", "collective_center_15" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+		],
+		"fill_ter": "t_floor",
+		"rows": [
+        "....sss..`.##t +     +  ;;T ; hTh  hTh      h# CCC #o  ooooooooooo;;;;oo  D1!.`.........sss..``````````r``````.`..%sss..",
+        "....sss....#####    D#   ;;    h    h       T#2CCCP#o  2       2   ;;;;2   1!...........sss.%.`````````rr`````.``..sss.`",
+        "....sss....##t + 2  S#  2               2   T#PCCCP#ooooooooooooooooooooooo##...........sss...``.`````rrr```````.%.sss..",
+        "....sss....#####   SS#  hTTh  hTTh  hTTh D  h#PCCC ############################......`..sss..%```````rrrr``````.``.sss..",
+        "....sss....##t +  ############################ CCC ############3333########33###....``..sss..%..`````rrrrr``````%..sss..",
+        "....sss....#####  # S#        ;;             #;CCC2#        m  ;;;;;   b#b;;;;##........sss.%.```````rrrrr``````.%.sss..",
+        "....sss....##t +  + ~#       ;;;;;  ;        #;;CC #      2     ;;   2 b#bC;; 1!........yss..%.```````rrr```````.`.ssy..",
+        "....sss....###########;;2  m    2 ;;     2   #;CCCP#  bbbb;;bbbb  bbbb b#bCCCD1!........yss.%..```````rrr`````.``%.ssy..",
+        "....sss....########### ;;     ;  ^ ^ ^ ^ ^   # CCCP#  TTT;;;;;TT  TTTT  # CCC ##........yss..%`.```````rr``````.`.%ssy..",
+        ".``.sss......sssj##i * ;;; hT;;  ; ^ ^ ^ ^   #2CCC #  TTT;;;;TTT  TTTT b#bCCC2##..``....sss...```.`````````````.``.sss`.",
+        ".``.sss.....ssssj##b $   ;;hT;;; ^;^ ^ ^;;;  #PCCC2#  bbbb;;bbbb  bbbb b#bCCC  #........sss..%`..``.````````````%..sss..",
+        "....sss....sssssj##b $   ;;;;;;;;;;^ ^;;;^;  #PCCC #D     ;            b#bCCCCC+ss.....sssss..%.````````````````%..sss..",
+        "....sss....ssssss##b $  ;;hT;;; 2^;^ ^ ^ ^;; # CCC #  ;;  2          2  #;CCCCC+sss...sssssss..%``.`````````````..ssss..",
+        "....ssssssssssssj##i2$ ;;;;;;;;CC;;CCCCCCCCCC+CCCCC+C;;CCCCCCCCCCCCCC ;;3;C;;  #sssssssssssssss%``s`rrssrrsss``%`sssss..",
+        "....ssssssssssssj##b $ 2;;;;X;;;;;;C;CCCCCCCC+CCCCC+CCCCCCCCCCCCCCC;;;;;3;C;;;;#ssssssssssssss%s`s`rrrrrrs```s`%ssssss..",
+        "....ssssssssssssj##b $ ;; ;;;;;;;CC;CCCCCCCCC+CCCCC+CCCCCCCCCCCCCCCC;;;;3bCC;;;#sssssssssssssss`%```sr`r`rrr``s`ssssss..",
+        "....sss...`ssssss##b $  ; ;;;; ;2;;; ^ ^ ^   #2CCCP#      2       CCC2  # CCCCC+sss.R.sssssss..%``.`.``.r..`..`..%ssssR.",
+        "....sss....sssssj##  $  ;;;T;; ; ; ^ ^ ^ ^   # CC;;#D             CCC  b#bCCCCC+ss.RRR.sssss...%``.%```%...%```.%..sss..",
+        "`...sss.....ssssj##  $;;;  ;;T;; ^;; ^ ^ ^   #PCC;;#  bbbb ;;;bb  CCC  b#bCCC  #...RRR..sss....%``.``%.``%`.```.`%.sss..",
+        "....sss......sssj##44$ ;;; ;TT  ;; ^;^ ^ ^   #PCC; #  TTTT  ;;TT  CCC  b#bCCC2##........sss...%``.`..`%`..`%.%.`%..sss..",
+        "....sss....###########    ;  ;   ^;;;^ ^ ^   # CCC #  TTTT  TTTT  CCC   # CCC ##.....`..yss..%``````.````````````%.ssy..",
+        "....sss....###########  2    ;; 2     M  2   #2CCCP#  bbbb2 bbbb  CCC2 b#bCCC ##.....`..yss.%`````..```.```.```%`..ssy..",
+        "....sss....##t + 2+ ~#     ; ;;     ;      ;;# CCCP#;;          ; CCC  b#bCCC ##....R...yss..%`%``````.`-r.`.```%%.ssy..",
+        "....sss....#####  # S#     ;;;           ;;;;#PCCC #;;;;   M   ;; CCC  ;#bCCC2##........sss...`%`.``r`----...```%`.sss.."
+		],
+ 	    "palettes": [ "collective_center" ],
+        "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 0, 23 ], "y": [ 12, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 24, 47 ], "y": [ 1, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 72, 95 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 96, 119 ], "y": [ 23, 23 ] }
+      ],
+        "items": {
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "o": [
+	  	  { "item": "maps", "chance": 10 },
+          { "item": "SUS_business_bookcase", "chance": 20 },
+          { "item": "SUS_engineering_bookcase", "chance": 5 },
+          { "item": "SUS_crafts_bookcase", "chance": 15 },
+          { "item": "SUS_cooking_bookcase", "chance": 15 },
+          { "item": "SUS_tailoring_bookcase", "chance": 15 },
+          { "item": "SUS_computers_bookcase", "chance": 10 },
+          { "item": "SUS_electronics_bookcase", "chance": 5 },
+          { "item": "SUS_historical_manufacturing_bookcase", "chance": 5 },
+          { "item": "SUS_chemistry_bookcase", "chance": 5 },
+          { "item": "SUS_medicine_bookcase", "chance": 10 },
+          { "item": "SUS_bushcraft_bookcase", "chance": 10 },
+          { "item": "SUS_fiction_bookcase", "chance": 25 },
+          { "item": "SUS_martial_bookcase", "chance": 5 },
+          { "item": "SUS_office_desk", "chance": 5 },
+          { "item": "SUS_janitors_closet", "chance": 5 },
+          { "item": "SUS_office_filing_cabinet", "chance": 15 }
+        ]
+       },
+	   "place_npcs": [
+	   { "class": "marloss_evan_1", "x": 59, "y": 18 }
+	   ]
+	  }
+	},
+    {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_16", "collective_center_17", "collective_center_18", "collective_center_19", "collective_center_20" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+		],
+		"fill_ter": "t_floor",
+		"rows": [
+        "...`sss....##t +  ############++##############;;CC #          ;;; CCC ;;# CCC ##..`.....sss...%````r``-&&-.r.````%.sss..",
+        "....sss....#####   SS#PP 2  PP    PP  2  PP  ;;;CC2###############+++#### CCCD##.```....sss..%`%````--&&&--`````%..sss`.",
+        "...`sss....##t +    S#CCCCC;;CCCCCCCCCCCCCCCCC;;;C2#wwwuwwwwuw;;# CCCbb   CCC ##........sss..`````r--&&&&--.r`%`.%.sss..",
+        "....sss....#####    D#CCCC;;C;;CCCCCCCCCCCCCCCCCCC +     2 ;; ; # CCCCCCCCCC;;1!........sss.%.````r`--&&&--`.````..sssRR",
+        "....sss....##t + 2   +CCCCCC;CCCCCCCCCCCCCCCCCCCCCP#         ;  # CCCCCCCCC;C;1!.....R..sss..%`````-&&&&&--`r``%%..sssRR",
+        "....sss....###########  2  PP CCC     PP    PP    P#wwwuwwwwuwww#    m   2 ;;;3###..RRR.sss...``.r``-&&&&&--````.%.sss..",
+        "....sss....################## CCCP##########################################333####.....sss.%%.`...`--&&&&--r```%..sss..",
+        "....sss....##i     ;;      D#2CCCP#HHH  ii#H;H  ii#H;; ;;i#HHH  ii#HHH  ii#HHH######....sss....``.r`-&&&&--``r`%`..sss..",
+        "....sss....##i 2  ;;;;    2 + CCC #HTT    #;;;;   #H;;;;m #HTT    #HTT    #     #####...sss.%.````r--&&&&--.```%``.sss.R",
+        "....sss....##        ;;     + CCC #HT 2  k#;; ;; k#;; ; ;;#HT 2  k#HT 2  k#        ##...sss..%```r`--&&&&--r.``%%..sss..",
+        "....sss....##i    hTTTTh    # CCC #   D hk#   D hk#; ;D hk#   D hk#   D hk#     2  ##...sss.%``````-&&&&--r`````...sss..",
+        "....sss....!1i    hTTTTh    # CCC ###+#######+#######+#######+#######+#####  CCCCCC##.`.sss..`````r------r````%``%.sss..",
+        "....sss....!1     hTTTTh    #2CCC2       2   ;; ;;;;; ;  2       2      2    C;CCCC1!.r.sss..%``````rr```````````..sssR.",
+        "....sss.`..!1i 2  hTTTTh  2 # CCCCCCCCCC;CCCCC;C;C;;CCCCCCCCCCCCCCCCCCCCCCCCCCC;CCC1!...sss.%`````````````````%``%.sss..",
+        "....sss....##i    hTTTTh    # CCCCCCC;;;;CCCCCCC;CCCCCCCCCCCCC;CCCCCCCCCCCCCCCC;;;C1!...sss.%.````````````.`.```%..sss..",
+        "....sss....##     hTTTTh    # CCCCCCCC;CCCCCCCCCCCCCCCCCCCCCC;C;CCCCCCCCCCCCCCC;;;C1!...sss.%..``````````..`````%..sss..",
+        "....sss....##i    hTTTTh    #2CCC2  ;    2       2       2  ;; ; 2      2    C;;;CC1!...sss..%``````````````.`%%...sss..",
+        "....sss....##i 2  hTTT;;  2 # C;C ###+#######+#######+#######+#3#####+#####  CCCCCC##...sss.%.%`%%`.`%.`%``.%%.....sssR.",
+        "....sss....###    hTT;;;;   # ;;C # ;;D hk#   D hk#   D hk# ;;D hk#   D hk#     2  ##``.sss..%.%...%..%...%.......ssssRR",
+        "....sss....####       ;;    #;;;C;#;;m;; k#HT 2  k#HT 2  k#H;;;;;k#HT 2  k#       ###...sssssssssssssssssssssssssssss.R.",
+        "....ssss....####      ;     #;;C;;#; ;;;; #HTT    #HTT    #H ; ;;;#HTT    #    #####....sssssssssssssssssssssssssssss...",
+        "....`ssss....####         2D#;;;;;#HH;  ii#HHH  ii#HHH  ii#H;;  ii#HHH  ii#HHH#####....sssssssyyyyysssssssssyyyyysss..`.",
+        ".....ssss....#######111######3+#+3####11######11######11####3311######11#########.....sssss.............................",
+        "......sssss...######!!!######33333####!!######!!######!!######!!######!!#######.....ssssss...`.........R......`........."
+		],
+ 	    "palettes": [ "collective_center" ],
+        "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 0, 23 ], "y": [ 12, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 24, 47 ], "y": [ 1, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 48, 71 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 72, 95 ], "y": [ 23, 23 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "marloss", "x": [ 96, 119 ], "y": [ 23, 23 ] }
+      ],
+        "items": {
+        "D": { "item": "SUS_trash_trashcan", "chance": 60 },
+        "i": { "item": "SUS_office_desk", "chance": 90 },
+        "k": { "item": "cubical_office", "chance": 20, "repeat": [ 1, 2 ] },
+        "u": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] }
+       }
+	  }
+	},
+    {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_21", "collective_center_22", "collective_center_23", "collective_center_24", "collective_center_25" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+		],
+		"fill_ter": "t_floor",
+		"rows": [
+        "......sssssssssssssssssssss``s33```ssssssssssssssssssssssssssssssssssssssssssssssssssssss..R`......`....................",
+        ".......ssssssssssssssssssssssssss`s`ssssssssssssssssssssssssssssssssssssssssssssssssssss............`.............RR....",
+        ".......sssssssssssssssssssssss`ssssssssssssssssssssssssssssssssssssssssssssssssssssssss...`.......................RR....",
+        ".....RRssss........................................................................ssss.................................",
+        "......Rssss...............................................R....RR............`.....ssss.................................",
+        "..`....ssss..............R..`.......................R........................R.`..`ssss.................................",
+        "...`...ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.......",
+        ".......ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.......",
+        ".......ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss.`.....",
+        "...R...sss,,,,,,_____________,,,,,,,,,,,,,_____________________________________,,,,,,,,,,,,,____________,,,,,,sss..`....",
+        ".RRR...sss_________________________,_______________________,,________________________,________________________sss.......",
+        "..R....sss_________________________,_______________________,,________________________,________________________sss.......",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        "....R..sss_________________________,_________________________________________________,________________________sss.......",
+        ".......sss,,,,,,_____________,,,,,,,,,,,,,_________________,,__________________,,,,,,,,,,,,,____________,,,,,,sss.......",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        "...`...sss_________________________,_______________________,,________________________,________________________sss.......",
+        ".......sss_________________________,_________________________________________________,________________________sss....R..",
+        ".......sss_________________________,_______________________,,________________________,________________________sss....RR.",
+        ".......sss,,,,,,_____________,,,,,,,,,,,,,_________________,,__________________,,,,,,,,,,,,,____________,,,,,,sss...RR..",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        ".......sss_________________________,_________________________________________________,________________________sss.......",
+        "..R....sss_________________________,_______________________,,________________________,________________________sss.......",
+        "..R....sss_________________________,_______________________,,________________________,________________________sss.....`."
+		],
+ 	    "palettes": [ "collective_center" ]
+	}
+   },
+    {
+    "type": "mapgen",
+    "om_terrain": [ [ "collective_center_26", "collective_center_27", "collective_center_28", "collective_center_29", "collective_center_30" ] ],
+    "object": {
+        "faction_owner": [
+        { "id": "marloss", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "marloss", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+		],
+		"fill_ter": "t_floor",
+		"rows": [
+        ".......sss,,,,,,_____________,,,,,,,,,,,,,_________________,,__________________,,,,,,,,,,,,,____________,,,,,,sss.......",
+        ".......sss_________________________,_________________________________________________,________________________sss.......",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        "...`...sss_________________________,_______________________,,________________________,________________________sss.......",
+        "....`..sss_________________________,_______________________,,________________________,________________________sss.......",
+        ".......sss,,,,,,_____________,,,,,,,,,,,,,_____________________________________,,,,,,,,,,,,,____________,,,,,,sss`......",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        ".......sss_________________________,_______________________,,________________________,________________________sss.......",
+        "....R..sss_________________________,_______________________,,________________________,________________________sss.......",
+        "...R...sss_________________________,_________________________________________________,________________________sss..R....",
+        "....R..sss,,,,,,_____________,,,,,,,,,,,,,_________________,,__________________,,,,,,,,,,,,,____________,,,,,,sss.......",
+        ".......sss_________________________________________________,,_________________________________________________sss.......",
+        ".......sss_________________________________________________,,_________________________________________________sss...R...",
+        ".......sss____________________________________________________________________________________________________sss...RR..",
+        ".......sss_________________________________________________,,_________________________________________________sss.......",
+        ".......sss,,,,,,___________________________________________,,___________________________________________,,,,,,sss.......",
+        ".......sssssssssssssssssssssssssssssssssssssssssssss_______,,_______sssssssssssssssssssssssssssssssssssssssssssss.......",
+        ".......sssssssssssssssssssssssssssssssssssssssssssss________________sssssssssssssssssssssssssssssssssssssssssssss.......",
+        "..`....sssssssssssssssssssssssssssssssssssssssssssss_______,,_______sssssssssssssssssssssssssssssssssssssssssssss.....`.",
+        "..........R.......................................ss_______,,_______ss..................................................",
+        "..................RR..............``...............s_______,,_______s........................R..........................",
+        ".`...............RR...........................R.....________________............`...........R.R......................R..",
+        "....................................................________________.......................RR...........................",
+        "....................................................________________.......R.....................................R......"
+		],
+ 	    "palettes": [ "collective_center" ]
+	  }
+	}
+]
