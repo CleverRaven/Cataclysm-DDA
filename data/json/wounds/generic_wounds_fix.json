@@ -108,7 +108,6 @@
     "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
-
   {
     "abstract": "bleed_wound_difficult_medium",
     "//0": "difficult as in: stab wounds, bullet wounds, or similar things.  wounds that probably require packing or relatively advanced firstaid",
