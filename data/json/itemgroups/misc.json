@@ -96,7 +96,8 @@
       [ "knife_butter", 30 ],
       { "item": "knife_small", "variant": "knife_steak", "prob": 10 },
       [ "fork", 30 ],
-      [ "spoon", 30 ]
+      [ "spoon", 30 ],
+      [ "tea_spoon", 10 ]
     ]
   },
   {
