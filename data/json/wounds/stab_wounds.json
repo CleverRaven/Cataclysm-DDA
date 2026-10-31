@@ -92,7 +92,8 @@
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -17 }
     ],
     "periodic_message": { "message": "Your deep stab on your %s is bleeding!", "rate": "20 seconds" },
-    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_body_part_types": [ "sensor", "head" ],
+    "//0": "if a knife goes through your head or organs you're dead",
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {
@@ -104,7 +105,7 @@
     "limit": 8,
     "damage_types": [ "stab" ],
     "damage_required": [ 30, 80 ],
-    "pain": [ 15, 19 ],
+    "pain": [ 26, 36 ],
     "limb_scores": [
       { "score": "manip", "value": 0.5 },
       { "score": "block", "value": 0.5 },
