@@ -5580,6 +5580,7 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
                 }
                 not_eaten();
                 break;
+            case NO_AUTO_EAT:
             case INEDIBLE:
             case INEDIBLE_MUTATION:
                 debugmsg( "Always-edible food somehow inedible, please report this error." );
@@ -5588,6 +5589,13 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
             case ALLERGY:
                 worker.add_msg_if_npc( m_bad,
                                        _( "%s takes one look at the food and declines, explaining they're allergic." ),
+                                       worker.get_name() );
+                not_eaten();
+                break;
+            case ADDICTIVE:
+                // yes, alcohol is drugs
+                worker.add_msg_if_npc( m_bad,
+                                       _( "%s says they don't want drugs." ),
                                        worker.get_name() );
                 not_eaten();
                 break;
@@ -5620,6 +5628,7 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
             case PARASITES:
             // None of these should ever happen.
             case ROTTEN:
+            case NOT_OWNED:
             case NO_TOOL:
                 debugmsg( "Unexpected food condition encountered in camp larder" );
                 not_eaten();

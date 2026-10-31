@@ -42,6 +42,8 @@
 #include "visitable.h"
 #include "vpart_position.h"
 
+static const flag_id json_flag_EAT_AFTER_CRAFT( "EAT_AFTER_CRAFT" );
+
 static const itype_id itype_candle( "candle" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -686,7 +688,9 @@ item craft_command::create_in_progress_craft()
     }
 
     item new_craft( rec, batch_size, used, comps_used, should_add_crafting_faults( crafter, rec ) );
-
+    if( eat_after_craft ) {
+        new_craft.set_flag( json_flag_EAT_AFTER_CRAFT );
+    }
     // Carry the probe's debited start buckets onto the real craft.
     new_craft.set_step_tool_allocs( start_allocs );
     new_craft.set_tools_to_continue( true );
