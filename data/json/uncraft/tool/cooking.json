@@ -14,5 +14,20 @@
     "time": "20 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "simple_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "lc_steel_chunk", 4 ] ], [ [ "lc_steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "slow_cooker",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "casserole", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "sheet_metal_small", 9 ] ],
+      [ [ "cable", 4 ] ]
+    ]
   }
 ]

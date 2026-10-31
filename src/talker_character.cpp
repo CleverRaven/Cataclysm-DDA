@@ -554,6 +554,11 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
     return me_chr_const->get_effect( effect_id, bp );
 }
 
+const bodypart *talker_character_const::get_bodypart( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_part( bp );
+}
+
 bool talker_character_const::has_wound( const wound_type_id &wound_id ) const
 {
     return me_chr_const->has_wound( wound_id );

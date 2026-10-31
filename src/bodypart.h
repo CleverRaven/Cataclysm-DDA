@@ -521,6 +521,10 @@ class bodypart
         void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( const Character &who, time_duration time_passed );
 
+        // checks if amount of specific wounds on bodypart is not higher than `limit`
+        // return false if more than limit
+        bool is_within_wound_limit_for_bp( wound_type_id wound_id ) const;
+
         int get_hp_cur() const;
         int get_hp_max() const;
         float get_hit_size() const;

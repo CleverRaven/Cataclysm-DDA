@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "highland_dead_exodii",
+    "object": {
+      "rows": [
+        "                        ",
+        "                    ### ",
+        "                 #####  ",
+        "               ###f#fff ",
+        "            #####fffff  ",
+        "          ######fff@fff ",
+        "       ##########ffff## ",
+        "       ########ffff#### ",
+        "      ####fff### ffff   ",
+        "      fffffff####  fff  ",
+        "       fff########      ",
+        "       ,,,,s####        ",
+        "     ######,,W I, ##    ",
+        "   ######,,WWW,,,ss##   ",
+        "   ##### ,WWs ,,s,,,### ",
+        "   ##f,, WW ##,s,#####f ",
+        "  ffff,,,,,#####ffssff  ",
+        "     ffff######fffff    ",
+        "      fffff####ff       ",
+        "      ##########ff      ",
+        "        ######fff       ",
+        "       ffff##           ",
+        "         fff            ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "highlands" ],
+      "place_nested": [ { "chunks": [ "highland_7_up" ], "x": 0, "y": 0, "z": 1 } ],
+      "terrain": {
+        " ": "t_highland_groundcover",
+        "W": "t_highland_groundcover",
+        "f": "t_highland_flower_bed",
+        "@": "t_highland_flower_bed"
+      },
+      "furniture": { "@": "f_dead_exodii" }
+    }
+  }
+]

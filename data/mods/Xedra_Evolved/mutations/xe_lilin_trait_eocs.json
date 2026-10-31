@@ -299,6 +299,28 @@
             "id": "EOC_LILIN_BONUS_HEALING_ACTIVE_maintenance_2",
             "condition": { "math": [ "u_vitamin('lilin_ruach_vitamin') >= 100 * lilin_has_ruach_efficiency()" ] },
             "effect": [
+              {
+                "foreach": "ids",
+                "target": "bodypart",
+                "var": { "context_val": "bodypart" },
+                "effect": [
+                  {
+                    "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS",
+                    "variables": { "bodypart": { "context_val": "bodypart" } }
+                  }
+                ]
+              },
+              {
+                "foreach": "ids",
+                "target": "bodypart",
+                "var": { "context_val": "bodypart" },
+                "effect": [
+                  {
+                    "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+                    "variables": { "bodypart": { "context_val": "bodypart" } }
+                  }
+                ]
+              },
               { "math": [ "u_vitamin('lilin_ruach_vitamin') -= 100 * lilin_has_ruach_efficiency()" ] },
               { "u_message": "You feel icy pinpricks on your skin as your wounds heal.", "type": "mixed" },
               { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso')++" ] } },
