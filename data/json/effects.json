@@ -5228,7 +5228,7 @@
   },
   {
     "id": "effect_portal_storm_dungeon_time_tracker",
-    "//": "Hidden effect, tracks how lonig you've been in the portal storm dungeon.  Increments by 1 every minute",
+    "//": "Hidden effect, tracks how long you've been in the portal storm dungeon.  Increments by 1 every minute",
     "type": "effect_type",
     "name": [ "" ],
     "desc": [ "" ],
