@@ -11,6 +11,7 @@
 #include <numeric>
 #include <sstream>
 
+#include "char8_t-remediation/char8_t-remediation.h"
 #include "debug.h"
 #include "zlib.h"
 
@@ -34,7 +35,7 @@ std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_nam
     std::string buf( tar_block_size, '\0' );
     std::ostringstream ss( buf );
     ss.imbue( std::locale::classic() );
-    ss << file_name.generic_u8string();
+    ss << from_u8string( file_name.generic_u8string() );
     ss.seekp( 100 );
     ss << std::oct << std::setfill( '0' );
     ss << std::setw( 7 ) << perms << '\0';
@@ -47,7 +48,7 @@ std::string tgz_archiver::_gen_tar_header( std::filesystem::path const &file_nam
     ss.seekp( 257 );
     ss << "ustar" << '\0' << "00";
     ss.seekp( 345 );
-    ss << prefix.generic_u8string();
+    ss << from_u8string( prefix.generic_u8string() );
     std::string const tmp = ss.str();
     unsigned const checksum = std::accumulate( tmp.cbegin(), tmp.cend(), 0 );
     ss.seekp( 148 );

@@ -334,7 +334,7 @@ bool write_to_file( const cata_path &path, const std::function<void( std::ostrea
         if( fail_message ) {
             const std::string msg =
                 string_format( _( "Failed to write %1$s to \"%2$s\": %3$s" ),
-                               fail_message, path.generic_u8string(), err.what() );
+                               fail_message, path, err.what() );
             if( test_mode ) {
                 DebugLog( D_ERROR, DC_ALL ) << msg;
             } else {
@@ -460,7 +460,8 @@ bool read_from_file( const std::filesystem::path &path,
     try {
         reader( *finp );
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path,
+                  err.what() );
         return false;
     }
     return true;
@@ -508,7 +509,8 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem:
         }
 
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path,
+                  err.what() );
     }
     return nullptr;
 }
@@ -548,7 +550,8 @@ std::optional<std::string> read_whole_file( const std::filesystem::path &path )
 
         return std::optional<std::string>( std::move( outstring ) );
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path,
+                  err.what() );
     }
     return std::nullopt;
 }
@@ -566,7 +569,7 @@ bool read_from_file_json( const cata_path &path,
         reader( jo );
         return true;
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(),
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path,
                   err.what() );
         return false;
     }
@@ -615,8 +618,7 @@ bool read_from_zzip_optional( const zzip &z,
         reader( sv );
         return true;
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file.generic_u8string().c_str(),
-                  err.what() );
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file, err.what() );
         return false;
     }
 }
@@ -634,7 +636,7 @@ bool read_from_zzip_optional( const std::shared_ptr<zzip_stack> &z,
         reader( sv );
         return true;
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file.generic_u8string().c_str(),
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), file,
                   err.what() );
         return false;
     }

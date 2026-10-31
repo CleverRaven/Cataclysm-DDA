@@ -17,6 +17,8 @@
 #include <utility>
 #include <vector>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include <flatbuffers/flexbuffers.h>
 
 #include <zstd/zstd.h>
@@ -208,7 +210,7 @@ struct zzip_footer {
         JsonObject entries = footer_.get_object( kEntriesKey );
         entries.allow_omitted_members();
 
-        std::string path_str = path.generic_u8string();
+        std::string path_str = from_u8string( path.generic_u8string() );
         std::optional<JsonValue> entry_opt = entries.get_member_opt( path_str );
         if( entry_opt.has_value() ) {
             JsonObject entry_obj = *entry_opt;
@@ -408,7 +410,7 @@ std::optional<zzip> zzip::load(
 
     ZSTD_CCtx *cctx;
     ZSTD_DCtx *dctx;
-    if( auto it = cached_contexts.find( dictionary_path.generic_u8string() );
+    if( auto it = cached_contexts.find( from_u8string( dictionary_path.generic_u8string() ) );
         it != cached_contexts.end() ) {
         cctx = it->second.cctx;
         dctx = it->second.dctx;
@@ -426,7 +428,7 @@ std::optional<zzip> zzip::load(
             ZSTD_DCtx_loadDictionary_byReference( dctx, dictionary.data(), dictionary.size() );
         }
 
-        cached_contexts.emplace( dictionary_path.generic_u8string(), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
+        cached_contexts.emplace( from_u8string( dictionary_path.generic_u8string() ), cached_zstd_context{ std::move( dictionary ), cctx, dctx } );
     }
 
     if( needs_footer && !zip.rewrite_footer() ) {
@@ -452,7 +454,7 @@ bool zzip::add_file( std::filesystem::path const &zzip_relative_path, std::strin
         old_content_end = meta_opt->content_end;
     }
 
-    std::string relative_path_string = zzip_relative_path.generic_u8string();
+    std::string relative_path_string = from_u8string( zzip_relative_path.generic_u8string() );
 
     if( !ensure_capacity_for(
             old_content_end +
@@ -505,7 +507,7 @@ bool zzip::copy_files( std::vector<std::filesystem::path> const &zzip_relative_p
     size_t required_size = 0;
     size_t new_content_end = zzip_footer{ footer_ }.get_meta().content_end;
     for( const std::filesystem::path &zzip_relative_path : zzip_relative_paths ) {
-        auto it = entry_index_map.find( zzip_relative_path.u8string() );
+        auto it = entry_index_map.find( from_u8string( zzip_relative_path.u8string() ) );
         if( it == entry_index_map.end() ) {
             return false;
         }
@@ -966,7 +968,7 @@ std::optional<zzip> zzip::create_from_folder( std::filesystem::path const &path,
             continue;
         }
         total_file_size += entry.file_size();
-        files_to_insert.emplace( entry.path().generic_u8string() );
+        files_to_insert.emplace( from_u8string( entry.path().generic_u8string() ) );
     }
     std::vector<std::filesystem::path> file_paths_to_insert;
     file_paths_to_insert.reserve( files_to_insert.size() );
@@ -1021,7 +1023,8 @@ std::optional<zzip> zzip::create_from_folder_with_files( std::filesystem::path c
             // This is really a higher level error but we should just continue if we can.
             continue;
         }
-        std::string file_relative_path = file_path.lexically_relative( folder ).generic_u8string();
+        std::string file_relative_path = from_u8string( file_path.lexically_relative(
+                                             folder ).generic_u8string() );
         size_t compressed_size = 0;
         size_t needed = 0;
         do {

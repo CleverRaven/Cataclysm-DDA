@@ -226,7 +226,8 @@ static void update_state( const std::string &context, const std::string &step )
             }
             gLUI->chosen_load_img = random_entry( imgs );
         }
-        SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
+        SDL_Surface_Ptr surf = load_image( from_u8string(
+                                               gLUI->chosen_load_img.generic_u8string() ).c_str() );
         gLUI->img_w = surf->w;
         gLUI->img_h = surf->h;
         if( !renderer_should_abort_frame() ) {

@@ -50,6 +50,12 @@ std::filesystem::path abs_path( const std::filesystem::path &path );
 
 std::string read_entire_file( const std::filesystem::path &path );
 
+template <>
+struct fmt::formatter<std::filesystem::path> : formatter<std::string_view> {
+    auto format( const std::filesystem::path &path,
+                 fmt::format_context &ctx ) const -> decltype( ctx.out() );
+};
+
 namespace cata_files
 {
 const char *eol();

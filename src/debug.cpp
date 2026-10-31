@@ -797,7 +797,7 @@ void DebugFile::init( DebugOutput output_mode, const cata_path &filename )
                 rename_failed = bool( ec );
             }
             file = std::make_shared<std::ofstream>(
-                       filename.generic_u8string(), std::ios::out | std::ios::app );
+                       filename.get_unrelative_path(), std::ios::out | std::ios::app );
         }
         break;
         default:

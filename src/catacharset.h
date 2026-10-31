@@ -9,6 +9,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <char8_t-remediation/char8_t-remediation.h>
 
 constexpr int ANY_LENGTH = 5;
 constexpr int NULL_UNICODE = 0x0000;
