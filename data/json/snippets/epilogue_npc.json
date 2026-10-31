@@ -250,6 +250,14 @@
       {
         "id": "epilogue_npc_male_63",
         "text": "     He lived desperately in the Cataclysm for a few years before meeting a female survivor while digging through a dumpster.  Both were wary of one another and were soon at each other's throats.  Neither side secured a victory.  Wounded and scarred, they each went to their respective hideouts.  Not long after, they met again.  The woman initiated a conversation with him, asking for his help.  It was foolish to fight when they could work together instead.  He acquiesced.  In this cruel and forlorn world, they soon fell in love.  If they had each other, everything would be all right.  Decades passed and they grew old holding hands.  One day, the wife fell ill, and with her dying breath, she said she was happy all these years with him.  Stay strong without me.  The husband wept and laid down beside his wife.  Without you, nothing else matters.  He swallowed a bitter poison and departed this world to find his wife who was waiting for him."
+      },
+      {
+        "id": "epilogue_npc_male_64",
+        "text": "     He outlived you only by a couple of months, dying from a ruptured appendix that was easily preventable in the Pre-Cataclysm world."
+      },
+      {
+        "id": "epilogue_npc_male_65",
+        "text": "     Following your death he was forced to settle down and join an evangelical group, out of desperation for food and shelter.  He was hanged alongside his lover for sodomy a year later after their relationship became public."
       }
     ]
   },
@@ -496,6 +504,26 @@
       {
         "id": "epilogue_npc_female_60",
         "text": "     She found solace at the old cottage, where she spent rest of her life alongside her wife."
+      },
+      {
+        "id": "epilogue_npc_female_61",
+        "text": "     She died after an unsuccessful attempt to pick a pharmacy vault lock searching for estrogen set off an alarm, the horde it attracted devoured her alive."
+      },
+      {
+        "id": "epilogue_npc_female_62",
+        "text": "     Pyromania led her to become obsessed with home-made explosives.  She died in flames after her experiment with potassium nitrate went south."
+      },
+      {
+        "id": "epilogue_npc_female_63",
+        "text": "     She settled down in the Tacoma Commune where she fell in love with a beautiful woman whom she soon married.  In the relative safety of the commune she lived a long life, full of labor."
+      },
+      {
+        "id": "epilogue_npc_female_64",
+        "text": "     Your death convinced her that flesh is weak.  Her long career of bionic treasure hunting after your death was cut short when the kill switch of a stolen implant was triggered."
+      },
+      {
+        "id": "epilogue_npc_female_65",
+        "text": "     She became a renowned mercenary working for Hub 01, and her exploits became the stuff of legends, rivaled only by those of a famous enby ancilla."
       }
     ]
   }
