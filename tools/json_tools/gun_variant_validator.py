@@ -83,7 +83,6 @@ AMMO_BLACKLIST = {
     "paintball",
     "signal_flare",
     "water",
-    "pressurized_co2",
 }
 VARIANT_CHECK_BLACKLIST = {
     "pamd68rubik",

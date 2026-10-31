@@ -4,7 +4,7 @@
     "looks_like": "glock17_17",
     "type": "ITEM",
     "subtypes": [ "MAGAZINE" ],
-    "name": { "str": "12 g CO₂ cartridge" },
+    "name": { "str": "12 g CO₂ air gun cartridge" },
     "description": "Small cartridge, filled with small amount of compressed carbon dioxide, used as propellant for various airguns.",
     "weight": "33 g",
     "volume": "23 ml",
