@@ -918,6 +918,44 @@ checks are you hot or cold
 { "u_has_any_wound": [ "bruise_bad", "bone_broken" ], "bodypart": "torso" }
 ```
 
+### `u_is_bleeding`, `npc_is_bleeding`
+- type: string or object
+- return true if alpha or beta talker's has any bleeding wound
+- `severity` can be used to specify the severity of such bleeding
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+"u_is_bleeding"
+```
+
+```jsonc
+{ "u_is_bleeding": "MAJOR" }
+```
+
+### `u_bodypart_is_bleeding`, `npc_bodypart_is_bleeding`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker's specific bodypart has any bleeding wound
+- `severity` can be used to specify the severity of such bleeding
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+{ "u_bodypart_is_bleeding": "torso", "severity": "MAJOR" }
+```
+
 ### `u_has_proficiency`, `npc_has_proficiency`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has mastered a proficiency (to 100%).
