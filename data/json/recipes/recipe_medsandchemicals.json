@@ -1739,7 +1739,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hmtd",
-    "charges": 200,
+    "charges": 100,
     "id_suffix": "from_acetic",
     "name": "%s from acetic acid",
     "category": "CC_CHEM",
@@ -1754,7 +1754,12 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_acetic_acid", 2 ] ] ]
+    "//": [
+      "whitelotus: mere milligrams of acid are enough to catalyze the reaction but recovering them is impractical.",
+      "Output is about 1.51 mol of HMTD.  Doing it perfectly (50% efficient) would require 3 mol each of hexamine/peroxide.  This recipe is a bit worse."
+    ],
+    "batch_time_factors": [ 75, 1 ],
+    "components": [ [ [ "chem_hexamine", 388 ] ], [ [ "chem_hydrogen_peroxide_conc", 2 ] ], [ [ "chem_acetic_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1767,7 +1772,7 @@
     "skill_used": "chemistry",
     "difficulty": 5,
     "time": "55 m",
-    "charges": 2,
+    "charges": 100,
     "book_learn": [ [ "recipe_labchem", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
@@ -1775,7 +1780,12 @@
       { "proficiency": "prof_organic_chemistry" }
     ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 2 ] ] ]
+    "//": [
+      "whitelotus: mere milligrams of acid are enough to catalyze the reaction but recovering them is impractical.",
+      "Output is about 1.51 mol of HMTD.  Doing it perfectly (50% efficient) would require 3 mol each of hexamine/peroxide.  This recipe is a bit worse."
+    ],
+    "batch_time_factors": [ 75, 1 ],
+    "components": [ [ [ "chem_hexamine", 388 ] ], [ [ "chem_hydrogen_peroxide_conc", 2 ] ], [ [ "chem_citric_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
