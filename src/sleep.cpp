@@ -61,39 +61,25 @@ const comfort_data &comfort_data::human()
 
 int comfort_data::human_comfort_at( const tripoint_bub_ms &p )
 {
+    int ret = 0;
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     const furn_id &furn = here.furn( p );
     const trap &trap = here.tr_at( p );
 
-    int vpar_comfort = -1000,trap_comfort  = -1000, furn_comfort = -1000,tern_comfort;
-    
-
-
     if( vp ) {
         const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
-        vpar_comfort = board ? board->info().comfort : -here.move_cost( p );
-    }
-    if( !trap.is_null() ) {
-        trap_comfort = trap.comfort;
+        ret = std::max( ret, board ? board->info().comfort : -here.move_cost( p ) );
     }
     if( furn != furn_str_id::NULL_ID() ) {
-        furn_comfort = furn->comfort;
+        ret = std::max( ret, furn->comfort );
     }
-    tern_comfort = here.ter( p )->comfort - here.move_cost( p );
-   
-    int comfort_data[] = {tern_comfort,vpar_comfort,trap_comfort,furn_comfort};     
-    int max = comfort_data[0];
-
-
-    for (int i = 0; i < 4; i++) {
-        if ( max < comfort_data[i] ) {
-            max = i;
-        }
-
+    if( !trap.is_null() ) {
+        ret = std::max( ret, trap.comfort );
     }
-    return max;
+    ret = std::max( ret, here.ter( p )->comfort - here.move_cost( p ) );
 
+    return ret;
 }
 
 bool comfort_data::try_get_sleep_aid_at( const tripoint_bub_ms &p, item &result )
