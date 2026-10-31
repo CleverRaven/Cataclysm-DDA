@@ -113,15 +113,47 @@
     "vision_day": 50,
     "harvest": "big_mr_bones",
     "special_attacks": [
-      { "id": "grab" },
-      { "id": "bite_humanoid" },
-      { "id": "smash", "throw_strength": 54, "condition": { "math": [ "n_val('size') <= 4" ] } },
-      { "id": "smash_equal", "throw_strength": 27, "condition": { "math": [ "n_val('size') == 5" ] } },
-      { "id": "stretch_attack" },
-      { "id": "longswipe" },
-      { "id": "cut_throat" },
+      { "id": "grab", "condition": { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } },
+      {
+        "id": "bite_humanoid",
+        "condition": {
+          "and": [
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } }
+          ]
+        }
+      },
+      {
+        "id": "smash",
+        "throw_strength": 54,
+        "condition": { "and": [ { "math": [ "n_val('size') <= 4" ] }, { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } ] }
+      },
+      {
+        "id": "smash_equal",
+        "throw_strength": 27,
+        "condition": { "and": [ { "math": [ "n_val('size') == 5" ] }, { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } ] }
+      },
+      {
+        "id": "stretch_attack",
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } }, { "not": { "u_has_effect": "maimed_arm" } } ]
+        }
+      },
+      { "id": "longswipe", "condition": { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } },
+      { "id": "mon_skeleton_hulk_charge_decimate" },
+      { "id": "decimate" },
+      { "id": "decimate_adjacent" },
+      { "id": "decimate_adjacent_equal" },
       {
         "id": "scratch_humanoid",
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "GRAB_FILTER" } },
+            { "not": { "u_has_effect": "maimed_arm" } },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } }
+          ]
+        },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ]
       }
     ],
@@ -177,7 +209,10 @@
     "dodge": 1,
     "bleed_rate": 0,
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "special_attacks": [ { "id": "cut_throat", "damage_max_instance": [ { "damage_type": "cut", "amount": 40 } ], "cooldown": 15 } ],
+    "special_attacks": [
+      { "id": "cut_throat", "damage_max_instance": [ { "damage_type": "cut", "amount": 40 } ], "cooldown": 15 },
+      { "id": "slash" }
+    ],
     "upgrades": { "half_life": 128, "into": "mon_skeleton_reaper" },
     "fungalize_into": "mon_skeleton_brute_dusted",
     "burn_into": "mon_zombie_scorched_brute",
@@ -203,7 +238,8 @@
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "cut_throat", "damage_max_instance": [ { "damage_type": "cut", "amount": 45 } ], "cooldown": 15 },
-      { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 40 } ], "cooldown": 20 }
+      { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 40 } ], "cooldown": 20 },
+      { "id": "slash", "damage_max_instance": [ { "damage_type": "cut", "amount": 50 } ] }
     ],
     "upgrades": false,
     "fungalize_into": "mon_skeleton_brute_dusted",
