@@ -235,7 +235,13 @@
     "subtype": "collection",
     "entries": [
       { "group": "changeling_lord_death_drops", "prob": 100 },
-      { "item": "spring_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+      {
+        "distribution": [
+          { "item": "spring_lord_estoc", "prob": 100, "damage": [ 1, 5 ] },
+          { "group": "changeling_lord_unique_blades", "prob": 2 }
+        ],
+        "prob": 100
+      }
     ]
   },
   {
@@ -244,7 +250,13 @@
     "subtype": "collection",
     "entries": [
       { "group": "changeling_lord_death_drops", "prob": 100 },
-      { "item": "summer_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+      {
+        "distribution": [
+          { "item": "summer_lord_estoc", "prob": 100, "damage": [ 1, 5 ] },
+          { "group": "changeling_lord_unique_blades", "prob": 2 }
+        ],
+        "prob": 100
+      }
     ]
   },
   {
@@ -253,7 +265,13 @@
     "subtype": "collection",
     "entries": [
       { "group": "changeling_lord_death_drops", "prob": 100 },
-      { "item": "autumn_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+      {
+        "distribution": [
+          { "item": "autumn_lord_estoc", "prob": 98, "damage": [ 1, 5 ] },
+          { "group": "changeling_lord_unique_blades", "prob": 2 }
+        ],
+        "prob": 100
+      }
     ]
   },
   {
@@ -262,7 +280,24 @@
     "subtype": "collection",
     "entries": [
       { "group": "changeling_lord_death_drops", "prob": 100 },
-      { "item": "winter_lord_estoc", "prob": 100, "damage": [ 1, 5 ] }
+      {
+        "distribution": [
+          { "item": "winter_lord_estoc", "prob": 98, "damage": [ 1, 5 ] },
+          { "group": "changeling_lord_unique_blades", "prob": 2 }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "id": "changeling_lord_unique_blades",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "fae_unique_weapon_last_blossom_fall", "prob": 1 },
+      { "item": "fae_unique_weapon_crimson_rain", "prob": 1 },
+      { "item": "fae_unique_weapon_light_of_newborn_star", "prob": 1 },
+      { "item": "fae_unique_weapon_dawnrazor", "prob": 1 }
     ]
   },
   {
