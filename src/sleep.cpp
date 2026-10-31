@@ -66,16 +66,34 @@ int comfort_data::human_comfort_at( const tripoint_bub_ms &p )
     const furn_id &furn = here.furn( p );
     const trap &trap = here.tr_at( p );
 
+    int vpar_comfort = -1000,trap_comfort  = -1000, furn_comfort = -1000,tern_comfort;
+    
+
+
     if( vp ) {
         const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
-        return board ? board->info().comfort : -here.move_cost( p );
-    } else if( !trap.is_null() ) {
-        return trap.comfort;
-    } else if( furn != furn_str_id::NULL_ID() ) {
-        return furn->comfort;
-    } else {
-        return here.ter( p )->comfort - here.move_cost( p );
+        vpar_comfort = board ? board->info().comfort : -here.move_cost( p );
     }
+    if( !trap.is_null() ) {
+        trap_comfort = trap.comfort;
+    }
+    if( furn != furn_str_id::NULL_ID() ) {
+        furn_comfort = furn->comfort;
+    }
+    tern_comfort = here.ter( p )->comfort - here.move_cost( p );
+   
+    int comfort_data[] = {tern_comfort,vpar_comfort,trap_comfort,furn_comfort};     
+    int max = comfort_data[0];
+
+
+    for (int i = 0; i < 4; i++) {
+        if ( max < comfort_data[i] ) {
+            max = i;
+        }
+
+    }
+    return max;
+
 }
 
 bool comfort_data::try_get_sleep_aid_at( const tripoint_bub_ms &p, item &result )
