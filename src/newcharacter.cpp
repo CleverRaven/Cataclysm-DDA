@@ -91,6 +91,7 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
+static const std::string flag_HAS_ITEMS( "HAS_ITEMS" );
 
 static const character_portrait_id character_portrait_AVATAR( "AVATAR" );
 static const character_portrait_id character_portrait_GENERIC_NPC( "GENERIC_NPC" );
@@ -623,8 +624,8 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
 void Character::add_profession_items()
 {
-    // Our profession should not be a hobby
-    if( prof->is_hobby() ) {
+    // Our profession should not be a hobby, unless we're a special hobby that assumes the player to be in a safe place.
+    if( prof->is_hobby() && !prof->has_flag( flag_HAS_ITEMS ) ) {
         return;
     }
 
