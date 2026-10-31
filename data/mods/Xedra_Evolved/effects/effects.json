@@ -3998,6 +3998,7 @@
     "desc": [ "Cold blood is not enough.  You need some warm blood straight from the vein, you need it NOW!" ],
     "max_intensity": 5,
     "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
+    "remove_message": "Your thirst for warm blood is sated.",
     "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1.5 ] },
     "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ] },

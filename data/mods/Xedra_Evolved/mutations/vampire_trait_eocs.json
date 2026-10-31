@@ -387,6 +387,7 @@
     "condition": { "u_has_effect": "effect_vampire_blood_drinking" },
     "effect": [
       { "run_eocs": [ "EOC_VAMPIRE_GAIN_BLOOD_VITAMIN", "EOC_DHAMPIR_GAIN_CALORIES_FROM_NON_BAGGED_BLOOD" ] },
+      { "u_lose_effect": "vampire_need_living_blood" },
       { "u_message": "You drink some blood.", "type": "good" }
     ]
   },
