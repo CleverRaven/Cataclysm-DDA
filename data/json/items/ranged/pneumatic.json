@@ -103,7 +103,7 @@
     "weight": "2400 g",
     "volume": "1500 ml",
     "longest_side": "85 mm",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "range": 30,
     "dispersion": 150,
     "durability": 7,

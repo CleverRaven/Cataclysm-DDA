@@ -112,6 +112,7 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "mdrx",
     "rfb_308",
     "srm_1216",
+    "co2_12g_cartridge",
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
