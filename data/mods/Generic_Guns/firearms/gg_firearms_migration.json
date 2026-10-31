@@ -506,5 +506,10 @@
     "id": [ "nl_chem_thrower" ],
     "type": "MIGRATION",
     "replace": "gg_nl_chem_thrower"
+  },
+  {
+    "id": [ "air_pistol_beretta_9mm" ],
+    "type": "MIGRATION",
+    "replace": "air_pistol"
   }
 ]

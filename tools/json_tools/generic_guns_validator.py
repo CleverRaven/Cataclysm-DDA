@@ -85,6 +85,7 @@ ID_WHITELIST = {
     'bio_shotgun_gun',
     'gasfilter_med',
     'gasfilter_sm',
+    'co2_12g_cartridge',
     'matchhead_30carbine',
     'matchhead_30carbine_jsp',
     "rebreather_cartridge",

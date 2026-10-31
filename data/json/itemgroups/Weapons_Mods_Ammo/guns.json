@@ -243,7 +243,8 @@
       { "group": "guns_rifle_common_display_50beowulf", "prob": 3 },
       { "group": "guns_rifle_common_display_57", "prob": 3 },
       { "group": "guns_rifle_common_display_545", "prob": 3 },
-      { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 }
+      { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 },
+      { "group": "guns_rifle_common_display_177_pellet", "prob": 40 }
     ]
   },
   {
@@ -298,7 +299,8 @@
       { "group": "guns_rifle_common_display_338", "prob": 14 },
       { "group": "guns_rifle_common_display_450", "prob": 3 },
       { "group": "guns_rifle_common_display_50beowulf", "prob": 3 },
-      { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 }
+      { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 },
+      { "group": "guns_rifle_common_display_177_pellet", "prob": 40 }
     ]
   },
   {
@@ -1337,15 +1339,6 @@
       { "group": "guns_pistol_common_display_44", "prob": 15, "charges": [ 0, 8 ] },
       { "group": "guns_pistol_common_display_357mag", "prob": 15, "charges": [ 0, 9 ] },
       { "group": "guns_pistol_common_display_40", "prob": 25, "charges": [ 0, 20 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_varmint_airgun",
-    "container-item": "box_small",
-    "items": [
-      { "item": "airgun_pellet_target", "charges": [ 0, 250 ], "prob": 50 },
-      { "item": "airgun_pellet_hunting", "charges": [ 0, 250 ], "prob": 50 }
     ]
   }
 ]
