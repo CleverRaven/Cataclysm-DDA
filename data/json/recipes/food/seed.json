@@ -896,8 +896,9 @@
   {
     "result": "seed_bottle_gourd",
     "type": "recipe",
+    "result_mult": 3,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
+    "components": [ [ [ "raw_bottle_gourd", 1 ] ] ]
   },
   {
     "result": "seed_bottle_gourd",
@@ -905,9 +906,9 @@
     "id_suffix": "bulk",
     "name": "bulk %s",
     "time": "5 m",
-    "result_mult": 10,
+    "result_mult": 30,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 30 ] ] ]
+    "components": [ [ [ "raw_bottle_gourd", 10 ] ] ]
   },
   {
     "result": "seed_cauliflower",
