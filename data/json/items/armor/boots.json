@@ -2243,7 +2243,7 @@
     "name": { "str_sp": "denim sneakers (pair)" },
     "description": "A pair of denim shoes.  They are cool and that's about it.",
     "//": "Denim part is 10 oz.",
-    "weight": "340 g",
+    "weight": "540 g",
     "volume": "1500 ml",
     "price": "50 USD",
     "price_postapoc": "3 USD 50 cent",
@@ -2997,7 +2997,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str_sp": "wool socks (pair)" },
-    "weight": "77 g",
+    "weight": "87 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
@@ -3029,12 +3029,11 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
-      { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      { "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
-        "coverage": 100,
-        "encumbrance": 4
+        "coverage": 100
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
     ],
