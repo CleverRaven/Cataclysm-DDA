@@ -26,6 +26,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
+#include "perf.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -248,6 +249,7 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 
 void process_activity( Character &dummy, bool pass_time )
 {
+    cata_timer process_activity_timer( "process_activity" );
     do {
         dummy.mod_moves( dummy.get_speed() );
         while( dummy.get_moves() > 0 && dummy.activity ) {
