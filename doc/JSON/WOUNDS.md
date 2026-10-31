@@ -26,6 +26,7 @@ Align bleed values to the ones in body_parts.json unless being instructed otherw
     "damage_types": [ "cut", "bash" ], // taking these type of damage can apply wound
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
+    "severity": "MAJOR", // Severity of the wound, ie how quickly NPC/player should react to it. Values can be MINOR (default), MAJOR and CRITICAL 
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
                                               // Affected by health/lifestyle, with -200 slowing down to 0.5x, and +200 speeding up to 1.5x, and `REGEN_WOUND` enchantment
                                               // Default infinite duration

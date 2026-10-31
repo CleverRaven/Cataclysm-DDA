@@ -8,6 +8,7 @@
 #include "character.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -37,6 +38,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "weight", weight, 1 );
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
+    optional( jo, was_loaded, "severity", severity, wound_severity::MINOR );
 
     optional( jo, was_loaded, "mod_values", mod_values );
     optional( jo, was_loaded, "periodic_message", periodic_message );
@@ -189,11 +191,6 @@ void wound_fix::finalize_all()
     wound_fix_factory.finalize();
 }
 
-template<>
-struct enum_traits<wound_mod_value_type> {
-    static constexpr wound_mod_value_type last = wound_mod_value_type::LAST;
-};
-
 namespace io
 {
 template<>
@@ -209,8 +206,25 @@ std::string enum_to_string<wound_mod_value_type>( wound_mod_value_type data )
         case wound_mod_value_type::LAST:
             break;
     }
-    cata_fatal( "Invalid character_stat" );
+    cata_fatal( "Invalid wound_mod_value_type" );
 }
+
+template<>
+std::string enum_to_string<wound_severity>( wound_severity data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case wound_severity::MINOR: return "MINOR";
+    case wound_severity::MAJOR: return "MAJOR";
+    case wound_severity::CRITICAL: return "CRITICAL";
+
+        // *INDENT-ON*
+        case wound_severity::LAST:
+            break;
+    }
+    cata_fatal( "Invalid wound_severity" );
+}
+
 } // namespace io
 
 void wound_fix::finalize()
@@ -362,16 +376,22 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
 
 bool wound_type::assign_bleeding_wound() const
 {
+    bool uses_blood_vitamins = false;
+    bool drips_blood = false;
     for( const wound_mod_values &mv : mod_values ) {
         if( mv.vitamin.has_value() ) {
             const vitamin_id vit = *mv.vitamin;
             if( vit == vitamin_blood || vit == vitamin_redcells ) {
-                return true;
+                uses_blood_vitamins = true;
             }
+        }
+
+        if( mv.type == wound_mod_value_type::BLEED ) {
+            drips_blood = true;
         }
     }
 
-    return false;
+    return uses_blood_vitamins && drips_blood;
 }
 
 bool wound_type::is_bleeding_wound() const
