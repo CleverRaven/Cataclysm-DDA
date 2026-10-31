@@ -1,5 +1,6 @@
 #include "sleep.h"
 
+#include <algorithm>
 #include <list>
 #include <optional>
 #include <string>
