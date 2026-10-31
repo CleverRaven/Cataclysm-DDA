@@ -1,0 +1,238 @@
+[
+  {
+    "id": "bleeding_stab_small",
+    "type": "wound",
+    "name": { "str": "bleeding light stab" },
+    "description": "You have been lightly stabbed, you should stop the bleeding.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "stab" ],
+    "damage_required": [ 1, 9 ],
+    "pain": [ 2, 6 ],
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 70 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.1 },
+      { "score": "block", "value": 0.1 },
+      { "score": "grip", "value": 0.1 },
+      { "score": "lift", "value": 0.1 },
+      { "score": "block", "value": 0.1 },
+      { "score": "swim", "value": 0.1 },
+      { "score": "crawl", "value": 0.1 },
+      { "score": "balance", "value": 0.05 },
+      { "score": "footing", "value": 0.05 },
+      { "score": "move_speed", "value": 0 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "5 seconds", "amount": 1 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -3 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -3 }
+    ],
+    "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "60 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_stab_medium",
+    "type": "wound",
+    "name": { "str": "bleeding stab" },
+    "description": "You have been stabbed, you should stop the bleeding.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "stab" ],
+    "damage_required": [ 10, 19 ],
+    "pain": [ 10, 14 ],
+    "wound_progression": [ { "id": "bleeding_stab_bad", "chance": 70 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.2 },
+      { "score": "block", "value": 0.2 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "block", "value": 0.2 },
+      { "score": "swim", "value": 0.2 },
+      { "score": "crawl", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.15 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "3 seconds", "amount": 1 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -10 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -10 }
+    ],
+    "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "40 seconds" },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_stab_bad",
+    "type": "wound",
+    "name": { "str": "bleeding deep stab" },
+    "description": "You have been deeply stabbed, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "stab" ],
+    "damage_required": [ 19, 29 ],
+    "pain": [ 15, 19 ],
+    "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 70 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.35 },
+      { "score": "block", "value": 0.35 },
+      { "score": "grip", "value": 0.35 },
+      { "score": "lift", "value": 0.35 },
+      { "score": "block", "value": 0.35 },
+      { "score": "swim", "value": 0.35 },
+      { "score": "crawl", "value": 0.35 },
+      { "score": "balance", "value": 0.2 },
+      { "score": "footing", "value": 0.2 },
+      { "score": "move_speed", "value": 0.2 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "2 seconds", "amount": 1 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -17 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -17 }
+    ],
+    "periodic_message": { "message": "Your deep stab on your %s is bleeding!", "rate": "20 seconds" },
+    "blacklist_body_part_types": [ "sensor", "head" ],
+    "//0": "if a knife goes through your head or organs you're dead",
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "bleeding_stab_terrible",
+    "type": "wound",
+    "name": { "str": "bleeding deep stab" },
+    "description": "You have been terribly stabbed, you should stop the bleeding.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "stab" ],
+    "damage_required": [ 30, 80 ],
+    "pain": [ 26, 36 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.5 },
+      { "score": "block", "value": 0.5 },
+      { "score": "grip", "value": 0.5 },
+      { "score": "lift", "value": 0.5 },
+      { "score": "block", "value": 0.5 },
+      { "score": "swim", "value": 0.5 },
+      { "score": "crawl", "value": 0.5 },
+      { "score": "balance", "value": 0.5 },
+      { "score": "footing", "value": 0.5 },
+      { "score": "move_speed", "value": 0.5 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds", "amount": 1 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -23 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -23 }
+    ],
+    "periodic_message": { "message": "Your horrible stab on your %s is bleeding!", "rate": "10 seconds" },
+    "blacklist_body_part_types": [ "sensor", "head" ],
+    "//0": "if a knife goes through your head or organs you're dead",
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "stab_small",
+    "copy-from": "bleeding_stab_small",
+    "type": "wound",
+    "name": { "str": "stab" },
+    "description": "You have been lightly stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 100 } ]
+  },
+  {
+    "id": "stab_medium",
+    "copy-from": "bleeding_stab_medium",
+    "type": "wound",
+    "name": { "str": "stab" },
+    "description": "You have been stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 100 } ]
+  },
+  {
+    "id": "stab_bad",
+    "copy-from": "bleeding_stab_bad",
+    "type": "wound",
+    "name": { "str": "deep stab" },
+    "description": "You have been deeply stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_bad", "chance": 100 } ]
+  },
+  {
+    "id": "stab_terrible",
+    "copy-from": "bleeding_stab_terrible",
+    "type": "wound",
+    "name": { "str": "horrible stab" },
+    "description": "You have been horribly stabbed, you should probably clean it and bandage it.",
+    "weight": 0,
+    "mod_values": [  ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 100 } ]
+  },
+  {
+    "id": "clean_stab_small",
+    "copy-from": "stab_small",
+    "type": "wound",
+    "name": { "str": "clean light stab" },
+    "description": "You have been lightly stab, you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_stab_medium",
+    "copy-from": "stab_medium",
+    "type": "wound",
+    "name": { "str": "clean stab" },
+    "description": "You have been stab, you should probably bandage it.",
+    "healing_time": [ "3 days", "5 days" ]
+  },
+  {
+    "id": "clean_stab_bad",
+    "copy-from": "stab_bad",
+    "type": "wound",
+    "name": { "str": "clean deep stab" },
+    "description": "You have been badly stab, you should probably bandage it.",
+    "healing_time": [ "5 days", "9 days" ]
+  },
+  {
+    "id": "clean_stab_terrible",
+    "copy-from": "stab_terrible",
+    "type": "wound",
+    "name": { "str": "clean horrible stab" },
+    "description": "You have been horribly stabbed, you should really bandage it."
+  },
+  {
+    "id": "bandaged_stab_small",
+    "copy-from": "stab_small",
+    "type": "wound",
+    "name": { "str": "bandaged light stab" },
+    "description": "You have been lightly stabbed, you should wait till it heals.",
+    "healing_time": [ "1 days", "2 days" ]
+  },
+  {
+    "id": "bandaged_stab_medium",
+    "copy-from": "stab_medium",
+    "type": "wound",
+    "name": { "str": "bandaged stab" },
+    "description": "You have been stabbed, you should wait till it heals.",
+    "healing_time": [ "2 days", "4 days" ]
+  },
+  {
+    "id": "bandaged_stab_bad",
+    "copy-from": "stab_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep stab" },
+    "description": "You have been badly stabbed, you should wait till it heals.",
+    "healing_time": [ "4 days", "6 days" ]
+  },
+  {
+    "id": "bandaged_stab_terrible",
+    "copy-from": "stab_terrible",
+    "type": "wound",
+    "name": { "str": "bandaged horrible stab" },
+    "description": "You have been horribly stabbed, you should wait till it heals.",
+    "healing_time": [ "6 days", "8 days" ]
+  }
+]
