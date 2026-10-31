@@ -435,7 +435,7 @@ std::string wound_type::get_description() const
 }
 
 bool wound_type::can_be_applied( const Character *who, const bp_wounds &pt_wd,
-                                 const bodypart_id &bp, const damage_instance &d ) const
+                                 const bodypart_id &bp, const dealt_damage_instance &d ) const
 {
 
     if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
@@ -444,12 +444,12 @@ bool wound_type::can_be_applied( const Character *who, const bp_wounds &pt_wd,
 
     bool damage_instance_match = false;
 
-    for( const damage_unit &du : d.damage_units ) {
-        const bool damage_within_limits = du.amount >= pt_wd.damage_required.first &&
-                                          du.amount <= pt_wd.damage_required.second;
+    for( const std::pair<const damage_type_id, int> &d : d.dealt_dams ) {
+        const bool damage_within_limits = d.second >= pt_wd.damage_required.first &&
+                                          d.second <= pt_wd.damage_required.second;
 
         bool damage_type_matches = std::find( pt_wd.damage_type.begin(),
-                                              pt_wd.damage_type.end(), du.type ) != pt_wd.damage_type.end();
+                                              pt_wd.damage_type.end(), d.first ) != pt_wd.damage_type.end();
 
         if( damage_within_limits && damage_type_matches ) {
             damage_instance_match = true;
