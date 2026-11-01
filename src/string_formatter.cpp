@@ -30,7 +30,8 @@ const char *printf_converter<cata_path>::convert( const cata_path &p )
 
 const char *printf_converter<std::filesystem::path>::convert( const std::filesystem::path &p )
 {
-    auto u8 = p.generic_u8string();
+    // NOLINTNEXTLINE(cata-almost-never-auto)
+    auto u8 = p.generic_u8string(); // Using auto because type changes after C++17
     buffer = from_u8string( u8 );
     return buffer.c_str();
 }
