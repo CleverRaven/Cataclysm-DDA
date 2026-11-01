@@ -824,8 +824,8 @@ TEST_CASE( "sleep_spot_ranking_prefers_beds", "[npc][sleep]" )
     map &here = get_map();
     npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
     guy.set_sleepiness( 300 );
-    const tripoint_bub_ms near = guy.pos_bub() + tripoint::east;
-    const tripoint_bub_ms far = guy.pos_bub() + tripoint( -3, 0, 0 );
+    const tripoint_bub_ms near_pt = guy.pos_bub() + tripoint::east;
+    const tripoint_bub_ms far_pt = guy.pos_bub() + tripoint( -3, 0, 0 );
     const auto first_choice = [&]() {
         here.build_map_cache( 1 );
         here.build_map_cache( 0 );
@@ -834,133 +834,133 @@ TEST_CASE( "sleep_spot_ranking_prefers_beds", "[npc][sleep]" )
         return candidates.front().target;
     };
     GIVEN( "chair next to NPC, makeshift bed further off" ) {
-        here.furn_set( near, furn_f_chair );
-        here.furn_set( far, furn_f_makeshift_bed );
+        here.furn_set( near_pt, furn_f_chair );
+        here.furn_set( far_pt, furn_f_makeshift_bed );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "bed scores higher and comes first" ) {
-                const int near_score = guy.evaluate_sleep_spot( near );
-                CHECK( near_score < guy.evaluate_sleep_spot( far ) );
-                CHECK( choice == here.get_abs( far ) );
+                const int near_score = guy.evaluate_sleep_spot( near_pt );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "chair next to NPC, hammock further off" ) {
-        here.furn_set( near, furn_f_chair );
-        here.furn_set( far, furn_f_hammock );
+        here.furn_set( near_pt, furn_f_chair );
+        here.furn_set( far_pt, furn_f_hammock );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "hammock scores higher and comes first" ) {
-                const int near_score = guy.evaluate_sleep_spot( near );
-                CHECK( near_score < guy.evaluate_sleep_spot( far ) );
-                CHECK( choice == here.get_abs( far ) );
+                const int near_score = guy.evaluate_sleep_spot( near_pt );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "bare ground under NPC, hammock further off" ) {
-        here.furn_set( far, furn_f_hammock );
+        here.furn_set( far_pt, furn_f_hammock );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "hammock scores higher and comes first" ) {
                 const int near_score = guy.evaluate_sleep_spot( guy.pos_bub() );
-                CHECK( near_score < guy.evaluate_sleep_spot( far ) );
-                CHECK( choice == here.get_abs( far ) );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "bare ground under NPC, chair next to it" ) {
-        here.furn_set( near, furn_f_chair );
+        here.furn_set( near_pt, furn_f_chair );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "chair scores higher and comes first" ) {
                 const int near_score = guy.evaluate_sleep_spot( guy.pos_bub() );
-                CHECK( near_score < guy.evaluate_sleep_spot( near ) );
-                CHECK( choice == here.get_abs( near ) );
+                CHECK( near_score < guy.evaluate_sleep_spot( near_pt ) );
+                CHECK( choice == here.get_abs( near_pt ) );
             }
         }
     }
     GIVEN( "stool next to NPC, hammock further off" ) {
-        here.furn_set( near, furn_f_stool );
-        here.furn_set( far, furn_f_hammock );
+        here.furn_set( near_pt, furn_f_stool );
+        here.furn_set( far_pt, furn_f_hammock );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "hammock first" ) {
-                CHECK( choice == here.get_abs( far ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "armchair next to NPC, hammock further off" ) {
-        here.furn_set( near, furn_f_armchair );
-        here.furn_set( far, furn_f_hammock );
+        here.furn_set( near_pt, furn_f_armchair );
+        here.furn_set( far_pt, furn_f_hammock );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "hammock first" ) {
-                CHECK( choice == here.get_abs( far ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "stool next to NPC, rollmat further off" ) {
-        here.furn_set( near, furn_f_stool );
-        here.trap_set( far, tr_rollmat );
+        here.furn_set( near_pt, furn_f_stool );
+        here.trap_set( far_pt, tr_rollmat );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "rollmat first" ) {
-                CHECK( choice == here.get_abs( far ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "armchair next to NPC, rollmat further off" ) {
-        here.furn_set( near, furn_f_armchair );
-        here.trap_set( far, tr_rollmat );
+        here.furn_set( near_pt, furn_f_armchair );
+        here.trap_set( far_pt, tr_rollmat );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "rollmat first" ) {
-                CHECK( choice == here.get_abs( far ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "rollmat next to NPC, warmer makeshift bed further off" ) {
-        here.trap_set( near, tr_rollmat );
-        here.furn_set( far, furn_f_makeshift_bed );
-        const int near_comfort = guy.get_comfort_at( near ).comfort;
-        REQUIRE( near_comfort == guy.get_comfort_at( far ).comfort );
+        here.trap_set( near_pt, tr_rollmat );
+        here.furn_set( far_pt, furn_f_makeshift_bed );
+        const int near_comfort = guy.get_comfort_at( near_pt ).comfort;
+        REQUIRE( near_comfort == guy.get_comfort_at( far_pt ).comfort );
         WHEN( "NPC is cold" ) {
             make_cold( guy );
             THEN( "warmer bed first" ) {
-                CHECK( first_choice() == here.get_abs( far ) );
+                CHECK( first_choice() == here.get_abs( far_pt ) );
             }
         }
         WHEN( "NPC is warm" ) {
             THEN( "warmer bed first" ) {
-                CHECK( first_choice() == here.get_abs( far ) );
+                CHECK( first_choice() == here.get_abs( far_pt ) );
             }
         }
     }
     GIVEN( "hammock next to NPC in the sun, stool further off in the shade" ) {
-        shade( here, far );
-        here.furn_set( near, furn_f_hammock );
-        here.furn_set( far, furn_f_stool );
+        shade( here, far_pt );
+        here.furn_set( near_pt, furn_f_hammock );
+        here.furn_set( far_pt, furn_f_stool );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "more comfortable hammock first" ) {
-                REQUIRE( here.ambient_light_at( near ) > LIGHT_AMBIENT_LIT );
-                REQUIRE( here.ambient_light_at( far ) < here.ambient_light_at( near ) );
-                CHECK( choice == here.get_abs( near ) );
+                REQUIRE( here.ambient_light_at( near_pt ) > LIGHT_AMBIENT_LIT );
+                REQUIRE( here.ambient_light_at( far_pt ) < here.ambient_light_at( near_pt ) );
+                CHECK( choice == here.get_abs( near_pt ) );
             }
         }
     }
     GIVEN( "warmer makeshift bed next to NPC in the sun, rollmat further off in the shade" ) {
-        shade( here, far );
-        here.furn_set( near, furn_f_makeshift_bed );
-        here.trap_set( far, tr_rollmat );
-        const int near_comfort = guy.get_comfort_at( near ).comfort;
-        REQUIRE( near_comfort == guy.get_comfort_at( far ).comfort );
+        shade( here, far_pt );
+        here.furn_set( near_pt, furn_f_makeshift_bed );
+        here.trap_set( far_pt, tr_rollmat );
+        const int near_comfort = guy.get_comfort_at( near_pt ).comfort;
+        REQUIRE( near_comfort == guy.get_comfort_at( far_pt ).comfort );
         WHEN( "it looks for a place to sleep" ) {
             const tripoint_abs_ms choice = first_choice();
             THEN( "shaded rollmat first" ) {
-                REQUIRE( here.ambient_light_at( near ) > LIGHT_AMBIENT_LIT );
-                REQUIRE( here.ambient_light_at( far ) < here.ambient_light_at( near ) );
-                CHECK( choice == here.get_abs( far ) );
+                REQUIRE( here.ambient_light_at( near_pt ) > LIGHT_AMBIENT_LIT );
+                REQUIRE( here.ambient_light_at( far_pt ) < here.ambient_light_at( near_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
             }
         }
     }
@@ -989,8 +989,8 @@ TEST_CASE( "sleep_spot_ranking_over_common_spots", "[npc][sleep]" )
     map &here = get_map();
     npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
     guy.set_sleepiness( 300 );
-    const tripoint_bub_ms near = guy.pos_bub() + tripoint::east;
-    const tripoint_bub_ms far = guy.pos_bub() + tripoint( -3, 0, 0 );
+    const tripoint_bub_ms near_pt = guy.pos_bub() + tripoint::east;
+    const tripoint_bub_ms far_pt = guy.pos_bub() + tripoint( -3, 0, 0 );
     // each better spot further off than the next worse one
     const auto check_order = [&]() {
         for( size_t i = 0; i + 1 < order.size(); ++i ) {
@@ -1000,17 +1000,17 @@ TEST_CASE( "sleep_spot_ranking_over_common_spots", "[npc][sleep]" )
             // comfort is cached per turn and tile
             calendar::turn += 1_turns;
             for( const tripoint_bub_ms &p : {
-                     near, far
+                     near_pt, far_pt
                  } ) {
                 here.furn_set( p, furn_str_id::NULL_ID() );
                 here.remove_trap( p );
             }
-            worse.place( here, near );
-            better.place( here, far );
+            worse.place( here, near_pt );
+            better.place( here, far_pt );
             here.build_map_cache( 0 );
             const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
             REQUIRE_FALSE( candidates.empty() );
-            CHECK( candidates.front().target == here.get_abs( far ) );
+            CHECK( candidates.front().target == here.get_abs( far_pt ) );
         }
     };
     GIVEN( "cold NPC" ) {
