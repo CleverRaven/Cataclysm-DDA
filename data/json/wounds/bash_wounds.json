@@ -259,6 +259,7 @@
     "name": { "str": "improperly set bone" },
     "description": "Your bone broken bone healed, somewhat.",
     "pain": [ 4, 6 ],
+    "wound_progression": [ {  } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "grip", "value": 0.4 },
@@ -276,6 +277,7 @@
     "name": { "str": "badly set bone" },
     "description": "Your broken bone healed, badly.",
     "pain": [ 10, 14 ],
+    "wound_progression": [ {  } ],
     "limb_scores": [
       { "score": "manip", "value": 0.7 },
       { "score": "grip", "value": 0.7 },
