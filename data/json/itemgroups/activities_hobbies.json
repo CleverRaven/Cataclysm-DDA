@@ -455,16 +455,7 @@
     "type": "item_group",
     "id": "camping_airgun",
     "subtype": "distribution",
-    "entries": [
-      {
-        "collection": [ { "item": "bb", "prob": 50, "charges": [ 1, 500 ] }, { "item": "bbgun", "prob": 100, "charges": [ 0, 150 ] } ],
-        "prob": 50
-      },
-      {
-        "collection": [ { "item": "varmint_airgun", "prob": 100 }, { "group": "ammo_varmint_airgun", "prob": 50 } ],
-        "prob": 50
-      }
-    ]
+    "entries": [ { "group": "airgun_recreational", "prob": 100 }, { "group": "airgun_hunting", "prob": 5 } ]
   },
   {
     "type": "item_group",

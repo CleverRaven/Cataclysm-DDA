@@ -624,7 +624,9 @@
       { "group": "tinware", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 },
       [ "cheongsam", 5 ],
-      { "group": "ammo_varmint_airgun", "prob": 10 }
+      { "group": "airgun_pellet_target_packed", "prob": 7 },
+      { "group": "airgun_pellet_hunting_packed", "prob": 3 },
+      { "group": "bb_packed", "prob": 5 }
     ]
   },
   {
