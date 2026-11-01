@@ -1688,7 +1688,7 @@
     "id": "chem_aluminium_sulphate_bag_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chem_aluminium_powder", "container-item": "null", "count": [ 1, 250 ] } ]
+    "entries": [ { "item": "chem_aluminium_sulphate", "container-item": "null", "count": [ 1, 250 ] } ]
   },
   {
     "type": "item_group",
