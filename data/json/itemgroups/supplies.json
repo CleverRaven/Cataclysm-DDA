@@ -1192,7 +1192,7 @@
       [ "chunk_sulfur", 5 ],
       { "group": "chem_aluminium_powder_bag_plastic_small_1_inf", "prob": 10 },
       { "group": "chem_aluminium_sulphate_bag_plastic_small_1_inf", "prob": 10 },
-      { "group": "chem_saltpetre_bag_plastic_small_1_inf", "prob": 10 },
+      { "group": "chem_saltpetre_bag_canvas_1_inf", "prob": 10 },
       { "group": "redphosphorus_small_bottle_part", "prob": 5 },
       { "group": "whitephosphorus_small_bottle_part", "prob": 5 },
       { "group": "bismuth_bottle_plastic_small_1_inf", "prob": 5 },
@@ -1681,28 +1681,28 @@
     "id": "chem_aluminium_powder_bag_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chem_aluminium_powder", "container-item": "null", "count": [ 1, 250 ] } ]
+    "entries": [ { "item": "chem_aluminium_powder", "container-item": "null", "count": [ 1, 166 ] } ]
   },
   {
     "type": "item_group",
     "id": "chem_aluminium_sulphate_bag_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chem_aluminium_sulphate", "container-item": "null", "count": [ 1, 250 ] } ]
+    "entries": [ { "item": "chem_aluminium_sulphate", "container-item": "null", "count": [ 1, 93 ] } ]
   },
   {
     "type": "item_group",
-    "id": "chem_saltpetre_bag_plastic_small_1_inf",
+    "id": "chem_saltpetre_bag_canvas_1_inf",
     "subtype": "collection",
-    "container-item": "bag_plastic_small",
-    "entries": [ { "item": "chem_saltpetre", "container-item": "null", "count": [ 1, 250 ] } ]
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "chem_saltpetre", "container-item": "null", "count": [ 1, 300 ] } ]
   },
   {
     "type": "item_group",
     "id": "bismuth_bottle_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "bismuth", "container-item": "null", "count": [ 1, 250 ] } ]
+    "entries": [ { "item": "bismuth", "container-item": "null", "count": [ 1, 125 ] } ]
   },
   {
     "type": "item_group",
