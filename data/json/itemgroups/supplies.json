@@ -1702,7 +1702,7 @@
     "id": "bismuth_bottle_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "bismuth", "container-item": "null", "count": [ 1, 125 ] } ]
+    "entries": [ { "item": "bismuth", "container-item": "null", "count": [ 1, 100 ] } ]
   },
   {
     "type": "item_group",
