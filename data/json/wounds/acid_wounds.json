@@ -1,0 +1,209 @@
+[
+  {
+    "id": "acid_small",
+    "type": "wound",
+    "name": { "str": "light acid burn" },
+    "description": "You have a light acid burn, you should clean it as soon as possible.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "acid" ],
+    "damage_required": [ 1, 9 ],
+    "pain": [ 5, 9 ],
+    "wound_progression": [ { "id": "acid_medium", "chance": 100 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.1 },
+      { "score": "block", "value": 0.1 },
+      { "score": "grip", "value": 0.1 },
+      { "score": "lift", "value": 0.1 },
+      { "score": "block", "value": 0.1 },
+      { "score": "swim", "value": 0.1 },
+      { "score": "crawl", "value": 0.1 },
+      { "score": "balance", "value": 0.05 },
+      { "score": "footing", "value": 0.05 },
+      { "score": "move_speed", "value": 0 }
+    ],
+    "progress_timer": { "id": "progressed_acid_small", "time": [ "6 hours", "10 hours" ], "message": "Your %s acid burn hurts even more." },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "acid_medium",
+    "type": "wound",
+    "name": { "str": "acid burn" },
+    "description": "You have an acid burn, you should clean it as soon as possible.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "acid" ],
+    "damage_required": [ 10, 19 ],
+    "pain": [ 15, 19 ],
+    "wound_progression": [ { "id": "acid_bad", "chance": 100 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.2 },
+      { "score": "block", "value": 0.2 },
+      { "score": "grip", "value": 0.2 },
+      { "score": "lift", "value": 0.2 },
+      { "score": "block", "value": 0.2 },
+      { "score": "swim", "value": 0.2 },
+      { "score": "crawl", "value": 0.2 },
+      { "score": "balance", "value": 0.15 },
+      { "score": "footing", "value": 0.15 },
+      { "score": "move_speed", "value": 0.15 }
+    ],
+    "progress_timer": { "id": "progressed_acid_medium", "time": [ "2 hours", "3 hours" ], "message": "Your %s acid burn hurts even more." },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "acid_bad",
+    "type": "wound",
+    "name": { "str": "bad acid burn" },
+    "description": "You have a bad acid burn, you should clean it as soon as possible.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "acid" ],
+    "damage_required": [ 19, 29 ],
+    "pain": [ 30, 39 ],
+    "wound_progression": [ { "id": "acid_terrible", "chance": 100 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.35 },
+      { "score": "block", "value": 0.35 },
+      { "score": "grip", "value": 0.35 },
+      { "score": "lift", "value": 0.35 },
+      { "score": "block", "value": 0.35 },
+      { "score": "swim", "value": 0.35 },
+      { "score": "crawl", "value": 0.35 },
+      { "score": "balance", "value": 0.2 },
+      { "score": "footing", "value": 0.2 },
+      { "score": "move_speed", "value": 0.2 }
+    ],
+    "progress_timer": { "id": "progressed_acid_bad", "time": [ "6 hours", "10 hours" ], "message": "Your %s acid burn hurts even more." },
+    "blacklist_body_part_types": [ "sensor", "head" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "acid_terrible",
+    "type": "wound",
+    "name": { "str": "terrible acid burn" },
+    "description": "You have a terrible acid burn, you should clean it as soon as possible.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "acid" ],
+    "damage_required": [ 30, 80 ],
+    "pain": [ 40, 49 ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.5 },
+      { "score": "block", "value": 0.5 },
+      { "score": "grip", "value": 0.5 },
+      { "score": "lift", "value": 0.5 },
+      { "score": "block", "value": 0.5 },
+      { "score": "swim", "value": 0.5 },
+      { "score": "crawl", "value": 0.5 },
+      { "score": "balance", "value": 0.5 },
+      { "score": "footing", "value": 0.5 },
+      { "score": "move_speed", "value": 0.5 }
+    ],
+    "progress_timer": { "id": "progressed_acid_terrible", "time": [ "6 hours", "10 hours" ], "message": "Your %s acid burn hurts even more." },
+    "blacklist_body_part_types": [ "sensor" ],
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "progressed_acid_small",
+    "copy-from": "acid_small",
+    "type": "wound",
+    "name": { "str": "worsoned light acid burn" },
+    "weight": 0,
+    "description": "You have a light acid burn, you should really bandage it."
+  },
+  {
+    "id": "progressed_acid_medium",
+    "copy-from": "acid_medium",
+    "type": "wound",
+    "name": { "str": "worsoned acid burn" },
+    "weight": 0,
+    "description": "You have an acid burn, you should really bandage it."
+  },
+  {
+    "id": "progressed_acid_bad",
+    "copy-from": "acid_bad",
+    "type": "wound",
+    "name": { "str": "worsoned deep acid burn" },
+    "weight": 0,
+    "description": "You have a bad acid burn, you should really bandage it."
+  },
+  {
+    "id": "progressed_acid_terrible",
+    "copy-from": "acid_terrible",
+    "type": "wound",
+    "name": { "str": "worsoned horrible acid burn" },
+    "weight": 0,
+    "description": "You have a terrible acid burn, you should really bandage it."
+  },
+  {
+    "id": "clean_acid_small",
+    "copy-from": "acid_small",
+    "type": "wound",
+    "name": { "str": "clean light acid burn" },
+    "weight": 0,
+    "description": "You have a light acid burn, you should really bandage it.",
+    "wound_progression": [ { "id": "acid_medium", "chance": 100 } ]
+  },
+  {
+    "id": "clean_acid_medium",
+    "copy-from": "acid_medium",
+    "type": "wound",
+    "name": { "str": "clean acid burn" },
+    "weight": 0,
+    "description": "You have an acid burn, you should really bandage it.",
+    "wound_progression": [ { "id": "acid_medium", "chance": 100 } ]
+  },
+  {
+    "id": "clean_acid_bad",
+    "copy-from": "acid_bad",
+    "type": "wound",
+    "name": { "str": "clean deep acid burn" },
+    "weight": 0,
+    "description": "You have a bad acid burn, you should really bandage it.",
+    "wound_progression": [ { "id": "acid_medium", "chance": 100 } ]
+  },
+  {
+    "id": "clean_acid_terrible",
+    "copy-from": "acid_terrible",
+    "type": "wound",
+    "name": { "str": "clean horrible acid burn" },
+    "weight": 0,
+    "description": "You have a terrible acid burn, you should really bandage it.",
+    "wound_progression": [ { "id": "acid_medium", "chance": 100 } ]
+  },
+  {
+    "id": "bandaged_acid_small",
+    "copy-from": "clean_acid_small",
+    "type": "wound",
+    "name": { "str": "bandaged light acid burn" },
+    "description": "You have a light acid burn, you should wait till it heals.",
+    "healing_time": [ "4 days", "6 days" ]
+  },
+  {
+    "id": "bandaged_acid_medium",
+    "copy-from": "clean_acid_medium",
+    "type": "wound",
+    "name": { "str": "bandaged acid burn" },
+    "description": "You have acid burn, you should wait till it heals.",
+    "healing_time": [ "5 days", "7 days" ]
+  },
+  {
+    "id": "bandaged_acid_bad",
+    "copy-from": "clean_acid_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep acid burn" },
+    "description": "You have a bad acid burn, you should wait till it heals.",
+    "healing_time": [ "6 days", "8 days" ]
+  },
+  {
+    "id": "bandaged_acid_terrible",
+    "copy-from": "clean_acid_terrible",
+    "type": "wound",
+    "name": { "str": "bandaged horrible acid burn" },
+    "description": "You have a terrible acid burn, you should wait till it heals.",
+    "healing_time": [ "7 days", "10 days" ]
+  }
+]

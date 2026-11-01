@@ -107,5 +107,14 @@
     "skills": { "firstaid": 3 },
     "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
+  },
+  {
+    "abstract": "clean_wound_acid",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "30 minutes",
+    "skills": { "firstaid": 0 },
+    "requirements": [ { "components": [ [ [ "water_clean", 40 ] ] ] } ]
   }
 ]

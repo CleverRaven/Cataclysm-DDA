@@ -1,0 +1,82 @@
+[
+  {
+    "id": "clean_acid_small_fix",
+    "copy-from": "clean_wound_acid",
+    "type": "wound_fix",
+    "name": "clean the acid burn",
+    "description": "Clean your light acid burn.",
+    "wounds_removed": [ "acid_small" ],
+    "wounds_added": [ "clean_acid_small" ],
+    "success_msg": "The light acid burn is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_acid_medium_fix",
+    "copy-from": "clean_wound_acid",
+    "type": "wound_fix",
+    "name": "clean the acid burn",
+    "description": "Clean your acid burn.",
+    "wounds_removed": [ "acid_medium" ],
+    "wounds_added": [ "clean_acid_medium" ],
+    "success_msg": "The acid burn is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_acid_bad_fix",
+    "copy-from": "clean_wound_acid",
+    "type": "wound_fix",
+    "name": "clean the acid burn",
+    "description": "Clean your bad acid burn.",
+    "wounds_removed": [ "acid_bad" ],
+    "wounds_added": [ "clean_acid_bad" ],
+    "success_msg": "The bad acid burn is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_acid_terrible_fix",
+    "copy-from": "clean_wound_acid",
+    "type": "wound_fix",
+    "name": "clean the acid burn",
+    "description": "Clean your horrible acid burn burn.",
+    "wounds_removed": [ "acid_terrible" ],
+    "wounds_added": [ "clean_acid_terrible" ],
+    "success_msg": "The horrible acid burn is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "bandage_acid_small_fix",
+    "copy-from": "bandage_wound_small",
+    "type": "wound_fix",
+    "name": "bandage the acid burn",
+    "description": "Bandage your light acid burn.",
+    "wounds_removed": [ "clean_acid_small" ],
+    "wounds_added": [ "bandaged_acid_small" ],
+    "success_msg": "The light acid burn is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_acid_medium_fix",
+    "copy-from": "bandage_wound_medium",
+    "type": "wound_fix",
+    "name": "bandage the acid burn",
+    "description": "Bandage your acid burn.",
+    "wounds_removed": [ "clean_acid_medium" ],
+    "wounds_added": [ "bandaged_acid_medium" ],
+    "success_msg": "The acid burn is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_acid_bad_fix",
+    "copy-from": "bandage_wound_bad",
+    "type": "wound_fix",
+    "name": "bandage the acid burn",
+    "description": "Bandage your bad acid burn.",
+    "wounds_removed": [ "clean_acid_bad" ],
+    "wounds_added": [ "bandaged_acid_bad" ],
+    "success_msg": "The bad acid burn is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_acid_terrible_fix",
+    "copy-from": "bandage_wound_terrible",
+    "type": "wound_fix",
+    "name": "bandage the acid burn",
+    "description": "Bandage your horrible acid burn.",
+    "wounds_removed": [ "clean_acid_terrible" ],
+    "wounds_added": [ "bandaged_acid_terrible" ],
+    "success_msg": "The horrible acid burn is bandaged, now, all you can do is wait for it to heal."
+  }
+]
