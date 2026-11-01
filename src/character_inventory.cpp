@@ -662,6 +662,11 @@ item_location Character::invlet_to_item( const int linvlet ) const
     return invlet_item;
 }
 
+bool Character::is_worn_or_wielded( const item_location &thing ) const
+{
+    return worn.is_worn( *thing ) || get_wielded_item() == thing;
+}
+
 int Character::get_item_position( const item *it ) const
 {
     if( weapon.has_item( *it ) ) {

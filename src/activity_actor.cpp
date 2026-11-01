@@ -11630,8 +11630,6 @@ std::unique_ptr<activity_actor> toolmod_add_activity_actor::deserialize( JsonVal
 
 void longsalvage_activity_actor::start( player_activity &act, Character & )
 {
-    act.index = index;
-
     //todo: refactor the actor to process items in ::do_turn, then remove setting the moves to 0
     //this currently still can't get interrupted before you get attacked
     act.moves_left = 0;
@@ -11639,12 +11637,16 @@ void longsalvage_activity_actor::start( player_activity &act, Character & )
 
 void longsalvage_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( !salvage_tool.valid() ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
     static const std::string salvage_string = "salvage";
-    item &main_tool = who.i_at( act.index );
     map &here = get_map();
     map_stack items = here.i_at( who.pos_bub() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
+    item *found_usable_item = salvage_tool->get_usable_item( salvage_string );
+    if( found_usable_item == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act.set_to_null();
         return;
@@ -11676,7 +11678,7 @@ void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "index", index );
+    jsout.member( "salvage_tool", salvage_tool );
 
     jsout.end_object();
 }
@@ -11687,7 +11689,13 @@ std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonVal
 
     JsonObject data = jsin.get_object();
 
-    data.read( "index", actor.index );
+    // REMOVE "index" AFTER 0.K
+    if( data.has_member( "index" ) ) {
+        int index = 0;
+        // don't attempt to find an item, let activity from legacy save fail safely
+        data.read( "index", index );
+    }
+    data.read( "salvage_tool", actor.salvage_tool );
 
     return actor.clone();
 }

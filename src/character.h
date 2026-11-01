@@ -2033,6 +2033,9 @@ class Character : public Creature, public visitable
             return -2 - position;
         }
 
+        // checks to see if an item is worn OR wielded
+        bool is_worn_or_wielded( const item_location &thing ) const;
+
         // checks to see if an item is worn
         bool is_worn( const item &thing ) const {
             return worn.is_worn( thing );
