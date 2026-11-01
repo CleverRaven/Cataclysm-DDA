@@ -7,6 +7,7 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
+#include "filesystem.h"
 #include "cata_path.h"
 #include "debug.h"
 #include "translation.h"
