@@ -23,6 +23,7 @@ class JsonOut;
 enum class bp_type;
 struct bp_wounds;
 struct dealt_damage_instance;
+template <typename E> struct enum_traits;
 
 // worsening wound when the same wound is hit again
 struct wound_progress {
@@ -55,6 +56,11 @@ enum class wound_mod_value_type {
     LAST
 };
 
+template<>
+struct enum_traits<wound_mod_value_type> {
+    static constexpr wound_mod_value_type last = wound_mod_value_type::LAST;
+};
+
 struct wound_mod_values {
 
     wound_mod_value_type type;
@@ -73,6 +79,18 @@ struct wound_periodic_message {
     time_duration rate;
 
     void deserialize( const JsonObject &jo );
+};
+
+enum class wound_severity {
+    MINOR,
+    MAJOR,
+    CRITICAL,
+    LAST,
+};
+
+template<>
+struct enum_traits<wound_severity> {
+    static constexpr wound_severity last = wound_severity::LAST;
 };
 
 class wound_type
@@ -120,6 +138,8 @@ class wound_type
         std::pair<int, int> damage_required;
         // general weight of this wound comparing to another wounds, smaller = lesser chance to got one
         int weight;
+
+        wound_severity severity = wound_severity::MINOR;
 
         // this wound can or cannot be applied to this bodyparts
         std::vector<json_character_flag> whitelist_bp_with_flag;
