@@ -10,7 +10,7 @@
 #ifdef _WIN32
 #include <io.h>
 #else
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 #endif
 #include <char8_t-remediation/char8_t-remediation.h>
