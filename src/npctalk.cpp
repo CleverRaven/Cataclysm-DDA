@@ -2956,8 +2956,14 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
                 generate_response_lines();
             } else if( action == "DOWN" ) {
                 d_img.sel_response++;
+                if (d_img.sel_response >= static_cast<int>(response_hotkeys.size())) {
+                    d_img.sel_response = 0;
+                }
             } else if( action == "UP" ) {
                 d_img.sel_response--;
+                if (d_img.sel_response < 0) {
+                    d_img.sel_response = static_cast<int>(response_hotkeys.size()) - 1;
+                }
             } else if( action == "END" ) {
                 d_img.scroll_to = cataimgui::scroll::page_down;
             } else if( action == "HOME" ) {
