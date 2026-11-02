@@ -207,7 +207,7 @@
       },
       {
         "name": "Cooking",
-        "//": "Occasional stirring",
+        "//": "Occasional stirring, in the last few minute add in the last ingredients",
         "time": "15 m",
         "batch_time_factors": [ 80, 4 ],
         "activity_level": "LIGHT_EXERCISE",
