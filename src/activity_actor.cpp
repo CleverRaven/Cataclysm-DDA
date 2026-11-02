@@ -11353,27 +11353,31 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     for( const auto &e : reqs.get_components() ) {
-        who.consume_items( e );
+        who.consume_items( e, amount );
     }
     for( const auto &e : reqs.get_tools() ) {
-        who.consume_tools( e );
+        who.consume_tools( e, amount );
     }
     who.invalidate_crafting_inventory();
 
-    for( const wound_type_id &id : fix.wounds_removed ) {
-        bp->remove_wound( id );
+    for( int i = 0; i < amount; i++ ) {
+        for( const wound_type_id &id : fix.wounds_removed ) {
+            bp->remove_wound( id );
+        }
     }
 
-    for( const wound_type_id &id : fix.wounds_added ) {
-        bp->add_wound( id );
+    for( int i = 0; i < amount; i++ ) {
+        for( const wound_type_id &id : fix.wounds_added ) {
+            bp->add_wound( id );
+        }
     }
 
     if( fix.mod_hp ) {
-        bp->mod_hp_cur( fix.mod_hp );
+        bp->mod_hp_cur( fix.mod_hp * amount );
     }
 
     for( const auto& [skill_id, level] : fix.skills ) {
-        who.practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+        who.practice( skill_id, 10 * amount, static_cast<int>( level * 1.25 ) );
     }
 
     for( const wound_proficiency &wound_prof : fix.proficiencies ) {
@@ -11381,6 +11385,10 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     }
 
     add_msg( m_good, fix.success_msg.translated() );
+
+    if( who.has_wounds( healed_bp.id() ) ) {
+        who.pick_wound_fix( healed_bp );
+    }
 }
 
 void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
@@ -11390,6 +11398,7 @@ void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "healed_bp", healed_bp );
     jsout.member( "mended_wound", mended_wound );
     jsout.member( "mending_method", mending_method );
+    jsout.member( "amount", amount );
 
     jsout.end_object();
 }
@@ -11403,6 +11412,7 @@ std::unique_ptr<activity_actor> fix_wound_activity_actor::deserialize( JsonValue
     data.read( "healed_bp", actor.healed_bp );
     data.read( "mended_wound", actor.mended_wound );
     data.read( "mending_method", actor.mending_method );
+    data.read( "amount", actor.amount );
 
     return actor.clone();
 }

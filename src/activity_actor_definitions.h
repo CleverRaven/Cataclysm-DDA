@@ -3893,9 +3893,9 @@ class fix_wound_activity_actor : public activity_actor
 {
     public:
         fix_wound_activity_actor( time_duration initial_moves, bodypart_id healed_bp,
-                                  wound_type_id mended_wound, wound_fix_id mending_method ) :
+                                  wound_type_id mended_wound, wound_fix_id mending_method, int amount ) :
             initial_moves( initial_moves ), healed_bp( healed_bp ),
-            mended_wound( mended_wound ), mending_method( mending_method ) { }
+            mended_wound( mended_wound ), mending_method( mending_method ), amount( amount ) { }
 
         const activity_id &get_type() const override {
             static const activity_id ACT_TREAT_WOUND( "ACT_TREAT_WOUND" );
@@ -3919,6 +3919,7 @@ class fix_wound_activity_actor : public activity_actor
         bodypart_id healed_bp;
         wound_type_id mended_wound;
         wound_fix_id mending_method;
+        int amount;
 };
 
 class gunmod_add_activity_actor : public activity_actor
