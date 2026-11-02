@@ -5726,28 +5726,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_sapatosaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_sapatosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sapatosaurus_hulk",
     "name": { "str": "skeletal sauropod juggernaut" },
     "copy-from": "mon_sapatosaurus_brute",
