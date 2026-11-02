@@ -5107,7 +5107,7 @@
     "copy-from": "mon_silophosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5153,7 +5153,7 @@
     "copy-from": "mon_skinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The twisted back sail means it must have been a spinosaurus once.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5197,7 +5197,7 @@
     "copy-from": "mon_sorvosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5241,7 +5241,7 @@
     "copy-from": "mon_sallosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5281,7 +5281,7 @@
     "copy-from": "mon_syrannosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisted pointed teeth suggest some kind of predator dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "melee_dice": 5,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 35 } ],
@@ -5324,7 +5324,7 @@
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
@@ -5370,7 +5370,7 @@
     "copy-from": "mon_salcarius_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5415,7 +5415,7 @@
     "copy-from": "mon_serizinosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5461,7 +5461,7 @@
     "copy-from": "mon_sallimimus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5507,7 +5507,7 @@
     "copy-from": "mon_sanzu_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting beak suggest some kind of two legged beaked dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5553,7 +5553,7 @@
     "copy-from": "mon_sutahraptor_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting claws and sharp teeth suggest some kind of two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5753,7 +5753,7 @@
     "copy-from": "mon_sapatosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its long twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape suggests some kind of four legged dinosaur with a long neck.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -5905,7 +5905,7 @@
     "copy-from": "mon_sktegosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiky and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape suggests a four legged dinosaur with a spiked tail.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6145,7 +6145,7 @@
     "copy-from": "mon_sankylosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiky and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6231,7 +6231,7 @@
     "copy-from": "mon_samptosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiky and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6295,7 +6295,7 @@
     "copy-from": "mon_sryosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiked and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6337,7 +6337,7 @@
     "copy-from": "mon_siguanodon_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiked and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6401,7 +6401,7 @@
     "copy-from": "mon_sadrosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its spiked and twisted tail behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6641,7 +6641,7 @@
     "copy-from": "mon_sachycephalosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh awkwardly carries its massive head on two twisted limbs.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -6947,7 +6947,7 @@
     "copy-from": "mon_sriceratops_brute",
     "description": "This hideous colossus of plated bones and misshapen horns drags awkwardly on bowed and twisted legs.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -7011,7 +7011,7 @@
     "copy-from": "mon_sescelosaurus_brute",
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
-    "proportional": { "hp": 2.5, "weight": 7.4  },
+    "proportional": { "hp": 2.5, "weight": 7.4 },
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
