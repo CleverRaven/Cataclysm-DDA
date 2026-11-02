@@ -132,6 +132,21 @@
   },
   {
     "type": "terrain",
+    "id": "t_nl_grass_very_tall",
+    "name": "tangled cybergrass harness",
+    "description": "A massive, floor-to-ceiling tangle of wires and… grass?  Is that grass?  The long blades glow and hum like old, dim fluorescent lights.  Something is moving, behind it.  It looks rather easy to rip apart.",
+    "transforms_into": "t_nl_grass_tall",
+    "symbol": "'",
+    "color": "green",
+    "light_emitted": 5,
+    "light_color": [ 240, 245, 200 ],
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND", "SUPPORTS_ROOF", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "bash": { "str_min": 4, "str_max": 30, "sound": "chick-ah!", "sound_fail": "swish!", "ter_set": "t_nl_grass_long" }
+  },
+  {
+    "type": "terrain",
     "id": "t_nl_soil",
     "copy-from": "t_abstract_wall_earthen",
     "name": "solid earth",
@@ -226,5 +241,17 @@
     "looks_like": "t_alien_meadow_shrub_2_harvested",
     "transforms_into": "t_nl_shrub_glowberries",
     "examine_action": "harvested_plant"
+  },
+  {
+    "type": "terrain",
+    "id": "t_slope_to_bosky_labyrinth",
+    "name": "overgrown slope down",
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT",
+    "description": "A downward-facing slope, so overgrown with brush you can't make out what lied beyond.",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ]
   }
 ]

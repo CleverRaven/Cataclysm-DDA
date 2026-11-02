@@ -314,5 +314,23 @@
     "occurrences": [ 0, 0 ],
     "locations": [ "labyrinth2" ],
     "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinth_sparkgen",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "labyrinth_sparkgen_UL_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "labyrinth_sparkgen_UC_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "labyrinth_sparkgen_UR_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "labyrinth_sparkgen_LL_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "labyrinth_sparkgen_LC_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "labyrinth_sparkgen_LR_north" }
+    ],
+    "city_distance": [ 0, -1 ],
+    "//": "spawned by EOC",
+    "occurrences": [ 0, 0 ],
+    "rotate": false,
+    "locations": [ "netherum_labyrinth_sparkling_chasm" ],
+    "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH", "GLOBALLY_UNIQUE" ]
   }
 ]

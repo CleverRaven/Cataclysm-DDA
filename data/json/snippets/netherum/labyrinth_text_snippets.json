@@ -32,5 +32,10 @@
     "type": "snippet",
     "category": "<ls_passcode3>",
     "text": [ "I-thought_youl0vedme", "was-all-the-time-wasted", "IGaveyouEverything", "I_still_miss_you" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ls_passcode_fixbot>",
+    "text": [ "i-can-fix-it", "imheretohelp", "gollygeethatsalotofmeat", "I_will_help_you" ]
   }
 ]
