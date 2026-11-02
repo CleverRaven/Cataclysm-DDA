@@ -126,6 +126,12 @@ Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 New wound system, first implemented with cut wounds
+Followers and guards eat without leaving you or their post, and meals take real time
+Bash wounds
+remove non wound bleeding
+Make caffeine gum stronger and addictive
+stab wounds
+New special attacks for certain skeletal zombies
 
 
 ## Content:
@@ -226,6 +232,16 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
+Remove millitary bunker gas station special
+Fix MEND_ALL for broken bones
+Bionic wounds and ways to repair them: damaged plating, integrated circuits, actuators, sensors, wires, and hydraulics
+Add unnatural wound healing effect, make it a possible artifact effect
+Heart of The Warrior CBM
+Add slow cooker item
+Add Buffalo Sauce
+Bionic wounds to plating may require professional help
+Bad bionic wounds, which need professional repair
+Make the portal dungeon rewards available again and add some more rewards to it.
 
 
 ## Interface:
@@ -396,6 +412,15 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
+Include Innawood bandages in the wounds system
+[Xedra Evolved] Add more Bleed Immunity
+Aftershock: Add a rocket launcher
+Make innawoods teas unattended too
+[XE] Add supernatural wound healing
+[MoM] Staunch Wound and Immunostimulus interact with wounds
+[MoM] Update Anabolic Rejuvenation for wounds
+[XE] Successfully directly drinking blood removes living-drinker debuff.
+[DinoMod] crazed dinos attack!
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -464,6 +489,11 @@ Scarlet Storm is less punishing with acute exposure, more punishing with chronic
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
+Add small amount of `incoming_damage_mod_post_absorbed` to some effects
+Regeneration mutations can automatically "clean" wounds
+Add `BONELESS` flag for boneless limbs for bash wounds
+Remove amphetamine addiction from antidepressants
+Remove stockings endurance and adjust items masses
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -674,6 +704,16 @@ Fungal infections don't randomly happen
 Factions that are mad at you won't talk to you.
 NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
 NPCs don't freeze when something comes up on the way to their job
+Unmagic HWP
+Zone tasks fetch only what they lack and clear their marks
+Camp members ordered to guard keep guarding after a reload
+[MoM] Add pain caps for telepathic headache wounds
+fix achemist not buying potions
+Fix isherwood family quest issues
+Fix Crash with manual selection Inventory Eocs
+Fix NPC sleep spot choice, harvest after a map shift, NPC fire safety, camp item loss and a hammerspace zone loop
+Sleeping in a tent with a rollmat lead to player being uncomfortable
+NPCs fetch construction components from containers and spread over construction sites
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -846,6 +886,7 @@ Fix GCC 9 tiles build error in cataimgui::draw_texture
 Android apk with sounds
 MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
+Fix clang debug builds with mold and libstdc++ 16
 
 
 ## I18N and A11Y:
