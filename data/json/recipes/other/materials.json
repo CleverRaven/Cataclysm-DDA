@@ -1467,7 +1467,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
-    "using": [ [ "blacksmithing_standard_fileless", 20 ] ],
+    "using": [ [ "blacksmithing_standard_fileless", 20 ], [ "cementation", 20 ] ],
     "components": [
       [
         [ "budget_steel_lump", 1 ],
@@ -1476,7 +1476,6 @@
         [ "ch_steel_chunk", 4 ],
         [ "ch_steel_lump", 1 ]
       ],
-      [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ],
       [ [ "ash", 100 ] ]
     ],
     "byproducts": [ [ "ash", 100 ] ],
