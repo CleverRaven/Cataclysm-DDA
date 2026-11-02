@@ -3390,7 +3390,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sanchisaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3412,7 +3412,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sissi_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3444,7 +3444,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_soabosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3476,7 +3476,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_saplocanthosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3508,7 +3508,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_samargasaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3540,7 +3540,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3560,7 +3560,8 @@
       },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
-    "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
+    "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail.",
+    "upgrades": { "half_life": 60, "into": "mon_srontosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3590,7 +3591,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_siplodocus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3622,7 +3623,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sarosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3642,7 +3643,8 @@
       },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
-    "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
+    "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body.",
+    "upgrades": { "half_life": 60, "into": "mon_samarasaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3660,7 +3662,8 @@
       },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
-    "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
+    "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body.",
+    "upgrades": { "half_life": 60, "into": "mon_srachiosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3678,7 +3681,8 @@
       },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
-    "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
+    "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body.",
+    "upgrades": { "half_life": 60, "into": "mon_sastrodon_brute" }
   },
   {
     "type": "MONSTER",
@@ -3708,7 +3712,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_salamosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 19, "bullet": 3, "bash": 0 }
   },
@@ -3737,7 +3741,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sktegosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 13, "bullet": 2, "bash": 0 }
   },
@@ -3766,7 +3770,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sesperosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 15, "bullet": 2, "bash": 0 }
   },
@@ -3795,7 +3799,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sastonia_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3824,7 +3828,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sargoyleosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 13, "bullet": 6, "bash": 0 }
   },
@@ -3853,7 +3857,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_skauropelta_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3882,7 +3886,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sodosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3911,7 +3915,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sanoplosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3940,7 +3944,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sedmontonia_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3969,7 +3973,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_suul_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -3998,7 +4002,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_syoplosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4028,7 +4032,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -4057,7 +4061,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_zuoplocephalus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4086,7 +4090,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_skcolosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4108,7 +4112,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_samptosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -4130,7 +4134,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_senontosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -4152,7 +4156,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sryosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -4174,7 +4178,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_siguanodon_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4196,7 +4200,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_seolambia_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4218,7 +4222,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4240,7 +4244,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_saiasaura_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4262,7 +4266,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sryposaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4284,7 +4288,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_srosaurolophus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4306,7 +4310,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_skaurolophus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4328,7 +4332,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sedmontosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4350,7 +4354,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sarasaurolophus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4372,7 +4376,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sambeosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4394,7 +4398,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sorythosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4416,7 +4420,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sypacrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4438,7 +4442,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sachycephalosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bash": 0 }
   },
@@ -4460,7 +4464,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_septoceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4482,7 +4486,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_suniceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4504,7 +4508,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sokiceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4526,7 +4530,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sktyracosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4548,7 +4552,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sentrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4570,7 +4574,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_seiniosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4592,7 +4596,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sachelousaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4614,7 +4618,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sachyrhinosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
@@ -4636,7 +4640,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sasmosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
@@ -4658,7 +4662,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sentaceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
@@ -4680,7 +4684,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sosmoceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4702,7 +4706,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sorosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 9, "bullet": 3, "bash": 0 }
   },
@@ -4724,7 +4728,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": false,
+    "upgrades": { "half_life": 60, "into": "mon_sriceratops_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 3, "bash": 0 }
   },
