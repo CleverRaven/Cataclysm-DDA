@@ -84,6 +84,35 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_HEAL_MINOR_WOUNDS",
+    "effect": [
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [
+          {
+            "if": { "u_has_body_part": { "context_val": "id" } },
+            "then": {
+              "u_remove_wound": { "context_val": "id" },
+              "wound_id": [
+                "bruise_small",
+                "bandaged_scratch_small",
+                "clean_scratch_small",
+                "scratch_small",
+                "bleeding_stab_small",
+                "stab_small",
+                "clean_stab_small",
+                "bleeding_stab_small"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_INITIATE",
     "condition": "u_is_avatar",
     "effect": [
