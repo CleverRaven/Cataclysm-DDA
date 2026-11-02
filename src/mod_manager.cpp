@@ -9,6 +9,8 @@
 #include <queue>
 #include <stdexcept>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -370,7 +372,8 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
         cata_path mod_base_path = mod.path;
 
-        if( input_files.empty() && mod.path.get_relative_path().filename().u8string() == MOD_SEARCH_FILE ) {
+        if( input_files.empty() &&
+            from_u8string( mod.path.get_relative_path().filename().u8string() ) == MOD_SEARCH_FILE ) {
             // Self contained mod, all data is inside the modinfo.json file
             input_files.push_back( mod.path );
             mod_base_path = mod.path.parent_path();
