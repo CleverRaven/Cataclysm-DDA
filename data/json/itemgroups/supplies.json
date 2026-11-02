@@ -1182,7 +1182,7 @@
       { "group": "ammonia_hydroxide_bottle_twoliter_part", "prob": 10 },
       { "prob": 10, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "group": "oxy_powder_bottle_part", "prob": 10 },
-      [ "ash", 5 ],
+      { "group": "ash_bag_plastic_small_1_inf", "prob": 5 },
       { "group": "lye_bottle_twoliter_part", "prob": 5 },
       { "group": "lye_potassium_bottle_liter_part", "prob": 5 },
       { "group": "lye_powder_bottle_part", "prob": 10 },
@@ -1190,21 +1190,21 @@
       { "group": "charcoal_bag_part", "prob": 10 },
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chunk_sulfur", 5 ],
-      [ "chem_aluminium_powder", 10 ],
-      [ "chem_aluminium_sulphate", 10 ],
-      [ "chem_saltpetre", 10 ],
+      { "group": "chem_aluminium_powder_bag_plastic_small_1_inf", "prob": 10 },
+      { "group": "chem_aluminium_sulphate_bag_plastic_small_1_inf", "prob": 10 },
+      { "group": "chem_saltpetre_bag_canvas_1_inf", "prob": 10 },
       { "group": "redphosphorus_small_bottle_part", "prob": 5 },
       { "group": "whitephosphorus_small_bottle_part", "prob": 5 },
-      { "item": "bismuth", "prob": 5, "count": [ 1, -1 ] },
+      { "group": "bismuth_bottle_plastic_small_1_inf", "prob": 5 },
       { "item": "chem_benzene", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_toluene", "prob": 10, "charges": [ 1, -1 ] },
-      { "item": "chem_antimony_trichloride", "prob": 2, "count": [ 1, -1 ] },
-      { "item": "chem_ferric_chloride", "prob": 15, "count": [ 1, -1 ] },
-      { "item": "chem_nickel_powder", "prob": 5, "count": [ 1, -1 ] },
-      { "item": "chem_slaked_lime", "prob": 5, "count": [ 1, -1 ], "entry-wrapper": "bag_plastic", "sealed": false },
-      { "item": "chem_baking_soda", "prob": 10, "count": [ 1, -1 ] },
-      { "item": "chem_washing_soda", "prob": 10, "count": [ 1, -1 ] },
-      { "item": "chem_calcium_chloride", "prob": 5 },
+      { "group": "chem_antimony_trichloride_bag_plastic_small_1_inf", "prob": 2 },
+      { "group": "chem_ferric_chloride_bag_plastic_small_1_inf", "prob": 15 },
+      { "group": "chem_nickel_powder_bag_plastic_small_1_inf", "prob": 5 },
+      { "group": "chem_slaked_lime_bag_plastic_1_inf", "prob": 5 },
+      { "group": "chem_baking_soda_box_small_1_inf", "prob": 10 },
+      { "group": "chem_washing_soda_box_small_1_inf", "prob": 10 },
+      { "group": "chem_calcium_chloride_bag_plastic_small_1_inf", "prob": 5 },
       { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_sulphuric_acid", "prob": 10, "charges": [ 1, -1 ] },
       { "item": "chem_muriatic_acid", "prob": 10, "charges": [ 1, -1 ] },
@@ -1216,7 +1216,7 @@
       { "item": "mercury", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_sodium", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "chem_potassium", "prob": 10, "charges": [ 100, -1 ] },
-      [ "chem_ammonium_nitrate", 10 ],
+      { "group": "chem_ammonium_nitrate_bag_plastic_small_1_inf", "prob": 10 },
       { "group": "chromiumoxide_small_bottle_part", "prob": 10 },
       { "group": "zincpowder_small_bottle_part", "prob": 10 },
       { "group": "manganesedioxide_small_bottle_part", "prob": 10 },
@@ -1625,14 +1625,14 @@
     "id": "chem_peptone_broth_bottle_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
+    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, 125 ] } ]
   },
   {
     "type": "item_group",
     "id": "chem_agar_bottle_plastic_small_1_inf",
     "subtype": "collection",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
+    "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, 250 ] } ]
   },
   {
     "type": "item_group",
@@ -1653,7 +1653,7 @@
     "id": "chem_citric_acid_bottle_glass_100_inf",
     "subtype": "collection",
     "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, -1 ] } ]
+    "entries": [ { "item": "chem_citric_acid", "container-item": "null", "count": [ 100, 250 ] } ]
   },
   {
     "type": "item_group",
@@ -1667,7 +1667,98 @@
     "id": "chem_acrylamide_bottle_glass_1_inf",
     "subtype": "collection",
     "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
+    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ash_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "ash", "container-item": "null", "count": [ 1, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_aluminium_powder_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_aluminium_powder", "container-item": "null", "count": [ 1, 166 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_aluminium_sulphate_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_aluminium_sulphate", "container-item": "null", "count": [ 1, 93 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_saltpetre_bag_canvas_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "chem_saltpetre", "container-item": "null", "count": [ 1, 300 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bismuth_bottle_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "bismuth", "container-item": "null", "count": [ 1, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_antimony_trichloride_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_antimony_trichloride", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_ferric_chloride_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_ferric_chloride", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_nickel_powder_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_nickel_powder", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_slaked_lime_bag_plastic_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "entries": [ { "item": "chem_slaked_lime", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_baking_soda_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chem_baking_soda", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_washing_soda_box_small_1_inf",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "chem_washing_soda", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_calcium_chloride_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_calcium_chloride", "container-item": "null", "count": [ 1, 250 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "chem_ammonium_nitrate_bag_plastic_small_1_inf",
+    "subtype": "collection",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "chem_ammonium_nitrate", "container-item": "null", "count": [ 1, 250 ] } ]
   },
   {
     "id": "hair_dye",
