@@ -42,6 +42,8 @@
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
+static const mod_id MOD_INFORMATION_dev_default( "dev:default" );
+
 /**
   * Max utf-8 character worldname length.
   * 0 index is inclusive.
@@ -1498,6 +1500,30 @@ static std::string get_opt_slider( int width, int current, int max, bool no_colo
     return ret;
 }
 
+// Returns true if user is using default mods or accepts warnings and wants to proceed
+// returns false otherwise
+static bool ensure_recommended_mods_or_warn( const WORLD *world )
+{
+    bool need_warn = !world_generator->get_mod_manager().has_dev_recommended_mods( world );
+    if( !need_warn ) {
+        return true;
+    }
+
+    // Yes, there are TWO warnings. Because this is really important.
+    if( need_warn &&
+        ( !query_yn(
+              _( "Your world is missing the default mods recommended by the developers.  These mods are recommended for the best gameplay experience.  Do you want to proceed anyway?" ) )
+          ||
+          !query_yn(
+              _( "There is absolutely no support for playing without these mods, you will encounter serious gamebreaking bugs.  Are you SURE you want to proceed?" ) )
+        ) ) {
+        world_generator->get_mod_manager().set_default_mods( MOD_INFORMATION_dev_default );
+        return false;
+    }
+
+    return true;
+}
+
 int worldfactory::show_worldgen_basic( WORLD *world )
 {
     catacurses::window w_confirmation;
@@ -1765,7 +1791,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                 if( worldname.empty() ) {
                     noname = true;
                     ui.invalidate_ui();
-                    if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
+                    if( !query_yn( _( "World name will be randomly generated.  Proceed anyway?" ) ) ) {
                         noname = false;
                         continue;
                     } else {
@@ -1774,11 +1800,20 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                         if( !valid_worldname( world->world_name ) ) {
                             continue;
                         }
-                        return 1;
+                        if( ensure_recommended_mods_or_warn( world ) ) {
+                            return 1;
+                        } else {
+                            continue;
+                        }
                     }
-                } else if( valid_worldname( worldname ) && query_yn( _( "Are you SURE you're finished?" ) ) ) {
+                } else if( valid_worldname( worldname ) &&
+                           query_yn( _( "Are you finished creating your world?" ) ) ) {
                     world->world_name = worldname;
-                    return 1;
+                    if( ensure_recommended_mods_or_warn( world ) ) {
+                        return 1;
+                    } else {
+                        continue;
+                    }
                 }
             } else if( sel_opt == static_cast<int>( wg_sliders.size() + 2 ) &&
                        query_yn( _( "Are you sure you want to reset this world?" ) ) ) {

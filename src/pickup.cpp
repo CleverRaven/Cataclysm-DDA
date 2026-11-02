@@ -225,8 +225,12 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
     //new item (copy)
     item newit = it;
 
-    // Clear activity_var if it differs from the picker's name
-    if( it.has_var( "activity_var" ) && it.get_var( "activity_var", "" ) != player_character.name ) {
+    // picker's own mark stays only while picker has a backlog or destination activity, which
+    // need not be the task that set it; no one else can use what picker carries
+    const bool picker_has_task = !player_character.backlog.empty() ||
+                                 player_character.get_destination_activity();
+    if( it.has_var( "activity_var" ) &&
+        ( it.get_var( "activity_var", "" ) != player_character.name || !picker_has_task ) ) {
         it.erase_var( "activity_var" );
         newit.erase_var( "activity_var" );
     }

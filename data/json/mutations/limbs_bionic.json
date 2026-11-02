@@ -917,22 +917,6 @@
     "windage_effect": "winded",
     "effects_on_hit": [
       {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
         "id": "winded",
         "dmg_type": "bash",
         "dmg_threshold": 10,
@@ -1044,22 +1028,6 @@
       { "weight": "10000 g", "encumbrance": 160 }
     ],
     "effects_on_hit": [
-      {
-        "id": "bleed",
-        "dmg_type": "stab",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
-      {
-        "id": "bleed",
-        "dmg_type": "bullet",
-        "dmg_threshold": 20,
-        "dmg_scale_increment": 20,
-        "duration": 60,
-        "duration_dmg_scaling": 60
-      },
       {
         "id": "stunned",
         "dmg_type": "bash",

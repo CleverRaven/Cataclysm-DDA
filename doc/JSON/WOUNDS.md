@@ -3,9 +3,15 @@
 Wound is a type, that affects specific bodyparts. It's similar in this to effects, but it can be applied only on specific bodyparts, and their ability to be aided/repaired using wound_fix.
 Bad wounds should, generally, affect a lot of limb_scores. Most open untreated wounds shouldn't heal and should get infected when the ability for wounds to get infected/turn into another wound with time is added.
 
-Wounds should generally be tiered into: small/light, medium, bad. You should append _"tier" at the end of the id. The last tier is bad because small medium and bad do not neccesarily refer to how large the wound is. a bad stab wound be a deep stab wound, same for a bad cut.
+Wounds should generally be tiered into: small/light, medium, bad, terrible. You should append _"tier" at the end of the id. The last tier is bad because small medium and bad do not neccesarily refer to how large the wound is. a bad stab wound be a deep stab wound, same for a bad cut. Tiers are just a suggestion to help wounds make more sense.
 
 A light wounds should generally have minimal effects, a medium would should hinder you but not too much, a single bad wound should be a significant hinderance. Some wounds like broken bones should hinder you extremely.
+
+Scratches should bleed less than cuts, lacerations caused by bash damage should be less common than bruises and bleed about as much as scrathes.
+
+Bruises should hinder you less than other types of wounds.
+
+Align bleed values to the ones in body_parts.json unless being instructed otherwise by a dev with medical experience.
 
 ### wound
 
@@ -20,6 +26,7 @@ A light wounds should generally have minimal effects, a medium would should hind
     "damage_types": [ "cut", "bash" ], // taking these type of damage can apply wound
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
+    "severity": "MAJOR", // Severity of the wound, ie how quickly NPC/player should react to it. Values can be MINOR (default), MAJOR and CRITICAL 
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
                                               // Affected by health/lifestyle, with -200 slowing down to 0.5x, and +200 speeding up to 1.5x, and `REGEN_WOUND` enchantment
                                               // Default infinite duration

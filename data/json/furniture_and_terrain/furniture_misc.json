@@ -118,5 +118,85 @@
         { "item": "money_five", "count": [ 0, 299 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_portal_dungeon_reward_increaser",
+    "name": "metanoiac possibility",
+    "//": "Invented adjective form of the term metanoia, or changing one's mind.  It's related to this furniture's theme of making you closer to what you should be, no matter what that actually is.",
+    "symbol": "#",
+    "description": "Something is there.  It is what you could have been.  It is what you could be.  It is something you will touch.",
+    "color": "dark_gray",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PORTAL_DUNGEON_REWARD_INCREASER" ] }
+  },
+  {
+    "id": "EOC_PORTAL_DUNGEON_REWARD_INCREASER",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_transform_radius": 2, "ter_furn_transform": "claimed_portal_dungeon_reward_increaser" },
+      { "math": [ "portal_dungeon_reward++" ] },
+      {
+        "switch": { "math": [ "portal_dungeon_reward" ] },
+        "cases": [
+          {
+            "case": 1,
+            "effect": { "u_message": "You are a little closer to what you should be.  You should repeat this action.", "type": "good" }
+          },
+          {
+            "case": 2,
+            "effect": [
+              {
+                "u_message": "You see glimpses of what you could have been.  You should repeat this action so you may be better than what you were.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              {
+                "u_message": "You see glimpses of what you could be.  You should repeat this action so you may steer towards what you should be.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              {
+                "u_message": "You see glimpses of what you should be.  You should repeat this action so you may become closer to them.",
+                "type": "good"
+              }
+            ]
+          },
+          { "case": 5, "effect": [ { "u_message": "You will be as you should be.", "type": "good" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "claimed_portal_dungeon_reward_increaser",
+    "furniture": [
+      { "result": [ "f_portal_dungeon_reward_increaser_inert" ], "valid_furniture": [ "f_portal_dungeon_reward_increaser" ] }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_portal_dungeon_reward_increaser_inert",
+    "name": "inert metanoiac possibility",
+    "symbol": "#",
+    "description": "Something is there.  It is something you touched.",
+    "color": "black",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PORTAL_DUNGEON_REWARD_INCREASER_CLAIMED" ] }
+  },
+  {
+    "id": "EOC_PORTAL_DUNGEON_REWARD_INCREASER_CLAIMED",
+    "type": "effect_on_condition",
+    "effect": [ { "u_message": "It is forever inert.  You should find another.", "type": "info" } ]
   }
 ]

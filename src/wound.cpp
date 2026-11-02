@@ -1,20 +1,26 @@
 #include "wound.h"
 
+#include <algorithm>
 #include <memory>
 #include <set>
 
 #include "bodypart.h"
 #include "character.h"
+#include "damage.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic_enchantment.h"
+#include "messages.h"
+#include "options.h"
 #include "pimpl.h"
 #include "rng.h"
 
 enum class bp_type;
-template <typename E> struct enum_traits;
+
+static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_redcells( "redcells" );
 
 void wound_type::load( const JsonObject &jo, const std::string_view & )
 {
@@ -30,6 +36,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "weight", weight, 1 );
     optional( jo, was_loaded, "limb_scores", limb_scores );
     optional( jo, was_loaded, "limit", limit, 0 );
+    optional( jo, was_loaded, "severity", severity, wound_severity::MINOR );
 
     optional( jo, was_loaded, "mod_values", mod_values );
     optional( jo, was_loaded, "periodic_message", periodic_message );
@@ -102,7 +109,7 @@ void wound_type::finalize_all()
 
 void wound_type::finalize()
 {
-
+    _is_bleeding_wound = assign_bleeding_wound();
 }
 
 namespace
@@ -182,11 +189,6 @@ void wound_fix::finalize_all()
     wound_fix_factory.finalize();
 }
 
-template<>
-struct enum_traits<wound_mod_value_type> {
-    static constexpr wound_mod_value_type last = wound_mod_value_type::LAST;
-};
-
 namespace io
 {
 template<>
@@ -202,8 +204,25 @@ std::string enum_to_string<wound_mod_value_type>( wound_mod_value_type data )
         case wound_mod_value_type::LAST:
             break;
     }
-    cata_fatal( "Invalid character_stat" );
+    cata_fatal( "Invalid wound_mod_value_type" );
 }
+
+template<>
+std::string enum_to_string<wound_severity>( wound_severity data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case wound_severity::MINOR: return "MINOR";
+    case wound_severity::MAJOR: return "MAJOR";
+    case wound_severity::CRITICAL: return "CRITICAL";
+
+        // *INDENT-ON*
+        case wound_severity::LAST:
+            break;
+    }
+    cata_fatal( "Invalid wound_severity" );
+}
+
 } // namespace io
 
 void wound_fix::finalize()
@@ -319,17 +338,21 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
 {
 
     // doesn't have bp type we want
+    bool is_whitelisted = false;
     for( const bp_type &bp_type : whitelist_body_part_types ) {
-        if( !bp_id->has_type( bp_type ) ) {
-            return false;
-        }
+        is_whitelisted = is_whitelisted || bp_id->has_type( bp_type );
+    }
+    if( !is_whitelisted && !whitelist_body_part_types.empty() ) {
+        return false;
     }
 
     // has no flag we want
+    is_whitelisted = false;
     for( const json_character_flag &bp_flag : whitelist_bp_with_flag ) {
-        if( !bp_id->has_flag( bp_flag ) ) {
-            return false;
-        }
+        is_whitelisted = is_whitelisted || bp_id->has_flag( bp_flag );
+    }
+    if( !is_whitelisted && !whitelist_bp_with_flag.empty() ) {
+        return false;
     }
 
     // has type we do not want
@@ -347,6 +370,31 @@ bool wound_type::allowed_on_bodypart( bodypart_str_id bp_id ) const
     }
 
     return true;
+}
+
+bool wound_type::assign_bleeding_wound() const
+{
+    bool uses_blood_vitamins = false;
+    bool drips_blood = false;
+    for( const wound_mod_values &mv : mod_values ) {
+        if( mv.vitamin.has_value() ) {
+            const vitamin_id vit = *mv.vitamin;
+            if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                uses_blood_vitamins = true;
+            }
+        }
+
+        if( mv.type == wound_mod_value_type::BLEED ) {
+            drips_blood = true;
+        }
+    }
+
+    return uses_blood_vitamins && drips_blood;
+}
+
+bool wound_type::is_bleeding_wound() const
+{
+    return _is_bleeding_wound;
 }
 
 int wound_type::evaluate_pain() const
@@ -403,6 +451,67 @@ std::string wound_type::get_description() const
 {
     return description_.translated();
 }
+
+bool wound_type::can_be_applied( const Character *who, const bp_wounds &pt_wd,
+                                 const bodypart_id &bp, const dealt_damage_instance &d ) const
+{
+
+    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
+        return false;
+    }
+
+    bool damage_instance_match = false;
+
+    for( const std::pair<const damage_type_id, int> &d : d.dealt_dams ) {
+        const bool damage_within_limits = d.second >= pt_wd.damage_required.first &&
+                                          d.second <= pt_wd.damage_required.second;
+
+        bool damage_type_matches = std::find( pt_wd.damage_type.begin(),
+                                              pt_wd.damage_type.end(), d.first ) != pt_wd.damage_type.end();
+
+        if( damage_within_limits && damage_type_matches ) {
+            damage_instance_match = true;
+            break;
+        }
+    }
+
+    if( !damage_instance_match ) {
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "%s: trying to apply wound %s, but mismatches damage amount or damage type, wound is not applied",
+                       who->name, id.str() );
+        return false;
+    }
+
+    const bool iwwlfb = who->get_part( bp )->is_within_wound_limit_for_bp( pt_wd.id );
+
+    if( !iwwlfb ) {
+        add_msg_debug( debugmode::DF_WOUNDS,
+                       "%s: trying to apply wound %s to bodypart %s, but hits the wound limit, wound is not applied",
+                       who->name, id.str(), bp.id().str() );
+        return false;
+    }
+
+    for( const json_character_flag &fl_wl : whitelist_flags ) {
+        if( !who->has_flag( fl_wl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "%s: wound %s require flag %s character do not have, wound is not applied",
+                           who->name, id.str(), fl_wl.str() );
+            return false;
+        }
+    }
+
+    for( const json_character_flag &fl_bl : blacklist_flags ) {
+        if( who->has_flag( fl_bl ) ) {
+            add_msg_debug( debugmode::DF_WOUNDS,
+                           "%s: wound %s blacklists characters with flag %s, wound is not applied",
+                           who->name, id.str(), fl_bl.str() );
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 void wound::serialize( JsonOut &jsout ) const
 {

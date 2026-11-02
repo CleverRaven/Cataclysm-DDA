@@ -25,7 +25,7 @@
     "purifiable": false,
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.1 }, { "value": "REGEN_WOUND", "multiply": -0.1 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
@@ -54,7 +54,7 @@
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
     "purifiable": false,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.3 }, { "value": "REGEN_WOUND", "multiply": -0.3 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 5 },
       { "part": "leg_l", "ignored": 16 },
@@ -822,6 +822,7 @@
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
           { "value": "REGEN_HP", "multiply": -1.0 },
+          { "value": "REGEN_WOUND", "multiply": -1.0 },
           { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
           { "value": "ATTACK_SPEED", "multiply": 0.8 },
           { "value": "MENDING_MODIFIER", "multiply": -1.0 },

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "co2_12g_cartridge",
+    "looks_like": "glock17_17",
+    "type": "ITEM",
+    "subtypes": [ "MAGAZINE" ],
+    "name": { "str": "12 g CO₂ air gun cartridge" },
+    "description": "Small cartridge, filled with small amount of compressed carbon dioxide, used as propellant for various airguns.",
+    "weight": "33 g",
+    "volume": "23 ml",
+    "longest_side": "83 mm",
+    "price": "60 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "pressurized_co2" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "pressurized_co2": 300 } } ]
+  }
+]

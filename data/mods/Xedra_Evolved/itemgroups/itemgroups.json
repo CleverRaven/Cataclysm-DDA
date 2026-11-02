@@ -350,8 +350,16 @@
       { "group": "gossamer_upper_body", "prob": 10 },
       { "group": "gossamer_lower_body", "prob": 10 },
       { "group": "gossamer_outerwear", "prob": 10 },
-      { "group": "gossamer_socks", "prob": 10 }
+      { "group": "gossamer_socks", "prob": 10 },
+      { "group": "fae_treasures", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "fae_treasures",
+    "//": "random magic treasures.",
+    "subtype": "collection",
+    "items": [ { "item": "spoon_of_full_belly", "prob": 10 }, { "item": "thorn_brocade_vest", "prob": 5 } ]
   },
   {
     "type": "item_group",

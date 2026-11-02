@@ -452,6 +452,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydraulic_oil",
+    "name": "hydraulic oil",
+    "default": "hydraulic_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "crude_oil",
     "name": "crude oil",
     "default": "crude_oil"
@@ -936,6 +942,12 @@
     "id": "airgun_pellet",
     "name": "airgun pellet",
     "default": "airgun_pellet_target"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pressurized_co2",
+    "name": "pressurized CO₂",
+    "default": "co2"
   },
   {
     "type": "ammunition_type",

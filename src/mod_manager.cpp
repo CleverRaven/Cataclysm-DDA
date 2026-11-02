@@ -207,6 +207,24 @@ void mod_manager::refresh_mod_list()
     tree->init( mod_dependency_map );
 }
 
+bool mod_manager::has_dev_recommended_mods( const WORLD *world )
+{
+    const auto iter = mod_map.find( MOD_INFORMATION_dev_default );
+    if( iter == mod_map.end() ) {
+        debugmsg( "Did we finally remove all default mods?" );
+        return true;
+    }
+    const MOD_INFORMATION &dev_mods = iter->second;
+    std::vector<mod_id> recommended( dev_mods.dependencies.begin(), dev_mods.dependencies.end() );
+    const t_mod_list &actives = world->active_mod_order;
+    for( mod_id recommended_mod : recommended ) {
+        if( std::find( actives.begin(), actives.end(), recommended_mod ) == actives.end() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool mod_manager::set_default_mods( const mod_id &ident )
 {
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet

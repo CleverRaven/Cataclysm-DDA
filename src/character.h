@@ -985,10 +985,12 @@ class Character : public Creature, public visitable
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
-        /** Adds this specific wound to bodypart */
+        /** Adds this specific wound to bodypart. 'force' bypasses all conditional checks and applies the wound directly */
         void apply_wound( bodypart_id bp, wound_type_id wd );
         /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
+        /** Returns true if bodypart in question has any bleeding wound */
+        bool is_bleeding( bodypart_id bp ) const;
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1329,10 +1331,8 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
-        // checks if amount of specific wounds on bodypart is not higher than `limit`
-        // return false if more than limit
-        bool is_within_wound_limit_for_bp( bodypart_id bp, wound_type_id wound_id ) const;
-        void apply_random_wound( bodypart_id bp, const damage_instance &d );
+        // applies one or two wounds depending on damage dealt
+        void apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
@@ -4286,6 +4286,9 @@ class Character : public Creature, public visitable
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that amount of vitamin represents */
         int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
+
+        bool has_wound( wound_type_id wd ) const;
+        bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
 
         bool has_wounds( const bodypart_str_id &part ) const;
 

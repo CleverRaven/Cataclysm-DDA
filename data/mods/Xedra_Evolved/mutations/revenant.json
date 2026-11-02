@@ -61,7 +61,8 @@
           "PARAIMMUNE",
           "NOHEAL",
           "TOUGH_FEET",
-          "DREAMLESS"
+          "DREAMLESS",
+          "BLEED_IMMUNE"
         ]
       },
       {

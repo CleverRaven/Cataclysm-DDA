@@ -564,37 +564,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "gas station bunker",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_north" },
-      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_north" },
-      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_north" },
-      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_north" },
-      { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] },
-      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [
-      { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      {
-        "point": [ -1, -1, 0 ],
-        "terrain": "road",
-        "existing": true,
-        "connection": "local_road",
-        "from": [ -1, 0, 0 ]
-      },
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 0, 0 ] }
-    ],
-    "locations": [ "field", "forest_without_trail" ],
-    "occurrences": [ 10, 100 ],
-    "priority": 1,
-    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE", "SAFE_AT_WORLDGEN" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "gas station bunkerless",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
@@ -923,6 +892,16 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Floral Outcropping",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "highland_dead_exodii_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 33, 100 ],
+    "rotate": false,
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -5255,7 +5234,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "barry_mi-go_scout_tower_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "barry_mi-go_scout_tower_3_north" },
       { "point": [ 0, 0, 3 ], "overmap": "barry_mi-go_scout_tower_4_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field" },
+      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field_north" },
       { "point": [ 1, 1, 0 ], "overmap": "field" },
       { "point": [ -1, 1, 0 ], "overmap": "field" },
       { "point": [ 1, 0, 0 ], "overmap": "field" },

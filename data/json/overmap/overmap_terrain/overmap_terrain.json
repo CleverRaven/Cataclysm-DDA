@@ -188,6 +188,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "highland_dead_exodii",
+    "name": "floral outcropping",
+    "sym": "f",
+    "color": "light_blue",
+    "vision_levels": "open_land",
+    "see_cost": "medium"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "boat_rental", "boat_rental_1", "boat_rental_2" ],
     "name": "boat rental",
     "sym": "#",

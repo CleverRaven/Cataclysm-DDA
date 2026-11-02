@@ -161,7 +161,9 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
     "dynamic_line": "Yeah, Chris talked to me a minute ago.\"  She touches the shoulder strap on her rifle.  \"I can't believe he's not trying to talk me out of it, really, but I'd do anything to save Uncle Barry.  I'll be ready at the tower, when you need me.",
-    "responses": [ { "text": "Great.  I'll see you there.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Great.  I'll see you there.", "effect": { "math": [ "isherwood_lisa_coming = 1" ] }, "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",

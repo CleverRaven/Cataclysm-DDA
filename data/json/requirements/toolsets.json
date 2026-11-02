@@ -51,7 +51,6 @@
         [ "diesel", 125 ],
         [ "chem_ethanol", 125 ],
         [ "chem_methanol", 125 ],
-        [ "methed_alcohol", 125 ],
         [ "denat_alcohol", 125 ],
         [ "chem_acetone", 1 ],
         [ "chem_chloroform", 125 ],
@@ -611,6 +610,12 @@
     "id": "metal_file_any",
     "type": "requirement",
     "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ], [ "belt_grinder", 25 ] ] ]
+  },
+  {
+    "id": "metal_polish_any",
+    "type": "requirement",
+    "name": "Metal Polishing Tools",
+    "tools": [ [ [ "polisher", 25 ], [ "dremel", 25 ], [ "belt_grinder", 25 ] ] ]
   },
   {
     "id": "nm_teeth_removal",
