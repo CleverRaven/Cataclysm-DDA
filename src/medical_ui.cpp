@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <imgui/imgui.h>
 #include <cstdlib>
 #include <functional>
