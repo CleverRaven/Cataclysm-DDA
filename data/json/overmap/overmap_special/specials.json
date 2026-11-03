@@ -863,6 +863,34 @@
   },
   {
     "type": "overmap_special",
+    "id": "Highlands holy grotto",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highland_holy_grotto_aa_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highland_holy_grotto_ba_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "highland_holy_grotto_ca_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "highland_holy_grotto_ab_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "highland_holy_grotto_bb_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "highland_holy_grotto_cb_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "highland_holy_grotto_ac_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "highland_holy_grotto_bc_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "highland_holy_grotto_cc_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "highland_holy_grotto_aab_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highland_holy_grotto_bab_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "highland_holy_grotto_cab_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "highland_holy_grotto_abb_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "highland_holy_grotto_bbb_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "highland_holy_grotto_cbb_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "highland_holy_grotto_acb_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "highland_holy_grotto_bcb_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "highland_holy_grotto_ccb_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Imperial Crypt Highlands",
     "overmaps": [
       { "point": [ 1, -1, -1 ], "overmap": "highland_crypt_royal_1_north" },
