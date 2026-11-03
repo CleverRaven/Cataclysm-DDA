@@ -3,6 +3,7 @@
     "type": "help",
     "order": 0,
     "name": "Xedra Evolved: Basics",
+    "color": "blue",
     "messages": [
       "Welcome to Xedra Evolved, the urban fantasy mod for Cataclysm.  This mod adds folklore based enemies, experiences and magicks to the Cataclysm.  Humans who experience particularly vivid dreams might learn how to wield them into strange magicks.  Former Xedra employees include cyborgs with stolen bionics, magick wielders and even a Gracken or two.",
       "The world of Xedra Evolved had decades of dimensional seepage and places where our world connected to other realities.  During these years before the Cataclysm the world became weirder.  Supernatural creatures from myth and legend returned, visited for the first time or left the shadows.  Some games you'll fight against them.  Some days you may very well be one of them.",
@@ -15,6 +16,7 @@
     "type": "help",
     "order": 1,
     "name": "Xedra Evolved: Possible Starts",
+    "color": "blue",
     "messages": [
       "Cyborg starts exist in XE.  However, those cbms inside of you were pulled out of dead Exodii offworld.  Now that the Exodii are here on planet don't expect them to help you.",
       "If you are interested in starting with significant dream magick, look at the four melded task force professions.",
@@ -26,6 +28,7 @@
     "type": "help",
     "order": 2,
     "name": "Xedra Evolved: Learning New Powers",
+    "color": "blue",
     "messages": [
       "Both the Dreamsmith and Mad Inventor classes have research actions that you can perform.  They will often fail, but each failure moves the percentage chance for your next attempt to succeed up until it hits 100%.",
       "Alchemy can be discovered in game.  It requires some luck to find it in the game world, but if you selected Bombastic Perks mod as an additional mod, you can learn Alchemy easily via the perk system.",

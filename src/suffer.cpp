@@ -37,7 +37,6 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "lightmap.h"
@@ -60,6 +59,7 @@
 #include "stomach.h"
 #include "talker.h"
 #include "teleport.h"
+#include "temp_crafting_inventory.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -71,6 +71,7 @@
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_nicotine( "nicotine" );
 
+static const bionic_id bio_creeyncaggii( "bio_creeyncaggii" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
@@ -327,7 +328,8 @@ void suffer::while_underwater( Character &you )
     if( !you.has_flag( json_flag_GILLS ) ) {
         you.oxygen--;
     }
-    if( you.oxygen < 12 && you.worn_with_flag( flag_REBREATHER ) ) {
+    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) ||
+                             ( you.worn_with_flag( flag_SCBA_ON ) && you.has_item_with_flag( flag_SCBA_TANK_ON ) ) ) ) {
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
@@ -626,7 +628,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
 
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
-        inventory map_inv;
+        temp_crafting_inventory map_inv;
         map_inv.form_from_map( you.pos_bub(), 2, &you );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
@@ -1278,6 +1280,16 @@ void suffer::from_bad_bionics( Character &you )
             you.add_msg_if_player( m_bad, _( "Emergency!  User's lungs are not powered!" ) );
         }
     }
+    if( you.has_bionic( bio_creeyncaggii ) && !you.has_active_bionic( bio_creeyncaggii ) &&
+        !you.has_effect( effect_narcosis ) ) {
+        if( you.get_power_level() >= bio_creeyncaggii->power_trigger ) {
+            std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_creeyncaggii );
+            you.activate_bionic( **bio_opt );
+        } else {
+            you.mod_stamina( -2000 );
+            you.add_msg_if_player( m_bad, _( "Your bionic heart beats slowly and loudly, without power!" ) );
+        }
+    }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
         one_turn_in( 2_hours ) &&
         !you.has_effect( effect_narcosis ) ) {
@@ -1814,11 +1826,6 @@ bool Character::irradiate( float rads, bool bypass )
             }
 
             it->irradiation += delta;
-
-            // If in inventory (not worn), don't print anything.
-            if( inv->has_item( *it ) ) {
-                continue;
-            }
 
             // If the color hasn't changed, don't print anything.
             const std::string &col_before = rad_badge_color( before ).first;

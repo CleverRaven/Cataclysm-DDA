@@ -38,7 +38,7 @@ make_score_function( float ( character_oracle_t::* fun )( std::string_view ) con
 
 std::unordered_map<std::string, std::function<status_t( const oracle_t *, std::string_view ) >>
 predicate_map = {{
-        { "npc_needs_warmth_badly", make_function( &character_oracle_t::needs_warmth_badly ) },
+        { "npc_needs_temperature_regulation", make_function( &character_oracle_t::needs_temperature_regulation ) },
         { "npc_needs_water_badly", make_function( &character_oracle_t::needs_water_badly ) },
         { "npc_needs_food_badly", make_function( &character_oracle_t::needs_food_badly ) },
         { "npc_can_wear_warmer_clothes", make_function( &character_oracle_t::can_wear_warmer_clothes ) },
@@ -48,7 +48,7 @@ predicate_map = {{
         { "npc_has_food", make_function( &character_oracle_t::has_food ) },
         { "npc_can_obtain_food", make_function( &character_oracle_t::can_obtain_food ) },
         { "npc_can_obtain_water", make_function( &character_oracle_t::can_obtain_water ) },
-        { "npc_can_obtain_warmth", make_function( &character_oracle_t::can_obtain_warmth ) },
+        { "npc_can_regulate_temperature", make_function( &character_oracle_t::can_regulate_temperature ) },
         { "npc_needs_sleep_badly", make_function( &character_oracle_t::needs_sleep_badly ) },
         { "npc_can_sleep", make_function( &character_oracle_t::can_sleep ) },
         { "npc_in_danger", make_function( &character_oracle_t::in_danger ) },
@@ -75,7 +75,7 @@ std::unordered_map<std::string, std::function<float( const oracle_t *, std::stri
 score_predicate_map = {{
         { "npc_thirst_urgency", make_score_function( &character_oracle_t::thirst_urgency ) },
         { "npc_hunger_urgency", make_score_function( &character_oracle_t::hunger_urgency ) },
-        { "npc_warmth_urgency", make_score_function( &character_oracle_t::warmth_urgency ) },
+        { "npc_temperature_urgency", make_score_function( &character_oracle_t::temperature_urgency ) },
         { "npc_sleepiness_urgency", make_score_function( &character_oracle_t::sleepiness_urgency ) },
         { "npc_duty_urgency", make_score_function( &character_oracle_t::duty_urgency ) },
         { "npc_following_urgency", make_score_function( &character_oracle_t::npc_following_urgency ) },

@@ -69,7 +69,8 @@
           "popup": true
         }
       },
-      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" }
+      { "custom_light_level": 125, "length": "9999 days", "key": "string_dimension_lights_on" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": {
       "if": { "u_has_item": "inert_glowing_string" },
@@ -97,7 +98,8 @@
       { "u_location_variable": { "context_val": "player_teleport_loc" }, "z_adjust": 0, "z_override": true },
       { "u_teleport": { "context_val": "player_teleport_loc" } },
       { "alter_timed_events": "string_dimension_lights_on" },
-      { "give_achievement": "achievement_reach_string_dimension" }
+      { "give_achievement": "achievement_reach_string_dimension" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ],
     "false_effect": [
       {
@@ -230,7 +232,8 @@
       {
         "u_message": "You step into the moonpool and it's as if your entire world slowly rotated, leaving you to step upon the ceiling on the level below you.  You reorient and find yourself somewhere new.",
         "popup": true
-      }
+      },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ],
     "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
   },
@@ -255,7 +258,8 @@
         "max_radius": 0
       },
       { "u_teleport": { "context_val": "nearest_sd_floor" } },
-      { "u_message": "You fall for a brief moment, then find your footing somewhere familiar.", "popup": true }
+      { "u_message": "You fall for a brief moment, then find your footing somewhere familiar.", "popup": true },
+      { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
     ],
     "false_effect": { "u_message": "Something tickles at the edge of your senses.", "popup": false }
   }

@@ -206,28 +206,24 @@
     "difficulty": 3,
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 4 ] ] ],
+    "using": [ [ "drilling_standard", 5 ], [ "glue_strong", 30 ] ],
+    "//0": "glue is for ~60cm2 for the cables",
+    "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 4 ] ], [ [ "nuts_bolts", 4 ] ] ],
     "steps": [
       {
-        "name": "Preparing staff and mounting electronics",
+        "name": "Preparing staff by drilling and mounting electronics",
         "time": "1 h",
         "activity_level": "LIGHT_EXERCISE",
-        "qualities": [ { "id": "SCREW", "level": 1 } ]
+        "qualities": [ { "id": "WRENCH", "level": 1 } ]
       },
       {
         "name": "Routing and stripping cables",
         "time": "2 h 10 m",
         "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "CUT", "level": 2 } ],
         "proficiencies": [ { "proficiency": "prof_shock_weapons" } ]
       },
-      {
-        "name": "Soldering connections and reinforcing structure",
-        "time": "2 h 30 m",
-        "activity_level": "LIGHT_EXERCISE",
-        "using": [ [ "soldering_standard", 10 ] ],
-        "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.5 }, { "proficiency": "prof_shock_weapons" } ]
-      }
+      { "name": "Gluing in the cables", "time": "30 m", "activity_level": "LIGHT_EXERCISE" }
     ]
   },
   {

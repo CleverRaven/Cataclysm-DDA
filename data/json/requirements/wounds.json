@@ -1,0 +1,58 @@
+[
+  {
+    "id": "wound_clean",
+    "type": "requirement",
+    "//": "For cleaning wounds",
+    "tools": [ [ [ "soapy_water", 1 ], [ "saline", 5 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "wound_bandage_small",
+    "type": "requirement",
+    "//": "For bandaging small wounds",
+    "components": [ [ [ "adhesive_bandages", 1 ], [ "wound_bandage", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "wound_bandage",
+    "type": "requirement",
+    "//": "For bandaging wounds",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wound_bleed",
+    "type": "requirement",
+    "//": "For bandaging wounds",
+    "components": [
+      [
+        [ "bandages", 1 ],
+        [ "bandages_makeshift", 1 ],
+        [ "bandages_makeshift_bleached", 1 ],
+        [ "bandages_makeshift_boiled", 1 ],
+        [ "cotton_patchwork", 1 ],
+        [ "cotton_ball", 2 ],
+        [ "medical_gauze", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "wound_bone",
+    "type": "requirement",
+    "//": "For setting broken bones.",
+    "components": [
+      [
+        [ "arm_splint", 1 ],
+        [ "arm_xs_splint", 1 ],
+        [ "arm_xlsplint", 1 ],
+        [ "leg_splint", 1 ],
+        [ "leg_xs_splint", 1 ],
+        [ "leg_xlsplint", 1 ]
+      ]
+    ]
+  }
+]

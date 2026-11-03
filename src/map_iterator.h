@@ -85,6 +85,20 @@ class tripoint_range
         Tripoint endp;
 
         std::function<bool( const Tripoint & )> predicate;
+
+        // True when min lies above max on any axis, so the box holds no points.
+        bool is_inverted() const {
+            return traits::x( minp ) > traits::x( maxp ) || traits::y( minp ) > traits::y( maxp ) ||
+                   traits::z( minp ) > traits::z( maxp );
+        }
+
+        // inverted box ends on its first point, so begin() == end()
+        Tripoint end_point() const {
+            if( is_inverted() ) {
+                return minp;
+            }
+            return Tripoint( minp.xy(), traits::z( maxp ) + 1 );
+        }
     public:
         using value_type = typename point_generator::value_type;
         using difference_type = typename point_generator::difference_type;
@@ -97,12 +111,12 @@ class tripoint_range
         tripoint_range( const Tripoint &_minp, const Tripoint &_maxp,
                         const std::function<bool( const Tripoint & )> &pred ) :
             minp( _minp ), maxp( _maxp ), predicate( pred )  {
-            endp = Tripoint( minp.xy(), traits::z( maxp ) + 1 );
+            endp = end_point();
         }
 
         tripoint_range( const Tripoint &_minp, const Tripoint &_maxp ) :
             minp( _minp ), maxp( _maxp ) {
-            endp = Tripoint( minp.xy(), traits::z( maxp ) + 1 );
+            endp = end_point();
         }
 
         point_generator begin() const {
@@ -117,6 +131,9 @@ class tripoint_range
 
         size_t size() const {
             if( !predicate ) {
+                if( is_inverted() ) {
+                    return 0;
+                }
                 Tripoint range( traits::x( maxp ) - traits::x( minp ), traits::y( maxp ) - traits::y( minp ),
                                 traits::z( maxp ) - traits::z( minp ) );
                 return std::max( ++traits::x( range ) * ++traits::y( range ) * ++traits::z( range ), 0 );

@@ -1,7 +1,31 @@
 [
   {
     "type": "snippet",
-    "category": "<mp3_reverberation_locator_cooldown>",
+    "category": "<anomalous_mp3_player_ambient_music>",
+    "text": [
+      "You are soothed by soft, ethereal tunes.",
+      "You hear a quiet, ambient score of synthetic strings.",
+      "You hear a soft tone, oscillating.",
+      "You hear a song of familiar whispers.",
+      "You hear soft music on alien instruments.",
+      "You hear a constant series of chimes, rising and falling with your own breath.",
+      "You hear music, more like wind blowing.",
+      "Music hums in the shape of your space.",
+      "A chorus of not-quite-voices sings a joyous song.",
+      "Your device plays a lullaby in foreign speech.",
+      "Your device plays harmonics, folding over each other.",
+      "Flowing water plays a twinkling melody of synthesized chimes.",
+      "A chorus of synthetic voices rises slowly, until it fills the soundspace.",
+      "An impressively low tone braces a vocal falsetto of unknown words.",
+      "Your device plays a song.  It sounds familiar, but you don't know it.",
+      "Your device plays a tune that fills you with deja vu.",
+      "You hear a multilayered song of baritone voices, backed by wind instruments.",
+      "You hear a multilayered song of only spoken word."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<anomalous_mp3_player_locator_cooldown>",
     "text": [
       "You hear static noise.",
       "You hear distant bird chirping.",
@@ -11,22 +35,22 @@
   },
   {
     "type": "snippet",
-    "category": "<mp3_reverberation_locator_almost_there>",
+    "category": "<anomalous_mp3_player_locator_almost_there>",
     "text": [ "Its song is indescribably beautiful.", "Its song is painting the world in vibrant colors." ]
   },
   {
     "type": "snippet",
-    "category": "<mp3_reverberation_locator_close>",
+    "category": "<anomalous_mp3_player_locator_close>",
     "text": [ "Its song is energetic.", "Its song is joyful." ]
   },
   {
     "type": "snippet",
-    "category": "<mp3_reverberation_locator_distant>",
+    "category": "<anomalous_mp3_player_locator_distant>",
     "text": [ "You hear faint music somewhere on your body." ]
   },
   {
     "type": "snippet",
-    "category": "mp3_reverberation_listener_radiosphere",
+    "category": "anomalous_mp3_player_reverberation_listener_radiosphere",
     "text": [
       "You hear the structure buckle under the wind.",
       "You hear faint music you never heard before.",
@@ -35,12 +59,18 @@
       "You hear someone observing you from the abyss below.",
       "You hear a faint radio transmission.",
       "Your cotton wings are..",
-      "You hear muffled bird chirping."
+      "You hear muffled bird chirping.",
+      "You feel exhausted, your body is withering.  You need to.",
+      "You see a warm, bright place.  Happy.",
+      "You hear stutters in your mind.",
+      "There's someone here with you.",
+      "Your chitin is slowly falling off.",
+      "You feel a terrible sense of loss."
     ]
   },
   {
     "type": "snippet",
-    "category": "mp3_reverberation_listener_cabins",
+    "category": "anomalous_mp3_player_reverberation_listener_cabins",
     "text": [
       "You hear wood creaking.",
       "You hear stronger wind, somewhere.",

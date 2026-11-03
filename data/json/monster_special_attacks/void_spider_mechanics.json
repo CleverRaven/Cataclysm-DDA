@@ -52,7 +52,8 @@
         "target_max_radius": 26
       },
       { "u_teleport": { "context_val": "spider_map" } },
-      { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" }
+      { "run_eocs": "EOC_IN_VOID_SPIDER_LAIR", "time_in_future": "1 seconds" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
     ]
   },
   {
@@ -412,6 +413,7 @@
     "id": "EOC_VOID_SPIDER_ON_DEATH",
     "effect": [
       { "run_eocs": "EOC_VOID_SPIDER_KILLED", "time_in_future": "0 seconds" },
+      { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS", "time_in_future": "20 minutes" },
       { "run_eocs": "EOC_DISSOLVE_VOID_SPIDER_LAIR", "time_in_future": "20 minutes" }
     ]
   },

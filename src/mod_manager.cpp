@@ -9,6 +9,8 @@
 #include <queue>
 #include <stdexcept>
 
+#include <char8_t-remediation/char8_t-remediation.h>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -207,6 +209,24 @@ void mod_manager::refresh_mod_list()
     tree->init( mod_dependency_map );
 }
 
+bool mod_manager::has_dev_recommended_mods( const WORLD *world )
+{
+    const auto iter = mod_map.find( MOD_INFORMATION_dev_default );
+    if( iter == mod_map.end() ) {
+        debugmsg( "Did we finally remove all default mods?" );
+        return true;
+    }
+    const MOD_INFORMATION &dev_mods = iter->second;
+    std::vector<mod_id> recommended( dev_mods.dependencies.begin(), dev_mods.dependencies.end() );
+    const t_mod_list &actives = world->active_mod_order;
+    for( mod_id recommended_mod : recommended ) {
+        if( std::find( actives.begin(), actives.end(), recommended_mod ) == actives.end() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool mod_manager::set_default_mods( const mod_id &ident )
 {
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
@@ -304,12 +324,6 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
         jo.throw_error_at( "dependencies", "mod specifies self as a dependency" );
     }
 
-    // TODO: Temporary migration, remove after 0.I stable
-    if( !modfile.obsolete && modfile.ident.str() == "user:default" ) {
-        modfile.obsolete = true;
-        set_default_mods( modfile.dependencies );
-    }
-
     mod_map[modfile.ident] = std::move( modfile );
 }
 
@@ -358,7 +372,8 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
         cata_path mod_base_path = mod.path;
 
-        if( input_files.empty() && mod.path.get_relative_path().filename().u8string() == MOD_SEARCH_FILE ) {
+        if( input_files.empty() &&
+            from_u8string( mod.path.get_relative_path().filename().u8string() ) == MOD_SEARCH_FILE ) {
             // Self contained mod, all data is inside the modinfo.json file
             input_files.push_back( mod.path );
             mod_base_path = mod.path.parent_path();

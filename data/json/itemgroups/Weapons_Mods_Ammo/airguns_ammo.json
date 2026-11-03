@@ -1,0 +1,85 @@
+[
+  {
+    "type": "item_group",
+    "id": "airgun_co2_cartridge_loose",
+    "items": [
+      { "item": "co2_12g_cartridge", "count": [ 1, 3 ] },
+      { "group": "airgun_co2_cartridge", "count": [ 1, 3 ], "prob": 100 },
+      { "group": "airgun_co2_cartridge", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "airgun_co2_cartridge", "count": [ 1, 3 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "airgun_co2_cartridge",
+    "container-item": "box_tiny",
+    "items": [ { "item": "co2_12g_cartridge", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "airgun_pellet_target_loose",
+    "items": [
+      { "group": "airgun_pellet_target_packed_used", "prob": 100 },
+      { "group": "airgun_pellet_target_packed", "prob": 50 },
+      { "group": "airgun_pellet_target_packed", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "airgun_pellet_hunting_loose",
+    "items": [
+      { "group": "airgun_pellet_hunting_packed_used", "prob": 100 },
+      { "group": "airgun_pellet_hunting_packed", "prob": 50 },
+      { "group": "airgun_pellet_hunting_packed", "prob": 25 },
+      { "group": "airgun_pellet_hunting_packed", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "airgun_pellet_target_packed_used",
+    "container-item": "177_tin_can_500",
+    "items": [ { "item": "airgun_pellet_target", "charges": [ 0, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "airgun_pellet_target_packed",
+    "container-item": "177_tin_can_500",
+    "items": [ { "item": "airgun_pellet_target", "charges": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "airgun_pellet_hunting_packed_used",
+    "container-item": "177_tin_can_200",
+    "items": [ { "item": "airgun_pellet_hunting", "charges": [ 0, 225 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "airgun_pellet_hunting_packed",
+    "container-item": "177_tin_can_200",
+    "items": [ { "item": "airgun_pellet_hunting", "charges": 225 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bb_loose",
+    "items": [
+      { "group": "bb_packed_used", "prob": 100 },
+      { "group": "bb_packed", "prob": 50 },
+      { "group": "bb_packed", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bb_packed_used",
+    "container-item": "bottle_plastic_small",
+    "items": [ { "item": "bb", "charges": [ 0, 1500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bb_packed",
+    "container-item": "bottle_plastic_small",
+    "items": [ { "item": "bb", "charges": 1500 } ]
+  }
+]

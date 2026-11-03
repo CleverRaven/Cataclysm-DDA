@@ -370,11 +370,6 @@ class item_contents
         void clear_pockets_if( const std::function<bool( item_pocket const & )> &filter );
         void update_open_pockets();
 
-        /**
-         * Sets the items contained to their defaults.
-         */
-        void set_item_defaults();
-
         /** Return true if any pocket was sealed. */
         bool seal_all_pockets();
         bool all_pockets_sealed() const;
@@ -447,8 +442,11 @@ class item_contents
          * @relates visitable
          * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
          */
-        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
-                                      item *parent = nullptr );
+        VisitResponse visit_contents( const std::function<VisitResponse( const item_location & )> &func,
+                                      const item_location &parent, const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
+        VisitResponse visit_contents_legacy( const std::function<VisitResponse( item *, item * )> &func,
+                                             item *parent,
+                                             const std::set<pocket_type> &allowed_pockets = { pocket_type::CONTAINER } );
         void remove_internal( const std::function<bool( item & )> &filter,
                               int &count, std::list<item> &res );
 

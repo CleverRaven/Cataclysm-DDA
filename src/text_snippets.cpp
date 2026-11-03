@@ -384,3 +384,8 @@ template<> bool snippet_id::is_valid() const
 {
     return SNIPPET.has_snippet_with_id( *this );
 }
+
+std::string get_hint()
+{
+    return SNIPPET.random_from_category( "hint" ).value_or( translation() ).translated();
+}

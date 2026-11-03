@@ -250,6 +250,8 @@ if (NOT MSVC)
     endif ()
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
+        # libstdc++ marks loops with "#pragma GCC unroll", which clang cannot always honor.
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-pass-failed")
     endif()
     # GCC 16 -Wsfinae-incomplete: SFINAE on incomplete forward-declared types
     # (e.g. std::reference_wrapper<vehicle>) is link-compatible across TUs.

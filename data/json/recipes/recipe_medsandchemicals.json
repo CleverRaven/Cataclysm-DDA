@@ -401,7 +401,7 @@
       [
         [ "tobacco", 50 ],
         [ "cig", 50 ],
-        [ "cig_butt", 100 ],
+        [ "cig_butt", 500 ],
         [ "cigar", 10 ],
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 70 ]
@@ -1668,7 +1668,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "methed_alcohol", 1000 ] ] ]
+    "components": [ [ [ "denat_alcohol", 1000 ] ] ]
   },
   {
     "type": "recipe",

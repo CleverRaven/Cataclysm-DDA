@@ -298,15 +298,10 @@
     "//": "Collections of magazines for STANAG guns. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
     "items": [
       { "item": "stanag5", "prob": 300 },
-      { "item": "stanag5ranger", "prob": 100 },
       { "item": "stanag10", "prob": 350 },
-      { "item": "stanag10ranger", "prob": 115 },
       { "item": "stanag20", "prob": 400 },
-      { "item": "stanag20ranger", "prob": 130 },
       { "item": "stanag30", "prob": 700 },
-      { "item": "stanag30ranger", "prob": 230 },
       { "item": "stanag40", "prob": 80 },
-      { "item": "stanag40ranger", "prob": 20 },
       { "item": "stanag50", "prob": 40 },
       { "item": "stanag60", "prob": 10 },
       { "item": "stanag60drum", "prob": 10 },
@@ -321,12 +316,7 @@
     "subtype": "distribution",
     "id": "magazines_restricted_stanag",
     "//": "Collections of magazines for STANAG guns. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
-    "items": [
-      { "item": "stanag5", "prob": 300 },
-      { "item": "stanag5ranger", "prob": 100 },
-      { "item": "stanag10", "prob": 350 },
-      { "item": "stanag10ranger", "prob": 115 }
-    ]
+    "items": [ { "item": "stanag5", "prob": 300 }, { "item": "stanag10", "prob": 350 } ]
   },
   {
     "type": "item_group",

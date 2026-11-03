@@ -5,6 +5,7 @@
     "name_unique": "Fatima al Jadir",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_fatima_al_jadir",
     "class": "NC_REFUGEE_Fatima",
     "attitude": 0,
     "mission": "GUARD",

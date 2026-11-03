@@ -117,7 +117,7 @@ TEST_CASE( "player_body_temperatures_converge_on_expected_values", "[.bodytemp]"
     Character &dummy = get_player_character();
 
     // Strip off any potentially encumbering clothing.
-    dummy.remove_worn_items_with( []( item & ) {
+    dummy.remove_worn_items_with( []( const item & ) {
         return true;
     } );
 

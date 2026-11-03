@@ -77,7 +77,7 @@
       "T": "f_tourist_table",
       "c": "f_camp_chair",
       "{": "f_dumpster",
-      "1": "f_pallet_cement",
+      "1": [ "f_pallet_cement", "f_rebar_stack_short", "f_rebar_stack_mid", "f_rebar_stack_tall" ],
       "2": {
         "switch": { "param": "wall_type", "fallback": "t_brick_wall_halfway" },
         "cases": {

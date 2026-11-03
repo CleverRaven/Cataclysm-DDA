@@ -184,7 +184,7 @@
       { "item": "sewing_kit", "prob": 5, "charges": 200 },
       { "item": "sewing_machine", "prob": 50 },
       { "item": "tailors_kit", "prob": 50, "charges": 400 },
-      [ "thread", 10 ],
+      { "group": "thread_used", "prob": 10 },
       [ "string_6", 50 ],
       [ "leather", 10 ],
       [ "fur", 7 ],

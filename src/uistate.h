@@ -203,7 +203,7 @@ class uistatedata
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
-        bool overmap_fast_travel = false;
+        bool overmap_only_auto_travel = false;
         bool overmap_fast_scroll = false;
 
         int tileset_zoom = DEFAULT_TILESET_ZOOM;
@@ -279,6 +279,10 @@ class uistatedata
         bool crafting_expand_steps = false;
 
         bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
+
+        // Body Status UI
+        bool body_status_bodygraph_collapsed = false;
+        bool body_status_info_collapsed = false;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );

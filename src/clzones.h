@@ -22,6 +22,7 @@
 #include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
+#include "translation_cache.h"
 #include "type_id.h"
 
 namespace catacurses
@@ -612,6 +613,16 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint_abs_ms> get_vzone_set( const zone_type_id &type,
                 const faction_id &fac = your_fac ) const;
+
+        // compiled zone filters, keyed by filter string. compiling costs far
+        // more than running. cleared on a language change, which rebakes
+        // translated body part and layer names, and by clear()
+        // NOLINTNEXTLINE(cata-serialize)
+        mutable std::unordered_map<std::string, std::function<bool( const item & )>> filter_cache;
+        mutable int filter_cache_lang_version = INVALID_LANGUAGE_VERSION; // NOLINT(cata-serialize)
+
+        const std::function<bool( const item & )> &cached_item_filter(
+            const std::string &filter ) const;
     public:
         zone_manager();
         ~zone_manager() = default;
@@ -673,9 +684,12 @@ class zone_manager
         bool has_near( const zone_type_id &type, const tripoint_abs_ms &where,
                        int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         bool has_loot_dest_near( const tripoint_abs_ms &where ) const;
+        // `memo` stores per-zone filter results for one query, so a multi-tile
+        // zone is only matched against `it` once
         bool custom_loot_has( const tripoint_abs_ms &where, const item *it,
                               const zone_type_id &ztype, const faction_id &fac = your_fac,
-                              std::optional<bool> from_vehicle = std::nullopt ) const;
+                              std::optional<bool> from_vehicle = std::nullopt,
+                              std::unordered_map<const zone_data *, bool> *memo = nullptr ) const;
         std::vector<zone_data const *> get_near_zones( const zone_type_id &type,
                 const tripoint_abs_ms &where, int range,
                 const faction_id &fac = your_fac ) const;

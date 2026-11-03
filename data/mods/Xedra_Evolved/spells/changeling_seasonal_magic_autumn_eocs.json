@@ -76,7 +76,7 @@
         "then": [
           {
             "math": [
-              "u_val('morale')",
+              "u_morale()",
               "-=",
               "(25 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2) + (u_skill('gramarye') * 4) ) ) * global_what_is_the_season == 1 ? 0.5 : 1"
             ]

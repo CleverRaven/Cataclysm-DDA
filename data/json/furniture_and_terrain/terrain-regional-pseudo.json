@@ -68,6 +68,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_region_groundcover_ravine",
+    "description": "This should never actually show up, it's a pseudo terrain.  Used in the bottom of ravines.",
+    "copy-from": "t_region_pseudo",
+    "name": "pseudo terrain",
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
     "id": "t_region_soil",
     "description": "This should never actually show up, it's a pseudo terrain.  For use where plants have been planted and grass/groundcover kept clear.",
     "copy-from": "t_region_pseudo",
@@ -215,7 +223,7 @@
     "id": "t_highland_groundcover",
     "copy-from": "t_region_pseudo",
     "name": "pseudo terrain",
-    "description": "This should never actually show up, it should have been replaced with regional terrain.",
+    "description": "This should never actually show up, it should have been replaced with regional terrain.  Used in the highland dimensions.",
     "move_cost": 1
   },
   {

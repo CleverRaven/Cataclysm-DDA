@@ -163,18 +163,59 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "pie",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "25 m",
     "book_learn": [ [ "baking_book", 3 ], [ "family_cookbook", 3 ], [ "sweets_book", 3 ] ],
-    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
-    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
     "//": "30u for flour, 8u for fruit, 2u for sugar.",
+    "steps": [
+      {
+        "name": "Preperation",
+        "//": "Slice fruit to size for filling and dust workspace with flour",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "//": "Mix flour and water, then knead the dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "//": "Make pie crust by either molding them by hand or pressing them over the interior of a container",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Pre-baking crust while cooking filling",
+        "//": "Start baking crust, before cooking fruit",
+        "//1": "Pie crusts are pre-baked to prevent sogginess when wet fillings are added. This isn't always needed with some recipes",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling and seal crust",
+        "//": "Filling and crust are covered with a layer of dough, then tidied up along the edges by either tearing them off or pressing them together",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Baking",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ]
+      }
+    ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
@@ -192,19 +233,183 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "result": "pie",
+    "name": "%s (Unattended)",
+    "id_suffix": "unattended",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "baking_book", 3 ], [ "family_cookbook", 3 ], [ "sweets_book", 3 ] ],
+    "//": "30u for flour, 8u for fruit, 2u for sugar.",
+    "steps": [
+      {
+        "name": "Preperation",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Pre-baking crust while cooking filling",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling and seal crust",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Baking",
+        "//": "Set to bake and switch off after timer ends",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "switch_off_heat_oven", 25, "LIST" ] ] ],
+        "attention": "unattended"
+      }
+    ],
+    "components": [
+      [ [ "flour_any", 30, "LIST" ] ],
+      [ [ "sweet_fruit_like", 8, "LIST" ] ],
+      [
+        [ "sugar", 20 ],
+        [ "syrup", 4 ],
+        [ "syrup_corn", 4 ],
+        [ "beet_syrup", 4 ],
+        [ "molasses", 4 ],
+        [ "artificial_sweetener", 20 ]
+      ],
+      [ [ "water_clean", 1 ] ]
+    ],
+    "charges": 8
+  },
+  {
+    "type": "recipe",
     "result": "pie_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 4,
-    "time": "25 m",
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
-    "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "tools": [ [ [ "surface_heat", 42, "LIST" ] ] ],
     "//": "30u for flour, 12u for veggy (save some energy baking them with the bread)",
+    "steps": [
+      {
+        "name": "Preperation",
+        "//": "Chop vegetables to size for filling and dust workspace with flour",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "//": "Mix flour and water, then knead the dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "//": "Make pie crust by either molding them by hand or pressing them over the interior of a container",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Pre-baking crust while cooking filling",
+        "//": "Start baking crust, before cooking vegetables",
+        "//1": "Pie crusts are pre-baked to prevent sogginess when wet fillings are added. This isn't always needed with some recipes",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling and seal crust",
+        "//": "Filling and crust are covered with a layer of dough, then tidied up along the edges by either tearing them off or pressing them together",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Baking",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 27, "LIST" ] ] ]
+      }
+    ],
+    "components": [ [ [ "flour_any", 30, "LIST" ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pie_veggy",
+    "name": "%s (Unattended)",
+    "id_suffix": "unattended",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 4,
+    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
+    "steps": [
+      {
+        "name": "Preperation",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Pre-baking crust while cooking filling",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ], [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling and seal crust",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Baking",
+        "//": "Set to bake and switch off after timer ends",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "OVEN", "level": 1 } ] ],
+        "tools": [ [ [ "switch_off_heat_oven", 27, "LIST" ] ] ],
+        "attention": "unattended"
+      }
+    ],
     "components": [ [ [ "flour_any", 30, "LIST" ] ], [ [ "veggy_any", 8, "LIST" ], [ "wild_herbs", 40 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
@@ -233,18 +438,58 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "pie_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 4,
-    "time": "25 m",
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ],
-    "tools": [ [ [ "surface_heat", 35, "LIST" ] ] ],
     "//": "30u for flour, 5 for meat",
+    "steps": [
+      {
+        "name": "Preperation",
+        "//": "Chop meat to size for filling and dust workspace with flour",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "//": "Mix flour and water, then knead the dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "//": "Make pie crust by either molding them by hand or pressing them over the interior of a container",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Pre-baking crust",
+        "//": "meat is already cooked",
+        "//1": "Pie crusts are pre-baked to prevent sogginess when wet fillings are added. This isn't always needed with some recipes",
+        "time": "15 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling and seal crust",
+        "//": "Filling and crust are covered with a layer of dough, then tidied up along the edges by either tearing them off or pressing them together",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Baking",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ]
+      }
+    ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
       [
@@ -264,19 +509,197 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "result": "pie_meat",
+    "name": "%s (Unattended)",
+    "id_suffix": "unattended",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 4,
+    "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
+    "steps": [
+      {
+        "name": "Preperation",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Pre-baking crust",
+        "//": "Set to bake and switch off after timer ends",
+        "time": "15 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "switch_off_heat_oven", 10, "LIST" ] ] ],
+        "attention": "unattended"
+      },
+      {
+        "name": "Add filling and seal crust",
+        "time": "30 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" } ]
+      },
+      {
+        "name": "Baking",
+        "//": "Set to bake again",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "tools": [ [ [ "switch_off_heat_oven", 25, "LIST" ] ] ],
+        "attention": "unattended"
+      }
+    ],
+    "components": [
+      [ [ "flour_any", 30, "LIST" ] ],
+      [
+        [ "meat_cooked", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "can_chicken", 1 ],
+        [ "fish", 1 ],
+        [ "rehydrated_fish", 1 ],
+        [ "dry_fish", 1 ],
+        [ "salted_fish", 1 ],
+        [ "meat_salted", 1 ],
+        [ "fish_canned", 1 ],
+        [ "can_tuna", 1 ]
+      ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "pie_maple",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 6,
-    "time": "25 m",
     "book_learn": [ [ "baking_book", 3 ], [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 7 ], [ "sweets_book", 3 ] ],
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
-    "tools": [ [ [ "surface_heat", 34, "LIST" ] ] ],
     "//": "30u for flour, 2u for milk, 2u for syrup",
+    "steps": [
+      {
+        "name": "Preperation",
+        "//": "Measure out wet ingredients and dust workspace with flour",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "//": "Mix flour and water, then knead the dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "//": "Make pie crust by either molding them by hand or pressing them over the interior of a container",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Pre-baking crust while mixing filling over heat",
+        "//": "Start baking crust, before boiling maple and mixing in milk for filling",
+        "//1": "Pie crusts are pre-baked to prevent sogginess when wet fillings are added. This isn't always needed with some recipes",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+        "qualities": [ [ { "id": "BOIL", "level": 2 } ], [ { "id": "COOK", "level": 2 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling",
+        "//": "Maple mixture is poured into crust, opening is left exposed for baking",
+        "time": "10 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Baking",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ] ],
+        "tools": [ [ [ "surface_heat", 19, "LIST" ] ] ]
+      }
+    ],
+    "components": [
+      [ [ "flour_any", 30, "LIST" ] ],
+      [
+        [ "milk_standard_raw", 1, "LIST" ],
+        [ "lf_milk_standard", 1, "LIST" ],
+        [ "milk_powder", 1 ],
+        [ "con_milk", 1 ]
+      ],
+      [ [ "syrup", 5 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pie_maple",
+    "name": "%s (Unattended)",
+    "id_suffix": "unattended",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 6,
+    "book_learn": [ [ "baking_book", 3 ], [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 7 ], [ "sweets_book", 3 ] ],
+    "steps": [
+      {
+        "name": "Preperation",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ]
+      },
+      {
+        "name": "Making dough",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Shaping dough into crust",
+        "time": "2 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Pre-baking crust while mixing filling over heat",
+        "time": "15 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+        "qualities": [ [ { "id": "BOIL", "level": 2 } ], [ { "id": "COOK", "level": 2 } ] ],
+        "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ]
+      },
+      {
+        "name": "Add filling",
+        "time": "10 s",
+        "activity_level": "LIGHT_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ]
+      },
+      {
+        "name": "Baking",
+        "//": "Set to bake and switch off after timer ends",
+        "time": "25 m",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ [ { "id": "COOK", "level": 2 } ] ],
+        "tools": [ [ [ "switch_off_heat_oven", 19, "LIST" ] ] ],
+        "attention": "unattended"
+      }
+    ],
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
       [

@@ -5,6 +5,7 @@
     "//": "Appears in the refugee center as a partner for hire.",
     "name_suffix": "Merc",
     "age": 37,
+    "portrait_filename": "Generic_NPC_scavenger_merc",
     "class": "NC_SCAVENGER_MERC",
     "attitude": 0,
     "mission": "GUARD",

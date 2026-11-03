@@ -35,7 +35,8 @@
       "6": "t_bulk_tank",
       "I": "t_thconc_y",
       "U": "t_metal_floor",
-      "<": "t_stairs_up"
+      "<": "t_stairs_up",
+      "X": "t_thconc_floor"
     },
     "furniture": {
       "C": "f_crate_c",
@@ -62,7 +63,8 @@
       "7": "f_drill_press",
       "8": "f_router",
       "h": "f_shower",
-      "#": "f_counter"
+      "#": "f_counter",
+      "X": [ [ "f_metal_crate_military", 40 ], [ "f_metal_crate_military_o", 10 ] ]
     }
   },
   {

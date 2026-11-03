@@ -192,7 +192,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 8, "popup": true },
-          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_torso", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },
@@ -245,7 +245,7 @@
       {
         "text": "Much obliged.",
         "effect": [
-          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_torso", "count": 5 },
           { "u_spawn_item": "helmet_riot", "count": 5 },
           { "u_spawn_item": "armor_riot_arm", "count": 5 },
           { "u_spawn_item": "armor_riot_leg", "count": 5 },

@@ -98,6 +98,11 @@
         "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_PORTAL_STORM_DUNGEON",
         "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_portal_storm_dungeon" } ] }
       },
+      {
+        "text": "[Snapshots of the scarlet storm] That storm?",
+        "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SCARLET_STORM",
+        "condition": { "compare_string": [ "yes", { "u_val": "robofac_pat_saw_scarlet_storm" } ] }
+      },
       { "text": "Hmm.  Well, I guess we'll just see what I can find.", "topic": "TALK_DONE" }
     ]
   },
@@ -211,6 +216,14 @@
     "dynamic_line": "Ah, that' fahkin' place ya' got ripped inta' during the portal storm.  I'd fahkin' say so.  Real mind fahk.  Think the ground'll even hold the station?  I dunno.  Seems fahkin' nuts to try, but that's on you.",
     "responses": [
       { "text": "I guess if I can find my way back, I could try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" }
+    ]
+  },
+  {
+    "id": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4_SCARLET_STORM",
+    "type": "talk_topic",
+    "dynamic_line": "Nothin' fahkin' natural about that, so  I'd fahkin' say so.  Good idea.",
+    "responses": [
+      { "text": "I guess if I can find it again, I could try.", "topic": "TALK_PAT_ADVICE_MISSION_ROBOFAC_INTERCOM_MWS_4" }
     ]
   }
 ]

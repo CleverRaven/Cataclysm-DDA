@@ -7,7 +7,7 @@
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
     "allowed_locs": [ "sloc_shelter_safe" ],
     "start_name": "Evac Shelter",
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "FORGIVING" ]
   },
   {
     "type": "scenario",
@@ -17,7 +17,7 @@
     "description": "You have survived the initial wave of panic, and have made your way to a refugee center.",
     "allowed_locs": [ "sloc_refugee_center" ],
     "start_name": "Refugee Center",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -27,7 +27,7 @@
     "description": "You have survived the initial wave of panic, and made your way to the wilderness.  You were expecting this area to be uninhabited, but instead you see a large castle guarded by strange robots.  At the entrance stands a sign, it reads \"Traders Come Well Avaunt\"",
     "allowed_locs": [ "sloc_exodii_castle" ],
     "start_name": "Strange Castle",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "STANDARD" ],
     "requirement": "achievement_reach_exodii_base"
   },
   {
@@ -40,7 +40,7 @@
     "start_name": "Liam's Cabin",
     "eoc": [ "scenario_liam" ],
     "missions": [ "MISSION_FIND_LIAM" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "FORGIVING" ]
   },
   {
     "type": "scenario",
@@ -50,7 +50,7 @@
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in an abandoned building.  Unfortunately, while you're the only one here now, you are definitely not the first person to be here, and in its current state this building no longer seems nearly as secure as one might have hoped.",
     "allowed_locs": [ "sloc_shelter_vandal" ],
     "start_name": "Evac Shelter",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -86,7 +86,7 @@
       "sloc_petstore"
     ],
     "start_name": "In Town",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -111,7 +111,7 @@
       "sloc_mansion_basement"
     ],
     "start_name": "In Large Building",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -155,7 +155,7 @@
     ],
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "CITY_START", "LONE_START", "SUR_START" ]
+    "flags": [ "CITY_START", "LONE_START", "SUR_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -175,13 +175,13 @@
       "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "FORGIVING" ]
   },
   {
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of the evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "CITY_START" ],
+    "flags": [ "CITY_START", "TOUGH" ],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -221,7 +221,7 @@
   {
     "type": "scenario",
     "id": "hunted_start",
-    "name": "Challenge - Hunted",
+    "name": "Hunted",
     "points": -2,
     "forced_traits": [ "HAS_NEMESIS" ],
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
@@ -273,7 +273,7 @@
   {
     "type": "scenario",
     "id": "hunted_forever_start",
-    "name": "Challenge - Hunted Forever",
+    "name": "Hunted Forever",
     "points": -5,
     "forced_traits": [ "HAS_NEMESIS" ],
     "description": "Since the start of the Cataclysm, they have been hunting you relentlessly.  You can try to fight them, but each time one falls another takes its place.  The only escape is for you to die.",
@@ -325,7 +325,7 @@
   {
     "type": "scenario",
     "id": "fungal_start",
-    "name": "Challenge - Fungal Infection",
+    "name": "Fungal Infection",
     "points": -8,
     "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
     "start_name": "In Town",
@@ -368,7 +368,7 @@
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "CITY_START", "LONE_START" ],
+    "flags": [ "CITY_START", "LONE_START", "TOUGH" ],
     "id": "fire",
     "points": -2,
     "start_name": "In Town",
@@ -408,7 +408,7 @@
   },
   {
     "type": "scenario",
-    "name": "Challenge - Unliving History",
+    "name": "Unliving History",
     "description": "New England is dotted with old forts from the Revolutionary War, and many of them are still standing.  When things started getting really bad, it seemed like a natural place to hole up for a while, and it turns out that many, many other people had the same idea.  The peace didn't last long.  Now everyone else is undead, and you're trapped inside the walls with them.  The single entrance being a tight choke point is looking a lot less useful now…",
     "id": "BastionFortStart",
     "points": -2,
@@ -420,7 +420,7 @@
   {
     "type": "scenario",
     "id": "bad_day",
-    "name": "Challenge - Really Bad Day",
+    "name": "Really Bad Day",
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
     "start_name": "In Town",
@@ -480,7 +480,7 @@
   {
     "type": "scenario",
     "id": "medieval",
-    "name": "Challenge - Medieval Peasant",
+    "name": "Medieval Peasant",
     "points": -8,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",
@@ -496,7 +496,7 @@
   {
     "type": "scenario",
     "id": "lab_cargo_staff_1",
-    "name": "Challenge - Trans-Coast Logistics Concourse",
+    "name": "Trans-Coast Logistics Concourse",
     "points": -6,
     "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You'd better find your lanyard with your badge before the automated defenses notice that you don't have one.",
     "start_name": "Locked Lab",
@@ -509,7 +509,7 @@
   {
     "type": "scenario",
     "id": "lab_cargo_mutant",
-    "name": "Challenge - Trans-Coast Logistics Mutant",
+    "name": "Trans-Coast Logistics Mutant",
     "points": -6,
     "description": "You were an experimental subject confined to a government black site.  While you were luckier than your fellow mutants, remaining somewhat human, you still bear many scars of the scientists' experiments.  Unfortunately, the facility has fallen to chaos, and everyone is either dead or insane, and you don't know where you can get a keycard to bypass the defense turrets and escape.",
     "start_name": "Locked Lab",
@@ -550,7 +550,7 @@
   {
     "type": "scenario",
     "id": "bordered",
-    "name": "Challenge - Bordered",
+    "name": "Bordered",
     "points": -2,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  While evacuating, you noticed a mysterious sky-high wall in the distance, seemingly cutting off travel in every direction around you.",
     "allowed_locs": [ "sloc_shelter_safe" ],
@@ -575,7 +575,7 @@
     ],
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "add_professions": true,
@@ -603,7 +603,7 @@
       "sloc_lighthouse_small_ground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
     "add_professions": true,
@@ -626,7 +626,7 @@
     "requirement": "achievement_survive_91_days",
     "eoc": [ "faction_camp_start" ],
     "distance_initial_visibility": 50,
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -636,7 +636,7 @@
     "description": "When the apocalypse broke out, you were evacuated to a small underground bunker.  Here you have lived, never leaving, lest the dangers of the unknown find you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
     "allowed_locs": [ "sloc_lmoe_under", "sloc_shelter_safe" ],
     "start_name": "Enclosed Shelter",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "distance_initial_visibility": 0,
@@ -645,7 +645,7 @@
   {
     "type": "scenario",
     "id": "patient",
-    "name": "Challenge - Abandoned",
+    "name": "Abandoned",
     "points": -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of various hospitals.  When your current one was evacuated, you were considered a lost cause and left behind.  You awaken to the sound of movement around the hospital.",
     "allowed_locs": [ "sloc_hospital" ],
@@ -678,12 +678,12 @@
       "cop"
     ],
     "distance_initial_visibility": 0,
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
     "id": "alcatraz",
-    "name": "Challenge - Island Prison",
+    "name": "Island Prison",
     "points": -6,
     "description": "You were convicted or working in a high-security prison before the Cataclysm.  Unfortunately, you're still in it, so you need to figure out how to escape.  It's located on a remote island to boot; you'll eventually need to escape that also.",
     "allowed_locs": [ "sloc_prison_alcatraz", "sloc_prison_island" ],
@@ -708,7 +708,7 @@
   {
     "type": "scenario",
     "id": "migo_prisoner",
-    "name": "Challenge - Mi-Go Camp",
+    "name": "Mi-Go Camp",
     "points": -8,
     "description": "You have found yourself in the most alien place you've ever seen.  The hot, humid air and the organic appearance of the structure make you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
@@ -771,7 +771,7 @@
     ],
     "reveal_locale": false,
     "distance_initial_visibility": 0,
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -782,7 +782,7 @@
     "allowed_locs": [ "sloc_restaraunt_foodplace_break_room" ],
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "Foodplace Break Room",
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -795,7 +795,7 @@
     "start_name": "A Stop On The Road",
     "allowed_locs": [ "sloc_gas_station" ],
     "missions": [ "MISSION_LAST_DELIVERY" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -808,7 +808,7 @@
     "vehicle": "2seater2_scenario",
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
     "professions": [ "heli_pilot" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "FORGIVING" ]
   },
   {
     "type": "scenario",
@@ -821,20 +821,20 @@
     "reveal_locale": false,
     "distance_initial_visibility": 0,
     "origin_offset": [ -5, 0 ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
     "id": "beach_day",
-    "name": "Beach day",
+    "name": "Beach Day",
     "points": 0,
     "description": "You do not remember why you went there but now you are at the beach.  It is nice to look at the waves and forget about the End Times.",
-    "start_name": "Beach day",
+    "start_name": "Beach Day",
     "allowed_locs": [ "sloc_ocean_shore" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0,
     "origin_offset": [ 10, 0 ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -868,13 +868,13 @@
     ],
     "map_extra": "mx_helicopter",
     "distance_initial_visibility": 0,
-    "flags": [ "HELI_CRASH", "LONE_START" ],
+    "flags": [ "HELI_CRASH", "LONE_START", "TOUGH" ],
     "missions": [ "MISSION_HELICOPTER_CRASH" ]
   },
   {
     "type": "scenario",
     "id": "Mine_bottom",
-    "name": "Challenge - Bottom of a Mine",
+    "name": "Bottom of a Mine",
     "points": 1,
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
@@ -886,7 +886,7 @@
   {
     "type": "scenario",
     "id": "overrun",
-    "name": "Challenge - Overrun",
+    "name": "Overrun",
     "points": 3,
     "description": "Despite all the soldiers, guns, and barbed wire, the military base you were in was overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse by yourself.  You are not sure if anyone made it to the armory, or if you are the last one alive.",
     "start_name": "Military Base Warehouse",
@@ -960,19 +960,19 @@
   {
     "type": "scenario",
     "id": "car_crash",
-    "name": "Challenge - Car Crash",
+    "name": "Car Crash",
     "points": -2,
     "description": "You decided the open road would be a better prospect than the zombie-filled cities.  While en route to your destination, you were involved in a crash that totaled your vehicle.  Injured and alone, you'll need to think fast if you want to survive.",
     "allowed_locs": [ "sloc_road" ],
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem_crash_start",
     "distance_initial_visibility": 0,
-    "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+    "flags": [ "HELI_CRASH", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
     "id": "strong_portal_storm",
-    "name": "Challenge - Splintering Reality",
+    "name": "Splintering Reality",
     "points": -3,
     "description": "You found yourself alone in an open field when reality began to heave and crack all around you.  You need to find shelter, and fast.",
     "flags": [ "CHALLENGE", "LONE_START" ],
@@ -984,7 +984,7 @@
   {
     "type": "scenario",
     "id": "strong_portal_storm_base",
-    "name": "Challenge - Stronger Portal Storms",
+    "name": "Stronger Portal Storms",
     "points": -4,
     "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be quite strong.",
     "flags": [ "CHALLENGE", "LONE_START" ],
@@ -996,7 +996,7 @@
   {
     "type": "scenario",
     "id": "quick_portal_storm_base",
-    "name": "Challenge - Frequent Portal Storms",
+    "name": "Frequent Portal Storms",
     "points": -4,
     "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be more frequent.",
     "flags": [ "CHALLENGE", "LONE_START" ],
@@ -1009,7 +1009,7 @@
     "type": "scenario",
     "copy-from": "mutant",
     "id": "portal_dependent",
-    "name": "Challenge - Portal Dependent",
+    "name": "Portal Dependent",
     "points": -8,
     "description": "You were caught in a huge and unstable portal storm, and were utterly unprotected from the full force of its effects.  You're on the tail end of the storm now, and while you've survived, you feel… different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
@@ -1037,7 +1037,7 @@
   {
     "type": "scenario",
     "id": "trapped_in_labyrinth",
-    "name": "Challenge - Labyrinth Bound",
+    "name": "Labyrinth Bound",
     "points": 0,
     "description": "During the worst of the portal storms you found yourself exposed, and existence as you knew it folded in upon itself.  You now find yourself lost in another world.  You're not sure if you'll ever be able to return.  But, there is something in the distance.  A green light?  Atop a metal spire?  Perhaps there is somewhere safe, there.",
     "flags": [ "CHALLENGE", "LONE_START" ],
@@ -1051,7 +1051,7 @@
   {
     "type": "scenario",
     "id": "Mansion",
-    "name": "Challenge - Mansion Escape",
+    "name": "Mansion Escape",
     "points": -5,
     "description": "You were living the high life when the world ended, surrounded by riches and eating well every day.  Now you've woken up, alone and drugged, in a room of your mansion that you don't recognize.  As you fight to remain conscious, you hear heavy footsteps nearby.  Time to get the hell out of here.",
     "allowed_locs": [ "sloc_enclosed_mansion_panic_room", "sloc_enclosed_mansion_sex_lair" ],
@@ -1102,7 +1102,7 @@
   {
     "type": "scenario",
     "id": "infested_shelter_start",
-    "name": "Challenge - Compromised Shelter",
+    "name": "Compromised Shelter",
     "points": -1,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with started to turn and now they're out for your flesh!  You've holed up in the basement for now, but sooner or later you have to make for the door… and fast!",
     "allowed_locs": [ "sloc_shelter_under_infested" ],
@@ -1113,7 +1113,7 @@
   {
     "type": "scenario",
     "id": "aircraft_carrier_start",
-    "name": "Challenge - Aircraft Carrier",
+    "name": "Aircraft Carrier",
     "points": 4,
     "description": "You were on a mission off the coast of North Korea when the aircraft carrier you were stationed on suddenly and inexplicably found itself in the middle of a lake.  You have no idea where you are or what's happened, but you have more important things to worry about: everyone else aboard seems to have become violently insane.  It might be time to abandon ship.",
     "start_name": "Aircraft Carrier",
@@ -1147,12 +1147,12 @@
     "allowed_locs": [ "sloc_retirement_community" ],
     "start_name": "Retirement Community",
     "professions": [ "senior", "old_vet" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
     "id": "nuclear_plant_start",
-    "name": "Challenge - Emergency Shutdown",
+    "name": "Emergency Shutdown",
     "points": 1,
     "description": "When the Cataclysm happened, you were working in a nuclear power plant.  Now you're trapped inside, surrounded by the shambling bodies of what used to be your coworkers.  The reactor's shut down, but you don't know if there's been a radiation leak and you need to get away from here fast before you find out the hard way.",
     "start_name": "Nuclear Power Plant",
@@ -1163,7 +1163,7 @@
   },
   {
     "type": "scenario",
-    "name": "Challenge - Close Encounter",
+    "name": "Close Encounter",
     "description": "You don't know what it was but you managed to lose it for the time being.  Now you are injured, surrounded and the building is on fire.  You hope you have some time before it returns to finish the job.",
     "flags": [ "CITY_START", "CHALLENGE", "LONE_START", "HELI_CRASH" ],
     "id": "close_encounter_start",
@@ -1228,7 +1228,7 @@
       "sloc_hermit_shack",
       "sloc_river"
     ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -1273,12 +1273,12 @@
     ],
     "eoc": [ "EOC_lone_survivor" ],
     "map_extra": "mx_corpses",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
     "id": "rock_hard_place_start",
-    "name": "Challenge - Between a Rock and a Hard Place",
+    "name": "Between a Rock and a Hard Place",
     "points": -2,
     "description": "You were trying to scavenge for supplies, and now some rough group of bandits has dragged monsters in with them where you were hiding!",
     "start_name": "In Town",
@@ -1322,7 +1322,7 @@
   {
     "type": "scenario",
     "id": "shattered_sky_start",
-    "name": "Challenge - Shattered Sky",
+    "name": "Shattered Sky",
     "points": -5,
     "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you.",
     "forced_traits": [ "SCHIZOPHRENIC" ],
@@ -1343,7 +1343,7 @@
   {
     "type": "scenario",
     "id": "hunted_alot_start",
-    "name": "Challenge - Hunted by the Dead",
+    "name": "Hunted by the Dead",
     "points": -2,
     "forced_traits": [ "ELDRITCH_IRE" ],
     "description": "Since the start of the Cataclysm, the air around you has felt different, like you pissed off whatever is causing the Cataclysm.  Now zombie hordes will approach you everywhere you go, regardless of whether they see you or not.",
@@ -1402,7 +1402,7 @@
     "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
     "eoc": [ "EOC_scenario_drunk" ],
     "distance_initial_visibility": 6,
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
@@ -1414,7 +1414,7 @@
     "allowed_locs": [ "sloc_stadium" ],
     "distance_initial_visibility": 0,
     "map_extra": "mx_corpses",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -1426,31 +1426,31 @@
     "allowed_locs": [ "sloc_middle_of_nowhere" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0,
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
     "id": "sewer_start",
-    "name": "Challenge - Lost Underground",
+    "name": "Lost Underground",
     "points": 1,
     "description": "When the riots came to your home, you ran underground and hid.  Now days later you are lost and hear movement echoing in the dark.",
     "start_name": "Underground",
     "allowed_locs": [ "sloc_sewer" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0,
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
     "id": "last_stand_start",
-    "name": "Challenge - Last Stand",
+    "name": "Last Stand",
     "points": -1,
     "description": "Together with some others you decided to take up arms against the horde.  Now you are reconsidering whether that was a wise choice.",
     "start_name": "Intersection",
     "allowed_locs": [ "sloc_nesw_manhole" ],
     "requirement": "achievement_kill_10_monsters",
     "map_extra": "mx_laststand",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -1464,7 +1464,7 @@
     "allowed_locs": [ "sloc_town_in_the_open" ],
     "eoc": [ "EOC_scenario_clear_weather" ],
     "requirement": "achievement_survive_one_day",
-    "flags": [ "CITY_START", "LONE_START", "SUR_START" ],
+    "flags": [ "CITY_START", "LONE_START", "SUR_START", "STANDARD" ],
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
   }
 ]

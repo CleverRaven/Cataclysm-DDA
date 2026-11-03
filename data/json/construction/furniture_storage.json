@@ -272,5 +272,45 @@
     "components": [ [ [ "pipe", 12 ] ], [ [ "sheet_metal", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_warehouse_shelf"
+  },
+  {
+    "type": "construction",
+    "id": "constr_engine_crate_opened",
+    "group": "place_engine_crate",
+    "category": "FURN",
+    "time": "1 m",
+    "//1": "Just placing bottom part on the ground and making it furniture/terrain",
+    "difficulty": 0,
+    "components": [ [ [ "engine_container_base", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_crate_military_o"
+  },
+  {
+    "type": "construction",
+    "id": "constr_engine_crate_sealed",
+    "group": "seal_engine_crate",
+    "category": "FURN",
+    "required_skills": [ [ "mechanics", 1 ] ],
+    "time": "12 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "//1": "closing lid and bolting it",
+    "components": [ [ [ "engine_container_lid", 1 ] ], [ [ "nuts_bolts", 45 ] ] ],
+    "pre_terrain": "f_metal_crate_military_o",
+    "post_terrain": "f_metal_crate_military",
+    "post_flags": [ "keep_items" ]
+  },
+  {
+    "type": "construction",
+    "id": "constr_engine_crate_open",
+    "group": "unseal_engine_crate",
+    "category": "FURN",
+    "required_skills": [ [ "mechanics", 1 ] ],
+    "time": "12 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "//1": "unbolting and removing lid",
+    "byproducts": [ { "item": "engine_container_lid", "count": 1 }, { "item": "nuts_bolts", "count": 45 } ],
+    "pre_terrain": "f_metal_crate_military",
+    "post_terrain": "f_metal_crate_military_o",
+    "post_flags": [ "keep_items" ]
   }
 ]

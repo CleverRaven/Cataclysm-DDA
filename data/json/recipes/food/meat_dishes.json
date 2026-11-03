@@ -21,19 +21,34 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "bacon",
-    "id_suffix": "from_uncut_bacon",
+    "result": "bacon_uncooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "5 m",
     "charges": 3,
     "autolearn": true,
+    "time": "3 m",
     "flags": [ "BLIND_EASY" ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "bacon_uncut", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "bacon",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "5 m",
+    "batch_time_factors": { "mode": "linear", "setup": "4m 30s" },
+    "flags": [ "BLIND_EASY" ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [ [ [ "bacon_uncooked", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1853,6 +1868,21 @@
       [ [ "condiment", 2, "LIST" ] ],
       [ [ "veggy_any_fresh_uncooked", 1, "LIST" ] ]
     ],
+    "charges": 2
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "buffalo_wings",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 2 ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
+    "components": [ [ [ "chicken_fried", 1 ] ], [ [ "buffalo_sauce", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ],
     "charges": 2
   },
   {

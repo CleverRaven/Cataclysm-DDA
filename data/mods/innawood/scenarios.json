@@ -36,7 +36,7 @@
       "carpenter",
       "bricklayer"
     ],
-    "flags": [  ],
+    "flags": [ "STANDARD" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0
   },
@@ -48,7 +48,7 @@
     "description": "Somehow, you found yourself in a cave.  Seems like you're on your own.",
     "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],
     "start_name": "Cave",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "STANDARD" ],
     "professions": [
       "svictim",
       "naked",
@@ -124,7 +124,7 @@
   {
     "type": "scenario",
     "id": "hunted_start",
-    "name": "Challenge - Hunted",
+    "name": "Hunted",
     "points": -2,
     "forced_traits": [ "HAS_NEMESIS" ],
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
@@ -166,7 +166,7 @@
   {
     "type": "scenario",
     "id": "fungal_start",
-    "name": "Challenge - Fungal Infection",
+    "name": "Fungal Infection",
     "points": -8,
     "description": "You feel spores crawling beneath your skin.  It's only a matter of time.",
     "start_name": "Wilderness",
@@ -207,7 +207,7 @@
   {
     "type": "scenario",
     "id": "bad_day",
-    "name": "Challenge - Really Bad Day",
+    "name": "Really Bad Day",
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Wilderness",
@@ -221,7 +221,7 @@
   {
     "type": "scenario",
     "id": "bordered",
-    "name": "Challenge - Bordered",
+    "name": "Bordered",
     "points": -2,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in a wilderness.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
     "start_name": "Wilderness",
@@ -267,7 +267,7 @@
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "start_name": "Outside Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "winter", "year": 1 },
     "professions": [
@@ -309,7 +309,7 @@
     "description": "A little over a year has passed since the apocalypse started, and you're about to face your second summer in Hell.",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
     "start_name": "Outside Town",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 1, "season": "summer", "year": 2 },
     "professions": [
@@ -353,7 +353,7 @@
     "allowed_locs": [ "sloc_field" ],
     "vehicle": "2seater2_scenario",
     "professions": [ "heli_pilot" ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "FORGIVING" ],
     "reveal_locale": false,
     "distance_initial_visibility": 0
   },
@@ -365,7 +365,7 @@
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "TOUGH" ],
     "professions": [
       "svictim",
       "naked",
@@ -415,7 +415,7 @@
     "type": "scenario",
     "copy-from": "mutant",
     "id": "portal_dependent",
-    "name": "Challenge - Portal Dependent",
+    "name": "Portal Dependent",
     "points": -8,
     "description": "You were caught in a huge and unstable portal storm, and were utterly unprotected from the full force of its effects.  You're on the tail end of the storm now, and while you've survived, you feel… different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
@@ -443,7 +443,7 @@
   {
     "type": "scenario",
     "id": "medieval",
-    "name": "Challenge - Medieval Peasant",
+    "name": "Medieval Peasant",
     "points": -4,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",

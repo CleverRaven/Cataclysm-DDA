@@ -127,6 +127,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "20shot",
+    "name": "20 gauge",
+    "default": "20shot_buck"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410",
     "default": "410shot_000"
@@ -213,7 +219,7 @@
     "type": "ammunition_type",
     "id": "45",
     "name": ".45 ACP",
-    "default": "45_acp"
+    "default": "45_jhp"
   },
   {
     "type": "ammunition_type",
@@ -446,6 +452,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydraulic_oil",
+    "name": "hydraulic oil",
+    "default": "hydraulic_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "crude_oil",
     "name": "crude oil",
     "default": "crude_oil"
@@ -606,6 +618,12 @@
     "id": "gunpowder",
     "name": "",
     "default": "gunpowder"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "chem_black_powder",
+    "name": "",
+    "default": "chem_black_powder"
   },
   {
     "type": "ammunition_type",
@@ -924,6 +942,12 @@
     "id": "airgun_pellet",
     "name": "airgun pellet",
     "default": "airgun_pellet_target"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pressurized_co2",
+    "name": "pressurized CO₂",
+    "default": "co2"
   },
   {
     "type": "ammunition_type",

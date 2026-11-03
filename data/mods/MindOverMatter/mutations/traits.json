@@ -183,7 +183,8 @@
       "VITAKINETIC",
       "ALWAYS_GAIN_PSIONICS",
       "PSYCHIC_KNACK"
-    ]
+    ],
+    "flags": [ "HEADBLIND" ]
   },
   {
     "type": "mutation",

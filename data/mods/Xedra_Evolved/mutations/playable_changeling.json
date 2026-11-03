@@ -782,6 +782,15 @@
   },
   {
     "type": "mutation",
+    "id": "BROWNIE_THRESH_CORN_AND_WHEAT",
+    "name": { "str": "Threshing through the Night" },
+    "points": 1,
+    "purifiable": false,
+    "description": "Brownies are famous for their ability to do household chores, and you now have an instinctive understanding of threshing corn and wheat with only their hands.",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ]
+  },
+  {
+    "type": "mutation",
     "id": "HIRSUTE_BROWNIE",
     "copy-from": "HIRSUTE",
     "purifiable": false,

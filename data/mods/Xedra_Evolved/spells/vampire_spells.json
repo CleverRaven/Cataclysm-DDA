@@ -437,7 +437,7 @@
     "type": "SPELL",
     "name": "Torpor",
     "description": "Enter a deathlike slumber and recover from your wounds and fatigue.  Preferably while somewhere nobody could attack you while you sleep.",
-    "message": "You enter torpor.",
+    "message": "",
     "teachable": false,
     "magic_type": "xe_vampire_blood_powers",
     "valid_targets": [ "self" ],

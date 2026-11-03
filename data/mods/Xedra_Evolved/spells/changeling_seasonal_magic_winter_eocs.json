@@ -205,21 +205,13 @@
     "id": "EOC_CHANGELING_WINTER_STOP_BLEEDING",
     "effect": [
       {
-        "foreach": "array",
-        "target": [ "arm_l", "arm_r", "leg_l", "leg_r", "torso", "head" ],
-        "var": { "context_val": "id" },
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
         "effect": [
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
-            "then": [
-              { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
-              {
-                "u_deal_damage": "cold",
-                "amount": { "math": [ "max( 1, ( _bleed_intensity / 10 ) )" ] },
-                "bodypart": { "context_val": "id" }
-              },
-              { "u_lose_effect": "bleed", "target_part": { "context_val": "id" } }
-            ]
+            "run_eocs": "EOC_REGEN_MUTATIONS_STOP_BLEEDING_WOUNDS_EFFECTS",
+            "variables": { "bodypart": { "context_val": "bodypart" } }
           }
         ]
       },

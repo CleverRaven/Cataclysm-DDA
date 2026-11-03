@@ -6,6 +6,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "color.h"
@@ -14,6 +15,7 @@
 
 class Character;
 class map;
+class temp_crafting_inventory;
 class vehicle;
 class vpart_info;
 struct uilist_entry;
@@ -34,6 +36,21 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who_arg );
  * Awards xp and consumes components.
  */
 bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who );
+
+/** Whether @p who could install @p vpart somewhere on @p veh, checked against @p inv. */
+bool can_install_anywhere( const Character &who, const temp_crafting_inventory &inv,
+                           const vehicle &veh, const vpart_info &vpart );
+
+/** Parts the install menu may offer on @p veh, before the tile under the cursor filters them. */
+struct install_candidates {
+    /** Parts @p who could install, by localized name, followed by the rest, by localized name. */
+    std::vector<const vpart_info *> parts;
+    /** The members of @ref parts that @p who could install. */
+    std::unordered_set<const vpart_info *> installable;
+};
+/** Lists every part the install menu may offer, checking each once against @p inv. */
+install_candidates list_install_candidates( const Character &who,
+        const temp_crafting_inventory &inv, const vehicle &veh );
 } // namespace veh_utils
 
 struct veh_menu_item {

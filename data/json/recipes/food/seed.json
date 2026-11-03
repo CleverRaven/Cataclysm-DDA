@@ -739,8 +739,11 @@
   },
   {
     "result": "seed_potato_raw",
+    "charges": 4,
     "type": "recipe",
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_extraction_cutting",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "potato", 1 ] ] ]
   },
   {
@@ -750,7 +753,8 @@
     "name": "bulk %s",
     "time": "5 m",
     "result_mult": 10,
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_potato_raw",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "potato", 10 ] ] ]
   },
   {
@@ -892,8 +896,9 @@
   {
     "result": "seed_bottle_gourd",
     "type": "recipe",
+    "result_mult": 3,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
+    "components": [ [ [ "raw_bottle_gourd", 1 ] ] ]
   },
   {
     "result": "seed_bottle_gourd",
@@ -901,9 +906,9 @@
     "id_suffix": "bulk",
     "name": "bulk %s",
     "time": "5 m",
-    "result_mult": 10,
+    "result_mult": 30,
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 30 ] ] ]
+    "components": [ [ [ "raw_bottle_gourd", 10 ] ] ]
   },
   {
     "result": "seed_cauliflower",

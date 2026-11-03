@@ -4,6 +4,7 @@
     "id": "evac_teamster",
     "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
     "name_suffix": "Teamster",
+    "portrait_filename": "Generic_NPC_teamster",
     "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": "GUARD",

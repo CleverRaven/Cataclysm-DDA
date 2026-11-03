@@ -1066,5 +1066,32 @@
     "material": [ "superalloy", "copper" ],
     "name": { "str_sp": "data core slots" },
     "description": "Slots for data cores to be plugged in."
+  },
+  {
+    "id": "integrated_riastrad_item",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str_sp": "Ríastrad" },
+    "description": "Your foes shall fall.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "fae_flesh" ],
+    "symbol": ",",
+    "color": "red",
+    "techniques": [ "CHANGELING_RIASTRAD_KNOCKBACK", "CHANGELING_RIASTRAD_STUN" ],
+    "flags": [
+      "INTEGRATED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "PROVIDES_TECHNIQUES",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SOFT",
+      "TRADER_AVOID"
+    ]
   }
 ]

@@ -94,6 +94,8 @@ int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
 void resize_term( int cell_w, int cell_h );
+// re-derive terminal grid from current window and options on next drain
+void request_terminal_relayout();
 int get_scaling_factor();
 #endif // TUI
 #endif // CATA_SRC_CURSESPORT_H

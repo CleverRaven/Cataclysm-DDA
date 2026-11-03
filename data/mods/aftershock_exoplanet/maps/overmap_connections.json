@@ -1,10 +1,5 @@
 [
   {
-    "type": "overmap_location",
-    "id": "ravine",
-    "terrains": [ "ravine", "ravine_edge" ]
-  },
-  {
     "type": "overmap_connection",
     "id": "local_road",
     "subtypes": [
@@ -14,7 +9,8 @@
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
       { "terrain": "road", "locations": [ "aeolian_plain" ], "basic_cost": 110 },
       { "terrain": "road", "locations": [  ] },
-      { "terrain": "bridge", "locations": [ "ravine" ], "basic_cost": 120 }
+      { "terrain": "bridge", "locations": [ "ravine" ], "basic_cost": 40 },
+      { "terrain": "bridge", "locations": [ "ravine_edge" ], "basic_cost": 40 }
     ]
   }
 ]

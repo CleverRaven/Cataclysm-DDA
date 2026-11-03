@@ -269,6 +269,7 @@
     "id": "vampire_blood",
     "name": "Vampire Blood",
     "copy-from": "blood",
+    "density": 1.166,
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },

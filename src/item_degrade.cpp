@@ -513,10 +513,10 @@ int item::spoilage_sort_order() const
 
     bool any_goes_bad = false;
     time_duration min_spoil_time = calendar::INDEFINITELY_LONG_DURATION;
-    visit_items( [&]( item * const node, item * const parent ) {
+    visit_items( [&]( const item * node, const item * parent ) {
         if( node && node->goes_bad() ) {
             float spoil_multiplier = 1.0f;
-            if( parent ) {
+            if( parent != nullptr ) {
                 const item_pocket *const parent_pocket = parent->contained_where( *node );
                 if( parent_pocket ) {
                     spoil_multiplier = parent_pocket->spoil_multiplier();
@@ -1170,12 +1170,17 @@ float item::simulate_burn( fire_data &frd ) const
     return burn_added;
 }
 
-bool item::burn( fire_data &frd )
+float item::burn_amount( fire_data &frd ) const
 {
     if( has_flag( flag_UNBREAKABLE ) ) {
-        return false;
+        return 0.0f;
     }
-    float burn_added = simulate_burn( frd );
+    return simulate_burn( frd );
+}
+
+bool item::burn( fire_data &frd )
+{
+    float burn_added = burn_amount( frd );
 
     if( burn_added <= 0 ) {
         return false;

@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -16,6 +17,7 @@
 #include "map_selector.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -66,6 +68,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
         // for the reference to the backpack that the avatar is wearing now
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
+        item_location backpack_loc( they, &backpack );
 
         THEN( "they have a copy of the backpack" ) {
             // They have the same type
@@ -84,7 +87,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
 
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );
-                CHECK_FALSE( backpack.has_item( rope_map ) );
+                CHECK_FALSE( backpack_loc.has_item( rope_map ) );
             }
             THEN( "they have a copy of the rope in inventory" ) {
                 CHECK( character_has_item_with_var_val( they, "uid", rope_uid ) );
@@ -98,12 +101,12 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
 
             THEN( "a copy of the rope item is in inventory and in the backpack" ) {
                 CHECK( they.has_item( *rope_new ) );
-                CHECK( backpack.has_item( *rope_new ) );
+                CHECK( backpack_loc.has_item( *rope_new ) );
                 CHECK( character_has_item_with_var_val( they, "uid", rope_uid ) );
             }
             THEN( "the original rope is not in inventory or the backpack" ) {
                 CHECK_FALSE( they.has_item( rope_map ) );
-                CHECK_FALSE( backpack.has_item( rope_map ) );
+                CHECK_FALSE( backpack_loc.has_item( rope_map ) );
             }
         }
     }
@@ -181,6 +184,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
         // Wear backpack from map and get the new item reference
         std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
+        item_location backpack_loc( they, &backpack );
         REQUIRE( they.has_item( backpack ) );
         // Put the rope in
         item_location rope = they.i_add( rope_map );
@@ -190,7 +194,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
             // Get item_location for m4 on the map
             item_location m4_loc( map_cursor( they.pos_abs() ), &m4a1 );
             const drop_locations &thing = { std::make_pair( m4_loc, 1 ) };
-            CHECK_FALSE( backpack.has_item( m4a1 ) );
+            CHECK_FALSE( backpack_loc.has_item( m4a1 ) );
             // Now pick up the M4
             they.pick_up( thing );
             process_activity( they );
@@ -343,3 +347,39 @@ TEST_CASE( "charged_item_pickup_partial_merge_no_debugmsg", "[pickup][charges]" 
     CHECK( ground_after == expected_remaining );
 }
 
+
+TEST_CASE( "pickup_clears_a_stale_in_use_mark", "[pickup]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    they.wear_item( item( itype_backpack_hiking ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const auto pick_marked = [&]( const std::string & owner ) {
+        item rope( itype_rope_6 );
+        rope.set_var( "activity_var", owner );
+        item &placed = here.add_item( ground, rope );
+        const drop_locations what = { std::make_pair( item_location( map_cursor( ground ), &placed ), 1 ) };
+        they.pick_up( what );
+        process_activity( they );
+        REQUIRE( they.has_amount( itype_rope_6, 1 ) );
+        return character_has_item_with_var_val( they, "activity_var", owner );
+    };
+    GIVEN( "mark naming the picker, who has no task" ) {
+        THEN( "mark goes" ) {
+            CHECK_FALSE( pick_marked( they.name ) );
+        }
+    }
+    GIVEN( "mark naming someone else" ) {
+        THEN( "mark goes" ) {
+            CHECK_FALSE( pick_marked( "Someone Else" ) );
+        }
+    }
+    GIVEN( "mark naming the picker, whose task waits to resume" ) {
+        they.backlog.emplace_front( multi_farm_activity_actor() );
+        THEN( "mark stays" ) {
+            CHECK( pick_marked( they.name ) );
+        }
+    }
+}

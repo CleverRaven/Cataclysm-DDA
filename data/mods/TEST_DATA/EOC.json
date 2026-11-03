@@ -424,7 +424,7 @@
         "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
         "target_var": { "global_val": "key1" }
       },
-      { "math": [ "key2 = game_option('NPC_SPAWNTIME')" ] },
+      { "math": [ "key2 = game_option('ANIMATION_DELAY')" ] },
       { "run_eocs": "EOC_options_test_nested" }
     ]
   },
@@ -715,6 +715,14 @@
       { "u_add_var": "test_event_last_event", "value": "character_wears_item" },
       { "npc_add_var": "test_event_last_event", "value": "character_wears_item" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wears_item_removes_it_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "test_vanishing_socks", { "context_val": "itype" } ] },
+    "effect": [ { "u_add_var": "test_wear_event_removed", "value": "yes" }, "npc_die" ]
   },
   {
     "type": "effect_on_condition",

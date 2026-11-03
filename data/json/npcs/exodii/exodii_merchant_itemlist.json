@@ -789,5 +789,45 @@
       { "item": "signed_chit", "prob": 1 },
       { "item": "icon", "prob": 1 }
     ]
+  },
+  {
+    "id": "Exodii_mod_blacklist_items",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "copy-from and expand this in mods for all mod items that Exodii simply should not buy.",
+    "entries": [
+      { "group": "Exodii_Magiclysm_no_spell_scrolls", "prob": 1 },
+      { "group": "Exodii_XE_no_dreamdross_items", "prob": 1 },
+      { "group": "Exodii_XE_no_fair_folk_items", "prob": 1 },
+      { "group": "Exodii_XE_no_spell_items", "prob": 1 }
+    ]
+  },
+  {
+    "id": "Exodii_Magiclysm_no_spell_scrolls",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages_makeshift", "prob": 1 } ]
+  },
+  {
+    "id": "Exodii_XE_no_dreamdross_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages_makeshift", "prob": 1 } ]
+  },
+  {
+    "id": "Exodii_XE_no_fair_folk_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages_makeshift", "prob": 1 } ]
+  },
+  {
+    "id": "Exodii_XE_no_spell_items",
+    "type": "item_group",
+    "//": "This group does not spawn anywhere, it exists only to set Exodii merchant prices",
+    "subtype": "distribution",
+    "entries": [ { "item": "bandages_makeshift", "prob": 1 } ]
   }
 ]

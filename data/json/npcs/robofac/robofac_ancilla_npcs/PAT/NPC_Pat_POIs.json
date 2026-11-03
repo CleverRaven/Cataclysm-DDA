@@ -488,5 +488,47 @@
         "effect": { "math": [ "robofac_pat_lost_signal_highlands = 0" ] }
       }
     ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_POI_scarlet_storm",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "yes", { "u_val": "robofac_pat_knows_u_cyborg" } ],
+      "yes": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat ta' <pat_robo_nickname>.  I'm startin' ta' lose ya'.  Ovah.\"",
+      "no": "&You hear a chirp in your comm and Pat's voice comes over the line: \"Pat heah.  I'm startin' ta' lose ya'.  Ovah.\""
+    },
+    "responses": [
+      {
+        "text": "I'm getting close to that storm you told me about.  Pick up any more recon?  Over.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_scarlet_storm_recon",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_PAT_RECON_13" }
+      },
+      {
+        "text": "Looks like I'm in some sort of storm, or fog.  It's not very clear.  Over.",
+        "topic": "TALK_ROBOFAC_MERC_PAT_POI_scarlet_storm_1"
+      },
+      {
+        "text": "Not now, Pat.  We'll talk about this later.  Over and out.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "robofac_pat_talk_scarlet_storm_later", "value": "yes" }
+      },
+      {
+        "text": "[Quickly Chirp the radio twice and stay silent]",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "robofac_pat_talk_scarlet_storm_later", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_POI_scarlet_storm_recon",
+    "type": "talk_topic",
+    "dynamic_line": "Shit, I meant ta' call ya'.  That fuckah I got the photo from?  Dead as a fakhin' doornail.  Toast.  Kaput.  Maybe this isn't such a good idea.  Though, I guess that poor sap was in it for a day or two.  At least get yourself a mask, if you don't got one already.  Deal?  Ovah'n'out.",
+    "responses": [ { "text": "Got it.  Thanks, Pat.  Over and out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_MERC_PAT_POI_scarlet_storm_1",
+    "type": "talk_topic",
+    "dynamic_line": "Pickin' up images now.  Shit.  That looks a lot like some photos some fuckah' hawkin' smokes just showed me.  Poor shit was hackin' up a lung.  Could hardly breath.  I think that's a bad sign, yeah?  I'd turn ya' ass around if ya don't got a respiratah - a gas mask - somethin'.",
+    "responses": [ { "text": "Good to know.  Thanks, Pat.  Over and out.", "topic": "TALK_DONE" } ]
   }
 ]

@@ -24,7 +24,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BALTHAZAR_CHECK_PROGRESS",
     "global": true,
-    "condition": { "math": [ "balthazar_destroyed != 1" ] },
+    "condition": { "and": [ { "math": [ "balthazar_destroyed != 1" ] }, { "current_dimension": "default" } ] },
     "effect": [
       { "if": { "math": [ "balthazar_power <= 0" ] }, "then": { "run_eocs": "EOC_BALTHAZAR_GONE" } },
       {

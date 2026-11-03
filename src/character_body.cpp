@@ -89,8 +89,6 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_wet( "wet" );
 
-static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
-
 static const json_character_flag json_flag_BARKY( "BARKY" );
 static const json_character_flag json_flag_CANNOT_CHANGE_TEMPERATURE( "CANNOT_CHANGE_TEMPERATURE" );
 static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
@@ -446,8 +444,7 @@ void Character::update_bodytemp()
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
-    const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
-                              heat_immune;
+    const bool has_heatsink = has_flag( json_flag_HEATSINK ) || heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
     const std::pair<int, int> climate_control = climate_control_strength();
     const int climate_control_heat = climate_control.first;
@@ -757,10 +754,6 @@ void Character::update_bodytemp()
             //~ %s is bodypart
             add_msg_if_player( m_warning, _( "You feel your %s getting very cold." ),
                                body_part_name( bp ) );
-        } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
-            //~ %s is bodypart
-            add_msg_if_player( m_warning, _( "You feel your %s getting chilly." ),
-                               body_part_name( bp ) );
         } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
             add_msg_if_player( m_bad, _( "You feel your %s getting red hot from the heat!" ),
@@ -768,10 +761,6 @@ void Character::update_bodytemp()
         } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
             add_msg_if_player( m_warning, _( "You feel your %s getting very hot." ),
-                               body_part_name( bp ) );
-        } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
-            //~ %s is bodypart
-            add_msg_if_player( m_warning, _( "You feel your %s getting warm." ),
                                body_part_name( bp ) );
         }
 

@@ -8,7 +8,8 @@
     "valid": false,
     "description": "Direct access to the perk menu.",
     "active": true,
-    "activated_eocs": [ "EOC_open_perk_menu" ]
+    "activated_eocs": [ "EOC_open_perk_menu" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -19,7 +20,8 @@
     "valid": false,
     "description": "Have you been working out?  +1 Strength.",
     "changes_to": [ "perk_STR_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -30,7 +32,8 @@
     "valid": false,
     "description": "You HAVE been working out.  +2 Strength.",
     "prereqs": [ "perk_STR_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -41,7 +44,8 @@
     "valid": false,
     "description": "Have you been doing cardio?  +1 Dexterity.",
     "changes_to": [ "perk_DEX_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -52,7 +56,8 @@
     "valid": false,
     "description": "You HAVE been doing cardio.  +2 Dexterity.",
     "prereqs": [ "perk_DEX_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -63,7 +68,8 @@
     "valid": false,
     "description": "Have you been reading?  +1 Intelligence.",
     "changes_to": [ "perk_INT_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -74,7 +80,8 @@
     "valid": false,
     "description": "You HAVE been reading.  +2 Intelligence.",
     "prereqs": [ "perk_INT_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -85,7 +92,8 @@
     "valid": false,
     "description": "Have you been staring out into the middle distance?  +1 Perception.",
     "changes_to": [ "perk_PER_UP_2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -96,7 +104,8 @@
     "valid": false,
     "description": "You HAVE been staring out into the middle distance.  +2 Perception.",
     "prereqs": [ "perk_PER_UP" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -109,7 +118,8 @@
     "activated_is_setup": true,
     "active": true,
     "activated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
-    "deactivated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ]
+    "deactivated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -129,7 +139,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your movements bring to mind a multitude of cat-based metaphors.  +5% to Balance, Footing, and Reaction limb scores.",
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_pantherish_grace", "intensity": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_pantherish_grace", "intensity": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -139,7 +150,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your sharp gazes misses little.  +25% to Vision and Night Vision limb scores.",
-    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_eagle_eyes", "intensity": 1 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_perk_eagle_eyes", "intensity": 1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -148,7 +160,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes."
+    "description": "If one kick doesn't open the door, just try another.  Or a few more.  How about another dozen or so?  You can up to double your strength for the purposes of smashing terrain; this bonus gradually increases over the course of multiple smashes.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -158,7 +171,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
-    "integrated_armor": [ "integrated_holdout_pocket" ]
+    "integrated_armor": [ "integrated_holdout_pocket" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -168,7 +182,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -180,7 +195,7 @@
     "description": "All the beatings you've taken have toughened you up.  You can walk barefoot with no penalty, develop blisters in heat much more slowly, and take slightly less bash damage.",
     "//": "The flesh material also protects against cut and bullets, so we need an enchant to do bash only",
     "enchantments": [ { "condition": "ALWAYS", "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -2 } ] } ],
-    "flags": [ "BARKY", "TOUGH_FEET" ]
+    "flags": [ "PERK", "BARKY", "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -190,7 +205,8 @@
     "purifiable": false,
     "valid": false,
     "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -205,7 +221,8 @@
         "condition": "ALWAYS",
         "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -226,7 +243,8 @@
       { "part": "hand_l", "neutral": 12 },
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -235,7 +253,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage."
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -245,7 +264,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
-    "integrated_armor": [ "integrated_thick_skull" ]
+    "integrated_armor": [ "integrated_thick_skull" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -255,7 +275,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
-    "integrated_armor": [ "integrated_hand_openpalm" ]
+    "integrated_armor": [ "integrated_hand_openpalm" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -265,7 +286,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
-    "integrated_armor": [ "integrated_hand_closedfist" ]
+    "integrated_armor": [ "integrated_hand_closedfist" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -275,7 +297,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
-    "integrated_armor": [ "integrated_hand_pinchedfingers" ]
+    "integrated_armor": [ "integrated_hand_pinchedfingers" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -285,7 +308,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
-    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -295,7 +319,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Even with everything that's happened, you still find solace in nature.  Natural animals are less likely to attack you.",
-    "flags": [ "ANIMALEMPATH" ]
+    "flags": [ "PERK", "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -305,7 +329,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
-    "enchantments": [ "perk_ench_vengeful" ]
+    "enchantments": [ "perk_ench_vengeful" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -314,7 +339,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill."
+    "description": "Pain is really painful; best to avoid it.  For five turns after you are hit, you gain +1 bonus dodge and +2 dodge skill.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -326,7 +352,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes."
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -341,7 +368,8 @@
         "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies') == 0" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -355,7 +383,8 @@
       {
         "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.1 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.33 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -365,7 +394,8 @@
     "purifiable": false,
     "valid": false,
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -375,7 +405,7 @@
     "purifiable": false,
     "valid": false,
     "description": "You always land on your feet and look graceful when doing it.  Reduce the number of stories by 1 when calculating fall damage.",
-    "flags": [ "ONE_STORY_FALL" ]
+    "flags": [ "PERK", "ONE_STORY_FALL" ]
   },
   {
     "type": "mutation",
@@ -387,7 +417,8 @@
     "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
     "active": true,
     "activated_is_setup": false,
-    "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
+    "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -400,7 +431,8 @@
     "active": true,
     "activated_is_setup": false,
     "activation_msg": "You twist out of the grab with a wrench!",
-    "activated_eocs": [ "EOC_PERK_SLIPPERY_ESCAPE" ]
+    "activated_eocs": [ "EOC_PERK_SLIPPERY_ESCAPE" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -410,7 +442,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Careful aim allows you to take down game with little tissue damage.  Enemies you kill tend to stay intact.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -420,7 +453,8 @@
     "purifiable": false,
     "valid": false,
     "description": "For whatever reason you seem to always make a real mess of things.  Enemies you kill tend to explode into a mess of viscera.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -430,7 +464,7 @@
     "purifiable": false,
     "valid": false,
     "description": "You used to annoy your friends before the Cataclysm by always being *exactly* on time and you've maintained that characteristic to this day.  You always know what time it is and can set alarms even without a watch or a phone.",
-    "flags": [ "WATCH", "ALARMCLOCK" ]
+    "flags": [ "PERK", "WATCH", "ALARMCLOCK" ]
   },
   {
     "type": "mutation",
@@ -440,7 +474,7 @@
     "purifiable": false,
     "valid": false,
     "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
-    "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+    "flags": [ "PERK", "ALL_TERRAIN_NAVIGATION" ]
   },
   {
     "type": "mutation",
@@ -455,7 +489,8 @@
         "condition": { "not": { "u_has_effect": "effect_perk_situational_uncanny_dodge_remover" } },
         "ench_effects": [ { "effect": "effect_perk_situational_uncanny_dodge", "intensity": 1 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -469,7 +504,8 @@
     "activated_is_setup": true,
     "activation_msg": "You squint your eyes just right.",
     "activated_eocs": [ "EOC_safety_squint_on" ],
-    "deactivated_eocs": [ "EOC_safety_squint_off" ]
+    "deactivated_eocs": [ "EOC_safety_squint_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -489,7 +525,8 @@
         },
         "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.5 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -518,7 +555,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -545,7 +583,8 @@
         "values": [ { "value": "POWER_TRICKLE", "add": 250000 } ],
         "melee_damage_bonus": [ { "type": "electric", "add": 3 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -555,7 +594,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -564,7 +604,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately."
+    "description": "You get knocked down, but you get up again.  There is a 75% chance when you are downed that you will stand up again immediately.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -574,7 +615,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -589,7 +631,8 @@
         "condition": { "u_has_worn_with_flag": "HIGH_HEELS" },
         "encumbrance_modifier": [ { "part": "foot_l", "add": -35 }, { "part": "foot_r", "add": -35 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -598,7 +641,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning."
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -607,7 +651,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running."
+    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -617,7 +662,8 @@
     "purifiable": false,
     "valid": false,
     "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -627,7 +673,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Hey, that's against the Geneva Convention!  When completely unarmed, you take -25% reduced damage.",
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -642,7 +689,8 @@
     "activated_eocs": [ "EOC_can_finder_on" ],
     "deactivated_eocs": [ "EOC_can_finder_off" ],
     "processed_eocs": [ "EOC_can_hunting" ],
-    "time": 24000
+    "time": 24000,
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -657,7 +705,8 @@
     "activated_eocs": [ "EOC_troubleseek_on" ],
     "deactivated_eocs": [ "EOC_troubleseek_off" ],
     "processed_eocs": [ "EOC_troubleseeking" ],
-    "time": 20000
+    "time": 20000,
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -669,7 +718,8 @@
     "description": "Anyone can pause and catch their breath but you're extremely good at doing so.  You can regenerate one-third of your stamina over ten seconds, once every fifteen minutes.  Being hit will interrupt the regeneration.",
     "active": true,
     "activation_msg": "",
-    "activated_eocs": [ "EOC_perk_second_wind" ]
+    "activated_eocs": [ "EOC_perk_second_wind" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -679,7 +729,7 @@
     "purifiable": false,
     "valid": false,
     "description": "You do not drink…wine.  You are immune to the negative consequences of drinking blood, such as parasitic infection.",
-    "flags": [ "HEMOVORE" ]
+    "flags": [ "PERK", "HEMOVORE" ]
   },
   {
     "type": "mutation",
@@ -688,7 +738,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain."
+    "description": "Drinking blood makes you feel really good.  REALLY good.  So good that all your aches and pains just seem to fade away.  Every time you drink blood, you heal a bit of damage and lose a bit of pain.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -699,7 +750,8 @@
     "valid": false,
     "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
     "active": true,
-    "activated_eocs": [ "EOC_spinach_consumption" ]
+    "activated_eocs": [ "EOC_spinach_consumption" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -717,7 +769,8 @@
         "condition": { "u_has_wielded_with_weapon_category": "FENCING" },
         "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.05 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -732,7 +785,8 @@
         "condition": { "and": [ { "u_is_on_terrain_with_flag": "SWIMMABLE" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
         "values": [ { "value": "REGEN_STAMINA", "multiply": 1 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -744,7 +798,8 @@
     "description": "You get a tingling feeling when you hold the objects that the Cataclysm seems to have given anomalous properties to.  Activate to determine roughly how much resonance an artifact has.",
     "active": true,
     "activation_msg": "You close your eyes for a moment and look for the inner hum.",
-    "activated_eocs": [ "EOC_perk_artifact_resonance_detection" ]
+    "activated_eocs": [ "EOC_perk_artifact_resonance_detection" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -754,7 +809,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your frequent handling of artifacts has allowed you to bleed off some of the side effects of their presence.  Your accumulated artifact resonance is reduced by 1500.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1500 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -780,7 +836,8 @@
           { "value": "PAIN", "multiply": { "math": [ "rng(-0.15,0)" ] } }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -791,7 +848,8 @@
     "valid": false,
     "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.  Activate the perk to gain insight into the nature of life itself!",
     "active": true,
-    "activated_eocs": [ "EOC_frankenstein_insight" ]
+    "activated_eocs": [ "EOC_frankenstein_insight" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -801,7 +859,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've always felt like someone was looking out for you upstairs.  When you are attacked there is a 5% chance the attack will deal no damage.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.05 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FORCEFIELD", "add": 0.05 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -811,7 +870,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You have a habit of always ducking at the right time.  You have a 5% chance to dodge any incoming attack.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EVASION", "add": 0.05 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -821,7 +881,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -836,7 +897,8 @@
         "condition": { "u_has_effect": "effect_perk_firstest_aid" },
         "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.5 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -845,7 +907,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it."
+    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -859,7 +922,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your quicken metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_quicken_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_quicken_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -873,7 +937,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your extended metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_extended_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_extended_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_extended_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -887,7 +952,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your widen metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_widen_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_widen_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_widen_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -901,7 +967,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your reach metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_reach_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_reach_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_reach_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -915,7 +982,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your silent metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_silent_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_silent_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_silent_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -929,7 +997,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your still metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_still_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_still_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_still_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -943,7 +1012,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your careful metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_careful_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_careful_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_careful_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -957,7 +1027,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your efficient metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_efficient_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_efficient_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_efficient_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -971,7 +1042,8 @@
     "activated_is_setup": true,
     "activation_msg": "You activate your intuitive metamagic.",
     "activated_eocs": [ "EOC_metamagic_toggle_intuitive_on" ],
-    "deactivated_eocs": [ "EOC_metamagic_toggle_intuitive_off" ]
+    "deactivated_eocs": [ "EOC_metamagic_toggle_intuitive_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -981,7 +1053,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -997,7 +1070,8 @@
         "melee_damage_bonus": [ { "type": "bash", "multiply": 0.25 }, { "type": "stab", "multiply": 0.25 }, { "type": "cut", "multiply": 0.25 } ]
       },
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1006,7 +1080,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log."
+    "description": "The way you take care of the enemies is commendable, so much so that someone or something seems to praise your ways of fighting.  For every kills you have made, a praise may be given in the message log.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1015,7 +1090,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters."
+    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1026,7 +1102,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've gained the ability to weave your long and luxurious hair into a protective and form-fitting bodysuit.  High heels and handgun skills sold separately.",
-    "integrated_armor": [ "hair_suit_off" ]
+    "integrated_armor": [ "hair_suit_off" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1035,7 +1112,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily."
+    "description": "You've always had a passion for people, and a deep understanding of their thoughts and feelings.  Now that almost everyone's dead that has to extend to other things too!  When you kill a creature gain some of its abilities temporarily.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1050,7 +1128,8 @@
         "condition": "ALWAYS",
         "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "min( 15, u_armor('bash', 'arm_r') * u_attack_speed() / 200 )" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1060,7 +1139,8 @@
     "purifiable": false,
     "valid": false,
     "description": "People always used to tell you that you should eat more.  It seems you needed their reminders because you can see your bones at this point.  You have skeletal armor.",
-    "integrated_armor": [ "skeleton_plate" ]
+    "integrated_armor": [ "skeleton_plate" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1089,7 +1169,8 @@
         },
         "values": [ { "value": "KCAL", "multiply": -50 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -50 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1099,7 +1180,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You've always had something to say about ripping apart things with chainsaws.  You can swing powered blades faster.",
-    "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "condition": { "u_has_wielded_with_flag": "MESSY" }, "values": [ { "value": "ATTACK_SPEED", "multiply": -0.2 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1111,7 +1193,8 @@
     "description": "You've always had a bit of a fondness for the older firearms.  Post apocalypse, this has translated into a damage boost when using WWII and older weapons.",
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1120,7 +1203,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice."
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage.  Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1129,7 +1213,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats."
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1150,7 +1235,8 @@
         "melee_damage_bonus": [ { "type": "bash", "multiply": 0.35 }, { "type": "stab", "multiply": 0.35 }, { "type": "cut", "multiply": 0.35 } ],
         "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1159,7 +1245,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from."
+    "description": "Just like mama used to make and it tastes just as good too.  When you eat chicken noodle soup, you heal a small amount of HP on all limbs and cure any cold, flu, and poisoning you're suffering from.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1186,7 +1273,8 @@
         "condition": { "and": [ { "math": [ "u_calories('format': 'percent') >= 400" ] } ] },
         "mutations": [ "perk_kevlard_morbidlyobese" ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1203,7 +1291,8 @@
       },
       { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
       { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1212,7 +1301,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Something is watching over you, though whether for good or ill you cannot tell.  The first time you suffer fatal damage, you will heal slightly, remove all pain, and gain a speed bonus, temperature immunity, and immunity to damage for a very short time.  After that expires, though, you're on your own to resolve whatever problem you're in.  This perk <color_red>only works once</color>."
+    "description": "Something is watching over you, though whether for good or ill you cannot tell.  The first time you suffer fatal damage, you will heal slightly, remove all pain, and gain a speed bonus, temperature immunity, and immunity to damage for a very short time.  After that expires, though, you're on your own to resolve whatever problem you're in.  This perk <color_red>only works once</color>.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1227,7 +1317,8 @@
         "condition": { "u_has_wielded_with_skill": "pistol" },
         "values": [ { "value": "AIMING_SPEED", "multiply": 0.75 }, { "value": "RELOADING_SPEED", "multiply": -0.45 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1293,7 +1384,8 @@
           { "value": "PERCEPTION", "add": 4 }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1303,7 +1395,8 @@
     "purifiable": false,
     "valid": false,
     "description": "Your blood has always been thicker than most, making you lose less of it when bleeding.",
-    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.333 } ] } ]
+    "enchantments": [ { "values": [ { "value": "BLEEDING_RATE", "multiply": -0.333 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1313,7 +1406,8 @@
     "purifiable": false,
     "valid": false,
     "description": "People often say that they feel safer when they sleep, but in your case you are literally safer when asleep.  As long as you sleep, most attacks won't injure you.",
-    "enchantments": [ { "condition": { "u_has_effect": "sleep" }, "values": [ { "value": "ARMOR_ALL", "add": -100 } ] } ]
+    "enchantments": [ { "condition": { "u_has_effect": "sleep" }, "values": [ { "value": "ARMOR_ALL", "add": -100 } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1332,7 +1426,8 @@
           { "type": "cut", "multiply": { "math": [ "u_effect_intensity('bleed') * 0.05" ] } }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1356,7 +1451,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1380,7 +1476,8 @@
         },
         "values": [ { "value": "PAIN", "multiply": -0.8 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1393,7 +1490,8 @@
     "category": [ "perk" ],
     "active": true,
     "activated_is_setup": false,
-    "activated_eocs": [ "EOC_unopenable_grip" ]
+    "activated_eocs": [ "EOC_unopenable_grip" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1402,7 +1500,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "People hit by shotgun blasts always seem to go flying in actions movies, but it doesn't work that way in real life.  At least, it didn't.\n\nWhen you damage a target within 2 squares using a shotgun and do at least 15 damage, your target will suffer knockback."
+    "description": "People hit by shotgun blasts always seem to go flying in actions movies, but it doesn't work that way in real life.  At least, it didn't.\n\nWhen you damage a target within 2 squares using a shotgun and do at least 15 damage, your target will suffer knockback.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1414,7 +1513,8 @@
     "description": "You somehow learned to focus on an item to make it emit radiation forever.  You still have trouble understanding how this could ever be useful, but maybe you might find a use for it.  Activate to use.",
     "active": true,
     "activated_is_setup": false,
-    "activated_eocs": [ "EOC_radio_infusion" ]
+    "activated_eocs": [ "EOC_radio_infusion" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1429,7 +1529,8 @@
         "condition": "ALWAYS",
         "values": [ { "value": "SMASH_BONUS", "add": { "math": [ "16 - clamp(u_val('strength'), 0, 16)" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1439,7 +1540,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You love the rush of taking different drugs at once, and now this rush is much more impactful than before.  You gain +3 speed for each recreational or combat-enhancing drug currently affecting you.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": { "math": [ "speedball_counter()" ] } } ] } ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1449,7 +1551,8 @@
     "purifiable": false,
     "valid": false,
     "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
-    "integrated_armor": [ "integrated_memory" ]
+    "integrated_armor": [ "integrated_memory" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1461,7 +1564,8 @@
     "description": "Your blood might not be able to make weapons, but it still can make anything coated with sturdier but unable to be repaired.  Activate to use.",
     "active": true,
     "activated_is_setup": false,
-    "activated_eocs": [ "EOC_forge_blood" ]
+    "activated_eocs": [ "EOC_forge_blood" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1484,7 +1588,8 @@
         "condition": "ALWAYS",
         "values": [ { "value": "CARRY_WEIGHT", "multiply": { "math": [ "min( 0, 20 - u_val('dexterity') ) * -0.02" ] } } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1493,7 +1598,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1502,7 +1608,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1511,7 +1618,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1520,7 +1628,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1529,7 +1638,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1538,7 +1648,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate."
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1557,7 +1668,8 @@
           { "value": "RANGE", "add": 4 }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1572,7 +1684,8 @@
         "condition": { "u_has_wielded_with_ammotype": "22" },
         "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1593,7 +1706,8 @@
           { "value": "RANGE", "add": 6 }
         ]
       }
-    ]
+    ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1607,7 +1721,8 @@
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_TO_CLOSETLAND" ],
     "processed_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_SLEEP_DEPRIVATION_COST_IN_CLOSETLAND" ],
-    "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ]
+    "deactivated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_TRAVEL_BACK_FROM_CLOSETLAND" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1618,7 +1733,8 @@
     "purifiable": false,
     "valid": false,
     "active": true,
-    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ]
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_CLOSET_STORAGE_DIFFERENT_PATHS_OF_CLOSETLAND" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1627,7 +1743,8 @@
     "description": "The zombies have some way to distinguish between the living and the dead, and you're sure that smell is a big part of it.  That's why they don't attack the ferals, because they're dirty and covered in zombie blood.  If you covered yourself in zombie blood, you bet you could sneak past them.\n\nYou can make Ewwww de Zombie from tainted blood and flesh.  Coat yourself with it and zombies will ignore you.",
     "points": 0,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1638,7 +1755,8 @@
     "purifiable": false,
     "valid": false,
     "active": true,
-    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ]
+    "activated_eocs": [ "EOC_BOMBASTIC_PERKS_SOOTHING_THE_SAVAGE_BEAST" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -1653,6 +1771,6 @@
       { "condition": { "not": { "u_has_effect": "effect_hive_queen_canceller" } }, "mutations": [ "TRAIT_HIVE_QUEEN" ] },
       { "values": [ { "value": "SOCIAL_PERSUADE", "add": -5 }, { "value": "SOCIAL_INTIMIDATE", "add": -5 } ] }
     ],
-    "flags": [ "ANIMALDISCORD" ]
+    "flags": [ "PERK", "ANIMALDISCORD" ]
   }
 ]

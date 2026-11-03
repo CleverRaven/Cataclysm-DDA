@@ -1202,7 +1202,7 @@ Limb scores act as the basis of calculating the effect of limb encumbrance and d
   "affected_by_wounds": true,
   "affected_by_encumb": false
 }
-```
+```c
 - `"type"`: Always "limb_score".
 - `"id"`: Identifies this limb score
 - `"name"`: Mandatory. Defines a translatable name for this limb score that will be displayed in the UI.
@@ -1215,19 +1215,20 @@ Here are the currently defined limb scores:
 |------                  |------
 | `consume_liquid`       | Speed modifier when consuming liquids.
 | `consume_solid`        | Speed multiplier when consuming solids.
-| `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
+| `manip`                | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
-| `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
-| `grip_score`           | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
-| `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
-| `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
-| `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance, block chance, melee weakpoint hit chances.
-| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
-| `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost.
-| `swim_score`           | Modifies swim speed.
+| `lift`                 | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `grip`                 | Modifies chance to escape traps, ability to wield two-handed weapons, chance mounts are spooked if approaching enemies, and ability to resist being disarmed.
+| `block`                | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
+| `breathing`            | Modifies stamina recovery speed and shout volume.
+| `vision`               | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
+| `night_vis`            | Modifies night vision range (multiplier on the calculated range).
+| `reaction`             | Modifies dodge chance, block chance, melee weakpoint hit chances.
+| `balance`              | Modifies thrown attack speed, movement cost and melee attack rolls.
+| `footing`              | Modifies movement cost.
+| `move_speed`           | Modifies movement cost.
+| `swim`                 | Modifies swim speed.
+| `crawl`                | Modifies crawling movement speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
 
@@ -2008,6 +2009,7 @@ The following properties (mandatory, except if noted otherwise) are supported:
     "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
     "description": "This is an example profession.",           // In-game description
     "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "starting_trauma": 250,                                    // (optional, integer) A counter for how much trauma the character has been exposed to. Values are clamped to the range [0-1000].
     "starting_cash": 500000,                                   // (optional) Int value for the starting bank balance.
     "npc_background": "BG_survival_story_LAB",                 // (optional) BG_trait_group ID, provides list of background stories. (see BG_trait_groups.json)
 	"chargen_allow_npc": false,                                // (optional) when false, removes this profession as an option for generated NPCs (default: true)
@@ -4538,6 +4540,7 @@ currnetly used as `"effects"` field in `field_type`, and as `passive_effects` in
     "intensity": 1, // Intensity of the effect to apply
     "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
     "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: intensity amount of d3 vs bodypart environment resistance amount of d3 
+    "immune_inside": false, // If true, being inside protects from the effect
     "immune_in_vehicle": false, // If true, *standing* inside a vehicle (like without walls or roof) protects from the effect
     "immune_inside_vehicle": false, // If true, being inside a vehicle protects from the effect
     "immune_outside_vehicle": false, // If true, being *outside* a vehicle protects from the effect,

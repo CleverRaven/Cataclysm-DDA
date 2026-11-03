@@ -12,18 +12,19 @@
     "color": "i_magenta",
     "aggression": 0,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor": { "bash": 9, "cut": 14, "acid": 4, "bullet": 1 },
+    "armor": { "bash": 9, "cut": 14, "stab": 11, "acid": 4, "bullet": 1 },
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_body_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_syn_armored" ],
     "special_attacks": [
-      [ "PARROT_AT_DANGER", 0 ],
+      [ "PARROT_AT_DANGER", 35 ],
       {
         "id": "stretch_attack",
-        "cooldown": 1,
+        "accuracy": 6,
+        "cooldown": 2,
         "range": 2,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 20 }, { "damage_type": "bash", "amount": 4 } ],
         "hit_dmg_u": "%1$s thrusts a spear at your %2$s, slashing it!",
@@ -71,8 +72,11 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
+    "grab_strength": 30,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 50 ],
+      { "id": "grab" },
       {
         "type": "gun",
         "cooldown": 5,
@@ -87,12 +91,24 @@
         "description": "The hollow one throws a rock!"
       }
     ],
+    "starting_ammo": { "rock": 3 },
     "death_drops": "hollow_one_death_drops",
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "fear_triggers": [ "FRIEND_DIED" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "RANGED_ATTACKER",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_hollow_hunter",
@@ -120,7 +136,7 @@
         "cooldown": 6,
         "move_cost": 200,
         "gun_type": "hollow_one_bow",
-        "ammo_type": "arrow_wood",
+        "ammo_type": "arrow_heavy_fire_hardened_fletched",
         "no_ammo_sound": "",
         "fake_skills": [ [ "archery", 5 ] ],
         "fake_str": 9,
@@ -134,7 +150,7 @@
         "id": "hollow_one_weapon_knife",
         "cooldown": 1,
         "move_cost": 80,
-        "accuracy": 1,
+        "accuracy": 4,
         "//": "Stone knife",
         "damage_max_instance": [ { "damage_type": "cut", "amount": 5 }, { "damage_type": "bash", "amount": 2 } ],
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
@@ -146,6 +162,7 @@
         "no_dmg_msg_npc": "%1$s slashes <npcname>'s %2$s without penetrating their armor."
       }
     ],
+    "starting_ammo": { "arrow_heavy_fire_hardened_fletched": 16 },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "hollow_hunter_death_drops",
     "zombify_into": "mon_zombie",
@@ -160,6 +177,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
+      "RANGED_ATTACKER",
       "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"

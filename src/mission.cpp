@@ -20,11 +20,12 @@
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "kill_tracker.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "npc.h"
 #include "omdata.h"
@@ -33,6 +34,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "talker.h"
+#include "temp_crafting_inventory.h"
 #include "visitable.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -150,7 +152,7 @@ std::unordered_set<itype_id> present_mission_items( const std::unordered_set<ity
     }
 
     avatar &player_character = get_avatar();
-    player_character.visit_items( [&]( item * it, item * ) {
+    player_character.visit_items( [&]( item_location it ) {
         if( targets.count( it->typeId() ) != 0 ) {
             result.insert( it->typeId() );
         }
@@ -239,6 +241,11 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 
 void mission::clear_all()
 {
+    for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_overmap_npcs() ) {
+        guy->chatbin.missions.clear();
+        guy->chatbin.missions_assigned.clear();
+        guy->chatbin.mission_selected = nullptr;
+    }
     world_missions.clear();
 }
 
@@ -478,7 +485,7 @@ void mission::wrap_up()
     std::vector<item_comp> comps;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            temp_crafting_inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
@@ -581,7 +588,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            temp_crafting_inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;

@@ -249,5 +249,33 @@
         ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "portal_dungeon_15x15_vault",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "---------------",
+        "---------------",
+        "---------------",
+        "---------------",
+        "---- - - - ----",
+        "---- - - - ----",
+        "---- -   - ----",
+        "----   #   ----",
+        "---- -   - ----",
+        "-----     -----",
+        "----       ----",
+        "------- -------",
+        "------- -------",
+        "------- -------",
+        "------- -------"
+      ],
+      "palettes": [ "portal_storm_dungeon_palette" ],
+      "terrain": { "#": "t_floor_warped" },
+      "furniture": { "#": "f_portal_dungeon_reward_increaser" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
   }
 ]

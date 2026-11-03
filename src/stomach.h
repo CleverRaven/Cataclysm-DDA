@@ -180,6 +180,10 @@ class stomach_contents
         // These functions need a ref to the stomach's owner because capacity() does
         bool would_be_engorged_with( const Character &owner, units::volume intake,
                                      bool calorie_deficit ) const;
+        // most that can still go in before would_be_engorged_with() objects
+        units::volume room_before_engorged( const Character &owner, bool calorie_deficit ) const;
+        // food in a stomach at least half full; water alone isn't a meal
+        bool holds_a_meal( const Character &owner ) const;
         bool would_be_full_with( const Character &owner, units::volume intake, bool calorie_deficit ) const;
         // how much stomach capacity you have left before you puke from stuffing your gob
         units::volume stomach_remaining( const Character &owner ) const;

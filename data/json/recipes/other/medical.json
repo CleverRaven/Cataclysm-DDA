@@ -13,13 +13,7 @@
     "components": [
       [ [ "cotton_patchwork", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
-      [
-        [ "disinfectant", 5 ],
-        [ "thyme_oil", 1 ],
-        [ "chem_ethanol", 250 ],
-        [ "denat_alcohol", 250 ],
-        [ "methed_alcohol", 250 ]
-      ]
+      [ [ "disinfectant", 5 ], [ "thyme_oil", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
     ]
   },
   {
@@ -141,7 +135,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "book_learn": [ [ "isherwood_herbal_remedies", 1 ] ],
     "time": "30 s",
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "methed_alcohol", 250 ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },
   {
     "result": "wintergreen_oil",

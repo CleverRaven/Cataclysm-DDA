@@ -17,7 +17,6 @@
 #include "enums.h"
 #include "flag.h"
 #include "handle_liquid.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -31,7 +30,6 @@
 #include "monster.h"
 #include "monster_helpers.h"
 #include "options_helpers.h"
-#include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
@@ -2013,7 +2011,6 @@ static const std::vector<std::function<player_activity()>> test_activities {
 
 static void cleanup( avatar &dummy )
 {
-    dummy.inv->clear();
     clear_map_without_vision();
 
     REQUIRE( dummy.activity.get_distractions().empty() );
@@ -2150,4 +2147,18 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             CHECK( dists.find( distraction_type::dangerous_field ) != dists.end() );
         }
     }
+}
+
+TEST_CASE( "clear_avatar_ends_a_walk_an_earlier_test_left", "[activities]" )
+{
+    clear_avatar();
+    avatar &u = get_avatar();
+    u.set_destination( { u.pos_bub() + tripoint::east },
+                       player_activity( multi_farm_activity_actor() ) );
+    REQUIRE( u.has_destination() );
+    REQUIRE_FALSE( u.get_destination_activity().is_null() );
+    clear_avatar();
+    CHECK_FALSE( u.has_destination() );
+    CHECK( u.get_destination_activity().is_null() );
+    CHECK_FALSE( u.destination_point );
 }

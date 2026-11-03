@@ -65,5 +65,25 @@
     "result": "ammunition_box_carlgustav_hedp",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 24 ] ], [ [ "scrap", 6 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "engine_container_lid",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "130 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 550 ] ], [ [ "scrap", 460 ] ], [ [ "steel_chunk", 310 ] ], [ [ "steel_lump", 60 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "engine_container_base",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "110 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 470 ] ], [ [ "scrap", 390 ] ], [ [ "steel_chunk", 140 ] ], [ [ "steel_lump", 28 ] ] ]
   }
 ]

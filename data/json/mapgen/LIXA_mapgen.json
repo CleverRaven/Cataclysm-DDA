@@ -581,8 +581,19 @@
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
         "E": [ { "item": "television", "amount": 1 } ],
-        "R": [ { "item": "rm13_armor", "amount": 1 }, { "item": "id_LIXA_mil", "amount": 1 } ],
-        "O": [ { "item": "phase_immersion_suit", "amount": 1 } ]
+        "R": [
+          { "item": "xedra_artifact_cleansuit", "amount": 1 },
+          { "item": "xedra_enviro_suit", "amount": 1 },
+          { "item": "military_papr_mask", "amount": 1 },
+          { "item": "military_papr_blower_off", "amount": 1 },
+          { "item": "id_LIXA_mil", "amount": 1 }
+        ],
+        "O": [
+          { "item": "xedra_artifact_cleansuit", "amount": 1 },
+          { "item": "xedra_enviro_suit", "amount": 1 },
+          { "item": "papr_half_mask", "amount": 1 },
+          { "item": "basic_papr_belt_off", "amount": 1 }
+        ]
       },
       "place_item": [
         { "item": "heroin", "x": 11, "y": 11, "amount": [ 3, 7 ] },

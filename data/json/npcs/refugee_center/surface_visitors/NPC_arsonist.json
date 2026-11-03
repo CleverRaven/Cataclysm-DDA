@@ -12,6 +12,7 @@
     "name_unique": "Makayla Sanchez",
     "name_suffix": "Arsonist",
     "gender": "female",
+    "portrait_filename": "Named_NPC_makayla_sanchez",
     "class": "NC_ARSONIST",
     "attitude": 0,
     "mission": "SHOPKEEP",

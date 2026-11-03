@@ -741,6 +741,12 @@ class inventory_selector
                                     const item_category *custom_category = nullptr,
                                     size_t chosen_count = 0, item_location const &topmost_parent = {},
                                     bool chevron = false );
+        /** Like add_entry, for locations the preset already agreed to show. */
+        inventory_entry *add_shown_entry( inventory_column &target_column,
+                                          std::vector<item_location> &&locations,
+                                          const item_category *custom_category = nullptr,
+                                          size_t chosen_count = 0, item_location const &topmost_parent = {},
+                                          bool chevron = false );
         /**
          * Recursively add containers (and contents) as entries.
          */

@@ -1,7 +1,6 @@
 #include <cstdint>
 #include <functional>
 #include <list>
-#include <memory>
 #include <optional>
 #include <sstream>
 #include <string>
@@ -13,7 +12,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -23,7 +21,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "units.h"
@@ -57,9 +54,9 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( itype_jeans ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i, item * ) {
+    cursor.visit_items( [&tshirt]( item_location i ) {
         if( i->typeId() == itype_tshirt ) {
-            tshirt = i;
+            tshirt = i.get_item();
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
@@ -289,7 +286,7 @@ TEST_CASE( "item_location_in_container_survives_removal", "[item][item_location]
     std::string json_str = serialize_item_location( tshirt_loc );
 
     // Remove jeans (shifts indices)
-    placed_backpack.remove_item( *jeans_ptr );
+    backpack_loc.remove_item( *jeans_ptr );
 
     // Deserialize - should find tshirt by UID despite index shift
     item_location loaded = deserialize_item_location( json_str );
@@ -329,7 +326,7 @@ TEST_CASE( "item_location_in_container_uid_miss_becomes_nowhere",
     std::string json_str = serialize_item_location( tshirt_loc );
 
     // Remove the target item entirely
-    placed_backpack.remove_item( *tshirt_ptr );
+    backpack_loc.remove_item( *tshirt_ptr );
 
     // Put a different item so index 0 exists but is wrong
     item jeans_replacement( itype_jeans );
@@ -430,9 +427,6 @@ TEST_CASE( "item_location_on_person_survives_restack", "[item][item_location][it
 
     // Serialize the tshirt location
     std::string json_str = serialize_item_location( tshirt_loc );
-
-    // Restack inventory (may merge the two jeans, shifting indices)
-    dummy.inv->restack( dummy );
 
     // Deserialize - should find tshirt by UID
     item_location loaded = deserialize_item_location( json_str );

@@ -3,9 +3,11 @@
 #define CATA_SRC_AVATAR_H
 
 #include <array>
+#include <cstdint>
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <string_view>
@@ -20,6 +22,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "magic_teleporter_list.h"
@@ -113,6 +116,8 @@ class avatar : public Character
         void load_map_memory();
         void clear_map_memory();
 
+        void ensure_portrait_valid() override;
+
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         // initialize avatar and avatar mocks
@@ -168,7 +173,7 @@ class avatar : public Character
 
         nc_color basic_symbol_color() const override;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
-        std::string display_name( bool possessive = false, bool capitalize_first = false ) const;
+        std::string display_name( bool capitalize_first = false ) const;
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -294,6 +299,7 @@ class avatar : public Character
         void steal( npc &target );
         /** Reassign letter. */
         void reassign_item( item &it, int invlet );
+        void reassign_item_cache( item &it, char invlet, bool remove_old );
 
         teleporter_list translocators;
 
@@ -367,6 +373,18 @@ class avatar : public Character
                           int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
+        // invlets
+
+        void update_cache_with_item( item &newit );
+        // this used to just be a block of code in inventory::add_item
+        void add_invlet_to_new_item( item &newit );
+        void update_invlet( item &newit, const item *ignore_invlet_collision_with = nullptr );
+        void assign_empty_invlet( item &it, bool force = false );
+        char free_assigned_invlet( const itype_id &id );
+        invlets_bitset allocated_invlets() const;
+        bool invlet_is_assigned( char invlet ) const;
+        itype_id get_itype_by_invlet( char invlet ) const;
+
         monster_visible_info &get_mon_visible() {
             return mon_visible;
         }
@@ -425,12 +443,32 @@ class avatar : public Character
         std::set<character_id> faction_representatives;
 
         mutable bool aim_cache_dirty = true;
+        // dirty the aim cache and record that the aim cone may have changed
+        void mark_aim_cache_dirty();
+        // changes each time mark_aim_cache_dirty runs
+        uint64_t aim_generation() const {
+            return aim_cache_generation;
+        }
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
         bool is_waiting_to_change_mode_mode();
 
+        /** Time since the avatar last left the area it stood around in; followers read it to
+         *  tell resting from travelling. Zero until the avatar has been placed. */
+        time_duration time_since_relocated() const;
+
     private:
+        void on_move( const tripoint_abs_ms &old_pos ) override;
+        // where the avatar has stood around since relocated_at; not serialized
+        std::optional<tripoint_abs_ms> relocation_anchor;
+        time_point relocated_at = calendar::turn_zero;
+
+        uint64_t aim_cache_generation = 0;
+        std::map<char, itype_id> assigned_invlet;
+        invlet_favorites invlet_cache;
+        char find_usable_cached_invlet( const itype_id &item_type );
+
         npc &get_shadow_npc();
 
         // The name used to generate save filenames for this avatar. Not serialized in json.

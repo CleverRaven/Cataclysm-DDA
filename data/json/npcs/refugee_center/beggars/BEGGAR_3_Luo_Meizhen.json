@@ -13,6 +13,7 @@
     "gender": "female",
     "name_suffix": "Mycologist",
     "temp_suffix": "Beggar",
+    "portrait_filename": "Named_NPC_luo_meizhen",
     "class": "NC_BEGGAR_3",
     "attitude": 0,
     "mission": "GUARD",

@@ -192,7 +192,8 @@
         "values": [
           { "value": "PAIN_REMOVE", "add": 45 },
           { "value": "METABOLISM", "multiply": 1.5 },
-          { "value": "REGEN_HP", "multiply": 2 }
+          { "value": "REGEN_HP", "multiply": 2 },
+          { "value": "REGEN_WOUND", "multiply": 2 }
         ]
       }
     ],

@@ -179,7 +179,7 @@
     "id": "mon_sapient_light",
     "type": "MONSTER",
     "name": { "str": "light" },
-    "description": "Flying piece of light in a shape of… a cube?  It constantly changes its form, and each of its attacks tears the piece of space from the reality, causing a ridiculously loud explosion.  Even if it's friendly, some of its action are impossible to explain.",
+    "description": "Flying piece of light in a shape of… a cube?  It constantly changes its form, and each of its attacks tears the piece of space from reality, causing a ridiculously loud explosion.  Even if it's friendly, some of its action are impossible to explain.",
     "default_faction": "player",
     "species": [ "NETHER", "SUMMONED_CREATURE" ],
     "categories": [ "XE_CLASSIC" ],

@@ -45,7 +45,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -84,6 +83,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -95,6 +95,7 @@ static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
+static const bionic_id bio_creeyncaggii( "bio_creeyncaggii" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_synlungs( "bio_synlungs" );
@@ -259,7 +260,8 @@ bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
            !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
-                   !has_active_bionic( bio_synlungs ) );
+                   !has_active_bionic( bio_synlungs ) ) && !( has_bionic( bio_creeyncaggii ) &&
+                           !has_active_bionic( bio_creeyncaggii ) );
 }
 
 bool Character::is_warm() const
@@ -475,7 +477,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 }
 
 // Actual player death is mostly handled in game::is_game_over
-void Character::die( map *, Creature *nkiller )
+void Character::die( map *here, Creature *nkiller )
 {
     g->set_critter_died();
     set_all_parts_hp_cur( 0 );
@@ -483,11 +485,11 @@ void Character::die( map *, Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
-        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_rope_6, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
+        here->add_item( pos_bub(), item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -655,6 +657,8 @@ void Character::apply_murder_penalties( Creature *victim )
             player_character.add_morale( morale_killed_innocent, morale_effect, 0, 10_days, 7_days );
         }
     }
+    // Guilt kills incur an extra point of "temporary" trauma that can be reduced over time, in addition to their point of "permanent" deadening.
+    player_character.mod_trauma( 1 );
 }
 
 std::pair<int, int> Character::climate_control_strength() const
@@ -1441,11 +1445,6 @@ void Character::update_needs( int rate_multiplier )
                 // 5. If rate_multiplier is > 1, sleepiness_roll will be higher and this will work out.
                 mod_sleep_deprivation( sleepiness_roll * 5 );
             }
-
-            if( !needs_food() && get_sleepiness() > sleepiness_levels::TIRED ) {
-                set_sleepiness( sleepiness_levels::TIRED );
-                set_sleep_deprivation( 0 );
-            }
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
@@ -1498,6 +1497,15 @@ void Character::update_needs( int rate_multiplier )
             ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
+    }
+
+    if( !needs_food() ) {
+        // without needs, tiredness is real but not harmful, and lack of sleep never
+        // accumulates
+        if( !asleep && get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
+            set_sleepiness( static_cast<int>( sleepiness_levels::DEAD_TIRED ) - 1 );
+        }
+        set_sleep_deprivation( 0 );
     }
 
     if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
@@ -2152,7 +2160,7 @@ void Character::calculate_leak_level()
 {
     float ret = 0.0f;
     // This is bad way to calculate radiation and should be rewritten some day.
-    for( const item_location &item_loc : const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&ret]( const item_location & item_loc ) {
         const item *it = item_loc.get_item();
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
@@ -2161,7 +2169,8 @@ void Character::calculate_leak_level()
                 ret += it->damage_level();
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     leak_level_dirty = false;
     leak_level = ret;
 }
@@ -2529,6 +2538,26 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wound( wound_type_id wd ) const
+{
+    for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
+        if( bp.second.has_wound( wd ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_wound( wound_type_id wd, const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wound( wd );
+}
+
+bool Character::has_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wounds();
+}
+
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
@@ -2538,10 +2567,65 @@ void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 
 void Character::update_wounds( time_duration time_passed )
 {
-    for( auto &bp : body ) {
-        bp.second.update_wounds( time_passed );
+    for( auto& [bp_id, bp] : body ) {
+        bp.update_wounds( *this, time_passed );
+
+        for( wound &wd : bp.get_wounds() ) {
+            for( const wound_mod_values &mod_val : wd.type->get_modify_values() ) {
+                if( calendar::once_every( mod_val.rate ) ) {
+                    switch( mod_val.type ) {
+                        case wound_mod_value_type::PAIN:
+                            if( get_pain() > mod_val.cap_min &&
+                                get_pain() < mod_val.cap_max ) {
+                                wd.mod_pain( mod_val.amount );
+                            }
+                            break;
+                        case wound_mod_value_type::BLEED:
+                            bleed( get_map() );
+                            break;
+                        case wound_mod_value_type::VITAMIN:
+                            if( mod_val.vitamin.has_value() ) {
+                                const vitamin_id vit = *mod_val.vitamin;
+
+                                if( vitamin_get( vit ) <= mod_val.cap_min &&
+                                    vitamin_get( vit ) >= mod_val.cap_max ) {
+                                    break;
+                                }
+
+                                int final_amt = mod_val.amount;
+                                if( wd.type->is_bleeding_wound() ) {
+                                    final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
+                                                                mod_val.amount ) );
+                                }
+
+                                vitamin_mod( vit, final_amt );
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            const std::optional<wound_periodic_message> msg = wd.type->get_periodic_message();
+            if( msg.has_value() && calendar::once_every( msg->rate ) ) {
+                add_msg_if_player( m_bad, string_format( msg->message.translated(), body_part_name( bp_id ) ) );
+            }
+        }
     }
+
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+bool Character::is_bleeding( const bodypart_id bp ) const
+{
+    for( const wound &wd : get_part( bp )->get_wounds() ) {
+        if( wd.type->is_bleeding_wound() ) {
+            return true;
+        }
+    }
+
+    return true;
 }
 
 /*
@@ -2628,43 +2712,64 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
-bool Character::is_within_wound_limit_for_bp( const bodypart_id bp, wound_type_id wound_id ) const
+static weighted_int_list<wound_type_id> populate_potential_wounds( const Character *who,
+        const bodypart_id &bp, const dealt_damage_instance &d )
 {
-    if( wound_id->get_limit() == 0 ) {
-        return true;
-    }
-
-    const std::vector present_wounds = get_part( bp )->get_wounds();
-    const int amount = std::count_if( present_wounds.begin(),
-    present_wounds.end(), [wound_id]( wound wd ) {
-        return wd.type == wound_id;
-    } );
-
-    return amount < wound_id->get_limit();
-}
-
-void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
-{
-    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
-        return;
-    }
-
     weighted_int_list<wound_type_id> possible_wounds;
-    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
-        for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits = du.amount >= potential_wound.damage_required.first &&
-                                              du.amount <= potential_wound.damage_required.second;
-            const bool damage_type_matches = std::find( potential_wound.damage_type.begin(),
-                                             potential_wound.damage_type.end(), du.type ) != potential_wound.damage_type.end();
-            const bool iwwlfb = is_within_wound_limit_for_bp( bp, potential_wound.id );
 
-            if( damage_within_limits && damage_type_matches && iwwlfb ) {
-                possible_wounds.add( potential_wound.id, wound_weight );
-            }
+    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
+        if( potential_wound.id->can_be_applied( who, potential_wound, bp, d ) ) {
+            possible_wounds.add( potential_wound.id, wound_weight );
         }
     }
+
+    return possible_wounds;
+}
+
+void Character::apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d )
+{
+    weighted_int_list<wound_type_id> possible_wounds;
+    weighted_int_list<wound_type_id> secondary_possible_wounds;
+
+    if( d.dealt_dams.size() > 1 ) {
+
+        // sort dealt_dams in vector, so we can compare the highest and second highest damages
+        std::vector<std::pair<damage_type_id, int>> dealt_damage;
+        dealt_damage.reserve( d.dealt_dams.size() );
+        dealt_damage.insert( dealt_damage.end(), d.dealt_dams.begin(), d.dealt_dams.end() );
+
+        std::partial_sort( dealt_damage.begin(), dealt_damage.begin() + 2, dealt_damage.end(),
+        []( const std::pair<damage_type_id, int> &a, const std::pair<damage_type_id, int> &b ) -> bool {
+            // descending
+            return a.second > b.second;
+        } );
+
+        // if second biggest damage is at least 75% as strong as main damage, two wounds will be applied
+        const float threshold = 0.75;
+        if( dealt_damage[1].second > dealt_damage[0].second * threshold ) {
+            dealt_damage_instance new_d( d );
+            new_d.dealt_dams.clear();
+            dealt_damage_instance new_secondary_d( new_d );
+
+            new_d.dealt_dams.emplace( dealt_damage[0] );
+            new_secondary_d.dealt_dams.emplace( dealt_damage[1] );
+
+            possible_wounds = populate_potential_wounds( this, bp, new_d );
+            secondary_possible_wounds = populate_potential_wounds( this, bp, new_secondary_d );
+        } else {
+            // only one would will be applied, so just pass damage instance as is
+            possible_wounds = populate_potential_wounds( this, bp, d );
+        }
+    } else {
+        possible_wounds = populate_potential_wounds( this, bp, d );
+    }
+
     if( !possible_wounds.empty() ) {
         apply_wound( bp, *possible_wounds.pick() );
+    }
+
+    if( !secondary_possible_wounds.empty() ) {
+        apply_wound( bp, *secondary_possible_wounds.pick() );
     }
 }
 
@@ -2784,7 +2889,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    apply_random_wound( bp, d );
+    apply_random_wound_from_damage( bp, dealt_dams );
 
     on_hurt( source );
     return dealt_dams;

@@ -49,14 +49,9 @@
         [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -65,9 +60,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       ]
@@ -78,14 +71,9 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -94,9 +82,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -189,14 +175,9 @@
         [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -205,9 +186,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       ]
@@ -218,14 +197,9 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -234,9 +208,7 @@
           "stanag100drum",
           "stanag150",
           "stanag20_beowulf",
-          "stanag20ranger_beowulf",
           "stanag30_beowulf",
-          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -303,23 +275,9 @@
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "50beowulf" ],
-    "magazine_adaptor": [
-      [
-        "50beowulf",
-        [
-          "stanag20_beowulf",
-          "stanag20ranger_beowulf",
-          "stanag30_beowulf",
-          "stanag30ranger_beowulf",
-          "50beowulf_ar15mag"
-        ]
-      ]
-    ],
+    "magazine_adaptor": [ [ "50beowulf", [ "stanag20_beowulf", "stanag30_beowulf", "50beowulf_ar15mag" ] ] ],
     "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "stanag20_beowulf", "stanag20ranger_beowulf", "stanag30_beowulf", "stanag30ranger_beowulf", "50beowulf_ar15mag" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag20_beowulf", "stanag30_beowulf", "50beowulf_ar15mag" ] }
     ],
     "min_skills": [ [ "weapon", 0 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
@@ -532,14 +490,9 @@
         [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -557,14 +510,9 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -642,14 +590,9 @@
         [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -667,14 +610,9 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
-          "stanag5ranger",
           "stanag10",
-          "stanag10ranger",
           "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
           "stanag40",
-          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",

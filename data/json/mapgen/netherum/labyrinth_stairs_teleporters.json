@@ -41,7 +41,8 @@
         "o": "t_nl_archway",
         "v": "t_nl_chasm"
       },
-      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ]
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_1_to_2_teleporter", 1 ] ], "x": 0, "y": 0, "z": -1 } ],
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 13, 14 ], "y": [ 8, 12 ], "intensity": 4, "repeat": 20 } ]
     }
   },
   {
@@ -82,6 +83,54 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ "labyrinth2_stairs" ],
+    "object": {
+      "predecessor_mapgen": "labyrinth2_north",
+      "rows": [
+        ",,,,,,,,,               ",
+        ",###,###,               ",
+        ",#<o,OT#,               ",
+        ",###,###,               ",
+        ",,,,,,,,,               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "labyrinthine_safehouse_palette" ],
+      "computers": {
+        "T": { "name": "bulbous console", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls_Temp_labyrinth2" ] }
+      },
+      "terrain": {
+        "<": "t_nl_stairs_up",
+        "#": "t_nl_metal_wall",
+        ",": "t_nl_metal_floor",
+        "T": "t_nl_metal_floor",
+        "O": "t_nl_metal_floor",
+        "o": "t_nl_archway"
+      },
+      "furniture": { "O": "f_exodii_floor_portal_enclosure" },
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ],
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 4, "y": [ 0, 4 ], "intensity": 4, "repeat": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "labyrinth_stairs_2_to_1",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -94,7 +143,8 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "<": "t_nl_stairs_up", "#": "t_nl_metal_wall", "s": "t_nl_mist", ".": "t_nl_metal_floor", "o": "t_nl_archway" },
-      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ],
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 4, "y": [ 0, 4 ], "intensity": 4, "repeat": 10 } ]
     }
   },
   {

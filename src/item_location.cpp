@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "character.h"
+#include "crafting.h"
 #include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
@@ -41,6 +42,7 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_item.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -59,9 +61,9 @@ static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
     bool found = false;
-    sel.visit_items( [&idx, &obj, &found]( const item * e, item * ) {
+    sel.visit_items( [&idx, &obj, &found]( item_location node ) {
         idx++;
-        if( e == obj ) {
+        if( node.get_item() == obj ) {
             found = true;
             return VisitResponse::ABORT;
         }
@@ -75,9 +77,9 @@ template <typename T>
 static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
-    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
+    sel.visit_items( [&idx, &obj]( item_location node ) {
         if( idx-- == 0 ) {
-            obj = const_cast<item *>( e );
+            obj = node.get_item();
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
@@ -88,15 +90,15 @@ static item *retrieve_index( const T &sel, int idx )
 template <typename T>
 static item *retrieve_by_uid( const T &sel, int64_t uid )
 {
-    item *obj = nullptr;
-    sel.visit_items( [&uid, &obj]( const item * e, item * ) {
+    item_location obj;
+    sel.visit_items( [&uid, &obj]( item_location e ) {
         if( e->uid().get_value() == uid ) {
-            obj = const_cast<item *>( e );
+            obj = e;
             return VisitResponse::ABORT;
         }
         return VisitResponse::NEXT;
     } );
-    return obj;
+    return obj.get_item();
 }
 
 class item_location::impl
@@ -106,6 +108,7 @@ class item_location::impl
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
+        class item_in_crafting_inventory;
         class nowhere;
 
         impl() = default;
@@ -192,6 +195,10 @@ class item_location::impl::nowhere : public item_location::impl
     public:
         type where() const override {
             return type::invalid;
+        }
+
+        bool valid() const override {
+            return false;
         }
 
         tripoint_bub_ms pos_bub( const map & ) const override {
@@ -815,8 +822,11 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
-            container->remove_item( *target() );
-            container->on_contents_changed();
+            const bool container_empty = container.remove_items_with( [&]( const item & filter ) ->bool {return &filter == &*target(); },
+                                         INT_MAX ).empty();
+            if( container_empty ) {
+                debugmsg( "improper item_loction parent when attempting to remove item." );
+            }
         }
 
         void on_contents_changed() override {
@@ -908,6 +918,87 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 };
 
+class item_location::impl::item_in_crafting_inventory : public item_location::impl
+{
+    private:
+        // a temp crafting inventory can be deleted. it is an ephemeral class
+        temp_crafting_inventory *inv;
+    public:
+        item_in_crafting_inventory( temp_crafting_inventory &inv, item *which ) : impl( which ),
+            inv( &inv ) {}
+
+        int obtain_cost( const Character &, int ) const override {
+            // technically this could be a pseudo item from a furniture a few steps away.
+            // TODO: return something else
+            return 0;
+        }
+
+        bool valid() const override {
+            ensure_unpacked();
+            return !!what && !!inv;
+        }
+
+        type where() const override {
+            return type::crafting_inventory;
+        }
+
+        std::string describe( const Character *ch ) const override {
+            if( !ch ) {
+                return _( "crafting inventory somewhere" );
+            }
+            return string_format( _( "crafting inventory of %s" ), ch->disp_name() );
+        }
+
+        Character *carrier() const override {
+            // technically this is the crafting inventory of a specific person, but they're not "carrying" it
+            return nullptr;
+        }
+
+        void remove_item() override {
+            inv->remove_item( *what );
+        }
+
+        item_location obtain( Character &, int ) override {
+            // obtaining this type of item is not allowed!
+            return item_location();
+        }
+
+        tripoint_bub_ms pos_bub( const map & ) const override {
+            return tripoint_bub_ms::zero;
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return tripoint_abs_ms::zero;
+        }
+
+        units::volume volume_capacity() const override {
+            return units::volume::max();
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass::max();
+        }
+
+        bool check_parent_capacity_recursive() const override {
+            return true;
+        }
+
+        void on_contents_changed() override {}
+
+        item *unpack( int id ) const override {
+            if( !inv ) {
+                return nullptr;
+            }
+
+            return retrieve_by_uid( const_cast<temp_crafting_inventory &>( *inv ), id );
+        }
+
+        void serialize( JsonOut &js ) const override {
+            item_location::nowhere.serialize( js );
+            debugmsg( "serialized temp_crafting_inventory" );
+        }
+};
+
 const item_location item_location::nowhere;
 
 item_location::item_location()
@@ -925,6 +1016,11 @@ item_location::item_location( const vehicle_cursor &vc, item *which )
 item_location::item_location( const item_location &container, item *which )
     : ptr( new impl::item_in_container( container, which ) ) {}
 
+item_location::item_location( temp_crafting_inventory &inv, item *which )
+    : ptr( new impl::item_in_crafting_inventory( inv, which ) )
+{
+}
+
 bool item_location::operator==( const item_location &rhs ) const
 {
     return ptr->target() == rhs.ptr->target();
@@ -933,6 +1029,11 @@ bool item_location::operator==( const item_location &rhs ) const
 bool item_location::operator!=( const item_location &rhs ) const
 {
     return ptr->target() != rhs.ptr->target();
+}
+
+bool item_location::operator<( const item_location &rhs ) const
+{
+    return ptr->target() < rhs.ptr->target();
 }
 
 item_location::operator bool() const
@@ -1248,6 +1349,11 @@ item_location::type item_location::where() const
     return ptr->where();
 }
 
+bool item_location::valid() const
+{
+    return ptr->valid();
+}
+
 item_location::type item_location::where_recursive() const
 {
     return ptr->where_recursive();
@@ -1274,7 +1380,10 @@ item_location item_location::obtain( Character &ch, int qty )
         debugmsg( "item location does not point to valid item" );
         return item_location();
     }
-    return ptr->obtain( ch, qty );
+    const item_location landed = ptr->obtain( ch, qty );
+    // Every backend copies through i_add, which re-uids the whole tree.
+    craft_relocated( landed );
+    return landed;
 }
 
 int item_location::obtain_cost( const Character &ch, int qty ) const
@@ -1282,14 +1391,18 @@ int item_location::obtain_cost( const Character &ch, int qty ) const
     return ptr->obtain_cost( ch, qty );
 }
 
-void item_location::remove_item()
+void item_location::remove_item( item &inside )
 {
-    if( !ptr->valid() ) {
-        debugmsg( "item location does not point to valid item" );
-        return;
+    if( &inside == &null_item_reference() || &inside == get_item() ) {
+        if( !ptr->valid() ) {
+            debugmsg( "item location does not point to valid item" );
+            return;
+        }
+        ptr->remove_item();
+        ptr = std::make_shared<impl::nowhere>();
+    } else {
+        visitable::remove_item( inside );
     }
-    ptr->remove_item();
-    ptr = std::make_shared<impl::nowhere>( );
 }
 
 void item_location::on_contents_changed()
@@ -1321,6 +1434,8 @@ void item_location::make_active()
             break;
         }
         case type::invalid:
+        case type::crafting_inventory:
+        // crafting inventory doesn't cache active items
         case type::character: {
             // NOOP: characters don't cache active items
             break;
@@ -1371,26 +1486,6 @@ units::mass item_location::weight_capacity() const
 bool item_location::check_parent_capacity_recursive() const
 {
     return ptr->check_parent_capacity_recursive();
-}
-
-bool item_location::protected_from_liquids() const
-{
-    // check if inside a watertight which is not an open_container
-    if( has_parent() ) {
-        item_location parent = parent_item();
-
-        // parent can protect the item against water
-        if( parent->is_watertight_container() && !parent->will_spill() ) {
-            return true;
-        }
-
-        // check the parent's parent
-        return parent.protected_from_liquids();
-    }
-
-    // we recursively checked all containers
-    // none are closed watertight containers
-    return false;
 }
 
 std::unique_ptr<talker> get_talker_for( item_location &it )

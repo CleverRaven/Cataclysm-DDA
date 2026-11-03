@@ -7,6 +7,7 @@
 #include <optional>
 #include <tuple>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "avatar.h"
@@ -68,14 +69,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
-        disp_bodygraph_cache( bodygraph_var::hp ),
-        disp_bodygraph_cache( bodygraph_var::temp ),
-        disp_bodygraph_cache( bodygraph_var::encumb ),
-        disp_bodygraph_cache( bodygraph_var::status ),
-        disp_bodygraph_cache( bodygraph_var::wet )
-    }
-};
+static std::unordered_map<std::string, disp_bodygraph_cache> disp_bg_cache;
 
 disp_overmap_cache::disp_overmap_cache()
 {
@@ -131,6 +125,24 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string &graph
         _bp_cur_max.emplace( bp, display::get_bodygraph_bp_color( u, bp, _var ).to_int() );
     }
     _graph_wgt_str = bg_wgt_str;
+}
+
+std::string disp_bodygraph_cache::get_cache_id( bodygraph_id bid, bodygraph_var bmode )
+{
+    return bid.str() + io::enum_to_string( bmode );
+}
+
+void disp_bodygraph_cache::clear( bodygraph_id bid, bodygraph_var bmode )
+{
+    const std::string bg_cache_key = get_cache_id( bid, bmode );
+    if( disp_bg_cache.count( bg_cache_key ) ) {
+        disp_bg_cache.erase( bg_cache_key );
+    }
+}
+
+void disp_bodygraph_cache::clear_all()
+{
+    disp_bg_cache.clear();
 }
 
 // Get remotely controlled vehicle, or vehicle character is inside of
@@ -668,26 +680,22 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
     if( !u.needs_food() ) {
         return std::make_pair( _( "Without Hunger" ), c_white );
     }
-    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
-    // like all of the effect_* string_id variables which are const string_id, then it fails to
-    // initialize the array with tuples successfully complaining that
-    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
-    // returns a tuple consisting of correctly implcitly copyable types.
-    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
-            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
-            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
-            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
-            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Peckish" ), c_light_gray ),
-            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Hungry" ), c_yellow ),
-            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
-            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
-            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
+    static const std::array<std::tuple<const efftype_id *, translation, nc_color>, 9> hunger_states{ {
+            { &effect_hunger_engorged, to_translation( "Engorged" ), c_red },
+            { &effect_hunger_full, to_translation( "hunger state", "Full" ), c_yellow },
+            { &effect_hunger_satisfied, to_translation( "Satisfied" ), c_green },
+            { &effect_hunger_blank, no_translation( "" ), c_white },
+            { &effect_hunger_hungry, to_translation( "Peckish" ), c_light_gray },
+            { &effect_hunger_very_hungry, to_translation( "Hungry" ), c_yellow },
+            { &effect_hunger_near_starving, to_translation( "Near starving" ), c_red },
+            { &effect_hunger_starving, to_translation( "Starving!" ), c_red },
+            { &effect_hunger_famished, to_translation( "Famished" ), c_light_red }
         }
     };
     for( const auto &hunger_state : hunger_states ) {
-        if( u.has_effect( std::get<0>( hunger_state ) ) ) {
-            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
+        if( u.has_effect( *std::get<0>( hunger_state ) ) ) {
+            return std::make_pair( std::get<1>( hunger_state ).translated(),
+                                   std::get<2>( hunger_state ) );
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );
@@ -914,8 +922,8 @@ std::pair<std::string, nc_color> display::faction_text( const Character &u )
         return std::pair( display_name, display_color );
     }
     display_name = owner->get_name();
-    // TODO: Make this magic number into a constant
-    if( owner->likes_u < -10 ) {
+
+    if( owner->guaranteed_hostile() ) {
         display_color = c_red;
     } else if( u.get_faction()->id == owner ) {
         display_color = c_blue;
@@ -1560,27 +1568,40 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
 static const std::vector<std::string> bodygraph_var_labels = { "Health", "Temperature", "Encumbrance", "Status", "Wet" };
 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
-        const bodygraph_var var, int width, int max_height, int &height )
+        const bodygraph_var var, int width, int max_height, int &height,
+        bool blink_selected, const std::optional<std::string> &selected_part )
 {
-    int var_idx = int( var );
+    bodygraph_id graph( graph_id );
+    const std::string bg_cache_key = disp_bodygraph_cache::get_cache_id( graph, var );
 
-    if( disp_bg_cache[var_idx].is_valid_for( u, graph_id ) ) {
-        // Nothing changed, just retrieve from cache
-        return disp_bg_cache[var_idx].get_val();
+    if( disp_bg_cache.count( bg_cache_key ) ) {
+        const disp_bodygraph_cache &dbg_cache = disp_bg_cache.at( bg_cache_key );
+        if( dbg_cache.is_valid_for( u, graph_id ) ) {
+            return dbg_cache.get_val();
+        }
     }
 
-    bodygraph_id graph( graph_id );
-    if( graph.is_null() || !graph.is_valid() || graph->rows.empty() ) {
+    if( graph.is_null() || !graph.is_valid() || ( graph->rows.empty() &&
+            !graph->mirror.has_value() ) ) {
         height = 1;
         return "";
     }
 
-    auto process_sym = [&u, var]( const bodygraph_part * bgp, const std::string & sym ) {
+    auto process_sym = [&u, selected_part, var, blink_selected]( const bodygraph_part * bgp,
+    const std::string & sym ) {
         if( !bgp ) {
             return sym;
         }
+        bool selected_graph = false;
+        if( selected_part.has_value() && blink_selected ) {
+            selected_graph = bgp->has_bodypart( *selected_part );
+        }
+        std::string sym_blink = sym;
+        if( sym_blink != " " && blink_selected && selected_graph ) {
+            sym_blink = ".";
+        }
         std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
-        return colorize( sym, sym_col.second );
+        return colorize( sym_blink, sym_col.second );
     };
 
     std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height,
@@ -1596,7 +1617,9 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     }
 
     // Rebuild bodygraph text cache
-    disp_bg_cache[var_idx].rebuild( u, graph_id, ret );
+    disp_bodygraph_cache new_cache( var );
+    new_cache.rebuild( u, graph_id, ret );
+    disp_bg_cache[bg_cache_key] = new_cache;
 
     return ret;
 }
@@ -1658,3 +1681,24 @@ std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
     return std::make_pair( wind_text, get_wind_color( windpower ) );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<bodygraph_var>( bodygraph_var bgvar )
+{
+    switch( bgvar ) {
+        case bodygraph_var::hp:
+            return _( "Hit Points" );
+        case bodygraph_var::temp:
+            return _( "Temperature" );
+        case bodygraph_var::encumb:
+            return _( "Encumbrance" );
+        case bodygraph_var::status:
+            return _( "Status" );
+        case bodygraph_var::wet:
+            return _( "Wetness" );
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+} // namespace io

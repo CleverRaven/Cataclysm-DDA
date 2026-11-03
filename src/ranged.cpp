@@ -1389,7 +1389,7 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
     }
 
     if( is_avatar() ) {
-        as_avatar()->aim_cache_dirty = true;
+        as_avatar()->mark_aim_cache_dirty();
     }
 
     return curshot;
@@ -3568,7 +3568,7 @@ void target_ui::set_last_target()
 
     if( !you->last_target_pos.has_value() ||
         you->last_target_pos.value() != here.get_abs( dst ) ) {
-        you->aim_cache_dirty = true;
+        you->mark_aim_cache_dirty();
     }
     you->last_target_pos = here.get_abs( dst );
     if( dst_critter ) {
@@ -3734,7 +3734,7 @@ void target_ui::update_turrets_in_range()
 void target_ui::recalc_aim_turning_penalty()
 {
     // since we are recalcing recoil dirty the aimm cache
-    you->aim_cache_dirty = true;
+    you->mark_aim_cache_dirty();
 
     if( status != Status::Good ) {
         // We don't care about invalid situations

@@ -1,0 +1,20 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_close_tears_and_portals",
+    "field": [
+      {
+        "result": [ "fd_null" ],
+        "valid_field": [ "fd_fatigue", "fd_tear_in_reality_temporary" ],
+        "message": "The tear in reality vanishes in a shower of sparks!"
+      }
+    ],
+    "trap": [
+      {
+        "result": [ "tr_glass" ],
+        "valid_trap": [ "tr_portal" ],
+        "message": "Sparks appear across the portal and it shatters into shards of glass!"
+      }
+    ]
+  }
+]

@@ -68,5 +68,10 @@
     "id": "morale_nightmare",
     "type": "morale_type",
     "text": "Bothered by your nightmare"
+  },
+  {
+    "id": "morale_minoan_orchid",
+    "type": "morale_type",
+    "text": "Minoan Orchid"
   }
 ]

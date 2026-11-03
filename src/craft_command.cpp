@@ -20,7 +20,6 @@
 #include "flag.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_components.h"
 #include "item_contents.h"
@@ -35,6 +34,7 @@
 #include "pocket_type.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -145,7 +145,7 @@ void craft_command::execute( bool only_cache_comps )
     }
 
     bool need_selections = true;
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
@@ -480,7 +480,7 @@ static bool should_add_crafting_faults( Character *who, const recipe *rec )
 
 
 std::vector<std::vector<step_tool_alloc>> select_step_tool_allocs(
-        Character &crafter, const recipe &rec, int batch, read_only_visitable &map_inv,
+        Character &crafter, const recipe &rec, int batch, temp_crafting_inventory &map_inv,
         bool &cancelled, int reselect_step )
 {
     cancelled = false;
@@ -609,7 +609,7 @@ item craft_command::create_in_progress_craft()
         return item();
     }
 
-    inventory map_inv;
+    temp_crafting_inventory map_inv;
     map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {

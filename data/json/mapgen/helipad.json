@@ -12,9 +12,9 @@
         ".F..W-c?w.pppppppp...|||||||||||||||||||||||..F.",
         ".F..WmWWW.pppppppp...|%_____________C__B___|..F.",
         ".F..pppppppppppppppppM___C_________C_CC_B__|..F.",
-        ".F..pppppppppppppppppM____________CCCCC____|..F.",
-        ".F..pppppppppppppppppM_B__C___B__B___C_B___|..F.",
-        ".F..pppppyppppyppppppM________*_________B__|..F.",
+        ".F..pppppppppppppppppM____________CCCCC___X|..F.",
+        ".F..pppppppppppppppppM_B__C___B__B___C_B__X|..F.",
+        ".F..pppppyppppyppppppM________*_________B_X|..F.",
         ".F..pppppyppppyppppppM__B___C___B__C__B____|..F.",
         ".F..pppppyppppyppp...|____C___B____________|..F.",
         ".F..pppppyppppypppooom___________B______%__|..F.",
@@ -112,7 +112,14 @@
         "[": { "item": "SUS_fridge", "chance": 50 },
         "O": { "item": "SUS_oven", "chance": 75, "repeat": [ 0, 2 ] },
         "H": { "item": "SUS_spice_collection", "chance": 75 },
-        "&": { "item": "SUS_toilet", "chance": 50 }
+        "&": { "item": "SUS_toilet", "chance": 50 },
+        "X": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "mil_engines_crate_land", "prob": 5 }, { "group": "mil_engines_crate_air", "prob": 60 } ]
+          },
+          "chance": 90
+        }
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
       "place_monster": [

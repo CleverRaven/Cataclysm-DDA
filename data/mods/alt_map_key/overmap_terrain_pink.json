@@ -720,5 +720,13 @@
     "copy-from": "alien_meadow_end",
     "sym": ",",
     "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "earth_scrap_metal_spire" ],
+    "copy-from": "earth_scrap_metal_spire",
+    "name": "alien scrap metal spire",
+    "sym": "A",
+    "color": "pink"
   }
 ]

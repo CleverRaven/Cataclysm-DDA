@@ -44,6 +44,15 @@
     ]
   },
   {
+    "id": "ench_rm13_environmental",
+    "type": "enchantment",
+    "name": { "str": "Environmental Protection" },
+    "description": "You are wearing equipment that protects you from caustic threats and fire.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "mutations": [ "RM13_ENVIRONMENTAL" ]
+  },
+  {
     "type": "enchantment",
     "id": "ENCH_DEBUG_FREE_DODGES",
     "condition": "ALWAYS",

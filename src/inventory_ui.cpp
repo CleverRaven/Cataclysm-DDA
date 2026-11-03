@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
@@ -26,7 +27,6 @@
 #include "input.h"
 #include "pickup.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -49,6 +49,7 @@
 #include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "temp_crafting_inventory.h"
 #include "trade_ui.h"
 #include "translation.h"
 #include "translation_cache.h"
@@ -62,6 +63,7 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -129,9 +131,9 @@ item_name_t &get_cached_name( item const *it )
 
 // get topmost visible parent in an unbroken chain
 item_location get_topmost_parent( item_location const &topmost, item_location const &loc,
-                                  inventory_selector_preset const &preset )
+                                  bool loc_shown )
 {
-    return preset.is_shown( loc ) ? topmost ? topmost : loc : item_location{};
+    return loc_shown ? topmost ? topmost : loc : item_location{};
 }
 
 using parent_path_t = std::vector<item_location>;
@@ -279,11 +281,12 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                //~ %1$d: chosen count, %2$d: available count
-                res += string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
-                                      available_count ) + " ";
+                //~ %1$s: chosen count, %2$s: available count. The replaced string is an item measure prefix, so this entire sentence would be something like "1.25kg canned beans of 2kg canned beans"
+                res += string_format( pgettext( "count", "%1$s of %2$s" ),
+                                      entry.any_item()->type->item_measure_prefix( entry.chosen_count ),
+                                      entry.any_item()->type->item_measure_prefix( available_count ) ) + " ";
             } else if( available_count != 1 ) {
-                res += string_format( "%d ", available_count );
+                res += string_format( "%s ", entry.any_item()->type->item_measure_prefix( available_count ) );
             }
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
@@ -407,11 +410,13 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "recent_recipes", recent_recipes );
     json.member( "crafting_expand_details", crafting_expand_details );
     json.member( "crafting_expand_steps", crafting_expand_steps );
+    json.member( "body_status_info_collapsed", body_status_info_collapsed );
+    json.member( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
-    json.member( "overmap_fast_travel", overmap_fast_travel );
+    json.member( "overmap_fast_travel", overmap_only_auto_travel );
     json.member( "overmap_fast_scroll", overmap_fast_scroll );
     json.member( "tileset_zoom", tileset_zoom );
     json.member( "overmap_tileset_zoom", overmap_tileset_zoom );
@@ -498,12 +503,14 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "crafting_expand_details", crafting_expand_details );
+    jo.read( "body_status_info_collapsed", body_status_info_collapsed );
+    jo.read( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     jo.read( "crafting_expand_steps", crafting_expand_steps );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
-    jo.read( "overmap_fast_travel", overmap_fast_travel );
+    jo.read( "overmap_fast_travel", overmap_only_auto_travel );
     jo.read( "overmap_fast_scroll", overmap_fast_scroll );
     jo.read( "tileset_zoom", tileset_zoom );
     jo.read( "overmap_tileset_zoom", overmap_tileset_zoom );
@@ -641,7 +648,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_avatar().invlet_is_assigned( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -1410,13 +1417,11 @@ bool inventory_column::sort_compare( inventory_entry const &lhs, inventory_entry
     if( lhs.is_selectable() != rhs.is_selectable() ) {
         return lhs.is_selectable(); // Disabled items always go last
     }
-    Character &player_character = get_player_character();
+    avatar &player_character = get_avatar();
     // Place favorite items and items with an assigned inventory letter first,
     // since the player cared enough to assign them
-    const bool left_has_invlet =
-        player_character.inv->assigned_invlet.count( lhs.any_item()->invlet ) != 0;
-    const bool right_has_invlet =
-        player_character.inv->assigned_invlet.count( rhs.any_item()->invlet ) != 0;
+    const bool left_has_invlet = player_character.invlet_is_assigned( lhs.any_item()->invlet );
+    const bool right_has_invlet = player_character.invlet_is_assigned( rhs.any_item()->invlet );
     if( left_has_invlet != right_has_invlet ) {
         return left_has_invlet;
     }
@@ -1988,7 +1993,16 @@ inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
     if( !preset.is_shown( locations.front() ) ) {
         return nullptr;
     }
+    return add_shown_entry( target_column, std::move( locations ), custom_category, chosen_count,
+                            topmost_parent, chevron );
+}
 
+inventory_entry *inventory_selector::add_shown_entry( inventory_column &target_column,
+        std::vector<item_location> &&locations,
+        const item_category *custom_category,
+        const size_t chosen_count, item_location const &topmost_parent,
+        bool chevron )
+{
     is_empty = false;
     inventory_entry entry( locations, custom_category,
                            true, chosen_count,
@@ -2011,6 +2025,8 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         item_category const *children_category,
                                         item_location const &topmost_parent, int indent, bool add_efiles )
 {
+    // is_shown can be costly, so ask once per item
+    const bool shown = preset.is_shown( loc );
     inventory_column temp_children( preset );
     bool vis_contents;
     if( add_efiles && loc->is_estorage() ) {
@@ -2018,11 +2034,13 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
     } else {
         vis_contents =
             add_contained_items( loc, temp_children, children_category,
-                                 get_topmost_parent( topmost_parent, loc, preset ),
-                                 preset.is_shown( loc ) ? indent + 2 : indent, add_efiles );
+                                 get_topmost_parent( topmost_parent, loc, shown ),
+                                 shown ? indent + 2 : indent, add_efiles );
     }
-    inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
-                                    entry_category, 0, topmost_parent );
+    inventory_entry *const nentry = shown
+                                    ? add_shown_entry( entry_column, std::vector<item_location>( 1, loc ),
+                                            entry_category, 0, topmost_parent )
+                                    : nullptr;
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
         nentry->indent = indent;
@@ -2200,9 +2218,13 @@ void inventory_selector::add_character_items( Character &character, bool add_efi
 
 void inventory_selector::add_character_ebooks( Character &character )
 {
-    for( item_location &ereader : character.all_items_loc() ) {
-        add_contained_ebooks( ereader );
-    }
+    character.visit_items( [&]( item_location ereader ) {
+        if( add_contained_ebooks( ereader ) ) {
+            return VisitResponse::SKIP;
+        } else {
+            return VisitResponse::NEXT;
+        }
+    } );
 }
 
 void inventory_selector::add_map_items( const tripoint_bub_ms &target, bool add_efiles )
@@ -4808,11 +4830,10 @@ void inventory_haul_selector::apply_selection( std::vector<item_location> &items
     std::unordered_map<inventory_entry *, int> counts;
     for( item_location &item : items ) {
         inventory_entry *entry = find_entry_by_location( item );
-        if( counts.count( entry ) ) {
-            counts.at( entry ) += 1;
-        } else {
-            counts.emplace( entry, 1 );
+        if( entry == nullptr ) {
+            continue;
         }
+        counts[entry] += 1;
     }
     for( std::pair<inventory_entry *, int> count : counts ) {
         // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better

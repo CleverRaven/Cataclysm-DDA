@@ -20,6 +20,7 @@ template <typename E> struct enum_traits;
 enum class craft_flags : int {
     none = 0,
     start_only = 1, // Only require 5% (plus remainder) of tool charges
+    ignore_hammerspace = 2, // leave out actor's debug hammerspace
 };
 
 template<>
@@ -80,6 +81,9 @@ void fire_step_complete_distraction( const std::string &interrupt_msg,
 // dispatchers when the item is a craft.
 std::vector<desired_wakeup> craft_enumerate_scheduled_wakeups(
     const item &craft, const item_location &loc );
+// `landed` may be any item in the copied tree, not necessarily its top.
+void craft_relocated( const item_location &landed );
+
 void craft_actualize_scheduled( item &craft, item_wakeup_kind kind,
                                 time_point now, const item_location &loc );
 

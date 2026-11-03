@@ -5,6 +5,7 @@
     "name_unique": "Aleesha Seward",
     "gender": "female",
     "name_suffix": "Refugee",
+    "portrait_filename": "Named_NPC_aleesha_seward",
     "class": "NC_REFUGEE_Aleesha",
     "attitude": 0,
     "mission": "GUARD",
