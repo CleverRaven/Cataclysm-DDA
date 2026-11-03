@@ -55,7 +55,7 @@
       { "part": "torso", "ignored": 30 }
     ],
     "integrated_armor": [ "integrated_bark_skin" ],
-    "flags": [ "TOUGH_FEET", "BARKY" ]
+    "flags": [ "TOUGH_FEET", "BARKY", "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",
