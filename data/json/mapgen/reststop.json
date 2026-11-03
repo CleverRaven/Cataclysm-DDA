@@ -94,6 +94,7 @@
         "S": "f_street_light",
         "R": "f_bike_rack"
       },
+      "monster": { "E": { "monster": "mon_raccoon", "chance": 35, "conditions": [ "DUSK", "NIGHT", "DAWN" ] } },
       "toilets": { "B": {  } },
       "vendingmachines": { "%": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
