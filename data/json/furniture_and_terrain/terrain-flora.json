@@ -294,6 +294,14 @@
   },
   {
     "type": "terrain",
+    "id": "t_highland_dream_tree",
+    "copy-from": "t_tree_dead",
+    "symbol": "G",
+    "name": "golden tree",
+    "description": "Fluted bark causes it to hum faintly under the caress of the wind.  Its golden canopy shimmers and dances like fire about to extinguish."
+  },
+  {
+    "type": "terrain",
     "id": "t_highland_flower_bed",
     "copy-from": "t_grass_long",
     "symbol": "G",
@@ -2149,6 +2157,27 @@
     "copy-from": "t_grass_long",
     "name": "tall grass",
     "description": "An area of tall grass about head high.",
+    "looks_like": "t_shrub",
+    "transforms_into": "t_grass_long",
+    "symbol": "'",
+    "move_cost": 5,
+    "coverage": 50
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_holy_grass",
+    "copy-from": "t_grass",
+    "name": "golden grass",
+    "description": "Soft mats of fine golden grass shimmer and sway like sea waves, casting an ethereal glow across the landscape.",
+    "color": "yellow",
+    "delete": { "flags": [ "GRAZABLE" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_highland_holy_grass_tall",
+    "copy-from": "t_grass_long",
+    "name": "tall golden grass",
+    "description": "The grass grows even taller here, creating a curtain of soft warm light.",
     "looks_like": "t_shrub",
     "transforms_into": "t_grass_long",
     "symbol": "'",

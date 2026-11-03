@@ -112,7 +112,7 @@
     "variants": [
       {
         "id": "default",
-        "description": "A cloak of thin, faded cloth that was used to wrap a corpse.  Its deep blue, and embroidered has been embroidered with a starmap in silver thread.",
+        "description": "A cloak of thin, faded cloth that was used to wrap a corpse.  Its deep blue, and has been embroidered with a starmap in silver thread.",
         "weight": 500
       },
       {
