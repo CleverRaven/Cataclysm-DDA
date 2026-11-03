@@ -1215,7 +1215,6 @@
     "id": "mon_skeleton_hulk_charge_decimate",
     "accuracy": 0,
     "cooldown": 13,
-    "move_cost": 180,
     "range": 4,
     "dodgeable": false,
     "blockable": false,
@@ -1230,5 +1229,61 @@
     "no_dmg_msg_npc": "%1$s raises it's long bladed arm like an executioner's axe!  It looks like it could cut a person in half!",
     "miss_msg_u": "%1$s raises it's long bladed arm like an executioner's axe!  It looks like it could cut a person in half!",
     "miss_msg_npc": "%1$s raises it's long bladed arm like an executioner's axe!  It looks like it could cut a person in half!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "decimate_bash",
+    "cooldown": 10,
+    "move_cost": 120,
+    "range": 2,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 180, "armor_penetration": 15 } ],
+    "//0": "Armour penetration is there so tempered plate armour can't completely block it, and so it also doesn't do more than half of your hp in one hit without armour.",
+    "min_mul": 0.8,
+    "throw_strength": 86,
+    "blockable": false,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_skeleton_hulk_charge_up" },
+        { "math": [ "n_val('size') <= 4" ] },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "self_effects_always": [ { "id": "effect_skeleton_hulk_charge_removal", "duration": 2 } ],
+    "hit_dmg_u": "%1$s slams its gigantic club arm into you!",
+    "hit_dmg_npc": "%1$s slams its gigantic club arm into <npcname>!",
+    "no_dmg_msg_u": "%1$s slams its gigantic club arm into your %2$s, but your armour absorbs it.",
+    "no_dmg_msg_npc": "%1$s slams its gigantic club arm into <npcname>, but they appear unharmed.",
+    "miss_msg_u": "%1$s swings its giant club arm!  You duck!",
+    "miss_msg_npc": "%1$s swings its giant club arm at <npcname>, but they duck!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "decimate_bash_equal",
+    "cooldown": 10,
+    "move_cost": 120,
+    "range": 2,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 280, "armor_penetration": 15 } ],
+    "//0": "More damage because if you're that big you're absorbing the full strength of the swing.",
+    "min_mul": 0.8,
+    "throw_strength": 43,
+    "blockable": false,
+    "spread_damage": true,
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_skeleton_hulk_charge_up" },
+        { "math": [ "n_val('size') == 5" ] },
+        { "not": { "u_has_effect": "maimed_arm" } }
+      ]
+    },
+    "self_effects_always": [ { "id": "effect_skeleton_hulk_charge_removal", "duration": 2 } ],
+    "hit_dmg_u": "%1$s slams its gigantic club arm into your %2$s!",
+    "hit_dmg_npc": "%1$s slams its gigantic club arm into <npcname>!",
+    "no_dmg_msg_u": "%1$s slams its gigantic club arm into your %2$s, but your armour absorbs it.",
+    "no_dmg_msg_npc": "%1$s slams its gigantic club arm into <npcname>, but they appear unharmed.",
+    "miss_msg_u": "%1$s swings its giant club arm!  You duck!",
+    "miss_msg_npc": "%1$s swings its giant club arm at <npcname>, but they duck!"
   }
 ]

@@ -127,12 +127,24 @@
       {
         "id": "smash",
         "throw_strength": 54,
-        "condition": { "and": [ { "math": [ "n_val('size') <= 4" ] }, { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } ] }
+        "condition": {
+          "and": [
+            { "math": [ "n_val('size') <= 4" ] },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        }
       },
       {
         "id": "smash_equal",
         "throw_strength": 27,
-        "condition": { "and": [ { "math": [ "n_val('size') == 5" ] }, { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } } ] }
+        "condition": {
+          "and": [
+            { "math": [ "n_val('size') == 5" ] },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        }
       },
       {
         "id": "stretch_attack",

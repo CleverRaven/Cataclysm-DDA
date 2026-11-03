@@ -221,12 +221,54 @@
     "vision_day": 50,
     "harvest": "zombie_kevlar_hulk",
     "special_attacks": [
-      { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
+      {
+        "id": "slam",
+        "cooldown": 12,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ],
+        "condition": { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } }
+      },
       { "id": "longswipe" },
-      { "id": "cut_throat" },
-      { "id": "smash", "throw_strength": 72 },
-      { "id": "smash_equal", "throw_strength": 36 },
-      { "id": "hulk_wide_swing", "accuracy": 9 }
+      {
+        "id": "smash",
+        "throw_strength": 72,
+        "condition": {
+          "and": [
+            { "math": [ "n_val('size') <= 4" ] },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        }
+      },
+      {
+        "id": "smash_equal",
+        "throw_strength": 36,
+        "condition": {
+          "and": [
+            { "math": [ "n_val('size') == 5" ] },
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
+          ]
+        }
+      },
+      {
+        "id": "hulk_wide_swing",
+        "accuracy": 9,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } }, { "not": { "u_has_effect": "maimed_arm" } } ]
+        }
+      },
+      { "id": "decimate_bash" },
+      { "id": "decimate_bash_equal" },
+      {
+        "id": "mon_skeleton_hulk_charge_decimate",
+        "move_cost": 225,
+        "hit_dmg_u": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!",
+        "hit_dmg_npc": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!",
+        "no_dmg_msg_u": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!",
+        "no_dmg_msg_npc": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!",
+        "miss_msg_u": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!",
+        "miss_msg_npc": "%1$s raises it's gigantic club arm!  It looks like it could smash someone like an ant!"
+      }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "armor": { "bash": 30, "cut": 50, "bullet": 40, "electric": 6 },
