@@ -125,7 +125,7 @@ Slime has redundant omnicellular parts
 Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
-New wound system, first implemented with cut wounds
+New wound system, cut, bash, and stab wounds
 
 
 ## Content:
@@ -226,6 +226,7 @@ Add serum-specific microlabs
 Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
+Bionic wounds and ways to repair them
 
 
 ## Interface:
@@ -674,6 +675,7 @@ Fungal infections don't randomly happen
 Factions that are mad at you won't talk to you.
 NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
 NPCs don't freeze when something comes up on the way to their job
+NPCs fetch construction components from containers and spread over construction sites
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
