@@ -243,7 +243,7 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "required_weathers": [ "thunder", "lightning" ],
+    "required_weathers": [ "snowing" ],
     "priority": 110,
     "condition": {
       "and": [ { "math": [ "weather('temperature') < from_fahrenheit( 33 )" ] }, { "math": [ "weather('windpower') >= 15" ] } ]
