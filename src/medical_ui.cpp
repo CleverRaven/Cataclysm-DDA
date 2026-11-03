@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <imgui/imgui.h>
 #include <cstdlib>
 #include <functional>
@@ -536,47 +537,55 @@ struct healing_option {
     wound_fix_id fix;
     bool doable;
     time_duration time_to_apply;
+    unsigned int amount = 1;
 };
 } // namespace
 
-bool Character::pick_wound_fix( const bodypart_id &bp_id )
+static bool optional_debug_modify_wounds( const Character &you, bodypart &bp )
 {
-    std::vector<healing_option> healing_options;
-    const temp_crafting_inventory &inv = crafting_inventory();
-
-    bodypart *bp = get_part( bp_id );
-    const std::vector<wound> wounds = bp->get_wounds();
-
-    if( debug_mode || has_trait( trait_DEBUG_HS ) ) {
+    if( debug_mode || you.has_trait( trait_DEBUG_HS ) ) {
         if( query_yn( "Open debug insertion and removing wounds?" ) ) {
             uilist menu;
             do {
                 menu.reset();
                 menu.text = "Toggle which wound?";
                 std::vector<std::pair<wound_type_id, bool>> opts;
-                for( const auto& [wound, weight] : bp_id->potential_wounds ) {
-                    opts.emplace_back( wound.id, bp->has_wound( wound.id ) );
+                for( const auto& [wound, weight] : bp.get_id()->potential_wounds ) {
+                    opts.emplace_back( wound.id, bp.has_wound( wound.id ) );
                     menu.addentry( -1, true, -1, string_format( opts.back().second ? "Treat: %s" : "Set: %s",
                                    wound.id.str() ) );
                 }
                 if( opts.empty() ) {
-                    popup( string_format( "The %s doesn't have any wounds to toggle.", bp_id->name ) );
+                    popup( string_format( "The %s doesn't have any wounds to toggle.", bp.get_id()->name ) );
                     return false;
                 }
                 menu.query();
                 if( menu.ret >= 0 ) {
                     if( opts[menu.ret].second ) {
-                        bp->remove_wound( opts[menu.ret].first );
+                        bp.remove_wound( opts[menu.ret].first );
                     } else {
-                        bp->add_wound( opts[menu.ret].first );
+                        bp.add_wound( opts[menu.ret].first );
                     }
                 }
             } while( menu.ret >= 0 );
             return false;
         }
     }
+    return true;
+}
 
-    for( const wound &wd : wounds ) {
+bool Character::pick_wound_fix( const bodypart_id &bp_id )
+{
+    bodypart *bp = get_part( bp_id );
+
+    if( !optional_debug_modify_wounds( *this, *bp ) ) {
+        return false;
+    }
+
+    std::vector<healing_option> healing_options;
+    const temp_crafting_inventory &inv = crafting_inventory();
+
+    for( const wound &wd : bp->get_wounds() ) {
         for( const wound_fix_id &fix_id : wd.type->fixes ) {
             healing_option opt{wd.type, fix_id, true, fix_id->time};
 
@@ -603,6 +612,38 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
             opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
                           is_crafting_component );
 
+            // check if equal healing option already exists in vector
+            std::vector<healing_option>::iterator it = std::find_if( healing_options.begin(),
+            healing_options.end(), [opt]( const healing_option & stored_opt ) {
+                return stored_opt.fix == opt.fix && stored_opt.doable == opt.doable;
+            } );
+            if( it != healing_options.end() ) {
+                if( it->fix->get_requirements().can_make_with_inventory( this, inv,
+                        is_crafting_component, it->amount + opt.amount ) ) {
+                    // if still can craft after increasing the amount, we can safely increase the amount
+                    it->amount += opt.amount;
+                    it->time_to_apply += opt.time_to_apply;
+                    continue;
+                }
+
+                // check if there are other instances that cannot be crafted
+                opt.doable = false;
+                std::vector<healing_option>::iterator it_bad = std::find_if( healing_options.begin(),
+                healing_options.end(), [opt]( const healing_option & stored_opt ) {
+                    return stored_opt.fix == opt.fix && stored_opt.doable == opt.doable;
+                } );
+
+                if( it_bad != healing_options.end() ) {
+                    // if there are, increase said inaccessible options
+                    it_bad->amount += opt.amount;
+                    it_bad->time_to_apply += opt.time_to_apply;
+                    continue;
+                }
+                // if not, emplace
+                healing_options.emplace_back( opt );
+                continue;
+            }
+            // emplace first of it's kind
             healing_options.emplace_back( opt );
         }
     }
@@ -631,6 +672,7 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
     uilist menu;
     menu.title = _( "Treat which wound?" );
     menu.desc_enabled = true;
+    menu.hilight_disabled = true;
 
     constexpr int fold_width = 80;
 
@@ -640,9 +682,12 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         const requirement_data &reqs = fix.get_requirements();
         const nc_color col = opt.doable ? c_white : c_light_gray;
 
-        const std::vector<std::string> tools = reqs.get_folded_tools_list( this, fold_width, col, inv );
+        const std::vector<std::string> tools = reqs.get_folded_tools_list( this, fold_width, col, inv,
+                                               opt.amount );
         const std::vector<std::string> comps = reqs.get_folded_components_list( this, fold_width, col, inv,
-                                               is_crafting_component );
+                                               is_crafting_component, opt.amount );
+
+        const std::string name = string_format( "%s (x%d)", fix.get_name(), opt.amount );
 
         std::string descr = word_rewrap( fix.get_description(), 80 ) + "\n\n";
 
@@ -688,7 +733,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         for( const std::string &line : comps ) {
             descr += line + "\n";
         }
-        menu.addentry_desc( -1, true, -1, fix.get_name(), colorize( descr, col ) );
+
+        menu.addentry_desc( -1, opt.doable, -1, name, colorize( descr, col ) );
 
     }
 
@@ -705,7 +751,8 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
         return false;
     }
 
-    assign_activity( fix_wound_activity_actor( opt.time_to_apply, bp_id, opt.wd, opt.fix ) );
+    assign_activity( fix_wound_activity_actor( opt.time_to_apply, bp_id, opt.wd, opt.fix,
+                     opt.amount ) );
 
     return true;
 }
