@@ -1462,44 +1462,91 @@
   {
     "type": "recipe",
     "result": "lc_steel_lump",
-    "charges": 1,
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "4 h",
-    "batch_time_factors": [ 90, 2 ],
+    "difficulty": 4,
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [
-      [ [ "budget_steel_lump", 1 ], [ "budget_steel_chunk", 4 ], [ "scrap", 20 ] ],
-      [ [ "coal_lump", 64 ], [ "charcoal", 40 ] ]
+    "using": [ [ "blacksmithing_standard_fileless", 20 ], [ "cementation", 20 ] ],
+    "components": [ [ [ "budget_steel_lump", 1 ], [ "budget_steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "ash", 100 ] ] ],
+    "byproducts": [ [ "ash", 100 ] ],
+    "steps": [
+      {
+        "name": "Heating up steel",
+        "time": "35 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+        "batch_time_factors": [ 90, 2 ]
+      },
+      {
+        "name": "Thinning stock",
+        "time": "50 m",
+        "activity_level": "BRISK_EXERCISE",
+        "qualities": [ { "id": "HAMMER", "level": 3 } ],
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Carburizing",
+        "time": "72 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "batch_time_factors": [ 90, 2 ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lc_steel_lump",
+    "id_suffix": "from_qt_steel",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
+    "using": [ [ "blacksmithing_standard_fileless", 20 ] ],
+    "components": [ [ [ "ch_steel_lump", 1 ], [ "ch_steel_chunk", 4 ] ], [ [ "ash", 100 ] ] ],
+    "byproducts": [ [ "ash", 100 ] ],
+    "steps": [
+      {
+        "name": "Heating up steel",
+        "time": "35 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Annealing",
+        "time": "10 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "batch_time_factors": [ 90, 2 ]
+      }
     ]
   },
   {
     "type": "recipe",
     "result": "mc_steel_lump",
-    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "6 h",
-    "batch_time_factors": [ 90, 2 ],
     "book_learn": [ [ "reference_fabrication1", 5 ], [ "welding_book", 5 ], [ "alloy_book", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "forge", 500 ] ] ],
-    "components": [
-      [
-        [ "budget_steel_lump", 1 ],
-        [ "lc_steel_lump", 1 ],
-        [ "budget_steel_chunk", 4 ],
-        [ "lc_steel_chunk", 4 ],
-        [ "scrap", 20 ]
-      ],
-      [ [ "coal_lump", 77 ], [ "charcoal", 48 ] ]
+    "using": [ [ "blacksmithing_standard_fileless", 20 ] ],
+    "components": [ [ [ "qt_steel_lump", 1 ], [ "qt_steel_chunk", 4 ] ], [ [ "ash", 100 ] ] ],
+    "byproducts": [ [ "ash", 100 ] ],
+    "steps": [
+      {
+        "name": "Heating up steel",
+        "time": "35 m",
+        "activity_level": "NO_EXERCISE",
+        "proficiencies": [ { "proficiency": "prof_metalworking" } ]
+      },
+      {
+        "name": "Annealing",
+        "time": "10 h",
+        "activity_level": "NO_EXERCISE",
+        "attention": "unattended",
+        "batch_time_factors": [ 90, 2 ]
+      }
     ]
   },
   {

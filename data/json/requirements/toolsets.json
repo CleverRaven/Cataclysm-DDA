@@ -659,6 +659,12 @@
     "tools": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "metal_tank", -1 ] ] ]
   },
   {
+    "id": "cementation",
+    "type": "requirement",
+    "//": "Cementation of steel",
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 2 ] ] ]
+  },
+  {
     "id": "smelting_standard",
     "type": "requirement",
     "tools": [
