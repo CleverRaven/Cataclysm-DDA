@@ -3848,23 +3848,24 @@ bool mattack::fixbot_spawner( monster *z )
     const bool u_see = get_player_view().sees( here, *z );
     int ally_count = 0;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->id == mon_LS_fixbot || candidate.type->id == mon_LS_spotbot || candidate.type->id == mon_LS_medbot ) {
+        if( candidate.type->id == mon_LS_fixbot || candidate.type->id == mon_LS_spotbot ||
+            candidate.type->id == mon_LS_medbot ) {
             ally_count++;
         }
     }
-    
+
     // 10 max allies
     constexpr int max_allies = 20;
     if( ally_count >= max_allies ) {
         return true;
     }
-    
+
     // pick the ally
     static const std::array<mtype_id, 3> robot_types = { mon_LS_fixbot, mon_LS_medbot, mon_LS_spotbot };
     const mtype_id &monster_type = random_entry( robot_types );
-    
+
     // spawn one
-    if (monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub( here ), 1 ) ) {
+    if( monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub( here ), 1 ) ) {
         // message if you see
         if( u_see ) {
             add_msg( m_warning,
@@ -3882,20 +3883,21 @@ bool mattack::fixbot_spawner_haywire( monster *z )
     const bool u_see = get_player_view().sees( here, *z );
     int ally_count = 0;
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->id == mon_LS_fixbot || candidate.type->id == mon_LS_spotbot || candidate.type->id == mon_LS_medbot ) {
+        if( candidate.type->id == mon_LS_fixbot || candidate.type->id == mon_LS_spotbot ||
+            candidate.type->id == mon_LS_medbot ) {
             ally_count++;
         }
     }
-    
+
     // 50 max allies
     constexpr int max_allies = 50;
     if( ally_count >= max_allies ) {
         return true;
     }
-    
+
     // spawn one
     const mtype_id &monster_type = mon_LS_fixbot_haywire;
-    if (monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub( here ), 1 ) ) {
+    if( monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub( here ), 1 ) ) {
         // message if you see
         if( u_see ) {
             add_msg( m_warning,

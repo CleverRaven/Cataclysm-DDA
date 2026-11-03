@@ -769,7 +769,7 @@
     "death_function": {
       "effect": { "id": "mon_LS_sparkgenerator_death", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "The %s crumbles to pieces!  Alarms screech quickly and loudly, then quiet and distorted, until finaly they go silent."
+      "message": "The %s crumbles to pieces!  Alarms screech quickly and loudly, then quiet and distorted, until finally they go silent."
     },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "BIOLOGICALPROOF", "STUN_IMMUNE", "IMMOBILE" ],

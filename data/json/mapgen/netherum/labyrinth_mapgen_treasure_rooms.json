@@ -176,10 +176,8 @@
           [ "t_marloss", 1 ]
         ]
       },
-      "place_loot": [
-        { "item": "bio_ar", "x": 4, "y": 4, "chance": 100 },
-        { "item": "anesthetic_kit", "x": 4, "y": 5, "chance": 100, "ammo": 100 }
-      ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 4, "y": 5, "chance": 100, "ammo": 100 } ],
+      "place_items": [ { "item": "LS_bionics", "x": 4, "y": 4 } ],
       "traps": { ">": "tr_slope_to_bosky_labyrinth" }
     }
   },
@@ -284,8 +282,7 @@
       "palettes": [ "labyrinthine_base_palette" ],
       "terrain": { ">": "t_nl_stairs_down" },
       "place_nested": [ { "chunks": [ [ "LS_10x10_teleports_fixbot-1", 1 ] ], "x": 0, "y": 0, "z": -1 } ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 0, 9 ], "y": [ 0, 9 ], "intensity": 4, "repeat": 500 } ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {

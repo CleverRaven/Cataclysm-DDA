@@ -926,7 +926,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "sparkgen",
-    "base_faction": "bot"
+    "base_faction": "bot",
+    "hate": [ "sparkgen_haywire" ]
   },
   {
     "type": "MONSTER_FACTION",
