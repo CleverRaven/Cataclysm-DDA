@@ -88,6 +88,11 @@
   },
   {
     "type": "mapgen",
+    "update_mapgen_id": "UM_LS_deadend_1_room_fixbot",
+    "object": { "place_nested": [ { "chunks": [ "LS_10x10_deadend_1_room_fixbot" ], "x": 7, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "labyrinth_nl_string_dimension_encounter",
     "object": { "place_monster": [ { "monster": "mon_fleshborg_2_3_string_dimension", "x": 11, "y": 11, "chance": 100 } ] }
   },
@@ -105,5 +110,10 @@
     "type": "mapgen",
     "update_mapgen_id": "labyrinth_portal_storm_hallway",
     "object": { "place_nested": [ { "chunks": [ "labyrinth_portal_storm_hallway" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_teleports_fixbot",
+    "object": { "place_nested": [ { "chunks": [ "LS_10x10_teleports_fixbot" ], "x": 7, "y": 10 } ] }
   }
 ]

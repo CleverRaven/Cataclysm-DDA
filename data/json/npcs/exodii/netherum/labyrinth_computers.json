@@ -307,6 +307,12 @@
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
       },
       {
+        "text": "Enter the Friends Forever Passcode to extend the bridge.",
+        "effect": [ { "math": [ "n_LS_bridge_requests = 1" ] }, { "u_lose_trait": "LS_Passcode_fixbot" } ],
+        "condition": { "and": [ { "math": [ "n_LS_bridge_requests < 1" ] }, { "u_has_trait": "LS_Passcode_fixbot" } ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode_fixbot"
+      },
+      {
         "text": "Try to extend the bridge to the treasure room.",
         "condition": { "math": [ "n_LS_bridge_requests < 1" ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
@@ -360,6 +366,18 @@
   },
   {
     "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_passcode_fixbot",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend --pass=\"<ls_passcode_fixbot>\"\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Are we still friends?\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "Log off.",
+        "effect": { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode_fixbot" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Retract",
     "dynamic_line": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
     "speaker_effect": { "effect": { "math": [ "n_LS_bridge_requests = 2" ] } }
@@ -402,6 +420,20 @@
         "topic": "TALK_DONE"
       },
       { "text": "Step away.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "EOC_LS_Computer_teleports_1",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green>This zone has been quarantined by AltarOS local.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "Extend the bridge.",
+        "condition": { "math": [ "nl_been_to_fixbot != 1" ] },
+        "effect": { "run_eocs": "EOC_LS_Bridge_control_teleports_fixbot" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "<color_light_green>Log off", "topic": "TALK_DONE" }
     ]
   }
 ]
