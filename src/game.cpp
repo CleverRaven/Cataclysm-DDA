@@ -8929,9 +8929,8 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
             std::move( ms.begin(), ms.end(),
                        std::back_inserter( temp ) );
             here.i_clear( fpos );
-            for( auto item_iter = dest.begin();
-                 item_iter != dest.end(); ++item_iter ) {
-                ms.insert( *item_iter );
+            for( item &item_iter : dest ) {
+                ms.insert( item_iter );
             }
             here.i_clear( fdest );
             for( item &cur_item : temp ) {
