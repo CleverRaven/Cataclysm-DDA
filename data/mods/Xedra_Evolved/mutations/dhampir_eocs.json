@@ -316,12 +316,12 @@
         { "u_has_trait": "DHAMPIR_TRAIT" },
         {
           "or": [
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+            { "u_bodypart_is_bleeding": "arm_l" },
+            { "u_bodypart_is_bleeding": "arm_r" },
+            { "u_bodypart_is_bleeding": "leg_l" },
+            { "u_bodypart_is_bleeding": "leg_r" },
+            { "u_bodypart_is_bleeding": "torso" },
+            { "u_bodypart_is_bleeding": "head" }
           ]
         },
         { "math": [ "u_vitamin('human_blood_vitamin') > -1000" ] }
