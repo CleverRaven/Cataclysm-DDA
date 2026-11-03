@@ -180,6 +180,50 @@
   },
   {
     "type": "terrain",
+    "id": "t_nl_obelisk_fixbot",
+    "copy-from": "t_nl_obelisk_0",
+    "name": "Obelisk1",
+    "description": "Obelisk",
+    "symbol": "A",
+    "color": "blue",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_LS_Obelisk_fixbot_have",
+          "condition": { "u_has_trait": "LS_Passcode_fixbot" },
+          "effect": [ { "u_message": "The obelisk is inert." } ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_fixbot_grant",
+          "condition": {
+            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_1" } } ]
+          },
+          "effect": [
+            {
+              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Friends Forever Passcode.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_fixbot" }
+          ]
+        },
+        {
+          "id": "EOC_LS_Obelisk_fixbot_firsttime",
+          "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
+          "effect": [
+            {
+              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As your eyes are drawn to it, you feel a burning sensation on your skin.  Burned onto your skin is a pair of circles with multi-articulated arms, holding hands to form a semi-circle; it's the 'Friends Forever Passcode'.",
+              "popup": true
+            },
+            { "u_add_trait": "LS_Passcode_fixbot" },
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_nl_obelisk_mission_boiler",
     "name": "Obelisk",
     "description": "A tall, drab grey, metallic pillar covered in swirling patterns.  You could Examine it closer to try and discern the shapes.",
@@ -623,6 +667,47 @@
     "move_cost": 2,
     "roof": "t_nl_roof",
     "looks_like": "t_scrap_floor",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_nl_chasm",
+      "str_min_supported": 100,
+      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_floor_fog",
+    "name": "scrap metal floor",
+    "description": "A floor assembled from various scraps of metal.  Though their placement seems random, you keep seeing spots where they form faces.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "looks_like": "t_nl_scrap_floor",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "sound": "SMASH!",
+      "ter_set": "t_nl_chasm",
+      "str_min_supported": 100,
+      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+    },
+    "emissions": [ "emit_fd_labyrinth_fog" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nl_scrap_floor_fixbot_tele_landing_pad",
+    "name": "scrap metal floor",
+    "description": "A floor assembled from various scraps of metal.  Though their placement seems random, you keep seeing spots where they form faces.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_nl_roof",
+    "looks_like": "t_nl_scrap_floor",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 50,

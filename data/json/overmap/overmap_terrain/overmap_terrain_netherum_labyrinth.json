@@ -144,5 +144,21 @@
     "type": "overmap_location",
     "id": "labyrinth2",
     "terrains": [ "labyrinth2" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "labyrinthian structures",
+    "id": [
+      "labyrinth_sparkgen_UL",
+      "labyrinth_sparkgen_UR",
+      "labyrinth_sparkgen_LL",
+      "labyrinth_sparkgen_LR",
+      "labyrinth_sparkgen_LC",
+      "labyrinth_sparkgen_UC"
+    ],
+    "sym": "+",
+    "color": "light_red",
+    "see_cost": "high",
+    "travel_cost_type": "impassable"
   }
 ]

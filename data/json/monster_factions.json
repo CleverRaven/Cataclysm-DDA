@@ -922,5 +922,17 @@
     "type": "MONSTER_FACTION",
     "name": "beetle_solar",
     "base_faction": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "sparkgen",
+    "base_faction": "bot",
+    "hate": [ "sparkgen_haywire" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "sparkgen_haywire",
+    "base_faction": "bot",
+    "hate": [ "sparkgen" ]
   }
 ]
