@@ -1238,7 +1238,7 @@
     "cooldown": 10,
     "move_cost": 120,
     "range": 2,
-    "damage_max_instance": [ { "damage_type": "bash", "amount": 210, "armor_penetration": 15 } ],
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 180, "armor_penetration": 25 } ],
     "//0": "Armour penetration is there so tempered plate armour can't completely block it, and so it also doesn't do more than half of your hp in one hit without armour.",
     "min_mul": 0.8,
     "throw_strength": 86,
@@ -1252,7 +1252,7 @@
       ]
     },
     "self_effects_always": [ { "id": "effect_skeleton_hulk_charge_removal", "duration": 2 } ],
-    "hit_dmg_u": "%1$s slams its gigantic club arm into your %2$s!",
+    "hit_dmg_u": "%1$s slams its gigantic club arm into you!",
     "hit_dmg_npc": "%1$s slams its gigantic club arm into <npcname>!",
     "no_dmg_msg_u": "%1$s slams its gigantic club arm into your %2$s, but your armour absorbs it.",
     "no_dmg_msg_npc": "%1$s slams its gigantic club arm into <npcname>, but they appear unharmed.",

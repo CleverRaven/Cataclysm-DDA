@@ -130,7 +130,8 @@
         "condition": {
           "and": [
             { "math": [ "n_val('size') <= 4" ] },
-            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" }, "not": { "u_has_effect": "maimed_arm" } }
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
           ]
         }
       },
@@ -140,7 +141,8 @@
         "condition": {
           "and": [
             { "math": [ "n_val('size') == 5" ] },
-            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" }, "not": { "u_has_effect": "maimed_arm" } }
+            { "not": { "u_has_effect": "effect_skeleton_hulk_charge_up" } },
+            { "not": { "u_has_effect": "maimed_arm" } }
           ]
         }
       },
