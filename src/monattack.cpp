@@ -176,6 +176,8 @@ static const morale_type morale_support( "morale_support" );
 
 static const mtype_id mon_LS_fixbot( "mon_LS_fixbot" );
 static const mtype_id mon_LS_fixbot_haywire( "mon_LS_fixbot_haywire" );
+static const mtype_id mon_LS_spotbot( "mon_LS_spotbot" );
+static const mtype_id mon_LS_medbot( "mon_LS_medbot" );
 static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
 static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_biollante( "mon_biollante" );
@@ -199,8 +201,6 @@ static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
 static const mtype_id mon_leech_root_drone( "mon_leech_root_drone" );
 static const mtype_id mon_leech_root_runner( "mon_leech_root_runner" );
 static const mtype_id mon_leech_stalk( "mon_leech_stalk" );
-static const mtype_id mon_LS_spotbot( "mon_LS_spotbot" );
-static const mtype_id mon_LS_medbot( "mon_LS_medbot" );
 static const mtype_id mon_nursebot_defective( "mon_nursebot_defective" );
 static const mtype_id mon_triffid( "mon_triffid" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
