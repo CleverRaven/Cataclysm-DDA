@@ -49,7 +49,7 @@
     "mixed_effect": true,
     "description": "Your skin is completely replaced by magickal water.  You have become immune to acid effects.",
     "types": [ "SKIN" ],
-    "flags": [ "ACID_IMMUNE" ],
+    "flags": [ "ACID_IMMUNE", "BRUISE_IMMUNE" ],
     "prereqs": [ "UNDINE_SKIN_2" ],
     "threshreq": [ "THRESH_UNDINE" ],
     "category": [ "UNDINE" ],
@@ -66,8 +66,7 @@
       { "part": "hand_r", "good": 5 },
       { "part": "torso", "good": 40 }
     ],
-    "integrated_armor": [ "integrated_wave_skin" ],
-    "flags": [ "BRUISE_IMMUNE" ]
+    "integrated_armor": [ "integrated_wave_skin" ]
   },
   {
     "type": "mutation",
