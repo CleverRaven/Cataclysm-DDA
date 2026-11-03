@@ -176,8 +176,8 @@ static const morale_type morale_support( "morale_support" );
 
 static const mtype_id mon_LS_fixbot( "mon_LS_fixbot" );
 static const mtype_id mon_LS_fixbot_haywire( "mon_LS_fixbot_haywire" );
-static const mtype_id mon_LS_spotbot( "mon_LS_spotbot" );
 static const mtype_id mon_LS_medbot( "mon_LS_medbot" );
+static const mtype_id mon_LS_spotbot( "mon_LS_spotbot" );
 static const mtype_id mon_amalgamation_breather( "mon_amalgamation_breather" );
 static const mtype_id mon_amalgamation_breather_hub( "mon_amalgamation_breather_hub" );
 static const mtype_id mon_biollante( "mon_biollante" );
