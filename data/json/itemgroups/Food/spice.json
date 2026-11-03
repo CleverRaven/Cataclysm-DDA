@@ -650,7 +650,7 @@
     "id": "seasoning_italian_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 50, 190 ] } ]
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 50, 178 ] } ]
   },
   {
     "type": "item_group",
@@ -760,7 +760,7 @@
     "id": "curry_powder_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 20, 190 ] } ]
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": [ 20, 178 ] } ]
   },
   {
     "type": "item_group",
@@ -958,7 +958,7 @@
     "id": "chilly-p_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 25, 190 ] } ]
+    "entries": [ { "item": "chilly-p", "container-item": "null", "count": [ 25, 178 ] } ]
   },
   {
     "type": "item_group",
@@ -1028,7 +1028,7 @@
     "id": "garlic_powder_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 192 ] } ]
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 178 ] } ]
   },
   {
     "type": "item_group",
@@ -1145,7 +1145,7 @@
     "id": "cinnamon_organizer_tiny",
     "subtype": "collection",
     "container-item": "plastic_organizer_tiny",
-    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 25, 190 ] } ]
+    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 25, 178 ] } ]
   },
   {
     "type": "item_group",

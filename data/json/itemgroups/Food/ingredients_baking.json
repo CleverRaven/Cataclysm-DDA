@@ -265,7 +265,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "plastic_organizer_medium",
-    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 1, 22 ] } ]
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": [ 1, 21 ] } ]
   },
   {
     "id": "bread_flour_organizer_large",
