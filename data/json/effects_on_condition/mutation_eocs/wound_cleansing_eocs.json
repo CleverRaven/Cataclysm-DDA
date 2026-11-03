@@ -291,6 +291,34 @@
               { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "laceration_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_laceration_bad" }
             ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "stab_small" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "stab_small" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_stab_small" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "stab_medium" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "stab_medium" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_stab_medium" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "stab_bad" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "stab_bad" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_stab_bad" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "stab_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "stab_terrible" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_stab_terrible" }
+            ]
           }
         ]
       }
@@ -344,6 +372,34 @@
             "then": [
               { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_laceration_bad" ] },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "laceration_bad" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_stab_small" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_stab_small" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "stab_small" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_stab_medium" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_stab_medium" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "stab_medium" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_stab_bad" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_stab_bad" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "stab_bad" }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "bleeding_stab_terrible" ], "bodypart": { "context_val": "bodypart" } },
+            "then": [
+              { "u_remove_wound": { "context_val": "bodypart" }, "wound_id": [ "bleeding_stab_terrible" ] },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "stab_terrible" }
             ]
           }
         ]
