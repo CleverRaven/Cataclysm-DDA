@@ -2995,10 +2995,10 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
             }
 
             // Clamp sel_response (There is probably a better existing way to do this, but it's simple so I'm just reimplementing)
-            if( d_img.sel_response >= static_cast<int>( response_hotkeys.size() ) ) {
-                d_img.sel_response = static_cast<int>( response_hotkeys.size() - 1 );
-            } else if( d_img.sel_response < 0 ) {
+            if( d_img.sel_response >= static_cast<int>( response_ind ) ) {
                 d_img.sel_response = 0;
+            } else if( d_img.sel_response < 0 ) {
+                d_img.sel_response = static_cast<int>( response_ind ) - 1;
             }
 
         } while( response_ind >= response_hotkeys.size() ||
