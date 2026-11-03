@@ -19,6 +19,7 @@
       "ravine_floor_edge",
       "mom_shoggothed_world_default",
       "standing_stones_highlands",
+      "highland.*",
       "highlands",
       "highland_crypt_above",
       "highland_crypt_surface",
