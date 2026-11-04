@@ -3150,5 +3150,10 @@
     "id": "CANNOT_GAIN_WEARINESS",
     "type": "json_flag",
     "info": "You have a seemingly inexhaustible supply of energy."
+  },
+  {
+    "id": "BRUISE_IMMUNE",
+    "type": "json_flag",
+    "info": "You cannot suffer from bruise wounds."
   }
 ]

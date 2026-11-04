@@ -22,6 +22,7 @@
       { "score": "footing", "value": 0 },
       { "score": "move_speed", "value": 0 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -48,6 +49,7 @@
       { "score": "footing", "value": 0.05 },
       { "score": "move_speed", "value": 0.03 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -74,6 +76,7 @@
       { "score": "footing", "value": 0.15 },
       { "score": "move_speed", "value": 0.1 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -100,6 +103,7 @@
       { "score": "footing", "value": 0.25 },
       { "score": "move_speed", "value": 0.2 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
