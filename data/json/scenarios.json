@@ -834,6 +834,7 @@
     "reveal_locale": false,
     "distance_initial_visibility": 0,
     "origin_offset": [ 10, 0 ],
+    "eoc": [ "EOC_START_SCARLET_STORM_SCENARIO_ADJUST_EAST" ],
     "flags": [ "LONE_START", "STANDARD" ]
   },
   {
