@@ -1,5 +1,13 @@
 [
   {
+    "id": "stable_explosives_10ml",
+    "type": "requirement",
+    "//": "10 ml of explosive filler material for bomb casings",
+    "components": [
+      [ [ "chem_compositionb", 10 ], [ "chem_rdx", 10 ] ]
+    ]
+  },
+  {
     "id": "flammable_liquid",
     "type": "requirement",
     "//": "This should contain all flammable liquids. 1 mL.",

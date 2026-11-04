@@ -435,7 +435,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "stable_explosive", 29 ], [ "volatile_explosive", 1 ] ],
+    "using": [ [ "stable_explosives_10ml", 29 ], [ "volatile_explosive", 1 ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
