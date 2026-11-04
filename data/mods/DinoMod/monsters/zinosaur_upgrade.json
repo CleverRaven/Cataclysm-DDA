@@ -3368,7 +3368,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_skarahsaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3390,7 +3390,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sanchisaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3412,7 +3412,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sissi_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3444,7 +3444,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_soabosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3476,7 +3476,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_saplocanthosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3508,7 +3508,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_samargasaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 8, "bullet": 6, "bash": 0 }
   },
@@ -3560,8 +3560,7 @@
       },
       [ "tailsmash_long_DinoMod", 30 ]
     ],
-    "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail.",
-    "upgrades": { "half_life": 60, "into": "mon_srontosaurus_brute" }
+    "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
   },
   {
     "type": "MONSTER",
@@ -3591,7 +3590,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_siplodocus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3623,7 +3622,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sarosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -3644,7 +3643,7 @@
       [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body.",
-    "upgrades": { "half_life": 60, "into": "mon_samarasaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3663,7 +3662,7 @@
       [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body.",
-    "upgrades": { "half_life": 60, "into": "mon_srachiosaurus_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3682,7 +3681,7 @@
       [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body.",
-    "upgrades": { "half_life": 60, "into": "mon_sastrodon_brute" }
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" }
   },
   {
     "type": "MONSTER",
@@ -3712,7 +3711,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_salamosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sapatosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 19, "bullet": 3, "bash": 0 }
   },
@@ -3770,7 +3769,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sesperosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sktegosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 15, "bullet": 2, "bash": 0 }
   },
@@ -3799,7 +3798,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sastonia_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3828,7 +3827,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sargoyleosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 13, "bullet": 6, "bash": 0 }
   },
@@ -3857,7 +3856,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_skauropelta_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3886,7 +3885,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sodosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3915,7 +3914,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sanoplosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3944,7 +3943,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_sedmontonia_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 23, "bullet": 11, "bash": 0 }
   },
@@ -3973,7 +3972,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_suul_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4002,7 +4001,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_syoplosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4061,7 +4060,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_zuoplocephalus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4090,7 +4089,7 @@
       "prof_wp_nat_armored",
       "prof_wp_skeleton"
     ],
-    "upgrades": { "half_life": 60, "into": "mon_skcolosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sankylosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 21, "bullet": 7, "bash": 0 }
   },
@@ -4134,7 +4133,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_senontosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sryosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 4, "bullet": 2, "bash": 0 }
   },
@@ -4200,7 +4199,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_seolambia_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4244,7 +4243,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_saiasaura_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4266,7 +4265,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sryposaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4288,7 +4287,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_srosaurolophus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4310,7 +4309,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_skaurolophus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4332,7 +4331,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sedmontosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4354,7 +4353,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sarasaurolophus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 7, "bullet": 4, "bash": 0 }
   },
@@ -4376,7 +4375,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sambeosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4398,7 +4397,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sorythosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -4420,7 +4419,7 @@
     },
     "bleed_rate": 50,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": { "half_life": 60, "into": "mon_sypacrosaurus_brute" },
+    "upgrades": { "half_life": 60, "into": "mon_sadrosaurus_brute" },
     "harvest": "mr_bones",
     "armor": { "cut": 6, "bullet": 4, "bash": 0 }
   },
@@ -5576,138 +5575,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_skarahsaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_skarahsaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sanchisaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_sanchisaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sissi_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_sissi",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_soabosaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_soabosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_saplocanthosaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_saplocanthosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_samargasaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_samargasaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sapatosaurus_brute",
     "name": { "str": "skeletal sauropod brute" },
     "copy-from": "mon_sapatosaurus",
@@ -5747,116 +5614,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L"
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_srontosaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_srontosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_siplodocus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_siplodocus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_samarasaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_samarasaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sastrodon_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_sastrodon",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_salamosaurus_brute",
-    "name": { "str": "skeletal sauropod brute" },
-    "copy-from": "mon_salamosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sapatosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
   },
   {
     "type": "MONSTER",
@@ -5902,204 +5659,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_sesperosaurus_brute",
-    "name": { "str": "skeletal stegosaur brute" },
-    "copy-from": "mon_sesperosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh and jut from its broad back.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sktegosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sastonia_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_sastonia",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sargoyleosaurus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_sargoyleosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_skauropelta_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_skauropelta",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sodosaurus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_sodosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sanoplosaurus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_sanoplosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sedmontonia_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_sedmontonia",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_suul_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_suul",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_syoplosaurus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_syoplosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sankylosaurus_brute",
     "name": { "str": "skeletal ankylosaur brute" },
     "copy-from": "mon_sankylosaurus",
@@ -6142,50 +5701,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_suoplocephalus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_suoplocephalus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_skcolosaurus_brute",
-    "name": { "str": "skeletal ankylosaur brute" },
-    "copy-from": "mon_skcolosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_samptosaurus_brute",
     "name": { "str": "skeletal ankylopollexian brute" },
     "copy-from": "mon_samptosaurus",
@@ -6225,28 +5740,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L"
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_senontosaurus_brute",
-    "name": { "str": "skeletal dryosaurid brute" },
-    "copy-from": "mon_senontosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sankylosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
   },
   {
     "type": "MONSTER",
@@ -6334,28 +5827,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_seolambia_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_seolambia",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sadrosaurus_brute",
     "name": { "str": "skeletal hadrosauroid brute" },
     "copy-from": "mon_sadrosaurus",
@@ -6395,204 +5866,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L"
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_saiasaura_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_saiasaura",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sryposaurus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sryposaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_srosaurolophus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_srosaurolophus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_skaurolophus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_skaurolophus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sedmontosaurus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sedmontosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sarasaurolophus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sarasaurolophus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sambeosaurus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sambeosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sorythosaurus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sorythosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_sypacrosaurus_brute",
-    "name": { "str": "skeletal hadrosauroid brute" },
-    "copy-from": "mon_sypacrosaurus",
-    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh.  Joints and cracks around its body ooze with black goo.",
-    "proportional": { "hp": 5 },
-    "relative": {
-      "melee_dice": -1,
-      "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-      "vision_day": 35,
-      "vision_night": 3,
-      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
-    },
-    "bleed_rate": 0,
-    "upgrades": { "half_life": 48, "into": "mon_sadrosaurus_hulk" },
-    "special_attacks": [
-      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ]
   },
   {
     "type": "MONSTER",
