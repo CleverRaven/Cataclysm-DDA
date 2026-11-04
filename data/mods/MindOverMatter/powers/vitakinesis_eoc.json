@@ -1047,7 +1047,7 @@
             "then": { "math": [ "u_hp(_id) += max(( 1 * psionic_power_modifiers() ), 1)" ] }
           },
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "if": { "u_bodypart_is_bleeding": { "context_val": "id" } },
             "then": { "u_add_effect": "bleed", "target_part": { "context_val": "id" }, "duration": 0, "intensity": -1 }
           }
         ]
