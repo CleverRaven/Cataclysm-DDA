@@ -1217,7 +1217,7 @@
     "difficulty": 1,
     "autolearn": true,
     "time": "5 m",
-    "components": [ [ [ "fuse", 1 ] ], [ [ "duct_tape", 5 ] ], [ ["matches", 1 ], [ "ref_matches", 1 ] ], [ [ "match" 2 ] ], [ [ "cardboard" 2 ], [ "cable" 1 ], [ "copper_wire" 1 ] ] ]
+    "components": [ [ [ "fuse", 1 ] ], [ [ "duct_tape", 5 ] ], [ ["matches", 1 ], [ "ref_matches", 1 ] ], [ [ "match", 2 ] ], [ [ "cardboard", 2 ], [ "cable", 1 ], [ "copper_wire", 1 ] ] ]
   },
   {
     "result": "lc_wire",
