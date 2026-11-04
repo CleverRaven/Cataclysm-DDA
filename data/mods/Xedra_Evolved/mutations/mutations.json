@@ -758,6 +758,31 @@
     "active_flags": [ "SUNBURN_SUPERNATURAL_REDUCTION" ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "beta_is_bleeding",
+    "//": "todo: check mutated body parts, when eoc will support it better",
+    "condition": {
+      "or": [
+        { "npc_has_effect": "bleed" },
+        {
+          "and": [
+            "npc_is_character",
+            {
+              "or": [
+                { "npc_bodypart_is_bleeding": "head" },
+                { "npc_bodypart_is_bleeding": "torso" },
+                { "npc_bodypart_is_bleeding": "arm_l" },
+                { "npc_bodypart_is_bleeding": "arm_r" },
+                { "npc_bodypart_is_bleeding": "leg_l" },
+                { "npc_bodypart_is_bleeding": "leg_r" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "type": "mutation",
     "id": "VAMPIRE_HEIGHTENED_SENSES",
     "points": 2,
@@ -777,26 +802,7 @@
               "and": [
                 { "math": [ "vampire_total_tier_three_traits() >= 1" ] },
                 { "math": [ "u_val('perception') >= 16" ] },
-                {
-                  "or": [
-                    { "npc_has_effect": "bleed" },
-                    {
-                      "and": [
-                        "npc_is_character",
-                        {
-                          "or": [
-                            { "npc_has_effect": "bleed", "bodypart": "head" },
-                            { "npc_has_effect": "bleed", "bodypart": "torso" },
-                            { "npc_has_effect": "bleed", "bodypart": "arm_l" },
-                            { "npc_has_effect": "bleed", "bodypart": "arm_r" },
-                            { "npc_has_effect": "bleed", "bodypart": "leg_l" },
-                            { "npc_has_effect": "bleed", "bodypart": "leg_r" }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
+                { "test_eoc": "beta_is_bleeding" }
               ]
             },
             "distance": { "math": [ "u_val('perception') * 2" ] },

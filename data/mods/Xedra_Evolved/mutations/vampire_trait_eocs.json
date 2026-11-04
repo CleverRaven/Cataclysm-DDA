@@ -2994,27 +2994,27 @@
       { "if": { "math": [ "u_hp('torso') < u_hp_max('torso')" ] }, "then": { "math": [ "u_hp('torso') += 1" ] } },
       { "if": { "math": [ "u_hp('head') < u_hp_max('head')" ] }, "then": { "math": [ "u_hp('head') += 1" ] } },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "arm_l" },
         "then": { "u_add_effect": "bleed", "target_part": "arm_l", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "arm_r" },
         "then": { "u_add_effect": "bleed", "target_part": "arm_r", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "leg_l" },
         "then": { "u_add_effect": "bleed", "target_part": "leg_l", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "leg_r" },
         "then": { "u_add_effect": "bleed", "target_part": "leg_r", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "torso" },
         "then": { "u_add_effect": "bleed", "target_part": "torso", "duration": 0, "intensity": -1 }
       },
       {
-        "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] },
+        "if": { "u_bodypart_is_bleeding": "head" },
         "then": { "u_add_effect": "bleed", "target_part": "head", "duration": 0, "intensity": -1 }
       }
     ]

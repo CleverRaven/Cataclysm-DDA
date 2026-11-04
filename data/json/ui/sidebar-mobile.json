@@ -535,37 +535,22 @@
     "width": 6,
     "style": "symbol",
     "clauses": [
-      {
-        "id": "1bleeding0",
-        "sym": "▮",
-        "color": "h_black",
-        "condition": { "not": { "u_has_effect": "bleed", "intensity": 1 } }
-      },
+      { "id": "1bleeding0", "sym": "▮", "color": "h_black", "condition": { "not": "u_is_bleeding" } },
       {
         "id": "1bleeding1",
         "sym": "│",
         "color": "h_light_red",
-        "condition": {
-          "and": [ { "u_has_effect": "bleed", "intensity": 1 }, { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 11" ] } ]
-        }
+        "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       {
         "id": "1bleeding2",
         "sym": "║",
         "color": "h_red",
         "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 11 },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget) < 21" ] }
-          ]
+          "and": [ { "u_is_bleeding": "MAJOR" }, { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "CRITICAL" } ]
         }
       },
-      {
-        "id": "1bleeding3",
-        "sym": "║",
-        "color": "c_red_red",
-        "condition": { "u_has_effect": "bleed", "intensity": 21 }
-      },
+      { "id": "1bleeding3", "sym": "║", "color": "c_red_red", "condition": { "u_is_bleeding": "CRITICAL" } },
       { "id": "2bandaged", "sym": "@", "color": "h_white", "condition": { "u_has_effect": "bandaged" } },
       { "id": "2intact", "sym": "▮", "color": "h_black", "condition": { "not": { "u_has_effect": "bandaged" } } },
       { "id": "3bitten", "sym": "⣿", "color": "h_red", "condition": { "u_has_effect": "bite" } },
