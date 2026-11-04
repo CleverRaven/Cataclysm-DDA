@@ -51,7 +51,6 @@
         [ "diesel", 125 ],
         [ "chem_ethanol", 125 ],
         [ "chem_methanol", 125 ],
-        [ "methed_alcohol", 125 ],
         [ "denat_alcohol", 125 ],
         [ "chem_acetone", 1 ],
         [ "chem_chloroform", 125 ],
@@ -613,6 +612,12 @@
     "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ], [ "belt_grinder", 25 ] ] ]
   },
   {
+    "id": "metal_polish_any",
+    "type": "requirement",
+    "name": "Metal Polishing Tools",
+    "tools": [ [ [ "polisher", 25 ], [ "dremel", 25 ], [ "belt_grinder", 25 ] ] ]
+  },
+  {
     "id": "nm_teeth_removal",
     "type": "requirement",
     "//": "Something able to do fine cuts, allowing to extract small teeth without damaging them",
@@ -652,6 +657,12 @@
     "type": "requirement",
     "//": "Quenching hot metal items",
     "tools": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "metal_tank", -1 ] ] ]
+  },
+  {
+    "id": "cementation",
+    "type": "requirement",
+    "//": "Cementation of steel",
+    "tools": [ [ [ "metal_tank", -1 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 2 ] ] ]
   },
   {
     "id": "smelting_standard",

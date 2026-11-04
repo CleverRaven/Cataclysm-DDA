@@ -122,6 +122,19 @@
     ]
   },
   {
+    "id": "afs_recoiless_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "84x246mm_he", 6 ],
+      [ "84x246mm_cluster", 6 ],
+      [ "84x246mm_sdart", 2 ],
+      [ "84x246mm_heat", 6 ],
+      [ "84x246mm_smoke", 4 ],
+      [ "84x246mm_slug", 4 ]
+    ]
+  },
+  {
     "id": "afs_any_ballistic_h_ammo",
     "type": "item_group",
     "subtype": "distribution",

@@ -1,18 +1,157 @@
 [
   {
     "type": "recipe",
+    "result": "tea",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_raw", 1 ], [ "tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_sweetened",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sugar_standard_half", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_green",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "herbal_tea",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "herbal_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_fruit",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelion_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chamomile_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pine_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "pine_bough", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelion_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelionburdock_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chamomile_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "skills_required": [ "survival", 1 ],
+    "components": [ [ [ "chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "lotus_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "skills_required": [ "survival", 1 ],
+    "charges": 4,
+    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "spurge_tea",
+    "copy-from": "abstract_tea",
+    "difficulty": 1,
+    "autolearn": true,
+    "skills_required": [ "survival", 1 ],
+    "components": [ [ [ "spurge", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bee_balm_tea",
+    "copy-from": "abstract_tea",
+    "autolearn": true,
+    "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_wild_sarsaparilla",
+    "copy-from": "abstract_tea_with_chop",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 4,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "wild_sarsaparilla_root", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "tea_willowbark",
-    "activity_level": "NO_EXERCISE",
+    "copy-from": "abstract_tea_with_chop",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "autolearn": true,
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "willowbark", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chicory_coffee",
+    "copy-from": "abstract_tea_with_chop",
+    "difficulty": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "skills_required": [ "survival", 5 ],
-    "difficulty": 4,
-    "time": "12 m",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "willowbark", 1 ] ] ]
+    "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_bark",
+    "copy-from": "abstract_tea_with_chop",
+    "skills_required": [ "survival", 6 ],
+    "autolearn": true,
+    "difficulty": 5,
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "tanbark", 2 ] ] ]
   }
 ]

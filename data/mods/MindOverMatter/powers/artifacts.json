@@ -911,7 +911,37 @@
     "min_damage": -5,
     "max_damage": -10,
     "message": "You feel healed.",
-    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true } ]
+    "extra_effects": [ { "id": "mom_aea_artifact_calorie_hit", "hit_self": true }, { "id": "MoM_AEA_MAJOR_HEAL_WOUNDS", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "MoM_AEA_MAJOR_HEAL_WOUNDS",
+    "name": { "str": "Artifact Heal Wound", "//~": "NO_I18N" },
+    "description": { "str": "Will heal wounds on one limb.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MoM_AEA_MAJOR_HEAL_WOUNDS",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "base_casting_time": 100,
+    "message": "Your wounds close."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MoM_AEA_MAJOR_HEAL_WOUNDS",
+    "effect": [
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          {
+            "run_eocs": "EOC_GENERIC_SUPERNATURAL_WOUND_HEALING",
+            "variables": { "bodypart": { "context_val": "bodypart" }, "minimum_healing_pool": 25, "maximum_healing_pool": 120 }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "SPELL",

@@ -51,10 +51,10 @@ flexbuffer_cache &cache_for_save( const cata_path &path )
     auto path_it = path.get_relative_path().begin();
     // First path element is the world name
     std::filesystem::path worldname_path = *path_it;
-    std::string worldname_str = worldname_path.u8string();
+    std::string worldname_str = from_u8string( worldname_path.u8string() );
     ++path_it;
     // Next element is either a file, a character folder, or the maps folder
-    std::string folder_or_file = path_it->u8string();
+    std::string folder_or_file = from_u8string( path_it->u8string() );
     ++path_it;
 
     auto it = save_caches.find( worldname_str );
@@ -134,13 +134,12 @@ JsonValue json_loader::from_path_at_offset( const cata_path &source_file,
 {
     std::filesystem::path unrelative_path = source_file.get_unrelative_path();
     if( !file_exist( unrelative_path ) ) {
-        throw JsonError( unrelative_path.generic_u8string() + " does not exist." );
+        throw JsonError( fmt::format( "{} does not exist.", unrelative_path ) );
     }
     auto obj = from_path_at_offset_opt_impl( source_file, offset );
 
     if( !obj ) {
-        throw JsonError( "Json file " + unrelative_path.generic_u8string() +
-                         " did not contain valid json" );
+        throw JsonError( fmt::format( "Json file {} did not contain valid json", unrelative_path ) );
     }
     return std::move( *obj );
 }

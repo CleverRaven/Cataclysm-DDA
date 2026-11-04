@@ -695,6 +695,8 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
     add_hardcoded_attack( "LEECH_SPAWNER", mattack::leech_spawner );
     add_hardcoded_attack( "MON_LEECH_EVOLUTION", mattack::mon_leech_evolution );
+    add_hardcoded_attack( "FIXBOT_SPAWNER", mattack::fixbot_spawner );
+    add_hardcoded_attack( "FIXBOT_SPAWNER_HAYWIRE", mattack::fixbot_spawner_haywire );
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
     add_hardcoded_attack( "BIO_OP_BIOJUTSU", mattack::bio_op_random_biojutsu );

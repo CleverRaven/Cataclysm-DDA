@@ -630,7 +630,8 @@
         "u_roll_remainder": [
           "changeling_spring_growing_plants_spell",
           "changeling_spring_prevent_bad_conditions_spell",
-          "changeling_spring_summon_flower_warriors_spell"
+          "changeling_spring_summon_flower_warriors_spell",
+          "changeling_spring_heal_minor_wounds_spell"
         ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",

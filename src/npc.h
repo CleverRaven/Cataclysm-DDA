@@ -45,7 +45,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class Creature;
 class JsonObject;
@@ -1316,6 +1316,7 @@ class npc : public Character
         }
         npc_action address_player();
         npc_action long_term_goal_action();
+        // game comfort at p, which decides how soon the NPC falls asleep there
         int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
@@ -1932,8 +1933,16 @@ class npc : public Character
         need_result settle_here();
         bool try_fall_asleep_now();
         void reconcile_sleep_session();
-        // comfort, less up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
-        int score_sleep_spot( const tripoint_bub_ms &p );
+        // what NPC compares between sleep spots, most important first
+        struct sleep_spot_rank {
+            int comfort = 0;
+            // up to 5 for light above LIGHT_AMBIENT_LIT, which can wake a sleeper
+            int sun_penalty = 0;
+            // rest quality counts floor warmth for every sleeper
+            units::temperature_delta warmth = 0_C_delta;
+            bool operator>( const sleep_spot_rank &other ) const;
+        };
+        sleep_spot_rank score_sleep_spot( const tripoint_bub_ms &p );
         npc_sleep_session sleep_session;
         std::optional<npc_suspended_task> suspended_task;
 

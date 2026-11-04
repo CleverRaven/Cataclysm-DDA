@@ -22,6 +22,7 @@
       { "score": "footing", "value": 0 },
       { "score": "move_speed", "value": 0 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -48,6 +49,7 @@
       { "score": "footing", "value": 0.05 },
       { "score": "move_speed", "value": 0.03 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -74,6 +76,7 @@
       { "score": "footing", "value": 0.15 },
       { "score": "move_speed", "value": 0.1 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -100,6 +103,7 @@
       { "score": "footing", "value": 0.25 },
       { "score": "move_speed", "value": 0.2 }
     ],
+    "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
@@ -113,6 +117,7 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 20, 25 ],
     "pain": [ 14, 20 ],
+    "severity": "MAJOR",
     "wound_progression": [ { "id": "laceration_bad", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
@@ -126,7 +131,7 @@
       { "score": "move_speed", "value": 0.2 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "6 seconds", "amount": 8 },
+      { "type": "BLEED", "rate": "6 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
@@ -144,6 +149,7 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 26, 34 ],
     "pain": [ 20, 26 ],
+    "severity": "MAJOR",
     "limb_scores": [
       { "score": "manip", "value": 0.4 },
       { "score": "block", "value": 0.4 },
@@ -156,7 +162,7 @@
       { "score": "move_speed", "value": 0.35 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "3 seconds", "amount": 10 },
+      { "type": "BLEED", "rate": "3 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -11 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -11 }
     ],
@@ -188,7 +194,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
   },
   {
     "id": "bone_broken",
@@ -213,7 +219,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
   },
   {
     "id": "bone_broken_healing_good",

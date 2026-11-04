@@ -61,6 +61,7 @@
     "damage_types": [ "cut" ],
     "damage_required": [ 15, 19 ],
     "pain": [ 17, 24 ],
+    "severity": "MAJOR",
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
@@ -73,7 +74,7 @@
       { "score": "move_speed", "value": 0.1 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "5 seconds", "amount": 10 },
+      { "type": "BLEED", "rate": "5 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
@@ -91,6 +92,7 @@
     "damage_types": [ "cut" ],
     "damage_required": [ 15, 19 ],
     "pain": [ 10, 14 ],
+    "severity": "MAJOR",
     "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 80 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
@@ -104,7 +106,7 @@
       { "score": "move_speed", "value": 0.1 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "5 seconds", "amount": 8 },
+      { "type": "BLEED", "rate": "5 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -8 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -8 }
     ],
@@ -122,6 +124,7 @@
     "damage_types": [ "cut" ],
     "damage_required": [ 20, 30 ],
     "pain": [ 15, 19 ],
+    "severity": "CRITICAL",
     "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 80 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
@@ -135,7 +138,7 @@
       { "score": "move_speed", "value": 0.2 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "2 seconds", "amount": 13 },
+      { "type": "BLEED", "rate": "2 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -13 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -13 }
     ],
@@ -154,6 +157,7 @@
     "damage_required": [ 31, 60 ],
     "//0": "change the max damage required after more wounds are added that have a higher min damage",
     "pain": [ 15, 19 ],
+    "severity": "CRITICAL",
     "limb_scores": [
       { "score": "manip", "value": 0.4 },
       { "score": "block", "value": 0.4 },
@@ -166,7 +170,7 @@
       { "score": "move_speed", "value": 0.4 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "1 seconds", "amount": 19 },
+      { "type": "BLEED", "rate": "1 seconds" },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -18 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -18 }
     ],

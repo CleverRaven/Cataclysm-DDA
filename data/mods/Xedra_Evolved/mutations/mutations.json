@@ -741,7 +741,8 @@
           { "type": "stab", "multiply": -0.02 },
           { "type": "cut", "multiply": -0.03 },
           { "type": "bullet", "multiply": -0.08 }
-        ]
+        ],
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -3 }, { "type": "cut", "add": -2 }, { "type": "stab", "add": -1 } ]
       },
       {
         "condition": { "u_has_trait": "VAMPIRE4" },
@@ -750,7 +751,8 @@
           { "type": "stab", "multiply": -0.02 },
           { "type": "cut", "multiply": -0.03 },
           { "type": "bullet", "multiply": -0.08 }
-        ]
+        ],
+        "incoming_damage_mod_post_absorbed": [ { "type": "bash", "add": -3 }, { "type": "cut", "add": -2 }, { "type": "stab", "add": -2 } ]
       }
     ],
     "active_flags": [ "SUNBURN_SUPERNATURAL_REDUCTION" ]

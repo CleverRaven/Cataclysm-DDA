@@ -2164,6 +2164,7 @@
       "budget_steel_lump",
       "budget_steel_lump_from_scrap",
       "lc_steel_lump",
+      "lc_steel_lump_from_qt_steel",
       "mc_steel_lump",
       "hc_steel_lump"
     ]

@@ -550,7 +550,7 @@ TEST_CASE( "tree_tick_full_returns_score", "[behavior]" )
     // should produce a goal with a nonzero urgency score.
     clear_map_without_vision();
     set_time_to_day();
-    get_weather().forced_temperature = -30_C;
+    get_weather().forced_temperature = units::from_celsius( -30 );
 
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
     clear_character( test_npc, true );

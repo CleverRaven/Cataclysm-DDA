@@ -1,0 +1,77 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [
+      [ "labyrinth_sparkgen_UL", "labyrinth_sparkgen_UC", "labyrinth_sparkgen_UR" ],
+      [ "labyrinth_sparkgen_LL", "labyrinth_sparkgen_LC", "labyrinth_sparkgen_LR" ]
+    ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvv||||||||||||||||||||||||||vvvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvv|.............+...........||||||||||||||||||||||||v",
+        "vvvvv(..||||||||||||||.L.|((|..vvv.|...........||.....((((.HHHHH......||",
+        "vvvvL....................vvvv..vvv.||..........|.AAAA((..(.H...HHHHHH..|",
+        "vvvL............0.......vvvvv..vvv..||.........|.AAAA....11111.....4H..|",
+        "vv(.....................vvvvv..vvv...||||......|.AAAA....1===1......H..|",
+        "vv......................vvvvv..vvv.v....||.....|.AAAA..HH2=9=2HH....H..|",
+        "vv.....|||||||||||||||||vvvvv..vv..vvvv..||....|..(....H.1===1.H....H..|",
+        "vvv....|L((.............vvvvv..v..vvvvvv..|....|..(....H.11111.H....H..|",
+        "vvv....|ṪṪ...............v||...v.vvvvvvvv.||...|..(....HH..H..HH....H..|",
+        "vvv....|ßß..........vv(...|||..v.vvvvvvvv..||..|..(.....H..H..H.....H..|",
+        "vvv....|........vvvvvvv(..|||.....|||vvvvv..||+|..(.....H..H..H....4H..|",
+        "vvv....|......vvvvvv||||..........|||vvvv......|..(3....H..H..HH....H..|",
+        "vvv....|.....vvvv||||L||...........||vvv..vvvv.|..(.....H.4H...H....H..|",
+        "vvv....|....vvvv.......|.||||||......vv..vvvvv.|..(.....H..H...H....H..|",
+        "vvv....|....vvvv.......|.|AƤ(.||........vvvvvv.|(((.....H..H..4H....H..|",
+        "vvv....|...vvvv..||||+||.|3....||....vvvvvvvvv.|.......4H..H...H....H..|",
+        "vvv....|...vvvv..+3|...|.|Ṫß....||.............|.HHHHHHHH..H...H....H..|",
+        "vvv....|...vvvv..|||||||.|Ṫß.....|.............|.H4........H...H....H..|",
+        "vvv....|...vvvv..vvvvvv|.||(.....+..||.vvvvvvv.|.H..vvvvvvvvv..H....H..|",
+        "vvv....|..vvvvv..vvvvvv|..||Lßßß.+..|||vvvvvvv.|.H...vvvvvvv..4H....H..|",
+        "vvv....|..vvvvvv..vvvvv|...||MƤṪP|..|||vvvvvvv.|.H4...vvvvvHHHHH....H..|",
+        "vvv....|..vvvvvv..vvvvv|....||||||...vv||......|.HHHHHHvvv.....4....H..|",
+        "vvv....................+.............U||..|||(.|4......vvv.....HHHHHH..|",
+        "vvv....................+...........LMM||..|(|||||.....vvvvv....H.......|",
+        "vvv....|..vvvvvv..vvvvv|..(A|||||||||||..||.MM|v|....vvvvvvv...H..A....|",
+        "vvv....|..vvvvvv..vvvvv|..1||(ßṪß|.Lvv|.......|v|...vvvvvvvvv.4H..A((..|",
+        "vvv....|..vvvvv..vvvvvv|..||.3.3.+..vv|LßM||............H||||..H..A.(..|",
+        "vvv....|...vvvv..|||||||.||L..3..+..vv||||||............H|....4H..A.(..|",
+        "vvv....|...vvvv..+.+...|.|(...dM3|.||||||.....|v|.......H|.....H..A.(((|",
+        "vvv....|...vvvv..|||||||.||FF|||||.|.||....|..|v|....3..H|....4H..A((.(|",
+        "vvv....|...vvvvv....+.L|.|d.3.L||..|.|...|||..|v|.......H|.....H..A...(|",
+        "vvv....|....vvvv....+.(|.|MâäM||..||.+..||M..(|v||..||||H|||||.H......(|",
+        "vvv....|....vvvvv||||3||.||||||..||..|.||...((|vvv..vvvvHvvvv|.HHHHH..(|",
+        "vvv....|.....vvvvvvv||||....((|.||.|||||...||||vvv..vvvvHvvvv|.....H..(|",
+        "vvv....|......vvvvvvvvv|.....(|....|ML....||..||||..||||H|||||.....H..(|",
+        "vvv....|........vvvvvvv(.vvv..|((((|.....||...||........H....|.....H..(|",
+        "vvv....|............vv(..vvv..|||||||||..|..|.||.HHHHHHHH....|.....H..(|",
+        "vvv....|.................vvv..........|....||.||.H.......4...|..3..H..(|",
+        "vvv....|((..............vv||..||......|..|||||||.H...........|.....H..(|",
+        "vv.....|||||||||||||||||vv|....|||||..|.....||||.H...........|....4H..(|",
+        "vv......................vv|.||...||...|..||..|||.HHHHHHHHHHHHHHHHHHH.((|",
+        "vv(.....................vv|..||..|...|||||||..||.....................(.|",
+        "vvvL....................vv||..||||..||.M.||||.||.AAAAAAAAAAAAAAAAAAAAA.|",
+        "vvvvL...................vvv||....||||.........||.......................|",
+        "vvvvv(..vvvvvvvvvvvvvvvvvvvv||||...........|||||AAAAAAAAAAAAAAAAAAAAAAA|",
+        "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv|||||||||||||vvv|||||||||||||||||||||||||",
+        "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette_no_enemies" ],
+      "monster": {
+        "1": { "monster": "mon_LS_sparkgenerator_aux" },
+        "2": { "monster": "mon_LS_sparkgenerator" },
+        "3": { "monster": "mon_LS_medbot" },
+        "4": { "monster": "mon_LS_robot_arm" }
+      },
+      "items": { "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 } },
+      "terrain": {
+        "H": "t_conveyor",
+        "=": "t_nl_grass_very_tall",
+        "9": "t_nl_obelisk_fixbot",
+        "0": "t_nl_scrap_floor_fixbot_tele_landing_pad"
+      },
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 8, 21 ], "y": [ 3, 6 ], "intensity": 4, "repeat": 500 } ]
+    }
+  }
+]

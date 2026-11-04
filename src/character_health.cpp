@@ -95,6 +95,7 @@ static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 
+static const bionic_id bio_creeyncaggii( "bio_creeyncaggii" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 static const bionic_id bio_synlungs( "bio_synlungs" );
@@ -230,10 +231,8 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
-static const vitamin_id vitamin_redcells( "redcells" );
 
 namespace io
 {
@@ -261,7 +260,8 @@ bool Character::can_recover_oxygen() const
 {
     return get_limb_score( limb_score_breathing ) > 0.5f && !is_underwater() &&
            !has_effect_with_flag( json_flag_GRAB ) && !( has_bionic( bio_synlungs ) &&
-                   !has_active_bionic( bio_synlungs ) );
+                   !has_active_bionic( bio_synlungs ) ) && !( has_bionic( bio_creeyncaggii ) &&
+                           !has_active_bionic( bio_creeyncaggii ) );
 }
 
 bool Character::is_warm() const
@@ -2538,6 +2538,21 @@ int Character::vitamin_RDA( const vitamin_id &vitamin, int amount ) const
     return std::lround( amount * multiplier );
 }
 
+bool Character::has_wound( wound_type_id wd ) const
+{
+    for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
+        if( bp.second.has_wound( wd ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_wound( wound_type_id wd, const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_wound( wd );
+}
+
 bool Character::has_wounds( const bodypart_str_id &part ) const
 {
     return get_part( part )->has_wounds();
@@ -2545,23 +2560,6 @@ bool Character::has_wounds( const bodypart_str_id &part ) const
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
-    for( const json_character_flag &fl_wl : wd->whitelist_flags ) {
-        if( !has_flag( fl_wl ) ) {
-            add_msg_debug( debugmode::DF_WOUNDS,
-                           "wound %s require flag %s character %s do not have, wound is not applied",
-                           wd.str(), fl_wl.str(), name );
-            return;
-        }
-    }
-
-    for( const json_character_flag &fl_bl : wd->blacklist_flags ) {
-        if( has_flag( fl_bl ) ) {
-            add_msg_debug( debugmode::DF_WOUNDS, "%s has flag %s, wound %s is not applied",
-                           name, fl_bl.str(), wd.str() );
-            return;
-        }
-    }
-
     bodypart &body_bp = body.at( bp.id() );
     body_bp.add_or_worsen_wound( wd );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
@@ -2595,7 +2593,7 @@ void Character::update_wounds( time_duration time_passed )
                                 }
 
                                 int final_amt = mod_val.amount;
-                                if( vit == vitamin_blood || vit == vitamin_redcells ) {
+                                if( wd.type->is_bleeding_wound() ) {
                                     final_amt = roll_remainder( enchantment_cache->modify_value( enchant_vals::mod::BLEEDING_RATE,
                                                                 mod_val.amount ) );
                                 }
@@ -2617,6 +2615,17 @@ void Character::update_wounds( time_duration time_passed )
     }
 
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+bool Character::is_bleeding( const bodypart_id bp ) const
+{
+    for( const wound &wd : get_part( bp )->get_wounds() ) {
+        if( wd.type->is_bleeding_wound() ) {
+            return true;
+        }
+    }
+
+    return true;
 }
 
 /*
@@ -2703,43 +2712,64 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     }
 }
 
-bool Character::is_within_wound_limit_for_bp( const bodypart_id bp, wound_type_id wound_id ) const
+static weighted_int_list<wound_type_id> populate_potential_wounds( const Character *who,
+        const bodypart_id &bp, const dealt_damage_instance &d )
 {
-    if( wound_id->get_limit() == 0 ) {
-        return true;
-    }
-
-    const std::vector present_wounds = get_part( bp )->get_wounds();
-    const int amount = std::count_if( present_wounds.begin(),
-    present_wounds.end(), [wound_id]( wound wd ) {
-        return wd.type == wound_id;
-    } );
-
-    return amount < wound_id->get_limit();
-}
-
-void Character::apply_random_wound( bodypart_id bp, const damage_instance &d )
-{
-    if( x_in_y( 1.0f - get_option<float>( "WOUND_CHANCE" ), 1.0f ) ) {
-        return;
-    }
-
     weighted_int_list<wound_type_id> possible_wounds;
-    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
-        for( const damage_unit &du : d.damage_units ) {
-            const bool damage_within_limits = du.amount >= potential_wound.damage_required.first &&
-                                              du.amount <= potential_wound.damage_required.second;
-            const bool damage_type_matches = std::find( potential_wound.damage_type.begin(),
-                                             potential_wound.damage_type.end(), du.type ) != potential_wound.damage_type.end();
-            const bool iwwlfb = is_within_wound_limit_for_bp( bp, potential_wound.id );
 
-            if( damage_within_limits && damage_type_matches && iwwlfb ) {
-                possible_wounds.add( potential_wound.id, wound_weight );
-            }
+    for( const auto &[potential_wound, wound_weight] : bp->potential_wounds ) {
+        if( potential_wound.id->can_be_applied( who, potential_wound, bp, d ) ) {
+            possible_wounds.add( potential_wound.id, wound_weight );
         }
     }
+
+    return possible_wounds;
+}
+
+void Character::apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d )
+{
+    weighted_int_list<wound_type_id> possible_wounds;
+    weighted_int_list<wound_type_id> secondary_possible_wounds;
+
+    if( d.dealt_dams.size() > 1 ) {
+
+        // sort dealt_dams in vector, so we can compare the highest and second highest damages
+        std::vector<std::pair<damage_type_id, int>> dealt_damage;
+        dealt_damage.reserve( d.dealt_dams.size() );
+        dealt_damage.insert( dealt_damage.end(), d.dealt_dams.begin(), d.dealt_dams.end() );
+
+        std::partial_sort( dealt_damage.begin(), dealt_damage.begin() + 2, dealt_damage.end(),
+        []( const std::pair<damage_type_id, int> &a, const std::pair<damage_type_id, int> &b ) -> bool {
+            // descending
+            return a.second > b.second;
+        } );
+
+        // if second biggest damage is at least 75% as strong as main damage, two wounds will be applied
+        const float threshold = 0.75;
+        if( dealt_damage[1].second > dealt_damage[0].second * threshold ) {
+            dealt_damage_instance new_d( d );
+            new_d.dealt_dams.clear();
+            dealt_damage_instance new_secondary_d( new_d );
+
+            new_d.dealt_dams.emplace( dealt_damage[0] );
+            new_secondary_d.dealt_dams.emplace( dealt_damage[1] );
+
+            possible_wounds = populate_potential_wounds( this, bp, new_d );
+            secondary_possible_wounds = populate_potential_wounds( this, bp, new_secondary_d );
+        } else {
+            // only one would will be applied, so just pass damage instance as is
+            possible_wounds = populate_potential_wounds( this, bp, d );
+        }
+    } else {
+        possible_wounds = populate_potential_wounds( this, bp, d );
+    }
+
     if( !possible_wounds.empty() ) {
         apply_wound( bp, *possible_wounds.pick() );
+    }
+
+    if( !secondary_possible_wounds.empty() ) {
+        apply_wound( bp, *secondary_possible_wounds.pick() );
     }
 }
 
@@ -2859,7 +2889,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    apply_random_wound( bp, d );
+    apply_random_wound_from_damage( bp, dealt_dams );
 
     on_hurt( source );
     return dealt_dams;

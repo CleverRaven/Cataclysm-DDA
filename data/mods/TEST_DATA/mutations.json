@@ -474,5 +474,13 @@
     "points": 0,
     "description": "Second test mutation granting one craftable quality with no item behind it.",
     "provided_qualities": { "TEST_RESERVE_A": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_MUTATION_TORSO",
+    "name": { "str": "test torso" },
+    "points": 0,
+    "description": "Test torso that bleeds.",
+    "enchantments": [ { "modified_bodyparts": [ { "lose": "torso" }, { "gain": "test_torso" } ] } ]
   }
 ]

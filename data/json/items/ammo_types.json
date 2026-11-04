@@ -945,6 +945,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "pressurized_co2",
+    "name": "pressurized CO₂",
+    "default": "co2"
+  },
+  {
+    "type": "ammunition_type",
     "id": "3030",
     "name": ".30-30 Winchester",
     "default": "3030"
