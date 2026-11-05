@@ -2543,15 +2543,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_elemental_bonus_wound_healing",
+    "name": [ "Convalescence" ],
+    "desc": [ "Your wounds are healing much more quickly." ],
+    "enchantments": [ { "values": [ { "value": "REGEN_WOUND", "add": 8 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_see_fae",
     "name": [ "Wyrd Sight" ],
     "desc": [ "You can sense nearby creatures that come from under the hill." ],
     "rating": "good",
     "enchantments": [
       {
-        "special_vision": [
+        "values": [
           {
-            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "values": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
             "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
             "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
           }

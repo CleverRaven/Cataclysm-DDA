@@ -660,7 +660,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] },
+          { "item": "cthonic_poultice" },
+          { "item": "cthonic_poultice" },
+          { "item": "cthonic_poultice" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
@@ -689,7 +692,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
+          { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] },
+          { "item": "verdant_poultice" },
+          { "item": "verdant_poultice" },
+          { "item": "verdant_poultice" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
@@ -718,7 +724,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] },
+          { "item": "cerulean_poultice" },
+          { "item": "cerulean_poultice" },
+          { "item": "cerulean_poultice" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
@@ -747,7 +756,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
+          { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] },
+          { "item": "charred_sacrifice" },
+          { "item": "charred_sacrifice" },
+          { "item": "charred_sacrifice" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
@@ -776,7 +788,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
+          { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] },
+          { "item": "doll_repair_paste" },
+          { "item": "doll_repair_paste" },
+          { "item": "doll_repair_paste" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
@@ -805,7 +820,10 @@
           { "item": "gloves_wraps" },
           { "item": "tunic_rag" },
           { "item": "moons_tears_knife_baselard", "container-item": "sheath" },
-          { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
+          { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] },
+          { "item": "ethereal_draught" },
+          { "item": "ethereal_draught" },
+          { "item": "ethereal_draught" }
         ]
       },
       "female": { "entries": [ { "item": "chestwrap" } ] }
