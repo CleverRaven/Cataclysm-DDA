@@ -161,7 +161,7 @@
     "price": "5 USD 50 cent",
     "price_postapoc": "5 USD 50 cent",
     "material": [ "cotton" ],
-	"looks_like": "fuse",
+    "looks_like": "fuse",
     "symbol": ",",
     "color": "dark_gray"
   },
