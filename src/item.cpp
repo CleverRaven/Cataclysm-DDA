@@ -5635,5 +5635,5 @@ float item::get_explosion_power() const
             }
         }
     }
-        return total_tnt_grams;
+    return total_tnt_grams;
 }
