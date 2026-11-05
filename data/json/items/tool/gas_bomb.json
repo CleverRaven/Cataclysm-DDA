@@ -309,7 +309,7 @@
     "name": { "str": "warlord gas bomb" },
     "symbol": "*",
     "color": "red",
-    "description": "a strange device that is currently releasing clouds of foul smelling gas.",
+    "description": "A strange device that is currently releasing clouds of foul smelling gas.",
     "emits": [ "emit_scarlet_sea_gas" ]
   }
 ]

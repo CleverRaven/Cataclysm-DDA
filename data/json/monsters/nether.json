@@ -38,7 +38,7 @@
     "id": "mon_wells_machine",
     "type": "MONSTER",
     "name": "labyrinth warlord",
-    "description": "A massive aperture eye tirelessly scans the labyrinth corridors in accordance to lost protocol, and mounted beneath it an arsenal bristles ready to unleash death on the unwary.  Its brazen armor lies contrast to the rust-striken halls it traverses, but it remains impossible to know whether this is a machine purposefully built or if it has torn itself from the canvases of an imagined war.",
+    "description": "A massive aperture eye tirelessly scans the labyrinth corridors in accordance to lost protocol, and mounted beneath it an arsenal bristles ready to unleash death on the unwary.  Its brazen armor lies contrast to the rust-stricken halls it traverses, but it remains impossible to know whether this is a machine purposefully built or if it has torn itself from the canvases of an imagined war.",
     "default_faction": "nether",
     "volume": "930 L",
     "weight": "8282 kg",
@@ -68,10 +68,10 @@
       "FIREPROOF"
     ],
     "special_attacks": [
-      { "id": "wells_machine_control", "cooldown": 2 },
-      { "id": "smash", "throw_strength": 96, "cooldown": 5 },
-      { "type": "leap", "cooldown": 12, "max_range": 2 },
-      { "id": "heat_ray_continue", "cooldown": 0 }
+      { "id": "wells_machine_control", "cooldown": 2, "condition": { "math": [ "u_heat_ray_iteration < 1" ] } },
+      { "id": "smash", "throw_strength": 96, "cooldown": 5, "condition": { "math": [ "u_heat_ray_iteration < 1" ] } },
+      { "type": "leap", "cooldown": 12, "max_range": 2, "condition": { "math": [ "u_heat_ray_iteration < 1" ] } },
+      { "id": "heat_ray_continue", "cooldown": 0, "condition": { "math": [ "u_heat_ray_iteration != 0" ] } }
     ],
     "death_function": { "corpse_type": "BROKEN", "message": "The warlord collapses, dead at last.", "eoc": "EOC_WELLS_MACHINE_DIES" },
     "weakpoint_sets": [ "wps_yrax_quadraphract" ],
