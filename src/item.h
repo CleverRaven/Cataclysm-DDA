@@ -373,7 +373,7 @@ class item
 
         bool is_money() const;
 
-        float get_explosion_power(const float fallback) const;
+        float get_explosion_power() const;
 
     private:
         bool is_money( const std::set<ammotype> &ammo ) const;
