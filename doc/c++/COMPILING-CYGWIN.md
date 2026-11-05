@@ -79,7 +79,7 @@ carries the same pins and the full option list.
 ```bash
 mkdir -p ~/src && cd ~/src
 
-git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git
+git clone --depth 1 --branch release-3.4.6 https://github.com/libsdl-org/SDL_image.git
 cmake -S SDL_image -B SDL_image-build -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON \
     -DSDLIMAGE_VENDORED=OFF -DSDLIMAGE_PNG=ON -DSDLIMAGE_JPG=ON \

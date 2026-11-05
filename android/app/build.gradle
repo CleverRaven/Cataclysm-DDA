@@ -138,10 +138,10 @@ def assetsDir = 'src/main/assets'
 def assetsDirWindows = 'src/main/assetsWinHost'
 
 def sdl3Aars = [
-    [name: 'SDL3',        version: '3.4.10', repo: 'SDL',
-     zipSha256: 'f676e29b1b4eb990e24862b6af5f327379dc496c9f5f3e3f48ab75837f95844e'],
-    [name: 'SDL3_image',  version: '3.4.4', repo: 'SDL_image',
-     zipSha256: 'a0d1e27d4529c2bbc3e4ac72d2e6c0dd474b32cfe2586d22c4228a34224d1f57'],
+    [name: 'SDL3',        version: '3.4.16', repo: 'SDL',
+     zipSha256: 'e1da8d9298471ea4ab8c6d48a804c0ac5415f35f30fcf7eba61aa7357e165765'],
+    [name: 'SDL3_image',  version: '3.4.6', repo: 'SDL_image',
+     zipSha256: 'b9f920c8281730dfbae97ac5971f465d256c815f9f8b5defa09b3a8f8042ad42'],
     [name: 'SDL3_ttf',    version: '3.2.2', repo: 'SDL_ttf',
      zipSha256: '48e534daf88eec5c7f0c95fa6ca0e8a5f38f5fc7276824573131cebc403ee14c'],
     [name: 'SDL3_mixer',  version: '3.2.4', repo: 'SDL_mixer',
