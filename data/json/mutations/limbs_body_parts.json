@@ -1308,7 +1308,8 @@
     "flags": [ "LIMB_UPPER", "MEND_LIMB", "BONELESS" ],
     "windage_effect": "winded_tentacle",
     "bmi_encumbrance_threshold": 7,
-    "bmi_encumbrance_scalar": 0.5
+    "bmi_encumbrance_scalar": 0.5,
+    "unarmed_damage": [ { "damage_type": "bash", "amount": -2 } ]
   },
   {
     "id": "arm_tentacle_r",
