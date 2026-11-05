@@ -1262,7 +1262,7 @@
     "hit_difficulty": 0.6,
     "limb_types": [ [ "arm", 0.5 ], [ "hand", 0.4 ] ],
     "limb_scores": [
-      [ "manip", 0.15, 0.3 ],
+      [ "manip", 0.12, 0.24 ],
       [ "grip", 0.2 ],
       [ "lift", 0.2 ],
       [ "balance", 0.05 ],
