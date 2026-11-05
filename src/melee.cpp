@@ -2417,16 +2417,12 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             }
 
             // Attack starts here
-            if( mut_atk.hardcoded_effect ) {
-                tmp.damage = hardcoded_mutation_attack( *this, pr );
-            } else {
-                damage_instance dam = mut_atk.base_damage;
-                damage_instance scaled = mut_atk.strength_damage;
-                scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
-                dam.add( scaled );
+            damage_instance dam = mut_atk.base_damage;
+            damage_instance scaled = mut_atk.strength_damage;
+            scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
+            dam.add( scaled );
 
-                tmp.damage = dam;
-            }
+            tmp.damage = dam;
 
             if( tmp.damage.total_damage() > 0.0f ) {
                 ret.emplace_back( tmp );
