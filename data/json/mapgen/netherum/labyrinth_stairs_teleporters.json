@@ -240,11 +240,7 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "remove_all": { ".": {  }, "A": {  }, "v": {  } },
-      "terrain": {
-        ".": "t_nl_metal_floor",
-        "A": "t_nl_metal_floor",
-        "v": "t_nl_chasm"
-      },
+      "terrain": { ".": "t_nl_metal_floor", "A": "t_nl_metal_floor", "v": "t_nl_chasm" },
       "furniture": { "A": "f_scrap_antenna" },
       "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 6, 17 ], "y": [ 6, 17 ], "intensity": 4, "repeat": 300 } ]
     }

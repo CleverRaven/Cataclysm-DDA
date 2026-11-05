@@ -345,7 +345,9 @@
       "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
       "terrain": { "X": "t_nl_metal_floor" },
-      "computers": { "X": { "name": "Bridge Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "EOC_LS_Computer_teleport_bridge" ] } }
+      "computers": {
+        "X": { "name": "Bridge Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "EOC_LS_Computer_teleport_bridge" ] }
+      }
     }
   },
   {

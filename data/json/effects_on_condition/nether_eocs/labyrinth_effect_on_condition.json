@@ -1858,10 +1858,7 @@
   {
     "id": "EOC_LS_Bridge_control_teleports_bridges",
     "type": "effect_on_condition",
-    "effect": [
-      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
-      { "mapgen_update": "UM_LS_teleports_bridges" }
-    ]
+    "effect": [ { "mapgen_update": "UM_Bridge_control_deadend_1_extend" }, { "mapgen_update": "UM_LS_teleports_bridges" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1913,7 +1910,10 @@
         "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
         "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure", "z": 0 }
       },
-      { "mapgen_update": "labyrinth_bridges_to_labyrinth1_landing", "target_var": { "global_val": "labyrinth_nl_new_loc" } },
+      {
+        "mapgen_update": "labyrinth_bridges_to_labyrinth1_landing",
+        "target_var": { "global_val": "labyrinth_nl_new_loc" }
+      },
       {
         "u_location_variable": { "context_val": "player_teleport_loc" },
         "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure" },
