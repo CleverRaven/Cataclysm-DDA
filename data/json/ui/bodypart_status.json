@@ -62,6 +62,13 @@
         "sym": "b",
         "color": "red_red",
         "condition": { "u_is_bleeding": "CRITICAL" }
+      },
+      {
+        "id": "wounded",
+        "text": "wounded",
+        "sym": "W",
+        "color": "light_cyan",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } }
       }
     ]
   },
