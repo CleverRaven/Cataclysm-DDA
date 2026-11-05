@@ -2795,7 +2795,7 @@
     "decay_amount_factor": 5,
     "percent_spread": 20,
     "dirty_transparency_cache": true,
-    "outdoor_age_speedup": "0 turns",
+    "outdoor_age_speedup": "1 seconds",
     "priority": 8,
     "half_life": "5 seconds",
     "phase": "gas",
@@ -2813,7 +2813,6 @@
     "decrease_intensity_on_contact": false,
     "indestructible": true,
     "priority": -1,
-    "display_field": true,
-    "phase": "gas"
+    "display_field": true
   }
 ]

@@ -2,6 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -37,6 +38,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -72,6 +74,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -107,6 +110,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -142,6 +146,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -177,6 +182,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 75,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -212,12 +218,14 @@
         "2": [ { "field": "fd_labyrinth_fog_perm" } ],
         "3": [ { "field": "fd_labyrinth_fog_perm" } ]
       },
+      "traps": { "2": "tr_ls_teleport_from_bridges" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_end",
+    "weight": 5,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -534,6 +542,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_four_way",
+    "weight": 25,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -549,7 +558,91 @@
         "|||||||||oo,,oo|||||||||",
         "oooooooooo,,,,oooooooooo",
         ",,,,,,,,,,,,>,,,,,,,,,,,",
+        ",,,,,,,,,,,A,,,,,,,,,,,,",
+        "oooooooooo,,,,oooooooooo",
+        "|||||||||oo,,oo|||||||||",
+        "        ||o,,o||        ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         "
+      ],
+      "palettes": [ "labyrinth2_utility_tunnel" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -1 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -2 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -3 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft_base", 1 ] ], "x": 11, "y": 10, "z": -4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth2_utility_tunnel_four_way",
+    "weight": 25,
+    "object": {
+      "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
+      "rows": [
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "||||||||||o,,o||||||||||",
+        "ooooooooooo,,ooooooooooo",
+        ",,,,,,,,,,,,>,,,,,,,,,,,",
+        ",,,,,,,,,,,A,,,,,,,,,,,,",
+        "ooooooooooo,,ooooooooooo",
+        "||||||||||o,,o||||||||||",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         "
+      ],
+      "palettes": [ "labyrinth2_utility_tunnel" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -1 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -2 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft", 1 ] ], "x": 11, "y": 10, "z": -3 },
+        { "chunks": [ [ "labyrinth2_utility_tunnel_shaft_base", 1 ] ], "x": 11, "y": 10, "z": -4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "labyrinth2_utility_tunnel_four_way",
+    "weight": 75,
+    "object": {
+      "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
+      "rows": [
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "         |o,,o|         ",
+        "        ||o,,o||        ",
+        "|||||||||oo,,oo|||||||||",
+        "oooooooooo,,,,oooooooooo",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,A,,,,,,,,,,,,",
         "oooooooooo,,,,oooooooooo",
         "|||||||||oo,,oo|||||||||",
         "        ||o,,o||        ",
@@ -569,6 +662,7 @@
   {
     "type": "mapgen",
     "om_terrain": "labyrinth2_utility_tunnel_four_way",
+    "weight": 75,
     "object": {
       "fallback_predecessor_mapgen": "labyrinth2_roof2_north",
       "rows": [
@@ -583,8 +677,8 @@
         "         |o,,o|         ",
         "||||||||||o,,o||||||||||",
         "ooooooooooo,,ooooooooooo",
-        ",,,,,,,,,,,,>,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,A,,,,,,,,,,,,",
         "ooooooooooo,,ooooooooooo",
         "||||||||||o,,o||||||||||",
         "         |o,,o|         ",

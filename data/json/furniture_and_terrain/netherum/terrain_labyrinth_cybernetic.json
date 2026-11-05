@@ -947,7 +947,7 @@
     "type": "terrain",
     "id": "t_nl_column_light",
     "name": "protruding light",
-    "description": "A bulbous light hangs here amongst the other electronics.  Its wires snake into the column,  vanishing in a fractal clump of mechanical devices.",
+    "description": "A bulbous light hangs here amongst the other electronics.  Its wires snake into the column, vanishing into a fractal clump of mechanical devices.",
     "symbol": "*",
     "color": "white",
     "move_cost": 4,
