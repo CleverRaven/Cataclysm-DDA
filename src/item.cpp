@@ -5622,10 +5622,6 @@ bool is_preferred_component( const item &component )
 
 float item::get_explosion_power() const
 {
-    if( components.empty() ) {
-        return 0.0f;
-    }
-
     float total_tnt_grams = 0.0f;
     for( const auto &tvp : components ) {
         for( const item &comp : tvp.second ) {
@@ -5639,9 +5635,5 @@ float item::get_explosion_power() const
             }
         }
     }
-    if( total_tnt_grams > 0.0f ) {
         return total_tnt_grams;
-    } else {
-        return 0.0f;
-    }
 }
