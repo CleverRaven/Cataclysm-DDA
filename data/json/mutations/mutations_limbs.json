@@ -1353,7 +1353,6 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "enchantments": [
       {
@@ -1385,7 +1384,6 @@
     "vitamin_cost": 210,
     "visibility": 9,
     "ugliness": 6,
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "enchantments": [
       {
