@@ -149,11 +149,10 @@ class shrapnel_reader : public generic_typed_reader<shrapnel_reader>
 
 void explosion_data::deserialize( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "power", power );
+    mandatory( jo, was_loaded, "power", power );
     optional( jo, was_loaded, "distance_factor", distance_factor, 0.75f );
     optional( jo, was_loaded, "max_noise", max_noise, 90000000 );
     optional( jo, was_loaded, "fire", fire );
-    optional( jo, was_loaded, "tnt_equiv", tnt_equiv, 0.0f );
     optional( jo, was_loaded, "shrapnel", shrapnel, shrapnel_reader{} );
 }
 

@@ -4497,6 +4497,7 @@ void itype::load( const JsonObject &jo, std::string_view src )
     optional( jo, was_loaded, "min_perception", min_per );
     optional( jo, was_loaded, "emits", emits, auto_flags_reader<emit_id> {} );
     optional( jo, was_loaded, "explode_in_fire", explode_in_fire );
+    optional( jo, was_loaded, "tnt_equivalent", tnt_equivalent );
     optional( jo, was_loaded, "insulation", insulation_factor, 1.0f );
     optional( jo, was_loaded, "solar_efficiency", solar_efficiency );
 

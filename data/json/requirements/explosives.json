@@ -4,7 +4,13 @@
     "type": "requirement",
     "//": "10 ml of explosive filler material for bomb casings",
     "components": [
-      [ [ "chem_compositionb", 10 ], [ "chem_rdx", 10 ] ]
+      [
+        [ "chem_compositionb", 10 ],
+        [ "chem_rdx", 10 ],
+        [ "chem_ammonium_nitrate", 10 ],
+        [ "chem_ammonium_nitrate_pellets", 10 ],
+        [ "chem_anfo", 10 ]
+      ]
     ]
   },
   {

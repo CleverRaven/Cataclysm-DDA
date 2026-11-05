@@ -1656,6 +1656,9 @@ struct itype {
         * Efficiency of solar energy conversion for solarpacks.
         */
         float solar_efficiency = 0.0f;
+        
+        //TNT equivalence per gram. For explosive materials
+        float tnt_equivalent = 0.0f;
 
         // Max amount of this type that can be worn.
         int max_worn = MAX_WORN_PER_TYPE;

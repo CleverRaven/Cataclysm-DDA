@@ -5619,3 +5619,25 @@ bool is_preferred_component( const item &component )
            ( survival < 3 || !component.has_flag( flag_HIDDEN_POISON ) ) &&
            ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
+
+float item::get_explosion_power(const float fallback) const
+{
+    if (components.empty()) {
+        return fallback;
+    }
+
+    float total_tnt_grams = 0.0f;
+    for (const auto& tvp : components) {
+        for (const item& comp : tvp.second) {
+            const float RE = comp.type->tnt_equivalent;
+            if (RE > 0.0f) {
+                total_tnt_grams += units::to_gram(comp.weight()) * RE;
+            }
+        }
+    }
+    if (total_tnt_grams > 0.0f) {
+    std:round(total_tnt_grams);
+        return total_tnt_grams;
+    }
+    else return fallback;
+}

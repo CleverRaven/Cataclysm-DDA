@@ -767,8 +767,11 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
         }
     }
 
-    if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( source, here, pos, explosion );
+    explosion_data crafted_expl = explosion;
+    crafted_expl.power = it.get_explosion_power(explosion.power);
+
+    if( crafted_expl.power >= 0.0f ) {
+        explosion_handler::explosion( source, here, pos, crafted_expl);
     }
 
     apply_ammo_effects( source, pos, ammo_effects, 0 );
@@ -806,14 +809,15 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
     return 1;
 }
 
-void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+void explosion_iuse::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    if( explosion.power <= 0 ) {
+    explosion_data crafted_expl = explosion;
+    crafted_expl.power = it.get_explosion_power(explosion.power);
+    if( crafted_expl.power <= 0 ) {
         // TODO: List other effects, like EMP and clouds
         return;
     }
-
-    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), explosion.power );
+    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), crafted_expl.power );
     const shrapnel_data &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
         dump.emplace_back( "TOOL", _( "Casing mass: " ), sd.casing_mass );

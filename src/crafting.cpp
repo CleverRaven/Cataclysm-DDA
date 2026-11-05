@@ -3725,7 +3725,6 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
     const bool add_faults_to_results = craft.has_flag( flag_FAULT_ON_COMPLETION );
-    const bool is_explosive = craft.has_flag(flag_BOMB);
     std::vector<item> newits;
 
     if( making.is_practice() ) {
@@ -3738,18 +3737,7 @@ void Character::complete_craft( item &craft, const std::optional<tripoint_bub_ms
                 craft_result.set_random_fault_of_type( "crafting_defect" );
             }
         }
-        if (is_explosive) {
-            for (item& craft_result : newits) {
-                const float re = craft_result.type->explosion.tnt_equiv;
-                float tnt = 0.0f;
-                if (re > 0.0f) {
-                    tnt += to_gram(craft_result.weight()) * re;
-                    const size_t num_results = std::max<size_t>(1, newits.size());
-                    const int power_per_item = std::max(1, static_cast<int>(std::round(tnt / num_results)));
-                    craft_result.set_var("craft_explosion_power", power_per_item);
-                }
-            }
-        }
+
         // only wield crafted items if there's only one
         bool allow_wield = newits.size() == 1;
         spawn_items( *this, newits, loc, relative_rot, should_heat, allow_wield );
