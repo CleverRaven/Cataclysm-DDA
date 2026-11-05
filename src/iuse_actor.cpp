@@ -767,11 +767,13 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
         }
     }
 
-    explosion_data crafted_expl = explosion;
-    crafted_expl.power = it.get_explosion_power(explosion.power);
+    explosion_data used_expl = explosion;
+    const float crafted_explosion_pow = it.get_explosion_power();
+    if (crafted_explosion_pow != 0.0f)
+        used_expl.power = crafted_explosion_pow;
 
-    if( crafted_expl.power >= 0.0f ) {
-        explosion_handler::explosion( source, here, pos, crafted_expl);
+    if( used_expl.power >= 0.0f ) {
+        explosion_handler::explosion( source, here, pos, used_expl);
     }
 
     apply_ammo_effects( source, pos, ammo_effects, 0 );

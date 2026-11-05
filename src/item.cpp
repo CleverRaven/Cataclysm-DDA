@@ -5620,10 +5620,10 @@ bool is_preferred_component( const item &component )
            ( survival < 5 || !component.has_flag( flag_HIDDEN_HALLU ) );
 }
 
-float item::get_explosion_power(const float fallback) const
+float item::get_explosion_power() const
 {
     if (components.empty()) {
-        return fallback;
+        return 0.0f;
     }
 
     float total_tnt_grams = 0.0f;
@@ -5642,5 +5642,5 @@ float item::get_explosion_power(const float fallback) const
     if (total_tnt_grams > 0.0f) {
         return total_tnt_grams;
     }
-    else return fallback;
+    else return 0.0f;
 }
