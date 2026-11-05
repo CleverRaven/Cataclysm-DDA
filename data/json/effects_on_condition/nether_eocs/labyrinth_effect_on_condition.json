@@ -49,6 +49,8 @@
             "target_max_radius": 24,
             "x_adjust": 1
           },
+          { "math": [ "ls_exit_control_locked = 1" ] },
+          { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
           { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
           { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] },
           { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
@@ -101,6 +103,8 @@
             "fail_message": "Nope!",
             "success_message": "Zwoink."
           },
+          { "math": [ "ls_exit_control_locked = 1" ] },
+          { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
           {
             "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
             "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
@@ -297,6 +301,8 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 1" ] },
+      { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
       { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -1528,6 +1534,7 @@
         "target_max_radius": 24
       },
       { "u_teleport": { "global_val": "labyrinth_nl_new_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 0" ] },
       { "clear_dimension": "netherum_labyrinth" }
     ]
   },
@@ -1847,5 +1854,10 @@
         "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_teleports_fixbot" } ] } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_unlock_terminal",
+    "effect": { "math": [ "ls_exit_control_locked = 0" ] }
   }
 ]

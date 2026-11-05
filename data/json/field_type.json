@@ -2801,5 +2801,19 @@
     "phase": "gas",
     "display_items": true,
     "display_field": true
+  },
+  {
+    "id": "fd_labyrinth_fog_perm",
+    "looks_like": "fd_smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirling mist", "color": "white", "transparent": false },
+      { "name": "swirling mist", "color": "white", "transparent": false }
+    ],
+    "decrease_intensity_on_contact": false,
+    "indestructible": true,
+    "priority": -1,
+    "display_field": true,
+    "phase": "gas"
   }
 ]

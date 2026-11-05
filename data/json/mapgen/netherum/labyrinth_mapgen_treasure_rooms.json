@@ -41,6 +41,43 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvvvv  vvv(vvvvvv!",
+        "!vvvvvvvvvv  vv((vvvvvv!",
+        "!vvvvvvvvvv  vvvvvvvvvv!",
+        "!vvvvvv||||__||||vvvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv||XXXXXXXX||vvvvv!",
+        "!|vvvvv||||||||||vvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
+      "terrain": { "X": "t_nl_metal_floor", "#": "t_nl_scrap_wall" },
+      "fields": { "X": [ { "field": "fd_labyrinth_fog_perm" } ], "_": [ { "field": "fd_labyrinth_fog_perm" } ] }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "LS_10x10_deadend_1_room0",
     "//": "Treasure room with autodoc!",
     "object": {

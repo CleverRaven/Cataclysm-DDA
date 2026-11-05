@@ -2,21 +2,40 @@
   {
     "type": "talk_topic",
     "id": "COMP_LS_Exit_Controls",
-    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "dynamic_line": {
+      "math": [ "ls_exit_control_locked == 1" ],
+      "yes": "&You see a strangely mundane black computer screen, displaying a static line of text:\n\n<color_light_green> TERMINAL LOCKED - DIMENSIONAL RECALIBRATION IN PROCESS.  IF THIS IS AN EMERGENCY, PLEASE LOCATE AN ALTERNATIVE AltarOS TERMINAL TO INITIATE EXIT PROTOCOLS.",
+      "no": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+    },
     "responses": [
       {
         "text": "<color_yellow>Activate exit protocol: Home ᵃʷᵃʸ ᶠʳᵒᵐ ʰᵒᵐᵉ",
-        "condition": { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_safehouse_to_labyrinth" } ] },
+            { "math": [ "ls_exit_control_locked != 1" ] }
+          ]
+        },
         "topic": "COMP_LS_Exit_Controls2_safehouse"
       },
       {
         "text": "<color_red>Activate exit protocol: Earth gate",
-        "condition": { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_home_to_labyrinth" } ] },
+            { "math": [ "ls_exit_control_locked != 1" ] }
+          ]
+        },
         "topic": "COMP_LS_Exit_Controls2_home"
       },
       {
         "text": "<color_red>Activate exit protocol: KÁ gate",
-        "condition": { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "traveled_string_dimension_to_labyrinth" } ] },
+            { "math": [ "ls_exit_control_locked != 1" ] }
+          ]
+        },
         "topic": "COMP_LS_Exit_Controls2_string_dimension"
       },
       { "text": "<color_light_green>Log off", "topic": "TALK_DONE" }

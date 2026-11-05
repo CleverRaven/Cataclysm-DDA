@@ -1,0 +1,480 @@
+[
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "##+##                   "
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "##+##                   ",
+        "                   ##+##",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   ##+##"
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_2" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ##+##              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     +...+              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     +...+              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     ##+##              ",
+        "              ##+##     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              +...+     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              +...+     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              ##+##     "
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_3" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#######+#########+##",
+        "#......................#",
+        "#......................#",
+        "##+########+########...+",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   ##+##"
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_4" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_large_room_roof",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####+#####",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "+.........+",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#####+#####"
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_large_room_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_large_room_roof",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ###+###  ",
+        " ##.....## ",
+        "##.......##",
+        "#.........#",
+        "#.........#",
+        "+.........+",
+        "#.........#",
+        "#.........#",
+        "##.......##",
+        " ##.....## ",
+        "  ###+###  "
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_large_room_roof_2" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_small_room_roof",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+##",
+        "#..#",
+        "#..#",
+        "####"
+      ],
+      "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
+      "place_nested": [ { "chunks": [ "labyrinth2_small_room_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_roof_column_ground",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": 0,
+      "rows": [
+        "    ",
+        " ## ",
+        " ## ",
+        "    "
+      ],
+      "terrain": { "#": "t_nl_column" },
+      "place_nested": [
+        { "chunks": [ "labyrinth2_roof_column_air" ], "x": 0, "y": 0, "z": 1 },
+        { "chunks": [ "labyrinth2_roof_column_roof" ], "x": 0, "y": 0, "z": 2 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_roof_column_air",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": 0,
+      "rows": [
+        " xx ",
+        "x##x",
+        "x##x",
+        " xx "
+      ],
+      "terrain": { "#": "t_nl_column", "x": [ [ "t_null", 23 ], [ "t_nl_column_light", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_roof_column_roof",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": 0,
+      "rows": [
+        "    ",
+        " ## ",
+        " ## ",
+        "    "
+      ],
+      "terrain": { "#": "t_nl_roof" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "##+##                   "
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "##+##                   ",
+        "                   ##+##",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   ##+##"
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ##+##              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     +...+              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     +...+              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     #...#              ",
+        "     ##+##              ",
+        "              ##+##     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              +...+     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              +...+     ",
+        "              #...#     ",
+        "              #...#     ",
+        "              ##+##     "
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_hall_roof_4",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##+##                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "+...+                   ",
+        "#...#                   ",
+        "#...#                   ",
+        "#...#######+#########+##",
+        "#......................#",
+        "#......................#",
+        "##+########+########...+",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   #...#",
+        "                   +...+",
+        "                   #...#",
+        "                   #...#",
+        "                   ##+##"
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_large_room_roof_1",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#####+#####",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "+.........+",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#.........#",
+        "#####+#####"
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_large_room_roof_2",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ###+###  ",
+        " ##.....## ",
+        "##.......##",
+        "#.........#",
+        "#.........#",
+        "+.........+",
+        "#.........#",
+        "#.........#",
+        "##.......##",
+        " ##.....## ",
+        "  ###+###  "
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth2_small_room_roof_1",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "#+##",
+        "#..#",
+        "#..#",
+        "####"
+      ],
+      "terrain": { "+": "t_nl_roof_metal_railing", ".": "t_nl_roof", "#": "t_nl_roof_metal_railing" },
+      "furniture": { ".": [ [ "f_null", 49 ], [ "f_nl_exodii_lamp", 1 ] ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]
