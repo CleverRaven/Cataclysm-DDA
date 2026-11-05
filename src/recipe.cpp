@@ -1251,7 +1251,7 @@ std::vector<item> recipe::create_results( int batch, item_components *used ) con
         bool is_uncraftable = recipe_dictionary::get_uncraft( result_ ) && !result_->count_by_charges() &&
                               is_reversible();
         bool is_food_no_override = temp.is_food() && !temp.has_flag( flag_NUTRIENT_OVERRIDE );
-        bool is_explosive = temp.has_flag(flag_BOMB);
+        bool is_explosive = temp.has_flag( flag_BOMB );
         bool set_components = used && ( is_uncraftable || is_food_no_override || is_explosive );
         bool is_cooked = hot_result() || removes_raw();
         if( set_components ) {
