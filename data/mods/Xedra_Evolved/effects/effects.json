@@ -2556,9 +2556,9 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [
+        "special_vision": [
           {
-            "values": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
+            "condition": { "or": [ { "npc_has_flag": "FAE_CREATURE" }, { "npc_has_flag": "FAERIECREATURE" } ] },
             "distance": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] },
             "descriptions": [ { "id": "fae_sense", "text": "You sense fae here." } ]
           }
