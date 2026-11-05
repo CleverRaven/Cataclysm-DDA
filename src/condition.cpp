@@ -934,11 +934,14 @@ conditional_t::func f_bodypart_is_wounded( const JsonObject &jo, std::string_vie
     str_or_var bp = get_str_or_var( jo.get_member( member ), member, true );
 
     return [bp, is_npc]( const_dialogue const & d ) {
-        bodypart_id bid = bp.evaluate( d ).empty() ? bodypart_str_id::NULL_ID() :
-                          bodypart_id( bp.evaluate( d ) );
+        bodypart_id bid = bodypart_id( bp.evaluate( d ) );
         const const_talker &who = *d.const_actor( is_npc );
+        const bodypart *bpart = who.get_bodypart( bid );
+        if( bpart == nullptr ) {
+            return false;
+        }
 
-        return who.get_bodypart( bid )->has_wounds();
+        return bpart->has_wounds();
     };
 }
 
