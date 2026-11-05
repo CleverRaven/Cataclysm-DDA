@@ -117,14 +117,14 @@
       "arm_tentacle_r_4"
     ],
     "contact_area": [
-      "tentacle_right_tip_l",
+      "tentacle_left_tip_l",
       "tentacle_right_tip_r",
-      "tentacle_right_2_tip_l",
+      "tentacle_left_2_tip_l",
       "tentacle_right_2_tip_r",
-      "tentacle_right_3_tip_l",
+      "tentacle_left_3_tip_l",
       "tentacle_right_3_tip_r",
       "tentacle_left_4_tip_l",
-      "tentacle_left_4_tip_r"
+      "tentacle_right_4_tip_r"
     ],
     "encumbrance_limit": 1
   },
