@@ -956,6 +956,22 @@ checks are you hot or cold
 { "u_bodypart_is_bleeding": "torso", "severity": "MAJOR" }
 ```
 
+### `u_bodypart_is_wounded`, `npc_bodypart_is_wounded`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker's specific bodypart has any wound at all
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+{ "u_bodypart_is_wounded": "torso" }
+```
+
 ### `u_has_proficiency`, `npc_has_proficiency`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has mastered a proficiency (to 100%).
