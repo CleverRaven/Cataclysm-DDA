@@ -1169,6 +1169,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_ACIDBALL` Targeted acid
 - `AEA_PULSE` Destroys adjacent terrain
 - `AEA_HEAL` Heals minor damage
+- `AEA_HEAL_WOUND` Heals wounds
 - `AEA_CONFUSED` Confuses all monsters in view
 - `AEA_ENTRANCE` Chance to make nearby monsters friendly
 - `AEA_BUGS` Chance to summon friendly insects

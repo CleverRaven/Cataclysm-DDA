@@ -880,7 +880,7 @@
     "coverage": 30,
     "required_str": -1,
     "light_emitted": 50,
-    "light_color": [ 228, 255, 48 ]
+    "light_color": [ 0, 255, 90 ]
   },
   {
     "type": "furniture",

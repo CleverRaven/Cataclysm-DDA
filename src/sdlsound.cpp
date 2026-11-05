@@ -383,7 +383,7 @@ static void play_music_file( const std::string &filename, int volume )
         return;
     }
 
-    const std::string path = ( current_soundpack_path / filename ).get_unrelative_path().u8string();
+    const std::string path = ( current_soundpack_path / filename ).generic_u8string();
     current_music = sound_backend::load_music( path );
     if( current_music == nullptr ) {
         return;

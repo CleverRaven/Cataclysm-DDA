@@ -217,6 +217,43 @@
     "object": {
       "fill_ter": "t_nl_metal_floor",
       "rows": [
+        "vvvv,,vvv#    #vvvvvvvvv",
+        "vvv,,vvvv#   ,#vvvvvvvvv",
+        "vvvv,,vvv#    #vvvvvvvvv",
+        "vv,,,vvvv# ,  #vvvvvvvvv",
+        "vvv,,,,vv#,  ,#v,,,,vvvv",
+        "vvv,,,,,v#  ,,#v,,,,vvvv",
+        "vvv,,,,vv#,,,,#,,,,,,vvv",
+        "vvvv,,,vv#,,,,#,,,,,,vvv",
+        "vvvvvv,,,,,,,,,,,,vvvvvv",
+        "####,,,,,,,,,,,,########",
+        ",,, , ,,,,,,,,,,,,,,,,  ",
+        "    ,,,,,,,@,,,,,,,,,,  ",
+        "      ,,,,,,,,,,, ,     ",
+        "  ,,,,,,,,,,,,,,,,,,,,  ",
+        "######,,,,,,,,,,,,######",
+        "vvvvv,,,,,,,,,,,,,,vvvvv",
+        "vvvvv,,,,,,,,,,,,,,vvvvv",
+        "vvvvv,,,,#,,,,#,,,,vvvvv",
+        "vvvvvvvvv#,, ,#,,,,vvvvv",
+        "vvvvvvvvv#    #,,,,,,,vv",
+        "vvvvvvvvv#,   #,,,,,,,vv",
+        "vvvvvvvvv#    #vvv,,,,,v",
+        "vvvvvvvvv#    #vvvv,,,,v",
+        "vvvvvvvvv#    #vv,,,,,vv"
+      ],
+      "palettes": [ "labyrinthine_overgrown_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "@": "t_nl_grass" },
+      "furniture": { "@": [ [ "f_null", 9 ], [ "f_dead_exodii", 1 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth_overgrown_entrance" ],
+    "object": {
+      "fill_ter": "t_nl_metal_floor",
+      "rows": [
         "vvvvvvvvv#    #vvvvvvvvv",
         "vvvvvvvvv#X  X#vvvvvvvvv",
         "vvvvvvvvv#X  X#vvvvvvvvv",

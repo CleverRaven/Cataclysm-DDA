@@ -441,7 +441,7 @@
     "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "apron_plastic",
@@ -531,7 +531,25 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 85,
+        "encumbrance": [ 48, 48 ]
+      }
     ],
     "pocket_data": [
       {
@@ -559,7 +577,7 @@
     "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "variant_type": "generic",
     "variants": [
       { "id": "generic", "//": "inherit name and description from item" },
@@ -631,7 +649,25 @@
     "color": "green",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 95,
+        "encumbrance": [ 21, 27 ]
+      }
     ],
     "pocket_data": [
       {
@@ -658,7 +694,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS" ]
+    "flags": [ "VARSIZE", "POCKETS", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "dress",
@@ -1296,7 +1332,25 @@
     "faults": [ { "fault_group": "fabric_cotton" } ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 12, 12 ]
+      }
     ],
     "pocket_data": [
       {
@@ -1310,7 +1364,7 @@
     "warmth": 20,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "variant_type": "generic",
     "variants": [
       {
@@ -1461,7 +1515,25 @@
     "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.75 },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
     ],
     "variant_type": "generic",
     "variants": [
@@ -1617,7 +1689,27 @@
     "warmth": 5,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
+    "armor": [
+      { "breathability": "SECOND_SKIN", "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] },
+      {
+        "breathability": "SECOND_SKIN",
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 90
+      }
+    ],
     "variant_type": "generic",
     "variants": [
       { "id": "generic", "//": "inherit name and description from item" },
@@ -1686,7 +1778,22 @@
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 5, 7 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "gastropod_foot" ], "encumbrance": 4, "coverage": 80 },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 5, 5 ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 75, "encumbrance": 4 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 65, "encumbrance": 4 }
     ],
     "pocket_data": [
       {
@@ -1707,7 +1814,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "maid_dress_xl",
@@ -1752,6 +1859,33 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "encumbrance": 4,
+        "coverage": 40,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 50,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 40 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 35 },
       {
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
@@ -1810,10 +1944,37 @@
       { "covers": [ "torso" ], "coverage": 90 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85 },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 100 },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "encumbrance": 4,
+        "coverage": 40,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 40,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20 }
     ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "FRAGILE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "FRAGILE", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ]
   },
   {
     "id": "ninja_dress",
@@ -1834,7 +1995,7 @@
     "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 4 },
       {
@@ -1843,7 +2004,34 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "encumbrance": 4,
+        "coverage": 40,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 40,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20 }
     ]
   },
   {
@@ -1865,7 +2053,7 @@
     "faults": [ { "fault_group": "fabric_cotton" } ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": 4 },
       {
@@ -1879,7 +2067,34 @@
         "coverage": 100,
         "encumbrance": 2
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 40 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "encumbrance": 4,
+        "coverage": 40,
+        "specifically_covers": [ "leg_lower_gastropod" ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 40,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      },
+      { "covers": [ "tail_long", "tail_fluffy", "tail_bovine", "tail_rat" ], "coverage": 35 },
+      { "covers": [ "tail_thick", "tail_club" ], "coverage": 20 }
     ]
   },
   {
@@ -2080,11 +2295,29 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
         "coverage": 40,
         "encumbrance": 1
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 75,
+        "encumbrance": 10
       }
     ],
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "sundress",
@@ -2129,8 +2362,28 @@
     "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ],
+    "armor": [
+      { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 95,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "sweatshirt",
@@ -2150,8 +2403,28 @@
     "warmth": 30,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ],
+    "armor": [
+      { "encumbrance": 6, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 95,
+        "encumbrance": 12
+      }
+    ]
   },
   {
     "id": "technician_shirt_gray",
@@ -2483,6 +2756,7 @@
     "name": { "str": "crop top" },
     "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
     "proportional": { "weight": 0.5, "volume": 0.5, "warmth": 0.5 },
+    "extend": { "flags": [ "ALLOWS_SPIDER_ARMS" ] },
     "armor": [
       { "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
@@ -2490,7 +2764,24 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       },
-      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 50
+      }
     ],
     "variant_type": "generic",
     "variants": [
@@ -2678,7 +2969,25 @@
     "color": "dark_gray",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 95,
+        "encumbrance": [ 12, 12 ]
+      }
     ],
     "pocket_data": [
       {
@@ -2692,7 +3001,7 @@
     "warmth": 35,
     "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "bunny_suit_playboy",

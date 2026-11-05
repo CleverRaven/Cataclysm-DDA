@@ -437,5 +437,10 @@
     "id": [ "shot_speedloader6", "shot_speedloader8" ],
     "type": "MIGRATION",
     "replace": "shot_speedloader"
+  },
+  {
+    "id": [ "air_pistol_beretta_9mm_mag " ],
+    "type": "MIGRATION",
+    "replace": "air_pistol_mag"
   }
 ]

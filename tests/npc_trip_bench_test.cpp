@@ -23,6 +23,7 @@
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "options_helpers.h"
 #include "overmap_ui.h"
@@ -37,6 +38,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
 
 static const efftype_id effect_sleep( "sleep" );
 
@@ -48,6 +50,7 @@ static const itype_id itype_orange( "orange" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
+static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
@@ -59,16 +62,21 @@ static const weather_type_id weather_clear( "clear" );
 static const zone_type_id zone_type_NPC_NO_GO( "NPC_NO_GO" );
 
 // run by hand with "[npc_trip_bench]"; prints one line per case and phase:
-// BENCH,case,phase,npcs,npc_turns,route_calls,ms_total,ms_per_npc_turn,steps,drinks,spins
+// BENCH,case,phase,npcs,npc_turns,decisions,executor_calls,route_calls,ms_total,ms_per_npc_turn,
+// steps,drinks,fed_turns,indoor_turns,spins
+// the needs are topped up every round, so fed_turns and indoor_turns count turns ending in that
+// state, not meals or warm-ups completed
 
 namespace
 {
 
+// the need the bench keeps topped up every round
+enum class bench_need : int { thirst, sleep, hunger, cold };
+
 struct bench_npc {
     npc *guy;
     tripoint_bub_ms start;
-    // sleep cases hold tiredness instead of thirst
-    bool tired = false;
+    bench_need need = bench_need::thirst;
 };
 
 struct phase_total {
@@ -78,7 +86,13 @@ struct phase_total {
     int steps = 0;
     // turns that ended with water drunk
     int drinks = 0;
+    // turns ended with food in the stomach
+    int fed_turns = 0;
+    // turns ended on an indoor tile
+    int indoor_turns = 0;
     int route_calls = 0;
+    int decisions = 0;
+    int executor_calls = 0;
     // spun-out turns; their time isn't real work
     int spins = 0;
 };
@@ -103,15 +117,48 @@ npc &make_follower( npc &guy )
     return guy;
 }
 
+void restore_need( npc &guy, const bench_need need )
+{
+    switch( need ) {
+        case bench_need::thirst:
+            guy.stomach.empty();
+            guy.set_thirst( 600 );
+            break;
+        case bench_need::sleep:
+            guy.set_sleepiness( 300 );
+            break;
+        case bench_need::hunger:
+            guy.stomach.empty();
+            guy.guts.empty();
+            guy.set_hunger( 300 );
+            guy.set_stored_kcal( guy.get_healthy_kcal() / 2 );
+            break;
+        case bench_need::cold:
+            guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+            guy.set_all_parts_temp_cur( BODYTEMP_VERY_COLD );
+            break;
+    }
+}
+
+bool pursuing_need( const npc &guy, const bench_need need )
+{
+    switch( need ) {
+        case bench_need::thirst:
+            return guy.get_water_plan().active();
+        case bench_need::sleep:
+            return guy.get_sleep_plan().active();
+        case bench_need::hunger:
+            return guy.get_food_plan().active();
+        case bench_need::cold:
+            return guy.get_temperature_plan().active();
+    }
+    return false;
+}
+
 // fixed workload: need back every round, start position every reset_every rounds
 void restore( bench_npc &b, const int round, const int reset_every )
 {
-    if( b.tired ) {
-        b.guy->set_sleepiness( 300 );
-    } else {
-        b.guy->stomach.empty();
-        b.guy->set_thirst( 600 );
-    }
+    restore_need( *b.guy, b.need );
     if( reset_every > 0 && round % reset_every == reset_every - 1 ) {
         b.guy->setpos( get_map(), b.start );
         b.guy->path.clear();
@@ -123,19 +170,25 @@ void run_case( const std::string &name, std::vector<bench_npc> &npcs, const int 
 {
     map &here = get_map();
     std::map<std::string, phase_total> phases;
+    // need is in place before the first measured round
+    for( bench_npc &b : npcs ) {
+        restore_need( *b.guy, b.need );
+    }
     for( int round = 0; round < rounds; ++round ) {
         for( bench_npc &b : npcs ) {
-            const bool pursuing = b.tired ? b.guy->get_sleep_plan().active() :
-                                  b.guy->get_water_plan().active();
-            const std::string phase = pursuing ? "pursue" : "acquire";
+            const std::string phase = pursuing_need( *b.guy, b.need ) ? "pursue" : "acquire";
             const tripoint_bub_ms from = b.guy->pos_bub();
             const int routes_before = b.guy->trip_route_calls();
+            const int decisions_before = b.guy->decisions_made();
+            const int executor_before = b.guy->executor_calls();
             const std::chrono::steady_clock::time_point t0 = std::chrono::steady_clock::now();
             const npc_turn_result result = process_npc_turn( here, *b.guy );
             const std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
             phase_total &p = phases[phase];
             p.turns++;
             p.route_calls += b.guy->trip_route_calls() - routes_before;
+            p.decisions += b.guy->decisions_made() - decisions_before;
+            p.executor_calls += b.guy->executor_calls() - executor_before;
             if( result.spun_out ) {
                 p.spins++;
             }
@@ -143,6 +196,12 @@ void run_case( const std::string &name, std::vector<bench_npc> &npcs, const int 
             p.steps += rl_dist( from, b.guy->pos_bub() );
             if( b.guy->stomach.get_water() > 0_ml ) {
                 p.drinks++;
+            }
+            if( b.guy->stomach.get_calories() > 0 ) {
+                p.fed_turns++;
+            }
+            if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, b.guy->pos_bub() ) ) {
+                p.indoor_turns++;
             }
         }
         calendar::turn += 1_turns;
@@ -154,10 +213,10 @@ void run_case( const std::string &name, std::vector<bench_npc> &npcs, const int 
         }
     }
     for( const auto &[phase, total] : phases ) {
-        WARN( string_format( "BENCH,%s,%s,%zu,%d,%d,%.3f,%.4f,%d,%d,%d", name, phase, npcs.size(),
-                             total.turns, total.route_calls, total.ms,
-                             total.turns > 0 ? total.ms / total.turns : 0.0, total.steps, total.drinks,
-                             total.spins ) );
+        WARN( string_format( "BENCH,%s,%s,%zu,%d,%d,%d,%d,%.3f,%.4f,%d,%d,%d,%d,%d", name, phase,
+                             npcs.size(), total.turns, total.decisions, total.executor_calls,
+                             total.route_calls, total.ms, total.turns > 0 ? total.ms / total.turns : 0.0,
+                             total.steps, total.drinks, total.fed_turns, total.indoor_turns, total.spins ) );
     }
 }
 
@@ -293,7 +352,7 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
             npc &guy = make_follower( spawn_thirsty( start ) );
             guy.set_thirst( 0 );
             guy.set_sleepiness( 300 );
-            npcs.push_back( { &guy, start, true } );
+            npcs.push_back( { &guy, start, bench_need::sleep } );
         }
         // no spot along the leader's walk
         zone_manager &mgr = zone_manager::get_manager();
@@ -320,7 +379,7 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
             guy.set_thirst( 0 );
             guy.set_sleepiness( 300 );
             guy.set_stim( 100 );
-            npcs.push_back( { &guy, start, true } );
+            npcs.push_back( { &guy, start, bench_need::sleep } );
         }
         // hostile behind a wall: in range, out of view
         for( int x = 44; x <= 60; ++x ) {
@@ -332,7 +391,7 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
             for( bench_npc &b : npcs ) {
                 if( !b.guy->in_sleep_state() ) {
                     // lie down the way the game does: the roll fails on stim, so it settles
-                    b.guy->set_committed_goal( "go_to_sleep" );
+                    b.guy->set_committed_goal_for_test( "go_to_sleep" );
                     b.guy->set_moves( 100 );
                     b.guy->execute_need_goal( "go_to_sleep" );
                 }
@@ -405,7 +464,7 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
         }
         for( npc *guy : passengers ) {
             REQUIRE( guy->has_effect( effect_sleep ) );
-            npcs.push_back( { guy, guy->pos_bub(), true } );
+            npcs.push_back( { guy, guy->pos_bub(), bench_need::sleep } );
         }
         veh->velocity = 1000;
         run_case( "woken_passengers", npcs, rounds, 0, [&]( const int round ) {
@@ -423,5 +482,92 @@ TEST_CASE( "npc_trip_bench", "[.][npc_trip_bench]" )
         here.unboard_vehicle( you.pos_bub() );
         clear_vehicles();
         here.load( origin, false, false );
+    }
+    SECTION( "hungry_follower_no_supplies" ) {
+        bench_setup();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        get_avatar().setpos( get_map(), leader );
+        get_map().build_map_cache( 0 );
+        const tripoint_bub_ms start = leader + tripoint::east * 2;
+        npc &guy = make_follower( spawn_thirsty( start ) );
+        guy.set_thirst( 0 );
+        std::vector<bench_npc> npcs{ { &guy, start, bench_need::hunger } };
+        run_case( "hungry_follower_no_supplies", npcs, rounds, 0 );
+    }
+    SECTION( "follower_forbidden_and_unreachable_food" ) {
+        bench_setup();
+        map &here = get_map();
+        const tripoint_bub_ms leader( 50, 50, 0 );
+        get_avatar().setpos( here, leader );
+        const tripoint_bub_ms start = leader + tripoint::east * 2;
+        npc &guy = make_follower( spawn_thirsty( start ) );
+        guy.set_thirst( 0 );
+        // six oranges in a zone the follower may not enter, six sealed in glass
+        zone_manager &mgr = zone_manager::get_manager();
+        const tripoint_bub_ms forbidden = leader + tripoint( 0, 5, 0 );
+        mgr.add( "no_food", zone_type_NPC_NO_GO, guy.get_fac_id(), false, true,
+                 here.get_abs( forbidden + tripoint( -3, -1, 0 ) ), here.get_abs( forbidden + tripoint( 3, 1,
+                         0 ) ) );
+        mgr.cache_data();
+        for( int i = -3; i <= 2; ++i ) {
+            here.add_item_or_charges( forbidden + tripoint( i, 0, 0 ), item( itype_orange ) );
+        }
+        std::vector<tripoint_bub_ms> sealed;
+        for( const tripoint_bub_ms &p : here.points_in_radius( start, 6 ) ) {
+            const bool apart = std::none_of( sealed.begin(), sealed.end(), [&p]( const tripoint_bub_ms & o ) {
+                return square_dist( o, p ) < 3;
+            } );
+            if( sealed.size() >= 6 || rl_dist( p, start ) != 5 || p.y() >= forbidden.y() - 2 || !apart ) {
+                continue;
+            }
+            here.add_item_or_charges( p, item( itype_orange ) );
+            for( const tripoint_bub_ms &w : here.points_in_radius( p, 1 ) ) {
+                if( w != p ) {
+                    here.ter_set( w, ter_t_wall_glass );
+                }
+            }
+            sealed.push_back( p );
+        }
+        REQUIRE( sealed.size() == 6 );
+        here.build_map_cache( 0 );
+        std::vector<bench_npc> npcs{ { &guy, start, bench_need::hunger } };
+        run_case( "follower_forbidden_and_unreachable_food", npcs, rounds, 0 );
+        for( const tripoint_bub_ms &p : sealed ) {
+            CAPTURE( p );
+            CHECK( here.has_items( p ) );
+        }
+    }
+    SECTION( "cold_guard_far_shelter" ) {
+        bench_setup();
+        map &here = get_map();
+        const tripoint_bub_ms post( 50, 50, 0 );
+        npc &guy = spawn_thirsty( post );
+        guy.set_thirst( 0 );
+        guy.set_mission( NPC_MISSION_GUARD );
+        guy.set_guard_pos( guy.pos_abs() );
+        REQUIRE( guy.is_on_shift() );
+        // floor in sight, past the post's reach
+        for( const tripoint_bub_ms &p : here.points_in_radius( post + tripoint( 6, 0, 0 ), 1 ) ) {
+            here.ter_set( p, ter_t_floor );
+        }
+        here.build_map_cache( 0 );
+        std::vector<bench_npc> npcs{ { &guy, post, bench_need::cold } };
+        run_case( "cold_guard_far_shelter", npcs, rounds, walk_cycle );
+    }
+    SECTION( "repeated_decisions_without_movement" ) {
+        bench_setup();
+        map &here = get_map();
+        const tripoint_bub_ms start( 50, 50, 0 );
+        // walled in by glass: water in sight, no step possible
+        lay_pond( start + tripoint( 4, 0, 0 ), 1 );
+        for( const tripoint_bub_ms &w : here.points_in_radius( start, 1 ) ) {
+            if( w != start ) {
+                here.ter_set( w, ter_t_wall_glass );
+            }
+        }
+        here.build_map_cache( 0 );
+        std::vector<bench_npc> npcs{ { &spawn_thirsty( start ), start } };
+        run_case( "repeated_decisions_without_movement", npcs, rounds, 0 );
+        CHECK( npcs.front().guy->pos_bub() == start );
     }
 }

@@ -1,6 +1,8 @@
 #include <cstddef>
 #include <functional>
 #include <initializer_list>
+#include <list>
+#include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
@@ -16,11 +18,16 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_oracle.h"
 #include "coordinates.h"
+#include "dialogue.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
+#include "game.h"
+#include "input_enums.h"
+#include "item.h"
 #include "json.h"
 #include "json_loader.h"
 #include "lightmap.h"
@@ -28,6 +35,7 @@
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "npc.h"
 #include "npc_arbitration.h"
 #include "npc_sleep.h"
@@ -39,6 +47,7 @@
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "sleep.h"
 #include "sounds.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -48,7 +57,10 @@
 #include "vpart_range.h"
 #include "weather.h"
 
+class recipe;
+
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
+static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_learning_serum_main( "learning_serum_main" );
 static const efftype_id effect_lying_down( "lying_down" );
@@ -58,21 +70,39 @@ static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const furn_str_id furn_f_armchair( "f_armchair" );
+static const furn_str_id furn_f_beanbag( "f_beanbag" );
 static const furn_str_id furn_f_bed( "f_bed" );
+static const furn_str_id furn_f_chair( "f_chair" );
+static const furn_str_id furn_f_hammock( "f_hammock" );
 static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
 static const furn_str_id furn_f_sofa( "f_sofa" );
+static const furn_str_id furn_f_stool( "f_stool" );
+
+static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bandages( "bandages" );
+static const itype_id itype_ear_plugs( "ear_plugs" );
+static const itype_id itype_shark_plushie( "shark_plushie" );
 
 static const json_character_flag json_flag_CANNOT_SLEEP( "CANNOT_SLEEP" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
+static const mtype_id mon_zombie( "mon_zombie" );
+
+static const recipe_id recipe_prac_health_care_beg( "prac_health_care_beg" );
+
+static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall( "t_wall" );
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+
+static const trap_str_id tr_cot( "tr_cot" );
+static const trap_str_id tr_rollmat( "tr_rollmat" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
@@ -168,7 +198,7 @@ static void make_asleep_on_bed( npc &guy )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 0 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     guy.execute_need_goal( "go_to_sleep" );
     REQUIRE( asleep( guy ) );
@@ -363,7 +393,7 @@ TEST_CASE( "need_floor_order_holds_for_every_need", "[npc][needs][obligation]" )
 {
     for( const npc::need_goal_id id : {
              npc::need_goal_id::drink_water, npc::need_goal_id::go_to_sleep,
-             npc::need_goal_id::eat_food, npc::need_goal_id::seek_warmth
+             npc::need_goal_id::eat_food, npc::need_goal_id::regulate_temperature
          } ) {
         const float strict = npc_need_floor( id, { npc_permission::discouraged, npc_obligation::none, 0.0f } );
         const float emergency = npc_need_floor( id, { npc_permission::emergency_only, npc_obligation::none, 0.0f } );
@@ -390,8 +420,10 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
     sleep_setup();
     map &here = get_map();
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 0 );
-    const npc_option_cost here_rest = npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 2, 0,
-                                      0 ) ), false, false, true );
+    npc_option_cost here_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 2, 0,
+                                0 ) ),
+                                npc_option_basis::routed );
+    here_rest.responsive = false;
     const auto rest_view = [&guy]( const npc_option_cost & c ) {
         return guy.need_view( npc::need_goal_id::go_to_sleep, c );
     };
@@ -423,8 +455,12 @@ TEST_CASE( "accompany_floor_slides_while_the_leader_stays_in_one_place",
             CHECK( w.floor == Approx( 0.575f ) );
         }
         WHEN( "the spot is past the spacing" ) {
-            const npc_need_view w = rest_view( npc_option_cost::trip( here.get_abs( leader_pos + tripoint( 8, 0,
-                                               0 ) ), true, false, true ) );
+            npc_option_cost far_rest = npc_option_cost::located( here.get_abs( leader_pos + tripoint( 8, 0,
+                                       0 ) ),
+                                       npc_option_basis::routed );
+            far_rest.walks = true;
+            far_rest.responsive = false;
+            const npc_need_view w = rest_view( far_rest );
             CHECK( w.verdict.by == npc_obligation::accompany );
             CHECK( w.floor == Approx( 0.575f ) );
         }
@@ -471,7 +507,9 @@ TEST_CASE( "vehicle_bed_relaxes_accompaniment_only_on_a_belted_seat_or_bed",
     seat( get_avatar(), leader_pos );
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 0 );
     const auto rest_here = [&guy]() {
-        return guy.judge_option( npc_option_cost::trip( guy.pos_abs(), false, false, true ) );
+        npc_option_cost rest = npc_option_cost::located( guy.pos_abs(), npc_option_basis::routed );
+        rest.responsive = false;
+        return guy.judge_option( rest );
     };
 
     SECTION( "a belted seat" ) {
@@ -566,7 +604,7 @@ TEST_CASE( "seated_follower_sleeps_when_leader_sleeps_aboard", "[npc][behavior][
     npc &guy = tired_follower( leader_pos + tripoint( 0, 10, 0 ), 250 );
     seat( guy, mount_tile( veh, point_rel_ms( -2, 0 ) ) );
 
-    run_npc_turns( guy, 20, []( const npc & n ) {
+    run_npc_turns( guy, 40, []( const npc & n ) {
         return n.in_sleep_state();
     } );
     CAPTURE( guy.pos_bub(), guy.get_committed_goal(), guy.in_vehicle, guy.in_vehicle_bed() );
@@ -626,7 +664,7 @@ TEST_CASE( "npc_settling_ignores_player_sleep_throttle", "[npc][needs][sleep]" )
     // a roll now starts the player's 30-minute throttle
     guy.can_sleep();
     REQUIRE_FALSE( guy.can_sleep() );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     CHECK( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::progressed );
     CHECK( asleep( guy ) );
@@ -643,7 +681,7 @@ TEST_CASE( "npc_settling_rolls_until_asleep_or_gives_the_spot_up", "[npc][needs]
     here.furn_set( bed, furn_f_bed );
     guy.set_sleepiness( 300 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     REQUIRE( guy.has_effect( effect_lying_down ) );
@@ -743,6 +781,284 @@ TEST_CASE( "shaded_bed_beats_sunlit_bed", "[npc][sleep]" )
     CHECK( candidates.front().target == here.get_abs( shaded ) );
 }
 
+using spot_placer = std::function<void( map &, const tripoint_bub_ms & )>;
+
+static spot_placer furniture_spot( const furn_str_id &furn )
+{
+    return [furn]( map & here, const tripoint_bub_ms & p ) {
+        here.furn_set( p, furn );
+    };
+}
+
+static spot_placer trap_spot( const trap_str_id &tr )
+{
+    return [tr]( map & here, const tripoint_bub_ms & p ) {
+        here.trap_set( p, tr.id() );
+    };
+}
+
+static void bare_spot( map &, const tripoint_bub_ms & )
+{
+}
+
+static void make_cold( npc &guy )
+{
+    get_weather().forced_temperature = units::from_celsius( -30 );
+    guy.set_all_parts_temp_conv( BODYTEMP_VERY_COLD );
+}
+
+// roofed room around p, open to the east
+static void shade( map &here, const tripoint_bub_ms &p )
+{
+    for( const tripoint_bub_ms &q : here.points_in_radius( p, 1 ) ) {
+        here.ter_set( q, ter_t_wall );
+        here.ter_set( q + tripoint::above, ter_t_flat_roof );
+    }
+    here.ter_set( p, ter_t_floor );
+    here.ter_set( p + tripoint::east, ter_t_floor );
+}
+
+TEST_CASE( "sleep_spot_ranking_prefers_beds", "[npc][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    guy.set_sleepiness( 300 );
+    const tripoint_bub_ms near_pt = guy.pos_bub() + tripoint::east;
+    const tripoint_bub_ms far_pt = guy.pos_bub() + tripoint( -3, 0, 0 );
+    const auto first_choice = [&]() {
+        here.build_map_cache( 1 );
+        here.build_map_cache( 0 );
+        const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
+        REQUIRE_FALSE( candidates.empty() );
+        return candidates.front().target;
+    };
+    GIVEN( "chair next to NPC, makeshift bed further off" ) {
+        here.furn_set( near_pt, furn_f_chair );
+        here.furn_set( far_pt, furn_f_makeshift_bed );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "bed scores higher and comes first" ) {
+                const int near_score = guy.evaluate_sleep_spot( near_pt );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "chair next to NPC, hammock further off" ) {
+        here.furn_set( near_pt, furn_f_chair );
+        here.furn_set( far_pt, furn_f_hammock );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "hammock scores higher and comes first" ) {
+                const int near_score = guy.evaluate_sleep_spot( near_pt );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "bare ground under NPC, hammock further off" ) {
+        here.furn_set( far_pt, furn_f_hammock );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "hammock scores higher and comes first" ) {
+                const int near_score = guy.evaluate_sleep_spot( guy.pos_bub() );
+                CHECK( near_score < guy.evaluate_sleep_spot( far_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "bare ground under NPC, chair next to it" ) {
+        here.furn_set( near_pt, furn_f_chair );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "chair scores higher and comes first" ) {
+                const int near_score = guy.evaluate_sleep_spot( guy.pos_bub() );
+                CHECK( near_score < guy.evaluate_sleep_spot( near_pt ) );
+                CHECK( choice == here.get_abs( near_pt ) );
+            }
+        }
+    }
+    GIVEN( "stool next to NPC, hammock further off" ) {
+        here.furn_set( near_pt, furn_f_stool );
+        here.furn_set( far_pt, furn_f_hammock );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "hammock first" ) {
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "armchair next to NPC, hammock further off" ) {
+        here.furn_set( near_pt, furn_f_armchair );
+        here.furn_set( far_pt, furn_f_hammock );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "hammock first" ) {
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "stool next to NPC, rollmat further off" ) {
+        here.furn_set( near_pt, furn_f_stool );
+        here.trap_set( far_pt, tr_rollmat );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "rollmat first" ) {
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "armchair next to NPC, rollmat further off" ) {
+        here.furn_set( near_pt, furn_f_armchair );
+        here.trap_set( far_pt, tr_rollmat );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "rollmat first" ) {
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "rollmat next to NPC, warmer makeshift bed further off" ) {
+        here.trap_set( near_pt, tr_rollmat );
+        here.furn_set( far_pt, furn_f_makeshift_bed );
+        const int near_comfort = guy.get_comfort_at( near_pt ).comfort;
+        REQUIRE( near_comfort == guy.get_comfort_at( far_pt ).comfort );
+        WHEN( "NPC is cold" ) {
+            make_cold( guy );
+            THEN( "warmer bed first" ) {
+                CHECK( first_choice() == here.get_abs( far_pt ) );
+            }
+        }
+        WHEN( "NPC is warm" ) {
+            THEN( "warmer bed first" ) {
+                CHECK( first_choice() == here.get_abs( far_pt ) );
+            }
+        }
+    }
+    GIVEN( "hammock next to NPC in the sun, stool further off in the shade" ) {
+        shade( here, far_pt );
+        here.furn_set( near_pt, furn_f_hammock );
+        here.furn_set( far_pt, furn_f_stool );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "more comfortable hammock first" ) {
+                REQUIRE( here.ambient_light_at( near_pt ) > LIGHT_AMBIENT_LIT );
+                REQUIRE( here.ambient_light_at( far_pt ) < here.ambient_light_at( near_pt ) );
+                CHECK( choice == here.get_abs( near_pt ) );
+            }
+        }
+    }
+    GIVEN( "warmer makeshift bed next to NPC in the sun, rollmat further off in the shade" ) {
+        shade( here, far_pt );
+        here.furn_set( near_pt, furn_f_makeshift_bed );
+        here.trap_set( far_pt, tr_rollmat );
+        const int near_comfort = guy.get_comfort_at( near_pt ).comfort;
+        REQUIRE( near_comfort == guy.get_comfort_at( far_pt ).comfort );
+        WHEN( "it looks for a place to sleep" ) {
+            const tripoint_abs_ms choice = first_choice();
+            THEN( "shaded rollmat first" ) {
+                REQUIRE( here.ambient_light_at( near_pt ) > LIGHT_AMBIENT_LIT );
+                REQUIRE( here.ambient_light_at( far_pt ) < here.ambient_light_at( near_pt ) );
+                CHECK( choice == here.get_abs( far_pt ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "sleep_spot_ranking_over_common_spots", "[npc][sleep]" )
+{
+    struct ranked_spot {
+        std::string name;
+        spot_placer place;
+    };
+    // best first
+    const std::vector<ranked_spot> order = {
+        { "beanbag", furniture_spot( furn_f_beanbag ) },
+        { "bed", furniture_spot( furn_f_bed ) },
+        { "makeshift bed", furniture_spot( furn_f_makeshift_bed ) },
+        { "cot", trap_spot( tr_cot ) },
+        { "rollmat", trap_spot( tr_rollmat ) },
+        { "hammock", furniture_spot( furn_f_hammock ) },
+        { "armchair", furniture_spot( furn_f_armchair ) },
+        { "stool", furniture_spot( furn_f_stool ) },
+        { "chair", furniture_spot( furn_f_chair ) },
+        { "bare ground", bare_spot },
+    };
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    guy.set_sleepiness( 300 );
+    const tripoint_bub_ms near_pt = guy.pos_bub() + tripoint::east;
+    const tripoint_bub_ms far_pt = guy.pos_bub() + tripoint( -3, 0, 0 );
+    // each better spot further off than the next worse one
+    const auto check_order = [&]() {
+        for( size_t i = 0; i + 1 < order.size(); ++i ) {
+            const ranked_spot &better = order[i];
+            const ranked_spot &worse = order[i + 1];
+            CAPTURE( better.name, worse.name );
+            // comfort is cached per turn and tile
+            calendar::turn += 1_turns;
+            for( const tripoint_bub_ms &p : {
+                     near_pt, far_pt
+                 } ) {
+                here.furn_set( p, furn_str_id::NULL_ID() );
+                here.remove_trap( p );
+            }
+            worse.place( here, near_pt );
+            better.place( here, far_pt );
+            here.build_map_cache( 0 );
+            const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
+            REQUIRE_FALSE( candidates.empty() );
+            CHECK( candidates.front().target == here.get_abs( far_pt ) );
+        }
+    };
+    GIVEN( "cold NPC" ) {
+        make_cold( guy );
+        THEN( "comfort first, then warmth" ) {
+            check_order();
+        }
+    }
+    GIVEN( "warm NPC" ) {
+        THEN( "comfort first, then warmth" ) {
+            check_order();
+        }
+    }
+}
+
+TEST_CASE( "shaded_bed_with_sleep_aid_beats_nearer_sunlit_one", "[npc][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    guy.set_sleepiness( 300 );
+    const tripoint_bub_ms sunny = guy.pos_bub() + tripoint( 2, 0, 0 );
+    const tripoint_bub_ms shaded = guy.pos_bub() + tripoint( -3, 0, 0 );
+    GIVEN( "bed with plushie in the sun, same bed further off in the shade" ) {
+        shade( here, shaded );
+        for( const tripoint_bub_ms &p : {
+                 sunny, shaded
+             } ) {
+            here.furn_set( p, furn_f_bed );
+            here.add_item( p, item( itype_shark_plushie ) );
+        }
+        here.build_map_cache( 1 );
+        here.build_map_cache( 0 );
+        REQUIRE( here.ambient_light_at( sunny ) > LIGHT_AMBIENT_LIT );
+        REQUIRE( here.ambient_light_at( shaded ) < here.ambient_light_at( sunny ) );
+        const int sunny_comfort = guy.evaluate_sleep_spot( sunny );
+        REQUIRE( sunny_comfort >= comfort_data::COMFORT_VERY_COMFORTABLE - 1 );
+        REQUIRE( guy.evaluate_sleep_spot( shaded ) == sunny_comfort );
+        WHEN( "it looks for a place to sleep" ) {
+            const std::vector<npc::need_candidate> candidates = guy.find_sleep_candidates();
+            THEN( "shaded bed first" ) {
+                REQUIRE_FALSE( candidates.empty() );
+                CHECK( candidates.front().target == here.get_abs( shaded ) );
+            }
+        }
+    }
+}
+
 TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
 {
     sleep_setup();
@@ -776,7 +1092,7 @@ TEST_CASE( "sleep_session_survives_save_and_load", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 600 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         const npc_sleep_session before = guy.get_sleep_session();
@@ -797,7 +1113,7 @@ TEST_CASE( "settling_rolls_only_on_its_cadence", "[npc][needs][sleep]" )
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_sleepiness( 600 );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     // every roll from here succeeds: on a bed at 600 with no stim
@@ -839,7 +1155,7 @@ TEST_CASE( "loaded_settler_rechecks_obligations_on_its_first_turn",
     npc &guy = tired_follower( leader_pos + tripoint( 2, 0, 0 ), 300 );
     get_map().furn_set( guy.pos_bub(), furn_f_bed );
     guy.set_stim( 100 );
-    guy.set_committed_goal( "go_to_sleep" );
+    guy.set_committed_goal_for_test( "go_to_sleep" );
     guy.set_moves( 100 );
     REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
     round_trip( guy );
@@ -968,7 +1284,7 @@ TEST_CASE( "woken_below_tired_resumes_only_where_rest_is_allowed", "[npc][needs]
         npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
         make_asleep_on_bed( guy );
         guy.set_sleepiness( 150 );
-        guy.set_committed_goal( "" );
+        guy.set_committed_goal_for_test( "" );
         wake_by_noise( guy );
         run_npc_turns( guy, 5, settled );
         CHECK( settled( guy ) );
@@ -1202,7 +1518,7 @@ TEST_CASE( "wake_up_dialogue_keeps_rule_and_grants_grace", "[npc][sleep]" )
         get_map().furn_set( guy.pos_bub(), furn_f_bed );
         guy.set_sleepiness( 300 );
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         talk_function::wake_up( guy );
@@ -1304,7 +1620,7 @@ TEST_CASE( "npc_that_cannot_sleep_does_not_try", "[npc][needs][sleep]" )
     }
     SECTION( "the serum takes hold while it lies down: it gets up" ) {
         guy.set_stim( 100 );
-        guy.set_committed_goal( "go_to_sleep" );
+        guy.set_committed_goal_for_test( "go_to_sleep" );
         guy.set_moves( 100 );
         REQUIRE( guy.execute_need_goal( "go_to_sleep" ) == npc::need_result::holding );
         guy.set_stim( 0 );
@@ -1322,4 +1638,331 @@ TEST_CASE( "npc_that_cannot_sleep_does_not_try", "[npc][needs][sleep]" )
         guy.add_effect( effect_learning_serum_main, 2_hours );
         CHECK( never_settles( guy, 10 ) );
     }
+}
+
+static bool on_task( const npc &n )
+{
+    return n.get_attitude() == NPCATT_ACTIVITY &&
+           ( n.activity.id() == ACT_MULTIPLE_CRAFT || n.activity.id() == ACT_CRAFT );
+}
+
+// follower on a first-aid practice task; begun: the craft has started, not only been assigned
+static npc &task_npc( const tripoint_bub_ms &pos, const int sleepiness, const bool begun = true )
+{
+    npc &guy = tired_follower( pos, 0 );
+    guy.worn.wear_item( guy, item( itype_backpack ), false, false );
+    REQUIRE( guy.i_add( item( itype_bandages ) ) );
+    const recipe &practice = recipe_prac_health_care_beg.obj();
+    guy.learn_recipe( &practice );
+    REQUIRE( guy.can_make( &practice, 1 ) );
+    guy.make_craft( recipe_prac_health_care_beg, 1 );
+    REQUIRE( guy.activity.id() == ACT_MULTIPLE_CRAFT );
+    if( begun ) {
+        run_npc_turns( guy, 3, []( const npc & n ) {
+            return n.activity.id() == ACT_CRAFT;
+        } );
+        REQUIRE( guy.activity.id() == ACT_CRAFT );
+    }
+    REQUIRE_FALSE( guy.is_walking_with() );
+    guy.set_sleepiness( sleepiness );
+    return guy;
+}
+
+static void sleep_until_asleep( npc &guy )
+{
+    run_npc_turns( guy, 60, asleep );
+    REQUIRE( asleep( guy ) );
+}
+
+// woken and rested enough not to lie back down
+static void wake_rested( npc &guy )
+{
+    REQUIRE( guy.wake_by_player() );
+    guy.set_sleepiness( 0 );
+}
+
+TEST_CASE( "task_survives_sleep_in_place", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600 );
+    const tripoint_bub_ms spot = guy.pos_bub();
+    sleep_until_asleep( guy );
+    REQUIRE( guy.pos_bub() == spot );
+    // cancel while the task waits leaves it waiting
+    guy.cancel_activity();
+    CHECK( guy.get_attitude() == NPCATT_ACTIVITY );
+    CHECK( guy.get_suspended_task() );
+    wake_rested( guy );
+    run_npc_turns( guy, 5, on_task );
+    CHECK( on_task( guy ) );
+}
+
+// still its task, doing it or put aside to rest
+static bool keeps_task( const npc &n )
+{
+    return n.get_attitude() == NPCATT_ACTIVITY && ( on_task( n ) || n.get_suspended_task() );
+}
+
+TEST_CASE( "task_survives_sleep_after_walking_to_a_bed", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    map &here = get_map();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600 );
+    // walled room with a closed door between the NPC and the bed
+    const tripoint_bub_ms corner = guy.pos_bub() + tripoint( 3, -2, 0 );
+    for( int dx = 0; dx <= 4; ++dx ) {
+        for( int dy = 0; dy <= 4; ++dy ) {
+            const bool edge = dx == 0 || dx == 4 || dy == 0 || dy == 4;
+            here.ter_set( corner + tripoint( dx, dy, 0 ), edge ? ter_t_wall : ter_t_floor );
+        }
+    }
+    const tripoint_bub_ms door = corner + tripoint( 0, 2, 0 );
+    here.ter_set( door, ter_t_door_c );
+    const tripoint_bub_ms bed = corner + tripoint( 2, 2, 0 );
+    here.furn_set( bed, furn_f_bed );
+    here.build_map_cache( 0 );
+    for( int turn = 0; turn < 60 && !asleep( guy ); ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn, guy.activity.id().str(), guy.pos_bub() );
+        REQUIRE( keeps_task( guy ) );
+    }
+    REQUIRE( asleep( guy ) );
+    REQUIRE( guy.pos_bub() == bed );
+    wake_rested( guy );
+    run_npc_turns( guy, 5, on_task );
+    CHECK( on_task( guy ) );
+}
+
+TEST_CASE( "woken_task_npc_resumes_its_task_once", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600 );
+    sleep_until_asleep( guy );
+    wake_rested( guy );
+    for( int turn = 0; turn < 10; ++turn ) {
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        int crafts = guy.activity.id() == ACT_MULTIPLE_CRAFT ? 1 : 0;
+        for( const player_activity &act : guy.backlog ) {
+            crafts += act.id() == ACT_MULTIPLE_CRAFT ? 1 : 0;
+        }
+        CHECK( crafts <= 1 );
+        CHECK_FALSE( guy.get_suspended_task() );
+    }
+    CHECK( on_task( guy ) );
+}
+
+TEST_CASE( "task_put_aside_can_be_stopped_in_dialogue", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 0 );
+    guy.suspend_task_for_rest();
+    REQUIRE( guy.get_suspended_task() );
+    REQUIRE_FALSE( guy.activity );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    d.add_topic( "TALK_ACTIVITIES" );
+    d.gen_responses( d.topic_stack.back() );
+    talk_response *stop = nullptr;
+    std::string offered;
+    for( talk_response &r : d.responses ) {
+        r.create_option_line( d, input_event() );
+        offered += r.text + "|";
+        if( r.text == "Please stop your current activity." ) {
+            stop = &r;
+        }
+    }
+    CAPTURE( offered );
+    REQUIRE( stop != nullptr );
+    stop->success.apply( d );
+    CHECK_FALSE( guy.get_suspended_task() );
+    CHECK( guy.get_attitude() != NPCATT_ACTIVITY );
+}
+
+TEST_CASE( "task_put_aside_survives_a_spot_it_cannot_sleep_on", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 250 );
+    // too wired to fall asleep
+    guy.set_stim( 100 );
+    run_npc_turns( guy, 5, settled );
+    REQUIRE( settled( guy ) );
+    REQUIRE( guy.get_suspended_task() );
+    const tripoint_bub_ms spot = guy.pos_bub();
+    for( int turn = 0; turn < to_turns<int>( 35_minutes ); ++turn ) {
+        guy.set_stim( 100 );
+        run_npc_turn( guy );
+        CAPTURE( turn );
+        REQUIRE( keeps_task( guy ) );
+    }
+    CHECK( rl_dist( guy.pos_bub(), spot ) <= 1 );
+}
+
+TEST_CASE( "cancelled_task_stays_cancelled_after_sleep", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600 );
+    sleep_until_asleep( guy );
+    talk_function::revert_activity( guy );
+    CHECK_FALSE( guy.get_suspended_task() );
+    wake_rested( guy );
+    run_npc_turns( guy, 5 );
+    CHECK_FALSE( on_task( guy ) );
+    CHECK( guy.get_attitude() != NPCATT_ACTIVITY );
+}
+
+TEST_CASE( "task_and_sleep_survive_save_load", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600 );
+    sleep_until_asleep( guy );
+    std::ostringstream os;
+    JsonOut jsout( os );
+    guy.serialize( jsout );
+    guy.on_unload();
+    guy.setID( character_id(), true );
+    guy.deserialize( json_loader::from_string( os.str() ).get_object() );
+    guy.on_load( &get_map() );
+    REQUIRE( asleep( guy ) );
+    REQUIRE( guy.get_suspended_task() );
+    wake_rested( guy );
+    run_npc_turns( guy, 5, on_task );
+    CHECK( on_task( guy ) );
+}
+
+TEST_CASE( "task_whose_requirements_fail_while_asleep_reports_it", "[npc][needs][sleep]" )
+{
+    // seen by player, so the report reaches the log
+    clear_map_with_vision();
+    clear_avatar();
+    set_time_to_day();
+    get_avatar().setpos( get_map(), leader_pos );
+    get_avatar().camps.clear();
+    get_weather().forced_temperature = 20_C;
+    // assigned, not begun: the task checks what it needs when it starts
+    npc &guy = task_npc( leader_pos + tripoint( 2, 0, 0 ), 600, false );
+    sleep_until_asleep( guy );
+    REQUIRE( guy.get_suspended_task() );
+    guy.remove_items_with( []( const item & it ) {
+        return it.typeId() == itype_bandages;
+    } );
+    wake_rested( guy );
+    Messages::clear_messages();
+    run_npc_turns( guy, 10, []( const npc & n ) {
+        return !n.get_suspended_task() && !on_task( n );
+    } );
+    CHECK_FALSE( guy.get_suspended_task() );
+    CHECK_FALSE( on_task( guy ) );
+    bool reported = false;
+    std::string log;
+    for( const std::pair<std::string, std::string> &m : Messages::recent_messages( 20 ) ) {
+        log += m.second + "\n";
+        // the task's own check says what's missing
+        reported = reported || m.second.find( "required items are not available" ) != std::string::npos;
+    }
+    CAPTURE( log );
+    CHECK( reported );
+}
+
+// one turn beside an idling engine; true when the NPC lay down this turn
+static bool engine_turn( npc &guy, const bool running )
+{
+    const bool was_resting = guy.in_sleep_state();
+    if( running ) {
+        sounds::reset_sounds();
+        sounds::sound( guy.pos_bub() + tripoint::east, 20, sounds::sound_t::movement, "engine", true );
+        sounds::process_sound_markers( &guy );
+    }
+    const bool woken = guy.get_sleep_session().phase == npc_sleep_phase::woken;
+    run_npc_turn( guy );
+    return ( woken || !was_resting ) && guy.in_sleep_state();
+}
+
+static bool noise_until_held( npc &guy, const int max_turns )
+{
+    for( int turn = 0; turn < max_turns && !guy.noise_hold_active(); ++turn ) {
+        engine_turn( guy, true );
+    }
+    return guy.noise_hold_active();
+}
+
+TEST_CASE( "steady_noise_does_not_cause_wake_lie_down_churn", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    // below EXHAUSTED: an exhausted NPC kept awake past the five-minute needs tick may nod off
+    guy.set_sleepiness( 500 );
+    int lie_downs = 0;
+    int held_turns = 0;
+    for( int turn = 0; turn < to_turns<int>( 10_minutes ); ++turn ) {
+        lie_downs += engine_turn( guy, true ) ? 1 : 0;
+        if( guy.noise_hold_active() ) {
+            held_turns++;
+            CAPTURE( turn );
+            // other work may run meanwhile
+            CHECK_FALSE( guy.in_sleep_state() );
+            CHECK( guy.get_committed_goal() != "go_to_sleep" );
+        }
+    }
+    CAPTURE( lie_downs, guy.get_sleep_session().noise_wakes );
+    // one lie-down after the first wake, then one per expired hold (1, 2, 4, 8 minutes)
+    CHECK( lie_downs <= 5 );
+    CHECK( held_turns > to_turns<int>( 5_minutes ) );
+}
+
+TEST_CASE( "rest_resumes_when_the_noise_stops", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    REQUIRE( noise_until_held( guy, 300 ) );
+    REQUIRE_FALSE( guy.in_sleep_state() );
+
+    SECTION( "engine stops" ) {
+        run_npc_turns( guy, 5, settled );
+        CHECK( settled( guy ) );
+    }
+    SECTION( "it puts ear plugs in" ) {
+        guy.worn.wear_item( guy, item( itype_ear_plugs ), false, false );
+        REQUIRE( guy.is_deaf() );
+        for( int turn = 0; turn < 5 && !settled( guy ); ++turn ) {
+            engine_turn( guy, true );
+        }
+        CHECK( settled( guy ) );
+    }
+    SECTION( "noise continues" ) {
+        for( int turn = 0; turn < 5; ++turn ) {
+            engine_turn( guy, true );
+        }
+        CHECK_FALSE( settled( guy ) );
+    }
+}
+
+TEST_CASE( "danger_still_wakes_a_resting_npc_despite_the_hold", "[npc][needs][sleep]" )
+{
+    sleep_setup();
+    scoped_weather_override clear_weather( weather_clear );
+    map &here = get_map();
+    npc &guy = stranger( leader_pos + tripoint( 0, -20, 0 ) );
+    make_asleep_on_bed( guy );
+    REQUIRE( noise_until_held( guy, 300 ) );
+    // hold expires, lies back down under the same noise
+    calendar::turn = guy.get_sleep_session().noise_hold_until;
+    for( int turn = 0; turn < 5 && !settled( guy ); ++turn ) {
+        engine_turn( guy, true );
+    }
+    REQUIRE( settled( guy ) );
+    // can't fall asleep now, so lies awake
+    guy.remove_effect( effect_sleep );
+    guy.add_effect( effect_lying_down, 30_minutes, false, 1 );
+    guy.set_stim( 100 );
+    REQUIRE( g->place_critter_at( mon_zombie, guy.pos_bub() + tripoint( 3, 0, 0 ) ) != nullptr );
+    here.build_map_cache( 0 );
+    // the turn's rest review may have been asked before the zombie came
+    for( int turn = 0; turn < 2 && guy.in_sleep_state(); ++turn ) {
+        engine_turn( guy, true );
+    }
+    CHECK_FALSE( guy.in_sleep_state() );
 }

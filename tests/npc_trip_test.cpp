@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "enums.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -18,6 +19,7 @@
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
+#include "vehicle.h"
 #include "weather.h"
 
 static const faction_id faction_your_followers( "your_followers" );
@@ -34,6 +36,8 @@ static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
+
+static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 // follower with every need settled, so only following drives it
 static npc &spawn_settled_follower( const tripoint_bub_ms &pos )
@@ -501,6 +505,53 @@ TEST_CASE( "self_care_step_refuses_hazard_on_retained_path", "[npc][movement]" )
             CHECK_FALSE( guy.move_to_and_verify( spec ) );
             CHECK( guy.pos_bub() == before );
             CHECK( guy.path.empty() );
+        }
+    }
+}
+
+TEST_CASE( "reach_change_within_a_turn_reroutes_the_trip", "[npc][movement][obligation][vehicle]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    clear_vehicles();
+    map &here = get_map();
+    avatar &u = get_avatar();
+    // inside the window where boarding doesn't shift the map
+    const tripoint_bub_ms leader_pos( 66, 66, 0 );
+    u.setpos( here, leader_pos );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, tripoint_bub_ms( 62, 60, 0 ),
+                                     0_degrees, 100, veh_spawn_status::UNDAMAGED );
+    REQUIRE( veh != nullptr );
+    veh->velocity = 0;
+    npc &guy = spawn_settled_follower( leader_pos + tripoint( 2, 0, 0 ) );
+    // in the follow spacing, off the vehicle, farther from the seat than the NPC
+    const tripoint_bub_ms spot = guy.pos_bub() + tripoint( 0, 3, 0 );
+    REQUIRE_FALSE( here.veh_at( spot ) );
+    REQUIRE_FALSE( here.veh_at( guy.pos_bub() ) );
+    here.build_map_cache( 0 );
+    const npc_trip_spec spec = npc_trip_spec::stand_on( spot, true );
+
+    GIVEN( "trip judged while the leader stands nearby" ) {
+        const std::optional<npc_trip> on_foot = guy.resolve_trip( spec );
+        REQUIRE( on_foot );
+        REQUIRE( on_foot->route_in_reach );
+        REQUIRE( on_foot->constrained );
+
+        WHEN( "leader boards the parked vehicle in the same turn" ) {
+            const tripoint_abs_sm origin = here.get_abs_sub();
+            const tripoint_bub_ms seat = veh->mount_to_tripoint( &here, point_rel_ms( 0, 2 ) );
+            u.setpos( here, seat );
+            here.board_vehicle( seat, &u );
+            REQUIRE( u.in_vehicle );
+            REQUIRE( here.get_abs_sub() == origin );
+            REQUIRE( guy.obligation_reach()->aboard == veh );
+            REQUIRE( rl_dist( here.get_abs( spot ), u.pos_abs() ) > rl_dist( guy.pos_abs(), u.pos_abs() ) );
+
+            THEN( "same trip judged against the vehicle reach" ) {
+                const std::optional<npc_trip> aboard = guy.resolve_trip( spec );
+                REQUIRE( aboard );
+                CHECK_FALSE( aboard->route_in_reach );
+            }
         }
     }
 }

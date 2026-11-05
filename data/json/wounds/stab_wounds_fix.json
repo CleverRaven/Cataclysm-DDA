@@ -1,0 +1,122 @@
+[
+  {
+    "id": "bleed_stab_small_fix",
+    "copy-from": "bleed_wound_medium",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your stab.",
+    "wounds_removed": [ "bleeding_stab_small" ],
+    "wounds_added": [ "stab_small" ],
+    "success_msg": "The light stab isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_stab_medium_fix",
+    "copy-from": "bleed_wound_difficult_medium",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your stab.",
+    "wounds_removed": [ "bleeding_stab_medium" ],
+    "wounds_added": [ "stab_medium" ],
+    "success_msg": "The stab isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_stab_bad_fix",
+    "copy-from": "bleed_wound_difficult_bad",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your deep stab.",
+    "wounds_removed": [ "bleeding_stab_bad" ],
+    "wounds_added": [ "stab_bad" ],
+    "success_msg": "The deep stab isn't bleeding anymore."
+  },
+  {
+    "id": "bleed_stab_terrible_fix",
+    "copy-from": "bleed_wound_difficult_terrible",
+    "type": "wound_fix",
+    "name": "stop the bleeding",
+    "description": "Stop the bleeding of your horrible stab.",
+    "wounds_removed": [ "bleeding_stab_terrible" ],
+    "wounds_added": [ "stab_terrible" ],
+    "success_msg": "The horrible stab isn't bleeding anymore."
+  },
+  {
+    "id": "clean_stab_small_fix",
+    "copy-from": "clean_wound_small",
+    "type": "wound_fix",
+    "name": "clean the stab",
+    "description": "Clean your light stab.",
+    "wounds_removed": [ "stab_small" ],
+    "wounds_added": [ "clean_stab_small" ],
+    "success_msg": "The light stab is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_stab_medium_fix",
+    "copy-from": "clean_wound_medium",
+    "type": "wound_fix",
+    "name": "clean the stab",
+    "description": "Clean your stab.",
+    "wounds_removed": [ "stab_medium" ],
+    "wounds_added": [ "clean_stab_medium" ],
+    "success_msg": "The stab is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_stab_bad_fix",
+    "copy-from": "clean_wound_bad",
+    "type": "wound_fix",
+    "name": "clean the stab",
+    "description": "Clean your bad stab.",
+    "wounds_removed": [ "stab_bad" ],
+    "wounds_added": [ "clean_stab_bad" ],
+    "success_msg": "The bad stab is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "clean_stab_terrible_fix",
+    "copy-from": "clean_wound_terrible",
+    "type": "wound_fix",
+    "name": "clean the stab",
+    "description": "Clean your horrible stab.",
+    "wounds_removed": [ "stab_terrible" ],
+    "wounds_added": [ "clean_stab_terrible" ],
+    "success_msg": "The horrible stab is clean now.  You should bandage it but it'll heal as is."
+  },
+  {
+    "id": "bandage_stab_small_fix",
+    "copy-from": "bandage_wound_small",
+    "type": "wound_fix",
+    "name": "bandage the stab",
+    "description": "Bandage your light stab.",
+    "wounds_removed": [ "clean_stab_small" ],
+    "wounds_added": [ "bandaged_stab_small" ],
+    "success_msg": "The light stab is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_stab_medium_fix",
+    "copy-from": "bandage_wound_medium",
+    "type": "wound_fix",
+    "name": "bandage the stab",
+    "description": "Bandage your stab.",
+    "wounds_removed": [ "clean_stab_medium" ],
+    "wounds_added": [ "bandaged_stab_medium" ],
+    "success_msg": "The stab is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_stab_bad_fix",
+    "copy-from": "bandage_wound_bad",
+    "type": "wound_fix",
+    "name": "bandage the stab",
+    "description": "Bandage your bad stab.",
+    "wounds_removed": [ "clean_stab_bad" ],
+    "wounds_added": [ "bandaged_stab_bad" ],
+    "success_msg": "The bad stab is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_stab_terrible_fix",
+    "copy-from": "bandage_wound_terrible",
+    "type": "wound_fix",
+    "name": "bandage the stab",
+    "description": "Bandage your horrible stab.",
+    "wounds_removed": [ "clean_stab_terrible" ],
+    "wounds_added": [ "bandaged_stab_terrible" ],
+    "success_msg": "The horrible stab is bandaged, now, all you can do is wait for it to heal."
+  }
+]

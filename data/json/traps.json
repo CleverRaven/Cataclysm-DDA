@@ -1309,5 +1309,35 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_slope_to_bosky_labyrinth",
+    "name": "overgrown slope",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_slope_to_bosky_labyrinth" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_ls_teleport_fixbot",
+    "name": " ",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_teleport_fixbot" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]

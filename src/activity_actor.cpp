@@ -29,6 +29,7 @@
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery.h"
@@ -123,6 +124,7 @@
 #include "shearing.h"
 #include "skill.h"
 #include "sounds.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "temp_crafting_inventory.h"
@@ -160,6 +162,7 @@ static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
@@ -5424,6 +5427,8 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         tripoint_abs_ms origin;
         character_id who;
         unsigned int zone_count = 0;
+        // one report per scan, not per site lacking the same items
+        bool missing_items_reported = false;
     };
     static source_cache cache;
 
@@ -5449,10 +5454,20 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
             cache.origin = abspos;
             cache.who = you.getID();
             cache.zone_count = cur_zone_count;
+            cache.missing_items_reported = false;
         }
     }
 
     std::vector<tripoint_abs_ms> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    if( current_activity == ACT_MULTIPLE_CONSTRUCTION ) {
+        // joins another builder's site only once no free site can be worked
+        const std::unordered_set<tripoint_abs_ms> occupied =
+            multi_activity_actor::occupied_construction_sites( you );
+        std::stable_partition( src_sorted.begin(), src_sorted.end(),
+        [&occupied]( const tripoint_abs_ms & site ) {
+            return occupied.count( site ) == 0;
+        } );
+    }
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
@@ -5460,16 +5475,28 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
     // may cause infinite loop if something goes wrong
     // TODO: this could be moved to a multi_zone_activity_actor virtual function for post-location checking
     if( current_activity == ACT_FETCH_REQUIRED && src_sorted.empty() ) {
-        // remind what you failed to fetch
+        fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
         if( !check_only ) {
-            fetch_required_activity_actor *as_fetch = static_cast<fetch_required_activity_actor *>( this );
+            // remind what you failed to fetch
             as_fetch->set_npc_fetch_history( you );
+        }
+        if( !check_only &&
+            as_fetch->last_plan == fetch_required_activity_actor::fetch_plan::cannot_supply ) {
+            // task asks for same fetch every turn if left alone
+            add_msg_if_player_sees( you, m_info,
+                                    _( "%1$s can't bring what the \"%2$s\" task still needs." ),
+                                    you.disp_name( true ), you.backlog.front().id().obj().verb().translated() );
+            multi_activity_actor::call_off_fetch_and_task( you );
+            return false;
         }
         act.set_to_null();
         return true;
     }
 
     requirement_failure_reasons req_fail_reason;
+    bool uncached_missing_items_reported = false;
+    bool &missing_items_reported = use_cache ? cache.missing_items_reported :
+                                   uncached_missing_items_reported;
 
     for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint_bub_ms &src_bub = here.get_bub( src );
@@ -5498,7 +5525,7 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         // see activity_handlers.h enum for requirement_check_result
         req_fail_reason = requirement_failure_reasons();
         const requirement_check_result req_res = check_requirements( you, act_info, src, src_bub, src_set,
-                check_only );
+                missing_items_reported, check_only );
         if( req_res == requirement_check_result::RETURN_EARLY || !you.activity ) {
             // Fetch dispatched -- prune so we don't re-trigger it.
             if( use_cache ) {
@@ -5527,6 +5554,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
         // can_resume_with_internal() in Character::assign_activity()
         std::optional<bool> route_result = multi_activity_actor::route(
                                                you, current_act_copy, src_bub, req_fail_reason, check_only );
+        if( !you.activity ) {
+            debugmsg( "%s lost its \"%s\" activity while routing to a work spot", you.disp_name(),
+                      current_activity.str() );
+            return false;
+        }
         if( !route_result ) {
             if( use_cache ) {
                 cache.sources.erase( src );
@@ -5560,6 +5592,11 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
                 // and the multi-act is now in the backlog
                 return true;
             }
+            if( !you.activity ) {
+                debugmsg( "%s lost its \"%s\" activity in a work step that went on scanning",
+                          you.disp_name(), current_activity.str() );
+                return false;
+            }
         } else {
             return true;
         }
@@ -5586,7 +5623,7 @@ bool multi_zone_activity_actor::simulate_turn( player_activity &act, Character &
 requirement_check_result multi_zone_activity_actor::check_requirements( Character &you,
         activity_reason_info &act_info,
         const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-        const std::unordered_set<tripoint_abs_ms> &src_set,
+        const std::unordered_set<tripoint_abs_ms> &src_set, bool &missing_items_reported,
         bool check_only )
 {
     map &here = get_map();
@@ -5625,7 +5662,7 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
     } else if( multi_activity_actor::activity_reason_continue( reason ) ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
-        if( you.is_npc() ) {
+        if( you.is_npc() && !missing_items_reported ) {
             if( zone ) {
                 add_msg_if_player_sees( you, m_info,
                                         _( "%1$s is trying to find necessary items for \"%2$s\" in zone %3$s. %4$s" ),
@@ -5672,15 +5709,16 @@ requirement_check_result multi_zone_activity_actor::check_requirements( Characte
         if( !multi_activity_actor::are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots,
                 what_we_need, you, act_id, tool_pickup, src_loc ) ) {
             const tripoint_bub_ms you_pos_bub = you.pos_bub();
-            if( zone ) {
+            if( !missing_items_reported && zone ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
                                             _( "The required items are not available to complete the \"%1$s\" task at zone %2$s." ),
                                             act_id.obj().verb().translated(), zone->get_name() ) );
-            } else {
+            } else if( !missing_items_reported ) {
                 add_msg_if_player_sees( you_pos_bub, m_info, string_format(
                                             _( "The required items are not available to complete the \"%s\" task." ),
                                             act_id.obj().verb().translated() ) );
             }
+            missing_items_reported = true;
             //TODO: this is hacky, move it
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
@@ -6242,6 +6280,10 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
 
     item_location consume_loc = consume_location;
 
+    // food that changed hands, was claimed or serves no need is left uneaten
+    if( !was_canceled && consume_loc && who.is_npc() && !who.as_npc()->may_eat_from( consume_loc ) ) {
+        was_canceled = true;
+    }
     if( !was_canceled ) {
         if( consume_loc ) {
             who.consume( consume_loc, /*force=*/true );
@@ -6319,6 +6361,59 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     data.read( "consume_menu_filter", obsolete_cconsume_menu_filter );
     data.read( "type", obsolete_type );
 
+    return actor.clone();
+}
+
+static item camp_meal_of( const basecamp &camp, const int kcal )
+{
+    nutrients portion;
+    portion.calories = static_cast<int64_t>( kcal ) * 1000;
+    return camp.make_fake_food( portion );
+}
+
+void camp_meal_activity_actor::start( player_activity &act, Character &who )
+{
+    const basecamp *bcp = overmap_buffer.find_camp( camp.xy() ).value_or( nullptr );
+    if( bcp == nullptr || kcal <= 0 ) {
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = to_moves<int>( who.get_consume_time( camp_meal_of( *bcp, kcal ) ) );
+    act.moves_left = act.moves_total;
+}
+
+void camp_meal_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    basecamp *bcp = overmap_buffer.find_camp( camp.xy() ).value_or( nullptr );
+    if( bcp == nullptr || !bcp->allowed_access_by( who ) ) {
+        return;
+    }
+    // whether more food fits is asked again at the end, as for any meal
+    if( who.is_npc() && !who.as_npc()->intake_fits( npc::need_goal_id::eat_food ) ) {
+        return;
+    }
+    // refused meal satisfies nothing; NPC turns to its own food
+    if( bcp->feed_workers( who, bcp->camp_food_supply( -kcal ), camp_meal::personal ) <= 0 &&
+        who.is_npc() ) {
+        who.as_npc()->refuse_camp_meal();
+    }
+}
+
+void camp_meal_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "camp", camp );
+    jsout.member( "kcal", kcal );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> camp_meal_activity_actor::deserialize( JsonValue &jsin )
+{
+    camp_meal_activity_actor actor( tripoint_abs_omt(), 0 );
+    JsonObject data = jsin.get_object();
+    data.read( "camp", actor.camp );
+    data.read( "kcal", actor.kcal );
     return actor.clone();
 }
 
@@ -7526,9 +7621,10 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
 void harvest_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
+    const tripoint_bub_ms pos = here.get_bub( target );
 
-    if( here.has_furn( target ) ) {
-        const furn_id &furn = here.furn( target );
+    if( here.has_furn( pos ) ) {
+        const furn_id &furn = here.furn( pos );
 
         if( furn->has_examine( iexamine::harvest_furn ) ) {
             // TODO: Should be generified as a harvest field
@@ -7547,7 +7643,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         }
     }
 
-    const harvest_id harvest = here.get_harvest( target );
+    const harvest_id harvest = here.get_harvest( pos );
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
@@ -7555,7 +7651,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
         }
 
         if( who.manual_examine ) {
-            iexamine::none( who, target );
+            iexamine::none( who, pos );
         }
 
         act.set_to_null();
@@ -7573,6 +7669,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 
     map &here = get_map();
+    const tripoint_bub_ms pos = here.get_bub( target );
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority TODO: Allow separating nectar seasons
@@ -7582,7 +7679,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 
     const float survival_skill = who.get_skill_level( skill_survival );
     bool got_anything = false;
-    for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
+    for( const harvest_entry &entry : here.get_harvest( pos ).obj() ) {
         const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
         const float max_num = entry.scale_num.second * survival_skill + entry.base_num.second;
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
@@ -7598,9 +7695,9 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( exam_furn ) {
-        here.furn_set( target, furn_str_id::NULL_ID() );
+        here.furn_set( pos, furn_str_id::NULL_ID() );
     } else {
-        here.ter_set( target, here.get_ter_transforms_into( target ) );
+        here.ter_set( pos, here.get_ter_transforms_into( pos ) );
     }
 
     iexamine::practice_survival_while_foraging( who );
@@ -7609,7 +7706,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 void harvest_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    jsout.member( "target", target );
+    jsout.member( "target_abs", target );
     jsout.member( "exam_furn", exam_furn );
     jsout.member( "nectar", nectar );
     jsout.member( "auto_forage", auto_forage );
@@ -7618,10 +7715,18 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
-    harvest_activity_actor actor{ tripoint_bub_ms::invalid };
+    harvest_activity_actor actor{ tripoint_abs_ms::invalid };
 
     JsonObject jsobj = jsin.get_object();
-    jsobj.read( "target", actor.target );
+    if( jsobj.has_member( "target_abs" ) ) {
+        jsobj.read( "target_abs", actor.target );
+    } else {
+        // save without target_abs holds a bubble position, read on the map loaded at its origin
+        tripoint_bub_ms legacy_target = tripoint_bub_ms::invalid;
+        if( jsobj.read( "target", legacy_target ) ) {
+            actor.target = get_map().get_abs( legacy_target );
+        }
+    }
     jsobj.read( "exam_furn", actor.exam_furn );
     jsobj.read( "nectar", actor.nectar );
     jsobj.read( "auto_forage", actor.auto_forage );
@@ -9385,11 +9490,39 @@ std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( Js
     return actor.clone();
 }
 
+// tile shows what the construction makes, so whoever else worked on it completed it
+static bool construction_done_at( const construction_id &built, const tripoint_bub_ms &p )
+{
+    if( !built.is_valid() || built->post_terrain.empty() ) {
+        return false;
+    }
+    const map &here = get_map();
+    if( built->post_is_furniture ) {
+        return here.furn( p ).id() == furn_str_id( built->post_terrain );
+    }
+    return here.ter( p ).id() == ter_str_id( built->post_terrain );
+}
+
+void build_construction_activity_actor::start( player_activity &act, Character & )
+{
+    // other builders try the tile a builder's activity is placed on last
+    act.placement = construction_location;
+    map &here = get_map();
+    if( const partial_con *pc = here.partial_con_at( here.get_bub( construction_location ) ) ) {
+        building = pc->id;
+    }
+}
+
 void build_construction_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
     const tripoint_bub_ms construction_bub = here.get_bub( construction_location );
     partial_con *pc = here.partial_con_at( construction_bub );
+    if( !pc && construction_done_at( building, construction_bub ) ) {
+        // another builder finished it; a multi-activity in the backlog goes on
+        act.set_to_null();
+        return;
+    }
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( you.is_npc() ) {
@@ -9403,6 +9536,7 @@ void build_construction_activity_actor::do_turn( player_activity &act, Character
                  you.disp_name() );
         return;
     }
+    building = pc->id;
     you.set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();
@@ -11219,27 +11353,31 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     for( const auto &e : reqs.get_components() ) {
-        who.consume_items( e );
+        who.consume_items( e, amount );
     }
     for( const auto &e : reqs.get_tools() ) {
-        who.consume_tools( e );
+        who.consume_tools( e, amount );
     }
     who.invalidate_crafting_inventory();
 
-    for( const wound_type_id &id : fix.wounds_removed ) {
-        bp->remove_wound( id );
+    for( int i = 0; i < amount; i++ ) {
+        for( const wound_type_id &id : fix.wounds_removed ) {
+            bp->remove_wound( id );
+        }
     }
 
-    for( const wound_type_id &id : fix.wounds_added ) {
-        bp->add_wound( id );
+    for( int i = 0; i < amount; i++ ) {
+        for( const wound_type_id &id : fix.wounds_added ) {
+            bp->add_wound( id );
+        }
     }
 
     if( fix.mod_hp ) {
-        bp->mod_hp_cur( fix.mod_hp );
+        bp->mod_hp_cur( fix.mod_hp * amount );
     }
 
     for( const auto& [skill_id, level] : fix.skills ) {
-        who.practice( skill_id, 10, static_cast<int>( level * 1.25 ) );
+        who.practice( skill_id, 10 * amount, static_cast<int>( level * 1.25 ) );
     }
 
     for( const wound_proficiency &wound_prof : fix.proficiencies ) {
@@ -11247,6 +11385,10 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     }
 
     add_msg( m_good, fix.success_msg.translated() );
+
+    if( who.has_wounds( healed_bp.id() ) ) {
+        who.pick_wound_fix( healed_bp );
+    }
 }
 
 void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
@@ -11256,6 +11398,7 @@ void fix_wound_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "healed_bp", healed_bp );
     jsout.member( "mended_wound", mended_wound );
     jsout.member( "mending_method", mending_method );
+    jsout.member( "amount", amount );
 
     jsout.end_object();
 }
@@ -11269,6 +11412,7 @@ std::unique_ptr<activity_actor> fix_wound_activity_actor::deserialize( JsonValue
     data.read( "healed_bp", actor.healed_bp );
     data.read( "mended_wound", actor.mended_wound );
     data.read( "mending_method", actor.mending_method );
+    data.read( "amount", actor.amount );
 
     return actor.clone();
 }
@@ -12843,6 +12987,15 @@ void fire_start_activity_actor::finish( player_activity &act, Character &who )
                                      ( use_fun->get_actor_ptr() );
     if( actor == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act.set_to_null();
+        return;
+    }
+
+    // hearth may have changed during lighting
+    const npc *guy = who.as_npc();
+    if( guy != nullptr && !guy->check_fire_spot( here.get_bub( fire_placement ) ).usable() ) {
+        //~ %s: NPC name
+        add_msg_if_player_sees( who, m_info, _( "%s can't light a fire there." ), who.get_name() );
         act.set_to_null();
         return;
     }
@@ -15474,6 +15627,7 @@ deserialize_functions = {
     { ACT_BUILD, &build_construction_activity_actor::deserialize },
     { ACT_BUTCHER, &butchery_activity_actor::deserialize },
     { ACT_BUTCHER_FULL, &butchery_activity_actor::deserialize },
+    { ACT_CAMP_MEAL, &camp_meal_activity_actor::deserialize },
     { ACT_CHOP_LOGS, &chop_logs_activity_actor::deserialize },
     { ACT_CHOP_PLANKS, &chop_planks_activity_actor::deserialize },
     { ACT_CHOP_TREE, &chop_tree_activity_actor::deserialize },

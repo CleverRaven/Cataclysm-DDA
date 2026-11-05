@@ -18,7 +18,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "bodygraph.h"
+#include "body_status_ui.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -760,11 +760,15 @@ static void haul()
 
     uilist menu;
 
-    bool hauling = player_character.is_hauling();
-    bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
     std::vector<item_location> haulable_items = get_map().get_haulable_items(
                 player_character.pos_bub() );
+    player_character.trim_haul_list( haulable_items );
+    if( player_character.is_hauling() && haul_list.empty() && !player_character.is_autohauling() ) {
+        player_character.stop_hauling();
+    }
+    bool hauling = player_character.is_hauling();
+    bool autohaul = player_character.is_autohauling();
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
@@ -2998,16 +3002,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_morale();
             break;
 
-        case ACTION_MEDICAL:
-            if( player_character.disp_medical() ) {
+        case ACTION_MEDICAL: {
+            body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_MEDICAL );
+            if( bsui.display() ) {
                 return false;
             }
             break;
-
-        case ACTION_BODYSTATUS:
-            display_bodygraph( get_player_character() );
+        }
+        case ACTION_BODYSTATUS: {
+            body_status_ui bsui( get_player_character() );
+            bsui.display();
             break;
-
+        }
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;

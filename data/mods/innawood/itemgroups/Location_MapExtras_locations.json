@@ -25,5 +25,15 @@
       { "item": "hickory_root", "prob": 30 },
       { "item": "hickory_nut", "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "forest_trail",
+    "subtype": "collection",
+    "entries": [
+      { "group": "forest", "prob": 100 },
+      { "group": "SUS_trash_forest_no_manmade", "prob": 100 },
+      { "group": "SUS_trash_forest_no_manmade", "count": [ 2, 10 ], "prob": 10 }
+    ]
   }
 ]

@@ -1947,6 +1947,7 @@ emplate
 EMT
 EMTs
 enactors
+enc
 Ender
 endochitin
 Endsville

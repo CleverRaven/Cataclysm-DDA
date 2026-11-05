@@ -51,7 +51,7 @@
     "tools": [ [ [ "ppe_gas", 1, "LIST" ] ] ],
     "components": [
       [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_hydroxide", 1 ], [ "chem_toluene", 250 ] ],
-      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
+      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "chem_methanol", 10 ] ],
       [
         [ "balloon", 3 ],
         [ "shredded_rubber", 20 ],

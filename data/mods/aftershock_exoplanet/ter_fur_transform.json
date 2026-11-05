@@ -30,6 +30,13 @@
         "message": "The door's PIN pad chimes happily as the locking mechanism releases.",
         "message_good": true
       },
+      { "result": "t_open_hatch", "valid_terrain": [ "t_metal_floor_hatch" ] },
+      {
+        "result": "t_open_hatch_stair",
+        "valid_terrain": [ "t_metal_floor_hatch_stair" ],
+        "message": "The bunker hatch swings open with the hiss of ancient hydraulics.",
+        "message_good": true
+      },
       {
         "result": "t_afs_security_door_frame",
         "valid_terrain": [ "t_afs_security_gate_closed" ],

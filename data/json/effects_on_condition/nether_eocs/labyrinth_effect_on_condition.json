@@ -602,6 +602,18 @@
     ]
   },
   {
+    "id": "EOC_LS_Bridge_control_deadend_1_Passcode_fixbot",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "This is all vestigial now, but saved for when there are multiple map options.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_deadend_1_room_fixbot" } ] } ]
+      }
+    ]
+  },
+  {
     "id": "EOC_LS_Unlock",
     "type": "effect_on_condition",
     "effect": [ { "mapgen_update": "UM_LS_Unlock" } ]
@@ -1782,6 +1794,58 @@
       { "clear_dimension": "portal_storm_dungeon_dimension" },
       { "math": [ "portal_dungeon_level = 0" ] },
       { "alter_timed_events": "portal_dungeon" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_fixbot",
+    "condition": { "math": [ "nl_been_to_fixbot != 1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth_sparkgen_UL", "om_special": "labyrinth_sparkgen" },
+        "terrain": "t_nl_scrap_floor_fixbot_tele_landing_pad",
+        "target_max_radius": 250
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "nl_been_to_fixbot = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_slope_to_bosky_labyrinth",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth2",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Where are you?"
+      },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth_overgrown_hall", "om_special": "labyrinthine_structure_overgrown" },
+        "terrain": "t_nl_metal_floor_overgrown",
+        "target_max_radius": 250
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      {
+        "u_message": "As you step onto the slope you lose your footing - literally, it vanishes into thin air.  The world around you spin, but before you can scramble for purchase you land on your feet, unharmed.",
+        "popup": true
+      },
+      { "clear_dimension": "netherum_labyrinth" }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_teleports_fixbot",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_Bridge_control_deadend_1_extend" },
+      {
+        "switch": { "math": [ "rng(1,1)" ] },
+        "//": "Saved here for when there are multiple feature rooms.",
+        "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_teleports_fixbot" } ] } ]
+      }
     ]
   }
 ]

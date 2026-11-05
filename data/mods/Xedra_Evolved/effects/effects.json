@@ -98,7 +98,7 @@
     "apply_message": "The cut begins to burn!",
     "remove_message": "The ache from your wounds finally fades.",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 15 ], "pain_tick": [ 60 ] },
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.6 }, { "value": "REGEN_WOUND", "multiply": -0.6 } ] } ]
   },
   {
     "type": "effect_type",
@@ -936,6 +936,24 @@
               ]
             }
           }
+        ],
+        "incoming_damage_mod_post_absorbed": [
+          {
+            "type": "bash",
+            "add": { "math": [ "-3 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 2) + ( u_has_trait('BLOOD_DRINKER') * 4 )" ] }
+          },
+          {
+            "type": "cut",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 3 )" ] }
+          },
+          {
+            "type": "stab",
+            "add": { "math": [ "-2 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 2 )" ] }
+          },
+          {
+            "type": "bullet",
+            "add": { "math": [ "-1 + u_has_trait('VAMPIRE3')+  ( u_has_trait('VAMPIRE4') * 1) + ( u_has_trait('BLOOD_DRINKER') * 1 )" ] }
+          }
         ]
       }
     ]
@@ -1093,6 +1111,14 @@
         "values": [
           {
             "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
+              ]
+            }
+          },
+          {
+            "value": "REGEN_WOUND",
             "multiply": {
               "math": [
                 "(u_vampire_total_tier_one_traits_plus_potency * 0.02) + (u_vampire_total_tier_two_traits * 0.03) + (u_vampire_total_tier_three_traits * 0.04) + (vampire_total_tier_four_traits_plus_potence() * 0.05) + (u_vampire_total_tier_five_traits_plus_cauldron * 0.06)"
@@ -2132,7 +2158,7 @@
     "name": [ "Phoenix's Rejuvenation" ],
     "desc": [ "Like the phoenix, the flames are renewing your flesh." ],
     "remove_message": "The aftereffects of the phoenix fire finally fade.",
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 }, { "value": "REGEN_WOUND", "multiply": 2 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2647,7 +2673,7 @@
     "id": "effect_hedge_increase_healing_rate",
     "name": [ "Convalescence" ],
     "desc": [ "Your wounds are healing more quickly, as long as you don't do too much to upset the charm." ],
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 }, { "value": "REGEN_WOUND", "multiply": 0.33 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3331,7 +3357,16 @@
     "id": "effect_lilin_bonus_healing_active",
     "//": "Hidden effects, tracking whether you have LILIN_BONUS_HEALING_ACTIVE active.",
     "name": [ "" ],
-    "desc": [ "" ]
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } },
+          { "value": "REGEN_WOUND", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 20)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -3375,6 +3410,10 @@
           { "value": "SLEEPINESS", "multiply": { "math": [ "u_effect_intensity('effect_lilin_no_ruach') * 0.05" ] } },
           {
             "value": "REGEN_HP",
+            "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -1)" ] }
+          },
+          {
+            "value": "REGEN_WOUND",
             "multiply": { "math": [ "max((u_effect_intensity('effect_lilin_no_ruach') * -0.04), -1)" ] }
           },
           {
@@ -3599,7 +3638,8 @@
           { "value": "SPEED", "multiply": -0.1 },
           { "value": "ARMOR_ALL", "multiply": 0.05 },
           { "value": "VISION_RANGE", "multiply": -0.15 },
-          { "value": "REGEN_HP", "multiply": -0.5 }
+          { "value": "REGEN_HP", "multiply": -0.5 },
+          { "value": "REGEN_WOUND", "multiply": -0.5 }
         ]
       }
     ],
@@ -3838,6 +3878,10 @@
             "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
           },
           {
+            "value": "REGEN_WOUND",
+            "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
+          },
+          {
             "value": "MENDING_MODIFIER",
             "multiply": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_rewrite_wound_causality'), 5, 0 )" ] }
           },
@@ -3954,6 +3998,7 @@
     "desc": [ "Cold blood is not enough.  You need some warm blood straight from the vein, you need it NOW!" ],
     "max_intensity": 5,
     "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
+    "remove_message": "Your thirst for warm blood is sated.",
     "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1.5 ] },
     "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ] },
@@ -4431,7 +4476,7 @@
   {
     "type": "effect_type",
     "id": "effect_xe_werewolf_walk_through_walls",
-    "//": "Hidden effect, used to make sure werewolves don't drink their items when Ghostwalking.",
+    "//": "Hidden effect, used to make sure werewolves don't drop their items when Ghostwalking.",
     "name": [ "" ],
     "desc": [ "" ],
     "enchantments": [ { "values": [ { "value": "EVASION", "add": 1 }, { "value": "PHASE_DISTANCE", "add": 1 } ] } ],
@@ -4442,6 +4487,23 @@
     "id": "effect_xe_werewolf_summon_shadow_pack_limiter",
     "name": [ "Summoned the Shadow Pack" ],
     "desc": [ "You called on the aid of ancestral werewolves and must wait before seeking their aid again." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_werewolf_super_fast_regeneration",
+    "//": "Hidden effect, ",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_WOUND",
+            "multiply": { "math": [ "50000 + (werewolf_tier_four_traits() * 5000 ) + (werewolf_tier_five_traits() * 10000 )" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -4528,6 +4590,6 @@
     "desc": [ { "str": "You feel strangely enervated." } ],
     "rating": "bad",
     "show_in_info": true,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.5 }, { "value": "REGEN_WOUND", "multiply": -0.5 } ] } ]
   }
 ]

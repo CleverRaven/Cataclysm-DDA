@@ -28,5 +28,10 @@
     "type": "overmap_location",
     "id": "subterranean_empty",
     "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ravine",
+    "terrains": [ "ravine" ]
   }
 ]

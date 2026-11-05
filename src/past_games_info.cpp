@@ -126,7 +126,7 @@ void past_games_info::ensure_loaded( bool show_popup )
     std::vector<std::pair<std::string, cata_path>> sortable_filenames;
     for( const cata_path &filename : filenames ) {
         std::vector<std::string> components = string_split(
-                filename.get_unrelative_path().generic_u8string(), '-' );
+                filename.generic_u8string(), '-' );
         if( components.size() < 7 ) {
             debugmsg( "Unexpected memorial filename %s", filename.generic_u8string() );
             continue;

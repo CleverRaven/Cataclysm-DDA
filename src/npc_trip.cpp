@@ -233,7 +233,9 @@ npc_trip npc::route_trip( const npc_trip_spec &spec, const npc_reach_policy *pol
 std::optional<npc_trip> npc::resolve_trip( const npc_trip_spec &spec ) const
 {
     npc_trip &cached = ai_cache.last_trip;
-    if( cached.turn == calendar::turn && cached.from == pos_bub() && cached.spec == spec ) {
+    const std::optional<npc_reach> reach = obligation_reach();
+    if( cached.turn == calendar::turn && cached.from == pos_bub() && cached.spec == spec &&
+        cached.reach.matches( reach ) ) {
         return cached.feasible ? std::optional<npc_trip>( cached ) : std::nullopt;
     }
     const std::optional<npc_reach_policy> policy = reach_policy_for( spec );
@@ -245,6 +247,7 @@ std::optional<npc_trip> npc::resolve_trip( const npc_trip_spec &spec ) const
         trip = route_trip( spec, nullptr );
         trip.route_in_reach = false;
     }
+    trip.reach = npc_reach_snapshot::of( reach );
     cached = trip;
     return trip.feasible ? std::optional<npc_trip>( trip ) : std::nullopt;
 }
@@ -261,14 +264,22 @@ std::optional<npc_option_cost> npc::trip_cost( const npc_trip_spec &spec,
         const bool at_hand = spec.kind == npc_trip_kind::within_range ?
                              spec.source.z() == posz() && square_dist( pos_bub(), spec.source ) <= spec.range :
                              pos_bub() == spec.source;
-        return npc_option_cost::trip( here.get_abs( spec.source ), !at_hand, responsive, true );
+        npc_option_cost cost = npc_option_cost::located( here.get_abs( spec.source ),
+                               npc_option_basis::destination );
+        cost.walks = !at_hand;
+        cost.responsive = responsive;
+        return cost;
     }
     const std::optional<npc_trip> trip = resolve_trip( spec );
     if( !trip ) {
         return std::nullopt;
     }
-    return npc_option_cost::trip( here.get_abs( trip->dest ), !trip->path.empty(), responsive,
-                                  trip->route_in_reach );
+    npc_option_cost cost = npc_option_cost::located( here.get_abs( trip->dest ),
+                           npc_option_basis::routed );
+    cost.walks = !trip->path.empty();
+    cost.responsive = responsive;
+    cost.route_in_reach = trip->route_in_reach;
+    return cost;
 }
 
 bool npc::move_to_and_verify( const npc_trip_spec &spec )

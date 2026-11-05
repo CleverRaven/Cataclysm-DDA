@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -16,6 +17,7 @@
 #include "map_selector.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -345,3 +347,39 @@ TEST_CASE( "charged_item_pickup_partial_merge_no_debugmsg", "[pickup][charges]" 
     CHECK( ground_after == expected_remaining );
 }
 
+
+TEST_CASE( "pickup_clears_a_stale_in_use_mark", "[pickup]" )
+{
+    avatar &they = get_avatar();
+    map &here = get_map();
+    clear_avatar();
+    clear_map_without_vision();
+    they.wear_item( item( itype_backpack_hiking ) );
+    const tripoint_bub_ms ground = they.pos_bub();
+    const auto pick_marked = [&]( const std::string & owner ) {
+        item rope( itype_rope_6 );
+        rope.set_var( "activity_var", owner );
+        item &placed = here.add_item( ground, rope );
+        const drop_locations what = { std::make_pair( item_location( map_cursor( ground ), &placed ), 1 ) };
+        they.pick_up( what );
+        process_activity( they );
+        REQUIRE( they.has_amount( itype_rope_6, 1 ) );
+        return character_has_item_with_var_val( they, "activity_var", owner );
+    };
+    GIVEN( "mark naming the picker, who has no task" ) {
+        THEN( "mark goes" ) {
+            CHECK_FALSE( pick_marked( they.name ) );
+        }
+    }
+    GIVEN( "mark naming someone else" ) {
+        THEN( "mark goes" ) {
+            CHECK_FALSE( pick_marked( "Someone Else" ) );
+        }
+    }
+    GIVEN( "mark naming the picker, whose task waits to resume" ) {
+        they.backlog.emplace_front( multi_farm_activity_actor() );
+        THEN( "mark stays" ) {
+            CHECK( pick_marked( they.name ) );
+        }
+    }
+}

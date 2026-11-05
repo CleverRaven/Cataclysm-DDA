@@ -9,31 +9,76 @@
 #include "coordinates.h"
 #include "point.h"
 
+class Character;
+
+// what keeps the NPC from answering an obligation once at the option's spot
+enum class npc_option_hold : int {
+    // usable from there, adjacent tiles too, left at once
+    none,
+    // harvest, forage, warming there: stays put for a while, counts like a walk
+    occupy
+};
+
+// what judging the option's spot rests on
+enum class npc_option_basis : int {
+    // no position yet: spot assumed inside reach, never a concrete option
+    assumed,
+    // NPC's own tile
+    here,
+    // destination alone: no reach, so no route searched, or the route search failed; a
+    // trip judged this way may have no way there
+    destination,
+    // route found and judged against reach
+    routed
+};
+
 // what an option asks of the NPC's availability, judged against its obligations
 struct npc_option_cost {
     // where NPC stands while doing it
     tripoint_abs_ms where;
-    // false: usable from here, adjacent tiles included
-    bool needs_walk = false;
+    npc_option_hold hold = npc_option_hold::none;
+    // walks a route first
+    bool walks = false;
     // false when the option leaves the NPC unable to react (asleep)
     bool responsive = true;
     // the route to be walked keeps to the reach policy
     bool route_in_reach = true;
-    // false only for best_case()
-    bool where_known = true;
-    // harvest, forage: holds the NPC in place, counts like a walk; stays last for the factories
-    bool occupies = false;
+    npc_option_basis basis = npc_option_basis::here;
+
+    bool holds_up() const {
+        return walks || hold != npc_option_hold::none;
+    }
+    bool where_known() const {
+        return basis != npc_option_basis::assumed;
+    }
 
     static npc_option_cost in_place( const tripoint_abs_ms &where ) {
-        return { where, false, true, true, true };
+        return located( where, npc_option_basis::here );
     }
-    static npc_option_cost trip( const tripoint_abs_ms &where, bool needs_walk, bool responsive,
-                                 bool route_in_reach ) {
-        return { where, needs_walk, responsive, route_in_reach, true };
+    // activity on the NPC's own tile, keeps it there until done or dropped
+    static npc_option_cost stay( const tripoint_abs_ms &where ) {
+        npc_option_cost cost = in_place( where );
+        cost.hold = npc_option_hold::occupy;
+        return cost;
     }
-    // no position yet: judged as a spot inside the reach, never a concrete option
-    static npc_option_cost best_case( const tripoint_abs_ms &spot, bool responsive ) {
-        return { spot, false, responsive, true, false };
+    // walk with no route found, judged as one out of reach
+    static npc_option_cost unrouted( const tripoint_abs_ms &where ) {
+        npc_option_cost cost = located( where, npc_option_basis::destination );
+        cost.walks = true;
+        cost.route_in_reach = false;
+        return cost;
+    }
+    // concrete option at a known spot; every other field keeps its default
+    static npc_option_cost located( const tripoint_abs_ms &where, const npc_option_basis basis ) {
+        npc_option_cost cost;
+        cost.where = where;
+        cost.basis = basis;
+        return cost;
+    }
+    static npc_option_cost best_case( const tripoint_abs_ms &spot, const bool responsive ) {
+        npc_option_cost cost = located( spot, npc_option_basis::assumed );
+        cost.responsive = responsive;
+        return cost;
     }
 };
 
@@ -149,6 +194,13 @@ struct npc_challenger {
 constexpr float need_critical_urgency = 0.75f;
 // how far an NPC that's resting or drinking notices trouble walking up
 constexpr int rest_watch_radius = 6;
+// stored calories short of healthy by this share make food worth acquiring
+constexpr float food_act_level = 0.2f;
+// adjusted thirst above which water need fires
+constexpr int npc_thirst_act_level = 520;
+
+// calories stored and on their way short of the healthy amount by food_act_level
+bool calories_short( const Character &who );
 
 bool should_interrupt( const npc_pursuit &current, const npc_challenger &challenger );
 

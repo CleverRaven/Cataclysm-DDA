@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <iostream>
 
 #include "cata_assert.h"
 #include "output.h"

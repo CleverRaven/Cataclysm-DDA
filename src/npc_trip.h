@@ -78,6 +78,8 @@ struct npc_trip {
     time_point turn = calendar::turn_zero;
     tripoint_bub_ms from;
     npc_trip_spec spec;
+    // the reach it was judged under; a same-turn change (leader boards) voids it
+    npc_reach_snapshot reach;
     bool feasible = false;
     // path keeps to the reach policy; true without a reach
     bool route_in_reach = true;
