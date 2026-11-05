@@ -5631,12 +5631,15 @@ float item::get_explosion_power(const float fallback) const
         for (const item& comp : tvp.second) {
             const float RE = comp.type->tnt_equivalent;
             if (RE > 0.0f) {
-                total_tnt_grams += units::to_gram(comp.weight()) * RE;
+                const units::mass base_weight = comp.type->weight;
+
+                const float grams = units::to_milligram(base_weight) / 1000.0f;
+
+                total_tnt_grams += grams * RE;
             }
         }
     }
     if (total_tnt_grams > 0.0f) {
-    std:round(total_tnt_grams);
         return total_tnt_grams;
     }
     else return fallback;
