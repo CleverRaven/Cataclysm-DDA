@@ -120,7 +120,7 @@
         " |||||||||||||||||||||| ",
         "     |ttt |^^| cc |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "furniture": { "M": "f_MRI", "$": "f_scan_bed", "ȼ": "f_counter_gate_c", "₵": "f_counter", "Ƒ": "f_filing_cabinet" },
       "items": {
         "§": { "item": "hospital_bed", "chance": 60 },
@@ -175,7 +175,7 @@
         " c        2  ||22||  cc ",
         "     (    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "//": "Lack of mi-go here is deliberate--this is a XEDRA experiment of using resin pods, not them trying to make mi-go comfortable in their home environment or something",
       "terrain": { "G": "t_card_science", "%": [ [ "t_floor_resin", 50 ], [ "t_wall_resin", 1 ] ] },
       "furniture": { "%": [ [ "f_null", 50 ], [ "f_alien_gasper", 2 ], [ "f_alien_tendril", 1 ], [ "f_alien_zapper", 1 ] ] },
@@ -223,7 +223,7 @@
         " c        2  ||22||  cc ",
         "     (    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_serum" ],
       "monsters": { "m": { "monster": "GROUP_MI-GO_BASE_COMMON" }, "M": { "monster": "GROUP_MI-GO_BASE_BOSS" } },
       "place_monster": [
         { "group": "GROUP_MI-GO_BASE_COMMON", "x": 5, "y": 3, "chance": 90 },
@@ -233,5 +233,192 @@
       ],
       "place_monsters": [ { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
     }
+  },
+   {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_serum_special_tile",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "     | cc |  | cc |     ",
+        "     2    2  2    | c c ",
+        "   F|||||||  |||||||c c ",
+        "   F|     |22|0c6c0|c c ",
+        "   F|     |  |     |    ",
+        "|||||     |  |((2((|  ||",
+        "  66|     |        |    ",
+        "    |    ||||||||  |  c ",
+        "  cc|    |¢¢¢(ll|  |  c ",
+        "    |    |7A (  |  |    ",
+        "2((||    |2ւ 2  =  ||2||",
+        "   2     |4  2  θ  2    ",
+        "   2     |5  (  |  2    ",
+        "2((||    |JōJ(i^|  ||2||",
+        "   c|    ||||||||  |c   ",
+        " c c|              |c c ",
+        " c c| d6d       d6d|c c ",
+        "   c|  h         h |F   ",
+        "|||||              |||2|",
+        "c66c|FFFFFF  |ccccc|cc  ",
+        " c c|||||||22|||||||    ",
+        " c cc(ccc |  |FFFF|  cc ",
+        " c        2  ||22||  cc ",
+        "     (    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": {        "^": "t_grate",  "¢": "f_counter", "!": "f_chair", "ō": "f_glass_fridge", "7": "f_anesthetic", "2": "f_MRI","4": "f_dialysis",
+      "5": "f_ventilator" },
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
+      "monster": { "ւ": { "monster": "mon_mi_go_captured" } },
+      "item": {
+        "ō": [
+          { "item": "migo_plate_overgrown", "chance": 100, "repeat": 2 },
+          { "item": "migo_sideplate_overgrown", "chance": 100, "repeat": 2 }
+        ],    
+        "l": [
+          { "item": "hazmat_suits", "chance": 95, "repeat": [ 1, 2 ] },
+          { "item": "hazmat_masks", "chance": 95, "repeat": [ 1, 2 ] }
+        ]
+      ,  "J": [
+        { "item": "hospital_lab", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "chem_lab", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30 }
+      ]
+      },
+      "place_loot": [ { "item": "recipe_migo_plate", "x": [ 10, 12 ], "y": 8, "chance": 100 } ],
+      "computers": {
+        "θ": {
+          "name": "Specimen Processing",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      },
+      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+
+
+    }
   }
 ]
+
+      "..cccccc.|...|,,,|..|,,,",
+        "c........|...|,,,|.6|,,,",
+        "c..Ccxc..|...|,,,g..g,,,",
+        "c........g...|,,,g..g,,,",
+        "c........g...|,,,L..L,,,",
+        "......llS|...|---|..|---",
+        "--gg-G---|...|,,,|..|,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,g..g,,,",
+        ".............|,,,L..L,,,",
+        "........|-ggg----|..|---",
+        "........|r,,,r|t--G-|...",
+        "........g,,/,,L.....G...",
+        "........g,,?,,|-ggg-|...",
+        "........|r,,,r|.........",
+        "........|-ggg-|.........",
+        "........................",
+        "........................",
+        "..........dd7dd.........",
+        "..........d.h.d.........",
+        "...ddxdd.........ddxdd..",
+        "...d.h.d.........d.h.d..",
+        "........................",
+        "........................"
+
+ {
+    "type": "mapgen",
+    "//": "A nested map for lab mutagen research areas. Center of room design. This one is MIGO themed",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "//2": "A bit higher weighted since their are fewer MIGO themed rewards",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|JJJX!^|",
+        "|7A X!||",
+        "|2ւ - = ",
+        "|4  - |θ",
+        "|5  X!||",
+        "|JōJX!^|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
+      "terrain": { "|": "t_wall_metal" },
+      "furniture": { "!": "f_chair", "ō": "f_glass_fridge" },
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
+      "monster": { "ւ": { "monster": "mon_mi_go_captured" } },
+      "item": {
+        "ō": [
+          { "item": "migo_plate_overgrown", "chance": 100, "repeat": 2 },
+          { "item": "migo_sideplate_overgrown", "chance": 100, "repeat": 2 }
+        ]
+      },
+      "place_loot": [ { "item": "recipe_migo_plate", "x": [ 1, 3 ], "y": 1, "chance": 100 } ],
+      "computers": {
+        "θ": {
+          "name": "Specimen Processing",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "//": "A nested map for lab mutagen research areas. Center of room design. This one is MIGO themed",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "//2": "A bit higher weighted since their are fewer MIGO themed rewards",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|ÆÇÆX!^|",
+        "|ւÇÇX!||",
+        "|ŏÇÇ- = ",
+        "|ւÇÇ- |θ",
+        "|ÀÇÇX!||",
+        "|ÆōÆX!^|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
+      "terrain": {
+        "|": "t_wall_metal",
+        "ւ": "t_floor_resin",
+        "À": "t_floor_resin",
+        "ŏ": "t_floor_resin",
+        "Æ": "t_floor_resin",
+        "Ç": "t_floor_resin"
+      },
+      "furniture": {
+        "!": "f_chair",
+        "ō": "f_glass_fridge",
+        "ŏ": "f_sink",
+        "ւ": "f_alien_pod",
+        "À": "f_alien_gasper",
+        "Æ": "f_alien_pod_resin"
+      },
+      "item": {
+        "ŏ": [
+          { "item": "migo_skin_off", "chance": 100 },
+          { "item": "blood", "chance": 100 },
+          { "item": "feeding_kit", "chance": 100 },
+          { "item": "corpse_half_beheaded", "chance": 100 }
+        ],
+        "ō": { "item": "blood", "chance": 100, "repeat": [ 2, 5 ] }
+      },
+      "computers": {
+        "θ": {
+          "name": "Storage for Gary",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
