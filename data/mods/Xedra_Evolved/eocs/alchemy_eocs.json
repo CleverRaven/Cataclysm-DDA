@@ -1,6 +1,11 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT",
+    "effect": [ { "u_add_effect": "effect_elemental_bonus_wound_healing", "duration": [ "6 hours", "12 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "become_fire_fae",
     "//": "Each potion is one trait",
     "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },

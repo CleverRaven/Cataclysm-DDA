@@ -223,6 +223,7 @@ AnimeCon
 Anita
 anklebiter
 anklebiters
+ankylopollexian
 ankylosaurid
 ankylosaurus
 Ann
@@ -1799,6 +1800,7 @@ dropoff
 Drotik
 druidry
 drylands
+dryosaurid
 dryosaurus
 dryptosaurus
 drywalled
@@ -2750,6 +2752,7 @@ hacktivist
 Hadith
 Hadley
 hadoken
+hadrosauroid
 hadrosaurus
 Hael
 Haelwenn
@@ -3153,6 +3156,7 @@ IFF
 Ifig
 Ignus
 Igor
+iguanodontid
 II
 III
 IIIA
@@ -5116,6 +5120,7 @@ Oz
 Ozhac'h
 Pablo
 pachira
+pachycephalosaurid
 pachycephalosaurus
 pachyrhinosaurus
 packmate

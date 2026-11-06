@@ -2315,6 +2315,246 @@
     "name": "vine"
   },
   {
+    "id": "tentacle_left_base_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_l",
+    "side": "left",
+    "opposite": "tentacle_left_base_r",
+    "name_multiple": "left tentacle bases",
+    "name": "left tentacle base"
+  },
+  {
+    "id": "tentacle_left_middle_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_l",
+    "side": "left",
+    "opposite": "tentacle_left_middle_r",
+    "name_multiple": "front tentacle midsections",
+    "name": "left tentacle midsection"
+  },
+  {
+    "id": "tentacle_left_tip_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_l",
+    "side": "left",
+    "opposite": "tentacle_left_tip_r",
+    "name_multiple": "front tentacle tips",
+    "name": "left tentacle tip"
+  },
+  {
+    "id": "tentacle_right_base_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_r",
+    "side": "right",
+    "opposite": "tentacle_left_base_l",
+    "name_multiple": "right tentacle bases",
+    "name": "right tentacle base"
+  },
+  {
+    "id": "tentacle_right_middle_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_r",
+    "side": "right",
+    "opposite": "tentacle_left_middle_l",
+    "name_multiple": "right tentacle midsections",
+    "name": "right tentacle midsection"
+  },
+  {
+    "id": "tentacle_right_tip_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_r",
+    "side": "right",
+    "opposite": "tentacle_left_tip_l",
+    "name_multiple": "right tentacle tips",
+    "name": "right tentacle tip"
+  },
+  {
+    "id": "tentacle_left_2_base_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_l_2",
+    "side": "left",
+    "opposite": "tentacle_right_2_base_r",
+    "name_multiple": "left tentacle bases",
+    "name": "left tentacle base"
+  },
+  {
+    "id": "tentacle_left_2_middle_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_l_2",
+    "side": "left",
+    "opposite": "tentacle_right_2_middle_r",
+    "name_multiple": "front tentacle midsections",
+    "name": "left tentacle midsection"
+  },
+  {
+    "id": "tentacle_left_2_tip_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_l_2",
+    "side": "left",
+    "opposite": "tentacle_right_2_tip_r",
+    "name_multiple": "front tentacle tips",
+    "name": "left tentacle tip"
+  },
+  {
+    "id": "tentacle_right_2_base_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_r_2",
+    "side": "right",
+    "opposite": "tentacle_left_2_base_l",
+    "name_multiple": "right tentacle bases",
+    "name": "right tentacle base"
+  },
+  {
+    "id": "tentacle_right_2_middle_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_r_2",
+    "side": "right",
+    "opposite": "tentacle_left_2_middle_l",
+    "name_multiple": "right tentacle midsections",
+    "name": "right tentacle midsection"
+  },
+  {
+    "id": "tentacle_right_2_tip_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_r_2",
+    "side": "right",
+    "opposite": "tentacle_left_2_tip_l",
+    "name_multiple": "right tentacle tips",
+    "name": "right tentacle tip"
+  },
+  {
+    "id": "tentacle_left_3_base_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_l_3",
+    "side": "left",
+    "opposite": "tentacle_right_3_base_r",
+    "name_multiple": "left tentacle bases",
+    "name": "left tentacle base"
+  },
+  {
+    "id": "tentacle_left_3_middle_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_l_3",
+    "side": "left",
+    "opposite": "tentacle_right_3_middle_r",
+    "name_multiple": "front tentacle midsections",
+    "name": "left tentacle midsection"
+  },
+  {
+    "id": "tentacle_left_3_tip_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_l_3",
+    "side": "left",
+    "opposite": "tentacle_right_3_tip_r",
+    "name_multiple": "front tentacle tips",
+    "name": "left tentacle tip"
+  },
+  {
+    "id": "tentacle_right_3_base_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_r_3",
+    "side": "right",
+    "opposite": "tentacle_left_3_base_l",
+    "name_multiple": "right tentacle bases",
+    "name": "right tentacle base"
+  },
+  {
+    "id": "tentacle_right_3_middle_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_r_3",
+    "side": "right",
+    "opposite": "tentacle_left_3_middle_l",
+    "name_multiple": "right tentacle midsections",
+    "name": "right tentacle midsection"
+  },
+  {
+    "id": "tentacle_right_3_tip_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_r_3",
+    "side": "right",
+    "opposite": "tentacle_left_3_tip_l",
+    "name_multiple": "right tentacle tips",
+    "name": "right tentacle tip"
+  },
+  {
+    "id": "tentacle_left_4_base_l",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_l_4",
+    "side": "left",
+    "opposite": "tentacle_right_4_base_r",
+    "name_multiple": "left tentacle bases",
+    "name": "left tentacle base"
+  },
+  {
+    "id": "tentacle_left_4_middle_l",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_l_4",
+    "side": "left",
+    "opposite": "tentacle_right_4_middle_r",
+    "name_multiple": "front tentacle midsections",
+    "name": "left tentacle midsection"
+  },
+  {
+    "id": "tentacle_left_4_tip_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_l_4",
+    "side": "left",
+    "opposite": "tentacle_right_4_tip_r",
+    "name_multiple": "front tentacle tips",
+    "name": "left tentacle tip"
+  },
+  {
+    "id": "tentacle_right_4_base_r",
+    "type": "sub_body_part",
+    "max_coverage": 30,
+    "parent": "arm_tentacle_r_4",
+    "side": "right",
+    "opposite": "tentacle_left_4_base_l",
+    "name_multiple": "right tentacle bases",
+    "name": "right tentacle base"
+  },
+  {
+    "id": "tentacle_right_4_middle_r",
+    "type": "sub_body_part",
+    "max_coverage": 45,
+    "parent": "arm_tentacle_r_4",
+    "side": "right",
+    "opposite": "tentacle_left_4_middle_l",
+    "name_multiple": "right tentacle midsections",
+    "name": "right tentacle midsection"
+  },
+  {
+    "id": "tentacle_right_4_tip_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "arm_tentacle_r_4",
+    "side": "right",
+    "opposite": "tentacle_left_4_tip_l",
+    "name_multiple": "right tentacle tips",
+    "name": "right tentacle tip"
+  },
+  {
     "type": "sub_body_part",
     "id": "wing_shoulder_l",
     "parent": "wing_l",

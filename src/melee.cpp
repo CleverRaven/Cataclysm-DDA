@@ -155,10 +155,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_spellcraft( "spellcraft" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
@@ -2363,42 +2359,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     return dump;
 }
 
-static damage_instance hardcoded_mutation_attack( const Character &u, const trait_id &id )
-{
-    if( id == trait_ARM_TENTACLES || id == trait_ARM_TENTACLES_4 || id == trait_ARM_TENTACLES_8 ) {
-        int num_attacks = 1;
-        if( id == trait_ARM_TENTACLES_4 ) {
-            num_attacks = 3;
-        } else if( id == trait_ARM_TENTACLES_8 ) {
-            num_attacks = 7;
-        }
-        // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( ( u.get_wielded_item() && u.get_wielded_item()->is_two_handed( u ) ) ||
-            !u.has_two_arms_lifting() || u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
-            num_attacks--;
-        }
-
-        if( num_attacks <= 0 ) {
-            return damage_instance();
-        }
-
-        const bool rake = u.has_trait( trait_CLAWS_TENTACLE );
-
-        /** @EFFECT_STR increases damage with ARM_TENTACLES* */
-        damage_instance ret;
-        if( rake ) {
-            ret.add_damage( damage_cut, u.get_str() / 2.0f + 1.0f, 0, 1.0f, num_attacks );
-        } else {
-            ret.add_damage( damage_bash, u.get_str() / 3.0f + 1.0f, 0, 1.0f, num_attacks );
-        }
-
-        return ret;
-    }
-
-    debugmsg( "Invalid hardcoded mutation id: %s", id.c_str() );
-    return damage_instance();
-}
-
 std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 {
     std::vector<special_attack> ret;
@@ -2457,16 +2417,12 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             }
 
             // Attack starts here
-            if( mut_atk.hardcoded_effect ) {
-                tmp.damage = hardcoded_mutation_attack( *this, pr );
-            } else {
-                damage_instance dam = mut_atk.base_damage;
-                damage_instance scaled = mut_atk.strength_damage;
-                scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
-                dam.add( scaled );
+            damage_instance dam = mut_atk.base_damage;
+            damage_instance scaled = mut_atk.strength_damage;
+            scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
+            dam.add( scaled );
 
-                tmp.damage = dam;
-            }
+            tmp.damage = dam;
 
             if( tmp.damage.total_damage() > 0.0f ) {
                 ret.emplace_back( tmp );

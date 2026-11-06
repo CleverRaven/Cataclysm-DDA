@@ -1339,5 +1339,35 @@
     "trap_radius": 2,
     "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_ls_teleport_to_bridges",
+    "name": " ",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_teleport_labyrinth1_to_bridges" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_ls_teleport_from_bridges",
+    "name": " ",
+    "symbol": " ",
+    "color": "white",
+    "action": "eocs",
+    "eocs": [ "EOC_teleport_bridges_to_labyrinth1" ],
+    "visibility": 1000,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "always_invisible": true
   }
 ]
