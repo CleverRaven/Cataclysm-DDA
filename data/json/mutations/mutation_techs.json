@@ -50,7 +50,7 @@
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
         { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [
@@ -133,7 +133,7 @@
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
         { "not": { "u_has_any_trait": [ "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG", "MUZZLE_RAPTOR", "MUZZLE_RAT" ] } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [
@@ -372,7 +372,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [
@@ -1667,6 +1667,31 @@
   },
   {
     "type": "technique",
+    "id": "TECH_TENTACLE_GRAB_CRUSH",
+    "name": "Tentacle Crush",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "weighting": 2,
+    "messages": [ "You grasp the limbs of %s and wrench", "<npcname> squeezes and pulls on %s" ],
+    "description": "Grab the target!",
+    "attack_vectors": [ "vector_tentacle_slap" ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') >= n_val('size')" ] },
+        { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 4.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.25 },
+      { "stat": "damage", "type": "strength", "scaling-stat": "unarmed", "scale": 0.85 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.25 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_ANIMAL_FOOT_KICK",
     "//": "This is just a kick for animal feet with no special characteristics",
     "name": "Kick",
@@ -1755,7 +1780,7 @@
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
@@ -1778,7 +1803,7 @@
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -1803,7 +1828,7 @@
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
@@ -1828,7 +1853,7 @@
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
@@ -1873,7 +1898,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [
@@ -1906,7 +1931,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [
@@ -1972,7 +1997,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -1996,7 +2021,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2020,7 +2045,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2044,7 +2069,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2068,7 +2093,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2092,7 +2117,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2117,7 +2142,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2141,7 +2166,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2165,7 +2190,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2227,7 +2252,7 @@
     "condition": {
       "and": [
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2251,7 +2276,7 @@
     "condition": {
       "and": [
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2318,7 +2343,7 @@
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
@@ -2343,7 +2368,7 @@
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
         { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [
@@ -2368,7 +2393,7 @@
       "and": [
         { "math": [ "u_val('size') >= n_val('size')" ] },
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "tech_effects": [ { "id": "downed", "chance": 50, "duration": 2, "on_damage": true, "message": "%s is knocked to the ground!" } ],
@@ -2393,7 +2418,7 @@
       "and": [
         { "math": [ "u_val('size') < n_val('size')" ] },
         { "u_has_effect": "natural_stance" },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_flag": "GRAB" } } ] }
       ]
     },
     "flat_bonuses": [

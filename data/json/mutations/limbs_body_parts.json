@@ -1373,6 +1373,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_3",
     "opposite_part": "arm_tentacle_r_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_left_3_base_r", "tentacle_left_3_middle_r", "tentacle_left_3_tip_r" ]
   },
@@ -1389,6 +1390,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_3",
     "opposite_part": "arm_tentacle_l_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_3_base_r", "tentacle_right_3_middle_r", "tentacle_right_3_tip_r" ]
   },
@@ -1405,6 +1407,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_4",
     "opposite_part": "arm_tentacle_r_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_left_4_base_r", "tentacle_left_4_middle_r", "tentacle_left_4_tip_r" ]
   },
@@ -1421,6 +1424,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_4",
     "opposite_part": "arm_tentacle_l_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_4_base_r", "tentacle_right_4_middle_r", "tentacle_right_4_tip_r" ]
   },
