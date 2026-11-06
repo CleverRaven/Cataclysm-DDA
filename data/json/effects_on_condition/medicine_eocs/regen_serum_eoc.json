@@ -74,6 +74,7 @@
         "values": [
           { "value": "REGEN_HP", "multiply": 50 },
           { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          { "value": "REGEN_WOUND", "multiply": 50 },
           { "value": "MENDING_MODIFIER", "add": 50 },
           { "value": "METABOLISM", "multiply": 2 },
           { "value": "HUNGER", "multiply": 2 },
