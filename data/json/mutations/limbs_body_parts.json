@@ -1278,6 +1278,7 @@
     "is_limb": true,
     "base_hp": 40,
     "drench_capacity": 2400,
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW" ],
     "smash_message": "You whip the %s with your tentacle, smashing it.",
     "bionic_slots": 4,
     "effects_on_hit": [
