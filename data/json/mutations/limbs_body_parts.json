@@ -1342,7 +1342,7 @@
     "main_part": "arm_tentacle_l_2",
     "opposite_part": "arm_tentacle_r_2",
     "side": "right",
-    "sub_parts": [ "tentacle_left_2_base_r", "tentacle_left_2_middle_r", "tentacle_left_2_tip_r" ]
+    "sub_parts": [ "tentacle_left_2_base_l", "tentacle_left_2_middle_l", "tentacle_left_2_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_2",
@@ -1375,7 +1375,7 @@
     "opposite_part": "arm_tentacle_r_3",
     "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_3_base_r", "tentacle_left_3_middle_r", "tentacle_left_3_tip_r" ]
+    "sub_parts": [ "tentacle_left_3_base_l", "tentacle_left_3_middle_l", "tentacle_left_3_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_3",
@@ -1409,7 +1409,7 @@
     "opposite_part": "arm_tentacle_r_4",
     "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_4_base_r", "tentacle_left_4_middle_r", "tentacle_left_4_tip_r" ]
+    "sub_parts": [ "tentacle_left_4_base_l", "tentacle_left_4_middle_l", "tentacle_left_4_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_4",
