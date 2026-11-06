@@ -1659,6 +1659,7 @@
     "attack_vectors": [ "vector_tentacle_slap" ],
     "condition": { "u_has_trait": "CLAWS_TENTACLE" },
     "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 8.0 },
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.25 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
