@@ -1623,7 +1623,7 @@
     "name": "Slap",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "messages": [ "You slap %s", "<npcname> slaps %s" ],
+    "messages": [ "You tentacle slap %s", "<npcname> tentacle slaps %s" ],
     "description": "A basic tentacle slap",
     "attack_vectors": [ "vector_tentacle_slap" ],
     "condition": { "not": { "u_has_trait": "CLAWS_TENTACLE" } },
@@ -1639,13 +1639,11 @@
     "crit_ok": true,
     "unarmed_allowed": true,
     "weighting": -3,
-    "messages": [ "You slap %s", "<npcname> slaps %s" ],
+    "messages": [ "You tentacle slap %s", "<npcname> tentacle slaps %s" ],
     "description": "A basic tentacle slap",
     "attack_vectors": [ "vector_tentacle_slap" ],
     "condition": { "u_has_trait": "CLAWS_TENTACLE" },
     "flat_bonuses": [
-      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.25 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
     ]
@@ -1656,11 +1654,13 @@
     "name": "Tentacle Claw",
     "crit_ok": true,
     "unarmed_allowed": true,
-    "messages": [ "You claw %s", "<npcname> claws %s" ],
+    "messages": [ "You rake %s", "<npcname> rakes %s" ],
     "description": "A basic tentacle slap, with claws!",
     "attack_vectors": [ "vector_tentacle_slap" ],
     "condition": { "u_has_trait": "CLAWS_TENTACLE" },
     "flat_bonuses": [
+      { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.25 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
     ]
