@@ -62,6 +62,11 @@
     "//": "Targets foes when shot."
   },
   {
+    "id": "SMARTLINK_TARGET",
+    "type": "json_flag",
+    "info": "This item causes you to automatically fire at targeted enemies."
+  },
+  {
     "id": "ACTIVE_HACK_TOOL",
     "type": "json_flag",
     "//": "This tool is being used to perform hacking operations."

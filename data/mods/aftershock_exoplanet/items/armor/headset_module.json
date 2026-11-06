@@ -86,6 +86,7 @@
     "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "smart-link (headset)" },
     "description": "Updated firmware and components for a headset.  Smartguns will fire an extra shot at any targeted foe.",
+    "extend": { "flags": [ "SMARTLINK_TARGET" ] },
     "price": "8 kUSD"
   }
 ]

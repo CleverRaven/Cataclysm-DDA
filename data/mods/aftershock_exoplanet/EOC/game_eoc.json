@@ -42,7 +42,7 @@
     "condition": {
       "and": [
         { "u_has_wielded_with_skill": "smartgun" },
-        { "u_is_wearing": "afs_headset_smartlink" },
+        { "u_has_worn_with_flag": "SMARTLINK_TARGET" },
         { "not": { "u_has_effect": "vahagan_fired_at" } }
       ]
     },
@@ -56,7 +56,7 @@
     "condition": {
       "and": [
         { "u_has_wielded_with_skill": "smartgun" },
-        { "u_is_wearing": "afs_headset_smartlink" },
+        { "u_has_worn_with_flag": "SMARTLINK_TARGET" },
         { "not": { "u_has_effect": "vahagan_fired_at" } }
       ]
     },

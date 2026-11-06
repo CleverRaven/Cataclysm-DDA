@@ -183,7 +183,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
-    "values": [ { "value": "NIGHT_VIS", "add": 12 } ],
+    "values": [ { "value": "NIGHT_VIS", "add": 20 } ],
     "special_vision": [
       {
         "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
