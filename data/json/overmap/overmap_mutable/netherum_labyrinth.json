@@ -1,0 +1,219 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "labyrinth2_cable_stream_mutable",
+    "subtype": "mutable",
+    "locations": [ "labyrinth2_roof" ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ],
+    "check_for_locations_area": [ { "type": [ "labyrinth2_roof" ], "from": [ 10, 10, 1 ], "to": [ -10, -10, 1 ] } ],
+    "occurrences": [ 0, 15 ],
+    "priority": 3,
+    "joins": [
+      { "id": "base_to_roof", "opposite": "roof_to_base" },
+      { "id": "roof_to_base", "opposite": "base_to_roof" },
+      "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+      "labyrinth2_cable_stream_to_east",
+      "labyrinth2_cable_stream_to_west"
+    ],
+    "overmaps": {
+      "labyrinth2_cable_stream_base": { "overmap": "labyrinth2_north", "above": "base_to_roof", "locations": [ "labyrinth2" ] },
+      "labyrinth2_cable_stream_body": {
+        "overmap": "labyrinth2_cable_stream_north",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "south": "labyrinth2_cable_stream_to_labyrinth2_cable_stream"
+      },
+      "labyrinth2_cable_stream_bend_e": {
+        "overmap": "labyrinth2_cable_stream_corner_east",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "east": "labyrinth2_cable_stream_to_west"
+      },
+      "labyrinth2_cable_stream_bend_w": {
+        "overmap": "labyrinth2_cable_stream_corner_north",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "west": "labyrinth2_cable_stream_to_east"
+      },
+      "labyrinth2_cable_stream_bend_start_e": {
+        "overmap": "labyrinth2_cable_stream_north",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "south": "labyrinth2_cable_stream_to_east"
+      },
+      "labyrinth2_cable_stream_bend_start_w": {
+        "overmap": "labyrinth2_cable_stream_north",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "south": "labyrinth2_cable_stream_to_west"
+      },
+      "labyrinth2_cable_stream_corner_e": {
+        "overmap": "labyrinth2_cable_stream_corner_north",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "west": "labyrinth2_cable_stream_to_labyrinth2_cable_stream"
+      },
+      "labyrinth2_cable_stream_corner_w": {
+        "overmap": "labyrinth2_cable_stream_corner_east",
+        "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream",
+        "east": "labyrinth2_cable_stream_to_labyrinth2_cable_stream"
+      },
+      "labyrinth2_cable_stream_end_n": {
+        "overmap": "labyrinth2_cable_stream_end_north",
+        "below": "roof_to_base",
+        "south": "labyrinth2_cable_stream_to_labyrinth2_cable_stream"
+      },
+      "labyrinth2_cable_stream_end_s": { "overmap": "labyrinth2_cable_stream_end_south", "north": "labyrinth2_cable_stream_to_labyrinth2_cable_stream" },
+      "labyrinth2_cable_stream_end_bend_en": { "overmap": "labyrinth2_cable_stream_end_north", "south": "labyrinth2_cable_stream_to_west" },
+      "labyrinth2_cable_stream_end_bend_es": { "overmap": "labyrinth2_cable_stream_end_south", "north": "labyrinth2_cable_stream_to_west" },
+      "labyrinth2_cable_stream_end_bend_wn": { "overmap": "labyrinth2_cable_stream_end_north", "south": "labyrinth2_cable_stream_to_east" },
+      "labyrinth2_cable_stream_end_bend_ws": { "overmap": "labyrinth2_cable_stream_end_south", "north": "labyrinth2_cable_stream_to_east" }
+    },
+    "root": "labyrinth2_cable_stream_base",
+    "phases": [
+      [ { "overmap": "labyrinth2_cable_stream_end_n", "max": 1 } ],
+      [
+        { "overmap": "labyrinth2_cable_stream_body", "weight": 100 },
+        { "overmap": "labyrinth2_cable_stream_bend_start_e", "weight": 1 },
+        { "overmap": "labyrinth2_cable_stream_bend_start_w", "weight": 1 },
+        { "overmap": "labyrinth2_cable_stream_bend_e", "weight": 120 },
+        { "overmap": "labyrinth2_cable_stream_bend_w", "weight": 120 },
+        { "overmap": "labyrinth2_cable_stream_corner_e", "weight": 1 },
+        { "overmap": "labyrinth2_cable_stream_corner_w", "weight": 1 }
+      ],
+      [
+        { "overmap": "labyrinth2_cable_stream_end_n", "max": 1 },
+        { "overmap": "labyrinth2_cable_stream_end_s", "max": 1 },
+        { "overmap": "labyrinth2_cable_stream_end_bend_en", "max": 1 },
+        { "overmap": "labyrinth2_cable_stream_end_bend_es", "max": 1 },
+        { "overmap": "labyrinth2_cable_stream_end_bend_wn", "max": 1 },
+        { "overmap": "labyrinth2_cable_stream_end_bend_ws", "max": 1 }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinth2_sparkling_chasm_field_mutable",
+    "subtype": "mutable",
+    "locations": [ "labyrinth2_roof" ],
+    "occurrences": [ 0, 10 ],
+    "priority": 3,
+    "flags": [ "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ],
+    "check_for_locations_area": [ { "type": [ "labyrinth2_roof" ], "from": [ 2, 2, 1 ], "to": [ -2, -2, 1 ] } ],
+    "joins": [
+      { "id": "base_to_roof", "opposite": "roof_to_base" },
+      { "id": "roof_to_base", "opposite": "base_to_roof" },
+      "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field"
+    ],
+    "overmaps": {
+      "labyrinth2_cable_stream_base": { "overmap": "labyrinth2_north", "above": "base_to_roof", "locations": [ "labyrinth2" ] },
+      "labyrinth2_sparkling_chasm_field_first_core": {
+        "overmap": "labyrinth2_sparkling_chasm_field_core",
+        "below": "roof_to_base",
+        "north": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "east": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "south": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "west": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field"
+      },
+      "labyrinth2_sparkling_chasm_field_core": {
+        "overmap": "labyrinth2_sparkling_chasm_field_core",
+        "north": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "east": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "south": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field",
+        "west": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field"
+      },
+      "labyrinth2_sparkling_chasm_field_end": {
+        "overmap": "labyrinth2_sparkling_chasm_field_end_north",
+        "north": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field"
+      },
+      "labyrinth2_sparkling_chasm_field_fill": {
+        "overmap": "labyrinth2_sparkling_chasm_field_end_north",
+        "north": { "id": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field", "type": "available" },
+        "east": { "id": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field", "type": "available" },
+        "west": { "id": "labyrinth2_sparkling_chasm_field_to_labyrinth2_sparkling_chasm_field", "type": "available" }
+      }
+    },
+    "root": "labyrinth2_cable_stream_base",
+    "phases": [
+      [ { "overmap": "labyrinth2_sparkling_chasm_field_first_core", "max": 1 } ],
+      [
+        { "overmap": "labyrinth2_sparkling_chasm_field_core", "weight": 200 },
+        { "overmap": "labyrinth2_sparkling_chasm_field_end", "weight": 100 },
+        { "overmap": "labyrinth2_sparkling_chasm_field_fill", "weight": 1 }
+      ]
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinth2_utility_tunnels",
+    "subtype": "mutable",
+    "locations": [ "labyrinth2_roof", "labyrinth2_roof2", "open_air" ],
+    "flags": [ "EXODII", "EXTRADIMENSIONAL", "NETHERUM_LABYRINTH2" ],
+    "check_for_locations_area": [
+      { "type": [ "labyrinth2_roof" ], "from": [ 2, 2, 1 ], "to": [ -2, -2, 1 ] },
+      { "type": [ "labyrinth2_roof2" ], "from": [ 2, 2, 2 ], "to": [ -2, -2, 2 ] },
+      { "type": [ "open_air" ], "from": [ 2, 2, 3 ], "to": [ -2, -2, 3 ] },
+      { "type": [ "labyrinth2_roof2" ], "from": [ 2, 2, 4 ], "to": [ -2, -2, 4 ] }
+    ],
+    "city_distance": [ 0, -1 ],
+    "priority": 3,
+    "occurrences": [ 0, 15 ],
+    "joins": [
+      { "id": "base_to_shaft", "opposite": "shaft_to_base" },
+      { "id": "shaft_to_base", "opposite": "base_to_shaft" },
+      { "id": "top_to_shaft", "opposite": "shaft_to_top" },
+      { "id": "shaft_to_top", "opposite": "top_to_shaft" },
+      "shaft_to_shaft",
+      "tunnel_to_tunnel"
+    ],
+    "overmaps": {
+      "base": { "overmap": "labyrinth2_north", "above": "base_to_shaft", "locations": [ "labyrinth2" ] },
+      "shaft1": {
+        "overmap": "labyrinth2_roof_north",
+        "above": "shaft_to_shaft",
+        "below": "shaft_to_base",
+        "locations": [ "labyrinth2_roof" ]
+      },
+      "shaft2": {
+        "overmap": "labyrinth2_roof2_north",
+        "above": "shaft_to_shaft",
+        "below": "shaft_to_shaft",
+        "locations": [ "labyrinth2_roof2" ]
+      },
+      "shaft3": { "overmap": "open_air", "above": "shaft_to_top", "below": "shaft_to_shaft", "locations": [ "open_air" ] },
+      "first_crossroads": {
+        "overmap": "labyrinth2_utility_tunnel_four_way_north",
+        "below": "top_to_shaft",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel",
+        "locations": [ "labyrinth2_roof2" ]
+      },
+      "crossroads": {
+        "overmap": "labyrinth2_utility_tunnel_four_way_north",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": {
+        "overmap": "labyrinth2_utility_tunnel_T_north",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
+      "straight_tunnel": { "overmap": "labyrinth2_utility_tunnel_straight_south", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "labyrinth2_utility_tunnel_corner_north", "south": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "labyrinth2_utility_tunnel_end_south", "north": "tunnel_to_tunnel" }
+    },
+    "root": "base",
+    "phases": [
+      [ { "overmap": "shaft1", "max": 1 } ],
+      [ { "overmap": "shaft2", "max": 1 } ],
+      [ { "overmap": "shaft3", "max": 1 } ],
+      [ { "overmap": "first_crossroads", "max": 1 } ],
+      [ { "overmap": "crossroads", "max": 1 } ],
+      [
+        { "overmap": "straight_tunnel", "weight": 80 },
+        { "overmap": "dead_end", "weight": 4 },
+        { "overmap": "corner", "weight": 3 },
+        { "overmap": "tee", "weight": 3 }
+      ]
+    ]
+  }
+]

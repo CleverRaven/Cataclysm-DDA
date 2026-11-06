@@ -534,5 +534,21 @@
     },
     "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
     "items": { "X": { "item": "LS_SUS_crate_tier1_loot", "chance": 70, "repeat": [ 1, 2 ] } }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinth2_utility_tunnel",
+    "terrain": {
+      ".": "t_nl_suspended_bridge",
+      ",": "t_nl_suspended_bridge",
+      "o": "t_nl_suspended_bridge",
+      "A": "t_nl_suspended_bridge",
+      "|": "t_nl_bridge_metal_railing",
+      ">": "t_ladder_down",
+      "<": "t_ladder_up",
+      "H": "t_ladder_up_down",
+      "#": "t_nl_metal_wall"
+    },
+    "furniture": { "o": [ [ "f_null", 99 ], [ "f_nl_exodii_lamp", 1 ] ], "A": "f_scrap_antenna" }
   }
 ]

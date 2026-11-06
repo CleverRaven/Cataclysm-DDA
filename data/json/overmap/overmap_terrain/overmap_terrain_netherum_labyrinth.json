@@ -118,6 +118,22 @@
   },
   {
     "type": "overmap_terrain",
+    "name": "labyrinthian buildings",
+    "id": "labyrinth2_roof",
+    "sym": " ",
+    "color": "light_gray",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "labyrinthian buildings",
+    "id": "labyrinth2_roof2",
+    "sym": " ",
+    "color": "light_gray",
+    "see_cost": "low"
+  },
+  {
+    "type": "overmap_terrain",
     "name": "stairwell",
     "id": "labyrinth2_stairs",
     "sym": "<",
@@ -160,5 +176,60 @@
     "color": "light_red",
     "see_cost": "high",
     "travel_cost_type": "impassable"
+  },
+  {
+    "type": "overmap_location",
+    "id": "labyrinth2_roof",
+    "terrains": [ "labyrinth2_roof" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "labyrinth2_roof2",
+    "terrains": [ "labyrinth2_roof2" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "labyrinth2_cable_stream", "labyrinth2_cable_stream_end", "labyrinth2_cable_stream_corner" ],
+    "copy-from": "generic_open_land",
+    "name": "labyrinthian wiring harness",
+    "sym": ".",
+    "color": "light_red",
+    "see_cost": "low",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "labyrinth2_sparkling_chasm_field",
+    "copy-from": "generic_open_land",
+    "name": "sparkling maw",
+    "sym": "+",
+    "color": "light_gray",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "labyrinth2_sparkling_chasm_field_core",
+    "copy-from": "labyrinth2_sparkling_chasm_field",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "labyrinth2_sparkling_chasm_field_end",
+    "copy-from": "labyrinth2_sparkling_chasm_field"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "labyrinth2_utility_tunnel_four_way",
+      "labyrinth2_utility_tunnel_T",
+      "labyrinth2_utility_tunnel_straight",
+      "labyrinth2_utility_tunnel_corner",
+      "labyrinth2_utility_tunnel_end"
+    ],
+    "name": "labyrinthian walkway",
+    "sym": "#",
+    "color": "white",
+    "see_cost": "low",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
