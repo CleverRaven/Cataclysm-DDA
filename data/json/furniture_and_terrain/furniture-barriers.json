@@ -237,20 +237,9 @@
     "description": "A single HESCO MIL 3 cell: a wire mesh cage lined with heavy geotextile and filled with sand and gravel.  It is waist high, so it can be climbed over, but it stops bullets and fragments and makes a steady rest for a mounted gun.",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [
-      "CLIMB_SIMPLE",
-      "TRANSPARENT",
-      "MOUNTABLE",
-      "BLOCKSDOOR",
-      "SHORT",
-      "THIN_OBSTACLE",
-      "CLIMBABLE",
-      "PERMEABLE"
-    ],
+    "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
     "examine_action": "chainfence",
-    "deconstruct": {
-      "items": [ { "item": "hesco_mil3_cell", "count": 1 }, { "item": "material_soil", "count": [ 100, 160 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "hesco_mil3_cell", "count": 1 }, { "item": "material_soil", "count": [ 100, 160 ] } ] },
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -275,9 +264,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "NOITEM", "BLOCKSDOOR", "BLOCK_WIND", "REDUCE_SCENT" ],
-    "deconstruct": {
-      "items": [ { "item": "hesco_mil3_cell", "count": 2 }, { "item": "material_soil", "count": [ 200, 320 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "hesco_mil3_cell", "count": 2 }, { "item": "material_soil", "count": [ 200, 320 ] } ] },
     "bash": {
       "str_min": 36,
       "str_max": 115,
@@ -290,7 +277,7 @@
         { "item": "scrap", "count": [ 2, 5 ] }
       ]
     }
-  }
+  },
   {
     "type": "furniture",
     "id": "f_showjump",

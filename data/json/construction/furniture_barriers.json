@@ -116,7 +116,7 @@
     "pre_terrain": "f_hesco_barrier",
     "pre_note": "Stack a second cell on the barrier and fill it with about 200 L of sand or soil.",
     "post_terrain": "f_hesco_wall"
-  }
+  },
   {
     "type": "construction",
     "id": "constr_showjump",
