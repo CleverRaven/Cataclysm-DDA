@@ -29,6 +29,7 @@
 #include "map.h"
 #include "options.h"
 #include "output.h"
+#include "perf.h"
 #include "point.h"
 #include "popup.h"
 #include "sdltiles.h" // IWYU pragma: keep
@@ -475,6 +476,7 @@ const std::string &input_context::handle_input()
 
 const std::string &input_context::handle_input( const int timeout )
 {
+    cata_timer handle_input_timer( "handle_input", true );
     const int old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );

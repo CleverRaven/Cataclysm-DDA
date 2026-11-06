@@ -56,6 +56,7 @@
 #include "ordered_static_globals.h"
 #include "output.h"
 #include "path_info.h"
+#include "perf.h"
 #include "rng.h"
 #include "system_locale.h"
 #include "translations.h"
@@ -881,6 +882,7 @@ void run_game_loop( cli_opts &cli )
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !g->do_turn() ) {}
+        cata_timer::print_stats();
     }
 }
 
