@@ -49,6 +49,8 @@
             "target_max_radius": 24,
             "x_adjust": 1
           },
+          { "math": [ "ls_exit_control_locked = 1" ] },
+          { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
           { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
           { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] },
           { "if": { "not": { "u_has_trait": "anti_shape" } }, "then": { "u_add_effect": "nausea", "duration": 60 } }
@@ -101,6 +103,8 @@
             "fail_message": "Nope!",
             "success_message": "Zwoink."
           },
+          { "math": [ "ls_exit_control_locked = 1" ] },
+          { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
           {
             "u_location_variable": { "global_val": "original_labyrinth_portal_loc" },
             "target_params": { "om_terrain": "labyrinth_entrance", "om_special": "labyrinthine_structure" },
@@ -297,6 +301,8 @@
         "x_adjust": 1
       },
       { "u_teleport": { "global_val": "original_labyrinth_portal_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 1" ] },
+      { "run_eocs": "EOC_LS_unlock_terminal", "time_in_future": "24 hours" },
       { "run_eocs": [ "EOC_LS_ROLL_FOR_STRING_DIMENSION_ENCOUNTER" ] }
     ],
     "false_effect": [ { "u_message": "You feel a prickle at the edge of your senses." } ]
@@ -1528,6 +1534,7 @@
         "target_max_radius": 24
       },
       { "u_teleport": { "global_val": "labyrinth_nl_new_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 0" ] },
       { "clear_dimension": "netherum_labyrinth" }
     ]
   },
@@ -1846,6 +1853,76 @@
         "//": "Saved here for when there are multiple feature rooms.",
         "cases": [ { "case": 1, "effect": [ { "mapgen_update": "UM_LS_teleports_fixbot" } ] } ]
       }
+    ]
+  },
+  {
+    "id": "EOC_LS_Bridge_control_teleports_bridges",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_Bridge_control_deadend_1_extend" }, { "mapgen_update": "UM_LS_teleports_bridges" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LS_unlock_terminal",
+    "effect": { "math": [ "ls_exit_control_locked = 0" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_labyrinth1_to_bridges",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth2",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "Green pinpoints of light materialize beyond the fog."
+      },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth2_utility_tunnel_four_way", "om_special": "labyrinth2_utility_tunnels" },
+        "furniture": "f_scrap_antenna",
+        "target_max_radius": 24,
+        "x_adjust": 1,
+        "y_adjust": -1
+      },
+      { "mapgen_update": "teleport_labyrinth1_to_bridges", "target_var": { "context_val": "player_teleport_loc" } },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 0" ] },
+      { "clear_dimension": "netherum_labyrinth" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "teleport_labyrinth1_to_bridges",
+    "object": { "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 8, 15 ], "y": [ 8, 15 ], "intensity": 4, "repeat": 300 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_teleport_bridges_to_labyrinth1",
+    "effect": [
+      {
+        "u_travel_to_dimension": "netherum_labyrinth",
+        "npc_travel_radius": 0,
+        "npc_travel_filter": "none",
+        "fail_message": "Nope!",
+        "success_message": "The fog is illuminated by a soft, green glow."
+      },
+      {
+        "u_location_variable": { "global_val": "labyrinth_nl_new_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure", "z": 0 }
+      },
+      {
+        "mapgen_update": "labyrinth_bridges_to_labyrinth1_landing",
+        "target_var": { "global_val": "labyrinth_nl_new_loc" }
+      },
+      {
+        "u_location_variable": { "context_val": "player_teleport_loc" },
+        "target_params": { "om_terrain": "labyrinth_hall", "om_special": "labyrinthine_structure" },
+        "furniture": "f_scrap_antenna",
+        "target_max_radius": 24
+      },
+      { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "math": [ "ls_exit_control_locked = 0" ] },
+      { "clear_dimension": "netherum_labyrinth2" }
     ]
   }
 ]

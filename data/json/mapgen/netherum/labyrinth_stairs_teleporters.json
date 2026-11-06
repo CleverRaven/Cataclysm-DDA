@@ -87,12 +87,12 @@
     "object": {
       "predecessor_mapgen": "labyrinth2_north",
       "rows": [
-        ",,,,,,,,,               ",
-        ",###,###,               ",
-        ",#<o,OT#,               ",
-        ",###,###,               ",
-        ",,,,,,,,,               ",
         "                        ",
+        " ,,,,,,,,,              ",
+        " ,###,###,              ",
+        " ,#<o,OT#,              ",
+        " ,###,###,              ",
+        " ,,,,,,,,,              ",
         "                        ",
         "                        ",
         "                        ",
@@ -125,43 +125,124 @@
         "o": "t_nl_archway"
       },
       "furniture": { "O": "f_exodii_floor_portal_enclosure" },
-      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ],
-      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 4, "y": [ 0, 4 ], "intensity": 4, "repeat": 10 } ]
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_locked", 1 ] ], "x": 0, "y": 0, "z": 1 } ],
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 5, "y": [ 1, 5 ], "intensity": 5, "repeat": 10 } ]
     }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "labyrinth_stairs_2_to_1",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [ 7, 7 ],
       "rows": [
-        ".....",
-        ".###.",
-        ".#<o.",
-        ".###.",
-        "....."
+        "       ",
+        " ..... ",
+        " .###. ",
+        " .#<o. ",
+        " .###. ",
+        " ..... ",
+        "       "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "<": "t_nl_stairs_up", "#": "t_nl_metal_wall", "s": "t_nl_mist", ".": "t_nl_metal_floor", "o": "t_nl_archway" },
       "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_teleporter", 1 ] ], "x": 0, "y": 0, "z": 1 } ],
-      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 4, "y": [ 0, 4 ], "intensity": 4, "repeat": 10 } ]
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": 5, "y": [ 1, 5 ], "intensity": 4, "repeat": 10 } ]
     }
   },
   {
     "type": "mapgen",
     "nested_mapgen_id": "labyrinth_stairs_2_to_1_teleporter",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [ 7, 7 ],
       "rows": [
-        "sssss",
-        "s###s",
-        "s#>+s",
-        "s###s",
-        "sssss"
+        "#######",
+        "#sssss#",
+        "#s###s#",
+        "#s#>+s#",
+        "#s###s#",
+        "#sssss#",
+        "#######"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ">": "t_nl_stairs_down", "#": "t_nl_metal_wall", "s": "t_nl_mist", "+": "t_nl_door_c" },
-      "place_traps": [ { "trap": "tr_nl_stairs_2_to_1", "x": 3, "y": 2 } ]
+      "place_traps": [ { "trap": "tr_nl_stairs_2_to_1", "x": 4, "y": 3 } ],
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_roof", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_2_to_1_locked",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "#######",
+        "#sssss#",
+        "#s###s#",
+        "#s#>#s#",
+        "#s###s#",
+        "#sssss#",
+        "#######"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { ">": "t_nl_stairs_down", "#": "t_nl_metal_wall", "s": "t_nl_mist" },
+      "place_traps": [ { "trap": "tr_nl_stairs_2_to_1", "x": 4, "y": 3 } ],
+      "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_roof", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_stairs_2_to_1_roof",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "#######",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#######"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "#": "t_nl_roof_metal_railing", ".": "t_nl_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "labyrinth_bridges_to_labyrinth1_landing",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "......vvvv....vvvv......",
+        "........................",
+        "........................",
+        "...........A............",
+        "........................",
+        "......vvvv....vvvv......",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvvv....vvvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv",
+        "vvvvvvvvv......vvvvvvvvv"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { ".": {  }, "A": {  }, "v": {  } },
+      "terrain": { ".": "t_nl_metal_floor", "A": "t_nl_metal_floor", "v": "t_nl_chasm" },
+      "furniture": { "A": "f_scrap_antenna" },
+      "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 6, 17 ], "y": [ 6, 17 ], "intensity": 4, "repeat": 300 } ]
     }
   }
 ]
