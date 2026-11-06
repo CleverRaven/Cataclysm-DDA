@@ -2543,6 +2543,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_elemental_bonus_wound_healing",
+    "name": [ "Elemental Convalescence" ],
+    "desc": [ "You bleeding is greatly slowed and your wounds are healing much more quickly." ],
+    "enchantments": [ { "values": [ { "value": "REGEN_WOUND", "add": 8 }, { "value": "BLEEDING_RATE", "multiply": -0.95 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_paraclesian_see_fae",
     "name": [ "Wyrd Sight" ],
     "desc": [ "You can sense nearby creatures that come from under the hill." ],
