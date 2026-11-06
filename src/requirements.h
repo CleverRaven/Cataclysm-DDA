@@ -136,6 +136,11 @@ struct item_comp : public component {
     component_type get_component_type() const {
         return component_type::ITEM;
     }
+
+    // used for deferred loading and setting count from units
+    std::optional<units::volume> volume;
+    std::optional<units::mass> mass;
+    std::optional<units::length> length;
 };
 
 struct quality_requirement {
