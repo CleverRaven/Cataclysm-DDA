@@ -8751,5 +8751,57 @@
       "ANTIWHEAT",
       "UGLY"
     ]
+  },
+  {
+    "type": "profession",
+    "id": "awakened_feral_standard",
+    "name": "Former Rioter",
+    "description": "The riots were brutal, and you were part of the reason why.  Now, the world is over, and the guilt of what you've done is crushing.",
+    "npc_background": "BG_survival_story_CRIMINAL",
+    "points": -2,
+    "items": {
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    },
+    "flags": [ "SCEN_ONLY" ],
+    "//": "You hurt and killed a LOT of people my guy, you even enjoyed doing it.",
+    "starting_trauma": 500,
+    "//1": "Spending months straight brawling is going to at least give you some proficiency at it, even if it's not that good because it was frenzied and against mostly defenseless people.",
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "stabbing" }
+    ],
+    "age_lower": 16
+  },
+  {
+    "copy-from": "awakened_feral_standard",
+    "type": "profession",
+    "id": "awakened_feral_touched",
+    "name": "Portal Touched",
+    "description": "When the sky broke, you laughed and reveled like it was the coming of rain after a long drought.  Your laughter has stopped, but the visions of abominations bringing ruin haven't.",
+    "traits": [ "SCHIZOPHRENIC" ]
+  },
+  {
+    "copy-from": "awakened_feral_standard",
+    "type": "profession",
+    "id": "awakened_feral_demolition",
+    "name": "Demolitionist",
+    "description": "While \"demolitionist\" describes you about as well as \"assassin\" describes a mass murderer, you spent most of your time smashing walls and furniture instead of people.  Your newly returned moral compass is thankful for it.",
+    "skills": [ { "level": 3, "name": "bashing" }, { "level": 2, "name": "melee" } ],
+    "//": "Less trauma, it doesn't destroy your psyche to bash a wall in.",
+    "starting_trauma": 100,
+    "extend": { "items": { "both": { "entries": [ { "item": "hammer_sledge" } ] } } }
+  },
+  {
+    "copy-from": "awakened_feral_standard",
+    "type": "profession",
+    "id": "awakened_feral_pyro",
+    "name": "Arsonist",
+    "description": "The world seemed to burn.  When you inserted yourself into the chaos, the fires grew fiercer.  While you always had a passion for fire even before the end, your memories of it are corrupted by the screams.",
+    "traits": [ "PYROMANIA" ],
+    "extend": { "items": { "both": { "entries": [ { "item": "lighter" } ] } } }
   }
 ]
