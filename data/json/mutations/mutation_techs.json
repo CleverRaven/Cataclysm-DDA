@@ -1661,6 +1661,7 @@
     "flat_bonuses": [
       { "stat": "damage", "type": "cut", "scale": 8.0 },
       { "stat": "damage", "type": "cut", "scaling-stat": "unarmed", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5625 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "unarmed", "scale": 0.25 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
@@ -1685,7 +1686,7 @@
     "flat_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 4.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.25 },
-      { "stat": "damage", "type": "strength", "scaling-stat": "unarmed", "scale": 0.85 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "strength", "scale": 0.85 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.25 },
       { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
       { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
