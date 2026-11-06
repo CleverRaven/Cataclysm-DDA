@@ -102,7 +102,10 @@
           [ "dreamforged_broadsword", -1 ],
           [ "dreamforged_tsurugi_speed", -1 ],
           [ "moons_tears_arming_sword", -1 ],
-          [ "moons_tears_scimitar", -1 ]
+          [ "moons_tears_scimitar", -1 ],
+          [ "fae_unique_weapon_light_of_newborn_star", -1 ],
+          [ "fae_unique_weapon_last_blossom_fall", -1 ],
+          [ "fae_unique_weapon_dawnrazor", -1 ]
         ]
       ]
     }
@@ -121,7 +124,8 @@
           [ "winter_lord_estoc", -1 ],
           [ "dreamforged_longsword", -1 ],
           [ "dreamforged_katana", -1 ],
-          [ "dreamforged_wakizashi", -1 ]
+          [ "dreamforged_wakizashi", -1 ],
+          [ "fae_unique_weapon_crimson_rain", -1 ]
         ]
       ]
     }

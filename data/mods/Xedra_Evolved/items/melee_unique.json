@@ -1,0 +1,97 @@
+[
+  {
+    "id": "fae_unique_weapon_last_blossom_fall",
+    "type": "ITEM",
+    "subtypes": [ "ARTIFACT" ],
+    "name": { "str": "Last Blossom's Fall" },
+    "copy-from": "mc_arming_sword",
+    "looks_like": "bokken",
+    "description": "This sword is made all of a single piece of wood and so black any details are lost.  Some kind of shimmering leather is wrapped around the grip, and the crossguard has a spray of pinkish-orange blossoms growing from it.",
+    "material": [ { "type": "wood", "portion": 1 } ],
+    "price": "1 kUSD 350 USD",
+    "price_postapoc": "50 USD",
+    "proportional": { "melee_damage": { "stab": 0.7 } },
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "NO_REPAIR", "UNBREAKABLE_MELEE", "RELIC_PINK" ] },
+    "delete": { "flags": "CONDUCTIVE" },
+    "relative": { "melee_damage": { "biological": 12 } },
+    "techniques": [ "WBLOCK_2" ],
+    "faults": [  ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 4 } } ],
+    "charge_info": { "recharge_type": "forest", "time": "6 h", "regenerate_ammo": true },
+    "charges_per_use": 1,
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "FALL_DAMAGE", "multiply": -1 },
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "FREE_DODGES", "add": 1 }
+        ]
+      }
+    ],
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "fae_unique_weapon_last_blossom_fall_spell",
+      "no_fail": true,
+      "need_wielding": true,
+      "level": 0
+    }
+  },
+  {
+    "id": "fae_unique_weapon_crimson_rain",
+    "copy-from": "mc_katana",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Crimson Rain" },
+    "description": "A slightly-curved, single-edged sword, unremarkable except it appears to be made entirely of flowing blood.  Despite pulsing as the blood flows, its outlines never waver.",
+    "material": [ { "type": "blood", "portion": 1 } ],
+    "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
+    "techniques": [ "WBLOCK_2", "RAPID", "TEC_WEAPON_CRIMSON_RAIN_BLEEDING", "TEC_WEAPON_CRIMSON_RAIN_BLOODSTRIKE" ],
+    "faults": [  ],
+    "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "BLEEDING_RATE", "multiply": -1 } ] } ]
+  },
+  {
+    "id": "fae_unique_weapon_light_of_newborn_star",
+    "copy-from": "mc_arming_sword",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Light of a New-Born Star" },
+    "description": "A single-handed sword forged from some silvery metal shines faintly with a clear, cold light.  Parts of the metal sometimes flare up in a brighter white light for a moment.  A golden sunburst pattern is worked where the crossguard and the blade meet.",
+    "material": [ { "type": "blood", "portion": 1 } ],
+    "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
+    "techniques": [ "WBLOCK_2" ],
+    "faults": [  ],
+    "replace_materials": { "mc_steel": "moon_tears" },
+    "light": 5,
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": "ALWAYS",
+        "values": [ { "value": "LUMINATION", "add": 40 } ],
+        "hit_you_effect": [
+          {
+            "id": "fae_unique_weapon_light_of_newborn_star_flashbang_spell",
+            "once_in": 8,
+            "message": "Your sword flares with blazing light!"
+          }
+        ],
+        "ench_effects": [ { "effect": "effect_xe_light_of_newborn_star_protections", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "fae_unique_weapon_dawnrazor",
+    "copy-from": "hc_arming_sword",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Dawnrazor" },
+    "description": "A tongue of flame, frozen in place, seemingly plucked from the heart of a bonfire and hammered into the shape of a sword.  It emits a flickering reddish glow and is warm to the touch.",
+    "material": [ { "type": "frozen_flames", "portion": 1 } ],
+    "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
+    "techniques": [ "WBLOCK_2", "RAPID", "TEC_WEAPON_DAWNRAZOR_BURN_SUNDEATH" ],
+    "faults": [  ],
+    "light": 5,
+    "relative": { "melee_damage": { "heat": 3 } }
+  }
+]
