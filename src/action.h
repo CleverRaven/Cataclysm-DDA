@@ -154,6 +154,8 @@ enum action_id : int {
     ACTION_WEAR,
     /** Open the take-off clothing selection menu */
     ACTION_TAKE_OFF,
+    /** Open the "eat some" consume item menu */
+    ACTION_EAT_SOME,
     /** Open the default consume item menu */
     ACTION_EAT,
     /** Open the custom consume item menu */
