@@ -1684,7 +1684,7 @@
       ]
     },
     "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 4.0 },
+      { "stat": "damage", "type": "bash", "scale": 12.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 1.25 },
       { "stat": "damage", "type": "bash", "scaling-stat": "strength", "scale": 0.85 },
       { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 0.25 },
