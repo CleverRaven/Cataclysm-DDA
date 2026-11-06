@@ -11368,7 +11368,7 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
 
     for( int i = 0; i < amount; i++ ) {
         for( const wound_type_id &id : fix.wounds_added ) {
-            bp->add_wound( id );
+            bp->add_wound( id, who );
         }
     }
 

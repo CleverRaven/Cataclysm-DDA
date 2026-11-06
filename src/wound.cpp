@@ -19,6 +19,10 @@
 
 enum class bp_type;
 
+static const efftype_id effect_narcosis( "narcosis" );
+
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
@@ -50,10 +54,11 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "blacklist_body_part_types", blacklist_body_part_types );
 }
 
-wound::wound( wound_type_id wd ) :
+wound::wound( wound_type_id wd, const Character *who = nullptr,
+              bodypart_str_id bp = bodypart_str_id::NULL_ID() ):
     type( wd ),
     healing_time( wd->evaluate_healing_time() ),
-    pain( wd->evaluate_pain() ),
+    pain( wd->evaluate_pain( who, bp ) ),
     wound_progress_timer( wd->evaluate_progress_timer() )
 {}
 
@@ -397,9 +402,19 @@ bool wound_type::is_bleeding_wound() const
     return _is_bleeding_wound;
 }
 
-int wound_type::evaluate_pain() const
+int wound_type::evaluate_pain( const Character *who, bodypart_str_id bp ) const
 {
-    return rng( pain_.first, pain_.second );
+    float ret = static_cast<float>( rng( pain_.first, pain_.second ) );
+
+    if( who != nullptr ) {
+        ret *= who->enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
+    }
+
+    if( bp != bodypart_str_id::NULL_ID() ) {
+        ret *= bp->pain_mod;
+    }
+
+    return ret;
 }
 
 time_duration wound_type::evaluate_healing_time() const
@@ -543,9 +558,20 @@ void wound::mod_pain( const int mod )
     pain += mod;
 }
 
-int wound::get_pain() const
+int wound::get_pain( const Character *who ) const
 {
-    return pain * ( 1 - healing_percentage() );
+    float ret = pain * ( 1 - healing_percentage() );
+
+    if( who->has_flag( json_flag_PAIN_IMMUNE ) || who->has_effect( effect_narcosis ) ) {
+        return 0;
+    }
+
+    return ret;
+}
+
+int wound::get_pain_raw() const
+{
+    return pain;
 }
 
 time_duration wound::get_healing_time() const
