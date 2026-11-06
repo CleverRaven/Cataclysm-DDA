@@ -7,26 +7,9 @@
         "text": "What can you tell me about the dinosaurs?",
         "condition": {
           "and": [
-            {
-              "not": {
-                "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK"
-              }
-            },
-            {
-              "not": {
-                "compare_string": [
-                  "yes",
-                  {
-                    "u_val": "general_meeting_u_met_Rubik"
-                  }
-                ]
-              }
-            },
-            {
-              "not": {
-                "test_eoc": "EOC_CONDITION_EXODII_MERCHANT_HATES_HUB_CYBORGS"
-              }
-            }
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
+            { "not": { "test_eoc": "EOC_CONDITION_EXODII_MERCHANT_HATES_HUB_CYBORGS" } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_DINOSAURS"
