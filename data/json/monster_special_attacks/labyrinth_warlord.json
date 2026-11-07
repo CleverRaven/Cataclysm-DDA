@@ -1,0 +1,258 @@
+[
+  {
+    "type": "monster_attack",
+    "id": "wells_machine_control",
+    "attack_type": "eoc",
+    "cooldown": 1,
+    "range": 35,
+    "eoc": [ "EOC_WELLS_MACHINE_CONTROL" ]
+  },
+  {
+    "type": "monster_attack",
+    "id": "heat_ray_continue",
+    "attack_type": "eoc",
+    "cooldown": 0,
+    "range": 35,
+    "eoc": [ "eoc_wells_heatray_continue" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "wells_machine_hurt_self",
+    "name": { "str": "Warlord Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 1200,
+    "max_damage": 1500,
+    "damage_type": "pure",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WELLS_MACHINE_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "eoc_start_update_wells_machine_walkers",
+            "condition": { "math": [ "updating_warlords != 1" ] },
+            "effect": [ { "run_eocs": "eoc_update_wells_machine_walkers" } ]
+          },
+          {
+            "id": "warlord_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "_wm_uid = rand(1200)" ] },
+              { "math": [ "u_wm_uid = _wm_uid" ] },
+              { "math": [ "u_setup = 1" ] },
+              { "u_spawn_monster": "mon_wells_machine_leg", "real_count": 3, "min_radius": 1, "max_radius": 1 },
+              {
+                "u_run_monster_eocs": [ { "id": "warlord_leg_assign", "effect": [ { "math": [ "u_wm_id = _wm_uid" ] } ] } ],
+                "monster_range": 2,
+                "mtype_ids": [ "mon_wells_machine_leg" ]
+              },
+              { "math": [ "u_timer_heatray = time('now')" ] },
+              { "math": [ "u_timer_smoke = time('now')" ] }
+            ]
+          },
+          {
+            "id": "wells_machine_strategy",
+            "effect": [
+              { "u_location_variable": { "context_val": "my_loc" } },
+              { "npc_location_variable": { "context_val": "t_loc" } },
+              { "math": [ "_distance = distance('u', 'npc')" ] },
+              {
+                "switch": { "math": [ "_distance" ] },
+                "cases": [
+                  { "case": 0, "effect": [  ] },
+                  { "case": 6, "effect": [ { "run_eocs": [ "eoc_wells_toxic_grenade" ] } ] },
+                  { "case": 12, "effect": [ { "run_eocs": [ "eoc_wells_heatray" ] } ] },
+                  { "case": 25, "effect": [ { "run_eocs": [ "eoc_wells_toxic_grenade" ] } ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_update_wells_machine_walkers",
+    "type": "effect_on_condition",
+    "global": true,
+    "condition": { "math": [ "u_monsters_nearby('mon_wells_machine', 'radius': 60) >= 1" ] },
+    "effect": [
+      { "math": [ "updating_warlords = 1" ] },
+      { "run_eocs": "eoc_update_wells_machine_walkers", "time_in_future": 1 },
+      {
+        "u_run_monster_eocs": [ "eoc_wells_machine_walker" ],
+        "monster_range": 65,
+        "mtype_ids": [ "mon_wells_machine" ]
+      }
+    ],
+    "false_effect": [ { "math": [ "updating_warlords = 0" ] } ]
+  },
+  {
+    "id": "eoc_wells_machine_walker",
+    "type": "effect_on_condition",
+    "effect": [
+      { "math": [ "_wm_uid = u_wm_uid" ] },
+      { "u_location_variable": { "context_val": "warlord_pos_1" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "warlord_pos_2" }, "x_adjust": -1, "y_adjust": 1 },
+      { "u_location_variable": { "context_val": "warlord_pos_3" }, "y_adjust": -1 },
+      { "u_location_variable": { "context_val": "warlord_pos_4" }, "y_adjust": 1 },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "wells_machine_leg_tp",
+            "condition": { "math": [ "u_wm_id == _wm_uid" ] },
+            "effect": [
+              { "u_teleport": { "context_val": "warlord_pos_4" } },
+              { "u_teleport": { "context_val": "warlord_pos_1" } },
+              { "u_teleport": { "context_val": "warlord_pos_2" } },
+              { "u_teleport": { "context_val": "warlord_pos_3" } }
+            ]
+          }
+        ],
+        "monster_range": 20,
+        "mtype_ids": [ "mon_wells_machine_leg" ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_WELLS_MACHINE_HURT",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_wm_id" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "wells_machine_leg_hurt",
+            "condition": { "math": [ "u_wm_uid == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "wells_machine_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 60,
+        "mtype_ids": [ "mon_wells_machine" ]
+      }
+    ]
+  },
+  {
+    "id": "EOC_WELLS_MACHINE_DIES",
+    "type": "effect_on_condition",
+    "global": true,
+    "effect": [
+      { "math": [ "_uid = n_wm_uid" ] },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "wells_machine_leg_dies",
+            "condition": { "math": [ "u_wm_id == _uid" ] },
+            "effect": [ { "u_cast_spell": { "id": "wells_machine_hurt_self" } } ]
+          }
+        ],
+        "monster_range": 20,
+        "mtype_ids": [ "mon_wells_machine_leg" ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_wells_heatray",
+    "type": "effect_on_condition",
+    "//": "Starts with offset aim and corrects as the attack continues.",
+    "condition": { "and": [ { "math": [ "u_heat_ray_iteration < 6" ] }, { "math": [ "time_since(u_timer_heatray) > time(' 12 s')" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_warlord_ray",
+            "condition": "player_see_u",
+            "effect": [ { "message": "The warlord's aperture eye retracts to reveal its glowing core.", "type": "bad" } ]
+          }
+        ]
+      },
+      { "math": [ "u_timer_heatray = time('now')" ] },
+      { "npc_location_variable": { "context_val": "tar" } },
+      { "math": [ "_tar.x += -3 + min(3, u_heat_ray_iteration)" ] },
+      { "math": [ "_tar.y += -3 + min(3, u_heat_ray_iteration)" ] },
+      { "u_add_effect": "effect_robot_anchored", "duration": "5s" },
+      { "u_cast_spell": { "id": "wells_machine_heat_beam" }, "loc": { "context_val": "tar" } },
+      { "u_cast_spell": { "id": "wells_machine_bash_beam" }, "loc": { "context_val": "tar" } },
+      { "math": [ "u_heat_ray_iteration++" ] }
+    ],
+    "false_effect": [ { "math": [ "u_heat_ray_iteration = 0" ] } ]
+  },
+  {
+    "id": "eoc_wells_heatray_continue",
+    "type": "effect_on_condition",
+    "//": "Starts with offset aim and corrects as the attack continues.",
+    "condition": { "math": [ "u_heat_ray_iteration < 6" ] },
+    "effect": [
+      { "npc_location_variable": { "context_val": "tar" } },
+      { "math": [ "u_timer_heatray = time('now')" ] },
+      { "math": [ "_tar.x += -3 + min(3, u_heat_ray_iteration)" ] },
+      { "math": [ "_tar.y += -3 + min(3, u_heat_ray_iteration)" ] },
+      { "u_cast_spell": { "id": "wells_machine_heat_beam" }, "loc": { "context_val": "tar" } },
+      { "u_cast_spell": { "id": "wells_machine_bash_beam" }, "loc": { "context_val": "tar" } },
+      { "math": [ "u_heat_ray_iteration++" ] }
+    ],
+    "false_effect": [ { "math": [ "u_heat_ray_iteration = 0" ] } ]
+  },
+  {
+    "id": "wells_machine_heat_beam",
+    "type": "SPELL",
+    "name": "Heat Beam",
+    "description": "A beam of intense heat that damages any foes in its path.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "LOUD", "SPLIT_DAMAGE" ],
+    "effect": "attack",
+    "shape": "line",
+    "min_damage": 60,
+    "max_damage": 120,
+    "base_casting_time": 150,
+    "base_energy_cost": 200,
+    "difficulty": 4,
+    "max_level": 20,
+    "damage_type": "heat",
+    "field_id": "fd_laser",
+    "field_chance": 1,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "min_range": 40,
+    "max_range": 40
+  },
+  {
+    "id": "wells_machine_bash_beam",
+    "type": "SPELL",
+    "name": "Heat Beam",
+    "description": "A beam of intense heat that damages any foes in its path.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "effect": "bash",
+    "shape": "line",
+    "min_damage": 60,
+    "max_damage": 120,
+    "base_casting_time": 1500,
+    "base_energy_cost": 2000,
+    "difficulty": 4,
+    "max_level": 20,
+    "damage_type": "bash",
+    "min_range": 40,
+    "max_range": 40
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_wells_toxic_grenade",
+    "condition": { "and": [ { "math": [ "time_since(u_timer_smoke) > time(' 30 s')" ] }, "player_see_u" ] },
+    "effect": [
+      { "message": "A strange bomb is ejected from the Warlord's munitions bay", "type": "warning" },
+      { "math": [ "u_timer_smoke = time('now')" ] },
+      { "npc_location_variable": { "context_val": "loc" } },
+      { "math": [ "_tar.x += rng(-4, 4)" ] },
+      { "math": [ "_tar.y += rng(-4, 4)" ] },
+      { "map_spawn_item": "warlord_gasbomb_act", "loc": { "context_val": "loc" } }
+    ]
+  }
+]
