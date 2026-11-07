@@ -77,6 +77,28 @@
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
         "moves": 1000
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
     ],
     "armor": [
@@ -85,18 +107,20 @@
         "covers": [ "eyes" ],
         "encumbrance": 5,
         "coverage": 100,
-        "material": [ { "type": "lvl4ballisticglass", "thickness": 1 } ]
+        "material": [ { "type": "lvl4ballisticglass", "thickness": 1 } ],
+        "volume_encumber_modifier": 0
       },
       {
         "layers": [ "NORMAL" ],
         "covers": [ "mouth" ],
         "encumbrance": 30,
         "coverage": 100,
-        "material": [ { "type": "thermo_resin", "thickness": 1 } ]
+        "material": [ { "type": "thermo_resin", "thickness": 1 } ],
+        "volume_encumber_modifier": 0
       },
       {
         "layers": [ "NORMAL", "OUTER" ],
-        "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "covers": [ "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
         "encumbrance": 30,
         "coverage": 100,
         "material": [
@@ -106,7 +130,23 @@
           { "type": "vinyl", "thickness": 0.1 },
           { "type": "steel", "thickness": 5, "covered_by_mat": 5 },
           { "type": "aluminum", "thickness": 5, "covered_by_mat": 5 }
-        ]
+        ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "layers": [ "NORMAL", "OUTER" ],
+        "covers": [ "torso" ],
+        "encumbrance": 30,
+        "coverage": 100,
+        "material": [
+          { "type": "lycra", "thickness": 0.2 },
+          { "type": "nylon", "thickness": 1 },
+          { "type": "nomex", "thickness": 1 },
+          { "type": "vinyl", "thickness": 0.1 },
+          { "type": "steel", "thickness": 5, "covered_by_mat": 5 },
+          { "type": "aluminum", "thickness": 5, "covered_by_mat": 5 }
+        ],
+        "volume_encumber_modifier": 0.2
       },
       {
         "layers": [ "NORMAL" ],
@@ -118,7 +158,8 @@
           { "type": "nylon", "thickness": 1 },
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
-        ]
+        ],
+        "volume_encumber_modifier": 0
       },
       {
         "layers": [ "NORMAL" ],
@@ -140,7 +181,8 @@
           { "type": "nylon", "thickness": 1 },
           { "type": "nomex", "thickness": 1 },
           { "type": "vinyl", "thickness": 0.1 }
-        ]
+        ],
+        "volume_encumber_modifier": 0
       },
       {
         "layers": [ "NORMAL" ],
@@ -148,7 +190,8 @@
         "coverage": 100,
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "thickness": 6 } ]
+        "material": [ { "type": "rubber", "thickness": 6 } ],
+        "volume_encumber_modifier": 0
       }
     ],
     "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ]
@@ -161,13 +204,17 @@
     "name": { "str": "combat exoskeleton mk1", "str_pl": "combat exoskeletons mk1" },
     "description": "Colloquially known as a 'tank suit' in the media, these first-generation exoskeletons were tested in military service a few years back and determined to be too expensive for regular use.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_heavy",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.38…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_heavy_on",
-      "need_charges": 1,
-      "need_charges_msg": "The batteries are dead."
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.38…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_heavy_on",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead."
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ]
   },
@@ -180,13 +227,17 @@
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "200 W",
     "revert_to": "combat_exoskeleton_heavy",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
-      "target": "combat_exoskeleton_heavy"
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
+        "target": "combat_exoskeleton_heavy"
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "armor": [
       {
         "layers": [ "NORMAL" ],
@@ -268,13 +319,17 @@
     "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "combat_exoskeleton_medium",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_medium_on",
-      "need_charges": 1,
-      "need_charges_msg": "The batteries are dead."
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.86…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_medium_on",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead."
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ]
   },
@@ -287,13 +342,17 @@
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "175 W",
     "revert_to": "combat_exoskeleton_medium",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
-      "target": "combat_exoskeleton_medium"
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
+        "target": "combat_exoskeleton_medium"
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "armor": [
       {
         "layers": [ "NORMAL" ],
@@ -375,13 +434,17 @@
     "name": { "str": "combat exoskeleton mk3", "str_pl": "combat exoskeletons mk3" },
     "description": "The final iteration of military power armor before the fall of civilization, this version was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_light",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.51…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_light_on",
-      "need_charges": 1,
-      "need_charges_msg": "The batteries are dead."
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.51…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_light_on",
+        "need_charges": 1,
+        "need_charges_msg": "The batteries are dead."
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "tool_ammo": "battery",
     "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ]
   },
@@ -394,13 +457,17 @@
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "PARTIAL_DEAF", "TWO_WAY_RADIO", "SPAWN_ACTIVE" ] },
     "power_draw": "150 W",
     "revert_to": "combat_exoskeleton_light",
-    "use_action": {
-      "type": "transform",
-      "ammo_scale": 0,
-      "menu_text": "Turn off",
-      "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
-      "target": "combat_exoskeleton_light"
-    },
+    "use_action": [
+      {
+        "type": "transform",
+        "ammo_scale": 0,
+        "menu_text": "Turn off",
+        "msg": "You turn the exoskeleton off.\n>>Initiating shutdown sequence…\n>>Shutting down.",
+        "target": "combat_exoskeleton_light"
+      },
+      { "type": "attach_molle", "size": 10 },
+      { "type": "detach_molle" }
+    ],
     "armor": [
       {
         "layers": [ "NORMAL" ],
