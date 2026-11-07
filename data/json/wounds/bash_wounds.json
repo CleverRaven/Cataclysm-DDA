@@ -36,8 +36,8 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 10, 14 ],
     "pain": [ 5, 8 ],
-    "healing_time": [ "4 days", "7 days" ],
     "wound_progression": [ { "id": "bruise_bad", "chance": 70 } ],
+    "progress_timer": { "id": "bruise_small", "time": [ "48 hours", "84 hours" ], "message": "Your bruise on your %s is almost healed." },
     "limb_scores": [
       { "score": "manip", "value": 0.1 },
       { "score": "block", "value": 0.1 },
@@ -63,8 +63,8 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 15, 25 ],
     "pain": [ 10, 15 ],
-    "healing_time": [ "5 days", "8 days" ],
     "wound_progression": [ { "id": "bruise_terrible", "chance": 70 }, { "id": "bleeding_laceration_medium", "chance": 50 } ],
+    "progress_timer": { "id": "bruise_medium", "time": [ "60 hours", "96 hours" ], "message": "Your bad bruise on your %s is improving." },
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
@@ -90,8 +90,12 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 26, 34 ],
     "pain": [ 16, 21 ],
-    "healing_time": [ "6 days", "10 days" ],
     "wound_progression": [ { "id": "bone_fractured", "chance": 50 }, { "id": "bleeding_laceration_bad", "chance": 80 } ],
+    "progress_timer": {
+      "id": "bruise_bad",
+      "time": [ "3 days", "108 hours" ],
+      "message": "Your terrible bruise on your %s is healing a bit."
+    },
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "block", "value": 0.3 },
