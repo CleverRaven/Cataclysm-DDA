@@ -3739,6 +3739,38 @@
     "melee_damage": { "bash": 4, "cut": 4 }
   },
   {
+    "id": "broken_wells_machine_leg",
+    "type": "ITEM",
+    "symbol": "s",
+    "name": { "str": "broken warlord leg" },
+    "description": "A great metallic snake that once functioned as a robotic leg.",
+    "volume": "930 L",
+    "weight": "282 kg",
+    "longest_side": "400 cm",
+    "price": "50 USD",
+    "price_postapoc": "50 USD",
+    "melee_damage": { "bash": 100 },
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "id": "broken_wells_machine",
+    "type": "ITEM",
+    "symbol": "X",
+    "name": { "str": "destroyed warlord" },
+    "description": "The broken remains of a labyrinth warlord.  Its many weapons lie twisted and inoperable.",
+    "volume": "930 L",
+    "weight": "6582 kg",
+    "longest_side": "400 cm",
+    "price": "50 USD",
+    "price_postapoc": "50 USD",
+    "melee_damage": { "bash": 100 },
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
     "id": "parachute_mil",
     "type": "ITEM",
     "name": { "str": "military parachute" },
