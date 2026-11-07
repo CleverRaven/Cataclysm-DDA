@@ -122,6 +122,7 @@
     "display_type": "BY_WEIGHT",
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "material": [ "salt" ],
+    "volume": "2 ml",
     "//COMMENT": "Basic salt, a little less fun than most seasonings(fun 3).",
     "fun": 2,
     "extend": { "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ] },
@@ -148,6 +149,7 @@
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "display_type": "BY_WEIGHT",
     "material": [ "salt" ],
+    "volume": "3 ml",
     "fun": 3,
     "color": "brown"
   },
