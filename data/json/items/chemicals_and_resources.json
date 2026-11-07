@@ -988,10 +988,11 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of ammonium nitrate powder.  This white, crystalline powder is commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
-    "weight": "1 g",
-    "container": "bag_canvas"
+    "weight": "1720 mg",
+    "container": "bag_canvas",
+    "tnt_equivalent": 0.88
   },
   {
     "type": "ITEM",
@@ -1004,10 +1005,11 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of ammonium nitrate pellets.  These pellets are commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
-    "weight": "1 g",
-    "container": "bag_canvas"
+    "weight": "1720 mg",
+    "container": "bag_canvas",
+    "tnt_equivalent": 0.88
   },
   {
     "type": "ITEM",
@@ -1119,7 +1121,8 @@
     "material": [ "powder" ],
     "volume": "1 ml",
     "weight": "1 g",
-    "container": "bag_canvas"
+    "container": "bag_canvas",
+    "tnt_equivalent": 0.88
   },
   {
     "type": "ITEM",
@@ -1152,7 +1155,8 @@
     "material": [ "dense_powder" ],
     "//": "Density of RDX/Hexogen is 1.858 g/cm3",
     "volume": "1 ml",
-    "weight": "1858 mg"
+    "weight": "1858 mg",
+    "tnt_equivalent": 1.6
   },
   {
     "type": "ITEM",
@@ -1167,7 +1171,8 @@
     "material": [ "dense_powder" ],
     "//": "Density of composition B is 1.65 g/cm3",
     "volume": "1 ml",
-    "weight": "1650 mg"
+    "weight": "1650 mg",
+    "tnt_equivalent": 1.3
   },
   {
     "type": "ITEM",

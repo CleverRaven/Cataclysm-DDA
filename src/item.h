@@ -372,6 +372,9 @@ class item
         bool ready_to_revive( map &here, const tripoint_bub_ms &pos ) const;
 
         bool is_money() const;
+
+        float get_explosion_power() const;
+
     private:
         bool is_money( const std::set<ammotype> &ammo ) const;
     public:
