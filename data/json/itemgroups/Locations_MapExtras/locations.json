@@ -1215,7 +1215,7 @@
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
-      [ "pipebomb", 4 ],
+      { "group": "any_pipe_bomb", "prob": 4 },
       { "prob": 8, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "count": [ 1, 5 ] },
