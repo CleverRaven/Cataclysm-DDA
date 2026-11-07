@@ -667,19 +667,6 @@ bool Character::is_worn_or_wielded( const item_location &thing ) const
     return worn.is_worn( *thing ) || get_wielded_item() == thing;
 }
 
-int Character::get_item_position( const item *it ) const
-{
-    if( weapon.has_item( *it ) ) {
-        return -1;
-    }
-
-    std::optional<int> pos = worn.get_item_position( *it );
-    if( pos ) {
-        return worn_position_to_index( *pos );
-    }
-    return INT_MIN;
-}
-
 void Character::drop( item_location loc, const tripoint_bub_ms &where )
 {
     drop( { std::make_pair( loc, loc->count() ) }, where );

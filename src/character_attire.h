@@ -258,8 +258,6 @@ class outfit
 
         std::vector<item_location> top_items_loc( Character &guy );
 
-        // gets item position. not translated for worn index. DEPRECATE ME!
-        std::optional<int> get_item_position( const item &it ) const;
         // finds the top level item at the position in the list. DEPRECATE ME!
         const item &i_at( int position ) const;
 

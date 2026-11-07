@@ -2563,18 +2563,6 @@ item_location outfit::first_item_covering_bp( Character &guy, bodypart_id bp )
     return item_location{};
 }
 
-std::optional<int> outfit::get_item_position( const item &it ) const
-{
-    int pos = 0;
-    for( const item &clothing : worn ) {
-        if( clothing.has_item( it ) ) {
-            return pos;
-        }
-        pos++;
-    }
-    return std::nullopt;
-}
-
 const item &outfit::i_at( int position ) const
 {
     if( static_cast<size_t>( position ) < worn.size() ) {
