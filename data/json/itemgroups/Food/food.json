@@ -28,7 +28,8 @@
       { "prob": 40, "group": "gelatin_powder_bag_plastic_full" },
       { "prob": 15, "group": "chem_agar_bottle_plastic_small_50" },
       { "item": "gelatin_dessert_powder", "prob": 40 },
-      { "group": "instant_gravy", "prob": 4 }
+      { "group": "instant_gravy", "prob": 4 },
+      { "group": "salt_in_containers", "prob": 95, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -370,5 +371,25 @@
       { "item": "honeycomb", "count": [ 2, 4 ], "prob": 10 },
       { "item": "honey_glassed", "count": -1, "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag",
+    "subtype": "collection",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "salt", "count": [ 1, 571 ], "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_box",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [ { "item": "salt", "count": [ 1, 571 ], "container-item": "null" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_in_containers",
+    "subtype": "distribution",
+    "entries": [ { "group": "salt_bag" }, { "group": "salt_box" } ]
   }
 ]
