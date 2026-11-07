@@ -8136,7 +8136,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
 
 void Character::use_wielded()
 {
-    use( item_location( *this, &weapon ) );
+    use( get_wielded_item() );
 }
 
 void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )
