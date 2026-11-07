@@ -34,6 +34,7 @@
 #include "map_helpers_tests.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -50,7 +51,9 @@
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+#include "vehicle.h"
 #include "visitable.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
@@ -103,6 +106,8 @@ static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_half( "t_wall_half" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
+static const vproto_id vehicle_prototype_test_shopping_cart( "test_shopping_cart" );
 
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
@@ -1023,6 +1028,83 @@ TEST_CASE( "followers_build_separate_construction_sites", "[activities][zones][c
                     }
                 }
             }
+        }
+    }
+}
+
+TEST_CASE( "task_end_clears_marks_on_items_moved_off_their_spot", "[activities][zones][fetch]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms guy_pos( 60, 60, 0 );
+    const tripoint_bub_ms start = guy_pos + tripoint::east;
+    const tripoint_bub_ms moved_to = guy_pos + tripoint( 5, 0, 0 );
+    npc &guy = spawn_follower( guy_pos );
+    const auto marked = [&guy]( const itype_id & type ) {
+        item it( type );
+        it.set_var( "activity_var", guy.name );
+        return it;
+    };
+    const auto first_at = [&here]( const tripoint_bub_ms & p, const itype_id & type ) -> item * {
+        for( item &it : here.i_at( p ) )
+        {
+            if( it.typeId() == type ) {
+                return &it;
+            }
+        }
+        return nullptr;
+    };
+    // registers a marked hammer at start, then moves it off so the registered location is lost
+    const auto register_and_take = [&]() {
+        item &hammer = here.add_item_or_charges( start, marked( itype_hammer ) );
+        guy.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor( &here, start ),
+                &hammer );
+        item moved = hammer;
+        here.i_rem( start, &hammer );
+        REQUIRE_FALSE( guy.may_activity_occupancy_after_end_items_loc.back() );
+        return moved;
+    };
+
+    GIVEN( "registered item dropped a few tiles away" ) {
+        here.add_item_or_charges( moved_to, register_and_take() );
+        activity_handlers::clean_may_activity_occupancy_items_var( guy );
+        THEN( "its mark is cleared" ) {
+            item *hammer = first_at( moved_to, itype_hammer );
+            REQUIRE( hammer != nullptr );
+            CHECK_FALSE( hammer->has_var( "activity_var" ) );
+        }
+    }
+    GIVEN( "registered item stored in vehicle cargo" ) {
+        REQUIRE( here.add_vehicle( vehicle_prototype_test_shopping_cart, moved_to, 0_degrees, 0,
+                                   veh_spawn_status::UNDAMAGED ) != nullptr );
+        std::optional<vpart_reference> cargo = here.veh_at( moved_to ).cargo();
+        REQUIRE( cargo );
+        std::optional<vehicle_stack::iterator> stored =
+            cargo->vehicle().add_item( here, cargo->part(), register_and_take() );
+        REQUIRE( stored );
+        activity_handlers::clean_may_activity_occupancy_items_var( guy );
+        THEN( "its mark is cleared" ) {
+            CHECK_FALSE( ( *stored )->has_var( "activity_var" ) );
+        }
+    }
+    GIVEN( "unregistered marks left nearby by an older save" ) {
+        here.add_item_or_charges( moved_to, marked( itype_rock ) );
+        item other = marked( itype_e_tool );
+        other.set_var( "activity_var", guy.name + " Jr." );
+        here.add_item_or_charges( moved_to, other );
+        item &hoe = here.add_item_or_charges( start, marked( itype_hoe ) );
+        guy.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor( &here, start ),
+                &hoe );
+        activity_handlers::clean_may_activity_occupancy_items_var( guy );
+        THEN( "own marks are cleared, others' stay" ) {
+            CHECK_FALSE( hoe.has_var( "activity_var" ) );
+            item *rock = first_at( moved_to, itype_rock );
+            REQUIRE( rock != nullptr );
+            CHECK_FALSE( rock->has_var( "activity_var" ) );
+            item *tool = first_at( moved_to, itype_e_tool );
+            REQUIRE( tool != nullptr );
+            CHECK( tool->has_var( "activity_var" ) );
         }
     }
 }

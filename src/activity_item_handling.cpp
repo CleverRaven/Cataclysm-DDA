@@ -4779,25 +4779,36 @@ void activity_handlers::clean_may_activity_occupancy_items_var( Character &you )
         return it->has_var( "activity_var" )
         && it->get_var( "activity_var", "" ) == character_name;
     };
-    bool lost = false;
+    if( you.may_activity_occupancy_after_end_items_loc.empty() ) {
+        return;
+    }
     for( item_location &loc : you.may_activity_occupancy_after_end_items_loc ) {
-        if( !loc ) {
-            lost = true;
-        } else if( activity_var_checker( loc.get_item() ) ) {
+        if( loc && activity_var_checker( loc.get_item() ) ) {
             loc.get_item()->erase_var( "activity_var" );
         }
     }
     you.may_activity_occupancy_after_end_items_loc.clear();
-    if( lost ) {
-        // wielding or stowing copies carried item past its registered location, so clear
-        // marks on everything carried
-        you.visit_items( [&activity_var_checker]( const item_location & loc ) {
-            if( activity_var_checker( loc.get_item() ) ) {
-                item_location carried = loc;
-                carried->erase_var( "activity_var" );
-            }
-            return VisitResponse::NEXT;
-        } );
-    }
+    // wielding or storing an item means its no longer where it was registered before
+    // also existing saves might already have some stuck `(in use)` stuff
+    // so just clear all of them
+    const std::function<VisitResponse( const item_location & )> clear_mark =
+    [&activity_var_checker]( const item_location & loc ) {
+        if( activity_var_checker( loc.get_item() ) ) {
+            item_location marked = loc;
+            marked->erase_var( "activity_var" );
+        }
+        return VisitResponse::NEXT;
+    };
+    you.visit_items( clear_mark );
+    map &here = get_map();
 
+    // TODO: this checks in MAX_VIEW_DISTANCE but only on the Z level where the guy is.
+    // a proper fix would be to the registration tracking the items properly so we don't need to hunt
+    // - @datner
+    for( const tripoint_bub_ms &p : here.points_in_radius( you.pos_bub(), MAX_VIEW_DISTANCE ) ) {
+        map_cursor( &here, p ).visit_items( clear_mark );
+        if( const optional_vpart_position vp = here.veh_at( p ) ) {
+            vehicle_cursor( vp->vehicle(), vp->part_index() ).visit_items( clear_mark );
+        }
+    }
 }
