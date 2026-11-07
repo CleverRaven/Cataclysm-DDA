@@ -69,7 +69,7 @@ static const itype_id itype_barrel_glock_short( "barrel_glock_short" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_bottle_plastic_small( "bottle_plastic_small" );
 static const itype_id itype_butter( "butter" );
-static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_cash_card( "cash_card_test" );
 static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
 static const itype_id itype_duffelbag( "duffelbag" );
