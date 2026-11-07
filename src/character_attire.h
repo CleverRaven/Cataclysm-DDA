@@ -258,9 +258,6 @@ class outfit
 
         std::vector<item_location> top_items_loc( Character &guy );
 
-        // finds the top level item at the position in the list. DEPRECATE ME!
-        const item &i_at( int position ) const;
-
         VisitResponse visit_items( const Character &wearer,
                                    const std::function<VisitResponse( const item_location & )> &func ) const;
         std::list<item> remove_items_with( Character &guy,

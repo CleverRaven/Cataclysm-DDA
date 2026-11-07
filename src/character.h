@@ -973,7 +973,6 @@ class Character : public Creature, public visitable
          * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
          */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
 
         /** Handles health fluctuations over time */
         virtual void update_health();
@@ -1884,15 +1883,11 @@ class Character : public Creature, public visitable
          */
         bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Uses a tool */
-        void use( int inventory_position );
+
         /** Uses a tool at location */
         void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        std::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
 
         /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
         * The result can be end() of the worn list; do not dereference it.
@@ -2159,10 +2154,6 @@ class Character : public Creature, public visitable
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         item_location invlet_to_item( int invlet ) const;
-
-        // Returns the item with a given inventory position.
-        item &i_at( int position );
-        const item &i_at( int position ) const;
 
         /**
          * Returns a reference to the item which will be used to make attacks.

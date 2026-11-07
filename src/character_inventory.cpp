@@ -544,24 +544,6 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
     }
 }
 
-// Negative positions indicate weapon/clothing, >=0 is obsolete
-const item &Character::i_at( int position ) const
-{
-    if( position == -1 ) {
-        return weapon;
-    }
-    if( position < -1 ) {
-        return worn.i_at( worn_position_to_index( position ) );
-    }
-
-    return null_item_reference();
-}
-
-item &Character::i_at( int position )
-{
-    return const_cast<item &>( const_cast<const Character *>( this )->i_at( position ) );
-}
-
 item Character::i_rem( const item *it )
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
