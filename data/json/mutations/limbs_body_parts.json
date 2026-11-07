@@ -1278,6 +1278,7 @@
     "is_limb": true,
     "base_hp": 40,
     "drench_capacity": 2400,
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW" ],
     "smash_message": "You whip the %s with your tentacle, smashing it.",
     "bionic_slots": 4,
     "effects_on_hit": [
@@ -1341,7 +1342,7 @@
     "main_part": "arm_tentacle_l_2",
     "opposite_part": "arm_tentacle_r_2",
     "side": "right",
-    "sub_parts": [ "tentacle_left_2_base_r", "tentacle_left_2_middle_r", "tentacle_left_2_tip_r" ]
+    "sub_parts": [ "tentacle_left_2_base_l", "tentacle_left_2_middle_l", "tentacle_left_2_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_2",
@@ -1372,8 +1373,9 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_3",
     "opposite_part": "arm_tentacle_r_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_3_base_r", "tentacle_left_3_middle_r", "tentacle_left_3_tip_r" ]
+    "sub_parts": [ "tentacle_left_3_base_l", "tentacle_left_3_middle_l", "tentacle_left_3_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_3",
@@ -1388,6 +1390,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_3",
     "opposite_part": "arm_tentacle_l_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_3_base_r", "tentacle_right_3_middle_r", "tentacle_right_3_tip_r" ]
   },
@@ -1404,8 +1407,9 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_4",
     "opposite_part": "arm_tentacle_r_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_4_base_r", "tentacle_left_4_middle_r", "tentacle_left_4_tip_r" ]
+    "sub_parts": [ "tentacle_left_4_base_l", "tentacle_left_4_middle_l", "tentacle_left_4_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_4",
@@ -1420,6 +1424,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_4",
     "opposite_part": "arm_tentacle_l_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_4_base_r", "tentacle_right_4_middle_r", "tentacle_right_4_tip_r" ]
   },
