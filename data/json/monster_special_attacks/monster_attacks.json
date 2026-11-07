@@ -1287,6 +1287,8 @@
     "miss_msg_npc": "%1$s swings its giant club arm at <npcname>, but they duck!"
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
     "id": "rip_limbs",
     "cooldown": 30,
     "move_cost": 150,
