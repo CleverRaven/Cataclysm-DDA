@@ -116,7 +116,8 @@ class wound_type
 
         std::string get_name() const;
         std::string get_description() const;
-        int evaluate_pain() const;
+        // assigns the pain to the wound. Is modified by effects that work at wound application
+        int evaluate_pain( const Character *who, bodypart_str_id bp ) const;
         time_duration evaluate_healing_time() const;
         std::optional<std::pair<wound_type_id, time_duration>> evaluate_progress_timer() const;
 
@@ -193,7 +194,7 @@ class wound
 {
     public:
         wound() = default;
-        explicit wound( wound_type_id wd );
+        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp );
 
         wound_type_id type;
 
@@ -202,8 +203,12 @@ class wound
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
         void mod_pain( int mod );
-        // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
-        int get_pain() const;
+        // return how much pain this specific wound gives you, reduced depending on how long the wound presented and character effects.
+        // not affected by limb pain_mod since this one was applied at evaluation
+        // painkillers are not applied as well, they are applied at character as a whole
+        int get_pain( const Character *who ) const;
+        // accessor to wound pain.
+        int get_pain_raw() const;
         // exposes healing_time
         time_duration get_healing_time() const;
         float get_healing_progress() const;
@@ -213,7 +218,7 @@ class wound
         float get_wound_healing_modifier( const Character *who ) const;
 
         wound &operator+=( const wound &wd ) {
-            pain += wd.get_pain();
+            pain += wd.pain;
             // reset healing progress? maybe not necessary?
             healing_progress = 0.f;
 
