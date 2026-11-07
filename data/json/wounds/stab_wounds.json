@@ -107,7 +107,8 @@
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
-    "damage_required": [ 30, 80 ],
+    "damage_required": [ 30, 69 ],
+    "//0": "change max damage when a wound with a higher min damage is added.  for balance pourposes this is a 30 40 damage wound.",
     "pain": [ 26, 36 ],
     "severity": "CRITICAL",
     "limb_scores": [
@@ -129,7 +130,38 @@
     ],
     "periodic_message": { "message": "Your horrible stab on your %s is bleeding!", "rate": "10 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
-    "//0": "if a knife goes through your head or organs you're dead",
+    "//1": "if a knife goes through your head or organs you're dead",
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+  },
+  {
+    "id": "ripped_limb",
+    "type": "wound",
+    "name": { "str": "bleeding deep stab" },
+    "description": "Your limb is barely attached!.",
+    "weight": 40,
+    "limit": 1,
+    "damage_types": [ "stab" ],
+    "damage_required": [ 70, 100 ],
+    "pain": [ 80, 90 ],
+    "limb_scores": [
+      { "score": "manip", "value": 1 },
+      { "score": "block", "value": 1 },
+      { "score": "grip", "value": 1 },
+      { "score": "lift", "value": 1 },
+      { "score": "block", "value": 1 },
+      { "score": "swim", "value": 1 },
+      { "score": "crawl", "value": 1 },
+      { "score": "balance", "value": 1 },
+      { "score": "footing", "value": 1 },
+      { "score": "move_speed", "value": 1 }
+    ],
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds", "amount": 1 },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -42 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -42 }
+    ],
+    "periodic_message": { "message": "Your %s is barely attached!", "rate": "5 seconds" },
+    "blacklist_body_part_types": [ "sensor", "head", "torso" ],
     "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
   },
   {

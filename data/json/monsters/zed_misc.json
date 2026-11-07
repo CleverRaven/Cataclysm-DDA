@@ -447,7 +447,8 @@
       { "id": "smash", "throw_strength": 96 },
       { "id": "smash_equal", "throw_strength": 48 },
       { "id": "hulk_lift_and_smash" },
-      { "id": "hulk_wide_swing" }
+      { "id": "hulk_wide_swing" },
+      { "id": "rip_limbs" }
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",

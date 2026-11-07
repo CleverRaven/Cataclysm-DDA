@@ -1285,5 +1285,21 @@
     "no_dmg_msg_npc": "%1$s slams its gigantic club arm into <npcname>, but they appear unharmed.",
     "miss_msg_u": "%1$s swings its giant club arm!  You duck!",
     "miss_msg_npc": "%1$s swings its giant club arm at <npcname>, but they duck!"
+  },
+  {
+    "id": "rip_limbs",
+    "cooldown": 30,
+    "move_cost": 150,
+    "body_part_types": [ [ "arm", 1 ], [ "leg", 1 ] ],
+    "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "not": { "u_has_effect": "maimed_arm" } } ] },
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 90, "armor_penetration": 15 } ],
+    "//0": "Stab is used because good stab armour is rare.",
+    "min_mul": 0.8,
+    "hit_dmg_u": "%1$s tries to rip your %2$s off!",
+    "hit_dmg_npc": "%1$s tries to rip your %2$s off!",
+    "miss_msg_u": "%s tries to rip your %2$s off, but you dodge!",
+    "miss_msg_npc": "%s tries to rip <npcname> %2$s off, but they dodge!",
+    "no_dmg_msg_u": "%1$s tries to rip your %2$s off!",
+    "no_dmg_msg_npc": "%1$s tries to rip <npcname>'s %2$s off!"
   }
 ]
