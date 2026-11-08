@@ -1378,16 +1378,14 @@ float Character::maximum_exertion_level() const
         case 0:
             return COMBAT_EXERCISE;
         case 1:
-            return EXTRA_EXERCISE;
-        case 2:
             return ACTIVE_EXERCISE;
-        case 3:
+        case 2:
             return BRISK_EXERCISE;
-        case 4:
+        case 3:
             return MODERATE_EXERCISE;
-        case 5:
+        case 4:
             return LIGHT_EXERCISE;
-        case 6:
+        case 5:
         default:
             return NO_EXERCISE;
     }
