@@ -560,7 +560,7 @@ float wound::get_healing_progress() const
 
 wound_update_ret wound::update_wound( const Character *who, const time_duration time_passed )
 {
-    if( healing_time == calendar::INDEFINITELY_LONG_DURATION && !wound_progress_timer ) {
+    if( healing_time == calendar::INDEFINITELY_LONG_DURATION ) {
         return wound_update_ret::DO_NOTHING;
     }
 
