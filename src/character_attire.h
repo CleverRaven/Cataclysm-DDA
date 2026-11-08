@@ -231,7 +231,7 @@ class outfit
         void add_AIM_items_from_area( avatar &you, advanced_inv_area &square,
                                       advanced_inventory_pane &pane );
         void fire_options( Character &guy, std::vector<std::string> &options,
-                           std::vector<std::function<void()>> &actions );
+                           std::vector<std::function<void()>> &actions ) const;
         // an extension of Character::best_pocket()
         void best_pocket( Character &guy, const item &it, const item *avoid,
                           std::pair<item_location, item_pocket *> &current_best,
@@ -252,8 +252,8 @@ class outfit
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
         std::string get_armor_display( bodypart_id bp ) const;
-        void activate_combat_items( npc &guy );
-        void deactivate_combat_items( npc &guy );
+        void activate_combat_items( npc &guy ) const;
+        void deactivate_combat_items( npc &guy ) const;
 
         bool empty() const;
         item &front();

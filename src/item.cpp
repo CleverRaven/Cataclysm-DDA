@@ -26,8 +26,8 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinates.h"
-#include "craft_reservation.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -55,6 +55,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
@@ -3699,7 +3700,8 @@ item *item::get_usable_item( const std::string &use_name )
     return get_usable_item_helper( *this, use_name );
 }
 
-item_location item::get_usable_item_loc( item_location loc, const std::string &use_name ) const
+item_location item::get_usable_item_loc( const item_location &loc,
+        const std::string &use_name ) const
 {
     item_location ret;
     loc.visit_contents( [use_name, &ret]( const item_location & node ) {

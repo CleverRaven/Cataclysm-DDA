@@ -2923,7 +2923,7 @@ bool npc::recharge_cbm()
     return false;
 }
 
-void outfit::activate_combat_items( npc &guy )
+void outfit::activate_combat_items( npc &guy ) const
 {
     for( item_location &candidate : worn_locations( guy ) ) {
         if( candidate->has_flag( flag_COMBAT_TOGGLEABLE ) && candidate->is_transformable() &&
@@ -2951,7 +2951,7 @@ void npc::activate_combat_items()
     worn.activate_combat_items( *this );
 }
 
-void outfit::deactivate_combat_items( npc &guy )
+void outfit::deactivate_combat_items( npc &guy ) const
 {
     for( item_location &candidate : worn_locations( guy ) ) {
         if( candidate->has_flag( flag_COMBAT_TOGGLEABLE ) && candidate->is_transformable() &&
@@ -7143,7 +7143,7 @@ bool npc::has_adjacent_fire() const
 // Delegates core validation (charges, sunlight, underwater, qualities)
 // to firestarter_actor::can_use(), then checks tinder availability in
 // the same scope as npc_start_fire() (inventory + adjacent ground).
-static bool is_usable_npc_firestarter( const npc &who, const item_location it )
+static bool is_usable_npc_firestarter( const npc &who, const item_location &it )
 {
     if( !it->has_flag( json_flag_FIRESTARTER ) ) {
         return false;

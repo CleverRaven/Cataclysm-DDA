@@ -11,7 +11,6 @@
 
 class Character;
 class JsonObject;
-class item;
 class item_action;
 
 using item_action_id = std::string;

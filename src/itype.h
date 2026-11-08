@@ -48,6 +48,7 @@
 class Character;
 class Item_factory;
 class Trait_group;
+class item_location;
 class map;
 template <typename E> struct enum_traits;
 

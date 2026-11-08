@@ -20,6 +20,8 @@
 #include "translations.h"
 #include "units_utility.h"
 
+class item_location;
+
 static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const

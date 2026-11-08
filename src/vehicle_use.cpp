@@ -398,7 +398,7 @@ void vehicle::build_electronics_menu( map &here, veh_menu &menu )
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [&loc, arc_itm] { iuse::portable_game( &get_avatar(), loc, tripoint_bub_ms::zero ); } );
+            .on_submit( [&loc] { iuse::portable_game( &get_avatar(), loc, tripoint_bub_ms::zero ); } );
             break;
         }
     }

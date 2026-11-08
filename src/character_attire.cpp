@@ -2059,7 +2059,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 }
 
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
-                           std::vector<std::function<void()>> &actions )
+                           std::vector<std::function<void()>> &actions ) const
 {
     // make it std::map<item_location /* worn */, item_location /* gun */>?
     std::vector<item_location> worn_locs = worn_locations( guy );

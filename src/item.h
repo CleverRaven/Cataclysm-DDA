@@ -3096,7 +3096,7 @@ class item
          */
         const item *get_usable_item( const std::string &use_name ) const;
         item *get_usable_item( const std::string &use_name );
-        item_location get_usable_item_loc( item_location loc, const std::string &use_name ) const;
+        item_location get_usable_item_loc( const item_location &loc, const std::string &use_name ) const;
 
 
         /**

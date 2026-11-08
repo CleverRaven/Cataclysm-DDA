@@ -7,7 +7,6 @@
 #include <optional>
 #include <set>
 #include <tuple>
-#include <type_traits>
 #include <unordered_set>
 #include <utility>
 
@@ -280,7 +279,7 @@ void game::item_action_menu( item_location loc )
         // Ugly const_cast because the menu needs non-const pointers
         std::vector<item_location> pseudo_items = get_player_character().get_pseudo_items_locs();
         pseudos.reserve( pseudo_items.size() );
-        for( const item_location pseudo : pseudo_items ) {
+        for( const item_location &pseudo : pseudo_items ) {
             pseudos.push_back( pseudo );
         }
     } else {

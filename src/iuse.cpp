@@ -6843,7 +6843,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
     std::map<tripoint_bub_ms, item_location> found;
     for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), MAX_VIEW_DISTANCE ) ) {
         map_cursor mc( loc );
-        mc.visit_items( [&p, &found, loc, signal]( const item_location & it ) {
+        mc.visit_items( [&found, loc, signal]( const item_location & it ) {
             if( it->has_flag( flag_RADIO_ACTIVATION ) &&
                 it->has_flag( signal ) &&
                 it->has_flag( flag_RADIO_INVOKE_PROC ) ) {
@@ -8035,7 +8035,7 @@ void heater::deserialize( const JsonValue &jsin )
     data.read( "vpt", vpt );
 }
 
-heater find_heater( Character *p, item_location &it, bool force_use_it )
+static heater find_heater( Character *p, item_location &it, bool force_use_it )
 {
     map &here = get_map();
 
@@ -8558,7 +8558,7 @@ std::optional<int> iuse::strong_antibiotic( Character *p, item_location &it,
     return 1;
 }
 
-std::optional<int> iuse::craft( Character *p, item_location &it, const tripoint_bub_ms &loc )
+std::optional<int> iuse::craft( Character *p, item_location &it, const tripoint_bub_ms &/*loc*/ )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
@@ -8613,7 +8613,7 @@ std::optional<int> iuse::craft( Character *p, item_location &it, const tripoint_
     return 0;
 }
 
-std::optional<int> iuse::disassemble( Character *p, item_location &it, const tripoint_bub_ms &loc )
+std::optional<int> iuse::disassemble( Character *p, item_location &it, const tripoint_bub_ms & )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
@@ -8655,7 +8655,8 @@ std::optional<int> iuse::coin_flip( Character *p, item_location &it, const tripo
     return 0;
 }
 
-std::optional<int> iuse::play_game( Character *p, item_location &it, const tripoint_bub_ms & )
+std::optional<int> iuse::play_game( Character *p, item_location &entertain_item,
+                                    const tripoint_bub_ms & )
 {
     const map &here = get_map();
     if( p->is_npc() ) {
@@ -8669,7 +8670,6 @@ std::optional<int> iuse::play_game( Character *p, item_location &it, const tripo
     const bool w_friends = fcount > 0;
     std::vector<character_id> entertain_players = { p->getID() };
     const time_duration play_time = 1_hours;
-    const item_location entertain_item = it;
     int winner_index = -1;
 
     auto assign_game_activity = [&play_time, &entertain_item, &entertain_players,
@@ -8684,7 +8684,7 @@ std::optional<int> iuse::play_game( Character *p, item_location &it, const tripo
                            _( "Play the %s with your friend?" );
         std::string res = query_popup()
                           .context( "FRIENDS_ME_CANCEL" )
-                          .message( qstr, it->tname() )
+                          .message( qstr, entertain_item->tname() )
                           .option( "FRIENDS" ).option( "ME" ).option( "CANCEL" )
                           .query().action;
         if( res == "FRIENDS" ) {
@@ -8711,7 +8711,7 @@ std::optional<int> iuse::play_game( Character *p, item_location &it, const tripo
         return 0;
     } // else, fall through to playing alone
 
-    if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
+    if( query_yn( _( "Play a game with the %s?" ), entertain_item->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         assign_game_activity( p );
     } else {

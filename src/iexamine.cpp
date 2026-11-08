@@ -2081,7 +2081,8 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     }
 
     // Sort by their picklock level.
-    std::sort( picklocks.begin(), picklocks.end(), [&]( const item_location a, const item_location b ) {
+    std::sort( picklocks.begin(), picklocks.end(), [&]
+    ( const item_location & a, const item_location & b ) {
         int a_quality = a->get_quality( qual_LOCKPICK );
         int b_quality = b->get_quality( qual_LOCKPICK );
         // Sort by durability to spend most broken item
