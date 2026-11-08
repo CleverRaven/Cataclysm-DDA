@@ -2,7 +2,7 @@
   {
     "id": "fae_unique_weapon_last_blossom_fall",
     "type": "ITEM",
-    "subtypes": [ "ARTIFACT" ],
+    "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Last Blossom's Fall" },
     "copy-from": "mc_arming_sword",
     "looks_like": "bokken",
@@ -99,7 +99,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Moonshadow" },
-    "description": "A two-handed sword forged from some silvery metal that shines faintly with a clear, cold light.  The crossguard is a crescent moon, the thinnest sliver of silver, and the pommel is a full moon, with a clear gem set in its center.  The grip is wrapped in some kind of shimmering leather.",
+    "description": "A two-handed sword forged from some silvery metal that shines faintly with a clear, cold light.  The crossguard is a crescent moon, the thinnest sliver of silver, and the pommel is a full moon, with a clear gem set in its center.  The grip is wrapped in thin strands of wire.",
     "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
     "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
     "faults": [  ],
