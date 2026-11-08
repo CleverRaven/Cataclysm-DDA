@@ -249,7 +249,7 @@
       },
       {
         "id": "rags",
-        "name": { "str": "long rags" },
+        "name": { "str": "long rags", "str_pl": "a pile of long rags" },
         "description": "A patchwork of rags and plastic scraps stitched together into a coat.  Genuine underhab wear, good for camouflage around trash heaps.",
         "color": "dark_gray",
         "weight": 5,
