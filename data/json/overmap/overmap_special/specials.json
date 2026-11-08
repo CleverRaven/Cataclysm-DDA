@@ -6826,9 +6826,9 @@
     "priority": 1,
     "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
- {
+  {
     "type": "overmap_special",
-    "id": "collective_center",
+    "id": "collective center",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "collective_center_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "collective_center_2_north" },
