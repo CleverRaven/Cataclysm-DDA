@@ -202,6 +202,8 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_SWIMMABLE: return "SWIMMABLE";
         case ter_furn_flag::TFLAG_SUPPORTS_ROOF: return "SUPPORTS_ROOF";
         case ter_furn_flag::TFLAG_MINEABLE: return "MINEABLE";
+        case ter_furn_flag::TFLAG_FREE_TO_EXAMINE: return "FREE_TO_EXAMINE";
+        case ter_furn_flag::TFLAG_EXAMINE_FROM_ABOVE: return "EXAMINE_FROM_ABOVE";
         case ter_furn_flag::TFLAG_NOITEM: return "NOITEM";
         case ter_furn_flag::TFLAG_NO_SIGHT: return "NO_SIGHT";
         case ter_furn_flag::TFLAG_NO_SCENT: return "NO_SCENT";
@@ -245,6 +247,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_BLOCK_WIND: return "BLOCK_WIND";
         case ter_furn_flag::TFLAG_FLAT: return "FLAT";
         case ter_furn_flag::TFLAG_RAIL: return "RAIL";
+        case ter_furn_flag::TFLAG_BRIDGE: return "BRIDGE";
         case ter_furn_flag::TFLAG_THIN_OBSTACLE: return "THIN_OBSTACLE";
         case ter_furn_flag::TFLAG_SMALL_PASSAGE: return "SMALL_PASSAGE";
         case ter_furn_flag::TFLAG_Z_TRANSPARENT: return "Z_TRANSPARENT";
@@ -262,6 +265,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_PLOWABLE: return "PLOWABLE";
         case ter_furn_flag::TFLAG_ORGANIC: return "ORGANIC";
         case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
+        case ter_furn_flag::TFLAG_BANK_NETWORKED: return "BANK_NETWORKED";
         case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
         case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
         case ter_furn_flag::TFLAG_GROWTH_OVERGROWN: return "GROWTH_OVERGROWN";
@@ -335,6 +339,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_X: return "ONE_DIMENSIONAL_X";
         case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Y: return "ONE_DIMENSIONAL_Y";
         case ter_furn_flag::TFLAG_ONE_DIMENSIONAL_Z: return "ONE_DIMENSIONAL_Z";
+        case ter_furn_flag::TFLAG_EMPTY_SPACE: return "EMPTY_SPACE";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

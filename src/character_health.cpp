@@ -1940,7 +1940,7 @@ float Character::rest_quality() const
     bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
     if( ur_act_level <= LIGHT_EXERCISE ) {
         rest += 0.1f;
-        if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_CAN_SIT, your_pos ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
         } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
@@ -2281,7 +2281,7 @@ void Character::burn_move_stamina( int moves )
         !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
           here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub( here ) ) ) &&
-        !here.has_flag_furn( "BRIDGE", pos_bub( here ) ) &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_BRIDGE, pos_bub( here ) ) &&
         !( in_vehicle && here.veh_at( pos_bub( here ) )->vehicle().can_float( here ) ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }

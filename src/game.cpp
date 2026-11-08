@@ -5632,7 +5632,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
 
     if( here.has_furn( examp ) ) {
         if( !u.cant_do_mounted() ) {
-            if( !here.has_flag( "FREE_TO_EXAMINE", examp ) &&
+            if( !here.has_flag( ter_furn_flag::TFLAG_FREE_TO_EXAMINE, examp ) &&
                 !warn_player_maybe_anger_local_faction( false, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
@@ -5640,7 +5640,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
         }
     } else {
         if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
-            if( !here.has_flag( "FREE_TO_EXAMINE", examp ) &&
+            if( !here.has_flag( ter_furn_flag::TFLAG_FREE_TO_EXAMINE, examp ) &&
                 !warn_player_maybe_anger_local_faction( false, true ) ) {
                 return; // player declined to mess with faction's stuff
             }
@@ -8388,7 +8388,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     }
     // Drench the player if swimmable
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
-        !here.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_BRIDGE, u.pos_bub() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float( here ) ) ) &&
         !u.has_flag( json_flag_WATERWALKING ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),

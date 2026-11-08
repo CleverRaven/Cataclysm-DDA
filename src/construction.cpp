@@ -1629,7 +1629,7 @@ bool construct::check_support( const tripoint_bub_ms &p )
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
         if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ||
-            ( !here.ter( p + offset )->has_flag( "EMPTY_SPACE" ) &&
+            ( !here.ter( p + offset )->has_flag( ter_furn_flag::TFLAG_EMPTY_SPACE ) &&
               here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint::below ) ) ) {
             num_supports++;
         }
@@ -1966,7 +1966,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             deconstruction_practice_skill( f.deconstruct->skill.value() );
         }
         // if furniture has liquid in it and deconstructs into watertight containers then fill them
-        if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
+        if( f.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT ) && item_here.made_of( phase_id::LIQUID ) ) {
             for( item *it : drop ) {
                 if( it->get_remaining_capacity_for_liquid( item_here ) <= 0 ) {
                     continue;

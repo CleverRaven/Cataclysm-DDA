@@ -8304,7 +8304,7 @@ void Character::pause()
     map &here = get_map();
 
     // effects of being partially/fully underwater
-    if( !in_vehicle && !here.has_flag_furn( "BRIDGE", pos_bub( ) ) ) {
+    if( !in_vehicle && !here.has_flag_furn( ter_furn_flag::TFLAG_BRIDGE, pos_bub( ) ) ) {
         if( underwater ) {
             // TODO: gain "swimming" proficiency but not "athletics" skill
             drench( 100, get_drenching_body_parts(), false );
