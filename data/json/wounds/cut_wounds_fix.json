@@ -130,6 +130,26 @@
     "success_msg": "The bad scratch is bandaged, now, all you can do is wait for it to heal."
   },
   {
+    "id": "bandaged_scratch_old_small_fix",
+    "copy-from": "bandage_scratch_small_fix",
+    "type": "wound_fix",
+    "name": "change dressing on the light scratch",
+    "description": "Change the dressing on your light scratch.",
+    "wounds_removed": [ "bandaged_scratch_old_small" ],
+    "wounds_added": [ "bandaged_scratch_small" ],
+    "success_msg": "You change the dressing on the light scratch, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandaged_scratch_old_medium",
+    "copy-from": "bandage_scratch_medium_fix",
+    "type": "wound_fix",
+    "name": "change dressing on the scratch",
+    "description": "Change the dressing on your scratch.",
+    "wounds_removed": [ "bandaged_scratch_old_medium" ],
+    "wounds_added": [ "bandaged_scratch_medium" ],
+    "success_msg": "You change the dressing on the light scratch, now, all you can do is wait for it to heal."
+  },
+  {
     "id": "bandage_cut_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
