@@ -149,7 +149,7 @@ constexpr float MODERATE_EXERCISE = 4.0f;
 constexpr float BRISK_EXERCISE = 6.0f;
 constexpr float ACTIVE_EXERCISE = 8.0f;
 constexpr float EXTRA_EXERCISE = 10.0f;
-constexpr float COMBAT_EXERCISE = 1000.0f;
+constexpr float COMBAT_EXERCISE = 500.0f;
 
 const std::map<std::string, float> activity_levels_map = {
     { "SLEEP_EXERCISE", SLEEP_EXERCISE },
