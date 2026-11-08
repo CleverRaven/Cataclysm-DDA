@@ -1046,6 +1046,52 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
     return crit_mod;
 }
 
+// Margins that can be tuned to affect how partial dodge works.
+// Below melee_miss_threshold is a total miss,
+// above melee_full_force_threshold is a square hit
+static constexpr int melee_miss_threshold = 25;
+static constexpr int melee_full_force_threshold = 25;
+
+float Creature::melee_damage_mult( int hit_spread )
+{
+    return std::clamp( static_cast<float>( hit_spread + melee_miss_threshold ) / (melee_miss_threshold + melee_full_force_threshold), 0.0f, 1.0f );
+}
+
+static constexpr float melee_glancing_below = 0.4f;
+static constexpr float melee_solid_above = 0.9f;
+
+melee_hit_quality Creature::melee_hit_quality_of( int hit_spread )
+{
+    const float mult = melee_damage_mult( hit_spread );
+    if( mult < melee_glancing_below ) {
+        return melee_hit_quality::glancing;
+    } else if( mult <= melee_solid_above ) {
+        return melee_hit_quality::good;
+    } else {
+        return melee_hit_quality::solid;
+    }
+}   
+
+// check and set message def for how hard the hit is
+std::string Creature::hit_quality_label( int hit_spread )
+{
+    switch( Creature::melee_hit_quality_of( hit_spread ) ) {
+        case melee_hit_quality::glancing:
+            return _( "A glancing hit." );
+        case melee_hit_quality::good:
+            return _( "A good hit." );
+        case melee_hit_quality::solid:
+            return _( "A solid hit!" );
+        default:
+            return _( "A good hit." );
+    }
+}
+
+bool Creature::melee_attack_hit( int hit_spread )
+{
+    return melee_damage_mult( hit_spread ) > 0.0f;
+}
+
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
 
@@ -1102,6 +1148,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
+    d.mult_damage( melee_damage_mult( hit_spread ), true ); // partial dodge
     bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
                          hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
