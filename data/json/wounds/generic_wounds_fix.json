@@ -63,7 +63,7 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "3 minutes",
+    "time": "5 minutes",
     "skills": { "firstaid": 2 },
     "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.2 } ]
@@ -73,7 +73,7 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "6 minutes",
+    "time": "10 minutes",
     "skills": { "firstaid": 2 },
     "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.2 } ]
