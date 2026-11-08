@@ -1,7 +1,38 @@
 [
   {
     "type": "effect_on_condition",
+    "//": "Remove in 0.J",
     "id": "EOC_BIOKIN_LEARNING_GUIDED_EVOLUTION",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_LEFT_ARM_INFECTION_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_ARM_INFECTION_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_HEAD_INFECTION_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_LEFT_LEG_INFECTION_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_RIGHT_LEG_INFECTION_CHECK",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CAUTERIZE_TORSO_INFECTION_CHECK",
     "effect": [  ]
   }
 ]

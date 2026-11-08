@@ -140,5 +140,11 @@
     "type": "overmap_special_migration",
     "id": "Occupied LMOE Shelter",
     "new_id": "LMOE Shelter"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "gas station bunker",
+    "new_id": "gas station bunkerless",
+    "//": "Removed in 0.J experimental"
   }
 ]

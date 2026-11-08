@@ -284,7 +284,7 @@ void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_
                                      damage_description );
         } else {
             //~ Phrase describing getting hit by multiple projectiles, i.e. "The zombie is hit by many bomb fragments, dealing 50 damage."
-            add_msg( _( "%s is hit by %s %s, %s." ), critter->disp_name( false, true ), impact_count,
+            add_msg( _( "%s is hit by %s %s, %s." ), critter->disp_name( true ), impact_count,
                      projectile_name, damage_description );
         }
     }

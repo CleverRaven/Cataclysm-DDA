@@ -660,10 +660,8 @@ const
     return VisitResponse::NEXT;
 }
 
-/** @relates visitable */
-VisitResponse Character::visit_items( const std::function<VisitResponse( const item_location & )>
-                                      &func )
-const
+VisitResponse Character::visit_carried( const std::function<VisitResponse( const item_location & )>
+                                        &func ) const
 {
     if( !weapon.is_null() &&
         visit_internal( func, item_location( const_cast<Character &>( *this ),
@@ -672,6 +670,16 @@ const
     }
 
     if( worn.visit_items( *this, func ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+    return VisitResponse::NEXT;
+}
+/** @relates visitable */
+VisitResponse Character::visit_items( const std::function<VisitResponse( const item_location & )>
+                                      &func )
+const
+{
+    if( visit_carried( func ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 

@@ -823,6 +823,11 @@ bool WaitForEvent( const int timeout_ms )
     return SDL_WaitEventTimeout( nullptr, timeout_ms );
 }
 
+bool HasEvent( const Uint32 type )
+{
+    return SDL_HasEvent( type );
+}
+
 void PushWakeEvent()
 {
     // the Android insets hook can fire before SDL_main initializes SDL

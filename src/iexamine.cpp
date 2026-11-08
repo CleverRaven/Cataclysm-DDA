@@ -482,11 +482,12 @@ void iexamine::genemill( Character &you, const tripoint_bub_ms & )
     std::vector<trait_id>available_traits;
     std::vector<item_location> genetech;
 
-    for( item_location &loc : you.all_items_loc() ) {
+    you.visit_items( [&genetech]( const item_location & loc ) {
         if( loc->has_flag( flag_GENE_TECH ) ) {
             genetech.push_back( loc );
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
 
     if( genetech.empty() ) {
@@ -2362,34 +2363,9 @@ void iexamine_helper::handle_harvest( Character &you, const itype_id &itemid, bo
     if( harvest.has_temperature() ) {
         harvest.set_item_temperature( get_weather().get_temperature( you.pos_bub() ) );
     }
-    // Only auto-eat when the NPC is actively seeking food or water
-    // (self-care need execution). Generic harvest jobs (farming zones,
-    // player-assigned tasks) should collect, not consume.
-    bool npc_self_care = false;
-    if( you.is_npc() ) {
-        const npc &n = dynamic_cast<const npc &>( you );
-        const std::string &goal = n.get_committed_goal();
-        npc_self_care = ( goal == "eat_food" || goal == "drink_water" );
-    }
-    if( npc_self_care && harvest.is_food() &&
-        ( you.get_hunger() > 0 || you.has_calorie_deficit() ) &&
-        you.will_eat( harvest ).success() ) {
-        const time_duration consume_time = you.get_consume_time( harvest );
-        trinary result = you.consume( harvest );
-        if( result != trinary::NONE ) {
-            you.mod_moves( -to_moves<int>( consume_time ) );
-        }
-        if( result == trinary::SOME ) {
-            // Partial consumption: stash or drop the remainder.
-            if( !force_drop && you.can_pickVolume( harvest, true ) &&
-                you.can_pickWeight( harvest, true ) ) {
-                you.i_add( harvest );
-            } else {
-                get_map().add_item_or_charges( you.pos_bub(), harvest );
-            }
-        }
-    } else if( !force_drop && you.can_pickVolume( harvest, true ) &&
-               you.can_pickWeight( harvest, false ) ) {
+    // harvest is kept; NPC eats it later like any carried food
+    if( !force_drop && you.can_pickVolume( harvest, true ) &&
+        you.can_pickWeight( harvest, false ) ) {
         you.i_add( harvest );
         you.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
         you.add_msg_if_npc( _( "<npcname> harvests: %s." ), harvest.tname() );
@@ -2567,7 +2543,7 @@ void iexamine::harvest_furn_nectar( Character &you, const tripoint_bub_ms &examp
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_furn( Character &you, const tripoint_bub_ms &examp )
@@ -2577,7 +2553,7 @@ void iexamine::harvest_furn( Character &you, const tripoint_bub_ms &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_ter_nectar( Character &you, const tripoint_bub_ms &examp )
@@ -2589,7 +2565,7 @@ void iexamine::harvest_ter_nectar( Character &you, const tripoint_bub_ms &examp 
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
@@ -2600,7 +2576,7 @@ void iexamine::harvest_ter( Character &you, const tripoint_bub_ms &examp )
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 /**
@@ -4521,7 +4497,7 @@ void iexamine::tree_hickory( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    you.assign_activity( harvest_activity_actor( examp, auto_forage ) );
+    you.assign_activity( harvest_activity_actor( get_map().get_abs( examp ), auto_forage ) );
 }
 
 static item_location maple_tree_sap_container()
@@ -7423,7 +7399,7 @@ void iexamine::workbench_internal( Character &you, const tripoint_bub_ms &examp,
             std::vector<std::string> item_names;
             for( item_location &it : crafts ) {
                 if( it ) {
-                    item_names.emplace_back( it.get_item()->tname() );
+                    item_names.emplace_back( it->get_craft_listing_name( you ) );
                 }
             }
             uilist amenu2( _( "Which craft or disassembly to work on?" ), item_names );

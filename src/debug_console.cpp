@@ -2970,14 +2970,14 @@ void tab_creatures_view::draw_body( debug_console &host )
         } else {
             ImGui::TextDisabled( "%s", "(empty hands)" );
         }
-        const std::vector<item_location> all = sel_npc->all_items_loc();
-        ImGui::TextDisabled( "%d carried", static_cast<int>( all.size() ) );
-        for( const item_location &loc : all ) {
-            if( loc ) {
-                ImGui::Bullet();
-                cataimgui::draw_colored_text( loc->tname(), c_white );
-            }
-        }
+        int items_carried = 0;
+        sel_npc->visit_carried( [&items_carried]( const item_location & loc ) {
+            ImGui::Bullet();
+            cataimgui::draw_colored_text( loc->tname(), c_white );
+            items_carried++;
+            return VisitResponse::NEXT;
+        } );
+        ImGui::TextDisabled( "%d carried", items_carried );
     }
 }
 

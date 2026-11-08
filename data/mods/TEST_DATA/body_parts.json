@@ -480,5 +480,113 @@
       { "gain": "test_bird_foot_r" },
       { "lose": "foot_r" }
     ]
+  },
+  {
+    "id": "test_torso",
+    "type": "body_part",
+    "name": "test_torso",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "test_torso" },
+    "heading": "test_torso",
+    "heading_multiple": "test_torso",
+    "hp_bar_ui_text": "TORSO",
+    "encumbrance_text": "Dodging and melee is hampered.",
+    "main_part": "test_torso",
+    "connected_to": "head",
+    "opposite_part": "test_torso",
+    "limb_types": "torso",
+    "limb_scores": [ [ "balance", 0.7 ] ],
+    "encumbrance_threshold": 6,
+    "is_vital": true,
+    "hit_size": 36,
+    "hit_difficulty": 1,
+    "side": "both",
+    "hot_morale_mod": 2,
+    "cold_morale_mod": 2,
+    "fire_warmth_bonus": 150,
+    "squeamish_penalty": 6,
+    "base_hp": 60,
+    "drench_capacity": 4000,
+    "smash_message": "You smash the %s with a powerful shoulder-check.",
+    "bionic_slots": 84,
+    "bmi_encumbrance_threshold": 9,
+    "bmi_encumbrance_scalar": 0.8,
+    "windage_effect": "winded",
+    "effects_on_hit": [
+      {
+        "id": "bleed",
+        "dmg_type": "cut",
+        "dmg_threshold": 3,
+        "dmg_scale_increment": 2,
+        "duration": 60,
+        "duration_dmg_scaling": 45,
+        "max_duration": 1800
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "stab",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1.5,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "bleed",
+        "dmg_type": "bullet",
+        "dmg_threshold": 1,
+        "dmg_scale_increment": 1,
+        "duration": 60,
+        "duration_dmg_scaling": 60
+      },
+      {
+        "id": "winded",
+        "dmg_type": "bash",
+        "dmg_threshold": 10,
+        "dmg_scale_increment": 5,
+        "chance": 10,
+        "chance_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_type": "bash",
+        "dmg_threshold": 5,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "staggered_character",
+        "dmg_threshold": 15,
+        "dmg_scale_increment": 5,
+        "chance": 20,
+        "chance_dmg_scaling": 10,
+        "duration": 5,
+        "duration_dmg_scaling": 2,
+        "max_duration": 15
+      },
+      {
+        "id": "downed",
+        "dmg_type": "bash",
+        "dmg_threshold": 15,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 20,
+        "duration": 2,
+        "duration_dmg_scaling": 0.5
+      },
+      {
+        "id": "downed",
+        "dmg_threshold": 25,
+        "dmg_scale_increment": 10,
+        "chance": 5,
+        "chance_dmg_scaling": 20,
+        "duration": 2,
+        "duration_dmg_scaling": 0.5
+      }
+    ],
+    "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ]
   }
 ]

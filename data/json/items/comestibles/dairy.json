@@ -142,19 +142,10 @@
     "price_postapoc": "23 cent",
     "material": [ "milk" ],
     "volume": "15 ml",
-    "flags": [ "NO_AUTO_CONSUME" ],
-    "fun": -7,
-    "vitamins": [ [ "milk_allergen", 1 ] ],
-    "consumption_effect_on_conditions": [
-      {
-        "id": "EOC_BUTTER_NAUSEA",
-        "condition": { "math": [ "u_consumption_count('butter', 'hours': 6) >= 3" ] },
-        "effect": [
-          { "u_add_effect": "nausea", "duration": "10 minutes" },
-          { "u_message": "Ugh, you've been eating too much butter\u2026", "type": "bad" }
-        ]
-      }
-    ]
+    "//COMMENT": "This food is a spread and cannot be eaten directly. It can be eaten automatically as a 'seasoning' or used in crafting/cooking.",
+    "flags": [ "NO_AUTO_CONSUME", "INEDIBLE" ],
+    "fun": 2,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "ITEM",
@@ -172,6 +163,7 @@
     "price": "6 cent",
     "price_postapoc": "15 cent",
     "vitamins": [ [ "calcium", 3 ] ],
+    "fun": 1,
     "volume": "15 ml"
   },
   {
@@ -191,7 +183,7 @@
     "material": [ "oil" ],
     "charges": 1,
     "phase": "liquid",
-    "flags": [ "ANIMAL_PRODUCT" ]
+    "extend": { "flags": [ "ANIMAL_PRODUCT" ] }
   },
   {
     "type": "ITEM",

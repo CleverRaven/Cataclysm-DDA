@@ -564,37 +564,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "gas station bunker",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "s_gas_g1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_gas_g0_roof_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "s_gas_g1_roof_north" },
-      { "point": [ 0, 1, -1 ], "overmap": "s_gas_b11_north" },
-      { "point": [ 0, 0, -2 ], "overmap": "s_gas_b20_north" },
-      { "point": [ 0, 1, -2 ], "overmap": "s_gas_b21_north" },
-      { "point": [ -1, 0, 0 ], "locations": [ "land", "road" ] },
-      { "point": [ 1, 0, 0 ], "locations": [ "land", "road" ] }
-    ],
-    "connections": [
-      { "point": [ -1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      {
-        "point": [ -1, -1, 0 ],
-        "terrain": "road",
-        "existing": true,
-        "connection": "local_road",
-        "from": [ -1, 0, 0 ]
-      },
-      { "point": [ 1, 0, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
-      { "point": [ 1, -1, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 0, 0 ] }
-    ],
-    "locations": [ "field", "forest_without_trail" ],
-    "occurrences": [ 10, 100 ],
-    "priority": 1,
-    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE", "SAFE_AT_WORLDGEN" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "gas station bunkerless",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_g0_north" },
@@ -620,6 +589,44 @@
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "charging_station_2x2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "charging_station_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "charging_station_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "charging_station_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "charging_station_1_1_north" }
+    ],
+    "connections": [
+      { "point": [ 1, 2, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 1, 0 ] },
+      { "point": [ 0, 2, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 1, 0 ] }
+    ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "charging_station_2x2_roofed",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "charging_station_roofed_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "charging_station_roofed_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "charging_station_roofed_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "charging_station_roofed_1_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "charging_station_roof_0_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "charging_station_roof_1_0_north" }
+    ],
+    "connections": [
+      { "point": [ 1, 2, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 1, 1, 0 ] },
+      { "point": [ 0, 2, 0 ], "terrain": "road", "existing": true, "connection": "local_road", "from": [ 0, 1, 0 ] }
+    ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -856,6 +863,34 @@
   },
   {
     "type": "overmap_special",
+    "id": "Highlands holy grotto",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "highland_holy_grotto_aa_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "highland_holy_grotto_ba_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "highland_holy_grotto_ca_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "highland_holy_grotto_ab_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "highland_holy_grotto_bb_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "highland_holy_grotto_cb_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "highland_holy_grotto_ac_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "highland_holy_grotto_bc_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "highland_holy_grotto_cc_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "highland_holy_grotto_aab_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "highland_holy_grotto_bab_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "highland_holy_grotto_cab_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "highland_holy_grotto_abb_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "highland_holy_grotto_bbb_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "highland_holy_grotto_cbb_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "highland_holy_grotto_acb_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "highland_holy_grotto_bcb_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "highland_holy_grotto_ccb_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Imperial Crypt Highlands",
     "overmaps": [
       { "point": [ 1, -1, -1 ], "overmap": "highland_crypt_royal_1_north" },
@@ -885,6 +920,16 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Floral Outcropping",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "highland_dead_exodii_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 0, -1 ],
+    "occurrences": [ 33, 100 ],
+    "rotate": false,
+    "flags": [ "CLASSIC", "WILDERNESS", "HIGHLANDS", "EXTRADIMENSIONAL", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -5217,7 +5262,7 @@
       { "point": [ 0, 0, 1 ], "overmap": "barry_mi-go_scout_tower_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "barry_mi-go_scout_tower_3_north" },
       { "point": [ 0, 0, 3 ], "overmap": "barry_mi-go_scout_tower_4_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field" },
+      { "point": [ 0, 1, 0 ], "overmap": "isherwood_barry_rescue_field_north" },
       { "point": [ 1, 1, 0 ], "overmap": "field" },
       { "point": [ -1, 1, 0 ], "overmap": "field" },
       { "point": [ 1, 0, 0 ], "overmap": "field" },

@@ -296,13 +296,14 @@
     "type": "effect_on_condition",
     "id": "EOC_SHIP_VANISHING_ARC_START",
     "effect": [
+      { "math": [ "faction_like('pirates_lux') = 90" ] },
       {
         "u_location_variable": { "global_val": "ship_new" },
-        "target_params": { "om_terrain": "afs_shuttlepad_salvors_old_pad", "z": 0 }
+        "target_params": { "om_terrain": "smuggler_ravine_bba", "z": -2 }
       },
       { "mapgen_update": "your_ship_stairs_deployed", "target_var": { "global_val": "ship_new" } },
       { "mapgen_update": "your_ship_ramp_deployed", "target_var": { "global_val": "ship_new" } },
-      { "math": [ "ship_new.z = 1" ] },
+      { "math": [ "ship_new.z = -1" ] },
       { "mapgen_update": "your_ship", "target_var": { "global_val": "ship_new" } },
       { "math": [ "your_ship_stairs_up = 0" ] },
       { "math": [ "your_ship_ramp_up = 0" ] },
@@ -332,6 +333,33 @@
           { "math": [ "ship_new.x = salus_4_orbit_pos.x" ] },
           { "math": [ "ship_new.y = salus_4_orbit_pos.y" ] },
           { "math": [ "ship_new.z = salus_4_orbit_pos.z" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHIP_THI_TO_SMUGGLERS_LANDING",
+    "effect": [
+      {
+        "if": { "math": [ "has_var(smugglers_landing)" ] },
+        "then": [
+          { "math": [ "ship_new.x = smugglers_landing.x" ] },
+          { "math": [ "ship_new.y = smugglers_landing.y" ] },
+          { "math": [ "ship_new.z = smugglers_landing.z" ] },
+          { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
+        ],
+        "else": [
+          {
+            "u_location_variable": { "global_val": "smugglers_landing" },
+            "target_params": { "om_terrain": "smuggler_ravine_bbc", "z": -1 },
+            "x_adjust": 12,
+            "y_adjust": 12
+          },
+          { "math": [ "ship_new.x = smugglers_landing.x" ] },
+          { "math": [ "ship_new.y = smugglers_landing.y" ] },
+          { "math": [ "ship_new.z = smugglers_landing.z" ] },
           { "run_eocs": "EOC_SHIP_AUTO_CONTROL" }
         ]
       }

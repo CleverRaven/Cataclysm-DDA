@@ -1584,7 +1584,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ], [ "veggy_allergen", 1 ] ],
-    "fun": -2
+    "fun": 2
   },
   {
     "type": "ITEM",

@@ -773,7 +773,7 @@ class Character : public Creature, public visitable
 
         /** Displays character name with an npc_class/profession suffix
         **/
-        std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
+        std::string disp_name( bool capitalize_first = false ) const override;
         /** Returns the player's profession or an NPC's suffix if they have one
         * @param npc_override for now, professions don't display by default as suffixes. Set to true to get the profession name if it exists.
         **/
@@ -985,10 +985,12 @@ class Character : public Creature, public visitable
         void update_stomach( const time_point &from, const time_point &to );
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
-        /** Adds this specific wound to bodypart */
+        /** Adds this specific wound to bodypart. 'force' bypasses all conditional checks and applies the wound directly */
         void apply_wound( bodypart_id bp, wound_type_id wd );
-        /** Updates the status of wounds character has */
+        /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
+        /** Returns true if bodypart in question has any bleeding wound */
+        bool is_bleeding( bodypart_id bp ) const;
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
         /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
@@ -1329,10 +1331,8 @@ class Character : public Creature, public visitable
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
-        // checks if amount of specific wounds on bodypart is not higher than `limit`
-        // return false if more than limit
-        bool is_within_wound_limit_for_bp( bodypart_id bp, wound_type_id wound_id ) const;
-        void apply_random_wound( bodypart_id bp, const damage_instance &d );
+        // applies one or two wounds depending on damage dealt
+        void apply_random_wound_from_damage( bodypart_id bp, const dealt_damage_instance &d );
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
@@ -1894,7 +1894,8 @@ class Character : public Creature, public visitable
         std::optional<std::list<item>::iterator>
         wear( int pos, bool interactive = true );
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+        /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
+        * The result can be end() of the worn list; do not dereference it.
         * @param item_wear item_location of item to be worn.
         * @param interactive Alert player and drain moves if true.
         */
@@ -2013,8 +2014,6 @@ class Character : public Creature, public visitable
         void disp_info( bool customize_character = false );
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Opens the medical window. Returns true if window was closed */
-        bool disp_medical();
         // return true if wound fix was successfully picked
         bool pick_wound_fix( const bodypart_id &bp_id );
         void conduct_blood_analysis();
@@ -2119,6 +2118,8 @@ class Character : public Creature, public visitable
         int item_wear_cost( const item &it ) const;
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
+         * The end() of the worn list means worn but unsorted, or worn and then removed by an
+         * event handler; do not dereference it.
          * If interactive is false, don't alert the player or drain moves on completion.
          * If do_calc_encumbrance is false, don't recalculate encumbrance, caller must call it eventually.
          */
@@ -2130,7 +2131,7 @@ class Character : public Creature, public visitable
         int  amount_worn( const itype_id &id ) const;
 
         /** Returns the amount of software `type' that are in the inventory */
-        int count_softwares( const itype_id &id );
+        int count_softwares( const itype_id &id ) const;
 
         /** Returns whether the character has software on a device with a desired number of charges */
         bool has_software( const itype_id &software_id, int min_charges = 0,
@@ -2149,9 +2150,6 @@ class Character : public Creature, public visitable
 
         void clear_worn();
 
-        // returns a list of all item_location the character has, including items contained in other items.
-        // only for CONTAINER pocket type; does not look for magazines
-        std::vector<item_location> all_items_loc();
         // Returns list of all the top level item_location the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
@@ -2221,6 +2219,8 @@ class Character : public Creature, public visitable
         bool pour_into( item_location &container, item &liquid, bool ignore_settings, bool silent );
         bool pour_into( const vpart_reference &vp, item &liquid ) const;
         /**@}*/
+        /** A carried watertight container with room for this liquid, other than avoid; empty if none. */
+        item_location carried_container_for( const item &liquid, const item *avoid = nullptr ) const;
 
         /**
          * Remove a specific item from player possession. The item is compared
@@ -3194,6 +3194,8 @@ class Character : public Creature, public visitable
         float get_bmi_fat() const;
         float get_bmi_lean() const;
         bool has_calorie_deficit() const;
+        // serving stays under the engorged line and the eater is not already full
+        bool can_stomach( const units::volume &serving ) const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
@@ -3550,6 +3552,8 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+        /** Whether this character is hungry or thirsty for this, and may eat or drink it. */
+        bool wants_to_consume_now( const item &food ) const;
         /** Determine character's capability of recharging their CBMs.
         * Returns energy in kJ
         */
@@ -4052,6 +4056,8 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
+        /** How ready to fall asleep here: comfort, sleepiness, stimulants, pills, enchantments. No roll, no throttle. */
+        int sleep_readiness();
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
@@ -4084,6 +4090,8 @@ class Character : public Creature, public visitable
         item &best_unreserved_item_with_quality( const quality_id &qid );
         int max_quality( const quality_id &qual ) const override;
         int max_quality( const quality_id &qual, int radius ) const;
+        VisitResponse visit_carried( const std::function<VisitResponse( const item_location & )> &func )
+        const;
         VisitResponse visit_items( const std::function<VisitResponse( const item_location & )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
@@ -4278,6 +4286,11 @@ class Character : public Creature, public visitable
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that amount of vitamin represents */
         int vitamin_RDA( const vitamin_id &vitamin, int amount ) const;
+
+        bool has_wound( wound_type_id wd ) const;
+        bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
+
+        bool has_wounds( const bodypart_str_id &part ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

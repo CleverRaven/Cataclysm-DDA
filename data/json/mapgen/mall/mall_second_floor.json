@@ -2590,12 +2590,12 @@
         "3": { "item": "flower_pots", "chance": 30 },
         "R": { "item": "book_school", "chance": 30, "repeat": [ 1, 2 ] },
         "Q": [
-          { "item": "mil_surplus", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "mil_accessories", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "mil_armor", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "mil_food_nodrugs", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         ":": [
-          { "item": "mil_surplus", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "mil_accessories", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "mil_food_nodrugs", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
@@ -2662,7 +2662,7 @@
         "!": { "item": "textbooks", "chance": 30 },
         "I": { "item": "SUS_office_desk", "chance": 30 },
         "S": { "item": "SUS_office_filing_cabinet", "chance": 30 },
-        "z": { "item": "mil_surplus", "chance": 30 },
+        "z": { "item": "mil_accessories", "chance": 30 },
         "U": { "item": "mil_food_nodrugs", "chance": 30 },
         "Q": { "item": "book_military", "chance": 30 },
         "J": { "item": "SUS_office_desk", "chance": 30 },

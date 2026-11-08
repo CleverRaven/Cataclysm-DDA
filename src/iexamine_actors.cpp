@@ -47,6 +47,7 @@
 #include "uilist.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
+#include "visitable.h"
 
 static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
@@ -135,12 +136,12 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
 {
     std::vector<item_location> ret;
 
-    for( const item_location &it : you.all_items_loc() ) {
+    you.visit_items( [&]( const item_location & it ) {
         const auto has_card_flag = [&it]( const flag_id & flag ) {
             return it->has_flag( flag );
         };
         if( std::none_of( allowed_flags.begin(), allowed_flags.end(), has_card_flag ) ) {
-            continue;
+            return VisitResponse::NEXT;
         }
         if( omt_allowed_radius ) {
             tripoint_abs_omt cardloc = coords::project_to<coords::omt>(
@@ -148,17 +149,18 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
             // Cards without a location are treated as valid
             if( cardloc == tripoint_abs_omt::min ) {
                 ret.push_back( it );
-                continue;
+                return VisitResponse::NEXT;
             }
             int dist = rl_dist( cardloc.xy(),
                                 coords::project_to<coords::omt>( get_map().get_abs( examp ) ).xy() );
             if( dist > *omt_allowed_radius ) {
-                continue;
+                return VisitResponse::NEXT;
             }
         }
 
         ret.push_back( it );
-    }
+        return VisitResponse::NEXT;
+    } );
 
     return ret;
 }

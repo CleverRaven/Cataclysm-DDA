@@ -12,7 +12,7 @@
     "type": "region_settings_terrain_furniture",
     "id": "highland",
     "copy-from": "default",
-    "ter_furn": [ "highland_t_region_groundcover", "default_t_region_groundcover" ]
+    "ter_furn": [ "highland_t_region_groundcover", "highland_t_region_groundcover_ravine", "highland_t_region_groundcover_default" ]
   },
   {
     "type": "region_settings",
@@ -72,6 +72,18 @@
     "type": "region_terrain_furniture",
     "id": "highland_t_region_groundcover",
     "ter_id": "t_highland_groundcover",
+    "replace_with_terrain": [ [ "t_grass", 2 ], [ "t_grass_dead", 1 ], [ "t_dirt", 1 ], [ "t_grass_long", 2 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "highland_t_region_groundcover_default",
+    "ter_id": "t_region_groundcover",
+    "replace_with_terrain": [ [ "t_grass", 2 ], [ "t_grass_dead", 1 ], [ "t_dirt", 1 ], [ "t_grass_long", 2 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "highland_t_region_groundcover_ravine",
+    "ter_id": "t_region_groundcover_ravine",
     "replace_with_terrain": [ [ "t_grass", 2 ], [ "t_grass_dead", 1 ], [ "t_dirt", 1 ], [ "t_grass_long", 2 ] ]
   },
   {

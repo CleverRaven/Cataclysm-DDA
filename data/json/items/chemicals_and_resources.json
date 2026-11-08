@@ -1123,6 +1123,7 @@
   },
   {
     "type": "ITEM",
+    "subtypes": [ "AMMO" ],
     "id": "chem_black_powder",
     "category": "chems",
     "price": "20 USD",
@@ -1134,7 +1135,9 @@
     "material": [ "powder" ],
     "volume": "89 ml",
     "weight": "151 mg",
-    "container": "bag_plastic_small"
+    "ammo_type": "chem_black_powder",
+    "container": "bag_plastic_small",
+    "count": 1000
   },
   {
     "type": "ITEM",
@@ -1749,7 +1752,7 @@
     "color": "green",
     "description": "A piece of unshielded radioactive material that used to be a part of some nuclear industry equipment.  You have yet to find some use for it, and you probably shouldn't stand near it.",
     "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": [ "TRADER_AVOID", "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "90 ml",
     "weight": "80 g"
   },
@@ -1920,6 +1923,7 @@
     "material": [ "veggy" ],
     "color": "light_blue",
     "fun": -50,
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ANTIFUNGAL_STRONG" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -2246,5 +2250,14 @@
     "description": "A strong adhesive to use for structural repairs or other high stress applications.  You can't sniff it, but you can use it to close up wounds in a pinch.",
     "price_postapoc": "10 cents",
     "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 1000 }
+  },
+  {
+    "id": "glue_strong_metal",
+    "copy-from": "glue_weak",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "steel-reinforced epoxy" },
+    "description": "A strong adhesive reinforced with steel, primarily used to repair and adhering metals.",
+    "price_postapoc": "10 cents"
   }
 ]

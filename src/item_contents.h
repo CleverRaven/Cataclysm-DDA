@@ -370,11 +370,6 @@ class item_contents
         void clear_pockets_if( const std::function<bool( item_pocket const & )> &filter );
         void update_open_pockets();
 
-        /**
-         * Sets the items contained to their defaults.
-         */
-        void set_item_defaults();
-
         /** Return true if any pocket was sealed. */
         bool seal_all_pockets();
         bool all_pockets_sealed() const;

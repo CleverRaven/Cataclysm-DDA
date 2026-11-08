@@ -65,7 +65,7 @@
             "entries": [ { "group": "guns_rifle_common_display", "prob": 40 }, { "group": "guns_shotgun_common_display", "prob": 60 } ]
           },
           "chance": 100,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 2, 5 ]
         },
         "á": {
           "item": {
@@ -73,19 +73,19 @@
             "entries": [ { "group": "ammo_hunting", "prob": 55 }, { "group": "mags_common", "prob": 35 } ]
           },
           "chance": 100,
-          "repeat": [ 0, 5 ]
+          "repeat": [ 4, 8 ]
         },
-        "ç": { "item": "fishing_items", "chance": 100, "repeat": [ 0, 2 ] },
+        "ç": { "item": "fishing_items", "chance": 100, "repeat": [ 2, 5 ] },
         "n": {
           "item": {
             "subtype": "collection",
             "entries": [ { "item": "fishing_hook_basic", "prob": 70 }, { "item": "fish_bait", "prob": 30 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 4, 8 ]
         },
         "T": { "item": "SUS_toilet", "chance": 50 },
-        "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 0, 3 ] },
+        "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 3, 6 ] },
         "2": {
           "item": {
             "subtype": "collection",
@@ -98,7 +98,7 @@
             ]
           },
           "chance": 70,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 2, 5 ]
         },
         "3": {
           "item": {
@@ -113,17 +113,17 @@
             ]
           },
           "chance": 100,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 1, 4 ]
         },
-        "4": { "item": "sports", "chance": 50, "repeat": [ 0, 4 ] },
+        "4": { "item": "sports", "chance": 50, "repeat": [ 2, 6 ] },
         "5": {
           "item": { "subtype": "collection", "entries": [ { "group": "toy_store", "prob": 95 }, { "group": "child_hats", "prob": 5 } ] },
           "chance": 70,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 6, 10 ]
         },
-        "6": { "item": "clothing_outdoor_shoes", "chance": 70, "repeat": [ 0, 2 ] },
+        "6": { "item": "clothing_outdoor_shoes", "chance": 70, "repeat": [ 1, 3 ] },
         "7": { "item": "clothing_watch", "chance": 60, "repeat": [ 1, 2 ] },
-        "8": { "item": "clothing_glasses", "chance": 60, "repeat": [ 1, 2 ] },
+        "8": { "item": "clothing_glasses", "chance": 60, "repeat": [ 2, 5 ] },
         "9": {
           "item": {
             "subtype": "collection",
@@ -134,7 +134,7 @@
             ]
           },
           "chance": 70,
-          "repeat": [ 0, 2 ]
+          "repeat": [ 2, 5 ]
         },
         "0": {
           "item": {
@@ -146,7 +146,7 @@
             ]
           },
           "chance": 70,
-          "repeat": [ 0, 4 ]
+          "repeat": [ 2, 6 ]
         },
         "É": {
           "item": {
@@ -161,14 +161,14 @@
             ]
           },
           "chance": 80,
-          "repeat": [ 0, 4 ]
+          "repeat": [ 2, 6 ]
         },
         "é": {
           "item": {
             "subtype": "collection",
             "entries": [
               { "group": "tools_tailor", "prob": 50 },
-              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "group": "thread_used", "prob": 10 },
               { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
               { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
               { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
@@ -176,7 +176,7 @@
             ]
           },
           "chance": 80,
-          "repeat": [ 0, 6 ]
+          "repeat": [ 3, 6 ]
         },
         "ê": {
           "item": {
@@ -184,7 +184,7 @@
             "entries": [ { "group": "tools_plumbing", "prob": 70 }, { "group": "plumbing_bulk", "prob": 30 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 5 ]
+          "repeat": [ 3, 6 ]
         },
         "ë": {
           "item": {
@@ -192,7 +192,7 @@
             "entries": [ { "group": "tools_carpentry", "prob": 70 }, { "group": "supplies_woodcrafts", "prob": 30 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 5 ]
+          "repeat": [ 2, 5 ]
         },
         "È": {
           "item": {
@@ -200,7 +200,7 @@
             "entries": [ { "group": "tools_mechanic", "prob": 70 }, { "group": "supplies_electronics", "prob": 30 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 5 ]
+          "repeat": [ 2, 5 ]
         },
         "Ë": {
           "item": {
@@ -208,7 +208,7 @@
             "entries": [ { "group": "tools_earthworking", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 3 ]
+          "repeat": [ 2, 5 ]
         },
         "æ": {
           "item": {
@@ -216,29 +216,29 @@
             "entries": [ { "group": "farming_tools", "prob": 50 }, { "group": "farm_supply_wire", "prob": 50 } ]
           },
           "chance": 100,
-          "repeat": [ 0, 7 ]
+          "repeat": [ 5, 8 ]
         },
-        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 3, 12 ] },
+        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 50, 250 ] },
         "Î": {
           "item": { "subtype": "collection", "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ] },
           "chance": 100,
-          "repeat": [ 0, 6 ]
+          "repeat": [ 5, 8 ]
         },
-        "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 1, 6 ] },
-        "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 6 ] },
-        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 1, 4 ] },
+        "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 3, 6 ] },
+        "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 3, 6 ] },
+        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 2, 4 ] },
         "Í": {
           "item": {
             "subtype": "collection",
             "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ]
           },
           "chance": 80,
-          "repeat": [ 1, 4 ]
+          "repeat": [ 6, 10 ]
         },
         "Ø": {
           "item": { "subtype": "collection", "entries": [ { "group": "hardware_books", "prob": 80 }, { "group": "novels", "prob": 20 } ] },
           "chance": 100,
-          "repeat": [ 0, 4 ]
+          "repeat": [ 3, 8 ]
         },
         "õ": {
           "item": {
@@ -250,7 +250,7 @@
             ]
           },
           "chance": 70,
-          "repeat": [ 0, 4 ]
+          "repeat": [ 2, 5 ]
         },
         "p": {
           "item": {
@@ -606,7 +606,7 @@
             "subtype": "collection",
             "entries": [
               { "group": "tools_tailor", "prob": 50 },
-              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "group": "thread_used", "prob": 10 },
               { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
               { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
               { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
@@ -656,7 +656,7 @@
           "chance": 90,
           "repeat": [ 0, 7 ]
         },
-        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 3, 12 ] },
+        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 5, 50 ] },
         "Î": {
           "item": { "subtype": "collection", "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ] },
           "chance": 90,

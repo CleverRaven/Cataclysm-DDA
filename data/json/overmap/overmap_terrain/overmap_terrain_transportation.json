@@ -512,6 +512,29 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "charging_station_0_0",
+      "charging_station_1_0",
+      "charging_station_0_1",
+      "charging_station_1_1",
+      "charging_station_roofed_0_0",
+      "charging_station_roofed_1_0",
+      "charging_station_roofed_0_1",
+      "charging_station_roofed_1_1",
+      "charging_station_roof_0_0",
+      "charging_station_roof_1_0"
+    ],
+    "copy-from": "generic_city_building",
+    "vision_levels": "large_pavement",
+    "travel_cost_type": "road",
+    "name": "parking lot with chargers",
+    "sym": "O",
+    "color": "dark_gray",
+    "looks_like": "s_lot",
+    "delete": { "post_process_generators": [ "riot_damage" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
     "vision_levels": "large_pavement",
     "copy-from": "s_lot",

@@ -170,14 +170,14 @@ TEST_CASE( "light_source_seen_from_beyond_unimpaired_range_shows_no_detail",
     Character &you = get_player_character();
     you.set_mutation( trait_MYOPIC );
     you.recalc_sight_limits();
-    const tripoint_bub_ms far = center + tripoint::east * 14;
-    REQUIRE( g->place_critter_at( mon_zombie_electric, far ) );
+    const tripoint_bub_ms far_point = center + tripoint::east * 14;
+    REQUIRE( g->place_critter_at( mon_zombie_electric, far_point ) );
     settle_caches( 0 );
     const map &here = get_map();
     const level_cache &ch = here.access_cache( 0 );
-    const lit_level ll = ch.visibility_cache[far.x()][far.y()];
+    const lit_level ll = ch.visibility_cache[far_point.x()][far_point.y()];
     REQUIRE( ll == lit_level::BRIGHT_ONLY );
-    const float apparent = map::apparent_light_helper( ch, far ).apparent_light;
+    const float apparent = map::apparent_light_helper( ch, far_point ).apparent_light;
     CHECK_FALSE( smooth_lighting::classify_light_cell( ll, apparent,
                  here.get_visibility_variables_cache().vision_threshold ).detail );
 }
@@ -1147,13 +1147,13 @@ TEST_CASE( "light_is_dark_two_cells_from_anything_seen", "[smooth_lighting]" )
         };
         for( int cy = 0; cy < test_rows; ++cy ) {
             for( int cx = 0; cx < test_columns; ++cx ) {
-                bool near = false;
+                bool is_near = false;
                 for( int y = std::max( cy - 1, 0 ); y <= std::min( cy + 1, test_rows - 1 ); ++y ) {
                     for( int x = std::max( cx - 1, 0 ); x <= std::min( cx + 1, test_columns - 1 ); ++x ) {
-                        near = near || seen( point( x, y ) );
+                        is_near = is_near || seen( point( x, y ) );
                     }
                 }
-                if( near ) {
+                if( is_near ) {
                     continue;
                 }
                 for( const float lx : {

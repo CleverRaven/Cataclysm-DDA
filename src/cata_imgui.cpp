@@ -378,12 +378,17 @@ static void load_font( ImGuiIO &io, const std::vector<font_config> &typefaces,
     bool first = true;
     auto it = std::begin( io_typefaces );
     for( ; it != std::end( io_typefaces ); ++it ) {
+        if( is_bitmap_typeface( it->path ) ) {
+            // a pixel sheet is not a font file; the TTF faces after it still load
+            continue;
+        }
         if( !file_exist( it->path ) ) {
             printf( "Font file '%s' does not exist.\n", it->path.c_str() );
-        } else {
-            config.MergeMode = !first;
-            config.FontLoaderFlags = it->imgui_config();
-            io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config );
+            continue;
+        }
+        config.MergeMode = !first;
+        config.FontLoaderFlags = it->imgui_config();
+        if( io.Fonts->AddFontFromFileTTF( it->path.c_str(), font_size, &config ) != nullptr ) {
             first = false;
         }
     }
@@ -414,22 +419,49 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
 {
     ImGuiIO &io = ImGui::GetIO();
     if( ImGui::GetIO().FontDefault == nullptr ) {
-        // Glyphs bake lazily on first use; the merged unifont in
-        // ensure_unifont_loaded() supplies CJK / non-Latin coverage.
-
-        const bool cjk = get_option<bool>( "IMGUI_LOAD_CHINESE" );
-        // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
-        load_font( io, gui_typefaces );
-        load_font( io, mono_typefaces );
-        if( !cjk ) {
-            load_font( io, gui_typefaces,
-                       static_cast<float>( lroundf( fontheight * 1.5f ) ) );
-        }
-        for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
-            check_font( io.Fonts->Fonts[i] );
-        }
+        cataimgui::add_cata_fonts( io, gui_typefaces, mono_typefaces,
+                                   get_option<bool>( "IMGUI_LOAD_CHINESE" ) );
         ( void )mono_font;
     }
+}
+
+void cataimgui::add_cata_fonts( ImGuiIO &io, const std::vector<font_config> &gui_typefaces,
+                                const std::vector<font_config> &mono_typefaces, const bool cjk )
+{
+    // Glyphs bake lazily on first use; the merged unifont in
+    // ensure_unifont_loaded() supplies CJK / non-Latin coverage.
+    // Fonts[0] = gui, Fonts[1] = mono, Fonts[2] = gui 1.5x (non-CJK only)
+    load_font( io, gui_typefaces );
+    load_font( io, mono_typefaces );
+    if( !cjk ) {
+        load_font( io, gui_typefaces,
+                   static_cast<float>( lroundf( fontheight * 1.5f ) ) );
+    }
+    for( int i = 0; i < io.Fonts->Fonts.Size; i++ ) {
+        check_font( io.Fonts->Fonts[i] );
+    }
+}
+
+void cataimgui::font_reload::request( const std::vector<font_config> &gui_typefaces,
+                                      const std::vector<font_config> &mono_typefaces )
+{
+    gui_typefaces_ = gui_typefaces;
+    mono_typefaces_ = mono_typefaces;
+    pending_ = true;
+}
+
+bool cataimgui::font_reload::apply( ImGuiIO &io, const bool cjk )
+{
+    if( !pending_ ) {
+        return false;
+    }
+    pending_ = false;
+    // Clear also nulls FontDefault and the context's font, so nothing points at the old ones
+    io.Fonts->Clear();
+    add_cata_fonts( io, gui_typefaces_, mono_typefaces_, cjk );
+    // Clear leaves the old size in the style; 0 makes NewFrame take the new Fonts[0] size
+    ImGui::GetStyle().FontSizeBase = 0.0f;
+    return true;
 }
 
 cataimgui::client::~client()
@@ -551,6 +583,10 @@ void cataimgui::client::new_frame( int display_buffer_w, int display_buffer_h )
         // Keep the request armed if the clear was deferred by a queued recovery.
         clear_screen = false;
     }
+    fonts_reloaded_this_frame_ = false;
+    // the rebuilt atlas is a new texture; the backend creates it and drops the old one
+    fonts_reloaded_this_frame_ = font_reload_.apply( ImGui::GetIO(),
+                                 get_option<bool>( "IMGUI_LOAD_CHINESE" ) );
     ImGui_ImplSDLRenderer3_NewFrame();
     ImGui_ImplSDL3_NewFrame();
 

@@ -683,6 +683,7 @@
       { "item": "coffeemaker", "prob": 5 },
       { "item": "dehydrator", "prob": 5 },
       { "item": "food_processor", "prob": 5 },
+      { "item": "slow_cooker", "prob": 5 },
       { "item": "hotplate", "prob": 5 },
       { "item": "vac_sealer", "prob": 5 }
     ]
@@ -1398,7 +1399,12 @@
   {
     "type": "item_group",
     "id": "forest_trail",
-    "items": [ { "group": "forest", "prob": 100 } ]
+    "subtype": "collection",
+    "entries": [
+      { "group": "forest", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade_only", "count": [ 2, 10 ], "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -1949,7 +1955,7 @@
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 3 },
-      [ "thread", 40 ],
+      { "group": "thread_used", "prob": 40 },
       [ "scissors", 50 ],
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
@@ -2184,8 +2190,7 @@
       { "group": "saltpeter_canvas_bag_part", "prob": 10 },
       { "group": "calciumcarbide_small_bottle_part", "prob": 10 },
       { "group": "calciumcarbonate_small_bottle_part", "prob": 10 },
-      { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
-      { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] }
+      { "group": "denatured_alcohol_part", "prob": 10 }
     ]
   },
   {
@@ -2533,7 +2538,7 @@
       { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
       { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "electric_spinwheel", "prob": 3 },
-      { "item": "thread", "prob": 40, "charges": [ 1, 50 ] },
+      { "group": "thread_used", "prob": 40 },
       [ "hammer", 35 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -2541,8 +2546,7 @@
       { "item": "mess_kit", "prob": 10 },
       { "item": "hotplate", "prob": 10 },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
-      { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
-      { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] },
+      { "group": "denatured_alcohol_part", "prob": 10 },
       { "item": "water_purifier", "prob": 5 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "rollmat", 40 ],

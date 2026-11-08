@@ -54,6 +54,74 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_floor_hatch",
+    "name": "sealed bunker hatch",
+    "looks_like": "t_metal_floor",
+    "description": "A locked, upward-swinging hatch blocking access to the area below.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_open_hatch",
+      "str_min": 1700,
+      "str_max": 2000,
+      "str_min_supported": 1000,
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_hatch_stair",
+    "name": "sealed bunker hatch",
+    "looks_like": "t_metal_floor",
+    "description": "A locked, upward-swinging hatch blocking access to the area below.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_open_hatch_stair",
+      "str_min": 1700,
+      "str_max": 2000,
+      "str_min_supported": 1000,
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight_red",
+    "name": "metal floor, overhead light",
+    "copy-from": "t_metal_floor_olight",
+    "light_color": [ 255, 10, 10 ],
+    "light_emitted": 50,
+    "description": "Warning stripes on the floor and ceiling flood the room with foreboding light."
+  },
+  {
+    "type": "terrain",
+    "id": "t_open_hatch",
+    "name": "open hatch",
+    "copy-from": "t_open_air",
+    "description": "An open shaft leading underground."
+  },
+  {
+    "type": "terrain",
+    "id": "t_open_hatch_stair",
+    "name": "stairs down",
+    "copy-from": "t_stairs_down"
+  },
+  {
+    "type": "terrain",
     "id": "t_metal_toxic_floor",
     "name": "metal floor",
     "description": "Prefab steel flooring for habitats in hazardous environments.  Its covered with a heavy layer of highly toxic industrial precipitate.",

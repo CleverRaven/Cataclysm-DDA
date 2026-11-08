@@ -37,7 +37,10 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "npc.h"
+#include "npc_turn_helpers.h"
+#include "npctalk.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -59,6 +62,7 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -73,6 +77,7 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_solar_cooker( "f_solar_cooker" );
+static const furn_str_id furn_f_workbench( "f_workbench" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -80,6 +85,7 @@ static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_amplifier( "amplifier" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_bandages( "bandages" );
 static const itype_id itype_battery_ups( "battery_ups" );
 static const itype_id itype_blade( "blade" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
@@ -185,6 +191,7 @@ static const recipe_id recipe_longbow( "longbow" );
 static const recipe_id recipe_macaroni_cooked( "macaroni_cooked" );
 static const recipe_id recipe_magazine_battery_light_mod( "magazine_battery_light_mod" );
 static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
+static const recipe_id recipe_prac_health_care_beg( "prac_health_care_beg" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_test_tallow2( "test_tallow2" );
@@ -197,6 +204,7 @@ static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
@@ -862,6 +870,148 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
     test_chances_for( pumpkin_muffins, 92.5, 82.f, 67.f, 50.f, 43.f, 21.f, 2.25 );
     test_chances_for( bp_40fmj, 94.5, 79.f, 62.f, 50.f, 36.f, 21.f, 2.25 );
     test_chances_for( armor_qt_lightplate, 98.f, 92.5, 89.f, 50.f, 81.f, 21.f, 2.25 );
+}
+
+static std::vector<item> stepless_cudgel_tools()
+{
+    std::vector<item> tools;
+    tools.emplace_back( itype_2x4 );
+    tools.push_back( tool_with_ammo( itype_soldering_iron_portable, 50 ) );
+    return tools;
+}
+
+static npc &spawn_crafting_helper( const recipe &making, bool qualified )
+{
+    avatar &u = get_avatar();
+    npc &helper = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    talk_function::follow( helper );
+    if( qualified ) {
+        grant_skills_to_character( helper, making, 0 );
+        grant_profs_to_character( helper, making );
+    } else {
+        helper.set_skill_level( making.skill_used, 0 );
+        helper.set_knowledge_level( making.skill_used, 0 );
+    }
+    return helper;
+}
+
+static int helper_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "helps with crafting" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "crafting_helper_message_once_per_craft", "[crafting]" )
+{
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true );
+    avatar &u = get_avatar();
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const bool qualified = GENERATE( true, false );
+    CAPTURE( qualified );
+    npc &helper = spawn_crafting_helper( making, qualified );
+    const std::vector<Character *> helpers = u.get_crafting_helpers();
+    REQUIRE( std::find( helpers.begin(), helpers.end(), &helper ) != helpers.end() );
+
+    // log cleared on each leaf section start: act and count in the same section
+    SECTION( "crafting menu recalculates chances repeatedly" ) {
+        for( int redraw = 0; redraw < 5; ++redraw ) {
+            u.recipe_success_chance( making );
+            u.item_destruction_chance( making );
+        }
+        CHECK( helper_messages() == 0 );
+    }
+    SECTION( "craft starts" ) {
+        setup_test_craft( recipe_cudgel_test_charged_fast_stepless );
+        CHECK( helper_messages() == ( qualified ? 1 : 0 ) );
+    }
+}
+
+TEST_CASE( "crafting_helper_changes_chance_only_when_qualified", "[crafting]" )
+{
+    // one level under the recipe, no crafting debug trait, so chance isn't already certain
+    prep_craft( recipe_cudgel_test_charged_fast_stepless, stepless_cudgel_tools(), true, -1 );
+    avatar &u = get_avatar();
+    u.toggle_trait( trait_DEBUG_CNF );
+    REQUIRE_FALSE( u.has_trait( trait_DEBUG_CNF ) );
+    const recipe &making = recipe_cudgel_test_charged_fast_stepless.obj();
+    const float alone = u.recipe_success_chance( making );
+    const float ruin_alone = u.item_destruction_chance( making );
+    CAPTURE( alone, ruin_alone );
+    REQUIRE( alone < 1.0f );
+
+    SECTION( "qualified helper raises the chance" ) {
+        spawn_crafting_helper( making, true );
+        CHECK( u.recipe_success_chance( making ) > alone );
+        CHECK( u.item_destruction_chance( making ) <= ruin_alone );
+    }
+    SECTION( "unqualified helper changes nothing" ) {
+        spawn_crafting_helper( making, false );
+        CHECK( u.recipe_success_chance( making ) == alone );
+        CHECK( u.item_destruction_chance( making ) == ruin_alone );
+    }
+}
+
+static int practice_stop_messages()
+{
+    int count = 0;
+    for( const std::pair<std::string, std::string> &msg : Messages::recent_messages( 0 ) ) {
+        if( msg.second.find( "stops practicing" ) != std::string::npos ) {
+            ++count;
+        }
+    }
+    return count;
+}
+
+TEST_CASE( "npc_practice_level_up_says_it_stops", "[crafting][npc]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    avatar &u = get_avatar();
+    npc &guy = spawn_npc( u.pos_bub().xy() + point::east, "test_talker" );
+    set_time( midday );
+    clear_character( guy );
+    talk_function::follow( guy );
+    const recipe &practice = recipe_prac_health_care_beg.obj();
+    guy.learn_recipe( &practice );
+    guy.set_skill_level( skill_firstaid, 0 );
+    guy.set_knowledge_level( skill_firstaid, 0 );
+    guy.get_skill_level_object( skill_firstaid ).set_exercise( 99 );
+    guy.i_add( item( itype_bandages ) );
+
+    const bool on_workbench = GENERATE( true, false );
+    CAPTURE( on_workbench );
+    if( on_workbench ) {
+        here.furn_set( guy.pos_bub() + point::east, furn_f_workbench );
+    }
+    REQUIRE( get_player_view().sees( here, guy ) );
+    Messages::clear_messages();
+
+    guy.make_craft( recipe_prac_health_care_beg, 1 );
+    item_location craft = guy.get_item_to_craft();
+    REQUIRE( craft );
+    REQUIRE( craft->is_craft() );
+    REQUIRE( craft.where() == ( on_workbench ? item_location::type::map :
+                                item_location::type::character ) );
+
+    run_npc_turns( guy, 300, []( const npc & n ) {
+        return n.get_skill_level( skill_firstaid ) >= 1;
+    } );
+    REQUIRE( static_cast<int>( guy.get_skill_level( skill_firstaid ) ) == 1 );
+
+    CHECK( practice_stop_messages() == 1 );
+    // empty practice craft removed, as for the player
+    CHECK_FALSE( craft );
+
+    run_npc_turns( guy, 5 );
+    CHECK( guy.activity.id() != ACT_CRAFT );
+    CHECK( guy.get_attitude() == NPCATT_FOLLOW );
+    CHECK( practice_stop_messages() == 1 );
 }
 
 TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )

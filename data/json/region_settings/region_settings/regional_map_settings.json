@@ -714,6 +714,8 @@
       [ "fire_station_1", 200 ],
       [ "home_improvement", 200 ],
       [ "s_lot", 50 ],
+      [ "charging_station_2x2", 400 ],
+      [ "charging_station_2x2_roofed", 400 ],
       [ "parking_lot_2x1", 400 ],
       [ "parking_lot_2x2", 400 ],
       [ "parking_lot_3x1", 400 ],
@@ -1179,6 +1181,7 @@
     "ter_furn": [
       "default_t_region_groundcover",
       "default_t_region_groundcover_urban",
+      "default_t_region_groundcover_ravine",
       "default_t_region_groundcover_forest",
       "default_t_region_groundcover_swamp",
       "default_t_region_groundcover_barren",
@@ -1242,6 +1245,12 @@
     "id": "default_t_region_groundcover_barren",
     "ter_id": "t_region_groundcover_barren",
     "replace_with_terrain": [ [ "t_dirt", 30 ], [ "t_grass_dead", 2 ], [ "t_railroad_rubble", 1 ] ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "default_t_region_groundcover_ravine",
+    "ter_id": "t_region_groundcover_ravine",
+    "replace_with_terrain": [ [ "t_grass", 12000 ], [ "t_grass_dead", 2000 ], [ "t_dirt", 1000 ], [ "t_fungus", 10 ] ]
   },
   {
     "type": "region_terrain_furniture",

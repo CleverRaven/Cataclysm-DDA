@@ -27,6 +27,7 @@
 #include <stack>
 #include <stdexcept>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "atlas_bake_plan.h"
@@ -78,6 +79,8 @@
 #endif
 #include "sdlsound.h"
 #include "string_formatter.h"
+#include "terminal_layout.h" // IWYU pragma: keep
+#include "touch_joystick.h" // IWYU pragma: keep
 #include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
@@ -136,6 +139,11 @@ static Font_Ptr overmap_font;
 // Font and SDL_ttf ownership of the renderer test fixture; empty in the game.
 static Font_Ptr fixture_font;
 static bool test_fixture_acquired_ttf = false;
+// live terminal fonts and glyph flag held while a test rebuilds them; teardown puts them back
+static bool test_fixture_fonts_saved = false;
+static Font_Ptr test_fixture_saved_font;
+static Font_Ptr test_fixture_saved_gui_font;
+static bool test_fixture_saved_glyphs_changed = false;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -149,9 +157,6 @@ static std::unique_ptr<cata_shader::variant_pass> shared_variant_pass;
 // live in shared_variant_pass, so reset it before the pass
 static std::unique_ptr<smooth_lightmap> shared_lightmap;
 static void reset_shared_lightmap();
-#if defined(__ANDROID__)
-static SDL_Texture_Ptr touch_joystick;
-#endif
 static int WindowWidth;        //Width of the actual window, not the curses window
 static int WindowHeight;       //Height of the actual window, not the curses window
 // Backing-store pixel dimensions of the window, tracked apart from the logical
@@ -258,7 +263,7 @@ gpu_handle_graveyard &setup_target_quarantine()
 static point compute_display_buffer_dims()
 {
     // On desktop this matches the window over scaling up to a sub-cell remainder;
-    // on android TERMINAL is window-independent, the only correct buffer size.
+    // on android TERMINAL follows orientation and options, not exact window size
     return point{ TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight };
 }
 
@@ -308,6 +313,28 @@ static void refresh_drawable_dims()
 }
 
 static bool apply_resize_layout( int w, int h );
+// set when the terminal glyphs were rebuilt; the next resize drain redraws everything,
+// since equal buffer dims would otherwise skip the full invalidation
+static bool terminal_glyphs_changed = false;
+static bool rebuild_terminal_fonts( const point &cell, int point_size,
+                                    const std::vector<font_config> &typefaces,
+                                    const std::vector<font_config> &gui_typefaces, bool blending );
+#if defined(__ANDROID__)
+static SDL_Rect android_layout_bounds();
+static float quick_shortcut_height();
+// fonts.json typefaces and the FONT_BLENDING option, kept so the terminal fonts can be
+// rebuilt at a new cell size
+static font_loader android_fonts;
+// whole zoom the display buffer is drawn at; above 1 only for a bitmap font
+static int android_buffer_scale = 1;
+// text cell, terminal grid and zoom wanted for the window and options
+struct android_text_layout {
+    point cell;
+    point grid;
+    int scale = 1;
+};
+static android_text_layout android_desired_layout();
+#endif
 
 static bool SetupRenderTarget()
 {
@@ -654,6 +681,19 @@ static void WinCreate()
     ::window = CreateGameWindow( "", display, WindowWidth, WindowHeight, window_flags );
     throwErrorIf( !::window, "CreateWindow failed" );
 
+#if defined(__ANDROID__)
+    // size the first cell and grid from the real window, so a portrait start
+    // doesn't build a landscape buffer first, and init_interface builds the
+    // fonts at the right size
+    GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
+    const android_text_layout start = android_desired_layout();
+    ::fontwidth = start.cell.x;
+    ::fontheight = start.cell.y;
+    android_buffer_scale = start.scale;
+    TERMINAL_WIDTH = start.grid.x;
+    TERMINAL_HEIGHT = start.grid.y;
+#endif
+
     // Apply fullscreen after creation to preserve exclusive vs desktop distinction
     if( desired_fullscreen != FullscreenMode::windowed ) {
         SetWindowFullscreen( ::window.get(), desired_fullscreen );
@@ -755,9 +795,6 @@ static void WinCreate()
         || ( window_flags & CATA_WINDOW_MAXIMIZED ) ) {
         GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
-
-    // Load virtual joystick texture
-    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
 #endif
 
     ClearScreen();
@@ -792,9 +829,6 @@ static void WinDestroy()
     // Unregister before SDL teardown. The remove does not join an in-flight
     // callback, but the process-lifetime coordinator outlives it.
     SDL_RemoveEventWatch( renderer_event_watch, &renderer_coordinator );
-#if defined(__ANDROID__)
-    touch_joystick.reset();
-#endif
     imclient.reset();
     shutdown_sound();
     tilecontext.reset();
@@ -815,21 +849,15 @@ static const SDL_Color &color_as_sdl( const unsigned char color )
 }
 
 #if defined(__ANDROID__)
-void draw_terminal_size_preview();
 void draw_quick_shortcuts();
 void draw_virtual_joystick();
 
 static bool quick_shortcuts_enabled = true;
 
-// For previewing the terminal size with a transparent rectangle overlay when user is adjusting it in the settings
-static int preview_terminal_width = -1;
-static int preview_terminal_height = -1;
-static uint32_t preview_terminal_change_time = 0;
-
-// onNativeImeInsetsChanged fires from the Android UI thread; refresh and
-// CheckMessages read on the SDL game-loop thread. A seqlock over per-field
-// atomics hands the reader a torn-free snapshot lock-free; one serialized writer
-// makes the odd/even sequence sufficient.
+// onNativeImeInsetsChanged and onNativeSafeAreaChanged fire from the Android UI
+// thread; refresh and CheckMessages read on the SDL game-loop thread. A seqlock
+// over per-field atomics hands the reader a torn-free snapshot lock-free; one
+// serialized writer makes the odd/even sequence sufficient.
 struct android_visible_frame_inbox {
     std::atomic<uint32_t> seq{ 0 };
     std::atomic<int> x{ 0 };
@@ -894,7 +922,24 @@ static_assert( std::atomic<bool>::is_always_lock_free,
 static_assert( std::atomic<uint32_t>::is_always_lock_free,
                "visible-frame inbox needs lock-free uint32 atomics on every shipped ABI" );
 
+// visible frame and safe area inboxes hold rects of the SDL surface in
+// ten-thousandths of its size, so the reader scales them to window coords without
+// a cross-thread window size
+static constexpr int surface_rect_scale = 10000;
 static android_visible_frame_inbox visible_frame_inbox;
+static android_visible_frame_inbox safe_area_inbox;
+// size of the outer window (bars included) in the same pixels as the SDL window
+static android_visible_frame_inbox outer_size_inbox;
+
+static SDL_Rect surface_rect_to_window( const SDL_Rect &r )
+{
+    SDL_Rect out;
+    out.x = r.x * WindowWidth / surface_rect_scale;
+    out.y = r.y * WindowHeight / surface_rect_scale;
+    out.w = r.w * WindowWidth / surface_rect_scale;
+    out.h = r.h * WindowHeight / surface_rect_scale;
+    return out;
+}
 
 extern "C" {
 
@@ -908,53 +953,148 @@ extern "C" {
         PushWakeEvent();
     }
 
+    JNIEXPORT void JNICALL Java_com_cleverraven_cataclysmdda_CataclysmDDA_onNativeSafeAreaChanged(
+        JNIEnv *env, jclass jcls, jint left, jint top, jint right, jint bottom )
+    {
+        ( void )env; // unused
+        ( void )jcls; // unused
+        safe_area_inbox.publish( left, top, right, bottom, true );
+        PushWakeEvent();
+    }
+
+    JNIEXPORT void JNICALL Java_com_cleverraven_cataclysmdda_CataclysmDDA_onNativeOuterSizeChanged(
+        JNIEnv *env, jclass jcls, jint width, jint height )
+    {
+        ( void )env; // unused
+        ( void )jcls; // unused
+        outer_size_inbox.publish( 0, 0, width, height, true );
+        PushWakeEvent();
+    }
+
 } // "C"
 
-SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferHeight )
+// outer window size, zero before Java reports it
+static point android_outer_size()
 {
-    // Aspect-fit the display buffer into a bounds rectangle. The bounds default to
-    // the whole window; with ANDROID_RENDER_SAFE_AREA the system safe area is used
-    // instead so the game stays clear of the camera cutout and other unsafe edges.
+    SDL_Rect r;
+    bool has = false;
+    bool unused_visible = false;
+    outer_size_inbox.read_frame( r, has, unused_visible );
+    return has ? point( r.w, r.h ) : point::zero;
+}
+
+// part of the window that's visible when soft keyboard is up
+static std::optional<SDL_Rect> android_visible_ime_frame()
+{
+    SDL_Rect frame;
+    bool has_frame = false;
+    bool visible = false;
+    visible_frame_inbox.read_frame( frame, has_frame, visible );
+    if( !has_frame || !visible || frame.w <= 0 || frame.h <= 0 ) {
+        return std::nullopt;
+    }
+    return surface_rect_to_window( frame );
+}
+
+// in portrait the shortcut strip moves to a row right above the soft keyboard
+static bool android_shortcuts_above_keyboard()
+{
+    return quick_shortcuts_enabled &&
+           terminal_layout::is_portrait( point( WindowWidth, WindowHeight ) ) &&
+           android_visible_ime_frame().has_value();
+}
+
+// area the display buffer is fitted into: the window, or its safe area with
+// ANDROID_RENDER_SAFE_AREA so the game clears the camera cutout, less the space
+// kept free at the bottom
+static SDL_Rect android_layout_bounds()
+{
     SDL_Rect bounds{ 0, 0, WindowWidth, WindowHeight };
     if( get_option<bool>( "ANDROID_RENDER_SAFE_AREA" ) ) {
+        // activity reports only the cutout and visible system bars. SDL's safe
+        // area also excludes the gesture strips, which take taps fine
         SDL_Rect safe;
-        if( SDL_GetWindowSafeArea( ::window.get(), &safe ) && safe.w > 0 && safe.h > 0 ) {
+        bool has_safe = false;
+        bool unused_visible = false;
+        safe_area_inbox.read_frame( safe, has_safe, unused_visible );
+        if( has_safe && safe.w > 0 && safe.h > 0 ) {
+            bounds = surface_rect_to_window( safe );
+        } else if( SDL_GetWindowSafeArea( ::window.get(), &safe ) && safe.w > 0 && safe.h > 0 ) {
             bounds = safe;
         }
     }
-
-    // Reserve the on-screen shortcut strip along the bottom unless it overlaps.
-    // Keep at least one row so the aspect math never divides by a zero height.
-    if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
-        bounds.h = std::max( 1, bounds.h - get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
+    const bool overlap = get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" );
+    int reserved = 0;
+    if( terminal_layout::is_portrait( point( WindowWidth, WindowHeight ) ) ) {
+        // independent of the runtime shortcut toggle, so hiding the strip
+        // doesn't change the grid size
+        reserved = terminal_layout::portrait_reserved_bottom( bounds.h,
+                   get_option<int>( "ANDROID_PORTRAIT_RESERVE" ),
+                   overlap ? 0 : static_cast<int>( quick_shortcut_height() ) );
+    } else if( !overlap && quick_shortcuts_enabled ) {
+        reserved = static_cast<int>( quick_shortcut_height() );
     }
+    // keep area non-empty so view is never drawn zero high
+    bounds.h = std::max( 1, bounds.h - reserved );
+    return bounds;
+}
 
-    const float DisplayBufferAspect = DisplayBufferWidth / DisplayBufferHeight;
-    const float BoundsAspect = static_cast<float>( bounds.w ) / static_cast<float>( bounds.h );
+// whether fonts.json starts the terminal typeface list with a bitmap sheet
+static bool android_bitmap_typeface()
+{
+    return !android_fonts.typeface.empty() &&
+           is_bitmap_typeface( android_fonts.typeface.front().path );
+}
 
-    // If the bounds are wider than the buffer, top-align so the virtual keyboard
-    // doesn't cover the content. Otherwise center horizontally within the bounds.
-    SDL_Rect dstrect;
-    if( BoundsAspect < DisplayBufferAspect ) {
-        dstrect.w = bounds.w;
-        dstrect.h = static_cast<int>( bounds.w / DisplayBufferAspect );
-        dstrect.x = bounds.x;
-        dstrect.y = bounds.y;
+// TTF point size for a cell: its height, so Terminus draws its bitmap strike.
+// a bitmap font keeps FONT_SIZE for its TTF fallbacks
+static int android_font_point_size( const point &cell )
+{
+    return android_bitmap_typeface() ? get_option<int>( "FONT_SIZE" ) : cell.y;
+}
+
+static point android_grid_for( const point &cell, const int scale )
+{
+    const SDL_Rect bounds = android_layout_bounds();
+    const point caps( get_option<int>( "ANDROID_MAX_COLUMNS" ), get_option<int>( "ANDROID_MAX_ROWS" ) );
+    return terminal_layout::fit_grid( point( bounds.w / scale, bounds.h / scale ), cell, caps );
+}
+
+static android_text_layout android_desired_layout()
+{
+    const int reference = terminal_layout::sizing_reference( point( WindowWidth, WindowHeight ),
+                          android_outer_size() );
+    android_text_layout out;
+    if( android_bitmap_typeface() ) {
+        out.cell = point( get_option<int>( "FONT_WIDTH" ), get_option<int>( "FONT_HEIGHT" ) );
+        out.scale = terminal_layout::bitmap_scale( reference, out.cell.x );
     } else {
-        dstrect.w = static_cast<int>( bounds.h * DisplayBufferAspect );
-        dstrect.h = bounds.h;
-        dstrect.x = bounds.x + static_cast<int>( 0.5f * ( bounds.w - dstrect.w ) );
-        dstrect.y = bounds.y;
+        out.cell = terminal_layout::resolve_text_size( get_option<std::string>( "ANDROID_TEXT_SIZE" ),
+                   get_option<int>( "ANDROID_TEXT_SIZE_CUSTOM" ), reference );
     }
+    out.grid = android_grid_for( out.cell, out.scale );
+    return out;
+}
 
-    SDL_Rect ime_visible_frame;
-    bool has_ime_visible_frame = false;
-    bool ime_visible = false;
-    visible_frame_inbox.read_frame( ime_visible_frame, has_ime_visible_frame, ime_visible );
-    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && has_ime_visible_frame &&
-        ime_visible && ime_visible_frame.w > 0 && ime_visible_frame.h > 0 ) {
-        const int ime_right = ime_visible_frame.x + ime_visible_frame.w;
-        const int ime_bottom = ime_visible_frame.y + ime_visible_frame.h;
+static SDL_Rect get_android_render_rect( const int buffer_w, const int buffer_h )
+{
+    const SDL_Rect bounds = android_layout_bounds();
+    const point size = terminal_layout::present_size( point( buffer_w, buffer_h ),
+                       point( bounds.w, bounds.h ), android_buffer_scale );
+    // top-aligned so the free area stays below the content, centered horizontally
+    SDL_Rect dstrect;
+    dstrect.w = size.x;
+    dstrect.h = size.y;
+    dstrect.x = bounds.x + ( bounds.w - size.x ) / 2;
+    dstrect.y = bounds.y;
+
+    const std::optional<SDL_Rect> ime_visible_frame = android_visible_ime_frame();
+    if( get_option<bool>( "ANDROID_KEYBOARD_SCREEN_SCALE" ) && ime_visible_frame ) {
+        const int ime_right = ime_visible_frame->x + ime_visible_frame->w;
+        int ime_bottom = ime_visible_frame->y + ime_visible_frame->h;
+        if( android_shortcuts_above_keyboard() ) {
+            ime_bottom -= static_cast<int>( quick_shortcut_height() );
+        }
         if( ime_right < dstrect.x + dstrect.w ) {
             dstrect.w = std::max( 1, ime_right - dstrect.x );
         }
@@ -1063,7 +1203,6 @@ void refresh_display()
 #endif
 
 #if defined(__ANDROID__)
-    draw_terminal_size_preview();
     if( g ) {
         draw_quick_shortcuts();
     }
@@ -1642,6 +1781,7 @@ void renderer_resource_coordinator::run_post_success_full_invalidation()
     // request a present so the rebuilt buffer reaches the screen.
     cata_cursesport::bump_curses_render_epoch();
     needupdate = true;
+    repaint_requested_ = true;
 }
 
 recipe_result renderer_resource_coordinator::recipe_targets_reset()
@@ -1734,12 +1874,6 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if defined(__ANDROID__)
-    touch_joystick.reset();
-    if( check_pause_abort() ) {
-        return { recipe_outcome::failure };
-    }
-#endif
     loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
@@ -1784,12 +1918,6 @@ recipe_result renderer_resource_coordinator::recipe_device_reset()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if defined(__ANDROID__)
-    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
-    if( check_pause_abort() ) {
-        return { recipe_outcome::failure };
-    }
-#endif
     const atlas_upload_interrupt replay = replay_live_atlases();
     if( replay != atlas_upload_interrupt::none ) {
         return map_replay_interrupt( replay );
@@ -1924,12 +2052,6 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if defined(__ANDROID__)
-    touch_joystick.reset();
-    if( check_pause_abort() ) {
-        return { recipe_outcome::failure };
-    }
-#endif
     loading_ui::release_gpu_resources();
     display_buffer.reset();
     if( check_pause_abort() ) {
@@ -1957,12 +2079,6 @@ recipe_result renderer_resource_coordinator::recipe_device_lost()
     if( check_pause_abort() ) {
         return { recipe_outcome::failure };
     }
-#if defined(__ANDROID__)
-    touch_joystick = CreateTextureFromSurface( renderer, load_image( "android/joystick.png" ) );
-    if( check_pause_abort() ) {
-        return { recipe_outcome::failure };
-    }
-#endif
     const atlas_upload_interrupt replay = replay_live_atlases();
     if( replay != atlas_upload_interrupt::none ) {
         return map_replay_interrupt( replay );
@@ -2117,6 +2233,15 @@ void renderer_resource_coordinator::finish_bootstrap()
     planner_.finish_bootstrap();
 }
 
+bool renderer_resource_coordinator::take_repaint_request()
+{
+    // redraw now would be refused, and the request lost with it
+    if( !is_render_allowed() ) {
+        return false;
+    }
+    return std::exchange( repaint_requested_, false );
+}
+
 bool renderer_resource_coordinator::lifecycle_paused() const
 {
     return lifecycle_state_of( lifecycle_epoch_.load() ) == lifecycle_state::paused;
@@ -2193,10 +2318,13 @@ void renderer_recovery_test_support::reset_coordinator()
     c.planner_.reset();
     c.atlas_upload_depth_ = 0;
     c.renderer_resource_generation_ = 0;
+    c.repaint_requested_ = false;
     c.renderer_instance_generation_ = 0;
     c.gpu_textures_generation_ = 0;
     c.display_buffer_w_ = 0;
     c.display_buffer_h_ = 0;
+    c.ui_relayout_pending_ = false;
+    c.ui_relayout_count_ = 0;
     c.renderer_name_.clear();
     c.software_renderer_ = false;
     c.pending_severity_.store( renderer_recovery_severity::none );
@@ -2323,11 +2451,26 @@ bool renderer_recovery_test_support::setup_software_renderer()
     return true;
 }
 
+void renderer_recovery_test_support::with_imgui_client(
+    const std::vector<font_config> &gui_typefaces, const std::vector<font_config> &mono_typefaces,
+    const std::function<void( cataimgui::client & )> &body )
+{
+    cataimgui::client client( renderer, window, geometry );
+    cataimgui::add_cata_fonts( ImGui::GetIO(), gui_typefaces, mono_typefaces, false );
+    body( client );
+}
+
 void renderer_recovery_test_support::teardown_software_renderer()
 {
     // font's textures go while renderer lives; its TTF_Font closes before
     // TTF_Quit
     fixture_font.reset();
+    if( test_fixture_fonts_saved ) {
+        font = std::move( test_fixture_saved_font );
+        gui_font = std::move( test_fixture_saved_gui_font );
+        terminal_glyphs_changed = test_fixture_saved_glyphs_changed;
+        test_fixture_fonts_saved = false;
+    }
     if( test_fixture_acquired_ttf ) {
         TTF_Quit();
         test_fixture_acquired_ttf = false;
@@ -2614,6 +2757,11 @@ bool renderer_recovery_test_support::phase_fault_fired()
     return renderer_coordinator.test_phase_fault_fired_;
 }
 
+uint64_t renderer_recovery_test_support::ui_relayout_count()
+{
+    return renderer_coordinator.ui_relayout_count_;
+}
+
 void renderer_recovery_test_support::set_scaling_and_resize_window( const int scaling,
         const int window_w, const int window_h )
 {
@@ -2689,7 +2837,9 @@ bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_r
     int logical_w = 0;
     int logical_h = 0;
     GetWindowSize( ::window.get(), &logical_w, &logical_h );
-    const bool terminal_relaid = apply_resize_layout( logical_w, logical_h );
+    if( apply_resize_layout( logical_w, logical_h ) ) {
+        ui_relayout_pending_ = true;
+    }
     const point want = compute_display_buffer_dims();
     const bool buffer_changed = !display_buffer || want.x != display_buffer_w_
                                 || want.y != display_buffer_h_;
@@ -2723,16 +2873,21 @@ bool renderer_resource_coordinator::apply_resize_only( const uint32_t serviced_r
     // predicate sees no phantom pending resize. A newer resize arriving during
     // setup keeps a higher pending epoch and is serviced on the next drain.
     planner_.acknowledge_resize( serviced_resize_epoch );
-    if( terminal_relaid && !test_mode ) {
-        // Desktop terminal layout changed: rebuild the game UI windows and mark
-        // every adaptor for resize. Skipped under the test harness, which has no
-        // game or menu UI to lay out.
-        game_ui::init_ui();
-        ui_manager::screen_resized();
+    if( ui_relayout_pending_ ) {
+        ui_relayout_pending_ = false;
+        ++ui_relayout_count_;
+        if( !test_mode ) {
+            // Terminal layout changed: rebuild the game UI windows and mark every
+            // adaptor for resize. Skipped under the test harness, which has no
+            // game or menu UI to lay out.
+            game_ui::init_ui();
+            ui_manager::screen_resized();
+        }
     }
     // The drawable can change with the buffer kept (DPI-only), so re-arm present.
     needupdate = true;
-    if( buffer_changed ) {
+    const bool glyphs_changed = std::exchange( terminal_glyphs_changed, false );
+    if( buffer_changed || glyphs_changed ) {
         run_post_success_full_invalidation();
     }
     return true;
@@ -3863,6 +4018,44 @@ Font *renderer_recovery_test_support::test_font()
     return fixture_font.get();
 }
 
+bool renderer_recovery_test_support::rebuild_terminal_fonts( const point &cell,
+        const int point_size, const std::vector<font_config> &typefaces,
+        const std::vector<font_config> &gui_typefaces )
+{
+    if( !renderer ) {
+        return false;
+    }
+    if( TTF_WasInit() == 0 ) {
+        if( !TTF_Init() ) {
+            return false;
+        }
+        test_fixture_acquired_ttf = true;
+    }
+    if( !test_fixture_fonts_saved ) {
+        // teardown restores these, and the cell from test_fixture_saved
+        test_fixture_saved_font = std::move( font );
+        test_fixture_saved_gui_font = std::move( gui_font );
+        test_fixture_saved_glyphs_changed = terminal_glyphs_changed;
+        test_fixture_fonts_saved = true;
+    }
+    return ::rebuild_terminal_fonts( cell, point_size, typefaces, gui_typefaces, false );
+}
+
+point renderer_recovery_test_support::terminal_cell()
+{
+    return point( fontwidth, fontheight );
+}
+
+const Font *renderer_recovery_test_support::terminal_font()
+{
+    return font.get();
+}
+
+const Font *renderer_recovery_test_support::terminal_gui_font()
+{
+    return gui_font.get();
+}
+
 // pixel minimap window: draw its text, clear its area, then `paint`; false
 // when draw_window's shader unbind failed and invalidated `draw_scope`
 static bool draw_minimap_window( Font_Ptr &font, const catacurses::window &w, const bool force_full,
@@ -4415,9 +4608,38 @@ static input_event sdl_keysym_to_keycode_evt( const CataKeysym &keysym )
     return evt;
 }
 
-// Refresh the window and drawable tracks from a new logical size, and on desktop
-// the terminal-derived layout. Returns whether the terminal layout was recomputed
-// (false on android, which keeps a window-independent terminal across rotation).
+// build the terminal and gui fonts at `cell` and swap them in, then have ImGui follow.
+// false keeps the old fonts and cell
+static bool rebuild_terminal_fonts( const point &cell, const int point_size,
+                                    const std::vector<font_config> &typefaces,
+                                    const std::vector<font_config> &gui_typefaces, const bool blending )
+{
+    Font_Ptr new_font;
+    Font_Ptr new_gui_font;
+    try {
+        new_font = std::make_unique<FontFallbackList>( renderer, pixel_format, cell.x, cell.y,
+                   windowsPalette, typefaces, point_size, blending );
+        new_gui_font = std::make_unique<FontFallbackList>( renderer, pixel_format, cell.x, cell.y,
+                       windowsPalette, gui_typefaces, point_size, blending );
+    } catch( const std::exception &err ) {
+        dbg( D_WARNING ) << "failed to build " << cell.x << "x" << cell.y << " terminal fonts: "
+                         << err.what();
+        return false;
+    }
+    font = std::move( new_font );
+    gui_font = std::move( new_gui_font );
+    ::fontwidth = cell.x;
+    ::fontheight = cell.y;
+    terminal_glyphs_changed = true;
+    if( imclient ) {
+        imclient->reload_fonts( gui_typefaces, typefaces );
+    }
+    return true;
+}
+
+// Refresh the window and drawable tracks from a new logical size, and the
+// terminal layout: from the window on desktop, from the orientation and options
+// on android. Returns whether the terminal layout was recomputed.
 static bool apply_resize_layout( int w, int h )
 {
     const bool logical_changed = w != WindowWidth || h != WindowHeight;
@@ -4426,7 +4648,26 @@ static bool apply_resize_layout( int w, int h )
     refresh_drawable_dims();
 #if defined(__ANDROID__)
     ( void )logical_changed;
-    return false;
+    const android_text_layout want = android_desired_layout();
+    android_buffer_scale = want.scale;
+    point grid = want.grid;
+    bool cell_changed = false;
+    if( want.cell != point( fontwidth, fontheight ) ) {
+        cell_changed = rebuild_terminal_fonts( want.cell, android_font_point_size( want.cell ),
+                                               android_fonts.typeface, android_fonts.gui_typeface,
+                                               android_fonts.fontblending );
+        if( !cell_changed ) {
+            grid = android_grid_for( point( fontwidth, fontheight ), want.scale );
+        }
+    }
+    // a new cell changes every pixel size even at the same grid, so lay out again
+    if( !cell_changed && grid.x == TERMINAL_WIDTH && grid.y == TERMINAL_HEIGHT ) {
+        return false;
+    }
+    TERMINAL_WIDTH = grid.x;
+    TERMINAL_HEIGHT = grid.y;
+    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point::zero );
+    return true;
 #else
     if( logical_changed ) {
         // A minimal window size is set during initialization, but some platforms
@@ -4447,6 +4688,13 @@ void resize_term( const int cell_w, const int cell_h )
     // The resize is async: the coordinator applies it on the next drain, driven
     // by this hint and the resulting watched resize event.
     renderer_coordinator.notify_resize();
+}
+
+void request_terminal_relayout()
+{
+    renderer_coordinator.notify_resize();
+    // drain runs at the top of CheckMessages; wake a blocked input wait
+    PushWakeEvent();
 }
 
 void toggle_fullscreen_window()
@@ -4581,9 +4829,18 @@ float android_get_display_density()
     return ans;
 }
 
+// Drawn height of the quick shortcut strip, in window pixels.
+static float quick_shortcut_height()
+{
+    const float shortcut_dimensions_authored_density = 3.0f; // 480p xxhdpi
+    const float screen_density_scale = android_get_display_density() /
+                                       shortcut_dimensions_authored_density;
+    return std::floor( screen_density_scale * get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
+}
+
 // given the active quick shortcuts, returns the dimensions of each quick shortcut button.
-void get_quick_shortcut_dimensions( quick_shortcuts_t &qsl, float &border, float &width,
-                                    float &height )
+static void get_quick_shortcut_dimensions( quick_shortcuts_t &qsl, float &border, float &width,
+        float &height )
 {
     const float shortcut_dimensions_authored_density = 3.0f; // 480p xxhdpi
     float screen_density_scale = android_get_display_density() / shortcut_dimensions_authored_density;
@@ -4601,7 +4858,61 @@ void get_quick_shortcut_dimensions( quick_shortcuts_t &qsl, float &border, float
         }
     }
     width = std::floor( width );
-    height = std::floor( screen_density_scale * get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
+    height = quick_shortcut_height();
+}
+
+// quick shortcut placement. landscape: one row along the bottom edge, buttons
+// shrunk to fit. portrait: rows of full-width buttons from the top of the free
+// area below the game view, as many rows as fit, or one row right above the
+// soft keyboard while it is up
+struct quick_shortcut_layout {
+    float border = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
+    int per_row = 0;
+    int count = 0;
+    float top = 0.0f;
+    bool right = false;
+};
+
+static quick_shortcut_layout get_quick_shortcut_layout( quick_shortcuts_t &qsl )
+{
+    quick_shortcut_layout layout;
+    get_quick_shortcut_dimensions( qsl, layout.border, layout.width, layout.height );
+    layout.right = get_option<std::string>( "ANDROID_SHORTCUT_POSITION" ) == "right";
+    const float usable_width = WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
+                               0.01f;
+    int rows = 1;
+    layout.top = WindowHeight - layout.height;
+    if( terminal_layout::is_portrait( point( WindowWidth, WindowHeight ) ) ) {
+        const float density_scale = quick_shortcut_height() /
+                                    std::max( 1, get_option<int>( "ANDROID_SHORTCUT_HEIGHT" ) );
+        layout.width = std::floor( density_scale * get_option<int>( "ANDROID_SHORTCUT_WIDTH_MAX" ) );
+        const std::optional<SDL_Rect> ime_frame = android_visible_ime_frame();
+        if( ime_frame ) {
+            layout.top = ime_frame->y + ime_frame->h - layout.height;
+        } else {
+            const SDL_Rect bounds = android_layout_bounds();
+            const float free_top = static_cast<float>( bounds.y + bounds.h );
+            const int fit_rows = static_cast<int>( ( WindowHeight - free_top ) / layout.height );
+            if( fit_rows >= 1 ) {
+                rows = fit_rows;
+                layout.top = free_top;
+            }
+        }
+    }
+    layout.per_row = layout.width > 0.0f ? static_cast<int>( usable_width / layout.width ) : 0;
+    layout.count = std::min( static_cast<int>( qsl.size() ), layout.per_row * rows );
+    return layout;
+}
+
+// cell of button i, border included
+static SDL_FRect quick_shortcut_cell( const quick_shortcut_layout &layout, const int i )
+{
+    const int col = i % layout.per_row;
+    const int row = i / layout.per_row;
+    const float x = layout.right ? WindowWidth - ( col + 1 ) * layout.width : col * layout.width;
+    return SDL_FRect{ x, layout.top + row * layout.height, layout.width, layout.height };
 }
 
 // Returns the quick shortcut (if any) under the finger's current position, or finger down position if down == true
@@ -4615,31 +4926,15 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
     quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
                                  touch_input_context.get_category() )];
 
-    float border, width, height;
-    get_quick_shortcut_dimensions( qsl, border, width, height );
-
-    float finger_y = down ? finger_down_y : finger_curr_y;
-    if( finger_y < WindowHeight - height ) {
-        return NULL;
-    }
-
+    const quick_shortcut_layout layout = get_quick_shortcut_layout( qsl );
+    const float finger_x = down ? finger_down_x : finger_curr_x;
+    const float finger_y = down ? finger_down_y : finger_curr_y;
     int i = 0;
-    bool shortcut_right = get_option<std::string>( "ANDROID_SHORTCUT_POSITION" ) == "right";
-    float finger_x = down ? finger_down_x : finger_curr_x;
-    for( std::list<input_event>::iterator it = qsl.begin(); it != qsl.end(); ++it ) {
-        if( ( i + 1 ) * width > WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
-            0.01f ) {
-            continue;
-        }
-        i++;
-        if( shortcut_right ) {
-            if( finger_x > WindowWidth - ( i * width ) ) {
-                return &( *it );
-            }
-        } else {
-            if( finger_x < i * width ) {
-                return &( *it );
-            }
+    for( auto it = qsl.begin(); it != qsl.end() && i < layout.count; ++it, ++i ) {
+        const SDL_FRect cell = quick_shortcut_cell( layout, i );
+        if( finger_x >= cell.x && finger_x < cell.x + cell.w &&
+            finger_y >= cell.y && finger_y < cell.y + cell.h ) {
+            return &( *it );
         }
     }
 
@@ -4843,32 +5138,35 @@ void remove_stale_inventory_quick_shortcuts()
     }
 }
 
-// Draw preview of terminal size when adjusting values
-void draw_terminal_size_preview()
-{
-    bool preview_terminal_dirty = preview_terminal_width != get_option<int>( "TERMINAL_X" ) * fontwidth
-                                  ||
-                                  preview_terminal_height != get_option<int>( "TERMINAL_Y" ) * fontheight;
-    if( preview_terminal_dirty ||
-        ( preview_terminal_change_time > 0 && GetTicks() - preview_terminal_change_time < 1000 ) ) {
-        if( preview_terminal_dirty ) {
-            preview_terminal_width = get_option<int>( "TERMINAL_X" ) * fontwidth;
-            preview_terminal_height = get_option<int>( "TERMINAL_Y" ) * fontheight;
-            preview_terminal_change_time = GetTicks();
-        }
-        SetRenderDrawColor( renderer, 255, 255, 255, 255 );
-        SDL_Rect previewrect = get_android_render_rect( preview_terminal_width, preview_terminal_height );
-        RenderDrawRect( renderer, &previewrect );
-        SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    }
-}
-
 // Mark the frame dirty after an Android keyboard / shortcut-bar state change so
 // the strip is rebuilt to reflect the new state on the next draw pass.
 static void android_request_repaint()
 {
     needupdate = true;
     ui_manager::redraw_invalidated();
+}
+
+static void reset_touch_state()
+{
+    third_finger_down_x = third_finger_curr_x = second_finger_down_x = second_finger_curr_x =
+                              finger_down_x = finger_curr_x = -1.0f;
+    third_finger_down_y = third_finger_curr_y = second_finger_down_y = second_finger_curr_y =
+                              finger_down_y = finger_curr_y = -1.0f;
+    is_two_finger_touch = false;
+    is_three_finger_touch = false;
+    finger_down_time = 0;
+    finger_repeat_time = 0;
+}
+
+// system took the touch over, e.g. for an edge gesture: drop the whole gesture
+// without sending input, or a held joystick keeps repeating
+static void cancel_touch()
+{
+    reset_touch_state();
+    is_quick_shortcut_touch = false;
+    for( SDL_FingerID &slot_id : finger_id_slots ) {
+        slot_id = INVALID_FINGER_ID;
+    }
 }
 
 // The SDL "text input active" flag can be set while the keyboard never actually
@@ -4884,7 +5182,10 @@ static bool android_keyboard_occludes_shortcuts()
     bool has_frame = false;
     bool visible = false;
     visible_frame_inbox.read_frame( frame, has_frame, visible );
-    return has_frame ? ( visible && frame.h > 0 ) : true;
+    if( !has_frame ) {
+        return true;
+    }
+    return visible && frame.h > 0 && !android_shortcuts_above_keyboard();
 }
 
 // Draw quick shortcuts on top of the game view
@@ -4945,17 +5246,17 @@ void draw_quick_shortcuts()
         reorder_quick_shortcuts( qsl );
     }
 
-    float border, width, height;
-    get_quick_shortcut_dimensions( qsl, border, width, height );
+    const quick_shortcut_layout layout = get_quick_shortcut_layout( qsl );
+    const float border = layout.border;
+    const float width = layout.width;
+    const float height = layout.height;
     input_event *hovered_quick_shortcut = get_quick_shortcut_under_finger();
     SDL_Rect rect;
     bool hovered, show_hint;
     int i = 0;
-    for( std::list<input_event>::iterator it = qsl.begin(); it != qsl.end(); ++it ) {
-        if( ( i + 1 ) * width > WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
-            0.01f ) {
-            continue;
-        }
+    for( std::list<input_event>::iterator it = qsl.begin(); it != qsl.end() &&
+         i < layout.count; ++it ) {
+        const SDL_FRect cell = quick_shortcut_cell( layout, i );
         input_event &event = *it;
         std::string text = event.text;
         int key = event.get_first_input();
@@ -5000,10 +5301,7 @@ void draw_quick_shortcuts()
                 show_hint = false;
             }
         }
-        if( shortcut_right )
-            rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
-        else
-            rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
+        rect = { static_cast<int>( cell.x + border ), static_cast<int>( cell.y ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         if( hovered ) {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         } else {
@@ -5014,10 +5312,7 @@ void draw_quick_shortcuts()
         RenderFillRect( renderer, &rect );
         if( hovered ) {
             // draw a second button hovering above the first one
-            if( shortcut_right )
-                rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
-            else
-                rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
+            rect = { static_cast<int>( cell.x + border ), static_cast<int>( cell.y - height * 1.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             RenderFillRect( renderer, &rect );
 
@@ -5031,16 +5326,10 @@ void draw_quick_shortcuts()
         }
         SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
         RenderSetScale( renderer, text_scale, text_scale );
-        int text_x, text_y;
-        if( shortcut_right ) {
-            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->width * utf8_width(
-                           text ) ) * text_scale * 0.5f ) / text_scale;
-        } else {
-            text_x = ( ( i + 0.5f ) * width - ( font->width * utf8_width( text ) ) * text_scale * 0.5f ) /
+        int text_x = ( cell.x + 0.5f * width - ( font->width * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
-        }
         // TODO use draw_string instead
-        text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
+        int text_y = ( cell.y + ( height - font->height * text_scale ) * 0.5f ) / text_scale;
         font->OutputChar( renderer, text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
         font->OutputChar( renderer, text, point( text_x, text_y ),
@@ -5074,10 +5363,87 @@ void draw_quick_shortcuts()
         }
         RenderSetScale( renderer, 1.0f, 1.0f );
         i++;
-        if( ( i + 1 ) * width > WindowWidth ) {
-            break;
+    }
+}
+
+// joystick deadzone radius in window pixels
+static float android_touch_deadzone()
+{
+    return get_option<float>( "ANDROID_DEADZONE_RANGE" ) * get_option<float>( "ANDROID_JOYSTICK_SCALE" )
+           *
+           std::max( WindowWidth, WindowHeight );
+}
+
+// width of the band past the deadzone where the repeat rate ramps up, in window pixels
+static float android_touch_repeat_range()
+{
+    return std::max( 0.01f, get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) *
+           get_option<float>( "ANDROID_JOYSTICK_SCALE" ) * std::max( WindowWidth, WindowHeight );
+}
+
+// straight joystick slice width; contexts binding no diagonal moves, like most
+// menus, get four 90 degree slices
+static float android_touch_straight_width()
+{
+    if( !touch_input_context.is_action_registered( "LEFTUP" ) ) {
+        return 90.0f;
+    }
+    return get_option<float>( "ANDROID_JOYSTICK_STRAIGHT_ANGLE" );
+}
+
+// how far current touch is into the repeat band, 0 to 1
+static float android_touch_speed()
+{
+    const float delta_x = finger_curr_x - finger_down_x;
+    const float delta_y = finger_curr_y - finger_down_y;
+    return touch_joystick::speed_fraction( std::sqrt( delta_x * delta_x + delta_y * delta_y ),
+                                           android_touch_deadzone(), android_touch_repeat_range() );
+}
+
+// fill part of joystick octagon between two apothems over a slice of angles
+static void draw_joystick_band( const SDL_FPoint &center, const float inner, const float outer,
+                                const float start, const float end, const SDL_FColor &color )
+{
+    std::vector<SDL_Vertex> vertices;
+    std::vector<int> indices;
+    for( const float degrees : touch_joystick::band_angles( start, end ) ) {
+        const float radians = degrees * static_cast<float>( M_PI ) / 180.0f;
+        const float cos_a = std::cos( radians );
+        const float sin_a = std::sin( radians );
+        const float r_in = touch_joystick::octagon_radius( degrees, inner );
+        const float r_out = touch_joystick::octagon_radius( degrees, outer );
+        const int first = static_cast<int>( vertices.size() );
+        vertices.push_back( { { center.x + r_in * cos_a, center.y + r_in * sin_a }, color, { 0.0f, 0.0f } } );
+        vertices.push_back( { { center.x + r_out * cos_a, center.y + r_out * sin_a }, color, { 0.0f, 0.0f } } );
+        if( first > 0 ) {
+            indices.insert( indices.end(), { first - 2, first - 1, first + 1, first - 2, first + 1, first } );
         }
     }
+    RenderGeometry( renderer, nullptr, vertices.data(), static_cast<int>( vertices.size() ),
+                    indices.data(), static_cast<int>( indices.size() ) );
+}
+
+// thin line along one edge of a slice, from the deadzone to the rim
+static void draw_joystick_spoke( const SDL_FPoint &center, const float inner, const float outer,
+                                 const float degrees, const float half_width, const SDL_FColor &color )
+{
+    const float radians = degrees * static_cast<float>( M_PI ) / 180.0f;
+    const float cos_a = std::cos( radians );
+    const float sin_a = std::sin( radians );
+    const float r_in = touch_joystick::octagon_radius( degrees, inner );
+    const float r_out = touch_joystick::octagon_radius( degrees, outer );
+    const float nx = -sin_a * half_width;
+    const float ny = cos_a * half_width;
+    const std::array<SDL_Vertex, 4> v = { {
+            { { center.x + r_in *cos_a - nx, center.y + r_in *sin_a - ny }, color, { 0.0f, 0.0f } },
+            { { center.x + r_out *cos_a - nx, center.y + r_out *sin_a - ny }, color, { 0.0f, 0.0f } },
+            { { center.x + r_out *cos_a + nx, center.y + r_out *sin_a + ny }, color, { 0.0f, 0.0f } },
+            { { center.x + r_in *cos_a + nx, center.y + r_in *sin_a + ny }, color, { 0.0f, 0.0f } },
+        }
+    };
+    static constexpr std::array<int, 6> idx = { 0, 1, 2, 0, 2, 3 };
+    RenderGeometry( renderer, nullptr, v.data(), static_cast<int>( v.size() ), idx.data(),
+                    static_cast<int>( idx.size() ) );
 }
 
 void draw_virtual_joystick()
@@ -5094,32 +5460,60 @@ void draw_virtual_joystick()
         return;
     }
 
-    SetTextureAlphaMod( touch_joystick,
-                        get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f * 255.0f );
+    const float opacity = get_option<int>( "ANDROID_VIRTUAL_JOYSTICK_OPACITY" ) * 0.01f;
+    const SDL_FColor frame{ 1.0f, 1.0f, 1.0f, std::min( 1.0f, opacity * 2.0f ) };
+    const SDL_FColor backdrop{ 0.0f, 0.0f, 0.0f, opacity };
+    const SDL_FColor highlight{ 1.0f, 1.0f, 1.0f, opacity * 0.75f };
+    const SDL_FColor speed{ 1.0f, 0.85f, 0.4f, std::min( 1.0f, opacity * 2.5f ) };
 
-    float longest_window_edge = std::max( WindowWidth, WindowHeight );
+    const SDL_FPoint center{ finger_down_x, finger_down_y };
+    const float deadzone = android_touch_deadzone();
+    const float rim = deadzone + android_touch_repeat_range();
+    const float line = std::max( 1.0f, rim * 0.015f );
+    const float straight_width = android_touch_straight_width();
 
-    SDL_Rect dstrect;
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_BLEND );
+    draw_joystick_band( center, deadzone, rim, 0.0f, 360.0f, backdrop );
 
-    // Draw deadzone range
-    dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) ) * longest_window_edge * 2;
-    dstrect.x = finger_down_x - dstrect.w / 2;
-    dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    const float delta_x = finger_curr_x - finger_down_x;
+    const float delta_y = finger_curr_y - finger_down_y;
+    const touch_joystick::direction dir = touch_joystick::classify( delta_x, delta_y, deadzone,
+                                          straight_width );
+    if( dir != touch_joystick::direction::none ) {
+        const std::pair<float, float> slice = touch_joystick::wedge( dir, straight_width );
+        draw_joystick_band( center, deadzone, rim, slice.first, slice.second, highlight );
+        const float reach = deadzone + ( rim - deadzone ) * android_touch_speed();
+        draw_joystick_band( center, deadzone, reach, slice.first, slice.second, speed );
+    }
 
-    // Draw repeat delay range
-    dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
-                              get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge * 2;
-    dstrect.x = finger_down_x - dstrect.w / 2;
-    dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    // slice edges, deadzone and rim; every edge starts one slice
+    using touch_joystick::direction;
+    std::vector<direction> slices = { direction::right, direction::down, direction::left, direction::up };
+    if( straight_width < 90.0f ) {
+        slices.insert( slices.end(), { direction::down_right, direction::down_left, direction::up_left,
+                                       direction::up_right
+                                     } );
+    }
+    for( const direction slice_dir : slices ) {
+        draw_joystick_spoke( center, deadzone, rim, touch_joystick::wedge( slice_dir,
+                             straight_width ).first,
+                             line * 0.5f, frame );
+    }
+    draw_joystick_band( center, deadzone - line, deadzone, 0.0f, 360.0f, frame );
+    draw_joystick_band( center, rim - line, rim, 0.0f, 360.0f, frame );
 
-    // Draw current touch position (50% size of repeat delay range)
-    dstrect.w = dstrect.h = dstrect.w / 2;
-    dstrect.x = finger_down_x + ( finger_curr_x - finger_down_x ) / 2 - dstrect.w / 2;
-    dstrect.y = finger_down_y + ( finger_curr_y - finger_down_y ) / 2 - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
-
+    // knob under the finger, kept inside the rim
+    const float knob = rim * 0.2f;
+    float knob_x = delta_x;
+    float knob_y = delta_y;
+    const float knob_dist = std::sqrt( knob_x * knob_x + knob_y * knob_y );
+    if( knob_dist > rim ) {
+        knob_x *= rim / knob_dist;
+        knob_y *= rim / knob_dist;
+    }
+    draw_joystick_band( SDL_FPoint{ center.x + knob_x, center.y + knob_y }, 0.0f, knob, 0.0f, 360.0f,
+                        frame );
+    SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
 }
 #endif
 
@@ -5220,14 +5614,7 @@ static void draw_gamepad_radial_menu()
 #if defined(__ANDROID__)
 void update_finger_repeat_delay()
 {
-    float delta_x = finger_curr_x - finger_down_x;
-    float delta_y = finger_curr_y - finger_down_y;
-    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
-    float longest_window_edge = std::max( WindowWidth, WindowHeight );
-    float t = clamp<float>( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
-                                       longest_window_edge ) ) /
-                            std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
-                            0.0f, 1.0f );
+    const float t = android_touch_speed();
     float repeat_delay_min = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ) );
     float repeat_delay_max = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) );
     finger_repeat_delay = lerp<float>( std::max( repeat_delay_min, repeat_delay_max ),
@@ -5263,73 +5650,44 @@ int get_key_event_from_string( const std::string &str )
     }
     return -1;
 }
+// input a joystick direction sends; diagonals go through the gamepad stick
+static input_event touch_direction_input( const touch_joystick::direction dir )
+{
+    using touch_joystick::direction;
+    switch( dir ) {
+        case direction::right:
+            return input_event( KEY_RIGHT, input_event_t::keyboard_char );
+        case direction::down:
+            return input_event( KEY_DOWN, input_event_t::keyboard_char );
+        case direction::left:
+            return input_event( KEY_LEFT, input_event_t::keyboard_char );
+        case direction::up:
+            return input_event( KEY_UP, input_event_t::keyboard_char );
+        case direction::down_right:
+            return input_event( JOY_LS_DOWN_RIGHT, input_event_t::gamepad );
+        case direction::down_left:
+            return input_event( JOY_LS_DOWN_LEFT, input_event_t::gamepad );
+        case direction::up_left:
+            return input_event( JOY_LS_UP_LEFT, input_event_t::gamepad );
+        case direction::up_right:
+            return input_event( JOY_LS_UP_RIGHT, input_event_t::gamepad );
+        case direction::none:
+            break;
+    }
+    return input_event();
+}
+
 // This function is triggered on finger up events, OR by a repeating timer for touch hold events.
 void handle_finger_input( uint32_t ticks )
 {
 
-    float delta_x = finger_curr_x - finger_down_x;
-    float delta_y = finger_curr_y - finger_down_y;
-    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y ); // in pixel space
-    bool handle_diagonals = touch_input_context.is_action_registered( "LEFTUP" );
-    bool is_default_mode = touch_input_context.get_category() == "DEFAULTMODE";
-    if( dist > ( get_option<float>( "ANDROID_DEADZONE_RANGE" )*std::max( WindowWidth,
-                 WindowHeight ) ) ) {
-        if( !handle_diagonals ) {
-            if( delta_x >= 0 && delta_y >= 0 ) {
-                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, input_event_t::keyboard_char );
-            } else if( delta_x < 0 && delta_y >= 0 ) {
-                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, input_event_t::keyboard_char );
-            } else if( delta_x >= 0 && delta_y < 0 ) {
-                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, input_event_t::keyboard_char );
-            } else if( delta_x < 0 && delta_y < 0 ) {
-                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, input_event_t::keyboard_char );
-            }
-        } else {
-            if( delta_x > 0 ) {
-                if( std::abs( delta_y ) < delta_x * 0.5f ) {
-                    // swipe right
-                    last_input = input_event( KEY_RIGHT, input_event_t::keyboard_char );
-                } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
-                    if( delta_y < 0 ) {
-                        // swipe up-right
-                        last_input = input_event( JOY_LS_UP_RIGHT, input_event_t::gamepad );
-                    } else {
-                        // swipe down-right
-                        last_input = input_event( JOY_LS_DOWN_RIGHT, input_event_t::gamepad );
-                    }
-                } else {
-                    if( delta_y < 0 ) {
-                        // swipe up
-                        last_input = input_event( KEY_UP, input_event_t::keyboard_char );
-                    } else {
-                        // swipe down
-                        last_input = input_event( KEY_DOWN, input_event_t::keyboard_char );
-                    }
-                }
-            } else {
-                if( std::abs( delta_y ) < -delta_x * 0.5f ) {
-                    // swipe left
-                    last_input = input_event( KEY_LEFT, input_event_t::keyboard_char );
-                } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
-                    if( delta_y < 0 ) {
-                        // swipe up-left
-                        last_input = input_event( JOY_LS_UP_LEFT, input_event_t::gamepad );
-
-                    } else {
-                        // swipe down-left
-                        last_input = input_event( JOY_LS_DOWN_LEFT, input_event_t::gamepad );
-                    }
-                } else {
-                    if( delta_y < 0 ) {
-                        // swipe up
-                        last_input = input_event( KEY_UP, input_event_t::keyboard_char );
-                    } else {
-                        // swipe down
-                        last_input = input_event( KEY_DOWN, input_event_t::keyboard_char );
-                    }
-                }
-            }
-        }
+    const float delta_x = finger_curr_x - finger_down_x;
+    const float delta_y = finger_curr_y - finger_down_y;
+    const bool is_default_mode = touch_input_context.get_category() == "DEFAULTMODE";
+    const touch_joystick::direction dir = touch_joystick::classify( delta_x, delta_y,
+                                          android_touch_deadzone(), android_touch_straight_width() );
+    if( dir != touch_joystick::direction::none ) {
+        last_input = touch_direction_input( dir );
     } else {
         if( ticks - finger_down_time >= static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
@@ -5431,6 +5789,13 @@ static void CheckMessages()
     bool is_repeat = false;
 
     drain_renderer_recovery();
+    // drain blanked the buffer; nothing else draws while input waits
+    if( renderer_coordinator.take_repaint_request() ) {
+        // stdscr lies under every UI and none of them redraws it; refresh it first, or
+        // its stale render epoch makes the input wait repaint it over them later
+        catacurses::wnoutrefresh( catacurses::stdscr );
+        ui_manager::redraw_invalidated();
+    }
 
 #if defined(__ANDROID__)
     static uint32_t last_seen_visible_frame_seq = 0;
@@ -5439,6 +5804,22 @@ static void CheckMessages()
         last_seen_visible_frame_seq = cur_visible_frame_seq;
         needupdate = true;
         ui_manager::redraw_invalidated();
+    }
+    static uint32_t last_seen_safe_area_seq = 0;
+    const uint32_t cur_safe_area_seq = safe_area_inbox.even_sequence();
+    if( cur_safe_area_seq != last_seen_safe_area_seq ) {
+        last_seen_safe_area_seq = cur_safe_area_seq;
+        // safe area sets render bounds and portrait free height
+        needupdate = true;
+        ui_manager::redraw_invalidated();
+        request_terminal_relayout();
+    }
+    static uint32_t last_seen_outer_size_seq = 0;
+    const uint32_t cur_outer_size_seq = outer_size_inbox.even_sequence();
+    if( cur_outer_size_seq != last_seen_outer_size_seq ) {
+        last_seen_outer_size_seq = cur_outer_size_seq;
+        // auto text size follows the outer window
+        request_terminal_relayout();
     }
 
     uint32_t ticks = GetTicks();
@@ -5464,7 +5845,11 @@ static void CheckMessages()
 
     // Copy the current input context
     input_context *new_input_context = input_context::input_context_stack.back();
-    if( new_input_context && *new_input_context != touch_input_context ) {
+    // a context pushed before its actions are registered, as at the start of a game
+    // turn, isn't an input mode yet; switching to it would flash a four-way joystick
+    if( new_input_context &&
+        !touch_joystick::is_bare_context( new_input_context->get_registered_actions() ) &&
+        *new_input_context != touch_input_context ) {
 
         // If we were in an allow_text_entry input context, and text input is still active, and we're auto-managing keyboard, hide it.
         if( touch_input_context.allow_text_entry &&
@@ -5671,6 +6056,8 @@ static void CheckMessages()
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( !quick_shortcuts_toggle_handled ) {
                 quick_shortcuts_enabled = !quick_shortcuts_enabled;
+                // landscape bounds keep room for the strip only while it shows
+                request_terminal_relayout();
                 quick_shortcuts_toggle_handled = true;
                 android_request_repaint();
                 refresh_display();
@@ -5695,22 +6082,21 @@ static void CheckMessages()
             finger_down_time > 0 &&
             ticks - finger_down_time > static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
-            if( ticks - finger_repeat_time > finger_repeat_delay ) {
+            // a touch the system already took over sends no further repeat; the
+            // event loop below drops it
+            if( ticks - finger_repeat_time > finger_repeat_delay && !HasEvent( CATA_FINGERCANCELED ) ) {
                 handle_finger_input( ticks );
                 finger_repeat_time = ticks;
                 // Prevent repeating inputs on the next call to this function if there is a fingerup event
                 while( SDL_PollEvent( &ev ) ) {
                     if( ev.type == CATA_FINGERUP ) {
-                        third_finger_down_x = third_finger_curr_x = second_finger_down_x = second_finger_curr_x =
-                                                  finger_down_x = finger_curr_x = -1.0f;
-                        third_finger_down_y = third_finger_curr_y = second_finger_down_y = second_finger_curr_y =
-                                                  finger_down_y = finger_curr_y = -1.0f;
-                        is_two_finger_touch = false;
-                        is_three_finger_touch = false;
-                        finger_down_time = 0;
-                        finger_repeat_time = 0;
+                        reset_touch_state();
                         finger_slot_clear( GetFingerID( ev ) );
                         // let the next call decide if needupdate should be true
+                        break;
+                    }
+                    if( ev.type == CATA_FINGERCANCELED ) {
+                        cancel_touch();
                         break;
                     }
                 }
@@ -5812,6 +6198,10 @@ static void CheckMessages()
                     // pick up the new bounds when a cutout or inset changes.
                     needupdate = true;
                     ui_manager::redraw_invalidated();
+#if defined(__ANDROID__)
+                    // it also sets the portrait free height, so the grid can change
+                    request_terminal_relayout();
+#endif
                     break;
 #if defined(__ANDROID__)
                 case CATA_WINDOWEVENT_RESTORED:
@@ -6094,8 +6484,7 @@ static void CheckMessages()
                             float delta_x = finger_curr_x - finger_down_x;
                             float delta_y = finger_curr_y - finger_down_y;
                             float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
-                            float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
-                                               get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
+                            float max_dist = android_touch_deadzone() + android_touch_repeat_range();
                             if( dist > max_dist ) {
                                 float delta_ratio = ( dist / max_dist ) - 1.0f;
                                 finger_down_x += delta_x * delta_ratio;
@@ -6251,6 +6640,7 @@ static void CheckMessages()
                                     int three_tap_key = 0; //get_option<int>( "ANDROID_3_TAP_KEY" );
                                     if( three_tap_key == 0 ) { // not set
                                         quick_shortcuts_enabled = !quick_shortcuts_enabled;
+                                        request_terminal_relayout();
 
                                         quick_shortcuts_toggle_handled = true;
 
@@ -6299,14 +6689,7 @@ static void CheckMessages()
                                 handle_finger_input( ticks );
                             }
                         }
-                        third_finger_down_x = third_finger_curr_x = second_finger_down_x = second_finger_curr_x =
-                                                  finger_down_x = finger_curr_x = -1.0f;
-                        third_finger_down_y = third_finger_curr_y = second_finger_down_y = second_finger_curr_y =
-                                                  finger_down_y = finger_curr_y = -1.0f;
-                        is_two_finger_touch = false;
-                        is_three_finger_touch = false;
-                        finger_down_time = 0;
-                        finger_repeat_time = 0;
+                        reset_touch_state();
                         // ensure virtual joystick and quick shortcuts are updated properly
                         android_request_repaint();
                         refresh_display(); // as above, but actually redraw it now as well
@@ -6329,6 +6712,10 @@ static void CheckMessages()
 
                     break;
                 }
+                case CATA_FINGERCANCELED:
+                    cancel_touch();
+                    android_request_repaint();
+                    break;
 #endif
 
                 case CATA_QUIT:
@@ -6398,7 +6785,12 @@ static std::pair<float, float> get_display_scale( int display_index )
 static void init_term_size_and_scaling_factor()
 {
     scaling_factor = 1;
+#if defined(__ANDROID__)
+    // WinCreate sizes the grid from the screen and the text size; start from the minimum
+    point terminal( EVEN_MINIMUM_TERM_WIDTH, EVEN_MINIMUM_TERM_HEIGHT );
+#else
     point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
+#endif
 
 #if !defined(__ANDROID__)
 
@@ -6505,9 +6897,12 @@ void catacurses::init_interface()
 
     font_loader fl;
     fl.load();
+#if !defined(__ANDROID__)
+    // Android picks the cell in WinCreate, from the text size
     fl.fontwidth = get_option<int>( "FONT_WIDTH" );
     fl.fontheight = get_option<int>( "FONT_HEIGHT" );
     fl.fontsize = get_option<int>( "FONT_SIZE" );
+#endif
     fl.fontblending = get_option<bool>( "FONT_BLENDING" );
     fl.map_fontsize = get_option<int>( "MAP_FONT_SIZE" );
     fl.map_fontwidth = get_option<int>( "MAP_FONT_WIDTH" );
@@ -6520,7 +6915,17 @@ void catacurses::init_interface()
 
     init_term_size_and_scaling_factor();
 
+#if defined(__ANDROID__)
+    android_fonts = fl;
+#endif
+
     WinCreate();
+#if defined(__ANDROID__)
+    // WinCreate picked the cell for this screen; build the terminal fonts at it
+    fl.fontwidth = ::fontwidth;
+    fl.fontheight = ::fontheight;
+    fl.fontsize = android_font_point_size( point( ::fontwidth, ::fontheight ) );
+#endif
     refresh_mouse_config();
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
@@ -6603,9 +7008,8 @@ void catacurses::init_interface()
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
     imclient->load_fonts( gui_font, font, windowsPalette, fl.gui_typeface, fl.typeface );
 #if defined(__ANDROID__)
-    // Make sure we initialize preview_terminal_width/height to sensible values
-    preview_terminal_width = TERMINAL_WIDTH * fontwidth;
-    preview_terminal_height = TERMINAL_HEIGHT * fontheight;
+    // window may have rotated before resize watch was registered
+    renderer_coordinator.notify_resize();
 #endif
     // Base UI is up: allow recovery (see finish_bootstrap) and service any inbox
     // work queued during startup.

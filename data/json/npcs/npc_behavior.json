@@ -95,21 +95,21 @@
     "type": "behavior",
     "id": "npc_homeostasis",
     "strategy": "fallback",
-    "conditions": [ { "predicate": "npc_needs_warmth_badly" } ],
-    "children": [ "npc_obtain_warmth", "npc_make_fire" ],
-    "score": "npc_warmth_urgency"
+    "conditions": [ { "predicate": "npc_needs_temperature_regulation" } ],
+    "children": [ "npc_regulate_temperature", "npc_make_fire" ],
+    "score": "npc_temperature_urgency"
   },
   {
     "type": "behavior",
-    "id": "npc_obtain_warmth",
-    "conditions": [ { "predicate": "npc_can_obtain_warmth" } ],
-    "goal": "seek_warmth"
+    "id": "npc_regulate_temperature",
+    "conditions": [ { "predicate": "npc_can_regulate_temperature" } ],
+    "goal": "regulate_temperature"
   },
   {
     "type": "behavior",
     "id": "npc_make_fire",
     "conditions": [ { "predicate": "npc_can_make_fire" } ],
-    "goal": "seek_warmth"
+    "goal": "regulate_temperature"
   },
   {
     "type": "behavior",

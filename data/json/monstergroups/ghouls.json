@@ -1,0 +1,12 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_LAB_GHOULS",
+    "default": "mon_spore",
+    "monsters": [
+      { "monster": "mon_ghoul_lab_baby", "weight": 100, "cost_multiplier": 0, "starts": "1 days" },
+      { "monster": "mon_ghoul_lab_juvenile", "weight": 250, "cost_multiplier": 0, "starts": "4 days" },
+      { "monster": "mon_ghoul_lab_adult", "weight": 400, "cost_multiplier": 0, "starts": "7 days" }
+    ]
+  }
+]

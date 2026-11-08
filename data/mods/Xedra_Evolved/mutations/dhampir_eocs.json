@@ -316,12 +316,12 @@
         { "u_has_trait": "DHAMPIR_TRAIT" },
         {
           "or": [
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+            { "u_bodypart_is_bleeding": "arm_l" },
+            { "u_bodypart_is_bleeding": "arm_r" },
+            { "u_bodypart_is_bleeding": "leg_l" },
+            { "u_bodypart_is_bleeding": "leg_r" },
+            { "u_bodypart_is_bleeding": "torso" },
+            { "u_bodypart_is_bleeding": "head" }
           ]
         },
         { "math": [ "u_vitamin('human_blood_vitamin') > -1000" ] }
@@ -334,7 +334,7 @@
         "var": { "context_val": "id" },
         "effect": [
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "if": { "u_bodypart_is_bleeding": { "context_val": "id" } },
             "then": [
               { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
               { "u_message": "Bleed intensity for bodypart is <context_val:bleed_intensity>.", "type": "debug" },

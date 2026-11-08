@@ -46,6 +46,11 @@ void uilist_impl::draw_controls()
         ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
     }
 #endif
+    uilist::draw_controls( parent );
+}
+
+void uilist::draw_controls( uilist &parent )
+{
     if( !parent.text.empty() ) {
         cataimgui::draw_colored_text( parent.text );
         ImGui::Separator();
@@ -54,6 +59,7 @@ void uilist_impl::draw_controls()
     if( !parent.categories.empty() ) {
         if( ImGui::BeginTabBar( "##categories",
                                 ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_NoCloseWithMiddleMouseButton ) ) {
+            bool pending_switch = parent.switch_to_category < parent.categories.size();
             for( size_t i = 0; i < parent.categories.size(); i++ ) {
                 auto cat = parent.categories[ i ];
                 bool selected = i == parent.switch_to_category;
@@ -64,8 +70,10 @@ void uilist_impl::draw_controls()
                 }
                 if( ImGui::BeginTabItem( cat.second.c_str(), nullptr, flags ) ) {
                     if( parent.current_category != i ) {
-                        parent.current_category = i;
-                        parent.filterlist();
+                        if( !pending_switch ) {
+                            parent.current_category = i;
+                            parent.filterlist();
+                        }
                     }
                     ImGui::EndTabItem();
                 }
@@ -757,7 +765,7 @@ void uilist::calc_data()
     }
     if( force_desired_bounds && desired_bounds.has_value() ) {
         calculated_menu_size.x = desired_bounds->w;
-        calculated_menu_size.y = desired_bounds->h;
+        calculated_menu_size.y = desired_bounds->h - additional_height;
     }
 }
 
@@ -1137,6 +1145,7 @@ void uilist::settext( const std::string &str )
 void uilist::set_selected( int index )
 {
     selected = previewing = std::clamp( index, 0, static_cast<int>( entries.size() - 1 ) );
+    filterlist();
 }
 
 void uilist::add_category( const std::string &key, const std::string &name )
@@ -1151,6 +1160,7 @@ void uilist::set_category( const std::string &key )
         return pair.first == key;
     } );
     current_category = std::distance( categories.begin(), it );
+    switch_to_category = current_category;
 }
 
 void uilist::set_category_filter( const

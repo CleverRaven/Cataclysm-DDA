@@ -75,6 +75,8 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         int get_volume() const override;
         int get_weight() const override;
         bool is_warm() const override;
+        bool is_underwater() const override;
+        bool is_swimming() const override;
 
     private:
         const monster *me_mon_const{};

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -51,6 +52,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
+#include "perf.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -60,6 +62,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weakpoint.h"
 
@@ -868,19 +871,20 @@ void emp_blast( const tripoint_bub_ms &p )
                      weapon->tname() );
         }
 
-        for( item_location &it : player_character.all_items_loc() ) {
-            // Render any electronic stuff in player's possession non-functional
-            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
-                !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
-                add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
-                it->deactivate();
-                item &electronic_item = *it.get_item();
-                if( get_option<bool>( "GAME_EMP" ) ) {
-                    electronic_item.set_fault( fault_emp_reboot );
-                } else {
-                    electronic_item.set_random_fault_of_type( "shorted" );
+        if( !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
+            player_character.visit_carried( []( item_location it ) {
+                // Render any electronic stuff in player's possession non-functional
+                if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() ) {
+                    add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
+                    it->deactivate();
+                    if( get_option<bool>( "GAME_EMP" ) ) {
+                        it->set_fault( fault_emp_reboot );
+                    } else {
+                        it->set_random_fault_of_type( "shorted" );
+                    }
                 }
-            }
+                return VisitResponse::NEXT;
+            } );
         }
     }
 
@@ -999,7 +1003,7 @@ void process_explosions()
     if( _explosions.empty() ) {
         return;
     }
-
+    cata_timer process_explosions_timer( "process_explosions" );
     // Need to copy and clear this vector before processing the explosions.
     // Part of processing in `_make_explosion` is handing out shrapnel damage,
     // which might kill monsters. That might have all sorts of consequences,

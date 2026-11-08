@@ -61,6 +61,7 @@ enum class mod : int {
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
+    REGEN_WOUND,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     SLEEPINESS,       // sleepiness rate

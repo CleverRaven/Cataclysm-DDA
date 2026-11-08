@@ -718,6 +718,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_character_wears_item_removes_it_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "test_vanishing_socks", { "context_val": "itype" } ] },
+    "effect": [ { "u_add_var": "test_wear_event_removed", "value": "yes" }, "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_meta_test_message",
     "effect": [ { "message": "message ok." } ]
   },

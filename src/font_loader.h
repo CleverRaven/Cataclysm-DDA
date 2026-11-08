@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "cata_utility.h"
@@ -48,6 +49,8 @@ struct font_config {
 extern void ensure_unifont_loaded( std::vector<font_config> &font_list );
 extern void ensure_unifont_loaded( std::vector<std::string> &font_list );
 
+// whether typeface path is a bitmap sheet, which only draws at its own cell size
+bool is_bitmap_typeface( std::string_view path );
 
 class font_loader
 {

@@ -40,6 +40,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -156,11 +157,14 @@ void handle_npc_liquid( item liquid, Character &who )
             }
         }
     }
-    for( item_location &item_loc : who.all_items_loc() ) {
+    who.visit_items(
+    [&container_locs]( const item_location & item_loc ) {
         if( item_loc->is_watertight_container() ) {
             container_locs.push_back( item_loc );
         }
+        return VisitResponse::NEXT;
     }
+    );
     for( item_location &container_loc : container_locs ) {
         const bool is_carried = container_loc.carrier() != nullptr;
         const bool allow_buckets = container_loc.where() == item_location::type::map;

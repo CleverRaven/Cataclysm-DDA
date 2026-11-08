@@ -325,9 +325,18 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 10,
-    "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
     "restricts_gear": [ "torso" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -4 } ] } ]
+    "allowed_items": [ "ALLOWS_SPIDER_ARMS" ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_arachnid_upper_l" },
+          { "gain": "arm_arachnid_upper_r" },
+          { "gain": "arm_arachnid_lower_l" },
+          { "gain": "arm_arachnid_lower_r" }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -343,7 +352,30 @@
     "purifiable": false,
     "vitamin_cost": 210,
     "visibility": 6,
-    "ugliness": 10
+    "ugliness": 10,
+    "restricts_gear": [ "torso" ],
+    "allowed_items": [ "ALLOWS_SPIDER_ARMS" ],
+    "enchantments": [
+      {
+        "modified_bodyparts": [
+          { "gain": "arm_arachnid_ok_upper_l" },
+          { "gain": "arm_arachnid_ok_upper_r" },
+          { "gain": "arm_arachnid_ok_lower_l" },
+          { "gain": "arm_arachnid_ok_lower_r" }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.4 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+      }
+    ],
+    "flags": [ "QUADRUPED_CROUCH", "QUADRUPED_RUN" ]
   },
   {
     "type": "mutation",
@@ -1277,7 +1309,7 @@
     "type": "mutation",
     "id": "ARM_TENTACLES",
     "name": { "str": "Tentacle Arms" },
-    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Reduces penalties for attacking while prone and somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into tentacles, resulting in a slight bonus to grip but an inability to wear gloves.  Reduces penalties for attacking while prone and somewhat decreases wet penalties.",
     "category": [ "CEPHALOPOD" ],
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
@@ -1289,25 +1321,17 @@
     "visibility": 7,
     "ugliness": 4,
     "flags": [ "PSEUDOPOD_GRASP" ],
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with one of your tentacles!",
-        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "arm_l" }, { "gain": "arm_tentacle_l" } ]
       },
       {
-        "attack_text_u": "You rake %s with one of your tentacles!",
-        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "lose": "arm_r" }, { "gain": "arm_tentacle_r" } ]
       }
     ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },
@@ -1319,7 +1343,7 @@
     "type": "mutation",
     "id": "ARM_TENTACLES_4",
     "name": { "str": "4 Tentacles" },
-    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them, and you suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into four tentacles, resulting in a slight bonus to grip, increased aim time but reduced recoil when using firearms, and an inability to wear gloves.  You suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
     "category": [ "CEPHALOPOD" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES" ],
@@ -1329,25 +1353,24 @@
     "vitamin_cost": 210,
     "visibility": 8,
     "ugliness": 5,
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with one of your tentacles!",
-        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "arm_l" }, { "gain": "arm_tentacle_l" }, { "gain": "arm_tentacle_l_2" } ]
       },
       {
-        "attack_text_u": "You rake %s with one of your tentacles!",
-        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "lose": "arm_r" }, { "gain": "arm_tentacle_r" }, { "gain": "arm_tentacle_r_2" } ]
+      },
+      {
+        "values": [
+          { "value": "AIMING_SPEED", "multiply": 0.25 },
+          { "value": "RECOIL_MODIFIER", "multiply": 0.5 },
+          { "value": "WEAPON_DISPERSION", "multiply": 0.1 }
+        ]
       }
     ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },
@@ -1359,7 +1382,7 @@
     "type": "mutation",
     "id": "ARM_TENTACLES_8",
     "name": { "str": "8 Tentacles" },
-    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them, and suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into four tentacles, resulting in a bonus to grip, increased aim time but reduced recoil when using firearms, and an inability to wear gloves.  You suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
     "category": [ "CEPHALOPOD" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES_4" ],
@@ -1368,25 +1391,38 @@
     "vitamin_cost": 210,
     "visibility": 9,
     "ugliness": 6,
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
-    "attacks": [
+    "enchantments": [
       {
-        "attack_text_u": "You slap %s with one of your tentacles!",
-        "attack_text_npc": "%1$s slaps %2$s with one of their tentacles!",
-        "blocker_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
+        "modified_bodyparts": [
+          { "lose": "hand_l" },
+          { "lose": "arm_l" },
+          { "gain": "arm_tentacle_l" },
+          { "gain": "arm_tentacle_l_2" },
+          { "gain": "arm_tentacle_l_3" },
+          { "gain": "arm_tentacle_l_4" }
+        ]
       },
       {
-        "attack_text_u": "You rake %s with one of your tentacles!",
-        "attack_text_npc": "%1$s rakes %2$s with one of their tentacles!",
-        "required_mutations": [ "CLAWS_TENTACLE" ],
-        "chance": 1,
-        "hardcoded_effect": true
+        "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
+        "modified_bodyparts": [
+          { "lose": "hand_r" },
+          { "lose": "arm_r" },
+          { "gain": "arm_tentacle_r" },
+          { "gain": "arm_tentacle_r_2" },
+          { "gain": "arm_tentacle_r_3" },
+          { "gain": "arm_tentacle_r_4" }
+        ]
+      },
+      {
+        "values": [
+          { "value": "AIMING_SPEED", "multiply": 0.45 },
+          { "value": "RECOIL_MODIFIER", "multiply": 1 },
+          { "value": "WEAPON_DISPERSION", "multiply": 0.2 }
+        ]
       }
     ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 19 },
       { "part": "arm_r", "neutral": 19 },

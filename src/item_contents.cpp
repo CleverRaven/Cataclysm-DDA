@@ -1648,18 +1648,6 @@ void item_contents::update_open_pockets()
     }
 }
 
-void item_contents::set_item_defaults()
-{
-    /* For Items with a magazine or battery in its contents */
-    for( item_pocket &pocket : contents ) {
-        if( !pocket.is_standard_type() ) {
-            continue;
-        }
-
-        pocket.set_item_defaults();
-    }
-}
-
 bool item_contents::seal_all_pockets()
 {
     bool any_sealed = false;

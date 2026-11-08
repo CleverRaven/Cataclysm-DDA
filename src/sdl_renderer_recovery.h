@@ -6,6 +6,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -13,8 +14,14 @@
 #include <vector>
 
 #include "cata_tiles.h"
+#include "point.h"
 
 class Font;
+struct font_config;
+namespace cataimgui
+{
+class client;
+} // namespace cataimgui
 namespace catacurses
 {
 class window;
@@ -245,6 +252,10 @@ class renderer_resource_coordinator
         // caller can wait out a background event before draining and retrying an
         // interrupted upload.
         bool lifecycle_paused() const;
+        // true once after a drain blanked the display buffer and invalidated every
+        // UI, as soon as drawing is allowed. nothing repaints them while input
+        // waits, so the caller redraws
+        bool take_repaint_request();
 
         renderer_recovery_state state() const {
             return planner_.state();
@@ -330,12 +341,20 @@ class renderer_resource_coordinator
         // Distinct from bootstrapping, which only covers pre-base-UI startup.
         int atlas_upload_depth_ = 0;
         uint64_t renderer_resource_generation_ = 0;
+        bool repaint_requested_ = false;
         uint64_t renderer_instance_generation_ = 0;
         uint64_t gpu_textures_generation_ = 0;
         // Display-buffer dims the coordinator last built, so a resize can
         // skip the rebuild when only DPI or letterboxing changed.
         int display_buffer_w_ = 0;
         int display_buffer_h_ = 0;
+        // set when a resize changed the terminal layout, cleared only once the UI
+        // is told. survives a resize that bails before the UI step, whose retry
+        // sees the layout already applied
+        bool ui_relayout_pending_ = false;
+        // resizes that told the UI about a new terminal layout, counted under the
+        // test harness too, where the UI calls are skipped
+        uint64_t ui_relayout_count_ = 0;
         // Renderer creation policy, retained so a device-loss rebuild can
         // recreate with the same backend choice and track the actual
         // installed backend after any accelerated-to-software fallback.
@@ -481,6 +500,8 @@ struct renderer_recovery_test_support {
         atlas_replay_quarantine &quarantine );
     // Whether the most recently armed phase fault has fired since arming.
     static bool phase_fault_fired();
+    // how many resizes told the UI about a new terminal layout
+    static uint64_t ui_relayout_count();
 
     // Set the scaling factor and resize the hidden fixture window, then notify
     // the coordinator. The deferred resize applies on the next drain.
@@ -548,6 +569,22 @@ struct renderer_recovery_test_support {
                                           int &paints );
     // installed test font, or null
     static Font *test_font();
+    // build terminal and gui fonts at `cell`, like a text size change. false keeps
+    // current fonts and cell. acquires SDL_ttf like install_test_font (fixture teardown
+    // releases it). teardown restores font, gui_font, the cell and
+    // terminal_glyphs_changed, so test order can't leak state
+    static bool rebuild_terminal_fonts( const point &cell, int point_size,
+                                        const std::vector<font_config> &typefaces,
+                                        const std::vector<font_config> &gui_typefaces );
+    // current terminal cell and live font roots
+    static point terminal_cell();
+    static const Font *terminal_font();
+    static const Font *terminal_gui_font();
+    // run `body` on an ImGui client built on the fixture renderer with the gui
+    // and mono fonts, then tear the client down
+    static void with_imgui_client( const std::vector<font_config> &gui_typefaces,
+                                   const std::vector<font_config> &mono_typefaces,
+                                   const std::function<void( cataimgui::client & )> &body );
     // cata_tiles in fixture renderer drawing with `ts`, scaled as load_tileset
     // leaves it
     static std::unique_ptr<cata_tiles> make_test_tiles( const std::shared_ptr<const tileset> &ts );

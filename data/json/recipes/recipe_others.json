@@ -1171,8 +1171,6 @@
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
-    "difficulty": 1,
     "time": "2 m",
     "reversible": true,
     "book_learn": [

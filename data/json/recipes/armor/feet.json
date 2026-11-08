@@ -1024,14 +1024,14 @@
     "time": "2 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
-    "using": [ [ "tailoring_wool_knitting", 40 ] ]
+    "using": [ [ "tailoring_wool_knitting", 60 ] ]
   },
   {
     "result": "xlsocks_wool",
     "type": "recipe",
     "copy-from": "socks_wool",
     "time": "2 h 24 m",
-    "using": [ [ "tailoring_wool_knitting", 80 ] ]
+    "using": [ [ "tailoring_wool_knitting", 90 ] ]
   },
   {
     "result": "xssocks_wool",

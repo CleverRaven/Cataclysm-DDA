@@ -2314,6 +2314,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force,
                 pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
                 swims() || has_flag( mon_flag_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                 here.tername( pos ) );
+            is_swimming = false;
         } else if( !was_water && will_be_water ) {
             add_msg_if_player_sees(
                 *this, m_warning,
@@ -2324,6 +2325,7 @@ bool monster::move_to( const tripoint_bub_ms &p, bool force,
                 name(),
                 swims() || has_flag( mon_flag_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
                 here.tername( destination ) );
+            is_swimming = true;
         }
     }
 

@@ -9,6 +9,8 @@ def parse_bionic(json, origin):
     write_text(json.get("name"), origin, comment="Name of a bionic")
     write_text(json.get("description"), origin,
                comment=f"Description of bionic '{name}'")
+    write_text(json.get("cant_remove_reason"), origin,
+               comment=f"Reason bionic '{name}' cannot be removed")
 
     for enchantment in json.get("enchantments", []):
         parse_enchant(enchantment, origin)

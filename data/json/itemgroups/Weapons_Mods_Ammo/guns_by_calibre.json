@@ -990,5 +990,10 @@
     "type": "item_group",
     "id": "20_gauge_break_display",
     "items": [ { "item": "browning_citori_20", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_177_pellet",
+    "items": [ { "item": "varmint_airgun", "prob": 100 } ]
   }
 ]

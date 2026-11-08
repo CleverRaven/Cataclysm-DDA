@@ -43,6 +43,7 @@
 #if defined(__ANDROID__)
 #include <jni.h>
 #include "sdl_wrappers.h" // for GetAndroidJNIEnv(), GetAndroidActivity()
+#include "terminal_layout.h"
 #endif
 
 #if defined(TILES)
@@ -1369,34 +1370,52 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         { "", to_translation( "System language" ) },
     };
 
-    constexpr std::array<std::pair<const char *, const char *>, 26> language_names = {{
+    constexpr std::array<std::pair<const char *, const char *>, 44> language_names = {{
             // Note: language names are in their own language and are *not* translated at all.
             // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
             // http://en.wikipedia.org/wiki/List_of_language_names
             { "en", R"(English)" },
+            { "ace", R"(Bahsa Acèh)" },
             { "ar", R"(العربية)" },
+            { "be", R"(Беларуская мова)" },
+            { "bg", R"(български език)" },
+            { "ca", R"(Català)" },
             { "cs", R"(Český Jazyk)" },
             { "da", R"(Dansk)" },
             { "de", R"(Deutsch)" },
             { "el", R"(Ελληνικά)" },
+            { "en@pirate", R"(Pirate English)" },
+            { "eo", R"(Esperanto)" },
             { "es_AR", R"(Español (Argentina))" },
             { "es_ES", R"(Español (España))" },
+            { "et", R"(Eesti)" },
+            { "fa_IR", R"(فارسی)" },
+            { "fi", R"(Suomi)" },
+            { "fil_PH", R"(Wikang Pilipino)" },
             { "fr", R"(Français)" },
+            { "ga_IE", R"(Gaeilge)" },
+            { "he", R"(עברית)" },
             { "hu", R"(Magyar)" },
             { "id", R"(Bahasa Indonesia)" },
             { "is", R"(Íslenska)" },
             { "it_IT", R"(Italiano)" },
             { "ja", R"(日本語)" },
             { "ko", R"(한국어)" },
+            { "ms", R"(Bahasa Melayu)" },
             { "nb", R"(Norsk)" },
+            { "nl_BE", R"(Vlaams)" },
             { "nl", R"(Nederlands)" },
             { "pl", R"(Polski)" },
-            { "pt", R"(Português (Portugal))" },
             { "pt_BR", R"(Português (Brasil))" },
+            { "pt", R"(Português (Portugal))" },
+            { "ro", R"(Română)" },
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
+            { "sv", R"(Svenska)" },
+            { "th_TH", R"(ภาษาไทย)" },
             { "tr", R"(Türkçe)" },
-            { "uk_UA", R"(Українська)" },
+            { "uk_UA", R"(Українська мова)" },
+            { "vi", R"(tiếng Việt)" },
             { "zh_CN", R"(中文 (中国))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
@@ -1420,7 +1439,16 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 
     std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
     [&lang_list]( const options_manager::id_and_option & pair ) {
-        return lang_list.count( pair.first );
+        if( pair.first == "en" || pair.first == "" ) {
+            return true;
+        }
+        if( !lang_list.count( pair.first ) ) {
+            return false;
+        }
+        if( const lang_stats *stats = lang_stats_for( pair.first ) ) {
+            return stats->percent_translated() > 0.0;
+        }
+        return false;
     } );
     return options;
 }
@@ -1467,19 +1495,29 @@ std::string android_get_default_string_setting( const char *settings_name,
     return ans;
 }
 
-void android_apply_system_ui_mode()
+static void android_call_activity_string_method( const char *method, const std::string &arg )
 {
     JNIEnv *env = ( JNIEnv * )GetAndroidJNIEnv();
     jobject activity = ( jobject )GetAndroidActivity();
     jclass clazz( env->GetObjectClass( activity ) );
-    jmethodID method_id = env->GetMethodID( clazz, "setSystemUiMode",
-                                            "(Ljava/lang/String;)V" );
-    jstring mode_arg = env->NewStringUTF(
-                           ::get_option<std::string>( "ANDROID_SYSTEM_UI_MODE" ).c_str() );
-    env->CallVoidMethod( activity, method_id, mode_arg );
-    env->DeleteLocalRef( mode_arg );
+    jmethodID method_id = env->GetMethodID( clazz, method, "(Ljava/lang/String;)V" );
+    jstring arg_str = env->NewStringUTF( arg.c_str() );
+    env->CallVoidMethod( activity, method_id, arg_str );
+    env->DeleteLocalRef( arg_str );
     env->DeleteLocalRef( activity );
     env->DeleteLocalRef( clazz );
+}
+
+void android_apply_system_ui_mode()
+{
+    android_call_activity_string_method( "setSystemUiMode",
+                                         ::get_option<std::string>( "ANDROID_SYSTEM_UI_MODE" ) );
+}
+
+void android_apply_screen_orientation()
+{
+    android_call_activity_string_method( "setScreenOrientation",
+                                         ::get_option<std::string>( "ANDROID_SCREEN_ORIENTATION" ) );
 }
 #endif
 
@@ -2346,6 +2384,17 @@ void options_manager::add_options_interface()
 
 void options_manager::add_options_graphics()
 {
+#if defined(__ANDROID__)
+    // grid and cell follow screen and Android text size option
+    constexpr copt_hide_t terminal_size_hide = COPT_ALWAYS_HIDE;
+    constexpr copt_hide_t font_size_hide = COPT_ALWAYS_HIDE;
+#else
+    constexpr copt_hide_t terminal_size_hide = COPT_POSIX_CURSES_HIDE;
+#if defined(TILES)
+    // the font options exist only with tiles
+    constexpr copt_hide_t font_size_hide = COPT_CURSES_HIDE;
+#endif
+#endif
     const auto add_empty_line = [&]() {
         this->add_empty_line( "graphics" );
     };
@@ -2436,12 +2485,13 @@ void options_manager::add_options_graphics()
     [&]( const std::string & page_id ) {
         add( "TERMINAL_X", page_id, to_translation( "Terminal width" ),
              to_translation( "Set the size of the terminal along the X axis." ),
-             80, 960, 80, COPT_POSIX_CURSES_HIDE
+             EVEN_MINIMUM_TERM_WIDTH, MAXIMUM_TERM_WIDTH, EVEN_MINIMUM_TERM_WIDTH, terminal_size_hide
            );
 
         add( "TERMINAL_Y", page_id, to_translation( "Terminal height" ),
              to_translation( "Set the size of the terminal along the Y axis." ),
-             24, 270, 24, COPT_POSIX_CURSES_HIDE
+             EVEN_MINIMUM_TERM_HEIGHT, MAXIMUM_TERM_HEIGHT, EVEN_MINIMUM_TERM_HEIGHT,
+             terminal_size_hide
            );
     } );
 
@@ -2458,17 +2508,17 @@ void options_manager::add_options_graphics()
 
         add( "FONT_WIDTH", page_id, to_translation( "Font width" ),
              to_translation( "Set the font width.  Requires restart." ),
-             6, 100, 8, COPT_CURSES_HIDE
+             6, 100, 8, font_size_hide
            );
 
         add( "FONT_HEIGHT", page_id, to_translation( "Font height" ),
              to_translation( "Set the font height.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             8, 100, 16, font_size_hide
            );
 
         add( "FONT_SIZE", page_id, to_translation( "Font size" ),
              to_translation( "Set the font size.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             8, 100, 16, font_size_hide
            );
 
         add( "MAP_FONT_WIDTH", page_id, to_translation( "Map font width" ),
@@ -3011,7 +3061,7 @@ void options_manager::add_options_android()
 
     add_option_group( "android", Group( "android_display_opts",
                                         to_translation( "Android display options" ),
-                                        to_translation( "Options regarding Android system bars and display insets." ) ),
+                                        to_translation( "Options regarding Android orientation, text size, system bars and display insets." ) ),
     [&]( const std::string & page_id ) {
         add( "ANDROID_SYSTEM_UI_MODE", page_id, to_translation( "Android system bars" ),
              to_translation( "Controls whether Android status and navigation bars are visible and whether the game may draw behind them.  This does not control Back button handling." ),
@@ -3026,6 +3076,44 @@ void options_manager::add_options_android()
         add( "ANDROID_RENDER_SAFE_AREA", page_id, to_translation( "Confine display to safe area" ),
              to_translation( "If true, keep the game within the screen's safe area so it does not draw under the camera cutout or other unsafe edges.  If false, the game fills the entire screen.  This does not show or hide Android system bars." ),
              true
+           );
+
+        add( "ANDROID_SCREEN_ORIENTATION", page_id, to_translation( "Screen orientation" ),
+             to_translation( "Which screen orientations are allowed.  Auto follows the device rotation and the system rotation lock." ),
+        {
+            { "landscape", to_translation( "Landscape" ) },
+            { "portrait", to_translation( "Portrait" ) },
+            { "auto", to_translation( "Auto" ) }
+        },
+        android_get_default_string_setting( "Android screen orientation", "landscape" )
+           );
+
+        std::vector<id_and_option> text_sizes = { { "auto", to_translation( "Auto" ) } };
+        for( const point &cell : terminal_layout::text_size_presets() ) {
+            const std::string id = terminal_layout::text_size_id( cell );
+            text_sizes.emplace_back( id, no_translation( id ) );
+        }
+        text_sizes.emplace_back( "custom", to_translation( "Custom" ) );
+        add( "ANDROID_TEXT_SIZE", page_id, to_translation( "Text size" ),
+             to_translation( "Text size in pixels.  Auto picks the largest size that fits 80 columns across the short side of the screen, so rotating doesn't change it.  Larger sizes are scaled down to fit in portrait, which blurs the text.  Custom sizes and other fonts may blur too." ),
+             text_sizes, "auto" );
+
+        add( "ANDROID_TEXT_SIZE_CUSTOM", page_id, to_translation( "Custom text size" ),
+             to_translation( "Text height in pixels for the Custom text size." ),
+             8, 64, 16 );
+        get_option( "ANDROID_TEXT_SIZE_CUSTOM" ).setPrerequisite( "ANDROID_TEXT_SIZE", "custom" );
+
+        add( "ANDROID_MAX_COLUMNS", page_id, to_translation( "Maximum terminal width" ),
+             to_translation( "Most columns the terminal may use; the area left over stays empty.  0 means no limit, and values below 80 act as 80." ),
+             0, MAXIMUM_TERM_WIDTH, 0 );
+
+        add( "ANDROID_MAX_ROWS", page_id, to_translation( "Maximum terminal height" ),
+             to_translation( "Most rows the terminal may use; the area left over stays empty.  0 means no limit, and values below 24 act as 24." ),
+             0, MAXIMUM_TERM_HEIGHT, 0 );
+
+        add( "ANDROID_PORTRAIT_RESERVE", page_id, to_translation( "Portrait free area" ),
+             to_translation( "Percentage of the usable screen height kept free at the bottom in portrait orientation, for the virtual keyboard and the shortcut strip.  The usable height is the safe area when \"Confine display to safe area\" is on." ),
+             0, 70, 35
            );
     } );
 
@@ -3087,7 +3175,18 @@ void options_manager::add_options_android()
              0.01f, 0.2f, 0.03f, 0.001f, COPT_NO_HIDE, "%.3f"
            );
 
-        add( "ANDROID_REPEAT_DELAY_RANGE", page_id, to_translation( "Virtual joystick size" ),
+        add( "ANDROID_JOYSTICK_SCALE", page_id, to_translation( "Virtual joystick scale" ),
+             to_translation( "Multiplies the virtual joystick deadzone size and speed-up range.  The drawn joystick scales with them." ),
+             0.25f, 4.0f, 1.0f, 0.05f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "ANDROID_JOYSTICK_STRAIGHT_ANGLE", page_id,
+             to_translation( "Virtual joystick straight direction angle" ),
+             to_translation( "Width in degrees of the virtual joystick area that moves straight up, down, left or right.  The diagonal areas take the rest of each quarter turn.  90 disables diagonal movement." ),
+             10.0f, 90.0f, 53.13f, 1.0f, COPT_NO_HIDE, "%.2f"
+           );
+
+        add( "ANDROID_REPEAT_DELAY_RANGE", page_id, to_translation( "Virtual joystick speed-up range" ),
              to_translation( "While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below).  Specified as a percentage of longest screen edge." ),
              0.05f, 0.5f, 0.10f, 0.001f, COPT_NO_HIDE, "%.3f"
            );
@@ -3260,7 +3359,7 @@ void options_manager::add_options_android()
            );
 
         add( "ANDROID_SHORTCUT_OVERLAP", page_id, to_translation( "Shortcuts overlap screen" ),
-             to_translation( "If true, shortcuts will be drawn transparently overlapping the game screen.  If false, the game screen size will be reduced to fit the shortcuts below." ),
+             to_translation( "If true, shortcuts will be drawn transparently overlapping the game screen.  If false, the game screen size will be reduced to fit the shortcuts below.  In portrait, shortcuts always sit in the free area below the game screen." ),
              true
            );
 
@@ -3536,6 +3635,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         recalc_startpos = true;
+#if !defined(__ANDROID__)
+        // desktop window resize rewrites TERMINAL_X/Y; keep that out of change
+        // detection. android never writes them back on resize
         if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
             if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
@@ -3552,6 +3654,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
             }
         }
+#endif
 
         iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
@@ -3828,6 +3931,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     }
                 }
             }
+#if defined(__ANDROID__)
+            // the grid reads live options, so an edit shows at once
+            request_terminal_relayout();
+#endif
         };
 
         const auto is_selectable = [&]( int i ) -> bool {
@@ -4033,6 +4140,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             }
 #if defined(__ANDROID__)
             android_apply_system_ui_mode();
+            android_apply_screen_orientation();
 #endif
             g->on_options_changed();
         } else {
@@ -4071,6 +4179,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
+#elif defined(__ANDROID__)
+    ( void ) terminal_size_changed;
+    // grid follows live options, which may hold unsaved edits while the menu is
+    // open; re-lay out from the kept options on every exit
+    request_terminal_relayout();
 #else
     ( void ) terminal_size_changed;
 #endif
@@ -4242,6 +4355,7 @@ void options_manager::load()
 #endif
 #if defined(__ANDROID__)
     android_apply_system_ui_mode();
+    android_apply_screen_orientation();
 #endif
 }
 
@@ -4325,7 +4439,7 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "fr_FR.UTF-8" ) );
         } else if( lang == "hu" ) {
             std::locale::global( std::locale( "hu_HU.UTF-8" ) );
-        } else if( lang == "id" ) {
+        } else if( lang == "id" || lang == "ace" ) {
             std::locale::global( std::locale( "id_ID.UTF-8" ) );
         } else if( lang == "is" ) {
             std::locale::global( std::locale( "is_IS.UTF-8" ) );
@@ -4357,6 +4471,38 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
+        } else if( lang == "be" ) {
+            std::locale::global( std::locale( "be_BY.UTF-8" ) );
+        } else if( lang == "bg" ) {
+            std::locale::global( std::locale( "bg_BG.UTF-8" ) );
+        } else if( lang == "ca" ) {
+            std::locale::global( std::locale( "ca_ES.UTF-8" ) );
+        } else if( lang == "eo" ) {
+            std::locale::global( std::locale( "eo.UTF-8" ) );
+        } else if( lang == "et" ) {
+            std::locale::global( std::locale( "et_EE.UTF-8" ) );
+        } else if( lang == "fa_IR" ) {
+            std::locale::global( std::locale( "fa_IR.UTF-8" ) );
+        } else if( lang == "fi" ) {
+            std::locale::global( std::locale( "fi_FI.UTF-8" ) );
+        } else if( lang == "fil_PH" ) {
+            std::locale::global( std::locale( "fil_PH.UTF-8" ) );
+        } else if( lang == "ga_IE" ) {
+            std::locale::global( std::locale( "ga_IE.UTF-8" ) );
+        } else if( lang == "he" ) {
+            std::locale::global( std::locale( "he_IL.UTF-8" ) );
+        } else if( lang == "ms" ) {
+            std::locale::global( std::locale( "ms_MY.UTF-8" ) );
+        } else if( lang == "nl_BE" ) {
+            std::locale::global( std::locale( "nl_BE.UTF-8" ) );
+        } else if( lang == "ro" ) {
+            std::locale::global( std::locale( "ro_RO.UTF-8" ) );
+        } else if( lang == "sv" ) {
+            std::locale::global( std::locale( "sv_SE.UTF-8" ) );
+        } else if( lang == "th_TH" ) {
+            std::locale::global( std::locale( "th_TH.UTF-8" ) );
+        } else if( lang == "vi" ) {
+            std::locale::global( std::locale( "vi_VN.UTF-8" ) );
         }
     } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );

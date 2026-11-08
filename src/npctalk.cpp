@@ -4,6 +4,7 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <deque>
 #include <exception>
 #include <filesystem>
 #include <iterator>
@@ -106,7 +107,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "npc_opinion.h"
 #include "npctalk.h"
 #include "npctalk_rules.h"
@@ -156,6 +156,7 @@
 #include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "wound.h"
 
 class recipe_subset;
 
@@ -1646,20 +1647,8 @@ std::string dialog_helper::bye_message( const npc *npc_actor )
     if( !npc_actor ) {
         return "";
     }
-    const std::optional<std::string> bye_snippet = npc_actor->myclass->bye_message_override;
-    // if no bye_snippet, use default bye snippet
-    if( !bye_snippet.has_value() ) {
-        return npc_actor->chat_snippets().snip_bye.translated();
-    }
-    // if null, we want npc to mute bye message
-    // snippet categories do not have their own type,
-    // therefore do not have type::NULL_ID(), so check it against plain string
-    if( bye_snippet.value() == "null" ) {
-        return "";
-    }
-    const std::optional<translation> &bye_message = SNIPPET.random_from_category( bye_snippet.value() );
-    return bye_message.value_or( no_translation( string_format( "No snippet value for %s",
-                                 bye_snippet.value() ) ) ).translated();
+
+    return npc_actor->chat_snippets().snip_bye.translated();
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
@@ -3006,10 +2995,10 @@ talk_topic dialogue::opt_imgui( dialogue_imgui_impl &d_img, const talk_topic &to
             }
 
             // Clamp sel_response (There is probably a better existing way to do this, but it's simple so I'm just reimplementing)
-            if( d_img.sel_response >= static_cast<int>( response_hotkeys.size() ) ) {
-                d_img.sel_response = static_cast<int>( response_hotkeys.size() - 1 );
-            } else if( d_img.sel_response < 0 ) {
+            if( d_img.sel_response >= static_cast<int>( response_ind ) ) {
                 d_img.sel_response = 0;
+            } else if( d_img.sel_response < 0 ) {
+                d_img.sel_response = static_cast<int>( response_ind ) - 1;
             }
 
         } while( response_ind >= response_hotkeys.size() ||
@@ -3308,16 +3297,40 @@ static Character *get_character_from_id( const std::string &id_str, game *g )
     return temp_guy;
 }
 
-static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<item_location> &items,
-                           std::string_view option, const std::vector<effect_on_condition_id> &true_eocs,
-                           const std::vector<effect_on_condition_id> &false_eocs, const std::vector <item_search_data> &data,
-                           const item_menu &f, const item_menu_mul &f_mul )
+namespace
 {
-    Character *guy = d.actor( is_npc )->get_character();
-    guy = guy ? guy : &get_player_character();
-    std::vector<item_location> true_items;
-    for( const item_location &loc : items ) {
-        // Check if item matches any search_data.
+struct item_eoc_runner {
+    const dialogue &d;
+    const std::vector<item_search_data> &data;
+    const std::vector<effect_on_condition_id> &true_eocs;
+    const std::vector<effect_on_condition_id> &false_eocs;
+    const item_menu f;
+    const item_menu_mul f_mul;
+    Character *guy;
+    std::deque<item_location> true_items;
+    std::string option;
+    bool is_npc;
+
+    bool filter( const item_location &it ) {
+        for( const item_location &true_it : true_items ) {
+            if( true_it == it ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    item_eoc_runner( const dialogue &d, const std::vector<item_search_data> &data,
+                     const std::vector<effect_on_condition_id> &true_eocs,
+                     const std::vector<effect_on_condition_id> &false_eocs,
+                     const item_menu &f, const item_menu_mul &f_mul, const std::string &option, bool is_npc ) :
+        d( d ), data( data ), true_eocs( true_eocs ), false_eocs( false_eocs ), f( f ), f_mul( f_mul ),
+        option( option ), is_npc( is_npc ) {
+        guy = d.actor( is_npc )->get_character();
+        guy = guy ? guy : &get_player_character();
+    }
+
+    bool is_true_item( const item_location &loc ) {
         bool true_tgt = data.empty();
         for( item_search_data datum : data ) {
             if( datum.check( guy, loc, d ) ) {
@@ -3325,12 +3338,28 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
                 break;
             }
         }
-        if( true_tgt ) {
-            true_items.push_back( loc );
+        return true_tgt;
+    }
+
+    void load_items( const std::vector<item_location> &items ) {
+        for( const item_location &loc : items ) {
+            // Check if item matches any search_data.
+            if( is_true_item( loc ) ) {
+                true_items.push_front( loc );
+            }
         }
     }
-    const auto run_eoc = [&d, is_npc]( item_location & loc,
-    const std::vector<effect_on_condition_id> &eocs ) {
+
+    void load_items( const Character &owner ) {
+        owner.visit_carried( [&]( const item_location & loc ) {
+            if( is_true_item( loc ) ) {
+                true_items.push_front( loc );
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+
+    void run_eoc( item_location &loc, const std::vector<effect_on_condition_id> &eocs ) {
         for( const effect_on_condition_id &eoc : eocs ) {
             // Check if item is outdated.
             if( loc.get_item() ) {
@@ -3339,55 +3368,56 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
                 eoc->activate( newDialog );
             }
         }
-    };
-    auto filter = [true_items]( const item_location & it ) {
-        for( const item_location &true_it : true_items ) {
-            if( true_it == it ) {
-                return true;
-            }
-        }
-        return false;
-    };
-    if( option == "all" ) {
-        for( item_location target : true_items ) {
-            run_eoc( target, true_eocs );
-        }
-        if( true_items.empty() ) {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "random" ) {
-        if( !true_items.empty() ) {
-            std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
-            run_eoc( true_items.back(), true_eocs );
-            true_items.pop_back();
-        } else {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "manual" ) {
-        item_location selected = f( filter );
-        run_eoc( selected, true_eocs );
-        if( selected.get_item() == nullptr ) {
-            run_eoc_vector( false_eocs, d );
-        }
-    } else if( option == "manual_mult" ) {
-        const drop_locations &selected = f_mul( filter );
-        for( item_location target : true_items ) {
-            bool true_eoc = false;
-            for( const drop_location &dloc : selected ) {
-                if( target == dloc.first ) {
-                    true_eoc = true;
-                    break;
-                }
-            }
-            if( true_eoc ) {
+    }
+
+    void execute() {
+        if( option == "all" ) {
+            for( item_location target : true_items ) {
                 run_eoc( target, true_eocs );
             }
-        }
-        if( true_items.empty() ) {
-            run_eoc_vector( false_eocs, d );
+            if( true_items.empty() ) {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "random" ) {
+            if( !true_items.empty() ) {
+                std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
+                run_eoc( true_items.back(), true_eocs );
+                true_items.pop_back();
+            } else {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "manual" ) {
+            item_location selected = f( [&]( const item_location & loc ) {
+                return filter( loc );
+            } );
+            run_eoc( selected, true_eocs );
+            if( selected.get_item() == nullptr ) {
+                run_eoc_vector( false_eocs, d );
+            }
+        } else if( option == "manual_mult" ) {
+            const drop_locations &selected = f_mul( [&]( const item_location & loc ) {
+                return filter( loc );
+            } );
+            for( item_location target : true_items ) {
+                bool true_eoc = false;
+                for( const drop_location &dloc : selected ) {
+                    if( target == dloc.first ) {
+                        true_eoc = true;
+                        break;
+                    }
+                }
+                if( true_eoc ) {
+                    run_eoc( target, true_eocs );
+                }
+            }
+            if( true_items.empty() ) {
+                run_eoc_vector( false_eocs, d );
+            }
         }
     }
-}
+};
+} // namespace
+
 namespace talk_effect_fun
 {
 namespace
@@ -3840,6 +3870,30 @@ talk_effect_fun_t::func f_remove_wound( const JsonObject &jo, std::string_view m
         wound_to_be_removed.reserve( wound_to_be_removed_var.size() );
         for( const str_or_var &v : wound_to_be_removed_var ) {
             wound_to_be_removed.emplace_back( v.evaluate( d ) );
+        }
+
+        for( const wound_type_id &wd_id : wound_to_be_removed ) {
+            bp->remove_all_wounds_of_type( wd_id );
+        }
+
+    };
+}
+
+talk_effect_fun_t::func f_remove_all_wounds( const JsonObject &jo, std::string_view member,
+        std::string_view, bool is_npc )
+{
+    str_or_var bodypart_var;
+    mandatory( jo, false, member, bodypart_var );
+
+    return [is_npc, bodypart_var]( dialogue & d ) {
+
+        bodypart *bp =
+            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+
+        std::vector<wound_type_id> wound_to_be_removed;
+        wound_to_be_removed.reserve( bp->get_wounds().size() );
+        for( const wound &v : bp->get_wounds() ) {
+            wound_to_be_removed.emplace_back( v.type );
         }
 
         for( const wound_type_id &wd_id : wound_to_be_removed ) {
@@ -7019,8 +7073,9 @@ talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
             const auto f_mul = [d, guy, title]( const item_location_filter & filter ) {
                 return game_menus::inv::titled_multi_filter_menu( filter, *guy, title.evaluate( d ).translated() );
             };
-            run_item_eocs( d, is_npc, guy->all_items_loc(), option.evaluate( d ), true_eocs, false_eocs, data,
-                           f, f_mul );
+            item_eoc_runner handler( d, data, true_eocs, false_eocs, f, f_mul, option.evaluate( d ), is_npc );
+            handler.load_items( *guy );
+            handler.execute();
         }
     };
 }
@@ -7110,8 +7165,9 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             }
             return inv_s.execute();
         };
-        run_item_eocs( d, is_npc, items, option.evaluate( d ), true_eocs, false_eocs, data,
-                       f, f_mul );
+        item_eoc_runner handler( d, data, true_eocs, false_eocs, f, f_mul, option.evaluate( d ), is_npc );
+        handler.load_items( items );
+        handler.execute();
     };
 }
 
@@ -8647,6 +8703,7 @@ parsers = {
     { "u_pick_bodypart", "npc_pick_bodypart", jarg::member, &talk_effect_fun::f_pick_bodypart },
     { "u_add_wound", "npc_add_wound", jarg::member, &talk_effect_fun::f_add_wound },
     { "u_remove_wound", "npc_remove_wound", jarg::member, &talk_effect_fun::f_remove_wound },
+    { "u_remove_all_wounds", "npc_remove_all_wounds", jarg::member, &talk_effect_fun::f_remove_all_wounds },
     { "toggle_npc_rule", jarg::member, &talk_effect_fun::f_toggle_npc_rule },
     { "set_npc_rule", jarg::member, &talk_effect_fun::f_set_npc_rule },
     { "clear_npc_rule", jarg::member, &talk_effect_fun::f_clear_npc_rule },

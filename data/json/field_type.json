@@ -14,6 +14,33 @@
     "display_field": true
   },
   {
+    "id": "fd_blood_footprint_n",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "bloody footprint", "color": "red" } ],
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "1 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_blood_footprint_w",
+    "type": "field_type",
+    "copy-from": "fd_blood_footprint_n"
+  },
+  {
+    "id": "fd_blood_footprint_s",
+    "type": "field_type",
+    "copy-from": "fd_blood_footprint_n"
+  },
+  {
+    "id": "fd_blood_footprint_e",
+    "type": "field_type",
+    "copy-from": "fd_blood_footprint_n"
+  },
+  {
     "id": "fd_bile",
     "type": "field_type",
     "legacy_enum_id": 2,
@@ -2755,6 +2782,37 @@
     "description_affix": "under",
     "priority": 8,
     "display_items": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_labyrinth_fog",
+    "looks_like": "fd_smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirling mist", "color": "white", "transparent": true },
+      { "name": "swirling mist", "color": "white", "transparent": false }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 20,
+    "dirty_transparency_cache": true,
+    "outdoor_age_speedup": "1 seconds",
+    "priority": 8,
+    "half_life": "5 seconds",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true
+  },
+  {
+    "id": "fd_labyrinth_fog_perm",
+    "looks_like": "fd_smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "swirling mist", "color": "white", "transparent": false },
+      { "name": "swirling mist", "color": "white", "transparent": false }
+    ],
+    "decrease_intensity_on_contact": false,
+    "indestructible": true,
+    "priority": -1,
     "display_field": true
   }
 ]

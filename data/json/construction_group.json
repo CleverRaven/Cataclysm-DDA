@@ -2204,5 +2204,20 @@
     "type": "construction_group",
     "id": "place_bulk_liquid_tank",
     "name": "Place a bulk liquid tank"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_engine_crate",
+    "name": "Place Engine Container"
+  },
+  {
+    "type": "construction_group",
+    "id": "unseal_engine_crate",
+    "name": "Open Engine Container"
+  },
+  {
+    "type": "construction_group",
+    "id": "seal_engine_crate",
+    "name": "Seal Engine Container"
   }
 ]

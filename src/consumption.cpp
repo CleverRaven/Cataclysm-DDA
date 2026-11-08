@@ -1099,9 +1099,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     units::volume in_stomach_volume =
         food.volume( false, false, 1 ) * compute_effective_food_volume_ratio( food );
-    if( food.is_food() &&
-        ( stomach.would_be_engorged_with( *this, in_stomach_volume, has_calorie_deficit() ) ||
-          has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
+    if( food.is_food() && !can_stomach( in_stomach_volume ) ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
@@ -1261,7 +1259,11 @@ static bool eat( item &food, Character &you, bool force )
     // the inventory and the surrounding map.
     if( !seasonings_set.empty() ) {
         auto legal_to_consume = [&]( const item & it ) {
-            return it.is_owned_by( you ) && ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
+            // For performance reasons this has been ordered so that the cheapest checks run first, to discount as many inappropriate items as early as possible.
+            return it.is_owned_by( you ) &&
+                   !it.rotten() &&
+                   you.allergy_type( it ).is_null() &&
+                   ( seasonings_set.find( it.typeId() ) != seasonings_set.end() );
         };
 
         auto fun_value = [&]( const item_location & it ) {
@@ -1644,6 +1646,12 @@ void Character::modify_morale( item &food, const int nutr )
     }
 }
 
+bool Character::can_stomach( const units::volume &serving ) const
+{
+    return !stomach.would_be_engorged_with( *this, serving, has_calorie_deficit() ) &&
+           !has_effect( effect_hunger_full ) && !has_effect( effect_hunger_engorged );
+}
+
 // Used when determining stomach fullness from eating.
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
@@ -1903,6 +1911,16 @@ item_location Character::get_consumable_from( const item_location &it ) const
     } );
 
     return ret;
+}
+
+bool Character::wants_to_consume_now( const item &food ) const
+{
+    if( !needs_food() || !food.is_food() || !will_eat( food ).success() ) {
+        return false;
+    }
+    const bool hungry = get_hunger() > 0 || has_calorie_deficit();
+    return ( food.get_comestible()->get_default_nutr() > 0 && hungry ) ||
+           ( food.get_comestible()->quench > 0 && get_thirst() > 0 );
 }
 
 time_duration Character::get_consume_time( const item &it ) const

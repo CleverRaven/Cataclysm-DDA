@@ -62,10 +62,16 @@
     "ravine_bottom_terrain_id": "mom_shoggothed_world_ravine_floor"
   },
   {
+    "type": "region_terrain_furniture",
+    "id": "mom_shoggothed_world_t_region_groundcover_ravine",
+    "ter_id": "t_region_groundcover_ravine",
+    "replace_with_terrain": [ [ "t_dirt_cracked", 250 ], [ "t_dirt", 1 ] ]
+  },
+  {
     "type": "region_settings_terrain_furniture",
     "id": "mom_shoggothed_world",
     "copy-from": "default",
-    "ter_furn": [ "mom_shoggothed_world_t_region_groundcover" ]
+    "ter_furn": [ "mom_shoggothed_world_t_region_groundcover", "mom_shoggothed_world_t_region_groundcover_ravine" ]
   },
   {
     "type": "region_terrain_furniture",

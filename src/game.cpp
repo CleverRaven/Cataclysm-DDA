@@ -54,6 +54,7 @@
 #include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "butchery_requirements.h"
 #include "butchery.h"
 #include "cached_options.h"
@@ -542,9 +543,13 @@ void game_ui::init_ui()
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
+#if !defined(__ANDROID__)
+    // On Android the grid follows the orientation, so a portrait grid must not
+    // be stored as landscape size
     get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
+#endif
 #else
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
@@ -1073,6 +1078,8 @@ bool game::start_game()
     if( debug_menu::is_debug_character() ) {
         debug_menu::do_debug_quick_setup();
         add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
+    } else {
+        debug_mode = false;
     }
     return true;
 }
@@ -2448,6 +2455,7 @@ int game::inventory_item_menu( item_location locThisItem,
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
+    cata_timer handle_mousemove_timer( "handle_mousemove" );
     std::optional<tripoint_bub_ms> liveview_pos;
 
     do {
@@ -3821,6 +3829,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_
 
 void game::mon_info_update( )
 {
+    cata_timer mon_info_update_timer( "mon_info_update" );
     const map &here = get_map();
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -4045,6 +4054,7 @@ void game::mon_info_update( )
 
 void game::cleanup_dead()
 {
+    cata_timer cleanup_dead_timer( "cleanup_dead" );
     map &here = get_map();
 
     // Dead monsters need to stay in the tracker until everything else that needs to die does so
@@ -5376,7 +5386,8 @@ bool game::npc_menu( npc &who )
         if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
                                               who.is_friendly( u ) ) ) ||
             who.in_sleep_state() ) {
-            display_bodygraph( who );
+            body_status_ui bsui( who );
+            bsui.display();
         } else {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         }
@@ -5692,24 +5703,17 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
         bool asking_for_public_goods )
 {
     Character &player_character = get_player_character();
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp(
-                                        player_character.pos_abs_omt().xy() );
-    if( !bcp ) {
+    basecamp *actual_camp = basecamp::any_claim_at( player_character.pos_abs_omt() );
+    if( !actual_camp ) {
         return true; // Nobody to piss off
     }
-    basecamp *actual_camp = *bcp;
-    if( actual_camp->get_owner()->limited_area_claim &&
-        player_character.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
-        return true; // outside of claimed area
-    }
+
     if( actual_camp->allowed_access_by( player_character, asking_for_public_goods ) ) {
         return true; // You're allowed to do this anyway
     }
 
-    // The threshold for guaranteed hostility. Don't bother query/modifying relationship if they already hate us
-    // TODO: Make this magic number into a constant
-    if( actual_camp->get_owner()->likes_u < -10 ) {
-        return true;
+    if( actual_camp->get_owner()->guaranteed_hostile() ) {
+        return true; // Already trying to kill you.
     }
 
     // Else there's a camp, and we're doing something we're not supposed to! Time to warn the player.
@@ -6518,6 +6522,7 @@ void game::try_activate_zone_sort_viewport()
     u.zone_sort_viewport.active = true;
     u.zone_sort_viewport.center = bbox.centroid;
     u.zone_sort_viewport.target_zoom = target;
+    u.zone_sort_viewport.saved_zoom = actor->viewport_saved_zoom;
     u.zone_sort_viewport.bbox_min = bbox.min_corner;
     u.zone_sort_viewport.bbox_max = bbox.max_corner;
     if( !test_mode ) {
@@ -8922,17 +8927,17 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
-            map_stack ms = here.i_at( fpos );
+            map_stack ms = here.i_at( fpos ); // Think of it as Tile A
+            map_stack dest = here.i_at( fdest ); // Respecitvely Tile B. Destination.
             std::move( ms.begin(), ms.end(),
                        std::back_inserter( temp ) );
             here.i_clear( fpos );
-            for( auto item_iter = ms.begin();
-                 item_iter != ms.end(); ++item_iter ) {
-                ms.insert( *item_iter );
+            for( item &item_iter : dest ) {
+                ms.insert( item_iter );
             }
             here.i_clear( fdest );
             for( item &cur_item : temp ) {
-                ms.insert( cur_item );
+                dest.insert( cur_item );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );
@@ -9049,41 +9054,71 @@ void game::on_options_changed()
     refresh_mouse_config();
 }
 
+wet_items visit_water_affect_items( Character &you )
+{
+    wet_items ret;
+    if( !you.has_flag( json_flag_ITEM_WATERPROOFING ) ) {
+        you.visit_carried( [&ret]( const item_location & loc ) {
+            if( loc->has_flag( flag_WATER_DISSOLVE ) ) {
+                ret.dissolved.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken() ) {
+                ret.destroyed.emplace_back( loc );
+            } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken() ) {
+                ret.wet.emplace_back( loc );
+            } else if( loc->typeId() == itype_towel ) {
+                ret.towels.emplace_back( loc );
+            }
+            if( loc->is_watertight_container() && !loc->will_spill() ) {
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+    return ret;
+}
+
+static std::vector<item_location> apply_water_damage( Character &ch )
+{
+    wet_items wet_items_lists = visit_water_affect_items( ch );
+
+    for( item_location loc : wet_items_lists.dissolved ) {
+        ch.add_msg_player_or_npc( m_bad,
+                                  _( "One of your items dissolves in the water: %s!" ),
+                                  _( "<npcname> loses an item as it dissolves "
+                                     "in the water: %s!" ),
+                                  loc->display_name() );
+    }
+    for( item_location loc : wet_items_lists.destroyed ) {
+        ch.add_msg_player_or_npc( m_bad,
+                                  _( "The water destroys one of your items: %s!" ),
+                                  _( "<npcname> loses an item to water damage: %s!" ),
+                                  loc->display_name() );
+        loc->deactivate();
+        // TODO: Maybe different types of wet faults? But I can't think of any.
+        // This just means it's still too wet to use.
+        // TODO2: add fault types to electronics, remove `force` argument from here
+        loc->set_random_fault_of_type( "wet", true );
+        // An electronic item in water is also shorted.
+        if( loc->has_flag( flag_ELECTRONIC ) ) {
+            loc->set_random_fault_of_type( "shorted", true );
+        }
+    }
+    for( item_location loc : wet_items_lists.wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
+        loc->wetness += wetness_add;
+        loc->wetness = std::min( loc->wetness, 5 * wetness_add );
+    }
+    for( item_location loc : wet_items_lists.towels ) {
+        loc->convert( itype_towel_wet, &ch ).active = true;
+    }
+    std::reverse( wet_items_lists.dissolved.begin(), wet_items_lists.dissolved.end() );
+    return wet_items_lists.dissolved;
+}
+
 void game::water_affect_items( Character &ch ) const
 {
-    bool gear_waterproofed = ch.has_flag( json_flag_ITEM_WATERPROOFING );
-
-    for( item_location &loc : ch.all_items_loc() ) {
-        if( gear_waterproofed ) {
-            break;
-        }
-        // check flag first because its cheaper
-        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                    ch.disp_name( true, true ), loc->display_name() );
-            loc.remove_item();
-        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-
-            add_msg_if_player_sees( ch.pos_bub(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                    ch.disp_name( true ), loc->display_name() );
-            loc->deactivate();
-            // TODO: Maybe different types of wet faults? But I can't think of any.
-            // This just means it's still too wet to use.
-            // TODO2: add fault types to electronics, remove `force` argument from here
-            loc->set_random_fault_of_type( "wet", true );
-            // An electronic item in water is also shorted.
-            if( loc->has_flag( flag_ELECTRONIC ) ) {
-                loc->set_random_fault_of_type( "shorted", true );
-            }
-        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
-                   && !loc.protected_from_liquids() ) {
-            const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
-            loc->wetness += wetness_add;
-            loc->wetness = std::min( loc->wetness, 5 * wetness_add );
-        } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet, &ch ).active = true;
-        }
+    for( item_location &to_remove : apply_water_damage( ch ) ) {
+        to_remove.remove_item();
     }
 }
 

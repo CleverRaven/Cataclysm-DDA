@@ -271,7 +271,7 @@
     "color": "light_gray",
     "longest_side": "60 cm",
     "warmth": 10,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -283,6 +283,28 @@
         "cover_ranged": 70,
         "cover_vitals": 90,
         "covers": [ "torso" ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 50, 50 ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "cotton", "covered_by_mat": 7, "thickness": 3.0 }
+        ]
       }
     ]
   },
@@ -302,7 +324,7 @@
     "color": "light_gray",
     "longest_side": "45 cm",
     "warmth": 10,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -334,7 +356,7 @@
     "color": "light_gray",
     "longest_side": "45 cm",
     "warmth": 10,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3.1 } ],
@@ -364,7 +386,7 @@
     "longest_side": "60 cm",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NO_REPAIR", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
+    "flags": [ "OUTER", "NO_REPAIR", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -611,7 +633,7 @@
     "longest_side": "75 cm",
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_SPIDER_ARMS" ],
     "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
@@ -646,7 +668,7 @@
     "longest_side": "75 cm",
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "STURDY", "ALLOWS_SPIDER_ARMS" ],
     "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
@@ -679,7 +701,7 @@
     "longest_side": "50 cm",
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "covers": [ "torso" ],
@@ -720,7 +742,7 @@
     "warmth": 10,
     "longest_side": "60 cm",
     "material_thickness": 12,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
@@ -741,7 +763,7 @@
     "warmth": 10,
     "longest_side": "40 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE", "ALLOWS_SPIDER_ARMS" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
@@ -1033,12 +1055,30 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 8
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 24
       }
     ],
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "cloth_vest_padded",
@@ -1064,12 +1104,30 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 8
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 24
       }
     ],
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "chestguard_hard",
@@ -1186,7 +1244,7 @@
     "color": "light_gray",
     "longest_side": "40 cm",
     "warmth": 10,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -1236,7 +1294,7 @@
     "longest_side": "40 cm",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE", "ALLOWS_SPIDER_ARMS" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso" ] } ]
   },
   {
@@ -1311,6 +1369,28 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 60, 60 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
       }
     ],
     "pocket_data": [
@@ -1331,7 +1411,7 @@
     ],
     "warmth": 35,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "jacket_jean_mod",
@@ -1366,6 +1446,28 @@
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 45, 45 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
       }
     ],
     "pocket_data": [
@@ -1386,7 +1488,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "vest_jean_mod",
@@ -1412,6 +1514,28 @@
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
           { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 45, 45 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
       }
     ],
     "pocket_data": [
@@ -1432,7 +1556,7 @@
     ],
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "jacket_leather_mod_ch",
@@ -1461,6 +1585,28 @@
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 60, 60 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
       }
     ]
@@ -1493,6 +1639,28 @@
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 45, 45 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
       }
     ]
   },
@@ -1514,6 +1682,28 @@
         "material": [
           { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 45, 45 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
         ]
       }
     ]
@@ -1581,6 +1771,28 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "rubber", "covered_by_mat": 75, "thickness": 3.0 }
         ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 60, 60 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "rubber", "covered_by_mat": 75, "thickness": 3.0 }
+        ]
       }
     ],
     "warmth": 40,
@@ -1640,7 +1852,7 @@
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 5,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "encumbrance": 5,
@@ -1822,12 +2034,34 @@
     ],
     "warmth": 20,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "encumbrance": [ 12, 15 ],
         "coverage": 90,
         "covers": [ "torso" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
+        "coverage": 100,
+        "encumbrance": [ 30, 40 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.5 }
@@ -2766,7 +3000,7 @@
     "name": { "str": "chitinous scale mail vest" },
     "copy-from": "armor_chitin_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_SPIDER_ARMS" ] }
   },
   {
     "id": "xs_armor_chitin_vest",

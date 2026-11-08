@@ -1,0 +1,47 @@
+[
+  {
+    "id": "pirates_lux_hand",
+    "type": "npc",
+    "name_suffix": "hand",
+    "class": "PIRATE_GRUNT",
+    "attitude": 0,
+    "mission": "GUARD_PATROL",
+    "chat": "TALK_PIRATES_LUX_GENERIC",
+    "faction": "pirates_lux",
+    "personality": { "aggression": 10, "bravery": 40, "collector": 10, "altruism": 1 },
+    "death_eocs": [ "EOC_PIRATES_LUX_HOSTILE_DEATH" ]
+  },
+  {
+    "id": "pirates_lux_sentry",
+    "type": "npc",
+    "name_suffix": "salvor",
+    "class": "PIRATE_GRUNT",
+    "attitude": 1,
+    "mission": "GUARD",
+    "chat": "TALK_MS_GROUND_SENTRY",
+    "faction": "pirates_lux",
+    "personality": { "aggression": 10, "bravery": 40, "collector": 10, "altruism": 1 },
+    "death_eocs": [ "EOC_PIRATES_LUX_HOSTILE_DEATH" ]
+  },
+  {
+    "id": "TALK_PIRATES_LUX_GENERIC",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&<mypronoun> looks you up and down, sizing you up.",
+      "Quit gawking at me.",
+      "Fuck off.",
+      "Get lost.",
+      "Don't see I'm busy?",
+      "Fucking tourist.",
+      "What do you want?",
+      "You lost or something?",
+      "Like what you see?",
+      "&<mypronoun> simply ignores you as they flick a spent cigarette into the snow.",
+      "Mind your own business.",
+      "&<mypronoun> gives you a dismissive look.",
+      "Piss off.",
+      "I'm not here to chat.  What do you want?"
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

@@ -299,8 +299,6 @@ class item_pocket
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
 
-        void set_item_defaults();
-
         // removes and returns the item from the pocket.
         std::optional<item> remove_item( const item &it );
         std::optional<item> remove_item( const item_location &it );

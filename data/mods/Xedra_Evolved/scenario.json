@@ -25,7 +25,7 @@
     "type": "scenario",
     "id": "paraclesian_birth",
     "name": "Paraclesian Birth",
-    "flags": [ "LONE_START", "SKIP_DEFAULT_BACKGROUND" ],
+    "flags": [ "LONE_START", "SKIP_DEFAULT_BACKGROUND", "CHALLENGE" ],
     "points": 0,
     "description": "Your first moments of life.  An elemental fae birth on a dying world.  Now you have to figure out how to survive on your own.  (Select the location that matches your profession or you may have a short journey)  P.S. This scenario is still in development, PRs for additional content welcome.",
     "start_name": "Paraclesian Birth",
@@ -46,7 +46,7 @@
     "type": "scenario",
     "id": "werewolf_native_born",
     "name": "Werewolf, Natural-born",
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "TOUGH" ],
     "points": 0,
     "description": "You had no idea what was going on the first time it happened, when you woke up with mud on your bare feet and a sour taste in your mouth, but you were soon found.  The People of the Moon, they called themselves, and they said you were one of them.  A werewolf.  You lived out in the wilderness for a while but didn't entirely abandon human civilization, and when the Cataclysm hit you ignored the evacuation warnings and struck it out on your own.  Maybe some of the People are still out there.",
     "start_name": "Alone",
@@ -64,7 +64,7 @@
     "start_name": "In Town",
     "eoc": [ "scenario_once_bitten" ],
     "requirement": "avchievement_gains_vampire_trait",
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "TOUGH" ]
   },
   {
     "type": "scenario",
@@ -76,12 +76,13 @@
     "start_name": "Away from town",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_shelter_safe", "sloc_farm_survivalist", "sloc_shelter_vandal" ],
     "eoc": [ "scenario_lilin_starting_ruach" ],
+    "flags": [ "TOUGH" ],
     "forced_traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ]
   },
   {
     "type": "scenario",
     "id": "xe_xedra_chronomancer_scenario",
-    "name": "Challenge - Temporal Misadventure",
+    "name": "Temporal Misadventure",
     "points": -10,
     "description": "During the Cataclysmic portal storms, you and several other people were lost trying to escape the monsters attacking you.  Eventually, something caught up, and as your fellows started turning into frozen statues you ran straight into what should have been open air.  The pain of that impact was nothing compared to the knife you suddenly found stabbed into your torso.  The most you saw of your attacker was a quick blur before everything suddenly changed.  Snow covers the ground, the sun has set, you are freezing cold, and the knife is still stuck in your torso.  However, you've gained a dramatic new sense of time, and what is definitely the beginning of the ability to manipulate it.  Even beyond the knife and the winter you never thought you'd have to prepare for, your new powers tell you that there is much more wrong with you than is immediately apparent.  Hopefully you can use your skills and powers to survive both your new condition and every other horror of the Cataclysm.",
     "start_name": "Monochrome Meadow",
@@ -89,7 +90,7 @@
     "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 22, "day": 10, "season": "winter", "year": 1 },
     "professions": [ "xedra_chronomancer_profession" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "copy-from": "Mine_bottom",
@@ -112,12 +113,12 @@
     "start_name": "The wilds",
     "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_forest", "sloc_field" ],
     "professions": [ "xedra_bloodthorne_druid_profession" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "STANDARD" ]
   },
   {
     "type": "scenario",
     "id": "xe_ominous_for_permanent",
-    "name": "Challenge - The Fog",
+    "name": "The Fog",
     "points": 0,
     "description": "The Cataclysm was bad enough, but ever since then the weather has been…wrong.  An endless fog, interrupted only by the occasional remnant portal storm, shrouding the world in an obscuring blanket.  You managed to live through the Cataclysm, somehow, but you're not sure how you'll survive this.",
     "start_name": "Somewhere",
@@ -162,19 +163,19 @@
     ],
     "requirement": "achievement_survive_28_days",
     "eoc": [ "scenario_xe_permanent_ominous_fog" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
     "id": "xe_revenant_scenario",
-    "name": "Challenge - Undying Vengeance",
+    "name": "Undying Vengeance",
     "points": 0,
     "description": "You died in the Cataclysm.  Perhaps during the Cataclysm itself, perhaps in the riots leading up to it.  Someone killed you and hastily dumped you in a shallow grave, and that should have been the end.\n\nBut it wasn't.  Your rage at your own death, your thirst for vengeance, the sheer unfairness of it all, dragged you out of the grave and propelled you onward.  You can feel your murderer, out there in the world, and will stop at nothing until you've tracked them down.  You don't need to eat, sleep, or breathe anymore.  All you need is revenge.\n\n<color_red>Scenario may take some time to load after game is entered</color>.",
     "start_name": "Your grave",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
     "eoc": [ "scenario_xe_revenant_scenario" ],
     "professions": [ "xedra_revenant_prof" ],
-    "flags": [ "LONE_START" ],
+    "flags": [ "LONE_START", "CHALLENGE" ],
     "reveal_locale": false,
     "requirement": "achievement_kill_10000_monsters",
     "missions": [ "MISSION_REVENANT_VENGEANCE" ],

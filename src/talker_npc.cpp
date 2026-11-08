@@ -93,6 +93,11 @@ bool talker_npc::will_talk_to_u( const Character &you, bool force ) const
         }
         me_npc->set_known_to_u( true );
     }
+    if( me_npc->get_faction() && me_npc->get_faction()->wont_talk_to_you() ) {
+        add_msg( _( "%s wants nothing to do with you." ), me_npc->get_faction()->get_name() );
+        return false;
+    }
+
     // This is necessary so that we don't bug the player over and over
     if( me_npc->get_attitude() == NPCATT_TALK ) {
         me_npc->set_attitude( NPCATT_NULL );
@@ -790,11 +795,12 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
     needs_rates rates = me_npc->calc_needs_rates();
     if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
         std::string how_tired;
-        if( get_sleepiness() > sleepiness_levels::EXHAUSTED ) {
+        // inclusive, like the thresholds NPCs act on
+        if( get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
             how_tired = _( "Exhausted" );
-        } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
+        } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
             how_tired = _( "Dead tired" );
-        } else if( get_sleepiness() > sleepiness_levels::TIRED ) {
+        } else if( get_sleepiness() >= sleepiness_levels::TIRED ) {
             how_tired = _( "Tired" );
         } else {
             how_tired = _( "Not tired" );
@@ -838,7 +844,7 @@ std::string talker_npc_const::evaluation_by( const_talker const &alpha ) const
 
 bool talker_npc_const::has_activity() const
 {
-    return !me_npc->activity.is_null();
+    return !me_npc->activity.is_null() || me_npc->get_suspended_task();
 }
 
 bool talker_npc_const::is_myclass( const npc_class_id &class_to_check ) const

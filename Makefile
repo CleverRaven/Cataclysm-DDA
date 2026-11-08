@@ -389,6 +389,8 @@ ifneq ($(CLANG), 0)
   endif
   CXX_WARNINGS += -Wno-unknown-warning-option
   WARNINGS += -Wno-unknown-warning-option
+  # libstdc++ marks loops with "#pragma GCC unroll", which clang cannot always honor.
+  CXX_WARNINGS += -Wno-pass-failed
 else
   # Compiler version & target machine - used later for MXE ICE workaround
   ifdef CROSS
@@ -597,11 +599,9 @@ ifeq ($(NATIVE), linux64)
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
   ifeq ($(GOLD), 1)
-    CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
   ifeq ($(MOLD), 1)
-    CXXFLAGS += -fuse-ld=mold
     LDFLAGS += -fuse-ld=mold
   endif
 else
@@ -611,11 +611,9 @@ else
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
     ifeq ($(GOLD), 1)
-      CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
     ifeq ($(MOLD), 1)
-      CXXFLAGS += -fuse-ld=mold
       LDFLAGS += -fuse-ld=mold
     endif
   endif

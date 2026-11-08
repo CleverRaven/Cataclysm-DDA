@@ -179,6 +179,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALLOWS_GASTROPOD_FOOT``` You can wear this item even if you have a gastropod foot instead of human legs.
 - ```ALLOWS_LEG_TENTACLES``` You can wear this item even if you have cephalopod tentacles instead of human legs.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
+- ```ALLOWS_SPIDER_ARMS``` You can wear this item even if you have spider arms in addition to your normal arms.
 - ```ALLOWS_TAIL``` You can wear this leg-covering item even if you have a tail
 - ```ALLOWS_TALONS``` People with talon mutations still can wear this armor, that cover feet.
 - ```ALLOWS_WING_ARMS``` People whose arms have turned into wings can still wear this armor.
@@ -327,6 +328,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 - ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
 - ```BIONIC_LIMB``` This bodypart is mechanical and thus cannot bleed or cause pain when hit. 
+- ```BONELESS``` This bodypart has no bones and thus cannot suffer from broken bones. 
 - ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations.
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
@@ -1246,7 +1248,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PET_WONT_FOLLOW``` This monster won't follow the player automatically when tamed.
 - ```PHOTOPHOBIC``` Severely weakened if in light level >= 30 (within about 7 tiles of a full-strength flashlight) by applying photophobia effect.
 - ```PLANT_BLOOD``` Forces monster to bleed sap.
-- ```PLASTIC``` Absorbs physical damage to a great degree.
+- ```PLASTIC``` Absorbs physical damage (and telekinetic damage, in Mind Over Matter) to a great degree.
 - ```POISON``` Poisonous to eat.
 - ```PRIORITIZE_TARGETS``` This monster will prioritize targets depending on their danger levels.
 - ```PUSH_MON``` Can push creatures out of its way.
@@ -1475,13 +1477,16 @@ The purpose of these flags is to allow reuse of blueprints to create the "same" 
 ## Scenarios
 
 - ```BORDERED``` Initial start location is bordered by an enormous wall of solid rock.
-- ```CHALLENGE``` Game won't choose this scenario in random game types.
+- ```CHALLENGE``` Sorted into the "CHALLENGE" category in the character creation UI. Also, game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
+- ```FORGIVING``` Sorted into the "FORGIVING" category in the character creation UI.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
 - ```LONE_START``` This scenario won't spawn a fellow NPC on game start.
 - ```NO_BONUS_ITEMS``` This scenario prevent bonus items (such as inhalers with the `ASTHMA` trait) from being given to this profession
+- ```STANDARD``` Sorted into the "STANDARD" category in the character creation UI.
 - ```SUR_START``` Write `Zombies nearby` in the scenario info, doesn't spawn monsters by itself (put close to `LONE_START`)
+- ```TOUGH``` Sorted into the "TOUGH" category in the character creation UI.
 
 
 ### Profession

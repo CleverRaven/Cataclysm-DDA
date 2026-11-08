@@ -19,15 +19,6 @@
     "ammo_type": "conc_alcohol"
   },
   {
-    "id": "methed_alcohol",
-    "name": { "str_sp": "methylated spirits" },
-    "copy-from": "chem_ethanol",
-    "type": "ITEM",
-    "subtypes": [ "AMMO" ],
-    "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
-    "price": "10 cent"
-  },
-  {
     "id": "denat_alcohol",
     "name": { "str_sp": "denatured alcohol" },
     "copy-from": "chem_ethanol",
@@ -214,6 +205,31 @@
     "color": "yellow",
     "material": [ "motor_oil" ],
     "ammo_type": "motor_oil",
+    "range": 6,
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
+    "effects": [ "FLAME", "STREAM" ]
+  },
+  {
+    "id": "hydraulic_oil",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "name": { "str_sp": "hydraulic oil" },
+    "display_type": "BY_VOLUME",
+    "description": "An oil made for use in pressurized hydraulic systems.",
+    "category": "chems",
+    "weight": "950 mg",
+    "volume": "200ml",
+    "price": "20 cent",
+    "price_postapoc": "2 USD",
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "symbol": "=",
+    "color": "yellow",
+    "material": [ "hydraulic_oil" ],
+    "ammo_type": "hydraulic_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]

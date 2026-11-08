@@ -80,7 +80,13 @@
     "type": "region_settings_terrain_furniture",
     "id": "default_portal_storm_dungeon",
     "copy-from": "default",
-    "ter_furn": [ "portal_storm_dungeon_t_region_groundcover" ]
+    "ter_furn": [ "portal_storm_dungeon_t_region_groundcover", "portal_storm_dungeon_t_region_groundcover_ravine" ]
+  },
+  {
+    "type": "region_terrain_furniture",
+    "id": "portal_storm_dungeon_t_region_groundcover_ravine",
+    "ter_id": "t_region_groundcover_ravine",
+    "replace_with_terrain": [ [ "t_open_air", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",

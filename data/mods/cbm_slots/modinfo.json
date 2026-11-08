@@ -7,6 +7,7 @@
     "description": "Enables the bionic slots system, which limits the number of CBMs you can install in each bodypart.",
     "category": "rebalance",
     "dependencies": [ "dda" ],
-    "path": ""
+    "path": "",
+    "obsolete": true
   }
 ]

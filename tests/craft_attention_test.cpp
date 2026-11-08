@@ -2381,11 +2381,14 @@ TEST_CASE( "reconcile_walks_avatar_inventory_for_env_check",
     get_item_wakeups().cancel_all( uid );
     REQUIRE_FALSE( get_item_wakeups().is_scheduled( uid, item_wakeup_kind::env_check ) );
 
-    for( item_location &loc : u.all_items_loc() ) {
-        if( loc && loc.get_item() != nullptr ) {
+    u.visit_items( []( const item_location & loc ) {
+        if( loc.valid() ) {
             get_item_wakeups().rebuild_for_item( loc );
+            return VisitResponse::NEXT;
+        } else {
+            return VisitResponse::SKIP;
         }
-    }
+    } );
 
     CHECK( get_item_wakeups().is_scheduled( uid, item_wakeup_kind::env_check ) );
     CHECK( get_item_wakeups().is_scheduled( uid, item_wakeup_kind::ready_check ) );
@@ -7000,14 +7003,15 @@ TEST_CASE( "reserved_carried_tools_keep_their_charges",
             THEN( "the free one paid instead" ) {
                 int reserved_left = -1;
                 int spare_left = -1;
-                for( const item_location &e : u.all_items_loc() ) {
+                u.visit_items( [&reserved_left, &spare_left]( const item_location & e ) {
                     if( e->typeId() != itype_test_reserve_charged_tool ) {
-                        continue;
+                        return VisitResponse::NEXT;
                     }
                     const bool is_reserved =
                         get_craft_reservations().is_reserved_uid( e->uid().get_value() );
                     ( is_reserved ? reserved_left : spare_left ) = e->ammo_remaining();
-                }
+                    return VisitResponse::NEXT;
+                } );
                 CAPTURE( reserved_left );
                 CAPTURE( spare_left );
                 CHECK( spare_left < 100 );
@@ -7247,9 +7251,14 @@ TEST_CASE( "reservation_keeps_npc_selectors_off_a_bound_provider",
 
             THEN( "the reserved one keeps the identity its binding names" ) {
                 bool still_held = false;
-                for( const item_location &e : hostile.all_items_loc() ) {
+                hostile.visit_items( [&still_held, &good_uid]( const item_location & e ) {
                     still_held = still_held || e->uid().get_value() == good_uid;
-                }
+                    if( still_held ) {
+                        return VisitResponse::ABORT;
+                    } else {
+                        return VisitResponse::NEXT;
+                    }
+                } );
                 CHECK( still_held );
             }
         }
@@ -7261,11 +7270,13 @@ TEST_CASE( "reservation_keeps_npc_selectors_off_a_bound_provider",
         hostile.i_add( backpack );
 
         int64_t inner_uid = 0;
-        for( const item_location &e : hostile.all_items_loc() ) {
+        hostile.visit_items( [&inner_uid]( const item_location & e ) {
             if( e->typeId() == itype_bat ) {
                 inner_uid = e->uid().get_value();
+                return VisitResponse::ABORT;
             }
-        }
+            return VisitResponse::NEXT;
+        } );
         REQUIRE( inner_uid != 0 );
 
         craft_reservation_index::record rec;
@@ -7288,9 +7299,14 @@ TEST_CASE( "reservation_keeps_npc_selectors_off_a_bound_provider",
 
             THEN( "the reserved item inside keeps its identity, since wielding copies" ) {
                 bool still_held = false;
-                for( const item_location &e : hostile.all_items_loc() ) {
+                hostile.visit_items( [&still_held, &inner_uid]( const item_location & e ) {
                     still_held = still_held || e->uid().get_value() == inner_uid;
-                }
+                    if( still_held ) {
+                        return VisitResponse::ABORT;
+                    } else {
+                        return VisitResponse::NEXT;
+                    }
+                } );
                 CHECK( still_held );
             }
         }

@@ -44,6 +44,17 @@
     "player_display": true
   },
   {
+    "id": "LS_Passcode_fixbot",
+    "type": "mutation",
+    "name": { "str": "Passcode: Friends Forever" },
+    "description": "There's a symbol etched into your skin.  Somehow you implicitly understand that it is a type of password, it just looks like a tattoo, though how you know this isn't clear.  The symbol itself is a pair of circles with multi-articulated arms, holding hands, forming a semi-circle.",
+    "points": 0,
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true
+  },
+  {
     "id": "LS_Passcode_string_dimension",
     "type": "mutation",
     "name": { "str": "Passcode: KÁ!" },

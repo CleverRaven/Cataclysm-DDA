@@ -589,7 +589,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     // Handle some messaging in-grab
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
     const std::string mon_name = get_player_character().sees( here, monster_pos ) ?
-                                 z.disp_name( false, true ) : _( "Something" );
+                                 z.disp_name( true ) : _( "Something" );
     Character *foe = target->as_character();
 
     int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
@@ -617,12 +617,12 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                     z.mod_moves( -move_cost * 2 );
                     foe->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                                 _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
-                                                z.disp_name( false, true ), vp_seatbelt->part().name( false ) );
+                                                z.disp_name( true ), vp_seatbelt->part().name( false ) );
                     add_msg_debug( debugmode::DF_MATTACK, "Target on vehicle part with seatbelt, attack failed" );
                     return 0;
                 } else {
                     foe->add_msg_player_or_npc( msg_type, _( "%1s tears you out of your %2s!" ),
-                                                _( "%1s tears <npcname> out of their %2s!" ), z.disp_name( false, true ),
+                                                _( "%1s tears <npcname> out of their %2s!" ), z.disp_name( true ),
                                                 vp_seatbelt->part().name( false ) );
                     vp_seatbelt->vehicle().mod_hp( vp_seatbelt->part(), -2 );
                     add_msg_debug( debugmode::DF_MATTACK,
@@ -868,7 +868,7 @@ bool melee_actor::call( monster &z ) const
     z.mod_moves( -move_cost );
 
     const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
-                                 z.disp_name( false, true ) : _( "Something" );
+                                 z.disp_name( true ) : _( "Something" );
 
     // Add always-applied self effects
     for( const mon_effect_data &eff : self_effects_always ) {
@@ -973,7 +973,7 @@ bool melee_actor::call( monster &z ) const
                     target->add_msg_player_or_npc( msg_type,
                                                    _( "%1s tries to drag you, but something holds you in place!" ),
                                                    _( "%1s tries to drag <npcname>, but something holds them in place!" ),
-                                                   z.disp_name( false, true ) );
+                                                   z.disp_name( true ) );
                     return true;
 
                 } else {
@@ -1159,7 +1159,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
     const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
-                                 z.disp_name( false, true ) : _( "Something" );
+                                 z.disp_name( true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
                                   get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),
                                   mon_name, body_part_name_accusative( bp ) );

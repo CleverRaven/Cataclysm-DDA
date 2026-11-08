@@ -1,0 +1,20 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_hollow_tribal_warrior" ],
+    "sound": "a loud ululation!",
+    "volume": 32
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_hollow_tribal_warrior", "mon_hollow_tribal" ],
+    "sound": "a monotone shout!",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_hollow_tribal_warrior", "mon_hollow_tribal" ],
+    "sound": "a toneless yell!",
+    "volume": 25
+  }
+]

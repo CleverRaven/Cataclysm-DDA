@@ -501,5 +501,12 @@
     "field": "fd_scarlet_sea_gas",
     "intensity": 3,
     "qty": 4
+  },
+  {
+    "id": "emit_fd_labyrinth_fog",
+    "type": "emit",
+    "field": "fd_labyrinth_fog",
+    "intensity": 4,
+    "qty": 300
   }
 ]

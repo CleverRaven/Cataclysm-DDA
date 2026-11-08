@@ -83,7 +83,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, Uint32 pixel_
                                        const palette_array &palette,
                                        const bool fontblending )
 {
-    if( string_ends_with( typeface, ".bmp" ) || string_ends_with( typeface, ".png" ) ) {
+    if( is_bitmap_typeface( typeface ) ) {
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {

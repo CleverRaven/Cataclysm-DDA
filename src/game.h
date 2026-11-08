@@ -135,6 +135,13 @@ struct w_map {
     catacurses::window win;
 };
 
+struct wet_items {
+    std::vector<item_location> dissolved;
+    std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
+    std::vector<item_location> towels;
+};
+
 struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
@@ -163,6 +170,9 @@ struct pulp_data {
 };
 
 bool is_valid_in_w_terrain( const point_rel_ms &p );
+// returns lists of all items affected by water.
+wet_items visit_water_affect_items( Character &you );
+
 namespace turn_handler
 {
 bool cleanup_at_end();

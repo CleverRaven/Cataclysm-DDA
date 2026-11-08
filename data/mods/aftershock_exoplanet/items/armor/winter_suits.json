@@ -192,6 +192,7 @@
     "looks_like": "afs_cryopod_bodyglove",
     "color": "cyan",
     "charges_per_use": 1,
+    "faults": [ { "fault": "afs_fault_armor_worn" } ],
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",

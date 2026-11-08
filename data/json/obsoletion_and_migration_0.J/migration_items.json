@@ -986,5 +986,50 @@
     "type": "MIGRATION",
     "id": "poultry_scrap_pepper",
     "replace": "poultry_scrap"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_jam",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_jam_butter",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_honey",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_pbm",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_pb",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_pbh",
+    "replace": "sandwich_sauce"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_jam_cheese",
+    "replace": "sandwich_cheese"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_veggy_cheese",
+    "replace": "sandwich_veggy"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "sandwich_cucumber",
+    "replace": "sandwich_veggy"
   }
 ]

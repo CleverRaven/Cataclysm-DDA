@@ -686,7 +686,10 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 250)" ] } } ]
+        "values": [
+          { "value": "REGEN_HP", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 250)" ] } },
+          { "value": "REGEN_WOUND", "multiply": { "math": [ "(u_vitamin('lilin_ruach_vitamin') / 250)" ] } }
+        ]
       }
     ]
   },

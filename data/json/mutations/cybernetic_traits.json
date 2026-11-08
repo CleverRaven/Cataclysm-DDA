@@ -232,7 +232,9 @@
         "cut": 30,
         "bash": 30,
         "stab": 30,
-        "bullet": 25
+        "bullet": 25,
+        "heat": 30,
+        "cold": 30
       }
     ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
@@ -322,7 +324,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ],
     "cancels": [ "BENDY1", "BENDY2", "BENDY3", "INTERSTICE_POSTURE", "INTERSTICE_POSTURE_2" ]
@@ -358,7 +362,9 @@
         "bash": 15,
         "stab": 15,
         "bullet": 10,
-        "electric": 0
+        "electric": 0,
+        "heat": 30,
+        "cold": 30
       }
     ]
   },
@@ -386,7 +392,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ]
   },
@@ -414,7 +422,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ]
   },
@@ -452,7 +462,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ],
     "cancels": [
@@ -507,7 +519,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ]
   },
@@ -535,7 +549,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ]
   },
@@ -574,7 +590,9 @@
         "cut": 5,
         "bash": 5,
         "stab": 5,
-        "bullet": 2
+        "bullet": 2,
+        "heat": 30,
+        "cold": 30
       }
     ],
     "cancels": [

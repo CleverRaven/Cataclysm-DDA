@@ -59,6 +59,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "perf.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -274,6 +275,58 @@ void handle_key_blocking_activity()
     }
 }
 
+npc_turn_result process_npc_turn( map &m, npc &guy )
+{
+    cata_timer process_npc_turn_timer( "process_npc_turn" );
+    npc_turn_result result;
+    int turns = 0;
+    int real_count = 0;
+    const int count_limit = std::max( 10, guy.get_moves() / 64 );
+    if( guy.is_mounted() ) {
+        guy.check_mount_is_spooked();
+    }
+    m.creature_in_field( guy );
+    if( !guy.has_effect( effect_npc_suspend ) ) {
+        guy.process_turn();
+    }
+    while( !guy.is_dead() && ( !guy.in_sleep_state() ||
+                               guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
+           guy.get_moves() > 0 && turns < 10 ) {
+        const int moves = guy.get_moves();
+        const bool has_destination = guy.has_destination_activity();
+        guy.move();
+        if( moves == guy.get_moves() ) {
+            // Count every time we exit npc::move() without spending any moves.
+            real_count++;
+            if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
+                turns++;
+            }
+        }
+        // Turn on debug mode when in infinite loop
+        // It has to be done before the last turn, otherwise
+        // there will be no meaningful debug output.
+        if( turns == 9 ) {
+            debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
+                      guy.get_name(), guy.activity.id().str() );
+        }
+    }
+
+    // If we spun too long trying to decide what to do (without spending moves),
+    // Invoke cognitive suspension to prevent an infinite loop.
+    if( turns == 10 ) {
+        add_msg( _( "%s faints!" ), guy.get_name() );
+        guy.reboot();
+        result.spun_out = true;
+    }
+
+    if( !guy.is_dead() ) {
+        cata_timer npc_update_body_timer( "npc_update_body" );
+        guy.npc_update_body();
+        guy.review_rest();
+    }
+    return result;
+}
+
 namespace
 {
 void monmove()
@@ -368,48 +421,7 @@ void monmove()
 
     // Now, do active NPCs.
     for( npc &guy : g->all_npcs() ) {
-        int turns = 0;
-        int real_count = 0;
-        const int count_limit = std::max( 10, guy.get_moves() / 64 );
-        if( guy.is_mounted() ) {
-            guy.check_mount_is_spooked();
-        }
-        m.creature_in_field( guy );
-        if( !guy.has_effect( effect_npc_suspend ) ) {
-            guy.process_turn();
-        }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() ||
-                                   guy.activity.id() == ACT_OPERATION || guy.activity.id() == ACT_MIGRATION_CANCEL ) &&
-               guy.get_moves() > 0 && turns < 10 ) {
-            const int moves = guy.get_moves();
-            const bool has_destination = guy.has_destination_activity();
-            guy.move();
-            if( moves == guy.get_moves() ) {
-                // Count every time we exit npc::move() without spending any moves.
-                real_count++;
-                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
-                    turns++;
-                }
-            }
-            // Turn on debug mode when in infinite loop
-            // It has to be done before the last turn, otherwise
-            // there will be no meaningful debug output.
-            if( turns == 9 ) {
-                debugmsg( "NPC '%s' entered infinite loop, npc activity id: '%s'",
-                          guy.get_name(), guy.activity.id().str() );
-            }
-        }
-
-        // If we spun too long trying to decide what to do (without spending moves),
-        // Invoke cognitive suspension to prevent an infinite loop.
-        if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.get_name() );
-            guy.reboot();
-        }
-
-        if( !guy.is_dead() ) {
-            guy.npc_update_body();
-        }
+        process_npc_turn( m, guy );
     }
     g->cleanup_dead();
 }
@@ -523,6 +535,7 @@ void game::handle_progress_ui()
 
 bool game::do_turn()
 {
+    cata_timer turn_timer( "Game Turn" );
     if( is_game_over() ) {
         return turn_handler::cleanup_at_end();
     }
@@ -593,16 +606,23 @@ bool game::do_turn()
 
     debug_hour_timer.print_time();
 
-    u.update_body();
+    {
+        cata_timer update_body_timer( "avatar_update_body" );
+        u.update_body();
+    }
 
     // Auto-save if autosave is enabled
     if( get_option<bool>( "AUTOSAVE" ) &&
         calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
         !u.is_dead_state() ) {
+        cata_timer autosave_timer( "autosave" );
         autosave();
     }
 
-    weather.update_weather();
+    {
+        cata_timer update_weather_timer( "update_weather" );
+        weather.update_weather();
+    }
 
     reset_light_level();
     m.mark_turn_light_dirty();
@@ -614,6 +634,7 @@ bool game::do_turn()
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
+        cata_timer process_sounds_timer( string_format( "Processing sounds for %s", guy.get_name() ) );
         if( rl_dist( guy.pos_bub(), u.pos_bub() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
@@ -621,8 +642,11 @@ bool game::do_turn()
 
     music::deactivate_music_id( music::music_id::sound );
 
-    // Process sound events into sound markers for display to the player.
-    sounds::process_sound_markers( &u );
+    {
+        cata_timer process_sound_markers_timer( "Process sound markers" );
+        // Process sound events into sound markers for display to the player.
+        sounds::process_sound_markers( &u );
+    }
 
     if( u.is_deaf() ) {
         sfx::do_hearing_loss();
@@ -631,7 +655,9 @@ bool game::do_turn()
     // avatar processes human input through handle_action()
     if( !u.has_effect( effect_sleep ) || uquit == QUIT_WATCH ) {
         if( u.get_moves() > 0 || uquit == QUIT_WATCH ) {
+            cata_timer player_turn_timer( "player_turn" );
             while( u.get_moves() > 0 || uquit == QUIT_WATCH ) {
+                cata_timer player_action_timer( "player_action" );
 
                 // handle_action() may cause map updates, creatures to die
                 m.process_falling();
@@ -671,7 +697,10 @@ bool game::do_turn()
                 }
 
                 // avatar processes moves for activities started by handle_action()
-                u.process_activity();
+                while( u.get_moves() > 0 && u.activity ) {
+                    cata_timer player_activity_timer( string_format( "do turn for %s", u.activity.id().str() ) );
+                    u.process_activity();
+                }
             }
             // Reset displayed sound markers now that the turn is over.
             // We only want this to happen if the player had a chance to examine the sounds.
@@ -683,6 +712,7 @@ bool game::do_turn()
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
                                  std::chrono::steady_clock::now() );
             if( ( now - start ).count() > 100 ) {
+                cata_timer player_handle_key_blocking_activity_timer( "handle_key_blocking_activity" );
                 handle_key_blocking_activity();
                 start = now;
             }
@@ -717,79 +747,124 @@ bool game::do_turn()
         scent.set( u.pos_bub(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.pos_abs_omt(),  u.scent );
     }
-    scent.update( u.pos_bub(), m );
 
-    // We need floor cache before checking falling 'n stuff
-    m.build_floor_caches();
-
+    {
+        cata_timer scent_update_timer( "scent.update" );
+        scent.update( u.pos_bub(), m );
+    }
+    {
+        cata_timer build_floor_cache_timer( "build_floor_cache" );
+        // We need floor cache before checking falling 'n stuff
+        m.build_floor_caches();
+    }
+    // Timer in method.
     m.process_falling();
-    m.vehmove();
-    m.process_fields();
-    m.process_items();
-    explosion_handler::process_explosions();
+    {
+        cata_timer vehmove_timer( "vehmove" );
+        m.vehmove();
+    }
+    {
+        cata_timer process_fields_timer( "process_fields" );
+        m.process_fields();
+    }
+    {
+        cata_timer process_items_timer( "process_items" );
+        m.process_items();
+    }
+    {
+        cata_timer process_explosions_timer( "process_explosions" );
+        explosion_handler::process_explosions();
+    }
     m.creature_in_field( u );
 
-    // Apply sounds from previous turn to monster and NPC AI.
-    sounds::process_sounds();
+    {
+        cata_timer process_sounds_timer( "process_sounds" );
+        // Apply sounds from previous turn to monster and NPC AI.
+        sounds::process_sounds();
+    }
     const int levz = m.get_abs_sub().z();
-    // Update vision caches for monsters. If this turns out to be expensive,
-    // consider a stripped down cache just for monsters.
-    m.build_map_cache( levz, true );
-
-    // process monster and npc turn
-    monmove();
-
+    {
+        cata_timer build_map_cache_timer( "build_map_cache" );
+        // Update vision caches for monsters. If this turns out to be expensive,
+        // consider a stripped down cache just for monsters.
+        m.build_map_cache( levz, true );
+    }
+    {
+        cata_timer monmove_timer( "monmove" );
+        // process monster and npc turn
+        monmove();
+    }
     if( calendar::once_every( time_between_npc_OM_moves ) ) {
+        cata_timer overmap_npc_move_timer( "overmap_npc_move" );
         overmap_npc_move();
     }
-    m.furniture_terrain_emit_fields();
+    {
+        cata_timer furniture_terrain_emit_fields_timer( "furniture_terrain_emit_fields" );
+        m.furniture_terrain_emit_fields();
+    }
     // required after monsters move and fields emit
+    // Timer called in method.
     mon_info_update();
-
-    // replenish avatar moves
-    u.process_turn();
+    {
+        cata_timer process_turn_timer( "process_turn" );
+        // replenish avatar moves
+        u.process_turn();
+    }
 
     if( u.get_moves() < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
+        cata_timer refresh_display_timer( "refresh_display" );
         ui_manager::redraw();
         refresh_display();
     }
 
     if( levz >= 0 && !u.is_underwater() ) {
+        cata_timer handle_weather_effects_timer( "handle_weather_effects" );
         handle_weather_effects( weather.weather_id );
     }
 
     handle_progress_ui();
-
-    u.update_bodytemp();
-    u.update_body_wetness( *weather.weather_precise );
-    u.apply_wetness_morale( weather.temperature );
-
+    {
+        cata_timer update_body_timer( "update_bodytemp" );
+        u.update_bodytemp();
+        u.update_body_wetness( *weather.weather_precise );
+        u.apply_wetness_morale( weather.temperature );
+    }
     if( calendar::once_every( 1_minutes ) ) {
+        cata_timer update_morale_timer( "update_morale" );
         u.update_morale();
         for( npc &guy : all_npcs() ) {
+            cata_timer process_npc_morale_timer( string_format( "process_npc_morale for: %s",
+                                                 guy.get_name() ) );
             guy.update_morale();
             guy.check_and_recover_morale();
         }
     }
 
     if( calendar::once_every( 9_turns ) ) {
+        cata_timer check_and_recover_morale_timer( "check_and_recover_morale" );
         u.check_and_recover_morale();
     }
 
     if( calendar::once_every( 1_days ) ) {
+        cata_timer player_mod_trauma_timer( "player_mod_trauma" );
         u.mod_trauma( -1 );
         for( npc &guy : all_npcs() ) {
+            cata_timer npc_mod_trauma_timer( string_format( "process_npc_mod_trauma for: %s",
+                                             guy.get_name() ) );
             guy.mod_trauma( -1 );
         }
     }
 
-    if( !u.is_deaf() ) {
-        sfx::remove_hearing_loss();
+    {
+        cata_timer sfx_timer( "sfx" );
+        if( !u.is_deaf() ) {
+            sfx::remove_hearing_loss();
+        }
+        sfx::do_danger_music();
+        sfx::do_vehicle_engine_sfx();
+        sfx::do_vehicle_exterior_engine_sfx();
+        sfx::do_low_stamina_sfx();
     }
-    sfx::do_danger_music();
-    sfx::do_vehicle_engine_sfx();
-    sfx::do_vehicle_exterior_engine_sfx();
-    sfx::do_low_stamina_sfx();
 
     // reset player noise
     u.volume = 0;

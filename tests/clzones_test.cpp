@@ -24,6 +24,7 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
@@ -2905,6 +2906,32 @@ TEST_CASE( "zone_sort_viewport_lifecycle", "[zones][viewport][activities]" )
             CHECK( actor->viewport_was_active );
             CHECK( actor->viewport_saved_zoom == 16 );  // DEFAULT_TILESET_ZOOM
         }
+    }
+
+    SECTION( "viewport reactivated after load keeps actor's saved zoom" ) {
+        dummy.assign_activity( zone_sort_activity_actor() );
+
+        // Run one turn to trigger stage_init
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
+            dummy.activity.do_turn( dummy );
+        }
+        REQUIRE( dummy.zone_sort_viewport.active );
+
+        zone_sort_activity_actor *actor =
+            dynamic_cast<zone_sort_activity_actor *>( dummy.activity.actor.get() );
+        REQUIRE( actor != nullptr );
+        REQUIRE( actor->viewport_was_active );
+        // not the default zoom, so only a real copy passes
+        actor->viewport_saved_zoom = 32;
+
+        // a load leaves avatar viewport at its defaults
+        dummy.zone_sort_viewport = avatar::zone_sort_viewport_t{};
+
+        g->try_activate_zone_sort_viewport();
+
+        CHECK( dummy.zone_sort_viewport.active );
+        CHECK( dummy.zone_sort_viewport.saved_zoom == 32 );
     }
 }
 

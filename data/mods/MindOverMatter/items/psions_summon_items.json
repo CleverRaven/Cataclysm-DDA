@@ -11,6 +11,7 @@
     "price_postapoc": "1 cent",
     "symbol": "$",
     "color": "pink",
+    "material": "hflesh",
     "flags": [
       "UNBREAKABLE",
       "ZERO_WEIGHT",

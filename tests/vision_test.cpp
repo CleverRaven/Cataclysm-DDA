@@ -1861,20 +1861,20 @@ TEST_CASE( "vision_light_is_current_on_every_level_a_reader_asks_about", "[visio
         here.rebuild_vision_caches_from_scratch( 0 );
         WHEN( "crows fly one level up after an ordinary build" ) {
             const tripoint_bub_ms sky = origin + tripoint_rel_ms{ 4, 0, 1 };
-            monster *const near = g->place_critter_at( mon_crow, sky );
-            monster *const far = g->place_critter_at( mon_crow, sky + tripoint_rel_ms{ 8, 0, 0 } );
-            REQUIRE( near != nullptr );
-            REQUIRE( far != nullptr );
+            monster *const near_mon = g->place_critter_at( mon_crow, sky );
+            monster *const far_mon = g->place_critter_at( mon_crow, sky + tripoint_rel_ms{ 8, 0, 0 } );
+            REQUIRE( near_mon != nullptr );
+            REQUIRE( far_mon != nullptr );
             build_vision_caches_incrementally();
             REQUIRE( here.access_cache( 1 ).seen_cache[sky.xy()] > 0.0f );
             THEN( "the sky there holds daylight" ) {
                 CHECK( here.ambient_light_at( sky ) > LIGHT_AMBIENT_LIT );
             }
             THEN( "avatar sees a crow there" ) {
-                CHECK( you.sees( here, *near ) );
+                CHECK( you.sees( here, *near_mon ) );
             }
             THEN( "crows see each other" ) {
-                CHECK( near->sees( here, *far ) );
+                CHECK( near_mon->sees( here, *far_mon ) );
             }
         }
         WHEN( "a level above the avatar's is built on request" ) {
@@ -2199,9 +2199,9 @@ TEST_CASE( "vision_cache_camera_transitions_match_rebuild", "[vision]" )
     }
     SECTION( "the_camera_moves_and_another_map_builds_first" ) {
         REQUIRE( camera.move_to( camera_pos + tripoint::east, true ) );
-        smallmap far;
-        far.load( project_to<coords::omt>( you.pos_abs() ) + point_rel_omt( 20, 20 ), false );
-        far.cast_to_map()->build_map_cache( 0 );
+        smallmap far_map;
+        far_map.load( project_to<coords::omt>( you.pos_abs() ) + point_rel_omt( 20, 20 ), false );
+        far_map.cast_to_map()->build_map_cache( 0 );
     }
     build_vision_caches_incrementally();
     oracle.check_matches_rebuild( vision_layers::scene_and_fov );
@@ -2221,10 +2221,10 @@ TEST_CASE( "vision_avatar_cover_hides_nothing_from_other_observers", "[vision]" 
         here.ter_set( window, ter_t_window_frame );
         spawn_transition_moncam( camera_pos );
         you.add_moncam( { mon_test_camera, 60 } );
-        monster *const near = g->place_critter_at( mon_zombie, origin + tripoint::north );
-        monster *const far = g->place_critter_at( mon_zombie, beyond );
-        REQUIRE( near != nullptr );
-        REQUIRE( far != nullptr );
+        monster *const near_mon = g->place_critter_at( mon_zombie, origin + tripoint::north );
+        monster *const far_mon = g->place_critter_at( mon_zombie, beyond );
+        REQUIRE( near_mon != nullptr );
+        REQUIRE( far_mon != nullptr );
         here.rebuild_vision_caches_from_scratch( 0 );
         const float camera_view = here.access_cache( 0 ).camera_cache[beyond.xy()];
         REQUIRE( camera_view > 0.0f );
@@ -2237,8 +2237,8 @@ TEST_CASE( "vision_avatar_cover_hides_nothing_from_other_observers", "[vision]" 
                 CHECK( here.access_cache( 0 ).camera_cache[beyond.xy()] == Approx( camera_view ) );
             }
             THEN( "the monsters still see each other past it" ) {
-                CHECK( here.sees( near->pos_bub(), far->pos_bub(), 10 ) );
-                CHECK( near->sees( here, *far ) );
+                CHECK( here.sees( near_mon->pos_bub(), far_mon->pos_bub(), 10 ) );
+                CHECK( near_mon->sees( here, *far_mon ) );
             }
         }
         you.clear_moncams();
@@ -2661,9 +2661,9 @@ TEST_CASE( "vision_scene_caches_place_vehicles_on_the_map_being_built", "[vision
 {
     set_up_transition_scene( { 60, 60, 0 } );
     // map far outside the reality bubble, made current the way mapgen does
-    smallmap far;
-    far.load( project_to<coords::omt>( get_avatar().pos_abs() ) + point_rel_omt( 20, 20 ), false );
-    swap_map swap( *far.cast_to_map() );
+    smallmap far_map;
+    far_map.load( project_to<coords::omt>( get_avatar().pos_abs() ) + point_rel_omt( 20, 20 ), false );
+    swap_map swap( *far_map.cast_to_map() );
     map &here = get_map();
     REQUIRE( &here != &reality_bubble() );
     for( const tripoint_bub_ms &p : here.points_on_zlevel( 0 ) ) {

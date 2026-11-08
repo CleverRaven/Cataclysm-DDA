@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -23,7 +24,9 @@
 #include "magic.h"
 #include "map_helpers.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "npc.h"
+#include "perf.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -116,6 +119,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.clear_morale();
     dummy.activity.set_to_null();
     dummy.backlog.clear();
+    dummy.clear_destination();
     // Reset age/height before stored kcal since get_healthy_kcal()
     // depends on height.
     dummy.reset_chargen_attributes();
@@ -245,6 +249,7 @@ void equip_shooter( npc &shooter, const std::vector<itype_id> &apparel )
 
 void process_activity( Character &dummy, bool pass_time )
 {
+    cata_timer process_activity_timer( "process_activity" );
     do {
         dummy.mod_moves( dummy.get_speed() );
         while( dummy.get_moves() > 0 && dummy.activity ) {
@@ -273,11 +278,51 @@ bool process_activity_bounded( Character &dummy, const int max_turns, const int 
     return !dummy.activity;
 }
 
+bool process_activity_with_travel( Character &u, const int max_turns )
+{
+    map &here = get_map();
+    const auto done = [&u]() {
+        if( !u.activity.is_null() || u.is_auto_moving() ) {
+            return false;
+        }
+        if( npc *const guy = u.as_npc() ) {
+            // NPC ends run-out task on its next turn; do it here
+            guy->end_cancelled_task();
+        }
+        return true;
+    };
+    for( int turns = 0; turns < max_turns; ++turns ) {
+        if( done() ) {
+            return true;
+        }
+        u.set_moves( u.get_speed() );
+        if( u.is_auto_moving() ) {
+            u.setpos( here, here.get_bub( *u.destination_point ) );
+            here.build_map_cache( u.posz() );
+            u.start_destination_activity();
+        }
+        u.activity.do_turn( u );
+    }
+    return done();
+}
+
 npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
+    map &here = get_map();
+    const tripoint_bub_ms at( p, here.get_abs_sub().z() );
+    std::vector<tripoint_bub_ms> bare;
+    for( const tripoint_bub_ms &q : here.points_in_radius( at, 1 ) ) {
+        if( !here.has_items( q ) ) {
+            bare.push_back( q );
+        }
+    }
     const npc_template_id npc_template = npc_template_id( npc_class );
-    const character_id model_id = get_map().place_npc( p, npc_template );
+    const character_id model_id = here.place_npc( p, npc_template );
     g->load_npcs();
+    // a template's kit spills what its pockets don't hold where the NPC lands
+    for( const tripoint_bub_ms &q : bare ) {
+        here.i_clear( q );
+    }
 
     npc *guy = g->find_npc( model_id );
     REQUIRE( guy != nullptr );

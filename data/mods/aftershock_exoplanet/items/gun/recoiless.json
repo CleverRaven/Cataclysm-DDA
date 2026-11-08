@@ -1,0 +1,44 @@
+[
+  {
+    "id": "aftershock_recoilless",
+    "looks_like": "m79",
+    "type": "ITEM",
+    "subtypes": [ "GUN" ],
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "green",
+    "name": { "str": "ST-84 recoilless rifle" },
+    "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons.  Still, it remains generally effective.",
+    "variants": [
+      {
+        "id": "military",
+        "name": { "str": "ST-84 recoilless rifle" },
+        "description": "UICA's ST-84 recoilless rifle, a versatile and powerful anti-material weapon for infantry use.  Suitable for those too cheap to buy heavy energy weapons.  Still, it remains generally effective.",
+        "weight": 3
+      },
+      {
+        "id": "vatforged",
+        "name": { "str": "gunship tube launcher" },
+        "description": "A crudely adapted launcher that originally belonged to an assault gunship.  Should be capable of firing 84x246mm rounds."
+      }
+    ],
+    "price": "5 kUSD",
+    "price_postapoc": "5 USD",
+    "material": [ "steel" ],
+    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
+    "skill": "launcher",
+    "ammo": [ "84x246mm" ],
+    "weight": "6900 g",
+    "volume": "5730 ml",
+    "longest_side": "1000 mm",
+    "to_hit": -3,
+    "dispersion": 300,
+    "durability": 8,
+    "clip_size": 1,
+    "reload": 300,
+    "loudness": 200,
+    "valid_mod_locations": [ [ "sling", 1 ], [ "mechanism", 2 ], [ "sights", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "84x246mm": 1 } } ],
+    "melee_damage": { "bash": 8 }
+  }
+]

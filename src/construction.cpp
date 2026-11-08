@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
@@ -64,6 +65,7 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "temp_crafting_inventory.h"
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
@@ -519,6 +521,9 @@ static std::string has_pre_flags_colorize( const construction &con );
 
 construction_id construction_menu( const bool blueprint )
 {
+    // place_construction runs after the scope is reset, so query caches hold
+    std::optional<temp_crafting_inventory::query_cache_scope> cache_scope;
+    cache_scope.emplace();
     // filter_mode: 0 = all, 1 = ready (skills & materials satisfied, but location not satisfied),
     // 2 = buildable here (skills & materials satisfied and location satisfied)
     static int filter_mode = 0;
@@ -1127,6 +1132,7 @@ construction_id construction_menu( const bool blueprint )
                         restore_view.reset();
                         restore_ui.reset();
                         ui.reset();
+                        cache_scope.reset();
                         place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
                     }
@@ -1541,7 +1547,7 @@ void build_construction_activity_actor::complete_construction( player_activity &
                           calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you.disp_name( true ),
              built.group->name() );
     // clear the activity
     act.set_to_null();

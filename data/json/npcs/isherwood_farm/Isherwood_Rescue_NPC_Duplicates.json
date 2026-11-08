@@ -36,7 +36,7 @@
         "effect": [
           { "u_lose_var": "general_meeting_barry_following" },
           { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
-          { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
+          { "math": [ "currently_invading_map = 0" ] },
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           { "math": [ "barry_travelling_home = 1" ] },
           {

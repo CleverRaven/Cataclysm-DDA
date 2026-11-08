@@ -249,7 +249,7 @@ class flexbuffer_disk_cache
             // Private constructor, make_unique doesn't have access.
             std::unique_ptr<flexbuffer_disk_cache> cache{ new flexbuffer_disk_cache( cache_path, root_path ) };
 
-            std::string cache_path_string = cache_path.u8string();
+            std::string cache_path_string = from_u8string( cache_path.u8string() );
             std::vector<std::string> all_cached_flexbuffers = get_files_from_path(
                         ".fb",
                         cache_path_string,
@@ -261,7 +261,7 @@ class flexbuffer_disk_cache
                 // So find the second-to-last-dot
                 std::filesystem::path cached_flexbuffer_path = std::filesystem::u8path( cached_flexbuffer );
                 std::filesystem::path json_with_mtime = cached_flexbuffer_path.stem();
-                std::string mtime_str = json_with_mtime.extension().u8string();
+                std::string mtime_str = from_u8string( json_with_mtime.extension().u8string() );
                 std::filesystem::path original_json_file_name = json_with_mtime.stem();
                 if( mtime_str.empty() || original_json_file_name.empty() ) {
                     // Not a recognized flexbuffer filename.
@@ -279,7 +279,7 @@ class flexbuffer_disk_cache
                 std::filesystem::path root_relative_json_path =
                     cached_flexbuffer_path.parent_path().lexically_relative(
                         cache_path ) / original_json_file_name;
-                std::string root_relative_json_path_string = root_relative_json_path.u8string();
+                std::string root_relative_json_path_string = from_u8string( root_relative_json_path.u8string() );
 
                 // Don't just blindly insert, we may end up in a situation with multiple flexbuffers for the same input json
                 auto old_entry = cache->cached_flexbuffers_.find( root_relative_json_path_string );
@@ -301,12 +301,12 @@ class flexbuffer_disk_cache
         }
 
         bool has_cached_flexbuffer_for_json( const std::filesystem::path &json_source_path ) {
-            return cached_flexbuffers_.count( json_source_path.u8string() ) > 0;
+            return cached_flexbuffers_.count( from_u8string( json_source_path.u8string() ) ) > 0;
         }
 
         std::filesystem::file_time_type cached_mtime_for_json( const std::filesystem::path
                 &json_source_path ) {
-            auto it = cached_flexbuffers_.find( json_source_path.u8string() );
+            auto it = cached_flexbuffers_.find( from_u8string( json_source_path.u8string() ) );
             if( it != cached_flexbuffers_.end() ) {
                 return it->second.mtime;
             }
@@ -322,7 +322,7 @@ class flexbuffer_disk_cache
                     root_path_ ).lexically_normal();
 
             // Is there even a potential cached flexbuffer for this file.
-            auto disk_entry = cached_flexbuffers_.find( root_relative_source_path.u8string() );
+            auto disk_entry = cached_flexbuffers_.find( from_u8string( root_relative_source_path.u8string() ) );
             if( disk_entry == cached_flexbuffers_.end() ) {
                 return storage;
             }
@@ -374,7 +374,7 @@ class flexbuffer_disk_cache
         bool save_to_disk( const std::filesystem::path &lexically_normal_json_source_path,
                            const std::vector<uint8_t> &flexbuffer_binary ) {
             std::error_code ec;
-            std::string json_source_path_string = lexically_normal_json_source_path.u8string();
+            std::string json_source_path_string = from_u8string( lexically_normal_json_source_path.u8string() );
             std::filesystem::file_time_type mtime = get_file_mtime_millis( lexically_normal_json_source_path,
                                                     ec );
             if( ec ) {
@@ -439,7 +439,7 @@ flexbuffer_cache::~flexbuffer_cache() = default;
 std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( std::filesystem::path json_source_path,
         size_t offset )
 {
-    std::string json_source_path_string = json_source_path.generic_u8string();
+    std::string json_source_path_string = from_u8string( json_source_path.generic_u8string() );
     std::shared_ptr<const mmap_file> json_source = mmap_file::map_file( json_source_path );
     if( !json_source ) {
         throw std::runtime_error( "Failed to mmap " + json_source_path_string );
@@ -482,7 +482,8 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
         }
     }
 
-    std::string json_source_path_string = lexically_normal_json_source_path.generic_u8string();
+    std::string json_source_path_string = from_u8string(
+            lexically_normal_json_source_path.generic_u8string() );
     std::optional<std::string> json_file_contents = read_whole_file(
                 lexically_normal_json_source_path );
     if( !json_file_contents.has_value() || json_file_contents->empty() ) {

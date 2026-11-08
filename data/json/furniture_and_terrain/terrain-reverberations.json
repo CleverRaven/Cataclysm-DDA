@@ -83,5 +83,57 @@
     "light_emitted": 5,
     "light_color": [ 150, 75, 0 ],
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_tree",
+    "copy-from": "t_alien_meadow_tree_1",
+    "delete": { "flags": [ "TREE" ] },
+    "color": "blue",
+    "name": "power tree",
+    "description": "A power pole with a crown of signal antennas on top.  You can hear intermittent buzzing from the \"tree\".",
+    "light_emitted": 50,
+    "light_color": [ 0, 200, 200 ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_grate",
+      "items": [
+        { "item": "lc_steel_lump", "count": [ 1, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_moss",
+    "copy-from": "t_moss",
+    "color": "blue",
+    "name": "moss",
+    "description": "A patch of moist, spongy moss.",
+    "light_emitted": 1,
+    "light_color": [ 0, 100, 100 ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_radiosphere_bush",
+    "name": "wire bush",
+    "description": "A giant tangle of copper wiring and steel pipes.  The moss covering the tangle gives it a plant-like appearance.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_grate",
+      "items": [ { "item": "cable", "prob": 100, "count": [ 100, 200 ] }, { "item": "pipe", "count": [ 10, 30 ] } ]
+    }
   }
 ]

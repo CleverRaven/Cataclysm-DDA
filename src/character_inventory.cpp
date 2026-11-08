@@ -219,18 +219,21 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     }
 }
 
-int Character::count_softwares( const itype_id &id )
+int Character::count_softwares( const itype_id &id ) const
 {
     int count = 0;
-    for( const item_location &it_loc : all_items_loc() ) {
-        if( it_loc->is_estorage() ) {
-            for( const item *soft : it_loc->softwares() ) {
+    visit_items(
+    [&id, &count]( const item_location & node ) {
+        if( node->is_estorage() ) {
+            for( const item *soft : node->softwares() ) {
                 if( soft->typeId() == id ) {
                     count++;
                 }
             }
         }
+        return VisitResponse::NEXT;
     }
+    );
     return count;
 }
 
@@ -238,14 +241,15 @@ bool Character::has_software( const itype_id &software_id, int min_charges,
                               const itype_id &device_id ) const
 {
     map &here = get_map();
+    bool ret = false;
 
-    for( const item_location &it_loc : const_cast<Character *>( this )->all_items_loc() ) {
+    visit_items( [&]( const item_location & it_loc ) {
         if( !it_loc->is_estorage() ) {
-            continue;
+            return VisitResponse::NEXT;
         }
 
         if( !device_id.is_null() && it_loc->typeId() != device_id ) {
-            continue;
+            return VisitResponse::SKIP;
         }
 
         bool has_software = false;
@@ -257,22 +261,27 @@ bool Character::has_software( const itype_id &software_id, int min_charges,
         }
 
         if( !has_software ) {
-            continue;
+            return VisitResponse::SKIP;
         }
 
         if( min_charges <= 0 ) {
-            return true;
+            ret = true;
+            return VisitResponse::ABORT;
         }
 
         if( it_loc->is_tool() ) {
             const int device_charges = it_loc->ammo_remaining_linked( here, this );
             if( device_charges >= min_charges ) {
-                return true;
+                ret = true;
+                return VisitResponse::ABORT;
             }
         }
-    }
+        // if we get this far, this item is estorage and doesn't have the file.
+        // we don't need to delve deeper into an estorage item.
+        return VisitResponse::SKIP;
+    } );
 
-    return false;
+    return ret;
 }
 
 units::length Character::max_single_item_length() const
@@ -612,39 +621,6 @@ bool Character::i_drop_at( item &it, int qty )
     return retval;
 }
 
-static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
-{
-    for( item *it : parent->all_items_top( pocket_type::CONTAINER ) ) {
-        item_location child( parent, it );
-        recur_internal_locations( child, list );
-    }
-    list.push_back( parent );
-}
-
-std::vector<item_location> outfit::all_items_loc( Character &guy )
-{
-    std::vector<item_location> ret;
-    for( item &worn_it : worn ) {
-        item_location worn_loc( guy, &worn_it );
-        std::vector<item_location> worn_internal_items;
-        recur_internal_locations( worn_loc, worn_internal_items );
-        ret.insert( ret.end(), worn_internal_items.begin(), worn_internal_items.end() );
-    }
-    return ret;
-}
-
-std::vector<item_location> Character::all_items_loc()
-{
-    std::vector<item_location> ret;
-    item_location weap_loc( *this, &weapon );
-    std::vector<item_location> weapon_internal_items;
-    recur_internal_locations( weap_loc, weapon_internal_items );
-    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
-    std::vector<item_location> outfit_items = worn.all_items_loc( *this );
-    ret.insert( ret.end(), outfit_items.begin(), outfit_items.end() );
-    return ret;
-}
-
 std::vector<item_location> outfit::top_items_loc( Character &guy )
 {
     std::vector<item_location> ret;
@@ -894,7 +870,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
             item it = *obj;
             obj.remove_item();
             const std::optional<std::list<item>::iterator> worn_it = wear_item( it );
-            if( worn_it )
+            if( worn_it && *worn_it != worn.worn.end() )
             {
                 craft_relocated( item_location( *this, & **worn_it ) );
             }

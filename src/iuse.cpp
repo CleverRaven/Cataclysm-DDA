@@ -129,6 +129,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -1288,7 +1289,7 @@ std::optional<int> iuse::petfood( Character *p, item *it, const tripoint_bub_ms 
         if( petfood.feed.empty() ) {
             p->add_msg_if_player( m_good, _( "The %1$s is your pet now!" ), mon->get_name() );
         } else {
-            p->add_msg_if_player( m_good, petfood.feed, mon->get_name() );
+            p->add_msg_if_player( m_good, _( petfood.feed ), mon->get_name() );
         }
 
         mon->friendly = -1;
@@ -7695,7 +7696,7 @@ std::optional<int> iuse::sextant( Character *p, item *it, const tripoint_bub_ms 
     if( debug_mode ) {
         // Debug mode always shows all sun angles
         const float azimuth = to_degrees( sun_position.first );
-        p->add_msg_if_player( m_neutral, "Sun altitude %.1f°, azimuth %.1f°", altitude, azimuth );
+        p->add_msg_if_player( m_neutral, _( "Sun altitude %.1f°, azimuth %.1f°" ), altitude, azimuth );
     } else if( g->is_sheltered( pos ) ) {
         p->add_msg_if_player( m_neutral, _( "You can't see the Sun from here." ) );
     } else if( altitude > 0 ) {
@@ -8540,32 +8541,9 @@ std::optional<int> iuse::strong_antibiotic( Character *p, item *it, const tripoi
     return 1;
 }
 
-static item *wield_before_use( Character *const p, item *const it, const std::string &msg )
-{
-    if( !p->is_wielding( *it ) ) {
-        if( !p->is_armed() || query_yn( msg.c_str(), it->tname() ) ) {
-            if( !p->wield( *it ) ) {
-                // Will likely happen if it is too heavy, or the player is
-                // wielding something that can't be unwielded
-                add_msg( m_bad, "%s", p->can_wield( *it ).str() );
-                return nullptr;
-            }
-            // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &*p->get_wielded_item();
-        } else {
-            return nullptr;
-        }
-    }
-    return it;
-}
-
-std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms &loc )
 {
     if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
-    if( !it ) {
         return std::nullopt;
     }
 
@@ -8576,7 +8554,12 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
         return std::nullopt;
     }
 
-    item_location craft_loc( *p, it );
+    item_location craft_loc;
+    if( p->has_item( *it ) ) {
+        craft_loc = item_location( *p, it );
+    } else {
+        craft_loc = item_location( map_cursor( loc ), it );
+    }
     craft_resolve_overdue_passive( *it, calendar::turn, craft_loc );
     if( !craft_loc || !craft_loc.get_item() ) {
         return std::nullopt;
@@ -8619,20 +8602,20 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint_bub_ms & 
     return 0;
 }
 
-std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms & )
+std::optional<int> iuse::disassemble( Character *p, item *it, const tripoint_bub_ms &loc )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
-    if( !it ) {
-        return std::nullopt;
-    }
-    if( !p->has_item( *it ) ) {
-        return std::nullopt;
+
+    item_location it_location;
+    if( p->has_item( *it ) ) {
+        it_location = item_location( *p, it );
+    } else {
+        it_location = item_location( map_cursor( loc ), it );
     }
 
-    p->disassemble( item_location( *p, it ), false );
+    p->disassemble( it_location, false );
 
     return 0;
 }
@@ -8771,7 +8754,8 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
     std::vector<uilist_entry> uile;
     std::vector<item_location> artifacts;
     int i = 0;
-    for( const item_location &item_loc : p->all_items_loc() ) {
+    p->visit_items(
+    [&i, &uile, &artifacts]( const item_location & item_loc ) {
         const item *tested_item = item_loc.get_item();
         if( !tested_item->get_proc_enchantments().empty() ) {
             // We've found an item with an enchantment. This doesn't guarantee it is an artifact! Prune the list to only items with resonance
@@ -8790,7 +8774,9 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
                 i++;
             }
         }
+        return VisitResponse::NEXT;
     }
+    );
 
     if( artifacts.empty() ) {
         popup( _( "The device indicates none of the items on your person resonate with registered nether phenomena." ) );

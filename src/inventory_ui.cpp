@@ -63,6 +63,7 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -130,9 +131,9 @@ item_name_t &get_cached_name( item const *it )
 
 // get topmost visible parent in an unbroken chain
 item_location get_topmost_parent( item_location const &topmost, item_location const &loc,
-                                  inventory_selector_preset const &preset )
+                                  bool loc_shown )
 {
-    return preset.is_shown( loc ) ? topmost ? topmost : loc : item_location{};
+    return loc_shown ? topmost ? topmost : loc : item_location{};
 }
 
 using parent_path_t = std::vector<item_location>;
@@ -409,6 +410,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "recent_recipes", recent_recipes );
     json.member( "crafting_expand_details", crafting_expand_details );
     json.member( "crafting_expand_steps", crafting_expand_steps );
+    json.member( "body_status_info_collapsed", body_status_info_collapsed );
+    json.member( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
@@ -500,6 +503,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "crafting_expand_details", crafting_expand_details );
+    jo.read( "body_status_info_collapsed", body_status_info_collapsed );
+    jo.read( "body_status_bodygraph_collapsed", body_status_bodygraph_collapsed );
     jo.read( "crafting_expand_steps", crafting_expand_steps );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
@@ -1988,7 +1993,16 @@ inventory_entry *inventory_selector::add_entry( inventory_column &target_column,
     if( !preset.is_shown( locations.front() ) ) {
         return nullptr;
     }
+    return add_shown_entry( target_column, std::move( locations ), custom_category, chosen_count,
+                            topmost_parent, chevron );
+}
 
+inventory_entry *inventory_selector::add_shown_entry( inventory_column &target_column,
+        std::vector<item_location> &&locations,
+        const item_category *custom_category,
+        const size_t chosen_count, item_location const &topmost_parent,
+        bool chevron )
+{
     is_empty = false;
     inventory_entry entry( locations, custom_category,
                            true, chosen_count,
@@ -2011,6 +2025,8 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
                                         item_category const *children_category,
                                         item_location const &topmost_parent, int indent, bool add_efiles )
 {
+    // is_shown can be costly, so ask once per item
+    const bool shown = preset.is_shown( loc );
     inventory_column temp_children( preset );
     bool vis_contents;
     if( add_efiles && loc->is_estorage() ) {
@@ -2018,11 +2034,13 @@ bool inventory_selector::add_entry_rec( inventory_column &entry_column,
     } else {
         vis_contents =
             add_contained_items( loc, temp_children, children_category,
-                                 get_topmost_parent( topmost_parent, loc, preset ),
-                                 preset.is_shown( loc ) ? indent + 2 : indent, add_efiles );
+                                 get_topmost_parent( topmost_parent, loc, shown ),
+                                 shown ? indent + 2 : indent, add_efiles );
     }
-    inventory_entry *const nentry = add_entry( entry_column, std::vector<item_location>( 1, loc ),
-                                    entry_category, 0, topmost_parent );
+    inventory_entry *const nentry = shown
+                                    ? add_shown_entry( entry_column, std::vector<item_location>( 1, loc ),
+                                            entry_category, 0, topmost_parent )
+                                    : nullptr;
     if( nentry != nullptr ) {
         nentry->chevron = vis_contents;
         nentry->indent = indent;
@@ -2200,9 +2218,13 @@ void inventory_selector::add_character_items( Character &character, bool add_efi
 
 void inventory_selector::add_character_ebooks( Character &character )
 {
-    for( item_location &ereader : character.all_items_loc() ) {
-        add_contained_ebooks( ereader );
-    }
+    character.visit_items( [&]( item_location ereader ) {
+        if( add_contained_ebooks( ereader ) ) {
+            return VisitResponse::SKIP;
+        } else {
+            return VisitResponse::NEXT;
+        }
+    } );
 }
 
 void inventory_selector::add_map_items( const tripoint_bub_ms &target, bool add_efiles )
@@ -4808,11 +4830,10 @@ void inventory_haul_selector::apply_selection( std::vector<item_location> &items
     std::unordered_map<inventory_entry *, int> counts;
     for( item_location &item : items ) {
         inventory_entry *entry = find_entry_by_location( item );
-        if( counts.count( entry ) ) {
-            counts.at( entry ) += 1;
-        } else {
-            counts.emplace( entry, 1 );
+        if( entry == nullptr ) {
+            continue;
         }
+        counts[entry] += 1;
     }
     for( std::pair<inventory_entry *, int> count : counts ) {
         // count_by_charges items will be moved all at once anyway, this is just to make it look a bit better

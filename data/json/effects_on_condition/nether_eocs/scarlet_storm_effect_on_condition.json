@@ -26,6 +26,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_START_SCARLET_STORM_SCENARIO_ADJUST_EAST",
+    "//": "Adjusts the storm to start further east to accomodate for starts on the ocean coast. Moves the storm roughly three weeks east",
+    "effect": [
+      { "math": [ "scarlet_storm_focus_a1.x = scarlet_storm_focus_a1.x + 9072" ] },
+      { "math": [ "scarlet_storm_focus_a2.x = scarlet_storm_focus_a2.x + 9072" ] },
+      { "math": [ "scarlet_storm_focus_b1.x = scarlet_storm_focus_b1.x + 9072" ] },
+      { "math": [ "scarlet_storm_focus_b2.x = scarlet_storm_focus_b2.x + 9072" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SCARLET_STORM",
     "recurrence": "8 hours",
     "global": true,

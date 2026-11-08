@@ -149,6 +149,75 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
     return false;
 }
 
+// step( dest, cost ) for each tile in z_min..z_max that route() reaches from cur by stairs
+// (far end can be several tiles away) or by ramp
+template<typename Step>
+static void for_each_vertical_step( const map &m, const tripoint_bub_ms &cur,
+                                    const pathfinding_settings &settings, const int z_min, const int z_max,
+                                    const Step &step )
+{
+    const PathfindingFlags cur_special = m.get_pathfinding_cache_ref(
+            cur.z() ).special[cur.x()][cur.y()];
+    // TODO: We should be able to go up ramps even if we can't climb stairs.
+    if( !( cur_special & ( PathfindingFlag::GoesUp | PathfindingFlag::GoesDown ) ) ||
+        !settings.allow_climb_stairs ) {
+        return;
+    }
+    bool rope_ladder = false;
+    const ter_t &parent_terrain = m.ter( cur ).obj();
+    if( cur.z() > z_min && parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+        std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
+                cur.z() - 1, rope_ladder, false, cur );
+        if( !opt_dest ) {
+            return;
+        }
+        tripoint_bub_ms dest( opt_dest.value() );
+        if( vertical_move_destination( m, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
+            if( !m.inbounds( dest ) ) {
+                return;
+            }
+            step( dest, 2 );
+        }
+    }
+    if( cur.z() < z_max && parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
+        std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
+                cur.z() + 1, rope_ladder, false, cur );
+        if( !opt_dest ) {
+            return;
+        }
+        tripoint_bub_ms dest( opt_dest.value() );
+        if( vertical_move_destination( m, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
+            if( !m.inbounds( dest ) ) {
+                return;
+            }
+            step( dest, 2 );
+        }
+    }
+    // a ramp leads to any of the 8 tiles around the one above or below it
+    constexpr std::array<int, 8> x_offset{ { -1,  1,  0,  0,  1, -1, -1, 1 } };
+    constexpr std::array<int, 8> y_offset{ {  0,  0, -1,  1, -1,  1, -1, 1 } };
+    const auto ramp_steps = [&]( const int dz ) {
+        for( size_t it = 0; it < 8; it++ ) {
+            const tripoint_bub_ms next( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + dz );
+            if( m.inbounds( next ) ) {
+                step( next, 4 );
+            }
+        }
+    };
+    if( cur.z() < z_max && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
+        m.valid_move( cur, cur + tripoint::above, false, true ) ) {
+        ramp_steps( 1 );
+    }
+    if( cur.z() < z_max && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
+        m.valid_move( cur, cur + tripoint::above, false, true, true ) ) {
+        ramp_steps( 1 );
+    }
+    if( cur.z() > z_min && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
+        m.valid_move( cur, cur + tripoint::below, false, true, true ) ) {
+        ramp_steps( -1 );
+    }
+}
+
 template<class Set1, class Set2>
 static bool is_disjoint( const Set1 &set1, const Set2 &set2 )
 {
@@ -372,6 +441,26 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     return PF_IMPASSABLE;
 }
 
+bool map::can_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
+                    const pathfinding_settings &settings ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+    if( cur.z() != p.z() ) {
+        bool found = false;
+        if( inbounds( cur ) ) {
+            for_each_vertical_step( *this, cur, settings, p.z(), p.z(),
+            [&]( const tripoint_bub_ms & dest, int ) {
+                found = found || dest == p;
+            } );
+        }
+        return found;
+    }
+    const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( p.z() );
+    return cost_to_pass( cur, p, settings, pf_cache.special[p.x()][p.y()] ) >= 0;
+}
+
 int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &p,
                         const pathfinding_settings &settings, PathfindingFlags p_special ) const
 {
@@ -506,7 +595,6 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
         layer.closed[parent_index] = true;
 
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( cur.z() );
-        const PathfindingFlags cur_special = pf_cache.special[cur.x()][cur.y()];
 
         // 7 3 5
         // 1 . 2
@@ -589,89 +677,12 @@ std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f,
             pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
         }
 
-        // TODO: We should be able to go up ramps even if we can't climb stairs.
-        if( !( cur_special & ( PathfindingFlag::GoesUp | PathfindingFlag::GoesDown ) ) ||
-            !settings.allow_climb_stairs ) {
-            // The part below is only for z-level pathing
-            continue;
-        }
-
-        bool rope_ladder = false;
-        const const_maptile &parent_tile = maptile_at_internal( cur );
-        const ter_t &parent_terrain = parent_tile.get_ter_t();
-        if( settings.allow_climb_stairs && cur.z() > min.z() &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
-                    cur.z() - 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint_bub_ms dest( opt_dest.value() );
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_UP, dest ) ) {
-                if( !inbounds( dest ) ) {
-                    continue;
-                }
-                // Use outer layer (cur.z()) for gscore -- the destination
-                // layer may contain stale data at parent_index.
-                int new_g = layer.gscore[parent_index] + 2;
-                pf.add_point( new_g, new_g + 2 * rl_dist( dest, t ),
-                              cur, dest );
-            }
-        }
-        if( settings.allow_climb_stairs && cur.z() < max.z() &&
-            parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            std::optional<tripoint_bub_ms> opt_dest = g->find_or_make_stairs( get_map(),
-                    cur.z() + 1, rope_ladder, false, cur );
-            if( !opt_dest ) {
-                continue;
-            }
-            tripoint_bub_ms dest( opt_dest.value() );
-            if( vertical_move_destination( *this, ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) {
-                if( !inbounds( dest ) ) {
-                    continue;
-                }
-                int new_g = layer.gscore[parent_index] + 2;
-                pf.add_point( new_g, new_g + 2 * rl_dist( dest, t ),
-                              cur, dest );
-            }
-        }
-        if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) &&
-            valid_move( cur, cur + tripoint::above, false, true ) ) {
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
-                }
-                int new_g = layer.gscore[parent_index] + 4;
-                pf.add_point( new_g, new_g + 2 * rl_dist( above, t ),
-                              cur, above );
-            }
-        }
-        if( cur.z() < max.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
-            valid_move( cur, cur + tripoint::above, false, true, true ) ) {
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint_bub_ms above( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() + 1 );
-                if( !inbounds( above ) ) {
-                    continue;
-                }
-                int new_g = layer.gscore[parent_index] + 4;
-                pf.add_point( new_g, new_g + 2 * rl_dist( above, t ),
-                              cur, above );
-            }
-        }
-        if( cur.z() > min.z() && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
-            valid_move( cur, cur + tripoint::below, false, true, true ) ) {
-            for( size_t it = 0; it < 8; it++ ) {
-                const tripoint_bub_ms below( cur.x() + x_offset[it], cur.y() + y_offset[it], cur.z() - 1 );
-                if( !inbounds( below ) ) {
-                    continue;
-                }
-                int new_g = layer.gscore[parent_index] + 4;
-                pf.add_point( new_g, new_g + 2 * rl_dist( below, t ),
-                              cur, below );
-            }
-        }
-
+        for_each_vertical_step( *this, cur, settings, min.z(), max.z(),
+        [&]( const tripoint_bub_ms & dest, const int step_cost ) {
+            // cur's layer: the destination layer may hold stale gscore at parent_index
+            const int new_g = layer.gscore[parent_index] + step_cost;
+            pf.add_point( new_g, new_g + 2 * rl_dist( dest, t ), cur, dest );
+        } );
     } while( !done && !pf.empty() );
 
     if( done ) {

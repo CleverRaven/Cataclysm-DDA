@@ -584,7 +584,8 @@
       { "part": "hand_l", "ignored": 2 },
       { "part": "hand_r", "ignored": 2 },
       { "part": "torso", "ignored": 18 }
-    ]
+    ],
+    "flags": [ "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -642,7 +643,8 @@
       { "part": "hand_l", "ignored": 3 },
       { "part": "hand_r", "ignored": 3 },
       { "part": "torso", "ignored": 26 }
-    ]
+    ],
+    "flags": [ "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -751,7 +753,8 @@
       { "part": "hand_l", "ignored": 9 },
       { "part": "hand_r", "ignored": 9 },
       { "part": "torso", "ignored": 34 }
-    ]
+    ],
+    "flags": [ "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -853,7 +856,7 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 3,
-    "flags": [ "BARKY" ],
+    "flags": [ "BARKY", "BRUISE_IMMUNE" ],
     "integrated_armor": [ "integrated_bark" ]
   },
   {
@@ -871,7 +874,7 @@
     "vitamin_cost": 180,
     "visibility": 10,
     "ugliness": 3,
-    "flags": [ "BARKY" ],
+    "flags": [ "BARKY", "BRUISE_IMMUNE" ],
     "transform": {
       "target": "BARK2_b",
       "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
@@ -913,7 +916,7 @@
     "active": true,
     "visibility": 10,
     "ugliness": 3,
-    "flags": [ "BARKY" ],
+    "flags": [ "BARKY", "BRUISE_IMMUNE" ],
     "transform": {
       "target": "BARK2_a",
       "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",

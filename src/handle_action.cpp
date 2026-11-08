@@ -18,7 +18,7 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "bodygraph.h"
+#include "body_status_ui.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -78,6 +78,7 @@
 #include "overmap_ui.h"
 #include "panels.h"
 #include "pathfinding.h"
+#include "perf.h"
 #include "point.h"
 #include "popup.h"
 #include "ranged.h"
@@ -99,6 +100,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -240,6 +242,7 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
+    cata_timer get_player_input_timer( "get_player_input" );
     map &here = get_map();
 
     const tripoint_bub_ms pos = u.pos_bub( here );
@@ -759,11 +762,15 @@ static void haul()
 
     uilist menu;
 
-    bool hauling = player_character.is_hauling();
-    bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
     std::vector<item_location> haulable_items = get_map().get_haulable_items(
                 player_character.pos_bub() );
+    player_character.trim_haul_list( haulable_items );
+    if( player_character.is_hauling() && haul_list.empty() && !player_character.is_autohauling() ) {
+        player_character.stop_hauling();
+    }
+    bool hauling = player_character.is_hauling();
+    bool autohaul = player_character.is_autohauling();
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
@@ -1305,12 +1312,15 @@ static void sleep()
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
-    for( item_location &it : player_character.all_items_loc() ) {
+    player_character.visit_items(
+    [&active, &player_character]( const item_location & it ) {
         if( it->has_flag( flag_LITCIG ) || ( it->active && it->ammo_sufficient( &player_character ) &&
                                              it->is_tool() && !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
+        return VisitResponse::NEXT;
     }
+    );
     for( int i = 0; i < player_character.num_bionics(); i++ ) {
         const bionic &bio = player_character.bionic_at_index( i );
         if( !bio.powered ) {
@@ -2994,16 +3004,18 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.disp_morale();
             break;
 
-        case ACTION_MEDICAL:
-            if( player_character.disp_medical() ) {
+        case ACTION_MEDICAL: {
+            body_status_ui bsui( get_player_character(), body_status_tab::BS_TAB_MEDICAL );
+            if( bsui.display() ) {
                 return false;
             }
             break;
-
-        case ACTION_BODYSTATUS:
-            display_bodygraph( get_player_character() );
+        }
+        case ACTION_BODYSTATUS: {
+            body_status_ui bsui( get_player_character() );
+            bsui.display();
             break;
-
+        }
         case ACTION_MESSAGES:
             Messages::display_messages();
             break;
@@ -3159,6 +3171,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
 bool game::handle_action()
 {
+    cata_timer handle_action_timer( "handle_action" );
     map &here = get_map();
 
     std::string action;

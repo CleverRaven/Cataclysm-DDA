@@ -167,7 +167,8 @@ class multi_zone_activity_actor : public activity_actor
         /** Check whether activity can be done immediately if it has requirements */
         requirement_check_result check_requirements( Character &you, activity_reason_info &act_info,
                 const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
-                const std::unordered_set<tripoint_abs_ms> &src_set, bool check_only = false );
+                const std::unordered_set<tripoint_abs_ms> &src_set, bool &missing_items_reported,
+                bool check_only = false );
         // assigns fetch activity to find provided requirements
         requirement_check_result fetch_requirements( Character &you, requirement_id what_we_need,
                 activity_reason_info &act_info, const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc,
@@ -510,9 +511,14 @@ class fetch_required_activity_actor : public multi_zone_activity_actor
             return ACT_FETCH_REQUIRED;
         }
 
+        // from last requirements_map call
+        enum class fetch_plan : int { met, fetching, cannot_supply };
+        fetch_plan last_plan = fetch_plan::fetching; // NOLINT(cata-serialize)
+
         void set_npc_fetch_history( Character &you );
         std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map( Character &you,
                 int distance = MAX_VIEW_DISTANCE );
+        // true when this turn's fetch step is over: item moved or task called off
         bool fetch_activity( Character &you, const tripoint_bub_ms &src_loc,
                              const activity_id &activity_to_restore, int distance = MAX_VIEW_DISTANCE );
         // is the front of the activity backlog a multi-activity?
@@ -1942,6 +1948,14 @@ class consume_activity_actor : public activity_actor
         explicit consume_activity_actor( const item &consume_item, bool reprompt_consume_menu = false ) :
             consume_item( consume_item ), reprompt_consume_menu( reprompt_consume_menu ) {}
 
+        const item_location &location() const {
+            return consume_location;
+        }
+        // false once food is gone, taken or not found by a load
+        bool has_food() const {
+            return consume_location || !consume_item.is_null();
+        }
+
         const activity_id &get_type() const override {
             static const activity_id ACT_CONSUME( "ACT_CONSUME" );
             return ACT_CONSUME;
@@ -1954,6 +1968,34 @@ class consume_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<consume_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+// meal from a camp's larder, eaten over its consume time; portion leaves the larder only when
+// the meal ends, so an interrupted meal takes nothing
+class camp_meal_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_omt camp;
+        int kcal = 0;
+
+    public:
+        camp_meal_activity_actor( const tripoint_abs_omt &camp, int kcal ) : camp( camp ), kcal( kcal ) {}
+
+        const activity_id &get_type() const override {
+            static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+            return ACT_CAMP_MEAL;
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<camp_meal_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -2088,6 +2130,16 @@ class craft_activity_actor : public activity_actor
         float cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool use_cached_workbench_multiplier; // NOLINT(cata-serialize)
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
+
+        // Legacy migration: older saves have step recipes with item_counter but no
+        // current_step/step_progress. Derive step state once, before any work or
+        // exertion computation. Guard ensures this runs at most once.
+        void migrate_craft_step( Character &crafter );
+        // Mode is derived from craft state every turn so wakeup handlers that
+        // advance current_step do not need to reach into the live actor.
+        mode derive_mode() const;
+        // returns whether we abort do_turn early
+        bool unattended_craft_step( player_activity &act, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -2263,7 +2315,7 @@ class stash_activity_actor: public activity_actor
 class harvest_activity_actor : public activity_actor
 {
     public:
-        explicit harvest_activity_actor( const tripoint_bub_ms &target,
+        explicit harvest_activity_actor( const tripoint_abs_ms &target,
                                          bool auto_forage = false ) :
             target( target ), auto_forage( auto_forage ) {};
 
@@ -2284,7 +2336,7 @@ class harvest_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        tripoint_bub_ms target;
+        tripoint_abs_ms target;
         bool exam_furn = false;
         bool nectar = false;
         bool auto_forage = false;
@@ -2844,7 +2896,7 @@ class build_construction_activity_actor : public activity_actor
             return ACT_BUILD;
         }
 
-        void start( player_activity &, Character & ) override {};
+        void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &act, Character &you ) override;
         void finish( player_activity &, Character & ) override {};
 
@@ -2860,6 +2912,8 @@ class build_construction_activity_actor : public activity_actor
 
     private:
         tripoint_abs_ms construction_location;
+        // not saved; the first turn after loading sets it again
+        construction_id building = construction_id( -1 ); // NOLINT(cata-serialize)
 
 };
 
@@ -3839,9 +3893,9 @@ class fix_wound_activity_actor : public activity_actor
 {
     public:
         fix_wound_activity_actor( time_duration initial_moves, bodypart_id healed_bp,
-                                  wound_type_id mended_wound, wound_fix_id mending_method ) :
+                                  wound_type_id mended_wound, wound_fix_id mending_method, int amount ) :
             initial_moves( initial_moves ), healed_bp( healed_bp ),
-            mended_wound( mended_wound ), mending_method( mending_method ) { }
+            mended_wound( mended_wound ), mending_method( mending_method ), amount( amount ) { }
 
         const activity_id &get_type() const override {
             static const activity_id ACT_TREAT_WOUND( "ACT_TREAT_WOUND" );
@@ -3865,6 +3919,7 @@ class fix_wound_activity_actor : public activity_actor
         bodypart_id healed_bp;
         wound_type_id mended_wound;
         wound_fix_id mending_method;
+        int amount;
 };
 
 class gunmod_add_activity_actor : public activity_actor

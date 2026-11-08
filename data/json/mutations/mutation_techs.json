@@ -1619,6 +1619,20 @@
   },
   {
     "type": "technique",
+    "id": "TECH_TENTACLE_SLAP",
+    "name": "Slap",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You slap %s", "<npcname> slaps %s" ],
+    "description": "A basic tentacle slap",
+    "attack_vectors": [ "vector_tentacle_slap" ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -3.75 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -1 }
+    ]
+  },
+  {
+    "type": "technique",
     "id": "TECH_ANIMAL_FOOT_KICK",
     "//": "This is just a kick for animal feet with no special characteristics",
     "name": "Kick",

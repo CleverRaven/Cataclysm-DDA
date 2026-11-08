@@ -539,7 +539,7 @@
     "type": "profession_item_substitutions",
     "item": "sandwich_pbj",
     "sub": [
-      { "present": [ "ANTIFRUIT" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_pbh" ] },
+      { "present": [ "ANTIFRUIT" ], "absent": [ "ANTIWHEAT" ], "new": [ "sandwich_sauce", "peanutbutter" ] },
       { "present": [ "ANTIWHEAT" ], "absent": [ "VEGETARIAN" ], "new": [ { "item": "cracklins", "ratio": 5.625 } ] },
       { "present": [ "ANTIWHEAT", "VEGETARIAN" ], "new": [ "boiled_egg" ] }
     ]

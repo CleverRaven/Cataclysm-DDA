@@ -1,0 +1,64 @@
+[
+  {
+    "type": "npc_class",
+    "id": "PIRATE_GRUNT",
+    "//": "level 1 crook",
+    "name": { "str": "hand" },
+    "job_description": "A shiphand from a pirate crew.",
+    "common": false,
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "PIRATE_GRUNT_worn",
+    "carry_override": "PIRATE_GRUNT_carry",
+    "weapon_override": "PIRATE_GRUNT_wield",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "PIRATE_GRUNT_worn",
+    "subtype": "collection",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      { "item": "afs_military_vest", "faults": [ { "id": [ "afs_fault_armor_worn" ], "chance": 80 } ], "prob": 28 },
+      { "item": "afs_combat_cryo", "faults": [ { "id": [ "afs_fault_armor_worn" ], "chance": 80 } ] },
+      { "item": "tactical_shotshell_pouch" },
+      { "item": "tool_pouch" },
+      { "item": "holster" },
+      { "item": "shot_00", "count": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "PIRATE_GRUNT_carry",
+    "subtype": "collection",
+    "items": [
+      { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+      { "item": "afs_marsec_4", "charges": 14, "ammo-item": "afs_10mm_caseless_JHP" },
+      { "item": "afs_10mm_caseless_JHP", "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "PIRATE_GRUNT_wield",
+    "subtype": "collection",
+    "items": [
+      {
+        "item": "afs_shotgun",
+        "variant": "vatforged",
+        "ammo-item": "shot_00",
+        "charges": 9,
+        "contents-item": [ "shoulder_strap" ]
+      }
+    ]
+  }
+]

@@ -24,11 +24,11 @@ static const ter_str_id ter_t_wall( "t_wall" );
 namespace
 {
 
-// avatar is mid-bubble, viewport a few tiles wide, so `far` is inside the
+// avatar is mid-bubble, viewport a few tiles wide, so `far_point` is inside the
 // bubble, in plain view, and off screen
 constexpr int view_tiles = 5;
 const tripoint_bub_ms player_pos( 65, 65, 0 );
-const tripoint_bub_ms far( 85, 65, 0 );
+const tripoint_bub_ms far_point( 85, 65, 0 );
 
 struct sweep_fixture {
     sweep_fixture() : available_( fx_.available() ) {
@@ -83,10 +83,10 @@ TEST_CASE( "tiles_idle_redraw_memorizes_an_offscreen_terrain_change", "[tiles][m
     GIVEN( "drawn frame" ) {
         fx.draw();
         WHEN( "off-screen tile becomes a wall, map redraws with no turn" ) {
-            get_map().ter_set( far, ter_t_wall.id() );
+            get_map().ter_set( far_point, ter_t_wall.id() );
             fx.draw();
             THEN( "the wall is memorized" ) {
-                CHECK( sweep_fixture::memory_at( far ).get_ter_id() == ter_t_wall.str() );
+                CHECK( sweep_fixture::memory_at( far_point ).get_ter_id() == ter_t_wall.str() );
             }
         }
     }
@@ -102,10 +102,10 @@ TEST_CASE( "tiles_idle_redraw_memorizes_an_offscreen_furniture_change", "[tiles]
     GIVEN( "drawn frame" ) {
         fx.draw();
         WHEN( "off-screen tile gets a chair, map redraws with no turn" ) {
-            get_map().furn_set( far, furn_f_chair.id() );
+            get_map().furn_set( far_point, furn_f_chair.id() );
             fx.draw();
             THEN( "chair is memorized" ) {
-                CHECK( sweep_fixture::memory_at( far ).get_dec_id() == furn_f_chair.str() );
+                CHECK( sweep_fixture::memory_at( far_point ).get_dec_id() == furn_f_chair.str() );
             }
         }
     }
@@ -118,21 +118,21 @@ TEST_CASE( "tiles_idle_redraw_skips_the_memorize_sweep", "[tiles][map_memory]" )
         WARN( "dummy SDL video backend unavailable; skipping" );
         return;
     }
-    const tripoint_abs_ms far_abs = get_map().get_abs( far );
+    const tripoint_abs_ms far_abs = get_map().get_abs( far_point );
     GIVEN( "a drawn frame and a probe id written into an off-screen tile's memory" ) {
         fx.draw();
-        REQUIRE( sweep_fixture::memory_at( far ).get_ter_id() == ter_t_grass.str() );
+        REQUIRE( sweep_fixture::memory_at( far_point ).get_ter_id() == ter_t_grass.str() );
         get_avatar().memorize_terrain( far_abs, "t_sweep_probe", 0, 0 );
         WHEN( "map redraws with nothing changed" ) {
             fx.draw();
             THEN( "probe survives, so no sweep ran" ) {
-                CHECK( sweep_fixture::memory_at( far ).get_ter_id() == "t_sweep_probe" );
+                CHECK( sweep_fixture::memory_at( far_point ).get_ter_id() == "t_sweep_probe" );
             }
             AND_WHEN( "draw points marked dirty, as a new turn does, and it redraws" ) {
                 fx.tiles_->set_draw_cache_dirty();
                 fx.draw();
                 THEN( "the sweep restores the real terrain" ) {
-                    CHECK( sweep_fixture::memory_at( far ).get_ter_id() == ter_t_grass.str() );
+                    CHECK( sweep_fixture::memory_at( far_point ).get_ter_id() == ter_t_grass.str() );
                 }
             }
         }
@@ -140,7 +140,7 @@ TEST_CASE( "tiles_idle_redraw_skips_the_memorize_sweep", "[tiles][map_memory]" )
             g->place_player( player_pos + tripoint_rel_ms::east );
             fx.draw();
             THEN( "the moved bubble is swept" ) {
-                CHECK( sweep_fixture::memory_at( far ).get_ter_id() == ter_t_grass.str() );
+                CHECK( sweep_fixture::memory_at( far_point ).get_ter_id() == ter_t_grass.str() );
             }
         }
     }

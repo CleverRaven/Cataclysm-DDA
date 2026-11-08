@@ -3472,12 +3472,10 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
-    // TODO: Unhide when enforcing limits
-    if( get_option < bool >( "CBM_SLOTS_ENABLED" )
-        && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+    if( parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
         info.emplace_back( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                            _( "This bionic is installed in the following body "
-                              "part(s):" ) ) );
+                              "part(s), or their equivalent part(s):" ) ) );
     }
 
     if( is_bionic() && has_flag( flag_NO_STERILE ) ) {

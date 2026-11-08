@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mutation",
+    "id": "AFS_NPC_CARGO_SPACE",
+    "name": "NPC Cargo Space",
+    "points": 0,
+    "description": "Cargo space for NPCs without shops.",
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "integrated_armor": [ "npc_cargo_space" ]
+  }
+]

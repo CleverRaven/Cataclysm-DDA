@@ -142,7 +142,7 @@
   {
     "id": "SKYISLAND_BUILD_northroom3",
     "type": "mission_definition",
-    "name": "Construct: north Room 3",
+    "name": "Construct: North Room 3",
     "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Warped Reinforcement from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: North Room 3.  Expand the northern room to very generous dimensions.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "buildkey_northroom3",
