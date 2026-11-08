@@ -296,9 +296,9 @@
     "name": { "str": "bandaged scratch", "str_pl": "bandaged scratches" },
     "description": "You have been scratched, you should wait till it heals.",
     "progress_timer": {
-      "id": "bandaged_scratch_small",
+      "id": "bandaged_scratch_old_small",
       "time": [ "48 hours", "84 hours" ],
-      "message": "Your scratch on your %s looks much better, and it should be healed soon."
+      "message": "Your scratch on your %s looks much better, but you should probably change the dressing."
     }
   },
   {
@@ -308,10 +308,24 @@
     "name": { "str": "bandaged bad scratch", "str_pl": "bandaged bad scratches" },
     "description": "You have been badly scratched, you should wait till it heals.",
     "progress_timer": {
-      "id": "bandaged_scratch_medium",
+      "id": "bandaged_scratch_old_medium",
       "time": [ "36 hours", "60 hours" ],
-      "message": "Your bad scratch on your %s looks less serious."
+      "message": "Your bad scratch on your %s looks less serious, but you should probably change the dressing."
     }
+  },
+  {
+    "id": "bandaged_scratch_old_small",
+    "copy-from": "clean_scratch_small",
+    "type": "wound",
+    "name": { "str": "bandaged light scratch (old dressing)", "str_pl": "bandaged light scratches (old dressing)" },
+    "description": "You have been scratched lightly, and you should probably change the dressing."
+  },
+  {
+    "id": "bandaged_scratch_old_medium",
+    "copy-from": "clean_scratch_medium",
+    "type": "wound",
+    "name": { "str": "bandaged scratch (old dressing)", "str_pl": "bandaged bad scratches (old dressing)" },
+    "description": "You have been scratched, and you should probably change the dressing."
   },
   {
     "id": "bandaged_cut_medium",

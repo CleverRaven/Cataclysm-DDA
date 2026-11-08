@@ -360,9 +360,16 @@
     "name": { "str": "bandaged bad laceration" },
     "description": "You have a bad laceration, you should wait till it heals.",
     "progress_timer": {
-      "id": "bandaged_laceration_medium",
+      "id": "bandaged_laceration_old_medium",
       "time": [ "48 hours", "84 hours" ],
-      "message": "Your bad laceration on your %s looks less serious now."
+      "message": "Your bad laceration on your %s looks less serious now, but you should probably change the dressing."
     }
+  },
+  {
+    "id": "bandaged_laceration_old_medium",
+    "copy-from": "clean_laceration_medium",
+    "type": "wound",
+    "name": { "str": "bandaged laceration (old dressing)", "str_pl": "bandaged lacerations (old dressing)" },
+    "description": "You have a laceration you should probably change the bandages on."
   }
 ]
