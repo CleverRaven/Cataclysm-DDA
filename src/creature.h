@@ -478,6 +478,9 @@ class Creature : public viewer
         static melee_hit_quality melee_hit_quality_of( int hit_spread );
         static std::string hit_quality_label( int hit_spread );
 
+        // For deflections
+        bodypart_id deflect_hit_part( const bodypart_id &bp, bool can_attack_high ) const;
+
         // Distance == 1 and on the same z-level or with a clear shot up/down.
         // If allow_zlev is false, don't allow attacking up/down at all.
         // If allow_zlev is true, also allow distance == 1 and on different z-level
