@@ -1095,7 +1095,7 @@ class npc : public Character
         healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
-        item_location &get_healing_item( healing_options try_to_fix, bool first_best = false );
+        item_location get_healing_item( healing_options try_to_fix, bool first_best = false );
         bool has_painkiller() const;
         bool took_painkiller() const;
         void use_painkiller();

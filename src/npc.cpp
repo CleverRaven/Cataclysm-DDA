@@ -2654,7 +2654,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     return can_fix;
 }
 
-item_location &npc::get_healing_item( healing_options try_to_fix, bool first_best )
+item_location npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item_location best;
     visit_items( [&best, try_to_fix, first_best]( item_location node ) {

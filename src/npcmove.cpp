@@ -5282,7 +5282,7 @@ void npc::heal_player( Character &patient )
         add_msg( _( "%1$s starts healing %2$s." ), disp_name(), patient.disp_name() );
     }
 
-    item_location &used = get_healing_item( ai_cache.can_heal );
+    item_location used = get_healing_item( ai_cache.can_heal );
     if( used->is_null() ) {
         debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
@@ -5353,7 +5353,7 @@ void npc::heal_self()
         return;
     }
 
-    item_location &used = get_healing_item( ai_cache.can_heal );
+    item_location used = get_healing_item( ai_cache.can_heal );
     if( used->is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
