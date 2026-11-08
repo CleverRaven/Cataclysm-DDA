@@ -297,7 +297,7 @@
     "description": "You have been scratched, you should wait till it heals.",
     "progress_timer": {
       "id": "bandaged_scratch_old_small",
-      "time": [ "48 hours", "84 hours" ],
+      "time": [ "24 hours", "48 hours" ],
       "message": "Your scratch on your %s looks much better, but you should probably change the dressing."
     }
   },
