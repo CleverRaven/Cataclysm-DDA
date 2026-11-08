@@ -1370,12 +1370,6 @@
           { "value": "WEAPON_DISPERSION", "multiply": 0.1 }
         ]
       }
-    ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
     ]
   },
   {
@@ -1422,12 +1416,6 @@
           { "value": "WEAPON_DISPERSION", "multiply": 0.2 }
         ]
       }
-    ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
     ]
   },
   {
@@ -1468,12 +1456,6 @@
         ]
       },
       { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
-    ],
-    "wet_protection": [
-      { "part": "leg_l", "neutral": 21 },
-      { "part": "leg_r", "neutral": 21 },
-      { "part": "foot_l", "neutral": 6 },
-      { "part": "foot_r", "neutral": 6 }
     ]
   },
   {
@@ -1505,9 +1487,7 @@
     "vitamin_cost": 60,
     "visibility": 4,
     "ugliness": 4,
-    "flags": [ "PSEUDOPOD_GRASP" ],
-    "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
-    "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework."
+    "flags": [ "PSEUDOPOD_GRASP" ]
   },
   {
     "type": "mutation",
