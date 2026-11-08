@@ -22,6 +22,7 @@
       "ALLOWS_NATURAL_ATTACKS",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -48,6 +49,14 @@
           "arm_wing_bird_r",
           "wing_l",
           "wing_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r",
           "gastropod_foot",
           "tentacle_lower_front_l",
           "tentacle_lower_middle_l",
@@ -79,7 +88,9 @@
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
+      "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_NATURAL_ATTACKS",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS"
     ],
@@ -108,6 +119,14 @@
           "arm_wing_bird_r",
           "wing_l",
           "wing_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r",
           "gastropod_foot",
           "beak",
           "muzzle",
@@ -1749,7 +1768,16 @@
     "warmth": 20,
     "material_thickness": 3.5,
     "//2": "Deliberately does not cover independent wings--it can just fit between them",
-    "flags": [ "OUTER", "OVERSIZE", "UNBREAKABLE", "SOFT", "ALLOWS_WING_ARMS", "ALLOWS_WINGS", "NO_WING_GLIDING" ],
+    "flags": [
+      "OUTER",
+      "OVERSIZE",
+      "UNBREAKABLE",
+      "SOFT",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "ALLOWS_WINGS",
+      "NO_WING_GLIDING"
+    ],
     "sided": true,
     "armor": [
       { "encumbrance": 2, "coverage": 95, "covers": [ "torso" ] },
@@ -1768,7 +1796,16 @@
         "layers": [ "OUTER" ]
       },
       {
-        "covers": [ "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r"
+        ],
         "coverage": 100,
         "encumbrance": 2,
         "specifically_covers": [
@@ -1779,7 +1816,11 @@
           "arm_wing_bat_shoulder_l",
           "arm_wing_bat_shoulder_r",
           "arm_wing_bat_upper_l",
-          "arm_wing_bat_upper_r"
+          "arm_wing_bat_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_lower_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_upper_lower_r"
         ],
         "layers": [ "OUTER" ]
       },
@@ -1852,7 +1893,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -1866,7 +1918,7 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "ALLOWS_WING_ARMS", "ALLOWS_WINGS", "NO_WING_GLIDING" ]
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "ALLOWS_WINGS", "NO_WING_GLIDING" ]
   },
   {
     "id": "cloak_denim",
@@ -1890,6 +1942,7 @@
       "STURDY",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -1907,7 +1960,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -1965,6 +2029,7 @@
       "BELTED",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -1982,7 +2047,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2057,6 +2133,7 @@
       "BELTED",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -2074,7 +2151,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2131,6 +2219,7 @@
       "RAINPROOF",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -2148,7 +2237,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2205,6 +2305,7 @@
       "RAINPROOF",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -2222,7 +2323,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2278,6 +2390,7 @@
       "BELTED",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -2295,7 +2408,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2350,6 +2474,7 @@
       "BELTED",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
       "NO_WING_GLIDING"
@@ -2370,7 +2495,18 @@
           "arm_wing_bird_l",
           "arm_wing_bird_r",
           "wing_l",
-          "wing_r"
+          "wing_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
         ]
       },
       {
@@ -2427,12 +2563,42 @@
       "need_charges": 20,
       "need_charges_msg": "You don't have enough UPS charges."
     },
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "SOFT", "NO_REPAIR", "RAINPROOF", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [
+      "USE_UPS",
+      "OVERSIZE",
+      "HOOD",
+      "BELTED",
+      "SOFT",
+      "NO_REPAIR",
+      "RAINPROOF",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "NO_WING_GLIDING"
+    ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 65,
-        "covers": [ "torso", "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ]
+        "covers": [
+          "torso",
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
+        ]
       },
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -2491,7 +2657,7 @@
     "warmth": 35,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
     "armor": [
       { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] },
       {
@@ -2509,7 +2675,25 @@
         "layers": [ "BELTED" ]
       },
       {
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l"
+        ],
         "coverage": 85,
         "encumbrance": 5,
         "specifically_covers": [
@@ -2518,7 +2702,17 @@
           "arm_wing_bird_upper_l",
           "arm_wing_bird_upper_r",
           "arm_wing_bat_upper_l",
-          "arm_wing_bat_upper_r"
+          "arm_wing_bat_upper_r",
+          "arm_insect_upper_l",
+          "arm_insect_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_lower_upper_l",
+          "arm_arachnid_lower_upper_r",
+          "arm_arachnid_ok_upper_upper_l",
+          "arm_arachnid_ok_upper_upper_r",
+          "arm_arachnid_ok_lower_upper_l",
+          "arm_arachnid_ok_lower_upper_r"
         ],
         "layers": [ "BELTED" ]
       }
@@ -2538,7 +2732,7 @@
     "material": [ "vinyl" ],
     "weight": "30 g",
     "volume": "50 ml",
-    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED", "ALLOWS_WING_ARMS" ],
+    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
@@ -2557,13 +2751,32 @@
     "material": [ "vinyl" ],
     "weight": "280 g",
     "volume": "250 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
     "environmental_protection": 1,
     "material_thickness": 0.4,
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
         "specifically_covers": [
           "arm_shoulder_l",
           "arm_shoulder_r",
@@ -2582,7 +2795,27 @@
           "arm_wing_bird_elbow_r",
           "arm_wing_bird_elbow_l",
           "arm_wing_bat_elbow_r",
-          "arm_wing_bat_elbow_l"
+          "arm_wing_bat_elbow_l",
+          "arm_insect_upper_l",
+          "arm_insect_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_lower_upper_l",
+          "arm_arachnid_lower_upper_r",
+          "arm_arachnid_ok_upper_upper_l",
+          "arm_arachnid_ok_upper_upper_r",
+          "arm_arachnid_ok_lower_upper_l",
+          "arm_arachnid_ok_lower_upper_r",
+          "arm_insect_elbow_l",
+          "arm_insect_elbow_r",
+          "arm_arachnid_upper_elbow_l",
+          "arm_arachnid_upper_elbow_r",
+          "arm_arachnid_lower_elbow_l",
+          "arm_arachnid_lower_elbow_r",
+          "arm_arachnid_ok_upper_elbow_l",
+          "arm_arachnid_ok_upper_elbow_r",
+          "arm_arachnid_ok_lower_elbow_l",
+          "arm_arachnid_ok_lower_elbow_r"
         ],
         "coverage": 100
       },
@@ -2622,6 +2855,7 @@
       "OUTER",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "NO_WING_GLIDING"
     ],
@@ -2643,7 +2877,26 @@
       { "encumbrance": 2, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {
         "encumbrance": 2,
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
         "specifically_covers": [
           "arm_shoulder_l",
           "arm_shoulder_r",
@@ -2662,7 +2915,27 @@
           "arm_wing_bird_elbow_r",
           "arm_wing_bird_elbow_l",
           "arm_wing_bat_elbow_r",
-          "arm_wing_bat_elbow_l"
+          "arm_wing_bat_elbow_l",
+          "arm_insect_upper_l",
+          "arm_insect_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_lower_upper_l",
+          "arm_arachnid_lower_upper_r",
+          "arm_arachnid_ok_upper_upper_l",
+          "arm_arachnid_ok_upper_upper_r",
+          "arm_arachnid_ok_lower_upper_l",
+          "arm_arachnid_ok_lower_upper_r",
+          "arm_insect_elbow_l",
+          "arm_insect_elbow_r",
+          "arm_arachnid_upper_elbow_l",
+          "arm_arachnid_upper_elbow_r",
+          "arm_arachnid_lower_elbow_l",
+          "arm_arachnid_lower_elbow_r",
+          "arm_arachnid_ok_upper_elbow_l",
+          "arm_arachnid_ok_upper_elbow_r",
+          "arm_arachnid_ok_lower_elbow_l",
+          "arm_arachnid_ok_lower_elbow_r"
         ],
         "coverage": 100
       },
@@ -2677,6 +2950,16 @@
           "arm_wing_bat_lower_l"
         ],
         "coverage": 90
+      },
+      {
+        "covers": [ "arm_arachnid_lower_l", "arm_arachnid_lower_r", "arm_arachnid_ok_lower_l", "arm_arachnid_ok_lower_r" ],
+        "specifically_covers": [
+          "arm_arachnid_lower_lower_l",
+          "arm_arachnid_lower_lower_r",
+          "arm_arachnid_ok_lower_lower_l",
+          "arm_arachnid_ok_lower_lower_r"
+        ],
+        "coverage": 65
       },
       {
         "coverage": 100,
@@ -2743,6 +3026,7 @@
       "STURDY",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "NO_WING_GLIDING"
     ],
@@ -2765,7 +3049,26 @@
       { "encumbrance": 4, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {
         "encumbrance": 4,
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
         "specifically_covers": [
           "arm_shoulder_l",
           "arm_shoulder_r",
@@ -2784,7 +3087,27 @@
           "arm_wing_bird_elbow_r",
           "arm_wing_bird_elbow_l",
           "arm_wing_bat_elbow_r",
-          "arm_wing_bat_elbow_l"
+          "arm_wing_bat_elbow_l",
+          "arm_insect_upper_l",
+          "arm_insect_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_lower_upper_l",
+          "arm_arachnid_lower_upper_r",
+          "arm_arachnid_ok_upper_upper_l",
+          "arm_arachnid_ok_upper_upper_r",
+          "arm_arachnid_ok_lower_upper_l",
+          "arm_arachnid_ok_lower_upper_r",
+          "arm_insect_elbow_l",
+          "arm_insect_elbow_r",
+          "arm_arachnid_upper_elbow_l",
+          "arm_arachnid_upper_elbow_r",
+          "arm_arachnid_lower_elbow_l",
+          "arm_arachnid_lower_elbow_r",
+          "arm_arachnid_ok_upper_elbow_l",
+          "arm_arachnid_ok_upper_elbow_r",
+          "arm_arachnid_ok_lower_elbow_l",
+          "arm_arachnid_ok_lower_elbow_r"
         ],
         "coverage": 100
       },
@@ -2799,6 +3122,16 @@
           "arm_wing_bat_lower_l"
         ],
         "coverage": 90
+      },
+      {
+        "covers": [ "arm_arachnid_lower_l", "arm_arachnid_lower_r", "arm_arachnid_ok_lower_l", "arm_arachnid_ok_lower_r" ],
+        "specifically_covers": [
+          "arm_arachnid_lower_lower_l",
+          "arm_arachnid_lower_lower_r",
+          "arm_arachnid_ok_lower_lower_l",
+          "arm_arachnid_ok_lower_lower_r"
+        ],
+        "coverage": 65
       },
       {
         "coverage": 100,
@@ -2857,14 +3190,42 @@
     "weight": "900 g",
     "volume": "4000 ml",
     "warmth": 50,
-    "flags": [ "OVERSIZE", "OUTER", "SOFT", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [
+      "OVERSIZE",
+      "OUTER",
+      "SOFT",
+      "ALLOWS_GASTROPOD_FOOT",
+      "ALLOWS_LEG_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "NO_WING_GLIDING"
+    ],
     "environmental_protection": 4,
     "material_thickness": 0.4,
     "armor": [
       { "encumbrance": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {
-        "encumbrance": 15,
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "encumbrance": 4,
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
         "specifically_covers": [
           "arm_shoulder_l",
           "arm_shoulder_r",
@@ -2883,7 +3244,27 @@
           "arm_wing_bird_elbow_r",
           "arm_wing_bird_elbow_l",
           "arm_wing_bat_elbow_r",
-          "arm_wing_bat_elbow_l"
+          "arm_wing_bat_elbow_l",
+          "arm_insect_upper_l",
+          "arm_insect_upper_r",
+          "arm_arachnid_upper_upper_l",
+          "arm_arachnid_upper_upper_r",
+          "arm_arachnid_lower_upper_l",
+          "arm_arachnid_lower_upper_r",
+          "arm_arachnid_ok_upper_upper_l",
+          "arm_arachnid_ok_upper_upper_r",
+          "arm_arachnid_ok_lower_upper_l",
+          "arm_arachnid_ok_lower_upper_r",
+          "arm_insect_elbow_l",
+          "arm_insect_elbow_r",
+          "arm_arachnid_upper_elbow_l",
+          "arm_arachnid_upper_elbow_r",
+          "arm_arachnid_lower_elbow_l",
+          "arm_arachnid_lower_elbow_r",
+          "arm_arachnid_ok_upper_elbow_l",
+          "arm_arachnid_ok_upper_elbow_r",
+          "arm_arachnid_ok_lower_elbow_l",
+          "arm_arachnid_ok_lower_elbow_r"
         ],
         "coverage": 100
       },
@@ -2898,6 +3279,16 @@
           "arm_wing_bat_lower_l"
         ],
         "coverage": 90
+      },
+      {
+        "covers": [ "arm_arachnid_lower_l", "arm_arachnid_lower_r", "arm_arachnid_ok_lower_l", "arm_arachnid_ok_lower_r" ],
+        "specifically_covers": [
+          "arm_arachnid_lower_lower_l",
+          "arm_arachnid_lower_lower_r",
+          "arm_arachnid_ok_lower_lower_l",
+          "arm_arachnid_ok_lower_lower_r"
+        ],
+        "coverage": 65
       },
       {
         "coverage": 100,
@@ -2977,14 +3368,33 @@
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_lower_l", "leg_lower_r" ], "coverage": 10 },
       {
-        "covers": [ "arm_l", "arm_r", "arm_wing_bat_l", "arm_wing_bat_r", "arm_wing_bird_l", "arm_wing_bird_r" ],
+        "covers": [
+          "arm_l",
+          "arm_r",
+          "arm_wing_bat_l",
+          "arm_wing_bat_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r",
+          "arm_insect_l",
+          "arm_insect_r",
+          "arm_insect_good_l",
+          "arm_insect_good_r",
+          "arm_arachnid_upper_l",
+          "arm_arachnid_upper_r",
+          "arm_arachnid_lower_l",
+          "arm_arachnid_lower_r",
+          "arm_arachnid_ok_upper_l",
+          "arm_arachnid_ok_upper_r",
+          "arm_arachnid_ok_lower_l",
+          "arm_arachnid_ok_lower_r"
+        ],
         "coverage": 40,
         "encumbrance": 2
       }
     ],
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ]
+    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ]
   },
   {
     "id": "snuggie",

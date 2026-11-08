@@ -2135,6 +2135,14 @@ void npc::load( const JsonObject &data )
         data.read( "task_on_mission", held );
         task_on_mission = held;
     }
+    suspended_task.reset();
+    if( data.has_object( "suspended_task" ) ) {
+        npc_suspended_task held;
+        data.read( "suspended_task", held );
+        if( held.task ) {
+            suspended_task = held;
+        }
+    }
 
     if( data.read( "companion_mission_role_id", companion_mission_role ) ) {
         companion_mission_role_id = companion_mission_role;
@@ -2205,6 +2213,31 @@ void npc::load( const JsonObject &data )
     generate_personality_traits();
     data.read( "may_activity_occupancy_after_end_items_loc",
                may_activity_occupancy_after_end_items_loc );
+
+    // saves from before camp residents existed kept camp members as guards
+    if( savegame_loading_version <= 38 ) {
+        const bool migrate_current = mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
+        const bool migrate_previous = previous_mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
+        if( migrate_current ) {
+            mission = NPC_MISSION_CAMP_RESIDENT;
+        }
+        if( migrate_previous ) {
+            previous_mission = NPC_MISSION_CAMP_RESIDENT;
+        }
+        if( migrate_current || migrate_previous ) {
+            guard_pos = std::nullopt;
+            clear_ai_guard_pos();
+            if( mission != NPC_MISSION_ACTIVITY ) {
+                goal = no_goal_point;
+                omt_path.clear();
+                path.clear();
+                chair_pos = std::nullopt;
+                wander_pos = std::nullopt;
+                clear_destination();
+                chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
+            }
+        }
+    }
 }
 
 /*
@@ -2246,6 +2279,11 @@ void npc_sleep_session::serialize( JsonOut &json ) const
     json.member( "stalled_until", stalled_until );
     json.member( "stay_awake_until", stay_awake_until );
     json.member( "stay_awake_floor", stay_awake_floor );
+    json.member( "noise_hold_until", noise_hold_until );
+    json.member( "noise_hold_at", noise_hold_at );
+    json.member( "noise_hold_deaf", noise_hold_deaf );
+    json.member( "noise_wakes", noise_wakes );
+    json.member( "last_noise_wake", last_noise_wake );
     json.end_object();
 }
 
@@ -2263,6 +2301,11 @@ void npc_sleep_session::deserialize( const JsonObject &data )
     data.read( "stalled_until", stalled_until );
     data.read( "stay_awake_until", stay_awake_until );
     data.read( "stay_awake_floor", stay_awake_floor );
+    data.read( "noise_hold_until", noise_hold_until );
+    data.read( "noise_hold_at", noise_hold_at );
+    data.read( "noise_hold_deaf", noise_hold_deaf );
+    data.read( "noise_wakes", noise_wakes );
+    data.read( "last_noise_wake", last_noise_wake );
 }
 
 void npc::store( JsonOut &json ) const
@@ -2313,6 +2356,9 @@ void npc::store( JsonOut &json ) const
     json.member( "comp_mission_role", comp_mission.role_id );
     if( task_on_mission ) {
         json.member( "task_on_mission", *task_on_mission );
+    }
+    if( suspended_task ) {
+        json.member( "suspended_task", *suspended_task );
     }
     json.member( "companion_mission_role_id", companion_mission_role_id );
     json.member( "companion_mission_points", companion_mission_points );

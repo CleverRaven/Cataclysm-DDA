@@ -1666,8 +1666,8 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: Self<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 3000, minus 125 per level to a minimum of 750<br />
-*Channeling Time*: 50 moves, minus 3 moves per level to a minimum of 20<br />
-*Effects*: With an act of will, the psion closes their wounds. From level 1 to 5, the power has "bandages_power": 1 and "bleed": 7. From level 6 to 11, the power has "bandages_power": 2 and "bleed": 14. At level 12 or above, the power has "bandages_power": 3 and "bleed": 20.<br />
+*Channeling Time*: 3000 moves, minus 50 moves per level to a minimum of 500<br />
+*Effects*: With an act of will, the psion closes their wounds. From level 1 to 6, the power closes medium bleeding wounds, from 8 to 15, the power also closes bad bleeding wounds, and level 16 or above, the power closes terrible bleeding wounds.  Power level is modified by Nether Attunement and intelligence for these calculations<br />
 *Prerequisites*: Coagulation 5<br />
 </details>
 <details>
@@ -1711,7 +1711,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 19 minutes and 8 seconds to 47 minutes and 14 seconds, plus 48 seconds to 5 minutes and 11 seconds per power level<br />
 *Stamina Cost*: 5500, minus 125 per level to a minimum of 2500<br />
 *Channeling Time*: 500 moves, minus 18 moves per level to a minimum of 50<br />
-*Effects*: Kick the psion's immune system into overdrive, helping overcome any diseases they are suffering from. Every 10 minutes (minus 5 seconds per power level) to 60 minutes (minus 30 seconds per power level) while the power is active, the psion has a chance equal to 10% plus the power level to cure one disease they're suffering from. It may take some time before the psion's immune system manages to overcome the disease. In addition, if the psion is suffering from hay fever, the power will make it much worse.<br />
+*Effects*: Kick the psion's immune system into overdrive, helping overcome any diseases they are suffering from. Every 10 minutes (minus 5 seconds per power level) to 60 minutes (minus 30 seconds per power level) while the power is active, the psion has a chance equal to 10% plus the power level to cure one disease they're suffering from. It may take some time before the psion's immune system manages to overcome the disease. In addition, if the psion is suffering from hay fever, the power will make it much worse. Finally, if they have any wounds that haven't been cleaned, there's a chance their wounds will clean themselves (or rather, that the infectious potential of contaminents is neutralized).<br />
 *Prerequisites*: Detoxification 5<br />
 </details>
 <details>

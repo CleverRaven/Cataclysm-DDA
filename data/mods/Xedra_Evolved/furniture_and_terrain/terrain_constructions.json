@@ -1,0 +1,30 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_cardboard_palace",
+    "name": "alleyway bomb shelter",
+    "description": "A high quality shelter providing protection, that can be used to take refuge from the elements and weather.  Its magickal nature allows it to be used even in places where the inhabitants normally would prevent you from living and from gas based effects.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_leanto",
+    "move_cost": 2,
+    "coverage": 30,
+    "floor_bedding_warmth": 10000,
+    "comfort": 3,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "THIN_OBSTACLE",
+      "NO_SCENT",
+      "INDOORS",
+      "HIDE_PLACE",
+      "BLOCK_WIND",
+      "FLAMMABLE_ASH",
+      "FREE_TO_EXAMINE",
+      "EASY_DECONSTRUCT"
+    ],
+    "deconstruct": { "ter_set": "t_pavement", "items": [ { "item": "box_large", "count": 1 } ] },
+    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "brush.", "ter_set": "t_pavement" }
+  }
+]

@@ -71,6 +71,7 @@
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_nicotine( "nicotine" );
 
+static const bionic_id bio_creeyncaggii( "bio_creeyncaggii" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
@@ -1277,6 +1278,16 @@ void suffer::from_bad_bionics( Character &you )
         } else {
             you.mod_stamina( -2000 );
             you.add_msg_if_player( m_bad, _( "Emergency!  User's lungs are not powered!" ) );
+        }
+    }
+    if( you.has_bionic( bio_creeyncaggii ) && !you.has_active_bionic( bio_creeyncaggii ) &&
+        !you.has_effect( effect_narcosis ) ) {
+        if( you.get_power_level() >= bio_creeyncaggii->power_trigger ) {
+            std::optional<bionic *> bio_opt = you.find_bionic_by_type( bio_creeyncaggii );
+            you.activate_bionic( **bio_opt );
+        } else {
+            you.mod_stamina( -2000 );
+            you.add_msg_if_player( m_bad, _( "Your bionic heart beats slowly and loudly, without power!" ) );
         }
     }
     if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&

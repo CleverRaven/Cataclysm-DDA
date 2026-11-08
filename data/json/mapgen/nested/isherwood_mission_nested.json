@@ -114,7 +114,7 @@
       "rows": [ "/" ],
       "items": {
         "/": [
-          { "item": "armor_riot", "chance": 100, "repeat": 5 },
+          { "item": "armor_riot_torso", "chance": 100, "repeat": 5 },
           { "item": "helmet_riot", "chance": 100, "repeat": 5 },
           { "item": "armor_riot_arm", "chance": 100, "repeat": 5 },
           { "item": "armor_riot_leg", "chance": 100, "repeat": 5 }
@@ -168,7 +168,7 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "nest_Isherwood_lisa_add",
-    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_spawn" ], "x": 12, "y": 18 } ] }
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_spawn" ], "x": 7, "y": 18 } ] }
   },
   {
     "type": "mapgen",
@@ -193,7 +193,11 @@
   {
     "type": "mapgen",
     "update_mapgen_id": "truck_bomb_spawn",
-    "object": { "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ] }
+    "object": {
+      "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ],
+      "//": "A suggestion on #89250 infered that active items on submap which will be updated by update_mapgen won't be updated correctly by the process, so the bomb won't explode even once be activated. So the fire here put on the bomb is the temporary measure to surely let the bomb explode. This fire should be removed once the map update process problem solved.",
+      "place_fields": [ { "field": "fd_fire", "x": [ 17 ], "y": [ 18 ], "intensity": [ 1 ], "repeat": 1 } ]
+    }
   },
   {
     "type": "mapgen",

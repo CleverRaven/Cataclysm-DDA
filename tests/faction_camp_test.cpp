@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -28,7 +29,9 @@
 #include "clzones.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
+#include "faction_camp.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
@@ -41,6 +44,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
+#include "map_iterator.h"
 #include "map_scale_constants.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
@@ -58,7 +62,10 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+static const activity_id ACT_CAMP_MEAL( "ACT_CAMP_MEAL" );
+
 static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -71,12 +78,15 @@ static const itype_id itype_pipe( "pipe" );
 static const itype_id itype_test_100_kcal( "test_100_kcal" );
 static const itype_id itype_test_200_kcal( "test_200_kcal" );
 static const itype_id itype_test_500_kcal( "test_500_kcal" );
+static const itype_id itype_water( "water" );
 
 static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_fbmh_2_room_1_1( "fbmh_2_room_1_1" );
 static const recipe_id recipe_test_base_stove_1( "test_base_stove_1" );
 
 static const skill_id skill_menial( "menial" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -633,6 +643,88 @@ TEST_CASE( "camp_mission_puts_the_workers_craft_aside", "[camp][npc]" )
             }
         }
     }
+    // as a need goal starts a forage: attitude and mission stay
+    const auto start_forage = [&]() {
+        const npc_attitude att = guy.get_attitude();
+        const npc_mission mis = guy.mission;
+        guy.assign_activity( forage_activity_actor( 1000 ) );
+        guy.set_attitude( att );
+        guy.set_mission( mis );
+        REQUIRE( guy.is_self_care_activity() );
+    };
+    GIVEN( "worker forages" ) {
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "forage is not taken up again" ) {
+            REQUIRE( comp->is_active() );
+            CHECK_FALSE( comp->activity );
+            CHECK( comp->backlog.empty() );
+        }
+    }
+    GIVEN( "worker stops its craft to forage" ) {
+        craft_until_progress();
+        start_forage();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "it goes on with its craft, not the forage" ) {
+            back_at_the_craft( *comp );
+        }
+    }
+    // start camp meal like a need goal
+    const auto start_camp_meal = [&]() {
+        REQUIRE( guy.start_meal( camp_meal_activity_actor( camp_omt, 300 ) ) );
+        REQUIRE( guy.is_self_care_activity() );
+    };
+    GIVEN( "worker eats a camp meal" ) {
+        start_camp_meal();
+        go_on_mission();
+        camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+        THEN( "meal not resumed" ) {
+            REQUIRE( comp->is_active() );
+            CHECK_FALSE( comp->activity );
+            CHECK( comp->backlog.empty() );
+        }
+    }
+    GIVEN( "worker stops crafting for a camp meal" ) {
+        craft_until_progress();
+        start_camp_meal();
+        REQUIRE( guy.backlog.size() == backlog_size + 1 );
+        WHEN( "it goes off on a mission and returns" ) {
+            go_on_mission();
+            camp.finish_return( *comp, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it continues with its craft, not the meal" ) {
+                back_at_the_craft( *comp );
+            }
+        }
+        WHEN( "saved and loaded during the mission" ) {
+            go_on_mission();
+            const shared_ptr_fast<npc> loaded = saved_and_loaded();
+            camp.finish_return( *loaded, false, "returns.", skill_menial.str(), 0 );
+            THEN( "it continues with its craft, not the meal" ) {
+                back_at_the_craft( *loaded );
+            }
+        }
+        WHEN( "harm interrupts the meal" ) {
+            guy.add_effect( effect_npc_fire_bad, 1_minutes );
+            guy.set_moves( 100 );
+            guy.move();
+            THEN( "meal dropped, craft resumes, larder untouched" ) {
+                CHECK( guy.activity.id() != ACT_CAMP_MEAL );
+                const auto has = []( const std::list<player_activity> &acts, const activity_id & id ) {
+                    return std::any_of( acts.begin(), acts.end(), [&id]( const player_activity & act ) {
+                        return act.id() == id;
+                    } );
+                };
+                CHECK_FALSE( has( guy.backlog, ACT_CAMP_MEAL ) );
+                // at its task, or queued behind a step away from harm
+                CHECK( guy.has_activity() );
+                CHECK( ( guy.activity.id() == task ||
+                         ( !guy.backlog.empty() && guy.backlog.front().id() == task ) ) );
+                CHECK( fac.food_supply().kcal() == 10000 );
+            }
+        }
+    }
     GIVEN( "worker on the way to workbench" ) {
         start_walking_to_workbench();
         go_on_mission();
@@ -768,4 +860,71 @@ TEST_CASE( "camp_upgrade_offers_follow_the_camp_storage", "[camp]" )
         }
     }
 }
+
+namespace
+{
+struct omt_items {
+    int planks = 0;
+    int liquids = 0;
+};
+
+omt_items items_on_omt( const tripoint_abs_omt &omt )
+{
+    tinymap bay;
+    bay.load( omt, false );
+    omt_items found;
+    for( const tripoint_omt_ms &p : bay.points_in_rectangle( { 0, 0, omt.z() },
+    { 2 * SEEX - 1, 2 * SEEY - 1, omt.z() } ) ) {
+        for( const item &it : bay.i_at( p ) ) {
+            found.planks += it.typeId() == itype_2x4 ? 1 : 0;
+            found.liquids += it.made_of_from_type( phase_id::LIQUID ) ? 1 : 0;
+        }
+    }
+    return found;
+}
+} // namespace
+
+TEST_CASE( "camp_item_collection_leaves_what_it_does_not_take", "[camp]" )
+{
+    clear_avatar();
+    clear_map_without_vision();
+    const tripoint_abs_omt omt = get_avatar().pos_abs_omt() + tripoint_rel_omt( 10, 0, 0 );
+    GIVEN( "OMT out of the bubble with five planks and some water" ) {
+        {
+            tinymap bay;
+            bay.load( omt, false );
+            for( const tripoint_omt_ms &p : bay.points_in_rectangle( { 0, 0, omt.z() },
+            { 2 * SEEX - 1, 2 * SEEY - 1, omt.z() } ) ) {
+                // plain ground: mapgen plant furniture left without its seed logs an error on load
+                bay.ter_set( p, ter_t_dirt );
+                bay.furn_set( p, furn_str_id::NULL_ID() );
+                bay.i_clear( p );
+            }
+            const tripoint_omt_ms spot( SEEX, SEEY, omt.z() );
+            for( int i = 0; i < 5; ++i ) {
+                bay.add_item( spot, item( itype_2x4 ) );
+            }
+            bay.add_item( spot + tripoint::east, item( itype_water ) );
+            bay.save();
+        }
+        REQUIRE( items_on_omt( omt ).planks == 5 );
+        REQUIRE( items_on_omt( omt ).liquids == 1 );
+        WHEN( "worker collects with no chance to take an item" ) {
+            const talk_function::mass_volume taken = talk_function::om_harvest_itm( nullptr, omt, 0 );
+            THEN( "nothing taken, every item stays" ) {
+                CHECK( taken.count == 0 );
+                CHECK( items_on_omt( omt ).planks == 5 );
+                CHECK( items_on_omt( omt ).liquids == 1 );
+            }
+        }
+        WHEN( "worker collects at log cutting chance" ) {
+            const talk_function::mass_volume taken = talk_function::om_harvest_itm( nullptr, omt, 95 );
+            THEN( "each plank taken or left, water stays" ) {
+                CHECK( taken.count + items_on_omt( omt ).planks == 5 );
+                CHECK( items_on_omt( omt ).liquids == 1 );
+            }
+        }
+    }
+}
+
 // TODO: Tests for: Check calorie display at various activity levels, camp crafting works as expected (consumes inputs, returns outputs+byproducts, costs calories)

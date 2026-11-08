@@ -62,5 +62,85 @@
     "purifiable": false,
     "valid": false,
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_PSYSHIELD_PARTIAL",
+    "name": { "str": "Resilient Mind" },
+    "description": "All the horrors you saw in that place inured you to them.  You have some protection against mental attacks.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_GOOD_EFFECTS_IN_STORMS",
+    "name": { "str": "Storm-Blessed" },
+    "description": "Venturing that far in the place behind the storms attuned you to them.  Being outside during a portal storm or in the dimension it leads to will randomly cause beneficial effects.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_REDUCED_ARTIFACT_RESONANCE",
+    "name": { "str": "Counter-Resonant" },
+    "description": "This place filled with artefacts possessing unknown properties impacted you.  You now resonate like they do, but in a way that lessens the risks of carrying too many of them at once.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "ARTIFACT_RESONANCE", "add": -1250 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_GAIN_DOUBLE_EFFECT_DURATION",
+    "name": { "str": "Twice-Gifted" },
+    "description": "That place you entered left its mark on you.  When you receive a beneficial effect from interacting with possibilities, it lasts twice as long.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_GAIN_DOUBLE_STONES",
+    "name": { "str": "Twice-Granted" },
+    "description": "That place you entered left its mark on you.  When you receive a beneficial item from interacting with possibilities, you gain twice as many.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "PS_REWARD_SEE_PORTAL_BEINGS",
+    "name": { "str": "Storm-Sight" },
+    "description": "Having explored the portal storm dimension made it easier to see where its denizens are.  You now see beings born from the storms and from that place even through walls, though you still need your eyes to see beings from elsewhere.",
+    "points": 1,
+    "player_display": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "npc_has_species": "NETHER_EMANATION" },
+            "distance": { "math": [ "u_val('perception') * 2" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense a stormwrought being here." } ]
+          }
+        ]
+      }
+    ]
   }
 ]

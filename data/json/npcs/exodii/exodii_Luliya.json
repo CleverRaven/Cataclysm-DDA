@@ -9,7 +9,8 @@
     "attitude": 0,
     "mission": "GUARD",
     "chat": "TALK_LULIYA",
-    "faction": "exodii"
+    "faction": "exodii",
+    "snip_bye": "…"
   },
   {
     "type": "npc_class",
@@ -54,9 +55,13 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA",
     "dynamic_line": {
-      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ],
-      "yes": [ "Inikwani dehina metahi tegwazhi." ],
-      "no": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand."
+      "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+      "yes": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand.",
+      "no": {
+        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ],
+        "yes": [ "Inikwani dehina metahi tegwazhi." ],
+        "no": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand."
+      }
     },
     "responses": [
       {
@@ -65,9 +70,20 @@
         "topic": "TALK_LULIYA_BUTTON"
       },
       {
+        "text": "Hello?",
+        "condition": {
+          "and": [
+            { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] }
+          ]
+        },
+        "topic": "TALK_LULIYA_WONT_TALK"
+      },
+      {
         "text": "[Use Stethoscope] Is this alive?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] } },
             { "u_has_item": "stethoscope" }
           ]
@@ -84,6 +100,7 @@
         "topic": "TALK_LULIYA_ENGLISH",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_language_u_not_english_luliya" } ] } }
           ]
@@ -94,6 +111,7 @@
         "topic": "TALK_LULIYA_NAME",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] } }
           ]
@@ -103,6 +121,7 @@
         "text": "I heard you playing that.  [You point at the golden harp she holds]  La la la.  Do you like music, Luliya?",
         "condition": {
           "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
             { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] },
             { "math": [ "time_since(u_timer_meeting_luliya_music_timer) >= time('3 d')" ] }
           ]
@@ -111,7 +130,12 @@
       },
       {
         "text": "I can't understand you.",
-        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
+        "condition": {
+          "and": [
+            { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] }
+          ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -119,26 +143,54 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_BUTTON",
-    "dynamic_line": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing.  \"ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!\"",
+    "dynamic_line": {
+      "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK",
+      "yes": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  Then, silence.  The golden figure twitches briefly and then returns to immobility.",
+      "no": "&You hear a loud static discharge, a rough mechanical chugging sound, and then high-pitched shrieking with strange distortions and modulations in the sound.  The golden figure shudders, arms flailing.  \"ቆዳዬ! ቆዳዬ በእሳት ላይ ነው! እየሞትኩ ነው!\""
+    },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "general_meeting_u_met_luliya", "value": "yes" },
-        { "math": [ "u_timer_meeting_luliya_music_timer = time('now')" ] },
-        { "npc_lose_trait": "NPC_STASIS" }
+        {
+          "if": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+          "then": [
+            { "u_add_var": "general_meeting_u_met_luliya", "value": "yes" },
+            { "math": [ "u_timer_meeting_luliya_music_timer = time('now')" ] },
+            { "npc_lose_trait": "NPC_STASIS" }
+          ]
+        }
       ]
     },
     "responses": [
-      { "text": "Hello.  Are you all right?  I just hit the button on your back.", "topic": "TALK_LULIYA" },
-      { "text": "I'm not understanding that.  Can you try again?", "topic": "TALK_LULIYA" },
       {
-        "text": "Speak English ya <freaking> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
+        "text": "Hello.  Are you all right?  I just hit the button on your back.",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
         "topic": "TALK_LULIYA"
       },
-      { "text": "State your name and function machine.", "topic": "TALK_LULIYA" },
+      {
+        "text": "I'm not understanding that.  Can you try again?",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+        "topic": "TALK_LULIYA"
+      },
+      {
+        "text": "Hello?  Anyone there?",
+        "condition": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" },
+        "topic": "TALK_LULIYA_WONT_TALK",
+        "effect": [ { "npc_first_topic": "TALK_LULIYA_WONT_TALK" } ]
+      },
+      {
+        "text": "Speak English ya <freaking> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+        "topic": "TALK_LULIYA"
+      },
+      {
+        "text": "State your name and function machine.",
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } },
+        "topic": "TALK_LULIYA"
+      },
       {
         "text": "[INT 11]  Huh.  That sounds a little familiar, a little like Arabic.  Earabiun?  [slowly and clearly]  EARABIUN?",
         "topic": "TALK_LULIYA_ARABIC",
-        "condition": { "u_has_intelligence": 11 }
+        "condition": { "and": [ { "not": { "test_eoc": "EOC_CONDITION_XE_YOU_ARE_FAIR_FOLK" } }, { "u_has_intelligence": 11 } ] }
       },
       { "text": "No, I'm done with this.", "topic": "TALK_DONE" }
     ]
@@ -235,5 +287,11 @@
       { "text": "Fun, thank you for playing with me, Luliya.", "topic": "TALK_LULIYA" },
       { "text": "Fun, thank you.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LULIYA_WONT_TALK",
+    "dynamic_line": "&No matter what you say, the golden figure does not move or react.",
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   }
 ]

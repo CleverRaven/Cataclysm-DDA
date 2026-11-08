@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "debug.h"
 #include "flood_fill.h"
 #include "map.h"
 #include "mapdata.h"
@@ -1554,9 +1555,16 @@ void mapgen_lake_shore( mapgendata &dat )
         return m->ter( p ) != ter_str_id::NULL_ID();
     };
 
+    // Well hopefully this is future proof enough...
+    static constexpr int total_mapsquares_per_OMT = SEEX * 2 * SEEY * 2;
+
     const auto fill_deep_water = [&]( const point_bub_ms & starting_point ) {
         std::vector<point_bub_ms> water_points =
             ff::point_flood_fill_4_connected<std::vector>( starting_point, visited, should_fill );
+        if( water_points.size() == total_mapsquares_per_OMT ) {
+            debugmsg( "Tried to fill entire lake shore with deep water at OMT %d, %d.  This is likely an error (missing LAKE_SHORE flag?)",
+                      dat.pos().x(), dat.pos().y() );
+        }
         for( const point_bub_ms &wp : water_points ) {
             m->ter_set( wp, ter_t_water_dp );
             m->furn_set( wp, furn_str_id::NULL_ID() );

@@ -60,6 +60,8 @@ constexpr inline int LIGHT_RANGE( float b )
 // Stored as raw energy, not display-ready; the renderer converts to uint8.
 struct light_color_rgb {
     light_color_rgb() = default;
+    light_color_rgb( float red, float green, float blue )
+        : r( red ), g( green ), b( blue ) {};
     float r;
     float g;
     float b;

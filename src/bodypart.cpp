@@ -544,7 +544,19 @@ void body_part_type::finalize()
 
     for( const wound_type &wd : wound_type::get_all() ) {
         if( wd.allowed_on_bodypart( id ) ) {
-            const bp_wounds bpw = { wd.id, wd.damage_types, wd.damage_required };
+
+            std::vector final_damage_types = wd.damage_types;
+
+            // if any of loaded damage types are derived from one used in wound definition, include it into
+            for( const damage_type &dt : damage_type::get_all() ) {
+                for( const damage_type_id &wd_dt : wd.damage_types ) {
+                    if( dt.derived_from.first == wd_dt ) {
+                        final_damage_types.emplace_back( dt.id );
+                    }
+                }
+            }
+
+            const bp_wounds bpw = { wd.id, final_damage_types, wd.damage_required };
             potential_wounds.add( bpw, wd.weight );
         }
     }
@@ -1232,7 +1244,7 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
     new_wounds.reserve( wounds.size() );
 
     for( std::vector<wound>::iterator it = wounds.begin(); it != wounds.end(); ) {
-        const wound_update_ret ret = it->update_wound( time_passed );
+        const wound_update_ret ret = it->update_wound( &who, time_passed );
 
         switch( ret ) {
             case wound_update_ret::ADVANCE:
@@ -1254,6 +1266,21 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
     for( const wound &new_wd : new_wounds ) {
         add_wound( new_wd );
     }
+}
+
+bool bodypart::is_within_wound_limit_for_bp( wound_type_id wound_id ) const
+{
+    if( wound_id->get_limit() == 0 ) {
+        return true;
+    }
+
+    const std::vector present_wounds = get_wounds();
+    const int amount = std::count_if( present_wounds.begin(),
+    present_wounds.end(), [wound_id]( wound wd ) {
+        return wd.type == wound_id;
+    } );
+
+    return amount < wound_id->get_limit();
 }
 
 int bodypart::get_hp_cur() const

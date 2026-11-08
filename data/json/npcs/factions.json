@@ -82,7 +82,7 @@
     "id": "robofac",
     "name": "Hub 01",
     "mon_faction": "robofac",
-    "likes_u": -200,
+    "likes_u": 0,
     "respects_u": 0,
     "known_by_u": false,
     "size": 100,
@@ -104,7 +104,8 @@
         "knows your voice": true
       },
       "robofac_auxiliaries": { "share my stuff": true },
-      "marloss": { "kill on sight": true }
+      "marloss": { "kill on sight": true },
+      "your_followers": { "kill on sight": true }
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },

@@ -54,6 +54,7 @@
 #include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "body_status_ui.h"
 #include "butchery_requirements.h"
 #include "butchery.h"
 #include "cached_options.h"
@@ -1077,6 +1078,8 @@ bool game::start_game()
     if( debug_menu::is_debug_character() ) {
         debug_menu::do_debug_quick_setup();
         add_msg( m_good, _( "Debug character detected.  Quick setup applied, good luck on the testing!" ) );
+    } else {
+        debug_mode = false;
     }
     return true;
 }
@@ -2452,6 +2455,7 @@ int game::inventory_item_menu( item_location locThisItem,
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview( input_context &ctxt, std::string &action )
 {
+    cata_timer handle_mousemove_timer( "handle_mousemove" );
     std::optional<tripoint_bub_ms> liveview_pos;
 
     do {
@@ -3825,6 +3829,7 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_
 
 void game::mon_info_update( )
 {
+    cata_timer mon_info_update_timer( "mon_info_update" );
     const map &here = get_map();
     const tripoint_bub_ms pos = u.pos_bub( here );
 
@@ -4049,6 +4054,7 @@ void game::mon_info_update( )
 
 void game::cleanup_dead()
 {
+    cata_timer cleanup_dead_timer( "cleanup_dead" );
     map &here = get_map();
 
     // Dead monsters need to stay in the tracker until everything else that needs to die does so
@@ -5380,7 +5386,8 @@ bool game::npc_menu( npc &who )
         if( debug_mode || ( who.is_npc() && ( who.as_npc()->op_of_u.trust >= 5 ||
                                               who.is_friendly( u ) ) ) ||
             who.in_sleep_state() ) {
-            display_bodygraph( who );
+            body_status_ui bsui( who );
+            bsui.display();
         } else {
             who.say( SNIPPET.random_from_category( "<no>" ).value_or( translation() ).translated() );
         }
@@ -8920,17 +8927,17 @@ bool game::grabbed_furn_move( const tripoint_rel_ms &dp )
         if( dst_item_ok && src_item_ok ) {
             // Assume contents of both cells are legal, so we can just swap contents.
             std::list<item> temp;
-            map_stack ms = here.i_at( fpos );
+            map_stack ms = here.i_at( fpos ); // Think of it as Tile A
+            map_stack dest = here.i_at( fdest ); // Respecitvely Tile B. Destination.
             std::move( ms.begin(), ms.end(),
                        std::back_inserter( temp ) );
             here.i_clear( fpos );
-            for( auto item_iter = ms.begin();
-                 item_iter != ms.end(); ++item_iter ) {
-                ms.insert( *item_iter );
+            for( item &item_iter : dest ) {
+                ms.insert( item_iter );
             }
             here.i_clear( fdest );
             for( item &cur_item : temp ) {
-                ms.insert( cur_item );
+                dest.insert( cur_item );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );

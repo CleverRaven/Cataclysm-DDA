@@ -13,7 +13,9 @@
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -71,6 +73,13 @@ void check_asked_once( const counting_preset &preset )
         CHECK( n == 1 );
     }
 }
+
+class haul_selector_probe : public inventory_haul_selector
+{
+    public:
+        using inventory_haul_selector::inventory_haul_selector;
+        using inventory_multiselector::to_use;
+};
 } // namespace
 
 TEST_CASE( "inventory_selector_asks_the_preset_once_per_item", "[inventory][ui]" )
@@ -138,6 +147,39 @@ TEST_CASE( "inventory_selector_asks_the_preset_once_per_item", "[inventory][ui]"
                     "backpack top=none indent=0 chevron=yes",
                     "hammer top=none indent=2 chevron=no"
                 } );
+            }
+        }
+    }
+}
+
+TEST_CASE( "haul_selector_skips_items_not_on_the_tile", "[inventory][ui]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &u = get_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms pos = u.pos_bub();
+    const tripoint_bub_ms elsewhere = pos + tripoint_rel_ms( 1, 0, 0 );
+
+    GIVEN( "haul list with a hammer here and a knife on the next tile" ) {
+        item &hammer = here.add_item( pos, item( itype_hammer ) );
+        item &knife = here.add_item( elsewhere, item( itype_knife_hunting ) );
+        REQUIRE_FALSE( hammer.is_null() );
+        REQUIRE_FALSE( knife.is_null() );
+        std::vector<item_location> haul_list {
+            item_location( map_cursor( &here, pos ), &hammer ),
+            item_location( map_cursor( &here, elsewhere ), &knife )
+        };
+
+        WHEN( "haul selector applies the list" ) {
+            haul_selector_probe selector( u );
+            selector.add_map_items( pos );
+            selector.apply_selection( haul_list );
+
+            THEN( "only hammer is selected" ) {
+                REQUIRE( selector.to_use.size() == 1 );
+                CHECK( selector.to_use.front().first.get_item() == &hammer );
+                CHECK( selector.to_use.front().second == 1 );
             }
         }
     }

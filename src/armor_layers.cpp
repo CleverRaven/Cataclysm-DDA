@@ -46,13 +46,6 @@ static const flag_id json_flag_HIDDEN( "HIDDEN" );
 
 namespace
 {
-std::string clothing_layer( const item &worn_item );
-std::vector<std::string> clothing_properties(
-    const item &worn_item, int width, const Character &, const bodypart_id &bp );
-std::vector<std::string> clothing_protection( const item &worn_item, int width,
-        const bodypart_id &bp );
-std::vector<std::string> clothing_flags_description( const item &worn_item, int width );
-
 std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
     if( parts.empty() ) {
@@ -143,7 +136,7 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
                         break;
                 }
             }
-            return outstring ;
+            return outstring;
         }
         ();
         std::string body_parts =
@@ -189,13 +182,13 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
         temp_text = foldstring( message, win_width );
         mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
     }
-    temp_text = foldstring( clothing_layer( *worn_item_it ), win_width );
+    temp_text = foldstring( clothing_info::clothing_layer( *worn_item_it ), win_width );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_flags_description( *worn_item_it, win_width );
+    temp_text = clothing_info::clothing_flags_description( *worn_item_it );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_properties( *worn_item_it, win_width - 1, c, bp );
+    temp_text = clothing_info::clothing_properties( *worn_item_it, c, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
-    temp_text = clothing_protection( *worn_item_it, win_width - 1, bp );
+    temp_text = clothing_info::clothing_protection( *worn_item_it, bp );
     mid_pane_text.insert( mid_pane_text.end(), temp_text.begin(), temp_text.end() );
 
     status.size = mid_pane_text.size();
@@ -207,11 +200,16 @@ mid_pane_status draw_mid_pane( const catacurses::window &w_sort_middle,
             return status;
         } else {
             print_colored_text( w_sort_middle, point( 0, current_line ), color,
-                                c_light_gray,  mid_pane_text[line] );
+                                c_light_gray, mid_pane_text[line] );
         }
     }
     return status;
 }
+
+} // namespace
+
+namespace clothing_info
+{
 
 std::string clothing_layer( const item &worn_item )
 {
@@ -235,70 +233,59 @@ std::string clothing_layer( const item &worn_item )
 }
 
 std::vector<std::string> clothing_properties(
-    const item &worn_item, const int width, const Character &c, const bodypart_id &bp )
+    const item &worn_item, const Character &c, const bodypart_id &bp )
 {
     std::vector<std::string> props;
     bodypart_id used_bp = bp;
 
     // catch all for items that aren't armor
     if( !worn_item.find_armor_data() ) {
-        props.push_back( string_format( "<color_c_red>%s</color>",
-                                        _( "Item provides no protection" ) ) );
+        props.emplace_back( colorize( _( "Item provides no protection" ), c_red ) );
         return props;
     }
     if( bp == bodypart_str_id::NULL_ID() ) {
         // if the armor has no protection data
         if( worn_item.find_armor_data()->sub_data.empty() ) {
-            props.push_back( string_format( "<color_c_red>%s</color>",
-                                            _( "Item provides no protection" ) ) );
+            props.emplace_back( colorize( _( "Item provides no protection" ), c_red ) );
             return props;
         }
 
         // if there is only one data entry for the armor
         if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
-            props.push_back( string_format( "<color_c_red>%s</color>",
-                                            _( "Armor is nonuniform.  Specify a limb to get armor data" ) ) );
+            props.emplace_back(
+                colorize( _( "Armor is nonuniform.  Specify a limb to get armor data" ), c_red ) );
             return props;
         } else {
             used_bp = *worn_item.get_covered_body_parts().begin();
             props.reserve( 6 );
-            props.push_back( string_format( "<color_c_blue>%s</color>",
-                                            _( "Each limb is uniform" ) ) );
+            props.emplace_back( colorize( _( "Each limb is uniform" ), c_blue ) );
         }
     } else {
         props.reserve( 5 );
     }
 
-    props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
+    props.emplace_back( colorize( _( "Properties" ), c_green ) );
 
     int coverage = worn_item.get_coverage( used_bp );
-    add_folded_name_and_value( props, _( "Coverage:" ), string_format( "%3d", coverage ),
-                               width );
+    props.emplace_back( string_format( _( "Coverage: %3d" ), coverage ) );
     coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_MELEE );
-    add_folded_name_and_value( props, _( "Coverage (Melee):" ), string_format( "%3d",
-                               coverage ), width );
+    props.emplace_back( string_format( _( "Coverage (Melee): %3d" ), coverage ) );
     coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_RANGED );
-    add_folded_name_and_value( props, _( "Coverage (Ranged):" ), string_format( "%3d",
-                               coverage ), width );
+    props.emplace_back( string_format( _( "Coverage (Ranged): %3d" ), coverage ) );
     coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_VITALS );
-    add_folded_name_and_value( props, _( "Coverage (Vitals):" ), string_format( "%3d",
-                               coverage ), width );
-
+    props.emplace_back( string_format( _( "Coverage (Vitals): %3d" ), coverage ) );
     const int encumbrance = worn_item.get_encumber( c, used_bp );
-    add_folded_name_and_value( props, _( "Encumbrance:" ), string_format( "%3d", encumbrance ),
-                               width );
-    add_folded_name_and_value( props, _( "Warmth:" ), string_format( "%3d",
-                               worn_item.get_warmth( used_bp ) ), width );
+    props.emplace_back( string_format( _( "Encumbrance: %3d" ), encumbrance ) );
+    props.emplace_back( string_format( _( "Warmth: %3d" ), worn_item.get_warmth( used_bp ) ) );
     return props;
 }
 
-void add_category_and_values( std::vector<std::string> &current_text, const int field_width,
+void add_category_and_values( std::vector<std::string> &current_text,
                               const std::string &category_name,
                               const std::vector<std::pair<std::string, std::string>> &names_and_values )
 {
-    if( names_and_values.empty() ) {
-        current_text.emplace_back( trim_by_length( category_name, field_width ) );
-    } else {
+    current_text.emplace_back( string_format( "%s:", category_name ) );
+    if( !names_and_values.empty() ) {
         const std::string separator = ", ";
         const std::string spacer = " ";
         std::string assembled_value;
@@ -310,18 +297,14 @@ void add_category_and_values( std::vector<std::string> &current_text, const int 
             }
             assembled_value += names_and_values[i].first + spacer + names_and_values[i].second;
         }
-        int required_oneline_width = utf8_width( category_name + spacer + assembled_value );
-        if( required_oneline_width <= field_width ) {
-            current_text.emplace_back( trimmed_name_and_value( category_name, assembled_value, field_width ) );
-        } else {
-            current_text.emplace_back( trim_by_length( category_name, field_width ) );
-            for( const std::pair<std::string, std::string> &name_and_value : names_and_values ) {
-                current_text.emplace_back( trimmed_name_and_value( spacer + name_and_value.first,
-                                           name_and_value.second, field_width ) );
-            }
-        }
+        current_text.emplace_back( assembled_value );
     }
 }
+
+} // namespace clothing_info
+
+namespace
+{
 
 std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const resistances &worst_res, const resistances &best_res, const resistances &median_res,
@@ -340,8 +323,12 @@ std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
     return subvalues;
 }
 
-std::vector<std::string> clothing_protection( const item &worn_item, const int width,
-        const bodypart_id &bp )
+} // namespace
+
+namespace clothing_info
+{
+
+std::vector<std::string> clothing_protection( const item &worn_item, const bodypart_id &bp )
 {
     std::vector<std::string> prot;
     bodypart_id used_bp = bp;
@@ -378,7 +365,7 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
 
     bool display_median = percent_best < 50 && percent_worst < 50;
 
-    prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
+    prot.emplace_back( colorize( _( "Protection" ), c_green ) );
     for( const damage_type &dt : damage_type::get_all() ) {
         bool skipped_details = false;
         const std::string dtname = uppercase_first_letter( dt.name.translated() );
@@ -387,37 +374,32 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
             if( percent_worst > 0 ) {
                 std::vector<std::pair<std::string, std::string>> subvalues = collect_protection_subvalues(
                             worst_res, best_res, median_res, display_median, dt.id );
-                add_category_and_values( prot, width, dtname, subvalues );
+                add_category_and_values( prot, dtname, subvalues );
             } else {
                 skipped_details = true;
             }
         }
         if( skipped_details || dio->info_display == damage_info_order::info_disp::BASIC ) {
-            add_folded_name_and_value( prot, dtname,
-                                       string_format( "%.2f", best_res.type_resist( dt.id ) ), width );
+            prot.emplace_back( string_format( "%s %.2f", dtname, best_res.type_resist( dt.id ) ) );
         }
     }
-    add_folded_name_and_value( prot, _( "Environmental:" ),
-                               string_format( "%3d", worn_item.get_env_resist() ), width );
-    add_folded_name_and_value( prot, _( "Breathability:" ),
-                               string_format( "%3d", worn_item.breathability( used_bp ) ), width );
+    prot.emplace_back( string_format( _( "Environmental: %3d" ), worn_item.get_env_resist() ) );
+    prot.emplace_back( string_format( _( "Breathability: %3d" ), worn_item.breathability( used_bp ) ) );
     return prot;
 }
 
-std::vector<std::string> clothing_flags_description( const item &worn_item, const int width )
+std::vector<std::string> clothing_flags_description( const item &worn_item )
 {
     std::vector<std::string> description_stack;
-    std::vector<std::string> current_description;
+    std::string current_description;
 
     //Handle flag_FIT and flag_VARSIZE as a special case
     if( worn_item.has_flag( flag_FIT ) ) {
-        current_description = foldstring( _( "It fits you well." ), width );
-        description_stack.insert( description_stack.end(), current_description.begin(),
-                                  current_description.end() );
+        current_description = _( "It fits you well." );
+        description_stack.emplace_back( current_description );
     } else if( worn_item.has_flag( flag_VARSIZE ) ) {
-        current_description = foldstring( _( "It could be refitted." ), width );
-        description_stack.insert( description_stack.end(), current_description.begin(),
-                                  current_description.end() );
+        current_description = _( "It could be refitted." );
+        description_stack.emplace_back( current_description );
     }
 
     //Handle all other flags:
@@ -435,20 +417,19 @@ std::vector<std::string> clothing_flags_description( const item &worn_item, cons
 
     for( const std::pair<flag_id, std::string> &flag_pair : flag_descriptions ) {
         if( worn_item.has_flag( std::get<0>( flag_pair ) ) ) {
-            current_description = foldstring( _( std::get<1>( flag_pair ) ), width );
-            description_stack.insert( description_stack.end(), current_description.begin(),
-                                      current_description.end() );
+            current_description = _( std::get<1>( flag_pair ) );
+            description_stack.emplace_back( current_description );
         }
     }
 
     return description_stack;
 }
 
-} //namespace
+} //namespace clothing_info
 
 // Figure out encumbrance penalties this clothing is involved in
 item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_item_it,
-        const Character &c, const bodypart_id &_bp )
+        const Character &c, const bodypart_id &_bp ) const
 {
     std::vector<layer_level> layer = worn_item_it->get_layer();
 
@@ -556,14 +537,17 @@ item_penalties outfit::get_item_penalties( std::list<item>::const_iterator worn_
              std::move( lists_of_bad_items_within[0] ) };
 }
 
-std::vector<layering_item_info> outfit::items_cover_bp( const Character &c, const bodypart_id &bp )
+std::vector<layering_item_info> outfit::items_cover_bp( const Character &c,
+        const bodypart_id &bp ) const
 {
     std::vector<layering_item_info> s;
     for( auto elem_it = worn.begin(); elem_it != worn.end(); ++elem_it ) {
         if( elem_it->covers( bp ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
                            elem_it->get_encumber( c, bp ),
-                           elem_it->tname()
+                           elem_it->tname(),
+                           elem_it->get_volume_capacity(),
+                           elem_it->has_flag( json_flag_HIDDEN )
                          } );
         }
     }
@@ -597,6 +581,15 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
 
     wnoutrefresh( w );
 }
+
+bool outfit::items_cover_opposite_bp( const Character &who, const bodypart_id &cover ) const
+{
+    const bodypart_id opposite = cover.obj().opposite_part;
+    return cover != opposite &&
+           items_cover_bp( who, cover ) ==
+           items_cover_bp( who, opposite );
+}
+
 
 void outfit::sort_armor( Character &guy )
 {
@@ -1226,4 +1219,65 @@ void outfit::sort_armor( Character &guy )
         }
     }
     uistate.open_menu.reset();
+}
+
+void outfit::sort()
+{
+    worn.sort(
+    []( const item & l, const item & r ) {
+        if( l.has_flag( flag_INTEGRATED ) == r.has_flag( flag_INTEGRATED ) ) {
+            return l.get_layer() < r.get_layer();
+        } else {
+            return l.has_flag( flag_INTEGRATED );
+        }
+    } );
+}
+
+void outfit::assign_invlets( Character &guy )
+{
+    // prompt first before doing this (yes, yes, more popups...)
+    if( query_yn( _( "Reassign inventory letters for armor?" ) ) ) {
+        // Start with last armor (the most unimportant one?)
+        auto iiter = inv_chars.rbegin();
+        auto witer = worn.rbegin();
+        while( witer != worn.rend() && iiter != inv_chars.rend() ) {
+            const char invlet = *iiter;
+            item &w = *witer;
+            if( invlet == w.invlet ) {
+                ++witer;
+            } else if( guy.invlet_to_item( invlet ).where() != item_location::type::invalid ) {
+                ++iiter;
+            } else {
+                if( guy.is_avatar() ) {
+                    guy.as_avatar()->reassign_item_cache( w, invlet, true );
+                }
+                ++witer;
+                ++iiter;
+            }
+        }
+    }
+}
+
+void outfit::splice( std::list<item>::iterator to, std::list<item>::iterator pos )
+{
+    worn.splice( to, worn, pos );
+}
+
+std::vector<std::list<item>::iterator> outfit::filter_by_bodypart( bodypart_id bp )
+{
+    std::vector<std::list<item>::iterator> tmp_worn;
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        // All
+        for( auto it = worn.begin(); it != worn.end(); ++it ) {
+            tmp_worn.push_back( it );
+        }
+    } else {
+        // bp_*
+        for( auto it = worn.begin(); it != worn.end(); ++it ) {
+            if( it->covers( bp ) ) {
+                tmp_worn.push_back( it );
+            }
+        }
+    }
+    return tmp_worn;
 }

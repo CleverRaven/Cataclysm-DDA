@@ -301,5 +301,15 @@
     "countdown_interval": "30 seconds",
     "emits": [ "emit_smoke_stream" ],
     "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
+  },
+  {
+    "id": "warlord_gasbomb_act",
+    "type": "ITEM",
+    "copy-from": "abstract_gas_bomb_active",
+    "name": { "str": "warlord gas bomb" },
+    "symbol": "*",
+    "color": "red",
+    "description": "A strange device that is currently releasing clouds of foul smelling gas.",
+    "emits": [ "emit_scarlet_sea_gas" ]
   }
 ]

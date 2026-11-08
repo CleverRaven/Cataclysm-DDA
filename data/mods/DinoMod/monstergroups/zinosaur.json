@@ -817,5 +817,32 @@
       { "monster": "mon_zuetzalcoatlus", "weight": 20, "starts": "12 days", "pack_size": [ 2, 4 ] },
       { "monster": "mon_zuetzalcoatlus", "weight": 20, "starts": "24 days", "pack_size": [ 2, 4 ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_FERAL",
+    "//": "default ferals",
+    "default": "mon_feral_human_crowbar",
+    "monsters": [
+      { "monster": "mon_dilophosaurus_feral" },
+      { "monster": "mon_ceratosaurus_feral" },
+      { "monster": "mon_nanotyrannus_feral" },
+      { "monster": "mon_gallimimus_feral" },
+      { "monster": "mon_struthiomimus_feral" },
+      { "monster": "mon_ornithomimus_feral" },
+      { "monster": "mon_anzu_feral" },
+      { "monster": "mon_deinonychus_feral" },
+      { "monster": "mon_utahraptor_feral" },
+      { "monster": "mon_sarahsaurus_feral" },
+      { "monster": "mon_anchisaurus_feral" },
+      { "monster": "mon_gargoyleosaurus_feral" },
+      { "monster": "mon_sauropelta_feral" },
+      { "monster": "mon_zuul_feral" },
+      { "monster": "mon_tenontosaurus_feral" },
+      { "monster": "mon_dryosaurus_feral" },
+      { "monster": "mon_leptoceratops_feral" },
+      { "monster": "mon_zuniceratops_feral" },
+      { "monster": "mon_thescelosaurus_feral" }
+    ]
   }
 ]

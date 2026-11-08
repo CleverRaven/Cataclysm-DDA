@@ -31,6 +31,7 @@
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "perf.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
@@ -570,6 +571,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 
 void sounds::process_sound_markers( Character *you )
 {
+    cata_timer process_sound_markers_timer( "process_sound_markers" );
     const map &here = get_map();
 
     bool is_deaf = you->is_deaf();
@@ -641,6 +643,10 @@ void sounds::process_sound_markers( Character *you )
             you->volume = std::max( you->volume, noise );
         }
 
+        npc *const listener = you->as_npc();
+        if( listener && heard_volume > 1 ) {
+            listener->note_noise( false );
+        }
         // Secure the flag before wake_up() clears the effect
         bool slept_through = you->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
@@ -653,6 +659,9 @@ void sounds::process_sound_markers( Character *you )
                 !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
+                if( listener ) {
+                    listener->note_noise( true );
+                }
                 you->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;

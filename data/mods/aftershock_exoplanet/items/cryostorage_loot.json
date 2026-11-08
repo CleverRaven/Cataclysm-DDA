@@ -9,7 +9,6 @@
     "name": { "str": "frozen thing", "//~": "NO_I18N" },
     "description": { "str": "Oh my god, don't let it thaw!", "//~": "NO_I18N" },
     "price": "10 USD",
-    "price_postapoc": "50 cent",
     "freezing_point": -9999,
     "material": [ "flesh" ],
     "quench": 2,

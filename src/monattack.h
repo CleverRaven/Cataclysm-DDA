@@ -76,6 +76,8 @@ bool slimespring( monster *z );
 bool evolve_kill_strike( monster *z );
 bool leech_spawner( monster *z );
 bool mon_leech_evolution( monster *z );
+bool fixbot_spawner( monster *z );
+bool fixbot_spawner_haywire( monster *z );
 bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
 bool bio_op_random_biojutsu( monster *z );

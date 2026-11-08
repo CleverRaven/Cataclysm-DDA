@@ -197,6 +197,7 @@
         "values": [
           { "value": "MENDING_MODIFIER", "multiply": 19 },
           { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_WOUND", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.2 }
         ]
       }

@@ -16,6 +16,7 @@
 
 class item_location;
 class player_activity;
+class temp_crafting_inventory;
 class vpart_reference;
 class zone_data;
 class zone_manager;
@@ -215,6 +216,8 @@ std::optional<requirement_id> vehicle_work_requirements( Character &you,
 //general function for non-specific multi activities
 std::unordered_set<tripoint_abs_ms> generic_locations( Character &you, const activity_id &act_id );
 void prune_same_tile_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set );
+// sites another character's build activity is placed on
+std::unordered_set<tripoint_abs_ms> occupied_construction_sites( const Character &you );
 void prune_dark_locations( Character &you, std::unordered_set<tripoint_abs_ms> &src_set,
                            const activity_id &act_id );
 void prune_dangerous_field_locations( std::unordered_set<tripoint_abs_ms> &src_set );
@@ -233,9 +236,17 @@ zone_type_id get_zone_for_act( const tripoint_bub_ms &src_loc, const zone_manage
 void add_basecamp_storage_to_loot_zone_list(
     zone_manager &mgr, const tripoint_bub_ms &src_loc, Character &you,
     std::vector<tripoint_bub_ms> &loot_zone_spots, std::vector<tripoint_bub_ms> &combined_spots );
+// fills inv with what character carries plus what lies on spots, as requirement checks
+// see it: reserved providers skipped, nearby vehicle welder counted
+void fill_requirement_inventory( temp_crafting_inventory &inv,
+                                 const std::vector<tripoint_bub_ms> &spots, Character &you,
+                                 const activity_id &activity_to_restore, bool in_loot_zones,
+                                 const tripoint_bub_ms &src_loc );
 bool are_requirements_nearby(
     const std::vector<tripoint_bub_ms> &loot_spots, const requirement_id &needed_things,
     Character &you, const activity_id &activity_to_restore, bool in_loot_zones,
     const tripoint_bub_ms &src_loc );
+// also reverts NPC to its pre-task mission and attitude
+void call_off_fetch_and_task( Character &you );
 
 } //namespace multi_activity_actor

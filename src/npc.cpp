@@ -1192,13 +1192,21 @@ void npc::starting_inv_wear_item( npc *who, item &it )
 
 void npc::revert_after_activity()
 {
-    mission = previous_mission;
-    attitude = previous_attitude;
+    // task put aside to rest keeps the NPC's mission and attitude
+    if( !suspended_task ) {
+        mission = previous_mission;
+        attitude = previous_attitude;
+    }
     activity = player_activity();
     current_activity_id = activity_id::NULL_ID();
     clear_destination();
     backlog.clear();
     activity_handlers::clean_may_activity_occupancy_items_var( *this );
+}
+
+void npc::drop_suspended_task()
+{
+    suspended_task.reset();
 }
 
 npc_mission npc::get_previous_mission() const
@@ -3656,32 +3664,6 @@ void npc::on_load( map *here )
     }
     effect_on_conditions::load_existing_character( *this );
 
-    // Migrate legacy camp assignees from GUARD_ALLY to CAMP_RESIDENT.
-    const bool migrate_current =
-        mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
-    const bool migrate_previous =
-        previous_mission == NPC_MISSION_GUARD_ALLY && assigned_camp;
-    if( migrate_current || migrate_previous ) {
-        if( migrate_current ) {
-            mission = NPC_MISSION_CAMP_RESIDENT;
-        }
-        if( migrate_previous ) {
-            previous_mission = NPC_MISSION_CAMP_RESIDENT;
-        }
-        guard_pos = std::nullopt;
-        clear_ai_guard_pos();
-        if( mission != NPC_MISSION_ACTIVITY ) {
-            goal = no_goal_point;
-            omt_path.clear();
-            path.clear();
-            chair_pos = std::nullopt;
-            wander_pos = std::nullopt;
-            clear_destination();
-            clear_committed_goal();
-            chatbin.first_topic = "TALK_FRIEND_CAMP_RESIDENT";
-        }
-    }
-
     reconcile_schedule_on_load();
     shop_restock();
 }
@@ -4005,6 +3987,15 @@ void npc::put_task_aside_for_mission()
 {
     if( task_on_mission ) {
         return;
+    }
+    if( is_self_care_activity() ) {
+        // self-care activity isn't kept for after the mission; the task it interrupted is
+        activity.canceled( *this );
+        activity = player_activity();
+        if( !backlog.empty() ) {
+            activity = backlog.front();
+            backlog.pop_front();
+        }
     }
     // the walk to the task is planned again when the task resumes
     const player_activity pending = activity ? activity : get_destination_activity();

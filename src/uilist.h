@@ -303,6 +303,10 @@ class uilist // NOLINT(cata-xy)
 
         // Calls calc_data() and initialize the window
         void setup();
+
+        // Draws the UI
+        static void draw_controls( uilist &parent );
+
         // initialize the window or reposition it after screen size change.
         void reposition();
         struct scroll_amount {
@@ -327,6 +331,15 @@ class uilist // NOLINT(cata-xy)
                                             bool allow_unfiltered_hotkeys = false );
         // helper function for query(); can be used to externally maintain a uilist_impl
         void query_once( input_context &ctxt, int timeout = 50, bool allow_unfiltered_hotkeys = false );
+
+        // @return `fentries`.empty()
+        bool filtered_empty() const {
+            return fentries.empty();
+        }
+
+        size_t get_current_category_index() const {
+            return current_category;
+        }
 
         void filterlist();
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters

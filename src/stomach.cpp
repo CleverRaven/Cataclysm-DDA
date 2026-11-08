@@ -392,6 +392,27 @@ bool stomach_contents::would_be_engorged_with( const Character &owner, units::vo
     return calorie_deficit ? fills_at_least( held, cap, 1, 1 ) : fills_at_least( held, cap, 5, 6 );
 }
 
+// first whole millilitre fills_at_least() accepts
+static units::volume first_filling_ml( const units::volume &cap, int num, int den )
+{
+    return units::from_milliliter( static_cast<int>(
+                                       ( static_cast<int64_t>( units::to_milliliter( cap ) ) * num + den - 1 ) / den ) );
+}
+
+units::volume stomach_contents::room_before_engorged( const Character &owner,
+        bool calorie_deficit ) const
+{
+    const units::volume cap = capacity( owner );
+    const units::volume line = calorie_deficit ? first_filling_ml( cap, 1, 1 ) :
+                               first_filling_ml( cap, 5, 6 );
+    return std::max( 0_ml, line - contains() - 1_ml );
+}
+
+bool stomach_contents::holds_a_meal( const Character &owner ) const
+{
+    return get_calories() > 0 && contains() >= capacity( owner ) / 2;
+}
+
 bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
         bool calorie_deficit ) const
 {

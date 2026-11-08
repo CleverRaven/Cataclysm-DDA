@@ -434,6 +434,8 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
+    "caster_condition": { "and": [ "u_is_outside", { "not": "is_day" } ] },
+    "caster_condition_fail_message": "You must be outside in direct moonlight to heal yourself!",
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "SOMATIC" ],
     "spell_class": "LILIN_TRAITS",
     "magic_type": "xedra_magic_generic",

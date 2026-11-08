@@ -135,7 +135,7 @@ std::string as_norm_dir( const std::string &path )
 {
     std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
     std::filesystem::path norm = dir.lexically_normal();
-    std::string ret = norm.generic_u8string();
+    std::string ret = from_u8string( norm.generic_u8string() );
     if( "." == ret ) {
         ret = "./"; // TODO Change the many places that use strings instead of paths
     }
@@ -144,7 +144,7 @@ std::string as_norm_dir( const std::string &path )
 
 std::string as_norm_dir( const std::filesystem::path &path )
 {
-    return as_norm_dir( path.u8string() );
+    return as_norm_dir( from_u8string( path.u8string() ) );
 }
 
 bool remove_file( const std::string &path )
@@ -187,7 +187,7 @@ bool rename_file( const std::filesystem::path &old_path, const std::filesystem::
 
 std::string abs_path( const std::string &path )
 {
-    return abs_path( std::filesystem::u8path( path ) ).generic_u8string();
+    return from_u8string( abs_path( std::filesystem::u8path( path ) ).generic_u8string() );
 }
 
 std::filesystem::path abs_path( const std::filesystem::path &path )
@@ -250,7 +250,8 @@ void for_each_dir_entry( const std::filesystem::path &path, Function &&function 
     auto dir_iter = std::filesystem::directory_iterator( path, ec );
     if( ec ) {
         std::string e_str = ec.message();
-        DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path.generic_u8string() << "] failed with \"" <<
+        DebugLog( D_WARNING, D_MAIN ) << "opendir [" << from_u8string( path.generic_u8string() ) <<
+                                      "] failed with \"" <<
                                       e_str << "\".";
         return;
     }
@@ -271,7 +272,8 @@ bool is_directory( const std::filesystem::directory_entry &entry,
 
     if( ec ) {
         std::string e_str = ec.message();
-        DebugLog( D_WARNING, D_MAIN ) << "stat [" << ( full_path.empty() ? entry.path().generic_u8string() :
+        DebugLog( D_WARNING, D_MAIN ) << "stat [" << ( full_path.empty() ? from_u8string(
+                                          entry.path().generic_u8string() ) :
                                       full_path ) << "] failed with \"" << e_str << "\".";
         return false;
     }
@@ -289,9 +291,9 @@ bool name_contains( const std::filesystem::directory_entry &entry, const std::st
 {
     std::string entry_name;
     if( match_path ) {
-        entry_name = entry.path().u8string();
+        entry_name = from_u8string( entry.path().u8string() );
     } else {
-        entry_name = entry.path().filename().u8string();
+        entry_name = from_u8string( entry.path().filename().u8string() );
     }
     const size_t len_fname = entry_name.length();
     const size_t len_match = match.length();
@@ -332,7 +334,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // We could use std::filesystem::recursive_directory_iterator maybe
         for_each_dir_entry( path, [&]( const std::filesystem::directory_entry & entry ) {
-            const std::string full_path = entry.path().generic_u8string();
+            const std::string full_path = from_u8string( entry.path().generic_u8string() );
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -596,7 +598,7 @@ bool is_lexically_valid( const std::filesystem::path &path )
     // "Do not end a file or directory name with a space or a period."
     // https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
     for( auto &it : rel ) {
-        std::string item = it.generic_u8string();
+        std::string item = from_u8string( it.generic_u8string() );
         if( item == "." || item == ".." ) {
             continue;
         }

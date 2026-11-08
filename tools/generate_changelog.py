@@ -547,7 +547,6 @@ class CommitApi:
         stop threads when needed."""
         def _process_commit_data_callback_closure(json_data, request_generator,
                                                   api_request):
-            nonlocal results_queue
             commit_list = [
                 self._create_commit_from_api_data(x) for x in json_data]
             for commit in commit_list:
@@ -686,7 +685,6 @@ class PullRequestApi:
         and stop threads when needed."""
         def _process_pr_data_callback_closure(json_data, request_generator,
                                               api_request):
-            nonlocal results_queue, min_dttm
             pull_request_list = [
                 self._create_pr_from_api_data(x) for x in json_data]
             for pr in pull_request_list:
