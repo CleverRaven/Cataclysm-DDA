@@ -1033,6 +1033,18 @@ std::vector<const item *> Character::get_pseudo_items() const
     return pseudo_items;
 }
 
+std::vector<item_location> Character::get_pseudo_items_locs()
+{
+    std::vector<item_location> ret;
+    for( const item *it : get_pseudo_items() ) {
+        // i don't like const casting
+        item_location loc( *this, const_cast<item *>( it ) );
+        ret.emplace_back( loc );
+    }
+
+    return ret;
+}
+
 std::vector<item> Character::crafting_pseudo_items() const
 {
     const std::vector<const item *> pseudo_items = get_pseudo_items();
@@ -1778,6 +1790,16 @@ std::string Character::weapname_ammo() const
     }
 }
 
+std::vector<item_location> Character::inv_dump_loc()
+{
+    std::vector<item_location> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( get_wielded_item() );
+    }
+    worn.inv_dump_locs( *this, ret );
+    return ret;
+}
+
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
@@ -2313,24 +2335,33 @@ bool Character::has_charges( const itype_id &it, int quantity,
 
 item Character::find_firestarter_with_charges( const int quantity ) const
 {
-    item ret;
-    cache_has_item_with( flag_FIRESTARTER, [&]( const item & it ) {
-        if( !it.typeId()->can_have_charges() ) {
-            const use_function *usef = it.type->get_use( "firestarter" );
-            if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, &get_map(), tripoint_bub_ms::zero ).success() ) {
-                    ret = it;
-                    return true;
-                }
-            }
-        } else if( it.ammo_sufficient( this, quantity ) ) {
-            ret = it;
-            return true;
+    item_location ret;
+    visit_items( [this, &ret, quantity]( const item_location & node ) {
+
+        if( !node->has_flag( flag_FIRESTARTER ) ) {
+            return VisitResponse::NEXT;
         }
-        return false;
+
+        if( node->type->can_have_charges() ) {
+            const use_function *usef = node->type->get_use( "firestarter" );
+            if( usef == nullptr && usef->get_actor_ptr() == nullptr ) {
+                return VisitResponse::NEXT;
+            }
+
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( *this, node, &get_map(), tripoint_bub_ms::zero ).success() ) {
+                ret = node;
+                return VisitResponse::ABORT;
+            }
+        } else  if( node->ammo_sufficient( this, quantity ) ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+
+        return VisitResponse::NEXT;
     } );
-    return ret;
+
+    return *ret;
 }
 
 bool Character::has_fire( const int quantity ) const

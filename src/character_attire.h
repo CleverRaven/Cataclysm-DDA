@@ -109,6 +109,8 @@ class outfit
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
         item *item_worn_with_id( const itype_id &i );
+        // returns item_locations of apparel
+        std::vector<item_location> worn_locations( Character &guy ) const;
         std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
@@ -117,6 +119,7 @@ class outfit
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
+        void inv_dump_locs( Character &guy, std::vector<item_location> &ret ) const;
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the assumption that it
          * is added to existing work items.

@@ -2039,7 +2039,8 @@ static bool consume_med( item &target, Character &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( &you, target, you.pos_bub() ).value_or( 0 );
+        item_location loc( you, &target );
+        amount_used = target.type->invoke( &you, loc, you.pos_bub() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

@@ -626,6 +626,20 @@ bool Character::is_barefoot() const
     return worn.is_barefoot();
 }
 
+std::vector<item_location> outfit::worn_locations( Character &guy ) const
+{
+    std::vector<item_location> ret;
+
+    visit_items( guy, [&ret]( const item_location & node ) {
+        if( !node.has_parent() ) {
+            ret.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return ret;
+}
+
 std::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
 {
     for( const item &i : worn ) {
@@ -1637,9 +1651,23 @@ void outfit::inv_dump( std::vector<item *> &ret )
 
 void outfit::inv_dump( std::vector<const item *> &ret ) const
 {
+    // is it correct this is not equal to non-const version return?
     for( const item &i : worn ) {
         ret.push_back( &i );
     }
+}
+
+void outfit::inv_dump_locs( Character &guy, std::vector<item_location> &ret ) const
+{
+    visit_items( guy, [&ret]( const item_location & node ) {
+        if( !node.has_parent() &&
+            !node->has_flag( flag_INTEGRATED ) &&
+            !node->has_flag( json_flag_SHAPESHIFTED_ARMOR ) ) {
+            ret.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+
 }
 
 bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) const
@@ -2033,24 +2061,31 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
-    for( item &clothing : worn ) {
-        std::vector<item *> guns = item_location( guy, &clothing ).items_with( []( const item & it ) {
-            return it.is_gun();
+    // make it std::map<item_location /* worn */, item_location /* gun */>?
+    std::vector<item_location> worn_locs = worn_locations( guy );
+
+    for( item_location &clothing : worn_locs ) {
+        std::vector<item_location> guns;
+        clothing.visit_contents( [&guns]( const item_location & node ) {
+            if( node->is_gun() ) {
+                guns.emplace_back( node );
+            }
+            return VisitResponse::NEXT;
         } );
 
-        if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
+        if( !guns.empty() && clothing->type->can_use( "holster" ) ) {
             //~ draw (first) gun contained in holster
             //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                               guns.front()->tname(),
-                                              clothing.type_name(),
+                                              clothing->type_name(),
                                               guns.front()->ammo_remaining( ) ) );
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 
-        } else if( clothing.is_gun() && clothing.gunmod_find_by_flag( flag_BELTED ) ) {
+        } else if( clothing->is_gun() && clothing->gunmod_find_by_flag( flag_BELTED ) ) {
             // wield item currently worn using shoulder strap
-            options.push_back( clothing.display_name() );
+            options.push_back( clothing->display_name() );
             actions.emplace_back( [&] { guy.wield( clothing ); } );
         }
     }

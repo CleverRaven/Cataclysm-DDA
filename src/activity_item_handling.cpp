@@ -3607,30 +3607,40 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
     // We pre-exclude jackhammers for wall mining here, just in case the character is carrying both a jackhammer and a pickaxe.
     // If we don't then our iteration will preferentially select the (powered) jackhammer and always fail in subsequent calls to dig_tool(). Very troublesome!
     const bool is_wall_mining = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, src_loc );
-    std::vector<item *> mining_inv = you.items_with( [&you, is_wall_mining]( const item & itm ) {
-        return craft_reservation::usable_by_automation( itm ) &&
-               ( ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-                 ( !is_wall_mining && itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &you ) ) );
+    std::vector<item_location> mining_inv;
+    you.visit_items( [&mining_inv, &you, is_wall_mining]( const item_location & node ) {
+
+        if( !craft_reservation::usable_by_automation( *node ) ) {
+            return VisitResponse::NEXT;
+        };
+
+        if( ( node->has_flag( flag_DIG_TOOL ) && !node->type->can_use( "JACKHAMMER" ) ) ||
+            ( !is_wall_mining && node->type->can_use( "JACKHAMMER" ) && node->ammo_sufficient( &you ) ) ) {
+            mining_inv.emplace_back( node );
+        };
+
+        return VisitResponse::NEXT;
     } );
+
     // All other failure conditions are handled in subsequent calls to dig_tool() with specific messaging for the player. This is just an early short circuit.
     if( mining_inv.empty() ) {
         return false;
     }
 
-
-    item *chosen_item = nullptr;
+    item_location *chosen_item = nullptr;
     bool powered = false;
     // is it a pickaxe or jackhammer?
-    for( item *elem : mining_inv ) {
+    for( item_location elem : mining_inv ) {
         if( chosen_item == nullptr ) {
-            chosen_item = elem;
-            if( elem->type->can_use( "JACKHAMMER" ) ) {
+            chosen_item = &elem;
+            if( elem.get_item()->type->can_use( "JACKHAMMER" ) ) {
                 powered = true;
             }
         } else {
             // prioritise powered tools
-            if( chosen_item->type->can_use( "PICKAXE" ) && elem->type->can_use( "JACKHAMMER" ) ) {
-                chosen_item = elem;
+            if( chosen_item->get_item()->type->can_use( "PICKAXE" ) &&
+                elem.get_item()->type->can_use( "JACKHAMMER" ) ) {
+                chosen_item = &elem;
                 powered = true;
                 break;
             }
@@ -3641,9 +3651,9 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
     }
     std::optional<int> did_we_mine = std::nullopt;
     if( powered ) {
-        did_we_mine = iuse::jackhammer( &you, chosen_item, src_loc );
+        did_we_mine = iuse::jackhammer( &you, *chosen_item, src_loc );
     } else {
-        did_we_mine = iuse::pickaxe( &you, chosen_item, src_loc );
+        did_we_mine = iuse::pickaxe( &you, *chosen_item, src_loc );
     }
     // Any value at all means that we succeeded and started the activity. Actual contained value will be 0 on success, for iuse's normal returns.
     return did_we_mine.has_value();

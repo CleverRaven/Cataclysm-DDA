@@ -343,10 +343,10 @@ enum consumption_result {
 
 // Returns true if we destroyed the item through consumption
 // does not try to consume contents
-static consumption_result try_consume( npc &p, item &it, std::string &reason )
+static consumption_result try_consume( npc &p, item_location &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
-    item &to_eat = it;
+    item to_eat = *it;
     if( to_eat.is_null() ) {
         debugmsg( "Null item to try_consume." );
         return REFUSED;
@@ -357,7 +357,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         return REFUSED;
     }
 
-    if( !p.will_accept_from_player( it ) ) {
+    if( !p.will_accept_from_player( *it ) ) {
         reason = p.chat_snippets().snip_consume_cant_accept.translated();
         return REFUSED;
     }
@@ -397,7 +397,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = p.chat_snippets().snip_consume_med.translated();
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, to_eat, p.pos_bub() ).value_or( 0 );
+            amount_used = to_eat.type->invoke( &p, it, p.pos_bub() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = p.chat_snippets().snip_consume_nocharge.translated();
                 return REFUSED;
@@ -458,7 +458,7 @@ std::string talker_npc::give_item_to( const bool to_use )
                    given.typeId().str(), new_weapon_value );
     if( to_use ) {
         // Eating first, to avoid evaluating bread as a weapon
-        const consumption_result consume_res = try_consume( *me_npc, given, reason );
+        const consumption_result consume_res = try_consume( *me_npc, loc, reason );
         if( consume_res != REFUSED ) {
             player_character.mod_moves( -to_moves<int>( 1_seconds ) );
             if( consume_res == CONSUMED_ALL ) {

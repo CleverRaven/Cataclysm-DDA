@@ -1095,7 +1095,7 @@ class npc : public Character
         healing_options patient_assessment( const Character &c );
         healing_options has_healing_options();
         healing_options has_healing_options( healing_options try_to_fix );
-        item &get_healing_item( healing_options try_to_fix, bool first_best = false );
+        item_location &get_healing_item( healing_options try_to_fix, bool first_best = false );
         bool has_painkiller() const;
         bool took_painkiller() const;
         void use_painkiller();
@@ -1236,9 +1236,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
-        bool invoke_item( item *used, const std::string &method ) override;
-        bool invoke_item( item * ) override;
+        bool invoke_item( item_location *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item_location *used, const std::string &method ) override;
+        bool invoke_item( item_location * ) override;
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;

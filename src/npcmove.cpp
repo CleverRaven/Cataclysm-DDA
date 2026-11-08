@@ -2925,12 +2925,12 @@ bool npc::recharge_cbm()
 
 void outfit::activate_combat_items( npc &guy )
 {
-    for( item &candidate : worn ) {
-        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
-            !candidate.active ) {
+    for( item_location &candidate : worn_locations( guy ) ) {
+        if( candidate->has_flag( flag_COMBAT_TOGGLEABLE ) && candidate->is_transformable() &&
+            !candidate->active ) {
 
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
-                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+                                              ( candidate->type->get_use( "transform" )->get_actor_ptr() );
 
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
@@ -2940,7 +2940,7 @@ void outfit::activate_combat_items( npc &guy )
             }
             if( transform->can_use( guy, candidate, &get_map(), tripoint_bub_ms::zero ).success() ) {
                 transform->use( &guy, candidate, &get_map(), tripoint_bub_ms::zero );
-                guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate.display_name() );
+                guy.add_msg_if_npc( _( "<npcname> activates their %s." ), candidate->display_name() );
             }
         }
     }
@@ -2953,14 +2953,14 @@ void npc::activate_combat_items()
 
 void outfit::deactivate_combat_items( npc &guy )
 {
-    for( item &candidate : worn ) {
-        if( candidate.has_flag( flag_COMBAT_TOGGLEABLE ) && candidate.is_transformable() &&
-            candidate.active ) {
+    for( item_location &candidate : worn_locations( guy ) ) {
+        if( candidate->has_flag( flag_COMBAT_TOGGLEABLE ) && candidate->is_transformable() &&
+            candidate->active ) {
             const iuse_transform *transform = dynamic_cast<const iuse_transform *>
-                                              ( candidate.type->get_use( "transform" )->get_actor_ptr() );
+                                              ( candidate->type->get_use( "transform" )->get_actor_ptr() );
             if( transform->can_use( guy, candidate, &get_map(), tripoint_bub_ms::zero ).success() ) {
                 transform->use( &guy, candidate, &get_map(), tripoint_bub_ms::zero );
-                guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate.display_name() );
+                guy.add_msg_if_npc( _( "<npcname> deactivates their %s." ), candidate->display_name() );
             }
         }
     }
@@ -5246,7 +5246,8 @@ void npc::activate_item( item &it )
 {
     const int oldmoves = moves;
     if( it.is_tool() || it.is_food() ) {
-        it.type->invoke( this, it, pos_bub() );
+        item_location loc( *as_character(), &it );
+        it.type->invoke( this, loc, pos_bub() );
     }
 
     if( moves == oldmoves ) {
@@ -5281,16 +5282,16 @@ void npc::heal_player( Character &patient )
         add_msg( _( "%1$s starts healing %2$s." ), disp_name(), patient.disp_name() );
     }
 
-    item &used = get_healing_item( ai_cache.can_heal );
-    if( used.is_null() ) {
+    item_location &used = get_healing_item( ai_cache.can_heal );
+    if( used->is_null() ) {
         debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( this, used, patient.pos_bub(), "heal" ).value_or( 0 );
-        consume_charges( used, charges_used );
+        int charges_used = used->type->invoke( this, used, patient.pos_bub(), "heal" ).value_or( 0 );
+        consume_charges( *used, charges_used );
     } else {
-        pretend_heal( patient, used );
+        pretend_heal( patient, *used );
     }
 
 }
@@ -5340,7 +5341,8 @@ void npc::heal_self()
         }
 
         if( treatment != nullptr ) {
-            treatment->get_use( iusage )->call( this, *treatment, pos_bub() );
+            item_location loc( *as_character(), treatment );
+            treatment->get_use( iusage )->call( this, loc, pos_bub() );
             treatment->ammo_consume( treatment->ammo_required(), pos_bub(), this );
             return;
         }
@@ -5351,18 +5353,18 @@ void npc::heal_self()
         return;
     }
 
-    item &used = get_healing_item( ai_cache.can_heal );
-    if( used.is_null() ) {
+    item_location &used = get_healing_item( ai_cache.can_heal );
+    if( used->is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name() );
         return;
     }
 
-    add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used.tname() );
+    add_msg_if_player_sees( *this, _( "%1$s starts applying a %2$s." ), disp_name(), used->tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( this, used, pos_bub(), "heal" ).value_or( 0 );
-    if( used.is_medication() && charges_used > 0 ) {
-        consume_charges( used, charges_used );
+    int charges_used = used->type->invoke( this, used, pos_bub(), "heal" ).value_or( 0 );
+    if( used->is_medication() && charges_used > 0 ) {
+        consume_charges( *used, charges_used );
     }
 }
 
@@ -7141,12 +7143,12 @@ bool npc::has_adjacent_fire() const
 // Delegates core validation (charges, sunlight, underwater, qualities)
 // to firestarter_actor::can_use(), then checks tinder availability in
 // the same scope as npc_start_fire() (inventory + adjacent ground).
-static bool is_usable_npc_firestarter( const npc &who, const item &it )
+static bool is_usable_npc_firestarter( const npc &who, const item_location it )
 {
-    if( !it.has_flag( json_flag_FIRESTARTER ) ) {
+    if( !it->has_flag( json_flag_FIRESTARTER ) ) {
         return false;
     }
-    const use_function *usef = it.type->get_use( "firestarter" );
+    const use_function *usef = it->type->get_use( "firestarter" );
     if( !usef || !usef->get_actor_ptr() ) {
         return false;
     }
@@ -7160,7 +7162,7 @@ static bool is_usable_npc_firestarter( const npc &who, const item &it )
         return false;
     }
     // Tinder: inventory + adjacent ground (same scope as npc_start_fire).
-    if( it.has_flag( flag_REQUIRES_TINDER ) ) {
+    if( it->has_flag( flag_REQUIRES_TINDER ) ) {
         bool has_tinder = who.has_item_with( []( const item & candidate ) {
             return candidate.has_flag( flag_TINDER );
         } );
@@ -7281,7 +7283,7 @@ std::optional<tripoint_bub_ms> npc::find_fire_spot()
     bool found_tool = false;
     visit_items( [this, &found_tool]( item_location it ) -> VisitResponse {
         if( craft_reservation::usable_by_automation( *it ) &&
-            is_usable_npc_firestarter( *this, *it ) )
+            is_usable_npc_firestarter( *this, it ) )
         {
             found_tool = true;
             return VisitResponse::ABORT;
@@ -7474,17 +7476,17 @@ npc::need_result npc::execute_regulate_temperature()
     } else if( plan.source_kind == need_source::fire_spot ) {
         // Fire spot is always adjacent. Find a usable tool via the
         // shared helper, then call the real firestarter hook.
-        item *fire_tool = nullptr;
+        item_location fire_tool;
         const firestarter_actor *actor = nullptr;
         visit_items( [this, &fire_tool, &actor]( item_location it ) -> VisitResponse {
             if( !craft_reservation::usable_by_automation( *it ) ||
-                !is_usable_npc_firestarter( *this, *it ) )
+                !is_usable_npc_firestarter( *this, it ) )
             {
                 return VisitResponse::NEXT;
             }
             const use_function *usef = it->type->get_use( "firestarter" );
             const auto *a = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            fire_tool = it.get_item();
+            fire_tool = it;
             actor = a;
             return VisitResponse::ABORT;
         } );
@@ -7504,7 +7506,7 @@ npc::need_result npc::execute_regulate_temperature()
             // no_room was ruled out, so the item stays on the hearth
             here.add_item_or_charges( target_bub, i_rem( spot.firewood.get_item() ), false );
         }
-        if( actor->npc_start_fire( *this, *fire_tool, target_bub ) ) {
+        if( actor->npc_start_fire( *this, fire_tool, target_bub ) ) {
             plan.last_result = need_result::progressed;
             plan.no_progress_turns = 0;
             return need_result::progressed;

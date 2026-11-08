@@ -2006,7 +2006,19 @@ void iexamine::locked_object( Character &you, const tripoint_bub_ms &examp )
         //~ %1$s: terrain/furniture name, %2$s: prying tool name
         you.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
                                target_name, best_prying.tname() );
-        iuse::crowbar( &you, &best_prying, examp );
+
+        item_location prying_tool_loc;
+        you.visit_items( [&prying_tool_loc, &best_prying]( const item_location & node ) {
+
+            if( node.get_item()->type->id == best_prying.type->id ) {
+                prying_tool_loc = node;
+                return VisitResponse::ABORT;
+            }
+
+            return VisitResponse::NEXT;
+        } );
+
+        iuse::crowbar( &you, prying_tool_loc, examp );
     } else if( action == act::pick ) {
         locked_object_pickable( you, examp );
     }
@@ -2045,12 +2057,21 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         }
     }
 
-    std::vector<item *> picklocks = you.items_with( [&you]( const item & it ) {
+    std::vector<item_location> picklocks;
+    you.visit_items( [&picklocks, &you]( const item_location & node ) {
+
         // Don't include worn items such as hairpins
-        if( !you.is_worn( it ) ) {
-            return it.type->get_use( "PICK_LOCK" ) != nullptr;
+        if( !you.is_worn( *node ) ) {
+            return VisitResponse::NEXT;
         }
-        return false;
+
+        if( node->type->get_use( "PICK_LOCK" ) == nullptr ) {
+            return VisitResponse::NEXT;
+        }
+
+        picklocks.emplace_back( node );
+
+        return VisitResponse::NEXT;
     } );
 
     if( picklocks.empty() ) {
@@ -2060,7 +2081,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
     }
 
     // Sort by their picklock level.
-    std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
+    std::sort( picklocks.begin(), picklocks.end(), [&]( const item_location a, const item_location b ) {
         int a_quality = a->get_quality( qual_LOCKPICK );
         int b_quality = b->get_quality( qual_LOCKPICK );
         // Sort by durability to spend most broken item
@@ -2070,8 +2091,8 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         return a_quality > b_quality;
     } );
 
-    for( item *it : picklocks ) {
-        int required_moves = lockpick_activity_actor::lockpicking_moves( item_location{you, it}, you );
+    for( item_location it : picklocks ) {
+        int required_moves = lockpick_activity_actor::lockpicking_moves( it, you );
         time_duration required_time = time_duration::from_turns( required_moves / you.get_speed() );
         const std::string time_string = colorize( to_string( required_time, true ), c_light_gray );
         std::string query = string_format( _( "Pick the lock of %1$s using your %2$s?" ),
@@ -2085,9 +2106,9 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                target_name, it->tname() );
-        const ret_val<void> can_use = iuse_fn->can_call( you, *it, examp );
+        const ret_val<void> can_use = iuse_fn->can_call( you, it, examp );
         if( can_use.success() ) {
-            iuse_fn->call( &you, *it, examp );
+            iuse_fn->call( &you, it, examp );
             return;
         } else {
             you.add_msg_if_player( m_bad, can_use.str() );
@@ -2976,18 +2997,26 @@ void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
     }
 }
 
-static void add_firestarter( item *it, std::multimap<int, item *> &firestarters, Character &you,
-                             const tripoint_bub_ms &examp )
+static VisitResponse add_firestarter( item_location it,
+                                      std::multimap<int, item_location> &firestarters,
+                                      Character &you, const tripoint_bub_ms &examp )
 {
+    if( it->has_flag( flag_FIRESTARTER ) || it->has_flag( flag_FIRE ) ) {
+        return VisitResponse::NEXT;
+    }
+
     const use_function *usef = it->type->get_use( "firestarter" );
     if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-        const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, &get_map(), examp ).success() ) {
-            firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
-        }
+        return VisitResponse::NEXT;
     }
-}
 
+    const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+    if( actor->can_use( you, it, &get_map(), examp ).success() ) {
+        firestarters.emplace( actor->moves_cost_fast, it );
+    }
+
+    return VisitResponse::NEXT;
+}
 
 static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &examp,
                                        firestarter_actor::start_type st )
@@ -3002,16 +3031,12 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
         return;
     }
 
-    // Determine the fire starter to use.
-    auto is_firestarter = []( const item & it ) {
-        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
-    };
 
-    std::multimap<int, item *> firestarters;
+    std::multimap<int, item_location> firestarters;
 
-    for( item *it : you.items_with( is_firestarter ) ) {
-        add_firestarter( it, firestarters, you, examp );
-    }
+    you.visit_items( [&firestarters, &you, &examp]( const item_location & node ) {
+        return add_firestarter( node, firestarters, you, examp );
+    } );
 
     const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
                                         you.enough_power_for( bio_lighter );
@@ -3028,14 +3053,15 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     // Try to start the smoking rack/kiln.
     if( !use_cbm ) {
         for( auto &firestarter : firestarters ) {
-            item *it = firestarter.second;
-            const use_function *usef = it->type->get_use( "firestarter" );
+            item_location it = firestarter.second;
+            const use_function *usef = it.get_item()->type->get_use( "firestarter" );
             const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-            const ret_val<void> can_use = actor->can_use( you, *it, &get_map(), examp );
+            you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ),
+                                   it.get_item()->tname() );
+            const ret_val<void> can_use = actor->can_use( you, it, &get_map(), examp );
             if( can_use.success() ) {
-                const int charges = actor->use( &you, *it, &get_map(), examp ).value_or( 0 );
-                you.use_charges( it->typeId(), charges );
+                const int charges = actor->use( &you, it, &get_map(), examp ).value_or( 0 );
+                you.use_charges( it.get_item()->typeId(), charges );
                 return;
             } else {
                 you.add_msg_if_player( m_bad, can_use.str() );
@@ -3563,28 +3589,39 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
     const bool already_on_fire = here.has_nearby_fire( examp, 0 );
     const bool furn_is_deployed = !here.furn( examp ).obj().deployed_item.is_empty();
 
-    auto is_firestarter = []( const item & it ) {
-        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
-    };
     auto is_firequencher = []( const item & it ) {
         return it.damage_melee( damage_bash );
     };
 
-    std::multimap<int, item *> firestarters;
+
+    std::multimap<int, item_location> firestarters;
+    // TODO: this doesn't work and needs fixing
     std::vector<item *> firequenchers = you.items_with( is_firequencher );
 
-    for( item *it : you.items_with( is_firestarter ) ) {
-        add_firestarter( it, firestarters, you, examp );
-    }
+    you.visit_items( [&firestarters, &you, &examp]( const item_location & node ) {
+        return add_firestarter( node, firestarters, you, examp );
+    } );
 
     for( const tripoint_bub_ms &pos : closest_points_first( you.pos_bub(), PICKUP_RANGE ) ) {
         if( pos == examp ) {
             // stuff in the fireplace can't light or quench itself
             continue;
         }
-        for( item_location &it : here.items_with( pos, is_firestarter ) ) {
-            add_firestarter( &*it, firestarters, you, examp );
+
+        const std::optional<vpart_reference> ovp = here.veh_at( pos ).cargo();
+        if( ovp.has_value() ) {
+            vehicle_cursor veh_cursor( ovp->vehicle(), ovp->part_index() );
+            veh_cursor.visit_items( [&firestarters, &you, &examp]( const item_location & node ) {
+                return add_firestarter( node, firestarters, you, examp );
+            } );
         }
+
+        map_cursor m_cursor( examp );
+        m_cursor.visit_items( [&firestarters, &you, &examp]( const item_location & node ) {
+            return add_firestarter( node, firestarters, you, examp );
+        } );
+
+
         // anything is fine, so only check if we got nothing yet
         if( firequenchers.empty() ) {
             for( item_location &it : here.items_with( pos, is_firequencher ) ) {
@@ -3626,13 +3663,13 @@ void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
             return;
         case 1: {
             for( auto &firestarter : firestarters ) {
-                item *it = firestarter.second;
+                item_location it = firestarter.second;
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<void> can_use = actor->can_use( you, *it, &get_map(), examp );
+                const ret_val<void> can_use = actor->can_use( you, it, &get_map(), examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( &you, *it, &get_map(), examp ).value_or( 0 );
+                    const int charges = actor->use( &you, it, &get_map(), examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
                     return;
                 } else {

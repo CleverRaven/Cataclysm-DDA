@@ -392,11 +392,13 @@ void vehicle::build_electronics_menu( map &here, veh_menu &menu )
     for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
         if( arc_vp.part().enabled ) {
             item *arc_itm = &arc_vp.part().base;
+            vehicle_cursor vc( *this, arc_vp.part_index() );
+            item_location loc( vc, arc_itm );
 
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_bub_ms::zero ); } );
+            .on_submit( [&loc, arc_itm] { iuse::portable_game( &get_avatar(), loc, tripoint_bub_ms::zero ); } );
             break;
         }
     }
@@ -1650,8 +1652,11 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
         return;
     }
     item base = item( parts[part].get_base() );
+    vehicle_cursor vc( *this, part );
+    item_location loc( vc, &base );
+
     // TODO: Use map aware invoke when available
-    base.type->invoke( &get_avatar(), base, pos );
+    base.type->invoke( &get_avatar(), loc, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
@@ -2281,7 +2286,8 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
     const bool is_battery_tool = !ammo_type_id.is_null() && ammo_type_id->ammo->type == ammo_battery;
     if( !no_invoke ) {
         // TODO: pass map or go abs
-        get_player_character().invoke_item( &tool, vp_pos );
+        // CATASTROPHICALLY BROKEN, should be fixed!
+        // get_player_character().invoke_item( &tool, vp_pos );
     }
 
     // HACK: Evil hack incoming

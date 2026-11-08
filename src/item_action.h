@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "item_location.h"
 #include "translation.h"
 
 class Character;
@@ -14,7 +15,7 @@ class item;
 class item_action;
 
 using item_action_id = std::string;
-using item_action_map = std::map< item_action_id, item * >;
+using item_action_map = std::map<item_action_id, item_location>;
 using action_map = std::map< item_action_id, item_action >;
 
 class item_action
@@ -50,7 +51,7 @@ class item_action_generator
         * @param use_player_inventory If true then include all of player inventory.
         * @return actions mapped to items
         */
-        item_action_map map_actions_to_items( Character &you, const std::vector<item *> &pseudos,
+        item_action_map map_actions_to_items( Character &you, const std::vector<item_location> &pseudos,
                                               bool use_player_inventory = true ) const;
 
         // Returns (translated) name of action

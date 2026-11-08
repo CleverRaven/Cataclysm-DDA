@@ -4507,53 +4507,55 @@ void Character::burn_energy_all( int mod )
     }
 }
 
-bool Character::invoke_item( item *used )
+bool Character::invoke_item( item_location *used )
 {
     return invoke_item( used, pos_bub() );
 }
 
-bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
+bool Character::invoke_item( item_location *, const tripoint_bub_ms &, int )
 {
     return false;
 }
 
-bool Character::invoke_item( item *used, const std::string &method )
+bool Character::invoke_item( item_location *used, const std::string &method )
 {
     return invoke_item( used, method, pos_bub() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
-                             int pre_obtain_moves )
+bool Character::invoke_item( item_location *used, const std::string &method,
+                             const tripoint_bub_ms &pt, int pre_obtain_moves )
 {
     if( method.empty() ) {
         return invoke_item( used, pt, pre_obtain_moves );
     }
 
-    if( used->is_broken() ) {
-        add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used->tname() );
+    item *used_item = used->get_item();
+
+    if( used_item->is_broken() ) {
+        add_msg_if_player( m_bad, _( "Your %s was broken and won't turn on." ), used_item->tname() );
         return false;
     }
-    if( !used->ammo_sufficient( this, method ) ) {
-        std::string it_name = used->tname();
-        if( used->uses_firing_requirements() ) {
-            const std::string req = used->format_consumption_requirements( method );
+    if( !used_item->ammo_sufficient( this, method ) ) {
+        std::string it_name = used_item->tname();
+        if( used_item->uses_firing_requirements() ) {
+            const std::string req = used_item->format_consumption_requirements( method );
             add_msg_if_player( m_info, _( "Your %s needs: %s." ), it_name, req );
         } else {
-            int ammo_req = used->ammo_required();
-            if( used->has_flag( flag_USE_UPS ) ) {
+            int ammo_req = used_item->ammo_required();
+            if( used_item->has_flag( flag_USE_UPS ) ) {
                 add_msg_if_player( m_info,
                                    n_gettext( "Your %s needs %d charge from some UPS.",
                                               "Your %s needs %d charges from some UPS.",
                                               ammo_req ),
                                    it_name, ammo_req );
-            } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
+            } else if( used_item->has_flag( flag_USES_BIONIC_POWER ) ) {
                 add_msg_if_player( m_info,
                                    n_gettext( "Your %s needs %d kJ of bionic power.",
                                               "Your %s needs %d kJ of bionic power.",
                                               ammo_req ),
                                    it_name, ammo_req );
             } else {
-                int ammo_rem = used->ammo_remaining( );
+                int ammo_rem = used_item->ammo_remaining( );
                 add_msg_if_player( m_info,
                                    n_gettext( "Your %s has %d charge, but needs %d.",
                                               "Your %s has %d charges, but needs %d.",
@@ -4565,15 +4567,15 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    item *actually_used = used->get_usable_item( method );
+    item *actually_used = used_item->get_usable_item( method );
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
-                  method.c_str(), used->tname() );
+                  method.c_str(), used_item->tname() );
         set_moves( pre_obtain_moves );
         return false;
     }
 
-    std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
+    std::optional<int> charges_used = actually_used->type->invoke( this, *used,
                                       pt, method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
@@ -4589,7 +4591,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ) {
-        i_rem( actually_used );
+        used->remove_item();
         return true;
     }
 
@@ -8166,10 +8168,10 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             set_moves( pre_obtain_moves );
             return;
         }
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &loc, method, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &loc, method, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -8202,7 +8204,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             }
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &loc, method, loc.pos_bub( here ), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -8212,7 +8214,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &loc, method, loc.pos_bub( here ), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );

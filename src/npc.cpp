@@ -2602,7 +2602,7 @@ void healing_options::set_all()
 
 bool npc::has_healing_item( healing_options try_to_fix )
 {
-    return !get_healing_item( try_to_fix, true ).is_null();
+    return !get_healing_item( try_to_fix, true )->is_null();
 }
 
 healing_options npc::has_healing_options()
@@ -2654,9 +2654,9 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     return can_fix;
 }
 
-item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
+item_location &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
-    item *best = &null_item_reference();
+    item_location best;
     visit_items( [&best, try_to_fix, first_best]( item_location node ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
@@ -2669,7 +2669,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
             ( try_to_fix.bite && actor.bite > 0 ) ||
             ( try_to_fix.infect && actor.infect > 0 ) ) {
-            best = node.get_item();
+            best = node;
             if( first_best ) {
                 return VisitResponse::ABORT;
             }
@@ -2678,7 +2678,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
         return VisitResponse::NEXT;
     } );
 
-    return *best;
+    return best;
 }
 
 bool npc::has_painkiller() const
@@ -3724,9 +3724,9 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int )
+bool npc::invoke_item( item_location *used, const tripoint_bub_ms &pt, int )
 {
-    const auto &use_methods = used->type->use_methods;
+    const auto &use_methods = used->get_item()->type->use_methods;
 
     if( use_methods.empty() ) {
         return false;
@@ -3736,12 +3736,12 @@ bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int )
     return false;
 }
 
-bool npc::invoke_item( item *used, const std::string &method )
+bool npc::invoke_item( item_location *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
 }
 
-bool npc::invoke_item( item *used )
+bool npc::invoke_item( item_location *used )
 {
     return Character::invoke_item( used );
 }
