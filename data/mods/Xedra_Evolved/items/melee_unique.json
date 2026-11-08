@@ -57,8 +57,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARTIFACT" ],
     "name": { "str": "Light of a New-Born Star" },
-    "description": "A single-handed sword forged from some silvery metal shines faintly with a clear, cold light.  Parts of the metal sometimes flare up in a brighter white light for a moment.  A golden sunburst pattern is worked where the crossguard and the blade meet.",
-    "material": [ { "type": "blood", "portion": 1 } ],
+    "description": "A single-handed sword forged from some silvery metal that shines faintly with a clear, cold light.  Parts of the metal sometimes flare up in a brighter white light for a moment.  A golden sunburst pattern is worked where the crossguard and the blade meet.",
     "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
     "techniques": [ "WBLOCK_2" ],
     "faults": [  ],
@@ -93,5 +92,38 @@
     "faults": [  ],
     "light": 5,
     "relative": { "melee_damage": { "heat": 3 } }
+  },
+  {
+    "id": "fae_unique_weapon_moonshadow",
+    "copy-from": "ch_zweihander",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "Moonshadow" },
+    "description": "A two-handed sword forged from some silvery metal that shines faintly with a clear, cold light.  The crossguard is a crescent moon, the thinnest sliver of silver, and the pommel is a full moon, with a clear gem set in its center.  The grip is wrapped in some kind of shimmering leather.",
+    "replace_materials": { "ch_steel": "moon_tears", "kevlar": "leather" },
+    "extend": { "flags": [ "NO_REPAIR", "NO_RELOAD", "NO_UNLOAD", "TARDIS", "UNBREAKABLE_MELEE", "RELIC_PINK", "TRADER_AVOID" ] },
+    "faults": [  ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 12 } } ],
+    "charge_info": { "recharge_type": "new_moon", "time": "30 m", "regenerate_ammo": true },
+    "charges_per_use": 1,
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "condition": { "or": [ { "not": "is_day" }, { "u_has_effect": "effect_xe_fae_unique_weapon_moonshadow" } ] },
+        "melee_damage_bonus": [ { "type": "cold", "add": 7 } ],
+        "values": [
+          { "value": "NIGHT_VIS", "add": 8 },
+          { "value": "OVERMAP_SIGHT", "add": 2 },
+          { "value": "WEAKPOINT_ACCURACY", "multiply": 0.8 }
+        ]
+      }
+    ],
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "fae_unique_weapon_moonshadow_spell",
+      "no_fail": true,
+      "need_wielding": true,
+      "level": 0
+    }
   }
 ]

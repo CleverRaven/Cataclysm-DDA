@@ -134,7 +134,9 @@
     "id": "real_great_swords",
     "type": "requirement",
     "//": "Any real, edged, big swords you could practice with, like zweihanders, greatswords, or the Dragonslayer, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side, and is large enough to require a normal human to use two hands can qualify.",
-    "extend": { "tools": [ [ [ "dreamforged_nodachi", -1 ], [ "dreamforged_zweihander", -1 ] ] ] }
+    "extend": {
+      "tools": [ [ [ "dreamforged_nodachi", -1 ], [ "dreamforged_zweihander", -1 ], [ "fae_unique_weapon_moonshadow", -1 ] ] ]
+    }
   },
   {
     "id": "real_thrusting_swords",

@@ -701,7 +701,7 @@
   {
     "id": "fae_unique_weapon_last_blossom_fall_spell",
     "type": "SPELL",
-    "name": { "str": "Call Daffodil", "//~": "NO_I18N" },
+    "name": "Calling of the Daffodils",
     "description": { "str": "Hidden spell that spawns the daffodil", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": 10,
@@ -721,7 +721,7 @@
   {
     "id": "fae_unique_weapon_light_of_newborn_star_flashbang_spell",
     "type": "SPELL",
-    "name": { "str": "Light of a New-Born Star Flashbang", "//~": "NO_I18N" },
+    "name": "Starlit Flare",
     "description": { "str": "Causes a flashbang sometimes when you hit with Light of a New-Born Star", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "NO_PROJECTILE", "RANDOM_AOE", "NO_HANDS", "NO_LEGS" ],
@@ -729,5 +729,28 @@
     "shape": "blast",
     "min_aoe": 8,
     "max_aoe": 12
+  },
+  {
+    "id": "fae_unique_weapon_moonshadow_spell",
+    "type": "SPELL",
+    "name": "Dark of the Moon",
+    "description": { "str": "Dims all light but lets you see in the dark.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FAE_UNIQUE_WEAPON_MOONSHADOW",
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FAE_UNIQUE_WEAPON_MOONSHADOW",
+    "effect": [
+      { "math": [ "_effect_duration = rng(900,3600)" ] },
+      { "u_add_effect": "effect_xe_fae_unique_weapon_moonshadow", "duration": { "math": [ "_effect_duration" ] } },
+      {
+        "custom_light_level": 0,
+        "length": [ { "math": [ "_effect_duration" ] }, { "math": [ "_effect_duration" ] } ]
+      }
+    ]
   }
 ]
