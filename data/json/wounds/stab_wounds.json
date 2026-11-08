@@ -9,7 +9,6 @@
     "damage_types": [ "stab" ],
     "damage_required": [ 1, 9 ],
     "pain": [ 2, 6 ],
-    "severity": "MAJOR",
     "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.1 },
@@ -24,7 +23,7 @@
       { "score": "move_speed", "value": 0 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "5 seconds" },
+      { "type": "BLEED", "rate": "5 seconds", "amount": 1 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -3 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -3 }
     ],
@@ -42,7 +41,6 @@
     "damage_types": [ "stab" ],
     "damage_required": [ 10, 19 ],
     "pain": [ 10, 14 ],
-    "severity": "MAJOR",
     "wound_progression": [ { "id": "bleeding_stab_bad", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
@@ -57,7 +55,7 @@
       { "score": "move_speed", "value": 0.15 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "3 seconds" },
+      { "type": "BLEED", "rate": "3 seconds", "amount": 1 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -10 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -10 }
     ],
@@ -75,7 +73,6 @@
     "damage_types": [ "stab" ],
     "damage_required": [ 19, 29 ],
     "pain": [ 15, 19 ],
-    "severity": "CRITICAL",
     "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.35 },
@@ -90,7 +87,7 @@
       { "score": "move_speed", "value": 0.2 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "2 seconds" },
+      { "type": "BLEED", "rate": "2 seconds", "amount": 1 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -17 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -17 }
     ],
@@ -109,7 +106,6 @@
     "damage_types": [ "stab" ],
     "damage_required": [ 30, 80 ],
     "pain": [ 26, 36 ],
-    "severity": "CRITICAL",
     "limb_scores": [
       { "score": "manip", "value": 0.5 },
       { "score": "block", "value": 0.5 },
@@ -123,7 +119,7 @@
       { "score": "move_speed", "value": 0.5 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "1 seconds" },
+      { "type": "BLEED", "rate": "1 seconds", "amount": 1 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -23 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -23 }
     ],

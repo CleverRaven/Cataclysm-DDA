@@ -117,7 +117,6 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 20, 25 ],
     "pain": [ 14, 20 ],
-    "severity": "MAJOR",
     "wound_progression": [ { "id": "laceration_bad", "chance": 70 } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
@@ -131,7 +130,7 @@
       { "score": "move_speed", "value": 0.2 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "6 seconds" },
+      { "type": "BLEED", "rate": "6 seconds", "amount": 8 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
@@ -149,7 +148,6 @@
     "damage_types": [ "bash" ],
     "damage_required": [ 26, 34 ],
     "pain": [ 20, 26 ],
-    "severity": "MAJOR",
     "limb_scores": [
       { "score": "manip", "value": 0.4 },
       { "score": "block", "value": 0.4 },
@@ -162,7 +160,7 @@
       { "score": "move_speed", "value": 0.35 }
     ],
     "mod_values": [
-      { "type": "BLEED", "rate": "3 seconds" },
+      { "type": "BLEED", "rate": "3 seconds", "amount": 10 },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -11 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -11 }
     ],
