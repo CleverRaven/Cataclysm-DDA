@@ -60,6 +60,15 @@
     "success_msg": "The bad laceration is bandaged, now, all you can do is wait for it to heal."
   },
   {
+    "id": "bandaged_laceration_old_medium_fix",
+    "type": "wound_fix",
+    "copy-from": "bandage_laceration_medium_fix",
+    "description": "Change the dressing on your laceration.",
+    "wounds_removed": [ "bandaged_laceration_old_medium" ],
+    "wounds_added": [ "bandaged_laceration_medium" ],
+    "success_msg": "The laceration's bandages are changed, now, all you can do is wait for it to heal."
+  },
+  {
     "id": "set_bone_good_fix",
     "type": "wound_fix",
     "name": "set the bone properly",
