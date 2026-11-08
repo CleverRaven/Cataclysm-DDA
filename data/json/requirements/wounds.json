@@ -3,7 +3,7 @@
     "id": "wound_clean",
     "type": "requirement",
     "//": "For cleaning wounds",
-    "tools": [ [ [ "soapy_water", 1 ], [ "saline", 5 ], [ "water_clean", 1 ] ] ]
+    "tools": [ [ [ "soapy_water", 1 ] ] ]
   },
   {
     "id": "wound_bandage",
