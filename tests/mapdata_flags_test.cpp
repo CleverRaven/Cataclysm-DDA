@@ -7,7 +7,7 @@
 
 TEST_CASE( "ter_furn_flag_bitflags_agree_with_string_flags", "[mapdata][flag]" )
 {
-    auto enum_match = []( const map_data_common_t &obj, const std::string &id ) {
+    auto enum_match = []( const map_data_common_t &obj, const std::string & id ) {
         for( int i = 0; i < static_cast<int>( enum_traits<ter_furn_flag>::last ); ++i ) {
             const auto flag = static_cast<ter_furn_flag>( i );
             const std::string flag_str = io::enum_to_string( flag );
