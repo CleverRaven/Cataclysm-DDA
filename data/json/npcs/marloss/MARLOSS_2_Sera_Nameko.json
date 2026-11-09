@@ -1,0 +1,235 @@
+[
+  {
+    "type": "npc",
+    "id": "marloss_evan_2",
+    "name_unique": "Sera Nameko",
+    "//": "very forgetful, very friendly.  Pride.",
+    "gender": "female",
+    "name_suffix": "Evangelist",
+    "class": "MAR_EVAN_2",
+    "attitude": 0,
+    "mission": "GUARD",
+    "chat": "TALK_MARLOSS_EVAN_SERA_1",
+    "faction": "marloss",
+    "age": 27,
+    "height": 160,
+    "snip_bye": "…"
+  },
+  {
+    "type": "npc_class",
+    "id": "MAR_EVAN_2",
+    "name": { "str": "Evangelist" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All marloss evangelists are crippled by their fungal infections.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -3, 0 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "MAR_EVAN_2_worn",
+    "carry_override": "MAR_EVAN_carry",
+    "weapon_override": "MAR_EVAN_weapon",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "SLOWHEALER" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "DISORGANIZED" },
+      { "trait": "BADCARDIO" },
+      { "trait": "MYOPIC" },
+      { "trait": "MARLOSS" },
+      { "trait": "MYCUS_FRIEND" },
+      { "group": "Appearance_Irish" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_weapon",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_carry",
+    "subtype": "collection",
+    "entries": [ { "item": "marloss_berry", "count": [ 1, 4 ] }, { "item": "mycenacean_hymns" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_2_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "long_underpants" },
+      { "item": "socks" },
+      { "item": "jeans" },
+      { "item": "bra" },
+      { "item": "robe" },
+      { "item": "boots" },
+      { "item": "marloss_scarf" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_MARLOSS_EVAN_SERA_1a" ],
+    "responses": [
+      {
+        "text": "Tell me a bit about yourself.",
+        "topic": "TALK_MARLOSS_EVAN_SERA_SELF",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Why did you all decide to settle down here?",
+        "topic": "TALK_MARLOSS_EVAN_SERA_SETTLE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "How are things here?",
+        "topic": "TALK_MARLOSS_EVAN_SERA_SITUATION",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "<done_conversation_section>",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put her out of her misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      },
+      {
+        "text": "<end_talking_leave>  Bye, Sera.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_1",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "* blankly stares in front of her, mumbling something you can't quite catch.  Once she catches sight of you, her mouth forms into a wide grin, not met by her eyes.  \"Well, hello!  I haven't seen you around, have I?  Oh, it's so hard to keep track of our numbers….\"",
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": "Oh my, oh my!  A new visitor?  I haven't seen somebody new around here in what feels like forever!  You're new here, right?  Right?",
+        "no": "&She doesn't recognize you.  Nor your approach, or attempts to address her.  It seems there isn't much left to greet."
+      }
+    },
+    "responses": [
+      {
+        "text": "No, I'm new around here.  My name is <u_name>.",
+        "topic": "TALK_MARLOSS_EVAN_SERA_1a",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put her out of her misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_1a",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "dialogue_first_meet_Sera_Nameko", "value": "yes" },
+        { "npc_first_topic": "TALK_MARLOSS_EVAN_Sera_1a" }
+      ]
+    },
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Welcome back, Friend!  Be careful to rest yourself, overexertion isn't well for your health.",
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": [
+          "You always leave in such a hurry.  We miss you when you leave.",
+          "Just stick around a moment longer.",
+          "Don't leave just yet!"
+        ],
+        "no": [ "…", "?", "Where…" ]
+      }
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_SELF",
+    "dynamic_line": [
+      "Oh, about myself?  I always knew I was the interesting one in the group.",
+      "What would you like to know?",
+      "About lil' ol me?"
+    ],
+    "responses": [
+      { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_SERA_AboutMe_Basic" },
+      { "text": "Why do you follow the Marloss?", "topic": "TALK_MARLOSS_EVAN_SERA_Marloss" },
+      { "text": "How do you feel about the other evangelists?", "topic": "TALK_MARLOSS_EVAN_SERA_OtherEvangelists" },
+      { "text": "How are you feeling?", "topic": "MARLOSS_EVAN_SERA_Health" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_SETTLE",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, this place is decently out of the way, so we aren't getting constantly harassed by outsider intruders.  Not sure who specifically chose this location, but it's quite lovely, don't you think?",
+      "no": "Well, I suppose it was to avoid people.  Despite how many people we've invited, not many stick around very long.  The masses don't seem to appreciate our calm, I guess."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_SITUATION",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "There's really not much to complain about!  Life has been so good here, to the point I've gotten a bit spoiled from it.  I can't even imagine what it's like outside.",
+      "no": "There's not really much to talk about.  Things haven't really changed at all, have they?  I prefer it this way anyways."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_AboutMe_Basic",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "You know, the common stuff.  I was, uh… I was helping relocate some supplies in my community, in order to assist in evacuation protocols, or something along those lines.  Really, it's gotten all hazy nowadays.  Though I remember things going badly after some disputes started within my close friend group.  My friend Jennifer must've been going stir-crazy, since she was the first to crack.  It wasn't long before we decided to part ways, and I ended up being welcomed here.  I hope they managed to find somewhere nice as well.",
+      "no": "Ah, that's a really good question!  Ah, how I ended up here… huh.  I am having just the hardest time recalling it.  Though, the past doesn't matter much anymore, does it?  I'd say it's better to leave it at that."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_Marloss",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, why wouldn't you?  Clearly, it's more tangible than anything I've held before.  I mean, it's talked to me.  These marloss berries are simply gifts for our service, and if this is all I need to do to procure myself an easy living, then I find no issue in following it.  Better than risking it outside, I'd say!",
+      "no": "I've always been a bit scared of change.  Time passes us by too quickly, you know?  But it promises to keep everything still, just for me.  I could never repay this kindness all by myself.  I almost feel sick, knowing how much it loves us.  You included."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_SERA_OtherEvangelists",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Oh, they're lovely!  I'm not used to hanging around so many people, but it's a nice change of pace.  Plus, it's pretty fun being near likeminded people.  Nobody likes being the odd one out these days.",
+      "no": "Oh, they're fine.  I just feel everyone's been in a sour mood lately, you know?  Especially, ah, who was it?  Oh, nevermind."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_SERA_Health",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Oh, they're lovely!  I'm not used to hanging around so many people, but it's a nice change of pace.  Plus, it's pretty fun being near likeminded people.  Nobody likes being the odd one out these days.",
+      "no": "Oh, they're fine.  I just feel everyone's been in a sour mood lately, you know?  Especially, ah, who was it?  Oh, nevermind."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  }
+]
