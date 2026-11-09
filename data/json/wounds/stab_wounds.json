@@ -3,7 +3,7 @@
     "id": "bleeding_stab_small",
     "type": "wound",
     "name": { "str": "bleeding puncture", "str_pl": "bleeding punctures" },
-    "description": "You have been punctured, and it's left a superficial hole in your skin.  It's currently dripping blood.",
+    "description": "You have been punctured, leaving a superficial hole in your skin.  It's currently dripping blood.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -36,7 +36,7 @@
     "id": "bleeding_stab_medium",
     "type": "wound",
     "name": { "str": "bleeding deep puncture", "str_pl": "bleeding deep punctures" },
-    "description": "You have been punctured, and it's pierced down to the muscle. It's bleeding rather profusely.",
+    "description": "You have been punctured, with a hole in your limb reaching down to the muscle. It's bleeding rather profusely.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -103,7 +103,7 @@
     "id": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "bleeding impalement", "str_pl": "bleeding impalements" },
-    "description": "You have been impaled by a large object, and your life is in immediate danger.  The wound is hemmorhaging blood, and death from shock is guaranteed if it isn't stopped immediately.",
+    "description": "You have been impaled, leaving a gaping hole through your limb.  Your life is in immediate danger;  The wound is hemmorhaging blood and death from shock is guaranteed if it isn't stopped immediately.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -137,7 +137,7 @@
     "copy-from": "bleeding_stab_small",
     "type": "wound",
     "name": { "str": "puncture", "str_pl": "punctures" },
-    "description": "You have been punctured, and it's left a superficial hole in your skin.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
+    "description": "You have an open puncture, leaving a superficial hole in the skin.  The site is still dirty and at risk of infection.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -148,7 +148,7 @@
     "copy-from": "bleeding_stab_medium",
     "type": "wound",
     "name": { "str": "deep puncture", "str_pl": "deep punctures" },
-    "description": "You have been punctured, and it's pierced down to the muscle.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
+    "description": "You have an open deep puncture, leaving a hole that reaches down to the muscle.  The site is still dirty and at risk of infection.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -159,7 +159,7 @@
     "copy-from": "bleeding_stab_bad",
     "type": "wound",
     "name": { "str": "deep stab" },
-    "description": "You have been stabbed by a significantly sized sharp object, but it's no longer bleeding.  The site is still dirty and at risk of developing sepsis.",
+    "description": "You have an open stab wound.  The site is dirty and at risk of developing sepsis.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -170,7 +170,7 @@
     "copy-from": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "horrible stab" },
-    "description": "You have been impaled by a large object.  While you're no longer losing blood, sepsis will kill you instead if it's not cleaned.",
+    "description": "You have been impaled, leaving a hole through your limb.  While you're no longer losing blood, sepsis is a looming threat to your life instead.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -181,7 +181,7 @@
     "copy-from": "stab_small",
     "type": "wound",
     "name": { "str": "clean puncture", "str_pl": "clean punctures" },
-    "description": "You have been punctured, and it's left a superficial hole in your skin.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  The wound is clean and bleeding has stopped.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -189,7 +189,7 @@
     "copy-from": "stab_medium",
     "type": "wound",
     "name": { "str": "clean deep puncture", "str_pl": "clean deep punctures" },
-    "description": "You have been punctured, and it's pierced down to the muscle.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
+    "description": "You have been punctured, and it's pierced down to the muscle.  The wound is clean and bleeding has stopped.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -197,7 +197,7 @@
     "copy-from": "stab_bad",
     "type": "wound",
     "name": { "str": "clean stab", "str_pl": "clean stabs" },
-    "description": "You have been stabbed by a significantly sized sharp object.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
+    "description": "You have been stabbed by a significantly sized sharp object.  The wound is clean and bleeding has stopped.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
@@ -205,7 +205,7 @@
     "copy-from": "stab_terrible",
     "type": "wound",
     "name": { "str": "clean impalement", "str_pl": "clean impalements" },
-    "description": "You have been impaled by a large object.  Despite the hole in your body, the bleeding is under control and you've cleaned out the site.  All that remains is to bandage it and begin the long road to recovery."
+    "description": "You have been impaled by a large object.  Despite the hole in your body, the bleeding is under control and you've cleaned out the site.."
   },
   {
     "id": "bandaged_stab_small",
