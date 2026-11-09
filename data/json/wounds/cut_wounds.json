@@ -3,7 +3,7 @@
     "id": "scratch_small",
     "type": "wound",
     "name": { "str": "scratch", "str_pl": "scratches" },
-    "description": "You have been scratched lightly.  The bleeding was superficial pooling, if at all.  You could clean it to be extra safe from infection, though with something so superficial it's not pressing.",
+    "description": "You have been scratched lightly.  The bleeding was superficial pooling, if at all.  The location of the scratch is dirty, though with something so superficial infection is unlikely.",
     "weight": 50,
     "limit": 12,
     "damage_types": [ "cut" ],
@@ -29,7 +29,7 @@
     "id": "scratch_medium",
     "type": "wound",
     "name": { "str": "large scratch", "str_pl": "large scratches" },
-    "description": "You have a larger scratch, and while blood is oozing out slowly you're not actually in any danger of losing an amount of blood worth thinking about.  The primary concern is cleaning it off to avoid infection.",
+    "description": "You have a larger scratch, and while blood is oozing out slowly it's of no concern.  The primary concern is cleaning it off to avoid infection.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -86,7 +86,7 @@
     "id": "bleeding_cut_medium",
     "type": "wound",
     "name": { "str": "bleeding cut", "str_pl": "bleeding cuts" },
-    "description": "You have been cut, and although it's not critical blood is steadily flowing out of the wound.",
+    "description": "You have been cut, and although it's not critical, blood is steadily flowing out of the wound.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -118,7 +118,7 @@
     "id": "bleeding_cut_bad",
     "type": "wound",
     "name": { "str": "bleeding gash", "str_pl": "bleeding gashes" },
-    "description": "You have a rather nasty open gash in your flesh from something large and sharp akin to a knife, and blood is pouring out quickly.",
+    "description": "You have a rather nasty open gash in your flesh, and blood is pouring out quickly.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -150,7 +150,7 @@
     "id": "bleeding_cut_terrible",
     "type": "wound",
     "name": { "str": "bleeding life-threatening gash", "str_pl": "bleeding life-threatening gashes" },
-    "description": "You have been sliced open, and you are at risk of imminent death from blood loss if you can't get it under control.",
+    "description": "You have been sliced open, and you are at immediate risk of death from blood loss if you can't get it under control.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -183,7 +183,7 @@
     "copy-from": "bleeding_scratch_bad",
     "type": "wound",
     "name": { "str": "gouge", "str_pl": "gouges" },
-    "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh.  The bleeding has stopped, but the wound is dirty and stiil needs to be cleaned out.",
+    "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -194,7 +194,7 @@
     "copy-from": "bleeding_cut_medium",
     "type": "wound",
     "name": { "str": "cut", "str_pl": "cuts" },
-    "description": "You have been cut, and although it's not critical and the bleeding has been stopped, the wound is dirty and still needs to be cleaned out.",
+    "description": "You have been cut open. The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -227,7 +227,7 @@
     "copy-from": "scratch_small",
     "type": "wound",
     "name": { "str": "clean scratch", "str_pl": "clean scratches" },
-    "description": "You have been scratched lightly.  The already small infection risk has been mitigated by cleaning, and you can bandage it to help it heal.",
+    "description": "You have been scratched lightly.  The already small infection risk has been mitigated by cleaning.",
     "weight": 0,
     "healing_time": [ "2 days", "4 days" ],
     "wound_progression": [ { "id": "scratch_small", "chance": 100 } ]
@@ -237,12 +237,12 @@
     "copy-from": "scratch_medium",
     "type": "wound",
     "name": { "str": "clean large scratch", "str_pl": "clean large scratches" },
-    "description": "You have a larger scratch that's been cleaned up to avoid infection.  Bandaging it will help it heal. ",
+    "description": "You have a larger scratch that's been cleaned up to avoid infection.",
     "weight": 0,
     "progress_timer": {
       "id": "clean_scratch_small",
       "time": [ "36 hours", "60 hours" ],
-      "message": "Your scratch on your %s looks much better.  A bandage would help it heal."
+      "message": "Your scratch on your %s looks much better.."
     },
     "wound_progression": [ { "id": "scratch_medium", "chance": 100 } ]
   },
@@ -251,7 +251,7 @@
     "copy-from": "scratch_bad",
     "type": "wound",
     "name": { "str": "clean gouge", "str_pl": "clean gouges" },
-    "description": "Your flesh has been ripped open by whatever managed to scratch you.  It's been cleaned out, and a bandage can be used to cover the wound and give it time to heal.",
+    "description": "Your flesh has been ripped open by whatever managed to scratch you.  It's been cleaned out.",
     "progress_timer": {
       "id": "clean_scratch_medium",
       "time": [ "48 hours", "84 hours" ],
@@ -263,7 +263,7 @@
     "copy-from": "cut_medium",
     "type": "wound",
     "name": { "str": "clean cut", "str_pl": "clean cuts" },
-    "description": "You have been cut, but the bleeding has stopped and it's been cleaned out.  All that's left is to bandage it and give it time to heal.",
+    "description": "You have been cut, but the site of the injury has been thoroughly cleaned out.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -271,7 +271,7 @@
     "copy-from": "cut_bad",
     "type": "wound",
     "name": { "str": "clean gash", "str_pl": "clean gashes" },
-    "description": "You have an open gash in your flesh, but the bleeding has stopped and it's been cleaned out.  All that's left is to bandage it and give it time to heal.",
+    "description": "You have an open gash in your flesh, but the site of the injury has been thoroughly cleaned out.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
