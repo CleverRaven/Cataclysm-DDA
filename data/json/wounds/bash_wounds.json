@@ -123,7 +123,7 @@
     "id": "bleeding_laceration_medium",
     "type": "wound",
     "name": { "str": "bleeding torn skin" },
-    "description": "A tender part of your skin hard enough and at such an angle to tear it open, causing blood to drip out.",
+    "description": "A tender part of your skin has been hit hard enough to tear it open, causing blood to drip out.",
     "weight": 20,
     "limit": 8,
     "damage_types": [ "bash" ],
