@@ -2,7 +2,7 @@
   {
     "id": "bruise_small",
     "type": "wound",
-    "name": { "str": "light bruising" },
+    "name": { "str": "light bruising", "str_pl": "light bruising" },
     "description": "A small patch of your skin has been left off color and slightly tender.",
     "weight": 50,
     "limit": 8,
@@ -29,7 +29,7 @@
   {
     "id": "bruise_medium",
     "type": "wound",
-    "name": { "str": "bruising" },
+    "name": { "str": "bruising", "str_pl": "bruising" },
     "description": "Parts of your skin are a light redish color, and it's rather tender to the touch.",
     "weight": 40,
     "limit": 8,
@@ -60,7 +60,7 @@
   {
     "id": "bruise_bad",
     "type": "wound",
-    "name": { "str": "heavy bruising" },
+    "name": { "str": "heavy bruising", "str_pl": "heavy bruising" },
     "description": "The skin here is a deep purple, and a sharp painful jolt shoots through you whenever you touch the area.",
     "weight": 40,
     "limit": 8,
@@ -91,7 +91,7 @@
   {
     "id": "bruise_terrible",
     "type": "wound",
-    "name": { "str": "severe bruising" },
+    "name": { "str": "severe bruising", "str_pl": "severe bruising" },
     "description": "The skin here is a terrifying patchwork of red, purple, blue, and almost black.  Every small movement and touch brings aftershocks of pain to the area you can feel all the way to your bones.  Getting hit again here could be very bad.",
     "weight": 40,
     "limit": 8,

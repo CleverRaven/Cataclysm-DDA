@@ -97,7 +97,7 @@
     "description": "Use water to thoroughly flush out every last trace of contamination from your sliced open limb.",
     "wounds_removed": [ "cut_terrible" ],
     "wounds_added": [ "clean_cut_terrible" ],
-    "success_msg": "You spend quite a while flushing water through your sliced open skin, knowing that anything less than full flush of all contaminents will kill you from sepsis with a cut this major."
+    "success_msg": "You spend quite a while flushing water through your sliced open skin, knowing that anything less than full flush of all contaminants will kill you from sepsis with a cut this major."
   },
   {
     "id": "bandage_scratch_small_fix",

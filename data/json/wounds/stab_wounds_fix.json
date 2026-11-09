@@ -77,7 +77,7 @@
     "description": "Use water to flush out every last trace of contamination from your impalement.",
     "wounds_removed": [ "stab_terrible" ],
     "wounds_added": [ "clean_stab_terrible" ],
-    "success_msg": "You spend quite a while flushing water through the hole in your limb, knowing that anything less than full flush of all contaminents will kill you from sepsis from a puncture this severe."
+    "success_msg": "You spend quite a while flushing water through the hole in your limb, knowing that anything less than full flush of all contaminants will kill you from sepsis from a puncture this severe."
   },
   {
     "id": "bandage_stab_small_fix",

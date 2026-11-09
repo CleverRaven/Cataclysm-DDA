@@ -103,7 +103,7 @@
     "id": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "bleeding impalement", "str_pl": "bleeding impalements" },
-    "description": "You have been impaled by a large object, and your life is in immediate danger.  The wound is hemmorhaging blood, and death from shock is guaranteed if it isn't stopped immediately.",
+    "description": "You have been impaled by a large object, and your life is in immediate danger.  The wound is hemorrhaging blood, and death from shock is guaranteed if it isn't stopped immediately.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -211,7 +211,7 @@
     "id": "bandaged_stab_small",
     "copy-from": "stab_small",
     "type": "wound",
-    "name": { "str": "bandaged puncture", "str_pl": "bandaged punture" },
+    "name": { "str": "bandaged puncture", "str_pl": "bandaged punctures" },
     "description": "You've done all you can for the puncture, and can only wait for it to heal.",
     "healing_time": [ "1 days", "2 days" ]
   },
@@ -219,7 +219,7 @@
     "id": "bandaged_stab_medium",
     "copy-from": "stab_medium",
     "type": "wound",
-    "name": { "str": "bandaged deep puncture", "str_pl": "bandaged deep puntures" },
+    "name": { "str": "bandaged deep puncture", "str_pl": "bandaged deep punctures" },
     "description": "You've done all you can for the deep puncture, and can only wait for it to heal.",
     "progress_timer": {
       "id": "bandaged_stab_old_small",

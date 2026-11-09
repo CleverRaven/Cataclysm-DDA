@@ -111,7 +111,7 @@
     "id": "splint_bone_fix",
     "type": "wound_fix",
     "name": "Splint your fractured bone",
-    "description": "Firmly hold your fractured limb still with a splint so that it has time to heal without being aggrevated and damaged further.",
+    "description": "Firmly hold your fractured limb still with a splint so that it has time to heal without being aggravated and damaged further.",
     "time": "1 minutes",
     "skills": { "firstaid": 2 },
     "wounds_removed": [ "bone_fractured" ],
