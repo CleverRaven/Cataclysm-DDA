@@ -6792,11 +6792,11 @@ TEST_CASE( "npc_can_obtain_food_filters_harvests", "[npc][needs][forage]" )
             }
         }
         WHEN( "tree stands past the follow spacing" ) {
-            const tripoint_bub_ms far = guy.pos_bub() + tripoint( 6, 0, 0 );
-            here.ter_set( far, ter_t_tree_apple );
+            const tripoint_bub_ms far_pos = guy.pos_bub() + tripoint( 6, 0, 0 );
+            here.ter_set( far_pos, ter_t_tree_apple );
             here.build_map_cache( 0 );
-            REQUIRE( here.is_harvestable( far ) );
-            REQUIRE_FALSE( guy.obligation_reach()->contains( here.get_abs( far ) ) );
+            REQUIRE( here.is_harvestable( far_pos ) );
+            REQUIRE_FALSE( guy.obligation_reach()->contains( here.get_abs( far_pos ) ) );
             THEN( "it may not" ) {
                 CHECK( oracle.can_obtain_food( "" ) == behavior::status_t::failure );
             }
