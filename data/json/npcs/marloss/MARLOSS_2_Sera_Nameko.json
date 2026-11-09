@@ -112,7 +112,7 @@
     "id": "TALK_MARLOSS_EVAN_SERA_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "* blankly stares in front of her, mumbling something you can't quite catch.  Once she catches sight of you, her mouth forms into a wide grin, not met by her eyes.  \"Well, hello! I haven't seen you around, have I? Oh, it's so hard to keep track of our numbers…\"",
+      "yes": "* blankly stares in front of her, mumbling something you can't quite catch.  Once she catches sight of you, her mouth forms into a wide grin, not met by her eyes.  \"Well, hello!  I haven't seen you around, have I?  Oh, it's so hard to keep track of our numbers….\"",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "Oh my, oh my!  A new visitor?  I haven't seen somebody new around here in what feels like forever!  You're new here, right?  Right?",
@@ -144,7 +144,7 @@
     },
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Welcome back, Friend! Be careful to rest yourself, overexertion isn't well for your health.",
+      "yes": "Welcome back, Friend!  Be careful to rest yourself, overexertion isn't well for your health.",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": [
