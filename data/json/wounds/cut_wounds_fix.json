@@ -184,7 +184,7 @@
     "copy-from": "bandage_cut_medium_fix",
     "type": "wound_fix",
     "name": "Change aging dressing",
-    "description": "Swap out the dressing on your cut.",
+    "description": "Swap out the dressing on your cut",
     "wounds_removed": [ "bandaged_cut_old_medium" ],
     "wounds_added": [ "bandaged_cut_medium" ],
     "success_msg": "You remove the blood-stained dressing from your cut and wrap fresh one around it."
