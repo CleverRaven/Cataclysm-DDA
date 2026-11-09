@@ -194,7 +194,7 @@
     "copy-from": "bandage_cut_bad_fix",
     "type": "wound_fix",
     "name": "Change aging dressing",
-    "description": "Swap out the dressing on your gash.",
+    "description": "Swap out the dressing on your gash",
     "wounds_removed": [ "bandaged_cut_old_bad" ],
     "wounds_added": [ "bandaged_cut_bad" ],
     "success_msg": "You remove the blood-soaked dressing from your gash and wrap fresh one around it."
