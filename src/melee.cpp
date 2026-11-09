@@ -165,7 +165,8 @@ static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
 static const std::string player_base_stamina_burn_rate( "PLAYER_BASE_STAMINA_BURN_RATE" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {}, int hit_spread = INT_MIN );
+                                Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {}, int
+                                hit_spread = INT_MIN );
 static int stumble( Character &u, const item_location &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -2615,9 +2616,9 @@ void player_hit_message( Character *attacker, const std::string &message,
             msg = string_format( _( "%s for %d damage." ), message, dam );
         }
     }
-    
+
     if( dam > 0 && !crit && hit_spread != INT_MIN ) {
-        msg += "  " + Creature::hit_quality_label( hit_spread);
+        msg += "  " + Creature::hit_quality_label( hit_spread );
     }
 
     if( dam > 0 && attacker->is_avatar() ) {

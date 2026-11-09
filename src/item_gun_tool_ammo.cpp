@@ -422,9 +422,29 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                           100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
-    const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
-                                   -20 ) + 20;
-    double num_all_hits = hits_by_accuracy[ rng_mean ];
+
+    // (hit - dodge), then all of the effects of partial dodge
+    const int mean_spread = static_cast<int>( base_hit - mon_defense );
+    const auto hit_table = [&]( int mean ) {
+        return hits_by_accuracy[ std::max( std::min( mean, 20 ), -20 ) + 20 ];
+    };
+    constexpr int miss_threshold = 5; // I think this should always be Creature melee_miss_threshold/5
+    constexpr int full_force_threshold =
+        5; // I think this should always be Creature melee_full_force_threshold/5
+    constexpr int mult_range = miss_threshold + full_force_threshold;
+    double num_all_hits = hit_table( mean_spread + miss_threshold );
+
+    // expected damage multiplier
+    double mult_sum = 0.0;
+    for( int t = -miss_threshold; t < full_force_threshold; t++ ) {
+        mult_sum += hit_table( mean_spread - t );
+    }
+    const double expected_mult_per_attempt = mult_sum / ( mult_range * hit_trials );
+    double hit_mult = 0.0;
+    if( num_all_hits > 0.0 ) {
+        hit_mult = std::clamp( expected_mult_per_attempt * hit_trials / num_all_hits, 0.0, 1.0 ) ;
+    }
+
     /* critical hits have two chances to occur: triple critical hits happen much less frequently,
      * and double critical hits can only occur if a hit roll is more than 1.5 * monster dodge.
      * Not the hit roll used to determine the attack, another one.
@@ -449,7 +469,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
     double num_hits = num_all_hits - num_crits;
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
-    const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
+    const auto calc_effective_damage = [ &, moves_per_attack, hit_mult ]( const double num_strikes,
     const bool crit, const Character & guy, Creature & mon ) {
         bodypart_id bp = bodypart_id( "torso" );
         Creature *temp_mon = &mon;
@@ -459,6 +479,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                              sub_bodypart_str_id::NULL_ID(), &mon, bp );
         damage_instance dealt_damage = base_damage;
         dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
+        // partial dodge from deal_melee_hit()
+        dealt_damage.mult_damage( hit_mult, true );
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
         for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
@@ -488,6 +510,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
+            // partial dodge from deal_melee_hit()
+            dealt_rs_damage.mult_damage( hit_mult, true );
             // TODO: Modify DPS calculation to consider weakpoints.
             resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {

@@ -1035,7 +1035,7 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %.1f (range %.1f - %.1f)", multiplier,
                    min_mul, max_mul );
     damage.mult_damage( multiplier );
-    
+
     // check if it can be dodged, and by extension, partially dodged
     if( dodgeable ) {
         damage.mult_damage( Creature::melee_damage_mult( hitspread ), true );
