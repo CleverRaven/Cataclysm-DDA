@@ -928,6 +928,29 @@ conditional_t::func f_has_any_wound( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_bodypart_is_wounded_and_fixable( const JsonObject &jo,
+        std::string_view member, bool is_npc )
+{
+    str_or_var bp = get_str_or_var( jo.get_member( member ), member, true );
+
+    return [bp, is_npc]( const_dialogue const & d ) {
+        bodypart_id bid = bodypart_id( bp.evaluate( d ) );
+        const const_talker &who = *d.const_actor( is_npc );
+        const bodypart *bpart = who.get_bodypart( bid );
+        if( bpart == nullptr ) {
+            return false;
+        }
+
+        for( const wound &wd : bpart->get_wounds() ) {
+            if( !wd.type->fixes.empty() ) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+}
+
 conditional_t::func f_bodypart_is_wounded( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2673,6 +2696,7 @@ parsers = {
     {"u_is_bleeding", "npc_is_bleeding", jarg::array, &conditional_fun::f_is_bleeding },
     {"u_bodypart_is_bleeding", "npc_bodypart_is_bleeding", jarg::member, &conditional_fun::f_bodypart_is_bleeding },
     {"u_bodypart_is_wounded", "npc_bodypart_is_wounded", jarg::member, &conditional_fun::f_bodypart_is_wounded },
+    {"u_bodypart_is_wounded_and_fixable", "npc_bodypart_is_wounded_and_fixable", jarg::member, &conditional_fun::f_bodypart_is_wounded_and_fixable },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },

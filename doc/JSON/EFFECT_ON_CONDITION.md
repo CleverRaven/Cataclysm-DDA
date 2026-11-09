@@ -972,6 +972,22 @@ checks are you hot or cold
 { "u_bodypart_is_wounded": "torso" }
 ```
 
+### `u_bodypart_is_wounded_and_fixable`, `npc_bodypart_is_wounded_and_fixable`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker's specific bodypart has any wound that has possible wound fixes. It does not check if any of the fixes are actually performable. Designed for the sidebar to use to display that there are wounds that can be treated
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+
+```jsonc
+{ "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } }
+```
+
 ### `u_has_proficiency`, `npc_has_proficiency`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker has mastered a proficiency (to 100%).
