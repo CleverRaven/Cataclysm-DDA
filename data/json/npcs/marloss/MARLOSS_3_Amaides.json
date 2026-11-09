@@ -109,12 +109,12 @@
     "id": "TALK_MARLOSS_EVAN_AMAIDES_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*is brightly conversating to the corpse infront of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh? Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\"  With that, he turns, meeting your gaze at the same time.  \"Oh!  a new member?  It's so nice to meet you!",
+      "yes": "*is brightly conversating to the corpse infront of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh?  Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\"  With that, he turns, meeting your gaze at the same time.  \"Oh!  A new member?  It's so nice to meet you!",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "*is muttering something to the corpse laying infront of him, the smell of rot clearly not affecting him as much as you.  Before you can catch his attention, he turns, already meeting your gaze.  \"Oh, is this your friend, Carol?  You don't know them?  How strange.\"  He nods to himself.  \"So, are you a new member?  Didn't think anybody outside was still alive.  It's nice to meet you.",
         "no": [
-          "*is curled up around a festering corpse,  seemingly content to rot away with it.  Despite the wheezing rise of his ribcage, there's zero will to live left behind."
+          "*is curled up around a festering corpse, seemingly content to rot away with it.  Despite the wheezing rise of his ribcage, there's zero will to live left behind."
         ]
       }
     },
@@ -125,7 +125,7 @@
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
       },
       {
-        "text": "Excuse me? Are you talking to a corpse?",
+        "text": "Excuse me?  Are you talking to a corpse?",
         "topic": "TALK_MARLOSS_EVAN_AMAIDES_ANGRY",
         "opinion": { "trust": -1, "value": -1, "anger": 2 },
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
@@ -150,7 +150,7 @@
     },
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Oh, you mean my daughter Carol! Yeah, isn't she adorable? We'd been having a difficult time until moving here, so she's a bit paler than normal.  She'll recover eventually, and then we'll have that tea party she's been begging for!",
+      "yes": "Oh, you mean my daughter Carol!  Yeah, isn't she adorable?  We'd been having a difficult time until moving here, so she's a bit paler than normal.  She'll recover eventually, and then we'll have that tea party she's been begging for!",
       "no": "My daughter, obviously.  Who else would I be talking to?  Maybe the outside fog is turning people stupider faster than I thought."
     },
     "responses": [
@@ -167,12 +167,12 @@
     "id": "TALK_MARLOSS_EVAN_AMAIDES_1a",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Welcome back my good man! Stick around awhile, you look quite pale today!",
+      "yes": "Welcome back my good man!  Stick around awhile, you look quite pale today!",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "Welcome back.  Stick around awhile, the outside air isn't good for you.",
         "no": [
-          "*is curled up around the festering corpse of his daughter,  seemingly content to rot away with it.  Despite the wheezing rise of his ribcage, there's zero will to live left behind."
+          "*is curled up around the festering corpse of his daughter, seemingly content to rot away with it.  Despite the wheezing rise of his ribcage, there's zero will to live left behind."
         ]
       }
     }
@@ -184,7 +184,7 @@
       "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
       "yes": "Get out of my sight.",
       "no": [
-        "*is curled up around a festering corpse,  seemingly content to rot away with it.  You can still feel his festering rage towards you."
+        "*is curled up around a festering corpse, seemingly content to rot away with it.  You can still feel his festering rage towards you."
       ]
     },
     "responses": [ { "text": "Alright, fine.", "topic": "TALK_DONE" } ]
@@ -192,7 +192,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MARLOSS_EVAN_AMAIDES_ANGRY",
-    "dynamic_line": "Excuse you? Just because she's feeling a bit unwell currently doesn't give you the right to insult her, bastard.",
+    "dynamic_line": "Excuse you?  Just because she's feeling a bit unwell currently doesn't give you the right to insult her, bastard.",
     "speaker_effect": {
       "effect": [ { "u_add_var": "dialogue_insulted_daughter", "value": "yes" }, { "npc_first_topic": "TALK_MARLOSS_EVAN_AMAIDES_1b" } ]
     },
