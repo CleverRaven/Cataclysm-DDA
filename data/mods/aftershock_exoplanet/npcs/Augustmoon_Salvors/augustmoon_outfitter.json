@@ -117,7 +117,7 @@
       [ "afs_headset_surgery", 20 ],
       [ "afs_headset_EMF", 20 ],
       [ "afs_headset_extra_targeting", 20 ],
-      [ "afs_headset_smartlinks", 20 ]
+      [ "afs_headset_smartlink", 20 ]
     ]
   },
   {
