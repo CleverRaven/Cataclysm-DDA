@@ -227,18 +227,7 @@ Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
 Bionic wounds and ways to repair them
-More "dream" snippets from the Heart of the Warrior CBM
-Labyrinth feature room: haywire fixbot factory
-kevlar hulk special attacks
-Add a grotto to the highlands.
-Improved Hub 01 dialogue for Isherwood rescue mission
-Infection Immune medical mutants' self-cleaning wounds 
-Limbify tentacle arms
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
-Sci-fi horrors from imagined wars.
-Additional epilogues for NPCs featuring more queer representation and mentioning of biotics.
-Create a new scenario set a month or two after the Cataclysm, with a stocked base
-Add Tentacle Rakes combat*
 
 
 ## Interface:
@@ -409,15 +398,6 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
-[Xedra Evolved] One fixed glamour, one new glamours
-Aftershock: Add hidden data vaults at the bottom of ravines.
-[Xedra Evolved] Luliya won't talk to the Fair Folk either
-[Xedra Evolved] Changelings can't pull dreamdross from people with Empty Dreams
-[Xedra Evolved] Rework Paraclesian healing draughts
-[DinoMod] more endgame skeletals
-[MoM] Reduce focused light armor derived-from heat
-[DinoMod] Rubik will not talk if he does not like you
-[alt-map-key] Add new overmap terrain
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -486,11 +466,7 @@ Scarlet Storm is less punishing with acute exposure, more punishing with chronic
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
-Tempered and hardened steel chunks and lumps can be reverted back into lc and mc steel
-Some types of anatomy can't get bruises
-Compensate for oceanside starts for the scarlet storm
-Armband pouch has no encumbrance
-Bruises stage down when healing
+Wounds stage down when healing
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -702,16 +678,7 @@ Factions that are mad at you won't talk to you.
 NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
 NPCs don't freeze when something comes up on the way to their job
 NPCs fetch construction components from containers and spread over construction sites
-Re-add quantity to de-charged lab supplies
-Imguification induced regression
-changed required_weather for 'snowstorm'. Was previously calling for 'thunder' and 'lighting' which are reserved for 'snowing'
-Adjust bottle gourd seed production
 Fix dragged furniture deleting every second item
-Fix language names
-Wounds with only progress timer doesn't get updated
-Add mising `REGEN_WOUND` to 48x-Locutus
-Adjust combat Exoskeleton pocket encumbrance and access cost
-rapid strike was removed from knives, still persists on the sword bayonet
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -885,7 +852,7 @@ Fix GCC 9 tiles build error in cataimgui::draw_texture
 Android apk with sounds
 MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
-More support for C++20: char8_t
+More support for C++20
 
 
 ## I18N and A11Y:
