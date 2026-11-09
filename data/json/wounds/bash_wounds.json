@@ -24,7 +24,7 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_medium",
@@ -51,7 +51,7 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_bad",
@@ -78,7 +78,7 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_terrible",
@@ -109,7 +109,7 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_laceration_medium",
@@ -141,7 +141,7 @@
     ],
     "periodic_message": { "message": "Your laceration on your %s is bleeding!", "rate": "80 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_laceration_bad",
@@ -172,7 +172,7 @@
     ],
     "periodic_message": { "message": "Your bad laceration on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_fractured",
@@ -198,7 +198,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_broken",
@@ -223,7 +223,7 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_broken_healing_good",

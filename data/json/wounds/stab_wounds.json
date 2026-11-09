@@ -30,7 +30,7 @@
     ],
     "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_medium",
@@ -63,7 +63,7 @@
     ],
     "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_bad",
@@ -97,7 +97,7 @@
     "periodic_message": { "message": "Your deep stab on your %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_terrible",
@@ -130,7 +130,7 @@
     "periodic_message": { "message": "Your horrible stab on your %s is bleeding!", "rate": "10 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "stab_small",
@@ -221,7 +221,11 @@
     "type": "wound",
     "name": { "str": "bandaged stab" },
     "description": "You have been stabbed, you should wait till it heals.",
-    "healing_time": [ "2 days", "4 days" ]
+    "progress_timer": {
+      "id": "bandaged_stab_old_small",
+      "time": [ "24 hours", "48 hours" ],
+      "message": "Your stab on your %s looks less serious, but you should probably change the dressing."
+    }
   },
   {
     "id": "bandaged_stab_bad",
@@ -229,7 +233,11 @@
     "type": "wound",
     "name": { "str": "bandaged deep stab" },
     "description": "You have been badly stabbed, you should wait till it heals.",
-    "healing_time": [ "4 days", "6 days" ]
+    "progress_timer": {
+      "id": "bandaged_stab_old_medium",
+      "time": [ "48 hours", "72 hours" ],
+      "message": "Your deep stab on your %s looks less serious, but you should probably change the dressing."
+    }
   },
   {
     "id": "bandaged_stab_terrible",
@@ -237,6 +245,31 @@
     "type": "wound",
     "name": { "str": "bandaged horrible stab" },
     "description": "You have been horribly stabbed, you should wait till it heals.",
-    "healing_time": [ "6 days", "8 days" ]
+    "progress_timer": {
+      "id": "bandaged_stab_old_bad",
+      "time": [ "72 hours", "96 hours" ],
+      "message": "Your horrible stab on your %s looks less serious, but you should probably change the dressing."
+    }
+  },
+  {
+    "id": "bandaged_stab_old_small",
+    "copy-from": "clean_stab_small",
+    "type": "wound",
+    "name": { "str": "bandaged light stab (old dressing)", "str_pl": "bandaged light stabs (old dressing)" },
+    "description": "You have been lightly stabbed, and you should probably change the dressing."
+  },
+  {
+    "id": "bandaged_stab_old_medium",
+    "copy-from": "clean_stab_medium",
+    "type": "wound",
+    "name": { "str": "bandaged stab (old dressing)", "str_pl": "bandaged stabs (old dressing)" },
+    "description": "You have been stabbed, and you should probably change the dressing."
+  },
+  {
+    "id": "bandaged_stab_old_bad",
+    "copy-from": "clean_stab_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep stab (old dressing)", "str_pl": "bandaged deep stabs (old dressing)" },
+    "description": "You have been badly stabbed, and you should probably change the dressing."
   }
 ]

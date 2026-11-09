@@ -91,6 +91,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_light_of_newborn_star_protections",
+    "//": "Hidden effect, used when wielding Light of a New-Born Star",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "blind", "deaf" ],
+    "flags": [ "GLARE_RESIST", "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xe_nonhuman_super_soldier_serum_immune",
     "//": "Hidden effect, makes full vampires and shapeshifters unable to use serums",
     "name": [ "" ],

@@ -23,7 +23,7 @@
       { "score": "move_speed", "value": 0 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "scratch_medium",
@@ -49,7 +49,7 @@
       { "score": "move_speed", "value": 0.5 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_scratch_bad",
@@ -80,7 +80,7 @@
     ],
     "periodic_message": { "message": "Your scratch on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_medium",
@@ -112,7 +112,7 @@
     ],
     "periodic_message": { "message": "Your cut on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_bad",
@@ -144,7 +144,7 @@
     ],
     "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_terrible",
@@ -176,7 +176,7 @@
     ],
     "periodic_message": { "message": "Your horrible cut on your %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "scratch_bad",
@@ -341,7 +341,11 @@
     "type": "wound",
     "name": { "str": "bandaged deep cut" },
     "description": "You have been badly cut, you should wait till it heals.",
-    "healing_time": [ "4 days", "6 days" ]
+    "progress_timer": {
+      "id": "bandaged_cut_old_medium",
+      "time": [ "48 hours", "72 hours" ],
+      "message": "Your deep cut on your %s looks less serious, but you should probably change the dressing."
+    }
   },
   {
     "id": "bandaged_cut_terrible",
@@ -349,6 +353,24 @@
     "type": "wound",
     "name": { "str": "bandaged horrible cut" },
     "description": "You have been horribly cut, you should wait till it heals.",
-    "healing_time": [ "6 days", "8 days" ]
+    "progress_timer": {
+      "id": "bandaged_cut_old_bad",
+      "time": [ "72 hours", "96 hours" ],
+      "message": "Your horrible cut on your %s looks less serious, but you should probably change the dressing."
+    }
+  },
+  {
+    "id": "bandaged_cut_old_medium",
+    "copy-from": "clean_cut_medium",
+    "type": "wound",
+    "name": { "str": "bandaged cut (old dressing)", "str_pl": "bandaged cuts (old dressing)" },
+    "description": "You have been cut, and you should probably change the dressing."
+  },
+  {
+    "id": "bandaged_cut_old_bad",
+    "copy-from": "clean_cut_bad",
+    "type": "wound",
+    "name": { "str": "bandaged deep cut (old dressing)", "str_pl": "bandaged deep cuts (old dressing)" },
+    "description": "You have been badly cut, and you should probably change the dressing."
   }
 ]
