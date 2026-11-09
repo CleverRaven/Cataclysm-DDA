@@ -1720,6 +1720,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```CAPTURE_MONSTER_VEH``` Can be used to capture monsters when mounted on a vehicle.
 - ```CARGO_LOCKING``` This cargo area is inaccessible to NPCs.  Can only be installed on a part with `LOCKABLE_CARGO` flag.
 - ```CARGO_PASSABLE``` Items stored in vehicle part with this flag won't hinder passenger's ability to fit in comfortably into a given tile.
+- ```CARGO_DIMENSIONAL``` Items stored in a vehicle part with this flag will not be dumped out when this part is folded.
 - ```CARGO``` Cargo holding area.
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
