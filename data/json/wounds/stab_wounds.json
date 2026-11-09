@@ -30,7 +30,7 @@
     ],
     "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_medium",
@@ -63,7 +63,7 @@
     ],
     "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_bad",
@@ -97,7 +97,7 @@
     "periodic_message": { "message": "Your deep stab on your %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_terrible",
@@ -130,7 +130,7 @@
     "periodic_message": { "message": "Your horrible stab on your %s is bleeding!", "rate": "10 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "stab_small",
