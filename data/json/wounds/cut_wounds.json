@@ -298,7 +298,7 @@
     "progress_timer": {
       "id": "bandaged_scratch_old_small",
       "time": [ "24 hours", "48 hours" ],
-      "message": "Your large scratch on your %s looks much better, but the dressing is old and in need of replacing."
+      "message": "The large scratch on your %s looks much better, but the dressing is old and in need of replacing."
     }
   },
   {
@@ -310,7 +310,7 @@
     "progress_timer": {
       "id": "bandaged_scratch_old_medium",
       "time": [ "36 hours", "60 hours" ],
-      "message": "Your gouge on your %s looks less serious, but the dressing is old and in need of replacing."
+      "message": "The gouge on your %s looks less serious, but the dressing is old and in need of replacing."
     }
   },
   {
@@ -324,14 +324,14 @@
     "id": "bandaged_scratch_old_medium",
     "copy-from": "clean_scratch_medium",
     "type": "wound",
-    "name": { "str": "bandaged scratch (old dressing)", "str_pl": "bandaged bad scratches (old dressing)" },
+    "name": { "str": "bandaged large scratch (old dressing)", "str_pl": "bandaged large scratches (old dressing)" },
     "description": "What used to be a gouge in your flesh has started to close up.  It's on the road to recovery, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_cut_medium",
     "copy-from": "cut_medium",
     "type": "wound",
-    "name": { "str": "bandaged cut" },
+    "name": { "str": "bandaged cut", "str_pl": "bandaged cuts" },
     "description": "You've done all you can, now the cut simply has to heal on its own.",
     "healing_time": [ "2 days", "4 days" ]
   },
@@ -339,7 +339,7 @@
     "id": "bandaged_cut_bad",
     "copy-from": "cut_bad",
     "type": "wound",
-    "name": { "str": "bandaged gash" },
+    "name": { "str": "bandaged gash", "str_pl": "bandaged gashes" },
     "description": "You've done all you can, now the gash simply has to heal on its own.",
     "progress_timer": {
       "id": "bandaged_cut_old_medium",
@@ -351,7 +351,7 @@
     "id": "bandaged_cut_terrible",
     "copy-from": "cut_terrible",
     "type": "wound",
-    "name": { "str": "bandaged life-threatening gash" },
+    "name": { "str": "bandaged life-threatening gash", "str_pl": "bandaged life-threatening gashes" },
     "description": "Against the odds, you've survived something that could have killed someone even before the world went to shit. Now all that's left is to walk the slow road to recovery.",
     "progress_timer": {
       "id": "bandaged_cut_old_bad",
@@ -364,13 +364,13 @@
     "copy-from": "clean_cut_medium",
     "type": "wound",
     "name": { "str": "bandaged cut (old dressing)", "str_pl": "bandaged cuts (old dressing)" },
-    "description": "You have been cut, and you should probably change the dressing."
+    "description": "The gash on your limb is finally starting to close, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_cut_old_bad",
     "copy-from": "clean_cut_bad",
     "type": "wound",
-    "name": { "str": "bandaged deep cut (old dressing)", "str_pl": "bandaged deep cuts (old dressing)" },
-    "description": "You have been badly cut, and you should probably change the dressing."
+    "name": { "str": "bandaged gash (old dressing)", "str_pl": "bandaged gashes (old dressing)" },
+    "description": "The sliced open flesh on your limb is no longer life threatening, but the dressing has grown old and is in need of replacing."
   }
 ]

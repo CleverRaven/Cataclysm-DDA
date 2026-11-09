@@ -3,7 +3,7 @@
     "id": "bleeding_stab_small",
     "type": "wound",
     "name": { "str": "bleeding puncture", "str_pl": "bleeding punctures" },
-    "description": "You have been punctured, leaving a superficial hole in your skin.  It's currently dripping blood.",
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  It's currently dripping blood.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -36,7 +36,7 @@
     "id": "bleeding_stab_medium",
     "type": "wound",
     "name": { "str": "bleeding deep puncture", "str_pl": "bleeding deep punctures" },
-    "description": "You have been punctured, with a hole in your limb reaching down to the muscle. It's bleeding rather profusely.",
+    "description": "You have been punctured, and it's pierced down to the muscle. It's bleeding rather profusely.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -103,7 +103,7 @@
     "id": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "bleeding impalement", "str_pl": "bleeding impalements" },
-    "description": "You have been impaled, leaving a gaping hole through your limb.  Your life is in immediate danger;  The wound is hemmorhaging blood and death from shock is guaranteed if it isn't stopped immediately.",
+    "description": "You have been impaled by a large object, and your life is in immediate danger.  The wound is hemmorhaging blood, and death from shock is guaranteed if it isn't stopped immediately.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -137,7 +137,7 @@
     "copy-from": "bleeding_stab_small",
     "type": "wound",
     "name": { "str": "puncture", "str_pl": "punctures" },
-    "description": "You have an open puncture, leaving a superficial hole in the skin.  The site is still dirty and at risk of infection.",
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -148,7 +148,7 @@
     "copy-from": "bleeding_stab_medium",
     "type": "wound",
     "name": { "str": "deep puncture", "str_pl": "deep punctures" },
-    "description": "You have an open deep puncture, leaving a hole that reaches down to the muscle.  The site is still dirty and at risk of infection.",
+    "description": "You have been punctured, and it's pierced down to the muscle.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -159,7 +159,7 @@
     "copy-from": "bleeding_stab_bad",
     "type": "wound",
     "name": { "str": "deep stab" },
-    "description": "You have an open stab wound.  The site is dirty and at risk of developing sepsis.",
+    "description": "You have been stabbed by a significantly sized sharp object, but it's no longer bleeding.  The site is still dirty and at risk of developing sepsis.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -170,7 +170,7 @@
     "copy-from": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "horrible stab" },
-    "description": "You have been impaled, leaving a hole through your limb.  While you're no longer losing blood, sepsis is a looming threat to your life instead.",
+    "description": "You have been impaled by a large object.  While you're no longer losing blood, sepsis will kill you instead if it's not cleaned.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -181,7 +181,7 @@
     "copy-from": "stab_small",
     "type": "wound",
     "name": { "str": "clean puncture", "str_pl": "clean punctures" },
-    "description": "You have been punctured, and it's left a superficial hole in your skin.  Despite this, the wound has been thoroughly cleaned.",
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -189,7 +189,7 @@
     "copy-from": "stab_medium",
     "type": "wound",
     "name": { "str": "clean deep puncture", "str_pl": "clean deep punctures" },
-    "description": "You have been punctured, and it's pierced down to the muscle.  Despite this, the wound has been thoroughly cleaned.",
+    "description": "You have been punctured, and it's pierced down to the muscle.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -197,7 +197,7 @@
     "copy-from": "stab_bad",
     "type": "wound",
     "name": { "str": "clean stab", "str_pl": "clean stabs" },
-    "description": "You have been stabbed by a significantly sized sharp object.  Despite this, the wound has been thoroughly cleaned.",
+    "description": "You have been stabbed by a significantly sized sharp object.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
@@ -205,7 +205,7 @@
     "copy-from": "stab_terrible",
     "type": "wound",
     "name": { "str": "clean impalement", "str_pl": "clean impalements" },
-    "description": "You have been impaled by a large object.  Despite the hole in your body, the bleeding is under control and you've cleaned out the site.."
+    "description": "You have been impaled by a large object.  Despite the hole in your body, the bleeding is under control and you've cleaned out the site.  All that remains is to bandage it and begin the long road to recovery."
   },
   {
     "id": "bandaged_stab_small",
@@ -236,14 +236,13 @@
     "progress_timer": {
       "id": "bandaged_stab_old_medium",
       "time": [ "48 hours", "72 hours" ],
-      "message": "The stab on your %s looks less serious, but he tdressing is old and in need of changing."
+      "message": "The stab on your %s looks less serious, but the dressing is old and in need of changing."
     }
   },
   {
     "id": "bandaged_stab_terrible",
     "copy-from": "stab_terrible",
     "type": "wound",
-<<<<<<< HEAD
     "name": { "str": "bandaged impalement", "str_pl": "bandaged impalements" },
     "description": "Through what can only be described as a medical miracle, you have survived having one of your limbs impaled through. All that remains is to walk the long road to recovery.",
     "progress_timer": {
@@ -256,26 +255,21 @@
     "id": "bandaged_stab_old_small",
     "copy-from": "clean_stab_small",
     "type": "wound",
-    "name": { "str": "bandaged light stab (old dressing)", "str_pl": "bandaged light stabs (old dressing)" },
-    "description": "You have been lightly stabbed, and you should probably change the dressing."
+    "name": { "str": "bandaged puncture (old dressing)", "str_pl": "bandaged punctures (old dressing)" },
+    "description": "The puncture on your limb is no longer as deep, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_stab_old_medium",
     "copy-from": "clean_stab_medium",
     "type": "wound",
-    "name": { "str": "bandaged stab (old dressing)", "str_pl": "bandaged stabs (old dressing)" },
-    "description": "You have been stabbed, and you should probably change the dressing."
+    "name": { "str": "bandaged deep puncture (old dressing)", "str_pl": "bandaged deep punctures (old dressing)" },
+    "description": "What was once a stab wound is now more adequately describe as a rather deep puncture as it heals, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_stab_old_bad",
     "copy-from": "clean_stab_bad",
     "type": "wound",
-    "name": { "str": "bandaged deep stab (old dressing)", "str_pl": "bandaged deep stabs (old dressing)" },
-    "description": "You have been badly stabbed, and you should probably change the dressing."
-=======
-    "name": { "str": "bandaged impalement", "str_pl": "bandaged impalements" },
-    "description": "Through what can only be described as a medical miracle, you have survived having one of your limbs impaled through. All that remains is to walk the long road to recovery.",
-    "healing_time": [ "6 days", "8 days" ]
->>>>>>> 9ffe5c2 (Flavor stab wounds)
+    "name": { "str": "bandaged stab (old dressing)", "str_pl": "bandaged stabs (old dressing)" },
+    "description": "While the hole in your limb has closed, the road to recovery is still ongoing. The dressing has grown old and is in need of replacing."
   }
 ]
