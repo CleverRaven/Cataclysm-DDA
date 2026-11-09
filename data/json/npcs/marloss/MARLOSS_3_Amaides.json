@@ -109,7 +109,7 @@
     "id": "TALK_MARLOSS_EVAN_AMAIDES_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*is brightly conversating to the corpse infront of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh? Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\" With that, he turns, meeting your gaze at the same time.  \"Oh! a new member? It's so nice to meet you!",
+      "yes": "*is brightly conversating to the corpse infront of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh? Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\"  With that, he turns, meeting your gaze at the same time.  \"Oh!  a new member?  It's so nice to meet you!",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "*is muttering something to the corpse laying infront of him, the smell of rot clearly not affecting him as much as you.  Before you can catch his attention, he turns, already meeting your gaze.  \"Oh, is this your friend, Carol?  You don't know them?  How strange.\"  He nods to himself.  \"So, are you a new member?  Didn't think anybody outside was still alive.  It's nice to meet you.",
