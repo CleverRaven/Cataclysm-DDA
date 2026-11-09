@@ -1722,7 +1722,7 @@
       "h_mod_chance": [ 80 ],
       "health_tick": [ 30 ]
     },
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multply": 1 }, { "value": "REGEN_WOUND", "multply": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 1 }, { "value": "REGEN_WOUND", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",
