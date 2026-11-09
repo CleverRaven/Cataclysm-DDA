@@ -181,7 +181,7 @@
     "copy-from": "stab_small",
     "type": "wound",
     "name": { "str": "clean puncture", "str_pl": "clean punctures" },
-    "description": "You have been punctured, and it's left a superficial hole in your skin.  The wound is clean and bleeding has stopped.",
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  Despite this, the wound has been thoroughly cleaned.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -189,7 +189,7 @@
     "copy-from": "stab_medium",
     "type": "wound",
     "name": { "str": "clean deep puncture", "str_pl": "clean deep punctures" },
-    "description": "You have been punctured, and it's pierced down to the muscle.  The wound is clean and bleeding has stopped.",
+    "description": "You have been punctured, and it's pierced down to the muscle.  Despite this, the wound has been thoroughly cleaned.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -197,7 +197,7 @@
     "copy-from": "stab_bad",
     "type": "wound",
     "name": { "str": "clean stab", "str_pl": "clean stabs" },
-    "description": "You have been stabbed by a significantly sized sharp object.  The wound is clean and bleeding has stopped.",
+    "description": "You have been stabbed by a significantly sized sharp object.  Despite this, the wound has been thoroughly cleaned.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
