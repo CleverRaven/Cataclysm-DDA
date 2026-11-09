@@ -1102,7 +1102,7 @@
     "color": "light_red",
     "use_action": {
       "type": "message",
-      "message": "You've already lit the fuse. Get rid of the bomb and clear out!",
+      "message": "You've already lit the fuse.  Get rid of the bomb and clear out!",
       "name": "Light fuse"
     },
     "countdown_interval": "100 seconds",
