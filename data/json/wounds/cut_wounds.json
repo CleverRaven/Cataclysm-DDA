@@ -54,7 +54,7 @@
   {
     "id": "bleeding_scratch_bad",
     "type": "wound",
-    "name": { "str": "bleeding gouge", "str_pl": "bleeding gouges" },
+    "name": { "str": "bleeding gouge" },
     "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh which is now bleeding.",
     "weight": 40,
     "limit": 8,
@@ -85,7 +85,7 @@
   {
     "id": "bleeding_cut_medium",
     "type": "wound",
-    "name": { "str": "bleeding cut", "str_pl": "bleeding cuts" },
+    "name": { "str": "bleeding cut" },
     "description": "You have been cut, and although it's not critical, blood is steadily flowing out of the wound.",
     "weight": 50,
     "limit": 8,
@@ -182,7 +182,7 @@
     "id": "scratch_bad",
     "copy-from": "bleeding_scratch_bad",
     "type": "wound",
-    "name": { "str": "gouge", "str_pl": "gouges" },
+    "name": { "str": "gouge" },
     "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
@@ -193,8 +193,8 @@
     "id": "cut_medium",
     "copy-from": "bleeding_cut_medium",
     "type": "wound",
-    "name": { "str": "cut", "str_pl": "cuts" },
-    "description": "You have been cut open. The site of the injury is still dirty.",
+    "name": { "str": "cut" },
+    "description": "You have been cut open.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -250,7 +250,7 @@
     "id": "clean_scratch_bad",
     "copy-from": "scratch_bad",
     "type": "wound",
-    "name": { "str": "clean gouge", "str_pl": "clean gouges" },
+    "name": { "str": "clean gouge" },
     "description": "Your flesh has been ripped open by whatever managed to scratch you.  It's been cleaned out.",
     "progress_timer": {
       "id": "clean_scratch_medium",
@@ -262,7 +262,7 @@
     "id": "clean_cut_medium",
     "copy-from": "cut_medium",
     "type": "wound",
-    "name": { "str": "clean cut", "str_pl": "clean cuts" },
+    "name": { "str": "clean cut" },
     "description": "You have been cut, but the site of the injury has been thoroughly cleaned out.",
     "healing_time": [ "3 days", "5 days" ]
   },
@@ -305,7 +305,7 @@
     "id": "bandaged_scratch_bad",
     "copy-from": "scratch_bad",
     "type": "wound",
-    "name": { "str": "bandaged gouge", "str_pl": "bandaged gouge" },
+    "name": { "str": "bandaged gouge" },
     "description": "You have been gouged, you should wait till it heals.",
     "progress_timer": {
       "id": "bandaged_scratch_old_medium",
@@ -331,7 +331,7 @@
     "id": "bandaged_cut_medium",
     "copy-from": "cut_medium",
     "type": "wound",
-    "name": { "str": "bandaged cut", "str_pl": "bandaged cuts" },
+    "name": { "str": "bandaged cut" },
     "description": "You've done all you can, now the cut simply has to heal on its own.",
     "healing_time": [ "2 days", "4 days" ]
   },
@@ -352,7 +352,7 @@
     "copy-from": "cut_terrible",
     "type": "wound",
     "name": { "str": "bandaged life-threatening gash", "str_pl": "bandaged life-threatening gashes" },
-    "description": "Against the odds, you've survived something that could have killed someone even before the world went to shit. Now all that's left is to walk the slow road to recovery.",
+    "description": "Against the odds, you've survived something that could have killed someone even before the world went to shit.  Now all that's left is to walk the slow road to recovery.",
     "progress_timer": {
       "id": "bandaged_cut_old_bad",
       "time": [ "72 hours", "96 hours" ],

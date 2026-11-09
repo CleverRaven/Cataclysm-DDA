@@ -2,7 +2,7 @@
   {
     "id": "bruise_small",
     "type": "wound",
-    "name": { "str": "light bruising", "str_pl": "light bruising" },
+    "name": { "str_sp": "light bruising" },
     "description": "A small patch of your skin has been left off color and slightly tender.",
     "weight": 50,
     "limit": 8,
@@ -29,7 +29,7 @@
   {
     "id": "bruise_medium",
     "type": "wound",
-    "name": { "str": "bruising", "str_pl": "bruising" },
+    "name": { "str_sp": "bruising" },
     "description": "Parts of your skin are a light reddish color, and it's rather tender to the touch.",
     "weight": 40,
     "limit": 8,
@@ -60,7 +60,7 @@
   {
     "id": "bruise_bad",
     "type": "wound",
-    "name": { "str": "heavy bruising", "str_pl": "heavy bruising" },
+    "name": { "str_sp": "heavy bruising" },
     "description": "The skin here is a deep purple, and a sharp painful jolt shoots through you whenever you touch the area.",
     "weight": 40,
     "limit": 8,
@@ -91,7 +91,7 @@
   {
     "id": "bruise_terrible",
     "type": "wound",
-    "name": { "str": "severe bruising", "str_pl": "severe bruising" },
+    "name": { "str_sp": "severe bruising" },
     "description": "The skin here is a terrifying patchwork of red, purple, blue, and almost black.  Every small movement and touch brings aftershocks of pain to the area you can feel all the way to your bones.  Getting hit again here could be very bad.",
     "weight": 40,
     "limit": 8,
@@ -122,7 +122,7 @@
   {
     "id": "bleeding_laceration_medium",
     "type": "wound",
-    "name": { "str": "bleeding torn skin" },
+    "name": { "str": "bleeding torn skin", "str_pl": "bleeding torn skin sections" },
     "description": "A tender part of your skin has been hit hard enough to tear it open, causing blood to drip out.",
     "weight": 20,
     "limit": 8,
@@ -154,7 +154,7 @@
   {
     "id": "bleeding_laceration_bad",
     "type": "wound",
-    "name": { "str": "bleeding badly torn skin" },
+    "name": { "str": "bleeding badly torn skin", "str_pl": "bleeding badly torn skin sections" },
     "description": "A tender part of your skin has been hit hard enough to tear it open completely, causing blood to flow out.",
     "weight": 20,
     "limit": 8,
@@ -185,7 +185,7 @@
   {
     "id": "bone_fractured",
     "type": "wound",
-    "name": { "str": "fractured bone", "str_pl": "fractured bones" },
+    "name": { "str": "fractured bone" },
     "description": "One of your bones has taken enough punishment to fracture, but remains in alignment.",
     "weight": 40,
     "limit": 2,
@@ -211,7 +211,7 @@
   {
     "id": "bone_broken",
     "type": "wound",
-    "name": { "str": "broken bone", "str_pl": "broken bones" },
+    "name": { "str": "broken bone" },
     "description": "Your bone has completely broken and been knocked out of alignment.  If not set properly, the bone could heal incorrectly causing permanent damage.",
     "weight": 40,
     "limit": 2,
@@ -237,7 +237,7 @@
     "id": "bone_broken_healing_good",
     "copy-from": "bone_broken",
     "type": "wound",
-    "name": { "str": "professionally set bone", "str_pl": "professionally set bones" },
+    "name": { "str": "professionally set bone" },
     "description": "Your broken bone has been set professionally, and all that remains is the long road to recovery.",
     "weight": 0,
     "limit": 2,
@@ -248,7 +248,7 @@
     "id": "bone_broken_healing_partial",
     "copy-from": "bone_broken",
     "type": "wound",
-    "name": { "str": "improperly set bone", "str_pl": "improperly set bones" },
+    "name": { "str": "improperly set bone" },
     "description": "Your broken bone has been set poorly, and once healed won't quite function the same without surgical intervention.",
     "weight": 0,
     "limit": 2,
@@ -264,7 +264,7 @@
     "id": "bone_broken_healing_bad",
     "copy-from": "bone_broken_healing_partial",
     "type": "wound",
-    "name": { "str": "badly set bone", "str_pl": "badly set broken bone" },
+    "name": { "str": "badly set bone" },
     "description": "Your broken bone has been set by a lunatic without proper medical training, and once healed will still have severely inadequate function without surgical intervention.",
     "pain": [ 50, 56 ],
     "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
@@ -366,7 +366,7 @@
     "copy-from": "laceration_medium",
     "type": "wound",
     "name": { "str": "bandaged torn skin" },
-    "description": "Your torn skin has been cleaned and bandaged. All that's left is to wait for it to heal.",
+    "description": "Your torn skin has been cleaned and bandaged.  All that's left is to wait for it to heal.",
     "healing_time": [ "60 hours", "108 hours" ]
   },
   {
@@ -385,7 +385,7 @@
     "id": "bandaged_laceration_old_medium",
     "copy-from": "clean_laceration_medium",
     "type": "wound",
-    "name": { "str": "bandaged torn skin (old dressing)" },
+    "name": { "str": "bandaged torn skin (old dressing)", "str_pl": "bandaged torn skin sections (old dressing)" },
     "description": "Your torn skin is starting to close up. It will heal soon, but the dressing has grown old and is in need of replacing."
   }
 ]

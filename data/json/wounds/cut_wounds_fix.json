@@ -174,7 +174,7 @@
     "copy-from": "bandage_wound_terrible",
     "type": "wound_fix",
     "name": "Bandage the life-threatening gash",
-    "description": "Use a bandage to wrap the sliced open limb. The cut is large enough that you're going to end up with more of it covered than not just to make sure there aren't any gaps.",
+    "description": "Use a bandage to wrap the sliced open limb.  The cut is large enough that you're going to end up with more of it covered than not just to make sure there aren't any gaps.",
     "wounds_removed": [ "clean_cut_terrible" ],
     "wounds_added": [ "bandaged_cut_terrible" ],
     "success_msg": "You spend some time making sure the entire gash is covered and protected from contamination."
