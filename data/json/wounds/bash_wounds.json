@@ -30,7 +30,7 @@
     "id": "bruise_medium",
     "type": "wound",
     "name": { "str": "bruising", "str_pl": "bruising" },
-    "description": "Parts of your skin are a light redish color, and it's rather tender to the touch.",
+    "description": "Parts of your skin are a light reddish color, and it's rather tender to the touch.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "bash" ],

@@ -34,7 +34,7 @@
     "copy-from": "clean_wound_bad",
     "type": "wound_fix",
     "name": "Flush your badly torn skin",
-    "description": "Use water to flush foreign contaminents out of where the skin has ripped apart.",
+    "description": "Use water to flush foreign contaminants out of where the skin has ripped apart.",
     "wounds_removed": [ "laceration_bad" ],
     "wounds_added": [ "clean_laceration_bad" ],
     "success_msg": "You wipe down the area and thoroughly flush the ripped open skin with water."

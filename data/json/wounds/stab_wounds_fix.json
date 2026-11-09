@@ -44,7 +44,7 @@
     "copy-from": "clean_wound_small",
     "type": "wound_fix",
     "name": "Flush the puncture",
-    "description": "Use water to irrigate and wash out foreign contaminants from the punture.",
+    "description": "Use water to irrigate and wash out foreign contaminants from the puncture.",
     "wounds_removed": [ "stab_small" ],
     "wounds_added": [ "clean_stab_small" ],
     "success_msg": "You thoroughly flush your puncture with water to remove any foreign contaminants."
@@ -54,7 +54,7 @@
     "copy-from": "clean_wound_medium",
     "type": "wound_fix",
     "name": "Flush the deep puncture",
-    "description": "Use water to irrigate and wash out foreign contaminants from the deep punture.",
+    "description": "Use water to irrigate and wash out foreign contaminants from the deep puncture.",
     "wounds_removed": [ "stab_medium" ],
     "wounds_added": [ "clean_stab_medium" ],
     "success_msg": "You thoroughly flush your deep puncture with water to remove any foreign contaminants."
