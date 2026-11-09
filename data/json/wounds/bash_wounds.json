@@ -346,7 +346,7 @@
     "copy-from": "laceration_medium",
     "type": "wound",
     "name": { "str": "clean torn skin" },
-    "description": "Your skin has been torn open, but the bleeding has stopped and the wound is clean.  Bandaging it will help it along in healing.",
+    "description": "Your skin has been torn open, but the bleeding has stopped and the wound is clean.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
@@ -354,7 +354,7 @@
     "copy-from": "laceration_bad",
     "type": "wound",
     "name": { "str": "clean badly torn skin" },
-    "description": "Your skin has been ripped open, but the bleeding has stopped and the wound is clean. Bandaging it will help it along in healing.",
+    "description": "Your skin has been ripped open, but the bleeding has stopped and the wound is clean.",
     "progress_timer": {
       "id": "clean_laceration_medium",
       "time": [ "60 hours", "108 hours" ],
@@ -378,7 +378,7 @@
     "progress_timer": {
       "id": "bandaged_laceration_old_medium",
       "time": [ "48 hours", "84 hours" ],
-      "message": "The badly torn skin on your %s has started to close up, but the dressing is old and in need of replacing."
+      "message": "The badly torn skin on your %s has started to close up, but the dressing has grown old and is in need of replacing."
     }
   },
   {
