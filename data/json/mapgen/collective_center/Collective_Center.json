@@ -136,7 +136,6 @@
           { "item": "SUS_fiction_bookcase", "chance": 25 }
         ]
       },
-      "place_npcs": [ { "class": "marloss_evan_2", "x": 67, "y": 18 } ],
       "place_computers": [
         {
           "name": "Marloss Evangelist Computer",
@@ -224,8 +223,7 @@
           { "item": "SUS_janitors_closet", "chance": 5 },
           { "item": "SUS_office_filing_cabinet", "chance": 15 }
         ]
-      },
-      "place_npcs": [ { "class": "marloss_evan_1", "x": 59, "y": 18 } ]
+      }
     }
   },
   {
