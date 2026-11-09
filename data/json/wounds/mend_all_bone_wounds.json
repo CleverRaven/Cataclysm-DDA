@@ -4,7 +4,7 @@
     "copy-from": "bone_broken",
     "type": "wound",
     "whitelist_flags": [ "MEND_ALL" ],
-    "blacklist_flag": [  ]
+    "blacklist_flag": [ "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_broken_mend_all_fix",
@@ -23,6 +23,6 @@
     "type": "wound",
     "healing_time": [ "15 days", "20 days" ],
     "whitelist_flags": [ "MEND_ALL" ],
-    "blacklist_flag": [  ]
+    "blacklist_flag": [ "NON_FLESH_LIMB" ]
   }
 ]

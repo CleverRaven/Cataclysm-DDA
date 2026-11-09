@@ -1728,6 +1728,8 @@
       "ALWAYS_BLOCK",
       "NO_LIMB_FIRST_AID",
       "NON_FLESH_LIMB",
+      "PLANT_LIMB",
+      "VINE_LIMB",
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_UPPER",
@@ -1764,17 +1766,6 @@
     "connected_to": "torso",
     "limb_types": "arm",
     "opposite_part": "vine_limb_upper_r",
-    "flags": [
-      "IGNORE_TEMP",
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_UPPER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "side": "left",
     "sub_parts": [ "vine_sublimb_ul" ]
   },
@@ -1795,17 +1786,6 @@
     "limb_types": "arm",
     "opposite_part": "vine_limb_lower_l",
     "side": "right",
-    "flags": [
-      "IGNORE_TEMP",
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_LOWER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "sub_parts": [ "vine_sublimb_lr" ]
   },
   {
@@ -1825,16 +1805,6 @@
     "limb_types": "arm",
     "opposite_part": "vine_limb_lower_r",
     "side": "left",
-    "flags": [
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_LOWER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "sub_parts": [ "vine_sublimb_ll" ]
   },
   {
