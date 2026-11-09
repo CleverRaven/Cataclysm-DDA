@@ -17,7 +17,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
+        "max_contains_volume": " 20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_battery_cell"
       },
@@ -27,7 +29,9 @@
         "description": "A mounting point for enhancement modules.",
         "holster": true,
         "inherits_flags": true,
-        "rigid": true,
+        "max_contains_volume": " 20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "100 ml",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
         "moves": 2000
       },
@@ -37,7 +41,9 @@
         "description": "A mounting point for enhancement modules.",
         "holster": true,
         "inherits_flags": true,
-        "rigid": true,
+        "max_contains_volume": " 20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "100 ml",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
         "moves": 2000
       }
@@ -100,7 +106,7 @@
     "category": "clothing",
     "copy-from": "afs_combat_headset_off",
     "name": { "str": "TI-7 LosCo Tactical Headset" },
-    "description": "It used to be that marksmanship was a real skill, honed over arduous years spent killing farmhands while hiding in a ditch somewhere.  Now, thanks to tech, anyone can drop a few grand and be an unhinged psycho killer. This one is 11th gen, with six high definition cameras and movement prediction algorithms ensure that you'll nail gatekeepers from miles away.\n\nIt will periodically expose weaknesses in the armor of threats beyond 25 tiles and provide passive targeting assistance for as long as it is active.",
+    "description": "It used to be that marksmanship was a real skill, honed over arduous years spent killing farmhands while hiding in a ditch somewhere.  Now, thanks to tech, anyone can drop a few grand and be an unhinged psycho killer.  This one is 11th gen, with six high definition cameras and movement prediction algorithms ensure that you'll nail gatekeepers from miles away.\n\nIt will periodically expose weaknesses in the armor of threats beyond 25 tiles and provide passive targeting assistance for as long as it is active.",
     "power_draw": "310 mW",
     "price": "29 kUSD",
     "faults": [ { "fault_group": "electronic_general" } ],
@@ -121,7 +127,7 @@
     "category": "clothing",
     "copy-from": "afs_combat_headset_off",
     "name": { "str": "TI-7 LosCo Tactical Headset" },
-    "description": "It used to be that marksmanship was a real skill, honed over arduous years spent killing farmhands while hiding in a ditch somewhere.  Now, thanks to tech, anyone can drop a few grand and be an unhinged psycho killer. This one is 11th gen, with six high definition cameras and movement prediction algorithms ensure that you'll nail gatekeepers from miles away.",
+    "description": "It used to be that marksmanship was a real skill, honed over arduous years spent killing farmhands while hiding in a ditch somewhere.  Now, thanks to tech, anyone can drop a few grand and be an unhinged psycho killer.  This one is 11th gen, with six high definition cameras and movement prediction algorithms ensure that you'll nail gatekeepers from miles away.",
     "power_draw": "310 mW",
     "extend": {
       "flags": [
@@ -155,7 +161,7 @@
     "category": "armor",
     "name": { "str": "OmniWare screen" },
     "copy-from": "afs_combat_headset_off",
-    "description": "An opaque lune of dark alloy encases the wearer's identity, leaving only an inhuman visage marked by the indentures of a high gain microphone.  It has but a single HUD mode, which utilizes EM-spectrum sensors and a SONAR array to reconstruct a visual feed in which figures are tagged as hostile, friendly, or irrelevant. Its detection capabilities clearly demarcates contacts through smoke and most solid obstacles, allowing users with the proper equipment to dispatch foes without ever exposing themselves to danger.  It must be active to function.",
+    "description": "An opaque lune of dark alloy encases the wearer's identity, leaving only an inhuman visage marked by the indentures of a high gain microphone.  It has but a single HUD mode, which utilizes EM-spectrum sensors and a SONAR array to reconstruct a visual feed in which figures are tagged as hostile, friendly, or irrelevant.  Its detection capabilities clearly demarcates contacts through smoke and most solid obstacles, allowing users with the proper equipment to dispatch foes without ever exposing themselves to danger.  It must be active to function.",
     "weight": "850 g",
     "volume": "1870 ml",
     "price": "360 kUSD",
@@ -206,7 +212,7 @@
     "type": "ITEM",
     "subtypes": [ "TOOL", "ARMOR", "ARTIFACT" ],
     "copy-from": "afs_recon_headset_off",
-    "name": { "str": "OmniWare screen (active)" },
+    "name": { "str": "OmniWare screen (active)", "str_pl": "OmniWare screens (active)" },
     "power_draw": "1 W",
     "extend": {
       "flags": [

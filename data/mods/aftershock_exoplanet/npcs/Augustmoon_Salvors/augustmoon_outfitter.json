@@ -110,7 +110,6 @@
     "ammo": 100,
     "magazine": 100,
     "items": [
-      [ "afs_headset_module", 20 ],
       [ "afs_headset_nv", 20 ],
       [ "afs_headset_flash", 20 ],
       [ "afs_headset_sound", 20 ],
