@@ -167,7 +167,7 @@
     "description": "Use a bandage to cover and protect your open gash so it can heal.",
     "wounds_removed": [ "clean_cut_bad" ],
     "wounds_added": [ "bandaged_cut_bad" ],
-    "success_msg": "You make the bandage is securely wrapped and that each part of the gash is covered."
+    "success_msg": "You make sure the bandage is securely wrapped and that each part of the gash is covered."
   },
   {
     "id": "bandage_cut_terrible_fix",
