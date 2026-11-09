@@ -367,11 +367,11 @@ class avatar : public Character
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item_location *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
-        bool invoke_item( item_location * ) override;
-        bool invoke_item( item_location *, const std::string &, const tripoint_bub_ms &pt,
+        bool invoke_item( item_location &, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item_location & ) override;
+        bool invoke_item( item_location &, const std::string &, const tripoint_bub_ms &pt,
                           int pre_obtain_moves = -1 ) override;
-        bool invoke_item( item_location *, const std::string & ) override;
+        bool invoke_item( item_location &, const std::string & ) override;
 
         // invlets
 

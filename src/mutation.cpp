@@ -945,7 +945,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
         tdata.powered = false;
         item burrowing_item( itype_fake_burrowing );
         item_location loc( *this, &burrowing_item );
-        invoke_item( &loc );
+        invoke_item( loc );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 );

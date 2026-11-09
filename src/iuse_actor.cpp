@@ -4794,7 +4794,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item_location &it,
         // set gun to default in case this changes anything
         it->gun_set_mode( gun_mode_DEFAULT );
         // TODO: make 'invoke_item' map aware.
-        p->invoke_item( &mods[prompt.ret], "transform", pos );
+        p->invoke_item( mods[prompt.ret], "transform", pos );
         it->on_contents_changed();
         return 0;
     }

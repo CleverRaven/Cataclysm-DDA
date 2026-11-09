@@ -1236,9 +1236,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
-        bool invoke_item( item_location *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
-        bool invoke_item( item_location *used, const std::string &method ) override;
-        bool invoke_item( item_location * ) override;
+        bool invoke_item( item_location &, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item_location &used, const std::string &method ) override;
+        bool invoke_item( item_location & ) override;
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;

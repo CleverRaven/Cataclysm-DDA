@@ -6328,11 +6328,11 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                 if( target_var.has_value() ) {
                     tripoint_abs_ms target_pos = read_var_value( *target_var, d ).tripoint();
                     if( get_map().inbounds( target_pos ) ) {
-                        guy->invoke_item( it, method_str, here.get_bub( target_pos ) );
+                        guy->invoke_item( *it, method_str, here.get_bub( target_pos ) );
                         return;
                     }
                 }
-                guy->invoke_item( it, method.evaluate( d ) );
+                guy->invoke_item( *it, method.evaluate( d ) );
 
             } else {
                 debugmsg( "%s talker must be Item.", is_npc ? "alpha" : "beta" );

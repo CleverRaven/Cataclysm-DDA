@@ -3724,9 +3724,9 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-bool npc::invoke_item( item_location *used, const tripoint_bub_ms &pt, int )
+bool npc::invoke_item( item_location &used, const tripoint_bub_ms &pt, int )
 {
-    const auto &use_methods = used->get_item()->type->use_methods;
+    const auto &use_methods = used->type->use_methods;
 
     if( use_methods.empty() ) {
         return false;
@@ -3736,12 +3736,12 @@ bool npc::invoke_item( item_location *used, const tripoint_bub_ms &pt, int )
     return false;
 }
 
-bool npc::invoke_item( item_location *used, const std::string &method )
+bool npc::invoke_item( item_location &used, const std::string &method )
 {
     return Character::invoke_item( used, method );
 }
 
-bool npc::invoke_item( item_location *used )
+bool npc::invoke_item( item_location &used )
 {
     return Character::invoke_item( used );
 }

@@ -180,7 +180,8 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 
                     Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, &get_map(), dummy->pos_bub() );
+                    item_location loc( *dummy, &flashlight );
+                    actor->use( dummy, loc, &get_map(), dummy->pos_bub() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {

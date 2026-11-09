@@ -1460,29 +1460,27 @@ item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
     return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
-bool avatar::invoke_item( item_location *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+bool avatar::invoke_item( item_location &used, const tripoint_bub_ms &pt, int pre_obtain_moves )
 {
-    item it = **used;
-
-    const std::map<std::string, use_function> &use_methods = it.type->use_methods;
+    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
 
-    const bool has_relic = it.has_relic_activation() && it.can_use_relic( *this );
+    const bool has_relic = used->has_relic_activation() && used->can_use_relic( *this );
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
-        return it.use_relic( *this, pt );
+        return used->use_relic( *this, pt );
     }
 
     uilist umenu;
 
-    umenu.text = string_format( _( "What to do with your %s?" ), it.tname() );
+    umenu.text = string_format( _( "What to do with your %s?" ), used->tname() );
     umenu.hilight_disabled = true;
 
     for( const auto &e : use_methods ) {
-        const auto res = e.second.can_call( *this, *used, pt );
+        const auto res = e.second.can_call( *this, used, pt );
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
@@ -1501,7 +1499,7 @@ bool avatar::invoke_item( item_location *used, const tripoint_bub_ms &pt, int pr
     int choice = umenu.ret;
     // Use the relic
     if( choice == num_methods ) {
-        return it.use_relic( *this, pt );
+        return used->use_relic( *this, pt );
     }
     if( choice < 0 || choice >= num_methods ) {
         return false;
@@ -1512,12 +1510,12 @@ bool avatar::invoke_item( item_location *used, const tripoint_bub_ms &pt, int pr
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item_location *used )
+bool avatar::invoke_item( item_location &used )
 {
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item_location *used, const std::string &method, const tripoint_bub_ms &pt,
+bool avatar::invoke_item( item_location &used, const std::string &method, const tripoint_bub_ms &pt,
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
@@ -1526,7 +1524,7 @@ bool avatar::invoke_item( item_location *used, const std::string &method, const 
     return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item_location *used, const std::string &method )
+bool avatar::invoke_item( item_location &used, const std::string &method )
 {
     return Character::invoke_item( used, method );
 }

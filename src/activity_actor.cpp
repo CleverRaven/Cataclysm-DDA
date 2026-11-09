@@ -10427,11 +10427,11 @@ void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
     std::string _method = method;
     if( method.empty() ) {
         who.cancel_activity();
-        who.invoke_item( &_item );
+        who.invoke_item( _item );
         return;
     }
     who.cancel_activity();
-    who.invoke_item( &_item, _method );
+    who.invoke_item( _item, _method );
 }
 
 void invoke_item_activity_actor::serialize( JsonOut &jsout ) const

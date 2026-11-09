@@ -2049,13 +2049,13 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        virtual bool invoke_item( item_location *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
+        virtual bool invoke_item( item_location &, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item_location *, const std::string &, const tripoint_bub_ms &pt,
+        virtual bool invoke_item( item_location &, const std::string &, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
-        virtual bool invoke_item( item_location * );
-        virtual bool invoke_item( item_location *, const std::string & );
+        virtual bool invoke_item( item_location & );
+        virtual bool invoke_item( item_location &, const std::string & );
 
         /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves

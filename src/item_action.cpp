@@ -389,7 +389,7 @@ void game::item_action_menu( item_location loc )
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item_location it = iactions[action];
 
-    u.invoke_item( &it, action );
+    u.invoke_item( it, action );
 }
 
 std::string use_function::get_type() const

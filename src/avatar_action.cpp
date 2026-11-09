@@ -258,7 +258,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         !m.impassable_field_at( dest_loc ) && !you.has_flag( json_flag_CANNOT_MOVE ) ) {
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &weapon, "PICKAXE", dest_loc );
+                you.invoke_item( weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
