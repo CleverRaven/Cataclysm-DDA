@@ -318,7 +318,7 @@
     "copy-from": "clean_scratch_small",
     "type": "wound",
     "name": { "str": "bandaged scratch (old dressing)", "str_pl": "bandaged scratches (old dressing)" },
-    "description": "Your scratch has grown smaller and less severe.  it will heal soon, but the dressing has grown old and is in need of replacing."
+    "description": "Your scratch has grown smaller and less severe.  It will heal soon, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_scratch_old_medium",
