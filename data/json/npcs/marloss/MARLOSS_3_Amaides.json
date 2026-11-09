@@ -231,7 +231,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "MARLOSS_EVAN_JOTH_Marloss",
+    "id": "MARLOSS_EVAN_AMAIDES_Marloss",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "It brought my daughter back.  An actual miracle.  You can't just fake stuff like this, you know?  Look at her!  She's almost as well as she was, before this all started.  Soon enough, she'll be walking around again, dancing and playing like she used to.",
