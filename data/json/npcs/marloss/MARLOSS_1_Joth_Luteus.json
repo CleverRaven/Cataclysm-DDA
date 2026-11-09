@@ -1,0 +1,320 @@
+[
+  {
+    "type": "npc",
+    "id": "marloss_evan_1",
+    "name_unique": "Joth Luteus",
+    "//": "supposedly a very calm person, one of the most reasonable evangelists.  Sloth.",
+    "gender": "male",
+    "name_suffix": "Evangelist",
+    "class": "MAR_EVAN_1",
+    "attitude": 0,
+    "mission": "GUARD",
+    "chat": "TALK_MARLOSS_EVAN_JOTH_1",
+    "faction": "marloss",
+    "age": 32,
+    "height": 170,
+    "snip_bye": "…"
+  },
+  {
+    "type": "npc_class",
+    "id": "MAR_EVAN_1",
+    "name": { "str": "Evangelist" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All marloss evangelists are crippled by their fungal infections.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -3, 0 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "MAR_EVAN_1_worn",
+    "carry_override": "MAR_EVAN_carry",
+    "weapon_override": "MAR_EVAN_weapon",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "SLOWHEALER" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "DISORGANIZED" },
+      { "trait": "BADKNEES" },
+      { "trait": "MYOPIC" },
+      { "trait": "MARLOSS" },
+      { "trait": "MYCUS_FRIEND" },
+      { "trait": "FACIAL_HAIR_CHIN_STRAP" },
+      { "trait": "hair_medium" },
+      { "trait": "natural_hair_color_blond" },
+      { "group": "Appearance_Caucasian" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_weapon",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_carry",
+    "subtype": "collection",
+    "entries": [ { "item": "marloss_berry", "count": [ 1, 4 ] }, { "item": "mycenacean_hymns" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_1_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "jeans" },
+      { "item": "robe" },
+      { "item": "boots" },
+      { "item": "marloss_scarf" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_MARLOSS_EVAN_JOTH_1a", "TALK_MARLOSS_EVAN_JOTH_SETTLE", "TALK_MARLOSS_EVAN_JOTH_SITUATION" ],
+    "responses": [
+      {
+        "text": "Why did you all decide to settle down here?",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_SETTLE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "How are things here?",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_SITUATION",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Tell me a bit about yourself.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_SELF",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "<done_conversation_section>",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put him out of his misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      },
+      {
+        "text": "<end_talking_leave> Bye, Joth.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_1",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "*is faceplanted into a pile of fungal mush.  Despite the smell of rot, and the various patches of stains and dirt etched into his robes, it seems he isn't dead.",
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": "* is standing up straight, face reddened and breath whispy.  His skin is pale and bumpy, and he takes a great effort to face you.  \"Oh, hello!  What a suprise!  You're here!\"",
+        "no": "A singular eye meets your gaze."
+      }
+    },
+    "responses": [
+      {
+        "text": "* Tap him on the shoulder.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ] }
+      },
+      {
+        "text": "Uh, yeah?",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": {
+          "and": [
+            { "math": [ "time_since('cataclysm', 'unit':'days') >= 80" ] },
+            { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+          ]
+        }
+      },
+      {
+        "text": "Approach.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      },
+      { "text": "Nevermind?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "dialogue_first_meet_Joth_Luteus", "value": "yes" },
+        { "npc_first_topic": "TALK_MARLOSS_EVAN_JOTH_1a" }
+      ]
+    },
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": {
+        "concatenate": [
+          "Huh?\"   Like a corpse rising again, he unburies his face from the pile and glares at you, eyes still unfocused.  \"I'm trying to sleep.  What could you possibly need me ",
+          {
+            "u_has_trait": "MARLOSS",
+            "yes": "…oh.  You're unique, aren't you?  I'm Joth, pleasure to meet you.\"",
+            "no": "…oh.  Are you new here?  I haven't seen your face before.  I'm Joth, pleasure to meet you.\""
+          }
+        ]
+      },
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": "&He clasps his hands together in delight.  \"You must be new!  You're new here, right?  Perfect!  Oh, seeing a new face around here is so wonderful!",
+        "no": "&On a closer look, it appears he isn't dead.  Just catatonic.  Or perhaps he isn't, since his gaze seems to follow you quite intently.  Even as he purses his lips together, nothing verbose comes out."
+      }
+    },
+    "responses": [
+      {
+        "text": "Hey, I suppose I am.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_1a",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "No, I've been around already.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_1b",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Inspect.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_1c",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      },
+      {
+        "text": "Hey, I've gotta go.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_1a",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+      "yes": [
+        "You're back, are you?  The outside world is so cruel.  Why not stay awhile longer?",
+        "What's that smell?  Oh, nevermind.",
+        "You're safe here, so don't rush yourself.",
+        "Rest is important, you know."
+      ],
+      "no": [ "Huff.", "It Hurts….", "I dont wanna…." ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_1b",
+    "dynamic_line": "Oh, really?  I guess you just missed me then.  Strange, considering I sleep at the entrance of this place, but I can't judge you.",
+    "responses": [ { "text": "Guess so.", "topic": "TALK_MARLOSS_EVAN_JOTH_1a" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_1c",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_MARLOSS_EVAN_JOTH_1c" } },
+    "dynamic_line": [ "Wheeze….", "Huff….", "Please….", "Stay…." ],
+    "responses": [
+      { "text": "Leave.", "topic": "TALK_DONE" },
+      {
+        "text": "Put him out of his misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_SETTLE",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "It's a death sentence out there.  So, we took refuge here.  I was one of the later evangelists to join, so I don't know much about the previous residents, personally.  Though, they seemed to be gone by the time we got here anyways.",
+      "no": "Because it was ours to take, of course!  We needed somewhere to settle down, and the previous residents were all dead when we got here, so it all worked out perfectly!  My prayers to them of course.  We're making better use of the grounds though, so I'm sure they wouldn't mind."
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_SITUATION",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "There's really not much to note on.  I suppose it's been better with you around, huh?  It's always nice to have friends around.",
+      "no": "\"Everything just gets better day by day!  I've never been so… happy before!  Oh, so happy, oh, so happy….\" He continues to mutter on, clearly losing focus on the topic at hand."
+    },
+    "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_SELF",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": [ "Oh sure, what would you like to know?", "I know, I'm pretty interesting.", "Ask away." ],
+      "no": [ "Of course you want to know about me!", "Don't flatter me too much!" ]
+    },
+    "responses": [
+      { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_JOTH_AboutMe_Basic" },
+      { "text": "Why do you follow the Marloss?", "topic": "MARLOSS_EVAN_JOTH_Marloss" },
+      { "text": "How do you feel about the other evangelists?", "topic": "MARLOSS_EVAN_JOTH_OtherEvangelists" },
+      { "text": "How are you feeling?", "topic": "MARLOSS_EVAN_JOTH_Health" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_JOTH_AboutMe_Basic",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Oh, I actually found this place a few days after <the_cataclysm>.  felt like my call, so I guess my place here was fated anyways.  It isn't like I have much reason to leave anymore, since the outside of this little center is just filled with horrors of various degrees.  Have you seen one of those corpse conglomerations yet?  Real nasty stuff, I'll say.",
+      "no": "You're real nosy, huh?  It doesn't matter anymore.  Why not live in the present?  It's better then back then anyways."
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_JOTH_Marloss",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, you see how healthy my skin looks?  That's not a coincidence.  I haven't felt better since I joined with my friends here.  I almost feel bad for the people who rejected this oppurtunity.  They say some things are too good to be true, but apparently not, am I right?",
+      "no": "Why do you keep walking?  Because it's what you're meant to do.  I follow the marloss because it's what I'm supposed to do.  I know it is."
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_JOTH_OtherEvangelists",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, how do you feel about your family?  Even if we're not related by blood, we still love eachother.  I think everybody is a little desperate for it.  We just found a way to hold eachother close.",
+      "no": "They're my family!  Even if they're stupid, incompetent, and lazy, we still all live together, so we have to love one another.  Otherwise, we'd all probably go insane and kill eachother within the day, haha."
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_JOTH_Health",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "I've been feeling fine recently, if not a bit better then before <the_cataclysm>.  Turns out, it's alot harder to feed your bad habits when your life is put on stake.  Though, I suppose the marloss helped me pick up another one.  These berries are absolutely divine, way too addicting for their own good.",
+      "no": "I'm fine!  Look at me.  Do I look unhealthy?  No?  I'm probably the healthiest one here.  I take care of myself, you know.  Shower and everything.  Bet most people out there can't even afford to brush their teeth, haha!"
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+    ]
+  }
+]
