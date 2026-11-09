@@ -12438,7 +12438,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     // TODO: make cargo shuffling add time to activity
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         if( !vpr.has_feature( VPFLAG_CARGO_DIMENSIONAL ) ) {
-        vehicle_stack cargo = vpr.items();
+            vehicle_stack cargo = vpr.items();
             for( const item &elem : cargo ) {
                 here.add_item_or_charges( veh.pos_bub( here ), elem );
             }
