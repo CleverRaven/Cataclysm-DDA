@@ -118,5 +118,35 @@
     "wounds_removed": [ "clean_stab_terrible" ],
     "wounds_added": [ "bandaged_stab_terrible" ],
     "success_msg": "The horrible stab is bandaged, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandaged_stab_old_small_fix",
+    "copy-from": "bandage_stab_small_fix",
+    "type": "wound_fix",
+    "name": "change dressing on the light stab",
+    "description": "Change the dressing on your light stab.",
+    "wounds_removed": [ "bandaged_stab_old_small" ],
+    "wounds_added": [ "bandaged_stab_small" ],
+    "success_msg": "You change the dressing on the light stab, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandaged_stab_old_medium_fix",
+    "copy-from": "bandage_stab_medium_fix",
+    "type": "wound_fix",
+    "name": "change dressing on the stab",
+    "description": "Change the dressing on your stab.",
+    "wounds_removed": [ "bandaged_stab_old_medium" ],
+    "wounds_added": [ "bandaged_stab_medium" ],
+    "success_msg": "You change the dressing on the stab, now, all you can do is wait for it to heal."
+  },
+  {
+    "id": "bandage_stab_old_bad_fix",
+    "copy-from": "bandage_stab_bad_fix",
+    "type": "wound_fix",
+    "name": "change dressing on the deep stab",
+    "description": "Change the dressing on your deep stab.",
+    "wounds_removed": [ "bandaged_stab_old_bad" ],
+    "wounds_added": [ "bandaged_stab_bad" ],
+    "success_msg": "You change the dressing on the deep stab, now, all you can do is wait for it to heal."
   }
 ]

@@ -1,0 +1,68 @@
+[
+  {
+    "//": "Once wounds can reduce your armor, this will do that.",
+    "id": "broken_bark_small",
+    "type": "wound",
+    "name": { "str": "chipped bark" },
+    "description": "You have chipped bark on your %s.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 1, 10 ],
+    "healing_time": [ "2 days", "4 days" ],
+    "wound_progression": [ { "id": "broken_bark_medium", "chance": 50 } ],
+    "limb_scores": [ { "score": "manip", "value": 0.03 }, { "score": "reaction", "value": 0.1 }, { "score": "block", "value": 0.08 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "whitelist_bp_with_flag": [ "PLANT_LIMB" ]
+  },
+  {
+    "id": "broken_bark_medium",
+    "type": "wound",
+    "name": { "str": "cracked bark" },
+    "description": "You have cracked bark on your %s.",
+    "weight": 50,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 10, 14 ],
+    "progress_timer": {
+      "id": "broken_bark_small",
+      "time": [ "4 days", "7 days" ],
+      "message": "Your cracked bark has almost completely regrown on your %s."
+    },
+    "limb_scores": [ { "score": "manip", "value": 0.05 }, { "score": "reaction", "value": 0.25 }, { "score": "block", "value": 0.2 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "whitelist_bp_with_flag": [ "PLANT_LIMB" ]
+  },
+  {
+    "id": "broken_bark_bad",
+    "type": "wound",
+    "name": { "str": "splintered bark" },
+    "description": "You have splintered bark on your %s.",
+    "weight": 40,
+    "limit": 8,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 15, 30 ],
+    "progress_timer": {
+      "id": "broken_bark_medium",
+      "time": [ "6 days", "9 days" ],
+      "message": "Your splintered bark on your %s is starting to grow back."
+    },
+    "limb_scores": [ { "score": "manip", "value": 0.1 }, { "score": "reaction", "value": 0.5 }, { "score": "block", "value": 0.5 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "whitelist_bp_with_flag": [ "PLANT_LIMB" ]
+  },
+  {
+    "id": "broken_vine_limb",
+    "type": "wound",
+    "name": { "str": "broken vine" },
+    "description": "You %s is broken and useless.  You'll just have to wait until it regrows.",
+    "weight": 20,
+    "limit": 1,
+    "damage_types": [ "bash" ],
+    "damage_required": [ 31, 99 ],
+    "healing_time": [ "30 days", "45 days" ],
+    "limb_scores": [ { "score": "manip", "value": 1 }, { "score": "reaction", "value": 1 }, { "score": "block", "value": 1 } ],
+    "blacklist_body_part_types": [ "sensor" ],
+    "whitelist_bp_with_flag": [ "VINE_LIMB" ]
+  }
+]

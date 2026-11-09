@@ -5372,7 +5372,6 @@
       "prof_fibers_rope",
       "prof_knitting",
       "prof_closures",
-      "prof_long_swords_familiar",
       "prof_auto_rifles_familiar",
       "prof_gross_anatomy",
       "prof_butchering_basic",
@@ -5408,7 +5407,6 @@
           { "item": "wristwatch" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
-          { "item": "ch_katana", "container-item": "scabbard" },
           { "group": "starter_rich_wallet_full" }
         ]
       },

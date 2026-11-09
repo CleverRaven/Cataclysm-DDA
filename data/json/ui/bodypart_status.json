@@ -67,6 +67,13 @@
         "id": "wounded",
         "text": "wounded",
         "sym": "W",
+        "color": "blue",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } }
+      },
+      {
+        "id": "wounded",
+        "text": "wounded",
+        "sym": "W",
         "color": "light_cyan",
         "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } }
       }

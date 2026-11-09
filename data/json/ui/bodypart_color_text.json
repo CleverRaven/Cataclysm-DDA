@@ -41,7 +41,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "HEAD ", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "HEAD ", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "HEAD ", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "HEAD ",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "HEAD ",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   },
@@ -86,7 +98,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "TORSO", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "TORSO", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "TORSO", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "TORSO",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "TORSO",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   },
@@ -131,7 +155,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "L ARM", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "L ARM", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "L ARM", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "L ARM",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "L ARM",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   },
@@ -176,7 +212,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "R ARM", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "R ARM", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "R ARM", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "R ARM",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "R ARM",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   },
@@ -221,7 +269,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "L LEG", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "L LEG", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "L LEG", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "L LEG",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "L LEG",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   },
@@ -266,7 +326,19 @@
         "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
       },
       { "id": "infected", "text": "R LEG", "color": "green", "condition": { "u_has_effect": "infected" } },
-      { "id": "bitten", "text": "R LEG", "color": "blue", "condition": { "u_has_effect": "bite" } }
+      { "id": "bitten", "text": "R LEG", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      {
+        "color": "c_blue",
+        "text": "R LEG",
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } },
+        "id": "wounded_fixable"
+      },
+      {
+        "color": "c_cyan",
+        "text": "R LEG",
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } },
+        "id": "wounded"
+      }
     ],
     "flags": [ "W_LABEL_NONE" ]
   }
