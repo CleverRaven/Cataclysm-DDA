@@ -117,7 +117,7 @@
       "yes": "*is faceplanted into a pile of fungal mush.  Despite the smell of rot, and the various patches of stains and dirt etched into his robes, it seems he isn't dead.",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
-        "yes": "* is standing up straight, face reddened and breath whispy.  His skin is pale and bumpy, and he takes a great effort to face you. \"Oh, hello!  What a suprise!  You're here!\"",
+        "yes": "* is standing up straight, face reddened and breath whispy.  His skin is pale and bumpy, and he takes a great effort to face you.  \"Oh, hello!  What a suprise!  You're here!\"",
         "no": "A singular eye meets your gaze."
       }
     },
@@ -162,7 +162,7 @@
           {
             "u_has_trait": "MARLOSS",
             "yes": "…oh.  You're unique, aren't you?  I'm Joth, pleasure to meet you.\"",
-            "no": "…oh.  Are you new here? I haven't seen your face before.  I'm Joth, pleasure to meet you.\""
+            "no": "…oh.  Are you new here?  I haven't seen your face before.  I'm Joth, pleasure to meet you.\""
           }
         ]
       },
@@ -201,8 +201,8 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
       "yes": [
-        "You're back, are you? The outside world is so cruel.  Why not stay awhile longer?",
-        "What's that smell? Oh, nevermind.",
+        "You're back, are you?  The outside world is so cruel.  Why not stay awhile longer?",
+        "What's that smell?  Oh, nevermind.",
         "You're safe here, so don't rush yourself.",
         "Rest is important, you know."
       ],
