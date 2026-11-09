@@ -270,6 +270,6 @@
     "copy-from": "clean_stab_bad",
     "type": "wound",
     "name": { "str": "bandaged stab (old dressing)", "str_pl": "bandaged stabs (old dressing)" },
-    "description": "While the hole in your limb has closed, the road to recovery is still ongoing. The dressing has grown old and is in need of replacing."
+    "description": "While the hole in your limb has closed, the road to recovery is still ongoing.  The dressing has grown old and is in need of replacing."
   }
 ]
