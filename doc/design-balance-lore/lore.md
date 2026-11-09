@@ -96,7 +96,7 @@ See [the Technology document](./technology.md) for deeper details.
 Every living thing on earth is infected by the blob.  In humans, passive blob infection has a few effects.  This has some serious ramifications for gameplay and storytelling.
 
 **Mutation**
-The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state and can be thought of as a 'basic human' mutagen).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to radiation and certain other toxic challenges by sometimes causing random mutations.
+The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state and can be thought of as a 'basic human' mutagen).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to certain toxic challenges by sometimes causing random mutations.
 
 Mutagens work in part by copying a particular creature's phenotype onto the blob, then merging that phenotype with the person consuming the mutagen.  Mutagens do *not* work by modifying the underlying genetics of the organism: they are epigenetic.
 
