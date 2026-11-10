@@ -227,8 +227,8 @@
     "id": "MARLOSS_EVAN_SERA_Health",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Oh, they're lovely!  I'm not used to hanging around so many people, but it's a nice change of pace.  Plus, it's pretty fun being near likeminded people.  Nobody likes being the odd one out these days.",
-      "no": "Oh, they're fine.  I just feel everyone's been in a sour mood lately, you know?  Especially, ah, who was it?  Oh, nevermind."
+      "yes": "I've been feeling just fine!  Thanks for asking, though.",
+      "no": "Oh, I'm alright.  I'm surely doing better than some others out there."
     },
     "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
   }
