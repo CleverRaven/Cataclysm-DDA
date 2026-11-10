@@ -227,6 +227,7 @@ Add "serum ferals" to serum labs
 A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
 Bionic wounds and ways to repair them
+Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
 
 
 ## Interface:
@@ -465,6 +466,7 @@ Scarlet Storm is less punishing with acute exposure, more punishing with chronic
 More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
+Wounds stage down when healing
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -676,6 +678,7 @@ Factions that are mad at you won't talk to you.
 NPCs keep tasks through naps, leave other factions' stuff alone, light fires only in hearths, stop stale fights
 NPCs don't freeze when something comes up on the way to their job
 NPCs fetch construction components from containers and spread over construction sites
+Fix dragged furniture deleting every second item
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -701,6 +704,7 @@ Speed up the crafting menu near large piles of items
 Smooth filtered lighting draws about as fast as smooth
 Speed up the repair and construction menus near large item piles
 Slightly reduce RAM usage of item class
+Lightweight game metrics report.
 
 
 ## Infrastructure:
@@ -848,6 +852,7 @@ Fix GCC 9 tiles build error in cataimgui::draw_texture
 Android apk with sounds
 MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
+More support for C++20
 
 
 ## I18N and A11Y:
