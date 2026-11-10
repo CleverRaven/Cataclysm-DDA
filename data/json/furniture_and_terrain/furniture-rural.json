@@ -11,7 +11,7 @@
     "floor_bedding_warmth": 100,
     "required_str": 6,
     "mass": "30 kg",
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "NO_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },
     "bash": {
       "str_min": 1,

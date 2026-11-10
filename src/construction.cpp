@@ -1714,10 +1714,12 @@ bool construct::check_deconstruct( const tripoint_bub_ms &p )
         if( here.has_flag_furn( ter_furn_flag::TFLAG_EASY_DECONSTRUCT, p ) ) {
             return false;
         }
-        return !!here.furn( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
+        return !!here.furn( p ).obj().deconstruct ||
+               ( !here.furn( p ).obj().base_item.is_null() && !here.furn( p ).obj().has_flag( "NO_DECONSTRUCT" ) );
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return !!here.ter( p ).obj().deconstruct || !here.furn( p ).obj().base_item.is_null();
+    return !!here.ter( p ).obj().deconstruct ||
+           ( !here.furn( p ).obj().base_item.is_null() || !here.furn( p ).obj().has_flag( "NO_DECONSTRUCT" ) );
 }
 
 bool construct::check_up_OK( const tripoint_bub_ms & )
@@ -1956,7 +1958,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         add_msg( _( "The %s is disassembled." ), f.name() );
         item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
         std::vector<item *> drop;
-        if( !f.base_item.is_null() ) {
+        if( !f.base_item.is_null() && !f.has_flag( "NO_DECONSTRUCT" ) ) {
             here.spawn_item( p, f.base_item );
         } else {
             drop = here.spawn_items( p, item_group::items_from( f.deconstruct->drop_group, calendar::turn ) );
@@ -2001,7 +2003,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
         here.ter_set( p, t.deconstruct->ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
 
-        if( !t.base_item.is_null() ) {
+        if( !t.base_item.is_null() && !t.has_flag( "NO_DECONSTRUCT" ) ) {
             here.spawn_item( p, t.base_item );
         } else {
             here.spawn_items( p, item_group::items_from( t.deconstruct->drop_group, calendar::turn ) );
