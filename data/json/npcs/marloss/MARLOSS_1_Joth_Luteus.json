@@ -117,7 +117,7 @@
       "yes": "*is faceplanted into a pile of fungal mush.  Despite the smell of rot, and the various patches of stains and dirt etched into his robes, it seems he isn't dead.",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
-        "yes": "* is standing up straight, face reddened and breath whispy.  His skin is pale and bumpy, and he takes a great effort to face you.  \"Oh, hello!  What a surprise!  You're here!\"",
+        "yes": "* is standing up straight, face reddened and breath wispy.  His skin is pale and bumpy, and he takes a great effort to face you.  \"Oh, hello!  What a surprise!  You're here!\"",
         "no": "A singular eye meets your gaze."
       }
     },
@@ -296,7 +296,7 @@
     "id": "MARLOSS_EVAN_JOTH_OtherEvangelists",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Well, how do you feel about your family?  Even if we're not related by blood, we still love eachother.  I think everybody is a little desperate for it.  We just found a way to hold each other close.",
+      "yes": "Well, how do you feel about your family?  Even if we're not related by blood, we still love each other.  I think everybody is a little desperate for it.  We just found a way to hold each other close.",
       "no": "They're my family!  Even if they're stupid, incompetent, and lazy, we still all live together, so we have to love one another.  Otherwise, we'd all probably go insane and kill each other within the day, haha."
     },
     "responses": [
@@ -309,7 +309,7 @@
     "id": "MARLOSS_EVAN_JOTH_Health",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "I've been feeling fine recently, if not a bit better then before <the_cataclysm>.  Turns out, it's alot harder to feed your bad habits when your life is put on stake.  Though, I suppose the Marloss helped me pick up another one.  These berries are absolutely divine, way too addicting for their own good.",
+      "yes": "I've been feeling fine recently, if not a bit better then before <the_cataclysm>.  Turns out, it's a lot harder to feed your bad habits when your life is put on stake.  Though, I suppose the Marloss helped me pick up another one.  These berries are absolutely divine, way too addicting for their own good.",
       "no": "I'm fine!  Look at me.  Do I look unhealthy?  No?  I'm probably the healthiest one here.  I take care of myself, you know.  Shower and everything.  Bet most people out there can't even afford to brush their teeth, haha!"
     },
     "responses": [
