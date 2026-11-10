@@ -3130,7 +3130,7 @@ std::optional<int> repair_item_actor::use( Character *p, item_location &it,
     // HACK: see struct `weldrig_hack`
     // the ammo-loaded pseudo item passed to this function is not used!
     std::optional<std::pair<itype_id, tripoint_bub_ms>> vp_tool;
-    itype_id tool_type = it.typeId();
+    itype_id tool_type = it->typeId();
     if( ( tool_type == itype_welder ||
           tool_type == itype_welder_crude ||
           tool_type == itype_welding_kit ||
@@ -3138,13 +3138,13 @@ std::optional<int> repair_item_actor::use( Character *p, item_location &it,
           tool_type == itype_small_repairkit ||
           tool_type == itype_large_repairkit ) &&
         here->veh_at( pos ).has_value() &&
-        it.has_flag( json_flag_PSEUDO )
+        it->has_flag( json_flag_PSEUDO )
       ) {
         vp_tool.emplace( tool_type.str(), pos );
     }
 
     p->assign_activity( repair_item_activity_actor( item_location::nowhere,
-                        vp_tool.has_value() ? item_location::nowhere : form_loc( *p, here, pos, it ),
+                        vp_tool.has_value() ? item_location::nowhere : it,
                         vp_tool, type ) );
     // All repairs are done in the activity, including charge cost and target item selection
     return 0;
