@@ -162,7 +162,7 @@
     "dynamic_line": [
       "Oh, about myself?  I always knew I was the interesting one in the group.",
       "What would you like to know?",
-      "About lil' ol me?"
+      "About lil' ol' me?"
     ],
     "responses": [
       { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_SERA_AboutMe_Basic" },
@@ -207,7 +207,7 @@
     "id": "TALK_MARLOSS_EVAN_SERA_Marloss",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Well, why wouldn't you?  Clearly, it's more tangible than anything I've held before.  I mean, it's talked to me.  These marloss berries are simply gifts for our service, and if this is all I need to do to procure myself an easy living, then I find no issue in following it.  Better than risking it outside, I'd say!",
+      "yes": "Well, why wouldn't you?  Clearly, it's more tangible than anything I've held before.  I mean, it's talked to me.  These Marloss berries are simply gifts for our service, and if this is all I need to do to procure myself an easy living, then I find no issue in following it.  Better than risking it outside, I'd say!",
       "no": "I've always been a bit scared of change.  Time passes us by too quickly, you know?  But it promises to keep everything still, just for me.  I could never repay this kindness all by myself.  I almost feel sick, knowing how much it loves us.  You included."
     },
     "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
@@ -217,7 +217,7 @@
     "id": "TALK_MARLOSS_EVAN_SERA_OtherEvangelists",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Oh, they're lovely!  I'm not used to hanging around so many people, but it's a nice change of pace.  Plus, it's pretty fun being near likeminded people.  Nobody likes being the odd one out these days.",
+      "yes": "Oh, they're lovely!  I'm not used to hanging around so many people, but it's a nice change of pace.  Plus, it's pretty fun being near like-minded people.  Nobody likes being the odd one out these days.",
       "no": "Oh, they're fine.  I just feel everyone's been in a sour mood lately, you know?  Especially, ah, who was it?  Oh, nevermind."
     },
     "responses": [ { "text": "Nevermind?", "topic": "TALK_DONE" } ]
