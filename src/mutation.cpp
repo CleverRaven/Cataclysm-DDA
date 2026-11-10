@@ -1836,7 +1836,9 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        if( bid->mutation_conflicts.count( mut ) != 0 ) {
+        if( bid->mutation_conflicts.count( mut ) != 0 ||
+            std::find( bid->canceled_mutations.begin(), bid->canceled_mutations.end(),
+                       mut ) != bid->canceled_mutations.end() ) {
             return handle_bio_mut_conflict( bid, mut );
         }
         // We shouldn't ever get here, because of mutation_ok
