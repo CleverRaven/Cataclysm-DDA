@@ -1,3 +1,5 @@
+#include <functional>
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -7,8 +9,14 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature_tracker.h"
+#include "game.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "type_id.h"
+
+class Creature;
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -19,6 +27,8 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_sausage( "sausage" );
 
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
+
 // Set up our scenarios ahead of time
 static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
 static const clear_rubble_activity_actor dig_actor( moves_for_25h );
@@ -26,6 +36,7 @@ static const activity_schedule task_dig( dig_actor, 5_minutes );
 static const activity_schedule task_wait( ACT_WAIT, 5_minutes );
 static const activity_schedule task_firstaid( ACT_FIRSTAID, 5_minutes );
 static const activity_schedule task_plant( ACT_PLANT_SEED, 5_minutes );
+static const activity_schedule task_short_wait( ACT_WAIT, 1_minutes );
 static const activity_schedule task_weld( ACT_VEHICLE, 5_minutes );
 static const activity_schedule task_read( ACT_READ, 5_minutes );
 
@@ -49,6 +60,36 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     tasklist soldier_12h;
     soldier_12h.enschedule( task_dig, 12_hours );
+
+    creature_tracker &creatures = get_creature_tracker();
+    const action_schedule task_melee(
+    [&creatures]( avatar & guy ) {
+        // Each three turns we Idle, dodge, and attack, then repeat.
+        time_duration cycle = ( calendar::turn - calendar::turn_zero ) % 3_seconds;
+        if( cycle == 0_turns ) {
+            return;
+        }
+        if( cycle == 1_turns ) {
+            guy.set_dodges_left( guy.get_num_dodges() );
+            guy.set_free_dodges_left( guy.get_num_free_dodges() );
+
+            guy.on_try_dodge();
+        } else if( cycle == 2_turns ) {
+            // This is kind of dumb, but do_activity() wipes the map
+            // so I need to place the monster after that happens.
+            if( creatures.size() < 1 ) {
+                g->place_critter_at( pseudo_debug_mon, tripoint_bub_ms::zero + tripoint::south );
+            }
+            Creature &mon = *creatures.creature_at<Creature>( tripoint_bub_ms::zero + tripoint::south );
+            guy.melee_attack_abstract( mon, false, matec_id( "" ) );
+        }
+    },
+    1_minutes );
+    tasklist pugilist_48min_bout;
+    for( int i = 0; i < 12; ++i ) {
+        pugilist_48min_bout.enschedule( task_melee, 3_minutes );
+        pugilist_48min_bout.enschedule( task_short_wait, 1_minutes );
+    }
 
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
@@ -106,6 +147,21 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 5, 6, 710_minutes ) == Approx( 710 ).margin( 10 ) );
         CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 6 );
+    }
+
+    SECTION( "Extreme tasks - 48 minute boxing match" ) {
+        clear_avatar();
+        guy.activity_history.set_intake( ( guy.base_bmr() * 1000 * 19 ) / 24 );
+        INFO( guy.debug_weary_info() );
+        weariness_events info = do_activity( pugilist_48min_bout, false, true );
+        INFO( info.summarize() );
+        INFO( guy.debug_weary_info() );
+        REQUIRE( !info.empty() );
+
+        CHECK( info.transition_minutes( 0, 1, 10_minutes ) == Approx( 10 ).margin( 2 ) );
+        CHECK( info.transition_minutes( 1, 2, 45_minutes ) == Approx( 45 ).margin( 5 ) );
+        CHECK( !info.have_weary_decrease() );
+        CHECK( guy.weariness_level() == 2 );
     }
 }
 
