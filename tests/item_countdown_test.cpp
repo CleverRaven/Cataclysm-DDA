@@ -8,6 +8,8 @@
 #include "map.h"
 #include "type_id.h"
 
+class Character;
+
 static const itype_id itype_arrow_field_point_fletched( "arrow_field_point_fletched" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
 static const itype_id itype_cheese_hard( "cheese_hard" );
