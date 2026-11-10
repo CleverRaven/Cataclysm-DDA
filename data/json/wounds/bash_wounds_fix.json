@@ -43,7 +43,7 @@
     "id": "bandage_laceration_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
-    "name": "Bandage your town skin",
+    "name": "Bandage your torn skin",
     "description": "Apply a bandage to cover your torn skin from contamination.",
     "wounds_removed": [ "clean_laceration_medium" ],
     "wounds_added": [ "bandaged_laceration_medium" ],
