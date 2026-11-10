@@ -20,6 +20,7 @@
 #include "fragment_cloud.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -36,6 +37,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+class Character;
 
 static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
 

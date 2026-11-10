@@ -21,6 +21,8 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Character;
+
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bile_irritant( "bile_irritant" );
