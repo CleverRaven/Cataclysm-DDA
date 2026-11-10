@@ -109,10 +109,10 @@
     "id": "TALK_MARLOSS_EVAN_AMAIDES_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*is brightly conversating to the corpse infront of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh?  Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\"  With that, he turns, meeting your gaze at the same time.  \"Oh!  A new member?  It's so nice to meet you!",
+      "yes": "*is brightly conversating to the corpse in front of him, discussing the recent weather.  \"I know, right Carol?  With the weather so out of whack, I can hardly get any nice sunbathing, and… oh, uh huh?  Yeah, that's true.\"  He nods.  \"Yeah, I'll get to it.  Don't be angry just because you're hungry, sweetie.\"  With that, he turns, meeting your gaze at the same time.  \"Oh!  A new member?  It's so nice to meet you!",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
-        "yes": "*is muttering something to the corpse laying infront of him, the smell of rot clearly not affecting him as much as you.  Before you can catch his attention, he turns, already meeting your gaze.  \"Oh, is this your friend, Carol?  You don't know them?  How strange.\"  He nods to himself.  \"So, are you a new member?  Didn't think anybody outside was still alive.  It's nice to meet you.",
+        "yes": "*is muttering something to the corpse laying in front of him, the smell of rot clearly not affecting him as much as you.  Before you can catch his attention, he turns, already meeting your gaze.  \"Oh, is this your friend, Carol?  You don't know them?  How strange.\"  He nods to himself.  \"So, are you a new member?  Didn't think anybody outside was still alive.  It's nice to meet you.",
         "no": [
           "*is curled up around a festering corpse, seemingly content to rot away with it.  Despite the wheezing rise of his ribcage, there's zero will to live left behind."
         ]
@@ -221,12 +221,12 @@
     "id": "TALK_MARLOSS_EVAN_AMAIDES_AboutMe_Basic",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Well, me and my daughter needed somewhere to go after <the_cataclysm>, just like anybody else.  As you can obviously tell, there's not many comfortable places with such nice ammenities like food or water around anymore.  We tried many places, but most people were too busy taking care of themselves to prioritize a father and his daughter, apparently.  Even that damned refugee center turned us away.  Luckily for us, my friends here were kind enough to take us in.  Ever since, we've been living cozily here.",
+      "yes": "Well, me and my daughter needed somewhere to go after <the_cataclysm>, just like anybody else.  As you can obviously tell, there's not many comfortable places with such nice amenities like food or water around anymore.  We tried many places, but most people were too busy taking care of themselves to prioritize a father and his daughter, apparently.  Even that damned refugee center turned us away.  Luckily for us, my friends here were kind enough to take us in.  Ever since, we've been living cozily here.",
       "no": "Because all of the other bastards turned us away.  You know, being left for dead by a bunch of snobby, holier than thou pricks really made me realize just how much I despise the outside world.  I'm glad I don't have to go out there again.  If it was up to me, I would've burnt down that whole center.  Bet they're living the high life in there, just sitting around like lazy slobs."
     },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
-      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  Bye, Amaides.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -235,11 +235,11 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "It brought my daughter back.  An actual miracle.  You can't just fake stuff like this, you know?  Look at her!  She's almost as well as she was, before this all started.  Soon enough, she'll be walking around again, dancing and playing like she used to.",
-      "no": "It brought my daughter back.  It's obvious.  My faithful belief brung down it's gaze, just for me.  You should believe in it more, too.  Maybe your wishes will come true."
+      "no": "It brought my daughter back.  It's obvious.  My faithful belief brought down it's gaze, just for me.  You should believe in it more, too.  Maybe your wishes will come true."
     },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
-      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  Bye, Amaides.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -248,11 +248,11 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "They're a bit like family to me.  Even though we've all come from different places and stages in life, I think it's the first time I've truly found people I can bear to call my own.",
-      "no": "We're all family here.  Bounded tightly by the love of the marloss.  You can just feel it, if you really search for it.  We're all tied to one another."
+      "no": "We're all family here.  Bounded tightly by the love of the Marloss.  You can just feel it, if you really search for it.  We're all tied to one another."
     },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
-      { "text": "<end_talking_leave>  Bye, Joth.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  Bye, Amaides.", "topic": "TALK_DONE" }
     ]
   }
 ]
