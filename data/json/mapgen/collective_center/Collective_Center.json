@@ -135,16 +135,7 @@
           { "item": "SUS_bushcraft_bookcase", "chance": 10 },
           { "item": "SUS_fiction_bookcase", "chance": 25 }
         ]
-      },
-      "place_computers": [
-        {
-          "name": "Marloss Evangelist Computer",
-          "eocs": [ "EOC_COLLECTIVE_CENTER_COMPUTER" ],
-          "chat_topics": [ "COMP_COLLECITVE_CENTER_MAIN" ],
-          "x": 70,
-          "y": 16
-        }
-      ]
+      }
     }
   },
   {
