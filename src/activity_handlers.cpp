@@ -7,10 +7,10 @@
 #include <set>
 #include <stdexcept>
 #include <string>
-#include <type_traits>
 #include <unordered_set>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -51,7 +51,6 @@
 #include "weather.h"
 
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const ammotype ammo_battery( "battery" );
@@ -74,13 +73,7 @@ using namespace activity_handlers;
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 activity_handlers::do_turn_functions = {
     { ACT_FILL_LIQUID, fill_liquid_do_turn },
-    { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_TRAVELLING, travel_do_turn }
-};
-
-const std::map< activity_id, std::function<void( player_activity *, Character * )> >
-activity_handlers::finish_functions = {
-    { ACT_REPAIR_ITEM, repair_item_finish }
 };
 
 bool activity_handlers::resume_for_multi_activities( Character &you )
@@ -295,388 +288,344 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
     }
 }
 
-namespace
-{
-enum class repeat_type : int {
-    // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
-    INIT = 0,       // Haven't found repeat value yet.
-    ONCE = 1,       // Attempt repair (and refit if possible) just once
-    // value 2 obsolete - previously used for reinforcement
-    FULL = 3,       // Continue repairing until damage==0 (and until refitted if possible)
-    EVENT = 4,      // Continue repairing (and refit if possible) until something interesting happens
-    REFIT_ONCE = 5, // Try refitting once, but don't repair
-    REFIT_FULL = 6, // Continue refitting until item fits, but don't repair
-    CANCEL = 7,     // Stop repeating
-};
-
-using I = std::underlying_type_t<repeat_type>;
-constexpr bool operator>=( const I &lhs, const repeat_type &rhs )
-{
-    return lhs >= static_cast<I>( rhs );
-}
-
-constexpr bool operator<=( const I &lhs, const repeat_type &rhs )
-{
-    return lhs <= static_cast<I>( rhs );
-}
-
-constexpr I operator-( const repeat_type &lhs, const repeat_type &rhs )
-{
-    return static_cast<I>( lhs ) - static_cast<I>( rhs );
-}
-} // namespace
-
-static repeat_type repeat_menu( const std::string &title, repeat_type last_selection,
-                                const bool can_refit )
+repair_stage repair_item_activity_actor::repeat_menu(
+    const std::string &title, repair_stage last_selection,
+    const bool can_refit )
 {
     uilist rmenu;
     rmenu.text = title;
 
-    rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1',
+    rmenu.addentry( static_cast<int>( repair_stage::ONCE ), true, '1',
                     can_refit ? _( "Attempt to refit or repair once" ) : _( "Attempt to repair once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '2',
+    rmenu.addentry( static_cast<int>( repair_stage::FULL ), true, '2',
                     can_refit ? _( "Repeat until refitted and fully repaired" ) : _( "Repeat until fully repaired" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '3',
+    rmenu.addentry( static_cast<int>( repair_stage::EVENT ), true, '3',
                     can_refit ? _( "Refit or repair until success/failure/level up" ) :
                     _( "Repair until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '4',
+    rmenu.addentry( static_cast<int>( repair_stage::REFIT_ONCE ), can_refit, '4',
                     _( "Attempt to refit once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '5',
+    rmenu.addentry( static_cast<int>( repair_stage::REFIT_FULL ), can_refit, '5',
                     _( "Repeat until refitted" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '6', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repair_stage::INIT ), true, '6', _( "Back to item selection" ) );
 
-    rmenu.selected = last_selection - repeat_type::ONCE;
+    rmenu.selected = static_cast<int>( last_selection ) - static_cast<int>( repair_stage::ONCE );
     rmenu.query();
 
-    if( rmenu.ret >= repeat_type::INIT && rmenu.ret <= repeat_type::REFIT_FULL ) {
-        return static_cast<repeat_type>( rmenu.ret );
+    if( rmenu.ret >= static_cast<int>( repair_stage::INIT ) &&
+        rmenu.ret <= static_cast<int>( repair_stage::REFIT_FULL ) ) {
+        return static_cast<repair_stage>( rmenu.ret );
     }
 
-    return repeat_type::CANCEL;
+    return repair_stage::CANCEL;
 }
 
-// HACK: This is a part of a hack to provide pseudo items for long repair activity
-// Note: similar hack could be used to implement all sorts of vehicle pseudo-items
-//  and possibly CBM pseudo-items too.
-namespace
-{
-struct weldrig_hack {
-    std::optional<vpart_reference> part;
-    item pseudo;
-
-    weldrig_hack() : part( std::nullopt ) { }
-
-    bool init( const player_activity &act ) {
-        map &here = get_map();
-        if( act.coords.empty() || act.str_values.size() < 2 ) {
-            return false;
-        }
-
-        const optional_vpart_position vp = here.veh_at( here.get_bub( act.coords[0] ) );
-        if( !vp ) {
-            return false;
-        }
-
-        itype_id tool_id( act.get_str_value( 1, "" ) );
-        pseudo = item( tool_id, calendar::turn );
-        part = vp->part_with_tool( here, tool_id );
-        return part.has_value();
-    }
-
-    item &get_item() {
-        map &here = get_map();
-
-        if( !part ) {
-            // null item should be handled just fine
-            return null_item_reference();
-        }
-        pseudo.set_flag( json_flag_PSEUDO );
-        item mag_mod( itype_pseudo_magazine_mod );
-        mag_mod.set_flag( json_flag_IRREMOVABLE );
-        if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
-            debugmsg( "tool %s has no space for a %s, this is likely a bug",
-                      pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
-        }
-        itype_id mag_type;
-        if( pseudo.can_link_up() ) {
-            mag_type = itype_pseudo_magazine;
-        } else {
-            mag_type = pseudo.magazine_default();
-        }
-        item mag( mag_type );
-        mag.clear_items(); // no initial ammo
-        if( !pseudo.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
-            debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
-                      mag.typeId().str(), pseudo.typeId().str() );
-            return null_item_reference();
-        }
-        pseudo.ammo_set( itype_battery, part->vehicle().drain( here,  itype_battery,
-                         pseudo.ammo_capacity( ammo_battery ),
-                         return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
-        return pseudo;
-    }
-
-    void clean_up() {
-        if( !part ) {
-            return;
-        }
-
-        map &here = get_map();
-
-        part->vehicle().charge_battery( here, pseudo.ammo_remaining( ),
-                                        false ); // return unused charges without cable loss
-    }
-
-    ~weldrig_hack() {
-        clean_up();
-    }
-};
-} // namespace
-
-void activity_handlers::repair_item_finish( player_activity *act, Character *you )
-{
-    ::repair_item_finish( act, you, false );
-}
-
-void repair_item_finish( player_activity *act, Character *you, bool no_menu )
+bool weldrig_hack::init( itype_id vp_tool_id, const tripoint_bub_ms &vp_pos )
 {
     map &here = get_map();
-    const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
-                         static_cast<int>( repeat_type::INIT ) ) );
-    weldrig_hack w_hack;
-    item_location *ploc = nullptr;
 
-    if( !act->targets.empty() ) {
-        ploc = act->targets.data();
-    }
-    item *main_tool = &( !w_hack.init( *act ) ?
-                         ploc ?
-                         **ploc : you->i_at( act->index ) : w_hack.get_item() );
-    if( main_tool == nullptr ) {
-        debugmsg( "Empty main tool for repair" );
-        act->set_to_null();
-        return;
-    }
-    item *used_tool = main_tool->get_usable_item( iuse_name_string );
-    if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for long repair" );
-        act->set_to_null();
-        return;
+    const optional_vpart_position vp = here.veh_at( vp_pos );
+    if( !vp ) {
+        return false;
     }
 
-    const use_function *use_fun = used_tool->get_use( iuse_name_string );
+    itype_id tool_id( vp_tool_id );
+    pseudo_tool = item( tool_id, calendar::turn );
+    part_with_pseudo_tool = vp->part_with_tool( here, tool_id );
+    return part_with_pseudo_tool.has_value();
+}
+
+item *weldrig_hack::get_item()
+{
+    map &here = get_map();
+
+    if( !part_with_pseudo_tool ) {
+        return nullptr;
+    }
+    pseudo_tool.set_flag( json_flag_PSEUDO );
+    item mag_mod( itype_pseudo_magazine_mod );
+    mag_mod.set_flag( json_flag_IRREMOVABLE );
+    if( !pseudo_tool.put_in( mag_mod, pocket_type::MOD ).success() ) {
+        debugmsg( "tool %s has no space for a %s, this is likely a bug",
+                  pseudo_tool.typeId().str(), mag_mod.type->nname( 1 ) );
+    }
+    itype_id mag_type;
+    if( pseudo_tool.can_link_up() ) {
+        mag_type = itype_pseudo_magazine;
+    } else {
+        mag_type = pseudo_tool.magazine_default();
+    }
+    item mag( mag_type );
+    mag.clear_items(); // no initial ammo
+    if( !pseudo_tool.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
+        debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
+                  mag.typeId().str(), pseudo_tool.typeId().str() );
+        return nullptr;
+    }
+
+    pseudo_tool.ammo_set( itype_battery, part_with_pseudo_tool->vehicle().battery_left( here ) );
+
+    return &pseudo_tool;
+}
+
+void weldrig_hack::vehicle_drain()
+{
+    map &here = get_map();
+    // no cable loss since all of this is virtual
+    part_with_pseudo_tool->vehicle().drain( here, itype_battery, pseudo_tool.ammo_required(),
+                                            return_true< vehicle_part &>, false );
+}
+
+void repair_item_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *used_tool = get_repair_tool( act );
+    if( !used_tool ) {
+        // get_repair_tool sets this activity to null if no valid tool is found
+        return;
+    }
+
+    const use_function *use_func = used_tool->typeId()->get_use( repair_iuse_actor_name );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
-    const repair_item_actor *actor = dynamic_cast<const repair_item_actor *>
-                                     ( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
+    const repair_item_actor *repair_iuse = dynamic_cast<const repair_item_actor *>
+                                           ( use_func->get_actor_ptr() );
+    if( repair_iuse == nullptr ) {
         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
     }
 
     // Valid Repeat choice and target, attempt repair.
-    if( repeat != repeat_type::INIT && act->targets.size() >= 2 ) {
-        item_location &fix_location = act->targets[1];
-        if( !fix_location ) {
-            // The item could disappear for various reasons: moved by follower, burned up, eaten by a grue, etc.
-            you->add_msg_if_player( m_warning, _( "You can no longer find the item to repair." ) );
-            act->set_to_null();
+    if( stage != repair_stage::INIT && repaired_item.valid() ) {
+        do_repair( act, who, repair_iuse, *used_tool );
+        if( !act ) {
             return;
-        }
-
-        // Remember our level: we want to stop retrying on level up
-        const int old_level = you->get_skill_level( actor->used_skill );
-        const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
-                fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
-        // Warning: The above call to `repair_item_actor::repair` might
-        // invalidate the item and the item_location, for example when
-        // spilling items from spillable containers. It is therefore
-        // important that we don't use `fix_location` in code below
-        // here without first checking whether it is still valid.
-
-        // If the item being repaired has been destroyed stop further
-        // processing in case the items being used for the repair was
-        // contained by the item being repaired, which will result
-        // in the tool being invalid
-        if( attempt == repair_item_actor::AS_DESTROYED ) {
-            act->set_to_null();
-            return;
-        }
-
-        if( attempt != repair_item_actor::AS_CANT ) {
-            const tripoint_bub_ms tool_pos = ( ploc && ploc->where() == item_location::type::map )
-                                             ? ploc->pos_bub( here )
-                                             : you->pos_bub( here );
-            used_tool->consume_tool_uses( 1, here, tool_pos, you );
-        }
-
-        // TODO: Allow setting this in the actor
-        // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->ammo_sufficient( you ) ) {
-            you->add_msg_if_player( _( "Your %1$s ran out of charges." ), used_tool->tname() );
-            act->set_to_null();
-            return;
-        }
-
-        // Print message explaining why we stopped
-        // But only if we didn't destroy the item (because then it's obvious)
-        const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
-                                            !fix_location ||
-                                            !actor->can_repair_target( *you, *fix_location, !destroyed, true );
-        if( cannot_continue_repair ) {
-            // Cannot continue to repair target, select another target.
-            // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
-            act->targets.pop_back();
-        }
-
-        const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
-                                    attempt == repair_item_actor::AS_SUCCESS ||
-                                    old_level != static_cast<int>( you->get_skill_level( actor->used_skill ) );
-        const bool can_refit = !destroyed && !cannot_continue_repair &&
-                               fix_location->has_flag( flag_VARSIZE ) &&
-                               !fix_location->has_flag( flag_FIT );
-
-        const bool need_input =
-            ( repeat == repeat_type::ONCE ) ||
-            ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && cannot_continue_repair ) ||
-            ( repeat == repeat_type::REFIT_ONCE ) ||
-            ( repeat == repeat_type::REFIT_FULL && !can_refit );
-        if( need_input ) {
-            repeat = repeat_type::INIT;
-            if( no_menu ) {
-                act->set_to_null();
-                return;
-            }
         }
     }
-    // Check tool is valid before we query target and Repeat choice.
-    if( !actor->can_use_tool( *you, *used_tool, true ) ) {
-        act->set_to_null();
+    if( !repair_iuse->can_use_tool( who, *used_tool, true ) ) {
+        act.set_to_null();
         return;
     }
 
     // target selection and validation.
-    while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *you, actor, main_tool );
+    while( !repaired_item.valid() ) {
+        item_location item_loc = game_menus::inv::repair( who, repair_iuse, used_tool );
 
         if( item_loc == item_location::nowhere ) {
-            you->add_msg_if_player( m_info, _( "Never mind." ) );
-            act->set_to_null();
+            who.add_msg_if_player( m_info, _( "Never mind." ) );
+            act.set_to_null();
             return;
         }
-        if( actor->can_repair_target( *you, *item_loc, true, true ) ) {
-            act->targets.emplace_back( item_loc );
-            repeat = repeat_type::INIT;
+        if( repair_iuse->can_repair_target( who, *item_loc, true, true ) ) {
+            repaired_item = item_loc;
+            stage = repair_stage::INIT;
         }
     }
 
-    const item &fix = *act->targets[1];
-    const bool can_refit = fix.has_flag( flag_VARSIZE ) && !fix.has_flag( flag_FIT );
-    if( repeat == repeat_type::INIT ) {
-        const int level = you->get_skill_level( actor->used_skill );
-        repair_item_actor::repair_type action_type = actor->default_action( fix, level );
-        if( action_type == repair_item_actor::RT_NOTHING ) {
-            you->add_msg_if_player( _( "You won't learn anything more by doing that." ) );
+    if( stage == repair_stage::INIT ) {
+        init_repair( act, who, repair_iuse, *used_tool );
+        if( !act ) {
+            return;
         }
-
-        const std::pair<float, float> chance = actor->repair_chance( *you, fix, action_type );
-        if( chance.first <= 0.0f ) {
-            action_type = repair_item_actor::RT_PRACTICE;
-        }
-
-        std::string title = string_format( _( "%s %s\n" ),
-                                           repair_item_actor::action_description( action_type ),
-                                           fix.tname() );
-        ammotype current_ammo;
-        std::string ammo_name;
-        if( used_tool->has_flag( flag_USE_UPS ) || used_tool->has_link_data() ) {
-            ammo_name = _( "battery" );
-            current_ammo = ammo_battery;
-        } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
-            ammo_name = _( "bionic power" );
-
-        } else {
-            const itype_id ammo_id = used_tool->ammo_current().is_null()
-                                     ? used_tool->ammo_default() : used_tool->ammo_current();
-            if( const std::optional<ammotype> at = item::ammotype_of( ammo_id ) ) {
-                current_ammo = *at;
-            }
-            ammo_name = item::nname( used_tool->ammo_current() );
-        }
-
-        int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
-
-        std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
-        const temp_crafting_inventory &crafting_inv = you->crafting_inventory();
-        std::function<bool( const item & )> filter;
-        if( fix.is_filthy() ) {
-            filter = []( const item & component ) {
-                return component.allow_crafting_component();
-            };
-        } else {
-            filter = is_crafting_component;
-        }
-        std::vector<std::string> material_list;
-        for( const auto &component_id : valid_entries ) {
-            if( item::count_by_charges( component_id ) ) {
-                if( crafting_inv.has_charges( component_id, 1 ) ) {
-                    material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
-                                                            crafting_inv.charges_of( component_id ) ) );
-                }
-            } else if( crafting_inv.has_amount( component_id, 1, false, filter ) ) {
-                material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
-                                                        crafting_inv.amount_of( component_id, false ) ) );
-            }
-        }
-
-        const int per_use = used_tool->expected_cost_per_use();
-        title += used_tool->is_tool() && used_tool->has_flag( flag_USES_NEARBY_AMMO )
-                 ? string_format( _( "Charges: <color_light_blue>%d</color> %s (%d per use)\n" ),
-                                  ammo_remaining,
-                                  ammo_name,
-                                  per_use )
-                 : string_format( _( "Charges: <color_light_blue>%d/%d</color> %s (%d per use)\n" ),
-                                  ammo_remaining, used_tool->ammo_capacity( current_ammo, true ),
-                                  ammo_name,
-                                  per_use );
-        title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
-        title += string_format( _( "Skill used: <color_light_blue>%s (%d)</color>\n" ),
-                                actor->used_skill.obj().name(), level );
-        title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
-                                100.0f * chance.first );
-        title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
-                                100.0f * chance.second );
-
-        if( act->values.empty() ) {
-            act->values.resize( 1 );
-        }
-        do {
-            repeat = repeat_menu( title, repeat, can_refit );
-
-            if( repeat == repeat_type::CANCEL ) {
-                act->set_to_null();
-                return;
-            }
-            act->values[0] = static_cast<int>( repeat );
-            // BACK selected, redo target selection next.
-            if( repeat == repeat_type::INIT ) {
-                you->activity.targets.pop_back();
-                return;
-            }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
-                const char *msg = fix.damage_level() > 0 ?
-                                  _( "Your %s is repaired as much as possible, considering the degradation." ) :
-                                  _( "Your %s is already fully repaired." );
-                you->add_msg_if_player( m_info, msg, fix.tname() );
-                repeat = repeat_type::INIT;
-            }
-        } while( repeat == repeat_type::INIT );
     }
     // Otherwise keep retrying
-    act->moves_left = actor->move_cost;
+    act.moves_left = repair_iuse->move_cost;
+}
+
+void repair_item_activity_actor::do_repair( player_activity &act, Character &who,
+        const repair_item_actor *repair_iuse, item &repair_tool )
+{
+    map &here = get_map();
+    if( !repaired_item ) {
+        // The item could disappear for various reasons: moved by follower, burned up, eaten by a grue, etc.
+        who.add_msg_if_player( m_warning, _( "You can no longer find the item to repair." ) );
+        act.set_to_null();
+        return;
+    }
+
+    // Remember our level: we want to stop retrying on level up
+    const int old_level = who.get_skill_level( repair_iuse->used_skill );
+    const repair_item_actor::attempt_hint attempt = repair_iuse->repair( who, repair_tool,
+            repaired_item, stage == repair_stage::REFIT_ONCE || stage == repair_stage::REFIT_FULL );
+    // Warning: The above call to `repair_item_actor::repair` might
+    // invalidate the item and the item_location, for example when
+    // spilling items from spillable containers. It is therefore
+    // important that we don't use `fix_location` in code below
+    // here without first checking whether it is still valid.
+
+    // If the item being repaired has been destroyed stop further
+    // processing in case the items being used for the repair was
+    // contained by the item being repaired, which will result
+    // in the tool being invalid
+    if( attempt == repair_item_actor::AS_DESTROYED ||
+        attempt == repair_item_actor::AS_CANT_USE_TOOL ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( attempt != repair_item_actor::AS_CANT ) {
+        const tripoint_bub_ms tool_pos = ( tool_to_repair_with.valid() &&
+                                           tool_to_repair_with.where() == item_location::type::map )
+                                         ? tool_to_repair_with.pos_bub( here )
+                                         : vp_tool->second;
+        repair_tool.consume_tool_uses( 1, here, tool_pos, &who );
+        w_hack.vehicle_drain();
+    }
+
+    // TODO: Allow setting this in the actor
+    if( !repair_tool.ammo_sufficient( &who ) ) {
+        who.add_msg_if_player( _( "Your %1$s ran out of charges." ), repair_tool.tname() );
+        act.set_to_null();
+        return;
+    }
+
+    // Print message explaining why we stopped
+    // But only if we didn't destroy the item (because then it's obvious)
+    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
+    const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
+                                        !repaired_item ||
+                                        !repair_iuse->can_repair_target( who, *repaired_item, !destroyed, true );
+    if( cannot_continue_repair ) {
+        // Cannot continue to repair target, select another target.
+        // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
+        repaired_item = item_location::nowhere;
+    }
+
+    const bool event_happened = attempt == repair_item_actor::AS_FAILURE ||
+                                attempt == repair_item_actor::AS_SUCCESS ||
+                                old_level != static_cast<int>( who.get_skill_level( repair_iuse->used_skill ) );
+    const bool can_refit = !destroyed && !cannot_continue_repair &&
+                           repaired_item->has_flag( flag_VARSIZE ) &&
+                           !repaired_item->has_flag( flag_FIT );
+
+    const bool need_input =
+        ( stage == repair_stage::ONCE ) ||
+        ( stage == repair_stage::EVENT && event_happened ) ||
+        ( stage == repair_stage::FULL && cannot_continue_repair ) ||
+        ( stage == repair_stage::REFIT_ONCE ) ||
+        ( stage == repair_stage::REFIT_FULL && !can_refit );
+    if( need_input ) {
+        stage = repair_stage::INIT;
+        if( no_menu ) {
+            act.set_to_null();
+            return;
+        }
+    }
+}
+
+// Check tool is valid before we query target and Repeat choice.
+
+void repair_item_activity_actor::init_repair( player_activity &act, Character &who,
+        const repair_item_actor *repair_iuse, item &repair_tool )
+{
+    map &here = get_map();
+
+    const bool can_refit = repaired_item->has_flag( flag_VARSIZE ) &&
+                           !repaired_item->has_flag( flag_FIT );
+    const int level = who.get_skill_level( repair_iuse->used_skill );
+    repair_item_actor::repair_type action_type = repair_iuse->default_action( *repaired_item, level );
+    if( action_type == repair_item_actor::RT_NOTHING ) {
+        who.add_msg_if_player( _( "You won't learn anything more by doing that." ) );
+    }
+
+    const std::pair<float, float> chance = repair_iuse->repair_chance( who, *repaired_item,
+                                           action_type );
+    if( chance.first <= 0.0f ) {
+        action_type = repair_item_actor::RT_PRACTICE;
+    }
+
+    std::string title = string_format( _( "%s %s\n" ),
+                                       repair_item_actor::action_description( action_type ),
+                                       repaired_item->tname() );
+    ammotype current_ammo;
+    std::string ammo_name;
+    if( repair_tool.has_flag( flag_USE_UPS ) || repair_tool.has_link_data() ) {
+        ammo_name = _( "battery" );
+        current_ammo = ammo_battery;
+    } else if( repair_tool.has_flag( flag_USES_BIONIC_POWER ) ) {
+        ammo_name = _( "bionic power" );
+
+    } else {
+        const itype_id ammo_id = repair_tool.ammo_current().is_null()
+                                 ? repair_tool.ammo_default() : repair_tool.ammo_current();
+        if( const std::optional<ammotype> at = item::ammotype_of( ammo_id ) ) {
+            current_ammo = *at;
+        }
+        ammo_name = item::nname( repair_tool.ammo_current() );
+    }
+
+    int ammo_remaining = repair_tool.ammo_remaining();
+
+    std::set<itype_id> valid_entries = repair_iuse->get_valid_repair_materials( *repaired_item );
+    const temp_crafting_inventory &crafting_inv = who.crafting_inventory();
+    std::function<bool( const item & )> filter;
+    if( repaired_item->is_filthy() ) {
+        filter = []( const item & component ) {
+            return component.allow_crafting_component();
+        };
+    } else {
+        filter = is_crafting_component;
+    }
+    std::vector<std::string> material_list;
+    for( const auto &component_id : valid_entries ) {
+        if( item::count_by_charges( component_id ) ) {
+            if( crafting_inv.has_charges( component_id, 1 ) ) {
+                material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                        crafting_inv.charges_of( component_id ) ) );
+            }
+        } else if( crafting_inv.has_amount( component_id, 1, false, filter ) ) {
+            material_list.push_back( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                    crafting_inv.amount_of( component_id, false ) ) );
+        }
+    }
+
+    const int per_use = repair_tool.expected_cost_per_use();
+    std::string title_uses_count;
+    if( vp_tool.has_value() ) {
+        int vehicle_battery_level = 0;
+        if( w_hack.part_with_pseudo_tool.has_value() ) {
+            vehicle_battery_level = w_hack.part_with_pseudo_tool->vehicle().battery_power_level().second;
+        }
+        title_uses_count = title_uses_count = string_format(
+                _( "Charges: <color_light_blue>%d/%d</color> %s (%d per use)\n" ),
+                ammo_remaining, vehicle_battery_level, ammo_name, per_use );
+    } else {
+        ammo_remaining = repair_tool.ammo_remaining_linked( here, &who );
+        if( repair_tool.is_tool() && repair_tool.has_flag( flag_USES_NEARBY_AMMO ) ) {
+            title_uses_count = string_format( _( "Charges: <color_light_blue>%d</color> %s (%d per use)\n" ),
+                                              ammo_remaining, ammo_name, per_use );
+        } else {
+            title_uses_count = string_format( _( "Charges: <color_light_blue>%d/%d</color> %s (%d per use)\n" ),
+                                              ammo_remaining, repair_tool.ammo_capacity( current_ammo, true ), ammo_name, per_use );
+        }
+    }
+    title += title_uses_count;
+    title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
+    title += string_format( _( "Skill used: <color_light_blue>%s (%d)</color>\n" ),
+                            repair_iuse->used_skill.obj().name(), level );
+    title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
+                            100.0f * chance.first );
+    title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
+                            100.0f * chance.second );
+
+    do {
+        stage = repeat_menu( title, stage, can_refit );
+
+        if( stage == repair_stage::CANCEL ) {
+            act.set_to_null();
+            return;
+        }
+        //repeat_type = repeat;
+        // BACK selected, redo target selection next.
+        if( stage == repair_stage::INIT ) {
+            repaired_item = item_location::nowhere;
+            return;
+        }
+        if( stage == repair_stage::FULL && repaired_item->damage() <= repaired_item->degradation() &&
+            !can_refit ) {
+            const char *msg = repaired_item->damage_level() > 0 ?
+                              _( "Your %s is repaired as much as possible, considering the degradation." ) :
+                              _( "Your %s is already fully repaired." );
+            who.add_msg_if_player( m_info, msg, repaired_item->tname() );
+            stage = repair_stage::INIT;
+        }
+    } while( stage == repair_stage::INIT );
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, Character *you )
@@ -718,17 +667,17 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
     act->set_to_null();
 }
 
-void activity_handlers::repair_item_do_turn( player_activity *act, Character *you )
+void repair_item_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
-    if( effective_moves <= act->moves_left ) {
-        act->moves_left -= effective_moves;
-        you->set_moves( 0 );
+    const float exertion_mult = who.exertion_adjusted_move_multiplier( act.exertion_level() );
+    const int effective_moves = who.get_moves() / ( who.fine_detail_vision_mod() * exertion_mult );
+    if( effective_moves <= act.moves_left ) {
+        act.moves_left -= effective_moves;
+        who.set_moves( 0 );
     } else {
-        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
-        act->moves_left = 0;
+        who.mod_moves( -act.moves_left * who.fine_detail_vision_mod() );
+        act.moves_left = 0;
     }
 }
 

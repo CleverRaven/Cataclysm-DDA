@@ -3170,6 +3170,8 @@ class Character : public Creature, public visitable
         bool has_activity( const std::vector<activity_id> &types ) const;
         /** Process activity until activity invalid or character is out of moves */
         void process_activity();
+        /** Process activity until activity invalid; for tests only! */
+        void process_activity_until_invalid();
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();

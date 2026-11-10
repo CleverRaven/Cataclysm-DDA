@@ -1720,9 +1720,9 @@
       "health_chance": [ 30 ],
       "h_mod_min": [ 1 ],
       "h_mod_chance": [ 80 ],
-      "health_tick": [ 30 ],
-      "healing_rate": [ 2 ]
-    }
+      "health_tick": [ 30 ]
+    },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 1 }, { "value": "REGEN_WOUND", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3676,7 +3676,8 @@
           { "value": "SPEED", "multiply": -0.25 },
           { "value": "ARMOR_ALL", "multiply": 0.1 },
           { "value": "VISION_RANGE", "multiply": -0.35 },
-          { "value": "REGEN_HP", "multiply": -0.95 }
+          { "value": "REGEN_HP", "multiply": -0.95 },
+          { "value": "REGEN_WOUND", "multiply": -0.95 }
         ]
       }
     ],

@@ -5463,6 +5463,14 @@ void Character::process_activity()
     }
 }
 
+void Character::process_activity_until_invalid()
+{
+    while( activity ) {
+        set_moves( 100 );
+        activity.do_turn( *this );
+    }
+}
+
 void Character::fall_asleep()
 {
     // Communicate to the player that he is using items on the floor

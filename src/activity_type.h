@@ -107,8 +107,6 @@ class activity_type
             return activity_level;
         }
         void call_do_turn( player_activity *, Character * ) const;
-        /** Returns whether it had a finish function or not */
-        bool call_finish( player_activity *, Character * ) const;
 
         /** JSON stuff */
         void load( const JsonObject &jo );

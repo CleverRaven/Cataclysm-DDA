@@ -52,6 +52,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "gasbomb_primed"
     }
@@ -86,6 +87,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "smokebomb_primed"
     }
@@ -121,6 +123,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "insecticidalbomb_primed"
     }
@@ -149,6 +152,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "insecticidalbomb_makeshift_primed"
     }
@@ -179,6 +183,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "fungicidalbomb_primed"
     }
@@ -207,6 +212,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "fungicidalbomb_makeshift_primed"
     }
@@ -235,6 +241,7 @@
       "need_wielding": true,
       "menu_text": "Pull pin",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "type": "transform",
       "target": "gasbomb_makeshift_primed"
     }
@@ -273,6 +280,7 @@
       "need_fire": 1,
       "menu_text": "Light up",
       "msg": "You light the rocket candy on fire.  Throw it!",
+      "moves": 200,
       "type": "transform",
       "target": "tool_rocket_candy_primed"
     },

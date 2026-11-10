@@ -3839,12 +3839,12 @@ talk_effect_fun_t::func f_add_wound( const JsonObject &jo, std::string_view memb
 
     return [is_npc, bodypart_var, wound_to_be_added_var]( dialogue & d ) {
 
-        bodypart *bp =
-            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+        Character &who = *d.actor( is_npc )->get_character();
+        bodypart *bp = who.get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
 
         wound_type_id wound_to_be_added = wound_type_id( wound_to_be_added_var.evaluate( d ) );
 
-        bp->add_or_worsen_wound( wound_to_be_added );
+        bp->add_or_worsen_wound( wound_to_be_added, &who );
     };
 }
 
