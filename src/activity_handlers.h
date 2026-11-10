@@ -155,7 +155,6 @@ bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void repair_item_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
@@ -175,9 +174,6 @@ void clean_may_activity_occupancy_items_var( Character &you );
 std::vector<item_location> drop_fetched_items( Character &who, const std::list<item> &items,
         map *here, const tripoint_bub_ms &where );
 void clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you );
-// defined in activity_handlers.cpp
-extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
-finish_functions;
 
 } // namespace activity_handlers
 
