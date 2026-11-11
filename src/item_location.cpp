@@ -1679,7 +1679,7 @@ item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
 }
 
 template<typename T>
-item_location form_loc_recursive( T &loc, item &it )
+static item_location form_loc_recursive( T &loc, item &it )
 {
     item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
