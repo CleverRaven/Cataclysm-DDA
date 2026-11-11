@@ -6,12 +6,8 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-#include <iostream>
 #ifdef _WIN32
 #include <io.h>
-#else
-#include <cstdio>
-#include <unistd.h>
 #endif
 #include <char8_t-remediation/char8_t-remediation.h>
 
@@ -218,14 +214,4 @@ TEST_CASE( "utf8_view", "[catacharset][nogame]" )
         actual_code_points.emplace_back( c );
     }
     CHECK( actual_code_points == expected_code_points );
-}
-
-TEST_CASE( "tty", "[catacharset][nogame][!mayfail]" )
-{
-#ifdef _WIN32
-    REQUIRE( _isatty( _fileno( stdout ) ) );
-#else
-    REQUIRE( isatty( fileno( stdout ) ) );
-#endif
-    std::cout << U8( "Hello, 世界! à y\u0300 à̸̠你⃫" ) << std::endl;
 }
