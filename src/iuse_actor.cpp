@@ -95,7 +95,6 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
