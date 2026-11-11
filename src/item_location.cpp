@@ -1697,7 +1697,8 @@ std::optional<item_location> item_location::try_form_loc( Character *you, map *h
         const tripoint_bub_ms &p, item &it )
 {
     if( you != nullptr && you->has_item( it ) ) {
-        return form_loc_recursive( you, it );
+        Character &who = *you;
+        return form_loc_recursive( who, it );
     }
     if( here ) {
         map_cursor mc( here, p );
