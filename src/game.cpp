@@ -6820,7 +6820,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
         if( it->is_corpse() ) {
             corpses.push_back( it );
         } else {
-            if( ( salvage_tool.valid() ) && salvage_iuse->valid_to_cut_up( nullptr, *it ) ) {
+            if( salvage_tool.valid() && salvage_iuse->valid_to_cut_up( nullptr, *it ) ) {
                 salvageables.push_back( it );
             }
             if( u.can_disassemble( *it, crafting_inv ).success() ) {

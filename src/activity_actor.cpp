@@ -11685,7 +11685,7 @@ void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
 {
-    longsalvage_activity_actor actor( {} );
+    longsalvage_activity_actor actor;
 
     JsonObject data = jsin.get_object();
 

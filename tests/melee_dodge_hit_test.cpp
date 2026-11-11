@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "creature.h"
 #include "flag.h"
 #include "item.h"
