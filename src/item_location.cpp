@@ -1693,10 +1693,10 @@ item_location form_loc_recursive( T &loc, item &it )
 template item_location form_loc_recursive<Character>( Character &loc, item &it );
 template item_location form_loc_recursive<npc>( npc &loc, item &it );
 
-std::optional<item_location> item_location::try_form_loc( Character &you, map *here,
+std::optional<item_location> item_location::try_form_loc( Character *you, map *here,
         const tripoint_bub_ms &p, item &it )
 {
-    if( &you != nullptr && you.has_item( it ) ) {
+    if( you != nullptr && you->has_item( it ) ) {
         return form_loc_recursive( you, it );
     }
     if( here ) {
@@ -1715,7 +1715,7 @@ std::optional<item_location> item_location::try_form_loc( Character &you, map *h
     return std::nullopt;
 }
 
-item_location item_location::form_loc( Character &you, map *here, const tripoint_bub_ms &p,
+item_location item_location::form_loc( Character *you, map *here, const tripoint_bub_ms &p,
                                        item &it )
 {
     if( std::optional<item_location> loc = try_form_loc( you, here, p, it ) ) {
@@ -1723,5 +1723,5 @@ item_location item_location::form_loc( Character &you, map *here, const tripoint
     }
     debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
               it.display_name() );
-    return item_location( you, &it );
+    return item_location( *you, &it );
 }

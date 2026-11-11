@@ -4343,7 +4343,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         if( to_turn<int>( calendar::turn ) % interval == 0 ) {
             consume_tool_uses( 1, here, pos, carrier );
         }
-        item_location loc = item_location::form_loc( *carrier, &here, pos, *this );
+        item_location loc = item_location::form_loc( carrier, &here, pos, *this );
         const int charges_used = type->tick( carrier, loc, pos );
         const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
         if( !destroy && charges_used > 0 ) {
@@ -4388,7 +4388,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // FIXME: some iuse functions return 1+ expecting to be destroyed (molotovs), others
     // to use charges, and others just because?
     // allow some items to opt into requesting destruction
-    item_location loc = item_location::form_loc( *carrier, &here, pos, *this );
+    item_location loc = item_location::form_loc( carrier, &here, pos, *this );
     const int charges_used = type->tick( carrier, loc, pos );
     const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
     if( !destroy && charges_used > 0 ) {

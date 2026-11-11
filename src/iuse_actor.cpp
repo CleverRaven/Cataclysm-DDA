@@ -193,7 +193,7 @@ static ret_val<void> transform_fits_parent_pocket( const Character &p, const ite
         const item &result, map *here, const tripoint_bub_ms &pos )
 {
     const std::optional<item_location> loc = item_location::try_form_loc(
-                const_cast<Character &>( p ), here, pos, const_cast<item &>( it ) );
+                const_cast<Character *>( &p ), here, pos, const_cast<item &>( it ) );
     if( !loc || !loc->has_parent() ) {
         return ret_val<void>::make_success();
     }
@@ -1273,7 +1273,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item_location &it,
 
     here->furn_set( suitable.value(), furn_type, false, false, true );
     it->spill_contents( suitable.value() );
-    item_location::form_loc( *p, here, pos, *it ).remove_item();
+    item_location::form_loc( p, here, pos, *it ).remove_item();
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 0;
 }
@@ -1310,7 +1310,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item_location &it,
     // TODO: Use map aware operation when available
     if( place_appliance( *here, suitable.value(),
                          vpart_appliance_from_item( appliance_base ), *p, *it ) ) {
-        item_location::form_loc( *p, here, pos, *it ).remove_item();
+        item_location::form_loc( p, here, pos, *it ).remove_item();
         p->mod_moves( -to_moves<int>( 2_seconds ) );
     }
     return 0;
@@ -1666,7 +1666,7 @@ std::optional<int> firestarter_actor::use( Character *p, item_location &it,
     // find item location of firestarter item
 
     p->assign_activity( fire_start_activity_actor( here->get_abs( pos ),
-                        item_location::form_loc( *p, here, pos, *it ),
+                        item_location::form_loc( p, here, pos, *it ),
                         potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
@@ -2962,7 +2962,7 @@ std::optional<int> holster_actor::use( Character *you, item_location &it, map *h
         }
 
         // iuse_actor really needs to work with item_location
-        item_location item_loc = item_location::form_loc( *you, here, p, *it );
+        item_location item_loc = item_location::form_loc( you, here, p, *it );
         game_menus::inv::insert_items( item_loc );
     }
 
@@ -5428,8 +5428,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         return std::nullopt;
     }
 
-    item_location extension = is_cable_item ? item_location::form_loc( *p, here, pnt, it ) : selected;
-    item_location extended = is_cable_item ? selected : item_location::form_loc( *p, here, pnt, it );
+    item_location extension = is_cable_item ? item_location::form_loc( p, here, pnt, it ) : selected;
+    item_location extended = is_cable_item ? selected : item_location::form_loc( p, here, pnt, it );
     std::optional<item> extended_copy;
 
     // We'll make a copy of the extended item and check pocket weight/volume capacity if:
