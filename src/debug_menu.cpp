@@ -1648,7 +1648,7 @@ static void change_spells( Character &character )
 
     // keep the same spell selected
     auto spell_middle_or_id = [&]( const spell_id & spellid ) -> void {
-        if( spellid.is_empty() )
+        if( spellid.is_empty() || !spellid.is_valid() )
         {
             spell_selected = 0;
             return;
