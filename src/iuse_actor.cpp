@@ -188,59 +188,12 @@ static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
 static const zone_type_id zone_type_SOURCE_FIREWOOD( "SOURCE_FIREWOOD" );
 
-template<typename T>
-item_location form_loc_recursive( T &loc, item &it )
-{
-    item *parent = loc.find_parent( it );
-    if( parent != nullptr ) {
-        return item_location( form_loc_recursive( loc, *parent ), &it );
-    }
-
-    return item_location( loc, &it );
-}
-
-//explict template instantiation
-template item_location form_loc_recursive<Character>( Character &loc, item &it );
-template item_location form_loc_recursive<npc>( npc &loc, item &it );
-
-static std::optional<item_location> try_form_loc( Character &you, map *here,
-        const tripoint_bub_ms &p, item &it )
-{
-    if( you.has_item( it ) ) {
-        return form_loc_recursive( you, it );
-    }
-    if( here ) {
-        map_cursor mc( here, p );
-        if( mc.has_item( it ) ) {
-            return form_loc_recursive( mc, it );
-        }
-        const optional_vpart_position vp = here->veh_at( p );
-        if( vp ) {
-            vehicle_cursor vc( vp->vehicle(), vp->part_index() );
-            if( vc.has_item( it ) ) {
-                return form_loc_recursive( vc, it );
-            }
-        }
-    }
-    return std::nullopt;
-}
-
-static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it )
-{
-    if( std::optional<item_location> loc = try_form_loc( you, here, p, it ) ) {
-        return *loc;
-    }
-    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
-              it.display_name() );
-    return item_location( you, &it );
-}
-
 // Like parents_can_contain_recursive but with replacement semantics: an
 // in-place transform swaps `it` out, so each level credits `it`'s footprint.
 static ret_val<void> transform_fits_parent_pocket( const Character &p, const item &it,
         const item &result, map *here, const tripoint_bub_ms &pos )
 {
-    const std::optional<item_location> loc = try_form_loc(
+    const std::optional<item_location> loc = item_location::try_form_loc(
                 const_cast<Character &>( p ), here, pos, const_cast<item &>( it ) );
     if( !loc || !loc->has_parent() ) {
         return ret_val<void>::make_success();
@@ -1321,7 +1274,7 @@ std::optional<int> deploy_furn_actor::use( Character *p, item_location &it,
 
     here->furn_set( suitable.value(), furn_type, false, false, true );
     it->spill_contents( suitable.value() );
-    form_loc( *p, here, pos, *it ).remove_item();
+    item_location::form_loc( *p, here, pos, *it ).remove_item();
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 0;
 }
@@ -1358,7 +1311,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item_location &it,
     // TODO: Use map aware operation when available
     if( place_appliance( *here, suitable.value(),
                          vpart_appliance_from_item( appliance_base ), *p, *it ) ) {
-        form_loc( *p, here, pos, *it ).remove_item();
+        item_location::form_loc( *p, here, pos, *it ).remove_item();
         p->mod_moves( -to_moves<int>( 2_seconds ) );
     }
     return 0;
@@ -1713,7 +1666,8 @@ std::optional<int> firestarter_actor::use( Character *p, item_location &it,
 
     // find item location of firestarter item
 
-    p->assign_activity( fire_start_activity_actor( here->get_abs( pos ), form_loc( *p, here, pos, *it ),
+    p->assign_activity( fire_start_activity_actor( here->get_abs( pos ),
+                        item_location::form_loc( *p, here, pos, *it ),
                         potential_skill_gain, moves ) );
     // charges to use are handled by the activity
     return 0;
@@ -3009,7 +2963,7 @@ std::optional<int> holster_actor::use( Character *you, item_location &it, map *h
         }
 
         // iuse_actor really needs to work with item_location
-        item_location item_loc = form_loc( *you, here, p, *it );
+        item_location item_loc = item_location::form_loc( *you, here, p, *it );
         game_menus::inv::insert_items( item_loc );
     }
 
@@ -5475,8 +5429,8 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         return std::nullopt;
     }
 
-    item_location extension = is_cable_item ? form_loc( *p, here, pnt, it ) : selected;
-    item_location extended = is_cable_item ? selected : form_loc( *p, here, pnt, it );
+    item_location extension = is_cable_item ? item_location::form_loc( *p, here, pnt, it ) : selected;
+    item_location extended = is_cable_item ? selected : item_location::form_loc( *p, here, pnt, it );
     std::optional<item> extended_copy;
 
     // We'll make a copy of the extended item and check pocket weight/volume capacity if:

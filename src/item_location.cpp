@@ -1677,3 +1677,51 @@ item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
 
     return item_location::nowhere;
 }
+
+template<typename T>
+item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+//explict template instantiation
+template item_location form_loc_recursive<Character>( Character &loc, item &it );
+template item_location form_loc_recursive<npc>( npc &loc, item &it );
+
+std::optional<item_location> item_location::try_form_loc( Character &you, map *here,
+        const tripoint_bub_ms &p, item &it )
+{
+    if( &you != nullptr && you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    if( here ) {
+        map_cursor mc( here, p );
+        if( mc.has_item( it ) ) {
+            return form_loc_recursive( mc, it );
+        }
+        const optional_vpart_position vp = here->veh_at( p );
+        if( vp ) {
+            vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+            if( vc.has_item( it ) ) {
+                return form_loc_recursive( vc, it );
+            }
+        }
+    }
+    return std::nullopt;
+}
+
+item_location item_location::form_loc( Character &you, map *here, const tripoint_bub_ms &p,
+                                       item &it )
+{
+    if( std::optional<item_location> loc = try_form_loc( you, here, p, it ) ) {
+        return *loc;
+    }
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}

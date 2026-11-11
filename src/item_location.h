@@ -213,6 +213,13 @@ class item_location : public visitable
          */
         void favorite_settings_menu();
 
+        // LEGACY, do not use it if proper means to construct/pass item location are available
+        static std::optional<item_location> try_form_loc( Character &you, map *here,
+                const tripoint_bub_ms &p, item &it );
+
+        // LEGACY, do not use it if proper means to construct/pass item location are available
+        static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it );
+
         VisitResponse visit_contents( const std::function<VisitResponse( const item_location & )> &func,
                                       const std::set<pocket_type> &allowed_pockets = {pocket_type::CONTAINER} ) const;
         VisitResponse visit_items( const std::function<VisitResponse( const item_location & )> &func ) const
