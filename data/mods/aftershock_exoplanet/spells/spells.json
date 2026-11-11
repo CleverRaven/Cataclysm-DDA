@@ -225,7 +225,7 @@
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect_str": "smart_targeted",
     "min_damage": 0,
     "max_damage": 0,
