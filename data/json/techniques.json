@@ -241,11 +241,11 @@
     "id": "WRAP",
     "name": "Wrap Attack",
     "melee_allowed": true,
+    "crit_tec": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "//condition": "Similar size, no wrapping tiny or very nonstandard targets",
     "condition": {
       "and": [
-        { "not": { "npc_has_effect": "stunned" } },
         { "math": [ "u_val('size') + 1 >= n_val('size')" ] },
         { "math": [ "n_val('size') != 1" ] },
         { "not": { "npc_bodytype": "blob" } },
@@ -253,10 +253,10 @@
         { "not": { "npc_bodytype": "snake" } }
       ]
     },
-    "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar size</info> with limbs to catch",
+    "condition_desc": "* Only works on a target of <info>similar size</info> with limbs to catch",
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
-    "description": "Stun 2 turns, min 4 melee",
+    "description": "Stun 2 turns, crit only, min 4 melee",
     "attack_vectors": [ "vector_null" ]
   },
   {
@@ -264,7 +264,6 @@
     "id": "offhand_punch",
     "name": "Offhand Strike",
     "condition": { "npc_has_effect": "stunned" },
-    "crit_ok": true,
     "melee_allowed": true,
     "messages": [ "You punch %s with your free hand", "<npcname> punches %s with their free hand" ],
     "description": "A basic punch while your weapon is wrapped around the enemy.",
