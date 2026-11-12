@@ -101,6 +101,7 @@
         { "math": [ "u_spell_level('arvore_verdant_infusion') < 15" ] },
         { "math": [ "u_spell_level('arvore_summon_grass_field_spell') < 15" ] },
         { "math": [ "u_spell_level('arvore_roots_spell') < 15" ] },
+        { "math": [ "u_spell_level('arvore_thorn_spray_spell') < 15" ] },
         { "math": [ "u_spell_level('arvore_climbing_vine_spell') < 15" ] },
         { "math": [ "u_spell_level('arvore_anti_plant_spell') < 15" ] },
         { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') < 15" ] },
@@ -129,6 +130,7 @@
         [ "EOC_LEVELER_ARVORE_VERDANT_INFUSION", 6 ],
         [ "EOC_LEVELER_ARVORE_SUMMON_GRASS_FIELD_SPELL", 10 ],
         [ "EOC_LEVELER_ARVORE_ROOTS_SPELL", 8 ],
+        [ "EOC_LEVELER_ARVORE_THORN_SPRAY_SPELL", 6 ],
         [ "EOC_LEVELER_ARVORE_CLIMBING_VINE_SPELL", 8 ],
         [ "EOC_LEVELER_ARVORE_LIVING_TENT_SPELL", 6 ],
         [ "EOC_LEVELER_ARVORE_ANTI_PLANT_SPELL", 7 ],
@@ -378,6 +380,21 @@
     "effect": [
       { "run_eocs": "EOC_ARVORE_SUCCESSFUL_LEVELER_MESSAGE" },
       { "math": [ "u_spell_exp('arvore_roots_spell') += paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_ARVORE_THORN_SPRAY_SPELL",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('arvore_thorn_spray_spell') >= 0" ] },
+        { "math": [ "u_spell_level('arvore_thorn_spray_spell') < 15" ] }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_ARVORE_SUCCESSFUL_LEVELER_MESSAGE" },
+      { "math": [ "u_spell_exp('arvore_thorn_spray_spell') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
