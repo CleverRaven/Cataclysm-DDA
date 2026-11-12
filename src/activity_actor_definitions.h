@@ -4098,7 +4098,8 @@ class longsalvage_activity_actor : public activity_actor
 {
     public:
         longsalvage_activity_actor() = default;
-        explicit longsalvage_activity_actor( int index ) : index( index ) {}
+        explicit longsalvage_activity_actor( const item_location &salvage_tool ) : salvage_tool(
+                salvage_tool ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
@@ -4117,7 +4118,7 @@ class longsalvage_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        int index;
+        item_location salvage_tool;
 };
 
 class mop_activity_actor : public activity_actor
