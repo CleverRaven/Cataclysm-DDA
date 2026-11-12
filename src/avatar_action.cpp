@@ -215,7 +215,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         dest_loc.z() -= 1;
         via_ramp = true;
     }
-    
     // Berserk creatures cannot voluntarily move farther away from visible hostiles.
     if( you.has_effect( effect_berserk ) ) {
         // assume we do not chase anyone
