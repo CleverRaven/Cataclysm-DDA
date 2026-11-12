@@ -221,6 +221,10 @@ class item_location : public visitable
         // LEGACY, do not use it if proper means to construct/pass item location are available
         static item_location form_loc( Character *you, map *here, const tripoint_bub_ms &p, item &it );
 
+        template<typename T>
+        // LEGACY, do not use it if proper means to construct/pass item location are available
+        static item_location form_loc_recursive( T &loc, item &it );
+
         VisitResponse visit_contents( const std::function<VisitResponse( const item_location & )> &func,
                                       const std::set<pocket_type> &allowed_pockets = {pocket_type::CONTAINER} ) const;
         VisitResponse visit_items( const std::function<VisitResponse( const item_location & )> &func ) const

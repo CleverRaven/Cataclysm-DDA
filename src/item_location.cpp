@@ -1679,7 +1679,7 @@ item_location find_item_by_uid( int64_t uid, const item_locator_hint &hint )
 }
 
 template<typename T>
-static item_location form_loc_recursive( T &loc, item &it )
+item_location item_location::form_loc_recursive( T &loc, item &it )
 {
     item *parent = loc.find_parent( it );
     if( parent != nullptr ) {
@@ -1690,8 +1690,8 @@ static item_location form_loc_recursive( T &loc, item &it )
 }
 
 //explict template instantiation
-template item_location form_loc_recursive<Character>( Character &loc, item &it );
-template item_location form_loc_recursive<npc>( npc &loc, item &it );
+template item_location item_location::form_loc_recursive<Character>( Character &loc, item &it );
+template item_location item_location::form_loc_recursive<npc>( npc &loc, item &it );
 
 std::optional<item_location> item_location::try_form_loc( Character *you, map *here,
         const tripoint_bub_ms &p, item &it )

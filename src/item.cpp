@@ -448,7 +448,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier && carrier->has_item( *this ) ) {
-        carrier->on_item_acquire( form_loc_recursive( *carrier, *this ) );
+        carrier->on_item_acquire( item_location::form_loc_recursive( *carrier, *this ) );
     }
 
     item_counter = 0;
@@ -1485,7 +1485,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.on_item_acquire( form_loc_recursive( p, *this ) );
+    p.on_item_acquire( item_location::form_loc_recursive( p, *this ) );
 }
 
 void item::update_inherited_flags()
