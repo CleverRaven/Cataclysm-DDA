@@ -221,8 +221,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         // assume we do not chase anyone
         bool chasing = false;
         bool there_is_someone_to_chase = false;
-        get_creature_tracker().for_each_reachable( you, [ &you, &here, you_pos, dest_loc,
-              &chasing, &there_is_someone_to_chase ]( Creature * critter ) {
+        get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
             // if already chasing someone, early return
             if( chasing ) {
                 return;
