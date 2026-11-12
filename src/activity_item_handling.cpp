@@ -3680,33 +3680,33 @@ static bool mine_activity( Character &you, const tripoint_bub_ms &src_loc )
         return false;
     }
 
-    item_location *chosen_item = nullptr;
+    item_location chosen_item;
     bool powered = false;
     // is it a pickaxe or jackhammer?
     for( item_location elem : mining_inv ) {
-        if( chosen_item == nullptr ) {
-            chosen_item = &elem;
-            if( elem.get_item()->type->can_use( "JACKHAMMER" ) ) {
+        if( chosen_item.valid() ) {
+            chosen_item = elem;
+            if( elem->type->can_use( "JACKHAMMER" ) ) {
                 powered = true;
             }
         } else {
             // prioritise powered tools
-            if( chosen_item->get_item()->type->can_use( "PICKAXE" ) &&
-                elem.get_item()->type->can_use( "JACKHAMMER" ) ) {
-                chosen_item = &elem;
+            if( chosen_item->type->can_use( "PICKAXE" ) &&
+                elem->type->can_use( "JACKHAMMER" ) ) {
+                chosen_item = elem;
                 powered = true;
                 break;
             }
         }
     }
-    if( chosen_item == nullptr ) {
+    if( chosen_item.valid() ) {
         return false;
     }
     std::optional<int> did_we_mine = std::nullopt;
     if( powered ) {
-        did_we_mine = iuse::jackhammer( &you, *chosen_item, src_loc );
+        did_we_mine = iuse::jackhammer( &you, chosen_item, src_loc );
     } else {
-        did_we_mine = iuse::pickaxe( &you, *chosen_item, src_loc );
+        did_we_mine = iuse::pickaxe( &you, chosen_item, src_loc );
     }
     // Any value at all means that we succeeded and started the activity. Actual contained value will be 0 on success, for iuse's normal returns.
     return did_we_mine.has_value();

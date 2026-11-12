@@ -3002,7 +3002,7 @@ static VisitResponse add_firestarter( item_location it,
                                       std::multimap<int, item_location> &firestarters,
                                       Character &you, const tripoint_bub_ms &examp )
 {
-    if( it->has_flag( flag_FIRESTARTER ) || it->has_flag( flag_FIRE ) ) {
+    if( !it->has_flag( flag_FIRESTARTER ) || !it->has_flag( flag_FIRE ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -3055,14 +3055,14 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     if( !use_cbm ) {
         for( auto &firestarter : firestarters ) {
             item_location it = firestarter.second;
-            const use_function *usef = it.get_item()->type->get_use( "firestarter" );
+            const use_function *usef = it->type->get_use( "firestarter" );
             const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
             you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ),
-                                   it.get_item()->tname() );
+                                   it->tname() );
             const ret_val<void> can_use = actor->can_use( you, it, &get_map(), examp );
             if( can_use.success() ) {
                 const int charges = actor->use( &you, it, &get_map(), examp ).value_or( 0 );
-                you.use_charges( it.get_item()->typeId(), charges );
+                you.use_charges( it->typeId(), charges );
                 return;
             } else {
                 you.add_msg_if_player( m_bad, can_use.str() );

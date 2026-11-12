@@ -2318,7 +2318,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
 
         if( node->type->can_have_charges() ) {
             const use_function *usef = node->type->get_use( "firestarter" );
-            if( usef == nullptr && usef->get_actor_ptr() == nullptr ) {
+            if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
                 return VisitResponse::NEXT;
             }
 
