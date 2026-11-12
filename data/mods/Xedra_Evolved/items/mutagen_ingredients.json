@@ -6,7 +6,7 @@
     "id": "ierde_sample",
     "color": "white",
     "name": { "str": "ierde essence" },
-    "description": "The pure essence of the living earth.",
+    "description": "The essence of the living earth.",
     "looks_like": "onyx",
     "price": "10 USD",
     "price_postapoc": "50 cent",
@@ -23,7 +23,7 @@
     "copy-from": "ierde_sample",
     "color": "green",
     "name": { "str": "arvore essence" },
-    "description": "The pure essence of the ancient forests.",
+    "description": "The essence of the ancient forests.",
     "looks_like": "emerald",
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
@@ -33,7 +33,7 @@
     "copy-from": "ierde_sample",
     "color": "red",
     "name": { "str": "salamander essence" },
-    "description": "The pure essence of the raging flames.",
+    "description": "The essence of the raging flames.",
     "looks_like": "ruby",
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
@@ -43,7 +43,7 @@
     "copy-from": "ierde_sample",
     "color": "blue",
     "name": { "str": "undine essence" },
-    "description": "The pure essence of the deep waters.",
+    "description": "The essence of the deep waters.",
     "looks_like": "sapphire",
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
@@ -53,7 +53,7 @@
     "copy-from": "ierde_sample",
     "color": "magenta",
     "name": { "str": "homullus essence" },
-    "description": "The pure essence of lifelike dolls.",
+    "description": "The essence of lifelike dolls.",
     "looks_like": "diamond",
     "material": [ "fae_flesh", "fae_blood", "bone" ]
   },
@@ -63,8 +63,62 @@
     "copy-from": "ierde_sample",
     "color": "light_gray",
     "name": { "str": "sylph essence" },
-    "description": "The pure essence of the untamed air.",
+    "description": "The essence of the untamed air.",
     "looks_like": "citrine",
     "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "arvore_plantkin_ingredient",
+    "name": { "str": "ethereal arvore essence" },
+    "description": "The pure essence of the ancient forests.",
+    "copy-from": "diamond",
+    "looks_like": "emerald",
+    "material": [ "fae_flesh", "fae_blood", "bone" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "salamander_flamekin_ingredient",
+    "name": { "str": "ethereal salamander essence" },
+    "description": "The pure essence of the raging flames.",
+    "copy-from": "diamond",
+    "looks_like": "ruby",
+    "material": [ "mana" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "undine_waterkin_ingredient",
+    "name": { "str": "ethereal undine essence" },
+    "description": "The pure essence of the deep waters.",
+    "copy-from": "diamond",
+    "looks_like": "sapphire",
+    "material": [ "mana" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "homullus_dollkin_ingredient",
+    "name": { "str": "ethereal homullus essence" },
+    "description": "The pure essence of the lifelike dolls.",
+    "copy-from": "diamond",
+    "looks_like": "diamond",
+    "material": [ "mana" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "sylph_airkin_ingredient",
+    "name": { "str": "ethereal sylph essence" },
+    "description": "The pure essence of the untamed air.",
+    "copy-from": "diamond",
+    "looks_like": "citrine",
+    "material": [ "mana" ]
+  },
+  {
+    "type": "ITEM",
+    "id": "ierde_earthkin_ingredient",
+    "name": { "str": "ethereal ierde essence" },
+    "description": "The pure essence of the untamed earth.",
+    "copy-from": "diamond",
+    "looks_like": "onyx",
+    "material": [ "mana" ]
   }
 ]
