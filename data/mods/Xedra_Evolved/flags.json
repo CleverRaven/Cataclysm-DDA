@@ -86,5 +86,11 @@
     "id": "MAGICAL_MIND_PROTECTION",
     "type": "json_flag",
     "//": "Your mind is protected from attack due to magic.  The same as the Magiclysm flag for compatibility"
+  },
+  {
+    "id": "CRYOGENIC_ROT",
+    "type": "json_flag",
+    "//": "Overwrite from Aftershock",
+    "info": "This item <info>is fading fast</info> and <bad>cannot be preserved</bad>."
   }
 ]

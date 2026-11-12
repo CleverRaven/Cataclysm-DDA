@@ -539,6 +539,7 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```CRYOGENIC_ROT``` The item cannot be preserved without specialized cryogenic devices. Used in Aftershock.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it.  No morale bonus.
