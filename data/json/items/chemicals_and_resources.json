@@ -2257,7 +2257,7 @@
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "name": { "str_sp": "steel-reinforced epoxy" },
-    "description": "A strong adhesive reinforced with steel, primarily used to repair and adhering metals.",
+    "description": "A strong adhesive reinforced with steel, primarily used for repairing and adhering metals.",
     "price_postapoc": "10 cents"
   }
 ]
