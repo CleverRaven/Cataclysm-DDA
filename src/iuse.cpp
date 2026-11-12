@@ -4883,7 +4883,7 @@ std::optional<int> iuse::jet_injector( Character *p, item_location &it, const tr
 
 std::optional<int> iuse::stimpack( Character *p, item_location &it, const tripoint_bub_ms & )
 {
-    if( p->get_item_position( &*it ) >= -1 ) {
+    if( !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info,
                               _( "You must wear the stimulant delivery system before you can activate it." ) );
         return std::nullopt;
@@ -4912,7 +4912,7 @@ std::optional<int> iuse::stimpack( Character *p, item_location &it, const tripoi
 
 std::optional<int> iuse::radglove( Character *p, item_location &it, const tripoint_bub_ms & )
 {
-    if( p->get_item_position( &*it ) >= -1 ) {
+    if( !p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info,
                               _( "You must wear the radiation biomonitor before you can activate it." ) );
         return std::nullopt;

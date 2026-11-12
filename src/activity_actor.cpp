@@ -218,6 +218,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
@@ -11630,8 +11631,6 @@ std::unique_ptr<activity_actor> toolmod_add_activity_actor::deserialize( JsonVal
 
 void longsalvage_activity_actor::start( player_activity &act, Character & )
 {
-    act.index = index;
-
     //todo: refactor the actor to process items in ::do_turn, then remove setting the moves to 0
     //this currently still can't get interrupted before you get attacked
     act.moves_left = 0;
@@ -11639,12 +11638,16 @@ void longsalvage_activity_actor::start( player_activity &act, Character & )
 
 void longsalvage_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( !salvage_tool.valid() ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
     static const std::string salvage_string = "salvage";
-    item &main_tool = who.i_at( act.index );
     map &here = get_map();
     map_stack items = here.i_at( who.pos_bub() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
+    item *found_usable_item = salvage_tool->get_usable_item( salvage_string );
+    if( found_usable_item == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act.set_to_null();
         return;
@@ -11676,18 +11679,24 @@ void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "index", index );
+    jsout.member( "salvage_tool", salvage_tool );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
 {
-    longsalvage_activity_actor actor( {} );
+    longsalvage_activity_actor actor;
 
     JsonObject data = jsin.get_object();
 
-    data.read( "index", actor.index );
+    // REMOVE "index" AFTER 0.K
+    if( data.has_member( "index" ) ) {
+        int index = 0;
+        // don't attempt to find an item, let activity from legacy save fail safely
+        data.read( "index", index );
+    }
+    data.read( "salvage_tool", actor.salvage_tool );
 
     return actor.clone();
 }
@@ -14079,6 +14088,8 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         item &corpse_item = *this_bd->corpse;
         corpse_item.set_var( butcher_progress_time_var(),
                              to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
+        corpse_item.set_var( butcher_progress_var( this_bd->b_type ),
+                             this_bd->progress / this_bd->time_to_butcher );
     }
 }
 
@@ -14147,6 +14158,12 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
 std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( JsonValue & )
 {
     multi_butchery_activity_actor actor;
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> multi_dissection_activity_actor::deserialize( JsonValue & )
+{
+    multi_dissection_activity_actor actor;
     return actor.clone();
 }
 
@@ -15766,6 +15783,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_CONSTRUCTION, &multi_build_construction_activity_actor::deserialize },
     { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
     { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
+    { ACT_MULTIPLE_DISSECT, &multi_dissection_activity_actor::deserialize },
     { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
     { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
