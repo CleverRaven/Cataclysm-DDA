@@ -544,10 +544,12 @@
       "o": "t_nl_suspended_bridge",
       "A": "t_nl_suspended_bridge",
       "|": "t_nl_bridge_metal_railing",
+      "v": "t_nl_chasm",
       ">": "t_ladder_down",
       "<": "t_ladder_up",
       "H": "t_ladder_up_down",
-      "#": "t_nl_metal_wall"
+      "#": "t_nl_metal_wall",
+      "_": "t_nl_metal_floor"
     },
     "furniture": { "o": [ [ "f_null", 99 ], [ "f_nl_exodii_lamp", 1 ] ], "A": "f_scrap_antenna" }
   }
