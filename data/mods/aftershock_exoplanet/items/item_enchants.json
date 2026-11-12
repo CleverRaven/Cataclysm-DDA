@@ -18,8 +18,21 @@
     "special_vision": [
       {
         "distance": 24,
-        "precise": true,
-        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_red", "text": "Something is moving here." } ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_motion_sensor_worn",
+    "has": "WORN",
+    "name": { "str": "Active Motion Detector" },
+    "description": "Actively detects nearby movement.",
+    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping >= 1" ] },
+    "special_vision": [
+      {
+        "distance": 24,
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_magenta", "text": "Something is moving here." } ]
       }
     ]
   },
@@ -162,7 +175,132 @@
     "description": "Your gear relays targeting data to your weapons, reducing dispersion by 10%.",
     "type": "enchantment",
     "has": "WORN",
-    "condition": "ALWAYS",
+    "condition": "ACTIVE",
     "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.1 } ]
+  },
+  {
+    "id": "afs_ench_headset_nv",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
+    "values": [ { "value": "NIGHT_VIS", "add": 20 } ],
+    "special_vision": [
+      {
+        "condition": { "and": [ "u_see_npc_loc", "npc_is_warm" ] },
+        "distance": 45,
+        "precise": true,
+        "descriptions": [
+          {
+            "id": "infrared_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "You see a tiny figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "You see a small figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "You see a medium figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "You see a large figure radiating heat."
+          },
+          {
+            "id": "infrared_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "You see a huge figure radiating heat."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "afs_ench_headset_surgery",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
+    "skills": [ { "value": "firstaid", "add": 6 } ]
+  },
+  {
+    "id": "afs_ench_headset_sound",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
+    "special_vision": [
+      {
+        "distance": 6,
+        "descriptions": [
+          {
+            "id": "sound_creature_tiny",
+            "text_condition": { "math": [ "n_val('size') == 1" ] },
+            "symbol": ".",
+            "text": "A tiny creature scurries about."
+          },
+          {
+            "id": "sound_creature_small",
+            "text_condition": { "math": [ "n_val('size') == 2" ] },
+            "symbol": ",",
+            "text": "The sound of a small creature, dog sized or smaller."
+          },
+          {
+            "id": "sound_creature_medium",
+            "text_condition": { "math": [ "n_val('size') == 3" ] },
+            "symbol": "o",
+            "text": "A human or similar sized creature."
+          },
+          {
+            "id": "sound_creature_large",
+            "text_condition": { "math": [ "n_val('size') == 4" ] },
+            "symbol": "O",
+            "text": "Heavy disturbances from a large creature."
+          },
+          {
+            "id": "sound_creature_huge",
+            "text_condition": { "math": [ "n_val('size') == 5" ] },
+            "symbol": "&",
+            "text": "Warning symbols accompany the display, you better be ready for whatever this is."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_headset_EMF",
+    "has": "WORN",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
+    "special_vision": [
+      {
+        "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+        "distance": 15,
+        "descriptions": [
+          {
+            "id": "electric_creature_sense",
+            "symbol": "?",
+            "color": "c_cyan",
+            "text": "A creature is emitting an electric field."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "afs_ench_headset_extra_targeting",
+    "has": "WORN",
+    "condition": { "u_has_worn_with_flag": "ACTIVE_HEADSET" },
+    "name": { "str": "Improved ballistic assist" },
+    "description": "Your gear relays targeting data to your weapons, further reducing aiming speed by 20%.",
+    "values": [ { "value": "AIMING_SPEED", "multiply": 0.2 } ]
   }
 ]

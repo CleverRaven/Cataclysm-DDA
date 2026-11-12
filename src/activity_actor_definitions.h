@@ -512,6 +512,27 @@ class multi_butchery_activity_actor : public multi_zone_activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 };
 
+class multi_dissection_activity_actor : public multi_zone_activity_actor
+{
+    public:
+        using multi_zone_activity_actor::multi_zone_activity_actor;
+        const activity_id &get_type() const override {
+            static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
+            return ACT_MULTIPLE_DISSECT;
+        }
+        activity_reason_info multi_activity_can_do( Character &you,
+                const tripoint_bub_ms &src_loc ) override;
+        std::optional<requirement_id> multi_activity_requirements( Character &you,
+                activity_reason_info &act_info, const tripoint_bub_ms &src_loc,
+                const zone_data *zone = nullptr ) override;
+        bool multi_activity_do( Character &you, const activity_reason_info &act_info,
+                                const tripoint_abs_ms &src, const tripoint_bub_ms &src_loc ) override;
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<multi_dissection_activity_actor>( *this );
+        }
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
 // find and retrieve items for the front multi-activity of the backlog
 // NOTE: ACT_FETCH_REQUIRED is not a multi-activity but still uses the framework
 class fetch_required_activity_actor : public multi_zone_activity_actor
@@ -4077,7 +4098,8 @@ class longsalvage_activity_actor : public activity_actor
 {
     public:
         longsalvage_activity_actor() = default;
-        explicit longsalvage_activity_actor( int index ) : index( index ) {}
+        explicit longsalvage_activity_actor( const item_location &salvage_tool ) : salvage_tool(
+                salvage_tool ) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
@@ -4096,7 +4118,7 @@ class longsalvage_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        int index;
+        item_location salvage_tool;
 };
 
 class mop_activity_actor : public activity_actor

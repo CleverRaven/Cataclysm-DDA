@@ -1,0 +1,92 @@
+[
+  {
+    "abstract": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "headset module" },
+    "looks_like": "c4armed",
+    "description": { "str": "Base for headset modules.", "//~": "NO_I18N" },
+    "symbol": ",",
+    "color": "white",
+    "weight": "760 g",
+    "volume": "250 ml",
+    "price": "3 kUSD",
+    "flags": [ "MUNDANE", "CANT_WEAR", "EXO_HELMET_GADGET" ]
+  },
+  {
+    "id": "afs_headset_nv",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "NV module (headset)", "str_pl": "NV modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Provides thermal and light amplification capabilities.  Must be installed in a compatible headset to function.",
+    "passive_effects": [ { "id": "afs_ench_headset_nv" } ]
+  },
+  {
+    "id": "afs_headset_flash",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL" ],
+    "name": { "str": "UV hardening (headset)", "str_pl": "UV hardening modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Provides protection from glare and other high intensity light sources.  Must be installed in a compatible headset to function.",
+    "extend": { "flags": [ "FLASH_PROTECTION" ] }
+  },
+  {
+    "id": "afs_headset_sound",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "sound amplification (headset)", "str_pl": "sound amplification modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Greatly amplifies and filters ambient sounds, allowing the precise detection of creatures without relying on sight.  Must be installed in a compatible headset to function.",
+    "price": "5 kUSD",
+    "passive_effects": [ { "id": "afs_ench_headset_sound" } ]
+  },
+  {
+    "id": "afs_headset_active_targeting",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "ballistic rangefinder (headset)", "str_pl": "ballistic rangefinder modules (headset)" },
+    "extend": { "flags": [ "ACTIVE_TARGETING" ] },
+    "description": "Updated firmware and components for a headset.  Enemies fired upon will be automatically targeted.  Must be installed in a compatible headset to function.",
+    "price": "5 kUSD"
+  },
+  {
+    "id": "afs_headset_surgery",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "trauma response assistant (headset)", "str_pl": "trauma response assistant modules (headset)" },
+    "description": "Updated firmware and components for a headset.  A virtual suite designed to assist with field surgery and trauma response, greatly increases your medical skills.  Must be installed in a compatible headset to function.",
+    "passive_effects": [ { "id": "afs_ench_headset_surgery" } ]
+  },
+  {
+    "id": "afs_headset_EMF",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "EMF sensor (headset)", "str_pl": "EMF sensor modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Allows the detection of nearby robots through obstacles.  Must be installed in a compatible headset to function.",
+    "passive_effects": [ { "id": "afs_ench_headset_EMF" } ]
+  },
+  {
+    "id": "afs_headset_extra_targeting",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "targeting algorithm (headset)", "str_pl": "targeting algorithm modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Improves the base targeting assistance suit, reducing aiming speed by 5%.  Must be installed in a compatible headset to function.",
+    "price": "5 kUSD",
+    "passive_effects": [ { "id": "afs_ench_headset_extra_targeting" } ]
+  },
+  {
+    "id": "afs_headset_smartlink",
+    "copy-from": "afs_headset_module",
+    "type": "ITEM",
+    "subtypes": [ "TOOL", "ARTIFACT" ],
+    "name": { "str": "smart-link (headset)", "str_pl": "smart-link modules (headset)" },
+    "description": "Updated firmware and components for a headset.  Smart guns will fire an extra shot at any targeted foe.  Must be installed in a compatible headset to function.",
+    "extend": { "flags": [ "SMARTLINK_TARGET" ] },
+    "price": "8 kUSD"
+  }
+]
