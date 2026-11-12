@@ -26,7 +26,7 @@
       [ [ "chem_nitric_acid", 1 ] ],
       [ [ "ammonia_liquid", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
       [ [ "chem_glycerol", 2 ] ],
-	  [ [ "fuse", 4 ] ]
+      [ [ "fuse", 4 ] ]
     ]
   },
   {
@@ -207,11 +207,7 @@
         [ "integrated_electrokit", 30 ]
       ]
     ],
-    "components": [
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "nails", 200, "LIST" ], [ "scrap", 16 ] ],
-      [ [ "dynamite", 1 ] ]
-    ]
+    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nails", 200, "LIST" ], [ "scrap", 16 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
     "result": "smokebomb",
