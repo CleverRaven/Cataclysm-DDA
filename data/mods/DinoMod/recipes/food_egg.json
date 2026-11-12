@@ -116,48 +116,78 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "boiled_egg_dino_small",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "10 m",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
+        "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
+        "batch_time_factors": [ 80, 4 ],
+        "attention": "unattended",
+        "//2": "At 15 minutes the egg white becomes rubbery and the yoke becomes dry, but at 2 hours the egg becomes inedible",
+        "max_time": "2 h"
+      }
+    ],
+    "components": [ [ [ "eggs_dino_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "boiled_egg_dino",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "50 m",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
-    "components": [ [ [ "eggs_dino", 1, "LIST" ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ]
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
+        "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -2 ], [ "water_clean", -2 ] ] ],
+        "batch_time_factors": [ 80, 4 ],
+        "attention": "unattended",
+        "//2": "At 15 minutes the egg white becomes rubbery and the yoke becomes dry, but at 2 hours the egg becomes inedible",
+        "max_time": "2 h"
+      }
+    ],
+    "components": [ [ [ "eggs_dino", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "boiled_egg_dino_large",
+    "result": "boiled_eggs_dino_large",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "120 m",
-    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 80, "LIST" ] ] ],
-    "components": [ [ [ "eggs_dino_large", 1, "LIST" ] ], [ [ "water", 80 ], [ "water_clean", 80 ] ] ]
+    "steps": [
+      {
+        "name": "Boiling",
+        "time": "10 m",
+        "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
+        "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
+        "activity_level": "NO_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -4 ], [ "water_clean", -4 ] ] ],
+        "batch_time_factors": [ 80, 4 ],
+        "attention": "unattended",
+        "//2": "At 15 minutes the egg white becomes rubbery and the yoke becomes dry, but at 2 hours the egg becomes inedible",
+        "max_time": "2 h"
+      }
+    ],
+    "components": [ [ [ "eggs_dino_large", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
