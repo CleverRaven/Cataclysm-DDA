@@ -632,14 +632,14 @@
   {
     "id": "MISSION_REACH_FEMA_CAMP",
     "type": "mission_definition",
-    "name": { "str": "Reach FEMA Camp" },
+    "name": { "str": "Reach FEMA Camp Entrance" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
     "start": { "effect": "follow_only" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
-    "destination": "fema",
+    "destination": "fema_entrance",
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps…",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
