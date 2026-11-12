@@ -14,7 +14,7 @@
     "material": [ "rdx" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": { "target": "c4armed", "set_timer": true, "menu_text": "Activate", "type": "transform" },
+    "use_action": { "target": "c4armed", "set_timer": true, "moves": 100, "menu_text": "Activate", "type": "transform" },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -34,7 +34,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "dynamite" },
-    "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  20 seconds after lighting the fuse, this item will explode, so get away!",
     "weight": "1133 g",
     "volume": "750 ml",
     "price": "60 USD",
@@ -49,6 +49,7 @@
       "need_wielding": true,
       "target": "dynamite_act",
       "msg": "You light the dynamite.",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -73,7 +74,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "dynamite bomb" },
-    "description": "Several sticks of explosives stuffed inside a metal container and surrounded with shrapnel.  The fuse is sticking out through a small hole.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "description": "Several sticks of explosives stuffed inside a metal container and surrounded with shrapnel.  The fuse is sticking out through a small hole.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  20 seconds after lighting the fuse, this item will explode, so get away!",
     "weight": "2531 g",
     "volume": "2430 ml",
     "price": "60 USD",
@@ -88,6 +89,7 @@
       "need_wielding": true,
       "target": "dynamite_bomb_act",
       "msg": "You light the dynamite.",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -123,7 +125,13 @@
     "explode_in_fire": true,
     "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
     "color": "light_gray",
-    "use_action": { "target": "EMPbomb_act", "msg": "You activate the EMP bomb.", "menu_text": "Activate", "type": "transform" },
+    "use_action": {
+      "target": "EMPbomb_act",
+      "msg": "You activate the EMP bomb.",
+      "moves": 100,
+      "menu_text": "Activate",
+      "type": "transform"
+    },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 12 }
   },
@@ -161,6 +169,7 @@
       "type": "transform",
       "target": "firecracker_act",
       "msg": "You light the firecracker.",
+      "moves": 200,
       "need_fire": 1,
       "need_wielding": true,
       "menu_text": "Light up"
@@ -196,6 +205,7 @@
       "target": "firecracker_pack_act",
       "target_timer": "27 seconds",
       "msg": "You light the pack of firecrackers.",
+      "moves": 200,
       "need_fire": 1,
       "need_wielding": true,
       "menu_text": "Light up"
@@ -232,6 +242,7 @@
       "need_wielding": true,
       "target": "flashbang_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -270,6 +281,7 @@
       "need_wielding": true,
       "target": "grenade_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -308,6 +320,7 @@
       "need_wielding": true,
       "target": "grenade_emp_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -351,6 +364,7 @@
       "need_wielding": true,
       "target": "grenade_inc_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -392,6 +406,7 @@
     "use_action": {
       "target": "LAW",
       "msg": "You pull the activating lever, readying the LAW to fire.",
+      "moves": 200,
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
       "menu_text": "Unpack",
@@ -565,6 +580,7 @@
       "need_wielding": true,
       "target": "scrambler_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -602,6 +618,7 @@
       "need_wielding": true,
       "target": "military_explosive_small_grenade_act",
       "msg": "You light the fuse on the improvised grenade.  Throw it before it blows up in your face!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -640,6 +657,7 @@
       "need_wielding": true,
       "target": "military_explosive_grenade_act",
       "msg": "You light the fuse on the improvised grenade.  Throw it before it blows up in your face!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -682,6 +700,7 @@
       "need_wielding": true,
       "target": "military_explosive_pipebomb_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -720,6 +739,7 @@
       "need_wielding": true,
       "target": "military_explosive_bomb_act",
       "msg": "You pull the pin on the %s.",
+      "moves": 100,
       "menu_text": "Pull pin",
       "type": "transform"
     },
@@ -753,6 +773,7 @@
     "use_action": {
       "target": "military_explosive_half_barrel_bomb_act",
       "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
+      "moves": 100,
       "menu_text": "Activate fuse",
       "type": "transform"
     }
@@ -786,6 +807,7 @@
     "use_action": {
       "target": "military_explosive_full_barrel_bomb_act",
       "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
+      "moves": 100,
       "menu_text": "Activate fuse",
       "type": "transform"
     }
@@ -827,6 +849,7 @@
       "need_wielding": true,
       "target": "small_homemade_grenade_act",
       "msg": "You light the fuse on the improvised grenade.  Throw it before it blows up in your face!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -863,6 +886,7 @@
       "need_wielding": true,
       "target": "homemade_grenade_act",
       "msg": "You light the fuse on the improvised grenade.  Throw it before it blows up in your face!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -903,6 +927,7 @@
       "need_wielding": true,
       "target": "pipebomb_act",
       "msg": "You light the fuse on the pipe bomb.",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -940,6 +965,7 @@
       "need_wielding": true,
       "target": "homemade_bomb_act",
       "msg": "You light the fuse on the bomb.  Get rid of it quickly!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -981,6 +1007,7 @@
     "use_action": {
       "target": "homemade_demolition_charge_act",
       "msg": "You light the fuse on the bomb.  Get rid of it quickly!",
+      "moves": 200,
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
@@ -1018,8 +1045,10 @@
     "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } },
     "use_action": {
       "target": "half_barrel_bomb_act",
-      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
-      "menu_text": "Activate fuse",
+      "msg": "You light the fuse on the barrel bomb.  Clear the area!",
+      "moves": 200,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1032,11 +1061,7 @@
     "copy-from": "half_barrel_bomb",
     "description": "A metal keg filled with stable explosives.  The fuse has been lit and once it ignites the primary explosive, the bomb will detonate and rain fire and steel on everything in sight.",
     "color": "light_red",
-    "use_action": {
-      "type": "message",
-      "message": "You've already activated the %s.  Get rid of it and clear out!",
-      "name": "Activate fuse"
-    },
+    "use_action": { "type": "message", "message": "You've already activated the %s.  Get rid of it and clear out!", "name": "Light fuse" },
     "countdown_interval": "100 seconds",
     "countdown_action": { "type": "explosion", "explosion": { "power": 34400, "shrapnel": { "casing_mass": 12600, "fragment_mass": 600 } } },
     "flags": [ "DANGEROUS", "SPAWN_ACTIVE" ]
@@ -1047,7 +1072,7 @@
     "subtypes": [ "TOOL" ],
     "category": "weapons",
     "name": { "str": "100 L barrel bomb" },
-    "description": "A 100 L metal barrel filled with military explosives.  Once it has been activated it will explode after 100 seconds, raining fire and steel on everything in sight.",
+    "description": "A 100 L metal barrel filled with stable explosives.  Once it has been lit it will explode after 100 seconds, raining fire and steel on everything in sight.",
     "weight": "110610 g",
     "volume": "105 L",
     "price": "900 USD",
@@ -1060,8 +1085,10 @@
     "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } },
     "use_action": {
       "target": "full_barrel_bomb_act",
-      "msg": "You activate the fuse on the barrel bomb.  Clear the area!",
-      "menu_text": "Activate fuse",
+      "msg": "You light the fuse on the barrel bomb.  Clear the area!",
+      "moves": 200,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ],
@@ -1077,8 +1104,8 @@
     "color": "light_red",
     "use_action": {
       "type": "message",
-      "message": "You've already activated the %s.  Get rid of it and clear out!",
-      "name": "Activate fuse"
+      "message": "You've already lit the fuse.  Get rid of the bomb and clear out!",
+      "name": "Light fuse"
     },
     "countdown_interval": "100 seconds",
     "countdown_action": { "type": "explosion", "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } } },

@@ -704,6 +704,7 @@ enum npc_chat_menu {
     NPC_CHAT_ACTIVITIES_CONSTRUCTION,
     NPC_CHAT_ACTIVITIES_CRAFT,
     NPC_CHAT_ACTIVITIES_DISASSEMBLY,
+    NPC_CHAT_ACTIVITIES_DISSECTION,
     NPC_CHAT_ACTIVITIES_FARMING,
     NPC_CHAT_ACTIVITIES_FISHING,
     NPC_CHAT_ACTIVITIES_MINING,
@@ -977,6 +978,7 @@ static int npc_activities_menu()
 
     nmenu.addentry( NPC_CHAT_ACTIVITIES_MOVE_LOOT, true, 'l', _( "Organizing loot into zones" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_BUTCHERY, true, 'b', _( "Butchering corpses" ) );
+    nmenu.addentry( NPC_CHAT_ACTIVITIES_DISSECTION, true, 'Y', _( "Dissecting corpses" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_TREES, true, 't', _( "Chopping down trees" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CHOP_PLANKS, true, 'p', _( "Chopping logs into planks" ) );
     nmenu.addentry( NPC_CHAT_ACTIVITIES_CONSTRUCTION, true, 'c', _( "Constructing blueprints" ) );
@@ -1459,6 +1461,10 @@ void game::chat( const std::optional<tripoint_bub_ms> &p )
                     }
                     case NPC_CHAT_ACTIVITIES_BUTCHERY: {
                         talk_function::do_butcher( *selected_npc );
+                        break;
+                    }
+                    case NPC_CHAT_ACTIVITIES_DISSECTION: {
+                        talk_function::do_dissect( *selected_npc );
                         break;
                     }
                     case NPC_CHAT_ACTIVITIES_CHOP_PLANKS: {
@@ -3839,12 +3845,12 @@ talk_effect_fun_t::func f_add_wound( const JsonObject &jo, std::string_view memb
 
     return [is_npc, bodypart_var, wound_to_be_added_var]( dialogue & d ) {
 
-        bodypart *bp =
-            d.actor( is_npc )->get_character()->get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
+        Character &who = *d.actor( is_npc )->get_character();
+        bodypart *bp = who.get_part( bodypart_id( bodypart_var.evaluate( d ) ) );
 
         wound_type_id wound_to_be_added = wound_type_id( wound_to_be_added_var.evaluate( d ) );
 
-        bp->add_or_worsen_wound( wound_to_be_added );
+        bp->add_or_worsen_wound( wound_to_be_added, &who );
     };
 }
 

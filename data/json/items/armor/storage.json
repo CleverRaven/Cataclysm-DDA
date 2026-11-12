@@ -1811,7 +1811,7 @@
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "BELTED" ],
     "armor": [
       {
-        "encumbrance": 0,
+        "encumbrance": 1,
         "volume_encumber_modifier": 0.35,
         "coverage": 50,
         "covers": [ "arm_l", "arm_r" ],

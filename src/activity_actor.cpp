@@ -218,6 +218,7 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
+static const activity_id ACT_MULTIPLE_DISSECT( "ACT_MULTIPLE_DISSECT" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
@@ -239,6 +240,7 @@ static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
+static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -3887,6 +3889,25 @@ std::string enum_to_string<close_tile_result>( close_tile_result data )
             // *INDENT-OFF*
         case close_tile_result::CLOSE_DOOR: return "CLOSE_DOOR";
         case close_tile_result::CLOSE_VEHICLE: return "CLOSE_VEHICLE";
+            // *INDENT-ON*
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+template<>
+std::string enum_to_string<repair_stage>(
+    repair_stage data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case repair_stage::INIT: return "INIT";
+        case repair_stage::ONCE: return "ONCE";
+        case repair_stage::FULL: return "FULL";
+        case repair_stage::EVENT: return "EVENT";
+        case repair_stage::REFIT_ONCE: return "REFIT_ONCE";
+        case repair_stage::REFIT_FULL: return "REFIT_FULL";
+        case repair_stage::CANCEL: return "CANCEL";
+        case repair_stage::LAST: return "LAST";
             // *INDENT-ON*
         default:
             cata_fatal( "Invalid based_on_type in enum_to_string" );
@@ -11321,6 +11342,69 @@ std::unique_ptr<activity_actor> mend_item_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+item *repair_item_activity_actor::get_repair_tool( player_activity &act )
+{
+    item *main_tool = nullptr;
+
+    if( vp_tool.has_value() ) {
+        main_tool = w_hack.init( vp_tool->first, vp_tool->second ) ?
+                    w_hack.get_item() : tool_to_repair_with.get_item();
+    } else {
+        main_tool = tool_to_repair_with.get_item();
+    }
+
+
+    if( main_tool == nullptr ) {
+        debugmsg( "Invalid tool for repair_item_activity_actor" );
+        act.set_to_null();
+        return nullptr;
+    }
+    item *used_tool = main_tool->get_usable_item( repair_iuse_actor_name );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for repair_item_activity_actor" );
+        act.set_to_null();
+        return nullptr;
+    }
+    return used_tool;
+}
+
+void repair_item_activity_actor::start( player_activity &act, Character & )
+{
+    // processing happens in finish()
+    act.moves_total = 0;
+    act.moves_left = act.moves_total;
+}
+
+void repair_item_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "repaired_item", repaired_item );
+    jsout.member( "stage", stage );
+    jsout.member( "tool_to_repair_with", tool_to_repair_with );
+    jsout.member( "no_menu", no_menu );
+    jsout.member( "repair_iuse_actor_name", repair_iuse_actor_name );
+    jsout.member( "vp_tool", vp_tool );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> repair_item_activity_actor::deserialize( JsonValue &jsin )
+{
+    repair_item_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "repaired_item", actor.repaired_item );
+    data.read( "stage", actor.stage );
+    data.read( "tool_to_repair_with", actor.tool_to_repair_with );
+    data.read( "no_menu", actor.no_menu );
+    data.read( "repair_iuse_actor_name", actor.repair_iuse_actor_name );
+    data.read( "vp_tool", actor.vp_tool );
+
+    return actor.clone();
+}
+
 void fix_wound_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( initial_moves );
@@ -11368,7 +11452,7 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
 
     for( int i = 0; i < amount; i++ ) {
         for( const wound_type_id &id : fix.wounds_added ) {
-            bp->add_wound( id );
+            bp->add_wound( id, who );
         }
     }
 
@@ -11547,8 +11631,6 @@ std::unique_ptr<activity_actor> toolmod_add_activity_actor::deserialize( JsonVal
 
 void longsalvage_activity_actor::start( player_activity &act, Character & )
 {
-    act.index = index;
-
     //todo: refactor the actor to process items in ::do_turn, then remove setting the moves to 0
     //this currently still can't get interrupted before you get attacked
     act.moves_left = 0;
@@ -11556,12 +11638,16 @@ void longsalvage_activity_actor::start( player_activity &act, Character & )
 
 void longsalvage_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( !salvage_tool.valid() ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act.set_to_null();
+        return;
+    }
     static const std::string salvage_string = "salvage";
-    item &main_tool = who.i_at( act.index );
     map &here = get_map();
     map_stack items = here.i_at( who.pos_bub() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
+    item *found_usable_item = salvage_tool->get_usable_item( salvage_string );
+    if( found_usable_item == nullptr ) {
         debugmsg( "Lost tool used for long salvage" );
         act.set_to_null();
         return;
@@ -11593,18 +11679,24 @@ void longsalvage_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "index", index );
+    jsout.member( "salvage_tool", salvage_tool );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> longsalvage_activity_actor::deserialize( JsonValue &jsin )
 {
-    longsalvage_activity_actor actor( {} );
+    longsalvage_activity_actor actor;
 
     JsonObject data = jsin.get_object();
 
-    data.read( "index", actor.index );
+    // REMOVE "index" AFTER 0.K
+    if( data.has_member( "index" ) ) {
+        int index = 0;
+        // don't attempt to find an item, let activity from legacy save fail safely
+        data.read( "index", index );
+    }
+    data.read( "salvage_tool", actor.salvage_tool );
 
     return actor.clone();
 }
@@ -13996,6 +14088,8 @@ void butchery_activity_actor::do_turn( player_activity &act, Character &you )
         item &corpse_item = *this_bd->corpse;
         corpse_item.set_var( butcher_progress_time_var(),
                              to_turns<double>( calendar::turn - calendar::start_of_cataclysm ) );
+        corpse_item.set_var( butcher_progress_var( this_bd->b_type ),
+                             this_bd->progress / this_bd->time_to_butcher );
     }
 }
 
@@ -14064,6 +14158,12 @@ std::unique_ptr<activity_actor> butchery_activity_actor::deserialize( JsonValue 
 std::unique_ptr<activity_actor> multi_butchery_activity_actor::deserialize( JsonValue & )
 {
     multi_butchery_activity_actor actor;
+    return actor.clone();
+}
+
+std::unique_ptr<activity_actor> multi_dissection_activity_actor::deserialize( JsonValue & )
+{
+    multi_dissection_activity_actor actor;
     return actor.clone();
 }
 
@@ -15683,6 +15783,7 @@ deserialize_functions = {
     { ACT_MULTIPLE_CONSTRUCTION, &multi_build_construction_activity_actor::deserialize },
     { ACT_MULTIPLE_CRAFT, &multi_craft_activity_actor::deserialize },
     { ACT_MULTIPLE_DIS, &multi_disassemble_activity_actor::deserialize },
+    { ACT_MULTIPLE_DISSECT, &multi_dissection_activity_actor::deserialize },
     { ACT_MULTIPLE_FARM, &multi_farm_activity_actor::deserialize },
     { ACT_MULTIPLE_FISH, &multi_fish_activity_actor::deserialize },
     { ACT_MULTIPLE_MINE, &multi_mine_activity_actor::deserialize },
@@ -15704,6 +15805,7 @@ deserialize_functions = {
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
+    { ACT_REPAIR_ITEM, &repair_item_activity_actor::deserialize },
     { ACT_ROBOT_CONTROL, &robot_control_activity_actor::deserialize },
     { ACT_SHAVE, &shave_activity_actor::deserialize },
     { ACT_SHEARING, &shearing_activity_actor::deserialize },

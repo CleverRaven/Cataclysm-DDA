@@ -22,7 +22,6 @@ static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
-static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
 namespace std
 {
@@ -228,7 +227,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id::NULL_ID(), // ACT_START_ENGINES is an actor now
         activity_id::NULL_ID(), // ACT_OXYTORCH is an actor now
         ACT_CRACKING,
-        ACT_REPAIR_ITEM,
+        activity_id::NULL_ID(), // ACT_REPAIR_ITEM is an actor now
         activity_id::NULL_ID(), // ACT_MEND_ITEM is an actor now
         activity_id::NULL_ID(), // ACT_GUNMOD_ADD
         activity_id::NULL_ID(), // ACT_WAIT_NPC is an actor now

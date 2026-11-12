@@ -86,6 +86,7 @@
 #include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
+#include "perf.h"
 #include "pocket_type.h"
 #include "power_network.h"
 #include "projectile.h"
@@ -3446,6 +3447,7 @@ void map::support_dirty( const tripoint_bub_ms &p )
 
 void map::process_falling()
 {
+    cata_timer process_falling_timer( "process_falling" );
     if( !zlevels ) {
         support_cache_dirty.clear();
         return;

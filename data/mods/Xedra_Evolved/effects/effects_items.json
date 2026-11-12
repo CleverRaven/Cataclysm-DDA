@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_xe_fae_unique_weapon_moonshadow",
+    "name": [ "Dark of the Moon" ],
+    "desc": [ "You can see perfectly in the dark." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": 30 } ] } ],
+    "flags": [ "READ_IN_DARKNESS", "CRAFT_IN_DARKNESS" ]
+  }
+]

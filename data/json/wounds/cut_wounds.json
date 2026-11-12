@@ -2,8 +2,8 @@
   {
     "id": "scratch_small",
     "type": "wound",
-    "name": { "str": "light scratch", "str_pl": "light scratches" },
-    "description": "You have been scratched lightly, you should probably clean it.",
+    "name": { "str": "scratch", "str_pl": "scratches" },
+    "description": "You have been scratched lightly.  The bleeding was superficial pooling, if at all.  The location of the scratch is dirty, though with something so superficial infection is unlikely.",
     "weight": 50,
     "limit": 12,
     "damage_types": [ "cut" ],
@@ -23,13 +23,13 @@
       { "score": "move_speed", "value": 0 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "scratch_medium",
     "type": "wound",
-    "name": { "str": "scratch", "str_pl": "scratches" },
-    "description": "You have been scratched, you should at least clean it.",
+    "name": { "str": "large scratch", "str_pl": "large scratches" },
+    "description": "You have a larger scratch, and while blood is oozing out slowly it's of no concern.  The primary concern is cleaning it off to avoid infection.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -49,13 +49,13 @@
       { "score": "move_speed", "value": 0.5 }
     ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_scratch_bad",
     "type": "wound",
-    "name": { "str": "bleeding bad scratch", "str_pl": "bleeding bad scratches" },
-    "description": "You have been scratched badly, you should stop the bleeding.",
+    "name": { "str": "bleeding gouge" },
+    "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh which is now bleeding.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -78,15 +78,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
-    "periodic_message": { "message": "Your scratch on your %s is bleeding!", "rate": "60 seconds" },
+    "periodic_message": { "message": "Your gouge on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_medium",
     "type": "wound",
     "name": { "str": "bleeding cut" },
-    "description": "You have been cut, you should stop the bleeding.",
+    "description": "You have been cut, and although it's not critical, blood is steadily flowing out of the wound.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -112,13 +112,13 @@
     ],
     "periodic_message": { "message": "Your cut on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_bad",
     "type": "wound",
-    "name": { "str": "bleeding deep cut" },
-    "description": "You have been deeply cut, you should stop the bleeding.",
+    "name": { "str": "bleeding gash", "str_pl": "bleeding gashes" },
+    "description": "You have a rather nasty open gash in your flesh, and blood is pouring out quickly.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -142,15 +142,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -13 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -13 }
     ],
-    "periodic_message": { "message": "Your deep cut on your %s is bleeding!", "rate": "40 seconds" },
+    "periodic_message": { "message": "Your gash on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_cut_terrible",
     "type": "wound",
-    "name": { "str": "bleeding horrible cut" },
-    "description": "You have been horribly cut, you should stop the bleeding.",
+    "name": { "str": "bleeding life-threatening gash", "str_pl": "bleeding life-threatening gashes" },
+    "description": "You have been sliced open, and you are at immediate risk of death from blood loss if you can't get it under control.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "cut" ],
@@ -174,16 +174,16 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -18 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -18 }
     ],
-    "periodic_message": { "message": "Your horrible cut on your %s is bleeding!", "rate": "20 seconds" },
+    "periodic_message": { "message": "Your life-threatening gash on your %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "scratch_bad",
     "copy-from": "bleeding_scratch_bad",
     "type": "wound",
-    "name": { "str": "bad scratch", "str_pl": "bad scratches" },
-    "description": "You have been scratched badly, you should probably clean it and bandage it.",
+    "name": { "str": "gouge" },
+    "description": "Whatever scratched you managed to snag and get you deeper than usual, ripping open flesh.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -194,7 +194,7 @@
     "copy-from": "bleeding_cut_medium",
     "type": "wound",
     "name": { "str": "cut" },
-    "description": "You have been cut, you should probably clean it and bandage it.",
+    "description": "You have been cut open.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -204,8 +204,8 @@
     "id": "cut_bad",
     "copy-from": "bleeding_cut_bad",
     "type": "wound",
-    "name": { "str": "deep cut" },
-    "description": "You have been deeply cut, you should probably clean it and bandage it.",
+    "name": { "str": "gash", "str_pl": "gashes" },
+    "description": "Though the bleeding has stopped, you have an open gash in your skin from a sharp object.  If it isn't properly cleaned out, sepsis is likely to kill you instead.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -215,8 +215,8 @@
     "id": "cut_terrible",
     "copy-from": "bleeding_cut_terrible",
     "type": "wound",
-    "name": { "str": "horrible cut" },
-    "description": "You have been horribly cut, you should probably clean it and bandage it.",
+    "name": { "str": "life-threatening gash", "str_pl": "life-threatening gashes" },
+    "description": "Somehow, you've managed to staunch the flow of blood pouring out of your sliced open limb.  You'll need to thoroughly clean it to avoid death from sepsis in lieu of blood loss.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -226,8 +226,8 @@
     "id": "clean_scratch_small",
     "copy-from": "scratch_small",
     "type": "wound",
-    "name": { "str": "clean light scratch", "str_pl": "clean light scratches" },
-    "description": "You have been scratched lightly.",
+    "name": { "str": "clean scratch", "str_pl": "clean scratches" },
+    "description": "You have been scratched lightly.  The already small infection risk has been mitigated by cleaning.",
     "weight": 0,
     "healing_time": [ "2 days", "4 days" ],
     "wound_progression": [ { "id": "scratch_small", "chance": 100 } ]
@@ -236,89 +236,141 @@
     "id": "clean_scratch_medium",
     "copy-from": "scratch_medium",
     "type": "wound",
-    "name": { "str": "clean scratch", "str_pl": "clean scratches" },
-    "description": "You have been scratched.",
+    "name": { "str": "clean large scratch", "str_pl": "clean large scratches" },
+    "description": "You have a larger scratch that's been cleaned up to avoid infection.",
     "weight": 0,
-    "healing_time": [ "3 days", "5 days" ],
+    "progress_timer": {
+      "id": "clean_scratch_small",
+      "time": [ "36 hours", "60 hours" ],
+      "message": "Your scratch on your %s looks much better.."
+    },
     "wound_progression": [ { "id": "scratch_medium", "chance": 100 } ]
   },
   {
     "id": "clean_scratch_bad",
     "copy-from": "scratch_bad",
     "type": "wound",
-    "name": { "str": "clean bad scratch", "str_pl": "clean bad scratches" },
-    "description": "You have been badly scratched, you should probably bandage it.",
-    "healing_time": [ "4 days", "7 days" ]
+    "name": { "str": "clean gouge" },
+    "description": "Your flesh has been ripped open by whatever managed to scratch you.  It's been cleaned out.",
+    "progress_timer": {
+      "id": "clean_scratch_medium",
+      "time": [ "48 hours", "84 hours" ],
+      "message": "Your gouge on your %s looks less serious, though a bandage would still help it heal."
+    }
   },
   {
     "id": "clean_cut_medium",
     "copy-from": "cut_medium",
     "type": "wound",
     "name": { "str": "clean cut" },
-    "description": "You have been cut, you should probably bandage it.",
+    "description": "You have been cut, but the site of the injury has been thoroughly cleaned out.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
     "id": "clean_cut_bad",
     "copy-from": "cut_bad",
     "type": "wound",
-    "name": { "str": "clean deep cut" },
-    "description": "You have been badly cut, you should probably bandage it.",
+    "name": { "str": "clean gash", "str_pl": "clean gashes" },
+    "description": "You have an open gash in your flesh, but the site of the injury has been thoroughly cleaned out.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
     "id": "clean_cut_terrible",
     "copy-from": "cut_terrible",
     "type": "wound",
-    "name": { "str": "clean horrible cut" },
-    "description": "You have been horribly cut, you should really bandage it."
+    "name": { "str": "clean life-threatening gash", "str_pl": "clean life-threatening gashes" },
+    "description": "You have been sliced open, and through miracles or pertinent professional-level medical care you have managed to stop the bleeding and clean it out enough to avoid infection.  Once it's been bandaged, the long road to recovery can begin."
   },
   {
     "id": "bandaged_scratch_small",
     "copy-from": "clean_scratch_small",
     "type": "wound",
-    "name": { "str": "bandaged light scratch", "str_pl": "bandaged scratches" },
-    "description": "Your light scratch is bandaged.",
+    "name": { "str": "bandaged scratch", "str_pl": "bandaged scratches" },
+    "description": "Your scratch is bandaged up, and all that's left is to give it a day or so to heal.",
     "healing_time": [ "1 days", "2 days" ]
   },
   {
     "id": "bandaged_scratch_medium",
     "copy-from": "clean_scratch_medium",
     "type": "wound",
-    "name": { "str": "bandaged scratch", "str_pl": "bandaged scratches" },
-    "description": "You have been scratched, you should wait till it heals.",
-    "healing_time": [ "2 days", "4 days" ]
+    "name": { "str": "bandaged large scratch", "str_pl": "bandaged large scratches" },
+    "description": "Your large scratch has been bandaged up, and all that's left is to wait for it to heal.",
+    "progress_timer": {
+      "id": "bandaged_scratch_old_small",
+      "time": [ "24 hours", "48 hours" ],
+      "message": "The large scratch on your %s looks much better, but the dressing is old and in need of replacing."
+    }
   },
   {
     "id": "bandaged_scratch_bad",
     "copy-from": "scratch_bad",
     "type": "wound",
-    "name": { "str": "bandaged bad scratch", "str_pl": "bandaged bad scratches" },
-    "description": "You have been badly scratched, you should wait till it heals.",
-    "healing_time": [ "3 days", "5 days" ]
+    "name": { "str": "bandaged gouge" },
+    "description": "You have been gouged, you should wait till it heals.",
+    "progress_timer": {
+      "id": "bandaged_scratch_old_medium",
+      "time": [ "36 hours", "60 hours" ],
+      "message": "The gouge on your %s looks less serious, but the dressing is old and in need of replacing."
+    }
+  },
+  {
+    "id": "bandaged_scratch_old_small",
+    "copy-from": "clean_scratch_small",
+    "type": "wound",
+    "name": { "str": "bandaged scratch (old dressing)", "str_pl": "bandaged scratches (old dressing)" },
+    "description": "Your scratch has grown smaller and less severe.  It will heal soon, but the dressing has grown old and is in need of replacing."
+  },
+  {
+    "id": "bandaged_scratch_old_medium",
+    "copy-from": "clean_scratch_medium",
+    "type": "wound",
+    "name": { "str": "bandaged large scratch (old dressing)", "str_pl": "bandaged large scratches (old dressing)" },
+    "description": "What used to be a gouge in your flesh has started to close up.  It's on the road to recovery, but the dressing has grown old and is in need of replacing."
   },
   {
     "id": "bandaged_cut_medium",
     "copy-from": "cut_medium",
     "type": "wound",
     "name": { "str": "bandaged cut" },
-    "description": "You have been cut, you should wait till it heals.",
+    "description": "You've done all you can, now the cut simply has to heal on its own.",
     "healing_time": [ "2 days", "4 days" ]
   },
   {
     "id": "bandaged_cut_bad",
     "copy-from": "cut_bad",
     "type": "wound",
-    "name": { "str": "bandaged deep cut" },
-    "description": "You have been badly cut, you should wait till it heals.",
-    "healing_time": [ "4 days", "6 days" ]
+    "name": { "str": "bandaged gash", "str_pl": "bandaged gashes" },
+    "description": "You've done all you can, now the gash simply has to heal on its own.",
+    "progress_timer": {
+      "id": "bandaged_cut_old_medium",
+      "time": [ "48 hours", "72 hours" ],
+      "message": "The gash on your %s looks less serious, but the dressing is old and in need of replacing."
+    }
   },
   {
     "id": "bandaged_cut_terrible",
     "copy-from": "cut_terrible",
     "type": "wound",
-    "name": { "str": "bandaged horrible cut" },
-    "description": "You have been horribly cut, you should wait till it heals.",
-    "healing_time": [ "6 days", "8 days" ]
+    "name": { "str": "bandaged life-threatening gash", "str_pl": "bandaged life-threatening gashes" },
+    "description": "Against the odds, you've survived something that could have killed someone even before the world went to shit.  Now all that's left is to walk the slow road to recovery.",
+    "progress_timer": {
+      "id": "bandaged_cut_old_bad",
+      "time": [ "72 hours", "96 hours" ],
+      "message": "The life-threatening gash on your %s has started to close, but the dressing is old and in need of replacing."
+    }
+  },
+  {
+    "id": "bandaged_cut_old_medium",
+    "copy-from": "clean_cut_medium",
+    "type": "wound",
+    "name": { "str": "bandaged cut (old dressing)", "str_pl": "bandaged cuts (old dressing)" },
+    "description": "The gash on your limb is finally starting to close, but the dressing has grown old and is in need of replacing."
+  },
+  {
+    "id": "bandaged_cut_old_bad",
+    "copy-from": "clean_cut_bad",
+    "type": "wound",
+    "name": { "str": "bandaged gash (old dressing)", "str_pl": "bandaged gashes (old dressing)" },
+    "description": "The sliced open flesh on your limb is no longer life threatening, but the dressing has grown old and is in need of replacing."
   }
 ]

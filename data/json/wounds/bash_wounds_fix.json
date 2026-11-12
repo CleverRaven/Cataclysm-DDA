@@ -3,110 +3,120 @@
     "id": "bleed_laceration_medium_fix",
     "copy-from": "bleed_wound_medium",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your laceration.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to your torn skin and stop the bleeding.",
     "wounds_removed": [ "bleeding_laceration_medium" ],
     "wounds_added": [ "laceration_medium" ],
-    "success_msg": "The laceration isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the torn skin stops."
   },
   {
     "id": "bleed_laceration_bad_fix",
     "copy-from": "bleed_wound_bad",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your bad laceration.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to your badly torn skin and stop the bleeding.",
     "wounds_removed": [ "bleeding_laceration_bad" ],
     "wounds_added": [ "laceration_bad" ],
-    "success_msg": "The bad laceration isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the badly torn skin stops."
   },
   {
     "id": "clean_laceration_medium_fix",
     "copy-from": "clean_wound_medium",
     "type": "wound_fix",
-    "name": "clean the laceration",
-    "description": "Clean your laceration.",
+    "name": "Clean your torn skin",
+    "description": "Use water to wash the torn skin of dirt, debris, and bacteria.",
     "wounds_removed": [ "laceration_medium" ],
     "wounds_added": [ "clean_laceration_medium" ],
-    "success_msg": "The laceration is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You wipe down the area, paying extra attention to where the skin has broken."
   },
   {
     "id": "clean_laceration_bad_fix",
     "copy-from": "clean_wound_bad",
     "type": "wound_fix",
-    "name": "clean the laceration",
-    "description": "Clean your bad laceration.",
+    "name": "Flush your badly torn skin",
+    "description": "Use water to flush foreign contaminants out of where the skin has ripped apart.",
     "wounds_removed": [ "laceration_bad" ],
     "wounds_added": [ "clean_laceration_bad" ],
-    "success_msg": "The bad laceration is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You wipe down the area and thoroughly flush the ripped open skin with water."
   },
   {
     "id": "bandage_laceration_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
-    "name": "bandage the laceration",
-    "description": "Bandage your laceration.",
+    "name": "Bandage your torn skin",
+    "description": "Apply a bandage to cover your torn skin from contamination.",
     "wounds_removed": [ "clean_laceration_medium" ],
     "wounds_added": [ "bandaged_laceration_medium" ],
-    "success_msg": "The laceration is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You apply a bandage to your torn skin."
   },
   {
     "id": "bandage_laceration_bad_fix",
     "copy-from": "bandage_wound_bad",
     "type": "wound_fix",
-    "name": "bandage the laceration",
-    "description": "Bandage your bad laceration.",
+    "name": "Bandage your badly torn skin",
+    "description": "Apply a bandage to cover your badly torn skin from contamination.",
     "wounds_removed": [ "clean_laceration_bad" ],
     "wounds_added": [ "bandaged_laceration_bad" ],
-    "success_msg": "The bad laceration is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You wrap a bandage around your ripped open skin."
+  },
+  {
+    "id": "bandaged_laceration_old_medium_fix",
+    "type": "wound_fix",
+    "copy-from": "bandage_laceration_medium_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your torn skin.",
+    "wounds_removed": [ "bandaged_laceration_old_medium" ],
+    "wounds_added": [ "bandaged_laceration_medium" ],
+    "success_msg": "You remove the blood-stained bandage and apply a fresh one to the torn skin."
   },
   {
     "id": "set_bone_good_fix",
     "type": "wound_fix",
-    "name": "set the bone properly",
-    "description": "Set your bone properly.",
+    "name": "Set your broken bone",
+    "description": "Realign your broken bone before splinting it so that it can heal normally.",
     "time": "10 minutes",
     "skills": { "firstaid": 6 },
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_good" ],
-    "success_msg": "You set the bone, ow.",
+    "success_msg": "You realign the bone and hold it firmly in place with a splint.  Ow.",
     "requirements": [ [ "wound_bone", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care_expert", "is_mandatory": true } ]
   },
   {
     "id": "set_bone_partial_fix",
     "type": "wound_fix",
-    "name": "set the bone",
-    "description": "Set your bone carefully.",
+    "name": "Poorly set your broken bone",
+    "description": "Attempt to realign your broken bone as best you can before splinting it.  You're no professional, so you're going to have some permanent loss of function.",
     "time": "10 minutes",
     "skills": { "firstaid": 4 },
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_partial" ],
-    "success_msg": "When setting the bone, you hear loud cracks and your pain gets even worse.",
+    "success_msg": "It's painful and of subpar quality, but the bone is mostly aligned in the correct direction and now held firmly with a splint.",
     "requirements": [ [ "wound_bone", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "is_mandatory": true } ]
   },
   {
     "id": "set_bone_bad_fix",
     "type": "wound_fix",
-    "name": "set your bone?",
-    "description": "Set your bone, whatever that means.",
+    "name": "Splint your bone without setting it",
+    "description": "Haphazardly bend your broken bone back into place before splinting it.  While the bone will fuse back together like this, there's going to be significant permanent damage.",
     "time": "10 minutes",
     "skills": { "firstaid": 2 },
     "wounds_removed": [ "bone_broken" ],
     "wounds_added": [ "bone_broken_healing_bad" ],
-    "success_msg": "You did something, you aren't sure what but at least now its kind of bent in the right direction.",
+    "success_msg": "You hear a crack and an jolt of pain shoots through your entire limb that's almost worse than the initial break, before managing to fight through the pain and force it into the splint.",
     "requirements": [ [ "wound_bone", 1 ] ]
   },
   {
     "id": "splint_bone_fix",
     "type": "wound_fix",
-    "name": "splint your bone",
-    "description": "Splint your bone.",
+    "name": "Splint your fractured bone",
+    "description": "Firmly hold your fractured limb still with a splint so that it has time to heal without being aggravated and damaged further.",
     "time": "1 minutes",
     "skills": { "firstaid": 2 },
     "wounds_removed": [ "bone_fractured" ],
     "wounds_added": [ "bone_fractured_healing" ],
-    "success_msg": "You put a splint your bone, now all you can do is wait for it to heal.",
+    "success_msg": "You gingerly place your fractured limb into a splint, and let your body's natural healing process commence.",
     "requirements": [ [ "wound_bone", 1 ] ]
   }
 ]

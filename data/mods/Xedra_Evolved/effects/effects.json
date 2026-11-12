@@ -1720,9 +1720,9 @@
       "health_chance": [ 30 ],
       "h_mod_min": [ 1 ],
       "h_mod_chance": [ 80 ],
-      "health_tick": [ 30 ],
-      "healing_rate": [ 2 ]
-    }
+      "health_tick": [ 30 ]
+    },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 1 }, { "value": "REGEN_WOUND", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2540,6 +2540,13 @@
     "desc": [ "" ],
     "//": "Empty name and description to hide effect",
     "flags": [ "CANNOT_USE_COMPUTERS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elemental_bonus_wound_healing",
+    "name": [ "Elemental Convalescence" ],
+    "desc": [ "You bleeding is greatly slowed and your wounds are healing much more quickly." ],
+    "enchantments": [ { "values": [ { "value": "REGEN_WOUND", "add": 8 }, { "value": "BLEEDING_RATE", "multiply": -0.95 } ] } ]
   },
   {
     "type": "effect_type",
@@ -3669,7 +3676,8 @@
           { "value": "SPEED", "multiply": -0.25 },
           { "value": "ARMOR_ALL", "multiply": 0.1 },
           { "value": "VISION_RANGE", "multiply": -0.35 },
-          { "value": "REGEN_HP", "multiply": -0.95 }
+          { "value": "REGEN_HP", "multiply": -0.95 },
+          { "value": "REGEN_WOUND", "multiply": -0.95 }
         ]
       }
     ],

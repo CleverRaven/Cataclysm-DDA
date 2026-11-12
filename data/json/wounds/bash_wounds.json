@@ -2,8 +2,8 @@
   {
     "id": "bruise_small",
     "type": "wound",
-    "name": { "str": "light bruise" },
-    "description": "You have been bruised lightly.",
+    "name": { "str_sp": "light bruising" },
+    "description": "A small patch of your skin has been left off color and slightly tender.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "bash" ],
@@ -24,20 +24,24 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_medium",
     "type": "wound",
-    "name": { "str": "bruise" },
-    "description": "You have been bruised.",
+    "name": { "str_sp": "bruising" },
+    "description": "Parts of your skin are a light reddish color, and it's rather tender to the touch.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 10, 14 ],
     "pain": [ 5, 8 ],
-    "healing_time": [ "4 days", "7 days" ],
     "wound_progression": [ { "id": "bruise_bad", "chance": 70 } ],
+    "progress_timer": {
+      "id": "bruise_small",
+      "time": [ "48 hours", "84 hours" ],
+      "message": "The bruising on your %s is faint now, and will soon disappear."
+    },
     "limb_scores": [
       { "score": "manip", "value": 0.1 },
       { "score": "block", "value": 0.1 },
@@ -51,20 +55,24 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_bad",
     "type": "wound",
-    "name": { "str": "bad bruise" },
-    "description": "You have been bruised badly.",
+    "name": { "str_sp": "heavy bruising" },
+    "description": "The skin here is a deep purple, and a sharp painful jolt shoots through you whenever you touch the area.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 15, 25 ],
     "pain": [ 10, 15 ],
-    "healing_time": [ "5 days", "8 days" ],
     "wound_progression": [ { "id": "bruise_terrible", "chance": 70 }, { "id": "bleeding_laceration_medium", "chance": 50 } ],
+    "progress_timer": {
+      "id": "bruise_medium",
+      "time": [ "60 hours", "96 hours" ],
+      "message": "The heavy bruising on your %s has lessened in color, and is no longer as painful."
+    },
     "limb_scores": [
       { "score": "manip", "value": 0.2 },
       { "score": "block", "value": 0.2 },
@@ -78,20 +86,24 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bruise_terrible",
     "type": "wound",
-    "name": { "str": "terrible bruise" },
-    "description": "You have been bruised terribly.",
+    "name": { "str_sp": "severe bruising" },
+    "description": "The skin here is a terrifying patchwork of red, purple, blue, and almost black.  Every small movement and touch brings aftershocks of pain to the area you can feel all the way to your bones.  Getting hit again here could be very bad.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "bash" ],
     "damage_required": [ 26, 34 ],
     "pain": [ 16, 21 ],
-    "healing_time": [ "6 days", "10 days" ],
     "wound_progression": [ { "id": "bone_fractured", "chance": 50 }, { "id": "bleeding_laceration_bad", "chance": 80 } ],
+    "progress_timer": {
+      "id": "bruise_bad",
+      "time": [ "3 days", "108 hours" ],
+      "message": "It still hurts quite a bit, but the color on your %s has faded and the pain lessened somewhat."
+    },
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "block", "value": 0.3 },
@@ -105,13 +117,13 @@
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_laceration_medium",
     "type": "wound",
-    "name": { "str": "bleeding laceration" },
-    "description": "You have been lacerated.",
+    "name": { "str": "bleeding torn skin", "str_pl": "bleeding torn skin sections" },
+    "description": "A tender part of your skin has been hit hard enough to tear it open, causing blood to drip out.",
     "weight": 20,
     "limit": 8,
     "damage_types": [ "bash" ],
@@ -135,15 +147,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -5 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -5 }
     ],
-    "periodic_message": { "message": "Your laceration on your %s is bleeding!", "rate": "80 seconds" },
+    "periodic_message": { "message": "The torn skin on your %s is bleeding!", "rate": "80 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_laceration_bad",
     "type": "wound",
-    "name": { "str": "bad bleeding laceration" },
-    "description": "You have been lacerated badly.",
+    "name": { "str": "bleeding badly torn skin", "str_pl": "bleeding badly torn skin sections" },
+    "description": "A tender part of your skin has been hit hard enough to tear it open completely, causing blood to flow out.",
     "weight": 20,
     "limit": 8,
     "damage_types": [ "bash" ],
@@ -166,15 +178,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -11 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -11 }
     ],
-    "periodic_message": { "message": "Your bad laceration on your %s is bleeding!", "rate": "40 seconds" },
+    "periodic_message": { "message": "The badly torn skin on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_fractured",
     "type": "wound",
     "name": { "str": "fractured bone" },
-    "description": "Your bone is fractured but still in alingnment.",
+    "description": "One of your bones has taken enough punishment to fracture, but remains in alignment.",
     "weight": 40,
     "limit": 2,
     "damage_types": [ "bash" ],
@@ -194,13 +206,13 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_broken",
     "type": "wound",
     "name": { "str": "broken bone" },
-    "description": "Your bone broke.",
+    "description": "Your bone has completely broken and been knocked out of alignment.  If not set properly, the bone could heal incorrectly causing permanent damage.",
     "weight": 40,
     "limit": 2,
     "damage_types": [ "bash" ],
@@ -219,14 +231,14 @@
     ],
     "blacklist_flag": [ "MEND_ALL" ],
     "blacklist_body_part_types": [ "torso", "sensor", "head" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "BONELESS", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bone_broken_healing_good",
     "copy-from": "bone_broken",
     "type": "wound",
-    "name": { "str": "set bone" },
-    "description": "You set the broken bone.",
+    "name": { "str": "professionally set bone" },
+    "description": "Your broken bone has been set professionally, and all that remains is the long road to recovery.",
     "weight": 0,
     "limit": 2,
     "healing_time": [ "30 days", "45 days" ],
@@ -237,7 +249,7 @@
     "copy-from": "bone_broken",
     "type": "wound",
     "name": { "str": "improperly set bone" },
-    "description": "You somehow set the broken bone.",
+    "description": "Your broken bone has been set poorly, and once healed won't quite function the same without surgical intervention.",
     "weight": 0,
     "limit": 2,
     "pain": [ 45, 50 ],
@@ -245,7 +257,7 @@
     "progress_timer": {
       "id": "bone_broken_healed_partial",
       "time": [ "30 days", "45 days" ],
-      "message": "Your %s broken bone finally healed."
+      "message": "Your %s broken bone has healed as well as it's going to."
     }
   },
   {
@@ -253,17 +265,21 @@
     "copy-from": "bone_broken_healing_partial",
     "type": "wound",
     "name": { "str": "badly set bone" },
-    "description": "Your broken bone was set by a lunatic, badly.",
+    "description": "Your broken bone has been set by a lunatic without proper medical training, and once healed will still have severely inadequate function without surgical intervention.",
     "pain": [ 50, 56 ],
     "wound_progression": [ { "id": "bone_broken", "chance": 100 } ],
-    "progress_timer": { "id": "bone_broken_healed_bad", "time": [ "30 days", "45 days" ], "message": "Your %s broken bone finally healed." }
+    "progress_timer": {
+      "id": "bone_broken_healed_bad",
+      "time": [ "30 days", "45 days" ],
+      "message": "Your %s broken bone finished healing, but the pain and poor function hasn't gone away."
+    }
   },
   {
     "id": "bone_broken_healed_partial",
     "copy-from": "bone_broken_healing_partial",
     "type": "wound",
     "name": { "str": "improperly set bone" },
-    "description": "Your bone broken bone healed, somewhat.",
+    "description": "Your broken bone has healed as well as it can, but the pain remains and your limb doesn't work quite as well as it used to.",
     "pain": [ 4, 6 ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
@@ -280,7 +296,7 @@
     "copy-from": "bone_broken_healing_partial",
     "type": "wound",
     "name": { "str": "badly set bone" },
-    "description": "Your broken bone healed, badly.",
+    "description": "Your broken bone has fused together, but it would be a stretch to say it's healed.  The pain remains, and the limb has precious little of the function it used to.",
     "pain": [ 10, 14 ],
     "limb_scores": [
       { "score": "manip", "value": 0.7 },
@@ -297,7 +313,7 @@
     "copy-from": "bone_fractured",
     "type": "wound",
     "name": { "str": "splinted bone" },
-    "description": "You splinted the fractured bone.",
+    "description": "Your fractured bone is splinted, and just needs time to heal.",
     "weight": 0,
     "limit": 2,
     "healing_time": [ "15 days", "20 days" ],
@@ -307,8 +323,8 @@
     "id": "laceration_medium",
     "copy-from": "bleeding_laceration_medium",
     "type": "wound",
-    "name": { "str": "laceration" },
-    "description": "You have a laceration, you should probably clean it and bandage it.",
+    "name": { "str": "torn skin" },
+    "description": "Your skin has been torn open, but the bleeding has stopped.  It's still dirty and needs to be cleaned out.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -318,8 +334,8 @@
     "id": "laceration_bad",
     "copy-from": "bleeding_laceration_bad",
     "type": "wound",
-    "name": { "str": "bad laceration" },
-    "description": "You have a bad laceration, you should probably clean it and bandage it.",
+    "name": { "str": "badly torn skin" },
+    "description": "Your skin has been ripped open, but you've managed to staunch the bleeding.  It's still dirty and needs to be cleaned out.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -329,32 +345,47 @@
     "id": "clean_laceration_medium",
     "copy-from": "laceration_medium",
     "type": "wound",
-    "name": { "str": "clean laceration" },
-    "description": "You have a laceration you should probably bandage it.",
+    "name": { "str": "clean torn skin" },
+    "description": "Your skin has been torn open, but the bleeding has stopped and the wound is clean.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
     "id": "clean_laceration_bad",
     "copy-from": "laceration_bad",
     "type": "wound",
-    "name": { "str": "clean bad laceration" },
-    "description": "You have a bad laceration, you should probably bandage it.",
-    "healing_time": [ "5 days", "9 days" ]
+    "name": { "str": "clean badly torn skin" },
+    "description": "Your skin has been ripped open, but the bleeding has stopped and the wound is clean.",
+    "progress_timer": {
+      "id": "clean_laceration_medium",
+      "time": [ "60 hours", "108 hours" ],
+      "message": "The badly torn skin on your %s has started to close up, though a bandage would still help it heal."
+    }
   },
   {
     "id": "bandaged_laceration_medium",
     "copy-from": "laceration_medium",
     "type": "wound",
-    "name": { "str": "bandaged laceration" },
-    "description": "You have a laceration, you should wait till it heals.",
-    "healing_time": [ "3 days", "5 days" ]
+    "name": { "str": "bandaged torn skin" },
+    "description": "Your torn skin has been cleaned and bandaged.  All that's left is to wait for it to heal.",
+    "healing_time": [ "60 hours", "108 hours" ]
   },
   {
     "id": "bandaged_laceration_bad",
     "copy-from": "laceration_bad",
     "type": "wound",
-    "name": { "str": "bandaged bad laceration" },
-    "description": "You have a bad laceration, you should wait till it heals.",
-    "healing_time": [ "4 days", "7 days" ]
+    "name": { "str": "bandaged badly torn skin" },
+    "description": "Your ripped skin has been cleaned and bandaged.  All that's left is to wait for it to heal.",
+    "progress_timer": {
+      "id": "bandaged_laceration_old_medium",
+      "time": [ "48 hours", "84 hours" ],
+      "message": "The badly torn skin on your %s has started to close up, but the dressing has grown old and is in need of replacing."
+    }
+  },
+  {
+    "id": "bandaged_laceration_old_medium",
+    "copy-from": "clean_laceration_medium",
+    "type": "wound",
+    "name": { "str": "bandaged torn skin (old dressing)", "str_pl": "bandaged torn skin sections (old dressing)" },
+    "description": "Your torn skin is starting to close up. It will heal soon, but the dressing has grown old and is in need of replacing."
   }
 ]

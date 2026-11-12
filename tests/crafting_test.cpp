@@ -1806,7 +1806,7 @@ static int resume_craft()
     REQUIRE( player_character.crafting_speed_multiplier( *craft,
              std::optional<tripoint_bub_ms>( std::nullopt ) ) == 1.0 );
     REQUIRE( !player_character.activity );
-    player_character.use( player_character.get_item_position( craft ) );
+    player_character.use( item_location( player_character, craft ) );
     REQUIRE( player_character.activity );
     REQUIRE( player_character.activity.id() == ACT_CRAFT );
     int turns = 0;

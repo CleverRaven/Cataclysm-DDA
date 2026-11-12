@@ -1376,7 +1376,7 @@ float Character::maximum_exertion_level() const
 {
     switch( weariness_level() ) {
         case 0:
-            return EXTRA_EXERCISE;
+            return COMBAT_EXERCISE;
         case 1:
             return ACTIVE_EXERCISE;
         case 2:
@@ -2561,7 +2561,7 @@ bool Character::has_wounds( const bodypart_str_id &part ) const
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )
 {
     bodypart &body_bp = body.at( bp.id() );
-    body_bp.add_or_worsen_wound( wd );
+    body_bp.add_or_worsen_wound( wd, this );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
@@ -3457,7 +3457,7 @@ int Character::get_pain() const
     int p = 0;
     for( const std::pair<const bodypart_str_id, bodypart> &bp : get_body() ) {
         for( const wound &wd : bp.second.get_wounds() ) {
-            p += wd.get_pain();
+            p += wd.get_pain( this );
         }
     }
 

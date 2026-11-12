@@ -2,8 +2,8 @@
   {
     "id": "bleeding_stab_small",
     "type": "wound",
-    "name": { "str": "bleeding light stab" },
-    "description": "You have been lightly stabbed, you should stop the bleeding.",
+    "name": { "str": "bleeding puncture" },
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  It's currently dripping blood.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -28,15 +28,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -3 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -3 }
     ],
-    "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "60 seconds" },
+    "periodic_message": { "message": "The puncture on your %s is bleeding!", "rate": "60 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_medium",
     "type": "wound",
-    "name": { "str": "bleeding stab" },
-    "description": "You have been stabbed, you should stop the bleeding.",
+    "name": { "str": "bleeding deep puncture" },
+    "description": "You have been punctured, and it's pierced down to the muscle.  It's bleeding rather profusely.",
     "weight": 50,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -61,15 +61,15 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -10 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -10 }
     ],
-    "periodic_message": { "message": "Your stab on your %s is bleeding!", "rate": "40 seconds" },
+    "periodic_message": { "message": "The deep puncture on your %s is bleeding!", "rate": "40 seconds" },
     "blacklist_body_part_types": [ "sensor" ],
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_bad",
     "type": "wound",
-    "name": { "str": "bleeding deep stab" },
-    "description": "You have been deeply stabbed, you should stop the bleeding.",
+    "name": { "str": "bleeding stab" },
+    "description": "You have been stabbed by a significantly sized sharp object, and blood is pouring from the wound.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -94,16 +94,16 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -17 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -17 }
     ],
-    "periodic_message": { "message": "Your deep stab on your %s is bleeding!", "rate": "20 seconds" },
+    "periodic_message": { "message": "Your stabbed %s is bleeding!", "rate": "20 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "bleeding_stab_terrible",
     "type": "wound",
-    "name": { "str": "bleeding deep stab" },
-    "description": "You have been terribly stabbed, you should stop the bleeding.",
+    "name": { "str": "bleeding impalement" },
+    "description": "You have been impaled by a large object, and your life is in immediate danger.  The wound is hemorrhaging blood, and death from shock is guaranteed if it isn't stopped immediately.",
     "weight": 40,
     "limit": 8,
     "damage_types": [ "stab" ],
@@ -127,17 +127,17 @@
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -23 },
       { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -23 }
     ],
-    "periodic_message": { "message": "Your horrible stab on your %s is bleeding!", "rate": "10 seconds" },
+    "periodic_message": { "message": "Your impaled %s is bleeding!", "rate": "10 seconds" },
     "blacklist_body_part_types": [ "sensor", "head" ],
     "//0": "if a knife goes through your head or organs you're dead",
-    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB" ]
+    "blacklist_bp_with_flag": [ "BIONIC_LIMB", "PARTIAL_BIONIC_LIMB", "NON_FLESH_LIMB" ]
   },
   {
     "id": "stab_small",
     "copy-from": "bleeding_stab_small",
     "type": "wound",
-    "name": { "str": "stab" },
-    "description": "You have been lightly stabbed, you should probably clean it and bandage it.",
+    "name": { "str": "puncture" },
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -147,8 +147,8 @@
     "id": "stab_medium",
     "copy-from": "bleeding_stab_medium",
     "type": "wound",
-    "name": { "str": "stab" },
-    "description": "You have been stabbed, you should probably clean it and bandage it.",
+    "name": { "str": "deep puncture" },
+    "description": "You have been punctured, and it's pierced down to the muscle.  While you've managed to stop the bleeding, the site is still dirty and an infection risk.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -158,8 +158,8 @@
     "id": "stab_bad",
     "copy-from": "bleeding_stab_bad",
     "type": "wound",
-    "name": { "str": "deep stab" },
-    "description": "You have been deeply stabbed, you should probably clean it and bandage it.",
+    "name": { "str": "stab" },
+    "description": "You have been stabbed by a significantly sized sharp object, but it's no longer bleeding.  The site is still dirty and at risk of developing sepsis.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -170,7 +170,7 @@
     "copy-from": "bleeding_stab_terrible",
     "type": "wound",
     "name": { "str": "horrible stab" },
-    "description": "You have been horribly stabbed, you should probably clean it and bandage it.",
+    "description": "You have been impaled by a large object.  While you're no longer losing blood, sepsis will kill you instead if it's not cleaned.",
     "weight": 0,
     "mod_values": [  ],
     "periodic_message": { "message": "", "rate": "999 hours" },
@@ -180,63 +180,96 @@
     "id": "clean_stab_small",
     "copy-from": "stab_small",
     "type": "wound",
-    "name": { "str": "clean light stab" },
-    "description": "You have been lightly stab, you should probably bandage it.",
+    "name": { "str": "clean puncture" },
+    "description": "You have been punctured, and it's left a superficial hole in your skin.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
     "id": "clean_stab_medium",
     "copy-from": "stab_medium",
     "type": "wound",
-    "name": { "str": "clean stab" },
-    "description": "You have been stab, you should probably bandage it.",
+    "name": { "str": "clean deep puncture" },
+    "description": "You have been punctured, and it's pierced down to the muscle.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "3 days", "5 days" ]
   },
   {
     "id": "clean_stab_bad",
     "copy-from": "stab_bad",
     "type": "wound",
-    "name": { "str": "clean deep stab" },
-    "description": "You have been badly stab, you should probably bandage it.",
+    "name": { "str": "clean stab" },
+    "description": "You have been stabbed by a significantly sized sharp object.  The wound is clean and bleeding has stopped, and all that's left is to bandage it and wait for it to heal.",
     "healing_time": [ "5 days", "9 days" ]
   },
   {
     "id": "clean_stab_terrible",
     "copy-from": "stab_terrible",
     "type": "wound",
-    "name": { "str": "clean horrible stab" },
-    "description": "You have been horribly stabbed, you should really bandage it."
+    "name": { "str": "clean impalement" },
+    "description": "You have been impaled by a large object.  Despite the hole in your body, the bleeding is under control and you've cleaned out the site.  All that remains is to bandage it and begin the long road to recovery."
   },
   {
     "id": "bandaged_stab_small",
     "copy-from": "stab_small",
     "type": "wound",
-    "name": { "str": "bandaged light stab" },
-    "description": "You have been lightly stabbed, you should wait till it heals.",
+    "name": { "str": "bandaged puncture" },
+    "description": "You've done all you can for the puncture, and can only wait for it to heal.",
     "healing_time": [ "1 days", "2 days" ]
   },
   {
     "id": "bandaged_stab_medium",
     "copy-from": "stab_medium",
     "type": "wound",
-    "name": { "str": "bandaged stab" },
-    "description": "You have been stabbed, you should wait till it heals.",
-    "healing_time": [ "2 days", "4 days" ]
+    "name": { "str": "bandaged deep puncture" },
+    "description": "You've done all you can for the deep puncture, and can only wait for it to heal.",
+    "progress_timer": {
+      "id": "bandaged_stab_old_small",
+      "time": [ "24 hours", "48 hours" ],
+      "message": "The deep puncture on your %s looks less serious, but the dressing is old and in need of changing."
+    }
   },
   {
     "id": "bandaged_stab_bad",
     "copy-from": "stab_bad",
     "type": "wound",
-    "name": { "str": "bandaged deep stab" },
-    "description": "You have been badly stabbed, you should wait till it heals.",
-    "healing_time": [ "4 days", "6 days" ]
+    "name": { "str": "bandaged stab" },
+    "description": "You've done all you can for the stab, and can only wait for it to heal.",
+    "progress_timer": {
+      "id": "bandaged_stab_old_medium",
+      "time": [ "48 hours", "72 hours" ],
+      "message": "The stab on your %s looks less serious, but the dressing is old and in need of changing."
+    }
   },
   {
     "id": "bandaged_stab_terrible",
     "copy-from": "stab_terrible",
     "type": "wound",
-    "name": { "str": "bandaged horrible stab" },
-    "description": "You have been horribly stabbed, you should wait till it heals.",
-    "healing_time": [ "6 days", "8 days" ]
+    "name": { "str": "bandaged impalement" },
+    "description": "Through what can only be described as a medical miracle, you have survived having one of your limbs impaled through.  All that remains is to walk the long road to recovery.",
+    "progress_timer": {
+      "id": "bandaged_stab_old_bad",
+      "time": [ "72 hours", "96 hours" ],
+      "message": "Your impaled %s has begun to close, but the dressing is old and in need of changing."
+    }
+  },
+  {
+    "id": "bandaged_stab_old_small",
+    "copy-from": "clean_stab_small",
+    "type": "wound",
+    "name": { "str": "bandaged puncture (old dressing)", "str_pl": "bandaged punctures (old dressing)" },
+    "description": "The puncture on your limb is no longer as deep, but the dressing has grown old and is in need of replacing."
+  },
+  {
+    "id": "bandaged_stab_old_medium",
+    "copy-from": "clean_stab_medium",
+    "type": "wound",
+    "name": { "str": "bandaged deep puncture (old dressing)", "str_pl": "bandaged deep punctures (old dressing)" },
+    "description": "What was once a stab wound is now more adequately describe as a rather deep puncture as it heals, but the dressing has grown old and is in need of replacing."
+  },
+  {
+    "id": "bandaged_stab_old_bad",
+    "copy-from": "clean_stab_bad",
+    "type": "wound",
+    "name": { "str": "bandaged stab (old dressing)", "str_pl": "bandaged stabs (old dressing)" },
+    "description": "While the hole in your limb has closed, the road to recovery is still ongoing.  The dressing has grown old and is in need of replacing."
   }
 ]

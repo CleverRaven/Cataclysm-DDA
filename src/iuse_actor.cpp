@@ -102,7 +102,6 @@
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
@@ -126,6 +125,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const flag_id json_flag_PSEUDO( "PSEUDO" );
+
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
 static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
@@ -138,9 +139,15 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_power_cord( "power_cord" );
+static const itype_id itype_small_repairkit( "small_repairkit" );
+static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
+static const itype_id itype_welder( "welder" );
+static const itype_id itype_welder_crude( "welder_crude" );
+static const itype_id itype_welding_kit( "welding_kit" );
 
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_NO_LIMB_FIRST_AID( "NO_LIMB_FIRST_AID" );
@@ -2582,10 +2589,10 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    // Check for worn or wielded - no "floating"/bionic instruments for now
+    // no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
-    const int inv_pos = p->get_item_position( &it );
-    if( inv_pos >= 0 || inv_pos == INT_MIN ) {
+    const item_location instrument = item_location( *p, &it );
+    if( !p->is_worn_or_wielded( instrument ) ) {
         p->add_msg_player_or_npc( m_bad,
                                   _( "You need to hold or wear %s to play it." ),
                                   _( "<npcname> needs to hold or wear %s to play it." ),
@@ -3112,11 +3119,25 @@ std::optional<int> repair_item_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( &it ), INT_MIN );
-    // We also need to store the repair actor subtype in the activity
-    p->activity.str_values.push_back( type );
-    // storing of item_location to support repairs by tools on the ground
-    p->activity.targets.emplace_back( form_loc( *p, here, pos, it ) );
+    // HACK: see struct `weldrig_hack`
+    // the ammo-loaded pseudo item passed to this function is not used!
+    std::optional<std::pair<itype_id, tripoint_bub_ms>> vp_tool;
+    itype_id tool_type = it.typeId();
+    if( ( tool_type == itype_welder ||
+          tool_type == itype_welder_crude ||
+          tool_type == itype_welding_kit ||
+          tool_type == itype_soldering_iron ||
+          tool_type == itype_small_repairkit ||
+          tool_type == itype_large_repairkit ) &&
+        here->veh_at( pos ).has_value() &&
+        it.has_flag( json_flag_PSEUDO )
+      ) {
+        vp_tool.emplace( tool_type.str(), pos );
+    }
+
+    p->assign_activity( repair_item_activity_actor( item_location::nowhere,
+                        vp_tool.has_value() ? item_location::nowhere : form_loc( *p, here, pos, it ),
+                        vp_tool, type ) );
     // All repairs are done in the activity, including charge cost and target item selection
     return 0;
 }

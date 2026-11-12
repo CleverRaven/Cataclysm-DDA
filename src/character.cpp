@@ -1844,7 +1844,7 @@ void Character::on_try_dodge()
         const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
         burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
                                         dodge_skill_modifier ) );
-        set_activity_level( EXTRA_EXERCISE );
+        set_activity_level( COMBAT_EXERCISE );
     }
 }
 
@@ -3481,8 +3481,9 @@ float Character::instantaneous_activity_level() const
 
 int Character::activity_level_index() const
 {
-    // Activity levels are 1, 2, 4, 6, 8, 10
-    // So we can easily cut them in half and round down for an index
+    // Activity levels are 1, 2, 4, 6, 8, 10, 1000
+    // So we can (mostly) easily cut them in half and round down for an index
+    // ...This function is only called for EOCs, maybe we should just return the activity level directly instead of this.
     return std::floor( instantaneous_activity_level() / 2 );
 }
 
@@ -5459,6 +5460,14 @@ void Character::resume_backlog_activity()
 void Character::process_activity()
 {
     while( get_moves() > 0 && activity ) {
+        activity.do_turn( *this );
+    }
+}
+
+void Character::process_activity_until_invalid()
+{
+    while( activity ) {
+        set_moves( 100 );
         activity.do_turn( *this );
     }
 }
@@ -8127,15 +8136,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
 
 void Character::use_wielded()
 {
-    use( -1 );
-}
-
-void Character::use( int inventory_position )
-{
-    item &used = i_at( inventory_position );
-    item_location loc = item_location( *this, &used );
-
-    use( loc );
+    use( get_wielded_item() );
 }
 
 void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )

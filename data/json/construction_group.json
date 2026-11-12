@@ -362,6 +362,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_hesco_mil3",
+    "name": "Build HESCO MIL 3 Barrier"
+  },
+  {
+    "type": "construction_group",
     "id": "build_junk_metal_barrier",
     "name": "Build Junk Metal Barrier"
   },

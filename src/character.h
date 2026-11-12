@@ -973,7 +973,6 @@ class Character : public Creature, public visitable
          * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
          */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
 
         /** Handles health fluctuations over time */
         virtual void update_health();
@@ -1884,15 +1883,11 @@ class Character : public Creature, public visitable
          */
         bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Uses a tool */
-        void use( int inventory_position );
+
         /** Uses a tool at location */
         void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        std::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
 
         /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
         * The result can be end() of the worn list; do not dereference it.
@@ -2033,6 +2028,9 @@ class Character : public Creature, public visitable
             return -2 - position;
         }
 
+        // checks to see if an item is worn OR wielded
+        bool is_worn_or_wielded( const item_location &thing ) const;
+
         // checks to see if an item is worn
         bool is_worn( const item &thing ) const {
             return worn.is_worn( thing );
@@ -2156,18 +2154,6 @@ class Character : public Creature, public visitable
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         item_location invlet_to_item( int invlet ) const;
-
-        // Returns the item with a given inventory position.
-        item &i_at( int position );
-        const item &i_at( int position ) const;
-        /**
-         * Returns the item position (suitable for @ref i_at or similar) of a
-         * specific item. Returns INT_MIN if the item is not found.
-         * Note that this may lose some information, for example the returned position is the
-         * same when the given item points to the container and when it points to the item inside
-         * the container. All items that are part of the same stack have the same item position.
-         */
-        int get_item_position( const item *it ) const;
 
         /**
          * Returns a reference to the item which will be used to make attacks.
@@ -3168,6 +3154,8 @@ class Character : public Creature, public visitable
         bool has_activity( const std::vector<activity_id> &types ) const;
         /** Process activity until activity invalid or character is out of moves */
         void process_activity();
+        /** Process activity until activity invalid; for tests only! */
+        void process_activity_until_invalid();
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();

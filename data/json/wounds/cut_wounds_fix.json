@@ -3,160 +3,200 @@
     "id": "bleed_scratch_bad_fix",
     "copy-from": "bleed_wound_bad",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding your bad scratch.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the gouge and stop the bleeding.",
     "wounds_removed": [ "bleeding_scratch_bad" ],
     "wounds_added": [ "scratch_bad" ],
-    "success_msg": "The bad scratch isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the gouge stops."
   },
   {
     "id": "bleed_cut_medium_fix",
     "copy-from": "bleed_wound_medium",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your cut.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the cut and stop the bleeding.",
     "wounds_removed": [ "bleeding_cut_medium" ],
     "wounds_added": [ "cut_medium" ],
-    "success_msg": "The cut isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the cut stops."
   },
   {
     "id": "bleed_cut_bad_fix",
     "copy-from": "bleed_wound_bad",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your deep cut.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the gash and stop the bleeding.",
     "wounds_removed": [ "bleeding_cut_bad" ],
     "wounds_added": [ "cut_bad" ],
-    "success_msg": "The deep cut isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the gash stops."
   },
   {
     "id": "bleed_cut_terrible_fix",
     "copy-from": "bleed_wound_terrible",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your horrible cut.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the life-threatening gash and stop the bleeding.",
     "wounds_removed": [ "bleeding_cut_terrible" ],
     "wounds_added": [ "cut_terrible" ],
-    "success_msg": "The horrible cut isn't bleeding anymore."
+    "success_msg": "It's not easy and it takes some time, but with enough pressure the flow of blood from the life-threatening gash stops."
   },
   {
     "id": "clean_scratch_small_fix",
     "copy-from": "clean_wound_small",
     "type": "wound_fix",
-    "name": "clean the scratch",
-    "description": "Clean your light scratch.",
+    "name": "Clean the scratch",
+    "description": "Use water to wash the scratch of dirt, debris, and bacteria.",
     "wounds_removed": [ "scratch_small" ],
     "wounds_added": [ "clean_scratch_small" ],
-    "success_msg": "The light scratch is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You clean the area where your scratch is."
   },
   {
     "id": "clean_scratch_medium_fix",
     "copy-from": "clean_wound_medium",
     "type": "wound_fix",
-    "name": "clean the scratch",
-    "description": "Clean your scratch.",
+    "name": "Clean the large scratch",
+    "description": "Use water to wash the large scratch of dirt, debris, and bacteria.",
     "wounds_removed": [ "scratch_medium" ],
     "wounds_added": [ "clean_scratch_medium" ],
-    "success_msg": "The scratch is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You spend some time wiping the area down, making sure to pay attention to places where the skin broke."
   },
   {
     "id": "clean_scratch_bad_fix",
     "copy-from": "clean_wound_bad",
     "type": "wound_fix",
-    "name": "clean the scratch",
-    "description": "Clean your bad scratch.",
+    "name": "Flush the gouge",
+    "description": "Use water to flush out contaminants from your gouged skin.",
     "wounds_removed": [ "scratch_bad" ],
     "wounds_added": [ "clean_scratch_bad" ],
-    "success_msg": "The bad scratch is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You thoroughly flush the gouge with water to remove any foreign contaminants."
   },
   {
     "id": "clean_cut_medium_fix",
     "copy-from": "clean_wound_medium",
     "type": "wound_fix",
-    "name": "clean the cut",
-    "description": "Clean your cut.",
+    "name": "Wash the cut",
+    "description": "Use water to wash the cut of dirt, debris, and bacteria.",
     "wounds_removed": [ "cut_medium" ],
     "wounds_added": [ "clean_cut_medium" ],
-    "success_msg": "The cut is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You wipe down the area around the cut and take extra care to make sure the inside of it is clean."
   },
   {
     "id": "clean_cut_bad_fix",
     "copy-from": "clean_wound_bad",
     "type": "wound_fix",
-    "name": "clean the cut",
-    "description": "Clean your bad cut.",
+    "name": "Flush the gash",
+    "description": "Use water to flush out contaminants from the open gash in your skin.",
     "wounds_removed": [ "cut_bad" ],
     "wounds_added": [ "clean_cut_bad" ],
-    "success_msg": "The bad cut is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You thoroughly flush the gash with water to remove any foreign contaminants."
   },
   {
     "id": "clean_cut_terrible_fix",
     "copy-from": "clean_wound_terrible",
     "type": "wound_fix",
-    "name": "clean the cut",
-    "description": "Clean your horrible cut.",
+    "name": "Flush the life-threatening gash",
+    "description": "Use water to thoroughly flush out every last trace of contamination from your sliced open limb.",
     "wounds_removed": [ "cut_terrible" ],
     "wounds_added": [ "clean_cut_terrible" ],
-    "success_msg": "The horrible cut is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You spend quite a while flushing water through your sliced open skin, knowing that anything less than full flush of all contaminants will kill you from sepsis with a cut this major."
   },
   {
     "id": "bandage_scratch_small_fix",
     "copy-from": "bandage_wound_small",
     "type": "wound_fix",
-    "name": "bandage the scratch",
-    "description": "Bandage your light scratch.",
+    "name": "Bandage the scratch",
+    "description": "Apply a bandage to your superficial scratch.",
     "wounds_removed": [ "clean_scratch_small" ],
     "wounds_added": [ "bandaged_scratch_small" ],
-    "success_msg": "The light scratch is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You apply a bandage to your scratched skin."
   },
   {
     "id": "bandage_scratch_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
-    "name": "bandage the scratch",
-    "description": "Bandage your scratch.",
+    "name": "Bandage the large scratch",
+    "description": "Wrap a bandage around your large scratch.",
     "wounds_removed": [ "clean_scratch_medium" ],
     "wounds_added": [ "bandaged_scratch_medium" ],
-    "success_msg": "The medium scratch is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You wrap a bandage around your large scratch."
   },
   {
     "id": "bandage_scratch_bad_fix",
     "copy-from": "bandage_wound_bad",
     "type": "wound_fix",
-    "name": "bandage the scratch",
-    "description": "Bandage your bad scratch.",
+    "name": "Bandage the gouge",
+    "description": "Use a bandage to cover and protect your gouged skin.",
     "wounds_removed": [ "clean_scratch_bad" ],
     "wounds_added": [ "bandaged_scratch_bad" ],
-    "success_msg": "The bad scratch is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You wrap a bandage around your gouged skin."
+  },
+  {
+    "id": "bandaged_scratch_old_small_fix",
+    "copy-from": "bandage_scratch_small_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your scratch.",
+    "wounds_removed": [ "bandaged_scratch_old_small" ],
+    "wounds_added": [ "bandaged_scratch_small" ],
+    "success_msg": "You remove the aging dressing from your scratch and apply a fresh one."
+  },
+  {
+    "id": "bandaged_scratch_old_medium_fix",
+    "copy-from": "bandage_scratch_medium_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your large scratch.",
+    "wounds_removed": [ "bandaged_scratch_old_medium" ],
+    "wounds_added": [ "bandaged_scratch_medium" ],
+    "success_msg": "You remove the bloody dressing from your large scratch and wrap new one around it."
   },
   {
     "id": "bandage_cut_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
-    "name": "bandage the cut",
-    "description": "Bandage your cut.",
+    "name": "Bandage the cut",
+    "description": "Use a bandage to cover and protect your cut open skin.",
     "wounds_removed": [ "clean_cut_medium" ],
     "wounds_added": [ "bandaged_cut_medium" ],
-    "success_msg": "The cut is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You remove the blood-soaked dressing from your cut and wrap a fresh one around it."
   },
   {
     "id": "bandage_cut_bad_fix",
     "copy-from": "bandage_wound_bad",
     "type": "wound_fix",
-    "name": "bandage the cut",
-    "description": "Bandage your bad cut.",
+    "name": "Bandage the gash",
+    "description": "Use a bandage to cover and protect your open gash so it can heal.",
     "wounds_removed": [ "clean_cut_bad" ],
     "wounds_added": [ "bandaged_cut_bad" ],
-    "success_msg": "The bad cut is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You make sure the bandage is securely wrapped and that each part of the gash is covered."
   },
   {
     "id": "bandage_cut_terrible_fix",
     "copy-from": "bandage_wound_terrible",
     "type": "wound_fix",
-    "name": "bandage the cut",
-    "description": "Bandage your horrible cut.",
+    "name": "Bandage the life-threatening gash",
+    "description": "Use a bandage to wrap the sliced open limb.  The cut is large enough that you're going to end up with more of it covered than not just to make sure there aren't any gaps.",
     "wounds_removed": [ "clean_cut_terrible" ],
     "wounds_added": [ "bandaged_cut_terrible" ],
-    "success_msg": "The horrible cut is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You spend some time making sure the entire gash is covered and protected from contamination."
+  },
+  {
+    "id": "bandaged_cut_old_medium_fix",
+    "copy-from": "bandage_cut_medium_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your cut",
+    "wounds_removed": [ "bandaged_cut_old_medium" ],
+    "wounds_added": [ "bandaged_cut_medium" ],
+    "success_msg": "You remove the blood-stained dressing from your cut and wrap fresh one around it."
+  },
+  {
+    "id": "bandaged_cut_old_bad_fix",
+    "copy-from": "bandage_cut_bad_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your gash",
+    "wounds_removed": [ "bandaged_cut_old_bad" ],
+    "wounds_added": [ "bandaged_cut_bad" ],
+    "success_msg": "You remove the blood-soaked dressing from your gash and wrap fresh one around it."
   }
 ]
