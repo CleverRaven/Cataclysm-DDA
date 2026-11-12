@@ -145,13 +145,13 @@
   {
     "id": "MISSION_REACH_FEMA_CA",
     "type": "mission_definition",
-    "name": { "str": "Reach FEMA Camp" },
+    "name": { "str": "Reach FEMA Camp Entrance" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": { "assign_mission_target": { "om_terrain": "fema", "reveal_radius": 5, "om_special": "FEMA Camp" } },
+    "start": { "assign_mission_target": { "om_terrain": "fema_entrance", "reveal_radius": 5, "om_special": "fema_camp_mutable" } },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "fema",
+    "destination": "fema_entrance",
     "dialogue": {
       "describe": "Things must be better at the camp…",
       "offer": "We're all in this together, looking forward to meeting you there.",
