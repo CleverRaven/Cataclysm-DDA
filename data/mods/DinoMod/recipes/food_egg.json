@@ -175,7 +175,7 @@
     "steps": [
       {
         "name": "Boiling",
-        "time": "12 m",
+        "time": "13 m",
         "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
         "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
         "activity_level": "NO_EXERCISE",
