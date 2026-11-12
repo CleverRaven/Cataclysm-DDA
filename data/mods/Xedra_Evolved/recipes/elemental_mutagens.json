@@ -11,7 +11,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "earthkin_tablet", 0 ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
-    "components": [ [ [ "water", 3 ] ], [ "ierde_earthkin_ingredient" ] ],
+    "components": [ [ [ "water", 3 ] ], [ [ "ierde_earthkin_ingredient", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -20,7 +20,7 @@
     "result": "ierde_earthkin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -56,7 +56,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "plantkin_parchment", 0 ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
-    "components": [ [ [ "water", 3 ] ], [ "arvore_plantkin_ingredient", 1 ] ],
+    "components": [ [ [ "water", 3 ] ], [ [ "arvore_plantkin_ingredient", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -65,7 +65,7 @@
     "result": "arvore_plantkin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -101,7 +101,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "flametouched_parchment", 0 ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
-    "components": [ [ [ "water", 3 ] ], [ "salamander_flamekin_ingredient", 1 ] ],
+    "components": [ [ [ "water", 3 ] ], [ [ "salamander_flamekin_ingredient", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -110,7 +110,7 @@
     "result": "salamander_flamekin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -146,7 +146,7 @@
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "waterkin_tablet", 0 ] ],
     "qualities": [ [ { "id": "SACRIFICE", "level": 1 } ] ],
-    "components": [ [ [ "water", 3 ] ], [ "undine_waterkin_ingredient", 1 ] ],
+    "components": [ [ [ "water", 3 ] ], [ [ "undine_waterkin_ingredient", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -155,7 +155,7 @@
     "result": "undine_waterkin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -200,7 +200,7 @@
     "result": "homullus_dollkin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -245,7 +245,7 @@
     "result": "sylph_airkin_ingredient",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
@@ -275,7 +275,7 @@
     "result": "elemental_mana_draught",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ELEMENTAL",
-    "skill_used": "chemistry",
+    "skill_used": "gramarye",
     "difficulty": 1,
     "time": "15 m",
     "batch_time_factors": [ 80, 20 ],

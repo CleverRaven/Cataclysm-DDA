@@ -2,6 +2,7 @@
   {
     "type": "ITEM",
     "subtypes": [ "COMESTIBLE" ],
+    "comestible_type": "INVALID",
     "//": "IDs are legacy.",
     "id": "ierde_sample",
     "color": "white",
@@ -10,7 +11,8 @@
     "looks_like": "onyx",
     "price": "10 USD",
     "price_postapoc": "50 cent",
-    "flags": [ "NO_SALVAGE", "INEDIBLE", "CYROGENIC_ROT", "NO_AUTO_CONSUME" ],
+    "flags": [ "NO_SALVAGE", "INEDIBLE", "CRYOGENIC_ROT", "NO_AUTO_CONSUME" ],
+    "symbol": "%",
     "weight": "114 g",
     "volume": "250 ml",
     "spoils_in": "3 days",
