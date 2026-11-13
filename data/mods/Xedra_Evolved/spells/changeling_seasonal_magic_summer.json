@@ -315,6 +315,8 @@
       ]
     },
     "caster_condition_fail_message": "You must be outdoors during a storm to use Fist of Taranis",
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "teachable": false,
     "skill": "gramarye",
@@ -599,7 +601,7 @@
     "id": "changeling_summer_combat_prowess_powerful_buff_spell",
     "type": "SPELL",
     "name": "Ríastrad",
-    "description": "Enter a focused battle fury, vastly increasing your combat prowess.  When it fades, however, you will suffer a bout of weariness.  The weariness you suffer <color_yellow>is doubled</color> in winter.",
+    "description": "Enter a focused battle fury, vastly increasing your combat prowess.  You will move faster, strike harder, and fight on heedless of pain or weariness.  While the glanour is in effect, however, you are filled with the urge to slay and <color_red>cannot retreat</color>, and when it fades you will suffer a bout of weariness.  The weariness you suffer <color_yellow>is doubled</color> in winter.",
     "message": "Your body warps and twists as you invoke the power of the Ríastrad.",
     "flags": [ "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",

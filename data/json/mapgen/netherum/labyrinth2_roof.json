@@ -32,7 +32,15 @@
         "##+##                   "
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_hall_roof_1" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -69,7 +77,15 @@
         "                   ##+##"
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_2" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_hall_roof_2" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -106,7 +122,15 @@
         "              ##+##     "
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_3" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_hall_roof_3" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -143,7 +167,15 @@
         "                   ##+##"
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_hall_roof_4" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_hall_roof_4" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -167,7 +199,15 @@
         "#####+#####"
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_large_room_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_large_room_roof_1" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -191,7 +231,15 @@
         "  ###+###  "
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_large_room_roof_2" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_large_room_roof_2" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -208,7 +256,15 @@
         "####"
       ],
       "terrain": { "+": "t_nl_metal_wall", ".": "t_nl_metal_wall", "#": "t_nl_metal_wall" },
-      "place_nested": [ { "chunks": [ "labyrinth2_small_room_roof_1" ], "x": 0, "y": 0, "z": 1 } ],
+      "place_nested": [
+        {
+          "chunks": [ "labyrinth2_small_room_roof_1" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
+      ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -226,8 +282,20 @@
       ],
       "terrain": { "#": "t_nl_column" },
       "place_nested": [
-        { "chunks": [ "labyrinth2_roof_column_air" ], "x": 0, "y": 0, "z": 1 },
-        { "chunks": [ "labyrinth2_roof_column_roof" ], "x": 0, "y": 0, "z": 2 }
+        {
+          "chunks": [ "labyrinth2_roof_column_air" ],
+          "x": 0,
+          "y": 0,
+          "z": 1,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        },
+        {
+          "chunks": [ "labyrinth2_roof_column_roof" ],
+          "x": 0,
+          "y": 0,
+          "z": 2,
+          "neighbors": { "above": [ { "om_terrain": "labyrinth2_roof" }, { "om_terrain": "labyrinth2_roof2" }, { "om_terrain": "open_air" } ] }
+        }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

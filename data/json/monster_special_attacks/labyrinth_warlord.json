@@ -88,6 +88,8 @@
       {
         "u_run_monster_eocs": [ "eoc_wells_machine_walker" ],
         "monster_range": 65,
+        "z_min": -10,
+        "z_max": 10,
         "mtype_ids": [ "mon_wells_machine" ]
       }
     ],
@@ -115,7 +117,9 @@
             ]
           }
         ],
-        "monster_range": 20,
+        "monster_range": 60,
+        "z_min": -10,
+        "z_max": 10,
         "mtype_ids": [ "mon_wells_machine_leg" ]
       }
     ]
@@ -135,6 +139,8 @@
           }
         ],
         "monster_range": 60,
+        "z_min": -10,
+        "z_max": 10,
         "mtype_ids": [ "mon_wells_machine" ]
       }
     ]
@@ -153,7 +159,9 @@
             "effect": [ { "u_cast_spell": { "id": "wells_machine_hurt_self" } } ]
           }
         ],
-        "monster_range": 20,
+        "monster_range": 60,
+        "z_min": -10,
+        "z_max": 10,
         "mtype_ids": [ "mon_wells_machine_leg" ]
       }
     ]

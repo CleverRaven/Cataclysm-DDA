@@ -539,6 +539,7 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation at 50% kcal reduction.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
 - ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```CRYOGENIC_ROT``` The item cannot be preserved without specialized cryogenic devices. Used in Aftershock.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it.  No morale bonus.
@@ -709,6 +710,7 @@ Can also be used as `pre_flags` for `construction`.
 - ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```LIQUID``` Terrain is liquid (e.g. water, lava, etc.), blocking movement without being a wall.
 - ```LOCKED``` Is locked, requiring either external control or lockpicking to open.
+- ```NO_DECONSTRUCT``` This terrain/furniture has a base `item` defined, but cannot be disassembled into this item
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NANOFAB_TABLE``` This is a nanofabricator, and it can generate items out of specific blueprints.  Hardcoded

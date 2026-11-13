@@ -813,19 +813,32 @@ std::optional<int> explosion_iuse::use( Character *p, item &it, map *here,
     return 1;
 }
 
-void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
+void explosion_iuse::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( explosion.power <= 0 ) {
         // TODO: List other effects, like EMP and clouds
         return;
     }
 
-    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), explosion.power );
+    dump.emplace_back( "TOOL", _( "Explosion delay: " ), to_string( it.type->countdown_interval ) );
+    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), "<num> g of TNT", iteminfo::no_flags,
+                       explosion.power );
+
     const shrapnel_data &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
-        dump.emplace_back( "TOOL", _( "Casing mass: " ), sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment mass: " ), string_format( "%.2f",
-                           sd.fragment_mass ) );
+
+        const float ratio = sd.casing_mass / units::to_gram<float>( it.weight() );
+
+        std::string casing_size;
+        if( ratio > 0.50f ) {
+            casing_size = colorize( _( "Vast" ), c_green );
+        } else if( ratio > 0.25f ) {
+            casing_size = colorize( _( "Moderate" ), c_yellow );
+        } else {
+            casing_size = colorize( _( "Little" ), c_red );
+        }
+
+        dump.emplace_back( "TOOL", _( "Shrapnel: " ), casing_size );
     }
 }
 
@@ -2589,10 +2602,10 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    // Check for worn or wielded - no "floating"/bionic instruments for now
+    // no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
-    const int inv_pos = p->get_item_position( &it );
-    if( inv_pos >= 0 || inv_pos == INT_MIN ) {
+    const item_location instrument = item_location( *p, &it );
+    if( !p->is_worn_or_wielded( instrument ) ) {
         p->add_msg_player_or_npc( m_bad,
                                   _( "You need to hold or wear %s to play it." ),
                                   _( "<npcname> needs to hold or wear %s to play it." ),

@@ -150,7 +150,7 @@
     "insulation": 10,
     "material": [ "steel" ],
     "volume": "356878 ml",
-    "weight": "56520 g",
+    "weight": "37820 g",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "122 L", "max_contains_weight": "350 kg" } ]
   },
   {

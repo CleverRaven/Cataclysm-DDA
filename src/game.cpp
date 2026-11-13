@@ -6798,12 +6798,10 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
     };
 
     std::vector< item * > salvage_tools = u.items_with( salvage_filter );
-    int salvage_tool_index = INT_MIN;
-    item *salvage_tool = nullptr;
+    item_location salvage_tool = item_location::nowhere;
     const salvage_actor *salvage_iuse = nullptr;
     if( !salvage_tools.empty() ) {
-        salvage_tool = salvage_tools.front();
-        salvage_tool_index = u.get_item_position( salvage_tool );
+        salvage_tool = item_location( u, salvage_tools.front() );
         item *usable = salvage_tool->get_usable_item( salvage_string );
         salvage_iuse = dynamic_cast<const salvage_actor *>(
                            usable->get_use( salvage_string )->get_actor_ptr() );
@@ -6822,7 +6820,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
         if( it->is_corpse() ) {
             corpses.push_back( it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( nullptr, *it ) ) {
+            if( salvage_tool.valid() && salvage_iuse->valid_to_cut_up( nullptr, *it ) ) {
                 salvageables.push_back( it );
             }
             if( u.can_disassemble( *it, crafting_inv ).success() ) {
@@ -6987,7 +6985,7 @@ void game::butcher( const std::optional<tripoint_bub_ms> &p )
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( longsalvage_activity_actor( salvage_tool_index ) );
+                    u.assign_activity( longsalvage_activity_actor( salvage_tool ) );
                     break;
                 case MULTIBUTCHER: {
                     const std::optional<butcher_type> bt = butcher_submenu( corpses );
