@@ -46,132 +46,147 @@
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "SALAMANDER" } },
-    "effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_salamander_near_fire == 1" ] },
+        "then": { "math": [ "_xp_multiplier = 85" ] },
+        "else": { "math": [ "_xp_multiplier = 50" ] }
+      },
+      {
+        "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+        "variables": { "xp_multiplier": { "context_val": "xp_multiplier" } }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
     "//": "This is a separate EoC to allow looping through until it finds a spell the Salamander knows. Probability is [11-Difficulty]",
     "condition": {
-      "or": [
+      "and": [
+        { "expects_vars": [ "xp_multiplier" ] },
         {
-          "and": [
-            { "math": [ "u_spell_level('salamander_make_fire') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_make_fire') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_dash_boom_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_dash_boom_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_explosion_trap_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_explosion_trap_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_smoke_teleport_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_smoke_teleport_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_flame_punch_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_flame_punch_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_summon_fire_spirit') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_summon_fire_spirit') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_ash_breath_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_ash_breath_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_fire_breath') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_fire_breath') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_summon_firebird_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_summon_firebird_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_increase_speed_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_increase_speed_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_flaming_whip_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_flaming_whip_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_emit_heat') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_emit_heat') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_cure_conditions') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_cure_conditions') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_fire_dot_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_fire_dot_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('create_light_salamander') >= 0 " ] },
-            { "math": [ "u_spell_level('create_light_salamander') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_fire_fly') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_fire_fly') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_ally_flame_immune_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_ally_flame_immune_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_explosion_and_heal_spell') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_explosion_and_heal_spell') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit') >= 0 " ] },
-            { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit') < 15" ] }
-          ]
-        },
-        {
-          "and": [
-            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0 " ] },
-            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 15" ] }
+          "or": [
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_make_fire') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_make_fire') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_dash_boom_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_dash_boom_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_explosion_trap_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_explosion_trap_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_smoke_teleport_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_smoke_teleport_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_flame_punch_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_flame_punch_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_summon_fire_spirit') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_summon_fire_spirit') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_ash_breath_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_ash_breath_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_fire_breath') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_fire_breath') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_summon_firebird_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_summon_firebird_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_increase_speed_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_increase_speed_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_flaming_whip_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_flaming_whip_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_emit_heat') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_emit_heat') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_cure_conditions') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_cure_conditions') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_fire_dot_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_fire_dot_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('create_light_salamander') >= 0 " ] },
+                { "math": [ "u_spell_level('create_light_salamander') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_fire_fly') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_fire_fly') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_ally_flame_immune_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_ally_flame_immune_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_explosion_and_heal_spell') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_explosion_and_heal_spell') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit') >= 0 " ] },
+                { "math": [ "u_spell_level('salamander_cultivate_goblin_fruit') < 15" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0 " ] },
+                { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 15" ] }
+              ]
+            }
           ]
         }
       ]
@@ -215,7 +230,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_make_fire') += paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_make_fire') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -233,7 +248,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_dash_boom_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_dash_boom_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -251,7 +268,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_explosion_trap_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_explosion_trap_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -269,7 +288,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_smoke_teleport_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_smoke_teleport_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -287,7 +308,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_flame_punch_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_flame_punch_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -305,7 +328,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_summon_fire_spirit') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_summon_fire_spirit') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -323,7 +348,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_ash_breath_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_ash_breath_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -341,7 +368,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_breath') += paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_fire_breath') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -359,7 +386,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_summon_firebird_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_summon_firebird_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -377,7 +406,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_increase_speed_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_increase_speed_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -395,7 +426,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_flaming_whip_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_flaming_whip_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -413,7 +446,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_emit_heat') += paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_emit_heat') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -431,7 +464,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_cure_conditions') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_cure_conditions') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -449,7 +484,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_dot_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_fire_dot_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -467,7 +504,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('create_light_salamander') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('create_light_salamander') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -485,7 +524,7 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_fire_fly') += paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('salamander_fire_fly') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -503,7 +542,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_ally_flame_immune_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_ally_flame_immune_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -521,7 +562,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_explosion_and_heal_spell') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_explosion_and_heal_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -539,7 +582,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('salamander_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('salamander_cultivate_goblin_fruit') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -557,7 +602,9 @@
         "u_message": "Your time spent among the heat and flames has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(1)" ] }
+      {
+        "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   }
