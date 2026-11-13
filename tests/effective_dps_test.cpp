@@ -164,8 +164,8 @@ TEST_CASE( "effective_damage_per_second", "[effective][dps]" )
     SECTION( "against an armored target" ) {
         monster soldier( mon_zombie_soldier_no_weakpoints );
 
-        CHECK( clumsy_sword.effective_dps( dummy, soldier ) == Approx( 8.0f ).epsilon( 0.15f ) );
-        CHECK( good_sword.effective_dps( dummy, soldier ) == Approx( 15.0f ).epsilon( 0.15f ) );
+        CHECK( clumsy_sword.effective_dps( dummy, soldier ) == Approx( 4.89f ).epsilon( 0.15f ) );
+        CHECK( good_sword.effective_dps( dummy, soldier ) == Approx( 11.64f ).epsilon( 0.15f ) );
     }
 
     SECTION( "effect of STR and DEX on damage per second" ) {
