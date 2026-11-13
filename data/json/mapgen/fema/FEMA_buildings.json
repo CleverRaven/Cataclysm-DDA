@@ -71,19 +71,19 @@
       "palettes": [ "roof_palette" ]
     }
   },
-  {
+  
     "type": "mapgen",
     "om_terrain": "fema_military_building",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
         "........................",
-        ".#########§*###########.",
+        ".#########1*###########.",
         ".#pppp  do   #@n@n@n@n#.",
         ".#      do   #@ @ @ @ #.",
         ".#     hdo   #        #.",
         ".# §ppp co   #       §#.",
-        ".#+########*##        #.",
+        ".#+#######1*##        #.",
         ".#           # @ @ @ @#.",
         ".#           + @n@n@n@#.",
         ".#########   ##########.",
@@ -107,7 +107,7 @@
         "#": "t_wall_w",
         "*": [ [ "t_door_metal_c", 1 ], [ "t_door_metal_locked", 2 ] ],
         "+": [ "t_door_c", "t_door_locked_interior" ],
-        "§": "t_card_military",
+        "1": "t_card_military",
         "o": "t_reinforced_glass"
       },
       "furniture": {
@@ -129,8 +129,8 @@
         "d": { "item": "SUS_office_filing_cabinet", "chance": 60, "repeat": [ 1, 2 ] },
         "n": { "item": "nightstand", "chance": 75, "repeat": [ 1, 2 ] },
         "p": { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 2 ] },
-        "q": { "item": "guns_milspec", "chance": 20 },
-        "r": { "item": "ammo_milspec", "chance": 50, "repeat": [ 0, 2 ] },
+        "q": { "item": "guns_milspec", "chance": 80 },
+        "r": { "item": "milspec_arsenal_group_ammo_part", "chance": 90 },
         "t": { "item": "SUS_toilet", "chance": 80 },
         "R": { "item": "any_MRE", "chance": 70, "repeat": [ 5, 20 ] },
         "S": { "item": "SUS_bathroom_sink", "chance": 80 },
