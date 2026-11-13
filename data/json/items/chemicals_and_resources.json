@@ -998,7 +998,7 @@
         "weight": 0
       }
     ],
-    "material": [ "powder_nonflam" ],
+    "material": [ "dense_powder_nonflam" ],
     "volume": "1 ml",
     "weight": "1725 mg",
     "//": "tnt equivalent 0.38 g/tnt",
