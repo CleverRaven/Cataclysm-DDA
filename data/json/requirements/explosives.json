@@ -49,7 +49,7 @@
     "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
     "components": [
       [
-        [ "chem_black_powder", 90 ],
+        [ "chem_black_powder", "24 g", "IS_MASS" ],
         [ "gunpowder", 90 ],
         [ "red_phosphorous_small", 100 ],
         [ "red_phosphorous", 1 ],
