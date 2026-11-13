@@ -261,7 +261,7 @@
   },
   {
     "type": "technique",
-    "id": "offhand_punch",
+    "id": "OFFHAND",
     "name": "Offhand Strike",
     "condition": { "npc_has_effect": "stunned" },
     "melee_allowed": true,
