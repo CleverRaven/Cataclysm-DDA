@@ -93,7 +93,7 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_brewing_cookbook( "brewing_cookbook" );
 static const itype_id itype_cable( "cable" );
 static const itype_id itype_candle( "candle" );
-static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_cash_card( "cash_card_test" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_cheese( "cheese" );
 static const itype_id itype_chisel( "chisel" );
