@@ -215,36 +215,43 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         dest_loc.z() -= 1;
         via_ramp = true;
     }
-
     // Berserk creatures cannot voluntarily move farther away from visible hostiles.
     if( you.has_effect( effect_berserk ) ) {
-        bool has_hostile = false;
-        bool approaching_hostile = false;
-
+        // assume we do not chase anyone
+        bool chasing = false;
+        bool there_is_someone_to_chase = false;
         get_creature_tracker().for_each_reachable( you, [&]( Creature * critter ) {
+            // if already chasing someone, early return
+            if( chasing ) {
+                return;
+            }
+
+            // cannot chase yourself
             if( critter == &you ) {
                 return;
             }
-
+            // cannot chase someone you cannot see
             if( !you.sees( here, *critter ) ) {
                 return;
             }
-
+            // cannot chase non-hostiles
             if( critter->attitude_to( you ) != Creature::Attitude::HOSTILE ) {
                 return;
             }
 
-            has_hostile = true;
-
+            there_is_someone_to_chase = true;
+            // check if we actually chase it
             const int current_dist = rl_dist( you_pos, critter->pos_bub() );
             const int new_dist = rl_dist( dest_loc, critter->pos_bub() );
 
             if( new_dist <= current_dist ) {
-                approaching_hostile = true;
+                // we either do not increase, or maintain our distance
+                // so we chase at least this pal
+                chasing = chasing || true;
             }
         } );
 
-        if( has_hostile && !approaching_hostile ) {
+        if( there_is_someone_to_chase && !chasing ) {
             add_msg( m_info, _( "You are too enraged to retreat!" ) );
             return false;
         }
