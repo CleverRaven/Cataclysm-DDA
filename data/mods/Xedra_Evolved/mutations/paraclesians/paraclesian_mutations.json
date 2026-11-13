@@ -51,7 +51,10 @@
     "enchantments": [
       "ench_paraclesian_modern_technology_computer_ignorance",
       "ench_paraclesian_modern_technology_electronics_ignorance",
-      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('IERDE') * 35" ] } } ]
+      }
     ]
   },
   {
@@ -126,6 +129,9 @@
       {
         "condition": { "and": [ "u_is_outside", "is_day", { "math": [ "global_what_is_the_season != 4" ] } ] },
         "ench_effects": [ { "effect": "effect_arvore_is_day_in_the_sun_not_winter", "intensity": 1 } ]
+      },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('ARVORE') * 35" ] } } ]
       }
     ]
   },
@@ -181,7 +187,10 @@
     "enchantments": [
       "ench_paraclesian_modern_technology_computer_ignorance",
       "ench_paraclesian_modern_technology_electronics_ignorance",
-      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('SALAMANDER') * 35" ] } } ]
+      }
     ]
   },
   {
@@ -204,6 +213,9 @@
           { "value": "THIRST", "multiply": -1 },
           { "value": "SWEAT_MULTIPLIER", "multiply": -1 }
         ]
+      },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('UNDINE') * 35" ] } } ]
       }
     ],
     "ignored_by": [ "UNDINE" ],
@@ -297,7 +309,10 @@
     "enchantments": [
       "ench_paraclesian_homullus_modern_technology_computer_ignorance",
       "ench_paraclesian_homullus_modern_technology_electronics_ignorance",
-      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') * 35" ] } } ]
+      }
     ]
   },
   {
@@ -352,7 +367,10 @@
     "enchantments": [
       "ench_paraclesian_modern_technology_computer_ignorance",
       "ench_paraclesian_modern_technology_electronics_ignorance",
-      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] }
+      { "ench_effects": [ { "effect": "effect_lilin_vampire_immune", "intensity": 1 } ] },
+      {
+        "values": [ { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('SYLPH') * 35" ] } } ]
+      }
     ]
   },
   {
