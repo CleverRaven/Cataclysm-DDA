@@ -1060,7 +1060,7 @@ static constexpr int melee_full_force_threshold = 25;
 float Creature::melee_damage_mult( int hit_spread )
 {
     return std::clamp( static_cast<float>( hit_spread + melee_miss_threshold ) /
-                       ( melee_miss_threshold + melee_full_force_threshold ), 0.0f, 1.0f );
+                       static_cast<float>( melee_miss_threshold + melee_full_force_threshold ), 0.0f, 1.0f );
 }
 
 static constexpr float melee_glancing_below = 0.4f;
