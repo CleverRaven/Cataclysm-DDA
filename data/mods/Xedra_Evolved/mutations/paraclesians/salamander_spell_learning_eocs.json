@@ -49,7 +49,7 @@
     "effect": [
       {
         "if": { "math": [ "u_salamander_near_fire == 1" ] },
-        "then": { "math": [ "_xp_multiplier = 75" ] },
+        "then": { "math": [ "_xp_multiplier = 85" ] },
         "else": { "math": [ "_xp_multiplier = 50" ] }
       },
       {
