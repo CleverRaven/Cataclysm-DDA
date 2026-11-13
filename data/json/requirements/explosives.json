@@ -58,7 +58,7 @@
     ]
   },
   {
-    "id": "volatile_explosive_potent", 
+    "id": "volatile_explosive_potent",
     "type": "requirement",
     "name": "Potent volatile explosives",
     "//": "Same as volatile_explosive, but only one that are strong enough to be effective in smaller quantities, as a standalone explosive (threshold is around 0.8 g/tnt), 10g tnt equivalent.",
