@@ -327,7 +327,7 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
-    "techniques": [ "WRAP", "OFFHAND_PUNCH" ],
+    "techniques": [ "WRAP", "OFFHAND" ],
     "volume": "1 L",
     "price": "80 USD",
     "qualities": [ [ "ROPE", 2 ] ],
