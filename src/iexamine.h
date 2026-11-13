@@ -178,7 +178,7 @@ int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint_bub_ms &examp, const itype_id &seed_id );
 void clear_overgrown( Character &you, const tripoint_bub_ms &examp );
 void harvest_plant_ex( Character &you, const tripoint_bub_ms &examp );
-void harvest_plant( Character &you, const tripoint_bub_ms &examp, bool from_activity );
+void harvest_plant( Character &you, const tripoint_bub_ms &examp );
 void fertilize_plant( Character &you, const tripoint_bub_ms &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
 ret_val<void> can_fertilize( Character &you, const tripoint_bub_ms &tile,

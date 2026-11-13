@@ -102,6 +102,7 @@ static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_frame( "t_door_frame" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_half( "t_wall_half" );
 
@@ -1107,4 +1108,26 @@ TEST_CASE( "task_end_clears_marks_on_items_moved_off_their_spot", "[activities][
             CHECK( tool->has_var( "activity_var" ) );
         }
     }
+}
+
+TEST_CASE( "finished_chop_logs_does_not_mark_its_products_in_use", "[activities][fetch]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &you = get_player_character();
+    const tripoint_bub_ms pos = you.pos_bub();
+    here.ter_set( pos, ter_t_trunk );
+
+    chop_logs_activity_actor actor( 100, item_location() );
+    player_activity act( actor );
+    act.placement = here.get_abs( pos );
+    actor.finish( act, you );
+
+    int found = 0;
+    for( const item &it : here.i_at( pos ) ) {
+        found++;
+        CHECK_FALSE( it.has_var( "activity_var" ) );
+    }
+    CHECK( found > 0 );
 }
