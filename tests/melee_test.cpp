@@ -493,7 +493,7 @@ TEST_CASE( "Damage_type_EOCs", "[damage][eoc]" )
     clear_map_without_vision();
 
     SECTION( "Attacking a monster" ) {
-         // test zombie is IMMOBILE so partial dodge doesn't render test flakey
+        // test zombie is IMMOBILE so partial dodge doesn't render test flakey
         check_eocs_from_test_fire( "mon_test_zombie_only_fire" );
     }
 
