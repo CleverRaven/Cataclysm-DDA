@@ -81,9 +81,12 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     dummy.normalize();
 
-    item eyedrops( itype_saline, calendar::turn_zero, item::default_charges_tag{} );
 
-    int charges_before = eyedrops.charges;
+
+    item_location eyedrops = dummy.i_add( item( itype_saline, calendar::turn_zero,
+                                          item::default_charges_tag{} ) );
+
+    int charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is boomered" ) {
@@ -94,7 +97,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
-                CHECK( eyedrops.charges == charges_before - 1 );
+                CHECK( eyedrops->charges == charges_before - 1 );
 
                 AND_THEN( "it removes the boomered effect" ) {
                     CHECK_FALSE( dummy.has_effect( effect_boomered ) );
@@ -103,7 +106,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         }
     }
 
-    charges_before = eyedrops.charges;
+    charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar gets conjunctivitis" ) {
@@ -115,7 +118,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
-                CHECK( eyedrops.charges == charges_before - 1 );
+                CHECK( eyedrops->charges == charges_before - 1 );
 
                 AND_THEN( "it shortens the duration of conjunctivitis" ) {
                     CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 24_hours );
@@ -124,7 +127,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         }
     }
 
-    charges_before = eyedrops.charges;
+    charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is underwater" ) {
@@ -134,7 +137,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "None were used" ) {
-                CHECK( eyedrops.charges == charges_before );
+                CHECK( eyedrops->charges == charges_before );
             }
         }
     }
@@ -604,7 +607,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        item thora( itype_thorazine, calendar::turn );
+        item_location thora = dummy.i_add( item( itype_thorazine, calendar::turn,
+                                           item::default_charges_tag{} ) );
         dummy.consume( thora );
 
         REQUIRE( dummy.has_item_with( []( const item & it ) {
@@ -631,7 +635,8 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     avatar dummy;
     dummy.normalize();
 
-    item prozac( itype_prozac, calendar::turn_zero, item::default_charges_tag{} );
+    item_location prozac = dummy.i_add( item( itype_prozac, calendar::turn_zero,
+                                        item::default_charges_tag{} ) );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
@@ -699,7 +704,8 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
     avatar dummy;
     dummy.normalize();
 
-    item panacea( itype_panacea, calendar::turn_zero, item::default_charges_tag{} );
+    item_location panacea = dummy.i_add( item( itype_panacea, calendar::turn_zero,
+                                         item::default_charges_tag{} ) );
 
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_cureall ) );
@@ -714,7 +720,7 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     avatar dummy;
     dummy.normalize();
 
-    item xanax( itype_xanax, calendar::turn_zero, item::default_charges_tag{} );
+    item_location xanax = dummy.i_add( item( itype_xanax, calendar::turn_zero, item::default_charges_tag{} ) );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_xanax ) );
