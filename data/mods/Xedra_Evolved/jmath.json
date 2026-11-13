@@ -141,6 +141,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "xe_fey_elemental_magick_sylph_failure_chance",
+    "num_args": 0,
+    "return": "clamp( ( ( ( (fahrenheit(weather('temperature') ) <= 50 ? 0.15 : 0 ) + (fahrenheit(weather('temperature') ) <= 32 ? 0.15 : 0 ) + (fahrenheit(weather('temperature') ) >= 90 ? -0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) + (u_skill('gramarye') * -0.03) + (u_spell_count('school': 'SALAMANDER') * -0.04 ) ) * (u_salamander_near_fire == 1 ? 0.5 : 1 ) ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "xe_fey_magick_mana_penalty",
     "num_args": 0,
     "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
