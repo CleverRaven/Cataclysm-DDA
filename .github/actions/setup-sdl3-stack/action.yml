@@ -47,7 +47,7 @@ runs:
         export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig:$PREFIX/lib/x86_64-linux-gnu/pkgconfig"
         export CMAKE_PREFIX_PATH="$PREFIX"
 
-        git clone --depth 1 --branch release-3.4.10 https://github.com/libsdl-org/SDL.git sdl3_src
+        git clone --depth 1 --branch release-3.4.16 https://github.com/libsdl-org/SDL.git sdl3_src
         cmake -S sdl3_src -B sdl3_build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX="$PREFIX" \
@@ -82,7 +82,7 @@ runs:
         cmake --build sdl3_build -j"$(nproc)"
         cmake --install sdl3_build
 
-        git clone --depth 1 --branch release-3.4.4 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
+        git clone --depth 1 --branch release-3.4.6 https://github.com/libsdl-org/SDL_image.git sdl3_image_src
         cmake -S sdl3_image_src -B sdl3_image_build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX="$PREFIX" \
