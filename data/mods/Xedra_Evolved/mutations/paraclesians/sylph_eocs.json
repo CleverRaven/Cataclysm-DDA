@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_DDOTD_REMOVE_PILE_ONE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "SYLPH" },
+    "effect": [
+      { "if": "u_is_outside", "then": { "math": [ "u_sylph_indoors = 0" ] }, "else": { "math": [ "u_sylph_indoors = 1" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON",
     "effect": [
       { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
