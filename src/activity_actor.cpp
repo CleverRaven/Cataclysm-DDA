@@ -9144,6 +9144,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
     // Mark the item, not available for other characters
     target->set_var( "activity_var", who.name );
+    // And track it, so we can clear it properly later
+    who.may_activity_occupancy_after_end_items_loc.push_back( target );
 
     activity_override = target->get_making().exertion_level();
 

@@ -804,7 +804,10 @@ static void drop_moved_item( Character &you, const item &it, const tripoint_bub_
     if( activity_to_restore == ACT_FETCH_REQUIRED ) {
         activity_handlers::drop_fetched_items( you, { it }, &here, dest );
     } else {
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
+        for( const item_location &moved : put_into_vehicle_or_drop(
+                 you, item_drop_reason::deliberate, { it }, &here, dest ) ) {
+            you.track_activity_item( moved );
+        }
     }
 }
 
@@ -2473,6 +2476,7 @@ activity_reason_info multi_study_activity_actor::multi_activity_can_do( Characte
     item_location book = find_study_book( abspos, you );
     if( book ) {
         book->set_var( "activity_var", you.name );
+        you.may_activity_occupancy_after_end_items_loc.push_back( book );
         return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
     }
 
@@ -2713,6 +2717,8 @@ activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do( Ch
             }
             // check passed, mark the item
             i.set_var( "activity_var", you.name );
+            you.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor( src_loc ),
+                    &i );
             return activity_reason_info::ok( do_activity_reason::NEEDS_DISASSEMBLE );
         }
     }
@@ -3607,6 +3613,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             }
             elem.set_var( "activity_var", you.name );
             item_location corpse_loc = item_location( map_cursor( src_loc ), &elem );
+            you.may_activity_occupancy_after_end_items_loc.push_back( corpse_loc );
             bd.emplace_back( corpse_loc, type );
         }
     }
@@ -4850,36 +4857,25 @@ void activity_handlers::clean_may_activity_occupancy_items_var( Character &you )
         return it->has_var( "activity_var" )
         && it->get_var( "activity_var", "" ) == character_name;
     };
-    if( you.may_activity_occupancy_after_end_items_loc.empty() ) {
-        return;
-    }
+    bool lost = false;
     for( item_location &loc : you.may_activity_occupancy_after_end_items_loc ) {
-        if( loc && activity_var_checker( loc.get_item() ) ) {
+        if( !loc ) {
+            lost = true;
+        } else if( activity_var_checker( loc.get_item() ) ) {
             loc.get_item()->erase_var( "activity_var" );
         }
     }
     you.may_activity_occupancy_after_end_items_loc.clear();
-    // wielding or storing an item means its no longer where it was registered before
-    // also existing saves might already have some stuck `(in use)` stuff
-    // so just clear all of them
-    const std::function<VisitResponse( const item_location & )> clear_mark =
-    [&activity_var_checker]( const item_location & loc ) {
-        if( activity_var_checker( loc.get_item() ) ) {
-            item_location marked = loc;
-            marked->erase_var( "activity_var" );
-        }
-        return VisitResponse::NEXT;
-    };
-    you.visit_items( clear_mark );
-    map &here = get_map();
-
-    // TODO: this checks in MAX_VIEW_DISTANCE but only on the Z level where the guy is.
-    // a proper fix would be to the registration tracking the items properly so we don't need to hunt
-    // - @datner
-    for( const tripoint_bub_ms &p : here.points_in_radius( you.pos_bub(), MAX_VIEW_DISTANCE ) ) {
-        map_cursor( &here, p ).visit_items( clear_mark );
-        if( const optional_vpart_position vp = here.veh_at( p ) ) {
-            vehicle_cursor( vp->vehicle(), vp->part_index() ).visit_items( clear_mark );
-        }
+    if( lost ) {
+        // wielding or stowing copies carried item past its registered location, so clear
+        // marks on everything carried
+        you.visit_items( [&activity_var_checker]( const item_location & loc ) {
+            if( activity_var_checker( loc.get_item() ) ) {
+                item_location carried = loc;
+                carried->erase_var( "activity_var" );
+            }
+            return VisitResponse::NEXT;
+        } );
     }
+
 }

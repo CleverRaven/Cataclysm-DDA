@@ -732,6 +732,13 @@ ret_val<void> Character::can_drop( const item &it ) const
     return ret_val<void>::make_success();
 }
 
+void Character::track_activity_item( const item_location &moved )
+{
+    if( moved && moved->get_var( "activity_var", "" ) == name ) {
+        may_activity_occupancy_after_end_items_loc.push_back( moved );
+    }
+}
+
 void Character::drop_invalid_inventory()
 {
     map &here = get_map();
@@ -3007,6 +3014,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost, bool combat )
     // Copy-assigned into the weapon slot, so every uid under it is fresh.
     if( wielded ) {
         craft_relocated( wielded );
+        track_activity_item( wielded );
     }
     recoil = MAX_RECOIL;
 

@@ -4194,6 +4194,8 @@ class Character : public Creature, public visitable
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
         std::vector<item_location> may_activity_occupancy_after_end_items_loc;
+        // moving an item copies it, so registers the copy if it carries our "(in use)" mark
+        void track_activity_item( const item_location &moved );
         // Our weariness level last turn, so we know when we transition
         int old_weary_level = 0;
 
