@@ -4832,7 +4832,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                item_location loc( *carrier, this );
+                item_location loc = item_location::form_loc( carrier, &here, pos, *this );
                 type->countdown_action.call( carrier, loc, pos );
             }
             countdown_point = calendar::turn_max;
