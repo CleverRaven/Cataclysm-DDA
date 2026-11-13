@@ -266,7 +266,7 @@
     "mass": "225 kg",
     "crafting_pseudo_item": "fake_anvil_heavy",
     "item": "anvil_heavy",
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "NO_DECONSTRUCT" ],
     "bash": { "str_min": 190, "str_max": 800, "sound": "crunch!", "sound_fail": "whump." }
   },
   {
@@ -300,7 +300,7 @@
     "mass": "95 kg",
     "crafting_pseudo_item": "fake_anvil",
     "deconstruct": { "items": [ { "item": "10l_steel", "count": 1 }, { "item": "spike", "count": 5 }, { "item": "log", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "NO_DECONSTRUCT" ],
     "bash": {
       "str_min": 14,
       "str_max": 28,
@@ -323,7 +323,7 @@
     "mass": "50 kg",
     "crafting_pseudo_item": "fake_anvil",
     "deconstruct": { "items": [ { "item": "anvil_scavenged", "count": 1 }, { "item": "log", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "NO_DECONSTRUCT" ],
     "bash": {
       "str_min": 14,
       "str_max": 28,
@@ -360,7 +360,7 @@
     "required_str": -1,
     "crafting_pseudo_item": "screw_press",
     "item": "screw_press_tool",
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "NO_DECONSTRUCT" ],
     "bash": {
       "str_min": 4,
       "str_max": 8,
@@ -517,7 +517,7 @@
     "coverage": 40,
     "required_str": -1,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "NO_DECONSTRUCT" ],
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arc_furnace" },
     "item": "arc_furnace",
     "bash": { "str_min": 18, "str_max": 40, "sound": "metal screeching!", "sound_fail": "clang!" },
@@ -860,7 +860,7 @@
     "required_str": 10,
     "mass": "114 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "drill_press" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "item": "drill_press",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -904,7 +904,7 @@
     "required_str": 8,
     "mass": "110 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "steel_kiln" },
-    "flags": [ "EASY_DECONSTRUCT" ],
+    "flags": [ "NO_DECONSTRUCT" ],
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
   {
@@ -949,7 +949,7 @@
     "required_str": 10,
     "mass": "130 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "tablesaw" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "NO_DECONSTRUCT" ],
     "item": "tablesaw",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -983,7 +983,7 @@
     "required_str": 10,
     "mass": "225 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "bandsaw" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "item": "bandsaw",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -1000,7 +1000,7 @@
     "mass": "500 kg",
     "required_str": 14,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "router" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_NO_DECONSTRUCTDECONSTRUCT" ],
     "item": "router",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -1017,7 +1017,7 @@
     "required_str": 12,
     "mass": "130 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "planer" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "item": "planer",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -1034,7 +1034,7 @@
     "required_str": 14,
     "mass": "300 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "jointer" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "NO_DECONSTRUCT" ],
     "item": "jointer",
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" }
   },
@@ -1051,7 +1051,7 @@
     "required_str": 16,
     "mass": "500 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "catalytic_cracking_reactor" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" },
     "item": "catalytic_cracking_reactor"
   },
@@ -1068,7 +1068,7 @@
     "required_str": 16,
     "mass": "76 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hydraulic_press" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "bash": { "str_min": 40, "str_max": 150, "sound_fail": "clang!" },
     "item": "hydraulic_press"
   },
@@ -1121,7 +1121,7 @@
     "required_str": 12,
     "mass": "170 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "air_compressor" },
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "item": "air_compressor",
     "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" }
   },
@@ -1138,7 +1138,7 @@
     "coverage": 30,
     "required_str": 10,
     "mass": "123 kg",
-    "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "NO_DECONSTRUCT" ],
     "item": "manual_tire_changer",
     "bash": { "str_min": 18, "str_max": 50, "sound": "metal screeching!", "sound_fail": "clang!" },
     "crafting_pseudo_item": "fake_tire_changer"
@@ -1804,7 +1804,7 @@
       "BLOCKSDOOR",
       "MOUNTABLE",
       "LIQUIDCONT",
-      "EASY_DECONSTRUCT"
+      "NO_DECONSTRUCT"
     ],
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oil_press_electric" },
     "item": "oil_press_electric"

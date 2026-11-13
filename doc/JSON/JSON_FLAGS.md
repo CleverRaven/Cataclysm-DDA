@@ -710,6 +710,7 @@ Can also be used as `pre_flags` for `construction`.
 - ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if `SEALED`.
 - ```LIQUID``` Terrain is liquid (e.g. water, lava, etc.), blocking movement without being a wall.
 - ```LOCKED``` Is locked, requiring either external control or lockpicking to open.
+- ```NO_DECONSTRUCT``` This terrain/furniture has a base `item` defined, but cannot be disassembled into this item
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```NANOFAB_TABLE``` This is a nanofabricator, and it can generate items out of specific blueprints.  Hardcoded
