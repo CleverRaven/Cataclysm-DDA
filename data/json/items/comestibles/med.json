@@ -337,7 +337,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "hydrogen peroxide" },
-    "description": "Dilute hydrogen peroxide. Useful for bleaching hair or textiles, but not as effective at preventing infections as many people think.",
+    "description": "Dilute hydrogen peroxide.  Useful for bleaching hair or textiles, but not as effective at preventing infections as many people think.",
     "display_type": "BY_VOLUME",
     "weight": "28 g",
     "volume": "250 ml",
