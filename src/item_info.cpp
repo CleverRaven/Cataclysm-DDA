@@ -53,6 +53,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "item_uid.h"
 #include "iteminfo_query.h"
 #include "itype.h"
