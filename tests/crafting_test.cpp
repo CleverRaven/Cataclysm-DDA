@@ -93,7 +93,7 @@ static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_brewing_cookbook( "brewing_cookbook" );
 static const itype_id itype_cable( "cable" );
 static const itype_id itype_candle( "candle" );
-static const itype_id itype_cash_card( "cash_card_test" );
+static const itype_id itype_cash_card_test( "cash_card_test" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_cheese( "cheese" );
 static const itype_id itype_chisel( "chisel" );
@@ -2649,7 +2649,7 @@ TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", 
 TEST_CASE( "Unloading_non-empty_components", "[crafting]" )
 {
     item candle( itype_candle );
-    item cash_card( itype_cash_card );
+    item cash_card( itype_cash_card_test );
     item sewing_kit( itype_sewing_kit );
     candle.ammo_set( candle.ammo_default(), -1 );
     cash_card.ammo_set( cash_card.ammo_default(), -1 );
