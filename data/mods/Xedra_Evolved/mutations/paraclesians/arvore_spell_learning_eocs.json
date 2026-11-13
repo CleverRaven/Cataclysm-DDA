@@ -84,31 +84,156 @@
     "//": "This is a separate EoC to allow looping through until it finds a spell the Arvore knows. Probability is [11-Difficulty]",
     "condition": {
       "or": [
-        { "math": [ "u_spell_level('arvore_nurture_the_green') < 15" ] },
-        { "math": [ "u_spell_level('arvore_nurture_the_green_aoe') < 15" ] },
-        { "math": [ "u_spell_level('arvore_growing_wood_walls') < 15" ] },
-        { "math": [ "u_spell_level('arvore_commune_with_nature') < 15" ] },
-        { "math": [ "u_spell_level('arvore_summon_briars') < 15" ] },
-        { "math": [ "u_spell_level('arvore_traverse_the_wilds') < 15" ] },
-        { "math": [ "u_spell_level('arvore_cause_decay') < 15" ] },
-        { "math": [ "u_spell_level('arvore_create_living_tent_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_summon_preservation_container') < 15" ] },
-        { "math": [ "u_spell_level('arvore_summon_floral_boat') < 15" ] },
-        { "math": [ "u_spell_level('arvore_summon_wood_spirit') < 35" ] },
-        { "math": [ "u_spell_level('arvore_roots_crack_the_foundation') < 15" ] },
-        { "math": [ "u_spell_level('arvore_forest_translocate') < 15" ] },
-        { "math": [ "u_spell_level('arvore_overgrowth_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_verdant_infusion') < 15" ] },
-        { "math": [ "u_spell_level('arvore_summon_grass_field_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_roots_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_climbing_vine_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_anti_plant_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') < 15" ] },
-        { "math": [ "u_spell_level('arvore_turn_into_tree') < 15" ] },
-        { "math": [ "u_spell_level('arvore_tree_singing_spell') < 15" ] },
-        { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit') < 15" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') < 15" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_nurture_the_green') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_nurture_the_green') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_nurture_the_green_aoe') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_nurture_the_green_aoe') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_growing_wood_walls') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_growing_wood_walls') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_commune_with_nature') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_commune_with_nature') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_summon_briars') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_summon_briars') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_traverse_the_wilds') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_traverse_the_wilds') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_cause_decay') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_cause_decay') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_create_living_tent_spell') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_create_living_tent_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_summon_preservation_container') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_summon_preservation_container') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_summon_floral_boat') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_summon_floral_boat') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_summon_wood_spirit') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_summon_wood_spirit') < 35" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_roots_crack_the_foundation') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_roots_crack_the_foundation') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_forest_translocate') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_forest_translocate') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_overgrowth_spell') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_overgrowth_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_verdant_infusion') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_verdant_infusion') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_summon_grass_field_spell') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_summon_grass_field_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_roots_spell') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_roots_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_climbing_vine_spell') >= 0 " ] },
+            { "math": [ "u_spell_level('arvore_climbing_vine_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_anti_plant_spell') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_anti_plant_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_turn_into_tree') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_turn_into_tree') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_tree_singing_spell') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_tree_singing_spell') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit') >= 0" ] },
+            { "math": [ "u_spell_level('arvore_cultivate_goblin_fruit') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') >= 0" ] },
+            { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_arvore') < 15" ] }
+          ]
+        },
+        {
+          "and": [
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') >= 0" ] },
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
+          ]
+        }
       ]
     },
     "effect": {
