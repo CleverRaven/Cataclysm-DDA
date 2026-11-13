@@ -454,9 +454,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( num_all_hits <= 0 ) {
             return 0.0;
         }
-        Creature *temp_mon = &mon;
         double subtotal_damage = 0.0;
-        resistances r = resistances( *static_cast<monster *>( temp_mon ) );
+        resistances r = resistances( *static_cast<monster *>( &mon ) );
         for( int i = 0; i <= mult_range; i++ ) {
             if( bucket_hits[i] <= 0 ) {
                 continue;
@@ -470,7 +469,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
             for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp, cur_damage, total_pain );
+                mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bp, cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
                 }
