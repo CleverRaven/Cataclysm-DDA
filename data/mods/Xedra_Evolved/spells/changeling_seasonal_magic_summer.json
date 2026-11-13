@@ -315,6 +315,8 @@
       ]
     },
     "caster_condition_fail_message": "You must be outdoors during a storm to use Fist of Taranis",
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "teachable": false,
     "skill": "gramarye",

@@ -2589,10 +2589,10 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    // Check for worn or wielded - no "floating"/bionic instruments for now
+    // no "floating"/bionic instruments for now
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
-    const int inv_pos = p->get_item_position( &it );
-    if( inv_pos >= 0 || inv_pos == INT_MIN ) {
+    const item_location instrument = item_location( *p, &it );
+    if( !p->is_worn_or_wielded( instrument ) ) {
         p->add_msg_player_or_npc( m_bad,
                                   _( "You need to hold or wear %s to play it." ),
                                   _( "<npcname> needs to hold or wear %s to play it." ),
