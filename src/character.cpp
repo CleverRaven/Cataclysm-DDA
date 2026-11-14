@@ -5922,16 +5922,16 @@ void Character::use_fire( const int quantity )
         return;
     }
 
-    const item firestarter = *find_firestarter_with_charges( quantity );
-    if( firestarter.is_null() ) {
+    const item_location firestarter = find_firestarter_with_charges( quantity );
+    if( !firestarter.valid() ) {
         return;
     }
-    if( firestarter.type->has_flag( flag_USES_BIONIC_POWER ) ) {
+    if( firestarter->type->has_flag( flag_USES_BIONIC_POWER ) ) {
         mod_power_level( -quantity * 5_kJ );
         return;
     }
-    if( firestarter.ammo_sufficient( this, quantity ) ) {
-        use_charges( firestarter.typeId(), quantity );
+    if( firestarter->ammo_sufficient( this, quantity ) ) {
+        use_charges( firestarter->typeId(), quantity );
         return;
     }
 }
