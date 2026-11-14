@@ -447,7 +447,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 30 ] ],
+    "using": [ [ "volatile_explosive_potent", 30 ] ],
     "//": [
       "As someone explained to me in the discord server, you could ",
       "only realistically use only volatile explosives to make a bomb ",
