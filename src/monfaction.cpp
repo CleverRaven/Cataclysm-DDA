@@ -2,6 +2,7 @@
 
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <utility>
 
@@ -10,6 +11,7 @@
 #include "faction.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "pimpl.h"
 
 // for legacy reasons "monfaction::id" is called "name" in json
 static generic_factory<monfaction> faction_factory( "MONSTER_FACTION", "name" );
