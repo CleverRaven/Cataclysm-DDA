@@ -42,7 +42,7 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: install LLVM 22
@@ -118,7 +118,7 @@ jobs:
           sudo ./llvm.sh 22
           sudo apt-get install -y clang-tidy-22 cmake ccache jq gettext
     - name: checkout repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: setup SDL3 stack
