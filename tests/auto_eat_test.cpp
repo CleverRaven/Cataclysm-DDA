@@ -177,7 +177,8 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         auto_eat_settings::potential_edible powder_eggs( you.i_add( item( itype_powder_eggs ) ) );
 
         // add some ingredients
-        auto_eat_settings::potential_edible c_water( you.i_add( item( itype_water_clean, calendar::turn, 2 ).in_its_container() ) );
+        auto_eat_settings::potential_edible c_water( you.i_add( item( itype_water_clean, calendar::turn,
+                2 ).in_its_container() ) );
         you.i_add( item( itype_salt ) );
         you.i_add( item( itype_salt ) );
         you.i_add( item( itype_salt ) );
