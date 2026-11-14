@@ -66,5 +66,11 @@
         [ "leg_xlsplint", 1 ]
       ]
     ]
+  },
+  {
+    "id": "wound_emergency",
+    "type": "requirement",
+    "//": "For emergency bleed care.",
+    "components": [ [ [ "emergency_bandage", 1 ] ] ]
   }
 ]
