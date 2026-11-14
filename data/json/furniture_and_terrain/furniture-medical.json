@@ -96,7 +96,7 @@
     "coverage": 60,
     "required_str": 16,
     "looks_like": "f_washer",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "NO_DECONSTRUCT" ],
     "item": "autoclave",
     "examine_action": "autoclave_empty",
     "bash": {
@@ -960,8 +960,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "centrifuge" } ] },
+    "flags": [ "TRANSPARENT", "PERMEABLE", "NO_DECONSTRUCT" ],
     "bash": {
       "str_min": 3,
       "str_max": 45,

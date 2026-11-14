@@ -25,7 +25,8 @@
       [ [ "chem_sulphuric_acid", 2 ] ],
       [ [ "chem_nitric_acid", 1 ] ],
       [ [ "ammonia_liquid", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-      [ [ "chem_glycerol", 2 ] ]
+      [ [ "chem_glycerol", 2 ] ],
+      [ [ "fuse", 4 ] ]
     ]
   },
   {
@@ -206,12 +207,7 @@
         [ "integrated_electrokit", 30 ]
       ]
     ],
-    "components": [
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "nails", 200, "LIST" ], [ "scrap", 16 ] ],
-      [ [ "fuse", 1 ] ],
-      [ [ "dynamite", 1 ] ]
-    ]
+    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nails", 200, "LIST" ], [ "scrap", 16 ] ], [ [ "dynamite", 1 ] ] ]
   },
   {
     "result": "smokebomb",
@@ -451,7 +447,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 30 ] ],
+    "using": [ [ "volatile_explosive_potent", 30 ] ],
     "//": [
       "As someone explained to me in the discord server, you could ",
       "only realistically use only volatile explosives to make a bomb ",
@@ -482,7 +478,7 @@
     "using": [ [ "stable_explosive", 226 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "fuse", 1 ] ],
+      [ [ "fuse", 4 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
       [ [ "nails", 750, "LIST" ], [ "scrap", 30 ] ]
@@ -503,7 +499,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "stable_explosive", 253 ], [ "volatile_explosive", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
+    "components": [ [ [ "fuse", 4 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "jug_plastic", 1 ] ] ]
   },
   {
     "result": "half_barrel_bomb",
@@ -518,7 +514,7 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 86 ], [ "stable_explosive", 3354 ] ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "keg_steel", 1 ] ] ]
+    "components": [ [ [ "fuse", 20 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "keg_steel", 1 ] ] ]
   },
   {
     "result": "full_barrel_bomb",
@@ -533,6 +529,6 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
-    "components": [ [ [ "fuse", 1 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
+    "components": [ [ [ "fuse", 20 ] ], [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
   }
 ]

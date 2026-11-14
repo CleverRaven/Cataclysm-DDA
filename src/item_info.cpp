@@ -53,6 +53,7 @@
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "item_transformation.h"
 #include "item_uid.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -3463,6 +3464,70 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
 }
 
+// bomb -> activate -> bomb_act -> countdown_action -> explosion
+static void print_transformed_bomb_info( const item &it, std::vector<iteminfo> &info )
+{
+
+    if( !it.has_flag( flag_BOMB ) ) {
+        return;
+    }
+
+
+    const use_function *bomb_use = it.type->get_use( "transform" );
+    if( bomb_use == nullptr ) {
+        // no transformation
+        return;
+    }
+
+    const iuse_transform *bomb_actor =
+        dynamic_cast<const iuse_transform *>( bomb_use->get_actor_ptr() );
+    if( bomb_actor == nullptr ) {
+        return;
+    }
+
+    const itype_id bomb_act = bomb_actor->transform.target;
+
+    const use_function *bomb_act_use = &bomb_act->countdown_action;
+    if( bomb_act_use == nullptr ) {
+        return;
+    }
+
+    const explosion_iuse *bomb_act_actor =
+        dynamic_cast<const explosion_iuse *>( bomb_act_use->get_actor_ptr() );
+
+    if( bomb_act_actor == nullptr ) {
+        return;
+    }
+
+    // there are stuff like emp grenades, that are explosions, but do not print anything
+    std::vector<iteminfo> new_info;
+    bomb_act->countdown_action.dump_info( item( bomb_act ), new_info );
+
+    if( !new_info.empty() ) {
+        insert_separation_line( info );
+        info.emplace_back( "TOOL", _( "When activated:" ) );
+        info.insert( info.end(), new_info.begin(), new_info.end() );
+    }
+}
+
+void item::use_methods_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                             int /*batch*/, bool /*debug*/ ) const
+{
+
+    // Uses for item (bandaging quality, holster capacity, grenade activation)
+    if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
+        for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
+            insert_separation_line( info );
+            method.second.dump_info( *this, info );
+        }
+
+        // todo: some good general way to print countdown action info
+
+        // if transforms into bomb, print a bomb info as well
+        print_transformed_bomb_info( *this, info );
+    }
+}
+
 void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                         bool /*debug*/ ) const
 {
@@ -4446,15 +4511,7 @@ std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) c
             actions_info( info, parts, batch, debug );
             component_info( info, parts, batch, debug );
             qualities_info( info, parts, batch, debug );
-
-            // Uses for item (bandaging quality, holster capacity, grenade activation)
-            if( parts->test( iteminfo_parts::DESCRIPTION_USE_METHODS ) ) {
-                for( const std::pair<const std::string, use_function> &method : type->use_methods ) {
-                    insert_separation_line( info );
-                    method.second.dump_info( *this, info );
-                }
-            }
-
+            use_methods_info( info, parts, batch, debug );
             repair_info( info, parts, batch, debug );
             enchantment_info( info, parts, batch, debug );
             disassembly_info( info, parts, batch, debug );

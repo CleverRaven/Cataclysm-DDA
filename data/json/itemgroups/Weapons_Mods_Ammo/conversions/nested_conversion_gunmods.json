@@ -13,7 +13,7 @@
     "subtype": "collection",
     "container-item": "box_retool_huge",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_223rem_extended" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_223rem_extended" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -22,7 +22,7 @@
     "subtype": "collection",
     "container-item": "box_retool_large",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_223rem" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -31,7 +31,7 @@
     "subtype": "collection",
     "container-item": "box_retool_large",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_223rem_medium" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -40,7 +40,7 @@
     "subtype": "collection",
     "container-item": "box_retool_sbr",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_223rem_short" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -49,7 +49,7 @@
     "subtype": "collection",
     "container-item": "box_retool_large",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_300blk" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -58,7 +58,7 @@
     "subtype": "collection",
     "container-item": "box_retool_sbr",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_300blk_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_300blk_medium" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -67,7 +67,7 @@
     "subtype": "collection",
     "container-item": "box_retool_sbr_micro",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_ar15_300blk_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_ar15_300blk_short" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -165,7 +165,7 @@
     "subtype": "collection",
     "container-item": "box_retool_large",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_mdrx_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_mdrx_223rem" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -173,7 +173,7 @@
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
     "container-item": "box_retool",
-    "entries": [ { "item": "retool_mdrx_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_mdrx_223rem_medium" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -181,7 +181,7 @@
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
     "container-item": "box_retool_sbr",
-    "entries": [ { "item": "retool_mdrx_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_mdrx_223rem_short" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
@@ -190,7 +190,7 @@
     "subtype": "collection",
     "container-item": "box_retool",
     "on_overflow": "spill",
-    "entries": [ { "item": "retool_mdrx_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+    "entries": [ { "item": "retool_mdrx_300blk" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",

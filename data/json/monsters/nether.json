@@ -51,7 +51,7 @@
     "color": "dark_gray",
     "luminance": 20,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "path_settings": { "max_dist": 60, "max_length": 120 },
+    "path_settings": { "max_dist": 60, "max_length": 120, "avoid_traps": true, "avoid_sharp": true },
     "hp": 2400,
     "flags": [
       "SEES",
@@ -65,7 +65,8 @@
       "NOT_HALLUCINATION",
       "ALWAYS_SEES_YOU",
       "DESTROYS",
-      "FIREPROOF"
+      "FIREPROOF",
+      "PATH_AVOID_DANGER"
     ],
     "special_attacks": [
       { "id": "wells_machine_control", "cooldown": 2, "condition": { "math": [ "u_heat_ray_iteration < 1" ] } },
@@ -101,7 +102,7 @@
     },
     "weakpoint_sets": [ "wps_yrax_quadraphract_leg" ],
     "delete": { "flags": [ "PACIFIST" ] },
-    "extend": { "flags": [ "DESTROYS" ] }
+    "extend": { "flags": [ "DESTROYS", "FLIES" ] }
   },
   {
     "id": "mon_amigara_horror",

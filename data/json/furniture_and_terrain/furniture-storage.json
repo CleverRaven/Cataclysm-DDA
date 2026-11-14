@@ -1670,7 +1670,7 @@
     "move_cost_mod": -1,
     "coverage": 100,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "NO_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": "1635 L",
     "item": "432gal_drum_rubber",
@@ -1767,7 +1767,7 @@
     "required_str": -1,
     "mass": "1293 kg",
     "max_volume": "1500 L",
-    "flags": [ "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "engine_container_base", "count": 1 } ] }
   },
   {
