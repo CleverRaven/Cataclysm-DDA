@@ -84,6 +84,7 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+class wound;
 
 enum scaling_stat : int;
 
@@ -985,7 +986,8 @@ class Character : public Creature, public visitable
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
         /** Adds this specific wound to bodypart. 'force' bypasses all conditional checks and applies the wound directly */
-        void apply_wound( bodypart_id bp, wound_type_id wd );
+        void apply_wound( bodypart_id bp, wound_type_id wd, dealt_damage_instance &ddi );
+        void apply_wound( bodypart_id bp, wound wd, dealt_damage_instance &ddi );
         /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
         /** Returns true if bodypart in question has any bleeding wound */
