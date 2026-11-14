@@ -1329,6 +1329,58 @@
     "sub_parts": [ "tentacle_right_base_r", "tentacle_right_middle_r", "tentacle_right_tip_r" ]
   },
   {
+    "id": "arm_tentacle_l_dual",
+    "copy-from": "arm_tentacle_l",
+    "type": "body_part",
+    "name": "right tentacle",
+    "name_multiple": "tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tentacles" },
+    "heading": "r. tentacle",
+    "heading_multiple": "tentacles",
+    "encumbrance_text": "Grasping is hindered.",
+    "main_part": "arm_tentacle_l_dual",
+    "opposite_part": "arm_tentacle_r_dual",
+    "limb_scores": [
+      [ "manip", 0.3, 0.6 ],
+      [ "grip", 0.4 ],
+      [ "lift", 0.4 ],
+      [ "balance", 0.15 ],
+      [ "block", 0.4 ],
+      [ "swim", 0.4 ],
+      [ "crawl", 0.6 ]
+    ],
+    "side": "right",
+    "sub_parts": [ "tentacle_left_dual_base_l", "tentacle_left_dual_middle_l", "tentacle_left_dual_tip_l" ],
+    "similar_bodypart": "arm_l"
+  },
+  {
+    "id": "arm_tentacle_r_dual",
+    "copy-from": "arm_tentacle_l",
+    "type": "body_part",
+    "name": "right tentacle",
+    "name_multiple": "tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tentacles" },
+    "heading": "r. tentacle",
+    "heading_multiple": "tentacles",
+    "encumbrance_text": "Grasping is hindered.",
+    "main_part": "arm_tentacle_r_dual",
+    "opposite_part": "arm_tentacle_l_dual",
+    "limb_scores": [
+      [ "manip", 0.3, 0.6 ],
+      [ "grip", 0.4 ],
+      [ "lift", 0.4 ],
+      [ "balance", 0.15 ],
+      [ "block", 0.4 ],
+      [ "swim", 0.4 ],
+      [ "crawl", 0.6 ]
+    ],
+    "side": "right",
+    "sub_parts": [ "tentacle_right_dual_base_r", "tentacle_right_dual_middle_r", "tentacle_right_dual_tip_r" ],
+    "similar_bodypart": "arm_r"
+  },
+  {
     "id": "arm_tentacle_l_2",
     "copy-from": "arm_tentacle_l",
     "type": "body_part",
