@@ -597,6 +597,41 @@ static bool optional_debug_modify_wounds( const Character &you, bodypart &bp )
     return true;
 }
 
+std::pair<bool, float> wound_fix::doable_by( const Character &c ) const
+{
+
+    float time_save = 1.0f;
+    for( const wound_skill &sk : skills ) {
+        const int current_skill = static_cast<int>( c.get_greater_skill_or_knowledge_level( sk.skill ) );
+        const bool skill_is_sufficient = current_skill >= sk.level;
+        if( sk.is_mandatory && !skill_is_sufficient ) {
+            return {false, 1.0f};
+        }
+
+        if( skill_is_sufficient ) {
+            time_save *= sk.time_save;
+        }
+    }
+
+    for( const wound_proficiency &w_prof : proficiencies ) {
+        const bool has_prof = c.has_proficiency( w_prof.prof );
+
+        if( w_prof.is_mandatory && !has_prof ) {
+            return {false, 1.0f};
+        }
+
+        if( has_prof ) {
+            time_save *= w_prof.time_save;
+        }
+    }
+
+    // Calling crafting_inventory a lot (e.g. if iterating over wounds and calling this
+    // Doesn't seem cheap...
+    bool doable = get_requirements().can_make_with_inventory( &c, c.crafting_inventory(),
+                  is_crafting_component );
+    return {doable, time_save};
+}
+
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
 {
     bodypart *bp = get_part( bp_id );
@@ -611,34 +646,9 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
     for( const wound &wd : bp->get_wounds() ) {
         for( const wound_fix_id &fix_id : wd.type->fixes ) {
             healing_option opt{wd.type, fix_id, true, fix_id->time};
-
-            for( const wound_skill &sk : fix_id->skills ) {
-                const int current_skill = static_cast<int>( get_greater_skill_or_knowledge_level( sk.skill ) );
-                const bool skill_is_sufficient = current_skill >= sk.level;
-
-                if( sk.is_mandatory && !skill_is_sufficient ) {
-                    opt.doable = false;
-                }
-
-                if( skill_is_sufficient ) {
-                    opt.time_to_apply *= sk.time_save;
-                }
-            }
-
-            for( const wound_proficiency &w_prof : fix_id->proficiencies ) {
-                const bool has_prof = has_proficiency( w_prof.prof );
-
-                if( w_prof.is_mandatory && !has_prof ) {
-                    opt.doable = false;
-                }
-
-                if( has_prof ) {
-                    opt.time_to_apply *= w_prof.time_save;
-                }
-            }
-
-            opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
-                          is_crafting_component );
+            std::pair<bool, float> doable = fix_id->doable_by( *this );
+            opt.doable = doable.first;
+            opt.time_to_apply *= doable.second;
 
             // check if equal healing option already exists in vector
             std::vector<healing_option>::iterator it = std::find_if( healing_options.begin(),
