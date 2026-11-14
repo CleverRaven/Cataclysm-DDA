@@ -2336,7 +2336,6 @@
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "dispersion": 110,
     "loudness": 0,
-    "count": 10,
     "critical_multiplier": 10,
     "recovery_chance": 96,
     "melee_damage": { "bash": 2, "cut": 1 }
