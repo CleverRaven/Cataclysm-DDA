@@ -202,6 +202,37 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_THORN_SPRAY_CHECK",
+    "effect": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "arvore_thorn_spray_location" },
+        "range": { "math": [ "min( (3 + (u_spell_count('school': 'ARVORE') * 0.45) + (u_skill('gramarye') * 0.7) ), 20)" ] },
+        "z_level": false,
+        "message": "Select tree to step to."
+      },
+      {
+        "if": { "math": [ "has_var(_arvore_thorn_spray_location)" ] },
+        "then": {
+          "if": {
+            "or": [
+              { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_thorn_spray_location" } },
+              { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_thorn_spray_location" } },
+              { "map_terrain_with_flag": "SHRUB", "loc": { "context_val": "arvore_thorn_spray_location" } }
+            ]
+          },
+          "then": [
+            { "u_cast_spell": { "id": "arvore_thorn_spray_spell_real" }, "loc": { "context_val": "arvore_thorn_spray_location" } },
+            { "u_message": "Sharp thorns suddenly grow from the foliage and burst outward!", "type": "neutral" }
+          ],
+          "else": { "u_message": "You must select a tree to enact nature's vengeance." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
     "effect": [
       {
