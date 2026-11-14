@@ -177,6 +177,74 @@
     "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 100 } ]
   },
   {
+    "id": "emergency_stab_small",
+    "copy-from": "bleeding_stab_small",
+    "type": "wound",
+    "name": { "str": "puncture" },
+    "description": "The emergency bandage is applying pressure, the bleeding should stop soon. The site of the injury is still dirty.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "7 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -2 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -2 }
+    ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "progress_timer": { "id": "stab_small", "time": [ "2 minutes", "2 minutes" ], "message": "Your puncture on your %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_stab_small", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_stab_medium",
+    "copy-from": "bleeding_stab_medium",
+    "type": "wound",
+    "name": { "str": "deep puncture" },
+    "description": "The emergency bandage is applying pressure, it should stop bleeding before it becomes too much of a problem.  The site of the injury is still dirty.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "6 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -6 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -6 }
+    ],
+    "periodic_message": { "message": "You can see the bandage over your wound growing a deeper red slowly.", "rate": "1 minutes" },
+    "progress_timer": {
+      "id": "stab_medium",
+      "time": [ "2 minutes", "2 minutes" ],
+      "message": "Your deep puncture on your %s stops bleeding."
+    },
+    "wound_progression": [ { "id": "bleeding_stab_medium", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_stab_bad",
+    "copy-from": "bleeding_stab_bad",
+    "type": "wound",
+    "name": { "str": "stab" },
+    "description": "The emergency bandage is applying pressure, you'll still lose a significant amount of blood.  If it isn't properly cleaned out after it stops bleeding, sepsis is likely to kill you instead.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "2 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -14 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -14 }
+    ],
+    "periodic_message": { "message": "Blood pours from the gash even under the emergency bandage.", "rate": "1 minutes" },
+    "progress_timer": { "id": "stab_bad", "time": [ "6 minutes", "6 minutes" ], "message": "Your stab on your %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_stab_bad", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_stab_terrible",
+    "copy-from": "bleeding_stab_terrible",
+    "type": "wound",
+    "name": { "str": "impalement" },
+    "description": "The emergency bandage is applying pressure, you're in fatal danger of bleeding out without a saline infusion.  You'll need to thoroughly clean it after it stops bleeding.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -20 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -20 }
+    ],
+    "periodic_message": { "message": "Blood flows like a river from your impaled limb even under the emergency bandage", "rate": "30 seconds" },
+    "progress_timer": { "id": "stab_terrible", "time": [ "9 minutes", "9 minutes" ], "message": "Your impaled %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_stab_terrible", "chance": 100 } ]
+  },
+  {
     "id": "clean_stab_small",
     "copy-from": "stab_small",
     "type": "wound",

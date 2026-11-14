@@ -14,7 +14,7 @@
     "copy-from": "bleed_wound_difficult_medium",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
-    "description": "Use an absorbant material to apply pressure to the deep puncture and stop the bleeding.",
+    "description": "Use an absorbant material to pack the deep puncture and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_medium" ],
     "wounds_added": [ "stab_medium" ],
     "success_msg": "You apply pressure, and the flow of blood from the deep puncture stops."
@@ -24,7 +24,7 @@
     "copy-from": "bleed_wound_difficult_bad",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
-    "description": "Use an absorbant material to apply pressure to the stab wound and stop the bleeding.",
+    "description": "Use an absorbant material to pack the stab wound and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_bad" ],
     "wounds_added": [ "stab_bad" ],
     "success_msg": "You apply pressure, and the flow of blood from the stab wound stops."
@@ -34,10 +34,90 @@
     "copy-from": "bleed_wound_difficult_terrible",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
-    "description": "Use an absorbant material to apply pressure to your impaled limb and hope it stops the torrent of blood leaving your body.",
+    "description": "Use an absorbant material to pack your impaled limb, and hope it stops the torrent of blood leaving your body.",
     "wounds_removed": [ "bleeding_stab_terrible" ],
     "wounds_added": [ "stab_terrible" ],
     "success_msg": "You spend a while applying pressure until the profuse bleeding is under control."
+  },
+  {
+    "id": "bleed_stab_small_pressure_fix",
+    "copy-from": "bleed_wound_medium_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the puncture and stop the bleeding.",
+    "wounds_removed": [ "bleeding_stab_small" ],
+    "wounds_added": [ "stab_small" ],
+    "success_msg": "You apply pressure, and the flow of blood from the puncture stops."
+  },
+  {
+    "id": "bleed_stab_medium_pressure_fix",
+    "copy-from": "bleed_wound_difficult_medium_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the deep puncture and stop the bleeding, you should really be doing this with a bandage.",
+    "wounds_removed": [ "bleeding_stab_medium" ],
+    "wounds_added": [ "stab_medium" ],
+    "success_msg": "You apply pressure, and the flow of blood from the deep puncture stops."
+  },
+  {
+    "id": "bleed_stab_bad_pressure_fix",
+    "copy-from": "bleed_wound_difficult_bad_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the stab wound and stop the bleeding, you should really be doing this with a bandage.",
+    "wounds_removed": [ "bleeding_stab_bad" ],
+    "wounds_added": [ "stab_bad" ],
+    "success_msg": "You apply pressure, and the flow of blood from the stab wound stops."
+  },
+  {
+    "id": "bleed_stab_terrible_pressure_fix",
+    "copy-from": "bleed_wound_difficult_terrible_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to your impaled limb and hope it stops the torrent of blood leaving your body, you should really be doing this with a bandage.",
+    "wounds_removed": [ "bleeding_stab_terrible" ],
+    "wounds_added": [ "stab_terrible" ],
+    "success_msg": "You spend a while applying pressure until the profuse bleeding is under control."
+  },
+  {
+    "id": "bleed_stab_small_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Use an emergency bandage to apply pressure to the puncture and stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_stab_small" ],
+    "wounds_added": [ "emergency_stab_small" ],
+    "success_msg": "You apply the emergency bandage.  The puncture should stop bleeding soon."
+  },
+  {
+    "id": "bleed_stab_medium_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Use an emergency bandage to apply pressure the deep puncture and stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_stab_medium" ],
+    "wounds_added": [ "emergency_stab_medium" ],
+    "success_msg": "You apply the emergency bandage.  The deep puncture should stop bleeding before long."
+  },
+  {
+    "id": "bleed_stab_bad_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Use an emergency bandage to pack apply pressure to stab wound and stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_stab_bad" ],
+    "wounds_added": [ "emergency_stab_bad" ],
+    "success_msg": "You apply the emergency bandage.  Your stabbed limb might stop the bleeding before you bleed out."
+  },
+  {
+    "id": "bleed_stab_terrible_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Use an emergency bandage to apply pressure to your impaled limb, and hope it stops the torrent of blood leaving your body, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_stab_terrible" ],
+    "wounds_added": [ "emergency_stab_terrible" ],
+    "success_msg": "You apply the emergency bandage to your impaled limb and hope it'll be enough."
   },
   {
     "id": "clean_stab_small_fix",

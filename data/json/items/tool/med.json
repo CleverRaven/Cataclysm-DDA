@@ -558,5 +558,21 @@
     "color": "dark_gray",
     "qualities": [ [ "LOCKPICK", 1 ], [ "LEATHER_AWL", 1 ], [ "PUNCH", 1 ] ],
     "melee_damage": { "stab": 1 }
+  },
+  {
+    "id": "emergency_bandage",
+    "type": "ITEM",
+    "category": "drugs",
+    "name": { "str": "emergency bandage" },
+    "description": "An emergency bandage, most often used by soldiers.",
+    "weight": "99 g",
+    "volume": "45 ml",
+    "price": "850 cent",
+    "price_postapoc": "150 cent",
+    "material": [ "cotton" ],
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 6000 }
   }
 ]

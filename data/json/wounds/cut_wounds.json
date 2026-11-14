@@ -223,6 +223,74 @@
     "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 100 } ]
   },
   {
+    "id": "emergency_scratch_bad",
+    "copy-from": "bleeding_scratch_bad",
+    "type": "wound",
+    "name": { "str": "gouge" },
+    "description": "The emergency bandage is applying pressure, the bleeding should stop soon. The site of the injury is still dirty.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "7 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -4 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -4 }
+    ],
+    "periodic_message": { "message": "", "rate": "999 hours" },
+    "progress_timer": { "id": "scratch_bad", "time": [ "2 minutes", "2 minutes" ], "message": "Your gouge on your %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_scratch_bad", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_cut_medium",
+    "copy-from": "bleeding_cut_medium",
+    "type": "wound",
+    "name": { "str": "cut" },
+    "description": "The emergency bandage is applying pressure, it should stop bleeding before it becomes too much of a problem.  The site of the injury is still dirty.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "6 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -6 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -6 }
+    ],
+    "periodic_message": { "message": "You can see the bandage over your wound growing a deeper red slowly.", "rate": "1 minutes" },
+    "progress_timer": { "id": "cut_medium", "time": [ "2 minutes", "2 minutes" ], "message": "Your cut on your %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_cut_medium", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_cut_bad",
+    "copy-from": "bleeding_cut_bad",
+    "type": "wound",
+    "name": { "str": "gash", "str_pl": "gashes" },
+    "description": "The emergency bandage is applying pressure, you'll still lose a significant amount of blood.  If it isn't properly cleaned out after it stops bleeding, sepsis is likely to kill you instead.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "3 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -11 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -11 }
+    ],
+    "periodic_message": { "message": "You can see the bandage over your wound growing a deeper red quickly.", "rate": "1 minutes" },
+    "progress_timer": { "id": "cut_bad", "time": [ "7 minutes", "7 minutes" ], "message": "Your gash on your %s stops bleeding." },
+    "wound_progression": [ { "id": "bleeding_cut_bad", "chance": 100 } ]
+  },
+  {
+    "id": "emergency_cut_terrible",
+    "copy-from": "bleeding_cut_terrible",
+    "type": "wound",
+    "name": { "str": "life-threatening gash", "str_pl": "life-threatening gashes" },
+    "description": "The emergency bandage is applying pressure, you're in danger of bleeding out without a saline infusion.  You'll need to thoroughly clean it after it stops bleeding.",
+    "weight": 0,
+    "mod_values": [
+      { "type": "BLEED", "rate": "1 seconds" },
+      { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -15 },
+      { "type": "VITAMIN", "vitamin_id": "blood", "rate": "1 seconds", "amount": -15 }
+    ],
+    "periodic_message": { "message": "Blood pours from the gash even under the emergency bandage", "rate": "1 minutes" },
+    "progress_timer": {
+      "id": "cut_terrible",
+      "time": [ "13 minutes", "13 minutes" ],
+      "message": "Your life-threatening gash on your %s stops bleeding."
+    },
+    "wound_progression": [ { "id": "bleeding_cut_terrible", "chance": 100 } ]
+  },
+  {
     "id": "clean_scratch_small",
     "copy-from": "scratch_small",
     "type": "wound",
