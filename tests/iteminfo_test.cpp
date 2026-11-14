@@ -748,8 +748,8 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, dpstam ) ==
                "--\n"
                "Typical damage per stamina:\n"
-               "Best: <color_c_yellow>6.49</color>"
-               "  Vs. Agile: <color_c_yellow>2.93</color>"
+               "Best: <color_c_yellow>4.87</color>"
+               "  Vs. Agile: <color_c_yellow>2.20</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 }
