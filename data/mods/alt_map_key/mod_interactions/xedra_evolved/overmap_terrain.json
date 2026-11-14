@@ -179,28 +179,33 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_ground1", "lodgev_ground2" ],
+    "id": [ "lodgev_ground1", "lodgev_ground2", "lodge_VH_ground1", "lodge_VH_ground2" ],
     "copy-from": "lodgev_ground1",
     "sym": "L",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ],
+    "id": [ "lodgev_2ndfloor1", "lodgev_2ndfloor2", "lodge_VH_2ndfloor1", "lodge_VH_2ndfloor2" ],
     "copy-from": "lodgev_2ndfloor1",
     "sym": "L",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_roof1", "lodgev_roof2" ],
+    "id": [ "lodgev_roof1", "lodgev_roof2", "lodge_VH_roof1", "lodge_VH_roof2" ],
     "copy-from": "lodgev_roof1",
     "sym": "L",
     "color": "brown"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lodgev_basement_residential1", "lodgev_basement_residential2" ],
+    "id": [
+      "lodgev_basement_residential1",
+      "lodgev_basement_residential2",
+      "lodge_VH_basement_residential1",
+      "lodge_VH_basement_residential2"
+    ],
     "copy-from": "lodgev_basement_residential1",
     "sym": "B",
     "color": "brown"
@@ -346,5 +351,40 @@
     "copy-from": "undine_warp_pool_zneg",
     "sym": "#",
     "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "crystalline_spire_nw", "crystalline_spire_ne", "crystalline_spire_sw", "crystalline_spire_se" ],
+    "copy-from": "crystalline_spire_nw",
+    "sym": "C",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_book_lies", "cabin_roof_book_lies" ],
+    "copy-from": "cabin_book_lies",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult_basement",
+    "copy-from": "cabin_nether_cult_basement",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult_roof",
+    "copy-from": "cabin_nether_cult_roof",
+    "sym": "C",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cabin_nether_cult",
+    "copy-from": "cabin_nether_cult",
+    "sym": "C",
+    "color": "brown"
   }
 ]
