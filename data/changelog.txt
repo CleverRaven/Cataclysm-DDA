@@ -126,6 +126,7 @@ Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 New wound system, cut, bash, and stab wounds
+Add zone 'Work: Dissect Corpses'
 
 
 ## Content:
@@ -228,6 +229,12 @@ A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
 Bionic wounds and ways to repair them
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
+Sci-fi horrors from imagined wars.
+Additional epilogues for NPCs featuring more queer representation and mentioning of biotics.
+Create a new scenario set a month or two after the Cataclysm, with a stocked base
+Add Tentacle Rakes combat*
+Add vine wounds
+Add HESCO MIL 3 earth-filled barriers
 
 
 ## Interface:
@@ -290,6 +297,7 @@ Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
 Scenarios are now divided into separate difficulty categories
 Display NPCs' current activity when looking at them
 Body Status Menu
+Rewrite wound text to be colorful and immersive
 
 
 ## Mods:
@@ -398,6 +406,13 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
+[DinoMod] Rubik will not talk if he does not like you
+[alt-map-key] Add new overmap terrain
+[innawoods] No more canvas sacks without canvas
+[Xedra Evolved] March Lords can carry unique gear
+Aftershock: Combat Headsets
+[Xedra Evolved] Elemental samples to essence
+[Xedra Evolved] Ríastrad edits
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -467,6 +482,11 @@ More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
 Wounds stage down when healing
+Bruises stage down when healing
+Sling-ready grenades, molotovs, other explosive and gas bomb items now take some time to activate.
+Add actual weariness to life-or-death combat
+Dynamite and Dynamite bomb description adjustments to be consistent with the other items
+Slightly nerf Nauseating Stench
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -679,6 +699,16 @@ NPCs keep tasks through naps, leave other factions' stuff alone, light fires onl
 NPCs don't freeze when something comes up on the way to their job
 NPCs fetch construction components from containers and spread over construction sites
 Fix dragged furniture deleting every second item
+Wounds with only progress timer doesn't get updated
+Add mising `REGEN_WOUND` to 48x-Locutus
+Adjust combat Exoskeleton pocket encumbrance and access cost
+rapid strike was removed from knives, still persists on the sword bayonet
+[Xedra Evolved] Update Arvore regen wounds
+Allow mutations to destroy all conflicting bionics
+[MoM] Fix the Knockdown power
+[Xedra Evolved] Fix Fist of Taranis spell class/type
+Blanched acorns correspond properly to raw acorns
+[Xedra Evolved] Fix crash bug with Salamander/Arvore draughts
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -853,6 +883,7 @@ Android apk with sounds
 MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
 More support for C++20
+Fixed a macro collision on CMake Windows builds
 
 
 ## I18N and A11Y:
