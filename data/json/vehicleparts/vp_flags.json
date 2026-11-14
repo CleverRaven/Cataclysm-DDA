@@ -607,6 +607,10 @@
     "type": "json_flag"
   },
   {
+    "id": "SNOWPLOW",
+    "type": "json_flag"
+  },
+  {
     "id": "SPACE_HEATER",
     "type": "json_flag"
   },
