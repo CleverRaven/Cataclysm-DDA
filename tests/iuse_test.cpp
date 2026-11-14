@@ -21,6 +21,8 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class Character;
+
 static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bile_irritant( "bile_irritant" );
@@ -79,9 +81,12 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
     dummy.normalize();
 
-    item eyedrops( itype_saline, calendar::turn_zero, item::default_charges_tag{} );
 
-    int charges_before = eyedrops.charges;
+
+    item_location eyedrops = dummy.i_add( item( itype_saline, calendar::turn_zero,
+                                          item::default_charges_tag{} ) );
+
+    int charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is boomered" ) {
@@ -92,7 +97,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
-                CHECK( eyedrops.charges == charges_before - 1 );
+                CHECK( eyedrops->charges == charges_before - 1 );
 
                 AND_THEN( "it removes the boomered effect" ) {
                     CHECK_FALSE( dummy.has_effect( effect_boomered ) );
@@ -101,7 +106,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         }
     }
 
-    charges_before = eyedrops.charges;
+    charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar gets conjunctivitis" ) {
@@ -113,7 +118,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
-                CHECK( eyedrops.charges == charges_before - 1 );
+                CHECK( eyedrops->charges == charges_before - 1 );
 
                 AND_THEN( "it shortens the duration of conjunctivitis" ) {
                     CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 24_hours );
@@ -122,7 +127,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         }
     }
 
-    charges_before = eyedrops.charges;
+    charges_before = eyedrops->charges;
     REQUIRE( charges_before > 0 );
 
     GIVEN( "avatar is underwater" ) {
@@ -132,7 +137,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "None were used" ) {
-                CHECK( eyedrops.charges == charges_before );
+                CHECK( eyedrops->charges == charges_before );
             }
         }
     }
@@ -308,6 +313,8 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 
     item oxygen( itype_oxygen_tank );
     oxygen.ammo_set( itype_oxygen );
+    Character *who = &dummy;
+    item_location loc_oxygen( *who, &oxygen );
 
     int charges_before = oxygen.ammo_remaining( );
     REQUIRE( charges_before > 0 );
@@ -321,7 +328,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
         REQUIRE( dummy.has_effect( effect_smoke_lungs ) );
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
-            dummy.invoke_item( &oxygen );
+            dummy.invoke_item( loc_oxygen );
             CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_smoke_lungs ) );
 
@@ -336,7 +343,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
         REQUIRE( dummy.has_effect( effect_teargas ) );
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
-            dummy.invoke_item( &oxygen );
+            dummy.invoke_item( loc_oxygen );
             CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_teargas ) );
 
@@ -351,7 +358,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
         REQUIRE( dummy.has_effect( effect_asthma ) );
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
-            dummy.invoke_item( &oxygen );
+            dummy.invoke_item( loc_oxygen );
             CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( effect_asthma ) );
 
@@ -371,7 +378,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
             REQUIRE( dummy.get_stim() == 0 );
 
             THEN( "a dose of oxygen is stimulating" ) {
-                dummy.invoke_item( &oxygen );
+                dummy.invoke_item( loc_oxygen );
                 CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
@@ -391,7 +398,7 @@ TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
             REQUIRE( dummy.get_stim() == max_stim );
 
             THEN( "a dose of oxygen has no additional stimulation effects" ) {
-                dummy.invoke_item( &oxygen );
+                dummy.invoke_item( loc_oxygen );
                 CHECK( oxygen.ammo_remaining( ) == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
@@ -442,6 +449,9 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
     item towel( itype_towel, calendar::turn_zero, item::default_charges_tag{} );
 
+    Character *who = &dummy;
+    item_location loc_towel( *who, &towel );
+
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
         dummy.drench( 100, { body_part_torso, body_part_head, body_part_arm_l, body_part_arm_r },
@@ -453,7 +463,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it dries them off" ) {
                 CHECK( dummy.get_part_wetness( bodypart_id( "torso" ) ) == 0 );
@@ -470,7 +480,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         WHEN( "they use a wet towel" ) {
             towel.convert( itype_towel_wet );
             REQUIRE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it does not dry them off" ) {
                 CHECK( dummy.get_part_wetness( bodypart_id( "torso" ) ) > 0 );
@@ -490,7 +500,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
         WHEN( "they use a wet towel" ) {
             towel.convert( itype_towel_wet );
             REQUIRE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it does not improve their morale" ) {
                 CHECK( dummy.has_morale( morale_wet ) == -10 );
@@ -499,7 +509,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it improves their morale" ) {
                 CHECK( dummy.has_morale( morale_wet ) == 0 );
@@ -523,7 +533,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it removes all those effects at once" ) {
                 CHECK_FALSE( dummy.has_effect( effect_slimed ) );
@@ -545,7 +555,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
-            dummy.invoke_item( &towel );
+            dummy.invoke_item( loc_towel );
 
             THEN( "it removes the boomered effect, but not the wetness" ) {
                 CHECK_FALSE( dummy.has_effect( effect_boomered ) );
@@ -597,7 +607,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        item thora( itype_thorazine, calendar::turn );
+        item_location thora = dummy.i_add( item( itype_thorazine, calendar::turn,
+                                           item::default_charges_tag{} ) );
         dummy.consume( thora );
 
         REQUIRE( dummy.has_item_with( []( const item & it ) {
@@ -624,7 +635,8 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     avatar dummy;
     dummy.normalize();
 
-    item prozac( itype_prozac, calendar::turn_zero, item::default_charges_tag{} );
+    item_location prozac = dummy.i_add( item( itype_prozac, calendar::turn_zero,
+                                        item::default_charges_tag{} ) );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
@@ -692,7 +704,8 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
     avatar dummy;
     dummy.normalize();
 
-    item panacea( itype_panacea, calendar::turn_zero, item::default_charges_tag{} );
+    item_location panacea = dummy.i_add( item( itype_panacea, calendar::turn_zero,
+                                         item::default_charges_tag{} ) );
 
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_cureall ) );
@@ -707,7 +720,7 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     avatar dummy;
     dummy.normalize();
 
-    item xanax( itype_xanax, calendar::turn_zero, item::default_charges_tag{} );
+    item_location xanax = dummy.i_add( item( itype_xanax, calendar::turn_zero, item::default_charges_tag{} ) );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_xanax ) );
@@ -736,14 +749,15 @@ TEST_CASE( "gasmask_filter_drains_on_full_absorption", "[iuse][gasmask]" )
 
     item_location mask_loc = dummy.i_add( mask );
     REQUIRE( dummy.wear( mask_loc, false ) );
-    item *worn_mask = dummy.worn.top_items_loc( dummy ).front().get_item();
+    item_location worn_mask_loc = dummy.worn.top_items_loc( dummy ).front();
+    item *worn_mask = worn_mask_loc.get_item();
     REQUIRE( worn_mask != nullptr );
     REQUIRE( dummy.is_worn( *worn_mask ) );
 
     worn_mask->active = true;
     worn_mask->set_var( "gas_absorbed", 60 );
 
-    iuse::gasmask( &dummy, worn_mask, pos );
+    iuse::gasmask( &dummy, worn_mask_loc, pos );
 
     CHECK( worn_mask->ammo_remaining() == charges_before - 1 );
     CHECK( worn_mask->get_var( "gas_absorbed", -1 ) == 0 );

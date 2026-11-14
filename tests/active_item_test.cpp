@@ -24,6 +24,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class Character;
+
 static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flashlight_on( "flashlight_on" );
@@ -81,6 +83,9 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
 
 TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
 {
+    avatar &dummy = get_avatar();
+    Character *who = &dummy;
+
     // Gasoline lantern without a battery, using gasoline instead
     item test_lantern( itype_gasoline_lantern_on );
     const itype_id &default_ammo = test_lantern.ammo_default();
@@ -98,7 +103,7 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
     REQUIRE( test_lantern.ammo_remaining( ) == ammo_capacity );
     do {
         calendar::turn += 1_seconds;
-        test_lantern.process( here, nullptr, tripoint_bub_ms::zero );
+        test_lantern.process( here, who, tripoint_bub_ms::zero );
         seconds_active++;
     } while( test_lantern.active );
     REQUIRE( test_lantern.ammo_remaining( ) == 0 );
@@ -109,6 +114,9 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
 
 TEST_CASE( "tool_power_consumption_rate", "[active_item]" )
 {
+    avatar &dummy = get_avatar();
+    Character *who = &dummy;
+
     // Give the flashlight a fully charged battery, 56 kJ
     item test_battery( itype_medium_battery_cell );
     test_battery.ammo_set( test_battery.ammo_default(), 56 );
@@ -125,7 +133,7 @@ TEST_CASE( "tool_power_consumption_rate", "[active_item]" )
     // Capture now because after the loop the tool will be an inactive tool with no power draw.
     units::energy minimum_energy = tool.type->tool->power_draw * 1_seconds;
     do {
-        tool.process( here, nullptr, tripoint_bub_ms::zero );
+        tool.process( here, who, tripoint_bub_ms::zero );
         seconds_of_discharge++;
     } while( tool.active );
     REQUIRE( tool.energy_remaining() < minimum_energy );

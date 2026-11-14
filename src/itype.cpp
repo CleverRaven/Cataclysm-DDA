@@ -20,6 +20,8 @@
 #include "translations.h"
 #include "units_utility.h"
 
+class item_location;
+
 static const flag_id json_flag_CAN_HAVE_CHARGES( "CAN_HAVE_CHARGES" );
 
 std::string gunmod_location::name() const
@@ -256,7 +258,7 @@ const use_function *itype::get_tick( const std::string &iuse_name ) const
     return iter != tick_action.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
+int itype::tick( Character *p, item_location &it, const tripoint_bub_ms &pos ) const
 {
     int charges_to_use = 0;
     for( const auto &method : tick_action ) {
@@ -266,12 +268,13 @@ int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
     return charges_to_use;
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos ) const
+std::optional<int> itype::invoke( Character *p, item_location &it,
+                                  const tripoint_bub_ms &pos ) const
 {
     return itype::invoke( p, it, &get_map(), pos );
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, map *here,
+std::optional<int> itype::invoke( Character *p, item_location &it, map *here,
                                   const tripoint_bub_ms &pos ) const
 {
     if( !has_use() ) {
@@ -284,13 +287,14 @@ std::optional<int> itype::invoke( Character *p, item &it, map *here,
     }
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos,
+std::optional<int> itype::invoke( Character *p, item_location &it, const tripoint_bub_ms &pos,
                                   const std::string &iuse_name ) const
 {
     return itype::invoke( p, it, &get_map(), pos, iuse_name );
 }
 
-std::optional<int> itype::invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
+std::optional<int> itype::invoke( Character *p, item_location &it, map *here,
+                                  const tripoint_bub_ms &pos,
                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );

@@ -48,6 +48,7 @@
 class Character;
 class Item_factory;
 class Trait_group;
+class item_location;
 class map;
 template <typename E> struct enum_traits;
 
@@ -1768,16 +1769,16 @@ struct itype {
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
         // TODO: Replace usage of map less overload.
-        std::optional<int> invoke( Character *p, item &it,
+        std::optional<int> invoke( Character *p, item_location &it,
                                    const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character *p, item &it,
+        std::optional<int> invoke( Character *p, item_location &it,
                                    map *here, const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
         // TODO: Replace usage of map less overload.
-        std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
+        std::optional<int> invoke( Character *p, item_location &it, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        std::optional<int> invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
+        std::optional<int> invoke( Character *p, item_location &it, map *here, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
+        int tick( Character *p, item_location &it, const tripoint_bub_ms &pos ) const;
 
         virtual ~itype() = default;
 

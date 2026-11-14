@@ -6,10 +6,12 @@
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "point.h"
 #include "type_id.h"
@@ -65,8 +67,11 @@ TEST_CASE( "explosion_on_ground", "[.]" )
 
     const tripoint_bub_ms area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );
+
+    map_cursor mc( area_center );
+    item_location loc( mc, &rdx_keg );
     rdx_keg.charges = 0;
-    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center );
+    rdx_keg.type->invoke( &get_avatar(), loc, area_center );
 
     // Check area to see if any t_flat_roof is present.
     for( int x = 0; x < area_dim; x++ ) {
@@ -111,8 +116,10 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 
     const tripoint_bub_ms area_center( area_dim / 2, area_dim / 2, 0 );
     item rdx_keg( rdx_keg_typeid );
+    map_cursor mc( area_center );
+    item_location loc( mc, &rdx_keg );
     rdx_keg.charges = 0;
-    rdx_keg.type->invoke( &get_avatar(), rdx_keg, area_center );
+    rdx_keg.type->invoke( &get_avatar(), loc, area_center );
 
     // Check z0 for open air
     bool found_open_air = false;

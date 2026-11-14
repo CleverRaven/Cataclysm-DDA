@@ -34,183 +34,184 @@ namespace iuse
 {
 
 // FOOD AND DRUGS (ADMINISTRATION)
-std::optional<int> antibiotic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> anticonvulsant( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> antifungal( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> antiparasitic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> blech( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> blech_because_unclean( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> chew( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> coke( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> datura( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ecig( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> eyedrops( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> flu_vaccine( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> flumed( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> flusleep( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fungicide( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> honeycomb( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> inhaler( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> meditate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> meth( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> petfood( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> plantblech( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> poison( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> prozac( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> purify_smart( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> sewage( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> smoking( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> thorazine( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> weed_cake( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> xanax( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> antibiotic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> anticonvulsant( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> antifungal( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> antiparasitic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> blech( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> blech_because_unclean( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> chew( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> coke( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> datura( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> ecig( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> eyedrops( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> flu_vaccine( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> flumed( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> flusleep( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fungicide( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> honeycomb( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> inhaler( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> meditate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> meth( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> petfood( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> plantblech( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> poison( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> prozac( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> purify_smart( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> sewage( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> smoking( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> thorazine( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> weed_cake( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> xanax( Character *, item_location &, const tripoint_bub_ms & );
 
 // TOOLS
-std::optional<int> acidbomb_act( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> adrenaline_injector( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> afs_translocator( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> bell( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> blood_draw( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> boltcutters( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> break_stick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> call_of_tindalos( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> camera( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> can_goo( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> capture_monster_act( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> efiledevice( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> heat_solid_items( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> heat_all_items( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> capture_monster_veh( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> change_eyes( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> change_skin( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> chop_logs( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> chop_tree( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> clear_rubble( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> coin_flip( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> contacts( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> crowbar( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> crowbar_weak( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> dig( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> dig_channel( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> directional_antenna( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> directional_hologram( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> dog_whistle( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> ehandcuffs( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> emf_passive_on( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> extinguisher( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fill_pit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> firecracker_pack_act( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fish_trap( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fish_trap_tick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fishing_rod( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> fitness_check( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> foodperson( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> foodperson_voice( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> gasmask( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> gasmask_activate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> geiger( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> geiger_active( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> granade_act( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> grenade_inc_act( Character *p, item *, const tripoint_bub_ms & );
-std::optional<int> gun_repair( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> gunmod_attach( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> hacksaw( Character *, item *, const tripoint_bub_ms &it_pnt );
-std::optional<int> hairkit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> hand_crank( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> heat_food( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> heatpack( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> hotplate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> hotplate_atomic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> jackhammer( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> jet_injector( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> lumber( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ma_manual( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> magic_8_ball( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> measure_resonance( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> change_outfit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> ebooksave( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> makemound( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> mace( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> manage_exosuit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> mininuke( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> mop( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> mp3( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> mp3_on( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> mp3_deactivate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> noise_emitter_on( Character *, item *it, const tripoint_bub_ms & );
-std::optional<int> oxygen_bottle( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> oxytorch( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> binder_add_recipe( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> binder_manage_recipe( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> pack_cbm( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> pack_item( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> papr_blower( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> papr_mask( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> papr_mask_activate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> pick_lock( Character *p, item *it, const tripoint_bub_ms &pos );
-std::optional<int> pickaxe( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> play_game( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> portable_game( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> portal( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radglove( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radio_mod( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radio_on( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radio_tick( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> remove_all_mods( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> robotcontrol( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> rpgdie( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> scba_mask( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> scba_mask_activate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> scba_tank_activate( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> seed( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> shavekit( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> siphon( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> solarpack( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> solarpack_off( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> spray_can( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> stimpack( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> strong_antibiotic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> talking_doll( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> tazer( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> teleport( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> toolmod_attach( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> towel( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> unfold_generic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> vibe( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> view_photos( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> view_recipes( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> voltmeter( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> vortex( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> wash_all_items( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> wash_hard_items( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> acidbomb_act( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> adrenaline_injector( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> afs_translocator( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> bell( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> blood_draw( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> boltcutters( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> break_stick( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> call_of_tindalos( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> camera( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> can_goo( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> capture_monster_act( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> efiledevice( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> heat_solid_items( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> heat_liquid_items( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> heat_all_items( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> capture_monster_veh( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> change_eyes( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> change_skin( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> chop_logs( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> chop_tree( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> clear_rubble( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> coin_flip( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> contacts( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> crowbar( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> crowbar_weak( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> dig( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> dig_channel( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> directional_antenna( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> directional_hologram( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> dog_whistle( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> ehandcuffs( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> ehandcuffs_tick( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> emf_passive_on( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> extinguisher( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fill_pit( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> firecracker_pack_act( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fish_trap( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fish_trap_tick( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fishing_rod( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> fitness_check( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> foodperson( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> foodperson_voice( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> gasmask( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> gasmask_activate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> geiger( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> geiger_active( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> granade_act( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> grenade_inc_act( Character *p, item_location &, const tripoint_bub_ms & );
+std::optional<int> gun_repair( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> gunmod_attach( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> hacksaw( Character *, item_location &, const tripoint_bub_ms &it_pnt );
+std::optional<int> hairkit( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> hand_crank( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> heat_food( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> heatpack( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> hotplate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> hotplate_atomic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> jackhammer( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> jet_injector( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> lumber( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> ma_manual( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> magic_8_ball( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> measure_resonance( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> change_outfit( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> ebooksave( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> makemound( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> mace( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> manage_exosuit( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> mininuke( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> mop( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> mp3( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> mp3_on( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> mp3_deactivate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> noise_emitter_on( Character *, item_location &it, const tripoint_bub_ms & );
+std::optional<int> oxygen_bottle( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> oxytorch( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> binder_add_recipe( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> binder_manage_recipe( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> pack_cbm( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> pack_item( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> papr_blower( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> papr_mask( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> papr_mask_activate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> pick_lock( Character *p, item_location &it, const tripoint_bub_ms &pos );
+std::optional<int> pickaxe( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> play_game( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> portable_game( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> portal( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radglove( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radio_mod( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radio_on( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radio_tick( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> remove_all_mods( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> robotcontrol( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> rpgdie( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> scba_mask( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> scba_mask_activate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> scba_tank_activate( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> seed( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> shavekit( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> siphon( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> solarpack( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> solarpack_off( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> spray_can( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> stimpack( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> strong_antibiotic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> talking_doll( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> tazer( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> teleport( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> toolmod_attach( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> towel( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> unfold_generic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> vibe( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> view_photos( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> view_recipes( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> voltmeter( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> vortex( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> wash_all_items( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> wash_hard_items( Character *, item_location &, const tripoint_bub_ms & );
 std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
-std::optional<int> wash_soft_items( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> water_purifier( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> weak_antibiotic( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> weather_tool( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> sextant( Character *p, item *it, const tripoint_bub_ms & );
-std::optional<int> lux_meter( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> dbg_lux_meter( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> calories_intake_tracker( Character *p, item *, const tripoint_bub_ms & );
+std::optional<int> wash_soft_items( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> water_purifier( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> weak_antibiotic( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> weather_tool( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> sextant( Character *p, item_location &it, const tripoint_bub_ms & );
+std::optional<int> lux_meter( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> dbg_lux_meter( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> calories_intake_tracker( Character *p, item_location &,
+        const tripoint_bub_ms & );
 
 // MACGUFFINS
 
-std::optional<int> radiocar( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radiocontrol( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> radiocontrol_tick( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> radiocar( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radiocontrol( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> radiocontrol_tick( Character *, item_location &, const tripoint_bub_ms & );
 
-std::optional<int> multicooker( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> multicooker_tick( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> multicooker( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> multicooker_tick( Character *, item_location &, const tripoint_bub_ms & );
 
-std::optional<int> remoteveh( Character *, item *, const tripoint_bub_ms & );
-std::optional<int> remoteveh_tick( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> remoteveh( Character *, item_location &, const tripoint_bub_ms & );
+std::optional<int> remoteveh_tick( Character *, item_location &, const tripoint_bub_ms & );
 
-std::optional<int> craft( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> craft( Character *, item_location &, const tripoint_bub_ms & );
 
-std::optional<int> disassemble( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> disassemble( Character *, item_location &, const tripoint_bub_ms & );
 
-std::optional<int> post_up( Character *, item *, const tripoint_bub_ms & );
+std::optional<int> post_up( Character *, item_location &, const tripoint_bub_ms & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
@@ -234,7 +235,7 @@ std::optional<std::string> can_smoke( const Character &you );
 
 void remove_radio_mod( item &it, Character &p );
 // used for unit testing iuse::gun_repair
-std::optional<int> gun_repair( Character *p, item *it, item_location &loc );
+std::optional<int> gun_repair( Character *p, item_location &it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -263,7 +264,7 @@ heater find_heater( Character *, item *, bool force_use_it );
 heating_requirements heating_requirements_for_weight( const units::mass &,
         const units::mass &, const units::volume & );
 
-using use_function_pointer = std::optional<int> ( * )( Character *, item *,
+using use_function_pointer = std::optional<int> ( * )( Character *, item_location &,
                              const tripoint_bub_ms & );
 
 class iuse_actor
@@ -283,8 +284,9 @@ class iuse_actor
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo, const std::string &src ) = 0;
-        virtual std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const = 0;
-        virtual ret_val<void> can_use( const Character &, const item &, map *here,
+        virtual std::optional<int> use( Character *, item_location &, map *here,
+                                        const tripoint_bub_ms & ) const = 0;
+        virtual ret_val<void> can_use( const Character &, const item_location &, map *here,
                                        const tripoint_bub_ms & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
@@ -327,11 +329,12 @@ struct use_function {
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         // TODO: Replace map unaware overload with map aware.
-        std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
-        std::optional<int> call( Character *, item &, map *here, const tripoint_bub_ms & ) const;
+        std::optional<int> call( Character *, item_location &, const tripoint_bub_ms & ) const;
+        std::optional<int> call( Character *, item_location &, map *here, const tripoint_bub_ms & ) const;
         // TODO: Replace map unaware overload with map aware.
-        ret_val<void> can_call( const Character &, const item &, const tripoint_bub_ms &pos ) const;
-        ret_val<void> can_call( const Character &, const item &, map *here,
+        ret_val<void> can_call( const Character &, const item_location &,
+                                const tripoint_bub_ms &pos ) const;
+        ret_val<void> can_call( const Character &, const item_location &, map *here,
                                 const tripoint_bub_ms &pos ) const;
 
         iuse_actor *get_actor_ptr() {

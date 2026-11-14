@@ -20,6 +20,7 @@
 #include "fragment_cloud.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -36,6 +37,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+class Character;
 
 static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
 
@@ -125,7 +128,9 @@ static void check_lethality( const itype_id &explosive_id, const int range, floa
         }
         // Set off an explosion
         item grenade( explosive_id );
-        grenade.type->countdown_action.call( &get_avatar(), grenade, origin );
+        Character *who = &get_avatar();
+        item_location loc( *who, &grenade );
+        grenade.type->countdown_action.call( who, loc, origin );
         explosion_handler::process_explosions();
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
@@ -207,7 +212,9 @@ static void check_vehicle_damage( const itype_id &explosive_id, const std::strin
 
     // Set off an explosion
     item grenade( explosive_id );
-    grenade.type->countdown_action.call( &get_avatar(), grenade, origin );
+    Character *who = &get_avatar();
+    item_location loc( *who, &grenade );
+    grenade.type->countdown_action.call( who, loc, origin );
     explosion_handler::process_explosions();
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
