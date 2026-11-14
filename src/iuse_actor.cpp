@@ -4072,6 +4072,24 @@ bodypart_id heal_actor::use_healing_item( Character &healer, Character &patient,
                 add_msg( m_info, _( "Never mind." ) );
                 return bodypart_str_id::NULL_ID().id(); // canceled
             }
+            if( patient.has_wounds( healed.id() ) ) {
+                const std::vector<wound> &wounds = patient.wounds_on( healed.id() );
+                if( !std::any_of( wounds.begin(), wounds.end(), [&healer]( const wound & wd ) {
+                return wd.treatable_by( healer );
+                } ) ) {
+                    // TODO: this is a bit gross - fix when bites are treated in wounds menu
+                    if( ( disinfectant_power > 0 && patient.has_effect( effect_bite, healed ) ) ||
+                        query_yn( _( "You have wounds on this limb that won't be healed by this.  Continue?" ) ) ) {
+                        return healed;
+                    }
+                    return bodypart_str_id::NULL_ID().id();
+                }
+                if( query_yn( _( "A wound on this limb can be treated.  Do you want to do that instead?" ) ) ) {
+                    healer.pick_wound_fix( healed );
+                    return bodypart_str_id::NULL_ID().id();
+
+                }
+            }
             return healed;
         } else {
             // Completed activity, extract body part from it.

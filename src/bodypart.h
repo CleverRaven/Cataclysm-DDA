@@ -515,6 +515,7 @@ class bodypart
         void add_wound( wound_type_id wd, const Character &who );
         bool has_wounds() const;
         bool has_wound( wound_type_id wd ) const;
+        bool has_bleeding_wound() const;
         wound *get_wound( wound_type_id wd_id );
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );

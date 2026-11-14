@@ -84,6 +84,7 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+class wound;
 
 enum scaling_stat : int;
 
@@ -4278,7 +4279,11 @@ class Character : public Creature, public visitable
         bool has_wound( wound_type_id wd ) const;
         bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
 
+        bool has_bleeding_wound( const bodypart_str_id &part ) const;
+
         bool has_wounds( const bodypart_str_id &part ) const;
+
+        const std::vector<wound> &wounds_on( const bodypart_str_id &part ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

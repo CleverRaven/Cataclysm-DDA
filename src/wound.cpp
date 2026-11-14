@@ -605,6 +605,13 @@ wound_update_ret wound::update_wound( const Character *who, const time_duration 
     return wound_update_ret::DO_NOTHING;
 }
 
+bool wound::treatable_by( const Character &c ) const
+{
+    return std::any_of( type->fixes.begin(), type->fixes.end(), [&c]( const wound_fix_id & fix_id ) {
+        return fix_id->doable_by( c );
+    } );
+}
+
 float wound::get_wound_healing_modifier( const Character *who ) const
 {
     float mod = 1.f;
