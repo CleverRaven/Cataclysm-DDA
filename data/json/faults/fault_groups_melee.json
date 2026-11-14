@@ -39,8 +39,17 @@
   },
   {
     "type": "fault_group",
+    "id": "steel_smithed_craft_failures",
+    "group": [
+      { "fault": "interior_cracks", "weight": 100 },
+      { "fault": "craft_failure_uneven_weight", "weight": 100 },
+      { "fault": "craft_failure_misshapen_all_wrong", "weight": 50 }
+    ]
+  },
+  {
+    "type": "fault_group",
     "id": "bladed_weapon_craft_failures",
-    "group": [ { "fault": "interior_cracks", "weight": 100 }, { "fault": "limp_edge", "weight": 1 } ]
+    "group": [ { "fault": "limp_edge", "weight": 1 } ]
   },
   {
     "type": "fault_group",

@@ -187,6 +187,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 7, "cut": 23 }
@@ -214,6 +215,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 7 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 20, "cut": 30 }
@@ -980,6 +982,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 27 }
@@ -1104,6 +1107,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "cut": 20 }
@@ -1190,6 +1194,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 29 }
@@ -1302,6 +1307,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 30 }
@@ -1405,6 +1411,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 11, "stab": 36 }
@@ -1509,6 +1516,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 9, "cut": 36 }
@@ -1616,6 +1624,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 6, "cut": 30 }
@@ -1783,6 +1792,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 9, "cut": 28 }
@@ -2051,6 +2061,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 2, "cut": 32 }
@@ -2158,6 +2169,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 10, "cut": 36 }
@@ -2320,6 +2332,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 6, "cut": 46 }
@@ -2628,6 +2641,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 6, "cut": 28 }
@@ -2819,6 +2833,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 33 }
@@ -2920,6 +2935,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 6, "cut": 30 }
@@ -2971,6 +2987,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 27 }
@@ -3078,6 +3095,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 14, "cut": 35 }
@@ -3162,6 +3180,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 26 }
@@ -3407,6 +3426,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 34 }
@@ -3482,6 +3502,7 @@
     "faults": [
       { "fault_group": "handle_short" },
       { "fault_group": "blade_general", "weight_mult": 5 },
+      { "fault_group": "steel_smithed_craft_failures" },
       { "fault_group": "bladed_weapon_craft_failures" }
     ],
     "melee_damage": { "bash": 5, "cut": 41 }

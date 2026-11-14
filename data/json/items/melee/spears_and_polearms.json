@@ -354,7 +354,11 @@
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "spearhead" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "spearhead" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "SPEARS" ],
     "price": "160 USD",
     "qualities": [ [ "COOK", 1 ] ],
@@ -586,7 +590,11 @@
     "longest_side": "250 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "POLEARM" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "spearhead" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "spearhead" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "SPEARS" ],
     "price": "800 USD",
     "qualities": [ [ "COOK", 1 ] ],
@@ -610,7 +618,11 @@
     "volume": "3750 ml",
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "price_postapoc": "100 USD",
     "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
@@ -690,7 +702,11 @@
     "material": [ "steel", "wood" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2360 g",
@@ -715,7 +731,11 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "POLEARMS" ],
     "price": "800 USD",
     "price_postapoc": "95 USD",
@@ -918,7 +938,11 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "spearhead" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "spearhead" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "SPEARS" ],
     "category": "weapons",
     "melee_damage": { "bash": 9, "stab": 32 }
@@ -1012,7 +1036,11 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 17, "cut": 42 }
   },
@@ -1095,7 +1123,11 @@
     "material": [ "wood", "steel" ],
     "ascii_picture": "halberd",
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "2200 g",
@@ -1249,7 +1281,11 @@
     "material": [ "wood", "lc_steel" ],
     "longest_side": "210 cm",
     "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE", "REACH_ATTACK", "POLEARM", "SHEATH_SPEAR", "SPEAR" ],
-    "faults": [ { "fault_group": "handle_long", "weight_mult": 4 }, { "fault_group": "blade_general" } ],
+    "faults": [
+      { "fault_group": "handle_long", "weight_mult": 4 },
+      { "fault_group": "blade_general" },
+      { "fault_group": "steel_smithed_craft_failures" }
+    ],
     "weapon_category": [ "POLEARMS" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WIDE" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
