@@ -23,9 +23,9 @@ class activity_tracker
         // Weariness metadata.
         // Semi-consecutive 5 minute ticks of low activity (or 2.5 if we're sleeping). Float to handle mixed cases.
         float low_activity_ticks = 0.0f;
-    public:
         int tracker = 0;
         int intake = 0;
+    public:
         // Logs activity level. If called multiple times in one turn, will preserve the highest.
         void log_activity( float new_level );
         // Informs the tracker that a new turn has started.
@@ -47,6 +47,9 @@ class activity_tracker
         void weary_clear();
         int debug_get_tracker() const;
         void debug_set_tracker( int new_tracker );
+        int debug_get_intake() const {
+            return intake;
+        }
         void set_intake( int ncal );
         std::string debug_weary_info() const;
 

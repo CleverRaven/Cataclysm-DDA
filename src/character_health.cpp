@@ -1399,6 +1399,10 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
     if( level <= 0 ) {
         level = activity_history.activity( in_sleep_state() );
     }
+    // We penalize COMBAT_EXERCISE as if it were EXTRA_EXERCISE.
+    if( level == COMBAT_EXERCISE ) {
+        level = EXTRA_EXERCISE;
+    }
     const float max = maximum_exertion_level();
     if( level < max ) {
         return 1.0f;
