@@ -5670,6 +5670,7 @@
     "name": { "str": "Aquatic Sleeper" },
     "description": "You always sleep better underwater.",
     "category": [ "BATRACHIAN", "FISH" ],
+    "prereqs": [ "WATERSLEEP" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "points": 2,
     "vitamin_cost": 160,
