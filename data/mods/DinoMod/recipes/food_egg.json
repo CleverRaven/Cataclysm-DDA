@@ -166,7 +166,7 @@
   },
   {
     "type": "recipe",
-    "result": "boiled_eggs_dino_large",
+    "result": "boiled_egg_dino_large",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
