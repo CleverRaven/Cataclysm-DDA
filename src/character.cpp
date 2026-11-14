@@ -5922,7 +5922,7 @@ void Character::use_fire( const int quantity )
         return;
     }
 
-    const item firestarter = find_firestarter_with_charges( quantity );
+    const item firestarter = *find_firestarter_with_charges( quantity );
     if( firestarter.is_null() ) {
         return;
     }

@@ -3135,7 +3135,7 @@ class Character : public Creature, public visitable
                                      const std::function<bool( const item & )> &filter = return_true<item>,
                                      bool in_tools = false );
 
-        item find_firestarter_with_charges( int quantity ) const;
+        item_location find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();

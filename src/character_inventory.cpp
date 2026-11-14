@@ -2307,7 +2307,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-item Character::find_firestarter_with_charges( const int quantity ) const
+item_location Character::find_firestarter_with_charges( const int quantity ) const
 {
     item_location ret;
     visit_items( [this, &ret, quantity]( const item_location & node ) {
@@ -2335,7 +2335,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
         return VisitResponse::NEXT;
     } );
 
-    return *ret;
+    return ret;
 }
 
 bool Character::has_fire( const int quantity ) const
@@ -2348,7 +2348,7 @@ bool Character::has_fire( const int quantity ) const
     if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
-    if( !find_firestarter_with_charges( quantity ).is_null() ) {
+    if( !find_firestarter_with_charges( quantity ).valid() ) {
         return true;
     }
     if( is_npc() ) {
