@@ -16,14 +16,14 @@ jobs:
       github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download pr id artifact
-        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        uses: dawidd6/action-download-artifact@a92c7ae74cf1df8810783758581e485ac3aaa309 # v28
         with:
           workflow: ${{ github.event.workflow_run.name }}
           run_id: ${{ github.event.workflow_run.id }}
           name: pull_request_id
           allow_forks: false
       - name: Download spell check retcode artifact
-        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        uses: dawidd6/action-download-artifact@a92c7ae74cf1df8810783758581e485ac3aaa309 # v28
         with:
           workflow: ${{ github.event.workflow_run.name }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -34,7 +34,7 @@ jobs:
         run: echo "spell-check-retcode=$( cat spell_check_retcode )" >> $GITHUB_OUTPUT
       - name: Download spell check output artifact
         if: steps.set-spell-check-retcode.outputs.spell-check-retcode >= 1
-        uses: dawidd6/action-download-artifact@09f2f74827fd3a8607589e5ad7f9398816f540fe # v3.1.4
+        uses: dawidd6/action-download-artifact@a92c7ae74cf1df8810783758581e485ac3aaa309 # v28
         with:
           workflow: ${{ github.event.workflow_run.name }}
           run_id: ${{ github.event.workflow_run.id }}
