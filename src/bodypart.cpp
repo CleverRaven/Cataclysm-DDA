@@ -1124,13 +1124,15 @@ std::vector<wound> &bodypart::get_wounds()
     return wounds;
 }
 
-void bodypart::add_or_worsen_wound( const wound_type_id wd, const Character *who )
+void bodypart::add_or_worsen_wound( const wound_type_id wd, const Character *who,
+                                    dealt_damage_instance &ddi )
 {
-    wound wo = wound( wd, who, id );
-    add_or_worsen_wound( wo, who );
+    wound wo = wound( wd, who, id, ddi );
+    add_or_worsen_wound( wo, who, ddi );
 }
 
-void bodypart::add_or_worsen_wound( const wound &wd, const Character *who )
+void bodypart::add_or_worsen_wound( const wound &wd, const Character *who,
+                                    dealt_damage_instance &ddi )
 {
     const std::vector<wound_progress> &wound_progression = wd.type->wound_progression;
 
@@ -1141,19 +1143,11 @@ void bodypart::add_or_worsen_wound( const wound &wd, const Character *who )
             if( x_in_y( wdp.chance, 100 ) ) {
 
                 const wound *old_wound = get_wound( wd.type );
-                wound new_wound = wound( wdp.id, who, id );
+                wound new_wound = wound( wdp.id, who, id, ddi );
                 new_wound += *old_wound;
 
-                add_msg_debug( debugmode::DF_WOUNDS,
-                               "at bodypart %s, wound %s (pain %d, duration %s) progresses to wound %s (pain %d, duration %s).",
-                               id.str(),
-                               wd.type.str(),
-                               wd.get_pain_raw(),
-                               to_string_writable( wd.get_healing_time() ),
-                               new_wound.type.str(),
-                               new_wound.get_pain_raw(),
-                               to_string_writable( new_wound.get_healing_time() )
-                             );
+                add_msg_debug( debugmode::DF_WOUNDS, "at bodypart %s, wound %s progresses to wound %s.",
+                               id.str(), wd.type.str(), new_wound.type.str() );
 
                 remove_wound( *old_wound );
                 add_wound( new_wound );
@@ -1161,14 +1155,7 @@ void bodypart::add_or_worsen_wound( const wound &wd, const Character *who )
         }
 
     } else {
-
-        add_msg_debug( debugmode::DF_WOUNDS,
-                       "at bodypart %s, adding wound %s (pain %d, duration %s).",
-                       id.str(),
-                       wd.type.str(),
-                       wd.get_pain_raw(),
-                       to_string_writable( wd.get_healing_time() )
-                     );
+        add_msg_debug( debugmode::DF_WOUNDS, "at bodypart %s, adding wound %s.", id.str(), wd.type.str() );
 
         add_wound( wd );
     }
@@ -1179,9 +1166,14 @@ void bodypart::add_wound( const wound &wd )
     wounds.emplace_back( wd );
 }
 
-void bodypart::add_wound( const wound_type_id wd, const Character &who )
+void bodypart::add_wound( const wound_type_id wd, const Character &who, int damage )
 {
-    wounds.emplace_back( wd, &who, id );
+    wounds.emplace_back( wd, &who, id, damage );
+}
+
+void bodypart::add_wound( const wound_type_id wd, const Character &who, dealt_damage_instance &ddi )
+{
+    wounds.emplace_back( wd, &who, id, ddi );
 }
 
 bool bodypart::has_wounds() const
@@ -1251,8 +1243,7 @@ void bodypart::update_wounds( const Character &who, time_duration time_passed )
                 // todo: carry over the time difference into a new wound, when time_passed will vary
                 who.add_msg_if_player(
                     m_bad, string_format( it->type->get_progress_timer_message(), body_part_name( id ) ) );
-
-                new_wounds.emplace_back( it->wound_progress_timer.value().first, &who, id );
+                new_wounds.emplace_back( it->wound_progress_timer.value().first, &who, id, it->get_hp_damage() );
                 it = wounds.erase( it );
                 break;
             case wound_update_ret::REMOVE:

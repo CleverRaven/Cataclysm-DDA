@@ -3376,7 +3376,10 @@ Adds a specific wound on specific bodypart
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_add_wound", "npc_add_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
-| "wound_id" | optional | string or [variable object](#variable-object) | id of a wound that will be applied |
+| "wound_id" | **mandatory** | string or [variable object](#variable-object) | id of a wound that will be applied |
+| "damage_amount" | optional | int or [variable object](#variable-object) | how much max HP this wound should reserve from bodypart; default 0 |
+| "damage_type" | optional | int or [variable object](#variable-object) | if used, this wound would be treated as if it was applied by this damage type; used only if may_worsen is true |
+| "may_worsen" | optional | bool | If true, appied wound may try to worsen the existing wound character has, if conditions for worsening will be met. This would require damage_type. If false, applies new wound no matter what. Default false |
 
 ##### Valid talkers:
 
