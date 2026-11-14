@@ -319,7 +319,7 @@
     "price_postapoc": "2 cent",
     "material": [ "yeast" ],
     "volume": "10 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -10
   },
   {
@@ -340,7 +340,7 @@
     "price_postapoc": "12 cent",
     "material": [ "powder" ],
     "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -10
   },
   {
@@ -362,7 +362,7 @@
     "price_postapoc": "2 cent",
     "material": [ "powder" ],
     "volume": "10 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -10
   },
   {
@@ -383,7 +383,7 @@
     "price_postapoc": "2 cent",
     "material": [ "powder" ],
     "volume": "10 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -10,
     "vitamins": [ [ "iron", "100 μg" ], [ "calcium", "6 mg" ], [ "meat_allergen", 1 ] ]
   },
@@ -429,7 +429,7 @@
     "price_postapoc": "2 cent",
     "material": [ "powder" ],
     "volume": "112 ml",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": -10
   },
   {
@@ -796,7 +796,7 @@
     "price_postapoc": "25 cent",
     "material": [ "powder" ],
     "volume": "15 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "calories": 2,
     "fun": -5,
     "freezing_point": -274
@@ -809,7 +809,7 @@
     "name": { "str_sp": "Kentucky coffee grounds" },
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
     "display_type": "BY_WEIGHT",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ]
   },
   {
     "id": "honey_glassed",
@@ -871,7 +871,7 @@
     "price": "80 cent",
     "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_AUTO_CONSUME" ],
     "volume": "250 ml",
     "fun": -30
   },
@@ -1273,7 +1273,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "FOOD",
     "name": { "str_sp": "cocoa powder" },
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "weight": "30 g",
     "color": "brown",
     "container": "bag_plastic_small",
@@ -1299,7 +1299,7 @@
     "color": "brown",
     "container": "bag_plastic_small",
     "symbol": "%",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "NO_AUTO_CONSUME" ],
     "volume": "62 ml",
     "calories": 31,
     "quench": -1,
@@ -1331,7 +1331,7 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "brew_time": "24 hours",
     "brew_results": [ "gelatin_extracted" ]
   },
@@ -1354,7 +1354,7 @@
     "price_postapoc": "10 cent",
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ]
   },
   {
     "type": "ITEM",
