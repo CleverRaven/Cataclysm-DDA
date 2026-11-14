@@ -24,8 +24,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-class Character;
-
 static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_flashlight_on( "flashlight_on" );
