@@ -22,6 +22,7 @@
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
+#include "wound.h"
 
 class Character;
 class JsonObject;

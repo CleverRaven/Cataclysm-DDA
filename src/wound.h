@@ -215,6 +215,8 @@ class wound
         // update the wound healing progress
         wound_update_ret update_wound( const Character *who, time_duration time_passed );
 
+        bool treatable_by( const Character &c ) const;
+
         float get_wound_healing_modifier( const Character *who ) const;
 
         wound &operator+=( const wound &wd ) {
@@ -272,6 +274,7 @@ class wound_fix
         bool was_loaded = false; // used by generic_factory
         static void load_wound_fixes( const JsonObject &jo, const std::string &src );
 
+        bool doable_by( const Character &c ) const;
 
         std::string get_name() const;
         std::string get_description() const;

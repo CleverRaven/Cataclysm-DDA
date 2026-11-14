@@ -2553,9 +2553,19 @@ bool Character::has_wound( wound_type_id wd, const bodypart_str_id &part ) const
     return get_part( part )->has_wound( wd );
 }
 
+bool Character::has_bleeding_wound( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_bleeding_wound();
+}
+
 bool Character::has_wounds( const bodypart_str_id &part ) const
 {
     return get_part( part )->has_wounds();
+}
+
+const std::vector<wound> &Character::wounds_on( const bodypart_str_id &part ) const
+{
+    return get_part( part )->get_wounds();
 }
 
 void Character::apply_wound( bodypart_id bp, wound_type_id wd )

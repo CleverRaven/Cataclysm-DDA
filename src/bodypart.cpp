@@ -1199,6 +1199,13 @@ bool bodypart::has_wound( const wound_type_id wd ) const
     return false;
 }
 
+bool bodypart::has_bleeding_wound() const
+{
+    return std::any_of( wounds.begin(), wounds.end(), []( const wound & wd ) {
+        return wd.type->is_bleeding_wound();
+    } );
+}
+
 wound *bodypart::get_wound( const wound_type_id wd_id )
 {
     // picks the first one; maybe not desired?
