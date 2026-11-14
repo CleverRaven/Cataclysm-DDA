@@ -1,0 +1,25 @@
+[
+  {
+    "id": "test_arrow_wood",
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "price": "10 USD",
+    "name": { "str": "test wooden broadhead arrow" },
+    "symbol": "=",
+    "color": "green",
+    "looks_like": "arrow_fire_hardened_fletched",
+    "description": "Test arrow",
+    "material": [ "wood", "steel" ],
+    "volume": "250 ml",
+    "price_postapoc": "2 USD 50 cent",
+    "weight": "30 g",
+    "ammo_type": "arrow",
+    "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
+    "dispersion": 110,
+    "loudness": 0,
+    "count": 10,
+    "critical_multiplier": 10,
+    "recovery_chance": 96,
+    "melee_damage": { "bash": 2, "cut": 1 }
+  }
+]

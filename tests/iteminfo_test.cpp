@@ -680,8 +680,8 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, dps ) ==
                "--\n"
                "Typical damage per second:\n"
-               "Best: <color_c_yellow>3.10</color>"
-               "  Vs. Agile: <color_c_yellow>1.40</color>"
+               "Best: <color_c_yellow>3.31</color>"
+               "  Vs. Agile: <color_c_yellow>1.49</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
@@ -713,7 +713,7 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>0.60</color>%"
+               " Costs about <color_c_yellow>0.80</color>%"
                " stamina to swing.\n" );
     }
 
@@ -748,8 +748,8 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, dpstam ) ==
                "--\n"
                "Typical damage per stamina:\n"
-               "Best: <color_c_yellow>6.08</color>"
-               "  Vs. Agile: <color_c_yellow>2.74</color>"
+               "Best: <color_c_yellow>4.87</color>"
+               "  Vs. Agile: <color_c_yellow>2.20</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 }
