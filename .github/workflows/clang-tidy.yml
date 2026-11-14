@@ -73,7 +73,7 @@ jobs:
       with:
         path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
         key: clang-tidy-plugin-llvm${{ steps.install-llvm.outputs.llvm_full_version }}-ubuntu2404-${{ hashFiles('tools/clang-tidy-plugin/**', 'build-scripts/clang-tidy-build.sh', 'CMakeLists.txt', 'CMakeModules/**') }}
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
     - name: build clang-tidy plugin
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && steps.plugin-cache.outputs.cache-hit != 'true' }}
       run: bash ./build-scripts/clang-tidy-build.sh
@@ -149,7 +149,7 @@ jobs:
             console.log(path);
           }
           fs.writeFileSync("files_changed", files.join('\n') + '\n');
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy-run.sh
     - name: show most time consuming checks

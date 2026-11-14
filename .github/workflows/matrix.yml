@@ -310,7 +310,7 @@ jobs:
         key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
           ccache-master-${{ matrix.ccache_key }}--
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
 
     - name: Set up JDK (android)
       if: runner.os == 'Linux' && matrix.android != 'none'
