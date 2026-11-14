@@ -141,6 +141,12 @@
   },
   {
     "type": "jmath_function",
+    "id": "xe_fey_elemental_magick_sylph_failure_chance",
+    "num_args": 0,
+    "return": "clamp( ( ( ( ( u_val('pos_z') <= -1 ? u_val('pos_z') * 0.05 ) + (weather('windpower') == 0 ? 0.15 : 0) + (weather('windpower') <= 8 ? 0.1 : 0) + (weather('windpower') > 30 ? -0.2 : 0) + ( u_val('pos_z') >= -1 ? u_val('pos_z') * -0.03 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) + (u_skill('gramarye') * -0.03) + (u_spell_count('school': 'SYLPH') * -0.04 ) ) * (u_sylph_indoors == 1 ? 2 : 1 ) ), 0, 1)"
+  },
+  {
+    "type": "jmath_function",
     "id": "xe_fey_magick_mana_penalty",
     "num_args": 0,
     "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
