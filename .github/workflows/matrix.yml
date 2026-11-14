@@ -58,7 +58,7 @@ jobs:
       should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
+        uses: fkirc/skip-duplicate-actions@b974a9395958c231af965b70070979a577efa578 # v5.3.2
         with:
           skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**", "data/**", "lang/**"]'
@@ -70,7 +70,7 @@ jobs:
       should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
+        uses: fkirc/skip-duplicate-actions@b974a9395958c231af965b70070979a577efa578 # v5.3.2
         with:
           skip_after_successful_duplicate: 'false'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "tools/**", "utilities/**"]'
