@@ -1919,7 +1919,7 @@ int monster::calc_movecost( const map &here, const tripoint_bub_ms &from,
                     return 0; // cannot climb
                 }
 
-            } else if( furniture.has_flag( "BRIDGE" ) ) {
+            } else if( furniture.has_flag( ter_furn_flag::TFLAG_BRIDGE ) ) {
                 // if its a bridge, we dont care about the terrain-cost, so override
                 cost = furniture.movecost + 2;
             } else {

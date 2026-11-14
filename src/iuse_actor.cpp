@@ -1530,7 +1530,7 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         return start_type::NONE;
     }
     // Don't check if we're setting a fire on top of a fireplace
-    if( !here->has_flag_furn( "FIRE_CONTAINER", pos ) ) {
+    if( !here->has_flag_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, pos ) ) {
         // Check for an adjacent fire container
         for( const tripoint_bub_ms &query : here->points_in_radius( pos, 1 ) ) {
             // Skip the position we're trying to light on fire
@@ -1541,7 +1541,7 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
             if( p.is_avatar() && !p.as_avatar()->has_memory_at( here->get_abs( query ) ) ) {
                 continue;
             }
-            if( here->has_flag_ter_or_furn( "FIRE_CONTAINER", query ) ) {
+            if( here->has_flag_ter_or_furn( ter_furn_flag::TFLAG_FIRE_CONTAINER, query ) ) {
                 if( !query_yn(
                         _( "Are you sure you want to start fire here?  There's a much more appropriate spot adjacent." ) ) ) {
                     return start_type::NONE;

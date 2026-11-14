@@ -2774,7 +2774,7 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
     if( furniture.id ) {
-        if( furniture.has_flag( "BRIDGE" ) ) {
+        if( furniture.has_flag( ter_furn_flag::TFLAG_BRIDGE ) ) {
             movecost = 2 + std::max( furniture.movecost, 0 );
         } else {
             movecost += std::max( furniture.movecost, 0 );
@@ -4788,7 +4788,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter( p ).obj().id.c_str() );
-    } else if( has_original_terrain_at( p ) && ter( p )->has_flag( "PHASE_BACK" ) ) {
+    } else if( has_original_terrain_at( p ) && ter( p )->has_flag( ter_furn_flag::TFLAG_PHASE_BACK ) ) {
         const ter_id orig = get_original_terrain_at( p );
         ter_set( p, orig );
         phased = true;
@@ -4812,7 +4812,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
 
         set_to_air = roof_of_below_tile; //do not add the roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
-        if( repair_missing_ground && ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+        if( repair_missing_ground && ter_below.has_flag( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND ) ) {
             ter_set( p, ter_below.roof );
         } else {
             ter_set( p, ter_t_open_air );
@@ -4827,7 +4827,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool rep
         }
     }
     //regenerates roofs for tiles that should be walkable from above
-    if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( "EMPTY_SPACE" ) &&
+    if( zlevels && smash_ter && !set_to_air && ter( p )->has_flag( ter_furn_flag::TFLAG_EMPTY_SPACE ) &&
         ter( below )->has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) && !phased ) {
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
@@ -7326,7 +7326,7 @@ void map::remove_trap( const tripoint_bub_ms &p )
         }
         // If this tile is a phased terrain placeholder (PHASE_BACK), restore
         // the original terrain stored for this tile when removing the trap.
-        if( ter( p )->has_flag( "PHASE_BACK" ) ) {
+        if( ter( p )->has_flag( ter_furn_flag::TFLAG_PHASE_BACK ) ) {
             if( has_original_terrain_at( p ) ) {
                 const ter_id orig = get_original_terrain_at( p );
                 ter_set( p, orig );
@@ -10026,7 +10026,7 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id &ter_here = sub_here->get_ter( { x, y } );
 
-            if( !ter_here.id()->has_flag( "EMPTY_SPACE" ) ) {
+            if( !ter_here.id()->has_flag( ter_furn_flag::TFLAG_EMPTY_SPACE ) ) {
                 continue;
             }
 
@@ -10037,13 +10037,13 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
             }
 
             const ter_t &ter_below = sub_below->get_ter( { x, y } ).obj();
-            if( ter_below.has_flag( "TREE" ) && ter_below.roof ) {
+            if( ter_below.has_flag( ter_furn_flag::TFLAG_TREE ) && ter_below.roof ) {
                 sub_here->set_ter( { x, y }, ter_below.roof.id() );
             } else
                 // This code is needed to handle bashing during mapgen, because the Z level below
                 // hasn't yet been generated when the bashing occurs.
                 if( ter_here.id() == ter_t_open_air ) {
-                    if( ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+                    if( ter_below.has_flag( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND ) ) {
                         sub_here->set_ter( {x, y}, ter_below.roof );
                     }
                 }

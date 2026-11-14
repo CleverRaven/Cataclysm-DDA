@@ -1051,7 +1051,7 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     int money = you.charges_of( itype_cash_card );
     map_stack vend_items = here.i_at( examp );
 
-    bool use_bank = here.has_flag_furn( "BANK_NETWORKED", examp );
+    bool use_bank = here.has_flag_furn( ter_furn_flag::TFLAG_BANK_NETWORKED, examp );
 
     if( use_bank ) {
         money = you.cash + you.charges_of( itype_cash_card );
@@ -5542,7 +5542,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
     // NOTE this menu is merged with the climb down menu, manage keys carefully.
     cmenu.addentry( ledge_peek_down, true, 'p', _( "Peek down." ) );
     g->climb_down_menu_gen( examp, cmenu );
-    if( here.has_flag_furn( "EXAMINE_FROM_ABOVE", just_below ) ) {
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_EXAMINE_FROM_ABOVE, just_below ) ) {
         cmenu.addentry( ledge_examine_furniture_below, true, 'e',
                         _( "Reach for the %s below." ), here.furn( just_below ).obj().name() );
     }

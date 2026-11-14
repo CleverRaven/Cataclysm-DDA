@@ -300,7 +300,7 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
         const ter_t ter_below = m->ter( below ).obj();
 
         if( m->ter( pos ).id() == ter_t_open_air ) {
-            if( ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+            if( ter_below.has_flag( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND ) ) {
                 m->ter_set( pos, ter_below.roof );
             }
         }
