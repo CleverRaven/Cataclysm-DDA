@@ -215,6 +215,17 @@ bool item::activation_success() const
     return rng( 0, 3999 ) - damage_ >= 0;
 }
 
+double item::attack_time_modifier_from_faults() const
+{
+    double ret = 1.0;
+
+    for( fault_id fault : faults ) {
+        ret *= fault->attack_cost_modifier();
+    }
+
+    return ret;
+}
+
 float item::damage_adjusted_melee_weapon_damage( float value, const damage_type_id &dt ) const
 {
     if( type->count_by_charges() ) {

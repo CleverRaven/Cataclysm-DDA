@@ -744,6 +744,7 @@ int item::attack_time( const Character &you ) const
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
     ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
+    ret *= attack_time_modifier_from_faults();
     return ret;
 }
 
