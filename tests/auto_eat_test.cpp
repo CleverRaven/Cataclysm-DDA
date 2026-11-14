@@ -112,7 +112,7 @@ TEST_CASE( "water_food_score", "[auto_eat]" )
     item_location clean_water_container = you.i_add( clean_water.in_its_container() );
     item_location clean_water_contained;
     clean_water_container.visit_items( [&clean_water_contained]( const item_location & loc ) {
-        if( loc->is_comestible() ) {
+        if( loc->typeId() == itype_water_clean ) {
             clean_water_contained = loc;
             return VisitResponse::ABORT;
         }
@@ -182,9 +182,20 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         auto_eat_settings::potential_edible meat( you.i_add( item( itype_meat ) ) );
         auto_eat_settings::potential_edible powder_eggs( you.i_add( item( itype_powder_eggs ) ) );
 
+        // water! because obviously it has to be more complicated...
+        item_location clean_water_container = you.i_add( item( itype_water_clean, calendar::turn,
+                                              2 ).in_its_container() );
+        item_location clean_water_contained;
+        clean_water_container.visit_items( [&clean_water_contained]( const item_location & loc ) {
+            if( loc->typeId() == itype_water_clean ) {
+                clean_water_contained = loc;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        auto_eat_settings::potential_edible c_water( clean_water_contained );
+
         // add some ingredients
-        auto_eat_settings::potential_edible c_water( you.i_add( item( itype_water_clean, calendar::turn,
-                2 ).in_its_container() ) );
         you.i_add( item( itype_salt ) );
         you.i_add( item( itype_salt ) );
         you.i_add( item( itype_salt ) );
