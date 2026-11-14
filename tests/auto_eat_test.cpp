@@ -48,36 +48,42 @@ class auto_eat_test
         // scores should be the same as each other
         void score_food_check_all( auto_eat_settings::potential_edible &food,
                                    const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.score_food( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.score_food( you, food ) == score_expected );
         }
         // scores should be the same as each other
         void score_quench_check_all( const auto_eat_settings::potential_edible &food,
                                      const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.quench_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.quench_score( you, food ) == score_expected );
         }
         // scores should be the same as each other
         void score_joy_check_all( const auto_eat_settings::potential_edible &food,
                                   const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.joy_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.joy_score( you, food ) == score_expected );
         }
         // scores should be the same as each other
         void score_recipe_check_all( const auto_eat_settings::potential_edible &food,
                                      const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.recipe_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.recipe_score( you, food ) == score_expected );
         }
         // scores should be the same as each other
         void score_calorie_check_all( const auto_eat_settings::potential_edible &food,
                                       const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.calorie_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.calorie_score( you, food ) == score_expected );
         }
         // scores should be the same as each other
         void score_vitamin_check_all( const auto_eat_settings::potential_edible &food,
                                       const int score_expected ) const {
+            CAPTURE( food.get_item_copy().tname() );
             CHECK( base_settings.vitamin_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.vitamin_score( you, food ) == score_expected );
         }
@@ -106,7 +112,7 @@ TEST_CASE( "water_food_score", "[auto_eat]" )
     item_location clean_water_container = you.i_add( clean_water.in_its_container() );
     item_location clean_water_contained;
     clean_water_container.visit_items( [&clean_water_contained]( const item_location & loc ) {
-        if( loc.has_parent() ) {
+        if( loc->is_comestible() ) {
             clean_water_contained = loc;
             return VisitResponse::ABORT;
         }
