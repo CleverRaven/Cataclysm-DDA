@@ -2278,12 +2278,16 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     dealt_damage_instance dealt_dam;
 
-    if( hitspread >= 0 ) {
+    if( Creature::melee_attack_hit( hitspread ) ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
 
     const int total_dealt = dealt_dam.total_damage();
-    if( hitspread < 0 ) {
+    std::string hit_quality_msg;
+    if( total_dealt > 0 ) {
+        hit_quality_msg = "  " + Creature::hit_quality_label( hitspread );
+    }
+    if( !Creature::melee_attack_hit( hitspread ) ) {
         bool monster_missed = monster_hit_roll < 0.0;
         // Miss
         if( has_flag( mon_flag_CLUMSY_ATTACKS ) && one_in( 4 ) ) {
@@ -2323,8 +2327,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 }
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( true ) : _( "Something" ),
-                         body_part_name_accusative( dealt_dam.bp_hit ) );
+                add_msg( m_bad, _( "%1$s hits your %2$s.%3$s" ), u_see_me ? disp_name( true ) : _( "Something" ),
+                         body_part_name_accusative( dealt_dam.bp_hit ), hit_quality_msg );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( mon_flag_RIDEABLE_MECH ) &&
                     pos_bub() == player_character.pos_bub() ) {
@@ -2333,9 +2337,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "%1$s hits %2$s in the %3$s." ),
+                    add_msg( _( "%1$s hits %2$s in the %3$s.%4$s" ),
                              u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name(),
-                             body_part_name_accusative( dealt_dam.bp_hit ) );
+                             body_part_name_accusative( dealt_dam.bp_hit ), hit_quality_msg );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( mon_flag_RIDEABLE_MECH ) &&
@@ -2399,7 +2403,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return true;
     }
 
-    if( hitspread >= 0 && !is_hallucination() ) {
+    if( Creature::melee_attack_hit( hitspread ) && !is_hallucination() ) {
         enchantment_cache->cast_hit_you( *this, target );
     }
 

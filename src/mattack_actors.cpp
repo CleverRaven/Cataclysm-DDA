@@ -910,7 +910,7 @@ bool melee_actor::call( monster &z ) const
     }
 
     if( dodgeable ) {
-        if( hitspread < 0 ) {
+        if( !Creature::melee_attack_hit( hitspread ) ) {
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos_bub() ),
                                      sfx::get_heard_angle( z.pos_bub() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
@@ -1035,6 +1035,11 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "Damage multiplier %.1f (range %.1f - %.1f)", multiplier,
                    min_mul, max_mul );
     damage.mult_damage( multiplier );
+
+    // check if it can be dodged, and by extension, partially dodged
+    if( dodgeable ) {
+        damage.mult_damage( Creature::melee_damage_mult( hitspread ), true );
+    }
 
     // split the damage between all the bodyparts we gonna hit
     damage.mult_damage( 1.0 / bodyparts_hit.size() );
