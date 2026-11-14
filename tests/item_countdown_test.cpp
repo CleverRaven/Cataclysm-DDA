@@ -23,7 +23,7 @@ TEST_CASE( "countdown_action_triggering", "[item]" )
     avatar dummy;
     Character *who = &dummy;
 
-    item grenade( itype_grenade_act );
+    item &grenade = *who->i_add( item( itype_grenade_act ) );
     grenade.active = true;
 
     SECTION( "countdown_point is in future" ) {
@@ -51,7 +51,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
     Character *who = &dummy;
 
     SECTION( "revert to inert item" ) {
-        item test_item( itype_arrow_flamming );
+        item &test_item = *who->i_add( item( itype_arrow_flamming ) );
         test_item.active = true;
         test_item.countdown_point = calendar::turn;
 
@@ -69,7 +69,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
     }
 
     SECTION( "revert to item with new timer" ) {
-        item test_item( itype_migo_plate_undergrown );
+        item &test_item = *who->i_add( item( itype_migo_plate_undergrown ) );
         test_item.active = true;
         test_item.countdown_point = calendar::turn;
 
@@ -87,7 +87,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
     }
 
     SECTION( "revert to item that requires processing" ) {
-        item test_item( itype_test_rock_cheese );
+        item &test_item = *who->i_add( item( itype_test_rock_cheese ) );
         test_item.active = true;
         test_item.countdown_point = calendar::turn;
 
