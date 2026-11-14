@@ -87,7 +87,7 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
     Character *who = &dummy;
 
     // Gasoline lantern without a battery, using gasoline instead
-    item test_lantern( itype_gasoline_lantern_on );
+    item &test_lantern = *who->i_add( item( itype_gasoline_lantern_on ) );
     const itype_id &default_ammo = test_lantern.ammo_default();
     const int ammo_capacity = test_lantern.ammo_capacity( default_ammo->ammo->type );
     test_lantern.ammo_set( default_ammo, ammo_capacity );
@@ -122,7 +122,7 @@ TEST_CASE( "tool_power_consumption_rate", "[active_item]" )
     test_battery.ammo_set( test_battery.ammo_default(), 56 );
     REQUIRE( test_battery.energy_remaining() == 56_kJ );
 
-    item tool( itype_flashlight_on );
+    item &tool = *who->i_add( item( itype_flashlight_on ) );
     tool.put_in( test_battery, pocket_type::MAGAZINE_WELL );
     REQUIRE( tool.energy_remaining() == 56_kJ );
     tool.active = true;
