@@ -49,6 +49,7 @@
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_uid.h"
 #include "itype.h"
 #include "iuse.h"
