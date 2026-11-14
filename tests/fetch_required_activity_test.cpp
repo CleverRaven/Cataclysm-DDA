@@ -99,6 +99,7 @@ static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_frame( "t_door_frame" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_wall( "t_wall" );
 static const ter_str_id ter_t_wall_half( "t_wall_half" );
 
@@ -1025,4 +1026,56 @@ TEST_CASE( "followers_build_separate_construction_sites", "[activities][zones][c
             }
         }
     }
+}
+
+TEST_CASE( "task_end_clears_marks_on_items_the_npc_moved", "[activities][zones][fetch]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    const tripoint_bub_ms guy_pos( 60, 60, 0 );
+    npc &guy = spawn_follower( guy_pos );
+    item hammer( itype_hammer );
+    hammer.set_var( "activity_var", guy.name );
+    REQUIRE( guy.wield( hammer ) );
+    REQUIRE( guy.get_wielded_item()->has_var( "activity_var" ) );
+
+    WHEN( "the npc wields something else and drops the marked tool" ) {
+        item hoe( itype_hoe );
+        REQUIRE( guy.wield( hoe ) );
+        item *dropped = nullptr;
+        for( item &it : here.i_at( guy_pos ) ) {
+            if( it.typeId() == itype_hammer ) {
+                dropped = &it;
+            }
+        }
+        REQUIRE( dropped != nullptr );
+        REQUIRE( dropped->has_var( "activity_var" ) );
+        activity_handlers::clean_may_activity_occupancy_items_var( guy );
+        THEN( "the dropped tool is no longer in use" ) {
+            CHECK_FALSE( dropped->has_var( "activity_var" ) );
+        }
+    }
+}
+
+TEST_CASE( "finished_chop_logs_does_not_mark_its_products_in_use", "[activities][fetch]" )
+{
+    clear_map_without_vision();
+    clear_avatar();
+    map &here = get_map();
+    Character &you = get_player_character();
+    const tripoint_bub_ms pos = you.pos_bub();
+    here.ter_set( pos, ter_t_trunk );
+
+    chop_logs_activity_actor actor( 100, item_location() );
+    player_activity act( actor );
+    act.placement = here.get_abs( pos );
+    actor.finish( act, you );
+
+    int found = 0;
+    for( const item &it : here.i_at( pos ) ) {
+        found++;
+        CHECK_FALSE( it.has_var( "activity_var" ) );
+    }
+    CHECK( found > 0 );
 }

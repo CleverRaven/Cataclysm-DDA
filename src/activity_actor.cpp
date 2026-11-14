@@ -4768,12 +4768,8 @@ static void rod_fish( Character &who, const std::vector<monster *> &fishables )
         item corpse = item::make_corpse( corpse_type.id,
                                          calendar::turn + rng( 0_turns,
                                                  3_hours ) );
-        corpse.set_var( "activity_var", who.name );
-        item_location loc = here.add_item_or_charges_ret_loc( who.pos_bub(), corpse );
+        here.add_item_or_charges( who.pos_bub(), corpse );
         who.add_msg_if_player( m_good, _( "You caught a %s." ), corpse_type.nname() );
-        if( loc ) {
-            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
-        }
     };
     //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
     if( fishables.empty() ) {
@@ -9148,6 +9144,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
     // Mark the item, not available for other characters
     target->set_var( "activity_var", who.name );
+    // And track it, so we can clear it properly later
+    who.may_activity_occupancy_after_end_items_loc.push_back( target );
 
     activity_override = target->get_making().exertion_level();
 
@@ -10522,31 +10520,15 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     }
     for( int i = 0; i != log_quan; ++i ) {
         item obj( itype_log, calendar::turn );
-        obj.set_var( "activity_var", who.name );
-        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if( loc ) {
-            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
-        }
-
+        here.add_item_or_charges( pos, obj );
     }
     for( int i = 0; i != stick_quan; ++i ) {
         item obj( itype_stick_long, calendar::turn );
-        obj.set_var( "activity_var", who.name );
-        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if( loc ) {
-            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
-        }
+        here.add_item_or_charges( pos, obj );
     }
     for( int i = 0; i != splint_quan; ++i ) {
         item obj( itype_splinter, calendar::turn );
-        obj.set_var( "activity_var", who.name );
-        //The item may exceed the capacity of the pos and move to another coordinate.So get loc.
-        item_location loc = here.add_item_or_charges_ret_loc( pos, obj );
-        if( loc ) {
-            who.may_activity_occupancy_after_end_items_loc.push_back( loc );
-        }
+        here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, ter_t_dirt );
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
@@ -11765,13 +11747,6 @@ void mine_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-    if( !who.backlog.empty() && who.backlog.front().id() == ACT_MULTIPLE_MINE ) {
-        for( item &elem : here.i_at( pos ) ) {
-            elem.set_var( "activity_var", who.name );
-            who.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor{ here.get_abs( pos ) },
-                    &elem );
-        }
-    }
 }
 
 void mine_activity_actor::serialize( JsonOut &jsout ) const
@@ -12398,24 +12373,10 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
                     here.clear_vehicle_point_from_cache( &veh, part_pos );
                 }
             }
-            // This will be part of an NPC "job" where they need to clean up the activity
-            // items afterwards
-            if( you.is_npc() ) {
-                for( item &it : resulting_items ) {
-                    it.set_var( "activity_var", you.name );
-                }
-            }
             // Finally, put all the results somewhere (we wanted to wait until this
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
-            std::vector<item_location> locs = put_into_vehicle_or_drop_ret_locs( you,
-                                              item_drop_reason::deliberate,
-                                              resulting_items );
-            if( you.is_npc() ) {
-                for( const item_location &itl : locs ) {
-                    you.may_activity_occupancy_after_end_items_loc.push_back( itl );
-                }
-            }
+            put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
             break;
         }
         case VEHICLE_UNPLUG: {

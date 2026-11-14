@@ -804,7 +804,10 @@ static void drop_moved_item( Character &you, const item &it, const tripoint_bub_
     if( activity_to_restore == ACT_FETCH_REQUIRED ) {
         activity_handlers::drop_fetched_items( you, { it }, &here, dest );
     } else {
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
+        for( const item_location &moved : put_into_vehicle_or_drop(
+                 you, item_drop_reason::deliberate, { it }, &here, dest ) ) {
+            you.track_activity_item( moved );
+        }
     }
 }
 
@@ -2473,6 +2476,7 @@ activity_reason_info multi_study_activity_actor::multi_activity_can_do( Characte
     item_location book = find_study_book( abspos, you );
     if( book ) {
         book->set_var( "activity_var", you.name );
+        you.may_activity_occupancy_after_end_items_loc.push_back( book );
         return activity_reason_info::ok( do_activity_reason::NEEDS_BOOK_TO_LEARN );
     }
 
@@ -2713,6 +2717,8 @@ activity_reason_info multi_disassemble_activity_actor::multi_activity_can_do( Ch
             }
             // check passed, mark the item
             i.set_var( "activity_var", you.name );
+            you.may_activity_occupancy_after_end_items_loc.emplace_back( map_cursor( src_loc ),
+                    &i );
             return activity_reason_info::ok( do_activity_reason::NEEDS_DISASSEMBLE );
         }
     }
@@ -3607,6 +3613,7 @@ static bool butcher_corpse_activity( Character &you, const tripoint_bub_ms &src_
             }
             elem.set_var( "activity_var", you.name );
             item_location corpse_loc = item_location( map_cursor( src_loc ), &elem );
+            you.may_activity_occupancy_after_end_items_loc.push_back( corpse_loc );
             bd.emplace_back( corpse_loc, type );
         }
     }
@@ -4024,7 +4031,7 @@ bool multi_farm_activity_actor::multi_activity_do( Character &you,
     if( ( ( reason == do_activity_reason::NEEDS_HARVESTING ) ||
           ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
-        iexamine::harvest_plant( you, src_loc, true );
+        iexamine::harvest_plant( you, src_loc );
         return false;
     } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
                here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
