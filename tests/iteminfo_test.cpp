@@ -646,7 +646,7 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
 
         CHECK( item_info_str( arrow, moves ) ==
                "--\n"
-               "Base moves per attack: <color_c_yellow>69</color>\n" );
+               "Base moves per attack: <color_c_yellow>65</color>\n" );
     }
 
     SECTION( "base damage per second" ) {
@@ -680,7 +680,7 @@ TEST_CASE( "weapon_attack_ratings_and_moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, dps ) ==
                "--\n"
                "Typical damage per second:\n"
-               "Best: <color_c_yellow>3.30</color>"
+               "Best: <color_c_yellow>3.10</color>"
                "  Vs. Agile: <color_c_yellow>1.40</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
