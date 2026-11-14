@@ -56,14 +56,14 @@ jobs:
           sudo apt install cmake
     - name: checkout IWYU repository
       id: iwyu-checkout
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         repository: include-what-you-use/include-what-you-use
         path: include-what-you-use-src
         ref: clang_19
         persist-credentials: false
     - name: checkout own repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         path: Cataclysm-DDA
         persist-credentials: false
@@ -118,7 +118,7 @@ jobs:
 
         # and include database too, for get_affected_files.py
         make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
     - name: run IWYU
       id: run_iwyu
       working-directory: Cataclysm-DDA
@@ -153,7 +153,7 @@ jobs:
         exit 0 # Always 'succeed' this step to reduce job noise.
     - name: Upload pr comment artifacts
       if: ${{ failure() && github.event_name == 'pull_request' && steps.run_iwyu.outputs.has_errors != 0 }}
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
         name: suggestions
         path: suggestions/
