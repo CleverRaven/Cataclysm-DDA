@@ -57,6 +57,7 @@ static const itype_id itype_antifungal( "antifungal" );
 static const itype_id itype_antiparasitic( "antiparasitic" );
 static const itype_id itype_atomic_coffee( "atomic_coffee" );
 static const itype_id itype_coffee( "coffee" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_diazepam( "diazepam" );
 static const itype_id itype_gasfilter_med( "gasfilter_med" );
 static const itype_id itype_inhaler( "inhaler" );
@@ -635,9 +636,9 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
     dummy.normalize();
-
-    item_location prozac = dummy.i_add( item( itype_prozac, calendar::turn_zero,
-                                        item::default_charges_tag{} ) );
+    dummy.worn.wear_item( dummy, item( itype_debug_backpack ), false, false );
+    item i( itype_prozac, calendar::turn_zero, item::default_charges_tag{} );
+    item_location prozac = dummy.i_add( i );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
@@ -651,8 +652,12 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     SECTION( "taking prozac twice gives a stimulant effect" ) {
         dummy.set_stim( 0 );
 
+        // clear_character( dummy );
+        prozac = dummy.i_add( i );
         dummy.consume( prozac );
         CHECK( dummy.get_stim() == -5 ); // The iuse action gives +0 and item itself -5
+        // clear_character( dummy );
+        prozac = dummy.i_add( i );
         dummy.consume( prozac );
         CHECK( dummy.get_stim() == -7 ); // Second iuse gives +3
     }

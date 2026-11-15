@@ -23,6 +23,7 @@ static const efftype_id effect_hunger_full( "hunger_full" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 
 static const itype_id itype_beansnrice( "beansnrice" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_debug_nutrition( "debug_nutrition" );
 static const itype_id itype_debug_orange( "debug_orange" );
 static const itype_id itype_debug_vitamins( "debug_vitamins" );
@@ -410,6 +411,7 @@ TEST_CASE( "hunger" )
     // change this bool when editing the test
     const bool print_tests = false;
     avatar &dummy = get_avatar();
+    dummy.worn.wear_item( dummy, item( itype_debug_backpack ), false, false );
     reset_time();
     clear_stomach( dummy );
     dummy.initialize_stomach_contents();
@@ -428,9 +430,9 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 270 );
     CHECK( hunger_time >= 240 );
-    item &f = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
+    item_location f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
     dummy.consume( f );
-    f = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
+    f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
     dummy.consume( f );
     dummy.set_thirst( 0 );
     dummy.update_body();
@@ -443,9 +445,9 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 210 );
-    f = *dummy.as_character()->i_add( item( itype_beansnrice ) );
+    f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
     dummy.consume( f );
-    f = *dummy.as_character()->i_add( item( itype_beansnrice ) );
+    f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
     dummy.consume( f );
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
@@ -460,7 +462,7 @@ TEST_CASE( "hunger" )
         printf( "eat 16 veggy\n" );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = *dummy.as_character()->i_add( item( itype_veggy ) );
+        f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
         dummy.consume( f );
     }
     dummy.update_body();
@@ -479,7 +481,7 @@ TEST_CASE( "hunger" )
         dummy.mutate_towards( trait_HUNGER3 );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = *dummy.as_character()->i_add( item( itype_veggy ) );
+        f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
         dummy.consume( f );
     }
     dummy.update_body();
