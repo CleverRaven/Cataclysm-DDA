@@ -109,6 +109,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ALLOWS_ARM_TENTACLES",
+    "type": "json_flag"
+  },
+  {
     "id": "ALLOWS_GASTROPOD_FOOT",
     "type": "json_flag"
   },
