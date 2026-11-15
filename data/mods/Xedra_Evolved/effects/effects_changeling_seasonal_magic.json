@@ -519,6 +519,7 @@
           { "value": "MELEE_TO_HIT", "add": 3 },
           { "value": "KNOCKBACK_RESIST", "add": 100 },
           { "value": "ARMOR_ALL", "multiply": -0.15 },
+          { "value": "REGEN_STAMINA", "multiply": 999 },
           {
             "value": "STRENGTH",
             "add": { "math": [ "3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.1) + (u_skill('gramarye') * 0.2)" ] }
@@ -542,7 +543,8 @@
           { "value": "FORCEFIELD", "add": 0.05 }
         ]
       }
-    ]
+    ],
+    "flags": [ "PAIN_IMMUNE", "CANNOT_GAIN_WEARINESS" ]
   },
   {
     "type": "effect_type",

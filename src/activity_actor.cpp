@@ -11445,14 +11445,9 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
     who.invalidate_crafting_inventory();
 
     for( int i = 0; i < amount; i++ ) {
-        for( const wound_type_id &id : fix.wounds_removed ) {
-            bp->remove_wound( id );
-        }
-    }
-
-    for( int i = 0; i < amount; i++ ) {
         for( const wound_type_id &id : fix.wounds_added ) {
-            bp->add_wound( id, who );
+            const wound *to_be_removed = bp->get_wound( mended_wound );
+            bp->add_wound( id, who, to_be_removed->get_hp_damage() );
         }
     }
 
@@ -11466,6 +11461,12 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
 
     for( const wound_proficiency &wound_prof : fix.proficiencies ) {
         who.practice_proficiency( wound_prof.prof, fix.time );
+    }
+
+    for( int i = 0; i < amount; i++ ) {
+        for( const wound_type_id &id : fix.wounds_removed ) {
+            bp->remove_wound( id );
+        }
     }
 
     add_msg( m_good, fix.success_msg.translated() );

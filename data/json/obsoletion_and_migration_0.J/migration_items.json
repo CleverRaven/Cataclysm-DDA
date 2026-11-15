@@ -1031,5 +1031,10 @@
     "type": "MIGRATION",
     "id": "sandwich_cucumber",
     "replace": "sandwich_veggy"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "acorns_blanching_active",
+    "replace": "acorns_blanched"
   }
 ]

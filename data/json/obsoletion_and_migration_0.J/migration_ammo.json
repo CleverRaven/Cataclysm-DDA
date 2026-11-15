@@ -6,6 +6,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "chem_ammonium_nitrate_pellets",
+    "replace": "chem_ammonium_nitrate"
+  },
+  {
+    "type": "MIGRATION",
     "id": "reloaded_338lapua_api",
     "replace": "338lapua_api"
   },

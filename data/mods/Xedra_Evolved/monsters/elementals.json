@@ -34,8 +34,8 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "harvest": "stoneling",
-    "dissect": "dissect_ierde_single",
     "special_attacks": [ [ "scratch", 20 ] ],
+    "death_drops": { "subtype": "collection", "items": [ { "group": "ierde_sample_single", "prob": 20 } ] },
     "flags": [ "SEES", "HEARS", "BASHES", "FAE_CREATURE", "GROUP_BASH", "NO_BREATHE", "PUSH_MON" ]
   },
   {
@@ -71,7 +71,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fae_furred",
-    "dissect": "dissect_ierde_single",
+    "death_drops": { "subtype": "collection", "groups": [ [ "ierde_sample_single", 25 ] ] },
     "flags": [ "DIGS", "HEARS", "FAE_CREATURE", "GOODHEARING", "ATTACK_LOWER" ]
   },
   {
@@ -119,7 +119,7 @@
       "xe_cold_iron_stab_damage": 0
     },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
-    "dissect": "dissect_ierde_small",
+    "death_drops": { "subtype": "collection", "groups": [ [ "ierde_sample_single", 30 ] ] },
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "flags": [
@@ -170,7 +170,14 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 10,
-    "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "produce", "prob": 100 },
+        { "group": "vertebrate_parts", "prob": 10 },
+        { "group": "undine_sample_single", "prob": 20 }
+      ]
+    },
     "description": "A small dog-sized furry lizard colored in ocean blues.  It hisses and then spits gouts of water at whatever attracts its ire.",
     "special_attacks": [
       {
@@ -185,7 +192,6 @@
     ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "CLIMBS" ],
     "harvest": "fae_furred",
-    "dissect": "dissect_undine_single",
     "vision_day": 20,
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ]
@@ -224,10 +230,11 @@
     "families": [ "prof_alien_biology" ],
     "hp": 20,
     "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "HIT_AND_RUN", "RANGED_ATTACKER", "PATH_AVOID_DANGER", "HARDTOSHOOT" ],
-    "harvest": "water_elemental",
-    "dissect": "dissect_undine_single",
     "special_attacks": [ { "id": "ice_spray" } ],
-    "death_drops": [ { "item": "water", "charges": 25, "prob": 100 } ]
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "water", "charges": 25, "prob": 100 }, { "group": "undine_sample_single", "prob": 30 } ]
+    }
   },
   {
     "id": "mon_undertow",
@@ -259,7 +266,10 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
-    "dissect": "dissect_undine_small",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "item": "water", "charges": 25, "prob": 100 }, { "group": "undine_sample_single", "prob": 30 } ]
+    },
     "special_attacks": [
       {
         "id": "ranged_pull",
@@ -306,7 +316,7 @@
     "fear_triggers": [ "SOUND" ],
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
-    "dissect": "dissect_undine_small",
+    "death_drops": { "subtype": "collection", "items": [ { "group": "undine_sample_single", "prob": 35 } ] },
     "special_attacks": [
       {
         "id": "mon_shabriri_blinding",
@@ -356,7 +366,14 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "harvest": "water_elemental",
-    "dissect": "dissect_undine_large",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "undine_sample_huge", "prob": 25 },
+        { "group": "undine_sample_large", "prob": 65 },
+        { "group": "undine_sample_small", "prob": 100 }
+      ]
+    },
     "special_attacks": [
       { "id": "smash", "throw_strength": 96 },
       {
@@ -419,7 +436,7 @@
     "harvest": "rat_with_skull_arvore",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
-    "dissect": "dissect_arvore_single",
+    "death_drops": { "subtype": "collection", "items": [ { "group": "arvore_sample_single", "prob": 30 } ] },
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "anger_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PATH_AVOID_DANGER", "HIT_AND_RUN", "WARM" ]
@@ -458,7 +475,7 @@
     "dodge": 5,
     "bleed_rate": 10,
     "harvest": "triffid_small",
-    "dissect": "dissect_arvore_single",
+    "death_drops": { "subtype": "collection", "items": [ { "group": "arvore_sample_single", "prob": 35 } ] },
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "FAE_CREATURE", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -479,7 +496,10 @@
     "harvest": "harvest_thornbear",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
-    "dissect": "dissect_arvore_large",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [ { "group": "arvore_sample_large", "prob": 55 }, { "group": "arvore_sample_small", "prob": 85 } ]
+    },
     "special_attacks": [
       {
         "type": "bite",
@@ -543,9 +563,16 @@
         "monster_message": "%1$s gestures and you hear the creak of growing wood!"
       }
     ],
-    "death_drops": { "subtype": "collection", "items": [ { "item": "treesung_pike", "prob": 30, "damage": [ 1, 5 ] } ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "treesung_pike", "prob": 30, "damage": [ 1, 5 ] },
+        { "group": "arvore_sample_huge", "prob": 25 },
+        { "group": "arvore_sample_large", "prob": 65 },
+        { "group": "arvore_sample_small", "prob": 100 }
+      ]
+    },
     "anger_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT", "FIRE" ],
-    "dissect": "dissect_arvore_huge",
     "flags": [
       "SEES",
       "HEARS",
@@ -599,7 +626,10 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "hp": 10,
-    "death_drops": { "subtype": "collection", "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "produce", 100 ], [ "vertebrate_parts", 10 ], [ "salamander_sample_single", 35 ] ]
+    },
     "description": "A small dog-sized furry lizard colored in fiery reds.  It hisses and then spits napalm-like fluid at whatever attracts its ire.",
     "special_attacks": [
       {
@@ -621,7 +651,6 @@
       "CLIMBS"
     ],
     "harvest": "fae_furred",
-    "dissect": "dissect_salamander_single",
     "vision_day": 20,
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ]
@@ -671,11 +700,12 @@
       "HARDTOSHOOT"
     ],
     "harvest": "fae_furred",
-    "dissect": "dissect_salamander_single",
+    "death_drops": { "subtype": "collection", "groups": [ [ "salamander_sample_single", 30 ] ] },
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
   },
   {
     "id": "mon_salamander_firebird",
+    "//": "No drops--produced by a Salamander spell",
     "type": "MONSTER",
     "name": { "str": "firebird" },
     "description": "A bird flitting through the air, glowing brightly.  Its outline is obscured by the flames that ripple along its wings and body.",
@@ -701,7 +731,6 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "harvest": "fae_flying",
-    "dissect": "dissect_salamander_single",
     "special_attacks": [
       {
         "id": "mon_salamander_firebird_death_explosion",
@@ -752,7 +781,7 @@
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "harvest": "fae_flying",
-    "dissect": "dissect_salamander_large",
+    "death_drops": { "subtype": "collection", "groups": [ [ "salamander_sample_small", 55 ], [ "salamander_sample_large", 85 ] ] },
     "emit_fields": [ { "emit_id": "emit_hot_air4_blast", "delay": "1 s" } ],
     "special_attacks": [
       {
@@ -812,12 +841,19 @@
     "special_attacks": [ { "id": "salamagman_handaxe" } ],
     "dodge": 2,
     "harvest": "fae_changeling",
-    "dissect": "dissect_salamander_large",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_salamagman_death_drops", 40 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "mon_salamagman_death_drops", "prob": 40 },
+        { "group": "salamander_sample_large", "prob": 25 },
+        { "group": "salamander_sample_small", "prob": 65 },
+        { "group": "salamander_sample_single", "prob": 100 }
+      ]
+    },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
     "armor": {
       "bash": 16,
@@ -853,12 +889,19 @@
     "special_attacks": [ { "id": "salamagman_battleaxe" } ],
     "dodge": 2,
     "harvest": "fae_changeling",
-    "dissect": "dissect_salamander_large",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_salamagman_champion_death_drops", 40 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "mon_salamagman_champion_death_drops", "prob": 40 },
+        { "group": "salamander_sample_large", "prob": 35 },
+        { "group": "salamander_sample_small", "prob": 75 },
+        { "group": "salamander_sample_single", "prob": 100 }
+      ]
+    },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
     "armor": {
       "bash": 16,
@@ -894,12 +937,19 @@
     "special_attacks": [ { "id": "salamagman_macuahuitl" } ],
     "dodge": 4,
     "harvest": "fae_changeling",
-    "dissect": "dissect_salamander_large",
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_salamagman_warlord_death_drops", 40 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "mon_salamagman_warlord_death_drops", "prob": 40 },
+        { "group": "salamander_sample_large", "prob": 35 },
+        { "group": "salamander_sample_small", "prob": 75 },
+        { "group": "salamander_sample_single", "prob": 100 }
+      ]
+    },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FLIES", "PATH_AVOID_DANGER", "PATH_AVOID_FALL", "FIREPROOF" ],
     "armor": {
       "bash": 16,
@@ -934,7 +984,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 0 } ],
     "dodge": 1,
     "harvest": "demihuman",
-    "dissect": "dissect_homullus_single",
+    "death_drops": { "subtype": "collection", "groups": [ [ "homullus_sample_single", 35 ] ] },
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
@@ -968,7 +1018,7 @@
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "fae_furred",
-    "dissect": "dissect_homullus_single",
+    "death_drops": { "subtype": "collection", "groups": [ [ "homullus_sample_single", 35 ] ] },
     "special_attacks": [
       {
         "type": "bite",
@@ -1022,6 +1072,14 @@
       "FAE_CREATURE",
       "PATH_AVOID_DANGER"
     ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "homullus_sample_single", "prob": 100 },
+        { "group": "homullus_sample_small", "prob": 75 },
+        { "group": "homullus_sample_large", "prob": 40 }
+      ]
+    },
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes", "wps_humanoid_head_small", "wps_xe_homullus_aleph" ],
     "armor": { "bash": 15, "cut": 10, "bullet": 10 }
   },
@@ -1072,7 +1130,7 @@
     "vision_day": 45,
     "vision_night": 5,
     "harvest": "fae_flying",
-    "dissect": "dissect_sylph_single",
+    "death_drops": { "subtype": "collection", "items": [ { "group": "sylph_sample_single", "prob": 35 } ] },
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SWARMS", "HEARS", "SEES", "FAE_CREATURE", "FLIES", "GRABS", "PATH_AVOID_FIRE" ]
@@ -1104,7 +1162,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 3, "max_range": 2, "allow_no_target": true }, { "id": "cut_throat" } ],
     "material": [ "iflesh" ],
     "harvest": "fae_flying",
-    "dissect": "dissect_sylph_single",
+    "death_drops": { "subtype": "collection", "items": [ { "group": "sylph_sample_single", "prob": 25 } ] },
     "flags": [ "SEES", "HEARS", "NOHEAD", "FAE_CREATURE", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "SWARMS" ],
     "armor": {
       "bash": 0,
@@ -1159,7 +1217,14 @@
     "families": [ "prof_alien_biology" ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
     "harvest": "fae_flying",
-    "dissect": "dissect_sylph_large",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "sylph_sample_single", "prob": 85 },
+        { "group": "sylph_sample_small", "prob": 55 },
+        { "group": "sylph_sample_large", "prob": 25 }
+      ]
+    },
     "flags": [
       "SEES",
       "HEARS",

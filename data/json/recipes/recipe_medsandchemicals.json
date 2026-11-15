@@ -959,7 +959,7 @@
     "time": "1 s",
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "chem_ammonium_nitrate_pellets", 27 ] ] ]
+    "components": [ [ [ "chem_ammonium_nitrate", 27 ] ] ]
   },
   {
     "type": "recipe",
@@ -1344,6 +1344,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_ammonium_nitrate",
+    "variant": "powder",
     "charges": 500,
     "byproducts": [ [ "water" ] ],
     "category": "CC_CHEM",
@@ -1363,22 +1364,8 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "chem_ammonium_nitrate",
-    "id_suffix": "from_pellets",
-    "name": "%s from pellets",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "charges": 100,
-    "time": "5 m",
-    "autolearn": true,
-    "qualities": [ { "id": "FINE_GRIND", "level": 1 }, { "id": "SIEVE", "level": 1 } ],
-    "components": [ [ [ "chem_ammonium_nitrate_pellets", 100 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "chem_ammonium_nitrate_pellets",
+    "result": "chem_ammonium_nitrate",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "charges": 27,
@@ -1584,7 +1571,7 @@
     "book_learn": [ [ "textbook_anarch", 0 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "using": [ [ "fuel_liquid", 6 ] ],
-    "components": [ [ [ "chem_ammonium_nitrate", 94 ], [ "chem_ammonium_nitrate_pellets", 94 ] ] ]
+    "components": [ [ [ "chem_ammonium_nitrate", 94 ] ] ]
   },
   {
     "type": "recipe",
