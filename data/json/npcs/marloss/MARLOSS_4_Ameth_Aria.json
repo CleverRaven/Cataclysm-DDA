@@ -100,7 +100,7 @@
         "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
       },
       {
-        "text": "<end_talking_leave> Bye, Joth.",
+        "text": "<end_talking_leave> Bye, Ameth.",
         "topic": "TALK_DONE",
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
       }
@@ -294,7 +294,8 @@
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "Funny story.  Parents kept threatening to kick me out, so I eventually just left.  Probably the best thing I'd decided to do, considering we lived in a crowded city back then.  I wandered to the outskirts of town, using as much cash as I could before they cut my card off, and spent my twenty for a ride here.  Those old bastards are probably dead by now.",
       "no": "Fought with my parents.  Nearly killed the old bastards that time, so I got kicked out.  After a spending trip, I saw a flyer advertising this place as a 'safe haven' for the lost and desperate.  So, I got a ride here.  You can imagine the rest."
-    }
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
@@ -303,7 +304,8 @@
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "They keep me calm.  Honestly, I wonder if the Marloss could've prevented all of this.  If only people just acted rationally,  and didn't start freaking out all over the place, it probably wouldn't have ever come to this.  I'm just happy to have this little pocket of safety within me.",
       "no": "Because it's the smartest thing to do.  The Marloss actually has the best intentions in mind for us.  Honestly, those poor idiots who refused it's help, I wonder if they're all dead by now.  Not like they were much smarter than a corpse anyways."
-    }
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
@@ -312,7 +314,8 @@
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "They're better to me than most people.  I'm glad they're sensible people, too.  I've actually gotten to sleep at night without earbuds in.",
       "no": "Better than I do about you."
-    }
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
@@ -321,6 +324,7 @@
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "I feel fine.  Suppose it'd be better, if the internet was back up.",
       "no": "I'd feel better if you took a few steps away from me, thanks."
-    }
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   }
 ]
