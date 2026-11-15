@@ -126,6 +126,7 @@ Smooth lighting
 CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 New wound system, cut, bash, and stab wounds
+Add zone 'Work: Dissect Corpses'
 
 
 ## Content:
@@ -228,6 +229,7 @@ A moving, trans-dimensional event - the Scarlet Storm
 Add a second blob singularity: the Reclaimer
 Bionic wounds and ways to repair them
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
+Sci-fi horrors from imagined wars.
 
 
 ## Interface:
@@ -290,6 +292,7 @@ Android: portrait mode, scale-from-text-size, new joystick and faster upgrades
 Scenarios are now divided into separate difficulty categories
 Display NPCs' current activity when looking at them
 Body Status Menu
+Rewrite wound text to be colorful and immersive
 
 
 ## Mods:
@@ -467,6 +470,8 @@ More efficient sugar and rum from sugar beets
 Forest floors are now littered with stuff you would expect to find, in large quantities: Sticks, leaves, twigs, and rocks.
 make zombies able to move through guardrails
 Wounds stage down when healing
+Bruises stage down when healing
+Add actual weariness to life-or-death combat
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -679,6 +684,8 @@ NPCs keep tasks through naps, leave other factions' stuff alone, light fires onl
 NPCs don't freeze when something comes up on the way to their job
 NPCs fetch construction components from containers and spread over construction sites
 Fix dragged furniture deleting every second item
+Wounds with only progress timer doesn't get updated
+Allow mutations to destroy all conflicting bionics
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -853,6 +860,7 @@ Android apk with sounds
 MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
 More support for C++20
+Fixed a macro collision on CMake Windows builds
 
 
 ## I18N and A11Y:
