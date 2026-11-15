@@ -74,13 +74,27 @@
         "then": [
           {
             "if": {
-              "u_has_any_wound": [ "bone_broken_healing_partial", "bone_broken_healing_bad", "bone_broken_healed_partial", "bone_broken_healed_bad" ],
+              "u_has_any_wound": [
+                "bone_broken",
+                "bone_fractured",
+                "bone_broken_healing_partial",
+                "bone_broken_healing_bad",
+                "bone_broken_healed_partial",
+                "bone_broken_healed_bad"
+              ],
               "bodypart": { "context_val": "bodypart" }
             },
             "then": [
               {
                 "u_remove_wound": { "context_val": "bodypart" },
-                "wound_id": [ "bone_broken_healing_partial", "bone_broken_healing_bad", "bone_broken_healed_partial", "bone_broken_healed_bad" ]
+                "wound_id": [
+                  "bone_broken",
+                  "bone_fractured",
+                  "bone_broken_healing_partial",
+                  "bone_broken_healing_bad",
+                  "bone_broken_healed_partial",
+                  "bone_broken_healed_bad"
+                ]
               },
               { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_scratch_small" },
               {
