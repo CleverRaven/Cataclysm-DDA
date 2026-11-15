@@ -332,6 +332,7 @@
     "using": [ [ "military_explosive", 697 ], [ "explosives_casting_standard", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "fuse", 3 ] ],
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "jug_plastic", 1 ] ],
@@ -352,6 +353,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 5 ], [ "military_explosive", 10000 ] ],
     "components": [
+      [ [ "fuse", 19 ] ],
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "keg_steel", 1 ] ]
@@ -371,6 +373,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "using": [ [ "explosives_casting_standard", 10 ], [ "military_explosive", 20000 ] ],
     "components": [
+      [ [ "fuse", 19 ] ],
       [ [ "delay_fuze", 1 ] ],
       [ [ "glue_strong", 4 ], [ "duct_tape", 10 ], [ "cordage", 1, "LIST" ] ],
       [ [ "30gal_drum", 1 ] ]
