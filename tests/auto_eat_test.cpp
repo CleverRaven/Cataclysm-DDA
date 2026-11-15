@@ -212,6 +212,9 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
                 you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
                 1, craft_flags::start_only ) );
 
+        REQUIRE( you.get_hunger() == 0 );
+        you.set_thirst( -41 );
+
         broth_test.score_calorie_check_all( meat, 11 );
         broth_test.score_calorie_check_all( meat_cooked, 12 );
         broth_test.score_calorie_check_all( powder_eggs, 8 );
@@ -219,8 +222,8 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
 
         broth_test.score_quench_check_all( meat, 0 );
         broth_test.score_quench_check_all( meat_cooked, 0 );
-        broth_test.score_quench_check_all( powder_eggs, -2 );
-        broth_test.score_quench_check_all( broth, 60 );
+        broth_test.score_quench_check_all( powder_eggs, 0 );
+        broth_test.score_quench_check_all( broth, -240 );
 
         broth_test.score_joy_check_all( meat, -100 );
         broth_test.score_joy_check_all( meat_cooked, 0 );
@@ -244,12 +247,10 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
 
         broth_test.score_food_check_all( meat, -38 );
         broth_test.score_food_check_all( meat_cooked, 3 );
-        broth_test.score_food_check_all( powder_eggs, -34 );
-        broth_test.score_food_check_all( broth, 28 );
-        broth_test.score_food_check_all( c_water, 50 );
+        broth_test.score_food_check_all( powder_eggs, -32 );
+        broth_test.score_food_check_all( broth, -272 );
+        broth_test.score_food_check_all( c_water, -200 );
 
-        REQUIRE( you.get_hunger() == 0 );
-        you.set_thirst( -41 );
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
         REQUIRE( food_iter != food_list.end() );

@@ -179,6 +179,10 @@ int auto_eat_settings::quench_score( const Character &guy, const potential_edibl
                        food.get_item_copy().get_comestible()->quench;
     const int thirst = guy.get_instant_thirst() + thirst_modifier;
     float thirst_multiplier = 1.0f;
+    if( quench < 0 && thirst < 0 ) {
+        // no bonus for thirsty food if you're slaked
+        return 0;
+    }
     // not thirsty. deprioritize quench.
     if( thirst < -40 ) {
         thirst_multiplier = -4.0f;
