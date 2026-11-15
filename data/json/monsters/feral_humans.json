@@ -493,7 +493,7 @@
     "id": "mon_feral_sailor_mop",
     "type": "MONSTER",
     "copy-from": "mon_feral_sailor_wrench",
-    "description": "Clutching a stout mop in their quivering hands, this crewman was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you'd be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened veins, and spastic twitching tell a far different story.",
+    "description": "Clutching a stout mop in their quivering hands, this crewman was presumably assigned to basic deck sweeping in their final moments, before the Cataclysm struck and stripped them of their humanity.  Dressed in basic naval fatigues, you'd be forgiven for believing them to be another survivor.  However, their bloodshot eyes, blackened veins, and erratic twitching tell a far different story.",
     "special_attacks": [ { "id": "feral_weapon_mop_folded" }, [ "PARROT_AT_DANGER", 0 ] ],
     "death_drops": "mon_feral_sailor_mop_death_drops"
   },
