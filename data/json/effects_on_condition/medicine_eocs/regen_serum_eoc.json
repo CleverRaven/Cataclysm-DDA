@@ -66,7 +66,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_REGEN_SERUM_MUT_REJECTION",
+    "id": "EOC_REGEN_SERUM_BROKEN_BONE_REALIGNMENT",
     "condition": { "expects_vars": [ "bodypart" ] },
     "effect": [
       {
