@@ -45,7 +45,12 @@
         "text": "bleeding",
         "sym": "b",
         "color": "light_red",
-        "condition": { "and": [ "u_is_bleeding", { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR" } ] }
+        "condition": {
+          "and": [
+            "u_is_bleeding",
+            { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "MAJOR", "check_sublimbs": true }
+          ]
+        }
       },
       {
         "id": "bleeding",
@@ -53,7 +58,10 @@
         "sym": "b",
         "color": "red",
         "condition": {
-          "and": [ { "u_is_bleeding": "MAJOR" }, { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "CRITICAL" } ]
+          "and": [
+            { "u_is_bleeding": "MAJOR" },
+            { "u_bodypart_is_bleeding": { "context_val": "widget" }, "severity": "CRITICAL", "check_sublimbs": true }
+          ]
         }
       },
       {
@@ -68,14 +76,14 @@
         "text": "wounded",
         "sym": "W",
         "color": "blue",
-        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } }
+        "condition": { "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" }, "check_sublimbs": true }
       },
       {
         "id": "wounded",
         "text": "wounded",
         "sym": "W",
         "color": "light_cyan",
-        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" } }
+        "condition": { "u_bodypart_is_wounded": { "context_val": "widget" }, "check_sublimbs": true }
       }
     ]
   },
