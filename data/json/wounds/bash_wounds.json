@@ -309,6 +309,26 @@
     ]
   },
   {
+    "id": "bone_broken_healing_locutus",
+    "copy-from": "bone_broken_healing_partial",
+    "type": "wound",
+    "name": { "str": "regenerating bone" },
+    "description": "That drug you took is resetting and healing your bone.  You can tell because how badly it hurts.",
+    "pain": [ 30, 50 ],
+    "//": "Remember that Locutus applies that and Locutus speeds wound healing by 50x, so it actually heals in 14 hours to 21 hours",
+    "healing_time": [ "30 days", "45 days" ],
+    "mod_values": [ { "type": "PAIN", "rate": "30 seconds", "amount": 1, "cap_min": 0, "cap_max": 350 } ],
+    "limb_scores": [
+      { "score": "manip", "value": 0.7 },
+      { "score": "grip", "value": 0.7 },
+      { "score": "lift", "value": 0.7 },
+      { "score": "balance", "value": 0.5 },
+      { "score": "footing", "value": 0.6 },
+      { "score": "block", "value": 0.6 },
+      { "score": "move_speed", "value": 0.6 }
+    ]
+  },
+  {
     "id": "bone_fractured_healing",
     "copy-from": "bone_fractured",
     "type": "wound",
