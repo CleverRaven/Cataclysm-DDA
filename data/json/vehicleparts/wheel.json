@@ -784,5 +784,29 @@
     "contact_area": 60,
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_WHEEL_MOUNT_CONCRETE_MIX", "NO_INSTALL_HIDDEN" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_earthmover",
+    "type": "vehicle_part",
+    "item": "wheel_earthmover",
+    "location": "under",
+    "categories": [ "movement" ],
+    "name": { "str": "earthmover wheel" },
+    "description": "A wheel off a heavy machine: better than a meter of deep-lugged tire on a multi-piece rim.  The footprint is enormous, which is what keeps a machine of this weight moving over ground that would bog anything else down, and it costs dearly in rolling resistance on a road.",
+    "durability": 900,
+    "damage_modifier": 50,
+    "rolling_resistance": 1.6,
+    "contact_area": 700,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 2 ], "ROAD": [ 0, 1 ] },
+    "//": "20.5R25 on its rim, around 300 kg.  Needs the heavy hub, like the armored wheel.  Rolling resistance sits between a wide truck tire at 0.575 and a roller drum at 2.5, and the terrain penalties are the lowest of any wheel - a huge lugged footprint is what these are for.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
+    },
+    "breaks_into": [ { "item": "mc_steel_lump", "count": [ 2, 4 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_HEAVY", "RESIST_RUNOVER_DAMAGE" ],
+    "damage_reduction": { "all": 60, "cut": 30, "stab": 16 },
+    "variants": [ { "symbols": "0", "symbols_broken": "x" } ]
   }
 ]

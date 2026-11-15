@@ -147,5 +147,21 @@
     "copy-from": "foldframe",
     "faults": [ { "fault": "fault_broken_window" } ],
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "type": "ITEM",
+    "id": "machine_frame",
+    "category": "veh_parts",
+    "name": { "str": "machine frame" },
+    "description": "A meter of the box-section chassis of a heavy machine: steel plate a finger thick, welded into a beam, with mounting faces machined along it.  Far too heavy to shift by hand.",
+    "weight": "450 kg",
+    "volume": "60 L",
+    "longest_side": "150 cm",
+    "price": "800 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "ch_steel" ],
+    "symbol": "-",
+    "color": "dark_gray",
+    "melee_damage": { "bash": 30 }
   }
 ]

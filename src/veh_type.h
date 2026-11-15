@@ -454,6 +454,22 @@ class vpart_info
         int dmg_mod = 100;
 
         /**
+         * Impact energy a SNOWPLOW part shoves aside without wearing, and the energy past
+         * that which costs it one point of durability.  A zero rate never wears.
+         */
+        units::energy min_impact_energy = 0_J;
+        units::energy impact_energy_per_hp = 0_J;
+
+        /** Angle in degrees between the direction of travel and the face of a SNOWPLOW part */
+        int collision_deflection = 60;
+
+        /**
+         * Least the vehicle may weigh, unloaded, for a character to install this part; zero
+         * for no requirement.  Vehicle prototypes are not held to it.
+         */
+        units::mass min_vehicle_mass = 0_gram;
+
+        /**
          * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
          * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
