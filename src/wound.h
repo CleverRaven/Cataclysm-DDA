@@ -3,7 +3,6 @@
 #define CATA_SRC_WOUND_H
 
 #include <climits>
-#include <map>
 #include <optional>
 #include <set>
 #include <string>

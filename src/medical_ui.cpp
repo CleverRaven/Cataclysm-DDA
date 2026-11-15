@@ -2,7 +2,6 @@
 #include <imgui/imgui.h>
 #include <cstdlib>
 #include <functional>
-#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -24,14 +23,12 @@
 #include "display.h"
 #include "effect.h"
 #include "enum_conversions.h"
-#include "enums.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
-#include "messages.h"
 #include "output.h"
 #include "proficiency.h"
 #include "requirements.h"

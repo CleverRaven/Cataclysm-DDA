@@ -1,6 +1,7 @@
 #include "wound.h"
 
 #include <algorithm>
+#include <map>
 #include <memory>
 #include <set>
 
