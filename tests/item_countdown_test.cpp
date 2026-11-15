@@ -8,6 +8,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
+#include "player_helpers.h"
 #include "type_id.h"
 
 static const itype_id itype_arrow_field_point_fletched( "arrow_field_point_fletched" );
@@ -49,6 +50,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
 {
     avatar dummy;
     Character *who = &dummy;
+    clear_character( dummy );
 
     SECTION( "revert to inert item" ) {
         item &test_item = *who->i_add( item( itype_arrow_flamming ) );

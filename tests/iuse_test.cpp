@@ -76,6 +76,7 @@ static const morale_type morale_wet( "morale_wet" );
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
+    clear_character( dummy );
     //Give eyes to our dummy
     dummy.set_body();
     REQUIRE( dummy.has_part( bodypart_id( "eyes" ) ) );
