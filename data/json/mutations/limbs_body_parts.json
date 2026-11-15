@@ -1351,7 +1351,12 @@
       [ "crawl", 0.6 ]
     ],
     "side": "left",
-    "sub_parts": [ "tentacle_left_dual_base_l", "tentacle_left_dual_middle_l", "tentacle_left_dual_tip_l" ],
+    "sub_parts": [
+      "tentacle_left_dual_shoulder_l",
+      "tentacle_left_dual_base_l",
+      "tentacle_left_dual_middle_l",
+      "tentacle_left_dual_tip_l"
+    ],
     "similar_bodypart": "arm_l"
   },
   {
@@ -1377,7 +1382,12 @@
       [ "crawl", 0.6 ]
     ],
     "side": "right",
-    "sub_parts": [ "tentacle_right_dual_base_r", "tentacle_right_dual_middle_r", "tentacle_right_dual_tip_r" ],
+    "sub_parts": [
+      "tentacle_right_dual_shoulder_r",
+      "tentacle_right_dual_base_r",
+      "tentacle_right_dual_middle_r",
+      "tentacle_right_dual_tip_r"
+    ],
     "similar_bodypart": "arm_r"
   },
   {

@@ -2375,9 +2375,20 @@
     "name": "right tentacle tip"
   },
   {
+    "id": "tentacle_left_dual_shoulder_l",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_tentacle_l_dual",
+    "side": "left",
+    "opposite": "tentacle_right_dual_shoulder_r",
+    "name_multiple": "shoulders",
+    "name": "left shoulder",
+    "similar_bodypart": "arm_shoulder_l"
+  },
+  {
     "id": "tentacle_left_dual_base_l",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 20,
     "parent": "arm_tentacle_l_dual",
     "side": "left",
     "opposite": "tentacle_left_dual_base_r",
@@ -2387,7 +2398,7 @@
   {
     "id": "tentacle_left_dual_middle_l",
     "type": "sub_body_part",
-    "max_coverage": 45,
+    "max_coverage": 40,
     "parent": "arm_tentacle_l_dual",
     "side": "left",
     "opposite": "tentacle_left_dual_middle_r",
@@ -2397,7 +2408,7 @@
   {
     "id": "tentacle_left_dual_tip_l",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 20,
     "parent": "arm_tentacle_l_dual",
     "side": "left",
     "opposite": "tentacle_left_dual_tip_r",
@@ -2405,9 +2416,20 @@
     "name": "left tentacle tip"
   },
   {
+    "id": "tentacle_right_dual_shoulder_r",
+    "type": "sub_body_part",
+    "max_coverage": 20,
+    "parent": "arm_tentacle_r_dual",
+    "side": "right",
+    "opposite": "tentacle_left_dual_shoulder_l",
+    "name_multiple": "shoulders",
+    "name": "right shoulder",
+    "similar_bodypart": "arm_shoulder_r"
+  },
+  {
     "id": "tentacle_right_dual_base_r",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 20,
     "parent": "arm_tentacle_r_dual",
     "side": "right",
     "opposite": "tentacle_left_dual_base_l",
@@ -2417,7 +2439,7 @@
   {
     "id": "tentacle_right_dual_middle_r",
     "type": "sub_body_part",
-    "max_coverage": 45,
+    "max_coverage": 40,
     "parent": "arm_tentacle_r_dual",
     "side": "right",
     "opposite": "tentacle_left_dual_middle_l",
@@ -2427,7 +2449,7 @@
   {
     "id": "tentacle_right_dual_tip_r",
     "type": "sub_body_part",
-    "max_coverage": 25,
+    "max_coverage": 20,
     "parent": "arm_tentacle_r_dual",
     "side": "right",
     "opposite": "tentacle_left_dual_tip_l",
