@@ -96,7 +96,7 @@
                   "bone_broken_healed_bad"
                 ]
               },
-              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "clean_scratch_small" },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "bone_broken_healing_locutus" },
               {
                 "u_message": "You feel the bones of your <context_val:bodypart> writhing as they realign.  It is indescribably painful.",
                 "type": "bad"
