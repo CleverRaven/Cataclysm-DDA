@@ -3,10 +3,10 @@ name: General build matrix
 on:
   push:
     branches:
-    - master
+    - 0.J-branch
   pull_request:
     branches:
-    - master
+    - 0.J-branch
     types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
