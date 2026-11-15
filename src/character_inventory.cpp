@@ -2348,7 +2348,7 @@ bool Character::has_fire( const int quantity ) const
     if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
-    if( !find_firestarter_with_charges( quantity ).valid() ) {
+    if( find_firestarter_with_charges( quantity ).valid() ) {
         return true;
     }
     if( is_npc() ) {

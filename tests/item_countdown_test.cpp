@@ -56,7 +56,7 @@ TEST_CASE( "countdown_action_revert_to", "[item]" )
         test_item.countdown_point = calendar::turn;
 
         // Is not deleted after coundown action
-        CHECK( test_item.process( get_map(), nullptr, tripoint_bub_ms::zero ) == false );
+        CHECK( test_item.process( get_map(), who, tripoint_bub_ms::zero ) == false );
 
         // Turns into normal arrow
         CHECK( test_item.typeId() == itype_arrow_field_point_fletched );
