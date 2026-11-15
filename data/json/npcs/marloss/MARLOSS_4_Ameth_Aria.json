@@ -111,7 +111,7 @@
     "id": "TALK_MARLOSS_EVAN_Ameth_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*is impatiently tapping their foot, unexplicably mad at something, or someone.  Despite looking incredibly unapproachable,  she instantly begins speaking to you once you got close enough.  \"Hey.  you.\"  She snaps, pointing a thin finger at you.  \"Quick question.  Have you heard them?",
+      "yes": "*is impatiently tapping their foot, unexplicably mad at something, or someone.  Despite looking incredibly unapproachable, she instantly begins speaking to you once you got close enough.  \"Hey.  you.\"  She snaps, pointing a thin finger at you.  \"Quick question.  Have you heard them?",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "*is glaring at you for an indiscernible reason, bouncing her entire leg to suppress whatever issue they've already picked up against you.  Though, she has to rebalance every few seconds to keep from toppling over.  \"You.  Can you hear them?",
@@ -302,7 +302,7 @@
     "id": "MARLOSS_EVAN_AMETH_Marloss",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "They keep me calm.  Honestly, I wonder if the Marloss could've prevented all of this.  If only people just acted rationally,  and didn't start freaking out all over the place, it probably wouldn't have ever come to this.  I'm just happy to have this little pocket of safety within me.",
+      "yes": "They keep me calm.  Honestly, I wonder if the Marloss could've prevented all of this.  If only people just acted rationally and didn't start freaking out all over the place, it probably wouldn't have ever come to this.  I'm just happy to have this little pocket of safety within me.",
       "no": "Because it's the smartest thing to do.  The Marloss actually has the best intentions in mind for us.  Honestly, those poor idiots who refused it's help, I wonder if they're all dead by now.  Not like they were much smarter than a corpse anyways."
     },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
