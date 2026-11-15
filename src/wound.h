@@ -194,7 +194,10 @@ class wound
 {
     public:
         wound() = default;
-        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp );
+        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp,
+                        dealt_damage_instance &di );
+        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp,
+                        int hp_damage );
 
         wound_type_id type;
 
@@ -212,6 +215,7 @@ class wound
         // exposes healing_time
         time_duration get_healing_time() const;
         float get_healing_progress() const;
+        int get_hp_damage() const;
         // update the wound healing progress
         wound_update_ret update_wound( const Character *who, time_duration time_passed );
 
@@ -219,7 +223,7 @@ class wound
 
         wound &operator+=( const wound &wd ) {
             pain += wd.pain;
-            // reset healing progress? maybe not necessary?
+            hp_damage += wd.hp_damage;
             healing_progress = 0.f;
 
             return *this;
@@ -237,10 +241,16 @@ class wound
         // how much pain this specific wound provide.
         int pain;
 
+        // how much hp this wound takes from the bodypart. Supposed to be equal to amount of damage that caused this wound
+        int hp_damage = 0;
+
+
     public:
 
         // our wound will transform into this one, in time
         std::optional<std::pair<wound_type_id, time_duration>> wound_progress_timer;
+
+        friend class medical_ui;
 };
 
 struct wound_proficiency {

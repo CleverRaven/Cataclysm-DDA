@@ -91,6 +91,22 @@
   },
   {
     "type": "item_group",
+    "id": "milspec_arsenal_group_ammo_part",
+    "items": [
+      { "group": "ammo_can_9mm_any_part", "count": [ 1, 4 ], "prob": 96 },
+      { "group": "ammo_can_shot_any_part", "count": [ 1, 4 ], "prob": 150 },
+      { "group": "ammo_can_223_any_part", "count": [ 1, 4 ], "prob": 1450 },
+      { "group": "ammo_can_223_mg_any_part", "count": [ 1, 4 ], "prob": 110 },
+      { "group": "ammo_can_300_part", "count": [ 1, 4 ], "prob": 95 },
+      { "group": "ammo_can_308_any_part", "count": [ 1, 4 ], "prob": 95 },
+      { "group": "ammo_can_308_mg_any_part", "count": [ 1, 4 ], "prob": 42 },
+      { "group": "ammo_can_50_any_part", "count": [ 1, 4 ], "prob": 30 },
+      { "group": "ammo_can_50_mg_any_part", "count": [ 1, 2 ], "prob": 90 },
+      { "group": "ammo_can_40x46mm_m433_part", "count": [ 1, 4 ], "prob": 42 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "milspec_arsenal_group_ammo_heavy_full",
     "items": [
       { "group": "ammo_can_belt40mm_full", "count": [ 2, 4 ], "prob": 50 },

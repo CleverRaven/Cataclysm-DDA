@@ -180,6 +180,7 @@ std::string medical_ui::get_limb_wounds( const Character &you, const bodypart_id
                 detail_str += string_format( "healing speed multiplier: %.3fx\n",
                                              wd.get_wound_healing_modifier( &you ) );
                 detail_str += string_format( "gives pain: %d (raw %d)\n", wd.get_pain( &you ), wd.get_pain_raw() );
+                detail_str += string_format( "hp damage: %d (raw %d)\n", wd.get_hp_damage(), wd.hp_damage );
                 if( wd.wound_progress_timer.has_value() ) {
                     detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
                                                  to_string( wd.wound_progress_timer->second -
@@ -587,7 +588,9 @@ static bool optional_debug_modify_wounds( const Character &you, bodypart &bp )
                     if( opts[menu.ret].second ) {
                         bp.remove_wound( opts[menu.ret].first );
                     } else {
-                        bp.add_wound( opts[menu.ret].first, you );
+                        int hp_damage = 10;
+                        query_int( hp_damage, true,  "set hp damage amount:" );
+                        bp.add_wound( opts[menu.ret].first, you, hp_damage );
                     }
                 }
             } while( menu.ret >= 0 );

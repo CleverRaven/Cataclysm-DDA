@@ -767,8 +767,8 @@
     "ammo_type": "gunpowder",
     "id": "gunpowder",
     "category": "chems",
-    "price": "5 USD",
-    "price_postapoc": "20 USD",
+    "price": "14 cent",
+    "price_postapoc": "4 USD",
     "name": { "str_sp": "mixed smokeless gunpowder" },
     "display_type": "BY_WEIGHT",
     "symbol": "=",
@@ -777,11 +777,12 @@
     "sealed": false,
     "material": [ "powder" ],
     "flags": [ "TINDER" ],
-    "volume": "250 ml",
+    "volume": "55 ml",
     "weight": "100 mg",
-    "count": 4540,
+    "//": "tnt equivalent 1.08 g/tnt",
+    "count": 1000,
     "explode_in_fire": true,
-    "explosion": { "power": 42 }
+    "explosion": { "power": 10 }
   },
   {
     "type": "ITEM",
