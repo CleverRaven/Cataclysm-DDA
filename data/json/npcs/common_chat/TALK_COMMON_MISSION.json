@@ -40,8 +40,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "has_no_available_mission": {
-        "has_no_assigned_mission": "I don't have any jobs for you.",
-        "no": { "has_many_assigned_missions": "I don't have any more jobs for you.", "no": "I don't have any more jobs for you." }
+        "has_no_assigned_mission": "<no_jobs>",
+        "no": { "has_many_assigned_missions": "<no_more_jobs>", "no": "<no_more_jobs>" }
       },
       "no": {
         "has_many_available_missions": {
@@ -52,7 +52,7 @@
           }
         },
         "no": {
-          "has_no_assigned_mission": "I have a job for you.  Want to hear about it?",
+          "has_no_assigned_mission": "<job_offer>",
           "no": {
             "has_many_assigned_missions": "I just have one job for you.  Want to hear about it?",
             "no": "I just have one job for you.  Want to hear about it?"

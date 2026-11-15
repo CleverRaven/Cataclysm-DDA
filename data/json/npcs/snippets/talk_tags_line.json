@@ -1094,5 +1094,54 @@
       "Who put you in charge of what I do?",
       "Would a nomad do this?  Nope.  Don't think so."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<job_offer>",
+    "//": "NPC offers job",
+    "text": [
+      "I do have a job for you.  Want to hear about it?",
+      "Actually I do have a job, if you want to hear what it is.",
+      "If you want to help out, I'll tell you more.",
+      "I got something that needs to be done, alright.  Would you like to know more?",
+      "If you're curious, I've got a task just for you.",
+      "I've got a task with your name on it.  Wanna know more?",
+      "Yes, in fact, I've got something you might help with.  Wanna hear about it?",
+      "As a matter of fact, I do.  Are you ready to hear me out?",
+      "Yes, I do.  Wanna hear about it?",
+      "There sure is something you could help with.  I can tell you more if you wish.",
+      "Yes.  If you're ready, I'll just cut to the chase.",
+      "Finally, someone with initiative.  Ready to hear me out?",
+      "I do need help with something, as a matter of fact.  Wanna hear about it?",
+      "If you're interested in a task, I'll tell you more.",
+      "Of course.  Say the word, and I'll tell you more.",
+      "I guess you could help with something, yeah.  Ready to hear it?",
+      "Don't know if you're up for it, but I can tell you nonetheless.",
+      "If you want work, I've got work.",
+      "Perhaps.  Wanna hear about it?",
+      "Yes, you could definitely help out.  Wanna hear about it?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<no_jobs>",
+    "//": "NPC has no jobs for the player",
+    "text": [
+      "Sorry, but I don't have any jobs for you for now.",
+      "No, there's nothing you can help me with right now.",
+      "Unfortunately, I don't need your help right now.",
+      "No, I don't have any tasks for you right now."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<no_more_jobs>",
+    "//": "NPC has no more jobs for the player, but player still has other unfinished jobs from the NPC",
+    "text": [
+      "Sorry, but I don't have any more jobs for you right now.",
+      "No, there's nothing else you can help with right now.",
+      "I think you've got enough on your plate right now.",
+      "No, I don't have any more tasks for you right now."
+    ]
   }
 ]
