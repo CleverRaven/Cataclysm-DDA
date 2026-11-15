@@ -943,6 +943,7 @@ checks are you hot or cold
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker's specific bodypart has any bleeding wound
 - `severity` can be used to specify the severity of such bleeding
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
 
 #### Valid talkers:
 
@@ -959,6 +960,7 @@ checks are you hot or cold
 ### `u_bodypart_is_wounded`, `npc_bodypart_is_wounded`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker's specific bodypart has any wound at all
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
 
 #### Valid talkers:
 
@@ -967,14 +969,15 @@ checks are you hot or cold
 | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 #### Examples
-
+Returns true if the the `arm_r` or `hand_r` is wounded, since `hand_r` is a sub limb of `arm_r`
 ```jsonc
-{ "u_bodypart_is_wounded": "torso" }
+{ "u_bodypart_is_wounded": "arm_r", "check_sublimbs": true }
 ```
 
 ### `u_bodypart_is_wounded_and_fixable`, `npc_bodypart_is_wounded_and_fixable`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker's specific bodypart has any wound that has possible wound fixes. It does not check if any of the fixes are actually performable. Designed for the sidebar to use to display that there are wounds that can be treated
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
 
 #### Valid talkers:
 
