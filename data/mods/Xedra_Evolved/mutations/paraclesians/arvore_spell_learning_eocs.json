@@ -560,7 +560,9 @@
     },
     "effect": [
       { "run_eocs": "EOC_ARVORE_SUCCESSFUL_LEVELER_MESSAGE" },
-      { "math": [ "u_spell_exp('arvore_thorn_spray_spell') += paraclesian_gramarye_passive_spell_exp()" ] }
+      {
+        "math": [ "u_spell_exp('arvore_thorn_spray_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multipler)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
