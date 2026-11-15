@@ -72,8 +72,15 @@ Wound fixes support everything recipes support.
     "type": "wound_fix",
     "name": "bandage the bleeding",
     "description": "Foobar.",
-    "time": "2 hours", // how long it takes to apply this wound fix
-    "skills": { "mechanics": 1 }, // skills required to apply fix
+    "time": "2 hours", // how long it takes to apply this wound fix. Assume time that character without necessary skills and proficiencies (if is_mandatory is false)
+    "skills": [ 
+      { 
+        "skill": "mechanics", 
+        "level": 1, 
+        "time_save": 0.9, // multiplies the would fix time by this amount if skill is presented; default 1.0
+        "is_mandatory": true // if true, lacking this prof would prevent you from using this wound fix. Default true
+       }
+    ],
     "wounds_removed": [ "scratch" ], // wounds removed when this fix is applied
     "wounds_added": [ "scratch" ], // wounds added when fix is applied
     "success_msg": "Tada.",
@@ -82,8 +89,8 @@ Wound fixes support everything recipes support.
     "proficiencies": [
       {
         "proficiency": "prof_wound_care", // id of prof required
-        "time_save": 0.9, // multiplies the would fix time by this amount; default 1.0
-        "is_mandatory": true  // if true, lacking this prof would prevent you from using this wound fix
+        "time_save": 0.9, // multiplies the would fix time by this amount if prof is presented; default 1.0
+        "is_mandatory": true  // if true, lacking this prof would prevent you from using this wound fix. Default false
       }
     ]
   }

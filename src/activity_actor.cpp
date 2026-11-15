@@ -11455,8 +11455,8 @@ void fix_wound_activity_actor::finish( player_activity &act, Character &who )
         bp->mod_hp_cur( fix.mod_hp * amount );
     }
 
-    for( const auto& [skill_id, level] : fix.skills ) {
-        who.practice( skill_id, 10 * amount, static_cast<int>( level * 1.25 ) );
+    for( const wound_skill &sk : fix.skills ) {
+        who.practice( sk.skill, 10 * amount, static_cast<int>( sk.level * 1.25 ) );
     }
 
     for( const wound_proficiency &wound_prof : fix.proficiencies ) {
