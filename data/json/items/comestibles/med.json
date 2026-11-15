@@ -1789,7 +1789,7 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "saline solution" },
-    "description": "A solution of sterilized water and salt for intravenous infusion or washing contaminants from one's eyes.",
+    "description": "A solution of sterilized water and salt for intravenous infusion or washing contaminants.",
     "display_type": "BY_VOLUME",
     "material": [ { "type": "water", "portion": 991 }, { "type": "salt", "portion": 9 } ],
     "weight": "51 g",
