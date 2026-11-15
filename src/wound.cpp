@@ -54,11 +54,20 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "blacklist_body_part_types", blacklist_body_part_types );
 }
 
-wound::wound( wound_type_id wd, const Character *who = nullptr,
-              bodypart_str_id bp = bodypart_str_id::NULL_ID() ):
+wound::wound( wound_type_id wd, const Character *who, bodypart_str_id bp,
+              dealt_damage_instance &ddi ):
     type( wd ),
     healing_time( wd->evaluate_healing_time() ),
     pain( wd->evaluate_pain( who, bp ) ),
+    hp_damage( ddi.total_damage() ),
+    wound_progress_timer( wd->evaluate_progress_timer() )
+{}
+
+wound::wound( wound_type_id wd, const Character *who, bodypart_str_id bp, int hp_damage ):
+    type( wd ),
+    healing_time( wd->evaluate_healing_time() ),
+    pain( wd->evaluate_pain( who, bp ) ),
+    hp_damage( hp_damage ),
     wound_progress_timer( wd->evaluate_progress_timer() )
 {}
 
@@ -527,7 +536,6 @@ bool wound_type::can_be_applied( const Character *who, const bp_wounds &pt_wd,
     return true;
 }
 
-
 void wound::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -536,6 +544,7 @@ void wound::serialize( JsonOut &jsout ) const
     jsout.member( "healing_progress", healing_progress );
     jsout.member( "wound_progress_timer", wound_progress_timer );
     jsout.member( "pain", pain );
+    jsout.member( "hp_damage", hp_damage );
     jsout.end_object();
 }
 
@@ -545,6 +554,7 @@ void wound::deserialize( const JsonObject &jsin )
     jsin.read( "healing_time", healing_time );
     jsin.read( "healing_progress", healing_progress );
     jsin.read( "wound_progress_timer", wound_progress_timer );
+    jsin.read( "hp_damage", hp_damage );
     jsin.read( "pain", pain );
 }
 
@@ -560,7 +570,7 @@ void wound::mod_pain( const int mod )
 
 int wound::get_pain( const Character *who ) const
 {
-    float ret = pain * ( 1 - healing_percentage() );
+    float ret = pain * ( 1.f - healing_percentage() );
 
     if( who->has_flag( json_flag_PAIN_IMMUNE ) || who->has_effect( effect_narcosis ) ) {
         return 0;
@@ -582,6 +592,11 @@ time_duration wound::get_healing_time() const
 float wound::get_healing_progress() const
 {
     return healing_progress;
+}
+
+int wound::get_hp_damage() const
+{
+    return hp_damage * ( 1.f - healing_percentage() );
 }
 
 wound_update_ret wound::update_wound( const Character *who, const time_duration time_passed )
