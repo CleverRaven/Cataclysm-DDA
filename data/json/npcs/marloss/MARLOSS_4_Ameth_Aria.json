@@ -94,7 +94,7 @@
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
       },
       {
-        "text": "Put him out of his misery.",
+        "text": "Put her out of her misery.",
         "topic": "TALK_DONE",
         "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
         "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
