@@ -744,5 +744,14 @@
         { "group": "feral_humans_death_drops_pipe", "prob": 100 }
       ]
     }
+  },
+  {
+    "id": "mon_feral_human_hammer_sledge",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "description": "Their pupils are dilated and what can be seen of the iris and sclera are bloodshot.  This crowbar-wielding maniac still breathes, but the zombies treat them like one of their own.",
+    "special_attacks": [ { "id": "feral_weapon_hammer_sledge" }, [ "PARROT_AT_DANGER", 0 ] ],
+    "death_drops": "feral_humans_death_drops_crowbar",
+    "fungalize_into": "mon_feral_human_crowbar_fungal_infected"
   }
 ]
