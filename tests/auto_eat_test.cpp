@@ -214,6 +214,7 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
 
         REQUIRE( you.get_hunger() == 0 );
         you.set_thirst( -41 );
+        REQUIRE( you.get_thirst() == -41 );
 
         broth_test.score_calorie_check_all( meat, 11 );
         broth_test.score_calorie_check_all( meat_cooked, 12 );
@@ -250,6 +251,10 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         broth_test.score_food_check_all( powder_eggs, -32 );
         broth_test.score_food_check_all( broth, -272 );
         broth_test.score_food_check_all( c_water, -200 );
+
+        // no side effects allowed!
+        REQUIRE( you.get_hunger() == 0 );
+        REQUIRE( you.get_thirst() == -41 );
 
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
