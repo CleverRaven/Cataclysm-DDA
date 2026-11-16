@@ -31,11 +31,17 @@
       { "math": [ "u_vitamin('mutagen') += 550" ] },
       { "u_message": "You drink the Arvore destiny draught.", "type": "info" },
       {
+        "if": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" },
+        "then": { "math": [ "_xp_multiplier = 100" ] },
+        "else": { "math": [ "_xp_multiplier = 350" ] }
+      },
+      {
         "run_eocs": [
           "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR",
           "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR",
           "EOC_ARVORE_SPELL_EXPERIENCE_INCREASER_SELECTOR"
-        ]
+        ],
+        "variables": { "xp_multiplier": { "context_val": "xp_multiplier" } }
       }
     ]
   },
@@ -70,12 +76,14 @@
       { "math": [ "u_vitamin('mutagen_flamekin') += 550" ] },
       { "math": [ "u_vitamin('mutagen') += 550" ] },
       { "u_message": "You drink the Salamander destiny draught.", "type": "info" },
+      { "math": [ "_xp_multiplier = 350" ] },
       {
         "run_eocs": [
           "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
           "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR",
           "EOC_SALAMANDER_SPELL_EXPERIENCE_INCREASER_SELECTOR"
-        ]
+        ],
+        "variables": { "xp_multiplier": { "context_val": "xp_multiplier" } }
       }
     ]
   },

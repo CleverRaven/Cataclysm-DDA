@@ -204,8 +204,8 @@
   {
     "type": "jmath_function",
     "id": "paraclesian_gramarye_passive_spell_exp",
-    "num_args": 0,
-    "return": "u_skill('gramarye') * 500"
+    "num_args": 1,
+    "return": "u_skill('gramarye') * _0"
   },
   {
     "type": "jmath_function",
