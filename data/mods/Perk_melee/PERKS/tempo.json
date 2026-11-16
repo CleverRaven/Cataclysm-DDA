@@ -5,7 +5,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Combat Tempo I" },
     "description": "Perfect.  Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
-    "flags": "MELEE_PERK_TEMPO"
+    "flags": [ "MELEE_PERK_TEMPO", "PERK" ]
   },
   {
     "type": "mutation",
@@ -13,7 +13,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Perfect Tempo" },
     "description": "You gain +15 quickness as long as you have the maximum number of combat tempo stacks.",
-    "flags": "MELEE_PERK_PERFECT_TEMPO",
+    "flags": [ "MELEE_PERK_PERFECT_TEMPO", "PERK" ],
     "enchantments": [ "melee_perk_ench_perfect_tempo" ]
   },
   {
@@ -22,7 +22,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Tempo Shift" },
     "description": "Gain a stack of combat tempo whenever you successfully block an attack.",
-    "flags": "MELEE_PERK_TEMPO_SHIFT"
+    "flags": [ "MELEE_PERK_TEMPO_SHIFT", "PERK" ]
   },
   {
     "type": "mutation",
@@ -30,7 +30,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Unrelenting Assault" },
     "description": "Whenever you kill an enemy in melee, you'll advance into their position and automatically attack an adjacent enemy.  You'll gain a momentum stack if you can normally gain them.",
-    "flags": "MELEE_PERK_TEMPO_ASSAULT"
+    "flags": [ "MELEE_PERK_TEMPO_ASSAULT", "PERK" ]
   },
   {
     "type": "mutation",
@@ -38,7 +38,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Zoning" },
     "description": "If you have the maximum number of combat tempo stacks, killing an enemy will move you away from any other adjacent enemies.  This movement action will consume all of your combat tempo stacks, and grant you a momentum stack if can normally gain them.",
-    "flags": "MELEE_PERK_TEMPO_ZONING"
+    "flags": [ "MELEE_PERK_TEMPO_ZONING", "PERK" ]
   },
   {
     "type": "mutation",
