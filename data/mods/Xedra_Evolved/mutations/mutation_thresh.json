@@ -8,7 +8,8 @@
     "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -19,7 +20,8 @@
     "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -30,7 +32,8 @@
     "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -41,7 +44,8 @@
     "flags": [ "FAEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -52,7 +56,8 @@
     "flags": [ "FAEBLOOD", "NO_BODY_HEAT" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -63,6 +68,7 @@
     "flags": [ "FAEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   }
 ]
