@@ -620,6 +620,11 @@ wound_update_ret wound::update_wound( const Character *who, const time_duration 
 
     const time_duration heal_progress = time_duration::from_seconds( healing_progress );
 
+    if( healing_progress < 0 ) {
+        debugmsg( "Wound '%s' has negative healing progress?", type->id.str() );
+        return wound_update_ret::REMOVE;
+    }
+
     if( wound_progress_timer && wound_progress_timer->second <= heal_progress ) {
         return wound_update_ret::ADVANCE;
     } else if( heal_progress >= healing_time ) {
@@ -634,9 +639,9 @@ float wound::get_wound_healing_modifier( const Character *who ) const
     float mod = 1.f;
 
     // -200 health is 0.5x to healing, +200 is 1.5x
-    mod = mod + ( who->get_lifestyle() / 400.f );
+    mod = mod + std::clamp( who->get_lifestyle() / 400.f, -0.5f, 0.5f );
 
     mod = who->enchantment_cache->modify_value( enchant_vals::mod::REGEN_WOUND, mod );
 
-    return mod;
+    return std::max( 0.0f, mod );
 }
