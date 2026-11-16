@@ -178,7 +178,7 @@
         }
       },
       {
-        "text": "This is a lot of land, you been here since the collapse?",
+        "text": "This is a lot of land! You been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
         "effect": [ { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
@@ -217,7 +217,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK_TALK1",
-    "dynamic_line": "I live here with my wife, this is our family's land.  My daughter's family and son live down the road.",
+    "dynamic_line": "I live here with my wife; this is our family's land.  My children and their families live down the road.",
     "responses": [
       { "text": "Your whole family survived?", "topic": "TALK_ISHERWOOD_JACK2" },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -227,7 +227,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK2",
-    "dynamic_line": "We've had our losses… now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
+    "dynamic_line": "We've had our losses… now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -236,7 +236,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_FARM",
-    "dynamic_line": "Even out here we've had some attacks and seen… other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
+    "dynamic_line": "Even out here we've had some attacks and seen… other things.  We have been working on our defenses, but it takes time.  We've at least been able to keep up with the crops and animals, so we won't have to risk our necks for supplies.",
     "responses": [
       { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -246,7 +246,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FARM_DEFENSE",
-    "dynamic_line": "We want to put up more fencing and build some look out spots, maybe lay some traps for the monsters.  We could use some extra resources.  If you want to bring me logs, sand, clay, wire, nails, wood planks, and metal chunks, I'll give you signed chits you can use to buy goods from any of the family.",
+    "dynamic_line": "We want to put up more fencing and build some lookout spots... maybe lay some traps for the monsters.  We could use some extra resources.  If you want to bring me logs, sand, clay, wire, nails, wood planks, and metal chunks, I'll give you signed chits you can use to buy goods from any of the family.",
     "responses": [
       {
         "text": "Sounds reasonable, I'll see what I can do.",
@@ -259,7 +259,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_WIFE",
-    "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
+    "dynamic_line": "Claire and I have been together for 40 years now; couldn't run this place without her.  She's quite the herbalist too: been real useful lately.  She's probably in the house - why not stop in to see her?",
     "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "value": "yes" } },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -289,7 +289,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW_MARSHAL_JACK",
-    "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
+    "dynamic_line": "You should get off my land. You all proved your incompetence during this catastrophe.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -367,12 +367,12 @@
     },
     "dialogue": {
       "describe": "I could use some help scavenging.",
-      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 10 large three liter jars?  I'll give you some preserves in exchange.",
+      "offer": "We could use some jars to preserve our produce.  Can you bring me ten 3 L glass jars?  I'll give you some preserves in exchange.",
       "accepted": "Thank you.  It's important to preserve foods while we can.",
       "rejected": "Oh well.  I'll see if I can find another way, thanks.",
-      "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
+      "advice": "Grocery stores, house kitchens - there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "Wow, perfect.  Thanks.  Here's your reward.",
+      "success": "Wow, perfect.  Thanks!  Here's your reward.",
       "success_lie": "What good does this do us?",
       "failure": "I wonder where all the jars went…"
     }

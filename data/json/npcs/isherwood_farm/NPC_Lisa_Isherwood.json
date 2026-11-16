@@ -51,7 +51,7 @@
     "id": "TALK_ISHERWOOD_LISA",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
+      "yes": "I see that badge. I think you need to keep on walking, straight off this property.",
       "no": "Hi, what brings you here?"
     },
     "speaker_effect": { "sentinel": "u_met_lisa", "effect": [ { "u_add_var": "u_met_lisa_isherwood", "value": "yes" } ] },
@@ -63,7 +63,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "Hi, this is a nice farm, your family lives here?",
+        "text": "Hi, this is a nice farm.  Your family lives here?",
         "topic": "TALK_ISHERWOOD_LISA_TALK1",
         "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -111,7 +111,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LISA_TALK1",
-    "dynamic_line": "My family owns all the land around here, my parents are out in the barn and my other family is down the road.",
+    "dynamic_line": "My family owns all the land around here. My parents are out in the barn, and the rest of my family is down the road.",
     "responses": [
       { "text": "Ok, I'll go find them.", "topic": "TALK_DONE" },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
@@ -121,7 +121,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LISA_JESSE",
-    "dynamic_line": "Mom is in her office, in the barn.  Be careful that you don't let our horses out.",
+    "dynamic_line": "Mom is in her office, in the barn.  Be careful you don't let our horses out.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

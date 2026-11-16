@@ -145,7 +145,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "*glares at your marshal badge.  \"I said, keep *walking*, G-man.\"",
-      "no": "*spits on the ground, glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are, I'm not some country rube.  Get out.\""
+      "no": "*spits on the ground, glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are. I'm not some country rube.  Get out.\""
     },
     "responses": [
       {
@@ -191,7 +191,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_Marshal",
-    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land, and I don't believe for a second that they didn't cause all this in the first place.\"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "Thanks for telling me.  <end_talking_bye>", "topic": "TALK_DONE" }
@@ -224,7 +224,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_Marshal",
-    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land, and I don't believe for a second that they didn't cause all this in the first place.\"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "Thanks for telling me.  <end_talking_bye>", "topic": "TALK_DONE" }
@@ -239,7 +239,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_TALK1",
-    "dynamic_line": "I run this dairy with my son, Luke.  It's been a tough job keeping the herd together, hasn't left a lot of time for other projects.",
+    "dynamic_line": "I run this dairy with my son, Luke.  It's been a tough job keeping the herd together; hasn't left a lot of time for other projects.",
     "responses": [
       {
         "text": "I heard about Barry, such a tragedy.  Can you tell me more about what happened?",
@@ -416,9 +416,9 @@
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe look for deposits in the forest.",
       "inquire": "How is the search going?",
-      "success": "Thanks, now Luke can get started making jugs, We'd like to give you a cow, Here's Daisy, take good care of her and she'll provide you with milk.",
+      "success": "Thanks, now Luke can get started making jugs. We'd like to give you one of our cows in return. This here's Daisy; take good care of her and she'll provide you with milk.",
       "success_lie": "What good does this do us?",
-      "failure": "I wonder where all the sand went…"
+      "failure": "I wonder where all the clay went…"
     }
   }
 ]
