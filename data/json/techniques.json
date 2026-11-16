@@ -265,8 +265,10 @@
     "name": "Offhand Strike",
     "condition": { "npc_has_effect": "stunned" },
     "melee_allowed": true,
+    "//": "movecost reduction to be somewhat in line with a regular unarmed attack"
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ],
     "messages": [ "You punch %s with your free hand", "<npcname> punches %s with their free hand" ],
-    "description": "A basic punch while your weapon is wrapped around the enemy.",
+    "description": "A quick, basic punch while your weapon is wrapped around the enemy.",
     "attack_vectors": [ "vector_punch" ]
   },
   {
