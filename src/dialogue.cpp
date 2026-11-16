@@ -55,6 +55,7 @@
 #include "mission.h"
 #include "npc.h"
 #include "npc_opinion.h"
+#include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
 #include "pimpl.h"
@@ -93,12 +94,6 @@ static const zone_type_id zone_type_NPC_INVESTIGATE_ONLY( "NPC_INVESTIGATE_ONLY"
 static const zone_type_id zone_type_NPC_NO_INVESTIGATE( "NPC_NO_INVESTIGATE" );
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
-
-static bool friendly_teacher( const Character &student, const Character &teacher )
-{
-    return ( student.is_npc() && teacher.is_avatar() ) ||
-           ( teacher.is_npc() && teacher.as_npc()->is_player_ally() );
-}
 
 std::string talk_trial::name() const
 {
@@ -2241,9 +2236,7 @@ bool npc::item_whitelisted( const item &it )
     return item_name_whitelisted( to_match );
 }
 
-namespace talk_topic_all
-{
-const json_talk_topic *get_talk_topic( const std::string &id )
+const json_talk_topic *talk_topic_all::get_talk_topic( const std::string &id )
 {
     auto it = json_talk_topics.find( id );
     if( it == json_talk_topics.end() ) {
@@ -2252,7 +2245,7 @@ const json_talk_topic *get_talk_topic( const std::string &id )
     return &it->second;
 }
 
-std::vector<std::string> get_all_talk_topic_ids()
+std::vector<std::string> talk_topic_all::get_all_talk_topic_ids()
 {
     std::vector<std::string> dialogue_ids;
     dialogue_ids.reserve( json_talk_topics.size() );
@@ -2261,4 +2254,3 @@ std::vector<std::string> get_all_talk_topic_ids()
     }
     return dialogue_ids;
 }
-} // namespace talk_topic_all
