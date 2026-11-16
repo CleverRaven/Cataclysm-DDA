@@ -403,6 +403,16 @@ bool monster::can_upgrade() const
     return upgrades && get_option<float>( "EVOLUTION_INVERSE_MULTIPLIER" ) > 0.0;
 }
 
+mfaction_id monster::get_monster_faction() const
+{
+    return faction.id();
+}
+
+faction_id monster::get_parent_faction() const
+{
+    return get_monster_faction()->associated_faction;
+}
+
 void monster::gravity_check()
 {
     monster::gravity_check( &get_map() );
@@ -1652,7 +1662,7 @@ Creature *monster::attack_target()
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Attitude::FRIENDLY || !sees( here,  *target ) ||
+        attitude_to( *target ) != Attitude::HOSTILE || !sees( here,  *target ) ||
         target->is_hallucination() ) {
         return nullptr;
     }
@@ -1748,7 +1758,8 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
                 break;
         }
     }
-    // Should not happen!, creature should be either player or monster
+    // Should not happen!, creature should be either character or monster
+    cata_fatal( "Unexpected creature type specialization" );
     return Attitude::NEUTRAL;
 }
 
@@ -1784,6 +1795,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
+    }
+
+    if( u && u->is_avatar() && !get_parent_faction().is_null() &&
+        get_parent_faction()->guaranteed_hostile() ) {
+        return MATT_ATTACK;
     }
 
     // CHECK FOR ANGER RELATIONS **HERE**
