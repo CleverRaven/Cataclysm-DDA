@@ -1898,7 +1898,6 @@
       {
         "type": "transform",
         "msg": "You turn off the regulator.",
-        "moves": 100,
         "menu_text": "Turn off the regulator",
         "target": "scuba_regulator"
       }
@@ -2654,7 +2653,6 @@
       {
         "type": "transform",
         "msg": "You switch airflow to the CBRN filter compartment.",
-        "moves": 150,
         "target": "military_papr_mask_gasmask",
         "menu_text": "Switch to filter mode"
       },
@@ -2686,7 +2684,6 @@
       {
         "type": "transform",
         "msg": "You switch airflow to the CBRN filter compartment.",
-        "moves": 150,
         "target": "military_papr_mask_gasmask",
         "menu_text": "Switch to filter mode"
       },
@@ -2716,7 +2713,6 @@
       {
         "type": "transform",
         "msg": "You turn off the regulator.",
-        "moves": 150,
         "menu_text": "Turn off the regulator",
         "target": "military_papr_mask_asr"
       }
@@ -2794,7 +2790,6 @@
       {
         "type": "transform",
         "msg": "You switch airflow to the SCBA regulator.",
-        "moves": 150,
         "target": "military_papr_mask_asr",
         "menu_text": "Switch to SCBA mode"
       },
@@ -3132,7 +3127,6 @@
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
-      "moves": 150,
       "target": "basic_papr_belt_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -3187,7 +3181,6 @@
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off the %s.",
-      "moves": 150,
       "target": "basic_papr_belt_off",
       "ammo_scale": 0
     },
@@ -3250,7 +3243,6 @@
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
-      "moves": 150,
       "target": "military_papr_blower_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -3305,7 +3297,6 @@
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off the %s.",
-      "moves": 150,
       "target": "military_papr_blower_off",
       "ammo_scale": 0
     },
@@ -3368,7 +3359,6 @@
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s and the fan starts to audibly whoosh.",
-      "moves": 150,
       "target": "molle_papr_blower_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
@@ -3423,7 +3413,6 @@
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn off the %s.",
-      "moves": 150,
       "target": "molle_papr_blower_off",
       "ammo_scale": 0
     },
