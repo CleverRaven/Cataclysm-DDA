@@ -16,6 +16,7 @@
 #include "recipe.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 #include "visitable.h"
