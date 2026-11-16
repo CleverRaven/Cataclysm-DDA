@@ -575,6 +575,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.normalize();
+    dummy.worn.wear_item( dummy, item( itype_debug_backpack ), false, false );
     item_location thorazine = dummy.i_add( item( itype_thorazine, calendar::turn ) );
 
     REQUIRE( dummy.has_item_with( []( const item & it ) {

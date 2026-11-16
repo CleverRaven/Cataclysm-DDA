@@ -9,8 +9,10 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "enums.h"
 #include "item.h"
+#include "item_location.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -118,6 +120,7 @@ static void eat_all_nutrients( Character &you )
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item &f = *get_avatar().as_character()->i_add( item( itype_debug_nutrition ) );
+    f.temperature = 40_C;
     you.consume( f );
 }
 
@@ -445,9 +448,9 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 210 );
-    f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
+    f = dummy.as_character()->i_add( item( itype_beansnrice ) );
     dummy.consume( f );
-    f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
+    f = dummy.as_character()->i_add( item( itype_beansnrice ) );
     dummy.consume( f );
     dummy.update_body();
     print_stomach_contents( dummy, print_tests );
@@ -462,7 +465,7 @@ TEST_CASE( "hunger" )
         printf( "eat 16 veggy\n" );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
+        f = dummy.as_character()->i_add( item( itype_veggy ) );
         dummy.consume( f );
     }
     dummy.update_body();
@@ -481,7 +484,7 @@ TEST_CASE( "hunger" )
         dummy.mutate_towards( trait_HUNGER3 );
     }
     for( int i = 0; i < 16; i++ ) {
-        f = dummy.as_character()->i_add( item( itype_meat_cooked ) );
+        f = dummy.as_character()->i_add( item( itype_veggy ) );
         dummy.consume( f );
     }
     dummy.update_body();
@@ -617,6 +620,8 @@ TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
             CHECK( dummy.has_effect( effect_hunger_full ) == full );
 
             item &meal = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
+            // for some reason it is quite cold in test world. Was never a problem until item started to spawn via item location
+            meal.temperature = 40_C;
             const units::volume meal_volume = meal.volume( false, false, 1 ) *
                                               dummy.compute_effective_food_volume_ratio( meal );
             CAPTURE( units::to_milliliter( meal_volume ) );
@@ -643,6 +648,7 @@ TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
     const int engorged_ml = deficit ? cap_ml : first_at_least( cap_ml, 5, 6 );
     for( int offset = -1; offset <= 1; ++offset ) {
         item &meal = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
+        meal.temperature = 40_C;
         const int meal_ml = units::to_milliliter( meal.volume( false, false, 1 ) *
                             dummy.compute_effective_food_volume_ratio( meal ) );
         const int held_ml = engorged_ml - meal_ml + offset;

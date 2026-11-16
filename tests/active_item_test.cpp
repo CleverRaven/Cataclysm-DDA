@@ -1,5 +1,5 @@
-#include <list>
 #include <algorithm>
+#include <list>
 #include <memory>
 #include <optional>
 #include <string>
@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "item.h"
