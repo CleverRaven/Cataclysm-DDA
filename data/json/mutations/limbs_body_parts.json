@@ -1435,11 +1435,11 @@
     "id": "arm_tentacle_l_dual",
     "copy-from": "arm_tentacle_l",
     "type": "body_part",
-    "name": "right tentacle",
+    "name": "left tentacle",
     "name_multiple": "tentacles",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "right tentacle" },
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left tentacle" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tentacles" },
-    "heading": "r. tentacle",
+    "heading": "l. tentacle",
     "heading_multiple": "tentacles",
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_dual",
@@ -1453,7 +1453,7 @@
       [ "swim", 0.4 ],
       [ "crawl", 0.6 ]
     ],
-    "side": "right",
+    "side": "left",
     "sub_parts": [ "tentacle_left_dual_base_l", "tentacle_left_dual_middle_l", "tentacle_left_dual_tip_l" ],
     "similar_bodypart": "arm_l"
   },
