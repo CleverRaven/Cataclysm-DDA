@@ -93,6 +93,10 @@ class auto_eat_test
             CHECK( base_settings.spoil_score( you, food ) == score_expected );
             CHECK( you.auto_eat_handler.spoil_score( you, food ) == score_expected );
         }
+
+        bool avatar_avoid_crafting() {
+            return you.auto_eat_handler.avoid_crafting;
+        }
 };
 
 const auto_eat_settings auto_eat_test::base_settings = auto_eat_settings();
@@ -255,6 +259,7 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         // no side effects allowed!
         REQUIRE( you.get_hunger() == 0 );
         REQUIRE( you.get_thirst() == -41 );
+        REQUIRE( !broth_test.avatar_avoid_crafting() );
 
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
