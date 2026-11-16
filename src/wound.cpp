@@ -1,6 +1,7 @@
 #include "wound.h"
 
 #include <algorithm>
+#include <map>
 #include <memory>
 #include <set>
 
@@ -172,9 +173,9 @@ void wound_fix::check_consistency()
 
 void wound_fix::check() const
 {
-    for( const auto &[skill_id, lvl] : skills ) {
-        if( !skill_id.is_valid() ) {
-            debugmsg( "wound_fix %s requires unknown skill '%s'", id.str(), skill_id.str() );
+    for( const wound_skill &sk : skills ) {
+        if( !sk.skill.is_valid() ) {
+            debugmsg( "wound_fix %s requires unknown skill '%s'", id.str(), sk.skill.str() );
         }
     }
     for( const wound_type_id &wd_id : wounds_removed ) {
@@ -269,6 +270,14 @@ void wound_progress::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "id", id );
     optional( jo, false, "chance", chance, numeric_bound_reader<int> {0, 100} );
+}
+
+void wound_skill::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "skill", skill );
+    mandatory( jo, false, "level", level );
+    optional( jo, false, "time_save", time_save, 1.f );
+    optional( jo, false, "is_mandatory", is_mandatory, true );
 }
 
 void wound_proficiency::deserialize( const JsonObject &jo )
