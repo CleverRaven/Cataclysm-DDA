@@ -804,7 +804,7 @@
       "menu_text": "Turn off",
       "type": "transform",
       "msg": "You turn the heating elements off.",
-      "moves": 150,
+      "moves": 300,
       "target": "thermal_socks"
     },
     "warmth": 60
@@ -1120,7 +1120,7 @@
       "type": "transform",
       "menu_text": "Turn off",
       "msg": "You turn off the %s.",
-      "moves": 100,
+      "moves": 75,
       "target": "wearable_big_light"
     }
   },
@@ -1144,7 +1144,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You turn on the %s.",
-      "moves": 100,
+      "moves": 75,
       "target": "wearable_big_light_on",
       "need_charges": 1,
       "need_charges_msg": "The batteries are dead."
