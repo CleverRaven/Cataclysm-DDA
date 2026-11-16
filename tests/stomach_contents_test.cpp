@@ -592,6 +592,8 @@ TEST_CASE( "room_before_engorged_is_the_last_intake_short_of_the_line", "[stomac
 
 TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
 {
+    // some another test seems to spill temperature here, miraculously
+    get_weather().forced_temperature = 20_C;
     avatar &dummy = get_avatar();
     clear_avatar();
     clear_stomach( dummy );
@@ -621,7 +623,6 @@ TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
 
             item &meal = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
             // for some reason it is quite cold in test world. Was never a problem until item started to spawn via item location
-            meal.temperature = 40_C;
             const units::volume meal_volume = meal.volume( false, false, 1 ) *
                                               dummy.compute_effective_food_volume_ratio( meal );
             CAPTURE( units::to_milliliter( meal_volume ) );
@@ -648,7 +649,6 @@ TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
     const int engorged_ml = deficit ? cap_ml : first_at_least( cap_ml, 5, 6 );
     for( int offset = -1; offset <= 1; ++offset ) {
         item &meal = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
-        meal.temperature = 40_C;
         const int meal_ml = units::to_milliliter( meal.volume( false, false, 1 ) *
                             dummy.compute_effective_food_volume_ratio( meal ) );
         const int held_ml = engorged_ml - meal_ml + offset;
