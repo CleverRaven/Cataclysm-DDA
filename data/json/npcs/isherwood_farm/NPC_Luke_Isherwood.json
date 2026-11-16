@@ -431,7 +431,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
-    "dynamic_line": "Okay, so... I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits, I'll pick up the truck later.",
+    "dynamic_line": "Okay, so… I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits, I'll pick up the truck later.",
     "responses": [
       {
         "text": "I think I can manage two bandits.",
@@ -445,7 +445,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2",
-    "dynamic_line": "So now that we've got the truck, we need the boom.  See if you can find some dynamite at the old mines?  Once we got the dynamite, I'll rig that up to a kitchen timer and we'll have a bomb on wheels.  I'll need 50lbs to light that truck up like the 4th of July!",
+    "dynamic_line": "So - now that we've got the vroom, it's time to get the boom.  Maybe you can find some dynamite at the old mines?  Once we got the dynamite, I'll rig it up to a kitchen timer and we'll have a bomb on wheels.  I'll need 50lbs to light that truck up like the 4th of July!",
     "responses": [
       {
         "text": "This is gonna be so freaking rad if it works!",

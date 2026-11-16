@@ -246,7 +246,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FARM_DEFENSE",
-    "dynamic_line": "We want to put up more fencing and build some lookout spots... maybe lay some traps for the monsters.  We could use some extra resources.  If you want to bring me logs, sand, clay, wire, nails, wood planks, and metal chunks, I'll give you signed chits you can use to buy goods from any of the family.",
+    "dynamic_line": "We want to put up more fencing and build some lookout spots… maybe lay some traps for the monsters.  We could use some extra resources.  If you want to bring me logs, sand, clay, wire, nails, wood planks, and metal chunks, I'll give you signed chits you can use to buy goods from any of the family.",
     "responses": [
       {
         "text": "Sounds reasonable, I'll see what I can do.",

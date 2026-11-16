@@ -92,7 +92,7 @@
         "*is an older middle-aged man, well-muscled and darkly tanned, with worried lines around the corners of his eyes and mouth.  He looks up as you get close",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", and then puts his hand on the butt of the rifle slung across his back.  \"I see that badge. I think you need to keep on walking, straight off this property.\"",
+          "yes": ", and then puts his hand on the butt of the rifle slung across his back.  \"I see that badge. I think you need to keep on walking - straight off this property.\"",
           "no": {
             "u_male": true,
             "yes": ", then smiles distantly.  \"Hello Sir, what brings you here?\"",
@@ -123,7 +123,7 @@
     "id": "TALK_ISHERWOOD_CARLOS_SawMarshal",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "* glares at you, his hand moving again to his gun.  \"I see that badge. I think you need to keep on walking, straight off this property.\"",
+      "yes": "* glares at you, his hand moving again to his gun.  \"I see that badge. I think you need to keep on walking - straight off this property.\"",
       "no": "* rolls his eyes.  \"I'm not an idiot.  You think if you don't wear your badge, I won't know who you're working for?  Get out of here.\""
     },
     "responses": [
@@ -255,7 +255,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARLOS_FORGE3",
-    "dynamic_line": "Yeah, it's coming along nice...\"  He slaps the surface of the anvil.  \"...thanks to this! I'm still getting my skills back up, but it's going to be real helpful.",
+    "dynamic_line": "Yeah, it's coming along nice…\"  He slaps the surface of the anvil.  \"…thanks to this! I'm still getting my skills back up, but it's going to be real helpful.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

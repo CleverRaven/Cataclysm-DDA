@@ -226,7 +226,7 @@
         "*is a young man, perhaps in his early twenties or late teens.  He eyes you up and down.  \"",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": "I see that badge.  I wouldn't linger around here; my family has no fondness for Marshals.\"",
+          "yes": "I see that badge.  I wouldn't linger around here: my family has no fondness for Marshals.\"",
           "no": {
             "compare_string": [ "seen", { "u_val": "isherwood_chris_marshal_badge" } ],
             "yes": {
@@ -319,7 +319,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_MIGO_BASE",
-    "dynamic_line": "They made their way to this weird spire structure... I've never seen anything like it.  It glistened in the sun, like a slug or something!  I've seen them leave and return with other humans: I think they might be holding Barry there.",
+    "dynamic_line": "They made their way to this weird spire structure… I've never seen anything like it.  It glistened in the sun, like a slug or something!  I've seen them leave and return with other humans: I think they might be holding Barry there.",
     "responses": [
       {
         "text": "I might be able to help you get Barry back, but we've got to plan this out.",
@@ -340,7 +340,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_LAND",
-    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around - never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever... there are things happening that affect the entire ecosystem.",
+    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around - never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever… what's happening is changing everything in nature.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -474,7 +474,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2"
       },
       {
-        "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way they could help?",
+        "text": "You mentioned that Carlos, Eddie, and Luke probably can't help in a firefight.  Is there any other way they could help?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -502,7 +502,7 @@
     },
     "responses": [
       {
-        "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way they could help?",
+        "text": "You mentioned that Carlos, Eddie, and Luke probably can't help in a firefight.  Is there any other way they could help?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -543,7 +543,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN",
-    "dynamic_line": "Yeah.  I think they should cover our exit.  We've got an old truck they could set up as a platform, where Dad can put down covering fire without his knee being an issue.  Eddie can drive, instead of shoot, and Luke or Mom can be ready with some first aid supplies.  Then when we get out, we've got an easy getaway set up, and there's less chance of us getting flanked while we're in there looking for Barry.\"  You're stuck again by how young he is as he looks to you for approval.  \"Is that a good plan?",
+    "dynamic_line": "Yeah.  I think they should cover our exit.  We've got an old truck they could set up as a platform, where Dad can put down covering fire without his knee being an issue.  Eddie can drive, instead of shoot, and Luke or Mom can be ready with some first aid supplies.  Then when we get out, we've got an easy getaway set up, and there's less chance of us getting flanked while we're in there looking for Barry…\"  He peters out near the end, and looks suddenly nervous.  \"…is that a good plan?",
     "responses": [
       {
         "text": "That's a great plan. Good job, Chris.",
@@ -651,7 +651,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear",
-    "dynamic_line": "*looks thoughtful.  \"Well, we can wear our usual wrangling gear, but you're right.  It's no good against those claws.\"  He sighs.  \"I don't want to delay, but I don't want to lose another family member either.  If we could get our hands on some riot gear, that might give us a better chance to fend off the monsters.  Not too far away, our local pigs kept enough of that gear on hand to easily set us up.  As if they needed it around here.  Just used it to keep the boot on, y'know?\"  He spits on the ground.  \"I can show you where their stores were; it'd feel nice to put that stuff to good use.  Of course, any riot gear would do, if you happen to have already looted some.\"",
+    "dynamic_line": "*looks thoughtful.  \"Well, we can wear our usual wrangling gear, but you're right.  It's no good against those claws.\"  He sighs.  \"I don't want to delay, but I don't want to lose another family member either.  If we could get our hands on some riot gear, that might give us a better chance to fend off the monsters.  Our local pigs kept enough of that gear on hand to easily set us up.  As if they needed it around here.  Just used it to keep the boot on, y'know?\"  He spits on the ground.  \"I can show you where the police department was; it'd feel nice to put that stuff to good use.  Of course, any riot gear would do, if you happen to have already looted some.\"",
     "responses": [
       {
         "text": "I think you're right, that would take too long.  We'll have to count on offense being our best defense.",
@@ -828,7 +828,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
       },
       {
-        "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way they could help?",
+        "text": "You mentioned that Carlos, Eddie, and Luke probably can't help in a firefight.  Is there any other way they could help?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
@@ -855,7 +855,7 @@
       "rejected": "Thanks anyway, I'll keep my eye on it, maybe I'll find a way one day.",
       "advice": "I feel like we are underprepared if they see us. I marked the location for you.",
       "inquire": "You ready?",
-      "success": "It's taller then I remember. We should look for prisoners.  I left a note for my family before we left.  If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
+      "success": "It's taller then I remember… we should look for prisoners.  I left a note for my family before we left.  If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
       "success_lie": "Well, it was here…",
       "failure": "It was a lost cause anyways…"
     },
