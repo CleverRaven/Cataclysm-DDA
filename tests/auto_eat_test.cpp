@@ -97,6 +97,13 @@ class auto_eat_test
         bool avatar_avoid_crafting() {
             return you.auto_eat_handler.avoid_crafting;
         }
+
+        std::list<auto_eat_settings::potential_edible> avatar_recipe_list() {
+            std::list<auto_eat_settings::potential_edible> food_list;
+            temp_crafting_inventory inv = you.crafting_inventory();
+            you.auto_eat_handler.load_available_crafting_recipes( food_list, you, inv );
+            return food_list;
+        }
 };
 
 const auto_eat_settings auto_eat_test::base_settings = auto_eat_settings();
@@ -260,6 +267,7 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
         REQUIRE( you.get_hunger() == 0 );
         REQUIRE( you.get_thirst() == -41 );
         REQUIRE( !broth_test.avatar_avoid_crafting() );
+        REQUIRE( !broth_test.avatar_recipe_list().empty() );
 
         auto food_list = you.auto_eat_handler.get_surrounding_available_food( you );
         auto food_iter = food_list.begin();
