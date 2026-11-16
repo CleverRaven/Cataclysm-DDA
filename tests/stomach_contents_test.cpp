@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <initializer_list>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -19,6 +20,7 @@
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
+#include "weather.h"
 
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
 static const efftype_id effect_hunger_full( "hunger_full" );
