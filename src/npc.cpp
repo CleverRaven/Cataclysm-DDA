@@ -557,7 +557,7 @@ void npc_template::check_consistency()
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
         }
         std::string first_topic = guy.chatbin.first_topic;
-        if( const json_talk_topic *topic = get_talk_topic( first_topic ) ) {
+        if( const json_talk_topic *topic = talk_topic_all::get_talk_topic( first_topic ) ) {
             cata::flat_set<std::string> reachable_topics =
                 topic->get_directly_reachable_topics( true );
             if( reachable_topics.count( "TALK_MISSION_OFFER" ) ) {

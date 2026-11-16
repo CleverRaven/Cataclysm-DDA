@@ -3455,7 +3455,7 @@ static void display_talk_topic()
         npc_menu.query();
         if( npc_menu.ret >= 0 && npc_menu.ret < npc_count ) {
             npc *selected_npc = visible_npcs[npc_menu.ret];
-            std::vector<std::string> dialogue_ids = get_all_talk_topic_ids();
+            std::vector<std::string> dialogue_ids = talk_topic_all::get_all_talk_topic_ids();
             std::sort( dialogue_ids.begin(), dialogue_ids.end(), localized_compare );
             uilist talk_topic_menu;
             talk_topic_menu.text = _( "Choose talk topic to display:" );
