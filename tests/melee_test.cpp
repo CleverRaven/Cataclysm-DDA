@@ -461,15 +461,15 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][e
     }
 
     SECTION( "Attacking a monster with some resistance to test_fire" ) {
-        check_damage_from_test_fire( "mon_test_fire_resist", 5, false, 9.90f );
+        check_damage_from_test_fire( "mon_test_fire_resist", 5, false, 10.70f );
     }
 
     SECTION( "Attacking a monster that is very resistant to test_fire" ) {
-        check_damage_from_test_fire( "mon_test_fire_vresist", 50, false, 7.29f );
+        check_damage_from_test_fire( "mon_test_fire_vresist", 50, false, 7.75f );
     }
 
     SECTION( "Attacking a monster that is immune to test_fire" ) {
-        check_damage_from_test_fire( "mon_test_fire_immune", 0, true, 7.29f );
+        check_damage_from_test_fire( "mon_test_fire_immune", 0, true, 7.75f );
     }
 
     SECTION( "Attacking an NPC with no resistance to test_fire" ) {
