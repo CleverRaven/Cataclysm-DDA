@@ -1325,18 +1325,12 @@
     "enchantments": [
       {
         "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_LEFT" } },
-        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "arm_l" }, { "gain": "arm_tentacle_l" } ]
+        "modified_bodyparts": [ { "lose": "hand_l" }, { "lose": "arm_l" }, { "gain": "arm_tentacle_l_dual" } ]
       },
       {
         "condition": { "not": { "u_has_trait": "BIONIC_ARM_BASIC_RIGHT" } },
-        "modified_bodyparts": [ { "lose": "hand_r" }, { "lose": "arm_r" }, { "gain": "arm_tentacle_r" } ]
+        "modified_bodyparts": [ { "lose": "hand_r" }, { "lose": "arm_r" }, { "gain": "arm_tentacle_r_dual" } ]
       }
-    ],
-    "wet_protection": [
-      { "part": "arm_l", "neutral": 19 },
-      { "part": "arm_r", "neutral": 19 },
-      { "part": "hand_l", "neutral": 5 },
-      { "part": "hand_r", "neutral": 5 }
     ]
   },
   {
