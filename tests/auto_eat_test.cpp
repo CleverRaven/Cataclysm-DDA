@@ -216,12 +216,13 @@ TEST_CASE( "auto_craft_eat", "[auto_eat]" )
 
         REQUIRE( popcan_stove->has_ammo() );
         REQUIRE( you.has_quality( qual_COOK, 3 ) );
-        CHECK( recipe_broth_meat->deduped_requirements().can_make_with_inventory( &you,
-                you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
-                1, craft_flags::start_only ) );
-        CHECK( recipe_meat_cooked->deduped_requirements().can_make_with_inventory( &you,
-                you.crafting_inventory(), recipe_broth_meat->get_component_filter( recipe_filter_flags::no_rotten ),
-                1, craft_flags::start_only ) );
+
+        auto check_can_start_recipe = [&you]( const recipe_id & id ) -> bool {
+            return id->deduped_requirements().can_make_with_inventory( &you, you.crafting_inventory(), id->get_component_filter( recipe_filter_flags::no_rotten ), 1, craft_flags::start_only );
+        };
+
+        CHECK( check_can_start_recipe( recipe_broth_meat ) );
+        CHECK( check_can_start_recipe( recipe_meat_cooked ) );
 
         REQUIRE( you.get_hunger() == 0 );
         you.set_thirst( -41 );
