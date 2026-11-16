@@ -404,7 +404,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "id": "cabin_lakeside",
     "copy-from": "cabin_lakeside",
     "name": "lakeside cabin",
     "sym": "L",
@@ -412,14 +412,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "cabin_lakeside_roof",
-      "cabin_lakeside1_roof",
-      "cabin_lakeside2_roof",
-      "cabin_lakeside3_roof",
-      "cabin_lakeside4_roof",
-      "cabin_lakeside5_roof"
-    ],
+    "id": "cabin_lakeside_roof",
     "copy-from": "cabin_lakeside_roof",
     "name": "lakeside cabin roof",
     "sym": "L",
