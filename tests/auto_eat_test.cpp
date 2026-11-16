@@ -95,7 +95,7 @@ class auto_eat_test
             CHECK( you.auto_eat_handler.spoil_score( you, food ) == score_expected );
         }
 
-        bool avatar_avoid_crafting() {
+        bool avatar_avoid_crafting() const {
             return you.auto_eat_handler.avoid_crafting;
         }
 
