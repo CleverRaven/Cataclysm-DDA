@@ -119,6 +119,7 @@
     "sym": "C",
     "color": "brown",
     "see_cost": "high",
+    "spawns": { "group": "GROUP_WILDERNESS_OUTCROP", "population": [ 30, 60 ], "radius": [ 2, 5 ] },
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -151,6 +152,7 @@
     "sym": "C",
     "color": "dark_gray",
     "see_cost": "full_high",
+    "spawns": { "group": "GROUP_WILDERNESS_OUTCROP", "population": [ 30, 60 ], "radius": [ 2, 5 ] },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
