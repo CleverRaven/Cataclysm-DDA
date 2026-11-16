@@ -16,7 +16,15 @@
       { "u_add_effect": "regen_serum_main", "duration": { "context_val": "serum_duration" } },
       { "u_add_effect": "regen_serum_crash_cardio", "duration": { "math": [ "_serum_duration * rng(1.5, 2.5)" ] } },
       { "run_eocs": "EOC_REGEN_SERUM_PAIN_SPIKE", "time_in_future": [ "1 h", "6 h" ] },
-      { "run_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] }
+      { "run_eocs": "EOC_REGEN_SERUM_MUT_REJECTION", "time_in_future": [ "1 h", "6 h" ] },
+      {
+        "foreach": "ids",
+        "target": "bodypart",
+        "var": { "context_val": "bodypart" },
+        "effect": [
+          { "run_eocs": "EOC_REGEN_SERUM_BROKEN_BONE_REALIGNMENT", "variables": { "bodypart": { "context_val": "bodypart" } } }
+        ]
+      }
     ]
   },
   {
@@ -53,6 +61,49 @@
         "if": { "one_in_chance": 2 },
         "then": { "u_mutate_category": "HUMAN", "use_vitamins": false },
         "else": { "u_mutate": 1, "use_vitamins": false }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REGEN_SERUM_BROKEN_BONE_REALIGNMENT",
+    "condition": { "expects_vars": [ "bodypart" ] },
+    "effect": [
+      {
+        "if": { "u_has_body_part": { "context_val": "bodypart" } },
+        "then": [
+          {
+            "if": {
+              "u_has_any_wound": [
+                "bone_broken",
+                "bone_fractured",
+                "bone_broken_healing_partial",
+                "bone_broken_healing_bad",
+                "bone_broken_healed_partial",
+                "bone_broken_healed_bad"
+              ],
+              "bodypart": { "context_val": "bodypart" }
+            },
+            "then": [
+              {
+                "u_remove_wound": { "context_val": "bodypart" },
+                "wound_id": [
+                  "bone_broken",
+                  "bone_fractured",
+                  "bone_broken_healing_partial",
+                  "bone_broken_healing_bad",
+                  "bone_broken_healed_partial",
+                  "bone_broken_healed_bad"
+                ]
+              },
+              { "u_add_wound": { "context_val": "bodypart" }, "wound_id": "bone_broken_healing_locutus" },
+              {
+                "u_message": "You feel your broken bone writhing as it realigns.  It is indescribably painful.",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
