@@ -4688,7 +4688,7 @@
       "type": "transform",
       "target": "combo_cover",
       "msg": "You bring your hand to your cover and issue a salute.",
-      "moves": 200
+      "moves": 50
     },
     "symbol": "[",
     "description": "A military officer's combo cover, or peaked cap.  It conveys an air of authority, while keeping the sun out of your eyes.",
