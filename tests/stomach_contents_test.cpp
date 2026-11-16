@@ -117,10 +117,11 @@ static void print_stomach_contents( Character &p, const bool print )
 // accounting for appropriate vitamins
 static void eat_all_nutrients( Character &you )
 {
+    // some another test seems to spill temperature here, miraculously
+    get_weather().forced_temperature = 20_C;
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
     item &f = *get_avatar().as_character()->i_add( item( itype_debug_nutrition ) );
-    f.temperature = 40_C;
     you.consume( f );
 }
 
@@ -622,7 +623,6 @@ TEST_CASE( "stomach_fullness_effects_follow_the_lines", "[stomach]" )
             CHECK( dummy.has_effect( effect_hunger_full ) == full );
 
             item &meal = *dummy.as_character()->i_add( item( itype_meat_cooked ) );
-            // for some reason it is quite cold in test world. Was never a problem until item started to spawn via item location
             const units::volume meal_volume = meal.volume( false, false, 1 ) *
                                               dummy.compute_effective_food_volume_ratio( meal );
             CAPTURE( units::to_milliliter( meal_volume ) );
