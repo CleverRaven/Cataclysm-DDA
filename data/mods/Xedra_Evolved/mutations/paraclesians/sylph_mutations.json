@@ -637,8 +637,8 @@
     "mana": true,
     "cost": 10,
     "time": "1 s",
+    "activation_msg": "Your body dissolves into billowing clouds.",
     "activated_eocs": [ "EOC_SYLPH_CLOUD_FORM_ON" ],
-    "processed_eocs": [ "EOC_SYLPH_CLOUD_FORM_PER_TURN" ],
     "deactivated_eocs": [ "EOC_SYLPH_CLOUD_FORM_OFF" ]
   },
   {
