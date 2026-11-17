@@ -51,6 +51,11 @@
   },
   {
     "type": "MIGRATION",
+    "id": "cash_card",
+    "replace": "needle_wood"
+  },
+  {
+    "type": "MIGRATION",
     "id": "combatsaw_off",
     "replace": "chainsaw_off"
   },
