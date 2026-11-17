@@ -474,6 +474,7 @@
     "purifiable": false,
     "active": true,
     "activated_is_setup": true,
+    "activation_msg": "Your hands crackling with lightning.",
     "activated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON" ],
     "processed_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_PER_TURN" ],
     "deactivated_eocs": [ "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_OFF" ]
