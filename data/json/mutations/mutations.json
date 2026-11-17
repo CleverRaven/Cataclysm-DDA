@@ -1514,14 +1514,14 @@
     "//": "Add Lupine to category in a followup PR"
   },
   {
-	"type": "mutation",
-	"id": "OPIATEHYPER",
-	"name": { "str": "Opiate hypersensitivity" },
-	"description": "Your body chemistry is lethally sensitive to morphine and it's derivatives.  Even a small dose will debilitate you.  You're stuck with anti-inflammatory medication if you ever need to manage pain.",
-	"cancels": [ "ADDICTIVE" ],
-	"points": -3,
-	"starting_trait": true,
-	"vitamins_absorb_multi": [ "vit_mme", 12 ]
+    "type": "mutation",
+    "id": "OPIATEHYPER",
+    "name": { "str": "Opiate hypersensitivity" },
+    "description": "Your body chemistry is lethally sensitive to morphine and it's derivatives.  Even a small dose will debilitate you.  You're stuck with anti-inflammatory medication if you ever need to manage pain.",
+    "cancels": [ "ADDICTIVE" ],
+    "points": -3,
+    "starting_trait": true,
+    "vitamins_absorb_multi": [ "vit_mme", 12 ]
   },
   {
     "type": "mutation",
