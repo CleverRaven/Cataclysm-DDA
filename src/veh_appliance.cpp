@@ -596,7 +596,9 @@ void veh_app_interact::plug( map &here )
     item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
-        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
+        // turbo dirty hack to pass item loc instead of item
+        item_location loc( get_player_character(), &cord );
+        cord.type->get_use( "link_up" )->call( &get_player_character(), loc, pos );
     }
 }
 

@@ -1132,7 +1132,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 ctr = item( itype_radiocontrol, calendar::turn_zero );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
-            int power_use = invoke_item( &ctr );
+            item_location loc( *this, &ctr );
+            invoke_item( loc );
+            int power_use = ctr.type->tool->charges_per_use;
             mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -power_use ) ) );
             bio.powered = ctr.active;
         } else {

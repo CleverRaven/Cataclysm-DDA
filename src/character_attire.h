@@ -109,6 +109,8 @@ class outfit
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
         item *item_worn_with_id( const itype_id &i );
+        // returns item_locations of apparel
+        std::vector<item_location> worn_locations( Character &guy ) const;
         std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
@@ -117,6 +119,7 @@ class outfit
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
+        void inv_dump_locs( Character &guy, std::vector<item_location> &ret ) const;
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the assumption that it
          * is added to existing work items.
@@ -228,7 +231,7 @@ class outfit
         void add_AIM_items_from_area( avatar &you, advanced_inv_area &square,
                                       advanced_inventory_pane &pane );
         void fire_options( Character &guy, std::vector<std::string> &options,
-                           std::vector<std::function<void()>> &actions );
+                           std::vector<std::function<void()>> &actions ) const;
         // an extension of Character::best_pocket()
         void best_pocket( Character &guy, const item &it, const item *avoid,
                           std::pair<item_location, item_pocket *> &current_best,
@@ -249,8 +252,8 @@ class outfit
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
         std::string get_armor_display( bodypart_id bp ) const;
-        void activate_combat_items( npc &guy );
-        void deactivate_combat_items( npc &guy );
+        void activate_combat_items( npc &guy ) const;
+        void deactivate_combat_items( npc &guy ) const;
 
         bool empty() const;
         item &front();
