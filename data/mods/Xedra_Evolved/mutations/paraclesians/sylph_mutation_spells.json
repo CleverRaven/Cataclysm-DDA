@@ -582,7 +582,7 @@
     "message": "You reach out with a hand of air.",
     "teachable": false,
     "valid_targets": [ "item", "ground", "self", "ally", "hostile" ],
-    "skill": "metaphysics",
+    "skill": "gramarye",
     "flags": [ "SOMATIC", "RANDOM_DAMAGE", "NO_LEGS" ],
     "difficulty": 3,
     "max_level": 15,
