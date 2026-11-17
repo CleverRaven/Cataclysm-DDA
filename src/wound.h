@@ -238,7 +238,7 @@ class wound
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;
         // how much time passed since this wound was applied, in seconds
-        float healing_progress;
+        float healing_progress = 0.0f;
         // how much pain this specific wound provide.
         int pain;
 
