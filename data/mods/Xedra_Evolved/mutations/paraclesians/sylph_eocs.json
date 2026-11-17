@@ -12,10 +12,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON",
-    "effect": [
-      { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-      { "u_message": "Lightning sparks from you hands.", "type": "good" }
-    ]
+    "effect": [ { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" } ]
   },
   {
     "type": "effect_on_condition",
