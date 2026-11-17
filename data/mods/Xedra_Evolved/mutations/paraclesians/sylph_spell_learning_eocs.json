@@ -125,7 +125,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('clap_of_thunder') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('clap_of_thunder') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -140,7 +140,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('electrical_field') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('electrical_field') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -155,7 +155,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('ominous_wind') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('ominous_wind') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -173,7 +173,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('pushing_wind') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('pushing_wind') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -191,7 +191,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_clear_the_air') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('sylph_clear_the_air') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -209,7 +209,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('zap_electrical_emission') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('zap_electrical_emission') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -227,7 +229,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_charge_dash_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_charge_dash_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -246,7 +250,7 @@
         "type": "good"
       },
       {
-        "math": [ "u_spell_exp('sylph_increase_ally_speed_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ]
+        "math": [ "u_spell_exp('sylph_increase_ally_speed_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
@@ -265,7 +269,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_bonus_melee_range_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_bonus_melee_range_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -283,7 +289,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_reveal_overmap_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_reveal_overmap_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -298,7 +306,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('summon_air_sprite') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('summon_air_sprite') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -316,7 +324,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('cloud_of_steam_sylph') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('cloud_of_steam_sylph') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -334,7 +342,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('create_light_sylph') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('create_light_sylph') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -352,7 +360,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_call_lightning') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      { "math": [ "u_spell_exp('sylph_call_lightning') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -370,7 +378,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_crash_of_lightning') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_crash_of_lightning') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -389,7 +399,7 @@
         "type": "good"
       },
       {
-        "math": [ "u_spell_exp('sylph_massive_lightning_bolt_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ]
+        "math": [ "u_spell_exp('sylph_massive_lightning_bolt_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
@@ -408,7 +418,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_wind_translocation_spell') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_wind_translocation_spell') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -427,7 +439,7 @@
         "type": "good"
       },
       {
-        "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus_sylph') += paraclesian_passive_spell_exp(_xp_multiplier)" ]
+        "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus_sylph') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
@@ -446,7 +458,9 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('sylph_cultivate_goblin_fruit') += paraclesian_passive_spell_exp(_xp_multiplier)" ] }
+      {
+        "math": [ "u_spell_exp('sylph_cultivate_goblin_fruit') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
@@ -465,7 +479,7 @@
         "type": "good"
       },
       {
-        "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_passive_spell_exp(_xp_multiplier)" ]
+        "math": [ "u_spell_exp('paraclesian_spell_make_gossamer') += paraclesian_gramarye_passive_spell_exp(_xp_multiplier)" ]
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
