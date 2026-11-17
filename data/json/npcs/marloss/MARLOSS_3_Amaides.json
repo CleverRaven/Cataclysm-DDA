@@ -9,7 +9,7 @@
     "type": "npc",
     "id": "marloss_evan_3",
     "name_unique": "Amaides",
-    "//": "A combination of 'ama'nita phallo'ides', the scientific name for the Death Cap.  Absolutely adores his daughter.  Greed.",
+    "//": "A combination of 'ama'nita phallo'ides', the scientific name for the Death Cap.  Absolutely adores his daughter.",
     "gender": "male",
     "name_suffix": "Evangelist",
     "class": "MAR_EVAN_3",
