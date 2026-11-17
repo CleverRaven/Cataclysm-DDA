@@ -271,7 +271,7 @@
     "color": "light_gray",
     "longest_side": "60 cm",
     "warmth": 10,
-    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
+    "flags": [ "OUTER", "ALLOWS_ARM_TENTACLES", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -297,7 +297,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "coverage": 100,
         "encumbrance": [ 50, 50 ],
@@ -386,7 +394,7 @@
     "longest_side": "60 cm",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NO_REPAIR", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_SPIDER_ARMS" ],
+    "flags": [ "OUTER", "NO_REPAIR", "ALLOWS_ARM_TENTACLES", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "material": [
@@ -510,7 +518,7 @@
     "color": "light_gray",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "ALLOWS_ARM_TENTACLES" ],
     "armor": [
       { "encumbrance": 15, "coverage": 90, "covers": [ "torso" ] },
       {
@@ -528,7 +536,7 @@
     "name": { "str_sp": "lorica segmentata" },
     "copy-from": "armor_lorica",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "OUTER", "ALLOWS_ARM_TENTACLES" ]
   },
   {
     "id": "xs_armor_lorica",
@@ -783,7 +791,7 @@
     "looks_like": "vest_leather",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "ALLOWS_ARM_TENTACLES", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1127,7 +1135,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "ALLOWS_SPIDER_ARMS" ]
+    "flags": [ "VARSIZE", "ALLOWS_ARM_TENTACLES", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "chestguard_hard",
@@ -1852,7 +1860,7 @@
     "looks_like": "chestguard_hard",
     "color": "light_gray",
     "warmth": 5,
-    "flags": [ "OUTER", "ALLOWS_SPIDER_ARMS" ],
+    "flags": [ "OUTER", "ALLOWS_ARM_TENTACLES", "ALLOWS_SPIDER_ARMS" ],
     "armor": [
       {
         "encumbrance": 5,
@@ -2184,7 +2192,7 @@
     "name": { "str": "mild steel light chestplate" },
     "copy-from": "armor_lc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_mc_light_chestplate",
@@ -2202,7 +2210,7 @@
     "name": { "str": "medium steel light chestplate" },
     "copy-from": "armor_mc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_hc_light_chestplate",
@@ -2220,7 +2228,7 @@
     "name": { "str": "high steel light chestplate" },
     "copy-from": "armor_hc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_ch_light_chestplate",
@@ -2238,7 +2246,7 @@
     "name": { "str": "hardened light chestplate" },
     "copy-from": "armor_ch_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_qt_light_chestplate",
@@ -2256,7 +2264,7 @@
     "name": { "str": "tempered light chestplate" },
     "copy-from": "armor_qt_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_lc_chestplate",
@@ -2791,7 +2799,7 @@
     "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "copy-from": "armor_larmor_chest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "armor_larmor_chest_xs",
@@ -2840,7 +2848,7 @@
     "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "copy-from": "cuirass_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "xs_lc_mirror_armor",
@@ -2867,7 +2875,7 @@
     "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "copy-from": "mc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "xs_mc_mirror_armor",
@@ -2894,7 +2902,7 @@
     "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "copy-from": "hc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "xs_hc_mirror_armor",
@@ -2921,7 +2929,7 @@
     "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "copy-from": "ch_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "xs_ch_mirror_armor",
@@ -2948,7 +2956,7 @@
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "copy-from": "qt_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL", "ALLOWS_ARM_TENTACLES" ] }
   },
   {
     "id": "xs_qt_mirror_armor",
