@@ -45,17 +45,17 @@
       },
       "no": {
         "has_many_available_missions": {
-          "has_no_assigned_mission": "I have other jobs for you.  Want to hear about them?",
+          "has_no_assigned_mission": "<multiple_job_offers>",
           "no": {
-            "has_many_assigned_missions": "I have more jobs for you.  Want to hear about them?",
-            "no": "I have other jobs for you.  Want to hear about them?"
+            "has_many_assigned_missions": "<more_job_offers>",
+            "no": "<more_job_offers>"
           }
         },
         "no": {
           "has_no_assigned_mission": "<job_offer>",
           "no": {
-            "has_many_assigned_missions": "I just have one job for you.  Want to hear about it?",
-            "no": "I just have one job for you.  Want to hear about it?"
+            "has_many_assigned_missions": "<one_more_job>",
+            "no": "<one_more_job>"
           }
         }
       }
@@ -82,7 +82,7 @@
     "id": "TALK_MISSION_OFFER",
     "type": "talk_topic",
     "responses": [
-      { "text": "I'll do it!", "topic": "TALK_MISSION_ACCEPTED", "effect": "assign_mission" },
+      { "text": "I'll do it<punc.!>", "topic": "TALK_MISSION_ACCEPTED", "effect": "assign_mission" },
       { "text": "Not interested.", "topic": "TALK_MISSION_REJECTED" }
     ]
   },
@@ -90,10 +90,10 @@
     "id": "TALK_MISSION_ACCEPTED",
     "type": "talk_topic",
     "responses": [
-      { "text": "Not a problem.", "topic": "TALK_NONE" },
+      { "text": "Anything else I can help with, let me know.", "topic": "TALK_NONE" },
       { "text": "Got any advice?", "topic": "TALK_MISSION_ADVICE" },
       { "text": "Can you share some equipment?", "topic": "TALK_SHARE_EQUIPMENT" },
-      { "text": "I'll be back soon!", "topic": "TALK_DONE" }
+      { "text": "I'll be back soon<punc.!>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -104,7 +104,7 @@
   {
     "id": "TALK_MISSION_REJECTED",
     "type": "talk_topic",
-    "responses": [ { "text": "I'm sorry.", "topic": "TALK_NONE" }, { "text": "Whatever.  <end_talking_bye>", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'm sorry<punc.…>  If you've got anything else for me, let me know.", "topic": "TALK_NONE" }, { "text": "Whatever.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_MISSION_INQUIRE",
