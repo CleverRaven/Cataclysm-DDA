@@ -79,7 +79,22 @@
         {
           "or": [
             {
+              "and": [
+                { "math": [ "u_spell_level('create_light_sylph') >= 0 " ] },
+                { "math": [ "u_spell_level('create_light_sylph') < 15" ] }
+              ]
+            },
+            {
               "and": [ { "math": [ "u_spell_level('clap_of_thunder') >= 0 " ] }, { "math": [ "u_spell_level('clap_of_thunder') < 15" ] } ]
+            },
+            {
+              "and": [ { "math": [ "u_spell_level('electrical_field') >= 0 " ] }, { "math": [ "u_spell_level('electrical_field') < 15" ] } ]
+            },
+            {
+              "and": [
+                { "math": [ "u_spell_level('sylph_inner_storm') >= 0 " ] },
+                { "math": [ "u_spell_level('sylph_inner_storm') < 15" ] }
+              ]
             },
             {
               "and": [ { "math": [ "u_spell_level('ominous_wind') >= 0 " ] }, { "math": [ "u_spell_level('ominous_wind') < 15" ] } ]
@@ -189,7 +204,10 @@
     },
     "effect": {
       "weighted_list_eocs": [
+        [ "EOC_LEVELER_SYLPH_CREATE_LIGHT", 9 ],
         [ "EOC_LEVELER_SYLPH_CLAP_OF_THUNDER", 8 ],
+        [ "EOC_LEVELER_SYLPH_ELECTRICAL_FIELD", 9 ],
+        [ "EOC_LEVELER_SYLPH_INNER_STORM", 7 ],
         [ "EOC_LEVELER_SYLPH_OMINOUS_WIND", 11 ],
         [ "EOC_LEVELER_SYLPH_PUSHING_WIND", 9 ],
         [ "EOC_LEVELER_SYLPH_CLEAR_THE_AIR", 6 ],
@@ -213,6 +231,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_CREATE_LIGHT",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('create_light_sylph') >= 0" ] },
+        { "math": [ "u_spell_level('create_light_sylph') < 15" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('create_light_sylph') += paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LEVELER_SYLPH_CLAP_OF_THUNDER",
     "condition": {
       "and": [ { "math": [ "u_spell_level('clap_of_thunder') >= 0" ] }, { "math": [ "u_spell_level('clap_of_thunder') < 15" ] } ]
@@ -223,6 +259,36 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('clap_of_thunder') += paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_ELECTRICAL_FIELD",
+    "condition": {
+      "and": [ { "math": [ "u_spell_level('electrical_field') >= 0" ] }, { "math": [ "u_spell_level('electrical_field') < 15" ] } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('electrical_field') += paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_SYLPH_INNER_STORM",
+    "condition": {
+      "and": [ { "math": [ "u_spell_level('sylph_inner_storm') >= 0" ] }, { "math": [ "u_spell_level('sylph_inner_storm') < 15" ] } ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('sylph_inner_storm ') += paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },
