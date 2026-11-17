@@ -51,7 +51,7 @@
     "id": "TALK_ISHERWOOD_LISA",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge. I think you need to keep on walking - straight off this property.",
+      "yes": "I see that badge.  I think you need to keep on walking - straight off this property.",
       "no": "Hi, what brings you here?"
     },
     "speaker_effect": { "sentinel": "u_met_lisa", "effect": [ { "u_add_var": "u_met_lisa_isherwood", "value": "yes" } ] },

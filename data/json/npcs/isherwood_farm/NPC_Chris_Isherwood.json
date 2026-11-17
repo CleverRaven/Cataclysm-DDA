@@ -546,7 +546,7 @@
     "dynamic_line": "Yeah.  I think they should cover our exit.  We've got an old truck they could set up as a platform, where Dad can put down covering fire without his knee being an issue.  Eddie can drive, instead of shoot, and Luke or Mom can be ready with some first aid supplies.  Then when we get out, we've got an easy getaway set up, and there's less chance of us getting flanked while we're in there looking for Barry…\"  He peters out near the end, and looks suddenly nervous.  \"…is that a good plan?",
     "responses": [
       {
-        "text": "That's a great plan. Good job, Chris.",
+        "text": "That's a great plan.  Good job, Chris.",
         "effect": [ { "math": [ "isherwood_family_coming = 1" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
       },
@@ -749,7 +749,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
     "dynamic_line": {
-      "gendered_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, never mind.  Time is important here. We can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
+      "gendered_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, never mind.  Time is important here.  We can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
       "relevant_genders": [ "u" ]
     },
     "responses": [
@@ -760,7 +760,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
-    "dynamic_line": "Good idea.  A sandbag wall would be easy enough. We've had to do those a few times when we've had flooding, and everyone knows the drill.  Back then, we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 big canvas sacks, or the plastic ones, would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
+    "dynamic_line": "Good idea.  A sandbag wall would be easy enough.  We've had to do those a few times when we've had flooding, and everyone knows the drill.  Back then, we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 big canvas sacks, or the plastic ones, would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
@@ -850,10 +850,10 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "We need to investigate the alien encampment and try to find out what happened to Barry.",
-      "offer": "I can take you to the structure. I tracked them to it.",
+      "offer": "I can take you to the structure.  I tracked them to it.",
       "accepted": "Awesome, I want some answers!",
       "rejected": "Thanks anyway, I'll keep my eye on it, maybe I'll find a way one day.",
-      "advice": "I feel like we are underprepared if they see us. I marked the location for you.",
+      "advice": "I feel like we are underprepared if they see us.  I marked the location for you.",
       "inquire": "You ready?",
       "success": "It's taller then I remember… we should look for prisoners.  I left a note for my family before we left.  If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
       "success_lie": "Well, it was here…",

@@ -62,7 +62,7 @@
           "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father spots it.\"",
           "no": {
             "compare_string": [ "seen", { "u_val": "isherwood_luke_marshal_badge" } ],
-            "yes": ", and nods once when he sees you've taken off your marshal badge.  \"Tread carefully around here. We don't have a lot of respect for your type of lawman.\"",
+            "yes": ", and nods once when he sees you've taken off your marshal badge.  \"Tread carefully around here.  We don't have a lot of respect for your type of lawman.\"",
             "no": {
               "u_male": true,
               "yes": ", then raises a hand to greet you.  \"Hello.\"",
@@ -136,7 +136,7 @@
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan_Part_2"
       },
       {
-        "text": "I've got the dynamite you requested. I can't wait to see how this works out.",
+        "text": "I've got the dynamite you requested.  I can't wait to see how this works out.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK_EXPLOSIVES" },
@@ -348,7 +348,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
-    "dynamic_line": "Chris is a little older than me. He's up at the horse farm with his parents and sister, Lisa.",
+    "dynamic_line": "Chris is a little older than me.  He's up at the horse farm with his parents and sister, Lisa.",
     "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "value": "yes" } },
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -408,7 +408,7 @@
     "dynamic_line": "How does this all come together?",
     "responses": [
       {
-        "text": "Well, the short answer is we're going to turn this truck into a bomb. It'll need to be big enough to blow an opening in the tower to let out some of the heat and gas, but small enough that it won't kill Barry unless it's right next to him.",
+        "text": "Well, the short answer is we're going to turn this truck into a bomb.  It'll need to be big enough to blow an opening in the tower to let out some of the heat and gas, but small enough that it won't kill Barry unless it's right next to him.",
         "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Is_Crazy"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -484,7 +484,7 @@
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
       "offer": "I could really use a book on glass blowing.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantastic! I'm not supposed to leave our land.",
+      "accepted": "Fantastic!  I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
       "advice": "A library, bookstore, or a glass blower's studio should have one.",
       "inquire": "Do you have the book?",
@@ -516,9 +516,9 @@
     "dialogue": {
       "describe": "I need more knowledge to get better at pottery.",
       "offer": "I could really use the book, DIY Compendium.  With the internet gone, I don't have any handy references.",
-      "accepted": "Fantastic! I'm not supposed to leave our land.",
+      "accepted": "Fantastic!  I'm not supposed to leave our land.",
       "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
-      "advice": "A library or bookstore should have one. Schools are another good idea.",
+      "advice": "A library or bookstore should have one.  Schools are another good idea.",
       "inquire": "Do you have the book?",
       "success": "I appreciate it, this will make my life so much easier.",
       "success_lie": "I don't see a book…?",

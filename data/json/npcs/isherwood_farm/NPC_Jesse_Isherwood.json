@@ -111,7 +111,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JESSE_OPINION",
-    "dynamic_line": "We can't wait for someone else to fix things. We need to take care of ourselves.",
+    "dynamic_line": "We can't wait for someone else to fix things.  We need to take care of ourselves.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -129,7 +129,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MET_JACK_CLAIRE",
-    "dynamic_line": "Oh, good! I'm sure Jack wanted to put you to work.  If you're interested, I could use a hand clearing out the woods.  My son, Chris, has his hands full trying to keep the predators under control.",
+    "dynamic_line": "Oh, good!  I'm sure Jack wanted to put you to work.  If you're interested, I could use a hand clearing out the woods.  My son, Chris, has his hands full trying to keep the predators under control.",
     "responses": [
       { "text": "I'd like to speak with Carlos too about some work.", "topic": "TALK_JESSE_CARLOS1" },
       {
@@ -153,7 +153,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JESSE_CHRIS",
-    "dynamic_line": "He's out doing some surveying. We're planning on adding a fence line and some defenses.",
+    "dynamic_line": "He's out doing some surveying.  We're planning on adding a fence line and some defenses.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -171,7 +171,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW_MARSHAL",
-    "dynamic_line": "You should get off my farm. I won't deal with a government stooge.",
+    "dynamic_line": "You should get off my farm.  I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -235,7 +235,7 @@
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "What a relief! This will help keep our animals safe.  As promised, this is Steve. He's a calm, steady horse.  You should talk to Carlos about some armor for him.",
+      "success": "What a relief!  This will help keep our animals safe.  As promised, this is Steve.  He's a calm, steady horse.  You should talk to Carlos about some armor for him.",
       "success_lie": "Show me the bodies.",
       "failure": "It was a lost cause anyways…"
     },
