@@ -422,9 +422,63 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                           100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
-    const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
-                                   -20 ) + 20;
-    double num_all_hits = hits_by_accuracy[ rng_mean ];
+
+    // (hit - dodge), then all of the effects of partial dodge
+    const int mean_spread = static_cast<int>( base_hit - mon_defense );
+    const auto hit_table = [&]( int mean ) {
+        return hits_by_accuracy[ std::max( std::min( mean, 20 ), -20 ) + 20 ];
+    };
+    constexpr int miss_threshold = 5;
+    constexpr int full_force_threshold =
+        5;
+    constexpr int mult_range = miss_threshold + full_force_threshold;
+    double num_all_hits = hit_table( mean_spread + miss_threshold );
+
+    // keep track of multipliers in a way that armor can be appropriately subtracted along the window of damage multiplied by accuracy/partial dodge
+    std::array < double, mult_range + 1 > bucket_hits{}; // how many hits
+    std::array < double, mult_range + 1 > bucket_mults{}; // damage mutlipliers
+    // grazing/partial damage hits
+    for( int i = 0; i < mult_range; i++ ) {
+        const int t = i - miss_threshold;
+        bucket_hits[i] = hit_table( mean_spread - t ) - hit_table( mean_spread - t - 1 );
+        bucket_mults[i] = ( i + 0.5 ) / mult_range;
+    }
+    // full damage hits
+    bucket_hits[mult_range] = hit_table( mean_spread - full_force_threshold );
+    bucket_mults[mult_range] = 1.0;
+
+    // helper to appropriately scale damage in calc_effective_damage, below
+    // TODO: Modify DPS calculation to consider weakpoints.
+    const auto mean_hit_damage = [&]( const damage_instance & base, Creature & mon,
+    const bodypart_id & bp ) {
+        if( num_all_hits <= 0 ) {
+            return 0.0;
+        }
+        double subtotal_damage = 0.0;
+        resistances r = resistances( *static_cast<monster *>( &mon ) );
+        for( int i = 0; i <= mult_range; i++ ) {
+            if( bucket_hits[i] <= 0 ) {
+                continue;
+            }
+            damage_instance dealt_damage = base;
+            dealt_damage.mult_damage( bucket_mults[i], true );
+            for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
+                dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+            }
+            dealt_damage_instance dealt_dams;
+            for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
+                int cur_damage = 0;
+                int total_pain = 0;
+                mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bp, cur_damage, total_pain );
+                if( cur_damage > 0 ) {
+                    dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
+                }
+            }
+            subtotal_damage += bucket_hits[i] * dealt_dams.total_damage();
+        }
+        return subtotal_damage / num_all_hits;
+    };
+
     /* critical hits have two chances to occur: triple critical hits happen much less frequently,
      * and double critical hits can only occur if a hit roll is more than 1.5 * monster dodge.
      * Not the hit roll used to determine the attack, another one.
@@ -447,63 +501,28 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                                  num_all_hits );
     // critical hits are counted separately
     double num_hits = num_all_hits - num_crits;
+
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
-    const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
+    const auto calc_effective_damage = [ &, moves_per_attack ]( const double num_strikes,
     const bool crit, const Character & guy, Creature & mon ) {
         bodypart_id bp = bodypart_id( "torso" );
-        Creature *temp_mon = &mon;
-        double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_id::NULL_ID(),
                              sub_bodypart_str_id::NULL_ID(), &mon, bp );
         damage_instance dealt_damage = base_damage;
         dealt_damage = guy.modify_damage_dealt_with_enchantments( dealt_damage );
-        // TODO: Modify DPS calculation to consider weakpoints.
-        resistances r = resistances( *static_cast<monster *>( temp_mon ) );
-        for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
-            dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
-        }
-
-        dealt_damage_instance dealt_dams;
-        for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
-            int cur_damage = 0;
-            int total_pain = 0;
-            temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
-                                               cur_damage, total_pain );
-            if( cur_damage > 0 ) {
-                dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
-            }
-        }
-        double damage_per_hit = dealt_dams.total_damage();
-        subtotal_damage = damage_per_hit * num_strikes;
+        const double damage_per_hit = mean_hit_damage( dealt_damage, mon, bp );
+        double subtotal_damage = damage_per_hit * num_strikes;
         double subtotal_moves = moves_per_attack * num_strikes;
-
         if( has_technique( RAPID ) ) {
-            Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_id::NULL_ID(),
                                  sub_bodypart_str_id::NULL_ID(), &mon, bp );
-            damage_instance dealt_rs_damage = rs_base_damage;
-            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+            for( damage_unit &dmg_unit : rs_base_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            // TODO: Modify DPS calculation to consider weakpoints.
-            resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
-            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
-                dmg_unit.amount -= std::min( rs_r.get_effective_resist( dmg_unit ), dmg_unit.amount );
-            }
-            dealt_damage_instance rs_dealt_dams;
-            for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
-                int cur_damage = 0;
-                int total_pain = 0;
-                temp_rs_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bp,
-                                                      cur_damage, total_pain );
-                if( cur_damage > 0 ) {
-                    rs_dealt_dams.dealt_dams[dmg_unit.type] += cur_damage;
-                }
-            }
-            double rs_damage_per_hit = rs_dealt_dams.total_damage();
+            const double rs_damage_per_hit = mean_hit_damage( rs_base_damage, mon, bp );
             subtotal_moves *= 0.5;
             subtotal_damage *= 0.5;
             subtotal_moves += moves_per_attack * num_strikes * 0.33;
@@ -511,6 +530,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         }
         return std::make_pair( subtotal_moves, subtotal_damage );
     };
+
     std::pair<double, double> crit_summary = calc_effective_damage( num_crits, true, guy, mon );
     total_moves += crit_summary.first;
     total_damage += crit_summary.second;

@@ -254,6 +254,8 @@ using terminating_effect = struct terminating_effect_t {
     bodypart_id bp;
 };
 
+enum class melee_hit_quality { glancing, good, solid };
+
 class Creature : public viewer
 {
     public:
@@ -466,6 +468,18 @@ class Creature : public viewer
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
+
+        // damage multiplier represnting partial dodge (hitroll-dodge).
+        // 0=complete miss, 1=square hit
+        static float melee_damage_mult( int hit_spread );
+        static bool melee_attack_hit( int hit_spread );
+
+        // For messaging after partial dodge
+        static melee_hit_quality melee_hit_quality_of( int hit_spread );
+        static std::string hit_quality_label( int hit_spread );
+
+        // For deflections
+        bodypart_id deflect_hit_part( const bodypart_id &bp, bool can_attack_high ) const;
 
         // Distance == 1 and on the same z-level or with a clear shot up/down.
         // If allow_zlev is false, don't allow attacking up/down at all.
