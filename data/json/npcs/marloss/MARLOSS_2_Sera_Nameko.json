@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "marloss_evan_2",
     "name_unique": "Sera Nameko",
-    "//": "very forgetful, very friendly.  Pride.",
+    "//": "very forgetful, very friendly.",
     "gender": "female",
     "name_suffix": "Evangelist",
     "class": "MAR_EVAN_2",
