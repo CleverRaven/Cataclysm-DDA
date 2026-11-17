@@ -27,7 +27,6 @@
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
-#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -51,10 +50,6 @@ item_location mdeath::normal( map *here, monster &z )
     if( !z.quiet_death && !z.has_flag( mon_flag_QUIETDEATH ) ) {
         if( z.type->in_species( species_ZOMBIE ) && get_map().inbounds( z.pos_abs() ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos_bub() ) );
-        }
-
-        if( z.type->mdeath_effect.death_message.empty() ) {
-            add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
         }
     }
 

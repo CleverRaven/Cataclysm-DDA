@@ -3210,7 +3210,17 @@ void monster::die( map *here, Creature *nkiller )
         return;
     }
 
-    add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
+    const translation &configured_death_message = type->mdeath_effect.death_message;
+    const bool has_configured_death_message = !configured_death_message.empty();
+    const auto show_death_message = [this, &configured_death_message, has_configured_death_message]() {
+        add_msg_if_player_sees( *this, m_good,
+                                has_configured_death_message ? configured_death_message.translated() :
+                                _( "The %s dies!" ), name() );
+    };
+    // Death effects can change whether the player sees the monster.
+    if( has_configured_death_message ) {
+        show_death_message();
+    }
 
     if( type->mdeath_effect.has_effect ) {
         //Not a hallucination, go process the death effects.
@@ -3265,7 +3275,11 @@ void monster::die( map *here, Creature *nkiller )
     if( !suppress_corpse ) {
         switch( type->mdeath_effect.corpse_type ) {
             case mdeath_type::NORMAL:
-                corpse =  mdeath::normal( here, *this );
+                if( !has_configured_death_message && !no_corpse_quiet && !quiet_death &&
+                    !has_flag( mon_flag_QUIETDEATH ) ) {
+                    show_death_message();
+                }
+                corpse = mdeath::normal( here, *this );
                 break;
             case mdeath_type::BROKEN:
                 mdeath::broken( here, *this );
