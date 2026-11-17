@@ -158,7 +158,7 @@
     "difficulty": 1,
     "sound_description": "a crackle",
     "damage_type": "electric",
-    "learn_spells": { "sylph_call_lightning": 5, "sylph_crash_of_lightning": 9 }
+    "learn_spells": { "sylph_call_lightning": 6 }
   },
   {
     "id": "sylph_call_lightning",
@@ -168,90 +168,39 @@
     "teachable": false,
     "spell_class": "SYLPH",
     "effect": "attack",
-    "shape": "line",
-    "skill": "gramarye",
-    "valid_targets": [ "ally", "hostile", "ground" ],
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
-    "max_level": 15,
-    "difficulty": 6,
-    "min_damage": {
-      "math": [
-        "(6 + (u_spell_count('school': 'SYLPH') * 0.84) + (u_skill('gramarye') * 1.2) ) * scaling_factor(u_val('dexterity') )"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "(26 + (u_spell_count('school': 'SYLPH') * 1.5) + (u_skill('gramarye') * 3.9) ) * scaling_factor(u_val('dexterity') )"
-      ]
-    },
-    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
-    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
-    "min_aoe": 1,
-    "max_aoe": 1,
-    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'SYLPH') * -2.6) + (u_skill('gramarye') * -4.6) ), 100)" ] },
-    "base_energy_cost": { "math": [ "max( (240 + (u_spell_count('school': 'SYLPH') * -3.2) + (u_skill('gramarye') * -6.9) ), 80)" ] },
-    "magic_type": "xedra_sylph_magick",
-    "field_id": "fd_electricity",
-    "min_field_intensity": 1,
-    "max_field_intensity": 1,
-    "field_chance": 1,
-    "damage_type": "electric",
-    "sound_description": "a crackle",
-    "energy_source": "MANA"
-  },
-  {
-    "id": "sylph_crash_of_lightning",
-    "type": "SPELL",
-    "name": "Crash of lightning",
-    "description": "The crash of lightning strikes your foes with a blast of electricity and a physical force that knocks them prone.",
-    "spell_class": "SYLPH",
-    "teachable": false,
-    "effect": "attack",
-    "shape": "line",
-    "skill": "gramarye",
-    "valid_targets": [ "ally", "hostile", "ground" ],
-    "extra_effects": [ { "id": "crash", "hit_self": false, "max_level": 3 } ],
-    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "NO_HANDS" ],
-    "max_level": 15,
-    "min_damage": {
-      "math": [
-        "(6 + (u_spell_count('school': 'SYLPH') * 0.84) + (u_skill('gramarye') * 1.2) ) * scaling_factor(u_val('dexterity') )"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "(26 + (u_spell_count('school': 'SYLPH') * 1.5) + (u_skill('gramarye') * 3.9) ) * scaling_factor(u_val('dexterity') )"
-      ]
-    },
-    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
-    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
-    "difficulty": 6,
-    "min_aoe": 1,
-    "max_aoe": 1,
-    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'SYLPH') * -2.6) + (u_skill('gramarye') * -4.6) ), 100)" ] },
-    "base_energy_cost": { "math": [ "max( (240 + (u_spell_count('school': 'SYLPH') * -3.2) + (u_skill('gramarye') * -6.9) ), 80)" ] },
-    "magic_type": "xedra_sylph_magick",
-    "field_id": "fd_electricity",
-    "min_field_intensity": 1,
-    "max_field_intensity": 1,
-    "field_chance": 1,
-    "damage_type": "electric",
-    "sound_description": "a crackle",
-    "energy_source": "MANA"
-  },
-  {
-    "type": "SPELL",
-    "id": "crash",
-    "name": { "str": "crash", "//~": "NO_I18N" },
-    "description": { "str": "A thunder clap at a distance.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ground", "self", "ally" ],
-    "effect": "attack",
     "effect_str": "downed",
     "shape": "line",
-    "flags": [ "LOUD" ],
+    "skill": "gramarye",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
     "max_level": 15,
-    "min_range": 70,
-    "max_range": 70
+    "difficulty": 6,
+    "min_damage": {
+      "math": [
+        "(6 + (u_spell_count('school': 'SYLPH') * 0.84) + (u_skill('gramarye') * 1.2) ) * scaling_factor(u_val('dexterity') )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "(26 + (u_spell_count('school': 'SYLPH') * 1.5) + (u_skill('gramarye') * 3.9) ) * scaling_factor(u_val('dexterity') )"
+      ]
+    },
+    "min_duration": 150,
+    "max_duration": 450,
+    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
+    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.9) ), 35)" ] },
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'SYLPH') * -2.6) + (u_skill('gramarye') * -4.6) ), 100)" ] },
+    "base_energy_cost": { "math": [ "max( (240 + (u_spell_count('school': 'SYLPH') * -3.2) + (u_skill('gramarye') * -6.9) ), 80)" ] },
+    "magic_type": "xedra_sylph_magick",
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 1,
+    "damage_type": "electric",
+    "sound_description": "a crackle",
+    "energy_source": "MANA"
   },
   {
     "type": "SPELL",
@@ -293,48 +242,60 @@
     "min_aoe": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.25) + (u_skill('gramarye') * 0.4) ), 7)" ] },
     "max_aoe": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.25) + (u_skill('gramarye') * 0.4) ), 7)" ] },
     "field_id": "fd_electricity",
-    "min_field_intensity": 0,
-    "max_field_intensity": 4,
+    "min_field_intensity": 2,
+    "max_field_intensity": 6,
     "field_intensity_increment": 1,
     "max_level": 15,
     "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.5) + (u_skill('gramarye') * 1.1) ), 40)" ] },
     "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.5) + (u_skill('gramarye') * 1.1) ), 40)" ] },
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SYLPH') * -1.8) + (u_skill('gramarye') * -3.6) ), 50)" ] },
-    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -7.5) + (u_skill('gramarye') * -12.8) ), 250)" ] },
+    "base_energy_cost": { "math": [ "max( (400 + (u_spell_count('school': 'SYLPH') * -7.5) + (u_skill('gramarye') * -12.8) ), 150)" ] },
     "sound_type": "combat",
     "sound_description": "zzzpptttt!",
-    "learn_spells": { "lightning_field": 5 }
+    "learn_spells": { "sylph_inner_storm": 6 }
   },
   {
-    "id": "lightning_field",
+    "id": "sylph_inner_storm",
     "type": "SPELL",
-    "name": "Lightning Field",
-    "description": "Summons a field of lightning.",
+    "name": "The Storm Within",
+    "description": "Unleash the lightning that lurks in inside living (and formerly living) things, causing a small amount of damage and disorienting them.  This spell does not affect robots.",
     "message": "tsszappp!",
     "valid_targets": [ "hostile", "ground" ],
     "skill": "gramarye",
     "teachable": false,
     "spell_class": "SYLPH",
-    "flags": [ "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "RANDOM_DAMAGE", "SOMATIC", "VERBLE", "NO_LEGS" ],
     "effect": "attack",
+    "effect_str": "zapped",
     "shape": "blast",
     "damage_type": "electric",
-    "difficulty": 2,
-    "min_aoe": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.25) + (u_skill('gramarye') * 0.4) ), 7)" ] },
-    "max_aoe": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.25) + (u_skill('gramarye') * 0.4) ), 7)" ] },
-    "field_id": "fd_electricity",
-    "min_field_intensity": 6,
-    "max_field_intensity": 10,
-    "field_intensity_increment": 1,
+    "difficulty": 4,
+    "min_damage": {
+      "math": [
+        "(3 + (u_spell_count('school': 'SYLPH') * 0.64) + (u_skill('gramarye') * 0.9) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "(18 + (u_spell_count('school': 'SYLPH') * 1.4) + (u_skill('gramarye') * 2.9) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "min_duration": { "math": [ "(251 + (u_spell_count('school': 'SYLPH') * 82) + (u_skill('gramarye') * 143) )" ] },
+    "max_duration": { "math": [ "(628 + (u_spell_count('school': 'SYLPH') * 122) + (u_skill('gramarye') * 282) )" ] },
+    "min_aoe": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.75) ), 15)" ] },
+    "max_aoe": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.4) + (u_skill('gramarye') * 0.75) ), 15)" ] },
     "max_level": 15,
-    "min_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.5) + (u_skill('gramarye') * 1.1) ), 40)" ] },
-    "max_range": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.5) + (u_skill('gramarye') * 1.1) ), 40)" ] },
     "magic_type": "xedra_sylph_magick",
-    "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SYLPH') * -1.8) + (u_skill('gramarye') * -3.6) ), 50)" ] },
-    "base_energy_cost": { "math": [ "max( (800 + (u_spell_count('school': 'SYLPH') * -9.5) + (u_skill('gramarye') * -18.8) ), 450)" ] },
+    "base_casting_time": { "math": [ "max( (150 + (u_spell_count('school': 'SYLPH') * -1.8) + (u_skill('gramarye') * -3.6) ), 75)" ] },
+    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -9.5) + (u_skill('gramarye') * -18.8) ), 250)" ] },
     "sound_type": "combat",
-    "sound_description": "cracklezzbit!"
+    "sound_description": "cracklezzbit!",
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 3,
+    "field_intensity_increment": 1,
+    "ignored_monster_species": [ "CYBORG", "LEECH_PLANT", "ROBOT", "ROBOT_FLYING" ]
   },
   {
     "id": "sylph_fulgurating_strikes_lightning_fields",
