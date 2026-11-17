@@ -104,7 +104,10 @@
   {
     "id": "TALK_MISSION_REJECTED",
     "type": "talk_topic",
-    "responses": [ { "text": "I'm sorry<punc.…>  If you've got anything else for me, let me know.", "topic": "TALK_NONE" }, { "text": "Whatever.  <end_talking_bye>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "I'm sorry<punc.…>  If you've got anything else for me, let me know.", "topic": "TALK_NONE" },
+      { "text": "Whatever.  <end_talking_bye>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "TALK_MISSION_INQUIRE",
