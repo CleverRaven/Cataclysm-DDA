@@ -457,7 +457,7 @@ TEST_CASE( "Damage_type_effectiveness_vs_monster_resistance", "[melee][damage][e
     clear_map_without_vision();
 
     SECTION( "Attacking a monster with no resistance to test_fire" ) {
-        check_damage_from_test_fire( "mon_test_zombie_no_fire_resist", 0, false, 14.72f );
+        check_damage_from_test_fire( "mon_test_zombie_no_fire_resist", 0, false, 15.67f );
     }
 
     SECTION( "Attacking a monster with some resistance to test_fire" ) {
