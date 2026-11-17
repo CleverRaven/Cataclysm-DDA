@@ -107,10 +107,24 @@
     "name": "Sylph destiny draught",
     "description": "This magical potion will further your transformation from newly sentient creature to elemental powerhouse.",
     "price": "5 kUSD",
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You drink the %s.",
-      "vitamins": [ [ "mutagen_airkin", 550 ], [ "mutagen", 550 ] ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_XE_DRINK_DESTINY_DRAUGHT_SYLPH" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_DRINK_DESTINY_DRAUGHT_SYLPH",
+    "effect": [
+      { "math": [ "u_vitamin('mutagen_airkin') += 550" ] },
+      { "math": [ "u_vitamin('mutagen') += 550" ] },
+      { "u_message": "You drink the Sylph destiny draught.", "type": "info" },
+      { "math": [ "_xp_multiplier = 350" ] },
+      {
+        "run_eocs": [
+          "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+          "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR",
+          "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR"
+        ],
+        "variables": { "xp_multiplier": { "context_val": "xp_multiplier" } }
+      }
+    ]
   }
 ]

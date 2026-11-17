@@ -2224,7 +2224,9 @@
           {
             "value": "MELEE_RANGE_MODIFIER",
             "add": {
-              "math": [ "( (u_spell_level('sylph_bonus_melee_range_spell') * 0.25 ) + 1 ) * scaling_factor( u_val('dexterity') )" ]
+              "math": [
+                "min( ( (1 + (u_spell_count('school': 'SYLPH') * 0.16) + (u_skill('gramarye') * 0.25) ) * scaling_factor(u_val('perception') ) ), 10)"
+              ]
             }
           }
         ]

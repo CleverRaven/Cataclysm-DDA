@@ -809,7 +809,7 @@
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "SYLPH_EVERYWHERE_NOWHERE" ],
+    "hobbies": [ "PARACLESIAN_BIRTH_GRAMARYE", "SYLPH_EVERYWHERE_NOWHERE" ],
     "items": {
       "both": {
         "entries": [

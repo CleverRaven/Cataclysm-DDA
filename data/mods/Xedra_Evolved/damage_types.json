@@ -148,5 +148,26 @@
     "pet_prot_info": { "order": 999905, "show_type": false },
     "melee_combat_info": { "order": 999905, "show_type": false },
     "ablative_info": { "order": 999905, "show_type": false }
+  },
+  {
+    "id": "xe_steam_damage",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "light_blue",
+    "name": "steam",
+    "skill": "deduction",
+    "derived_from": [ "heat", 1 ],
+    "immune_flags": { "character": [ "HEAT_IMMUNE" ], "monster": [ "FIREPROOF" ] }
+  },
+  {
+    "id": "xe_steam_damage",
+    "type": "damage_info_order",
+    "info_display": "detailed",
+    "verb": "scalding",
+    "bionic_info": { "order": 702, "show_type": true },
+    "protection_info": { "order": 902, "show_type": true },
+    "pet_prot_info": { "order": 602, "show_type": true },
+    "melee_combat_info": { "order": 702, "show_type": false },
+    "ablative_info": { "order": 702, "show_type": false }
   }
 ]
