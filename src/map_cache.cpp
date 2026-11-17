@@ -17,6 +17,7 @@ This file is for the most important map cache operations only.
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"

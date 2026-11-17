@@ -5,17 +5,18 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <iterator>
+#include <limits>
+#include <numeric>
 #include <optional>
 #include <ostream>
 #include <queue>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
 #include "active_item_cache.h"
-#include "ammo.h"
 #include "ammo_effect.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -32,16 +33,15 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "craft_reservation.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
-#include "cursesdef.h"
 #include "current_map.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
-#include "do_turn.h"
 #include "drawing_primitives.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
@@ -51,13 +51,14 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "iexamine.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_stack_use_charges.h"
+#include "item_transformation.h"
 #include "item_wakeup.h"
 #include "itype.h"
 #include "iuse.h"
@@ -71,49 +72,50 @@
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "mapgen.h"
-#include "material.h"
-#include "math_defines.h"
-#include "mission.h"
+#include "mapgen_primitives.h"
 #include "memory_fast.h"
 #include "messages.h"
+#include "mission.h"
 #include "mondeath.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
+#include "omdata.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmap_map_data_cache.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "perf.h"
 #include "pocket_type.h"
-#include "power_network.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "relic.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
-#include "shadowcasting.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "submap.h"
-#include "tileray.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui_manager.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+class weather_generator;
 
 static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
@@ -272,7 +274,6 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
-static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
 
 // terrain opening a gap in its level's floor; floor cache and its rebuild check
 // both read this one list
