@@ -27,6 +27,7 @@
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
