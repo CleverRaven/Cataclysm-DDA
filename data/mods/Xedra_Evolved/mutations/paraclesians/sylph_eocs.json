@@ -90,6 +90,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_HAMMER_OF_WINDS",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      {
+        "u_knockback": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.1) + (u_skill('gramarye') * 0.35) ), 15)" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "min( (0.5 + (u_spell_count('school': 'SYLPH') * 0.04) + (u_skill('gramarye') * 0.12) ), 5)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_JUMP_HIGH_ON",
     "effect": [
       {

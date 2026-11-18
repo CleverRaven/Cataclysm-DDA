@@ -413,7 +413,7 @@
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (200 + (u_spell_count('school': 'SYLPH') * -0.7) + (u_skill('gramarye') * -2.1) ), 150)" ] },
     "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -4.3) + (u_skill('gramarye') * -6.8) ), 250)" ] },
-    "learn_spells": { "sylph_pick_up_ranged_objects_spell": 6 }
+    "learn_spells": { "sylph_pick_up_ranged_objects_spell": 5 }
   },
   {
     "id": "sylph_cultivate_goblin_fruit",
@@ -572,7 +572,7 @@
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SYLPH') * -0.7) + (u_skill('gramarye') * -2.1) ), 60)" ] },
     "base_energy_cost": { "math": [ "max( (125 + (u_spell_count('school': 'SYLPH') * -1.3) + (u_skill('gramarye') * -3.8) ), 50)" ] },
-    "learn_spells": { "sylph_pick_up_ranged_objects_spell": 8 }
+    "learn_spells": { "sylph_hammer_of_winds_spell": 5, "sylph_pick_up_ranged_objects_spell": 8 }
   },
   {
     "id": "sylph_pick_up_ranged_objects_spell",
@@ -581,9 +581,10 @@
     "description": "Reach out with a gust of wind to pick up an object from a distance and bring it to you.",
     "message": "You reach out with a hand of air.",
     "teachable": false,
-    "valid_targets": [ "item", "ground", "self", "ally", "hostile" ],
-    "skill": "gramarye",
     "flags": [ "SOMATIC", "RANDOM_DAMAGE", "NO_LEGS" ],
+    "valid_targets": [ "item", "ground", "self", "ally", "hostile" ],
+    "spell_class": "SYLPH",
+    "skill": "gramarye",
     "difficulty": 3,
     "max_level": 15,
     "effect": "pickup",
@@ -592,6 +593,28 @@
     "max_damage": { "math": [ "max((350 + (u_spell_count('school': 'SYLPH') * -3.9) + (u_skill('gramarye') * -8.9) ), 250)" ] },
     "min_range": { "math": [ "min( (3 + (u_spell_count('school': 'SYLPH') * 0.6) + (u_skill('gramarye') * 1.2) ), 40)" ] },
     "max_range": { "math": [ "min( (3 + (u_spell_count('school': 'SYLPH') * 0.6) + (u_skill('gramarye') * 1.2) ), 40)" ] },
+    "magic_type": "xedra_sylph_magick",
+    "base_casting_time": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.3) ), 45)" ] },
+    "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 40)" ] }
+  },
+  {
+    "id": "sylph_hammer_of_winds_spell",
+    "type": "SPELL",
+    "name": "Hammer of the Winds",
+    "description": "Unleash a burst of air, knocking back everyone around you.",
+    "message": "Howling winds burst outward!",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "SYLPH",
+    "skill": "gramarye",
+    "difficulty": 4,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SYLPH_HAMMER_OF_WINDS",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 1,
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.3) ), 45)" ] },
     "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 40)" ] }
@@ -637,7 +660,8 @@
     "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.6) + (u_skill('gramarye') * 1.2) ), 40)" ] },
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (250 + (u_spell_count('school': 'SYLPH') * -1.2) + (u_skill('gramarye') * -3.1) ), 125)" ] },
-    "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 50)" ] }
+    "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 50)" ] },
+    "learn_spells": { "sylph_hammer_of_winds_spell": 7 }
   },
   {
     "id": "sylph_massive_lightning_bolt_spell",
