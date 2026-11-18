@@ -71,3 +71,5 @@ files:
     - Qrox
   'data/raw/keybindings{.json,/**}':
     - Qrox
+  'data/mods/wounds/**':
+    - kuutekitty
