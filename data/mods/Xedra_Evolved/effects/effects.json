@@ -2343,7 +2343,8 @@
     "apply_message": "",
     "remove_message": "Teh raging storm around you is calmed.",
     "rating": "good",
-    "enchantments": [ { "emitter": "emit_shock_cloud_big" } ]
+    "enchantments": [ { "emitter": "emit_shock_cloud_big" } ],
+    "flags": [ "ELECTRIC_IMMUNE" ]
   },
   {
     "type": "effect_type",

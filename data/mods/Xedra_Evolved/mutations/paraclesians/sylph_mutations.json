@@ -19,7 +19,7 @@
     "points": 2,
     "visibility": 5,
     "ugliness": 3,
-    "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.",
+    "description": "Your skin is clearly separate from the air around you but has become its own weather system.  If someone reaches out and touches you, they will clearly feel you but you look like someone might reach right through you.  You have resistance to electricity, scaling with your power as an elemental.",
     "types": [ "SKIN" ],
     "category": [ "SYLPH" ],
     "purifiable": false,
@@ -37,7 +37,12 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 10 }
     ],
-    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] },
+      {
+        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('SYLPH') / 2 - 5), 0)" ] } } ]
+      }
+    ],
     "integrated_armor": [ "integrated_cloud_skin" ]
   },
   {

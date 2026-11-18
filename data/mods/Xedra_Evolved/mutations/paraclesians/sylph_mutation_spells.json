@@ -900,8 +900,6 @@
         "( 7601 + (u_spell_count('school': 'SYLPH') * 3156) + (u_skill('gramarye') * 6291) ) * scaling_factor(u_val('perception') )"
       ]
     },
-    "min_range": 1,
-    "max_range": 1,
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (350 + (u_spell_count('school': 'SYLPH') * -1.9) + (u_skill('gramarye') * -3.6) ), 225)" ] },
     "base_energy_cost": {
