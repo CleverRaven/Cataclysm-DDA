@@ -82,7 +82,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_BADJOKE",
-    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars. Ridiculous.  \"Rescue me?  Yes, oh please, yes!",
+    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars.  Ridiculous.  \"Rescue me?  Yes, oh please, yes!",
     "responses": [
       {
         "text": "Are you Barry Isherwood?",
@@ -133,7 +133,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Yeah, Chris did. We're taking you home.",
+        "text": "Yeah, Chris did.  We're taking you home.",
         "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
@@ -238,7 +238,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_Escaping_What_Farm",
-    "dynamic_line": "\"Oh, so my family didn't send you, then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first. I'll tell you about it later.\"",
+    "dynamic_line": "\"Oh, so my family didn't send you, then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first.  I'll tell you about it later.\"",
     "responses": [
       {
         "text": "Okay, sounds good to me.  <lets_go>",
@@ -439,7 +439,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_Skywalker",
-    "dynamic_line": "*laughs.  \"It was terrible timing, but I'll admit the situation couldn't have been more perfect for that reference.  You'll forgive me for not getting it at the time? \"",
+    "dynamic_line": "*laughs.  \"It was terrible timing, but I'll admit the situation couldn't have been more perfect for that reference.  You'll forgive me for not getting it at the time?  \"",
     "responses": [
       { "text": "Can I ask you some questions?", "topic": "TALK_ISHERWOOD_BARRY_askback" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }

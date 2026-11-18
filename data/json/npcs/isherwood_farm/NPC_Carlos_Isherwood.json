@@ -158,7 +158,7 @@
     },
     "responses": [
       {
-        "text": "Oh, right… [Leave.]",
+        "text": "Oh, right…  [Leave.]",
         "topic": "TALK_DONE",
         "opinion": { "trust": -10, "value": -10 },
         "condition": { "u_is_wearing": "badge_marshal" }

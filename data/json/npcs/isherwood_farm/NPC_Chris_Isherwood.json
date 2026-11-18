@@ -273,7 +273,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALK2",
-    "dynamic_line": "I surveyed the land, and I am trying to track the changes.  I fixed up this cabin for some peace and quiet… you can settle here if you want",
+    "dynamic_line": "I surveyed the land, and I am trying to track the changes.  I fixed up this cabin for some peace and quiet…  you can settle here if you want",
     "responses": [
       { "text": "Sounds like you are restless, why not leave?", "topic": "TALK_ISHERWOOD_CHRIS_WANTS" },
       { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
@@ -319,7 +319,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_MIGO_BASE",
-    "dynamic_line": "They made their way to this weird spire structure… I've never seen anything like it.  It glistened in the sun, like a slug or something!  I've seen them leave and return with other humans: I think they might be holding Barry there.",
+    "dynamic_line": "They made their way to this weird spire structure…  I've never seen anything like it.  It glistened in the sun, like a slug or something!  I've seen them leave and return with other humans: I think they might be holding Barry there.",
     "responses": [
       {
         "text": "I might be able to help you get Barry back, but we've got to plan this out.",
@@ -340,7 +340,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_LAND",
-    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around - never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever… what's happening is changing everything in nature.",
+    "dynamic_line": "Well, wildlife is more hostile and I've seen gigantic insects around - never mind all these monsters.  I've also found mysterious dead spots and mutated vegetation.  I don't think staying on a farm is sustainable forever…  what's happening is changing everything in nature.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -389,7 +389,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY",
-    "dynamic_line": "&Chris looks you up and down, and nods.  \"I'm definitely won't turn down a willing body, and you look like you know what's up.\"  He sighs.  \"To be honest with you, I've been a bit stuck.  I can't tackle that thing alone, and I'm not willing to bring my dad or Uncle Eddie in either.  Dad's got a bum knee - don't tell him I said that - and Eddie's not that great a shot.  Luke's still too young for something like this… you get the idea.\"  He leans forward, absently running his hand through his hair.  \"I think if we work together, maybe we'd stand a chance.  I don't have a great plan, though.  That tower doesn't look like something a person could just storm up to guns blazing.\"",
+    "dynamic_line": "&Chris looks you up and down, and nods.  \"I'm definitely won't turn down a willing body, and you look like you know what's up.\"  He sighs.  \"To be honest with you, I've been a bit stuck.  I can't tackle that thing alone, and I'm not willing to bring my dad or Uncle Eddie in either.  Dad's got a bum knee - don't tell him I said that - and Eddie's not that great a shot.  Luke's still too young for something like this…  you get the idea.\"  He leans forward, absently running his hand through his hair.  \"I think if we work together, maybe we'd stand a chance.  I don't have a great plan, though.  That tower doesn't look like something a person could just storm up to guns blazing.\"",
     "responses": [
       {
         "text": "Actually, I was just planning to go in by myself.  I've handled worse.",
@@ -492,7 +492,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2",
-    "dynamic_line": "*blinks.  \"My… yeah, of course Lisa could come.  Damn - don't tell her you thought of her first, or she'd smack me.  Mind if I go talk to her about it?  I'll get her to come out with me and we'll meet you together, if she's willing.\"",
+    "dynamic_line": "*blinks.  \"My…  yeah, of course Lisa could come.  Damn - don't tell her you thought of her first, or she'd smack me.  Mind if I go talk to her about it?  I'll get her to come out with me and we'll meet you together, if she's willing.\"",
     "speaker_effect": {
       "sentinel": "plan_to_take_lisa",
       "effect": [
@@ -593,7 +593,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel",
-    "dynamic_line": "*looks crestfallen for a moment, then straightens up.  \"All right.  Yeah, probably better not to put them at risk, I guess.  I don't want to lose anyone else.  So we're back to going in without them. \"",
+    "dynamic_line": "*looks crestfallen for a moment, then straightens up.  \"All right.  Yeah, probably better not to put them at risk, I guess.  I don't want to lose anyone else.  So we're back to going in without them.  \"",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -749,7 +749,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
     "dynamic_line": {
-      "gendered_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, never mind.  Time is important here.  We can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
+      "gendered_line": "*nods slowly.  \"I understand.  You tried.  We could maybe…  no, never mind.  Time is important here.  We can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
       "relevant_genders": [ "u" ]
     },
     "responses": [
@@ -816,7 +816,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_TRY_AGAIN",
-    "dynamic_line": "If you think we're ready, I think we can try another go.  Even… even if it's too late for Uncle Barry, I think we've got to try to take that damn tower out of commission.",
+    "dynamic_line": "If you think we're ready, I think we can try another go.  Even…  even if it's too late for Uncle Barry, I think we've got to try to take that damn tower out of commission.",
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
@@ -855,7 +855,7 @@
       "rejected": "Thanks anyway, I'll keep my eye on it, maybe I'll find a way one day.",
       "advice": "I feel like we are underprepared if they see us.  I marked the location for you.",
       "inquire": "You ready?",
-      "success": "It's taller then I remember… we should look for prisoners.  I left a note for my family before we left.  If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
+      "success": "It's taller then I remember…  we should look for prisoners.  I left a note for my family before we left.  If we survive, the cabin should be fixed up and ready for you to move in if you want to stay.",
       "success_lie": "Well, it was here…",
       "failure": "It was a lost cause anyways…"
     },

@@ -339,7 +339,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_BARRYhelp",
-    "dynamic_line": "I really… okay.  Maybe ask my grandma, Claire.  She'll know if it's okay to talk about.",
+    "dynamic_line": "I really…  okay.  Maybe ask my grandma, Claire.  She'll know if it's okay to talk about.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -431,7 +431,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_Truck_Bomb_Plan",
-    "dynamic_line": "Okay, so… I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits, I'll pick up the truck later.",
+    "dynamic_line": "Okay, so…  I have an idea on how we can breach that tower.  We need a truck and some dynamite.  I've heard about some bandits in a truck robbing people nearby.  If you can take care of the bandits, I'll pick up the truck later.",
     "responses": [
       {
         "text": "I think I can manage two bandits.",
