@@ -473,7 +473,6 @@ make zombies able to move through guardrails
 Wounds stage down when healing
 Bruises stage down when healing
 Add actual weariness to life-or-death combat
-Add actual weariness to life-or-death combat
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -687,7 +686,6 @@ NPCs don't freeze when something comes up on the way to their job
 NPCs fetch construction components from containers and spread over construction sites
 Fix dragged furniture deleting every second item
 Wounds with only progress timer doesn't get updated
-Allow mutations to destroy all conflicting bionics
 Allow mutations to destroy all conflicting bionics
 
 ## Performance:
