@@ -1521,7 +1521,7 @@
     "cancels": [ "ADDICTIVE" ],
     "points": -3,
     "starting_trait": true,
-    "vitamins_absorb_multi": [ [ [ "vit_mme", 12 ] ] ]
+    "vitamins_absorb_multi": [ [ "vit_mme", [ [ "vit_mme", 12 ] ] ] ]
   },
   {
     "type": "mutation",
