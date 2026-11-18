@@ -150,9 +150,12 @@ time_duration calc_spell_training_time( const Character &teacher, const Characte
 int calc_spell_training_cost( const Character &teacher, const Character &student,
                               const spell_id &id );
 
+namespace talk_topic_all
+{
 const json_talk_topic *get_talk_topic( const std::string &id );
 
 std::vector<std::string> get_all_talk_topic_ids();
+} // namespace talk_topic_all
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,

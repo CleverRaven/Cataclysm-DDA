@@ -427,7 +427,8 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( &dummy, elec_shears, &get_map(), dummy.pos_bub() );
+            item_location loc( *dummy.as_character(), &elec_shears );
+            actor->use( &dummy, loc, &get_map(), dummy.pos_bub() );
 
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );
@@ -475,7 +476,8 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             const use_function *use = elec_shears.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( &dummy, elec_shears, &get_map(), dummy.pos_bub() );
+            item_location loc( *dummy.as_character(), &elec_shears );
+            actor->use( &dummy, loc, &get_map(), dummy.pos_bub() );
 
             dummy.i_add( elec_shears );
             REQUIRE( dummy.max_quality( qual_SHEAR ) == 3 );

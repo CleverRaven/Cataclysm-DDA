@@ -144,8 +144,8 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar, bool fixed )
         if( new_weariness != weariness_lvl ) {
             int new_weary = guy.weariness();
             int new_thresh = guy.weary_threshold();
-            int intake = guy.activity_history.intake;
-            int tracker = guy.activity_history.tracker;
+            int intake = guy.activity_history.debug_get_intake();
+            int tracker = guy.activity_history.debug_get_tracker();
             activity_log.log( weariness_lvl, new_weariness, spent,
                               new_weary, new_thresh, intake, tracker );
             weariness_lvl = new_weariness;

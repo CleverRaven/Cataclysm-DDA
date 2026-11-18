@@ -26,8 +26,8 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "coordinates.h"
-#include "craft_reservation.h"
 #include "craft_command.h"
+#include "craft_reservation.h"
 #include "creature.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -55,6 +55,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
@@ -447,7 +448,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         active = true;
     }
     if( carrier && carrier->has_item( *this ) ) {
-        carrier->on_item_acquire( form_loc_recursive( *carrier, *this ) );
+        carrier->on_item_acquire( item_location::form_loc_recursive( *carrier, *this ) );
     }
 
     item_counter = 0;
@@ -490,7 +491,9 @@ item &item::activate()
 
 bool item::activate_thrown( const tripoint_bub_ms &pos )
 {
-    return type->invoke( nullptr, *this, pos ).value_or( 0 );
+    map_cursor mc( pos );
+    item_location loc( mc, this );
+    return type->invoke( nullptr, loc, pos ).value_or( 0 );
 }
 
 item item::split( int qty )
@@ -1482,7 +1485,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p, this );
 
     p.flag_encumbrance();
-    p.on_item_acquire( form_loc_recursive( p, *this ) );
+    p.on_item_acquire( item_location::form_loc_recursive( p, *this ) );
 }
 
 void item::update_inherited_flags()
@@ -3697,6 +3700,21 @@ item *item::get_usable_item( const std::string &use_name )
     return get_usable_item_helper( *this, use_name );
 }
 
+item_location item::get_usable_item_loc( const item_location &loc,
+        const std::string &use_name ) const
+{
+    item_location ret;
+    loc.visit_contents( [use_name, &ret]( const item_location & node ) {
+        if( node->get_use_internal( use_name ) ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return ret;
+}
+
 itype_id item::typeId() const
 {
     return type ? type->get_id() : itype_id::NULL_ID();
@@ -4567,7 +4585,8 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
         if( type->transform_into ) {
             type->transform_into.value().transform( carrier, *this, true );
         } else {
-            type->invoke( carrier, *this, pos, "transform" );
+            item_location loc( *carrier, this );
+            type->invoke( carrier, loc, pos, "transform" );
         }
         if( typeId() == itype_joint_lit && carrier != nullptr ) {
             carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
@@ -4587,7 +4606,8 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint_bub_ms 
                                             type_name() );
                 type->transform_into.value().transform( carrier, *this, true );
             } else {
-                type->invoke( carrier, *this, pos, "transform" );
+                item_location loc( *carrier, this );
+                type->invoke( carrier, loc, pos, "transform" );
             }
             active = false;
             return false;
@@ -4712,7 +4732,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint_bub
     if( type->transform_into ) {
         type->transform_into.value().transform( carrier, *this, true );
     } else {
-        type->invoke( carrier, *this, pos, "transform" );
+        item_location loc( *carrier, this );
+        type->invoke( carrier, loc, pos, "transform" );
     }
     active = false;
     // Item remains
@@ -4811,7 +4832,8 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( calendar::turn >= countdown_point ) {
             active = false;
             if( type->countdown_action ) {
-                type->countdown_action.call( carrier, *this, pos );
+                item_location loc = item_location::form_loc( carrier, &here, pos, *this );
+                type->countdown_action.call( carrier, loc, pos );
             }
             countdown_point = calendar::turn_max;
             if( type->transform_into ) {
@@ -5198,8 +5220,9 @@ bool item::on_drop( const tripoint_bub_ms &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
-
-    return type->drop_action && type->drop_action.call( &player_character, *this, &m, pos );
+    map_cursor mc( pos );
+    item_location loc( mc, this );
+    return type->drop_action && type->drop_action.call( &player_character, loc, &m, pos );
 }
 
 bool item::is_upgrade() const
