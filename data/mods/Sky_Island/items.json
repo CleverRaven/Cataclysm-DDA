@@ -23,11 +23,11 @@
     "//": "What you'll find in your starter kit.",
     "subtype": "collection",
     "entries": [
-      { "item": "mbag", "count": 5},
-      { "item": "pants", "count": 5, "variant": "generic_pants", "custom-flags": ["FIT"] },
-      { "item": "tshirt", "count": 5, "variant": "generic_tshirt", "custom-flags": ["FIT"] },
-      { "item": "socks", "count": 5, "custom-flags": ["FIT"] },
-      { "item": "sneakers", "count": 5, "custom-flags": ["FIT"] },
+      { "item": "mbag", "count": 5 },
+      { "item": "pants", "count": 5, "variant": "generic_pants", "custom-flags": [ "FIT" ] },
+      { "item": "tshirt", "count": 5, "variant": "generic_tshirt", "custom-flags": [ "FIT" ] },
+      { "item": "socks", "count": 5, "custom-flags": [ "FIT" ] },
+      { "item": "sneakers", "count": 5, "custom-flags": [ "FIT" ] },
       { "item": "tent_kit", "count": 1 }
     ]
   },
