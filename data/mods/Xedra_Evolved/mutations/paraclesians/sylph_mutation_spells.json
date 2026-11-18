@@ -24,12 +24,7 @@
   {
     "type": "enchantment",
     "id": "ench_sylph_fulgurating_strikes_advanced",
-    "condition": {
-      "or": [
-        { "math": [ "u_spell_level('sylph_call_lightning') >= 10" ] },
-        { "math": [ "u_spell_level('sylph_crash_of_lightning') >= 5" ] }
-      ]
-    },
+    "condition": { "or": [ { "math": [ "u_spell_level_sum('school': 'SYLPH') >= 10" ] } ] },
     "hit_you_effect": [ { "id": "sylph_fulgurating_strikes_lightning_fields", "hit_self": false, "once_in": 3 } ]
   },
   {
@@ -164,7 +159,7 @@
   {
     "id": "sylph_call_lightning",
     "type": "SPELL",
-    "name": "Crash of Lightnig",
+    "name": "Crash of Lightning",
     "description": "The goto ability for many Sylphs, this does just what you expect: you shoot lightning from your fingertips.  However, this lightning is more directed than most lightning, and travels in a line through most non-solid targets.",
     "teachable": false,
     "spell_class": "SYLPH",
@@ -296,7 +291,8 @@
     "min_field_intensity": 1,
     "max_field_intensity": 3,
     "field_intensity_increment": 1,
-    "ignored_monster_species": [ "CYBORG", "LEECH_PLANT", "ROBOT", "ROBOT_FLYING" ]
+    "ignored_monster_species": [ "CYBORG", "LEECH_PLANT", "ROBOT", "ROBOT_FLYING" ],
+    "learn_spells": { "sylph_avatar_of_the_storm_spell": 10 }
   },
   {
     "id": "sylph_fulgurating_strikes_lightning_fields",
@@ -318,6 +314,37 @@
     "min_field_intensity": 1,
     "max_field_intensity": 4,
     "field_intensity_variance": 10
+  },
+  {
+    "id": "sylph_reduce_encumbrance_spell",
+    "type": "SPELL",
+    "name": "Lighter than Air",
+    "description": "Enchant your worn equipment with the lightness of air, reducing its effects on your movement.",
+    "message": "Wind rushes around your body and you feel lighter.",
+    "valid_targets": [ "self" ],
+    "skill": "gramarye",
+    "effect": "attack",
+    "effect_str": "effect_sylph_reduce_encumbrance",
+    "shape": "blast",
+    "spell_class": "SYLPH",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "RANDOM_DURATION", "NO_LEGS" ],
+    "max_level": 15,
+    "difficulty": 6,
+    "min_duration": {
+      "math": [
+        "(9023 + (u_spell_count('school': 'SYLPH') * 4851) + (u_skill('gramarye') * 18531) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "(21853 + (u_spell_count('school': 'SYLPH') * 9315) + (u_skill('gramarye') * 42915) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "magic_type": "xedra_sylph_magick",
+    "base_casting_time": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -2.2) + (u_skill('gramarye') * -6.9) ), 150)" ] },
+    "base_energy_cost": { "math": [ "max( (400 + (u_spell_count('school': 'SYLPH') * -3.8) + (u_skill('gramarye') * -6.2) ), 250)" ] },
+    "learn_spells": { "sylph_let_allies_fly": 5 }
   },
   {
     "id": "sylph_reveal_overmap_spell",
@@ -368,7 +395,8 @@
     },
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (100 + (u_spell_count('school': 'SYLPH') * -1.8) + (u_skill('gramarye') * -3.6) ), 50)" ] },
-    "base_energy_cost": { "math": [ "max( (250 + (u_spell_count('school': 'SYLPH') * -3.1) + (u_skill('gramarye') * -4.5) ), 150)" ] }
+    "base_energy_cost": { "math": [ "max( (250 + (u_spell_count('school': 'SYLPH') * -3.1) + (u_skill('gramarye') * -4.5) ), 150)" ] },
+    "learn_spells": { "sylph_reduce_encumbrance_spell": 6 }
   },
   {
     "id": "sylph_increase_ally_speed_spell",
@@ -391,7 +419,32 @@
     "max_range": { "math": [ "min( (1 + (u_spell_count('school': 'SYLPH') * 0.5) + (u_skill('gramarye') * 1.1) ), 20)" ] },
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (450 + (u_spell_count('school': 'SYLPH') * -2.1) + (u_skill('gramarye') * -5.8) ), 250)" ] },
-    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -4.1) + (u_skill('gramarye') * -6.5) ), 300)" ] }
+    "base_energy_cost": { "math": [ "max( (500 + (u_spell_count('school': 'SYLPH') * -4.1) + (u_skill('gramarye') * -6.5) ), 300)" ] },
+    "learn_spells": { "sylph_let_allies_fly": 8 }
+  },
+  {
+    "id": "sylph_let_allies_fly",
+    "type": "SPELL",
+    "name": "Wind-Walking",
+    "description": "Enchant an ally (or yourself), causing the winds to bear you up and letting you walk on the air.  This spell does not allow you to climb air like a ladder, only cross it horizontally.",
+    "message": "The winds bear up your target.",
+    "valid_targets": [ "self", "ally" ],
+    "skill": "gramarye",
+    "effect": "attack",
+    "effect_str": "effect_sylph_levitation",
+    "shape": "blast",
+    "spell_class": "SYLPH",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "RANDOM_DURATION", "NO_LEGS" ],
+    "max_level": 15,
+    "difficulty": 7,
+    "min_duration": { "math": [ "(12613 + (u_spell_count('school': 'SYLPH') * 4531) + (u_skill('gramarye') * 16325) )" ] },
+    "max_duration": { "math": [ "(28185 + (u_spell_count('school': 'SYLPH') * 11215) + (u_skill('gramarye') * 38123) )" ] },
+    "min_range": 1,
+    "max_range": 1,
+    "magic_type": "xedra_sylph_magick",
+    "base_casting_time": { "math": [ "max( (350 + (u_spell_count('school': 'SYLPH') * -2.1) + (u_skill('gramarye') * -5.8) ), 150)" ] },
+    "base_energy_cost": { "math": [ "max( (750 + (u_spell_count('school': 'SYLPH') * -4.1) + (u_skill('gramarye') * -6.5) ), 500)" ] }
   },
   {
     "id": "sylph_bonus_melee_range_spell",
@@ -503,7 +556,8 @@
     },
     "magic_type": "xedra_sylph_magick",
     "base_energy_cost": { "math": [ "max( (600 + (u_spell_count('school': 'SYLPH') * -4.8) + (u_skill('gramarye') * -6.7) ), 400)" ] },
-    "base_casting_time": 150
+    "base_casting_time": 150,
+    "learn_spells": { "sylph_reduce_encumbrance_spell": 7 }
   },
   {
     "id": "ominous_wind",
@@ -608,7 +662,7 @@
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "SYLPH",
     "skill": "gramarye",
-    "difficulty": 4,
+    "difficulty": 6,
     "max_level": 15,
     "effect": "effect_on_condition",
     "effect_str": "EOC_SYLPH_HAMMER_OF_WINDS",
@@ -617,7 +671,8 @@
     "max_aoe": 1,
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.3) ), 45)" ] },
-    "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 40)" ] }
+    "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 40)" ] },
+    "learn_spells": { "sylph_dodge_ranged_attacks_spell": 6 }
   },
   {
     "id": "sylph_clear_the_air",
@@ -661,7 +716,38 @@
     "magic_type": "xedra_sylph_magick",
     "base_casting_time": { "math": [ "max( (250 + (u_spell_count('school': 'SYLPH') * -1.2) + (u_skill('gramarye') * -3.1) ), 125)" ] },
     "base_energy_cost": { "math": [ "max( (75 + (u_spell_count('school': 'SYLPH') * -0.6) + (u_skill('gramarye') * -1.2) ), 50)" ] },
-    "learn_spells": { "sylph_hammer_of_winds_spell": 7 }
+    "learn_spells": { "sylph_hammer_of_winds_spell": 7, "sylph_dodge_ranged_attacks_spell": 13 }
+  },
+  {
+    "id": "sylph_dodge_ranged_attacks_spell",
+    "type": "SPELL",
+    "name": "Heart of the Hurricane",
+    "description": "Surround yourself or an ally with a swirling vortex of wind, making you harder to hit with ranged attacks.",
+    "valid_targets": [ "self", "ally" ],
+    "skill": "gramarye",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "difficulty": 8,
+    "max_level": 15,
+    "effect": "attack",
+    "effect_str": "effect_sylph_dodge_ranged_attacks",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( 9053 + (u_spell_count('school': 'SYLPH') * 4291) + (u_skill('gramarye') * 7294) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 28136 + (u_spell_count('school': 'SYLPH') * 7813) + (u_skill('gramarye') * 17169) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "magic_type": "xedra_sylph_magick",
+    "base_casting_time": { "math": [ "max( (350 + (u_spell_count('school': 'SYLPH') * -1.9) + (u_skill('gramarye') * -3.6) ), 225)" ] },
+    "base_energy_cost": { "math": [ "max( (650 + (u_spell_count('school': 'SYLPH') * -3.9) + (u_skill('gramarye') * -6.9) ), 400)" ] }
   },
   {
     "id": "sylph_massive_lightning_bolt_spell",
@@ -713,7 +799,8 @@
     "max_field_intensity": 7,
     "field_chance": 1,
     "sound_type": "combat",
-    "sound_description": "zzzzaaaaaapp!"
+    "sound_description": "zzzzaaaaaapp!",
+    "learn_spells": { "sylph_avatar_of_the_storm_spell": 5 }
   },
   {
     "id": "sylph_massive_lightning_bolt_spell_real_ter_transform",
@@ -786,6 +873,42 @@
     "max_range": 50,
     "min_aoe": 1,
     "max_aoe": 4
+  },
+  {
+    "id": "sylph_avatar_of_the_storm_spell",
+    "type": "SPELL",
+    "name": "Avatar of the Storm",
+    "description": "Unleah the pure fury of the thunderstorm, surroudning yourself with an aura of crackling lightning.  The lightning does not discriminate between friend and foe.  Reweave the spell to calm the lightnings.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "skill": "gramarye",
+    "teachable": false,
+    "spell_class": "SYLPH",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SYLPH_AVATAR_OF_THE_STORM_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( 2502 + (u_spell_count('school': 'SYLPH') * 1823) + (u_skill('gramarye') * 3130) ) * scaling_factor(u_val('intelligence') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 7601 + (u_spell_count('school': 'SYLPH') * 3156) + (u_skill('gramarye') * 6291) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "magic_type": "xedra_sylph_magick",
+    "base_casting_time": { "math": [ "max( (350 + (u_spell_count('school': 'SYLPH') * -1.9) + (u_skill('gramarye') * -3.6) ), 225)" ] },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_sylph_avatar_of_the_storm') > -1 ? 150 : max( (1200 + (u_spell_count('school': 'SYLPH') * -6.6) + (u_skill('gramarye') * -12.8) ), 800)"
+      ]
+    }
   },
   {
     "id": "sylph_wind_translocation_spell",

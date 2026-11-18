@@ -2235,6 +2235,55 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_reduce_encumbrance",
+    "name": [ "Lighter than Air" ],
+    "desc": [ "Your gear is lightened by the essence of the wind." ],
+    "apply_message": "",
+    "remove_message": "Your gear weighs you down once more.",
+    "rating": "good",
+    "max_duration": "6 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "encumbrance_modifier": [
+              {
+                "part": "all",
+                "multiply": {
+                  "math": [
+                    "max( ( (-0.2 + (u_spell_count('school': 'SYLPH') * -0.015) + (u_skill('gramarye') * -0.03) ) * scaling_factor(u_val('perception') ) ), -0.8)"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_dodge_ranged_attacks",
+    "name": [ "Heart of the Hurricane" ],
+    "desc": [ "You are surrounded by roaring winds." ],
+    "apply_message": "",
+    "remove_message": "The wind around you dies down.",
+    "rating": "good",
+    "max_duration": "6 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "math": [
+              "min( ( (0.2 + (u_spell_count('school': 'SYLPH') * 0.015) + (u_skill('gramarye') * 0.035) ) * scaling_factor(u_val('dexterity') ) ), 0.95)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_climb_flying",
     "//": "Hidden, paired with the previous effect sometimes but not always.",
     "name": [ "" ],
@@ -2286,6 +2335,16 @@
     "desc": [ "" ],
     "rating": "good",
     "removes_effects": [ "grabbed", "slippery_terrain", "sap", "slimed", "webbed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_avatar_of_the_storm",
+    "name": [ "Avatar of the Storm" ],
+    "desc": [ "A storm rages all around you." ],
+    "apply_message": "",
+    "remove_message": "Teh raging storm around you is calmed.",
+    "rating": "good",
+    "enchantments": [ { "emitter": "emit_shock_cloud_big" } ]
   },
   {
     "type": "effect_type",
