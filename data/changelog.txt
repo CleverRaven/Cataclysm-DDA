@@ -864,7 +864,6 @@ MSVC C used to build third-party libs
 Fix `Parameter format not correct - -Command` error
 More support for C++20
 Fixed a macro collision on CMake Windows builds
-Fixed a macro collision on CMake Windows builds
 
 
 ## I18N and A11Y:
