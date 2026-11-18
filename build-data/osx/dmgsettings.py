@@ -35,7 +35,7 @@ def icon_from_app(app_path):
 # volume_name = 'Test'
 
 # Volume format (see hdiutil create -help)
-format = defines.get('format', 'UDBZ')
+format = defines.get('format', 'ULFO')
 
 # Files to include
 #
