@@ -2244,18 +2244,14 @@
     "max_duration": "6 hours",
     "enchantments": [
       {
-        "values": [
+        "encumbrance_modifier": [
           {
-            "encumbrance_modifier": [
-              {
-                "part": "all",
-                "multiply": {
-                  "math": [
-                    "max( ( (-0.2 + (u_spell_count('school': 'SYLPH') * -0.015) + (u_skill('gramarye') * -0.03) ) * scaling_factor(u_val('perception') ) ), -0.8)"
-                  ]
-                }
-              }
-            ]
+            "part": "all",
+            "multiply": {
+              "math": [
+                "max( ( (-0.2 + (u_spell_count('school': 'SYLPH') * -0.015) + (u_skill('gramarye') * -0.03) ) * scaling_factor(u_val('perception') ) ), -0.8)"
+              ]
+            }
           }
         ]
       }
@@ -2274,9 +2270,12 @@
       {
         "values": [
           {
-            "math": [
-              "min( ( (0.2 + (u_spell_count('school': 'SYLPH') * 0.015) + (u_skill('gramarye') * 0.035) ) * scaling_factor(u_val('dexterity') ) ), 0.95)"
-            ]
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( ( (0.2 + (u_spell_count('school': 'SYLPH') * 0.015) + (u_skill('gramarye') * 0.035) ) * scaling_factor(u_val('dexterity') ) ), 0.95)"
+              ]
+            }
           }
         ]
       }
