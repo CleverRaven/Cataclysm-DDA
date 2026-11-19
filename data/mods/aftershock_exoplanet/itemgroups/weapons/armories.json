@@ -237,7 +237,7 @@
     "items": [
       { "item": "afs_gibrifle", "count": 2 },
       { "item": "afs_shotgun", "count": 1 },
-      { "item": "shot_00", "count": 10 },
+      { "item": "shot_00", "charges": 220 },
       { "item": "afs_UICASTA30", "count": 4 },
       { "item": "afs_cartridge", "count": 3 },
       { "item": "afs_7.50mm_caseless", "count": [ 4, 5 ] }
