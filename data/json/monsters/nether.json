@@ -945,6 +945,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "block": { "chance": 30, "effectiveness": 12, "count": 1, "ranged": false },
     "dodge": 4,
     "bleed_rate": 60,
     "vision_day": 30,
