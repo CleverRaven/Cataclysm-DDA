@@ -1541,12 +1541,26 @@
       ]
     },
     "effect": [
+      { "u_add_effect": "blind", "duration": 0 },
+      { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
       {
         "u_travel_to_dimension": "gozu_hell",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a hellish landscape."
+      },
+      {
+        "if": { "u_is_on_terrain": "t_open_air" },
+        "then": [
+          {
+            "u_location_variable": { "context_val": "gozu_hell_teleportation" },
+            "target_params": { "om_terrain": "gozu_hell_terrain", "min_distance": 1, "search_range": 10, "random": true },
+            "target_max_radius": 24,
+            "terrain": "t_sand"
+          },
+          { "u_teleport": { "context_val": "gozu_hell_teleportation" } }
+        ]
       }
     ]
   }
