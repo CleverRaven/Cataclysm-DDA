@@ -2317,6 +2317,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 if( monster_missed ) {
                     add_msg( _( "%s misses you." ), u_see_me ? disp_name( true ) : _( "Something" ) );
+                } else if( target.last_block > target.last_dodge ) {
+                    add_msg( _( "You block %s." ), u_see_me ? disp_name() : _( "something" ) );
                 } else {
                     add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 }
@@ -2324,6 +2326,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 if( monster_missed ) {
                     add_msg( _( "%1$s misses %2$s!" ),
                              u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name() );
+                } else if( target.last_block > target.last_dodge ) {
+                    add_msg( _( "%1$s blocks %2$s attack." ),
+                             target.disp_name(), u_see_me ? name() : _( "something" ) );
                 } else {
                     add_msg( _( "%1$s dodges %2$s attack." ),
                              target.disp_name(), u_see_me ? name() : _( "something" ) );

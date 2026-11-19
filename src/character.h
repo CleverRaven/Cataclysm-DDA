@@ -1182,6 +1182,11 @@ class Character : public Creature, public visitable
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
+        /** Block roll for combined defense */
+        float block_roll( const Creature *source ) override;
+        bodypart_id block_bp;
+        std::string thing_blocked_with;
+        bool block_item = false;
         /** Returns the best item for blocking with */
         item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */

@@ -882,7 +882,7 @@ bool melee_actor::call( monster &z ) const
 
     // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ) );
+    int hitspread = target->deal_melee_attack( &z, melee::melee_hit_range( acc ), blockable );
     std::vector<bodypart_id> bodyparts_hit = pick_bodyparts_hit( target, hitspread );
 
     if( bodyparts_hit.empty() ) {
