@@ -1180,7 +1180,7 @@ class Character : public Creature, public visitable
         bool is_quiet() const;
 
         // melee.cpp
-        /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
+        /** Checks for valid block abilities and reduces damage accordingly. Returns true if block is a greater part of defense than dodge, for messaging */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Block roll for combined defense */
         float block_roll( const Creature *source ) override;

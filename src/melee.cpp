@@ -2018,7 +2018,6 @@ float Character::block_roll( const Creature *source )
     // be worn equipment with the BLOCK_WHILE_WORN flag.
     const bool has_shield = !!shield;
     bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
-    bool conductive_shield = false;
     bool unarmed = !is_armed();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
