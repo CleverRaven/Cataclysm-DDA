@@ -11,7 +11,7 @@
     "highways": null,
     "cities": "no_cities",
     "forest_composition": "no_forests",
-    "map_extras": "no_map_extras",
+    "map_extras": "gozu_hell_map_extras",
     "terrain_furniture": "gozu_hell",
     "weather": "gozu_hell_weather",
     "npc_spawntime": 0,
@@ -95,5 +95,16 @@
     "ravine_range": 45,
     "ravine_depth": -8,
     "ravine_bottom_terrain_id": "gozu_hell_ravine_bottom"
+  },
+  {
+    "type": "region_settings_map_extras",
+    "id": "gozu_hell_map_extras",
+    "extras": [ "default_gozu_hell_map_extras" ]
+  },
+  {
+    "type": "map_extra_collection",
+    "id": "default_gozu_hell_map_extras",
+    "chance": 25,
+    "extras": [ [ "mx_portal_cracked_mirror", 1 ], [ "mx_portal_ingress", 1 ], [ "mx_portal_distortion_item", 1 ] ]
   }
 ]
