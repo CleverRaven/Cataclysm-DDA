@@ -87,6 +87,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SYLPH_HAMMER_OF_WINDS",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      {
+        "u_knockback": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.1) + (u_skill('gramarye') * 0.35) ), 15)" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "min( (0.5 + (u_spell_count('school': 'SYLPH') * 0.04) + (u_skill('gramarye') * 0.12) ), 5)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SYLPH_JUMP_HIGH_ON",
     "effect": [
       {
@@ -163,5 +176,26 @@
     "false_effect": [
       { "u_message": "You must be outdoors and in a strong wind or high above the earth to translocate.", "type": "mixed" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_AVATAR_OF_THE_STORM_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_sylph_avatar_of_the_storm" } },
+    "effect": [
+      {
+        "math": [
+          "_duration_lower_bound = ( 25.02 + (u_spell_count('school': 'SYLPH') * 18.23) + (u_skill('gramarye') * 31.30) ) * scaling_factor(u_val('intelligence') )"
+        ]
+      },
+      {
+        "math": [
+          "_duration_upper_bound = ( 76.01 + (u_spell_count('school': 'SYLPH') * 31.56) + (u_skill('gramarye') * 62.91) ) * scaling_factor(u_val('perception') )"
+        ]
+      },
+      { "math": [ "_duration = rng(_duration_lower_bound, _duration_upper_bound)" ] },
+      { "u_add_effect": "effect_sylph_avatar_of_the_storm", "duration": { "math": [ "_duration" ] } },
+      { "u_message": "Lightning crackles all around you!", "type": "info" }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_sylph_avatar_of_the_storm" } ]
   }
 ]
