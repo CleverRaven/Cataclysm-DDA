@@ -105,7 +105,7 @@
       },
       "robofac_auxiliaries": { "share my stuff": true },
       "marloss": { "kill on sight": true },
-      "your_followers": { "kill on sight": true, "share public goods": true }
+      "your_followers": { "kill on sight": true }
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },

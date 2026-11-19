@@ -1556,6 +1556,45 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_REGULAR_CHECKS_HUB01_EMPLOYMENT",
+    "//COMMENT": "Requires you to check in/complete work for the hub every 7 days to stay employed. Has a 12-hour grace period.",
+    "effect": [
+      { "run_eocs": "EOC_CHECK_HUB01_EMPLOYMENT" },
+      { "run_eocs": "EOC_REGULAR_CHECKS_HUB01_EMPLOYMENT", "time_in_future": "8 d" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_UPDATE_HUB01_EMPLOYMENT",
+    "//COMMENT": "For ease of calling, both of them here together.",
+    "effect": [ { "run_eocs": "EOC_UPDATE_HUB01_EMPLOYMENT" }, { "run_eocs": "EOC_CHECK_HUB01_EMPLOYMENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_HUB01_EMPLOYMENT",
+    "//COMMENT": "Requires you to check in/complete work for the hub every 7 days to stay employed. Has a 12-hour grace period.",
+    "effect": [
+      {
+        "if": { "math": [ "time_since('HUB_employment_last_check_in', 'unit':'hours') > 180" ] },
+        "then": { "run_eocs": "EOC_HUB01_EMPLOYMENT_DROPOUT" },
+        "else": { "math": [ "u_HUB_employment_last_check_in = time('now')" ], "u_set_fac_relation": "share public goods" }
+      },
+      { "run_eocs": "EOC_CHECK_UPDATE_HUB01_EMPLOYMENT", "time_in_future": "8 d" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UPDATE_HUB01_EMPLOYMENT",
+    "effect": [ { "math": [ "u_HUB_employment_last_check_in = time('now')" ], "u_set_fac_relation": "share public goods" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HUB01_EMPLOYMENT_DROPOUT",
+    "//COMMENT": "Dummy EOC atm.",
+    "effect": [ { "u_set_fac_relation": "share public goods", "set_value_to": false } ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
     "type": "talk_topic",
     "dynamic_line": "Right.  Your handling of this situation was exemplary, and it's clear to us that we greatly underestimated our potential for mutual benefit.  If you are interested, we are willing to offer you more work going forward, and all of it will have proper compensation from now on.",
@@ -1570,6 +1609,8 @@
         { "npc_add_var": "dialogue_intercom_npc_intercom_trade", "value": "yes" },
         { "set_string_var": "yes", "target_var": { "global_val": "hub01_intercom_trade_unlocked" } },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" },
+        { "run_eocs": "EOC_UPDATE_HUB01_EMPLOYMENT" },
+        { "run_eocs": "EOC_REGULAR_CHECKS_HUB01_EMPLOYMENT" },
         { "finish_mission": "MISSION_ROBOFAC_INTERCOM_1", "success": true }
       ],
       "sentinel": "unlocked_trade"
