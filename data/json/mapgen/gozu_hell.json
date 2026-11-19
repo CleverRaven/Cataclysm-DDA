@@ -3,7 +3,7 @@
     "type": "mapgen",
     "om_terrain": [ "gozu_hell_terrain" ],
     "object": {
-      "fill_ter": "t_gozu_hell_groundcover",
+      "fill_ter": "t_region_groundcover",
       "rows": [
         "                        ",
         "                        ",
@@ -38,6 +38,39 @@
     "om_terrain": [ "solid_sand" ],
     "object": {
       "fill_ter": "t_solid_sand",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "gozu_hell_ravine_bottom" ],
+    "object": {
+      "fill_ter": "t_nether_abyss_void",
       "rows": [
         "                        ",
         "                        ",

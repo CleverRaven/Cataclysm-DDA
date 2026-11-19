@@ -24,6 +24,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gozu_hell_ravine_bottom",
+    "copy-from": "generic_open_land",
+    "name": "starry void",
+    "sym": ".",
+    "color": "dark_gray",
+    "see_cost": "none",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "gozu_hell_lava_pond",
     "name": "lava pool",
     "travel_cost_type": "swamp",
