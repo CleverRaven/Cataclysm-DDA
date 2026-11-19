@@ -81,6 +81,7 @@
     "vision_day": 50,
     "death_drops": "feral_sapien_death_drops_spear",
     "zombify_into": "mon_zombie_survivor",
+    "block": { "chance": 40, "effectiveness": 8, "count": 1, "ranged": false },
     "extend": {
       "flags": [ "PRIORITIZE_TARGETS" ],
       "weakpoint_sets": [ "wps_humanoid_body_armor" ],
