@@ -953,9 +953,16 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
     "grab_strength": 50,
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 },
+      {
+        "id": "gozu_fear_paralyze_attack",
+        "type": "spell",
+        "spell_data": { "id": "fear_paralyze" },
+        "monster_message": "",
+        "cooldown": 20
+      },
       { "id": "grab", "cooldown": 2, "condition": { "npc_has_effect": "fearparalyze" } },
       {
+        "id": "gozu_drag_you_to_hell_attack",
         "type": "spell",
         "spell_data": { "id": "gozu_drag_to_hell" },
         "condition": {

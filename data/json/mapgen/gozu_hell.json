@@ -1,9 +1,9 @@
 [
   {
     "type": "mapgen",
-    "nested_mapgen_id": "gozu_hell_terrain",
+    "om_terrain": [ "gozu_hell_terrain" ],
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "fill_ter": "t_gozu_hell_groundcover",
       "rows": [
         "                        ",
         "                        ",
@@ -35,9 +35,8 @@
   },
   {
     "type": "mapgen",
-    "nested_mapgen_id": "solid_sand",
+    "om_terrain": [ "solid_sand" ],
     "object": {
-      "mapgensize": [ 24, 24 ],
       "fill_ter": "t_solid_sand",
       "rows": [
         "                        ",
@@ -64,8 +63,7 @@
         "                        ",
         "                        ",
         "                        "
-      ],
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+      ]
     }
   }
 ]

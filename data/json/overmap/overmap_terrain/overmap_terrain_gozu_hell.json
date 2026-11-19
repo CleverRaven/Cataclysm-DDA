@@ -35,13 +35,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "outcrop",
+    "id": "outcrop_gozu_hell",
     "copy-from": "outcrop",
     "name": "outcrop"
   },
   {
     "type": "overmap_terrain",
-    "id": "outcrop_bottom",
+    "id": "outcrop_gozu_hell_bottom",
     "name": "outcrop base",
     "copy-from": "outcrop_bottom"
   }

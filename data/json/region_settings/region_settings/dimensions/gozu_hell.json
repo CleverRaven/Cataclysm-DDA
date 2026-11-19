@@ -57,27 +57,23 @@
     "type": "region_settings_terrain_furniture",
     "id": "gozu_hell",
     "copy-from": "default",
-    "ter_furn": [
-      "gozu_hell_terraint_region_groundcover",
-      "gozu_hell_terraint_region_groundcover_ravine",
-      "gozu_hell_terraint_region_groundcover_default"
-    ]
+    "ter_furn": [ "gozu_hell_t_region_groundcover", "gozu_hell_t_region_groundcover_default", "gozu_hell_t_region_groundcover_ravine" ]
   },
   {
     "type": "region_terrain_furniture",
     "id": "gozu_hell_t_region_groundcover",
-    "ter_id": "t_gozu_hell_terraingroundcover",
+    "ter_id": "t_gozu_hell_groundcover",
     "replace_with_terrain": [ [ "t_sand", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
-    "id": "gozu_hell_terraint_region_groundcover_default",
+    "id": "gozu_hell_t_region_groundcover_default",
     "ter_id": "t_region_groundcover",
     "replace_with_terrain": [ [ "t_sand", 1 ] ]
   },
   {
     "type": "region_terrain_furniture",
-    "id": "gozu_hell_terraint_region_groundcover_ravine",
+    "id": "gozu_hell_t_region_groundcover_ravine",
     "ter_id": "t_region_groundcover_ravine",
     "replace_with_terrain": [ [ "t_nether_abyss_void", 1 ] ]
   },
