@@ -1,0 +1,169 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "gozu_hell_lava_pond" ],
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "gozu_hell_terrain",
+      "rows": [
+        "                        ",
+        "           ..           ",
+        "       ....??....       ",
+        "    ...??????????...    ",
+        "   .????????????????.   ",
+        "   .????]]]]]]]]????.   ",
+        "   .??]]]]]]]]]]]]??.   ",
+        "  .???]]]]]]]]]]]]???.  ",
+        "  .??]]]]]****]]]]]??.  ",
+        "  .??]]]]******]]]]??.  ",
+        "  .??]]]********]]]??.  ",
+        " .???]]]********]]]???. ",
+        " .???]]]********]]]???. ",
+        "  .??]]]********]]]??.  ",
+        "  .??]]]]******]]]]??.  ",
+        "  .??]]]]]****]]]]]??.  ",
+        "  .???]]]]]]]]]]]]???.  ",
+        "   .??]]]]]]]]]]]]??.   ",
+        "   .????]]]]]]]]????.   ",
+        "   .????????????????.   ",
+        "    ...??????????...    ",
+        "       ....??....       ",
+        "           ..           ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "*": "t_lava",
+        "]": [ [ "t_lava", 12 ], "t_railroad_rubble", "t_rock_floor_no_roof" ],
+        "?": [ [ "t_lava", 2 ], [ "t_railroad_rubble", 10 ], [ "t_rock_floor_no_roof", 10 ] ],
+        ".": [ "t_railroad_rubble", "t_rock_floor_no_roof", [ "t_region_groundcover", 5 ] ]
+      },
+      "furniture": {
+        "]": [
+          [ "f_null", 60 ],
+          [ "f_rubble_volc", 5 ],
+          [ "f_boulder_small_volc", 2 ],
+          [ "f_boulder_medium_volc", 1 ],
+          [ "f_boulder_large_volc", 1 ]
+        ],
+        "?": [
+          [ "f_null", 30 ],
+          [ "f_rubble_volc", 5 ],
+          [ "f_boulder_small_volc", 2 ],
+          [ "f_boulder_medium_volc", 1 ],
+          [ "f_boulder_large_volc", 1 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop_gozu_hell" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "gozu_hell_terrain",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           %%%%%%       ",
+        "       %%%%%||||%%      ",
+        "       %|||||||||%      ",
+        "       %%%%||||||%      ",
+        "          %||||||%      ",
+        "       %%%%||||||%%%    ",
+        "       %|||||||||||%    ",
+        "       %%%%%%||||%%%    ",
+        "            %%%%%%      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop_gozu_hell" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "gozu_hell_terrain",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "            %%%         ",
+        "           %%|%         ",
+        "           %||%         ",
+        "        %%%%||%%%       ",
+        "        %|||||||%       ",
+        "        %%%%%%%%%       ",
+        "                        ",
+        "       %%%%%%%%%%%      ",
+        "       %|||||||||%      ",
+        "       %%|||||||%%      ",
+        "        %%%%||%%%       ",
+        "           %%%%         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "cave_surface_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "outcrop_gozu_hell_bottom" ],
+    "object": {
+      "fill_ter": "t_solid_sand",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          %%%%%         ",
+        "        %%%|||%%%       ",
+        "        %|||||||%       ",
+        "       %%|||||||%%      ",
+        "       %|||||||||%%     ",
+        "      %%||||||||||%%    ",
+        "      %%||||||||||%     ",
+        "       %||||||||||%     ",
+        "       %||||||||||%     ",
+        "       %%|||||||||%     ",
+        "        %%%%||%%%%%     ",
+        "          %%%%%         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "|": "t_rock", "%": [ [ "t_soil", 1 ], [ "t_rock", 1 ] ] }
+    }
+  }
+]

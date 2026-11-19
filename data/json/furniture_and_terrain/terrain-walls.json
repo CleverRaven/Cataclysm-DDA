@@ -1981,6 +1981,25 @@
   },
   {
     "type": "terrain",
+    "id": "t_solid_sand",
+    "copy-from": "t_abstract_wall_earthen",
+    "name": "solid sand",
+    "description": "A wall of tightly-packed sand.",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
+    "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
+    "roof": "t_sand",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "wham!",
+      "sound_fail": "whump!",
+      "ter_set": "t_sand",
+      "ter_set_bashed_from_above": "t_sand",
+      "items": [ { "item": "material_sand", "count": [ 4000, 4000 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_rock",
     "copy-from": "t_abstract_wall_earthen",
     "name": "solid rock",

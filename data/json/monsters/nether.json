@@ -958,7 +958,14 @@
       {
         "type": "spell",
         "spell_data": { "id": "gozu_drag_to_hell" },
-        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "npc_has_effect": "fearparalyze" } ] },
+        "condition": {
+          "and": [
+            { "not": { "current_dimension": "gozu_hell" } },
+            { "u_has_flag": "GRAB_FILTER" },
+            { "npc_has_flag": "GRAB" },
+            { "npc_has_effect": "fearparalyze" }
+          ]
+        },
         "monster_message": "",
         "cooldown": 2
       }

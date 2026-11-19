@@ -25,6 +25,12 @@
   },
   {
     "type": "dimension_region_layout",
+    "id": "gozu_hell",
+    "generation_mode": "UNIFORM",
+    "uniform_region": "gozu_hell"
+  },
+  {
+    "type": "dimension_region_layout",
     "id": "netherum_labyrinth",
     "generation_mode": "UNIFORM",
     "uniform_region": "netherum_labyrinth"

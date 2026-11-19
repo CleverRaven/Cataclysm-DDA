@@ -65,5 +65,15 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_nether_abyss_void",
+    "name": "star-filled void",
+    "description": "An endless expanse of blackness, interrupted by tiny points of light.  Are they moving?",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   }
 ]
