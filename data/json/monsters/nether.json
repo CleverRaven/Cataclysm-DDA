@@ -951,8 +951,31 @@
     "harvest": "gozu",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_vital_organs", "wps_eyes" ],
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "HAS_MIND", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER" ]
+    "grab_strength": 50,
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "", "cooldown": 20 },
+      { "id": "grab", "cooldown": 2, "condition": { "npc_has_effect": "fearparalyze" } },
+      {
+        "type": "spell",
+        "spell_data": { "id": "gozu_drag_to_hell" },
+        "condition": { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" }, { "npc_has_effect": "fearparalyze" } ] },
+        "monster_message": "",
+        "cooldown": 2
+      }
+    ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "HAS_MIND",
+      "GRABS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "ANIMAL",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER"
+    ]
   },
   {
     "id": "mon_gracke",
