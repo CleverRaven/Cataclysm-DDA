@@ -394,6 +394,7 @@
     "luminance": 500,
     "death_drops": "mon_feral_survivalist_death_drops",
     "special_attacks": [ { "id": "feral_weapon_makeshift_machete" }, [ "PARROT_AT_DANGER", 0 ] ],
+    "block": { "chance": 40, "effectiveness": 8, "count": 1, "ranged": false },
     "zombify_into": "mon_zombie_survivor",
     "delete": { "anger_triggers": [ "HURT" ] },
     "extend": {
