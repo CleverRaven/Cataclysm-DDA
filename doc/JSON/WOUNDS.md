@@ -31,7 +31,16 @@ Align bleed values to the ones in body_parts.json unless being instructed otherw
                                               // Affected by health/lifestyle, with -200 slowing down to 0.5x, and +200 speeding up to 1.5x, and `REGEN_WOUND` enchantment
                                               // Default infinite duration
     "wound_progression": [ { "id": "deep_scratch", "chance": 10 } ], // taking damage on bodypart with this limb may worsen it. chance is range from 0% to 100%
-    "limb_scores": [ { "score": "lift", "value": 0.25 } ], // if wounded part has this limb score, it will be decreased by this amount
+    "limb_scores": [ 
+      { 
+        "score": "lift", // if wounded part has this limb score, it will be decreased by this amount
+        "value": 0.15  // `value` simply subtracts the score, so limb with lift score 0.5 will have lift score dropped to 0.35 
+      },
+      { 
+        "score": "grip",
+        "mod": 0.15  // for `mod`, the game will first sums all the `mod` of the same score, and then multiplies the final value by [ 1 - total ]
+      },           // so single wound with mod 0.15 corresponds to 15% reduction of grip. so if limb score is 0.5, it will be decreased to 0.425
+    ],           // flat reduction is applied first, mod is applied later
     "progress_timer": {   // this wound may transform into another wound over time
       "id": "scratch_medium",
       "time": [ "2 minutes", "4 minutes" ],
