@@ -10,6 +10,7 @@
     "//": "These EoCs are all overridden in mods",
     "type": "effect_on_condition",
     "id": "EOC_CONDITION_MOM_TELEPORT_IMMUNITY",
+    "condition": { "not": { "mod_is_loaded": "mindovermatter" } },
     "effect": [  ]
   }
 ]
