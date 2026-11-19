@@ -894,6 +894,16 @@
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "toilet_travel", "msg": "You unfold the travel toilet." }
   },
   {
+    "id": "hub_teleport",
+    "copy-from": "silver_necklace",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "Hub transposer" },
+    "description": "Debug item, teleports you to Hub 01.  Don't use it in other dimensions.",
+    "use_action": { "type": "effect_on_conditions", "description": "Transpose!", "effect_on_conditions": [ "EOC_HUB_TELEPORT" ] },
+    "variants": [  ]
+  },
+  {
     "id": "testflames",
     "type": "ITEM",
     "subtypes": [ "TOOL" ],
