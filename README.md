@@ -20,7 +20,7 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 ### Packaging status
 
-We do not recommend installing cdda using a package manager or any other method that is not downloading a release from github (or compiling the game, if you wish to do to).
+We do not recommend installing cdda using a package manager or any other method to acquire the game that is not downloading a release from github (or compiling the game, if you wish to do so, though there is no reason to if you are not contributing).
 
 ## Compile
 
