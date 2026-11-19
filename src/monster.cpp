@@ -2192,7 +2192,7 @@ float monster::block_roll( const Creature * )
                      static_cast<int>( type -> block.effectiveness ) ) ) ;
 }
 
-bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 {
     if( blocks_left < 1 ) {
         return false;
