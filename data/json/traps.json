@@ -1006,6 +1006,13 @@
   },
   {
     "type": "trap",
+    "id": "tr_gozu_hell_exit",
+    "name": "swirling vortex",
+    "copy-from": "tr_swirling_vortex",
+    "eocs": [ "EOC_GOZU_HELL_EXIT" ]
+  },
+  {
+    "type": "trap",
     "id": "tr_teeth",
     "name": "scattered monster teeth",
     "color": "light_cyan",

@@ -19,7 +19,6 @@
     "vision_levels": "always_full",
     "see_cost": "opaque",
     "travel_cost_type": "impassable",
-    "uniform_terrain": "t_solid_sand",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -54,5 +53,13 @@
     "id": "outcrop_gozu_hell_bottom",
     "name": "outcrop base",
     "copy-from": "outcrop_bottom"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "standing_stones_gozu_hell",
+    "copy-from": "standing_stones",
+    "name": "standing stones",
+    "spawns": {  },
+    "flags": [ "NO_ROTATE" ]
   }
 ]

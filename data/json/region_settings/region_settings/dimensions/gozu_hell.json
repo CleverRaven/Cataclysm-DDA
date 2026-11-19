@@ -90,9 +90,9 @@
     "type": "region_settings_ravine",
     "id": "gozu_hell_ravines",
     "copy-from": "default",
-    "num_ravines": 15,
+    "num_ravines": 20,
     "ravine_width": 3,
-    "ravine_range": 45,
+    "ravine_range": 55,
     "ravine_depth": -8,
     "ravine_bottom_terrain_id": "gozu_hell_ravine_bottom"
   },
@@ -105,6 +105,6 @@
     "type": "map_extra_collection",
     "id": "default_gozu_hell_map_extras",
     "chance": 25,
-    "extras": [ [ "mx_portal_cracked_mirror", 1 ], [ "mx_portal_ingress", 1 ], [ "mx_portal_distortion_item", 1 ] ]
+    "extras": [ [ "mx_bare_rock", 1 ] ]
   }
 ]

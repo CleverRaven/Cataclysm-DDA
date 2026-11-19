@@ -165,5 +165,95 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "|": "t_rock", "%": [ [ "t_soil", 1 ], [ "t_rock", 1 ] ] }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "standing_stones_highlands" ],
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "               ,,,      ",
+        "               ,o,..    ",
+        "    ,,,.       ,,,..    ",
+        "    ,o,......   ....    ",
+        " ...,,,  ....     ....  ",
+        " ...... ......  .....,,,",
+        "  ,,,................,o,",
+        "  ,o,.......o........,,,",
+        " .,,,......ss...O.....  ",
+        " ........ossssss....... ",
+        "     ..sssssssss.....   ",
+        "   ..Osssss!Osss.o..,,, ",
+        " ,,,...sssssssss....,o, ",
+        " ,o,....ossssssO....,,, ",
+        " ,,,....ss..ss.......   ",
+        "   .......o.......      ",
+        "  ..................    ",
+        "   .,,,.............,,, ",
+        "  ..,o,.  ..........,o, ",
+        "   .,,,.   ...,,,   ,,, ",
+        "           ...,o,.      ",
+        "             .,,,.      ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_glassed_sand",
+        ".": [ [ "t_glassed_sand", 20 ], "t_rock_floor" ],
+        ",": [ [ "t_glassed_sand", 20 ], "t_lava" ],
+        "O": "t_glassed_sand",
+        "o": "t_glassed_sand",
+        "s": "t_rock_floor",
+        "!": "t_glassed_sand"
+      },
+      "furniture": { "O": "f_boulder_large", "o": "f_boulder_small" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "standing_stones_highlands" ],
+    "weight": 750,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "               ,,,      ",
+        "               ,o,..    ",
+        "    ,,,.       ,,,..    ",
+        "    ,o,......   ....    ",
+        " ...,,,  ....     ....  ",
+        " ...... ......  .....,,,",
+        "  ,,,................,o,",
+        "  ,o,.......o........,,,",
+        " .,,,......ss...O.....  ",
+        " ........ossssss....... ",
+        "     ..sssssssss.....   ",
+        "   ..Osssss!Osss.o..,,, ",
+        " ,,,...sssssssss....,o, ",
+        " ,o,....ossssssO....,,, ",
+        " ,,,....ss..ss.......   ",
+        "   .......o.......      ",
+        "  ..................    ",
+        "   .,,,.............,,, ",
+        "  ..,o,.  ..........,o, ",
+        "   .,,,.   ...,,,   ,,, ",
+        "           ...,o,.      ",
+        "             .,,,.      ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "#": "t_glassed_sand",
+        ".": [ [ "t_glassed_sand", 20 ], "t_rock_floor" ],
+        ",": [ [ "t_glassed_sand", 20 ], "t_lava" ],
+        "O": "t_glassed_sand",
+        "o": "t_glassed_sand",
+        "s": "t_rock_floor",
+        "!": "t_glassed_sand"
+      },
+      "furniture": { "O": "f_boulder_large", "o": "f_boulder_small" },
+      "traps": { "!": "tr_gozu_hell_exit" }
+    }
   }
 ]
