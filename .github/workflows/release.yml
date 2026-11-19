@@ -462,7 +462,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: msys2 {0}
         run: |
-          lang/compile_mo.sh all
+          make -C lang -j$NUMBER_OF_PROCESSORS
       - name: Build libbacktrace
         if: matrix.libbacktrace == 1
         run: |
