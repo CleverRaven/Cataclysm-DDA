@@ -1,15 +1,5 @@
 [
   {
-    "type": "region_settings_ravine",
-    "id": "gozu_hell_ravines",
-    "copy-from": "default",
-    "num_ravines": 25,
-    "ravine_width": 3,
-    "ravine_range": 45,
-    "ravine_depth": -8,
-    "ravine_bottom_terrain_id": "gozu_hell_ravine_bottom"
-  },
-  {
     "type": "region_settings",
     "id": "gozu_hell",
     "rivers": null,
@@ -52,7 +42,16 @@
       "deep_rock"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
-    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "GOZU_HELL" ] }
+    "feature_flag_settings": { "blacklist": [  ], "whitelist": [ "GOZU_HELL" ] },
+    "//": "ignored",
+    "connections": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    }
   },
   {
     "type": "region_settings_terrain_furniture",
@@ -81,6 +80,20 @@
     "base_wind": 2.0,
     "base_wind_distrib_peaks": 80,
     "base_wind_season_variation": 0,
+    "spring_temp_manual_mod": 0,
+    "summer_temp_manual_mod": -10,
+    "autumn_temp_manual_mod": 0,
+    "winter_temp_manual_mod": 10,
     "weather_white_list": [ "fog" ]
+  },
+  {
+    "type": "region_settings_ravine",
+    "id": "gozu_hell_ravines",
+    "copy-from": "default",
+    "num_ravines": 15,
+    "ravine_width": 3,
+    "ravine_range": 45,
+    "ravine_depth": -8,
+    "ravine_bottom_terrain_id": "gozu_hell_ravine_bottom"
   }
 ]
