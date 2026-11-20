@@ -1,12 +1,5 @@
 [
   {
-    "id": "effect_monster_no_double_cast",
-    "type": "effect_type",
-    "//": "Hidden effect, used for cooldown manipulations",
-    "name": [ "" ],
-    "desc": [ "" ]
-  },
-  {
     "id": "effect_demon_spider_speed",
     "type": "effect_type",
     "name": [ "Flaming Speed" ],
