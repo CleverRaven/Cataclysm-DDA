@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": [ "shelter_experienced" ],
-    "//": "Made with the Experienced start in mind. Its own variant due to different furniture and item spawn locations.",
+    "//": "Made with the Experienced start in mind. Its own mapgen due to different furniture and item spawn locations, and because slocs can't specify a specific subnest",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -62,11 +62,15 @@
         "S": { "item": "SUS_evac_shelter_sink_used", "chance": 50 },
         "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
         "t": { "item": "tools_experienced", "chance": 100 },
-        "A": [ { "item": "survivorzed_tops", "chance": 90 }, { "item": "sewing_experienced", "chance": 100 } ],
-        "w": { "item": "melee_intermediate", "chance": 100, "repeat": [ 1, 2 ] },
+        "A": [ 
+		  { "item": "armor_experienced", "chance": 100 }, 
+		  { "item": "sewing_experienced", "chance": 100 },
+		  { "item": "bags", "chance": 100 }
+		],
+        "w": { "item": "melee_experienced", "chance": 100, "repeat": [ 1, 2 ] },
         "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
         "9": { "item": "bed", "chance": 90 },
-        "f": { "item": "cannedfood", "chance": 100, "repeat": [ 6, 9 ] },
+        "f": { "item": "cannedfood", "chance": 100, "repeat": [ 9, 12 ] },
         "C": [
           { "item": "SUS_cookware", "chance": 100, "repeat": 2 },
           { "item": "tools_lighting", "chance": 100 },
@@ -153,12 +157,127 @@
     }
   },
   {
+    "type": "mapgen",
+    "om_terrain": [ "s_gas_experienced" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "_______G________D_______",
+        "________________________",
+        "________________________",
+        "________________________",
+        ".|~~~~~~~|    |~~~~~~~|.",
+        ".~                    ~.",
+        ".~      ss           g~.",
+        ".####0#####33#####0####.",
+        ".#9999  9e      >S br9#.",
+        ".#      9a      >    t#.",
+        ".#9999  9w      >     #.",
+        ".#              >  >>>#.",
+        ".#FFFFFFFF            #.",
+        ".#||||||||||3|||||||  #.",
+        ".#@@  BC|AP|  >ÁUof|3|#.",
+        ".#@@   C|;'3       |';#.",
+        ".#:     ||||  B6B R|''#.",
+        "4#:  H  3     B6B =|A'#.",
+        ".##00#####0############."
+      ],
+      "palettes": [ "parametrized_walls_palette", "parametrized_linoleum_palette", "commercial" ],
+      "terrain": {
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "P": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ".": "t_region_groundcover_urban",
+        "0": [ "t_window_boarded" ],
+        "3": "t_door_c",
+        "=": "t_thconc_floor",
+        "~": "t_railing",
+        "_": "t_pavement",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "6": "f_table",
+        "9": "f_rack",
+		"t": "f_rack",
+		"a": "f_rack",
+		"w": "f_rack",
+		"e": "f_rack",
+        ":": "f_dresser",
+        "=": "f_woodstove",
+        "o": "f_oven",
+        ">": "f_counter",
+        "U": "f_cupboard",
+        "?": "f_sofa",
+        "@": "f_bed",
+        "A": "f_sink",
+        "Á": "f_sink",
+        "B": "f_chair",
+        "C": "f_desk",
+        "F": { "param": "display_fridge", "fallback": "f_glass_fridge" },
+        "f": "f_fridge",
+        "H": "f_armchair",
+        "S": "f_stool",
+        "s": "f_camp_chair",
+        "P": "f_shower"
+      },
+      "item": {
+        "r": [ { "item": "box_battery_charger" }, { "item": "extension_cable" } ],
+        "b": { "item": "battery_car" },
+		"g": [ { "item": "portable_generator" }, { "item": "jerrycan" } ]
+
+      },
+      "toilets": { ";": {  } },
+      "gaspumps": { "G": { "fuel": "gasoline" }, "D": { "fuel": "diesel" } },
+      "items": {
+        "U": [
+          { "item": "SUS_silverware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_cookware", "chance": 75 },
+          { "item": "SUS_appliances_cupboard", "chance": 75 }
+        ],
+        "Á": [ 
+		  { "item": "SUS_kitchen_sink", "chance": 100 }, { "item": "SUS_cookware", "chance": 100, "repeat": 2 },
+          { "item": "tools_lighting", "chance": 100 },
+          { "item": "firestarter_experienced", "chance": 100 } 
+		],
+		"A": { "item": "1st_aid_experienced", "chance": 100 },
+        "o": { "item": "SUS_oven", "chance": 100 },
+        ";": { "item": "SUS_toilet", "chance": 100 },
+        "@": { "item": "bed", "chance": 25 },
+        "C": { "item": "SUS_office_desk", "chance": 33 },
+        "f": { "item": "SUS_fridge", "chance": 10 },
+        "F": { "item": "SUS_fridge_breakroom", "chance": 10 },
+        ":": [ { "item": "SUS_dresser_mens", "chance": 25 }, { "item": "SUS_dresser_womens", "chance": 25 } ],
+		"t": { "item": "tools_experienced", "chance": 100 },
+        "a": [ { "item": "armor_experienced", "chance": 100 }, { "item": "sewing_experienced", "chance": 100 } ],
+        "w": { "item": "melee_experienced", "chance": 100, "repeat": [ 1, 2 ] },
+        "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
+        "e": [ { "item": "cannedfood", "chance": 100, "repeat": [ 9, 12 ] }, { "item": "bugout_water", "chance": 100, "repeat": [ 2, 3 ] } ]
+      },
+      "place_items": [
+        { "item": "cash_register_random", "x": 16, "y": [ 13, 16 ], "chance": 100 },
+        { "item": "snacks", "x": [ 2, 5 ], "y": 15, "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "behindcounter", "x": [ 21, 21 ], "y": [ 13, 14 ], "chance": 80, "repeat": [ 1, 3 ] },
+        { "item": "road", "x": [ 20, 20 ], "y": [ 13, 14 ], "chance": 80, "repeat": [ 1, 4 ] },
+        { "item": "camping", "x": [ 8, 8 ], "y": [ 15, 15 ], "chance": 90, "repeat": [ 1, 10 ] },
+        { "item": "magazines", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 90, "repeat": [ 1, 25 ] },
+        { "item": "softdrugs", "x": [ 8, 8 ], "y": [ 13, 15 ], "chance": 80, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
     "type": "item_group",
-    "id": "melee_intermediate",
+    "id": "melee_experienced",
     "subtype": "distribution",
     "//": "represents various mid-tier weapons a survivor made or scavenged that are appropriate for this stage of game",
     "entries": [
-      { "item": "spear_knife_proper", "prob": 10 },
+      { "item": "spear_knife_superior", "prob": 10 },
       { "item": "fire_ax", "prob": 10 },
       { "item": "mace_trench", "prob": 10 },
       { "item": "halberd_crude", "prob": 10 },
@@ -168,15 +287,113 @@
       { "item": "makeshift_glaive", "prob": 10 },
       { "item": "bo", "prob": 10 },
       { "item": "i_staff", "prob": 10 },
+	  { "item": "pitchfork", "prob": 10 },
+	  { "item": "homemade_polehammer", "prob": 10 },
+	  { "item": "tonfa", "prob": 10 },
       { "item": "machete", "prob": 5 },
       { "item": "hatchet", "prob": 5 }
     ]
   },
   {
+    "type": "item_group",
+    "id": "armor_experienced",
+    "subtype": "collection",
+    "//": "Armor a survivor could have scavenged or made.  Intentionally behind progression curve; more sophisticated crafted armor (like leather body armor) is relegated to backgrounds for this scenario.",
+    "entries": [
+	  {
+	  "distribution": [
+	    {	  
+	    "distribution": [
+		    { "item": "bite_suit", "prob": 5, "custom-flags": [ "FIT" ] },
+		    { "item": "touring_suit", "prob": 20, "custom-flags": [ "FIT" ] },
+			{ "item": "armor_riot", "prob": 30, "custom-flags": [ "FIT" ] }
+	      ],
+	      "prob": 10
+	    },
+		{ "group": "armor_experienced_notsuit", "prob": 90 }
+	  ]
+	  },
+	  { "group": "armor_experienced_head", "prob": 100 }
+	]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_experienced_notsuit",
+    "subtype": "collection",
+	"entries": [ { "group": "armor_experienced_torso", "prob": 100 }, { "group": "armor_experienced_legs", "prob": 100 }, { "group": "armor_experienced_arms", "prob": 100 } ]
+  },
+  {
+	"type": "item_group",
+    "id": "armor_experienced_torso",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "chestguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "armor_riot_torso", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "chainmail_junk_vest", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "motorbike_armor", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "carpet_cuirass", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "bookplate", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "makeshift_metal_plate_vest", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "football_armor", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "survivor_adhoc_leather_shirt", "prob": 5, "custom-flags": [ "FIT" ] }
+	]  
+  },
+  {
+	"type": "item_group",
+    "id": "armor_experienced_arms",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "armguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "armor_riot_arm", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "carpet_bracers", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "improvised_armguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "2byarm_guard", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "armguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "cloth_arms_padded", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "survivor_adhoc_leather_sleeves", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "armguard_soft", "prob": 5, "custom-flags": [ "FIT" ] }
+	]
+  },
+  {
+	"type": "item_group",
+    "id": "armor_experienced_legs",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "legguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "armor_riot_leg", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "motorbike_pants", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "carpet_greaves", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "chaps_cut_resistant", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "chaps_leather", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "legguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "2byshin_guard", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "improvised_legguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "survivor_adhoc_leather_pants", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "canvas_pants_padded", "prob": 5, "custom-flags": [ "FIT" ] }
+	]
+  },  
+  {
+	"type": "item_group",
+    "id": "armor_experienced_head",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "firehelmet", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_army", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "tac_helmet", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_riot", "prob": 2, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_motor", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_ball", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_bike", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_football", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_riding", "prob": 5, "custom-flags": [ "FIT" ] },
+	  { "item": "helmet_skid", "prob": 5, "custom-flags": [ "FIT" ] }
+	]
+  },
+  {
     "id": "tools_experienced",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Common battery-powered or hand tools that a survivor would have stashed. Guaranteed spawns, so mostly for scenario use only.",
+    "//": "Common battery-powered or hand tools that a survivor would have stashed. Guaranteed spawns are intended.",
     "entries": [
       { "item": "hacksaw", "prob": 100 },
       { "item": "saw", "prob": 100 },
@@ -203,11 +420,11 @@
         "prob": 100
       },
       { "item": "xacto", "prob": 100 },
-      { "distribution": [ { "item": "claw_bar", "prob": 5 }, { "item": "crowbar", "prob": 15 } ], "prob": 100 },
       { "item": "multitool", "prob": 100 },
       { "item": "metal_file", "prob": 100 },
       { "item": "sandpaper", "prob": 100 },
       { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+	  { "item": "funnel", "prob": 100 },
       {
         "distribution": [ { "item": "cordless_drill", "prob": 100, "charges": [ 150, 500 ] }, { "item": "hand_drill", "prob": 10 } ],
         "prob": 100
@@ -217,11 +434,16 @@
   {
     "id": "sewing_experienced",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "//": "charges in the sewing tools can't be added directly in the mapgen item list",
     "entries": [
-      { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
-      { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
+	  {
+	    "distribution": [
+		  { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
+		  { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
+	    ]
+	  },
+	  { "item": "awl_steel", "prob": 100 }
     ]
   },
   {
@@ -233,6 +455,31 @@
       { "item": "ref_lighter", "prob": 20, "charges": [ 10, 50 ] },
       { "item": "flint_steel", "prob": 10 },
       { "item": "matches", "prob": 20, "charges": [ 5, 20 ] }
+    ]
+  },
+  {
+    "id": "1st_aid_experienced",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "both pre-cataclysm and survivor-made medical items",
+    "entries": [
+      { "group": "bottle_otc_painkiller_0_10" },
+      { "item": "disinfectant", "charges": [ 0, 5 ] },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "count": [ 0, 16 ] },
+	  { "group": "bandages_experienced", "count": [ 1 , 2 ] }
+    ]
+  },
+  {
+    "id": "bandages_experienced",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "bandages", "count": [ 1, 2 ] },
+	  { "item": "medical_gauze", "count": [ 1, 2 ] },
+	  { "item": "bandages_makeshift", "count": [ 5, 7 ] },
+	  { "item": "bandages_makeshift_boiled", "count": [ 3, 5 ] },
+	  { "item": "bandages_makeshift_bleached", "count": [ 3, 5 ] }
     ]
   }
 ]

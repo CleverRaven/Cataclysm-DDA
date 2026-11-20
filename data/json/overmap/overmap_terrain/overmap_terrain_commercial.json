@@ -32,6 +32,15 @@
   },
   {
     "type": "overmap_terrain",
+	"id": [ "s_gas_experienced" ],
+	"copy-from": "generic_city_building_no_sidewalk",
+    "name": "gas station",
+    "looks_like": "s_gas",
+    "color": "light_blue",
+	"delete": { "flags": [ "RISK_HIGH" ], "post_process_generators": [ "riot_damage" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_gas_g0" ],
     "copy-from": "s_gas_0_0",
     "sym": "─"
