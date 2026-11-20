@@ -322,10 +322,14 @@
     "type": "item_group",
     "id": "armor_experienced_notsuit",
     "subtype": "collection",
-	"entries": [ { "group": "armor_experienced_torso", "prob": 100 }, { "group": "armor_experienced_legs", "prob": 100 }, { "group": "armor_experienced_arms", "prob": 100 } ]
+    "entries": [
+      { "group": "armor_experienced_torso", "prob": 100 },
+      { "group": "armor_experienced_legs", "prob": 100 },
+      { "group": "armor_experienced_arms", "prob": 100 }
+    ]
   },
   {
-	"type": "item_group",
+    "type": "item_group",
     "id": "armor_experienced_torso",
     "subtype": "distribution",
     "entries": [
