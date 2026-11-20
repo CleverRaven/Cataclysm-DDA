@@ -24,9 +24,9 @@
     "type": "overmap_special",
     "id": "Standing stones Gozu Hell Exit",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones_gozu_hell" } ],
-    "locations": [ "land" ],
+    "locations": [ "gozu_hell" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 66, 100 ],
+    "occurrences": [ 0, 2 ],
     "rotate": false,
     "flags": [ "WILDERNESS", "GOZU_HELL", "EXTRADIMENSIONAL" ]
   }
