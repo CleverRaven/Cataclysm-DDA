@@ -281,6 +281,7 @@
     "name": { "str": "improperly set bone" },
     "description": "Your broken bone has healed as well as it can, but the pain remains and your limb doesn't work quite as well as it used to.",
     "pain": [ 4, 6 ],
+    "wound_progression": [ {  } ],
     "limb_scores": [
       { "score": "manip", "value": 0.3 },
       { "score": "grip", "value": 0.4 },
@@ -298,6 +299,7 @@
     "name": { "str": "badly set bone" },
     "description": "Your broken bone has fused together, but it would be a stretch to say it's healed.  The pain remains, and the limb has precious little of the function it used to.",
     "pain": [ 10, 14 ],
+    "wound_progression": [ {  } ],
     "limb_scores": [
       { "score": "manip", "value": 0.7 },
       { "score": "grip", "value": 0.7 },
