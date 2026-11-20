@@ -65,7 +65,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "gozu_hell_spire_nw", "gozu_hell_spire_ne", "gozu_hell_spire_sw", "gozu_hell_spire_se" ],
-    "name": "absent pillar",
+    "name": "shadow pillar",
     "sym": "C",
     "color": "light_gray",
     "see_cost": "full_high",

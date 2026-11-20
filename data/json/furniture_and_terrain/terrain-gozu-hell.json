@@ -22,8 +22,8 @@
   {
     "type": "terrain",
     "id": "t_wall_gozu_hell_spire",
-    "name": "absent edifice",
-    "description": "There is nothing here, an absence of what should be shadow or form.  Your eyes tell you to keep going but your body stubbornly refuses to move through this space.",
+    "name": "darkness",
+    "description": "A shadow so thick as to be impassible.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,

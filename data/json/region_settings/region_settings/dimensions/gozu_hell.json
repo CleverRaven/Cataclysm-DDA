@@ -74,7 +74,7 @@
   {
     "type": "weather_generator",
     "id": "gozu_hell_weather",
-    "base_temperature": 22.5,
+    "base_temperature": 12.5,
     "base_humidity": 80.0,
     "base_pressure": 1005.0,
     "base_wind": 2.0,
@@ -84,7 +84,7 @@
     "summer_temp_manual_mod": -10,
     "autumn_temp_manual_mod": 0,
     "winter_temp_manual_mod": 10,
-    "weather_white_list": [ "fog" ]
+    "weather_white_list": [ "gozu_hell_twilight" ]
   },
   {
     "type": "region_settings_ravine",
