@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "addiction.h"
+#include "auto_eat.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -75,6 +76,7 @@
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
+static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_amphetamine( "amphetamine" );
 static const addiction_id addiction_caffeine( "caffeine" );
 static const addiction_id addiction_cocaine( "cocaine" );
@@ -115,6 +117,7 @@ static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
 static const flag_id json_flag_ALLERGEN_MILK( "ALLERGEN_MILK" );
 static const flag_id json_flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 static const flag_id json_flag_MARLOSS( "MARLOSS" );
+static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -915,8 +918,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                     _( "We can't eat that.  It's not right for us." ) );
         }
     }
-    if( food.has_own_flag( flag_FROZEN ) && !food.has_flag( flag_EDIBLE_FROZEN ) &&
-        !food.has_flag( flag_MELTS ) ) {
+    if( !can_consume_frozen( food ) ) {
         if( edible ) {
             return ret_val<edible_rating>::make_failure(
                        _( "It's frozen solid.  You must defrost it before you can eat it." ) );
@@ -1133,6 +1135,61 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
     // All checks ended, it's edible (or we're pretending it is)
     return ret_val<edible_rating>::make_success();
+}
+
+ret_val<edible_rating> avatar::will_auto_eat( const item &food ) const
+{
+    ret_val<edible_rating> ret = Character::will_auto_eat( food );
+    if( !ret.success() ) {
+        return ret;
+    }
+    if( !auto_eat_handler.will_eat( *this, food ) ) {
+        return ret_val<edible_rating>::make_failure( edible_rating::NO_AUTO_EAT );
+    }
+    return ret;
+}
+
+ret_val<edible_rating> npc::will_auto_eat( const auto_eat_settings &override_settings,
+        const item &food ) const
+{
+    ret_val<edible_rating> ret = Character::will_auto_eat( food );
+    if( !ret.success() ) {
+        return ret;
+    }
+    if( !override_settings.will_eat( *this, food ) ) {
+        return ret_val<edible_rating>::make_failure( edible_rating::NO_AUTO_EAT );
+    }
+    return ret;
+}
+
+ret_val<edible_rating> npc::will_auto_eat( const item &food ) const
+{
+    return will_auto_eat( auto_eat_settings(), food );
+}
+
+ret_val<edible_rating> Character::will_auto_eat( const item &food ) const
+{
+
+    ret_val<edible_rating> ret = will_eat( food, false );
+    if( !ret.success() ) {
+        return ret;
+    }
+    if( !food.is_food() || food.has_flag( json_flag_NO_AUTO_CONSUME ) ) {
+        return ret_val<edible_rating>::make_failure( edible_rating::NO_AUTO_EAT );
+    }
+    if( !food.is_owned_by( *this, true ) ) {
+        // it aint ours.
+        return ret_val<edible_rating>::make_failure( edible_rating::NOT_OWNED );
+    }
+    const use_function *usef = food.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
+    if( usef ) {
+        return ret_val<edible_rating>::make_failure( edible_rating::ROTTEN );
+    }
+    if( food.get_comestible()->addictions.count( addiction_alcohol ) &&
+        !has_addiction( addiction_alcohol ) ) {
+        return ret_val<edible_rating>::make_failure( edible_rating::ADDICTIVE );
+    }
+    return ret;
 }
 
 static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
@@ -1892,11 +1949,19 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    if( it.is_comestible() ) {
-        return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
-               it.has_flag( flag_MELTS );
+    if( it.is_craft() ) {
+        return false;
     }
-    return false;
+    if( !it.is_comestible() ) {
+        return false;
+    }
+    return can_consume_frozen( it );
+}
+
+bool Character::can_consume_frozen( const item &it ) const
+{
+    return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
+           it.has_flag( flag_MELTS );
 }
 
 item_location Character::get_consumable_from( const item_location &it ) const
