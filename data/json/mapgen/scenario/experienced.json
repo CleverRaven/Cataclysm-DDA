@@ -359,21 +359,21 @@
     "id": "armor_experienced_legs",
     "subtype": "distribution",
     "entries": [
-	  { "item": "legguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "armor_riot_leg", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "motorbike_pants", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "carpet_greaves", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "chaps_cut_resistant", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "chaps_leather", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "legguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "2byshin_guard", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "improvised_legguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "survivor_adhoc_leather_pants", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "canvas_pants_padded", "prob": 5, "custom-flags": [ "FIT" ] }
-	]
-  },  
+      { "item": "legguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "armor_riot_leg", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "motorbike_pants", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "carpet_greaves", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "chaps_cut_resistant", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "chaps_leather", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "legguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "2byshin_guard", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "improvised_legguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "survivor_adhoc_leather_pants", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "canvas_pants_padded", "prob": 5, "custom-flags": [ "FIT" ] }
+    ]
+  },
   {
-	"type": "item_group",
+    "type": "item_group",
     "id": "armor_experienced_head",
     "subtype": "distribution",
     "entries": [
