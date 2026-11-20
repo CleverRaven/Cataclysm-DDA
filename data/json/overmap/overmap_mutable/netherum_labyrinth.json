@@ -150,7 +150,7 @@
       { "type": [ "labyrinth2_roof2" ], "from": [ 2, 2, 4 ], "to": [ -2, -2, 4 ] }
     ],
     "city_distance": [ 0, -1 ],
-    "priority": 3,
+    "priority": -1,
     "occurrences": [ 0, 15 ],
     "joins": [
       { "id": "base_to_shaft", "opposite": "shaft_to_base" },
@@ -191,6 +191,17 @@
         "south": "tunnel_to_tunnel",
         "west": "tunnel_to_tunnel"
       },
+      "crossroads_stairs": {
+        "overmap": "labyrinth2_utility_tunnel_four_way_stairs_north",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "crossroads_stairs_shaft-1": { "overmap": "labyrinth2_utility_tunnel_four_way_stairs_shaft-1_north" },
+      "crossroads_stairs_shaft-2": { "overmap": "labyrinth2_utility_tunnel_four_way_stairs_shaft-2_north" },
+      "crossroads_stairs_shaft-3": { "overmap": "labyrinth2_utility_tunnel_four_way_stairs_shaft-3_north" },
+      "crossroads_stairs_base": { "overmap": "labyrinth2_utility_tunnel_four_way_stairs_base_north", "locations": [ "labyrinth2" ] },
       "tee": {
         "overmap": "labyrinth2_utility_tunnel_T_north",
         "north": "tunnel_to_tunnel",
@@ -207,12 +218,23 @@
       [ { "overmap": "shaft2", "max": 1 } ],
       [ { "overmap": "shaft3", "max": 1 } ],
       [ { "overmap": "first_crossroads", "max": 1 } ],
-      [ { "overmap": "crossroads", "max": 1 } ],
       [
-        { "overmap": "straight_tunnel", "weight": 80 },
-        { "overmap": "dead_end", "weight": 4 },
-        { "overmap": "corner", "weight": 3 },
-        { "overmap": "tee", "weight": 3 }
+        { "overmap": "straight_tunnel", "weight": 160 },
+        { "overmap": "dead_end", "weight": 8 },
+        { "overmap": "corner", "weight": 6 },
+        { "overmap": "tee", "weight": 6 },
+        { "overmap": "crossroads", "weight": 2 },
+        {
+          "name": "labyrinth2_utility_tunnel_crossroads_stairs",
+          "chunk": [
+            { "overmap": "crossroads_stairs", "pos": [ 0, 0, 0 ] },
+            { "overmap": "crossroads_stairs_shaft-1", "pos": [ 0, 0, -1 ] },
+            { "overmap": "crossroads_stairs_shaft-2", "pos": [ 0, 0, -2 ] },
+            { "overmap": "crossroads_stairs_shaft-3", "pos": [ 0, 0, -3 ] },
+            { "overmap": "crossroads_stairs_base", "pos": [ 0, 0, -4 ] }
+          ],
+          "weight": 2
+        }
       ]
     ]
   }
