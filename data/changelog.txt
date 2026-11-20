@@ -230,6 +230,7 @@ Add a second blob singularity: the Reclaimer
 Bionic wounds and ways to repair them
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
 Sci-fi horrors from imagined wars.
+Add Marloss evangelists.
 
 
 ## Interface:
