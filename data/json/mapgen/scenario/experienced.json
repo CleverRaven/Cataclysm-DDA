@@ -475,11 +475,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-	  { "item": "bandages", "count": [ 1, 2 ] },
-	  { "item": "medical_gauze", "count": [ 1, 2 ] },
-	  { "item": "bandages_makeshift", "count": [ 5, 7 ] },
-	  { "item": "bandages_makeshift_boiled", "count": [ 3, 5 ] },
-	  { "item": "bandages_makeshift_bleached", "count": [ 3, 5 ] }
+      { "item": "bandages", "count": [ 1, 2 ] },
+      { "item": "medical_gauze", "count": [ 1, 2 ] },
+      { "item": "bandages_makeshift", "count": [ 5, 7 ] },
+      { "item": "bandages_makeshift_boiled", "count": [ 3, 5 ] },
+      { "item": "bandages_makeshift_bleached", "count": [ 3, 5 ] }
     ]
   }
 ]
