@@ -1516,7 +1516,7 @@
   {
     "type": "mutation",
     "id": "OPIATEHYPER",
-    "name": { "str": "Opiate hypersensitivity" },
+    "name": { "str": "Opiate intolerance" },
     "description": "Your body chemistry is lethally sensitive to morphine and its derivatives.  Even a small dose will debilitate you, if it doesn't kill you outright.  You're stuck with anti-inflammatory medication if you ever need to manage pain.",
     "cancels": [ "ADDICTIVE" ],
     "points": -3,
