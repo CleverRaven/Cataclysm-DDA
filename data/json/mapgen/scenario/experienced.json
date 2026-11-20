@@ -377,17 +377,17 @@
     "id": "armor_experienced_head",
     "subtype": "distribution",
     "entries": [
-	  { "item": "firehelmet", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_army", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "tac_helmet", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_riot", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_motor", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_ball", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_bike", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_football", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_riding", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "helmet_skid", "prob": 5, "custom-flags": [ "FIT" ] }
-	]
+      { "item": "firehelmet", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_army", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "tac_helmet", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_riot", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_motor", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_ball", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_bike", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_football", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_riding", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "helmet_skid", "prob": 5, "custom-flags": [ "FIT" ] }
+    ]
   },
   {
     "id": "tools_experienced",
