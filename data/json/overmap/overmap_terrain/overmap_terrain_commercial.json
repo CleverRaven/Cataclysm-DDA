@@ -32,8 +32,8 @@
   },
   {
     "type": "overmap_terrain",
-	"id": [ "s_gas_experienced" ],
-	"copy-from": "generic_city_building_no_sidewalk",
+    "id": [ "s_gas_experienced" ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
