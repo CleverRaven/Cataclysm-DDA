@@ -191,7 +191,7 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "1558 ml",
+        "max_contains_volume": "1600 ml",
         "max_contains_weight": "1600 kg",
         "max_item_length": "21 cm",
         "min_item_length": "21 cm",
