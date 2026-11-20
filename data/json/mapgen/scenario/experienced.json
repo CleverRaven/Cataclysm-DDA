@@ -327,19 +327,19 @@
     "id": "armor_experienced_torso",
     "subtype": "distribution",
     "entries": [
-	  { "item": "chestguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "armor_riot_torso", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "chainmail_junk_vest", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "motorbike_armor", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "carpet_cuirass", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "bookplate", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "makeshift_metal_plate_vest", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "football_armor", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "survivor_adhoc_leather_shirt", "prob": 5, "custom-flags": [ "FIT" ] }
-	]  
+      { "item": "chestguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "armor_riot_torso", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "chainmail_junk_vest", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "motorbike_armor", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "carpet_cuirass", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "bookplate", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "makeshift_metal_plate_vest", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "football_armor", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "survivor_adhoc_leather_shirt", "prob": 5, "custom-flags": [ "FIT" ] }
+    ]
   },
   {
-	"type": "item_group",
+    "type": "item_group",
     "id": "armor_experienced_arms",
     "subtype": "distribution",
     "entries": [
