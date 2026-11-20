@@ -2368,7 +2368,8 @@ bool iexamine_helper::drink_nectar( Character &you )
 {
     if( can_drink_nectar( you ) ) {
         add_msg( _( "You drink some nectar." ) );
-        item nectar( itype_nectar, calendar::turn, 1 );
+        item_location nectar = get_map().add_item_or_charges_ret_loc( you.pos_bub(),
+                               item( itype_nectar, calendar::turn, 1 ) );
         you.assign_activity( consume_activity_actor( nectar ) );
         return true;
     }
@@ -2418,7 +2419,8 @@ void iexamine::flower_poppy( Character &you, const tripoint_bub_ms &examp )
             return;
         }
         add_msg( _( "You slowly suck up the nectar." ) );
-        item poppy( itype_poppy_nectar, calendar::turn, 1 );
+        item_location poppy = get_map().add_item_or_charges_ret_loc( you.pos_bub(),
+                              item( itype_poppy_nectar, calendar::turn, 1 ) );
         you.assign_activity( consume_activity_actor( poppy ) );
         you.mod_sleepiness( 20 );
         you.add_effect( effect_pkill2, 7_minutes );
@@ -4369,10 +4371,10 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         // First empty the keg of foreign objects
         displace_items_except_one_liquid( examp );
 
-        map_stack items = here.i_at( examp );
-        item &drink = items.only_item();
-        const std::string drink_tname = drink.tname();
-        const std::string drink_nname = item::nname( drink.typeId() );
+        // only one item left, grab it's location
+        item_location drink = here.i_loc_at( examp ).front();
+        const std::string drink_tname = drink->tname();
+        const std::string drink_nname = item::nname( drink->typeId() );
         enum options {
             DISPENSE,
             HAVE_A_DRINK,
@@ -4381,28 +4383,27 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
         uilist selectmenu;
         //~ $1 - furniture name, $2 - liquid name, $3 - liquid charges, $4 - liquid volume, $5 - liquid capacity
         selectmenu.text = string_format( _( "%1$s with %2$s (%3$d)    %4$s / %5$s" ),
-                                         uppercase_first_letter( keg_name ), drink_tname, drink.charges,
-                                         vol_to_string( drink.volume(), true, true ), vol_to_string( keg_cap, true, true ) );
-        selectmenu.addentry( DISPENSE, drink.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
+                                         uppercase_first_letter( keg_name ), drink_tname, drink->charges,
+                                         vol_to_string( drink->volume(), true, true ), vol_to_string( keg_cap, true, true ) );
+        selectmenu.addentry( DISPENSE, drink->made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
-        selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( phase_id::LIQUID ),
+        selectmenu.addentry( HAVE_A_DRINK, drink->is_food() && drink->made_of( phase_id::LIQUID ),
                              MENU_AUTOASSIGN, _( "Have a drink" ) );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _( "Refill" ) );
         selectmenu.query();
 
         switch( selectmenu.ret ) {
             case DISPENSE: {
-                item_location loc( map_cursor( examp ), &*items.begin() );
-                liquid_handler::handle_liquid( loc );
+                liquid_handler::handle_liquid( drink );
                 return;
             }
             case HAVE_A_DRINK:
-                if( !you.can_consume_as_is( drink ) ) {
+                if( !you.can_consume_as_is( *drink ) ) {
                     return; // They didn't actually drink
                 }
                 you.assign_activity( consume_activity_actor( drink ) );
-                drink.charges--;
-                if( drink.charges == 0 ) {
+                drink->charges--;
+                if( drink->charges == 0 ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                     here.i_clear( examp );
@@ -4410,19 +4411,19 @@ void iexamine::keg( Character &you, const tripoint_bub_ms &examp )
                 return;
 
             case REFILL: {
-                if( drink.volume() >= keg_cap ) {
+                if( drink->volume() >= keg_cap ) {
                     add_msg( _( "The %s is completely full." ), keg_name );
                     return;
                 }
-                int charges_held = you.charges_of( drink.typeId() );
+                int charges_held = you.charges_of( drink->typeId() );
                 if( charges_held < 1 ) {
                     add_msg( m_info, _( "You don't have any %1$s to fill the %2$s with." ),
                              drink_nname, keg_name );
                     return;
                 }
-                item tmp( drink.typeId(), calendar::turn, charges_held );
+                item tmp( drink->typeId(), calendar::turn, charges_held );
                 pour_into_keg( examp, tmp, false );
-                you.use_charges( drink.typeId(), charges_held - tmp.charges );
+                you.use_charges( drink->typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.mod_moves( -to_moves<int>( 10_seconds ) );
                 return;

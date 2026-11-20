@@ -840,7 +840,8 @@ static void npc_handle_liquid( Character &guy, item &liquid, const item *avoid )
     }
     while( liquid.charges > 0 && guy.wants_to_consume_now( liquid ) ) {
         const time_duration consume_time = guy.get_consume_time( liquid );
-        if( guy.consume( liquid ) == trinary::NONE ) {
+        item_location loc( guy, &liquid );
+        if( guy.consume( loc ) == trinary::NONE ) {
             return;
         }
         guy.mod_moves( -to_moves<int>( consume_time ) );

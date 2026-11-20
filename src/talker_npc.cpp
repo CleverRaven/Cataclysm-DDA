@@ -346,12 +346,11 @@ enum consumption_result {
 static consumption_result try_consume( npc &p, item_location &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
-    item to_eat = *it;
-    if( to_eat.is_null() ) {
+    if( it->is_null() ) {
         debugmsg( "Null item to try_consume." );
         return REFUSED;
     }
-    const auto &comest = to_eat.get_comestible();
+    const auto &comest = it->get_comestible();
     if( !comest ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
@@ -364,24 +363,24 @@ static consumption_result try_consume( npc &p, item_location &it, std::string &r
 
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
-    if( to_eat.is_food() ) {
-        if( !p.can_consume_as_is( to_eat ) ) {
+    if( it->is_food() ) {
+        if( !p.can_consume_as_is( *it ) ) {
             reason = p.chat_snippets().snip_consume_cant_consume.translated();
             return REFUSED;
         } else {
-            if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
+            if( it->rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
                 //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
                 reason = p.chat_snippets().snip_consume_rotten.translated();
                 return REFUSED;
             }
 
-            const time_duration &consume_time = p.get_consume_time( to_eat );
+            const time_duration &consume_time = p.get_consume_time( *it );
             p.mod_moves( -to_moves<int>( consume_time ) );
-            p.consume( to_eat );
+            p.consume( it );
             reason = p.chat_snippets().snip_consume_eat.translated();
         }
 
-    } else if( to_eat.is_medication() ) {
+    } else if( it->is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
@@ -396,8 +395,8 @@ static consumption_result try_consume( npc &p, item_location &it, std::string &r
             p.use_charges( comest->tool, 1 );
             reason = p.chat_snippets().snip_consume_med.translated();
         }
-        if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, it, p.pos_bub() ).value_or( 0 );
+        if( it->type->has_use() ) {
+            amount_used = it->type->invoke( &p, it, p.pos_bub() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = p.chat_snippets().snip_consume_nocharge.translated();
                 return REFUSED;
@@ -405,14 +404,14 @@ static consumption_result try_consume( npc &p, item_location &it, std::string &r
             reason = p.chat_snippets().snip_consume_use_med.translated();
         }
 
-        p.consume_effects( to_eat );
-        to_eat.charges -= amount_used;
+        p.consume_effects( *it );
+        it->charges -= amount_used;
         p.mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     } else {
-        debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
+        debugmsg( "Unknown comestible type of item: %s\n", it->tname() );
     }
 
-    if( to_eat.charges > 0 ) {
+    if( it->charges > 0 ) {
         return CONSUMED_SOME;
     }
 

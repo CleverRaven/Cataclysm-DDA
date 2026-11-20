@@ -6,8 +6,10 @@
 
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "enums.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "value_ptr.h"
@@ -30,6 +32,7 @@ static const addiction_id addiction_test_nicotine( "test_nicotine" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_test_whiskey_caffenated( "test_whiskey_caffenated" );
 
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
@@ -741,11 +744,12 @@ TEST_CASE( "check_that_items_can_inflict_multiple_addictions", "[addiction]" )
 
     Character &victim = get_player_character();
     clear_character( victim );
+    victim.worn.wear_item( victim, item( itype_debug_backpack ), false, false );
     REQUIRE( !victim.has_addiction( addiction_alcohol ) );
     REQUIRE( !victim.has_addiction( addiction_caffeine ) );
     for( int i = 0; i < MIN_ADDICTION_LEVEL; i++ ) {
-        item addict_itm = item( itype_test_whiskey_caffenated );
-        REQUIRE( victim.consume( addict_itm, true ) != trinary::NONE );
+        item_location addict_itm_loc = victim.i_add( addict_itm );
+        REQUIRE( victim.consume( addict_itm_loc, true ) != trinary::NONE );
     }
     CHECK( victim.has_addiction( addiction_alcohol ) );
     CHECK( victim.has_addiction( addiction_caffeine ) );

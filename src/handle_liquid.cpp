@@ -623,10 +623,12 @@ bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *const source_
     };
 
     switch( target.dest_opt ) {
-        case LD_CONSUME:
-            player_character.assign_activity( consume_activity_actor( liquid ) );
+        case LD_CONSUME: {
+            item_location liquid_loc = item_location::form_loc( nullptr, &get_map(), *source_pos, liquid );
+            player_character.assign_activity( consume_activity_actor( liquid_loc ) );
             liquid.charges--;
             return true;
+        }
         case LD_ITEM: {
             return handle_item_target( player_character, liquid, target, create_activity, silent );
         }

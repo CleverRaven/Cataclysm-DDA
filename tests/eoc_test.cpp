@@ -217,6 +217,7 @@ static const furn_str_id furn_f_cardboard_box( "f_cardboard_box" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
 static const itype_id itype_backpack( "backpack" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_gel( "marloss_gel" );
@@ -405,8 +406,9 @@ TEST_CASE( "marloss_and_mycus_consumption_eocs", "[eoc][marloss]" )
 
     SECTION( "mycus_consumption_activity_finishes_before_sleep" ) {
         you.set_mutation( trait_THRESH_MARLOSS );
-        item fruit( itype_mycus_fruit );
-        REQUIRE( you.can_eat( fruit ).success() );
+        you.wear_item( item( itype_debug_backpack ), false, false );
+        item_location fruit = you.i_add( item( itype_mycus_fruit ) );
+        REQUIRE( you.can_eat( *fruit ).success() );
         you.activity = player_activity( consume_activity_actor( fruit ) );
 
         // Exercise the real actor: synchronous sleep used to destroy it inside
@@ -435,22 +437,23 @@ TEST_CASE( "marloss_refusal_prevents_consumption", "[eoc][marloss][can_eat]" )
 {
     avatar you;
     you.set_body();
+    you.wear_item( item( itype_debug_backpack ), false, false );
     const itype_id food_id = GENERATE( itype_marloss_berry, itype_marloss_seed,
                                        itype_marloss_gel, itype_wine_marloss );
     const trait_id refusal_trait = GENERATE( trait_MARLOSS_AVOID, trait_THRESH_MYCUS );
-    item food( food_id );
+    item_location food = you.i_add( item( food_id ) );
     CAPTURE( food_id, refusal_trait );
 
-    REQUIRE( you.can_eat( food ).success() );
+    REQUIRE( you.can_eat( *food ).success() );
     you.set_mutation( refusal_trait );
-    CHECK( you.can_eat( food ).value() == INEDIBLE_MUTATION );
-    CHECK_FALSE( you.will_eat( food ).success() );
+    CHECK( you.can_eat( *food ).value() == INEDIBLE_MUTATION );
+    CHECK_FALSE( you.will_eat( *food ).success() );
 
-    const int charges = food.charges;
+    const int charges = food->charges;
     const int calories = you.stomach.get_calories();
     const int morale = you.get_morale_level();
     CHECK( you.consume( food, /*force=*/true ) == trinary::NONE );
-    CHECK( food.charges == charges );
+    CHECK( food->charges == charges );
     CHECK( you.stomach.get_calories() == calories );
     CHECK( you.get_morale_level() == morale );
     CHECK( you.addictions.empty() );
@@ -458,7 +461,7 @@ TEST_CASE( "marloss_refusal_prevents_consumption", "[eoc][marloss][can_eat]" )
     // The restriction is on Marloss, not Mycus food.
     CHECK( you.can_eat( item( itype_mycus_fruit ) ).success() );
     standard_npc other;
-    CHECK_FALSE( other.can_eat( food ).success() );
+    CHECK_FALSE( other.can_eat( *food ).success() );
 }
 
 TEST_CASE( "marloss_consumables_reference_consumption_eocs", "[eoc][marloss]" )
@@ -751,8 +754,8 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
     clear_avatar();
     clear_map_without_vision();
     avatar &a = get_avatar();
-
-    item test_whiskey( itype_test_whiskey_caffenated );
+    a.worn.wear_item( a, item( itype_debug_backpack ), false, false );
+    item_location test_whiskey = a.i_add( item( itype_test_whiskey_caffenated ) );
 
     dialogue d( get_talker_for( a ), std::make_unique<talker>() );
     global_variables &globvars = get_globals();
