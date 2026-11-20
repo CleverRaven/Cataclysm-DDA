@@ -254,7 +254,7 @@
         "f": { "item": "SUS_fridge", "chance": 10 },
         "F": { "item": "SUS_fridge_breakroom", "chance": 10 },
         ":": [ { "item": "SUS_dresser_mens", "chance": 25 }, { "item": "SUS_dresser_womens", "chance": 25 } ],
-		"t": { "item": "tools_experienced", "chance": 100 },
+        "t": { "item": "tools_experienced", "chance": 100 },
         "a": [ { "item": "armor_experienced", "chance": 100 }, { "item": "sewing_experienced", "chance": 100 } ],
         "w": { "item": "melee_experienced", "chance": 100, "repeat": [ 1, 2 ] },
         "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
