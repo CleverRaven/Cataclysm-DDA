@@ -17,27 +17,39 @@
     "//": "For bandaging wounds",
     "components": [
       [
-        [ "bandages", 1 ],
-        [ "bandages_makeshift", 1 ],
-        [ "bandages_makeshift_bleached", 1 ],
-        [ "bandages_makeshift_boiled", 1 ]
+        [ "bandages", 2 ],
+        [ "bandages_makeshift", 2 ],
+        [ "bandages_makeshift_bleached", 2 ],
+        [ "bandages_makeshift_boiled", 2 ]
       ]
     ]
   },
   {
     "id": "wound_bleed",
     "type": "requirement",
-    "//": "For bandaging wounds",
+    "//": "For field dressing wounds",
+    "components": [
+      [
+        [ "bandages", 2 ],
+        [ "bandages_makeshift", 2 ],
+        [ "bandages_makeshift_bleached", 2 ],
+        [ "bandages_makeshift_boiled", 2 ]
+      ],
+      [ [ "medical_gauze", 2 ] ]
+    ]
+  },
+  {
+    "id": "wound_bleed_alt",
+    "type": "requirement",
+    "//": "For field dressing wounds",
     "components": [
       [
         [ "bandages", 1 ],
         [ "bandages_makeshift", 1 ],
         [ "bandages_makeshift_bleached", 1 ],
-        [ "bandages_makeshift_boiled", 1 ],
-        [ "cotton_patchwork", 1 ],
-        [ "cotton_ball", 2 ],
-        [ "medical_gauze", 1 ]
-      ]
+        [ "bandages_makeshift_boiled", 1 ]
+      ],
+      [ [ "medical_gauze", 6 ] ]
     ]
   },
   {
