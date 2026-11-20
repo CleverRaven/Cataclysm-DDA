@@ -467,7 +467,7 @@
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
       { "item": "adhesive_bandages", "count": [ 0, 16 ] },
-	  { "group": "bandages_experienced", "count": [ 1 , 2 ] }
+      { "group": "bandages_experienced", "count": [ 1, 2 ] }
     ]
   },
   {
