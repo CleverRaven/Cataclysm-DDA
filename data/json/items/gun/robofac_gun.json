@@ -31,22 +31,6 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "robofac40",
-          "robofac20",
-          "robofac50",
-          "robofac100",
-          "robofac10",
-          "robofac60",
-          "robofacmultimag",
-          "robofac30",
-          "robofac60_123ln"
-        ]
-      }
     ]
   },
   {
@@ -82,8 +66,7 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
+    ]
   },
   {
     "id": "robofac_gun_ar",
@@ -109,6 +92,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "223" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac40", "robofac100" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
     "handling_modifier": 4,
@@ -123,6 +107,7 @@
     "subtypes": [ "GUNMOD" ],
     "mod_targets": [ "xedra_gun" ],
     "name": { "str_sp": "rifled barrel" },
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40" ] } ],
     "flags": [ "IRREMOVABLE" ],
     "description": "This weapon is fitted with a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake."
   },
@@ -150,6 +135,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 4 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "9mm" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac60" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "handling_modifier": 2,
     "loudness_modifier": -50,
@@ -182,6 +168,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 3 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "57" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofacmultimag" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "handling_modifier": 2,
     "loudness_modifier": -50,
@@ -214,6 +201,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "308" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac20", "robofac50" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 12,
     "handling_modifier": 2,
@@ -245,6 +233,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "shot" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac10", "robofac30" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "shot_spread_multiplier_modifier": -0.3,
     "flags": [ "CHOKE" ],
@@ -274,6 +263,7 @@
     "subtypes": [ "GUNMOD" ],
     "mod_targets": [ "xedra_gun" ],
     "name": { "str_sp": "unrifled barrel" },
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra10" ] } ],
     "flags": [ "IRREMOVABLE" ],
     "description": "This weapon is fitted with long barrel with \"00 CQC\" stamped into the metal."
   },
@@ -344,6 +334,7 @@
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "install_time": "1 m",
     "ammo_modifier": [ "123ln" ],
+    "pocket_mods": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "robofac60_123ln" ] } ],
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ],
     "handling_modifier": 18,
