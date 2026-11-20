@@ -289,9 +289,9 @@
       { "item": "makeshift_glaive", "prob": 10 },
       { "item": "bo", "prob": 10 },
       { "item": "i_staff", "prob": 10 },
-	  { "item": "pitchfork", "prob": 10 },
-	  { "item": "homemade_polehammer", "prob": 10 },
-	  { "item": "tonfa", "prob": 10 },
+      { "item": "pitchfork", "prob": 10 },
+      { "item": "homemade_polehammer", "prob": 10 },
+      { "item": "tonfa", "prob": 10 },
       { "item": "machete", "prob": 5 },
       { "item": "hatchet", "prob": 5 }
     ]
