@@ -229,8 +229,7 @@
       "item": {
         "r": [ { "item": "box_battery_charger" }, { "item": "extension_cable" } ],
         "b": { "item": "battery_car" },
-		"g": [ { "item": "portable_generator" }, { "item": "jerrycan" } ]
-
+        "g": [ { "item": "portable_generator" }, { "item": "jerrycan" } ]
       },
       "toilets": { ";": {  } },
       "gaspumps": { "G": { "fuel": "gasoline" }, "D": { "fuel": "diesel" } },
