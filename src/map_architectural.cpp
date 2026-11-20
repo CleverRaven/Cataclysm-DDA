@@ -231,9 +231,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
 
-// terrain opening a gap in its level's floor; floor cache and its rebuild check
-// both read this one list
-static bool has_floor_gap_flag( const ter_t &terrain )
+
+bool map::has_floor_gap_flag( const ter_t &terrain ) const
 {
     return terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
            terrain.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER ) ||
