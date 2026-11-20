@@ -1550,6 +1550,8 @@
         "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
         "success_message": "Your surroundings warp and fold before reforming into a hellish landscape."
       },
+      "next_weather",
+      { "custom_light_level": 40, "length": "9999 hours", "key": "gozu_hell_stay" },
       {
         "if": { "u_is_on_terrain": "t_open_air" },
         "then": [

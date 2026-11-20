@@ -32,7 +32,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Absent Pillar",
+    "id": "Shadow Pillar",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "gozu_hell_spire_nw_north" },
       { "point": [ 1, 0, 0 ], "overmap": "gozu_hell_spire_ne_north" },
@@ -83,5 +83,39 @@
     "city_distance": [ 0, -1 ],
     "occurrences": [ 66, 100 ],
     "flags": [ "WILDERNESS", "OVERMAP_UNIQUE", "GOZU_HELL", "EXTRADIMENSIONAL" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "chasm_gozu_hell",
+    "overmaps": [
+      { "point": [ -1, 0, 0 ], "overmap": "gozu_hell_small_chasm_z0_left_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "gozu_hell_small_chasm_z0_center_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "gozu_hell_small_chasm_z0_right_north" },
+      { "point": [ -1, 0, -1 ], "overmap": "gozu_hell_small_chasm_z-1_left_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "gozu_hell_small_chasm_z-1_center_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "gozu_hell_small_chasm_z-1_right_north" },
+      { "point": [ -1, 0, -2 ], "overmap": "gozu_hell_small_chasm_z-2_left_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "gozu_hell_small_chasm_z-2_center_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "gozu_hell_small_chasm_z-2_right_north" },
+      { "point": [ -1, 0, -3 ], "overmap": "gozu_hell_small_chasm_z-2_left_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "gozu_hell_small_chasm_z-2_center_north" },
+      { "point": [ 1, 0, -3 ], "overmap": "gozu_hell_small_chasm_z-2_right_north" },
+      { "point": [ -1, 0, -4 ], "overmap": "gozu_hell_small_chasm_z-2_left_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "gozu_hell_small_chasm_z-2_center_north" },
+      { "point": [ 1, 0, -4 ], "overmap": "gozu_hell_small_chasm_z-2_right_north" },
+      { "point": [ -1, 0, -5 ], "overmap": "gozu_hell_small_chasm_z-2_left_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "gozu_hell_small_chasm_z-2_center_north" },
+      { "point": [ 1, 0, -5 ], "overmap": "gozu_hell_small_chasm_z-2_right_north" },
+      { "point": [ -1, 0, -6 ], "overmap": "gozu_hell_small_chasm_z-2_left_north" },
+      { "point": [ 0, 0, -6 ], "overmap": "gozu_hell_small_chasm_z-2_center_north" },
+      { "point": [ 1, 0, -6 ], "overmap": "gozu_hell_small_chasm_z-2_right_north" },
+      { "point": [ -1, 0, -7 ], "overmap": "gozu_hell_small_chasm_bottom_left_north" },
+      { "point": [ 0, 0, -7 ], "overmap": "gozu_hell_small_chasm_bottom_center_north" },
+      { "point": [ 1, 0, -7 ], "overmap": "gozu_hell_small_chasm_bottom_right_north" }
+    ],
+    "locations": [ "gozu_hell" ],
+    "city_distance": [ 30, -1 ],
+    "occurrences": [ 6, 20 ],
+    "flags": [ "WILDERNESS", "GOZU_HELL", "EXTRADIMENSIONAL" ]
   }
 ]
