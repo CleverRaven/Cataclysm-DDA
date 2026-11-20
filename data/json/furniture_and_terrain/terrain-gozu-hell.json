@@ -1,0 +1,36 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_nether_abyss_void",
+    "name": "star-filled void",
+    "description": "An endless expanse of blackness, interrupted by tiny points of light.  Are they moving?",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_sand_floating",
+    "name": "fractal sand",
+    "description": "A large area of fine sand, forming whorls and fractal patterns.  The whorls rise in the air and continue over the edge of the chasm, forming a feathered sandy border around the abyss.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_gozu_hell_spire",
+    "name": "absent edifice",
+    "description": "There is nothing here, an absence of what should be shadow or form.  Your eyes tell you to keep going but your body stubbornly refuses to move through this space.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "looks_like": "t_wall_warped",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+  }
+]

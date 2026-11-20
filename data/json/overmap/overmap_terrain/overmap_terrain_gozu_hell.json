@@ -61,5 +61,15 @@
     "name": "standing stones",
     "spawns": {  },
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gozu_hell_spire_nw", "gozu_hell_spire_ne", "gozu_hell_spire_sw", "gozu_hell_spire_se" ],
+    "name": "absent pillar",
+    "sym": "C",
+    "color": "light_gray",
+    "see_cost": "full_high",
+    "vision_levels": "isolated_tower",
+    "mondensity": 2
   }
 ]
