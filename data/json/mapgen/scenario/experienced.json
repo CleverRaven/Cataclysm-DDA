@@ -437,13 +437,13 @@
     "subtype": "collection",
     "//": "charges in the sewing tools can't be added directly in the mapgen item list",
     "entries": [
-	  {
-	    "distribution": [
-		  { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
-		  { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
-	    ]
-	  },
-	  { "item": "awl_steel", "prob": 100 }
+      {
+        "distribution": [
+          { "item": "sewing_kit", "prob": 47, "charges": [ 0, -1 ] },
+          { "item": "tailors_kit", "prob": 3, "charges": [ 0, -1 ] }
+        ]
+      },
+      { "item": "awl_steel", "prob": 100 }
     ]
   },
   {
