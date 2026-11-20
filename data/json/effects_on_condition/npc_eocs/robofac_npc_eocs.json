@@ -41,6 +41,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "BEM_CHECK_MURDER",
+    "eoc_type": "NPC_DEATH",
+    "//": "This causes the bar to close.  There's no possibility of infighting within tha Ancilla atm, so this here would really only involve player action or Portal Storm shenanigans, we mostly care about the former.",
+    "condition": "has_beta",
+    "effect": [ { "if": "npc_is_avatar", "then": [ { "math": [ "ancilla_bar_exists = 0" ] } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ROBOFAC_CHOP_SHOP_REPORTED_YOU_TO_HUB",
     "condition": { "not": { "math": [ "robofac_chop_shop_scientist_1_is_dead == 1" ] } },
     "effect": [

@@ -1,6 +1,15 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_HUB_TELEPORT",
+    "condition": { "not": "u_driving" },
+    "effect": [
+      { "u_location_variable": { "u_val": "hub_loc" }, "target_params": { "om_terrain": "robofachq_surface_road1", "z": 0 } },
+      { "u_teleport": { "u_val": "hub_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SLEEP",
     "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness') += 40" ] } ]
   },
