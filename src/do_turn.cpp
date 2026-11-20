@@ -632,10 +632,6 @@ bool game::do_turn()
     // process avatar activities (ignoring user input)
     u.process_activity();
 
-    if( !u.activity && g->master_override_dont_redraw ) {
-        g->master_override_dont_redraw = false;
-    }
-
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : all_npcs() ) {
         cata_timer process_sounds_timer( string_format( "Processing sounds for %s", guy.get_name() ) );

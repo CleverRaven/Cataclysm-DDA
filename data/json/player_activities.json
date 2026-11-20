@@ -879,6 +879,8 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "trying to fall asleep",
+    "//COMMENT": "This blocks rendering for performance reasons. Also because you're asleep, and can't see anything. Duh.",
+    "render_blocked": true,
     "rooted": true,
     "based_on": "speed",
     "can_resume": false

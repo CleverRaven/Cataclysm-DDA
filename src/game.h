@@ -220,8 +220,6 @@ class game
         */
         bool do_turn();
 
-        bool master_override_dont_redraw = false;
-
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
 

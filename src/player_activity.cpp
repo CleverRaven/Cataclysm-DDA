@@ -96,6 +96,11 @@ void player_activity::synchronize_type_with_actor()
     }
 }
 
+bool player_activity::render_blocked() const
+{
+    return type->render_blocked();
+}
+
 bool player_activity::rooted() const
 {
     return type->rooted();
@@ -189,9 +194,6 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
         actor->start( *this, who );
-        if( who.is_avatar() ) {
-            g->master_override_dont_redraw = true;
-        }
     }
     if( !type.is_null() && rooted() ) {
         who.rooted_message();
