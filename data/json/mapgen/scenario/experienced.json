@@ -257,7 +257,10 @@
         "a": [ { "item": "armor_experienced", "chance": 100 }, { "item": "sewing_experienced", "chance": 100 } ],
         "w": { "item": "melee_experienced", "chance": 100, "repeat": [ 1, 2 ] },
         "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
-        "e": [ { "item": "cannedfood", "chance": 100, "repeat": [ 9, 12 ] }, { "item": "bugout_water", "chance": 100, "repeat": [ 2, 3 ] } ]
+        "e": [
+          { "item": "cannedfood", "chance": 100, "repeat": [ 9, 12 ] },
+          { "item": "bugout_water", "chance": 100, "repeat": [ 2, 3 ] }
+        ]
       },
       "place_items": [
         { "item": "cash_register_random", "x": 16, "y": [ 13, 16 ], "chance": 100 },
