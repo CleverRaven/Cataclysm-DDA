@@ -1349,6 +1349,7 @@ class map
                           bool repair_missing_ground = true );
 
         // Effects of attacks/items
+        // TODO: this function should not be using dozens of individual terrain IDs
         bool hit_with_acid( const tripoint_bub_ms &p );
         bool hit_with_fire( const tripoint_bub_ms &p );
 
