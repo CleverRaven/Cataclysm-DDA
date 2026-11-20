@@ -250,7 +250,7 @@ void medical_ui::print_debug_wound_info( const Character &you, const bodypart_id
                 }
 
 
-                ImGui::SetTooltip( tooltip.c_str() );
+                ImGui::SetTooltip( "%s", tooltip );
             }
 
             ImGui::TableNextColumn();
