@@ -29,6 +29,8 @@
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_nether_glass_floor_clairvoyance",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BLOCK_WIND" ]
   }
 ]
