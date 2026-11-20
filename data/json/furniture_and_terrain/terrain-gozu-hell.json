@@ -28,9 +28,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
-    "looks_like": "t_wall_warped",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
+    "looks_like": "t_nether_glass_floor_clairvoyance",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "BLOCK_WIND" ]
   }
 ]

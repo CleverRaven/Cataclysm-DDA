@@ -42,7 +42,8 @@
         "success_message": "Your surroundings warp and fold into the recesses of the world you know."
       },
       { "alter_timed_events": "gozu_hell_stay" },
-      { "give_achievement": "achievement_return_from_gozu_hell" }
+      { "give_achievement": "achievement_return_from_gozu_hell" },
+      { "clear_dimension": "gozu_hell" }
     ]
   }
 ]
