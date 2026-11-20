@@ -186,20 +186,80 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "charges": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "20 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
     "//": "1u for the veggy, 1u for the broth, 2u for the time spent boiling.",
+    "steps": [
+      {
+        "name": "Boiling and Preparation",
+        "//": "Bring water to a boil while preparing ingredients (such as snapping vegetables and pastas down to size)",
+        "time": "5 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+        "batch_time_factors": [ 20, 1 ]
+      },
+      {
+        "name": "Cooking",
+        "//": "Occasional stirring, in the last few minute add in the last ingredients",
+        "time": "15 m",
+        "batch_time_factors": [ 80, 4 ],
+        "activity_level": "LIGHT_EXERCISE",
+        "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+        "qualities": [ { "id": "COOK", "level": 3 } ]
+      }
+    ],
+    "using": [ [ "veggy_soup_ingredients", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soup_veggy",
+    "name": "%s (Unattended)",
+    "id_suffix": "unattended",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "autolearn": true,
+    "steps": [
+      {
+        "name": "Boiling and preparation",
+        "//": "Set to high heat for bringing to a boil and cooking",
+        "time": "5 m",
+        "activity_level": "LIGHT_EXERCISE",
+        "qualities": [ { "id": "BOIL", "level": 1 } ],
+        "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+        "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+        "batch_time_factors": [ 80, 4 ]
+      },
+      {
+        "name": "Cooking",
+        "time": "15 m",
+        "batch_time_factors": [ 80, 4 ],
+        "activity_level": "LIGHT_EXERCISE",
+        "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+        "qualities": [ { "id": "COOK", "level": 3 } ]
+      },
+      {
+        "name": "On low heat",
+        "//": "Change to low heat for simmering, at any time the hot food can be removed and the appliance manually switched off",
+        "time": "1 s",
+        "batch_time_factors": [ 80, 4 ],
+        "activity_level": "NO_EXERCISE",
+        "//2": "(Not able to simulate) Passively consumes battery charge over 20 hours, so long as there's no intervention",
+        "tools": [ [ [ "water_boiling_heat", 30, "LIST" ] ] ],
+        "qualities": [ { "id": "COOK", "level": 3 } ],
+        "max_time": "20 h",
+        "attention": "unattended"
+      }
+    ],
     "using": [ [ "veggy_soup_ingredients", 1 ] ]
   },
   {
