@@ -343,19 +343,19 @@
     "id": "armor_experienced_arms",
     "subtype": "distribution",
     "entries": [
-	  { "item": "armguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "armor_riot_arm", "prob": 2, "custom-flags": [ "FIT" ] },
-	  { "item": "carpet_bracers", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "improvised_armguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "2byarm_guard", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "armguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "cloth_arms_padded", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "survivor_adhoc_leather_sleeves", "prob": 5, "custom-flags": [ "FIT" ] },
-	  { "item": "armguard_soft", "prob": 5, "custom-flags": [ "FIT" ] }
-	]
+      { "item": "armguard_hard", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "armor_riot_arm", "prob": 2, "custom-flags": [ "FIT" ] },
+      { "item": "carpet_bracers", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "improvised_armguard_tire", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "2byarm_guard", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "armguard_paper", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "cloth_arms_padded", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "survivor_adhoc_leather_sleeves", "prob": 5, "custom-flags": [ "FIT" ] },
+      { "item": "armguard_soft", "prob": 5, "custom-flags": [ "FIT" ] }
+    ]
   },
   {
-	"type": "item_group",
+    "type": "item_group",
     "id": "armor_experienced_legs",
     "subtype": "distribution",
     "entries": [
