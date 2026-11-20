@@ -71,5 +71,24 @@
     "cut_dmg_verb": "cut",
     "soft": true,
     "resist": { "bash": 1.5, "cut": 2, "acid": 6, "heat": 2, "bullet": 5 }
+  },
+  {
+    "type": "material",
+    "id": "aligned_steel",
+    "name": "Aligned Steel",
+    "//": "This is steel made sightly stronger using minute applications of telekinesis",
+    "density": 8,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "conductive": true,
+    "chip_resist": 22,
+    "repaired_with": "steel_chunk",
+    "dmg_adj": [ "marked", { "ctxt": "adjective", "str": "dented" }, "smashed", "shattered" ],
+    "bash_dmg_verb": { "ctxt": "verb", "str": "dented" },
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 0.5 ] ],
+    "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4 },
+    "repair_difficulty": 4
   }
 ]
