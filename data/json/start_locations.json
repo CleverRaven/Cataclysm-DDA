@@ -29,7 +29,7 @@
     "name": "Fortified Evacuation Shelter",
     "terrain": [ { "om_terrain": "shelter_experienced" } ]
   },
-   {
+  {
     "type": "start_location",
     "id": "sloc_gas_experienced",
     "name": "Fortified Gas Station",
