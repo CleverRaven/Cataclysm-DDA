@@ -77,7 +77,7 @@
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "i_staff_plus_two",
     "components": [ [ [ "i_staff_plus_one", 1 ] ], [ [ "mana_dust", 20 ] ], [ [ "mercury", 10 ] ] ]
-  },  
+  },
   {
     "type": "recipe",
     "copy-from": "cestus_plus_one",
