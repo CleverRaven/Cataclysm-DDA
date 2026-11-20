@@ -37,7 +37,7 @@
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
-	"delete": { "flags": [ "RISK_HIGH" ], "post_process_generators": [ "riot_damage" ] }
+    "delete": { "flags": [ "RISK_HIGH" ], "post_process_generators": [ "riot_damage" ] }
   },
   {
     "type": "overmap_terrain",
