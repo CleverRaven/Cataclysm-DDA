@@ -302,21 +302,21 @@
     "subtype": "collection",
     "//": "Armor a survivor could have scavenged or made.  Intentionally behind progression curve; more sophisticated crafted armor (like leather body armor) is relegated to backgrounds for this scenario.",
     "entries": [
-	  {
-	  "distribution": [
-	    {	  
-	    "distribution": [
-		    { "item": "bite_suit", "prob": 5, "custom-flags": [ "FIT" ] },
-		    { "item": "touring_suit", "prob": 20, "custom-flags": [ "FIT" ] },
-			{ "item": "armor_riot", "prob": 30, "custom-flags": [ "FIT" ] }
-	      ],
-	      "prob": 10
-	    },
-		{ "group": "armor_experienced_notsuit", "prob": 90 }
-	  ]
-	  },
-	  { "group": "armor_experienced_head", "prob": 100 }
-	]
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "item": "bite_suit", "prob": 5, "custom-flags": [ "FIT" ] },
+              { "item": "touring_suit", "prob": 20, "custom-flags": [ "FIT" ] },
+              { "item": "armor_riot", "prob": 30, "custom-flags": [ "FIT" ] }
+            ],
+            "prob": 10
+          },
+          { "group": "armor_experienced_notsuit", "prob": 90 }
+        ]
+      },
+      { "group": "armor_experienced_head", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
