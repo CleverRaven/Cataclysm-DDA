@@ -592,6 +592,27 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     return retval;
 }
 
+item_location Character::i_add_or_drop_ret_loc( item it, const item *avoid,
+        const item *original_inventory_item )
+{
+    item_location ret;
+    bool drop = it.made_of( phase_id::LIQUID );
+    bool add = it.is_gun() || !it.is_irremovable();
+    if( is_avatar() ) {
+        as_avatar()->assign_empty_invlet( it );
+    }
+    map &here = get_map();
+    drop |= !can_pickWeight( it, false ) || !can_pickVolume( it );
+    if( drop ) {
+        ret = here.add_item_or_charges_ret_loc( pos_bub(), it );
+    } else if( add ) {
+        ret = i_add( it, true, avoid,
+                     original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+    }
+
+    return ret;
+}
+
 bool Character::i_drop_at( item &it, int qty )
 {
     bool retval = true;
