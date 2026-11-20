@@ -465,9 +465,17 @@ class Creature : public viewer
         float get_crit_factor( const bodypart_id &bp ) const;
 
         int size_melee_penalty() const;
+
+        // defense
+        float last_dodge = 0.0f;
+        float last_block = 0.0f;
+        int last_hit_spread = 0;
+        virtual float block_roll( const Creature * ) {
+            return 0.0f;
+        }
         // begins a melee attack against the creature
-        // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack( Creature *source, int hitroll );
+        // returns hit - dodge - block
+        int deal_melee_attack( Creature *source, int hitroll, bool allow_block = true );
 
         // damage multiplier represnting partial dodge (hitroll-dodge).
         // 0=complete miss, 1=square hit

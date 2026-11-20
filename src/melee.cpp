@@ -766,7 +766,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Remember if we see the monster at start - it may change
         const bool seen = player_character.sees( here, t );
         // Start of attacks.
-        const bool critical_hit = scored_crit( t.dodge_roll(), cur_weap );
+        const bool critical_hit = scored_crit( t.last_dodge + t.last_block, cur_weap );
         if( critical_hit ) {
             melee::melee_stats.actual_crit_count += 1;
         }
@@ -1985,12 +1985,113 @@ item_location Character::best_shield()
     return best;
 }
 
+float Character::block_roll( const Creature *source )
+{
+
+    block_bp = bodypart_str_id::NULL_ID().id();
+    thing_blocked_with.clear();
+    block_item = false;
+
+    // Shouldn't block if player is asleep or winded -- left here and in block_hit, cause I dunno, seems safer
+    if( in_sleep_state() || has_effect( effect_narcosis ) ||
+        has_effect( effect_winded ) || has_effect( effect_fearparalyze ) || is_driving() ) {
+        return 0.0f;
+    }
+
+    // Can't block attacks from attackers two sizes greater than you -- left here and in block_hit, cause I dunno, seems safer
+    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
+        return 0.0f;
+    }
+
+    // Can't block if you ain't got blocks
+    if( blocks_left < 1 ) {
+        return 0.0f;
+    }
+
+    // Melee skill and reaction score governs if you can react in time
+    float melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
+
+    // Extract this to make it easier to implement shields/multiwield later
+    item_location shield = best_shield();
+
+    // Check if we are going to block with an item. This could
+    // be worn equipment with the BLOCK_WHILE_WORN flag.
+    const bool has_shield = !!shield;
+    bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
+    bool unarmed = !is_armed();
+    bool force_unarmed = martial_arts_data->is_force_unarmed();
+    bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
+    bool armed_body_block = weapon.has_flag( flag_ALLOWS_BODY_BLOCK );
+    if( has_shield ) {
+        block_bonus = melee::blocking_ability( *shield );
+    }
+
+    bool arm_block = false;
+    bool leg_block = false;
+    bool nonstandard_block = false;
+
+    int unarmed_skill = round( get_skill_level( skill_unarmed ) );
+
+    float block_score = 1.0f;
+
+    /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
+    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
+    if( unarmed || force_unarmed || worn_shield || armed_body_block || ( has_shield &&
+            !allow_weapon_blocking ) ) {
+        // Limb blocks, where use of BLOCK_WHILE_WORN is gated behind MA techniques
+        arm_block = martial_arts_data->can_arm_block( *this );
+        leg_block = martial_arts_data->can_leg_block( *this );
+        nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
+        if( arm_block || leg_block || nonstandard_block ) {
+            block_score = get_arm_str() + unarmed_skill;
+            block_bp = select_blocking_part( arm_block, leg_block, nonstandard_block );
+            block_score *= get_part( block_bp )->get_limb_score( *this, limb_score_block );
+            if( worn_shield && shield->covers( block_bp ) ) {
+                thing_blocked_with = shield->tname();
+                block_score += block_bonus;
+            } else {
+                thing_blocked_with = body_part_name( block_bp );
+            }
+        } else {
+            // We don't have a shield or a technique. How are we blocking?
+            return 0.0f;
+        }
+    } else if( has_shield ) {
+        // Do we block with a weapon? Worn shields are already filtered out
+        // And weapon blocks are preferred by best_shield
+        block_score = get_arm_str() + block_bonus + melee_skill;
+        thing_blocked_with = shield->tname();
+        block_item = true;
+    } else {
+        // Can't block with limbs or items (do not block)
+        return 0.0f;
+    }
+
+    // add martial arts block effectiveness bonus
+    block_score += mabuff_block_effectiveness_bonus();
+
+    // blocking ability decreases with stamina loss
+    // logistic curve cargo culted from old block, but spanning a width of 50, which is the width of partial dodge
+    float ret = 50.0f * ( 1.0f - logarithmic_range( 0, 40, static_cast<int>( block_score ) ) );
+    add_msg_debug( debugmode::DF_MELEE, "Block score: %.1f", ret );
+    ret *= get_stamina_dodge_modifier();
+    add_msg_debug( debugmode::DF_MELEE, "Block score after stamina mod: %.1f", ret );
+    ret *= get_limb_score( limb_score_reaction );
+    add_msg_debug( debugmode::DF_MELEE, "Final block score after limb score mod: %.1f", ret );
+    return ret;
+}
+
 bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
 
     // Shouldn't block if player is asleep or winded
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
         has_effect( effect_winded ) || has_effect( effect_fearparalyze ) || is_driving() ) {
+        return false;
+    }
+
+    // Can't block attacks from attackers two sizes greater than you
+    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
         return false;
     }
 
@@ -2004,31 +2105,23 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
-    // Now that blocks cost stamina, break out if stamina is too low
-    // TODO: More complicated calculation. Dodge checks your dodge chance
-    // which is affected by stamina, pain, and so on and when it hits
-    // zero, that's when you get the message that you can't dodge, but
-    // currently none of that affects blocking
-    if( get_stamina() < 2000 ) {
-        add_msg_if_player( m_warning,
-                           _( "You're close to exhaustion and cannot block effectively." ) );
-        return false;
-    }
-
-    // Can't block attacks from attackers two sizes greater than you
-    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
-        return false;
-    }
-
-    // Melee skill and reaction score governs if you can react in time
-    // Skill of 5 without relevant encumbrance guarantees a block attempt
-    float melee_skill = has_active_bionic( bio_cqb ) ? 5 : get_skill_level( skill_melee );
-    if( !x_in_y( melee_skill * 20.0 * get_limb_score( limb_score_reaction ), 100 ) ) {
-        add_msg_debug( debugmode::DF_MELEE, "Block roll failed" );
+    const float without_block = melee_damage_mult( static_cast<int>( last_hit_spread + last_block ) );
+    const float with_block = melee_damage_mult( last_hit_spread );
+    if( last_block <= 0.0f || without_block - with_block < 0.05f ) {
         return false;
     }
 
     blocks_left--;
+
+    // Warn if stamina is low
+    if( get_stamina() < 2000 ) {
+        add_msg_if_player( m_warning,
+                           _( "You're close to exhaustion and cannot block effectively." ) );
+    }
+
+    // did you block, parry, or dodge?
+    const float block_share = last_block / ( last_block + last_dodge );
+    const bool blocked = block_share > 0.5f;
 
     // This bonus absorbs damage from incoming attacks before they land,
     // but it still counts as a block even if it absorbs all the damage.
@@ -2036,107 +2129,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Extract this to make it easier to implement shields/multiwield later
     item_location shield = best_shield();
+    const bool conductive_shield = shield && shield->conductive();
 
-    // Check if we are going to block with an item. This could
-    // be worn equipment with the BLOCK_WHILE_WORN flag.
-    const bool has_shield = !!shield;
-    bool worn_shield = has_shield && shield->has_flag( flag_BLOCK_WHILE_WORN );
-
-    bool conductive_shield = false;
-    bool unarmed = !is_armed();
-    bool force_unarmed = martial_arts_data->is_force_unarmed();
-    bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
-    bool armed_body_block = weapon.has_flag( flag_ALLOWS_BODY_BLOCK );
-
-    // boolean check if blocking is being done with unarmed or not
-    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed && !armed_body_block;
-
-    bool arm_block = false;
-    bool leg_block = false;
-    bool nonstandard_block = false;
-
-    int unarmed_skill = round( get_skill_level( skill_unarmed ) );
-
-    int block_score = 1;
-
-    if( has_shield ) {
-        block_bonus = melee::blocking_ability( *shield );
-        conductive_shield = shield->conductive();
-    }
-
-    /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
-    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
-    if( unarmed || force_unarmed || worn_shield || armed_body_block || ( has_shield &&
-            !allow_weapon_blocking ) ) {
-        arm_block = martial_arts_data->can_arm_block( *this );
-        leg_block = martial_arts_data->can_leg_block( *this );
-        nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
-        if( arm_block || leg_block || nonstandard_block ) {
-            // block_bonus for limb blocks will be added when the limb is decided
-            block_score = get_arm_str() + unarmed_skill;
-        } else {
-            // We don't have a shield or a technique. How are we blocking?
-            return false;
-        }
-        // Do we block with a weapon? Worn shields are already filtered out
-        // And weapon blocks are preferred by best_shield
-    } else if( has_shield ) {
-        block_score = get_arm_str() + block_bonus + melee_skill;
-    } else {
-        // Can't block with limbs or items (do not block)
-        return false;
-    }
-
-    // add martial arts block effectiveness bonus
-    block_score += mabuff_block_effectiveness_bonus();
-
-    // weapon blocks are preferred to limb blocks
-    std::string thing_blocked_with;
-    // Do we block with a weapon? Handle melee wear but leave bp the same
-    if( !( unarmed || force_unarmed || worn_shield || armed_body_block ) && allow_weapon_blocking ) {
-        thing_blocked_with = shield->tname();
-        // TODO: Change this depending on damage blocked
-        float wear_modifier = 1.0f;
-        if( source != nullptr && source->is_hallucination() ) {
-            wear_modifier = 0.0f;
-        }
-
-        handle_melee_wear( shield, wear_modifier );
-    }  else {
-        // Select part to block with, preferring worn blocking armor if applicable
-        bp_hit = select_blocking_part( arm_block, leg_block, nonstandard_block );
-        block_score *= get_part( bp_hit )->get_limb_score( *this, limb_score_block );
-        add_msg_debug( debugmode::DF_MELEE, "Block score after multiplier %d", block_score );
-        if( worn_shield && shield->covers( bp_hit ) ) {
-            thing_blocked_with = shield->tname();
-
-            if( source != nullptr && !source->is_hallucination() ) {
-                for( damage_unit &du : dam.damage_units ) {
-                    shield->damage_armor_durability( du, du, bp_hit, calculate_by_enchantment( 1,
-                                                     enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ),
-                                                     this );
-                }
-            }
-
-            block_score += block_bonus;
-
-        } else {
-            thing_blocked_with = body_part_name( bp_hit );
-        }
-    }
-
-    // Map block_score to the logistic curve for a number between 1 and 0.
-    // Basic beginner character (str 8, skill 0, basic weapon)
-    // Will have a score around 10 and block about %15 of incoming damage.
-    // More proficient melee character (str 10, skill 4, wbock_2 weapon)
-    // will have a score of 20 and block about 45% of damage.
-    // A highly expert character (str 14, skill 8 wblock_2)
-    // will have a score in the high 20s and will block about 80% of damage.
-    // As the block score approaches 40, damage making it through will dwindle
-    // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
-    const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
-
-    add_msg_debug( debugmode::DF_MELEE, "Physical block multiplier %.1f", physical_block_multiplier );
     float total_damage = 0.0f;
     float damage_blocked = 0.0f;
 
@@ -2150,14 +2144,6 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             total_phys_block -= block_amount;
             elem.amount -= block_amount;
             damage_blocked += block_amount;
-
-            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
-                continue;
-            }
-
-            float previous_amount = elem.amount;
-            elem.amount *= physical_block_multiplier;
-            damage_blocked += previous_amount - elem.amount;
         }
 
         else if( !elem.type->physical && !elem.type->no_resist ) {
@@ -2166,7 +2152,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             // but severely mitigated damage if not
             bool can_block = elem.type == damage_electric ? !conductive_shield : true;
             // Unarmed weapons won't block those
-            if( item_blocking && can_block ) {
+            if( block_item && can_block ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -2177,43 +2163,57 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     std::string damage_blocked_description;
     // good/bad/ugly add_msg color code?
     // none, hardly any, a little, some, most, all
-    float blocked_ratio = 0.0f;
+    float blocked_ratio = with_block / without_block;
     if( total_damage > std::numeric_limits<float>::epsilon() ) {
-        blocked_ratio = ( total_damage - damage_blocked ) / total_damage;
+        blocked_ratio *= ( total_damage - damage_blocked ) / total_damage;
     }
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
+        //~ Adjective in "You block <adjective> of the attack with your <weapon>.
         damage_blocked_description = _( "all" );
     } else if( blocked_ratio < 0.2 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "nearly all" );
     } else if( blocked_ratio < 0.4 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "most" );
     } else if( blocked_ratio < 0.6 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "a lot" );
     } else if( blocked_ratio < 0.8 ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "some" );
     } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ) {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "a little" );
     } else {
-        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _( "none" );
     }
-    add_msg_player_or_npc( _( "You block %1$s of the damage with your %2$s!" ),
-                           _( "<npcname> blocks %1$s of the damage with their %2$s!" ),
-                           damage_blocked_description, thing_blocked_with );
+    if( blocked ) {
+        add_msg_player_or_npc( _( "You block %1$s of the attack with your %2$s!" ),
+                               _( "<npcname> blocks %1$s of the attack with their %2$s!" ),
+                               damage_blocked_description, thing_blocked_with );
+    } else if( block_share >= 0.33f ) {
+        add_msg_player_or_npc( _( "You parry %1$s of the attack with your %2$s!" ),
+                               _( "<npcname> parries %1$s of the attack with their %2$s!" ),
+                               damage_blocked_description, thing_blocked_with );
+    }
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
-    // stamina cost for blocking, based on dodge
-    // TODO: account for enemy melee scale, add diminishing returns.
+    // Do we block with a weapon? Handle wear
+    // TODO: Change this depending on damage blocked -- carried over as is from old block
+    if( block_item ) {
+        float wear_modifier = 1.0f;
+        if( source != nullptr && source->is_hallucination() ) {
+            wear_modifier = 0.0f;
+        }
+        handle_melee_wear( shield, wear_modifier );
+    }
+
+    // If landing on limb, handle that
+    if( blocked && block_bp != bodypart_str_id::NULL_ID() ) {
+        bp_hit = block_bp;
+    }
+
+    // stamina cost
     const int base_burn_rate = get_option<int>( player_base_stamina_burn_rate );
     const float block_skill_modifier = ( 20.0f - get_skill_level( skill_melee ) ) / 20.0f;
     const float block_stamina_cost = static_cast<float>( base_burn_rate )  * 6.0f *
-                                     block_skill_modifier;
+                                     block_skill_modifier * ( without_block - with_block );
     burn_energy_legs( -block_stamina_cost );
     set_activity_level( EXTRA_EXERCISE );
     add_msg_debug( debugmode::DF_MELEE, "Blocking stamina cost %.1f", block_stamina_cost );
@@ -2221,8 +2221,11 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );
 
-    // Check if we have any block counters
-    matec_id tec = std::get<0>( pick_technique( *source, shield, false, false, true ) );
+    // Check if we have any block counters and use them only if you're in the parry/block realm of defense
+    matec_id tec = tec_none;
+    if( block_share >= 0.33f && source != nullptr ) {
+        tec = std::get<0>( pick_technique( *source, shield, false, false, true ) );
+    }
 
     if( tec != tec_none && !is_dead_state() ) {
         int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );
@@ -2235,7 +2238,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
     }
 
-    return true;
+    return blocked;
 }
 
 void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dealt_dam )

@@ -1098,18 +1098,24 @@ bool Creature::melee_attack_hit( int hit_spread )
     return melee_damage_mult( hit_spread ) > 0.0f;
 }
 
-int Creature::deal_melee_attack( Creature *source, int hitroll )
+int Creature::deal_melee_attack( Creature *source, int hitroll, bool allow_block )
 {
 
     const float dodge = dodge_roll();
+    float block = 0.0f;
+    if( allow_block ) {
+        block = block_roll( source );
+    }
     on_try_dodge();
 
-    int hit_spread = hitroll - dodge - size_melee_penalty();
+    int hit_spread = hitroll - dodge - block - size_melee_penalty();
 
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
+    add_msg_debug( debugmode::DF_CREATURE, "Block roll %.1f",
+                   block );
 
     if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
@@ -1118,6 +1124,10 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
         // clumsy weapon or when severely encumbered.
         hit_spread += 40;
     }
+
+    last_dodge = dodge;
+    last_block = block;
+    last_hit_spread = hit_spread;
 
     // If attacker missed call targets on_dodge event
     if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {

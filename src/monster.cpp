@@ -18,6 +18,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "cata_imgui.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
@@ -2172,40 +2173,47 @@ bool monster::is_dead_state() const
     return hp <= 0;
 }
 
-bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
+float monster::block_roll( const Creature * )
 {
-    if( blocks_left <= 0 ) {
-        return false;
+    if( blocks_left < 1 ) {
+        return 0.0f;
     }
-
-    --blocks_left;
 
     if( !x_in_y( type->block.chance, 100 ) ) {
+        return 0.0f;
+    }
+
+    float remaining_block = type->block.effectiveness;
+    if( remaining_block <= 0.0f ) {
+        return 0.0f;
+    }
+
+    return 50.0f * ( 1.0f - logarithmic_range( 0, 40,
+                     static_cast<int>( type -> block.effectiveness ) ) ) ;
+}
+
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
+{
+    if( blocks_left < 1 ) {
         return false;
     }
 
-    bool blocked = false;
-    float remaining_block = type->block.effectiveness;
-
-    for( damage_unit &elem : dam.damage_units ) {
-        if( remaining_block <= 0.0f ) {
-            break;
-        }
-
-        if( type->block.ranged || ( elem.type->physical && elem.type->melee_only ) ) {
-            const float block_amount = std::min( remaining_block, elem.amount );
-
-            elem.amount -= block_amount;
-            remaining_block -= block_amount;
-
-            if( block_amount > 0.0f ) {
-                blocked = true;
-            }
-        }
+    const float without_block = melee_damage_mult( static_cast<int>( last_hit_spread + last_block ) );
+    const float with_block = melee_damage_mult( last_hit_spread );
+    if( last_block <= 0.0f || without_block - with_block < 0.05f ) {
+        return false;
     }
+
+    blocks_left--;
+
+    // did they block, parry, or dodge?
+    const float block_share = last_block / ( last_block + last_dodge );
+    const bool blocked = block_share > 0.5f;
 
     if( blocked ) {
         add_msg_if_player_sees( *this, m_warning, _( "The %s blocks the attack!" ), name() );
+    } else if( block_share >= 0.33f ) {
+        add_msg_if_player_sees( *this, m_warning, _( "The %s parries the attack!" ), name() );
     }
 
     return blocked;
@@ -2317,6 +2325,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 if( monster_missed ) {
                     add_msg( _( "%s misses you." ), u_see_me ? disp_name( true ) : _( "Something" ) );
+                } else if( target.last_block > target.last_dodge ) {
+                    add_msg( _( "You block %s." ), u_see_me ? disp_name() : _( "something" ) );
                 } else {
                     add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : _( "something" ) );
                 }
@@ -2324,6 +2334,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
                 if( monster_missed ) {
                     add_msg( _( "%1$s misses %2$s!" ),
                              u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name() );
+                } else if( target.last_block > target.last_dodge ) {
+                    add_msg( _( "%1$s blocks %2$s attack." ),
+                             target.disp_name(), u_see_me ? name() : _( "something" ) );
                 } else {
                     add_msg( _( "%1$s dodges %2$s attack." ),
                              target.disp_name(), u_see_me ? name() : _( "something" ) );
