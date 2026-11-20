@@ -62,11 +62,11 @@
         "S": { "item": "SUS_evac_shelter_sink_used", "chance": 50 },
         "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
         "t": { "item": "tools_experienced", "chance": 100 },
-        "A": [ 
-		  { "item": "armor_experienced", "chance": 100 }, 
-		  { "item": "sewing_experienced", "chance": 100 },
-		  { "item": "bags", "chance": 100 }
-		],
+        "A": [
+          { "item": "armor_experienced", "chance": 100 },
+          { "item": "sewing_experienced", "chance": 100 },
+          { "item": "bags", "chance": 100 }
+        ],
         "w": { "item": "melee_experienced", "chance": 100, "repeat": [ 1, 2 ] },
         "R": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 4 ] },
         "9": { "item": "bed", "chance": 90 },
