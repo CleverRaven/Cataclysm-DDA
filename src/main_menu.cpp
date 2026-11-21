@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <exception>
+#include <filesystem>
 #include <functional>
 #include <initializer_list>
 #include <istream>
@@ -16,6 +17,8 @@
 #include <memory>
 #include <optional>
 #include <string>
+
+#include <char8_t-remediation/char8_t-remediation.h>
 
 #if defined(EMSCRIPTEN)
 #include <emscripten.h>
@@ -569,11 +572,11 @@ void main_menu::load_char_templates()
 {
     templates.clear();
 
-    for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
-            true ) ) {
-        path.erase( path.find( ".template" ), std::string::npos );
-        path.erase( 0, path.find_last_of( "\\/" ) + 1 );
-        templates.push_back( path );
+    for( const cata_path &path : get_files_from_path( ".template", PATH_INFO::templatedir_path(),
+            false, true ) ) {
+        const std::filesystem::path &file = path.get_relative_path();
+        // An unnamed preset is stored as ".template", which has no filesystem extension.
+        templates.emplace_back( file.has_extension() ? from_u8string( file.stem().u8string() ) : "" );
     }
     std::sort( templates.begin(), templates.end(), localized_compare );
 }
