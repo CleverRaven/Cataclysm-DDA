@@ -85,7 +85,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "3 minutes",
     "skills": [ { "skill": "firstaid", "level": 0 } ],
-    "requirements": [ [ [ "wound_bleed", 1 ], [ "wound_bleed_alt", 1 ] ] ],
+    "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.8 } ]
   },
   {
@@ -95,7 +95,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "6 minutes",
     "skills": [ { "skill": "firstaid", "level": 1 } ],
-    "requirements": [ [ [ "wound_bleed", 1 ], [ "wound_bleed_alt", 1 ] ] ],
+    "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
   {
@@ -105,7 +105,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "9 minutes",
     "skills": [ { "skill": "firstaid", "level": 3 } ],
-    "requirements": [ [ [ "wound_bleed", 2 ], [ "wound_bleed_alt", 2 ] ] ],
+    "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
   {
@@ -116,7 +116,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "3 minutes",
     "skills": [ { "skill": "firstaid", "level": 3 } ],
-    "requirements": [ [ [ "wound_bleed", 1 ], [ "wound_bleed_alt", 1 ] ] ],
+    "requirements": [ [ "wound_bleed", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.8 } ]
   },
   {
@@ -127,7 +127,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "6 minutes",
     "skills": [ { "skill": "firstaid", "level": 4 } ],
-    "requirements": [ [ [ "wound_bleed", 2 ], [ "wound_bleed_alt", 2 ] ] ],
+    "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
   {
@@ -138,7 +138,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "9 minutes",
     "skills": [ { "skill": "firstaid", "level": 4 } ],
-    "requirements": [ [ [ "wound_bleed", 2 ], [ "wound_bleed_alt", 2 ] ] ],
+    "requirements": [ [ "wound_bleed", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
   {
