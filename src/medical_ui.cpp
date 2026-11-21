@@ -353,7 +353,7 @@ static std::string hp_feeling( const float cur_hp_pcnt )
     }
 }
 
-nc_color colorize_bleeding_wound( const wound_severity severity )
+static nc_color colorize_bleeding_wound( const wound_severity severity )
 {
     switch( severity ) {
         case wound_severity::MINOR:

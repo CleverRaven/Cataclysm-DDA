@@ -59,6 +59,7 @@
 #include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
+#include "wound.h"
 
 class JsonObject;
 class JsonOut;
@@ -84,7 +85,6 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
-class wound;
 
 enum scaling_stat : int;
 
