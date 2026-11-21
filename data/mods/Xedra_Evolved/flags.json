@@ -88,6 +88,26 @@
     "//": "Your mind is protected from attack due to magic.  The same as the Magiclysm flag for compatibility"
   },
   {
+    "id": "SHADOW_CHAR_IMMUNE",
+    "type": "json_flag",
+    "//": "Immune to shadow damage"
+  },
+  {
+    "id": "SHADOW_MONSTER_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to shadow damage"
+  },
+  {
+    "id": "VOID_CHAR_IMMUNE",
+    "type": "json_flag",
+    "//": "Immune to void damage"
+  },
+  {
+    "id": "VOID_MONSTER_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to void damage"
+  },
+  {
     "id": "CRYOGENIC_ROT",
     "type": "json_flag",
     "//": "Overwrite from Aftershock",
