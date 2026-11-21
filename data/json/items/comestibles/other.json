@@ -871,7 +871,7 @@
     "price": "80 cent",
     "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "flags": [ "TRADER_AVOID", "NO_AUTO_CONSUME" ],
+    "flags": [ "TRADER_AVOID", "NO_AUTO_CONSUME", "INEDIBLE" ],
     "volume": "250 ml",
     "fun": -30
   },
