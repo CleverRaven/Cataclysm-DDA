@@ -2781,7 +2781,7 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 40,
-    "volume": "80 l",
+    "volume": "80 L",
     "weight": "80 kg",
     "hp": 50,
     "speed": 200,
