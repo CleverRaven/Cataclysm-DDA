@@ -40,6 +40,15 @@
   },
   {
     "type": "vehicle_part_location",
+    "id": "window",
+    "name": "Window",
+    "desc": "Window parts attached to partial boards or doors.",
+    "required_location": "center",
+    "z_order": 8,
+    "list_order": 8
+  },
+  {
+    "type": "vehicle_part_location",
     "id": "center",
     "name": "Center",
     "desc": "Above the frame and below the roof",

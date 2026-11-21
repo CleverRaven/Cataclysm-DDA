@@ -144,6 +144,7 @@ static const vpart_id vpart_power_cord( "power_cord" );
 static const vpart_location_id vpart_location_center( "center" );
 static const vpart_location_id vpart_location_on_roof( "on_roof" );
 static const vpart_location_id vpart_location_structure( "structure" );
+static const vpart_location_id vpart_location_window( "window" );
 
 static const vproto_id vehicle_prototype_none( "none" );
 
@@ -3339,12 +3340,20 @@ int vehicle::next_part_to_unlock( int p, bool outside ) const
     if( !part_has_lock( p ) ) {
         return -1;
     }
+    int ret = -1;
+    bool window_open = true;
     for( const int elem : parts_at_relative( parts[p].mount, true, true ) ) {
         const vehicle_part &vp = part( elem );
-        const bool accessible_lock = !outside || vp.has_fault( fault_broken_window );
-        if( vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked && accessible_lock ) {
-            return elem;
+        if( vp.info().location.count( vpart_location_window ) ) {
+            window_open = false;
         }
+        // Only select ret once! But still iterate to check open windows.
+        if( ret == -1 && vp.info().has_flag( "LOCKABLE_DOOR" ) && vp.is_available() && vp.locked ) {
+            ret = elem;
+        }
+    }
+    if( !outside || window_open ) {
+        return ret;
     }
     return -1;
 }
