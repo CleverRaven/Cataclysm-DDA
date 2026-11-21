@@ -723,7 +723,7 @@ construction_id construction_menu( const bool blueprint )
                                                    current_con->required_skills.begin(), current_con->required_skills.end(),
                     [&player_character]( const std::pair<skill_id, int> &skill ) {
                         nc_color col;
-                        int s_lvl = player_character.get_skill_level( skill.first );
+                        int s_lvl = player_character.get_knowledge_level( skill.first );
                         if( s_lvl < skill.second ) {
                             col = c_red;
                         } else if( s_lvl < skill.second * 1.25 ) {
@@ -732,7 +732,8 @@ construction_id construction_menu( const bool blueprint )
                             col = c_green;
                         }
 
-                        return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
+                        return colorize( string_format( "%s (%d/%d)", skill.first.obj().name(), s_lvl, skill.second ),
+                                         col );
                     }, enumeration_conjunction::none );
                     add_line( current_line );
                 }
