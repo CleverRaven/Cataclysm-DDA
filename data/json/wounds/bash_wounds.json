@@ -323,13 +323,13 @@
     "healing_time": [ "30 days", "45 days" ],
     "mod_values": [ { "type": "PAIN", "rate": "30 seconds", "amount": 1, "cap_min": 0, "cap_max": 350 } ],
     "limb_scores": [
-      { "score": "manip", "value": 0.7 },
-      { "score": "grip", "value": 0.7 },
-      { "score": "lift", "value": 0.7 },
-      { "score": "balance", "value": 0.5 },
-      { "score": "footing", "value": 0.6 },
-      { "score": "block", "value": 0.6 },
-      { "score": "move_speed", "value": 0.6 }
+      { "score": "manip", "mod": 0.7 },
+      { "score": "grip", "mod": 0.7 },
+      { "score": "lift", "mod": 0.7 },
+      { "score": "balance", "mod": 0.5 },
+      { "score": "footing", "mod": 0.6 },
+      { "score": "block", "mod": 0.6 },
+      { "score": "move_speed", "mod": 0.6 }
     ]
   },
   {
