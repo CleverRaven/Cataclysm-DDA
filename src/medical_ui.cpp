@@ -365,6 +365,7 @@ static nc_color colorize_bleeding_wound( const wound_severity severity )
         case wound_severity::LAST:
             return c_unset;
     }
+    return c_unset;
 }
 
 std::string medical_ui::get_modified_limb_name( const Character &you,
