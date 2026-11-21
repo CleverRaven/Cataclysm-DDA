@@ -63,8 +63,8 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "2 minutes",
-    "skills": [ { "skill": "firstaid", "level": 2 } ],
+    "time": "3 minutes",
+    "skills": [ { "skill": "firstaid", "level": 2, "time_save": 0.5, "is_mandatory": false } ],
     "requirements": [ [ "wound_bandage", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
@@ -73,8 +73,8 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "2 minutes",
-    "skills": [ { "skill": "firstaid", "level": 2 } ],
+    "time": "4 minutes",
+    "skills": [ { "skill": "firstaid", "level": 2, "time_save": 0.5, "is_mandatory": false } ],
     "requirements": [ [ "wound_bandage", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
   },
@@ -83,30 +83,39 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "3 minutes",
-    "skills": [ { "skill": "firstaid", "level": 0 } ],
+    "time": "9 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
     "requirements": [ [ "wound_bleed", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.8 } ]
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   },
   {
     "abstract": "bleed_wound_bad",
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "6 minutes",
-    "skills": [ { "skill": "firstaid", "level": 1 } ],
+    "time": "18 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
     "requirements": [ [ "wound_bleed", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   },
   {
     "abstract": "bleed_wound_terrible",
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "9 minutes",
-    "skills": [ { "skill": "firstaid", "level": 3 } ],
+    "time": "27 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
     "requirements": [ [ "wound_bleed", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   },
   {
     "abstract": "bleed_wound_difficult_medium",
@@ -114,10 +123,13 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "3 minutes",
-    "skills": [ { "skill": "firstaid", "level": 3 } ],
+    "time": "9 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
     "requirements": [ [ "wound_bleed", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.8 } ]
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   },
   {
     "abstract": "bleed_wound_difficult_bad",
@@ -125,10 +137,13 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "6 minutes",
-    "skills": [ { "skill": "firstaid", "level": 4 } ],
-    "requirements": [ [ "wound_bleed", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
+    "time": "18 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "requirements": [ [ "wound_bleed", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   },
   {
     "abstract": "bleed_wound_difficult_terrible",
@@ -136,9 +151,100 @@
     "name": { "str": "base wound fix", "//~": "NO_I18N" },
     "type": "wound_fix",
     "description": { "str": "dummy", "//~": "NO_I18N" },
-    "time": "9 minutes",
-    "skills": [ { "skill": "firstaid", "level": 4 } ],
+    "time": "27 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
     "requirements": [ [ "wound_bleed", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_save": 0.7 } ]
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_emergency",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "50 seconds",
+    "skills": [ { "skill": "firstaid", "level": 1 } ],
+    "requirements": [ [ "wound_emergency", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_medium_pressure",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "10 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_bad_pressure",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "36 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_terrible_pressure",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "54 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_difficult_medium_pressure",
+    "//0": "difficult as in: stab wounds, bullet wounds, or similar things.  wounds that probably require packing or relatively advanced firstaid",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "12 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_difficult_bad_pressure",
+    "//0": "difficult as in: stab wounds, bullet wounds, or similar things.",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "36 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
+  },
+  {
+    "abstract": "bleed_wound_difficult_terrible_pressure",
+    "//0": "difficult as in: stab wounds, bullet wounds, or similar things.",
+    "name": { "str": "base wound fix", "//~": "NO_I18N" },
+    "type": "wound_fix",
+    "description": { "str": "dummy", "//~": "NO_I18N" },
+    "time": "54 minutes",
+    "skills": [ { "skill": "firstaid", "level": 5, "time_save": 0.3, "is_mandatory": false } ],
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "time_save": 0.5 },
+      { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
+    ]
   }
 ]
