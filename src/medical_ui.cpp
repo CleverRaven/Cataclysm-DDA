@@ -431,7 +431,7 @@ std::string medical_ui::get_modified_limb_name( const Character &you,
 
     if( wounded ) {
         detail += string_format( _( "[ %s ]" ), colorize( _( "WOUNDED" ),
-                                 you.has_fixable_wounds( part.id() ) ? c_blue : c_cyan ) );
+                                 you.has_fixable_wounds( part.id() ) ? c_light_blue : c_cyan ) );
     }
 
     if( bleeding_wound ) {
