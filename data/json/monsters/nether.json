@@ -2777,7 +2777,7 @@
     "id": "mon_sharp",
     "type": "MONSTER",
     "name": { "str": "sharp mass" },
-    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp corners, and its, arms, if the two vague sharp shapes can be called that, resemble something between a hatchet and a rapier. It roughly resembles an adult human in size.",
+    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp corners, and its, arms, if the two vague sharp shapes can be called that, resemble something between a hatchet and a rapier.  It's about the size of an adult human.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 40,
