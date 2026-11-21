@@ -61,5 +61,46 @@
     "name": "standing stones",
     "spawns": {  },
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gozu_hell_spire_nw", "gozu_hell_spire_ne", "gozu_hell_spire_sw", "gozu_hell_spire_se" ],
+    "name": "shadow pillar",
+    "sym": "C",
+    "color": "light_gray",
+    "see_cost": "full_high",
+    "vision_levels": "isolated_tower",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gozu_hell_small_chasm_z0_left", "gozu_hell_small_chasm_z0_center", "gozu_hell_small_chasm_z0_right" ],
+    "name": "chasm",
+    "looks_like": "field",
+    "sym": "-",
+    "color": "brown",
+    "see_cost": "none",
+    "vision_levels": "blends_till_details"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "gozu_hell_small_chasm_z-1_left",
+      "gozu_hell_small_chasm_z-1_center",
+      "gozu_hell_small_chasm_z-1_right",
+      "gozu_hell_small_chasm_z-2_left",
+      "gozu_hell_small_chasm_z-2_center",
+      "gozu_hell_small_chasm_z-2_right",
+      "gozu_hell_small_chasm_bottom_left",
+      "gozu_hell_small_chasm_bottom_center",
+      "gozu_hell_small_chasm_bottom_right"
+    ],
+    "vision_levels": "always_full",
+    "name": "chasm",
+    "sym": "%",
+    "color": "dark_gray",
+    "looks_like": "empty_rock",
+    "see_cost": "opaque",
+    "travel_cost_type": "basement"
   }
 ]
