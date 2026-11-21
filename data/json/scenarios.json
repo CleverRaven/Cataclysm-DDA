@@ -1153,6 +1153,7 @@
     "requirement": "achievement_reach_aircraft_carrier",
     "reveal_locale": false,
     "distance_initial_visibility": 0,
+    "origin_offset": [ 10, 0 ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
