@@ -942,10 +942,8 @@ conditional_t::func f_bodypart_is_wounded_and_fixable( const JsonObject &jo,
             return false;
         }
 
-        for( const wound &wd : bpart->get_wounds() ) {
-            if( !wd.type->fixes.empty() ) {
-                return true;
-            }
+        if( bpart->has_fixable_wound() ) {
+            return true;
         }
 
         if( check_sublimbs ) {
@@ -957,10 +955,8 @@ conditional_t::func f_bodypart_is_wounded_and_fixable( const JsonObject &jo,
                         return false;
                     }
 
-                    for( const wound &wd : spart->get_wounds() ) {
-                        if( !wd.type->fixes.empty() ) {
-                            return true;
-                        }
+                    if( spart->has_fixable_wound() ) {
+                        return true;
                     }
                 }
             }
