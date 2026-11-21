@@ -1045,26 +1045,32 @@ std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type_id dtype )
 
 float bodypart::wound_adjusted_limb_value( const float val, const limb_score_id &score ) const
 {
-    double percent = static_cast<double>( get_hp_cur() ) /
-                     static_cast<double>( get_hp_max() );
+    float percent = static_cast<float>( get_hp_cur() ) /
+                    static_cast<float>( get_hp_max() );
 
-    float wound_score_penalty = 0.f;
+    float wound_score_penalty_flat = 0.f;
+    float wound_score_penalty_mult = 0.f;
 
     if( id->has_limb_score( score ) ) {
         for( const wound &wd : wounds ) {
             for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
                 if( s.score == score ) {
-                    wound_score_penalty += s.value;
+                    wound_score_penalty_flat += s.value;
+                    wound_score_penalty_mult += s.mod;
                 }
             }
         }
     }
 
-    if( percent > 0.75 ) {
-        return val * ( 1 - wound_score_penalty );
-    }
+    // makes the penalty less harsh, i imagine?
     percent /= 0.75;
-    return val * ( static_cast<float>( percent ) - wound_score_penalty );
+
+    float ret = val * percent;
+    ret -= wound_score_penalty_flat;
+    ret *= std::max( ( 1.f - wound_score_penalty_mult ), 0.f );
+
+    // cannot return value higher than was passed
+    return std::clamp( ret, 0.f, val );
 }
 
 float bodypart::encumb_adjusted_limb_value( const Creature &mon, const float val ) const

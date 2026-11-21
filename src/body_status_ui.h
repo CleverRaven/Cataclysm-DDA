@@ -46,6 +46,7 @@ class medical_ui
     public:
         static std::string get_limb_effects( const Character &you, const bodypart_id &part );
         static std::string get_limb_wounds( const Character &you, const bodypart_id &part );
+        static void print_debug_wound_info( const Character &you, const bodypart_id &part );
         static std::string get_limb_scores_and_modifiers( const Character &you,
                 const bodypart_id &part );
         static std::string get_modified_limb_name( const Character &you,

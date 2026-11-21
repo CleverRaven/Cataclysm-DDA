@@ -466,7 +466,7 @@ class bodypart
 
         std::vector<wound> wounds;
 
-        // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
+        // adjust any limb "value" based on how wounded the limb is
         float wound_adjusted_limb_value( float val, const limb_score_id &score ) const;
         // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
         float encumb_adjusted_limb_value( const Creature &mon, float val ) const;

@@ -34,7 +34,10 @@ struct wound_progress {
 
 struct wound_limb_score {
     limb_score_id score;
-    float value;
+    // additive, ie `0.1` will reduce score by 0.1, so so 1.00 -> 0.90 and 0.5 -> 0.4
+    float value = 0.f;
+    // multiplicative, ie `0.9` will multiply score, so 1.00 -> 0.90 and 0.5 -> 0.45
+    float mod = 0.f;
 
     void deserialize( const JsonObject &jo );
 };

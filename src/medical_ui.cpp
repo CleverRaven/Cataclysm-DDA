@@ -162,60 +162,139 @@ std::string medical_ui::get_limb_wounds( const Character &you, const bodypart_id
                                wd.type->get_description() );
 
             // todo: add how painful the wound is
-
-            if( debug_mode ) {
-                std::string limb_score_output = "limb scores applied:\n";
-                for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
-                    limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
-                }
-
-                detail_str += string_format( "id: %s\n", wd.type.str() );
-                detail_str += string_format( "healing time: %s\n", to_string( wd.get_healing_time() ) );
-                detail_str += string_format( "lifetime: %s\n",
-                                             to_string( time_duration::from_seconds( wd.get_healing_progress() ) ) );
-                detail_str += string_format( "healing percentage: %.3f%%\n", wd.healing_percentage() );
-                detail_str += string_format( "healing speed multiplier: %.3fx\n",
-                                             wd.get_wound_healing_modifier( &you ) );
-                detail_str += string_format( "gives pain: %d (raw %d)\n", wd.get_pain( &you ), wd.get_pain_raw() );
-                detail_str += string_format( "hp damage: %d (raw %d)\n", wd.get_hp_damage(), wd.hp_damage );
-                if( wd.wound_progress_timer.has_value() ) {
-                    detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
-                                                 to_string( wd.wound_progress_timer->second -
-                                                            time_duration::from_seconds( wd.get_healing_progress() ) ) );
-                }
-
-                for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
-                    detail_str += string_format( "mod_value: %s%s, %d every %s\n",
-                                                 io::enum_to_string( mv.type ),
-                                                 mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
-                                                 mv.amount,
-                                                 to_string( mv.rate ) );
-                }
-
-                detail_str += string_format( "%s\n", limb_score_output );
-            }
-        }
-    }
-    if( debug_mode ) {
-        ImGui::Separator();
-        detail_str += "All potential wounds:\n";
-        for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
-            std::string damage_types;
-
-            for( const damage_type_id dt : wd.first.damage_type ) {
-                damage_types += dt.c_str();
-                damage_types += ", ";
-            }
-            damage_types.pop_back();
-            damage_types.pop_back();
-            detail_str +=
-                string_format( "%s:\nweight: %d\ndamage types required: %s\ndamage required: [ %d - %d ]\n",
-                               colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
-                               wd.first.damage_required.second );
         }
     }
 
     return detail_str.empty() ? _( "None" ) : detail_str;
+}
+
+void medical_ui::print_debug_wound_info( const Character &you, const bodypart_id &part )
+{
+    const bodypart *bp = you.get_part( part );
+
+    if( !bp->get_wounds().empty() ) {
+
+        ImGui::BeginTable( "Debug wound info", 8,
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_Borders | ImGuiTableFlags_HighlightHoveredColumn |
+                           ImGuiTableFlags_Hideable );
+        ImGui::TableSetupColumn( "id" );
+        ImGui::TableSetupColumn( "heal time" );
+        ImGui::TableSetupColumn( "heal progr" );
+        ImGui::TableSetupColumn( "heal %" );
+        ImGui::TableSetupColumn( "heal spd mult" );
+        ImGui::TableSetupColumn( "pain" );
+        ImGui::TableSetupColumn( "damage" );
+        ImGui::TableSetupColumn( "misc" );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+
+        for( const wound &wd : bp->get_wounds() ) {
+
+            // id
+            cataimgui::draw_colored_text( wd.type.str() );
+            ImGui::TableNextColumn();
+            // healing_time
+            cataimgui::draw_colored_text( to_string( wd.get_healing_time(), true ) );
+            ImGui::TableNextColumn();
+            // healing progress
+            cataimgui::draw_colored_text( to_string( time_duration::from_seconds(
+                                              wd.get_healing_progress() ), true ) );
+            ImGui::TableNextColumn();
+            // healing percentage
+            cataimgui::draw_colored_text( string_format( "%.3f%%", wd.healing_percentage() ) );
+            ImGui::TableNextColumn();
+            // healing speed multiplier
+            cataimgui::draw_colored_text( string_format( "%.3fx", wd.get_wound_healing_modifier( &you ) ) );
+            ImGui::TableNextColumn();
+            // pain
+            cataimgui::draw_colored_text( string_format( "%d (raw %d)", wd.get_pain( &you ),
+                                          wd.get_pain_raw() ) );
+            ImGui::TableNextColumn();
+            // damage
+            cataimgui::draw_colored_text( string_format( "%d (raw %d)", wd.get_hp_damage(), wd.hp_damage ) );
+            ImGui::TableNextColumn();
+            // mics
+            cataimgui::draw_colored_text( "[hover]" );
+            if( ImGui::IsItemHovered( ImGuiHoveredFlags_AllowWhenDisabled ) ) {
+                std::string tooltip;
+
+                if( wd.wound_progress_timer.has_value() ) {
+                    tooltip += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
+                                              to_string( wd.wound_progress_timer->second -
+                                                         time_duration::from_seconds( wd.get_healing_progress() ), true ) );
+                    tooltip += "-----\n";
+                }
+
+                if( !wd.type->get_limb_scores().empty() ) {
+                    tooltip += "limb scores applied:\n";
+                    for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
+                        tooltip += string_format( "%s: %s%s\n", s.score.str(),
+                                                  s.value != 0.f ? string_format( "%.2f", s.value ) : "",
+                                                  s.mod != 1.f ? string_format( "%.2f", s.mod ) : "" );
+
+                    }
+                    tooltip += "-----\n";
+                }
+
+
+                if( !wd.type->get_modify_values().empty() ) {
+                    tooltip += "mod_values:\n";
+                    for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
+                        tooltip += string_format( "%s%s, %d every %s\n",
+                                                  io::enum_to_string( mv.type ),
+                                                  mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
+                                                  mv.amount,
+                                                  to_string( mv.rate ) );
+                    }
+                    tooltip += "-----\n";
+                }
+
+
+                ImGui::SetTooltip( "%s", tooltip.c_str() );
+            }
+
+            ImGui::TableNextColumn();
+        }
+        ImGui::EndTable();
+
+        ImGui::Separator();
+    }
+
+    if( !bp->get_id()->potential_wounds.empty() ) {
+
+        ImGui::BeginTable( "Possible wounds", 4,
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_Borders | ImGuiTableFlags_HighlightHoveredColumn |
+                           ImGuiTableFlags_Hideable );
+        ImGui::TableSetupColumn( "id" );
+        ImGui::TableSetupColumn( "weight" );
+        ImGui::TableSetupColumn( "damage type" );
+        ImGui::TableSetupColumn( "damage amt" );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+
+        for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
+            std::string damage_types;
+
+            // id
+            cataimgui::draw_colored_text( wd.first.id.str() );
+            ImGui::TableNextColumn();
+            // weight
+            cataimgui::draw_colored_text( std::to_string( wd.second ) );
+            ImGui::TableNextColumn();
+            // damage type
+            cataimgui::draw_colored_text( enumerate_as_string( wd.first.damage_type, [](
+            const damage_type_id & dt ) {
+                return dt.str();
+            },
+            enumeration_conjunction::none ) );
+            ImGui::TableNextColumn();
+            // damage amt
+            cataimgui::draw_colored_text(
+                string_format( "%d - %d", wd.first.damage_required.first, wd.first.damage_required.second ) );
+            ImGui::TableNextColumn();
+        }
+        ImGui::EndTable();
+    }
 }
 
 std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
@@ -231,7 +310,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
         float injury_score = bp->get_limb_score( you, sc.getId() );
         float max_score = part->get_limb_score( sc.getId() );
 
-        if( injury_score < max_score ) {
+        if( !debug_mode ) {
             std::pair<std::string, nc_color> score_c;
             if( injury_score < max_score * 0.4f ) {
                 score_c.first = _( "Crippled" );
@@ -252,7 +331,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
             detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( score_c.first,
                                          score_c.second ) );
         } else {
-            detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( "OK", c_green ) );
+            detail_str += string_format( _( "%s: %.2f/%.2f\n" ), sc.getId().str(), injury_score, max_score );
         }
     }
 
@@ -540,6 +619,10 @@ void medical_ui::draw_limbs_details( const Character &you, const bodypart_id &bp
     if( !limb_wounds.empty() ) {
         cataimgui::draw_colored_text( limb_wounds, c_unset, table_width );
         ImGui::Separator();
+    }
+
+    if( debug_mode ) {
+        print_debug_wound_info( you, bp );
     }
 
     ImGui::SeparatorText( _( "Limb Scores/Modifiers:" ) );
