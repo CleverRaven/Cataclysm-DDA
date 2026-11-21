@@ -106,6 +106,7 @@ class fault
         int degradation_mod() const;
         // Damage applied when fault is applied.
         int instant_damage() const;
+        double attack_cost_modifier() const;
         // int is additive (default 0), float is multiplier (default 1)
         std::vector<std::tuple<int, float, damage_type_id>> melee_damage_mod() const;
         // int is additive (default 0), float is multiplier (default 1)
@@ -138,6 +139,7 @@ class fault
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
         std::set<fault_id> block_faults;
+        double attack_cost_modifier_ = 1.0;
         double price_modifier = 1.0;
         int degradation_mod_ = 0;
         int instant_damage_ = 0;

@@ -226,7 +226,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "ls_deadend_template_chasm",
-    "//": "Hanging room, hard to reach.  The machine should interact to extend a bridge.  Good treasure.",
+    "//": "Connects to boss feature rooms, otherwise, to bridges on labyrinth2.",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -306,8 +306,97 @@
       "palettes": [ "labyrinthine_base_palette" ],
       "terrain": { "<": "t_nl_stairs_up", "=": "t_nl_scrap_floor_fog" },
       "traps": { "=": "tr_ls_teleport_fixbot" },
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "place_fields": [ { "field": "fd_labyrinth_fog", "x": [ 0, 9 ], "y": [ 0, 9 ], "intensity": 4, "repeat": 500 } ]
+      "fields": { "=": [ { "field": "fd_labyrinth_fog_perm" } ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "//": "always connects to bridges in labyrinth2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvvvv...X((vvvvvv!",
+        "!vvvvvvvvvvvvvv((vvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvv||||++||||vvvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!|vvvvv||||||||||vvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
+      "terrain": { "X": "t_nl_metal_floor" },
+      "computers": {
+        "X": { "name": "Bridge Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "EOC_LS_Computer_teleport_bridge" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "LS_10x10_teleport_bridge",
+    "//": "Room leading to labyrinth2 bridges",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "|........|",
+        "|........|",
+        "|........|",
+        "|........|",
+        "|........|",
+        "|........|",
+        "|...>A...|",
+        "|........|",
+        "|........|",
+        "|........|"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { ">": "t_nl_stairs_down" },
+      "place_nested": [ { "chunks": [ [ "LS_10x10_teleport_bridge-1", 1 ] ], "x": 0, "y": 0, "z": -1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "LS_10x10_teleport_bridge-1",
+    "//": "Room leading to labyrinth2 bridges",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "||||||||||",
+        "|========|",
+        "|========|",
+        "|========|",
+        "|========|",
+        "|========|",
+        "|===<====|",
+        "|========|",
+        "|========|",
+        "||||||||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "<": "t_nl_stairs_up", "=": "t_nl_metal_floor" },
+      "traps": { "=": "tr_ls_teleport_to_bridges" },
+      "fields": { "=": [ { "field": "fd_labyrinth_fog_perm" } ] },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

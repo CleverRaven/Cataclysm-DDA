@@ -156,7 +156,7 @@
     "required_str": 12,
     "mass": "77 kg",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "NO_DECONSTRUCT", "SMALL_HIDE" ],
     "item": "arcade_machine",
     "bash": {
       "str_min": 6,
@@ -431,7 +431,7 @@
     "required_str": 8,
     "mass": "317 kg",
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
-    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "NO_DECONSTRUCT", "SMALL_HIDE" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
     "item": "piano",
     "bash": {

@@ -1710,9 +1710,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         // make sure advanced inventory is reopened after activity completion
         do_return_entry();
         if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
-            // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
             // this is ok because worn items are never stacked (can't move more than 1)
-            player_character.takeoff( Character::worn_position_to_index( sitem->idx ) + 1 );
+            player_character.takeoff( item_location( player_character, sitem->items.front().get_item() ) );
         } else {
             // important if item is worn
             if( player_character.can_drop( it_copy ).success() ) {

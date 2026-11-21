@@ -31,6 +31,7 @@
 #include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "perf.h"
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
@@ -570,6 +571,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 
 void sounds::process_sound_markers( Character *you )
 {
+    cata_timer process_sound_markers_timer( "process_sound_markers" );
     const map &here = get_map();
 
     bool is_deaf = you->is_deaf();

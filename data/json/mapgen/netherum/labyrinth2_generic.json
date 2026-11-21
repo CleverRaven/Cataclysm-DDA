@@ -19,8 +19,59 @@
           "y": [ 0, 18 ],
           "repeat": [ 0, 3 ]
         },
-        { "chunks": [ [ "null", 49 ], [ "labyrinth_stairs_2_to_1", 1 ] ], "x": [ 1, 18 ], "y": [ 1, 18 ] },
+        { "chunks": [ [ "null", 49 ], [ "labyrinth_stairs_2_to_1", 1 ] ], "x": [ 1, 16 ], "y": [ 1, 16 ] },
         { "chunks": [ [ "null", 49 ], [ "labyrinth2_treasure_room", 1 ] ], "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth2_roof" ],
+    "object": {
+      "fill_ter": "t_nl_roof",
+      "furniture": { " ": "f_wreckage" },
+      "place_nested": [
+        { "chunks": [ [ "null", 250 ], [ "labyrinth2_hall_roof", 500 ] ], "x": 0, "y": 0 },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_large_room_roof", 500 ] ],
+          "x": [ 0, 13 ],
+          "y": [ 0, 13 ],
+          "repeat": [ 0, 2 ]
+        },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_small_room_roof", 500 ] ],
+          "x": [ 0, 18 ],
+          "y": [ 0, 18 ],
+          "repeat": [ 0, 3 ]
+        },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_roof_column_ground", 500 ] ],
+          "x": [ 0, 19 ],
+          "y": [ 0, 19 ],
+          "repeat": [ 0, 4 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "labyrinth2_roof2" ],
+    "object": {
+      "fill_ter": "t_open_air",
+      "place_nested": [
+        { "chunks": [ [ "null", 250 ], [ "labyrinth2_hall_roof", 500 ] ], "x": 0, "y": 0 },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_large_room_roof", 500 ] ],
+          "x": [ 0, 13 ],
+          "y": [ 0, 13 ],
+          "repeat": [ 0, 2 ]
+        },
+        {
+          "chunks": [ [ "null", 250 ], [ "labyrinth2_small_room_roof", 500 ] ],
+          "x": [ 0, 18 ],
+          "y": [ 0, 18 ],
+          "repeat": [ 0, 3 ]
+        }
       ]
     }
   }

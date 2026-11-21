@@ -3,18 +3,26 @@
 #define CATA_SRC_DIALOGUE_H
 
 #include <functional>
+#include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "cata_lazy.h"
+#include "color.h"
 #include "dialogue_helpers.h"
+#include "flat_set.h"
 #include "global_vars.h"
+#include "math_parser_diag_value.h"
 #include "npc_opinion.h"
 #include "talker.h"
+#include "translation.h"
 #include "type_id.h"
 
 /**
@@ -36,6 +44,7 @@ class martialart;
 class mission;
 class npc;
 class input_context;
+struct const_dialogue;
 struct dialogue;
 struct input_event;
 

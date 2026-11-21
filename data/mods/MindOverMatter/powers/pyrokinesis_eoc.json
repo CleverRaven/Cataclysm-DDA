@@ -41,7 +41,7 @@
         "blacklist_flag": "BIONIC_LIMB"
       },
       {
-        "if": { "u_has_effect": "bleed", "bodypart": { "u_val": "pyrokin_cauterize_picked_bodypart" } },
+        "if": { "u_bodypart_is_bleeding": { "u_val": "pyrokin_cauterize_picked_bodypart" } },
         "then": {
           "if": {
             "or": [ { "u_has_trait": "PROF_MED" }, { "roll_contested": { "math": [ "u_skill('firstaid')" ] }, "difficulty": 7 } ]

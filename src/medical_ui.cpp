@@ -2,7 +2,6 @@
 #include <imgui/imgui.h>
 #include <cstdlib>
 #include <functional>
-#include <map>
 #include <memory>
 #include <optional>
 #include <set>
@@ -24,14 +23,12 @@
 #include "display.h"
 #include "effect.h"
 #include "enum_conversions.h"
-#include "enums.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
 #include "math_parser_diag_value.h"
-#include "messages.h"
 #include "output.h"
 #include "proficiency.h"
 #include "requirements.h"
@@ -133,68 +130,171 @@ std::string medical_ui::get_limb_wounds( const Character &you, const bodypart_id
     const bodypart *bp = you.get_part( part );
 
     // for existing wounds
-    const std::vector<wound> &wds = bp->get_wounds();
+    std::vector<wound> wds = bp->get_wounds();
+
+    std::sort( wds.begin(), wds.end(), []( wound & wd_a, wound & wd_b ) {
+        // todo: sort by wound categories as well, later, when they will be added
+        return wd_a.type->severity > wd_b.type->severity;
+    } );
+
     if( !wds.empty() ) {
         detail_str += _( "Current wounds" );
         detail_str += ":\n";
         for( const wound &wd : wds ) {
-            if( !debug_mode ) {
-                detail_str +=
-                    string_format( "%s - %s\n", colorize( wd.type->get_name(), c_cyan ), wd.type->get_description() );
-            } else {
 
-                std::string limb_score_output = "limb scores applied:\n";
-                for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
-                    limb_score_output += string_format( "%s: %.3f\n", s.score.str(), s.value );
-                }
-
-                detail_str += string_format( "%s (%s) - %s\n",
-                                             colorize( wd.type->get_name(), c_cyan ), wd.type.str(), wd.type->get_description() );
-                detail_str += string_format( "healing time: %s\n", to_string( wd.get_healing_time() ) );
-                detail_str += string_format( "lifetime: %s\n",
-                                             to_string( time_duration::from_seconds( wd.get_healing_progress() ) ) );
-                detail_str += string_format( "healing percentage: %.3f%%\n", wd.healing_percentage() );
-                detail_str += string_format( "healing speed multiplier: %.3fx\n",
-                                             wd.get_wound_healing_modifier( &you ) );
-                detail_str += string_format( "gives pain: %d\n", wd.get_pain() );
-                if( wd.wound_progress_timer.has_value() ) {
-                    detail_str += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
-                                                 to_string( wd.wound_progress_timer->second -
-                                                            time_duration::from_seconds( wd.get_healing_progress() ) ) );
-                }
-
-                for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
-                    detail_str += string_format( "mod_value: %s%s, %d every %s\n",
-                                                 io::enum_to_string( mv.type ),
-                                                 mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
-                                                 mv.amount,
-                                                 to_string( mv.rate ) );
-                }
-
-                detail_str += string_format( "%s\n", limb_score_output );
+            nc_color severity_color;
+            switch( wd.type->severity ) {
+                case wound_severity::MINOR:
+                    severity_color = c_cyan;
+                    break;
+                case wound_severity::MAJOR:
+                    severity_color = c_light_red;
+                    break;
+                case wound_severity::CRITICAL:
+                    severity_color = c_red;
+                    break;
+                default:
+                    severity_color = c_cyan;
             }
-        }
-    }
-    if( debug_mode ) {
-        ImGui::Separator();
-        detail_str += "All potential wounds:\n";
-        for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
-            std::string damage_types;
 
-            for( const damage_type_id dt : wd.first.damage_type ) {
-                damage_types += dt.c_str();
-                damage_types += ", ";
-            }
-            damage_types.pop_back();
-            damage_types.pop_back();
             detail_str +=
-                string_format( "%s:\nweight: %d\ndamage types required: %s\ndamage required: [ %d - %d ]\n",
-                               colorize( wd.first.id.c_str(), c_yellow ), wd.second, damage_types, wd.first.damage_required.first,
-                               wd.first.damage_required.second );
+                string_format( "%s - %s\n", colorize( wd.type->get_name(), severity_color ),
+                               wd.type->get_description() );
+
+            // todo: add how painful the wound is
         }
     }
 
     return detail_str.empty() ? _( "None" ) : detail_str;
+}
+
+void medical_ui::print_debug_wound_info( const Character &you, const bodypart_id &part )
+{
+    const bodypart *bp = you.get_part( part );
+
+    if( !bp->get_wounds().empty() ) {
+
+        ImGui::BeginTable( "Debug wound info", 8,
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_Borders | ImGuiTableFlags_HighlightHoveredColumn |
+                           ImGuiTableFlags_Hideable );
+        ImGui::TableSetupColumn( "id" );
+        ImGui::TableSetupColumn( "heal time" );
+        ImGui::TableSetupColumn( "heal progr" );
+        ImGui::TableSetupColumn( "heal %" );
+        ImGui::TableSetupColumn( "heal spd mult" );
+        ImGui::TableSetupColumn( "pain" );
+        ImGui::TableSetupColumn( "damage" );
+        ImGui::TableSetupColumn( "misc" );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+
+        for( const wound &wd : bp->get_wounds() ) {
+
+            // id
+            cataimgui::draw_colored_text( wd.type.str() );
+            ImGui::TableNextColumn();
+            // healing_time
+            cataimgui::draw_colored_text( to_string( wd.get_healing_time(), true ) );
+            ImGui::TableNextColumn();
+            // healing progress
+            cataimgui::draw_colored_text( to_string( time_duration::from_seconds(
+                                              wd.get_healing_progress() ), true ) );
+            ImGui::TableNextColumn();
+            // healing percentage
+            cataimgui::draw_colored_text( string_format( "%.3f%%", wd.healing_percentage() ) );
+            ImGui::TableNextColumn();
+            // healing speed multiplier
+            cataimgui::draw_colored_text( string_format( "%.3fx", wd.get_wound_healing_modifier( &you ) ) );
+            ImGui::TableNextColumn();
+            // pain
+            cataimgui::draw_colored_text( string_format( "%d (raw %d)", wd.get_pain( &you ),
+                                          wd.get_pain_raw() ) );
+            ImGui::TableNextColumn();
+            // damage
+            cataimgui::draw_colored_text( string_format( "%d (raw %d)", wd.get_hp_damage(), wd.hp_damage ) );
+            ImGui::TableNextColumn();
+            // mics
+            cataimgui::draw_colored_text( "[hover]" );
+            if( ImGui::IsItemHovered( ImGuiHoveredFlags_AllowWhenDisabled ) ) {
+                std::string tooltip;
+
+                if( wd.wound_progress_timer.has_value() ) {
+                    tooltip += string_format( "progresses into: %s, in %s\n", wd.wound_progress_timer->first.str(),
+                                              to_string( wd.wound_progress_timer->second -
+                                                         time_duration::from_seconds( wd.get_healing_progress() ), true ) );
+                    tooltip += "-----\n";
+                }
+
+                if( !wd.type->get_limb_scores().empty() ) {
+                    tooltip += "limb scores applied:\n";
+                    for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
+                        tooltip += string_format( "%s: %s%s\n", s.score.str(),
+                                                  s.value != 0.f ? string_format( "%.2f", s.value ) : "",
+                                                  s.mod != 1.f ? string_format( "%.2f", s.mod ) : "" );
+
+                    }
+                    tooltip += "-----\n";
+                }
+
+
+                if( !wd.type->get_modify_values().empty() ) {
+                    tooltip += "mod_values:\n";
+                    for( const wound_mod_values &mv : wd.type->get_modify_values() ) {
+                        tooltip += string_format( "%s%s, %d every %s\n",
+                                                  io::enum_to_string( mv.type ),
+                                                  mv.vitamin.has_value() ? string_format( " (%s)", mv.vitamin->str() ) : "",
+                                                  mv.amount,
+                                                  to_string( mv.rate ) );
+                    }
+                    tooltip += "-----\n";
+                }
+
+
+                ImGui::SetTooltip( "%s", tooltip.c_str() );
+            }
+
+            ImGui::TableNextColumn();
+        }
+        ImGui::EndTable();
+
+        ImGui::Separator();
+    }
+
+    if( !bp->get_id()->potential_wounds.empty() ) {
+
+        ImGui::BeginTable( "Possible wounds", 4,
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_Borders | ImGuiTableFlags_HighlightHoveredColumn |
+                           ImGuiTableFlags_Hideable );
+        ImGui::TableSetupColumn( "id" );
+        ImGui::TableSetupColumn( "weight" );
+        ImGui::TableSetupColumn( "damage type" );
+        ImGui::TableSetupColumn( "damage amt" );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+
+        for( const std::pair<bp_wounds, int> &wd : bp->get_id()->potential_wounds ) {
+            std::string damage_types;
+
+            // id
+            cataimgui::draw_colored_text( wd.first.id.str() );
+            ImGui::TableNextColumn();
+            // weight
+            cataimgui::draw_colored_text( std::to_string( wd.second ) );
+            ImGui::TableNextColumn();
+            // damage type
+            cataimgui::draw_colored_text( enumerate_as_string( wd.first.damage_type, [](
+            const damage_type_id & dt ) {
+                return dt.str();
+            },
+            enumeration_conjunction::none ) );
+            ImGui::TableNextColumn();
+            // damage amt
+            cataimgui::draw_colored_text(
+                string_format( "%d - %d", wd.first.damage_required.first, wd.first.damage_required.second ) );
+            ImGui::TableNextColumn();
+        }
+        ImGui::EndTable();
+    }
 }
 
 std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
@@ -210,7 +310,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
         float injury_score = bp->get_limb_score( you, sc.getId() );
         float max_score = part->get_limb_score( sc.getId() );
 
-        if( injury_score < max_score ) {
+        if( !debug_mode ) {
             std::pair<std::string, nc_color> score_c;
             if( injury_score < max_score * 0.4f ) {
                 score_c.first = _( "Crippled" );
@@ -231,7 +331,7 @@ std::string medical_ui::get_limb_scores_and_modifiers( const Character &you,
             detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( score_c.first,
                                          score_c.second ) );
         } else {
-            detail_str += string_format( _( "%s: %s\n" ), sc.name().translated(), colorize( "OK", c_green ) );
+            detail_str += string_format( _( "%s: %.2f/%.2f\n" ), sc.getId().str(), injury_score, max_score );
         }
     }
 
@@ -521,6 +621,10 @@ void medical_ui::draw_limbs_details( const Character &you, const bodypart_id &bp
         ImGui::Separator();
     }
 
+    if( debug_mode ) {
+        print_debug_wound_info( you, bp );
+    }
+
     ImGui::SeparatorText( _( "Limb Scores/Modifiers:" ) );
     const std::string limb_scores = get_limb_scores_and_modifiers( you, bp );
     if( !limb_scores.empty() ) {
@@ -564,7 +668,9 @@ static bool optional_debug_modify_wounds( const Character &you, bodypart &bp )
                     if( opts[menu.ret].second ) {
                         bp.remove_wound( opts[menu.ret].first );
                     } else {
-                        bp.add_wound( opts[menu.ret].first );
+                        int hp_damage = 10;
+                        query_int( hp_damage, true,  "set hp damage amount:" );
+                        bp.add_wound( opts[menu.ret].first, you, hp_damage );
                     }
                 }
             } while( menu.ret >= 0 );
@@ -572,6 +678,41 @@ static bool optional_debug_modify_wounds( const Character &you, bodypart &bp )
         }
     }
     return true;
+}
+
+std::pair<bool, float> wound_fix::doable_by( const Character &c ) const
+{
+
+    float time_save = 1.0f;
+    for( const wound_skill &sk : skills ) {
+        const int current_skill = static_cast<int>( c.get_greater_skill_or_knowledge_level( sk.skill ) );
+        const bool skill_is_sufficient = current_skill >= sk.level;
+        if( sk.is_mandatory && !skill_is_sufficient ) {
+            return {false, 1.0f};
+        }
+
+        if( skill_is_sufficient ) {
+            time_save *= sk.time_save;
+        }
+    }
+
+    for( const wound_proficiency &w_prof : proficiencies ) {
+        const bool has_prof = c.has_proficiency( w_prof.prof );
+
+        if( w_prof.is_mandatory && !has_prof ) {
+            return {false, 1.0f};
+        }
+
+        if( has_prof ) {
+            time_save *= w_prof.time_save;
+        }
+    }
+
+    // Calling crafting_inventory a lot (e.g. if iterating over wounds and calling this
+    // Doesn't seem cheap...
+    bool doable = get_requirements().can_make_with_inventory( &c, c.crafting_inventory(),
+                  is_crafting_component );
+    return {doable, time_save};
 }
 
 bool Character::pick_wound_fix( const bodypart_id &bp_id )
@@ -588,29 +729,9 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
     for( const wound &wd : bp->get_wounds() ) {
         for( const wound_fix_id &fix_id : wd.type->fixes ) {
             healing_option opt{wd.type, fix_id, true, fix_id->time};
-
-            for( const auto &[skill_id, level] : fix_id->skills ) {
-                if( get_greater_skill_or_knowledge_level( skill_id ) < level ) {
-                    opt.doable = false;
-                    break;
-                }
-            }
-
-            for( const wound_proficiency &w_prof : fix_id->proficiencies ) {
-
-                const bool has_prof = has_proficiency( w_prof.prof );
-
-                if( w_prof.is_mandatory && !has_prof ) {
-                    opt.doable = false;
-                }
-
-                if( has_prof ) {
-                    opt.time_to_apply *= w_prof.time_save;
-                }
-            }
-
-            opt.doable &= fix_id->get_requirements().can_make_with_inventory( this, inv,
-                          is_crafting_component );
+            std::pair<bool, float> doable = fix_id->doable_by( *this );
+            opt.doable = doable.first;
+            opt.time_to_apply *= doable.second;
 
             // check if equal healing option already exists in vector
             std::vector<healing_option>::iterator it = std::find_if( healing_options.begin(),
@@ -695,22 +816,29 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
                                 to_string_approx( opt.time_to_apply ) );
 
         if( !fix.skills.empty() ) {
+
             descr += string_format( _( "Skills: %s\n" ), enumerate_as_string(
-            fix.skills.begin(), fix.skills.end(), [&]( const std::pair<skill_id, int> &sk ) {
-                if( get_greater_skill_or_knowledge_level( sk.first ) >= sk.second ) {
-                    return string_format( pgettext( "skill requirement",
-                                                    //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                    "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
-                                          sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
+            fix.skills.begin(), fix.skills.end(), [this]( const wound_skill & sk ) {
+
+                const int current_skill = static_cast<int>( get_greater_skill_or_knowledge_level( sk.skill ) );
+                const bool skill_is_sufficient = current_skill >= sk.level;
+
+                nc_color col;
+                if( skill_is_sufficient ) {
+                    col = c_green;
+                } else if( !skill_is_sufficient && !sk.is_mandatory ) {
+                    col = c_light_gray;
                 } else {
-                    return string_format( pgettext( "skill requirement",
-                                                    //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                    "<color_cyan>%1$s</color> <color_red>(%2$d/%3$d)</color>" ),
-                                          sk.first->name(), static_cast<int>( get_greater_skill_or_knowledge_level( sk.first ) ), sk.second );
+                    col = c_red;
                 }
+
+                return string_format( pgettext( "skill requirement",
+                                                //~ %1$s: skill name, %2$s: current skill level / required skill level
+                                                "%1$s %2$s" ),
+                                      colorize( sk.skill->name(), c_cyan ),
+                                      colorize( string_format( "(%1$d/%2$d)", current_skill, sk.level ), col ) );
             } ) );
         }
-
 
         if( !fix.proficiencies.empty() ) {
             descr += string_format( _( "Proficiencies: %s\n" ), enumerate_as_string(
@@ -745,11 +873,6 @@ bool Character::pick_wound_fix( const bodypart_id &bp_id )
     }
 
     const healing_option &opt = healing_options[menu.ret];
-    if( !opt.doable ) {
-        add_msg( m_info, _( "You are currently unable to treat the %s this way." ),
-                 opt.wd->get_name() );
-        return false;
-    }
 
     assign_activity( fix_wound_activity_actor( opt.time_to_apply, bp_id, opt.wd, opt.fix,
                      opt.amount ) );

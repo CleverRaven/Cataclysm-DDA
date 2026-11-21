@@ -545,14 +545,12 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_OUBLIETTE_MONSTER",
     "condition": {
-      "not": {
-        "or": [
-          { "u_has_flag": "TELESTOP" },
-          { "u_has_flag": "TELEPORT_IMMUNE" },
-          { "u_has_flag": "TELEPORT_LOCK" },
-          { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }
-        ]
-      }
+      "and": [
+        { "not": { "u_has_flag": "TELESTOP" } },
+        { "not": { "u_has_flag": "TELEPORT_IMMUNE" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } },
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
+      ]
     },
     "effect": [
       { "math": [ "_damage_done = 50 + rand(100)" ] },

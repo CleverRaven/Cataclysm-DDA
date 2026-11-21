@@ -26,12 +26,21 @@ Align bleed values to the ones in body_parts.json unless being instructed otherw
     "damage_types": [ "cut", "bash" ], // taking these type of damage can apply wound
     "damage_required": [ 1, 1000 ], // smallest and highest damage that is required for this wound to be applied
     "pain": [ 1, 10 ], // when wound is applied, it would give character this random amount of pain rolled between this two numbers. Default 0
-    "severity": "MAJOR", // Severity of the wound, ie how quickly NPC/player should react to it. Values can be MINOR (default), MAJOR and CRITICAL 
+    "severity": "MAJOR", // Severity of the wound, ie how quickly NPC/player should react to it. Values can be MINOR (default), MAJOR and CRITICAL.  For example, any bleeding wound should have at least MAJOR severity
     "healing_time": [ "2 hours", "25 days" ], // how long this wound need time to be fully healed. Rolled randomly when applied, supposed to be adjusted by wound_fix.
                                               // Affected by health/lifestyle, with -200 slowing down to 0.5x, and +200 speeding up to 1.5x, and `REGEN_WOUND` enchantment
                                               // Default infinite duration
     "wound_progression": [ { "id": "deep_scratch", "chance": 10 } ], // taking damage on bodypart with this limb may worsen it. chance is range from 0% to 100%
-    "limb_scores": [ { "score": "lift", "value": 0.25 } ], // if wounded part has this limb score, it will be decreased by this amount
+    "limb_scores": [ 
+      { 
+        "score": "lift", // if wounded part has this limb score, it will be decreased by this amount
+        "value": 0.15  // `value` simply subtracts the score, so limb with lift score 0.5 will have lift score dropped to 0.35 
+      },
+      { 
+        "score": "grip",
+        "mod": 0.15  // for `mod`, the game will first sums all the `mod` of the same score, and then multiplies the final value by [ 1 - total ]
+      },           // so single wound with mod 0.15 corresponds to 15% reduction of grip. so if limb score is 0.5, it will be decreased to 0.425
+    ],           // flat reduction is applied first, mod is applied later
     "progress_timer": {   // this wound may transform into another wound over time
       "id": "scratch_medium",
       "time": [ "2 minutes", "4 minutes" ],
@@ -72,8 +81,15 @@ Wound fixes support everything recipes support.
     "type": "wound_fix",
     "name": "bandage the bleeding",
     "description": "Foobar.",
-    "time": "2 hours", // how long it takes to apply this wound fix
-    "skills": { "mechanics": 1 }, // skills required to apply fix
+    "time": "2 hours", // how long it takes to apply this wound fix. Assume time that character without necessary skills and proficiencies (if is_mandatory is false)
+    "skills": [ 
+      { 
+        "skill": "mechanics", 
+        "level": 1, 
+        "time_save": 0.9, // multiplies the would fix time by this amount if skill is presented; default 1.0
+        "is_mandatory": true // if true, lacking this prof would prevent you from using this wound fix. Default true
+       }
+    ],
     "wounds_removed": [ "scratch" ], // wounds removed when this fix is applied
     "wounds_added": [ "scratch" ], // wounds added when fix is applied
     "success_msg": "Tada.",
@@ -82,8 +98,8 @@ Wound fixes support everything recipes support.
     "proficiencies": [
       {
         "proficiency": "prof_wound_care", // id of prof required
-        "time_save": 0.9, // multiplies the would fix time by this amount; default 1.0
-        "is_mandatory": true  // if true, lacking this prof would prevent you from using this wound fix
+        "time_save": 0.9, // multiplies the would fix time by this amount if prof is presented; default 1.0
+        "is_mandatory": true  // if true, lacking this prof would prevent you from using this wound fix. Default false
       }
     ]
   }

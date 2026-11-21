@@ -1114,7 +1114,7 @@ static void draw_ascii( const catacurses::window &w, overmap_draw_data_t &data )
 
             const om_vision_level vision = has_debug_vision ? om_vision_level::full :
                                            overmap_buffer.seen( omp );
-            if( vision == om_vision_level::unseen ) {
+            if( vision != om_vision_level::unseen ) {
                 // Only load terrain if we can actually see it
                 cur_ter = overmap_buffer.ter( omp );
             }

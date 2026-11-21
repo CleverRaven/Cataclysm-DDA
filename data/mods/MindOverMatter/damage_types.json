@@ -6,7 +6,7 @@
     "magic_color": "yellow",
     "name": { "ctxt": "damage_type", "str": "focused light" },
     "skill": "metaphysics",
-    "derived_from": [ "heat", 0.8 ],
+    "derived_from": [ "heat", 0.25 ],
     "immune_flags": { "character": [ "PHOTOKIN_CHAR_IMMUNE" ], "monster": [ "PHOTOKIN_MONSTER_IMMUNE" ] },
     "ondamage_eocs": [ "EOC_PHOTOKINETIC_DAMAGE_BLIND_CHANCE", "EOC_PHOTOKINETIC_DAMAGE_EXTRA_BLIND_CHANCE" ]
   },

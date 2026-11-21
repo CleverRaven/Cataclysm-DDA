@@ -119,6 +119,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_INVOKE_CLEANING_WOUNDS",
+    "effect": {
+      "foreach": "ids",
+      "target": "bodypart",
+      "var": { "context_val": "bodypart" },
+      "effect": [
+        {
+          "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
+          "variables": { "bodypart": { "context_val": "bodypart" } }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS",
     "condition": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] },
     "deactivate_condition": { "not": { "u_has_any_trait": [ "REGEN_LIZ", "REGEN" ] } },
@@ -132,17 +147,7 @@
             { "not": { "u_has_any_trait": [ "DISRESISTANT", "DISIMMUNE" ] } }
           ]
         },
-        "then": {
-          "foreach": "ids",
-          "target": "bodypart",
-          "var": { "context_val": "bodypart" },
-          "effect": [
-            {
-              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
-              "variables": { "bodypart": { "context_val": "bodypart" } }
-            }
-          ]
-        }
+        "then": { "run_eocs": "EOC_INVOKE_CLEANING_WOUNDS" }
       },
       {
         "if": {
@@ -151,17 +156,7 @@
             { "or": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISRESISTANT" } ] }
           ]
         },
-        "then": {
-          "foreach": "ids",
-          "target": "bodypart",
-          "var": { "context_val": "bodypart" },
-          "effect": [
-            {
-              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
-              "variables": { "bodypart": { "context_val": "bodypart" } }
-            }
-          ]
-        }
+        "then": { "run_eocs": "EOC_INVOKE_CLEANING_WOUNDS" }
       },
       {
         "if": {
@@ -177,31 +172,29 @@
             }
           ]
         },
-        "then": {
-          "foreach": "ids",
-          "target": "bodypart",
-          "var": { "context_val": "bodypart" },
-          "effect": [
-            {
-              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
-              "variables": { "bodypart": { "context_val": "bodypart" } }
-            }
+        "then": { "run_eocs": "EOC_INVOKE_CLEANING_WOUNDS" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MEDICAL_MUTATIONS_CLEANING_WOUNDS",
+    "condition": { "u_has_trait": "INFIMMUNE" },
+    "deactivate_condition": { "not": { "u_has_trait": "INFIMMUNE" } },
+    "recurrence": [ "30 seconds", "3 minutes" ],
+    "effect": [
+      {
+        "if": {
+          "and": [
+            { "x_in_y_chance": { "x": 2, "y": 3 } },
+            { "and": [ { "u_has_trait": "INFIMMUNE" }, { "u_has_trait": "DISRESISTANT" } ] }
           ]
-        }
+        },
+        "then": { "run_eocs": "EOC_INVOKE_CLEANING_WOUNDS" }
       },
       {
-        "if": { "and": [ { "u_has_any_trait": [ "INFRESIST", "INFIMMUNE" ] }, { "u_has_trait": "DISIMMUNE" } ] },
-        "then": {
-          "foreach": "ids",
-          "target": "bodypart",
-          "var": { "context_val": "bodypart" },
-          "effect": [
-            {
-              "run_eocs": "EOC_REGEN_MUTATIONS_CLEANING_WOUNDS_EFFECTS",
-              "variables": { "bodypart": { "context_val": "bodypart" } }
-            }
-          ]
-        }
+        "if": { "and": [ { "u_has_trait": "INFIMMUNE" }, { "u_has_trait": "DISIMMUNE" } ] },
+        "then": { "run_eocs": "EOC_INVOKE_CLEANING_WOUNDS" }
       }
     ]
   },

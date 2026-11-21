@@ -1680,6 +1680,7 @@ Faults can be defined for more specialized damage of an item.
   "instant_damage": 500,  // default 0. Instantly applies this much damage to the item when the fault is applied. (A "full health" item has 4000 "HP" currently)
   "degradation_mod": 50,  // default 0. Having this fault would add this amount of temporary degradation on the item, resulting in higher chance to trigger faults with "affected_by_degradation": true. Such degradation will be removed when fault is fixed
   "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
+  "attack_cost_modifier": 1.2, // (Optional, double) Defaults to 1.0 if not specified. A multiplier on this item's attack time when this fault is present. Values below 1.0 will decrease the attack time.
   "melee_damage_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) alters the melee damage of this type for item, if fault of this type is presented. `damage_id` is mandatory, `add` is 0 by default, `multiply` is 1 by default
   "armor_mod": [ { "damage_id": "cut", "add": -5, "multiply": 0.8 } ], // (Optional) Same as armor_mod, changes the protection value of damage type of the faulted item if it's presented
   "encumbrance_add": 20,  // if armor, item encumbrance will be modified by this amount, in this case +20 encumbrance

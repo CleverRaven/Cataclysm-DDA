@@ -45,6 +45,7 @@
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "path_info.h"
+#include "perf.h"
 #include "point.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
@@ -711,10 +712,13 @@ void overmapbuffer::process_mongroups()
 
 void overmapbuffer::move_hordes()
 {
+    cata_timer horde_timer( "move hordes" );
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
     const tripoint_abs_sm center = get_player_character().pos_abs_sm();
     for( overmap *&om : get_overmaps_near( center, radius ) ) {
+        cata_timer horde_timer_om( string_format( "move hordes at %d/%d", om->global_base_point().x(),
+                                   om->global_base_point().y() ) );
         om->move_hordes();
     }
 }

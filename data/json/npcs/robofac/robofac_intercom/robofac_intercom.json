@@ -793,7 +793,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR"
       },
       {
-        "text": "I'm here and I've got the goods.",
+        "text": "I'm here to repay you for the riot gear.",
         "condition": {
           "and": [
             {
@@ -809,7 +809,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR"
       },
       {
-        "text": "Cost of the armor plus everything left in the tower.",
+        "text": "The tower is clear and ready for you.  It's all yours, in return for wiping out the debt on that riot gear.",
         "condition": {
           "and": [
             {

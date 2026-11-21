@@ -69,6 +69,16 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_robot_anchored",
+    "name": [ "Anchored" ],
+    "desc": [ "You are anchored in place and cannot move." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
     "//": "This effect is automatically applied in C++.",
     "type": "effect_type",
     "id": "critter_well_fed",
@@ -5823,14 +5833,7 @@
     "rating": "bad",
     "max_duration": 120,
     "immune_flags": [ "INHALED_TOXIN_IMMUNE" ],
-    "base_mods": {
-      "str_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "speed_mod": [ -10 ],
-      "cough_chance": [ 3 ],
-      "vomit_chance": [ 15 ],
-      "vomit_tick": [ 10 ]
-    }
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 8 ], "vomit_chance": [ 15 ], "vomit_tick": [ 10 ] }
   },
   {
     "type": "effect_type",

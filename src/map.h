@@ -8,45 +8,46 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <variant>
 #include <vector>
 
 #include "active_item_cache.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "cata_small_literal_vector.h"
 #include "cata_type_traits.h"
 #include "cata_utility.h"
 #include "colony.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
 #include "level_cache.h"
 #include "lightmap.h"
-#include "line.h"
 #include "lru_cache.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
+#include "mdarray.h"
 #include "point.h"
-#include "rng.h"
+#include "shadowcasting.h"
 #include "tile_tint.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vpart_position.h"
 
 #if defined(TILES)
@@ -60,7 +61,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 class Character;
-class Creature;
 class basecamp;
 class character_id;
 class computer;
@@ -69,7 +69,6 @@ class field_entry;
 class item_location;
 class mapgendata;
 class monster;
-class relic_procgen_data;
 class submap;
 class vehicle;
 class zone_data;
@@ -77,13 +76,16 @@ struct fragment_cloud;
 struct partial_con;
 struct spawn_data;
 struct trap;
-template<typename Tripoint>
-class tripoint_range;
 
-enum class special_item_type : int;
 class npc_template;
 class tileray;
-class vpart_reference;
+
+enum class direction : unsigned int;
+struct field_effect;
+struct field_type;
+struct rl_vec2d;
+struct vehicle_part;
+
 struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
@@ -97,9 +99,6 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
-class weather_generator;
-
-enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
 struct pathfinding_target;
@@ -1195,6 +1194,10 @@ class map
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
 
+        // terrain opening a gap in its level's floor
+        // floor cache and its rebuild check both read this one list
+        bool has_floor_gap_flag( const ter_t &terrain ) const;
+
         // Returns true if a and b are on matching stairs connecting them
         // across exactly one z-level (one has GOES_UP, the other GOES_DOWN).
         bool on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const;
@@ -1350,6 +1353,7 @@ class map
                           bool repair_missing_ground = true );
 
         // Effects of attacks/items
+        // TODO: this function should not be using dozens of individual terrain IDs
         bool hit_with_acid( const tripoint_bub_ms &p );
         bool hit_with_fire( const tripoint_bub_ms &p );
 

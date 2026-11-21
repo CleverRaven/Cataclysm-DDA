@@ -20,6 +20,7 @@
       "OVERSIZE",
       "BELTED",
       "ALLOWS_NATURAL_ATTACKS",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -57,6 +58,14 @@
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
           "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4",
           "gastropod_foot",
           "tentacle_lower_front_l",
           "tentacle_lower_middle_l",
@@ -88,6 +97,7 @@
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_NATURAL_ATTACKS",
       "ALLOWS_SPIDER_ARMS",
@@ -127,6 +137,14 @@
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
           "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4",
           "gastropod_foot",
           "beak",
           "muzzle",
@@ -1773,6 +1791,7 @@
       "OVERSIZE",
       "UNBREAKABLE",
       "SOFT",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "ALLOWS_WINGS",
@@ -1804,7 +1823,15 @@
           "arm_arachnid_upper_l",
           "arm_arachnid_upper_r",
           "arm_arachnid_ok_upper_l",
-          "arm_arachnid_ok_upper_r"
+          "arm_arachnid_ok_upper_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "coverage": 100,
         "encumbrance": 2,
@@ -1820,7 +1847,26 @@
           "arm_arachnid_upper_upper_l",
           "arm_arachnid_upper_lower_l",
           "arm_arachnid_upper_upper_r",
-          "arm_arachnid_upper_lower_r"
+          "arm_arachnid_upper_lower_r",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_right_tip_r",
+          "tentacle_left_base_l",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_right_tip_r",
+          "tentacle_left_2_base_l",
+          "tentacle_right_2_base_r",
+          "tentacle_right_2_middle_r",
+          "tentacle_right_2_tip_r",
+          "tentacle_left_3_base_l",
+          "tentacle_right_3_base_r",
+          "tentacle_right_3_middle_r",
+          "tentacle_right_3_tip_r",
+          "tentacle_left_4_base_l",
+          "tentacle_right_4_base_r",
+          "tentacle_right_4_middle_r",
+          "tentacle_right_4_tip_r"
         ],
         "layers": [ "OUTER" ]
       },
@@ -1904,7 +1950,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -1918,7 +1972,16 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "ALLOWS_WINGS", "NO_WING_GLIDING" ]
+    "flags": [
+      "OVERSIZE",
+      "HOOD",
+      "BELTED",
+      "ALLOWS_ARM_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "ALLOWS_WINGS",
+      "NO_WING_GLIDING"
+    ]
   },
   {
     "id": "cloak_denim",
@@ -1940,6 +2003,7 @@
       "HOOD",
       "BELTED",
       "STURDY",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -1971,7 +2035,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2027,6 +2099,7 @@
       "OVERSIZE",
       "HOOD",
       "BELTED",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2058,7 +2131,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2131,6 +2212,7 @@
     "flags": [
       "OVERSIZE",
       "BELTED",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2162,7 +2244,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2217,6 +2307,7 @@
       "HOOD",
       "BELTED",
       "RAINPROOF",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2248,7 +2339,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2303,6 +2402,7 @@
       "HOOD",
       "BELTED",
       "RAINPROOF",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2334,7 +2434,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2388,6 +2496,7 @@
       "OVERSIZE",
       "HOOD",
       "BELTED",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2419,7 +2528,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2472,6 +2589,7 @@
     "flags": [
       "OVERSIZE",
       "BELTED",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2506,7 +2624,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
@@ -2571,6 +2697,9 @@
       "SOFT",
       "NO_REPAIR",
       "RAINPROOF",
+      "ALLOWS_ARM_TENTACLES",
+      "ALLOWS_GASTROPOD_FOOT",
+      "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
       "ALLOWS_WING_ARMS",
       "NO_WING_GLIDING"
@@ -2597,14 +2726,43 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ]
       },
       {
-        "covers": [ "leg_l", "leg_r" ],
+        "covers": [ "leg_l", "leg_r", "gastropod_foot", "tail" ],
         "coverage": 65,
         "encumbrance": 50,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r", "leg_gastropod_draped", "tail_default_base", "tail_default_center" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 65,
+        "encumbrance": 3,
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
         "layers": [ "BELTED" ]
       }
     ],
@@ -2657,7 +2815,7 @@
     "warmth": 35,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_ARM_TENTACLES", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
     "armor": [
       { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] },
       {
@@ -2692,7 +2850,15 @@
           "arm_arachnid_lower_r",
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
-          "arm_arachnid_ok_lower_l"
+          "arm_arachnid_ok_lower_l",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "coverage": 85,
         "encumbrance": 5,
@@ -2712,7 +2878,15 @@
           "arm_arachnid_ok_upper_upper_l",
           "arm_arachnid_ok_upper_upper_r",
           "arm_arachnid_ok_lower_upper_l",
-          "arm_arachnid_ok_lower_upper_r"
+          "arm_arachnid_ok_lower_upper_r",
+          "tentacle_right_base_r",
+          "tentacle_left_base_l",
+          "tentacle_left_2_base_l",
+          "tentacle_right_2_base_r",
+          "tentacle_left_3_base_l",
+          "tentacle_right_3_base_r",
+          "tentacle_left_4_base_l",
+          "tentacle_right_4_base_r"
         ],
         "layers": [ "BELTED" ]
       }
@@ -2751,7 +2925,16 @@
     "material": [ "vinyl" ],
     "weight": "280 g",
     "volume": "250 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ],
+    "flags": [
+      "RAINPROOF",
+      "HOOD",
+      "OVERSIZE",
+      "BELTED",
+      "ALLOWS_ARM_TENTACLES",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "NO_WING_GLIDING"
+    ],
     "environmental_protection": 1,
     "material_thickness": 0.4,
     "armor": [
@@ -2775,7 +2958,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "specifically_covers": [
           "arm_shoulder_l",
@@ -2815,7 +3006,23 @@
           "arm_arachnid_ok_upper_elbow_l",
           "arm_arachnid_ok_upper_elbow_r",
           "arm_arachnid_ok_lower_elbow_l",
-          "arm_arachnid_ok_lower_elbow_r"
+          "arm_arachnid_ok_lower_elbow_r",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_left_base_l",
+          "tentacle_left_middle_l",
+          "tentacle_left_2_base_l",
+          "tentacle_left_2_middle_l",
+          "tentacle_right_2_base_r",
+          "tentacle_right_2_middle_r",
+          "tentacle_left_3_base_l",
+          "tentacle_left_3_middle_l",
+          "tentacle_right_3_base_r",
+          "tentacle_right_3_middle_r",
+          "tentacle_left_4_base_l",
+          "tentacle_left_4_middle_l",
+          "tentacle_right_4_base_r",
+          "tentacle_right_4_middle_r"
         ],
         "coverage": 100
       },
@@ -2853,6 +3060,7 @@
       "HOOD",
       "OVERSIZE",
       "OUTER",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -2895,7 +3103,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "specifically_covers": [
           "arm_shoulder_l",
@@ -2935,7 +3151,23 @@
           "arm_arachnid_ok_upper_elbow_l",
           "arm_arachnid_ok_upper_elbow_r",
           "arm_arachnid_ok_lower_elbow_l",
-          "arm_arachnid_ok_lower_elbow_r"
+          "arm_arachnid_ok_lower_elbow_r",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_left_base_l",
+          "tentacle_left_middle_l",
+          "tentacle_left_2_base_l",
+          "tentacle_left_2_middle_l",
+          "tentacle_right_2_base_r",
+          "tentacle_right_2_middle_r",
+          "tentacle_left_3_base_l",
+          "tentacle_left_3_middle_l",
+          "tentacle_right_3_base_r",
+          "tentacle_right_3_middle_r",
+          "tentacle_left_4_base_l",
+          "tentacle_left_4_middle_l",
+          "tentacle_right_4_base_r",
+          "tentacle_right_4_middle_r"
         ],
         "coverage": 100
       },
@@ -3024,6 +3256,7 @@
       "OVERSIZE",
       "OUTER",
       "STURDY",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -3067,7 +3300,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "specifically_covers": [
           "arm_shoulder_l",
@@ -3107,7 +3348,23 @@
           "arm_arachnid_ok_upper_elbow_l",
           "arm_arachnid_ok_upper_elbow_r",
           "arm_arachnid_ok_lower_elbow_l",
-          "arm_arachnid_ok_lower_elbow_r"
+          "arm_arachnid_ok_lower_elbow_r",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_left_base_l",
+          "tentacle_left_middle_l",
+          "tentacle_left_2_base_l",
+          "tentacle_left_2_middle_l",
+          "tentacle_right_2_base_r",
+          "tentacle_right_2_middle_r",
+          "tentacle_left_3_base_l",
+          "tentacle_left_3_middle_l",
+          "tentacle_right_3_base_r",
+          "tentacle_right_3_middle_r",
+          "tentacle_left_4_base_l",
+          "tentacle_left_4_middle_l",
+          "tentacle_right_4_base_r",
+          "tentacle_right_4_middle_r"
         ],
         "coverage": 100
       },
@@ -3194,6 +3451,7 @@
       "OVERSIZE",
       "OUTER",
       "SOFT",
+      "ALLOWS_ARM_TENTACLES",
       "ALLOWS_GASTROPOD_FOOT",
       "ALLOWS_LEG_TENTACLES",
       "ALLOWS_SPIDER_ARMS",
@@ -3224,7 +3482,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "specifically_covers": [
           "arm_shoulder_l",
@@ -3264,7 +3530,23 @@
           "arm_arachnid_ok_upper_elbow_l",
           "arm_arachnid_ok_upper_elbow_r",
           "arm_arachnid_ok_lower_elbow_l",
-          "arm_arachnid_ok_lower_elbow_r"
+          "arm_arachnid_ok_lower_elbow_r",
+          "tentacle_right_base_r",
+          "tentacle_right_middle_r",
+          "tentacle_left_base_l",
+          "tentacle_left_middle_l",
+          "tentacle_left_2_base_l",
+          "tentacle_left_2_middle_l",
+          "tentacle_right_2_base_r",
+          "tentacle_right_2_middle_r",
+          "tentacle_left_3_base_l",
+          "tentacle_left_3_middle_l",
+          "tentacle_right_3_base_r",
+          "tentacle_right_3_middle_r",
+          "tentacle_left_4_base_l",
+          "tentacle_left_4_middle_l",
+          "tentacle_right_4_base_r",
+          "tentacle_right_4_middle_r"
         ],
         "coverage": 100
       },
@@ -3386,7 +3668,15 @@
           "arm_arachnid_ok_upper_l",
           "arm_arachnid_ok_upper_r",
           "arm_arachnid_ok_lower_l",
-          "arm_arachnid_ok_lower_r"
+          "arm_arachnid_ok_lower_r",
+          "arm_tentacle_l",
+          "arm_tentacle_l_2",
+          "arm_tentacle_l_3",
+          "arm_tentacle_l_4",
+          "arm_tentacle_r",
+          "arm_tentacle_r_2",
+          "arm_tentacle_r_3",
+          "arm_tentacle_r_4"
         ],
         "coverage": 40,
         "encumbrance": 2
@@ -3394,7 +3684,16 @@
     ],
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED", "ALLOWS_SPIDER_ARMS", "ALLOWS_WING_ARMS", "NO_WING_GLIDING" ]
+    "flags": [
+      "OVERSIZE",
+      "RAINPROOF",
+      "BELTED",
+      "ALLOWS_ARM_TENTACLES",
+      "ALLOWS_GASTROPOD_FOOT",
+      "ALLOWS_SPIDER_ARMS",
+      "ALLOWS_WING_ARMS",
+      "NO_WING_GLIDING"
+    ]
   },
   {
     "id": "snuggie",

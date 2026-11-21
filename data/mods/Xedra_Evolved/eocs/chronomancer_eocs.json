@@ -793,7 +793,7 @@
         "parse_tags": true
       },
       {
-        "if": { "u_has_effect": "bleed" },
+        "if": "u_is_bleeding",
         "then": { "math": [ "v_target_var = 1" ] },
         "else": { "math": [ "v_target_var = 0" ] }
       }

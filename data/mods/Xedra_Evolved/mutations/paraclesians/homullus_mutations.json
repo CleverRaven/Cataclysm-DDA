@@ -67,7 +67,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_latex_skin" ]
+    "integrated_armor": [ "integrated_latex_skin" ],
+    "flags": [ "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",

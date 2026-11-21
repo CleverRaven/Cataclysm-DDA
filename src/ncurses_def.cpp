@@ -38,6 +38,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "output.h"
+#include "perf.h"
 #include "ui_manager.h"
 
 #if defined(_WIN32)

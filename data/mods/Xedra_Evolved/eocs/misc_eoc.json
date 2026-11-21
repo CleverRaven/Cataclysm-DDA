@@ -437,18 +437,19 @@
     "//": "Gives regular blood to not cause hypovolemia.  Losing stolen blood is already a sufficient penalty.",
     "//2": "The idea is that bleeding penalize vampires more on the spot, but they recover near-instantly if they can drink blood.",
     "//3": "A vampire cannot gain nourishment from its own blood under any circumstances.",
+    "//4": "TODO extend wounds instead?",
     "condition": {
       "and": [
         { "u_has_trait": "VAMPIRE" },
         { "not": { "u_has_trait": "BLOODTHORNE_DRUID_SYMBIOTIC_PLANT" } },
         {
           "or": [
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'arm_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_l') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'leg_r') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'torso') >= 1" ] },
-            { "math": [ "u_effect_intensity('bleed', 'bodypart': 'head') >= 1" ] }
+            { "u_bodypart_is_bleeding": "arm_l" },
+            { "u_bodypart_is_bleeding": "arm_r" },
+            { "u_bodypart_is_bleeding": "leg_l" },
+            { "u_bodypart_is_bleeding": "leg_r" },
+            { "u_bodypart_is_bleeding": "torso" },
+            { "u_bodypart_is_bleeding": "head" }
           ]
         }
       ]
@@ -462,7 +463,7 @@
         "var": { "context_val": "id" },
         "effect": [
           {
-            "if": { "math": [ "u_effect_intensity('bleed', 'bodypart': _id) >= 1" ] },
+            "if": { "u_bodypart_is_bleeding": { "context_val": "id" } },
             "then": [
               { "math": [ "_bleed_intensity = u_effect_intensity('bleed', 'bodypart': _id)" ] },
               { "u_message": "Bleed intensity for bodypart is <context_val:bleed_intensity>.", "type": "debug" },

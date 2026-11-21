@@ -72,6 +72,7 @@ enum class do_activity_reason : int {
     NEEDS_TREE_CHOPPING,    //* There is a tree there that needs to be chopped
     NEEDS_BIG_BUTCHERING,   //* There is at least one corpse there to butcher, and it's a big one
     NEEDS_BUTCHERING,       //* There is at least one corpse there to butcher, and there's no need for additional tools
+    NEEDS_DISSECTING,       //* There is at least one corpse there to dissect
     NEEDS_CUT_HARVESTING,   //* There is a plant there which needs a grass-cutting tool to harvest
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,      //* There is a vehicle part there that we can deconstruct, given the right tools.
@@ -155,7 +156,6 @@ bool resume_for_multi_activities( Character &you );
 
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, Character *you );
-void repair_item_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
@@ -175,9 +175,6 @@ void clean_may_activity_occupancy_items_var( Character &you );
 std::vector<item_location> drop_fetched_items( Character &who, const std::list<item> &items,
         map *here, const tripoint_bub_ms &where );
 void clean_may_activity_occupancy_items_var_if_is_avatar_and_no_activity_now( Character &you );
-// defined in activity_handlers.cpp
-extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
-finish_functions;
 
 } // namespace activity_handlers
 

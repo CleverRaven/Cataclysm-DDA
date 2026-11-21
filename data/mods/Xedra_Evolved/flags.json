@@ -106,5 +106,11 @@
     "id": "VOID_MONSTER_IMMUNE",
     "type": "monster_flag",
     "//": "Immune to void damage"
+  },
+  {
+    "id": "CRYOGENIC_ROT",
+    "type": "json_flag",
+    "//": "Overwrite from Aftershock",
+    "info": "This item <info>is fading fast</info> and <bad>cannot be preserved</bad>."
   }
 ]

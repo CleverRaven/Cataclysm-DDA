@@ -96,15 +96,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "cthonic poultice",
-    "description": "A poultice made from the elements of the earth.  You could use it to heal your wounds, if you were made of stone.",
+    "description": "A poultice made from the elements of the earth.  You could use it to speed the healing of your wounds, if you were made of stone.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "verdant_poultice",
@@ -112,15 +112,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "verdant poultice",
-    "description": "A poultice made from plant life.  You could use it to heal your wounds, if you were grown from plants.",
+    "description": "A poultice made from plant life.  You could use it to speed the healing of your wounds, if you were grown from plants.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "cerulean_poultice",
@@ -128,15 +128,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": "cerulean poultice",
-    "description": "A poultice made from the elements of the sea.  You could use it to heal your wounds, if you were liquid as well.",
+    "description": "A poultice made from the elements of the sea.  You could use it to speed the healing of your wounds, if you were liquid as well.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "charred_sacrifice",
@@ -144,15 +144,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "charred sacrifice" },
-    "description": "A devotion to the powers of fire.  You could use it to heal your wounds, if you were born of the flames.",
+    "description": "A devotion to the powers of fire.  You could use it to speed the healing of your wounds, if you were born of the flames.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "doll_repair_paste",
@@ -160,15 +160,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str_sp": "doll repair paste" },
-    "description": "A paste made from paint and glue.  You could use it to heal your wounds, if you were made in man's image.",
+    "description": "A paste made from paint and glue.  You could use it to speed the healing of your wounds, if you were made in man's image.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "ethereal_draught",
@@ -176,15 +176,15 @@
     "subtypes": [ "COMESTIBLE" ],
     "comestible_type": "MED",
     "name": { "str": "ethereal draught" },
-    "description": "A concoction made from honey and bread.  You could use it to heal your wounds, if you were born of air and darkness.",
+    "description": "A concoction made from honey and bread.  You could use it to speed the healing of your wounds, if you were born of air and darkness.",
     "weight": "175 g",
     "volume": "250 ml",
     "price": "6 USD",
     "material": [ "dreamstuff" ],
     "symbol": "~",
     "color": "brown",
-    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "bleed": 5, "move_cost": 300 }
+    "flags": [ "NO_AUTO_CONSUME", "CANT_HEAL_EVERYONE" ],
+    "consumption_effect_on_conditions": [ "EOC_CONSUMED_ELEMENTAL_HEALING_DRAUGHT" ]
   },
   {
     "id": "elemental_mana_draught",

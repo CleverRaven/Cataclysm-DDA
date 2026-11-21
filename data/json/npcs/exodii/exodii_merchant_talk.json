@@ -731,7 +731,13 @@
         "text": "Can you help me with CBM surgery?",
         "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
         "condition": {
-          "or": [ { "u_has_trait": "CBM_Interface" }, { "u_has_trait": "NL_CBM_Interface" }, { "u_has_trait": "Hub01_CBM_Interface" } ]
+          "or": [
+            { "u_has_trait": "CBM_Interface" },
+            { "u_has_trait": "NL_CBM_Interface" },
+            {
+              "and": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } ]
+            }
+          ]
         }
       },
       {
@@ -2034,12 +2040,16 @@
       },
       {
         "text": "I've got some stuff I'd like to install.",
-        "condition": { "u_has_trait": "Hub01_CBM_Interface" },
+        "condition": {
+          "and": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } ]
+        },
         "topic": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface"
       },
       {
         "text": "Would you be able to take out one of my implants?",
-        "condition": { "u_has_trait": "Hub01_CBM_Interface" },
+        "condition": {
+          "and": [ { "u_has_trait": "Hub01_CBM_Interface" }, { "compare_string": [ "yes", { "u_val": "Rubik_exodized_u" } ] } ]
+        },
         "topic": "TALK_EXODII_MERCHANT_Found_Hub01_CBM_interface"
       }
     ]

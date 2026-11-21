@@ -129,7 +129,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     monster *new_manhack = find_adjacent_monster( player_character.pos_bub() );
     REQUIRE( new_manhack == nullptr );
 
-    player_character.invoke_item( &*test_item );
+    player_character.invoke_item( test_item );
 
     REQUIRE( !player_character.has_item_with( []( const item & it ) {
         return it.typeId() == itype_bot_manhack;
@@ -167,7 +167,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, &get_map(), dummy->pos_bub() );
+            item_location loc_flashlight( *dummy, &flashlight );
+            actor->use( dummy, loc_flashlight, &get_map(), dummy->pos_bub() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );
@@ -200,6 +201,7 @@ TEST_CASE( "transform_blocked_when_result_too_long_for_parent_pocket",
         REQUIRE( vest_iter.has_value() );
         item &worn_vest = **vest_iter;
         item &stashed_baton = worn_vest.only_item();
+        item_location loc_stashed_baton( dummy, &stashed_baton );
         REQUIRE( dummy.has_item( stashed_baton ) );
 
         const use_function *use = stashed_baton.type->get_use( "transform" );
@@ -208,8 +210,9 @@ TEST_CASE( "transform_blocked_when_result_too_long_for_parent_pocket",
                                       ( use->get_actor_ptr() );
         REQUIRE( actor != nullptr );
 
+
         WHEN( "checking if the transform can be invoked" ) {
-            ret_val<void> can = actor->can_use( dummy, stashed_baton, &get_map(),
+            ret_val<void> can = actor->can_use( dummy, loc_stashed_baton, &get_map(),
                                                 dummy.pos_bub() );
             THEN( "the transform is rejected" ) {
                 CHECK_FALSE( can.success() );
@@ -217,7 +220,7 @@ TEST_CASE( "transform_blocked_when_result_too_long_for_parent_pocket",
         }
 
         WHEN( "the player tries to invoke the transform" ) {
-            dummy.invoke_item( &stashed_baton );
+            dummy.invoke_item( loc_stashed_baton );
             THEN( "the baton is not transformed" ) {
                 CHECK( stashed_baton.typeId() == itype_test_transform_baton );
                 CHECK( worn_vest.only_item().typeId() == itype_test_transform_baton );
@@ -232,6 +235,7 @@ TEST_CASE( "transform_blocked_when_result_too_long_for_parent_pocket",
         REQUIRE( bag_iter.has_value() );
         item &worn_bag = **bag_iter;
         item &stashed_baton = worn_bag.only_item();
+        item_location loc_stashed_baton( dummy, &stashed_baton );
         REQUIRE( dummy.has_item( stashed_baton ) );
 
         const use_function *use = stashed_baton.type->get_use( "transform" );
@@ -241,7 +245,7 @@ TEST_CASE( "transform_blocked_when_result_too_long_for_parent_pocket",
         REQUIRE( actor != nullptr );
 
         WHEN( "checking if the transform can be invoked" ) {
-            ret_val<void> can = actor->can_use( dummy, stashed_baton, &get_map(),
+            ret_val<void> can = actor->can_use( dummy, loc_stashed_baton, &get_map(),
                                                 dummy.pos_bub() );
             THEN( "the transform is allowed" ) {
                 CHECK( can.success() );

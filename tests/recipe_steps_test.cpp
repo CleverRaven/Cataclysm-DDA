@@ -847,7 +847,7 @@ TEST_CASE( "step_recipe_interrupt_and_resume", "[recipe][steps][crafting]" )
 
     set_time( calendar::turn_zero + 12_hours );
     REQUIRE( !guy.activity );
-    guy.use( guy.get_item_position( craft ) );
+    guy.use( item_location( guy, craft ) );
     REQUIRE( guy.activity );
     REQUIRE( guy.activity.id() == ACT_CRAFT );
 
@@ -1093,7 +1093,7 @@ TEST_CASE( "step_exertion_correct_on_resume", "[recipe][steps][crafting]" )
     REQUIRE( craft->get_current_step() == 1 );
 
     set_time( calendar::turn_zero + 12_hours );
-    guy.use( guy.get_item_position( craft ) );
+    guy.use( item_location( guy, craft ) );
     REQUIRE( guy.activity );
     REQUIRE( guy.activity.id() == ACT_CRAFT );
 
@@ -1279,7 +1279,7 @@ TEST_CASE( "step_interrupt_resume_completes", "[recipe][steps][crafting]" )
     craft = find_craft_item( guy );
     REQUIRE( craft );
     set_time( calendar::turn_zero + 12_hours );
-    guy.use( guy.get_item_position( craft ) );
+    guy.use( item_location( guy, craft ) );
     REQUIRE( guy.activity.id() == ACT_CRAFT );
 
     const int resume_turns = run_craft_to_completion( guy );
@@ -1371,7 +1371,7 @@ TEST_CASE( "step_legacy_migration", "[recipe][steps][crafting]" )
     set_time( calendar::turn_zero + 12_hours );
     item *legacy_craft = find_craft_item( guy );
     REQUIRE( legacy_craft );
-    guy.use( guy.get_item_position( legacy_craft ) );
+    guy.use( item_location( guy, legacy_craft ) );
     REQUIRE( guy.activity );
     REQUIRE( guy.activity.id() == ACT_CRAFT );
 

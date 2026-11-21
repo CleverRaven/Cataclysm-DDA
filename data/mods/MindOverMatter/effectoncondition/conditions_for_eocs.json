@@ -1,6 +1,12 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_MOM_TELEPORT_IMMUNITY",
+    "condition": { "and": [ { "not": { "u_has_flag": "TELESTOP" } }, { "not": { "u_has_flag": "TELEPORT_IMMUNE" } } ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST",
     "condition": {
       "and": [

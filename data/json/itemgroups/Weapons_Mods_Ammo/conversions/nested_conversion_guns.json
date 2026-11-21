@@ -7,8 +7,8 @@
     "ammo": 100,
     "entries": [
       { "group": "ar15_223long", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -20,8 +20,8 @@
     "ammo": 100,
     "entries": [
       { "group": "modular_ar15", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -33,8 +33,8 @@
     "ammo": 100,
     "entries": [
       { "group": "ar15_223medium", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -46,8 +46,8 @@
     "ammo": 100,
     "entries": [
       { "group": "ar15_223short", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -59,8 +59,8 @@
     "ammo": 100,
     "entries": [
       { "group": "ar15_300", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_300BLK" }
     ]
   },
@@ -72,8 +72,8 @@
     "ammo": 100,
     "entries": [
       { "group": "ar15_300medium", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_300BLK" }
     ]
   },
@@ -202,8 +202,8 @@
         ],
         "prob": 100
       },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -219,8 +219,8 @@
         "distribution": [ { "group": "mdrx_223", "charges": [ 0, 30 ], "prob": 4 }, { "group": "mdrx", "charges": [ 0, 30 ], "prob": 5 } ],
         "prob": 100
       },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -233,8 +233,8 @@
     "ammo": 100,
     "entries": [
       { "group": "mdrx_300", "charges": [ 0, 30 ] },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_300BLK" }
     ]
   },

@@ -84,6 +84,7 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+class wound;
 
 enum scaling_stat : int;
 
@@ -973,7 +974,6 @@ class Character : public Creature, public visitable
          * Due to eoc event character_takeoff_item trigger here, item that be takeoff successfully may be deleted by eoc.
          */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
 
         /** Handles health fluctuations over time */
         virtual void update_health();
@@ -986,7 +986,8 @@ class Character : public Creature, public visitable
         /** Updates the mutations from enchantments */
         void update_cached_mutations();
         /** Adds this specific wound to bodypart. 'force' bypasses all conditional checks and applies the wound directly */
-        void apply_wound( bodypart_id bp, wound_type_id wd );
+        void apply_wound( bodypart_id bp, wound_type_id wd, dealt_damage_instance &ddi );
+        void apply_wound( bodypart_id bp, wound wd, dealt_damage_instance &ddi );
         /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
         /** Returns true if bodypart in question has any bleeding wound */
@@ -1179,8 +1180,13 @@ class Character : public Creature, public visitable
         bool is_quiet() const;
 
         // melee.cpp
-        /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
+        /** Checks for valid block abilities and reduces damage accordingly. Returns true if block is a greater part of defense than dodge, for messaging */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
+        /** Block roll for combined defense */
+        float block_roll( const Creature *source ) override;
+        bodypart_id block_bp;
+        std::string thing_blocked_with;
+        bool block_item = false;
         /** Returns the best item for blocking with */
         item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
@@ -1779,6 +1785,7 @@ class Character : public Creature, public visitable
         bool activate_bionic( bionic &bio, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
         std::vector<const item *> get_pseudo_items() const;
+        std::vector<item_location> get_pseudo_items_locs();
         // Innate items a craft can draw: exposed pseudo items plus the hard-coded
         // digging pair.
         std::vector<item> crafting_pseudo_items() const;
@@ -1884,15 +1891,11 @@ class Character : public Creature, public visitable
          */
         bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Uses a tool */
-        void use( int inventory_position );
+
         /** Uses a tool at location */
         void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        std::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
 
         /** Wear item; returns nullopt on fail. If interactive is false, don't alert the player or drain moves on completion.
         * The result can be end() of the worn list; do not dereference it.
@@ -2033,6 +2036,9 @@ class Character : public Creature, public visitable
             return -2 - position;
         }
 
+        // checks to see if an item is worn OR wielded
+        bool is_worn_or_wielded( const item_location &thing ) const;
+
         // checks to see if an item is worn
         bool is_worn( const item &thing ) const {
             return worn.is_worn( thing );
@@ -2048,13 +2054,13 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
+        virtual bool invoke_item( item_location &, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
+        virtual bool invoke_item( item_location &, const std::string &, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
-        virtual bool invoke_item( item * );
-        virtual bool invoke_item( item *, const std::string & );
+        virtual bool invoke_item( item_location & );
+        virtual bool invoke_item( item_location &, const std::string & );
 
         /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
@@ -2156,18 +2162,6 @@ class Character : public Creature, public visitable
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         item_location invlet_to_item( int invlet ) const;
-
-        // Returns the item with a given inventory position.
-        item &i_at( int position );
-        const item &i_at( int position ) const;
-        /**
-         * Returns the item position (suitable for @ref i_at or similar) of a
-         * specific item. Returns INT_MIN if the item is not found.
-         * Note that this may lose some information, for example the returned position is the
-         * same when the given item points to the container and when it points to the item inside
-         * the container. All items that are part of the same stack have the same item position.
-         */
-        int get_item_position( const item *it ) const;
 
         /**
          * Returns a reference to the item which will be used to make attacks.
@@ -2353,6 +2347,7 @@ class Character : public Creature, public visitable
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
+        std::vector<item_location> inv_dump_loc();
 
         // combined volume of the character's body and inventory
         // TODO: Cache this like weight carried?
@@ -3147,7 +3142,7 @@ class Character : public Creature, public visitable
                                      const std::function<bool( const item & )> &filter = return_true<item>,
                                      bool in_tools = false );
 
-        item find_firestarter_with_charges( int quantity ) const;
+        item_location find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
@@ -3168,6 +3163,8 @@ class Character : public Creature, public visitable
         bool has_activity( const std::vector<activity_id> &types ) const;
         /** Process activity until activity invalid or character is out of moves */
         void process_activity();
+        /** Process activity until activity invalid; for tests only! */
+        void process_activity_until_invalid();
         /** Check if character has a given sub_bodypart */
         bool has_sub_bodypart( const sub_bodypart_id &sbp ) const;
         void resume_backlog_activity();
@@ -4290,7 +4287,11 @@ class Character : public Creature, public visitable
         bool has_wound( wound_type_id wd ) const;
         bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
 
+        bool has_bleeding_wound( const bodypart_str_id &part ) const;
+
         bool has_wounds( const bodypart_str_id &part ) const;
+
+        const std::vector<wound> &wounds_on( const bodypart_str_id &part ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

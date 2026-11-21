@@ -68,5 +68,10 @@
     "type": "dimension",
     "id": "string_dimension_ka",
     "region_layout": "string_dimension_ka"
+  },
+  {
+    "type": "dimension",
+    "id": "gozu_hell",
+    "region_layout": "gozu_hell"
   }
 ]

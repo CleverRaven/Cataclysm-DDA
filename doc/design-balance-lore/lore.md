@@ -95,13 +95,8 @@ See [the Technology document](./technology.md) for deeper details.
 
 Every living thing on earth is infected by the blob.  In humans, passive blob infection has a few effects.  This has some serious ramifications for gameplay and storytelling.
 
-**Increased Healing**
-Blob infection means everyone heals more completely from basic soft tissue injuries.  It doesn't affect immune systems and doesn't have as powerful an effect on broken bones.  It also doesn't allow regeneration… Not unless you die, first.  As the game's code improves, the effect of increased healing is lessened, but in general we're never going to model stuff like permanent nerve damage and unrecoverable scarring, and this is the in-game reason.
-
-In-game this is an explanation for rapid player healing; note that this means that rapid healing is diegetic, ie.  characters in the game world are conscious of the fact that they heal much faster than before, and may comment on it.
-
 **Mutation**
-The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state and can be thought of as a 'basic human' mutagen).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to radiation and certain other toxic challenges by sometimes causing random mutations.
+The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state and can be thought of as a 'basic human' mutagen).  That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism.  The blob also responds to certain toxic challenges by sometimes causing random mutations.
 
 Mutagens work in part by copying a particular creature's phenotype onto the blob, then merging that phenotype with the person consuming the mutagen.  Mutagens do *not* work by modifying the underlying genetics of the organism: they are epigenetic.
 

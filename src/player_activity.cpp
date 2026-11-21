@@ -362,10 +362,7 @@ void player_activity::do_turn( Character &you )
         if( actor ) {
             actor->finish( *this, you );
         } else {
-            if( !type->call_finish( this, &you ) ) {
-                // "Finish" is never a misnomer for any activity without a finish function
-                set_to_null();
-            }
+            set_to_null();
         }
     }
     if( !*this ) {

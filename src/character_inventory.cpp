@@ -544,24 +544,6 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
     }
 }
 
-// Negative positions indicate weapon/clothing, >=0 is obsolete
-const item &Character::i_at( int position ) const
-{
-    if( position == -1 ) {
-        return weapon;
-    }
-    if( position < -1 ) {
-        return worn.i_at( worn_position_to_index( position ) );
-    }
-
-    return null_item_reference();
-}
-
-item &Character::i_at( int position )
-{
-    return const_cast<item &>( const_cast<const Character *>( this )->i_at( position ) );
-}
-
 item Character::i_rem( const item *it )
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
@@ -662,17 +644,9 @@ item_location Character::invlet_to_item( const int linvlet ) const
     return invlet_item;
 }
 
-int Character::get_item_position( const item *it ) const
+bool Character::is_worn_or_wielded( const item_location &thing ) const
 {
-    if( weapon.has_item( *it ) ) {
-        return -1;
-    }
-
-    std::optional<int> pos = worn.get_item_position( *it );
-    if( pos ) {
-        return worn_position_to_index( *pos );
-    }
-    return INT_MIN;
+    return worn.is_worn( *thing ) || get_wielded_item() == thing;
 }
 
 void Character::drop( item_location loc, const tripoint_bub_ms &where )
@@ -1031,6 +1005,18 @@ std::vector<const item *> Character::get_pseudo_items() const
         pseudo_items_valid = true;
     }
     return pseudo_items;
+}
+
+std::vector<item_location> Character::get_pseudo_items_locs()
+{
+    std::vector<item_location> ret;
+    for( const item *it : get_pseudo_items() ) {
+        // i don't like const casting
+        item_location loc( *this, const_cast<item *>( it ) );
+        ret.emplace_back( loc );
+    }
+
+    return ret;
 }
 
 std::vector<item> Character::crafting_pseudo_items() const
@@ -1778,6 +1764,16 @@ std::string Character::weapname_ammo() const
     }
 }
 
+std::vector<item_location> Character::inv_dump_loc()
+{
+    std::vector<item_location> ret;
+    if( is_armed() && can_drop( weapon ).success() ) {
+        ret.push_back( get_wielded_item() );
+    }
+    worn.inv_dump_locs( *this, ret );
+    return ret;
+}
+
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
@@ -2311,25 +2307,34 @@ bool Character::has_charges( const itype_id &it, int quantity,
     return charges_of( it, quantity, filter ) == quantity;
 }
 
-item Character::find_firestarter_with_charges( const int quantity ) const
+item_location Character::find_firestarter_with_charges( const int quantity ) const
 {
-    item ret;
-    cache_has_item_with( flag_FIRESTARTER, [&]( const item & it ) {
-        if( !it.typeId()->can_have_charges() ) {
-            const use_function *usef = it.type->get_use( "firestarter" );
-            if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), it, &get_map(), tripoint_bub_ms::zero ).success() ) {
-                    ret = it;
-                    return true;
-                }
-            }
-        } else if( it.ammo_sufficient( this, quantity ) ) {
-            ret = it;
-            return true;
+    item_location ret;
+    visit_items( [this, &ret, quantity]( const item_location & node ) {
+
+        if( !node->has_flag( flag_FIRESTARTER ) ) {
+            return VisitResponse::NEXT;
         }
-        return false;
+
+        if( node->type->can_have_charges() ) {
+            const use_function *usef = node->type->get_use( "firestarter" );
+            if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
+                return VisitResponse::NEXT;
+            }
+
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( *this, node, &get_map(), tripoint_bub_ms::zero ).success() ) {
+                ret = node;
+                return VisitResponse::ABORT;
+            }
+        } else  if( node->ammo_sufficient( this, quantity ) ) {
+            ret = node;
+            return VisitResponse::ABORT;
+        }
+
+        return VisitResponse::NEXT;
     } );
+
     return ret;
 }
 
@@ -2343,7 +2348,7 @@ bool Character::has_fire( const int quantity ) const
     if( cache_has_item_with( flag_FIRE ) ) {
         return true;
     }
-    if( !find_firestarter_with_charges( quantity ).is_null() ) {
+    if( find_firestarter_with_charges( quantity ).valid() ) {
         return true;
     }
     if( is_npc() ) {

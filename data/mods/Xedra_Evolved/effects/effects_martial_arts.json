@@ -6,5 +6,27 @@
     "desc": [ "Your armor has been reduced." ],
     "rating": "bad",
     "enchantments": [ { "values": [ { "value": "WEAKPOINT_ACCURACY", "multiply": 0.4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_xe_crimson_rain_buff",
+    "name": [ "Sanguine Empowerment" ],
+    "desc": [ "Crimson Rain has empowered you." ],
+    "rating": "good",
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "show_intensity": true,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": { "math": [ "u_effect_intensity('effect_xe_crimson_rain_buff') * 0.15" ] }
+          },
+          { "value": "SPEED", "add": { "math": [ "u_effect_intensity('effect_xe_crimson_rain_buff') * 3" ] } },
+          { "value": "ARMOR_ALL", "add": { "math": [ "u_effect_intensity('effect_xe_crimson_rain_buff') * -1" ] } }
+        ]
+      }
+    ]
   }
 ]

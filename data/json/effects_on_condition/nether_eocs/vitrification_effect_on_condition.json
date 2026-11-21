@@ -279,7 +279,7 @@
     "type": "effect_on_condition",
     "id": "vitrified_bleed_check",
     "recurrence": 10,
-    "condition": { "and": [ { "u_has_effect": "VITRIFYING" }, { "u_has_effect": "bleed" } ] },
+    "condition": { "and": [ { "u_has_effect": "VITRIFYING" }, "u_is_bleeding" ] },
     "effect": [
       {
         "switch": { "math": [ "u_vitri_vitrified" ] },

@@ -39,7 +39,7 @@
     ],
     "integrated_armor": [ "integrated_pebbled" ],
     "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": 0.15 } ] } ],
-    "flags": [ "TOUGH_FEET", "BARKY" ]
+    "flags": [ "TOUGH_FEET", "BARKY", "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -69,7 +69,7 @@
     ],
     "integrated_armor": [ "integrated_granite_skin" ],
     "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": 0.35 } ] } ],
-    "flags": [ "TOUGH_FEET", "BARKY" ]
+    "flags": [ "TOUGH_FEET", "BARKY", "BRUISE_IMMUNE" ]
   },
   {
     "type": "mutation",

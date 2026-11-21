@@ -58,12 +58,12 @@
           "not": {
             "or": [
               { "u_has_effect": "effect_ewwww_de_zombie_canceller" },
-              { "u_has_effect": "bleed", "bodypart": "head" },
-              { "u_has_effect": "bleed", "bodypart": "torso" },
-              { "u_has_effect": "bleed", "bodypart": "arm_r" },
-              { "u_has_effect": "bleed", "bodypart": "arm_l" },
-              { "u_has_effect": "bleed", "bodypart": "leg_r" },
-              { "u_has_effect": "bleed", "bodypart": "leg_l" }
+              { "u_bodypart_is_bleeding": "head" },
+              { "u_bodypart_is_bleeding": "torso" },
+              { "u_bodypart_is_bleeding": "arm_r" },
+              { "u_bodypart_is_bleeding": "arm_l" },
+              { "u_bodypart_is_bleeding": "leg_r" },
+              { "u_bodypart_is_bleeding": "leg_l" }
             ]
           }
         },

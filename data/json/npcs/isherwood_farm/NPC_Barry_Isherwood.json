@@ -82,7 +82,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_BADJOKE",
-    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars, which is clearly ridiculous.  \"Rescue me?  Yes, oh please yes!",
+    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars.  Ridiculous.  \"Rescue me?  Yes, oh please, yes!",
     "responses": [
       {
         "text": "Are you Barry Isherwood?",
@@ -133,7 +133,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Yeah, Chris did, we're taking you home.",
+        "text": "Yeah, Chris did.  We're taking you home.",
         "condition": { "math": [ "isherwood_family_coming != 1" ] },
         "effect": [
           "follow_only",
@@ -151,7 +151,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_ID2",
-    "dynamic_line": "*switches, abruptly, to pure white-hot rage.  \"DOES THIS LOOK LIKE A TIME FOR FUCKING QUESTIONS?\"  He stops, shaking, and returns to how he was before.  \"I'm sorry.  I'm so sorry.  Oh god, I'm sorry.  I need to get out of here.\"",
+    "dynamic_line": "*switches, abruptly, to pure white-hot rage.  \"DOES THIS LOOK LIKE A TIME FOR FUCKING QUESTIONS?\"  He takes a moment, visibly calming himself, and returns to how he was before.  \"I'm sorry.  I'm so sorry.  Oh god, I'm sorry.  I need to get out of here.\"",
     "responses": [
       {
         "text": "Okay, me too, let's go.",
@@ -203,7 +203,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_Escaping",
-    "dynamic_line": "Let's get back to the farm, as fast as possible.",
+    "dynamic_line": "Let's get back to the farm as fast as possible.",
     "responses": [
       {
         "text": "What farm?",
@@ -238,7 +238,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_Escaping_What_Farm",
-    "dynamic_line": "\"Oh, so my family didn't send you then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first, I'll tell you about it later.\"",
+    "dynamic_line": "\"Oh, so my family didn't send you, then.\"  Barry looks downtrodden for a brief moment.  \"Look, we just need to get out of here first.  I'll tell you about it later.\"",
     "responses": [
       {
         "text": "Okay, sounds good to me.  <lets_go>",
@@ -439,7 +439,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_Skywalker",
-    "dynamic_line": "*laughs.  \"It was terrible timing, but I have to admit, you don't see many situations that perfect for that reference.  Sorry I didn't get it at the time.\"",
+    "dynamic_line": "*laughs.  \"It was terrible timing, but I'll admit the situation couldn't have been more perfect for that reference.  You'll forgive me for not getting it at the time?  \"",
     "responses": [
       { "text": "Can I ask you some questions?", "topic": "TALK_ISHERWOOD_BARRY_askback" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -457,7 +457,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh2",
-    "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain, other times they did something to me so I could feel it but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
+    "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain.  Other times, they did something to me so I could feel it, but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
     "speaker_effect": { "sentinel": "barry_PTSD1", "effect": { "math": [ "barry_PTSD_freakouts += 1" ] } },
     "responses": [
       { "text": "[Let him continue.]", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3" },
@@ -496,7 +496,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_family2",
-    "dynamic_line": "Fair enough, you asked for it.\"  He stretches his arms out.  \"Jack and I stayed close, even after my old man and I fell out, so when it looked like he was going to be saddled with the entire farm to run, I took a good long look at my life and realized I hated it.  It was never the farm I was trying to get away from, you know?  I packed up my things, quit my job, and came out to help Jack.  Never looked back.\"  He chuckles.  \"Damn hard finding a partner for a guy like me out here though.  I was in a long-term relationship when I left, but that fell apart.  I haven't been too lonely though, I've got my people.",
+    "dynamic_line": "Fair enough, you asked for it.\"  He stretches his arms out.  \"Jack and I stayed close, even after my old man and I fell out, so when it looked like he was going to be saddled with the entire farm to run, I took a good long look at my life and realized I hated it.  It was never the farm I was trying to get away from, you know?  I packed up my things, quit my job, and came out to help Jack.  Never looked back.\"  He chuckles.  \"Damn hard finding a partner for a guy like me out here though.  I was in a long-term relationship when I left, but that fell apart.  I haven't been too lonely, though.  I've got my people.",
     "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_family_story", "value": "yes" } },
     "responses": [
       {
@@ -514,7 +514,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_family3",
-    "dynamic_line": "&His eyebrows shoot up, briefly surprised, then he smiles.  \"You nailed it in one.  Yeah, we're talking about a rural farmer in the nineties, here.  My dad never understood me, even before he knew, and he did find out, although I tried to keep the closet door closed.  Jack, though, he always saw me for me.  Never let it change our relationship.  That's real love, and that's what made me come back when he needed me.  Meanwhile, the man I thought I'd marry, back in Bunyan, he couldn't be assed even to come out and see the family farm, let alone think about moving here.  He was dead weight, and I've never doubted that decision.\"  He shrugs.  \"There's folks like me wherever you go, I've had a few relationships since then.  Just nothing that stuck, and I'm okay with that.  If nothing else, it proved what I already knew: aside from my old man, none of my family treated me or them any different for it.  They're good people.\"",
+    "dynamic_line": "&His eyebrows shoot up, briefly surprised, then he smiles sheepishly.  \"Wow, nailed it in one.  Here I thought I was passing pretty well.  Yeah, we're talking about a rural farmer in the nineties, here.  My dad never understood me, even before he knew.  I tried to keep the closet door closed - I knew what would happen if he found out - and then he did…  Jack, though, he always saw me for me.  Never let it change our relationship.  That's real love, and that's what made me come back when he needed me.  Meanwhile, the man I thought I'd marry, back in Bunyan?  He couldn't even be assed to come out and see the family farm, let alone think about moving here.  He was dead weight, and I've never doubted that decision.\"  He shrugs.  \"There's folks like me wherever you go.  I've had a few relationships since then.  Just nothing that stuck, and I'm okay with that.  If nothing else, it proved what I already knew: aside from my old man, none of my family treated me or them any different for it.  They're good people.\"",
     "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_is_gay", "value": "yes" } },
     "responses": [
       {
@@ -527,7 +527,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_farm",
-    "dynamic_line": "Oh, yeah, now I remember.  That farm I was talking about is where I live, almost the whole Isherwood family lives there, including me.  I just wanted to get back home as fast as possible so I can see everyone again, and so everyone knows that I'm okay.",
+    "dynamic_line": "Oh, yeah, now I remember.  That farm I was talking about is where I live.  Pretty much all of the Isherwood family live there, including me.  I just want to get back home as fast as possible so I can see everyone again, and so everyone knows that I'm okay.",
     "speaker_effect": { "sentinel": "u_learned_about_farm", "effect": [ { "u_lose_var": "general_knowledge_u_dont_know_about_farm" } ] },
     "responses": [
       { "text": "Can you give me some directions to it?", "topic": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions" },
@@ -546,7 +546,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions",
-    "dynamic_line": "Sure, can I please see your map?\"  Barry takes your map, orients himself, and points out a route to the farm.  \"Once we've done that, I'll head on myself so everyone won't be surprised by you coming.  Sound good?",
+    "dynamic_line": "Sure, let me take a look at your map.\"  Barry takes your map, orients himself, and points out a route to the farm.  \"Once we've done that, I'll head on myself so everyone won't be surprised by you coming.  Sound good?",
     "responses": [
       {
         "text": "Sounds good to me, let's hit the road.",

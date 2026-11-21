@@ -24,17 +24,17 @@
         "  -www-/iiiiiiii/-www-  ",
         "  -----//iiiiii//-----  ",
         "       ///iiii///       ",
-        "    S  ////iii///  S    ",
+        "    1  ////iii///  1    ",
         "    |t /////iii// t|    ",
-        "    S  //////ii//  S    ",
+        "    1  //////ii//  1    ",
         "   |||F//////ii//F|||   ",
         "   -w-F//////ii//F-w-   ",
-        "   -S-F/////ii///F-S-   ",
+        "   -1-F/////ii///F-1-   ",
         "   -w-F/////ii///F-w-   ",
         "   -w-F/////ii///F-w-   ",
         "   |||F/////ii///F|||   ",
         "   -|- ////ii//// -|-   ",
-        "   -S- ////ii//// -S-   ",
+        "   -1- ////ii//// -1-   ",
         "   -w- ////ii//// -w-   ",
         "   --- ////ii//// ---   ",
         "       ////ii////       "
@@ -50,7 +50,7 @@
         "=": "t_highland_bronze_floor_inactive",
         "G": "t_highland_flower_bed",
         "ñ": "t_stone_masonry_floor",
-        "S": "t_highlands_conqueror_statue"
+        "1": "t_highlands_conqueror_statue"
       },
       "furniture": { "ñ": "f_highlands_gatekeeper_statue" },
       "item": { "i": { "item": "highland_censer", "chance": 20 }, "/": { "item": "highland_censer", "chance": 2 } }

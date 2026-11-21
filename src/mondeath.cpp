@@ -51,9 +51,6 @@ item_location mdeath::normal( map *here, monster &z )
         if( z.type->in_species( species_ZOMBIE ) && get_map().inbounds( z.pos_abs() ) ) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos_bub() ) );
         }
-
-        //Currently it is possible to get multiple messages that a monster died.
-        add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
 
     if( z.death_drops ) {

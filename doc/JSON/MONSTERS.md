@@ -366,7 +366,7 @@ Field               | Description
 `chance`            | chance out of 100 to block an incoming attack
 `effectiveness`     | amount of damage absorbed by the block
 `count`             | how many blocks a monster can make before it's turn resets
-`ranged`            | false; currently only works as false but eventually should expand to ranged or other types of attacks
+`ranged`            | false; currently does nothing, but eventually should expand to ranged or other types of attacks
 
 Example:
 

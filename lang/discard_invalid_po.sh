@@ -9,11 +9,11 @@
 # So the invalid PO files won't fail Basic Build CI test and block merging the i18n update pull requests.
 
 function discard_po() {
-    echo Discarding $1
-    git restore $1
+    echo "Discarding $1"
+    rm "$1"
 }
 
-for i in $(git diff --name-only lang/po/*.po); do
-    msgfmt -o /dev/null $i || discard_po $i
+for i in lang/po/*.po; do
+    msgfmt -f -o /dev/null "$i" || discard_po "$i"
 done
 

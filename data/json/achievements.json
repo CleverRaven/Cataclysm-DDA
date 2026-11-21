@@ -2349,6 +2349,14 @@
     "requirements": [  ]
   },
   {
+    "id": "achievement_return_from_gozu_hell",
+    "type": "achievement",
+    "name": "Out of the Fire",
+    "manually_given": true,
+    "description": "If you are going through Hell, keep going.",
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_reach_string_dimension",
     "type": "achievement",
     "name": "String Theory",

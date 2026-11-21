@@ -1515,6 +1515,16 @@
   },
   {
     "type": "mutation",
+    "id": "OPIATEHYPER",
+    "name": { "str": "Opiate intolerance" },
+    "description": "Your body chemistry is lethally sensitive to morphine and its derivatives.  Even a small dose will debilitate you, if it doesn't kill you outright.  You're stuck with anti-inflammatory medication if you ever need to manage pain.",
+    "cancels": [ "ADDICTIVE" ],
+    "points": -3,
+    "starting_trait": true,
+    "vitamins_absorb_multi": [ [ "vit_mme", [ [ "vit_mme", 12 ] ] ] ]
+  },
+  {
+    "type": "mutation",
     "id": "CANNIBAL",
     "name": { "str": "Cannibal" },
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
@@ -5670,6 +5680,7 @@
     "name": { "str": "Aquatic Sleeper" },
     "description": "You always sleep better underwater.",
     "category": [ "BATRACHIAN", "FISH" ],
+    "prereqs": [ "WATERSLEEP" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
     "points": 2,
     "vitamin_cost": 160,

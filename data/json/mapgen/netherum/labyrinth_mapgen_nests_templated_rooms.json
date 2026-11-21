@@ -321,6 +321,44 @@
   },
   {
     "type": "mapgen",
+    "nested_mapgen_id": "ls_deadend_template_rooms",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvvvv  vvv(vvvvvv!",
+        "!vvvvvvvvvv  vv((vvvvvv!",
+        "!vvvvvvvvvv  vvvvvvvvvv!",
+        "!vvvvvv||||__||||vvvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv|XXXXXXXXXX|vvvvv!",
+        "!vvvvv||XXXXXXXX||vvvvv!",
+        "!|vvvvv||||||||||vvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
+      "terrain": { "X": "t_nl_metal_floor", "#": "t_nl_scrap_wall" },
+      "traps": { "X": "tr_ls_teleport_to_bridges" },
+      "fields": { "X": [ { "field": "fd_labyrinth_fog_perm" } ], "_": [ { "field": "fd_labyrinth_fog_perm" } ] }
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
     "//": "Two rooms full of general junk and monsters.  Set up for a door entry in the upper left and lower right.",
     "object": {

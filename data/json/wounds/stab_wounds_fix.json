@@ -3,120 +3,150 @@
     "id": "bleed_stab_small_fix",
     "copy-from": "bleed_wound_medium",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your stab.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the puncture and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_small" ],
     "wounds_added": [ "stab_small" ],
-    "success_msg": "The light stab isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the puncture stops."
   },
   {
     "id": "bleed_stab_medium_fix",
     "copy-from": "bleed_wound_difficult_medium",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your stab.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the deep puncture and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_medium" ],
     "wounds_added": [ "stab_medium" ],
-    "success_msg": "The stab isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the deep puncture stops."
   },
   {
     "id": "bleed_stab_bad_fix",
     "copy-from": "bleed_wound_difficult_bad",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your deep stab.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to the stab wound and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_bad" ],
     "wounds_added": [ "stab_bad" ],
-    "success_msg": "The deep stab isn't bleeding anymore."
+    "success_msg": "You apply pressure, and the flow of blood from the stab wound stops."
   },
   {
     "id": "bleed_stab_terrible_fix",
     "copy-from": "bleed_wound_difficult_terrible",
     "type": "wound_fix",
-    "name": "stop the bleeding",
-    "description": "Stop the bleeding of your horrible stab.",
+    "name": "Staunch the bleeding",
+    "description": "Use an absorbant material to apply pressure to your impaled limb and hope it stops the torrent of blood leaving your body.",
     "wounds_removed": [ "bleeding_stab_terrible" ],
     "wounds_added": [ "stab_terrible" ],
-    "success_msg": "The horrible stab isn't bleeding anymore."
+    "success_msg": "You spend a while applying pressure until the profuse bleeding is under control."
   },
   {
     "id": "clean_stab_small_fix",
     "copy-from": "clean_wound_small",
     "type": "wound_fix",
-    "name": "clean the stab",
-    "description": "Clean your light stab.",
+    "name": "Flush the puncture",
+    "description": "Use water to irrigate and wash out foreign contaminants from the puncture.",
     "wounds_removed": [ "stab_small" ],
     "wounds_added": [ "clean_stab_small" ],
-    "success_msg": "The light stab is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You thoroughly flush your puncture with water to remove any foreign contaminants."
   },
   {
     "id": "clean_stab_medium_fix",
     "copy-from": "clean_wound_medium",
     "type": "wound_fix",
-    "name": "clean the stab",
-    "description": "Clean your stab.",
+    "name": "Flush the deep puncture",
+    "description": "Use water to irrigate and wash out foreign contaminants from the deep puncture.",
     "wounds_removed": [ "stab_medium" ],
     "wounds_added": [ "clean_stab_medium" ],
-    "success_msg": "The stab is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You thoroughly flush your deep puncture with water to remove any foreign contaminants."
   },
   {
     "id": "clean_stab_bad_fix",
     "copy-from": "clean_wound_bad",
     "type": "wound_fix",
-    "name": "clean the stab",
-    "description": "Clean your bad stab.",
+    "name": "Flush the stab wound",
+    "description": "Use water to irrigate and wash out foreign contaminants from the stab wound.",
     "wounds_removed": [ "stab_bad" ],
     "wounds_added": [ "clean_stab_bad" ],
-    "success_msg": "The bad stab is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You spend some time flushing out the stab wound to remove every last trace of contamination from the stab wound."
   },
   {
     "id": "clean_stab_terrible_fix",
     "copy-from": "clean_wound_terrible",
     "type": "wound_fix",
-    "name": "clean the stab",
-    "description": "Clean your horrible stab.",
+    "name": "Flush your impaled limb",
+    "description": "Use water to flush out every last trace of contamination from your impalement.",
     "wounds_removed": [ "stab_terrible" ],
     "wounds_added": [ "clean_stab_terrible" ],
-    "success_msg": "The horrible stab is clean now.  You should bandage it but it'll heal as is."
+    "success_msg": "You spend quite a while flushing water through the hole in your limb, knowing that anything less than full flush of all contaminants will kill you from sepsis from a puncture this severe."
   },
   {
     "id": "bandage_stab_small_fix",
     "copy-from": "bandage_wound_small",
     "type": "wound_fix",
-    "name": "bandage the stab",
-    "description": "Bandage your light stab.",
+    "name": "Bandage the puncture",
+    "description": "Use a bandage to cover and protect the puncture",
     "wounds_removed": [ "clean_stab_small" ],
     "wounds_added": [ "bandaged_stab_small" ],
-    "success_msg": "The light stab is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You cover the puncture with a bandage."
   },
   {
     "id": "bandage_stab_medium_fix",
     "copy-from": "bandage_wound_medium",
     "type": "wound_fix",
-    "name": "bandage the stab",
-    "description": "Bandage your stab.",
+    "name": "Bandage the deep puncture",
+    "description": "Use a bandage to cover and protect the deep puncture",
     "wounds_removed": [ "clean_stab_medium" ],
     "wounds_added": [ "bandaged_stab_medium" ],
-    "success_msg": "The stab is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You cover the deep puncture with a bandage."
   },
   {
     "id": "bandage_stab_bad_fix",
     "copy-from": "bandage_wound_bad",
     "type": "wound_fix",
-    "name": "bandage the stab",
-    "description": "Bandage your bad stab.",
+    "name": "Bandage the stab",
+    "description": "Wrap the stab wound in a bandage to cover and protect it.",
     "wounds_removed": [ "clean_stab_bad" ],
     "wounds_added": [ "bandaged_stab_bad" ],
-    "success_msg": "The bad stab is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You wrap a bandage around your stab wound."
   },
   {
     "id": "bandage_stab_terrible_fix",
     "copy-from": "bandage_wound_terrible",
     "type": "wound_fix",
-    "name": "bandage the stab",
-    "description": "Bandage your horrible stab.",
+    "name": "Bandage the impalement",
+    "description": "Use a bandage to protect the gaping hole in your limb from contamination.",
     "wounds_removed": [ "clean_stab_terrible" ],
     "wounds_added": [ "bandaged_stab_terrible" ],
-    "success_msg": "The horrible stab is bandaged, now, all you can do is wait for it to heal."
+    "success_msg": "You spend some time wrap the impaled limb in a bandage and making sure none of the wounded flesh is exposed to foreign contamination."
+  },
+  {
+    "id": "bandaged_stab_old_small_fix",
+    "copy-from": "bandage_stab_small_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your puncture.",
+    "wounds_removed": [ "bandaged_stab_old_small" ],
+    "wounds_added": [ "bandaged_stab_small" ],
+    "success_msg": "You remove the blood-stained bandage from your puncture and wrap a fresh one around it."
+  },
+  {
+    "id": "bandaged_stab_old_medium_fix",
+    "copy-from": "bandage_stab_medium_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your deep puncture.",
+    "wounds_removed": [ "bandaged_stab_old_medium" ],
+    "wounds_added": [ "bandaged_stab_medium" ],
+    "success_msg": "You remove the blood-soaked bandage from your deep puncture and wrap a fresh one around it."
+  },
+  {
+    "id": "bandage_stab_old_bad_fix",
+    "copy-from": "bandage_stab_bad_fix",
+    "type": "wound_fix",
+    "name": "Change aging dressing",
+    "description": "Swap out the dressing on your stab wound.",
+    "wounds_removed": [ "bandaged_stab_old_bad" ],
+    "wounds_added": [ "bandaged_stab_bad" ],
+    "success_msg": "You remove the blood-soaked bandage from your stab wound and wrap a fresh one around it."
   }
 ]

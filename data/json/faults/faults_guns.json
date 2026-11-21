@@ -20,7 +20,8 @@
   {
     "id": "fault_gun_dirt",
     "type": "fault",
-    "severity": "minor",
+    "//": "Severity is only used for display, and fouling has a separate display",
+    "severity": "none",
     "name": { "str": "Fouling" },
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.  Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm."
   },

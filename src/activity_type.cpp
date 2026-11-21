@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
@@ -143,12 +142,6 @@ void activity_type::check_consistency()
         }
     }
 
-    for( const auto &pair : activity_handlers::finish_functions ) {
-        if( activity_type_all.find( pair.first ) == activity_type_all.end() ) {
-            debugmsg( "The finish_function %s doesn't correspond to a valid activity_type",
-                      pair.first.c_str() );
-        }
-    }
 }
 
 void activity_type::call_do_turn( player_activity *act, Character *you ) const
@@ -157,19 +150,6 @@ void activity_type::call_do_turn( player_activity *act, Character *you ) const
     if( pair != activity_handlers::do_turn_functions.end() ) {
         pair->second( act, you );
     }
-}
-
-bool activity_type::call_finish( player_activity *act, Character *you ) const
-{
-    const auto &pair = activity_handlers::finish_functions.find( id_ );
-    if( pair != activity_handlers::finish_functions.end() ) {
-        pair->second( act, you );
-        // kill activity sounds at finish
-        sfx::end_activity_sounds();
-        return true;
-    }
-
-    return false;
 }
 
 void activity_type::reset()

@@ -18,6 +18,27 @@
     "default": "test_napalm"
   },
   {
+    "type": "ammunition_type",
+    "id": "money",
+    "name": "cents",
+    "default": "money"
+  },
+  {
+    "type": "ITEM",
+    "subtypes": [ "AMMO" ],
+    "id": "money",
+    "price": "1 cent",
+    "price_postapoc": "0 cent",
+    "//": "= one cent, gives correct prices for cash cards",
+    "name": { "str": "cent" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A unit of currency equivalent to 0.01 US dollars.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "volume": "0 ml",
+    "ammo_type": "money"
+  },
+  {
     "type": "ITEM",
     "subtypes": [ "AMMO" ],
     "id": "graphite_test_item",

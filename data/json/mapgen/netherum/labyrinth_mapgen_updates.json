@@ -115,5 +115,15 @@
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_teleports_fixbot",
     "object": { "place_nested": [ { "chunks": [ "LS_10x10_teleports_fixbot" ], "x": 7, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_teleports_bridges",
+    "object": { "place_nested": [ { "chunks": [ "LS_10x10_teleport_bridge" ], "x": 7, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "labyrinth_bridges_to_labyrinth1_landing",
+    "object": { "place_nested": [ { "chunks": [ "labyrinth_bridges_to_labyrinth1_landing" ], "x": 0, "y": 0 } ] }
   }
 ]

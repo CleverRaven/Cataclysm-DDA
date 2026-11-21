@@ -11,7 +11,8 @@
     "purifiable": false,
     "description": "Learn new martial arts techniques and perks.",
     "active": true,
-    "activated_eocs": [ "EOC_open_ma_perk_menu" ]
+    "activated_eocs": [ "EOC_open_ma_perk_menu" ],
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -20,7 +21,8 @@
     "points": 0,
     "description": { "str": "We copy from this one.", "//~": "NO_I18N" },
     "valid": false,
-    "purifiable": false
+    "purifiable": false,
+    "flags": [ "PERK" ]
   },
   {
     "type": "mutation",
@@ -28,7 +30,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Carefree Stance" },
     "description": "You aren't even trying.\nYou clear all combat buffs whenever you wait.",
-    "flags": "MELEE_PERK_CAREFREE_STANCE"
+    "flags": [ "MELEE_PERK_CAREFREE_STANCE", "PERK" ]
   },
   {
     "type": "mutation",
@@ -36,7 +38,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Pressure Points" },
     "description": "Your unarmed melee attacks will redeal damage to their targets after 4 turns.",
-    "flags": "MELEE_PERK_PRESSURE_STRIKES"
+    "flags": [ "MELEE_PERK_PRESSURE_STRIKES", "PERK" ]
   },
   {
     "type": "mutation",
@@ -44,7 +46,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Flowing Retreat" },
     "description": "You'll attempt to move away from your attackers when you successfully dodge an attack.  You'll gain a momentum stack if you can normally gain them.",
-    "flags": "MELEE_PERK_MOVING_DODGE"
+    "flags": [ "MELEE_PERK_MOVING_DODGE", "PERK" ]
   },
   {
     "type": "mutation",
@@ -52,7 +54,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Unyielding" },
     "description": "You might choose to stop dodging attacks.  Activate to toggle this behavior.",
-    "flags": "MELEE_PERK_MOVING_UNDODGING",
+    "flags": [ "MELEE_PERK_MOVING_UNDODGING", "PERK" ],
     "active": true,
     "enchantments": [ "melee_perk_ench_undodging" ]
   },
@@ -62,7 +64,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Counter Strikes" },
     "description": "You gain +1 accuracy for two turns after a successful block.",
-    "flags": "MELEE_PERK_RIPOSTE"
+    "flags": [ "MELEE_PERK_RIPOSTE", "PERK" ]
   },
   {
     "type": "mutation",
@@ -70,7 +72,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Stalwart" },
     "description": "You have an extra block attempt per turn.",
-    "flags": "MELEE_PERK_BLOCK",
+    "flags": [ "MELEE_PERK_BLOCK", "PERK" ],
     "enchantments": [ { "values": [ { "value": "BONUS_BLOCK", "add": 1 } ] } ]
   },
   {
@@ -79,7 +81,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Spry footwork" },
     "description": "You have an extra dodge attempt per turn.",
-    "flags": "MELEE_PERK_DODGE",
+    "flags": [ "MELEE_PERK_DODGE", "PERK" ],
     "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
   }
 ]

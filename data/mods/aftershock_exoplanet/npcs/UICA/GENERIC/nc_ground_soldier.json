@@ -30,6 +30,7 @@
     "magazine": 100,
     "items": [
       { "item": "tac_fullhelmet_uicas" },
+      { "item": "afs_combat_headset_off", "prob": 15 },
       { "item": "afs_military_vest" },
       { "item": "afs_combat_cryo" },
       { "item": "afs_ammo_satchel" },

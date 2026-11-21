@@ -101,9 +101,10 @@ class monster : public Creature
             return this;
         }
 
-        mfaction_id get_monster_faction() const override {
-            return faction.id();
-        }
+        // Get the monfaction associated with this monster
+        mfaction_id get_monster_faction() const override;
+        //Get the *NPC* faction associated with this monster's monfaction, may be null
+        faction_id get_parent_faction() const;
         void gravity_check() override;
         void gravity_check( map *here ) override;
         void poly( const mtype_id &id );
@@ -374,6 +375,7 @@ class monster : public Creature
         // The monster's skill in hitting a weakpoint
         float weakpoint_skill() const;
 
+        float block_roll( const Creature *source ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         bool melee_attack( Creature &target );
         bool melee_attack( Creature &target, float accuracy );

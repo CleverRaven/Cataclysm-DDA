@@ -1,11 +1,18 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON",
+    "id": "EOC_DDOTD_REMOVE_PILE_ONE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "SYLPH" },
     "effect": [
-      { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" },
-      { "u_message": "Lightning sparks from you hands.", "type": "good" }
+      { "if": "u_is_outside", "then": { "math": [ "u_sylph_indoors = 0" ] }, "else": { "math": [ "u_sylph_indoors = 1" ] } }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_LIGHTNING_MELEE_ATTACKS_ON",
+    "effect": [ { "u_add_trait": "SYLPH_LIGHTNING_MELEE_ATTACKS_ACTIVE" } ]
   },
   {
     "type": "effect_on_condition",
@@ -46,10 +53,50 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_REVEAL_OVERMAP",
-    "condition": "u_is_outside",
-    "effect": [ { "u_cast_spell": { "id": "sylph_reveal_overmap_spell_real" } } ],
-    "false_effect": [ { "u_message": "You must be outdoors to cast Like a Bird on the Wing.", "type": "bad" } ]
+    "id": "EOC_APPLY_PARACLESIAN_DODGE_BONUS_SYLPH",
+    "effect": [
+      {
+        "math": [
+          "_duration_lower_bound = ( 204.85 + (u_spell_count('school': 'SYLPH') * 67.12) + (u_skill('gramarye') * 97.85) ) * scaling_factor(u_val('perception') )"
+        ]
+      },
+      {
+        "math": [
+          "_duration_upper_bound = ( 398.55 + (u_spell_count('school': 'SYLPH') * 102.35) + (u_skill('gramarye') * 218.53) ) * scaling_factor(u_val('perception') )"
+        ]
+      },
+      { "math": [ "_duration = rng(_duration_lower_bound, _duration_upper_bound)" ] },
+      {
+        "switch": { "math": [ "u_spell_count('school': 'SYLPH') " ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [ { "u_add_effect": "effect_paraclesian_dodge_bonus_1", "duration": { "math": [ "_duration" ] } } ]
+          },
+          {
+            "case": 15,
+            "effect": [ { "u_add_effect": "effect_paraclesian_dodge_bonus_2", "duration": { "math": [ "_duration" ] } } ]
+          },
+          {
+            "case": 25,
+            "effect": [ { "u_add_effect": "effect_paraclesian_dodge_bonus_3", "duration": { "math": [ "_duration" ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SYLPH_HAMMER_OF_WINDS",
+    "effect": [
+      { "npc_location_variable": { "context_val": "player_position" } },
+      {
+        "u_knockback": { "math": [ "min( (2 + (u_spell_count('school': 'SYLPH') * 0.1) + (u_skill('gramarye') * 0.35) ), 15)" ] },
+        "stun": 2,
+        "dam_mult": { "math": [ "min( (0.5 + (u_spell_count('school': 'SYLPH') * 0.04) + (u_skill('gramarye') * 0.12) ), 5)" ] },
+        "direction_var": { "context_val": "player_position" }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -106,20 +153,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_FLY_AT_WILL",
-    "condition": { "math": [ "u_val('mana') >= 3" ] },
-    "effect": [
-      { "math": [ "u_val('mana') -= 3" ] },
-      { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" },
-      { "u_add_effect": "effect_sylph_climb_flying", "duration": "2 s" }
-    ],
-    "false_effect": [
-      { "u_message": "You do not have enough mana to fly!", "type": "bad" },
-      { "u_lose_effect": [ "effect_sylph_levitation", "effect_sylph_climb_flying" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_ON",
     "effect": [
       { "u_add_effect": "effect_sylph_cloud_body", "duration": "PERMANENT" },
@@ -130,25 +163,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_CLOUD_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana') >= 10" ] },
-    "effect": [ { "math": [ "u_val('mana') -= 10" ] } ],
-    "false_effect": [
-      { "u_message": "You do not have enough mana to maintain your cloud body!", "type": "bad" },
-      { "u_lose_effect": [ "incorporeal", "effect_sylph_cloud_body" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_OFF",
     "effect": [ { "u_lose_effect": [ "effect_sylph_cloud_body", "incorporeal" ] }, { "u_lose_trait": "SYLPH_CLOUD_FORM_APPEARANCE" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SYLPH_MASSIVE_LIGHTNING_BOLT",
-    "condition": "u_is_outside",
-    "effect": [ { "u_cast_spell": { "id": "sylph_massive_lightning_bolt_spell_real" }, "targeted": true } ],
-    "false_effect": [ { "u_message": "You must be outdoors to cast Fist of Heaven's Fury.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -163,26 +179,23 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_SYLPH_WIND_ATTUNEMENT_CHECK",
-    "condition": { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 3" ] } ] },
-    "effect": [ { "u_cast_spell": { "id": "sylph_wind_translocation_attune_real" }, "targeted": true } ],
-    "false_effect": [ { "u_message": "You must be outdoors and high above the earth to cast this spell.", "type": "mixed" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SYLPH_GOBLIN_FRUIT",
-    "condition": {
-      "or": [
-        { "and": [ "u_is_outside", { "math": [ "weather('windpower') >= 15" ] } ] },
-        { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 1" ] } ] }
-      ]
-    },
-    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_sylph", "use_item_group": true, "suppress_message": true },
-    "false_effect": [
+    "id": "EOC_SYLPH_AVATAR_OF_THE_STORM_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_sylph_avatar_of_the_storm" } },
+    "effect": [
       {
-        "u_message": "You must have a strong enough wind or be above ground level to call forth a goblin fruit.",
-        "type": "bad"
-      }
-    ]
+        "math": [
+          "_duration_lower_bound = ( 25.02 + (u_spell_count('school': 'SYLPH') * 18.23) + (u_skill('gramarye') * 31.30) ) * scaling_factor(u_val('intelligence') )"
+        ]
+      },
+      {
+        "math": [
+          "_duration_upper_bound = ( 76.01 + (u_spell_count('school': 'SYLPH') * 31.56) + (u_skill('gramarye') * 62.91) ) * scaling_factor(u_val('perception') )"
+        ]
+      },
+      { "math": [ "_duration = rng(_duration_lower_bound, _duration_upper_bound)" ] },
+      { "u_add_effect": "effect_sylph_avatar_of_the_storm", "duration": { "math": [ "_duration" ] } },
+      { "u_message": "Lightning crackles all around you!", "type": "info" }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_sylph_avatar_of_the_storm" } ]
   }
 ]
