@@ -8817,6 +8817,27 @@ std::optional<int> iuse::measure_resonance( Character *p, item_location &it,
     return 0;
 }
 
+std::optional<int> iuse::existing_dimension_travel( Character *, item_location &,
+        const tripoint_bub_ms & )
+{
+    uilist list;
+    list.title = _( "Which dimension?" );
+    const std::vector<dimension_world> &dimensions = dimension_world::get_all();
+    for( size_t i = 0; i < dimensions.size(); ++i ) {
+        list.addentry( i, true, -1, dimensions[i].id.str() );
+    }
+    list.query();
+
+    if( list.ret < 0 || list.ret >= static_cast<int>( dimensions.size() ) ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return std::nullopt;
+    }
+
+    dimension_id id = dimensions[list.ret].id;
+    g->travel_to_dimension( id, {}, {}, {}, nullptr );
+    return 0;
+}
+
 std::optional<int> iuse::change_outfit( Character *p, item_location &it, const tripoint_bub_ms & )
 {
     if( !p->is_avatar() ) {

@@ -2077,6 +2077,7 @@ void Item_factory::init()
     add_iuse( "EHANDCUFFS_TICK", &iuse::ehandcuffs_tick );
     add_iuse( "EBOOKSAVE", &iuse::ebooksave );
     add_iuse( "EMF_PASSIVE_ON", &iuse::emf_passive_on );
+    add_iuse( "EXISTING_DIMENSION_TRAVEL", &iuse::existing_dimension_travel );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FILL_PIT", &iuse::fill_pit );
