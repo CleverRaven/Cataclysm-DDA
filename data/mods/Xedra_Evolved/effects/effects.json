@@ -4679,6 +4679,7 @@
     "max_duration": "2 h",
     "int_add_val": 1,
     "int_dur_factor": "30 m",
+    "resist_traits": [ "BLOOD_OF_SAINTS", "CHAOTIC_BAD" ],
     "base_mods": { "speed_mod": [ -10 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 20 ] },
     "scaling_mods": { "speed_mod": [ -5 ], "int_mod": [ -1 ] }
   },
