@@ -1296,6 +1296,8 @@ ret_val<void> vehicle::can_mount( const point_rel_ms &dp, const vpart_info &vpi 
         }
     }
 
+    // track which locations have parts installed
+    std::set<vpart_location_id> installed_locations;
     for( const int elem : parts_in_square ) {
         const vpart_info &vpi_other = part( elem ).info();
         // No part type can stack with itself, except power cables
@@ -1341,6 +1343,14 @@ ret_val<void> vehicle::can_mount( const point_rel_ms &dp, const vpart_info &vpi 
             if( vpi_other.has_flag( "TURRET_MOUNT" ) ) {
                 return ret_val<void>::make_failure( _( "Only one turret mount can be installed." ) );
             }
+        }
+        installed_locations.insert( vpi_other.location.begin(), vpi_other.location.end() );
+    }
+    // ensure the location's required installed locations are satisfied
+    for( const vpart_location_id loc : vpi.required_locations() ) {
+        if( !installed_locations.count( loc ) ) {
+            return ret_val<void>::make_failure( _( "There must be a part installed on the '%s' location" ),
+                                                loc->required_location->name.translated() );
         }
     }
 
@@ -1404,10 +1414,17 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
     // make sure there are no parts which require flags from this part
+    // or require locations from this part
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
-        for( const std::string &flag : vp_here.info().get_flags() ) {
+        const vpart_info &info = vp_here.info();
+        for( const std::string &flag : info.get_flags() ) {
             if( vpi_to_remove.has_flag( json_flag::get( flag ).requires_flag() ) ) {
+                return ret_val<void>::make_failure( _( "Remove the attached %s first." ), vp_here.name() );
+            }
+        }
+        for( const vpart_location_id loc : info.required_locations() ) {
+            if( vpi_to_remove.location.count( loc ) ) {
                 return ret_val<void>::make_failure( _( "Remove the attached %s first." ), vp_here.name() );
             }
         }
@@ -8102,8 +8119,8 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
         const point_rel_ms position = vp.mount;
         remove_part( vp, *handler_ptr );
 
-        // remove parts for which required flags are not present anymore
-        if( !vpi.get_flags().empty() ) {
+        // remove parts for which required flags or locations are not present anymore
+        if( !vpi.get_flags().empty() || !vpi.location.empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
             for( const int part : parts_here ) {
                 vehicle_part &vp_here = parts[part];
@@ -8119,6 +8136,11 @@ int vehicle::break_off( map &here, vehicle_part &vp, int dmg )
                                 continue;
                             }
                         }
+                    }
+                }
+                for( const vpart_location_id loc : vpi_here.required_locations() ) {
+                    if( vpi.location.count( loc ) ) {
+                        remove = true;
                     }
                 }
                 if( remove ) {

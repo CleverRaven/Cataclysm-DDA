@@ -8,6 +8,7 @@ void vpart_location::load( const JsonObject &jo, const std::string_view & )
 {
     mandatory( jo, was_loaded, "name", name );
 
+    optional( jo, was_loaded, "required_location", required_location, vpart_location_id::NULL_ID() );
     optional( jo, was_loaded, "desc", description );
     optional( jo, was_loaded, "z_order", z_order, z_order );
     optional( jo, was_loaded, "list_order", list_order, list_order );

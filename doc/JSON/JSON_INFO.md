@@ -2999,6 +2999,8 @@ The `"location"` field for a Vehicle Part must be a `vehicle_part_location` defi
     "id": "structure",        // Unique identifier
     "name": "Structure",      // Displayed name
     "desc": "Frames etc",     // Description of the location and what goes in it
+    "required_location",      // (optional) a location that must have a part installed for parts
+                              // to be installed at this location
     "z_order": 5,             // The highest Z part on a tile gets drawn, -1 never gets drawn, default 0
     "list_order": 1           // Sort order for part lists, lowest first, default 5
   },

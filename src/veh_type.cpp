@@ -1095,6 +1095,19 @@ std::vector<vpart_location_id> vpart_info::matching_locations( const vpart_info 
     return ret;
 }
 
+std::vector<vpart_location_id> vpart_info::required_locations() const
+{
+    std::vector<vpart_location_id> ret;
+    for( const vpart_location_id loc : location ) {
+        if( loc->required_location.is_empty() || loc->required_location.is_null() ||
+            location.count( loc->required_location ) ) {
+            continue;
+        }
+        ret.emplace_back( loc->required_location );
+    }
+    return ret;
+}
+
 int vpart_info::z_order() const
 {
     int ret = -1;

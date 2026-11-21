@@ -359,6 +359,8 @@ class vpart_info
         bool matches_any_locations( const vpart_info &other ) const;
         // @returns all locations that both parts share
         std::vector<vpart_location_id> matching_locations( const vpart_info &other ) const;
+        // @returns all vpart_location_id that the locations of this vpart require
+        std::vector<vpart_location_id> required_locations() const;
         // @returns z_order for the part - the highest z_order of any locations
         int z_order() const;
         // @returns list_order for the part - the lowest list_order of any locations

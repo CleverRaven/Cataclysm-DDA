@@ -34,6 +34,7 @@
     "id": "on_cargo",
     "name": "On Cargo",
     "desc": "Attached to a cargo space",
+    "required_location": "center",
     "z_order": 8,
     "list_order": 6
   },
@@ -103,12 +104,14 @@
     "type": "vehicle_part_location",
     "id": "on_lockable_cargo",
     "name": "On Lockable Cargo",
+    "required_location": "center",
     "z_order": -1
   },
   {
     "type": "vehicle_part_location",
     "id": "on_seat",
     "name": "On Seat",
+    "required_location": "center",
     "z_order": -1
   },
   {
