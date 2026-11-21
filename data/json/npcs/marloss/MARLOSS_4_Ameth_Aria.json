@@ -1,0 +1,330 @@
+[
+  {
+    "type": "npc",
+    "id": "marloss_evan_4",
+    "name_unique": "Ameth Aria",
+    "//": "One of the most difficult Marloss evangelists to deal with, and possibly the most bigoted to outsiders.",
+    "gender": "female",
+    "name_suffix": "Evangelist",
+    "class": "MAR_EVAN_4",
+    "attitude": 0,
+    "mission": "GUARD",
+    "chat": "TALK_MARLOSS_EVAN_Ameth_1",
+    "faction": "marloss",
+    "age": 18,
+    "height": 157
+  },
+  {
+    "type": "npc_class",
+    "id": "MAR_EVAN_4",
+    "name": { "str": "Evangelist" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All marloss evangelists are crippled by their fungal infections.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -3, 0 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "MAR_EVAN_4_worn",
+    "carry_override": "MAR_EVAN_carry",
+    "weapon_override": "MAR_EVAN_weapon",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "SLOWHEALER" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "DISORGANIZED" },
+      { "trait": "BADCARDIO" },
+      { "trait": "MYOPIC" },
+      { "trait": "MARLOSS" },
+      { "trait": "MYCUS_FRIEND" },
+      { "group": "Appearance_Irish" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_weapon",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_carry",
+    "subtype": "collection",
+    "entries": [ { "item": "marloss_berry", "count": [ 1, 4 ] }, { "item": "mycenacean_hymns" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_4_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "long_underpants" },
+      { "item": "socks" },
+      { "item": "jeans" },
+      { "item": "bra" },
+      { "item": "robe" },
+      { "item": "boots" },
+      { "item": "marloss_scarf" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_MARLOSS_EVAN_Ameth_1a", "TALK_MARLOSS_EVAN_AMETH_SETTLE", "TALK_MARLOSS_EVAN_AMETH_SITUATION" ],
+    "responses": [
+      {
+        "text": "Why did you all decide to settle down here?",
+        "topic": "TALK_MARLOSS_EVAN_AMETH_SETTLE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "How are things here?",
+        "topic": "TALK_MARLOSS_EVAN_AMETH_SITUATION",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Tell me a bit about yourself.",
+        "topic": "TALK_MARLOSS_EVAN_AMETH_SELF",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "<done_conversation_section>",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put her out of her misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      },
+      {
+        "text": "<end_talking_leave> Bye, Ameth.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_1",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "*is impatiently tapping their foot, unexplicably mad at something, or someone.  Despite looking incredibly unapproachable, she instantly begins speaking to you once you got close enough.  \"Hey.  you.\"  She snaps, pointing a thin finger at you.  \"Quick question.  Have you heard them?",
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": "*is glaring at you for an indiscernible reason, bouncing her entire leg to suppress whatever issue they've already picked up against you.  Though, she has to rebalance every few seconds to keep from toppling over.  \"You.  Can you hear them?",
+        "no": "A singular eye meets your gaze."
+      }
+    },
+    "responses": [
+      {
+        "text": "Heard who?",
+        "topic": "TALK_MARLOSS_EVAN_Ameth_Who",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "[LIE] Yes?",
+        "trial": { "type": "LIE", "difficulty": 50 },
+        "success": { "topic": "TALK_MARLOSS_EVAN_Ameth_Yes" },
+        "failure": { "topic": "TALK_MARLOSS_EVAN_Ameth_Fail" }
+      },
+      {
+        "text": "Yes.",
+        "topic": "TALK_MARLOSS_EVAN_Ameth_Yes",
+        "condition": {
+          "and": [
+            { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] },
+            { "u_has_any_trait": [ "THRESH_MARLOSS", "MARLOSS", "MARLOSS_BLUE", "MARLOSS_YELLOW" ] }
+          ]
+        }
+      },
+      {
+        "text": "No.",
+        "topic": "TALK_MARLOSS_EVAN_Ameth_No",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Approach.",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      },
+      { "text": "Nevermind?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_Who",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "What do you mean, who?\"  She mutters, emphasizing her sigh.  \"The Marloss.  Have you heard it?  It's a simple yes or no.",
+      "no": "Are you stupid?\"  She mutters, tapping her foot more vigorously.  \"The Marloss.  Have you heard it?  Yes or no.  It's a simple question."
+    },
+    "responses": [
+      {
+        "text": "[LIE] Yes?",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] },
+        "trial": { "type": "LIE", "difficulty": 50 },
+        "success": { "topic": "TALK_MARLOSS_EVAN_Ameth_Yes" },
+        "failure": { "topic": "TALK_MARLOSS_EVAN_Ameth_Fail" }
+      },
+      {
+        "text": "Yes.",
+        "topic": "TALK_MARLOSS_EVAN_Ameth_Yes",
+        "condition": {
+          "and": [
+            { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] },
+            { "u_has_any_trait": [ "THRESH_MARLOSS", "MARLOSS", "MARLOSS_BLUE", "MARLOSS_YELLOW" ] }
+          ]
+        }
+      },
+      {
+        "text": "No.",
+        "topic": "TALK_MARLOSS_EVAN_Ameth_No",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_Yes",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "dialogue_first_meet_Ameth_Aria", "value": "yes" },
+        { "npc_first_topic": "TALK_MARLOSS_EVAN_Ameth_1a" }
+      ]
+    },
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Hm.\"  She stares at you, giving only a tiny nod in response.  \"Good.",
+      "no": "&She stares at you, her scowl morphing into an annoyed frown.  \"Good.  At least there's some smart people out there.\""
+    },
+    "responses": [
+      {
+        "text": "Heard who?",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_No",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Yeah, I could tell.  You don't look the type anyways.",
+      "no": "Yeah, of course you haven't.  Doubt you ever will."
+    },
+    "responses": [
+      {
+        "text": "Heard who?",
+        "topic": "TALK_MARLOSS_EVAN_JOTH_WAKE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_Fail",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "&She scoffs.  \"Do you think I'm stupid?  Try that with someone else, not me.  Really, you might be as smart as those <zombies>.\"",
+      "no": "&She curls up her left hand into a fist, well intent to start a fight despite her current state.  \"Lying fuckin' cunt!  Outta my face!  Now!\""
+    },
+    "responses": [
+      {
+        "text": "Alright, sorry.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_Ameth_1a",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": [ "What do you want?", "You're still alive?", "&She huffs as you approach." ],
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": [ "What.", "You again.", "Suprised you haven't rotted already." ],
+        "no": "A singular eye meets your gaze."
+      }
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_AMETH_SETTLE",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "I don't know.  Where would you pick, apartment in the city?  Obviously because it's safe here.  Otherwise we would've all been slaughtered by now.",
+      "no": "Who even cares?  All that matters is I'm still wearing my skin.  A roof over my head is just a neat bonus."
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_AMETH_SITUATION",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Food isn't an issue.  Medicine's gonna be gone soon.  Pretty sure someone's been sneaking my room at night.  I've been trying to confront them, but they always escape before I can get up.",
+      "no": "Boring.  I really hate this dull life.  I miss the internet.  At least there was stuff to get pissed about online before."
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_AMETH_SELF",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": [ "How intrusive.", "That's what you find important?", "Fine." ],
+      "no": "Ugh."
+    },
+    "responses": [
+      { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_AMETH_AboutMe_Basic" },
+      { "text": "Why do you follow the Marloss?", "topic": "MARLOSS_EVAN_AMETH_Marloss" },
+      { "text": "How do you feel about the other evangelists?", "topic": "MARLOSS_EVAN_AMETH_OtherEvangelists" },
+      { "text": "How are you feeling?", "topic": "MARLOSS_EVAN_AMETH_Health" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_AMETH_AboutMe_Basic",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Funny story.  Parents kept threatening to kick me out, so I eventually just left.  Probably the best thing I'd decided to do, considering we lived in a crowded city back then.  I wandered to the outskirts of town, using as much cash as I could before they cut my card off, and spent my twenty for a ride here.  Those old bastards are probably dead by now.",
+      "no": "Fought with my parents.  Nearly killed the old bastards that time, so I got kicked out.  After a spending trip, I saw a flyer advertising this place as a 'safe haven' for the lost and desperate.  So, I got a ride here.  You can imagine the rest."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_AMETH_Marloss",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "They keep me calm.  Honestly, I wonder if the Marloss could've prevented all of this.  If only people just acted rationally and didn't start freaking out all over the place, it probably wouldn't have ever come to this.  I'm just happy to have this little pocket of safety within me.",
+      "no": "Because it's the smartest thing to do.  The Marloss actually has the best intentions in mind for us.  Honestly, those poor idiots who refused it's help, I wonder if they're all dead by now.  Not like they were much smarter than a corpse anyways."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_AMETH_OtherEvangelists",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "They're better to me than most people.  I'm glad they're sensible people, too.  I've actually gotten to sleep at night without earbuds in.",
+      "no": "Better than I do about you."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_AMETH_Health",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "I feel fine.  Suppose it'd be better, if the internet was back up.",
+      "no": "I'd feel better if you took a few steps away from me, thanks."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  }
+]
