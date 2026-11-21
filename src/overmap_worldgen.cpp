@@ -240,6 +240,11 @@ void dimension_world::load( const JsonObject &jo, const std::string_view & )
     jo.read( "region_layout", region_layout );
 }
 
+const std::vector<dimension_world> &dimension_world::get_all()
+{
+    return dimension_factory.get_all();
+}
+
 void dimension_world::finalize()
 {
     if( !region_layout.is_valid() ) {

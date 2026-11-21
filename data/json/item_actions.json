@@ -361,6 +361,11 @@
   },
   {
     "type": "item_action",
+    "id": "EXISTING_DIMENSION_TRAVEL",
+    "name": { "str": "Travel to a dimension (from a list)" }
+  },
+  {
+    "type": "item_action",
     "id": "EXTINGUISHER",
     "name": { "str": "Spray" }
   },
