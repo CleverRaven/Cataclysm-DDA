@@ -1825,7 +1825,7 @@
     "id": "mon_flatlander",
     "type": "MONSTER",
     "name": { "str": "flatlander" },
-    "description": "An oblong figure floating perfectly parallel with the ground, some feet in the air like a piece of paper.  Viewing it head on makes it practically invisible - viewing it from the top reveals its churning red innards and frondy, whisker-like appendages.",
+    "description": "An oblong figure floating perfectly parallel with the ground, some feet in the air like a piece of paper.  Viewing it head on makes it practically invisible - viewing it from the top reveals its churning red innards and fronding, whisker-like appendages.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "volume": "62500 ml",
