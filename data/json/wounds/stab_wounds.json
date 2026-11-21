@@ -181,7 +181,7 @@
     "copy-from": "bleeding_stab_small",
     "type": "wound",
     "name": { "str": "puncture" },
-    "description": "The emergency bandage is applying pressure, the bleeding should stop soon. The site of the injury is still dirty.",
+    "description": "The emergency bandage is applying pressure, the bleeding should stop soon.  The site of the injury is still dirty.",
     "weight": 0,
     "mod_values": [
       { "type": "BLEED", "rate": "7 seconds" },
