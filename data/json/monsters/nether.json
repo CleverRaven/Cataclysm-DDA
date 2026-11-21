@@ -2772,5 +2772,46 @@
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "HEARS", "WARM", "HAS_MIND", "PLASTIC", "NO_BREATHE" ],
     "armor": { "bash": 3, "electric": 3 }
+  },
+  {
+    "id": "mon_sharp",
+    "type": "MONSTER",
+    "name": { "str": "sharp mass" },
+    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp corners, and its, arms, if the two vague sharp shapes can be called that, resemble something between a hatchet and a rapier. It roughly resembles an adult human in size.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "diff": 40,
+    "volume": "80 l",
+    "weight": "80 kg",
+    "hp": 50,
+    "speed": 200,
+    "material": [ "flesh" ],
+    "symbol": "0",
+    "color": "yellow",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "vision_day": 30,
+    "vision_night": 30,
+    "harvest": "exempt",
+    "death_function": { "message": "The %s melts away.", "corpse_type": "NO_CORPSE" },
+    "special_attacks": [
+      {
+        "type": "leap",
+        "min_consider_range": 2,
+        "min_range": 2,
+        "move_cost": 50,
+        "max_range": 8,
+        "prefer_leap": true,
+        "allow_no_target": true,
+        "cooldown": 5,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      }
+    ],
+    "flags": [ "SEES", "NO_BREATHE", "BASHES", "NOHEAD", "HIT_AND_RUN" ],
+    "armor": {  }
   }
 ]
