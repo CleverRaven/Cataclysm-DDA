@@ -76,6 +76,7 @@ class dimension_world
         void load( const JsonObject &jo, const std::string_view &src );
         void finalize();
         static void finalize_all();
+        static const std::vector<dimension_world> &get_all();
         static void load_dimensions( const JsonObject &jo, const std::string &src );
 };
 

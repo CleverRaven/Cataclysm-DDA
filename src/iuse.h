@@ -213,6 +213,10 @@ std::optional<int> disassemble( Character *, item_location &, const tripoint_bub
 
 std::optional<int> post_up( Character *, item_location &, const tripoint_bub_ms & );
 
+// DEBUG
+std::optional<int> existing_dimension_travel( Character *, item_location &,
+        const tripoint_bub_ms & );
+
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
 void play_music( Character *p, const tripoint_bub_ms &source, int volume, int max_morale,
