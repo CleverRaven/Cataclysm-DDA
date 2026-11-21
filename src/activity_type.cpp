@@ -87,6 +87,7 @@ std::string enum_to_string<distraction_type>( distraction_type data )
 void activity_type::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "id", id_ );
+    optional( jo, was_loaded, "render_blocked", render_blocked_, false );
     optional( jo, was_loaded, "rooted", rooted_, false );
     optional( jo, was_loaded, "verb", verb_, to_translation( "THIS IS A BUG" ) );
     optional( jo, was_loaded, "interruptable", interruptable_, true );

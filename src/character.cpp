@@ -5390,6 +5390,12 @@ void Character::assign_activity( const player_activity &act )
     }
 }
 
+bool Character::activity_limits_rendering() const
+{
+    // NOTE WELL! Sleeping is not in itself an activity! So we must check for the effect.
+    return ( activity && activity.render_blocked() ) || has_effect( effect_sleep );
+}
+
 bool Character::has_activity( const activity_id &type ) const
 {
     return activity.id() == type;
