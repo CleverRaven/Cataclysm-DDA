@@ -4290,6 +4290,8 @@ class Character : public Creature, public visitable
         bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
 
         bool has_bleeding_wound( const bodypart_str_id &part ) const;
+        bool has_fixable_wounds( const bodypart_str_id &part ) const;
+        std::optional<wound_severity> get_bleeding_wound_severity( const bodypart_str_id &part ) const;
 
         bool has_wounds( const bodypart_str_id &part ) const;
 
