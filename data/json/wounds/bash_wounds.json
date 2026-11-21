@@ -51,7 +51,7 @@
       { "score": "crawl", "mod": 0.05 },
       { "score": "balance", "mod": 0.05 },
       { "score": "footing", "mod": 0.05 },
-      { "score": "move_speed", "mod": 0.03 }
+      { "score": "move_speed", "mod": 0.0 }
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
@@ -82,7 +82,7 @@
       { "score": "crawl", "mod": 0.2 },
       { "score": "balance", "mod": 0.15 },
       { "score": "footing", "mod": 0.15 },
-      { "score": "move_speed", "mod": 0.1 }
+      { "score": "move_speed", "mod": 0 }
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
@@ -113,7 +113,7 @@
       { "score": "crawl", "mod": 0.3 },
       { "score": "balance", "mod": 0.25 },
       { "score": "footing", "mod": 0.25 },
-      { "score": "move_speed", "mod": 0.2 }
+      { "score": "move_speed", "mod": 0 }
     ],
     "blacklist_flag": [ "BRUISE_IMMUNE" ],
     "blacklist_body_part_types": [ "sensor" ],
@@ -140,7 +140,7 @@
       { "score": "crawl", "mod": 0.3 },
       { "score": "balance", "mod": 0.25 },
       { "score": "footing", "mod": 0.25 },
-      { "score": "move_speed", "mod": 0.2 }
+      { "score": "move_speed", "mod": 0.1 }
     ],
     "mod_values": [
       { "type": "BLEED", "rate": "6 seconds" },
@@ -171,7 +171,7 @@
       { "score": "crawl", "mod": 0.4 },
       { "score": "balance", "mod": 0.35 },
       { "score": "footing", "mod": 0.35 },
-      { "score": "move_speed", "mod": 0.35 }
+      { "score": "move_speed", "mod": 0.2 }
     ],
     "mod_values": [
       { "type": "BLEED", "rate": "3 seconds" },
