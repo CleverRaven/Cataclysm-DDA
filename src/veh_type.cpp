@@ -45,6 +45,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vehicle_part_location.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
@@ -250,7 +251,7 @@ void vpart_info::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "item", base_item );
     optional( jo, was_loaded, "remove_as", removed_item );
-    optional( jo, was_loaded, "location", location );
+    optional( jo, was_loaded, "location", location, auto_flags_reader<vpart_location_id> {} );
     optional( jo, was_loaded, "durability", durability, 0 );
     optional( jo, was_loaded, "damage_modifier", dmg_mod, 100 );
     optional( jo, was_loaded, "energy_consumption", energy_consumption, 0_W );
@@ -682,7 +683,7 @@ void vpart_info::finalize()
     if( has_flag( VPFLAG_APPLIANCE ) ) {
         // force all appliances' location field to "structure"
         // dragging code currently checks this for considering collisions
-        location = vpart_location_structure;
+        location.insert( vpart_location_structure );
     }
 
     finalize_damage_map( damage_reduction );
@@ -1066,6 +1067,53 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         lines += 1;
     }
     return lines;
+}
+
+bool vpart_info::is_structure() const
+{
+    return occupies_location( vpart_location_structure );
+}
+
+bool vpart_info::occupies_location( const vpart_location_id loc ) const
+{
+    return location.count( loc );
+}
+
+bool vpart_info::matches_any_locations( const vpart_info &other ) const
+{
+    return !matching_locations( other ).empty();
+}
+
+std::vector<vpart_location_id> vpart_info::matching_locations( const vpart_info &other ) const
+{
+    std::vector<vpart_location_id> ret;
+    for( const vpart_location_id &id : location ) {
+        if( other.location.count( id ) ) {
+            ret.emplace_back( id );
+        }
+    }
+    return ret;
+}
+
+int vpart_info::z_order() const
+{
+    int ret = -1;
+    for( const vpart_location_id &id : location ) {
+        ret = std::max( ret, id->z_order );
+    }
+    return ret;
+}
+
+int vpart_info::list_order() const
+{
+    if( location.empty() ) {
+        return 5; // default
+    }
+    int ret = location.begin()->obj().list_order;
+    for( const vpart_location_id &id : location ) {
+        ret = std::min( ret, id->list_order );
+    }
+    return ret;
 }
 
 requirement_data vpart_info::install_requirements() const

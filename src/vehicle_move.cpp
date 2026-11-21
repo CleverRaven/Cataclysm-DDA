@@ -793,7 +793,7 @@ bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
         }
 
         const vpart_info &info = vp.info();
-        if( !vp.is_fake && info.location != vpart_location_structure && !info.has_flag( VPFLAG_ROTOR ) ) {
+        if( !vp.is_fake && !info.is_structure() && !info.has_flag( VPFLAG_ROTOR ) ) {
             continue;
         }
         empty = false;
@@ -2182,7 +2182,7 @@ bool vehicle::level_vehicle( map &here )
     // make sure that all parts are either supported across levels or on the same level
     std::map<int, bool> no_support;
     for( vehicle_part &prt : parts ) {
-        if( prt.info().location != vpart_location_structure ) {
+        if( !prt.info().is_structure() ) {
             continue;
         }
         const tripoint_bub_ms part_pos = bub_part_pos( here, prt );

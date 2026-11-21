@@ -2792,6 +2792,8 @@ Vehicle components when installed on a vehicle.
 "location": "fuel_source",    // Optional. One of the checks used when determining if a part 
                               // can be installed on a given tile. A part cannot be installed
                               // if any existing part occupies the same location.
+                              // Can be a single location "loc", no locations [],
+                              // or many locations [ "loc1", "loc2" ]
                               // See "Vehicle Part Locations" below.
 "damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
                               // part hits something, as a percentage. Higher = more damage to
