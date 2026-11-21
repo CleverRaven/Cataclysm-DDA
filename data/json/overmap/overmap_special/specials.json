@@ -3932,6 +3932,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 30, -1 ],
     "occurrences": [ 0, 10 ],
+    "spawns": { "group": "GROUP_WILDERNESS_OUTCROP", "population": [ 30, 60 ], "radius": [ 2, 5 ] },
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
