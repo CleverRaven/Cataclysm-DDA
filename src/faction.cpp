@@ -223,47 +223,23 @@ void faction::remove_member( const character_id &guy_id )
 // Used in game.cpp
 std::string fac_ranking_text( int val )
 {
-    if( val <= -100 ) {
-        return _( "Archenemy" );
-    }
-    if( val <= -80 ) {
-        return _( "Wanted Dead" );
-    }
-    if( val <= -60 ) {
-        return _( "Enemy of the People" );
-    }
     if( val <= -40 ) {
-        return _( "Wanted Criminal" );
-    }
-    if( val <= -20 ) {
-        return _( "Not Welcome" );
+        return _( "Vengeful" );
     }
     if( val <= -10 ) {
-        return _( "Pariah" );
+        return _( "Hostile" );
     }
-    if( val <= -5 ) {
-        return _( "Disliked" );
-    }
-    if( val >= 100 ) {
-        return _( "Hero" );
+    if( val <= 0 ) {
+        return _( "Suspicious" );
     }
     if( val >= 80 ) {
-        return _( "Idol" );
-    }
-    if( val >= 60 ) {
-        return _( "Beloved" );
+        return _( "Cooperative" );
     }
     if( val >= 40 ) {
-        return _( "Highly Valued" );
+        return _( "Trusting" );
     }
     if( val >= 20 ) {
-        return _( "Valued" );
-    }
-    if( val >= 10 ) {
-        return _( "Well-Liked" );
-    }
-    if( val >= 5 ) {
-        return _( "Liked" );
+        return _( "Friendly" );
     }
 
     return _( "Neutral" );
