@@ -166,7 +166,7 @@
     "description": { "str": "dummy", "//~": "NO_I18N" },
     "time": "50 seconds",
     "skills": [ { "skill": "firstaid", "level": 1 } ],
-    "requirements": [ [ "wound_bleed_emergency", 1 ] ],
+    "requirements": [ [ "wound_emergency", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_wound_care", "time_save": 0.5 },
       { "proficiency": "prof_wound_care_expert", "time_save": 0.3 }
