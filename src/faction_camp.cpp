@@ -5541,13 +5541,13 @@ int basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>
             debugmsg( "Character %s improperly tried to access food stores at camp %s, please report this error.",
                       worker.disp_name(), name );
         }
-        item food_item = make_fake_food( share.total() );
+        item_location food_item = worker.i_add( make_fake_food( share.total() ) );
         // Handle allergies and other stuff
         bool query_player = !worker.is_npc();
-        const ret_val<edible_rating> rating = worker.will_eat( food_item, query_player );
+        const ret_val<edible_rating> rating = worker.will_eat( *food_item, query_player );
         switch( rating.value() ) {
             case EDIBLE: {
-                const int kcal = worker.compute_effective_nutrients( food_item ).kcal();
+                const int kcal = worker.compute_effective_nutrients( *food_item ).kcal();
                 // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
                 // item be consumed immediately.
                 if( worker.consume( food_item ) == trinary::ALL ) {

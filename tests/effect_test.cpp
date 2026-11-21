@@ -15,6 +15,7 @@
 #include "effect_source.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_helpers_tests.h"
@@ -40,6 +41,7 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_test_vitfood( "test_vitfood" );
 
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
@@ -719,6 +721,7 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
     subject.stomach.empty();
     subject.guts.empty();
     subject.clear_effects();
+    subject.worn.wear_item( subject, item( itype_debug_backpack ), false, false );
 
     // Our effect influencing vitamins, and the two vitamins it influences
     const efftype_id vits = effect_test_vitamineff;
@@ -729,9 +732,8 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
                            calendar::turn );
     subject.add_effect( vitamin_effect );
 
-    // A food rich in in vitamin x - we need 2 of them, for with/without the effect
-    item food1( itype_test_vitfood );
-    item food2( food1 );
+    // A food rich in in vitamin x
+    item_location food1 = subject.i_add( item( itype_test_vitfood ) );
 
     // Make sure they have none of these vitamins at the start
     // Except vitv, because the vitamin tick applies immediately when the effect is added
@@ -751,6 +753,8 @@ TEST_CASE( "Vitamin_Effects", "[effect][vitamins]" )
 
     // Clear the avatar, and try 5 hours without the effect, under the same conditions
     clear_avatar();
+    subject.worn.wear_item( subject, item( itype_debug_backpack ), false, false );
+    item_location food2 = subject.i_add( item( itype_test_vitfood ) );
     REQUIRE( subject.vitamin_get( vitv ) == 0 );
     REQUIRE( subject.vitamin_get( vitx ) == 0 );
     subject.consume( food2 );

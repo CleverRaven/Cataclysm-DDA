@@ -949,7 +949,8 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.ter_set( you.pos_bub(), ter_t_grass );
-            item food( itype_underbrush, calendar::turn, 1 );
+            item_location food = here.add_item_or_charges_ret_loc( you.pos_bub(), item( itype_underbrush,
+                                 calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -962,7 +963,8 @@ bool avatar_action::eat_here( avatar &you )
             return true;
         } else {
             here.furn_set( you.pos_bub(), furn_str_id::NULL_ID() );
-            item food( itype_small_plant, calendar::turn, 1 );
+            item_location food = here.add_item_or_charges_ret_loc( you.pos_bub(), item( itype_small_plant,
+                                 calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
         }
@@ -974,7 +976,8 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to graze." ) );
             return true;
         } else {
-            item food( item( itype_grass, calendar::turn, 1 ) );
+            item_location food = here.add_item_or_charges_ret_loc( you.pos_bub(), item( itype_grass,
+                                 calendar::turn, 1 ) );
             you.assign_activity( consume_activity_actor( food ) );
             here.ter_set( you.pos_bub(), here.get_ter_transforms_into( you.pos_bub() ) );
             return true;

@@ -108,7 +108,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.health_tally = 0;
     dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
-        item food( itype_debug_nutrition );
+        item_location food = dummy.i_add_or_drop_ret_loc( item( itype_debug_nutrition ) );
         dummy.consume( food );
     }
 

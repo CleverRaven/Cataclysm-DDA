@@ -9,6 +9,7 @@
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -380,12 +381,12 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
     std::pair<int, int> actual_fun;
 
     // A big box of tasty toast-ems
-    item toastem( itype_toastem_test, calendar::turn );
-    REQUIRE( toastem.is_comestible() );
+    item_location toastem = dummy.i_add_or_drop_ret_loc( item( itype_toastem_test, calendar::turn ) );
+    REQUIRE( toastem->is_comestible() );
 
     // Base fun value and monotony penalty for toast-em
-    int toastem_fun = toastem.get_comestible_fun();
-    int toastem_penalty = toastem.get_comestible()->monotony_penalty;
+    int toastem_fun = toastem->get_comestible_fun();
+    int toastem_penalty = toastem->get_comestible()->monotony_penalty;
 
     REQUIRE( toastem_fun > 0 );
     REQUIRE( toastem_penalty > 0 );
@@ -397,7 +398,7 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
         WHEN( "character has not had any recently" ) {
 
             THEN( "it tastes as good as it should" ) {
-                actual_fun = dummy.fun_for( toastem );
+                actual_fun = dummy.fun_for( *toastem );
                 CHECK( actual_fun.first == toastem_fun );
             }
         }
@@ -406,7 +407,7 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
             dummy.consume( toastem );
 
             THEN( "the next one is less enjoyable" ) {
-                actual_fun = dummy.fun_for( toastem );
+                actual_fun = dummy.fun_for( *toastem );
                 CHECK( actual_fun.first == toastem_fun - toastem_penalty );
             }
 
@@ -414,7 +415,7 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
                 dummy.consume( toastem );
 
                 THEN( "the one after that is even less enjoyable" ) {
-                    actual_fun = dummy.fun_for( toastem );
+                    actual_fun = dummy.fun_for( *toastem );
                     CHECK( actual_fun.first == toastem_fun - 2 * toastem_penalty );
                 }
             }

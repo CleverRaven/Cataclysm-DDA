@@ -1956,7 +1956,12 @@ static const std::vector<std::function<player_activity()>> test_activities {
         item_location bookbinder = dummy->i_add( item( itype_book_binder, calendar::turn ) );
         return player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) );
     },
-    [] { return player_activity( consume_activity_actor( item( itype_water_clean ) ) ); },
+    [] {
+        Character *dummy = get_avatar().as_character();
+        dummy->wear_item( item( itype_test_backpack ), false );
+        item_location water = dummy->i_add( item( itype_water_clean ) );
+        return player_activity( consume_activity_actor( water ) );
+    },
     //player_activity( craft_activity_actor() ),
     //player_activity( disable_activity_actor() ),
     //player_activity( disassemble_activity_actor( 1 ) ),

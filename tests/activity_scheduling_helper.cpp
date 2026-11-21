@@ -9,6 +9,7 @@
 #include "character_attire.h"
 #include "debug.h"
 #include "item.h"
+#include "item_location.h"
 #include "map_helpers.h"
 #include "messages.h"
 #include "player_activity.h"
@@ -55,7 +56,7 @@ void action_schedule::do_turn( avatar &guy ) const
 
 void meal_schedule::setup( avatar &guy ) const
 {
-    item eaten( food );
+    item_location eaten = guy.i_add_or_drop_ret_loc( item( food ) );
     guy.consume( eaten );
 }
 
