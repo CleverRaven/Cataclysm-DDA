@@ -6,11 +6,11 @@
     "categories": [ "hull" ],
     "color": "light_cyan",
     "damage_modifier": 70,
-    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "description": "A large sheet of glass that lets you see outside the vehicle.",
     "durability": 50,
     "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "item": "glass_sheet",
-    "location": "center",
+    "location": [ "center", "window" ],
     "looks_like": "t_wall_glass",
     "name": { "str": "windshield" },
     "requirements": {
@@ -74,6 +74,14 @@
       { "id": "wheel_left", "label": "Wheel Left", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "0" },
       { "id": "wheel_right", "label": "Wheel Right", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "0" }
     ]
+  },
+  {
+    "id": "window",
+    "type": "vehicle_part",
+    "name": { "str": "window" },
+    "description": "A small sheet of glass that lets you see outside the vehicle.",
+    "copy-from": "windshield",
+    "delete": { "flags": [ "OBSTACLE" ] }
   },
   {
     "id": "reinforced_windshield",

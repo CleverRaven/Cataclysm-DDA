@@ -7,20 +7,9 @@
     "color": "cyan",
     "damage_modifier": 80,
     "damage_reduction": { "all": 20 },
-    "description": "A door.  Has a window so you can see out of it, even when closed.",
+    "description": "A door.  Has a spot for a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [
-      "CARGO",
-      "CARGO_PASSABLE",
-      "OBSTACLE",
-      "OPENABLE",
-      "BOARDABLE",
-      "WINDOW",
-      "DOOR",
-      "LOCKABLE_DOOR",
-      "HUGE_OK",
-      "FRAGILE_COMPONENTS"
-    ],
+    "flags": [ "CARGO", "CARGO_PASSABLE", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR", "LOCKABLE_DOOR", "HUGE_OK" ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
@@ -70,6 +59,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
+    "extend": { "location": [ "window" ] },
     "delete": { "flags": [ "LOCKABLE_DOOR", "WINDOW" ] }
   },
   {
@@ -86,7 +76,7 @@
     "description": "A door.  Solid construction means you can't see through it when closed.",
     "durability": 240,
     "name": { "str": "opaque door" },
-    "extend": { "flags": [ "OPAQUE" ] },
+    "extend": { "flags": [ "OPAQUE" ], "location": [ "window" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "full", "label": "Full" } ]
@@ -96,7 +86,7 @@
     "copy-from": "door",
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 30 },
-    "description": "A strong door.  Has a window so you can see out of it, even when closed.",
+    "description": "A strong door.  Has a spot for a window so you can see out of it, even when closed.",
     "durability": 600,
     "item": "hdframe",
     "name": { "str": "heavy-duty door" },
@@ -116,7 +106,7 @@
     "durability": 660,
     "looks_like": "door_opaque",
     "name": { "str": "heavy-duty opaque door" },
-    "extend": { "flags": [ "OPAQUE" ] },
+    "extend": { "flags": [ "OPAQUE" ], "location": [ "window" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "full", "label": "Full" } ]
@@ -132,7 +122,7 @@
   {
     "id": "hatch",
     "copy-from": "door",
-    "description": "A strong door.  A window lets you see through it when closed.",
+    "description": "A strong door.  A spot for a window lets you see through it when closed.",
     "durability": 420,
     "name": { "str": "hatch" },
     "//": "30 cm of weld per quadrant of damage, 4x that to install",
@@ -160,7 +150,7 @@
     "durability": 450,
     "looks_like": "door_opaque",
     "name": { "str": "opaque hatch" },
-    "extend": { "flags": [ "OPAQUE" ] },
+    "extend": { "flags": [ "OPAQUE" ], "location": [ "window" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
   },
@@ -169,7 +159,7 @@
     "copy-from": "hatch",
     "breaks_into": "ig_vp_hdframe",
     "damage_reduction": { "all": 30 },
-    "description": "A very strong door.  A window lets you see through it when closed.",
+    "description": "A very strong door.  A spot for a window lets you see through it when closed.",
     "durability": 900,
     "item": "hdframe",
     "name": { "str": "heavy-duty hatch" },
@@ -196,14 +186,14 @@
     "durability": 1000,
     "looks_like": "hatch_opaque",
     "name": { "str": "heavy-duty opaque hatch" },
-    "extend": { "flags": [ "OPAQUE" ] },
+    "extend": { "flags": [ "OPAQUE" ], "location": [ "window" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "type": "vehicle_part"
   },
   {
     "id": "hatchback_trunk",
     "copy-from": "hatch",
-    "description": "A fold up door covering trunk space.  A window lets you see through it when closed.",
+    "description": "A fold up door covering trunk space.  A spot for a window lets you see through it when closed.",
     "durability": 420,
     "name": { "str": "hatchback trunk" },
     "//": "30 cm of weld per quadrant of damage, 4x that to install",
@@ -221,7 +211,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_lc_steel", 3 ] ] }
     },
     "size": "125000 ml",
-    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED", "FRAGILE_COMPONENTS" ] },
+    "extend": { "flags": [ "LOCKABLE_CARGO", "MULTISQUARE", "COVERED" ] },
     "type": "vehicle_part"
   },
   {
@@ -253,7 +243,7 @@
     "name": { "str": "opaque wooden door" },
     "durability": 170,
     "description": "A door.  Solid construction means you can't see through it when closed.",
-    "extend": { "flags": [ "OPAQUE" ] },
+    "extend": { "flags": [ "OPAQUE" ], "location": [ "window" ] },
     "delete": { "flags": [ "WINDOW" ] },
     "damage_reduction": { "all": 12 }
   },
@@ -305,7 +295,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_lc_steel", 2 ] ] }
     },
     "breaks_into": "ig_vp_sheet_metal",
-    "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ] },
+    "extend": { "flags": [ "OPAQUE", "SIMPLE_PART" ], "location": [ "window" ] },
     "delete": { "flags": [ "CARGO", "CARGO_PASSABLE", "COVERED", "LOCKABLE_CARGO", "WINDOW" ] },
     "damage_reduction": { "all": 7 }
   },
@@ -315,7 +305,7 @@
     "copy-from": "door_trunk",
     "name": { "str": "sliding door" },
     "looks_like": "door",
-    "description": "A door.  A window lets you see through it when closed.",
+    "description": "A door.  A spot for a window lets you see through it when closed.",
     "breaks_into": "ig_vp_frame",
     "delete": { "flags": [ "LOW_FINAL_AIR_DRAG", "NO_ROOF_NEEDED", "WINDOW" ] }
   }

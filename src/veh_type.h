@@ -351,6 +351,21 @@ class vpart_info
         // @returns time required for unfolding this part
         time_duration get_unfolding_time() const;
 
+        // @returns if the vpart occupies a structure location (and is structural as thus)
+        bool is_structure() const;
+        // @returns if the vpart occupies the given location
+        bool occupies_location( vpart_location_id loc ) const;
+        // @returns if the other vpart occupies any locations that this one does
+        bool matches_any_locations( const vpart_info &other ) const;
+        // @returns all locations that both parts share
+        std::vector<vpart_location_id> matching_locations( const vpart_info &other ) const;
+        // @returns all vpart_location_id that the locations of this vpart require
+        std::vector<vpart_location_id> required_locations() const;
+        // @returns z_order for the part - the highest z_order of any locations
+        int z_order() const;
+        // @returns list_order for the part - the lowest list_order of any locations
+        int list_order() const;
+
         /** Returns whether or not the vehicle this part installed requires something to control */
         bool has_control_req() const;
 
@@ -444,8 +459,8 @@ class vpart_info
         /** item it should be removed as */
         std::optional<itype_id> removed_item;
 
-        /** What slot of the vehicle tile does this part occupy? */
-        vpart_location_id location = vpart_location_id::NULL_ID();
+        /** What slot(s) of the vehicle tile does this part occupy? */
+        std::set<vpart_location_id> location;
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;

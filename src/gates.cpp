@@ -37,12 +37,13 @@
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "viewer.h"
 #include "vpart_position.h"
 
-static const fault_id fault_broken_window( "fault_broken_window" );
-
 static const material_id material_glass( "glass" );
+
+static const vpart_location_id vpart_location_window( "window" );
 
 // Gates namespace
 
@@ -500,9 +501,15 @@ bool doors::unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
             // TODO: Separate this out into a function or something not awful.
             // It's a lambda right now so we don't have to check it unless we need it.
             auto has_broken_window = [&]() {
-                std::vector<vehicle_part *> parts_at_target = veh->get_parts_at( &m, lockp, "LOCKABLE_DOOR",
+                std::vector<vehicle_part *> parts_at_target = veh->get_parts_at( &m, lockp, "",
                         part_status_flag::available );
-                return !parts_at_target.empty() && parts_at_target.front()->has_fault( fault_broken_window );
+                bool lockable_door = false;
+                bool window_blocked = false;
+                for( const vehicle_part *p : parts_at_target ) {
+                    lockable_door = lockable_door || p->info().has_flag( "LOCKABLE_DOOR" );
+                    window_blocked = window_blocked || p->info().location.count( vpart_location_window );
+                }
+                return lockable_door && !window_blocked;
             };
             const bool reaches_in = !inside_vehicle && has_broken_window();
             veh->unlock( unlockable );

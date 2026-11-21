@@ -202,7 +202,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1,
         if( armor ) {
             left_sym = "(";
             right_sym = ")";
-        } else if( vpi.location == vpart_location_structure ) {
+        } else if( vpi.is_structure() ) {
             left_sym = "[";
             right_sym = "]";
         } else {
