@@ -39,7 +39,7 @@
     ]
   },
   {
-    "id": "wound_bleed_alt",
+    "id": "wound_bleed_alternate",
     "type": "requirement",
     "//": "For field dressing wounds",
     "components": [
