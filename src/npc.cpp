@@ -1628,6 +1628,7 @@ void npc::stow_item( item &it )
         // otherwise drop it.
     } else if( can_stash( it ) ) {
         item_location ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
+        track_activity_item( ret );
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
@@ -1636,7 +1637,10 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        here.add_item_or_charges( pos_bub( here ), remove_item( it ) );
+        item &dropped = here.add_item_or_charges( pos_bub( here ), remove_item( it ) );
+        // TODO: maybe there should be a simpler way to do this?
+        // - @datner
+        track_activity_item( item_location( map_cursor( &here, pos_bub( here ) ), &dropped ) );
     }
 }
 
