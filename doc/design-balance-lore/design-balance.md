@@ -156,3 +156,34 @@ Vehicles are one of the most powerful tools in the game.  However, their status 
 
 
 ### Food and Food Preparation
+
+### Wound design
+
+Bad wounds should, generally, affect a lot of limb_scores. Most open untreated wounds shouldn't heal and should get infected. A small wound should be able to resolve its infection on its own, but this shouldn't be guaranteed. Early stages of infection should be easy to manage. 
+If possible, low health care characters shouldn't notice the difference between an early infection stage and a regular wound.
+If you don't take antibiotics and the wound is not minor, infection will get worse and eventually kill you.
+
+Wounds should generally be tiered into: small/light, medium, bad, terrible. You should append _"tier" at the end of the id. The last tier is terrible because small medium and bad do not neccesarily refer to how large the wound is. a bad stab wound be a deep stab wound, same for a bad cut. Tiers are just a suggestion to help wounds make more sense.
+
+Wounds generally should not scar (ie, cause permanent damage), and your arm should function just fine with a few bruises. But very bad wounds should very heavily encourage players to not get them again. In the middle ground, a relatively bad wound should be a hinderance that possibly scars if its not stiched, that takes a significant time to heal, but does not outright disable the player on their own.
+
+Scratches should bleed less than cuts, lacerations caused by bash damage should be less common than bruises and bleed about as much as scratches.
+
+Bruises should hinder you less than other types of wounds.
+
+Align bleed values to the ones in body_parts.json (/data/mods/aftershock_exoplanet/body_parts.json or /data/mods/Isolation-Protocol/body_parts.json) unless being instructed otherwise by a dev with medical experience or working on atipical anatomy.
+Ideally, there should be no wounds that bleed 1 (redcell and blood vitamin per second). Wounds should only bleed if the bleeding is significant enough that it has to be adressed seperately.
+
+If a wound bleeds significantly (this applies to every wound that bleeds), it needs stiches. If a wound needs stitches, healing without them will halve the speed and make the wound scar. A very bad wound should scar even with stiches, but the scar shouldn't be as bad.
+It would take a medical student about 10 minutes for each stitch if they were to stich a wound. About a minute for someone who's proficient, and about half the time for a surgeon. If the wound is relatively deep, it needs stiches that would take about twice the regular time. If you get stabbed, the wound needs a second, internal layer of stiches. You aren't doing that unless you're a surgeon. It'd take about 5 minutes for you to set up your supplies to start stiching.
+
+A wound that isn't bandaged can take up to 5 times longer to heal than a bandaged wound.
+
+If you're putting pressure with your hands on a wound to stop it bleeding, it'll take about twice as much as it would with actual tools.
+
+It'll take a minute to clean a minor wound, up to 10 for a bad wound. Only EMTs or surgeons should know how to clean really bad (deep) wounds, otherwise you shouldn't be able to do it at all. If you don't know what you're doing it'll take 6 times as long to clean a wound.
+
+A relatively deep wound that did not penetrate into muscle, will heal enough to be a much smaller hinderance in a week, and completely in five weeks. Do not align healing values to this before we have more time skips.
+
+Wounds that penetrate into muscle should take a very long time to heal, practically require stitches, and massively deter the player from avoiding interaction with factions or npcs. In general, treating these should be practically impossible unless the player is a surgeon, a regular character should be nigh forced to go to a faction doctor or get their npc buddy to treat the wound for them.  Do not implement (the very long healing time) before we have more time skips.
+You can't stitch your own stab wound if its on your torso. These very, very bad wounds should always scar, probably quite badly as well.
