@@ -1,0 +1,11 @@
+[
+  {
+    "type": "monstergroup",
+    "id": "GROUP_GOZU_HELL",
+    "monsters": [
+      { "monster": "mon_gozu", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gozu_hell_wyrm", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_gozu_hell_wyrm", "weight": 20, "cost_multiplier": 3, "pack_size": [ 2, 3 ] }
+    ]
+  }
+]
