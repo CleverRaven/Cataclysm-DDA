@@ -112,7 +112,7 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*Is casually chewing into a marloss fruit, the pink berry leaking like an overfilled balloon from the bite wound.  Noticing you, he nearly chokes on the chunk he's swallowed, heavily thumping his chest to try to get it down.  \"Urgh, holy shit, scared the… Ehem, I mean, What's going on dude?  Is this your first time around?\"",
+      "yes": "*Is casually chewing into a Marloss fruit, the pink berry leaking like an overfilled balloon from the bite wound.  Noticing you, he nearly chokes on the chunk he's swallowed, heavily thumping his chest to try to get it down.  \"Urgh, holy shit, scared the… Ehem, I mean, What's going on dude?  Is this your first time around?\"",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": "*Looks noticably pale, near ready to retch.  Large, pink splotches stain his clothes and fingernails, and he smells like puke.  Despite that, his face brightens up as soon as you approach.  \"Oh, what's going on dude?  Is this your first time around?\"",
@@ -143,8 +143,8 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_1_Marloss",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Well then, <u_name>!  Have you ever tried a marloss berry?  You gotta try one!  They're like a super food!  I don't think I've felt this good in ages.  Here, try one!  Try one!\"  He's already pushing one near your face.  \"Take a bite!  It's the best!",
-      "no": "New here?  So you've never tried a marloss berry before?  here, eat one!  C'mon, don't be shy!  I wouldn't want anyone to miss out on this wonder!\"  He's insistently shoving one against your cheek.  \"Eat it.  Take a bite."
+      "yes": "Well then, <u_name>!  Have you ever tried a Marloss berry?  You gotta try one!  They're like a super food!  I don't think I've felt this good in ages.  Here, try one!  Try one!\"  He's already pushing one near your face.  \"Take a bite!  It's the best!",
+      "no": "New here?  So you've never tried a Marloss berry before?  here, eat one!  C'mon, don't be shy!  I wouldn't want anyone to miss out on this wonder!\"  He's insistently shoving one against your cheek.  \"Eat it.  Take a bite."
     },
     "responses": [
       { "text": "I'd really rather not.", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" },
@@ -190,8 +190,8 @@
     },
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "&Before you can back out, he jams the entire marloss fruit into your mouth, forcing you to swallow it.",
-      "no": "&Before you can back out, he jams the entire marloss fruit into your mouth, grabbing your jaw to make sure it goes down."
+      "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.",
+      "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down."
     },
     "responses": [ { "text": "I'd really rather not.", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" } ]
   },
@@ -201,8 +201,8 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1c",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "&Before you can back out, he jams the entire marloss fruit into your mouth, forcing you to swallow it.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up.",
-      "no": "&Before you can back out, he jams the entire marloss fruit into your mouth, grabbing your jaw to make sure it goes down.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up."
+      "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up.",
+      "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up."
     },
     "responses": [ { "text": "TEST.", "topic": "TALK_DONE" } ]
   },
@@ -211,7 +211,7 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_1a",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": [ "Look who's hanging around!", "What's up, <u_name>?", "You here for a marloss fruit?" ],
+      "yes": [ "Look who's hanging around!", "What's up, <u_name>?", "You here for a Marloss fruit?" ],
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
         "yes": [ "Yo.", "Welcome back, <u_name>." ],
@@ -224,8 +224,8 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_SETTLE",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Why we settled here?  Well, the answer is painfully obvious.  These marloss fruits!  They're delicious, nutritious, and damn easy to get, too.  I don't mind following whatever patron if it means I live out <the_cataclysm> like this, haha!",
-      "no": "Whuh?  It's real obvious.  Only place these marloss berries seem to love growing.  Don't know why, but they usually stop sprouting after a few batches, but here, they've been growing nonstop.  We gotta stay here, it's basically a gold mine!"
+      "yes": "Why we settled here?  Well, the answer is painfully obvious.  These Marloss fruits!  They're delicious, nutritious, and damn easy to get, too.  I don't mind following whatever patron if it means I live out <the_cataclysm> like this, haha!",
+      "no": "Whuh?  It's real obvious.  Only place these Marloss berries seem to love growing.  Don't know why, but they usually stop sprouting after a few batches, but here, they've been growing nonstop.  We gotta stay here, it's basically a gold mine!"
     },
     "responses": [ { "text": "TEST.", "topic": "TALK_DONE" } ]
   },
@@ -244,8 +244,8 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_SELF",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": [ "How intrusive.", "That's what you find important?", "Fine." ],
-      "no": "Ugh."
+      "yes": [ "About me?  What do ya' wanna know?", "Oh, about me?", "Shoot, like what?" ],
+      "no": [ "About me?  Shoot.", "Go for it." ],
     },
     "responses": [
       { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_TARIUS_AboutMe_Basic" },
@@ -271,7 +271,7 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": "Well, there's hardly any reason not to!  Free food, friendship, and free shelter!  I mean, it'd be a bit foolish to pass this up, am I right?  Haha!",
-      "no": "Because I'd rather not starve to death.  Normal food's gotten so plain lately, I can't force myself to eat anything else.  Just goes to show you how great the marloss is, right?  It's a super food in every way."
+      "no": "Because I'd rather not starve to death.  Normal food's gotten so plain lately, I can't force myself to eat anything else.  Just goes to show you how great the Marloss is, right?  It's a super food in every way."
     },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
@@ -290,7 +290,7 @@
     "id": "MARLOSS_EVAN_TARIUS_Health",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "I've been feeling better than ever!  These marloss fruits really are a super food.  My back doesn't even hurt in the morning!",
+      "yes": "I've been feeling better than ever!  These Marloss fruits really are a super food.  My back doesn't even hurt in the morning!",
       "no": "Well, I've just been feeling so hungry all the time.  God, just so hungry."
     },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
