@@ -160,11 +160,6 @@
         "condition": { "u_has_flag": "MUTATION_THRESHOLD" },
         "effect": { "run_eocs": "EOC_MARLOSS_REJECTION" }
       },
-      {
-        "text": "Uh, sure? [TEST]",
-        "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1c",
-        "effect": { "run_eocs": "EOC_MARLOSS_REJECTION" }
-      },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
