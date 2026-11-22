@@ -2090,16 +2090,16 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
-    // Can't block attacks from attackers two sizes greater than you
-    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
-        return false;
-    }
-
     // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
 
     magic->break_channeling( *this );
+    
+    // Can't block attacks from attackers two sizes greater than you
+    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
+        return false;
+    }
 
     if( blocks_left < 1 ) {
         return false;
@@ -2107,7 +2107,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     const float without_block = melee_damage_mult( static_cast<int>( last_hit_spread + last_block ) );
     const float with_block = melee_damage_mult( last_hit_spread );
-    if( last_block <= 0.0f || without_block - with_block < 0.05f ) {
+    if( last_block <= 0.0f ) {
         return false;
     }
 
@@ -2823,7 +2823,7 @@ void avatar::disarm( npc &target )
     };
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    int hitspread = target.deal_melee_attack( this, hit_roll(), false );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it->tname() );
         item weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();

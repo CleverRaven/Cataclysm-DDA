@@ -1102,13 +1102,31 @@ int Creature::deal_melee_attack( Creature *source, int hitroll, bool allow_block
 {
 
     const float dodge = dodge_roll();
-    float block = 0.0f;
-    if( allow_block ) {
-        block = block_roll( source );
-    }
     on_try_dodge();
 
-    int hit_spread = hitroll - dodge - block - size_melee_penalty();
+    int post_dodge_hit_spread = hitroll - dodge - size_melee_penalty();
+
+    if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
+        // Under normal circumstances, even a clumsy person would
+        // not miss a turret.  It should, however, be possible to
+        // miss a smaller target, especially when wielding a
+        // clumsy weapon or when severely encumbered.
+        post_dodge_hit_spread += 40;
+    }
+    
+    float block = 0.0f;
+    if( allow_block && source != nullptr && melee_attack_hit( post_dodge_hit_spread ) ){
+        block = block_roll( source );
+    }
+
+    last_dodge = dodge;
+    last_block = block;
+    last_hit_spread = static_cast<int>( post_dodge_hit_spread - block );
+    
+    int hit_spread = last_hit_spread;
+    if( block > 0.0f ) {
+        hit_spread = std::max( last_hit_spread, -melee_miss_threshold + 1 );
+    }
 
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
@@ -1117,20 +1135,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll, bool allow_block
     add_msg_debug( debugmode::DF_CREATURE, "Block roll %.1f",
                    block );
 
-    if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
-        // Under normal circumstances, even a clumsy person would
-        // not miss a turret.  It should, however, be possible to
-        // miss a smaller target, especially when wielding a
-        // clumsy weapon or when severely encumbered.
-        hit_spread += 40;
-    }
-
-    last_dodge = dodge;
-    last_block = block;
-    last_hit_spread = hit_spread;
-
     // If attacker missed call targets on_dodge event
-    if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
+    if( dodge > 0.0 && post_dodge_hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
     add_msg_debug( debugmode::DF_CREATURE, "Final hitspread %d",
