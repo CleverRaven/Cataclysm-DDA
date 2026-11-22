@@ -4040,14 +4040,19 @@ void efile_activity_actor::do_turn( player_activity &act, Character &who )
     }
     if( next_edevice_booted ) { //should not be an "else" because files start processing in same turn
         //current file exists check
-        if( !get_currently_processed_efile() ) {
+        if( processed_efiles_remain() ) {
+            // no files left on this device; finish it rather than calling back() on an empty vector
+            completed_processing_current_edevice();
+        } else if( !get_currently_processed_efile() ) {
             failed_processing_current_efile( act, who );
-        } else if( turns_left_on_current_efile > 0 ) {
-            turns_left_on_current_efile--;
-        }
-        if( turns_left_on_current_efile == 0 ) {
-            completed_processing_current_efile( act, who );
-            start_processing_next_efile( act, who );
+        } else {
+            if( turns_left_on_current_efile > 0 ) {
+                turns_left_on_current_efile--;
+            }
+            if( turns_left_on_current_efile == 0 ) {
+                completed_processing_current_efile( act, who );
+                start_processing_next_efile( act, who );
+            }
         }
 
     }
@@ -4070,6 +4075,14 @@ void efile_activity_actor::start_processing_next_edevice()
 
 void efile_activity_actor::start_processing_next_efile( player_activity &/*act*/, Character &who )
 {
+    // Queued e-file locations can become invalid while the activity runs (file moved, wiped,
+    // merged into a catalog, or not resolvable after save/load). Drop them instead of
+    // dereferencing a null item further down (efile_skip_copy -> is_ecopiable -> has_flag).
+    while( !currently_processed_efiles.empty() && !currently_processed_efiles.back() ) {
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "skipping invalid efile location" );
+        failed_efiles++;
+        currently_processed_efiles.pop_back();
+    }
     if( !processed_efiles_remain() ) {
         //separate for easy debugging
         item_location &current_efile = get_currently_processed_efile();
@@ -4236,6 +4249,12 @@ void efile_activity_actor::failed_processing_current_efile( player_activity &act
         Character &who )
 {
     turns_left_on_current_edevice.reset();
+    // drop the missing file so we don't retry (and dereference) it again
+    if( !currently_processed_efiles.empty() ) {
+        failed_efiles++;
+        currently_processed_efiles.pop_back();
+    }
+    turns_left_on_current_efile = 0;
     start_processing_next_efile( act, who );
 }
 
@@ -4459,6 +4478,10 @@ time_duration efile_activity_actor::efile_processing_time( const item_location &
         const efile_transfer &transfer, efile_action action_type, Character &who, bool computer_low_skill )
 {
     time_duration processing_time;
+    if( !efile ) {
+        // stale/null location: nothing to process, never dereference it
+        return 0_seconds;
+    }
     if( action_type == EF_BROWSE ) {
         processing_time = time_per_browsed_efile;
     } else if( action_type == EF_WIPE ) {
@@ -4541,8 +4564,11 @@ bool efile_activity_actor::efile_action_is_from( efile_action action_type )
 bool efile_activity_actor::efile_skip_copy( const efile_transfer &transfer, const item &efile )
 {
     auto check_for_file = [&efile]( const item_location & edevice ) {
+        if( !edevice ) {
+            return false;
+        }
         for( const item *i : edevice->efiles() ) {
-            if( i->typeId() == efile.typeId() ) {
+            if( i != nullptr && i->typeId() == efile.typeId() ) {
                 return true;
             }
         }
