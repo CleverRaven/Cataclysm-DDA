@@ -59,6 +59,7 @@
 #include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
+#include "wound.h"
 
 class JsonObject;
 class JsonOut;
@@ -84,7 +85,6 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
-class wound;
 
 enum scaling_stat : int;
 
@@ -3157,6 +3157,8 @@ class Character : public Creature, public visitable
         void assign_activity( const player_activity &act );
         /** Assigns activity actor to player, possibly resuming old activity if it's defined resumable. */
         void assign_activity( const activity_actor &actor );
+        /** Any activity or special circumstances that should block rendering. (e.g. sleep) */
+        bool activity_limits_rendering() const;
         /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
@@ -4288,6 +4290,8 @@ class Character : public Creature, public visitable
         bool has_wound( wound_type_id wd, const bodypart_str_id &part ) const;
 
         bool has_bleeding_wound( const bodypart_str_id &part ) const;
+        bool has_fixable_wounds( const bodypart_str_id &part ) const;
+        std::optional<wound_severity> get_bleeding_wound_severity( const bodypart_str_id &part ) const;
 
         bool has_wounds( const bodypart_str_id &part ) const;
 

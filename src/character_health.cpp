@@ -2573,6 +2573,17 @@ bool Character::has_bleeding_wound( const bodypart_str_id &part ) const
     return get_part( part )->has_bleeding_wound();
 }
 
+std::optional<wound_severity> Character::get_bleeding_wound_severity( const bodypart_str_id &part )
+const
+{
+    return get_part( part )->get_bleeding_wound_severity();
+}
+
+bool Character::has_fixable_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_fixable_wound();
+}
+
 bool Character::has_wounds( const bodypart_str_id &part ) const
 {
     return get_part( part )->has_wounds();

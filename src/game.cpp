@@ -3363,6 +3363,12 @@ bool game::has_blink_curses()
 
 void game::draw( ui_adaptor &ui )
 {
+    if( u.activity_limits_rendering() ) {
+        // We still want to draw the sidebar, so the player can see the time of day and be sure the game hasn't gotten stuck.
+        // There is no measurable performance impact for drawing it, so it's free!
+        draw_panels( true );
+        return;
+    }
     map &here = get_map();
 
     if( test_mode ) {
