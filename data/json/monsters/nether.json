@@ -2777,7 +2777,7 @@
     "id": "mon_sharp",
     "type": "MONSTER",
     "name": { "str": "sharp mass", "str_pl": "sharp masses" },
-    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp, metallic corners which are covered in a foul, rotting liquid.  It's about the size of a person of particurarly short stature.",
+    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp, metallic corners which are covered in a foul, rotting liquid.  It's about the size of a person of particularly short stature.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 40,
