@@ -245,7 +245,7 @@
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
       "yes": [ "About me?  What do ya' wanna know?", "Oh, about me?", "Shoot, like what?" ],
-      "no": [ "About me?  Shoot.", "Go for it." ],
+      "no": [ "About me?  Shoot.", "Go for it." ]
     },
     "responses": [
       { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_TARIUS_AboutMe_Basic" },
