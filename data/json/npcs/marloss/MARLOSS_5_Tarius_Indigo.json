@@ -112,10 +112,10 @@
     "id": "TALK_MARLOSS_EVAN_TARIUS_1",
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "*Is casually chewing into a Marloss fruit, the pink berry leaking like an overfilled balloon from the bite wound.  Noticing you, he nearly chokes on the chunk he's swallowed, heavily thumping his chest to try to get it down.  \"Urgh, holy shit, scared the… Ehem, I mean, What's going on dude?  Is this your first time around?\"",
+      "yes": "*Is casually chewing into a Marloss fruit, the pink berry leaking like an overfilled balloon from the bite wound.  Noticing you, he nearly chokes on the chunk he's swallowed, heavily thumping his chest to try to get it down.  \"Urgh, holy shit, scared the… Ahem, I mean, What's going on dude?  Is this your first time around?\"",
       "no": {
         "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
-        "yes": "*Looks noticably pale, near ready to retch.  Large, pink splotches stain his clothes and fingernails, and he smells like puke.  Despite that, his face brightens up as soon as you approach.  \"Oh, what's going on dude?  Is this your first time around?\"",
+        "yes": "*Looks noticeably pale, near ready to retch.  Large, pink splotches stain his clothes and fingernails, and he smells like puke.  Despite that, his face brightens up as soon as you approach.  \"Oh, what's going on dude?  Is this your first time around?\"",
         "no": "&His skin is grey and withered, nails bitten far enough back to reveal the pink flesh beneath.  Small mushrooms have sprouted from every angle, bearing tiny, pulsing pink fruits."
       }
     },
@@ -174,10 +174,10 @@
     },
     "dynamic_line": {
       "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
-      "yes": "Oh, what?  Man, that's totally dissapointing.  Let youself live a little, you know?  It's the <the_cataclysm>, ain't no cops around!",
+      "yes": "Oh, what?  Man, that's totally disappointing.  Let yourself live a little, you know?  It's the <the_cataclysm>, ain't no cops around!",
       "no": "You're really shooting yourself in the foot, man.  Everyone needs some relaxants in these times."
     },
-    "responses": [ { "text": "I'd really rather not.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Moving on….", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -193,7 +193,7 @@
       "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.",
       "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down."
     },
-    "responses": [ { "text": "I'd really rather not.", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" } ]
+    "responses": [ { "text": "Yeah, thanks….", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" } ]
   },
   {
     "//": "Expand on this later.",
@@ -204,7 +204,7 @@
       "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up.",
       "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up."
     },
-    "responses": [ { "text": "TEST.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Black out.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -227,7 +227,7 @@
       "yes": "Why we settled here?  Well, the answer is painfully obvious.  These Marloss fruits!  They're delicious, nutritious, and damn easy to get, too.  I don't mind following whatever patron if it means I live out <the_cataclysm> like this, haha!",
       "no": "Whuh?  It's real obvious.  Only place these Marloss berries seem to love growing.  Don't know why, but they usually stop sprouting after a few batches, but here, they've been growing nonstop.  We gotta stay here, it's basically a gold mine!"
     },
-    "responses": [ { "text": "TEST.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
@@ -237,7 +237,7 @@
       "yes": "Well, I suppose we've been running real low on bandages and the like.  Luckily, we've got some explorers like you who come around, huh?",
       "no": "Medicines become a bit of a royalty these days.  Y'know, I swear Siloc is holding out on us.  There's no way she isn't hiding something."
     },
-    "responses": [ { "text": "TEST.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
