@@ -7032,6 +7032,13 @@ talk_effect_fun_t::func f_travel_to_dimension( const JsonObject &jo, std::string
                   npc_travel_radius, item_travel_radius, take_vehicle]( dialogue const & d ) {
         Creature *teleporter = d.actor( false )->get_creature();
         if( teleporter ) {
+
+            if( !teleporter->is_avatar() ) {
+                debugmsg( "_travel_to_dimension is called, but teleporter %s is not avatar.  This is not supported.  %s",
+                          teleporter->get_name(), d.get_callstack() );
+                return;
+            }
+
             dimension_id prefix( dimension_prefix.evaluate( d ) );
             if( prefix != g->get_dimension_prefix() && prefix.is_valid() ) {
                 std::vector<npc *> travellers;
