@@ -127,8 +127,6 @@
       { "group": "gasmask_bag_full", "prob": 10 },
       { "group": "swat_ballistic_vest", "prob": 15 },
       [ "smokebomb", 5 ],
-      [ "suppressor", 25 ],
-      [ "suppressor_compact", 20 ],
       [ "tac_fullhelmet", 5 ],
       [ "tac_helmet", 10 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 1, 10 ] }
