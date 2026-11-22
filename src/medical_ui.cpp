@@ -471,7 +471,7 @@ static std::string draw_speed_summary( const Character &you )
     }
 
     int pen = 0;
-	// guard against division by zero
+    // guard against division by zero
     units::mass current_capacity = std::max( 1_gram, you.weight_capacity() );
     if( you.weight_carried() > current_capacity ) {
         pen = 25 * ( you.weight_carried() - current_capacity ) / current_capacity;
