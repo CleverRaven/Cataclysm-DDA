@@ -1204,6 +1204,30 @@ bool bodypart::has_bleeding_wound() const
     } );
 }
 
+std::optional<wound_severity> bodypart::get_bleeding_wound_severity() const
+{
+    if( !has_bleeding_wound() ) {
+        return std::nullopt;
+    } else {
+        wound_severity severity = wound_severity::MINOR;
+
+        for( const wound &wd : wounds ) {
+            if( wd.type->is_bleeding_wound() && wd.type->severity > severity ) {
+                severity = wd.type->severity;
+            }
+        }
+
+        return severity;
+    }
+}
+
+bool bodypart::has_fixable_wound() const
+{
+    return std::any_of( wounds.begin(), wounds.end(), []( const wound & wd ) {
+        return !wd.type->fixes.empty();
+    } );
+}
+
 wound *bodypart::get_wound( const wound_type_id wd_id )
 {
     // picks the first one; maybe not desired?

@@ -1839,10 +1839,10 @@ nc_color colorize_bleeding_intensity( const int intensity )
     if( intensity == 0 ) {
         return c_unset;
     } else if( intensity < 11 ) {
-        return c_light_red;
+        return c_white;
     } else if( intensity < 21 ) {
-        return c_red;
+        return c_light_red;
     } else {
-        return c_red_red;
+        return c_red;
     }
 }

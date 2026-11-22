@@ -517,6 +517,9 @@ class bodypart
         bool has_wounds() const;
         bool has_wound( wound_type_id wd ) const;
         bool has_bleeding_wound() const;
+        // returns the highest severity of any bleeding wound on the limb, nullopt is no bleeding wounds
+        std::optional<wound_severity> get_bleeding_wound_severity() const;
+        bool has_fixable_wound() const;
         wound *get_wound( wound_type_id wd_id );
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );

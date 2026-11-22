@@ -353,6 +353,21 @@ static std::string hp_feeling( const float cur_hp_pcnt )
     }
 }
 
+static nc_color colorize_bleeding_wound( const wound_severity severity )
+{
+    switch( severity ) {
+        case wound_severity::MINOR:
+            return c_white;
+        case wound_severity::MAJOR:
+            return c_light_red;
+        case wound_severity::CRITICAL:
+            return c_red;
+        case wound_severity::LAST:
+            return c_unset;
+    }
+    return c_unset;
+}
+
 std::string medical_ui::get_modified_limb_name( const Character &you,
         const bodypart_id &part )
 {
@@ -362,6 +377,7 @@ std::string medical_ui::get_modified_limb_name( const Character &you,
 
     const int bleed_intensity = you.get_effect_int( effect_bleed, part );
     const bool bleeding = bleed_intensity > 0;
+    const bool bleeding_wound = you.has_bleeding_wound( part.id() );
     const bool bitten = you.has_effect( effect_bite, part.id() );
     const bool infected = you.has_effect( effect_infected, part.id() );
     const bool wounded = you.has_wounds( part.id() );
@@ -415,7 +431,13 @@ std::string medical_ui::get_modified_limb_name( const Character &you,
     }
 
     if( wounded ) {
-        detail += string_format( _( "[ %s ]" ), colorize( _( "WOUNDED" ), c_cyan ) );
+        detail += string_format( _( "[ %s ]" ), colorize( _( "WOUNDED" ),
+                                 you.has_fixable_wounds( part.id() ) ? c_light_blue : c_cyan ) );
+    }
+
+    if( bleeding_wound ) {
+        detail += string_format( _( "[ %s ]" ), colorize( _( "BLEEDING" ),
+                                 colorize_bleeding_wound( you.get_bleeding_wound_severity( part.id() ).value() ) ) );
     }
 
     return string_format( "%s %s", header, detail );
