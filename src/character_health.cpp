@@ -2597,6 +2597,13 @@ void Character::apply_wound( bodypart_id bp, wound wd, dealt_damage_instance &dd
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
+void Character::remove_all_wounds()
+{
+    for( auto& [bp_id, bp] : body ) {
+        bp.remove_all_wounds();
+    }
+}
+
 void Character::update_wounds( time_duration time_passed )
 {
     for( auto& [bp_id, bp] : body ) {

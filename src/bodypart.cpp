@@ -1236,6 +1236,11 @@ void bodypart::remove_wound( const wound_type_id wd )
     }
 }
 
+void bodypart::remove_all_wounds()
+{
+    wounds.clear();
+}
+
 void bodypart::remove_all_wounds_of_type( const wound_type_id wd )
 {
     wounds.erase( std::remove_if( wounds.begin(), wounds.end(), [wd]( const wound & existing_wound ) {
