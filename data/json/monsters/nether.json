@@ -2777,15 +2777,16 @@
     "id": "mon_sharp",
     "type": "MONSTER",
     "name": { "str": "sharp mass", "str_pl": "sharp masses" },
-    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp, metallic corners which are covered in a foul, rotting liquid.  It's about the size of a person.",
+    "description": "A shifting creature that seems to move at extreme speeds.  It seems to entirely be made of sharp, metallic corners which are covered in a foul, rotting liquid.  It's about the size of a person of particurarly short stature.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 40,
-    "volume": "80 L",
-    "weight": "80 kg",
+    "volume": "40 L",
+    "weight": "200 kg",
     "hp": 50,
     "speed": 200,
-    "material": [ "flesh" ],
+    "attack_cost": 150,
+    "material": [ "cyber_bone" ],
     "symbol": "0",
     "color": "yellow",
     "aggression": 100,
@@ -2811,7 +2812,7 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "flags": [ "SEES", "NO_BREATHE", "BASHES", "NOHEAD", "HIT_AND_RUN" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "BASHES", "NOHEAD", "HIT_AND_RUN" ],
     "armor": {  }
   }
 ]
