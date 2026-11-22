@@ -13,3 +13,5 @@ If ever you wanted to give back to Cataclysm: Dark Days Ahead, this is the place
 [John-Candlebury](https://github.com/CleverRaven/Cataclysm-DDA/pulls?q=is%3Apr+is%3Amerged+author%3AJohn-Candlebury) - [Donate via Patreon](https://www.patreon.com/Candlebury)
 
 [gettingusedto](https://github.com/I-am-Erk/CDDA-Tilesets/pulls?q=is%3Apr+is%3Amerged+author%3Agettingusedto+) - [Donate via Ko-fi](https://ko-fi.com/gettingusedto)
+
+[nameless-kitty](https://github.com/CleverRaven/Cataclysm-DDA/pulls?q=is%3Apr+is%3Amerged+author%3Akuutekitty) - [Donate via Ko-fi](https://ko-fi.com/namelesskitty)
