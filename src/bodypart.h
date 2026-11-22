@@ -523,6 +523,7 @@ class bodypart
         wound *get_wound( wound_type_id wd_id );
         void remove_wound( wound wd );
         void remove_wound( wound_type_id wd );
+        void remove_all_wounds();
         void remove_all_wounds_of_type( wound_type_id wd );
         void update_wounds( const Character &who, time_duration time_passed );
 

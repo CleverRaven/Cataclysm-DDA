@@ -990,6 +990,7 @@ class Character : public Creature, public visitable
         void apply_wound( bodypart_id bp, wound wd, dealt_damage_instance &ddi );
         /** Updates the status of wounds character has, and applies variety of effects they cause*/
         void update_wounds( time_duration time_passed );
+        void remove_all_wounds();
         /** Returns true if bodypart in question has any bleeding wound */
         bool is_bleeding( bodypart_id bp ) const;
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
