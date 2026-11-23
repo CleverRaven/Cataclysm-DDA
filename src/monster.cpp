@@ -2192,22 +2192,37 @@ float monster::block_roll( const Creature * )
                      static_cast<int>( type -> block.effectiveness ) ) ) ;
 }
 
-bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
+bool monster::block_hit( Creature *, bodypart_id &, damage_instance &dam )
 {
     if( blocks_left < 1 ) {
         return false;
     }
 
-    const float without_block = melee_damage_mult( static_cast<int>( last_hit_spread + last_block ) );
-    const float with_block = melee_damage_mult( last_hit_spread );
-    if( last_block <= 0.0f || without_block - with_block < 0.05f ) {
+    const float block = last_block;
+    last_block = 0.0f;
+
+    const float without_block = melee_damage_mult( last_hit_spread );
+    const float with_block = melee_damage_mult( static_cast<int>( last_hit_spread - block ) );
+    if( without_block <= 0.0f || without_block - with_block < 0.05f ) {
         return false;
     }
 
+    const float block_mult = with_block / without_block;
+    bool blocked_any = false;
+    for( damage_unit &elem : dam.damage_units ) {
+        if( elem.type->physical && elem.type->melee_only && elem.amount > 0.0f ) {
+            elem.amount *= block_mult;
+            blocked_any = true;
+        }
+    }
+
+    if( !blocked_any ) {
+        return false;
+    }
     blocks_left--;
 
     // did they block, parry, or dodge?
-    const float block_share = last_block / ( last_block + last_dodge );
+    const float block_share = block / ( block + std::max( 0.0f, last_dodge ) );
     const bool blocked = block_share > 0.5f;
 
     if( blocked ) {
@@ -2395,32 +2410,37 @@ bool monster::melee_attack( Creature &target, float accuracy )
         }
     } else {
         // No damage dealt
-        if( u_see_my_spot ) {
-            if( target.is_avatar() ) {
-                //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ),
-                         u_see_me ? disp_name( true ) : _( "Something" ),
-                         body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
-            } else if( target.is_npc() ) {
-                //~ $1s is monster name, %2$s is target NPC name,
-                //~ $3s is target bodypart name in accusative, $4s is target armor name.
-                add_msg( _( "%1$s hits %2$s in the %3$s but is stopped by the %4$s." ),
-                         u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name(),
-                         body_part_name_accusative( dealt_dam.bp_hit ),
-                         target.skin_name() );
-            } else if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
-                //~ $1s is monster name, %2$s is that monster target name,
-                //~ $3s is target armor name.
-                add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
-                         u_see_me ? disp_name( true ) : _( "Something" ),
-                         target.disp_name(),
-                         target.skin_name() );
+        if( dealt_dam.fully_blocked != true ) {
+            if( u_see_my_spot ) {
+                if( target.is_avatar() ) {
+                    //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
+                    add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ),
+                             u_see_me ? disp_name( true ) : _( "Something" ),
+                             body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
+                } else if( target.is_npc() ) {
+                    //~ $1s is monster name, %2$s is target NPC name,
+                    //~ $3s is target bodypart name in accusative, $4s is target armor name.
+                    add_msg( _( "%1$s hits %2$s in the %3$s but is stopped by the %4$s." ),
+                             u_see_me ? disp_name( true ) : _( "Something" ), target.disp_name(),
+                             body_part_name_accusative( dealt_dam.bp_hit ),
+                             target.skin_name() );
+                } else if( get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ) {
+                    //~ $1s is monster name, %2$s is that monster target name,
+                    //~ $3s is target armor name.
+                    add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
+                             u_see_me ? disp_name( true ) : _( "Something" ),
+                             target.disp_name(),
+                             target.skin_name() );
+                }
+
+                else if( target.is_avatar() ) {
+                    //~ 1$s is bodypart name in accusative, 2$s is armor name.
+                    add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
+                             body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
+                }
             }
-        } else if( target.is_avatar() ) {
-            //~ 1$s is bodypart name in accusative, 2$s is armor name.
-            add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
-                     body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
         }
+
     }
 
     target.check_dead_state( &here );

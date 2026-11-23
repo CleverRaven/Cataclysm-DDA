@@ -1102,40 +1102,35 @@ int Creature::deal_melee_attack( Creature *source, int hitroll, bool allow_block
 {
 
     const float dodge = dodge_roll();
-    float block = 0.0f;
-    if( allow_block ) {
-        block = block_roll( source );
-    }
     on_try_dodge();
 
-    int hit_spread = hitroll - dodge - block - size_melee_penalty();
-
-    add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
-                   hitroll );
-    add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
-                   dodge );
-    add_msg_debug( debugmode::DF_CREATURE, "Block roll %.1f",
-                   block );
+    int post_dodge_hit_spread = hitroll - dodge - size_melee_penalty();
+    float block = 0.0f;
 
     if( has_flag( mon_flag_IMMOBILE ) || has_flag( json_flag_CANNOT_MOVE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
         // miss a smaller target, especially when wielding a
         // clumsy weapon or when severely encumbered.
-        hit_spread += 40;
+        post_dodge_hit_spread += 40;
+    }
+
+    if( allow_block && source != nullptr && melee_attack_hit( post_dodge_hit_spread ) ) {
+        block = block_roll( source );
     }
 
     last_dodge = dodge;
     last_block = block;
-    last_hit_spread = hit_spread;
+    last_hit_spread = post_dodge_hit_spread;
 
     // If attacker missed call targets on_dodge event
-    if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
+    if( dodge > 0.0 && post_dodge_hit_spread <= 0 && source != nullptr &&
+        !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
     add_msg_debug( debugmode::DF_CREATURE, "Final hitspread %d",
-                   hit_spread );
-    return hit_spread;
+                   post_dodge_hit_spread );
+    return post_dodge_hit_spread;
 }
 
 // max chance to deflect a head/torso hit
@@ -1250,7 +1245,14 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     d.mult_damage( melee_damage_mult( hit_spread ), true ); // partial dodge
     bodypart_id bp_hit = bp == nullptr ? select_body_part( -1, -1, source->can_attack_high(),
                          hit_spread ) : *bp;
+    const float pre_block_dmg = d.total_damage();
     const bool blocked = block_hit( source, bp_hit, d );
+    if( pre_block_dmg > std::numeric_limits<float>::epsilon() &&
+        d.total_damage() <= std::numeric_limits<float>::epsilon() ) {
+        dealt_dam.bp_hit = bp_hit;
+        dealt_dam.fully_blocked = true;
+        return;
+    }
     if( !blocked ) {
         const bodypart_id initial_bp = bp_hit;
         bp_hit = deflect_hit_part( bp_hit, source->can_attack_high() );

@@ -2090,37 +2090,34 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         return false;
     }
 
-    // Can't block attacks from attackers two sizes greater than you
-    if( ( get_size() + 1 < source->get_size() ) && !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
-        return false;
-    }
-
     // fire martial arts on-getting-hit-triggered effects
     // these fire even if the attack is blocked (you still got hit)
     martial_arts_data->ma_ongethit_effects( *this );
 
     magic->break_channeling( *this );
 
-    if( blocks_left < 1 ) {
+    // Can't block attacks from attackers two sizes greater than you.
+    // Checking for null so dereferencing doesn't get ugly. Just in case...
+    if( ( source != nullptr, get_size() + 1 < source->get_size() ) &&
+        !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
         return false;
     }
 
-    const float without_block = melee_damage_mult( static_cast<int>( last_hit_spread + last_block ) );
-    const float with_block = melee_damage_mult( last_hit_spread );
-    if( last_block <= 0.0f || without_block - with_block < 0.05f ) {
+    if( blocks_left < 1 || last_block <= 0.0f ) {
         return false;
     }
 
-    blocks_left--;
+    //May seem redundant but not sure if deal_melee_hit may be called directly in some scenario so might as well be thorough.
+    const float block = last_block;
+    last_block = 0.0f;
 
-    // Warn if stamina is low
-    if( get_stamina() < 2000 ) {
-        add_msg_if_player( m_warning,
-                           _( "You're close to exhaustion and cannot block effectively." ) );
-    }
+    const float without_block = melee_damage_mult( last_hit_spread );
+    const float with_block = melee_damage_mult( static_cast<int>( std::round(
+                                 last_hit_spread - block ) ) );
+    const float block_mult = without_block > 0.0f ? ( with_block / without_block ) : 1.0f;
 
     // did you block, parry, or dodge?
-    const float block_share = last_block / ( last_block + last_dodge );
+    const float block_share = block / ( block + std::max( 0.0f, last_dodge ) );
     const bool blocked = block_share > 0.5f;
 
     // This bonus absorbs damage from incoming attacks before they land,
@@ -2133,8 +2130,9 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     float total_damage = 0.0f;
     float damage_blocked = 0.0f;
+    damage_instance blocked_dam = dam;
 
-    for( damage_unit &elem : dam.damage_units ) {
+    for( damage_unit &elem : blocked_dam.damage_units ) {
         total_damage += elem.amount;
 
         // block physical damage "normally"
@@ -2144,6 +2142,15 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             total_phys_block -= block_amount;
             elem.amount -= block_amount;
             damage_blocked += block_amount;
+
+            // if amount is 0.0f multiplying it is a no op anyway but eeeh might as well
+            if( elem.amount <= std::numeric_limits<float>::epsilon() ) {
+                continue;
+            }
+
+            float previous_amount = elem.amount;
+            elem.amount *= block_mult;
+            damage_blocked += previous_amount - elem.amount;
         }
 
         else if( !elem.type->physical && !elem.type->no_resist ) {
@@ -2160,13 +2167,26 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
     }
 
+    if( total_damage <= std::numeric_limits<float>::epsilon() ||
+        damage_blocked / total_damage < 0.05f ) {
+        return false;
+    }
+
+
+    blocks_left--;
+
+    // Warn if stamina is low
+    if( get_stamina() < 2000 ) {
+        add_msg_if_player( m_warning,
+                           _( "You're close to exhaustion and cannot block effectively." ) );
+    }
+
+
     std::string damage_blocked_description;
     // good/bad/ugly add_msg color code?
     // none, hardly any, a little, some, most, all
-    float blocked_ratio = with_block / without_block;
-    if( total_damage > std::numeric_limits<float>::epsilon() ) {
-        blocked_ratio *= ( total_damage - damage_blocked ) / total_damage;
-    }
+    const float blocked_ratio = ( total_damage - damage_blocked ) / total_damage;
+
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
         //~ Adjective in "You block <adjective> of the attack with your <weapon>.
         damage_blocked_description = _( "all" );
@@ -2178,7 +2198,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         damage_blocked_description = _( "a lot" );
     } else if( blocked_ratio < 0.8 ) {
         damage_blocked_description = _( "some" );
-    } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ) {
+    } else if( blocked_ratio < 1.0f - std::numeric_limits<float>::epsilon() ) {
         damage_blocked_description = _( "a little" );
     } else {
         damage_blocked_description = _( "none" );
@@ -2192,6 +2212,12 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
                                _( "<npcname> parries %1$s of the attack with their %2$s!" ),
                                damage_blocked_description, thing_blocked_with );
     }
+    //this still uses a block so good to let the player know
+    else {
+        add_msg_player_or_npc( _( "You steer %1$s of the attack away with your %2$s!" ),
+                               _( "<npcname> steers %1$s of the attack away with their %2$s!" ),
+                               damage_blocked_description, thing_blocked_with );
+    }
     add_msg_debug( debugmode::DF_MELEE, "Blocked damage %.1f / %.1f", total_damage, damage_blocked );
 
     // Do we block with a weapon? Handle wear
@@ -2203,6 +2229,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         }
         handle_melee_wear( shield, wear_modifier );
     }
+
+    dam = blocked_dam;
 
     // If landing on limb, handle that
     if( blocked && block_bp != bodypart_str_id::NULL_ID() ) {
