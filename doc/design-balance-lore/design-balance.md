@@ -159,7 +159,10 @@ Vehicles are one of the most powerful tools in the game.  However, their status 
 
 ### Wound design
 
-Bad wounds should, generally, affect a lot of limb_scores. Most open untreated wounds shouldn't heal and should get infected. A small wound should be able to resolve its infection on its own, but this shouldn't be guaranteed. Early stages of infection should be easy to manage. 
+Bad wounds should, generally, affect a lot of limb_scores.
+
+Most open untreated wounds shouldn't heal and should get infected. A small wound should be able to resolve its infection on its own, but this shouldn't be guaranteed. Early stages of infection should be easy to manage.
+
 If possible, low health care characters shouldn't notice the difference between an early infection stage and a regular wound.
 If you don't take antibiotics and the wound is not minor, infection will get worse and eventually kill you.
 
@@ -174,14 +177,19 @@ Bruises should hinder you less than other types of wounds.
 Align bleed values to the ones in body_parts.json (/data/mods/aftershock_exoplanet/body_parts.json or /data/mods/Isolation-Protocol/body_parts.json) unless being instructed otherwise by a dev with medical experience or working on atipical anatomy.
 Ideally, there should be no wounds that bleed 1 (redcell and blood vitamin per second). Wounds should only bleed if the bleeding is significant enough that it has to be adressed seperately.
 
-If a wound bleeds significantly (this applies to every wound that bleeds), it needs stiches. If a wound needs stitches, healing without them will halve the speed and make the wound scar. A very bad wound should scar even with stiches, but the scar shouldn't be as bad.
-It would take a medical student about 10 minutes for each stitch if they were to stich a wound. About a minute for someone who's proficient, and about half the time for a surgeon. If the wound is relatively deep, it needs stiches that would take about twice the regular time. If you get stabbed, the wound needs a second, internal layer of stiches. You aren't doing that unless you're a surgeon. It'd take about 5 minutes for you to set up your supplies to start stiching.
+If a wound bleeds significantly (this applies to every wound that bleeds), it would heavily benefit from stitches. If a wound would benefit from stitches, healing without them will halve the speed and make the wound scar. A very bad wound should scar even with stiches, but the scar shouldn't be as bad.
+High infection risk wounds (bites), or deep and narrow deep puncture wounds can't be stitched or do not contribute enough from stiches to warrant them (seeing inside of a wound would be very helpful if you're trying to figure out if its infected)
+The shape of the wound could affect how much it benefits from stitches (or how hard it is to properly stitch it).
+Very good bandages, that were put on by someone who knows what they're doing well, could mitigate the penalty to time to heal for a wound that wasn't stiched, but would never be as good as a decently stitched wound.
 
-A wound that isn't bandaged can take up to 5 times longer to heal than a bandaged wound.
+It would take a medical student about 10 minutes for each stitch if they were to stitch a wound. About a minute for someone who's proficient, and about half the time for a surgeon. If the wound is relatively deep, it needs stiches that would take about twice the regular time. If you get stabbed, the wound needs a second, internal layer of stiches. You aren't doing that unless you're a surgeon. It'd take about 5 minutes for you to set up your supplies to start stiching. 
+
+A wound that isn't bandaged can take up to 5 times longer to heal than a bandaged wound, if the wound isn't stiched. If it is stiched, the main consequence of not bandaging it is a higher infection risk. Even if the wound isn't stiched, the main problem is healing will be delayed a lot by infection, since it'll most likely get infected.
 
 If you're putting pressure with your hands on a wound to stop it bleeding, it'll take about twice as much as it would with actual tools.
 
-It'll take a minute to clean a minor wound, up to 10 for a bad wound. Only EMTs or surgeons should know how to clean really bad (deep) wounds, otherwise you shouldn't be able to do it at all. If you don't know what you're doing it'll take 6 times as long to clean a wound.
+It'll take a minute to clean a minor wound, up to 10 for a bad wound. Only EMTs or surgeons should know how to clean really bad (deep) torso wounds, otherwise you shouldn't be able to do it at all. If you don't know what you're doing it'll take 6 times as long to clean a wound.
+The more severe the wound, the higher the skill to attempt to clean it should be.
 
 A relatively deep wound that did not penetrate into muscle, will heal enough to be a much smaller hinderance in a week, and completely in five weeks. Do not align healing values to this before we have more time skips.
 
