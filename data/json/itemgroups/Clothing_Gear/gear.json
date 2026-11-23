@@ -104,6 +104,7 @@
     "items": [
       { "group": "cop_gear", "prob": 100 },
       { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "m320", "prob": 10 },
       { "item": "ammo_satchel", "prob": 10 },
       { "item": "ammo_pouch", "prob": 10 },
       { "item": "chestpouch", "prob": 30 },
