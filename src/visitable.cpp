@@ -1461,18 +1461,17 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
         return 0;
     }
     int qty = 0;
-    for (const item_location& loc : found->second.items) {
-        if (qty >= limit) {
+    for( const item_location &loc : found->second.items ) {
+        if( qty >= limit ) {
             break;
         }
-        const item* it = loc.get_item();
-        if (it == nullptr) {
+        if( !loc ) {
             continue;
         }
-        if (!it->has_flag(json_flag_ITEM_BROKEN) &&
-            (pseudo || !it->has_flag(json_flag_PSEUDO)) &&
-            filter(*it)) {
-            qty = sum_no_wrap(qty, 1);
+        if( !loc->has_flag( json_flag_ITEM_BROKEN ) &&
+            ( pseudo || !loc->has_flag( json_flag_PSEUDO ) ) &&
+            filter( *loc ) ) {
+            qty = sum_no_wrap( qty, 1 );
         }
     }
     return qty;

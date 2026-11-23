@@ -103,7 +103,7 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
                     bucket.roots.push_back( ref );
                 }
                 bucket.items.push_back( node );
-                const int n = node->count_by_charges() ? node->charges : node->count();
+                const int n = node->count();
                 bucket.total_count += n;
                 if( node->has_flag( flag_HIDDEN_POISON ) || node->has_flag( flag_HIDDEN_HALLU ) ) {
                     bucket.hallu_poison_count += n;
@@ -500,7 +500,7 @@ bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_
     visit_roots_holding( id, [&]( const item_location & node ) {
         const item &it = *node;
         if( it.typeId() == id ) {
-            const int n = it.count_by_charges() ? it.charges : it.count();
+            const int n = it.count();
             total += n;
             if( it.has_flag( flag_HIDDEN_POISON ) || it.has_flag( flag_HIDDEN_HALLU ) ) {
                 bad += n;
