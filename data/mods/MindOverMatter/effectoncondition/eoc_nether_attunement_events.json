@@ -419,7 +419,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
     "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
-    "//": "Can't currently stage up wounds automatically, hence the mess below",
+    "//2": "Can't currently stage up wounds automatically, hence the mess below",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
     "effect": [
       {
