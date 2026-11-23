@@ -1,13 +1,35 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "nether_glass", "nether_glass_deep", "nether_glass_impassable", "nether_glass_imperial_road" ],
+    "id": [ "nether_glass_impassable", "nether_glass_breach" ],
     "vision_levels": "always_full",
     "name": "abyss",
     "sym": " ",
     "color": "black",
     "see_cost": "opaque",
     "flags": [ "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nether_glass_imperial_road", "nether_glass_deep", "nether_glass" ],
+    "vision_levels": "always_full",
+    "name": "abyss",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "opaque",
+    "flags": [ "RISK_EXTREME" ],
+    "entry_eoc": "EOC_nether_glass_event_om"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nether_glass_exit" ],
+    "vision_levels": "always_full",
+    "name": "abyss",
+    "sym": " ",
+    "color": "black",
+    "see_cost": "opaque",
+    "flags": [ "RISK_EXTREME" ],
+    "entry_eoc": "EOC_EXIT_nether_glass_into_lab"
   },
   {
     "type": "overmap_terrain",
