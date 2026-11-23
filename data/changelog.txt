@@ -127,6 +127,10 @@ CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 New wound system, cut, bash, and stab wounds
 Add zone 'Work: Dissect Corpses'
+Implement partial dodge, make it possible to shield vital bodyparts, and make those bodyparts more fragile
+Some vanilla monsters can block
+Block functions on the same sliding scale as new/partial dodge
+Murder causes the terminal to close.
 
 
 ## Content:
@@ -231,6 +235,20 @@ Bionic wounds and ways to repair them
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
 Sci-fi horrors from imagined wars.
 Add Marloss evangelists.
+Tentacle clothing coverage
+48x-Locutus can heal improperly-set broken bones
+Massively expand crafting faults for all sorts of smithed weapons
+Tentacle clothing coverage
+Adds the second Marloss evangelist.
+Adds the third Marloss evangelist.
+Massively expand crafting faults for all sorts of smithed weapons
+Labyrinth scribble-scrabbles - CBMs with legs!
+Opiate Intolerance negative trait added
+Gozu can drag you to Hell
+Adds the fourth Marloss evangelist.
+Mi-Go can now block melee attacks. God help you all.
+Another start location and general improvements to the Experienced scenario
+More Gozu Hell terrain
 
 
 ## Interface:
@@ -294,6 +312,8 @@ Scenarios are now divided into separate difficulty categories
 Display NPCs' current activity when looking at them
 Body Status Menu
 Rewrite wound text to be colorful and immersive
+Redirect to wound menu when trying to treat a bleeding wound by applying a bandage
+Faction reputation text corresponds to In-game effects
 
 
 ## Mods:
@@ -402,6 +422,12 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
+[Xedra Evolved] Rework elemental fae passive spell XP gain
+[Xedra Evolved] Update some Sylph mutations with `"mana": true`, add `activation_msg`
+[Xedra Evolved] Elemental magic rework: Sylph
+[Xedra Evolved] Sylph Spell rework
+Sky Island: Ensure starter kit clothes fit the character
+Added +1 and +2 Tempered Steelshod Quarterstaffs to Magiclysm.
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -473,6 +499,7 @@ make zombies able to move through guardrails
 Wounds stage down when healing
 Bruises stage down when healing
 Add actual weariness to life-or-death combat
+Bypassing faction security is shoot on sight
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -687,6 +714,22 @@ NPCs fetch construction components from containers and spread over construction 
 Fix dragged furniture deleting every second item
 Wounds with only progress timer doesn't get updated
 Allow mutations to destroy all conflicting bionics
+[Bombastic Perks/Magiclysm] Fix negative Difficulty spells
+[MoM] Fix the Knockdown power
+[Xedra Evolved] Fix Sylph casting equation, slight rebalance
+Fix some wounds being unable to heal
+[Xedra Evolved] Fix Sylph missing _xp_multiplier
+Avoid duplicate monster death messages
+Fix exposed conduit damaging the right leg twice
+Better questgiver dialogue lines
+[Bombastic Perks/Magiclysm] Fix negative Difficulty spells
+Ameliorates some wonky spelling, grammar, or syntax from Isherwood dialogues
+[Xedra Evolved] Fix Sylph missing _xp_multiplier
+Fix gun fouling preventing gun name color scheme from working properly
+Learning bonus displayed as -nan(ind)%
+Fix the segfault on examining the prepper's computer.
+ImGui dialogue screens can use double newline to space text
+fix 0.5 L jarred pickled Veggies not being sealed
 
 ## Performance:
 can_contain: calculate pocket volume once (huge speed up in special cases)
@@ -713,6 +756,7 @@ Smooth filtered lighting draws about as fast as smooth
 Speed up the repair and construction menus near large item piles
 Slightly reduce RAM usage of item class
 Lightweight game metrics report.
+Faster sleep by not drawing frames during sleep
 
 
 ## Infrastructure:
