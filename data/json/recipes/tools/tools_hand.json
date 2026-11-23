@@ -37,7 +37,7 @@
     ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 2 ], [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -338,7 +338,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -360,7 +360,7 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "casting_mold_small", -1 ] ] ],
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "scrap_bronze", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "scrap_bronze", 2 ] ] ]
   },
   {
     "result": "bronze_axe",
@@ -448,7 +448,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ], [ "splinter", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -839,7 +839,7 @@
     ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1023,7 +1023,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1052,7 +1052,7 @@
     "difficulty": 4,
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 2 ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ],
     "steps": [
       {
         "name": "Forge welding & cutting steel",
@@ -1275,7 +1275,7 @@
       { "proficiency": "prof_carving" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "result": "bronze_sickle",
@@ -1371,7 +1371,7 @@
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1390,7 +1390,7 @@
     "components": [
       [ [ "brush_handaxe", 1 ] ],
       [ [ "nails", 4, "LIST" ] ],
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ]
     ]
   },
@@ -1450,7 +1450,7 @@
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "scrap_bronze", 10 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "scrap_bronze", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1469,7 +1469,7 @@
     ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "scrap_bronze", 10 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "scrap_bronze", 10 ] ] ]
   },
   {
     "result": "bronze_brush_pole",
