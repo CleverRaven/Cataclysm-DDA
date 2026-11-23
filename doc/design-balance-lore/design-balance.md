@@ -164,7 +164,15 @@ Bad wounds should, generally, affect a lot of limb_scores.
 Most open untreated wounds shouldn't heal and should get infected. A small wound should be able to resolve its infection on its own, but this shouldn't be guaranteed. Early stages of infection should be easy to manage.
 
 If possible, low health care characters shouldn't notice the difference between an early infection stage and a regular wound.
-If you don't take antibiotics and the wound is not minor, infection will get worse and eventually kill you.
+If you don't take antibiotics and the wound is not minor, infection will get worse and eventually kill you.  Antibiotics do not help if a wound is only colonized but not infected, an uninfected wound does not benefit from antibiotics either. Colonized wounds can escape infection naturally, this gets harder the bigger the wound is. The bigger a wound is, the higher the chance for infection, generally, wounds caused by particularly dirty would have a higher chance to become infected (almost anything caused by a zombie, animal bites, etc). It should be nigh impossible for a very large unstiched wound to not get infected.
+
+The stages of infection can be:
+Colonized
+Infected (first visible stage, potentially only visible if you have a high enough heathcare/first_aid skill).
+Badly infected (visible to anyone)
+Sepsis/death stage (you just die at this stage, unless you get a cbm/mutation like hyper motabolism or can replace the limb with a bionic).
+
+You should be able to tell something is "off" since as a wound gets infected, it won't heal.
 
 Wounds should generally be tiered into: small/light, medium, bad, terrible. You should append _"tier" at the end of the id. The last tier is terrible because small medium and bad do not neccesarily refer to how large the wound is. a bad stab wound be a deep stab wound, same for a bad cut. Tiers are just a suggestion to help wounds make more sense.
 
