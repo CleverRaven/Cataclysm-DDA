@@ -1432,7 +1432,7 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
         if( found == idx->by_type.end() ) {
             return 0;
         }
-        roots = &found->second;
+        roots = &found->second.roots;
     }
     std::vector<tool_stock_entry> entries;
     int raw_ups_charges = 0;
@@ -1461,15 +1461,21 @@ int temp_crafting_inventory::amount_of( const itype_id &what, bool pseudo, int l
         return 0;
     }
     int qty = 0;
-    for( const root_ref &ref : found->second ) {
-        if( qty >= limit ) {
+    for (const item_location& loc : found->second.items) {
+        if (qty >= limit) {
             break;
         }
-        if( const item_location &root = ref.get() ) {
-            qty = sum_no_wrap( qty, root.amount_of( what, pseudo, limit - qty, filter ) );
+        const item* it = loc.get_item();
+        if (it == nullptr) {
+            continue;
+        }
+        if (!it->has_flag(json_flag_ITEM_BROKEN) &&
+            (pseudo || !it->has_flag(json_flag_PSEUDO)) &&
+            filter(*it)) {
+            qty = sum_no_wrap(qty, 1);
         }
     }
-    return std::min( qty, limit );
+    return qty;
 }
 
 /** @relates visitable */

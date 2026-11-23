@@ -128,13 +128,21 @@ class temp_crafting_inventory : public visitable
                 return raw == rhs.raw && loc == rhs.loc;
             }
         };
+
+        //query_cache_scope already promises that charges and item contents don't change while the scope is alive
+        //so this should be better than hash tables
+        struct type_buck {
+            std::vector<root_ref> roots;
+            std::vector<item_location> items;
+            int total_count = 0;
+            int hallu_poison_count = 0;
+        };
         // top-level entries, in visit order, under every item type in their visited subtree, and
         // in `ups` when that subtree holds an IS_UPS item
         struct type_index {
-            std::unordered_map<itype_id, std::vector<root_ref>> by_type;
+            std::unordered_map<itype_id, type_buck> by_type;
             std::vector<root_ref> ups;
         };
-
         // true while a query_cache_scope is alive; resets caches from an earlier scope
         bool prepare_query_cache() const;
         // type index for this scope, built on first use; nullptr outside a scope

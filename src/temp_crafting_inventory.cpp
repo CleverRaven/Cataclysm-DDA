@@ -98,9 +98,15 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
             }
             bool holds_ups = false;
             root.visit_items( [&]( const item_location & node ) {
-                std::vector<root_ref> &roots = idx.by_type[node->typeId()];
-                if( roots.empty() || !( roots.back() == ref ) ) {
-                    roots.push_back( ref );
+                type_buck &bucket = idx.by_type[node->typeId()];
+                if( bucket.roots.empty() || !( bucket.roots.back() == ref ) ) {
+                    bucket.roots.push_back( ref );
+                }
+                bucket.items.push_back( node );
+                const int n = node->count_by_charges() ? node->charges : node->count();
+                bucket.total_count += n;
+                if( node->has_flag( flag_HIDDEN_POISON ) || node->has_flag( flag_HIDDEN_HALLU ) ) {
+                    bucket.hallu_poison_count += n;
                 }
                 holds_ups = holds_ups || node->has_flag( flag_IS_UPS );
                 return VisitResponse::NEXT;
@@ -283,7 +289,7 @@ void temp_crafting_inventory::visit_roots_holding( const itype_id &id,
     if( found == idx->by_type.end() ) {
         return;
     }
-    for( const root_ref &ref : found->second ) {
+    for( const root_ref &ref : found->second.roots ) {
         const item_location root = ref.get();
         if( root.valid() && root.visit_items( func ) == VisitResponse::ABORT ) {
             return;
@@ -482,16 +488,22 @@ bool temp_crafting_inventory::must_use_liq_container( const itype_id &id, int to
 
 bool temp_crafting_inventory::must_use_hallu_poison( const itype_id &id, int to_use ) const
 {
-    const int total = count_item( id );
+    if( const type_index *idx = cached_index() ) {
+        const auto found = idx->by_type.find( id );
+        if( found == idx->by_type.end() ) {
+            return 0 < to_use;
+        }
+        return found->second.total_count - found->second.hallu_poison_count < to_use;
+    }
+    int total = 0;
     int bad = 0;
     visit_roots_holding( id, [&]( const item_location & node ) {
         const item &it = *node;
-        if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
-                                   it.has_flag( flag_HIDDEN_HALLU ) ) ) {
-            if( it.count_by_charges() ) {
-                bad += it.charges;
-            } else {
-                bad += it.count();
+        if( it.typeId() == id ) {
+            const int n = it.count_by_charges() ? it.charges : it.count();
+            total += n;
+            if( it.has_flag( flag_HIDDEN_POISON ) || it.has_flag( flag_HIDDEN_HALLU ) ) {
+                bad += n;
             }
         }
         return VisitResponse::NEXT;
