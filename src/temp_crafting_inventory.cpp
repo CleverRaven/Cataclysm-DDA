@@ -96,7 +96,6 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
             if( !root.valid() ) {
                 return;
             }
-            bool holds_ups = false;
             root.visit_items( [&]( const item_location & node ) {
                 type_buck &bucket = idx.by_type[node->typeId()];
                 if( bucket.roots.empty() || !( bucket.roots.back() == ref ) ) {
@@ -108,12 +107,15 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
                 if( node->has_flag( flag_HIDDEN_POISON ) || node->has_flag( flag_HIDDEN_HALLU ) ) {
                     bucket.hallu_poison_count += n;
                 }
-                holds_ups = holds_ups || node->has_flag( flag_IS_UPS );
                 return VisitResponse::NEXT;
             } );
-            if( holds_ups ) {
-                idx.ups.push_back( ref );
-            }
+            root.visit_items( [&]( const item_location & node ) {
+                idx.by_type[node->typeId()].charge_items.push_back( node );
+                if( node->has_flag( flag_IS_UPS ) ) {
+                    idx.ups.push_back( node );
+                }
+                return node->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
+            } );
         };
         for( const item_location &it : item_copies ) {
             add_root( { it, item_location()} );

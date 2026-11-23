@@ -134,6 +134,7 @@ class temp_crafting_inventory : public visitable
         struct type_buck {
             std::vector<root_ref> roots;
             std::vector<item_location> items;
+            std::vector<item_location> charge_items;
             int total_count = 0;
             int hallu_poison_count = 0;
         };
@@ -141,7 +142,7 @@ class temp_crafting_inventory : public visitable
         // in `ups` when that subtree holds an IS_UPS item
         struct type_index {
             std::unordered_map<itype_id, type_buck> by_type;
-            std::vector<root_ref> ups;
+            std::vector<item_location> ups;
         };
         // true while a query_cache_scope is alive; resets caches from an earlier scope
         bool prepare_query_cache() const;

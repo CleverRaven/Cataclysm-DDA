@@ -1108,37 +1108,49 @@ static tool_stock_entry build_multimag_entry( const item &e )
     return out;
 }
 
+static void record_tool_charges(const item& e, const itype_id& id,
+    const item_filter& filter, bool in_tools,
+    const map& here, std::vector<tool_stock_entry>& entries,
+    int& raw_ups_charges)
+{
+    if ((id == e.typeId() || (in_tools && id == e.ammo_current()) ||
+        (id == itype_UPS && e.has_flag(flag_IS_UPS))) &&
+        filter(e) && !e.is_broken()) {
+        if (id == itype_UPS && e.has_flag(flag_IS_UPS)) {
+            raw_ups_charges = sum_no_wrap(raw_ups_charges,
+                e.ammo_remaining_linked(here, nullptr));
+        }
+        else if (id != itype_UPS) {
+            if (e.uses_firing_requirements()) {
+                entries.push_back(build_multimag_entry(e));
+            }
+            else {
+                tool_stock_entry entry;
+                entry.kind = tool_stock_entry::kind_t::LEGACY;
+                if (e.count_by_charges()) {
+                    entry.local_charges = e.charges;
+                }
+                else {
+                    entry.local_charges = e.ammo_remaining_linked(here, nullptr);
+                    entry.uses_ups = e.has_flag(json_flag_USE_UPS);
+                    entry.uses_bionic = e.has_flag(json_flag_USES_BIONIC_POWER);
+                }
+                entries.push_back(entry);
+            }
+        }
+    }
+}
+
+
 template <typename T>
 static void scan_tool_charges( const T &self, const itype_id &id,
                                const item_filter &filter,
                                bool in_tools, std::vector<tool_stock_entry> &entries,
                                int &raw_ups_charges )
 {
-    map &here = get_map();
+    const map &here = get_map();
     self.visit_items( [&]( const item_location & e ) {
-        if( ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
-              ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
-            filter( *e ) && !e->is_broken() ) {
-            if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                raw_ups_charges = sum_no_wrap( raw_ups_charges,
-                                               e->ammo_remaining_linked( here, nullptr ) );
-            } else if( id != itype_UPS ) {
-                if( e->uses_firing_requirements() ) {
-                    entries.push_back( build_multimag_entry( *e ) );
-                } else {
-                    tool_stock_entry entry;
-                    entry.kind = tool_stock_entry::kind_t::LEGACY;
-                    if( e->count_by_charges() ) {
-                        entry.local_charges = e->charges;
-                    } else {
-                        entry.local_charges = e->ammo_remaining_linked( here, nullptr );
-                        entry.uses_ups = e->has_flag( json_flag_USE_UPS );
-                        entry.uses_bionic = e->has_flag( json_flag_USES_BIONIC_POWER );
-                    }
-                    entries.push_back( entry );
-                }
-            }
-        }
+        record_tool_charges( *e, id, filter, in_tools, here, entries, raw_ups_charges );
         return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
 }
@@ -1148,31 +1160,9 @@ static void scan_tool_charges_item( const item &self, const itype_id &id,
                                     bool in_tools, std::vector<tool_stock_entry> &entries,
                                     int &raw_ups_charges )
 {
-    map &here = get_map();
+    const map &here = get_map();
     self.visit_items( [&]( const item * e, const item * ) {
-        if( ( id == e->typeId() || ( in_tools && id == e->ammo_current() ) ||
-              ( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) ) &&
-            filter( *e ) && !e->is_broken() ) {
-            if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                raw_ups_charges = sum_no_wrap( raw_ups_charges,
-                                               e->ammo_remaining_linked( here, nullptr ) );
-            } else if( id != itype_UPS ) {
-                if( e->uses_firing_requirements() ) {
-                    entries.push_back( build_multimag_entry( *e ) );
-                } else {
-                    tool_stock_entry entry;
-                    entry.kind = tool_stock_entry::kind_t::LEGACY;
-                    if( e->count_by_charges() ) {
-                        entry.local_charges = e->charges;
-                    } else {
-                        entry.local_charges = e->ammo_remaining_linked( here, nullptr );
-                        entry.uses_ups = e->has_flag( json_flag_USE_UPS );
-                        entry.uses_bionic = e->has_flag( json_flag_USES_BIONIC_POWER );
-                    }
-                    entries.push_back( entry );
-                }
-            }
-        }
+        record_tool_charges( *e, id, filter, in_tools, here, entries, raw_ups_charges );
         return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
 }
@@ -1424,21 +1414,22 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
     if( idx == nullptr ) {
         return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
     }
-    const std::vector<root_ref> *roots = nullptr;
+    const std::vector<item_location> *items = nullptr;
     if( what == itype_UPS ) {
-        roots = &idx->ups;
+        items = &idx->ups;
     } else {
         const auto found = idx->by_type.find( what );
         if( found == idx->by_type.end() ) {
             return 0;
         }
-        roots = &found->second.roots;
+        items = &found->second.charge_items;
     }
+    const map &here = get_map();
     std::vector<tool_stock_entry> entries;
     int raw_ups_charges = 0;
-    for( const root_ref &ref : *roots ) {
-        if( const item_location &root = ref.get() ) {
-            scan_tool_charges( root, what, filter, in_tools, entries, raw_ups_charges );
+    for( const item_location &loc : *items ) {
+        if( loc ) {
+            record_tool_charges( *loc, what, filter, in_tools, here, entries, raw_ups_charges );
         }
     }
     return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
