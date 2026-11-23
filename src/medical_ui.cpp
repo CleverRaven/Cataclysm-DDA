@@ -471,8 +471,10 @@ static std::string draw_speed_summary( const Character &you )
     }
 
     int pen = 0;
-    if( you.weight_carried() > you.weight_capacity() ) {
-        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / you.weight_capacity();
+    // guard against division by zero
+    units::mass current_capacity = std::max( 1_gram, you.weight_capacity() );
+    if( you.weight_carried() > current_capacity ) {
+        pen = 25 * ( you.weight_carried() - current_capacity ) / current_capacity;
         pge_str = pgettext( "speed penalty", "Overburdened" );
         desc += colorize( string_format( _( "%s: -%2d%%" ), pge_str, pen ), c_red );
         desc += "\n";
