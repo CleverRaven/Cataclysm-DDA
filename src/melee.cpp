@@ -2098,8 +2098,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     // Can't block attacks from attackers two sizes greater than you.
     // Checking for null so dereferencing doesn't get ugly. Just in case...
-    if( ( source != nullptr && get_size() + 1 < source->get_size() &&
-          !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) ) {
+    if( source != nullptr && get_size() + 1 < source->get_size() &&
+        !has_flag( json_flag_BLOCK_HUGE_ATTACKS ) ) {
         return false;
     }
 
