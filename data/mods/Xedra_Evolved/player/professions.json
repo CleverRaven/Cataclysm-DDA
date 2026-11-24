@@ -431,7 +431,7 @@
           { "item": "pants_army" },
           { "item": "undershirt" },
           { "item": "combat_shirt" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_fullhelmet_group" },
           { "item": "armguard_hard" },
           { "item": "legguard_hard" },
           { "item": "mask_ski" },

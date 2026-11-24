@@ -238,7 +238,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "fifth_sun_antiballistic_cloth", "plastic" ],
     "symbol": "[",
-    "looks_like": "tac_fullhelmet",
+    "looks_like": "tac_helmet",
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 8,

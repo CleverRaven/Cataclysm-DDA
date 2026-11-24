@@ -167,7 +167,7 @@
     "price": "360 kUSD",
     "material": [ "nanoprinted_alloy" ],
     "symbol": "[",
-    "looks_like": "tac_fullhelmet",
+    "looks_like": "tac_helmet",
     "extend": { "flags": [ "RAINPROOF", "BLIND", "DEAF" ] },
     "color": "light_gray",
     "charges_per_use": 1,

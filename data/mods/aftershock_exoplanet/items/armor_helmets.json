@@ -84,7 +84,7 @@
     "to_hit": -1,
     "material": [ "vacuum_carbide" ],
     "symbol": "[",
-    "looks_like": "tac_fullhelmet",
+    "looks_like": "tac_helmet",
     "color": "dark_gray",
     "armor": [ { "covers": [ "head" ], "coverage": 95, "encumbrance": 15 } ],
     "warmth": 10,

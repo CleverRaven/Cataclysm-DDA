@@ -59,7 +59,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_fullhelmet_group" },
           { "item": "police_belt" },
           { "item": "pants_cargo" },
           { "item": "under_armor" },
