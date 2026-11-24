@@ -1,0 +1,36 @@
+[
+  {
+    "type": "item_group",
+    "id": "nl_cbm_power_storage_drone",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "bio_power_storage",
+        "custom-flags": [ "NO_PACKED", "NO_STERILE" ],
+        "faults": [ { "id": [ "fault_bionic_salvaged" ], "chance": 50 } ],
+        "prob": 50
+      },
+      { "item": "burnt_out_bionic", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nl_cbm_power_storage_mkII_drone",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "bio_power_storage",
+        "custom-flags": [ "NO_PACKED", "NO_STERILE" ],
+        "faults": [ { "id": [ "fault_bionic_salvaged" ], "chance": 50 } ],
+        "prob": 25
+      },
+      {
+        "item": "bio_power_storage_mkII",
+        "custom-flags": [ "NO_PACKED", "NO_STERILE" ],
+        "faults": [ { "id": [ "fault_bionic_salvaged" ], "chance": 50 } ],
+        "prob": 25
+      },
+      { "item": "burnt_out_bionic", "prob": 50 }
+    ]
+  }
+]
