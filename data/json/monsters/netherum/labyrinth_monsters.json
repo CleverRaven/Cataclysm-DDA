@@ -998,8 +998,8 @@
   {
     "id": "mon_fleshborg_homonculus_1_0",
     "type": "MONSTER",
-    "name": { "str": "cyberbone homunculus" },
-    "description": "A knee-high cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bublous potrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  It throws its limbs all about, like a cheap, top-heavy robot that's lost its footing.",
+    "name": { "str": "cyberbone homunculus", "str_pl": "cyberbone homunculi" },
+    "description": "A knee-high cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bulbous protrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  It throws its limbs all about, like a cheap, top-heavy robot that's lost its footing.",
     "default_faction": "nether_hate_humans",
     "volume": "30 L",
     "weight": "60 kg",
@@ -1032,8 +1032,8 @@
   {
     "id": "mon_fleshborg_homonculus_1_1",
     "type": "MONSTER",
-    "name": { "str": "hunchbacked homunculus" },
-    "description": "A chest-high cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bublous potrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  Its massive, bulging, mechanic eyes scan its suroundings slowly.",
+    "name": { "str": "hunchbacked homunculus", "str_pl": "hunchbacked homunculi" },
+    "description": "A chest-high cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bulbous protrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  Its massive, bulging, mechanic eyes scan its surroundings slowly.",
     "default_faction": "nether_hate_humans",
     "volume": "30 L",
     "weight": "60 kg",
@@ -1067,8 +1067,8 @@
   {
     "id": "mon_fleshborg_homonculus_1_2",
     "type": "MONSTER",
-    "name": { "str": "hulking homunculus" },
-    "description": "A human-sized cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bublous potrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  It moves upon its bruised and oily knuckles, its mechanical bits leaking and its fleshy bits seeping.",
+    "name": { "str": "hulking homunculus", "str_pl": "hulking homunculi" },
+    "description": "A human-sized cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bulbous protrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  It moves upon its bruised and oily knuckles, its mechanical bits leaking and its fleshy bits seeping.",
     "default_faction": "nether_hate_humans",
     "volume": "80 L",
     "weight": "120 kg",
