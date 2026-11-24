@@ -2121,7 +2121,21 @@
         "run_eocs": [
           {
             "id": "EOC_VAMPIRE_MIST_FORM_activated_2",
-            "condition": { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_vitamin('human_blood_vitamin') >= -500" ] },
+                {
+                  "not": {
+                    "and": [
+                      { "u_has_effect": "effect_vampire_burn_to_death_in_sunlight" },
+                      "u_is_outside",
+                      "is_day",
+                      { "not": { "u_has_effect": "effect_vampire_burn_to_death_in_sunlight_remover" } }
+                    ]
+                  }
+                }
+              ]
+            },
             "effect": [
               { "run_eocs": "EOC_VAMPIRE_CANCEL_BAT_FORM" },
               { "run_eocs": "EOC_VAMPIRE_CANCEL_WOLF_FORM" },
@@ -2139,7 +2153,11 @@
               { "u_message": "Your body falls apart into billowing mist.", "type": "good" }
             ],
             "false_effect": [
-              { "u_message": "You don't have enough blood to transform into mist.", "type": "bad" },
+              {
+                "if": { "u_has_effect": "effect_vampire_burn_to_death_in_sunlight" },
+                "then": { "u_message": "You can't stay in your mist form while the sun burns you!", "type": "bad" },
+                "else": { "u_message": "You don't have enough blood to transform into mist.", "type": "bad" }
+              },
               { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
             ]
           }
@@ -2168,6 +2186,31 @@
     "id": "EOC_VAMPIRE_MIST_FORM_deactivate_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
     "effect": { "u_deactivate_trait": "VAMPIRE_MIST_FORM" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_SUN_CANCELS_MIST",
+    "//": "Cancelling without a recurrence was attempted but resulted in crashes and freezes on every trigger.",
+    "//2": "This is for when you activated it outside the sun, didn't move since then but became exposed to sunlight.",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_MIST_FORM_TRAITS" },
+        {
+          "and": [
+            { "u_has_effect": "effect_vampire_burn_to_death_in_sunlight" },
+            { "not": { "u_has_effect": "effect_vampire_burn_to_death_in_sunlight_remover" } },
+            "u_is_outside",
+            "is_day"
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "You can't stay in your mist form while the sun burns you!", "type": "bad" },
+      { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivated" },
+      { "run_eocs": "EOC_VAMPIRE_MIST_FORM_deactivate_future", "time_in_future": 0 }
+    ]
   },
   {
     "type": "effect_on_condition",
