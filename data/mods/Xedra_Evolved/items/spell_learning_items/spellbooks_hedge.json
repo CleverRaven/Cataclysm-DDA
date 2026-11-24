@@ -212,7 +212,7 @@
           "effect": [
             { "set_string_var": "spellbook_hedge_doctor_book", "target_var": { "u_val": "latest_studied_occult_text_name" } },
             {
-              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_COMPLETION",
+              "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
             { "math": [ "u_most_recent_hedge_research_time_upper_limit = 115200" ] },
