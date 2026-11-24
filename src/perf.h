@@ -49,7 +49,7 @@ struct cata_timer {
                     terminal_string = ") (self duration: " +
                                       std::to_string( self_duration ) + "us, " + std::to_string( self_percentage ) + "%)";
                 }
-                DebugLog( DebugLevel::D_WARNING, D_MAIN )
+                DebugLog( DebugLevel::D_INFO, D_MAIN )
                         << prefix << name << ": " << std::to_string( adj_duration )
                         << "us (avg: " << std::to_string( adj_duration / count )
                         << "us) (count: " << count
