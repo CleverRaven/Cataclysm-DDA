@@ -50,6 +50,7 @@
     "move_cost": -1,
     "coverage": 0,
     "flags": [ "TRANSPARENT", "EMPTY_SPACE", "DESTROY_ITEM", "NOCOLLIDE", "MON_AVOID_STRICT" ],
+    "looks_like": "t_nl_chasm",
     "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
