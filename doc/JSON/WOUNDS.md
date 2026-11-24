@@ -56,6 +56,7 @@ Align bleed values to the ones in body_parts.json unless being instructed otherw
       },
       { "type": "VITAMIN", "vitamin_id": "redcells", "rate": "1 seconds", "amount": -1 } // if VITAMIN type, `vitamin_id` is used to specify the vitamin that should be modified
     ],
+    "armor_penalty": { "bash": 10, "cut": 10 }, // if this bodypart provides `armor`, this wound reduces this armor by this flat amount. Amount is slowly restored the more healed the wound is
     "periodic_message": { // used to send messages into log when such wound is presented. Reserve for the most important one
       "message": "OH NO YOUR WOUND ON YOUR %s IS BLEEDING CLOSE IT CLOSE IT CLOSE IT!", // argument %s is body part name
       "rate": "2 seconds"

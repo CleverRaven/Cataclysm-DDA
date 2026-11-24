@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -181,8 +182,13 @@ class wound_type
         // if applied, how much pain it might provide to you
         std::pair<int, int> pain_;
 
+        std::unordered_map<damage_type_id, float> armor_penalty;
+
         // variety of effects and character modifications that happen when this wound is present
         std::vector<wound_mod_values> mod_values;
+
+        friend class medical_ui;
+        friend class wound;
 };
 
 enum class wound_update_ret {
@@ -205,7 +211,6 @@ class wound
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jsin );
-        // returns the wound healing progress divided by healing time
         float healing_percentage() const;
         void mod_pain( int mod );
         // return how much pain this specific wound gives you, reduced depending on how long the wound presented and character effects.
@@ -218,6 +223,7 @@ class wound
         time_duration get_healing_time() const;
         float get_healing_progress() const;
         int get_hp_damage() const;
+        float get_armor_penalty( const damage_type_id &dt ) const;
         // update the wound healing progress
         wound_update_ret update_wound( const Character *who, time_duration time_passed );
 

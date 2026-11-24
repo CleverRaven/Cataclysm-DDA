@@ -560,6 +560,9 @@ class bodypart
 
         void set_encumbrance_data( const encumbrance_data &set );
 
+        float get_damage_resistance( const damage_unit &du ) const;
+        float get_damage_resistance( const damage_type_id &dt ) const;
+
         void set_mut_drench( const std::pair<water_tolerance, int> &set );
 
         void mod_hp_cur( int mod );

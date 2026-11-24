@@ -44,6 +44,7 @@ void wound_type::load( const JsonObject &jo, const std::string_view & )
     optional( jo, was_loaded, "limit", limit, 0 );
     optional( jo, was_loaded, "severity", severity, wound_severity::MINOR );
 
+    optional( jo, was_loaded, "armor_penalty", armor_penalty );
     optional( jo, was_loaded, "mod_values", mod_values );
     optional( jo, was_loaded, "periodic_message", periodic_message );
     optional( jo, was_loaded, "wound_progression", wound_progression );
@@ -608,6 +609,11 @@ float wound::get_healing_progress() const
 int wound::get_hp_damage() const
 {
     return hp_damage * ( 1.f - healing_percentage() );
+}
+
+float wound::get_armor_penalty( const damage_type_id &dt ) const
+{
+    return type->armor_penalty.find( dt )->second * ( 1.f - healing_percentage() );
 }
 
 wound_update_ret wound::update_wound( const Character *who, const time_duration time_passed )
