@@ -324,7 +324,7 @@
         "   F|  (%%%%%%%%(  |    ",
         "|||||  (%%%%%%%%(  |22||",
         "  66|  (%%%%&%%%(  |    ",
-        "    |  |%%%&ó&%%|  |  c ",
+        "    |  |%%%&H&%%|  |  c ",
         "  cc|  |%%%%&%%%|  |  c ",
         "    |  (%%%%%%%%(  |    ",
         "2((||  (%%%%%%%%(  ||2||",
@@ -347,7 +347,7 @@
         "G": "t_card_science",
         "%": [ [ "t_floor_resin", 50 ], [ "t_wall_resin", 1 ] ],
         "&": "t_floor_resin",
-        "ó": "t_floor_resin"
+        "H": "t_floor_resin"
       },
       "furniture": {
         "%": [
@@ -359,7 +359,7 @@
         ]
       },
       "item": {
-        "ó": [
+        "H": [
           { "item": "migo_skin_off", "chance": 100 },
           { "item": "blood", "chance": 100 },
           { "item": "feeding_kit", "chance": 100 },
