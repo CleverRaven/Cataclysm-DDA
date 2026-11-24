@@ -266,7 +266,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 }
     ],
     "melee_damage": { "bash": 1 },
-    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "PADDED", "FIFTH_SUN_TECHNOLOGY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "MUNDANE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "PADDED", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fifth_sun_eagle_tac_helmet_on",
@@ -379,7 +379,7 @@
         ]
       }
     ],
-    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ]
+    "flags": [ "VARSIZE", "STURDY", "MUNDANE", "OUTER", "NO_UNLOAD", "NO_RELOAD", "NO_REPAIR", "FIFTH_SUN_TECHNOLOGY" ]
   },
   {
     "id": "mom_fifth_sun_standard_body_armor_on",
