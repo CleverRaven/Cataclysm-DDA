@@ -94,7 +94,7 @@
     "copy-from": "bleed_wound_difficult_medium_bandages",
     "type": "wound_fix",
     "name": "Staunch the bleeding with bandages",
-    "description": "Use abandages to apply pressure to the deep puncture and stop the bleeding.",
+    "description": "Use bandages to apply pressure to the deep puncture and stop the bleeding.",
     "wounds_removed": [ "bleeding_stab_medium" ],
     "wounds_added": [ "stab_medium" ],
     "success_msg": "You apply pressure, and the flow of blood from the deep puncture stops."
