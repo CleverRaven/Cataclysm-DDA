@@ -188,10 +188,10 @@
     "category": "armor",
     "name": { "str": "EOD face shield" },
     "description": "A thick polycarbonate and plexiglass face shield with a mounting bracket intended to be attached to a ballistic helmet for protection from blast and fragmentation in 'non-permissive environments'.",
-    "weight": "229 g",
+    "weight": "1338 g",
     "volume": "250 ml",
     "price": "836 USD",
-    "price_postapoc": "24 USD",
+    "price_postapoc": "2 USD",
     "material": [ "thermo_resin" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1093,5 +1093,23 @@
     ],
     "delete": { "flags": [ "PANORAMIC_OUTSERT" ] },
     "extend": { "flags": [ "PANORAMIC_INSERT", "FIX_NEARSIGHT", "FIX_FARSIGHT", "SKINTIGHT" ] }
+  },
+  {
+    "id": "face_shield_tactical",
+    "type": "ITEM",
+    "subtypes": [ "ARMOR" ],
+    "category": "armor",
+    "name": { "str": "tactical face shield" },
+    "description": "A face shield that's meant to be attached to a ballistic helmet.  It's not particurarly protective and not designed to protect against gunfire.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "hard_plastic_transp" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 3,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
   }
 ]

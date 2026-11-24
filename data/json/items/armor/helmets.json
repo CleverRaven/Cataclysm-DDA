@@ -3683,5 +3683,20 @@
     ],
     "warmth": 20,
     "flags": [ "OVERSIZE", "UNBREAKABLE", "SUN_GLASSES", "PADDED" ]
+  },
+  {
+    "id": "tac_fullhelmet_group",
+    "type": "item_group",
+    "//": "tactical helmet with mods",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "tac_helmet", "contents-group": "tac_fullhelmet_mods" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tac_fullhelmet_mods",
+    "//": "Mods to turn a tactical helmet into a tac_fullhelmet",
+    "subtype": "collection",
+    "entries": [ { "item": "kevlar_nape_protector" }, { "item": "ballistic_mandible_guard" }, { "item": "face_shield_tactical" } ]
   }
 ]
