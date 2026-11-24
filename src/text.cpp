@@ -211,7 +211,7 @@ Paragraph *Paragraph::separated()
     return this;
 }
 
-static void TextEx( std::string_view str, float wrap_width, uint32_t color )
+static void TextLineEx( std::string_view str, float wrap_width, uint32_t color )
 {
     if( str.empty() ) {
         return;
@@ -279,6 +279,19 @@ static void TextEx( std::string_view str, float wrap_width, uint32_t color )
             }
         }
     } while( true );
+}
+
+static void TextEx( std::string_view str, float wrap_width, uint32_t color )
+{
+    size_t pos = 0;
+    size_t nl = 0;
+    while( ( nl = str.find( '\n', pos ) ) != std::string_view::npos ) {
+        TextLineEx( str.substr( pos, nl - pos ), wrap_width, color );
+        ImGui::NewLine();
+        ImGui::GetCurrentWindow()->DC.CursorPos.y -= ImGui::GetStyle().ItemSpacing.y;
+        pos = nl + 1;
+    }
+    TextLineEx( str.substr( pos ), wrap_width, color );
 }
 
 static void TextSegmentEx( const Segment &seg, float wrap_width, bool styled )

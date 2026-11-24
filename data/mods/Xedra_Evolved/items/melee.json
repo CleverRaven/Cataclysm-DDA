@@ -99,7 +99,7 @@
     "description": "This sword is made all of a single piece of wood and so black any details are lost.  Some kind of shimmering leather is wrapped around the grip.",
     "material": [ { "type": "wood", "portion": 1 } ],
     "price": "1 kUSD 350 USD",
-    "price_postapoc": "500 USD",
+    "price_postapoc": "50 USD",
     "proportional": { "melee_damage": { "stab": 0.9 } },
     "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR", "RELIC_PINK" ] },
     "delete": { "flags": "CONDUCTIVE" },

@@ -65,7 +65,6 @@
 #include "weather.h"
 
 static const activity_id ACT_HEATING( "ACT_HEATING" );
-static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -98,21 +97,15 @@ static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
-static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mws_weather_data_incomplete( "mws_weather_data_incomplete" );
 static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 static const itype_id itype_pseudo_magazine_mod( "pseudo_magazine_mod" );
-static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 static const itype_id itype_water_purifier( "water_purifier" );
-static const itype_id itype_welder( "welder" );
-static const itype_id itype_welder_crude( "welder_crude" );
-static const itype_id itype_welding_kit( "welding_kit" );
 
 static const quality_id qual_SCREW( "SCREW" );
 
@@ -392,11 +385,13 @@ void vehicle::build_electronics_menu( map &here, veh_menu &menu )
     for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
         if( arc_vp.part().enabled ) {
             item *arc_itm = &arc_vp.part().base;
+            vehicle_cursor vc( *this, arc_vp.part_index() );
+            item_location loc( vc, arc_itm );
 
             menu.add( _( "Play arcade machine" ) )
             .hotkey( "ARCADE" )
             .enable( !!arc_itm )
-            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, tripoint_bub_ms::zero ); } );
+            .on_submit( [&loc] { iuse::portable_game( &get_avatar(), loc, tripoint_bub_ms::zero ); } );
             break;
         }
     }
@@ -1650,8 +1645,11 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
         return;
     }
     item base = item( parts[part].get_base() );
+    vehicle_cursor vc( *this, part );
+    item_location loc( vc, &base );
+
     // TODO: Use map aware invoke when available
-    base.type->invoke( &get_avatar(), base, pos );
+    base.type->invoke( &get_avatar(), loc, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
     } else {
@@ -2281,24 +2279,11 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
     const bool is_battery_tool = !ammo_type_id.is_null() && ammo_type_id->ammo->type == ammo_battery;
     if( !no_invoke ) {
         // TODO: pass map or go abs
-        get_player_character().invoke_item( &tool, vp_pos );
+        // CATASTROPHICALLY BROKEN, should be fixed!
+        // get_player_character().invoke_item( &tool, vp_pos );
     }
 
-    // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;
-    if( act.id() == ACT_REPAIR_ITEM &&
-        ( tool_type == itype_welder ||
-          tool_type == itype_welder_crude ||
-          tool_type == itype_welding_kit ||
-          tool_type == itype_soldering_iron ||
-          tool_type == itype_small_repairkit ||
-          tool_type == itype_large_repairkit
-        ) ) {
-        act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( here->get_abs( vp_pos ) ); // tell it to search for the tool on `pos`
-        act.str_values.push_back( tool_type.str() ); // specific tool on the rig
-    }
-
     //Hack for heat_activity_actor.
     if( act.id() == ACT_HEATING ) {
         act.coords.push_back( here->get_abs( vp_pos ) );

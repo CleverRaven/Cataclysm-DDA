@@ -2354,7 +2354,7 @@
     "id": "mon_dermatik_juvenile_flightless",
     "type": "MONSTER",
     "name": { "str": "flightless juvenile dermatik" },
-    "description": "A recently pupated parasitoid wasp the size of a large cat, with a raw fleshy look to her pale exoskeleton and an underdeveloped ovipositor extruding from her abdomen.  She's extricating her wings with repeating spastic motions from the fraying membrane they are still bound in, almost ready to search for a suitable home for her many, many children.",
+    "description": "A recently pupated parasitoid wasp the size of a large cat, with a raw fleshy look to her pale exoskeleton and an underdeveloped ovipositor extruding from her abdomen.  She's extricating her wings with repeating, jerky motions from the fraying membrane they are still bound in, almost ready to search for a suitable home for her many, many children.",
     "species": [ "INSECT" ],
     "copy-from": "mon_dermatik",
     "diff": 1,

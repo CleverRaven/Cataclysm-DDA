@@ -1,0 +1,32 @@
+[
+  {
+    "type": "overmap_special_migration",
+    "id": "Lakeside Cabin 1",
+    "new_id": "Lakeside Cabin",
+    "//": "Migrated in 0.K"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lakeside Cabin 2",
+    "new_id": "Lakeside Cabin",
+    "//": "Migrated in 0.K"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lakeside Cabin 3",
+    "new_id": "Lakeside Cabin",
+    "//": "Migrated in 0.K"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lakeside Cabin 4",
+    "new_id": "Lakeside Cabin",
+    "//": "Migrated in 0.K"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Lakeside Cabin 5",
+    "new_id": "Lakeside Cabin",
+    "//": "Migrated in 0.K"
+  }
+]

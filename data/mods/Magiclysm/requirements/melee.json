@@ -135,6 +135,8 @@
           [ "q_staff_plus_two", -1 ],
           [ "i_staff_plus_one", -1 ],
           [ "i_staff_plus_two", -1 ],
+          [ "qt_steel_staff_plus_one", -1 ],
+          [ "qt_steel_staff_plus_two", -1 ],
           [ "rune_magus_weapon", -1 ],
           [ "rune_magus_weapon_adept", -1 ]
         ]

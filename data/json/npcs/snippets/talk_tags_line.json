@@ -1094,5 +1094,135 @@
       "Who put you in charge of what I do?",
       "Would a nomad do this?  Nope.  Don't think so."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<job_offer>",
+    "//": "Player HAS NO assigned missions from NPC, and NPC has ONE job to offer the player",
+    "text": [
+      "I do have a job for you.  Want to hear about it?",
+      "Actually I do have a job, if you want to hear what it is<punc.…>",
+      "If you want to help out, I'll tell you more<punc>",
+      "I got something that needs to be done, alright<punc.…>  Would you like to know more?",
+      "If you're curious, I've got a task just for you<punc>",
+      "I've got a task with your name on it<punc.!>  Wanna know more?",
+      "Yes, in fact, I've got something you might help with<punc>  Wanna hear about it?",
+      "As a matter of fact, I do<punc>  Are you ready to hear me out?",
+      "Yes, I do<punc>  Wanna hear about it?",
+      "There sure is something you could help with<punc.…>  I can tell you more if you wish.",
+      "Yes.  If you're ready, I'll just cut to the chase<punc.…>",
+      "Finally, someone with initiative<punc.!>  Ready to hear me out?",
+      "I do need help with something, as a matter of fact<punc>  Wanna hear about it?",
+      "If you're interested in a task, I'll tell you more<punc.…>",
+      "Of course<punc.!>  Say the word, and I'll tell you more.",
+      "I guess you could help with something, yeah<punc.…>  Ready to hear it?",
+      "Don't know if you're up for it, but I can tell you nonetheless<punc.…>",
+      "If you want work, I've got work<punc.…>",
+      "Perhaps<punc.…>  Wanna hear about it?",
+      "Yes, you could definitely help out<punc>  Wanna hear what the job is?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<multiple_job_offers>",
+    "//": "Player HAS NO assigned missions from NPC, and NPC has MULTIPLE jobs to offer the player",
+    "text": [
+      "I do have a few jobs for you.  Want to hear about them?",
+      "Actually I do have a few jobs, if you want to hear what they are.",
+      "If you want to help out, I'll tell you more<punc>",
+      "I got a few things that need to be done, alright<punc>  Would you like to know more?",
+      "If you're curious, I've got a few tasks just for you<punc>",
+      "I've got a few tasks with your name on it<punc.!>  Wanna know more?",
+      "Yes, in fact, I've got something you might help with<punc>  What would you be interested in?",
+      "As a matter of fact, I do<punc>  What do you want to help with?",
+      "Yes, I have a few<punc>  Wanna hear about them?",
+      "There sure is something you could help with<punc>  I can tell you more if you wish.",
+      "I've got plenty.  If you're ready, I'll just cut to the chase.",
+      "Finally, someone with initiative<punc.!>  Ready to hear me out?",
+      "I do need help with a few things, as a matter of fact<punc>  Wanna hear about them?",
+      "If you're interested in a few tasks, I'll tell you more about them.",
+      "Of course<punc.!>  Say the word, and I'll tell you more.",
+      "I guess you could help with something, yeah<punc>  Here's what you can do<punc.…>",
+      "Don't know if you're up for these, but I can tell you nonetheless<punc.…>",
+      "If you want work, I've got work<punc>",
+      "Perhaps<punc.…>  Wanna hear about them?",
+      "Yes, you could definitely help out<punc.!>  Here's what you can do<punc.…>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<more_job_offers>",
+    "//": "Player HAS assigned missions from NPC, and NPC has MULTIPLE jobs to offer the player",
+    "text": [
+      "I have other jobs for you.  Want to hear about them?",
+      "Actually I do have other jobs, if you want to hear what they are<punc.…>",
+      "If you want to help out more, I've got something else for you<punc.…>",
+      "I got more that needs to be done, actually<punc>  Would you like to know about it?",
+      "If you want, I've got more tasks just for you<punc>",
+      "I've got other tasks with your name on 'em<punc>  Wanna know more?",
+      "Yes, in fact, I've got something you might help with<punc>  Wanna hear about it?",
+      "As a matter of fact, I have other tasks for you<punc.…>  Are you ready to hear me out?",
+      "I've got more tasks for you.  Wanna hear about them?",
+      "There's other stuff you could help with<punc.!>  I can tell you more if you wish.",
+      "If you want to help further, I have something else that needs to be done<punc.…>",
+      "Want to help out more?  I've got something else for you, alright<punc>",
+      "I do need help with something else, if you want<punc.…>  Wanna hear about it?",
+      "If you're interested in more tasks, I'll fill you in on those, too<punc.…>",
+      "I've got more jobs for you.  Say the word, and I'll tell you about them.",
+      "You could help with something else, too<punc.…>  Ready to hear it?",
+      "Don't know if you're up for more tasks, but I can tell you about them if you want<punc.…>",
+      "If you want more work, I've got more work<punc.…>",
+      "Perhaps you could help with something else<punc.…>  Wanna hear about it?",
+      "Sure do<punc.!>  Wanna hear me out?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<one_more_job>",
+    "//": "Player HAS assigned missions from NPC, and NPC has ONE job to offer the player",
+    "text": [
+      "I do have one last job for you.  Want to hear about it?",
+      "Actually I do have one more job, if you want to hear what it is<punc.…>",
+      "If you want to help out, I've got one more task left<punc.…>",
+      "I still got something that needs to be done, yeah<punc.…>  Would you like to know more?",
+      "If you're curious, I've got one more task just for you<punc.>",
+      "I've got another task with your name on it<punc.!>  Wanna know more?",
+      "Yes, in fact, I still got something you might help with<punc.…>  Wanna hear about it?",
+      "As a matter of fact, I got one more thing for you<punc.…>  Are you ready to hear me out?",
+      "Yes, I do<punc>  Wanna hear about it?",
+      "There sure is one more job you could help with<punc.!>  I can tell you more if you wish<punc.…>",
+      "I got one more.  If you're ready, I'll just cut to the chase.",
+      "You've got guts, I'll give you that<punc.!>  Yeah, I've got one more job if you want<punc>",
+      "I do need help with another thing, as a matter of fact<punc>  Wanna hear about it?",
+      "If you're interested in one last task, I'll tell you more<punc.…>",
+      "Of course<punc>  Say the word, and I'll tell you more.",
+      "I guess you could help with something else, yeah<punc.…>  Ready to hear it?",
+      "Don't know if you're up for this one, but I can tell you nonetheless<punc.…>",
+      "I've got one last job for you if you want<punc.…>",
+      "Perhaps<punc.…>  Wanna hear about it?",
+      "Well, you could definitely help out with one more thing<punc.…>  Wanna hear about it?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<no_jobs>",
+    "//": "Player HAS NO assigned missions from NPC, and NPC has NO JOBS for the player",
+    "text": [
+      "Sorry, but I don't have any jobs for you now<punc.…>",
+      "No, there's nothing you can help me with right now<punc.…>",
+      "Unfortunately, I don't need your help right now<punc.…>",
+      "No, I don't have any tasks for you right now<punc.…>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<no_more_jobs>",
+    "//": "Player HAS assigned missions from NPC, and NPC has NO jobs to offer",
+    "text": [
+      "Sorry, but I don't have any more jobs for you right now<punc.…>",
+      "There's nothing else you can help with right now<punc.…>",
+      "I think you've got enough on your plate as it is.",
+      "I don't have any more tasks for you right now<punc.…>"
+    ]
   }
 ]

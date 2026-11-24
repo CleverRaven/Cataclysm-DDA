@@ -1513,5 +1513,63 @@
     "flags": [ "NO_EXPLOSION_SFX" ],
     "min_damage": 9999,
     "max_damage": 9999
+  },
+  {
+    "id": "gozu_drag_to_hell",
+    "type": "SPELL",
+    "name": { "str": "Gozu Drag to Hell power", "//~": "NO_I18N" },
+    "description": { "str": "Turns out Hell is not always other people.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GOZU_DRAG_TO_HELL",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOZU_DRAG_TO_HELL",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_MOM_TELEPORT_IMMUNITY" },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } },
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }
+      ]
+    },
+    "effect": [
+      {
+        "if": "u_is_avatar",
+        "then": [
+          { "u_add_effect": "blind", "duration": 0 },
+          { "u_add_effect": "effect_temporary_levitation", "duration": 0 },
+          {
+            "u_travel_to_dimension": "gozu_hell",
+            "npc_travel_radius": 0,
+            "npc_travel_filter": "none",
+            "fail_message": "You experience brief vertigo, but nothing dangerous seems to happen.",
+            "success_message": "Your surroundings warp and fold before reforming into a hellish landscape."
+          },
+          "next_weather",
+          { "custom_light_level": 35, "length": "9999 hours", "key": "gozu_hell_stay" },
+          {
+            "if": { "u_is_on_terrain": "t_open_air" },
+            "then": [
+              {
+                "u_location_variable": { "context_val": "gozu_hell_teleportation" },
+                "target_params": { "om_terrain": "gozu_hell_terrain", "min_distance": 1, "search_range": 10, "random": true },
+                "target_max_radius": 24,
+                "terrain": "t_sand"
+              },
+              { "u_teleport": { "context_val": "gozu_hell_teleportation" } }
+            ]
+          }
+        ],
+        "else": [ { "u_die": { "remove_corpse": true, "supress_message": true } } ]
+      }
+    ]
   }
 ]

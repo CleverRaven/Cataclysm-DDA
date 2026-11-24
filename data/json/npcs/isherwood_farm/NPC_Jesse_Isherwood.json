@@ -111,7 +111,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JESSE_OPINION",
-    "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.",
+    "dynamic_line": "We can't wait for someone else to fix things.  We need to take care of ourselves.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -120,7 +120,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JESSE_TIPS",
-    "dynamic_line": "Horses make good all around companions.  They can get places that cars can't and also help when all the engines fail.  They become very trusting if you feed them some nice fodder.",
+    "dynamic_line": "Horses make good companions all-around.  They can get places cars can't, and their engines don't require gas.  They become very trusting if you feed them some nice fodder.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -129,7 +129,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MET_JACK_CLAIRE",
-    "dynamic_line": "Oh good, I'm sure Jack wanted to put you to work.  If you're interested, I could use a hand clearing out the woods.  My son, Chris has his hands full trying to keep the predators under control.",
+    "dynamic_line": "Oh, good!  I'm sure Jack wanted to put you to work.  If you're interested, I could use a hand clearing out the woods.  My son, Chris, has his hands full trying to keep the predators under control.",
     "responses": [
       { "text": "I'd like to speak with Carlos too about some work.", "topic": "TALK_JESSE_CARLOS1" },
       {
@@ -153,7 +153,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JESSE_CHRIS",
-    "dynamic_line": "He's out doing some surveying, we are planning on adding a fence line and some defenses.",
+    "dynamic_line": "He's out doing some surveying.  We're planning on adding a fence line and some defenses.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -162,7 +162,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JESSE_CARLOS2",
-    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
+    "dynamic_line": "Carlos will be in his workshop, if he isn't out hunting.  He is trying to get a forge set up.",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
@@ -171,7 +171,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW_MARSHAL",
-    "dynamic_line": "You should get off my farm, I won't deal with a government stooge.",
+    "dynamic_line": "You should get off my farm.  I won't deal with a government stooge.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -230,12 +230,12 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "We could use some help killing some monsters.",
-      "offer": "We could use some help killing a pack of monsters.  I don't know what they are, but they're very fast, I'm willing to outfit you with a horse if you succeed.",
+      "offer": "We could use some help killing a pack of monsters.  I don't know what they are, but they're very fast.  I'm willing to outfit you with a horse if you succeed.",
       "accepted": "Be ready for anything.",
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, this will help keep our animals safe.  This is, Steve, he's a good, steady horse.  You should talk to Carlos about some armor for him.",
+      "success": "What a relief!  This will help keep our animals safe.  As promised, this is Steve.  He's a calm, steady horse.  You should talk to Carlos about some armor for him.",
       "success_lie": "Show me the bodies.",
       "failure": "It was a lost cause anyways…"
     },

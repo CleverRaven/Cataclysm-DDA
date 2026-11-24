@@ -125,8 +125,7 @@
       "tentacle_right_3_tip_r",
       "tentacle_left_4_tip_l",
       "tentacle_right_4_tip_r"
-    ],
-    "encumbrance_limit": 1
+    ]
   },
   {
     "type": "attack_vector",

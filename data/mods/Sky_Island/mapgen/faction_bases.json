@@ -7,6 +7,12 @@
   },
   {
     "type": "overmap_special",
+    "id": "collective center",
+    "copy-from": "collective center",
+    "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }
+  },
+  {
+    "type": "overmap_special",
     "id": "Cabin_Lapin",
     "copy-from": "Cabin_Lapin",
     "extend": { "flags": [ "SKY_ISLAND_NO_RAID_SPAWN" ] }

@@ -25,7 +25,34 @@
     "name": { "str": "Interior cracks" },
     "description": "Although this weapon appears to have been constructed properly, there are voids and damage below the surface.",
     "//COMMENT": "Later this should be a hidden fault and increase the likelihood of damage-type faults appearing.",
-    "melee_damage_mod": [ { "damage_id": "cut", "multiply": 0.9 } ]
+    "melee_damage_mod": [
+      { "damage_id": "cut", "multiply": 0.9 },
+      { "damage_id": "bash", "multiply": 0.9 },
+      { "damage_id": "stab", "multiply": 0.9 }
+    ]
+  },
+  {
+    "type": "fault",
+    "id": "craft_failure_misshapen_all_wrong",
+    "fault_type": "crafting_defect",
+    "severity": "minor",
+    "name": {
+      "//~": "Butchered here meaning 'Taken apart, destroyed or (figurative) distorted beyond recognition.'. Definition taken from wikipedia's wiktionary.",
+      "str": "Butchered craftsmanship"
+    },
+    "description": "Whoever made this tried their best.  They really did.  Unfortunately, their best wasn't very good…",
+    "//COMMENT": "These values are meant to instantly deliver one 'level' of damage to the item, along with matching degradation to prevent it from being repaired. For technical reasons, currently all non-VP parts have 0 degrade_increments_ so *any* degradation will prevent any repair of the item.",
+    "instant_damage": 1000,
+    "degradation_mod": 50
+  },
+  {
+    "type": "fault",
+    "id": "craft_failure_uneven_weight",
+    "fault_type": "crafting_defect",
+    "severity": "minor",
+    "name": { "str": "Unevenly weighted" },
+    "description": "Something went wrong when making this.  The shape is right, the weight is not.  This makes it significantly more awkward to strike with.",
+    "attack_cost_modifier": 1.2
   },
   {
     "type": "fault",

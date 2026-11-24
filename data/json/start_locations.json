@@ -25,6 +25,18 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_shelter_experienced",
+    "name": "Fortified Evacuation Shelter",
+    "terrain": [ { "om_terrain": "shelter_experienced" } ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gas_experienced",
+    "name": "Fortified Gas Station",
+    "terrain": [ { "om_terrain": "s_gas_experienced" } ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_town_hall",
     "name": "Town Hall",
     "terrain": [

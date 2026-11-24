@@ -105,7 +105,7 @@
       },
       "robofac_auxiliaries": { "share my stuff": true },
       "marloss": { "kill on sight": true },
-      "your_followers": { "kill on sight": true }
+      "your_followers": { "kill on sight": true, "share public goods": true }
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
@@ -578,6 +578,7 @@
     "type": "faction",
     "id": "isolated_artisans",
     "name": "Isolated Artisans",
+    "mon_faction": "isolated_artisans",
     "likes_u": 10,
     "respects_u": 0,
     "known_by_u": false,

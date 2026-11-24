@@ -231,5 +231,19 @@
     "melee_damage": { "bash": 4 },
     "weight": "327 g",
     "volume": "1750 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "hesco_mil3_cell",
+    "category": "spare_parts",
+    "name": { "str": "HESCO MIL 3 cell" },
+    "description": "A flat-packed length of wire mesh with a heavy geotextile liner.  Unfolded, pinned in place and filled with sand or soil, it makes a solid barrier.",
+    "weight": "7 kg",
+    "volume": "20 L",
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "brown",
+    "price": "350 USD",
+    "price_postapoc": "5 USD"
   }
 ]

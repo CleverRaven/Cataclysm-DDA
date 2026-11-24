@@ -943,6 +943,7 @@ checks are you hot or cold
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker's specific bodypart has any bleeding wound
 - `severity` can be used to specify the severity of such bleeding
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
 
 #### Valid talkers:
 
@@ -959,6 +960,24 @@ checks are you hot or cold
 ### `u_bodypart_is_wounded`, `npc_bodypart_is_wounded`
 - type: string or [variable object](#variable-object)
 - return true if alpha or beta talker's specific bodypart has any wound at all
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
+
+#### Valid talkers:
+
+| Avatar | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Returns true if the the `arm_r` or `hand_r` is wounded, since `hand_r` is a sub limb of `arm_r`
+```jsonc
+{ "u_bodypart_is_wounded": "arm_r", "check_sublimbs": true }
+```
+
+### `u_bodypart_is_wounded_and_fixable`, `npc_bodypart_is_wounded_and_fixable`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker's specific bodypart has any wound that has possible wound fixes. It does not check if any of the fixes are actually performable. Designed for the sidebar to use to display that there are wounds that can be treated
+- `check_sublimbs` optional: checks all other limbs that have this limb as the `main_limb`. False by default
 
 #### Valid talkers:
 
@@ -969,7 +988,7 @@ checks are you hot or cold
 #### Examples
 
 ```jsonc
-{ "u_bodypart_is_wounded": "torso" }
+{ "u_bodypart_is_wounded_and_fixable": { "context_val": "widget" } }
 ```
 
 ### `u_has_proficiency`, `npc_has_proficiency`
@@ -3360,7 +3379,10 @@ Adds a specific wound on specific bodypart
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- |
 | "u_add_wound", "npc_add_wound" | **mandatory** | string or [variable object](#variable-object) | id of a bodypart where the wound should be added |
-| "wound_id" | optional | string or [variable object](#variable-object) | id of a wound that will be applied |
+| "wound_id" | **mandatory** | string or [variable object](#variable-object) | id of a wound that will be applied |
+| "damage_amount" | optional | int or [variable object](#variable-object) | how much max HP this wound should reserve from bodypart; default 0 |
+| "damage_type" | optional | int or [variable object](#variable-object) | if used, this wound would be treated as if it was applied by this damage type; used only if may_worsen is true |
+| "may_worsen" | optional | bool | If true, appied wound may try to worsen the existing wound character has, if conditions for worsening will be met. This would require damage_type. If false, applies new wound no matter what. Default false |
 
 ##### Valid talkers:
 

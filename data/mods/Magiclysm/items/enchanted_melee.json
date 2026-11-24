@@ -49,6 +49,22 @@
   },
   {
     "type": "ITEM",
+    "id": "qt_steel_staff_plus_one",
+    "copy-from": "qt_steel_staff",
+    "name": { "str": "tempered steelshod quarterstaff +1", "str_pl": "tempered steelshod quarterstaves +1" },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "ITEM",
+    "id": "qt_steel_staff_plus_two",
+    "copy-from": "qt_steel_staff",
+    "name": { "str": "tempered steelshod quarterstaff +2", "str_pl": "tempered steelshod quarterstaves +2" },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "ITEM",
     "id": "longsword_plus_one",
     "copy-from": "qt_longsword",
     "name": { "str": "longsword +1", "str_pl": "longswords +1" },

@@ -12,6 +12,7 @@
     "material": [ "cotton" ],
     "color": "white",
     "faults": [ { "fault_group": "fabric_cotton" } ],
+    "flags": [ "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
       {
@@ -19,7 +20,35 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 70,
         "encumbrance": 2,
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 0.3,
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 70,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 70,
+        "encumbrance": 2,
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
+        "layers": [ "BELTED" ]
       }
     ],
     "variant_type": "generic",
@@ -148,6 +177,7 @@
     "material": [ "cotton" ],
     "color": "white",
     "faults": [ { "fault_group": "fabric_cotton" } ],
+    "flags": [ "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 80, "encumbrance": [ 0, 0 ] },
       {
@@ -155,7 +185,35 @@
         "coverage": 22,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "encumbrance": 0,
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 0.3,
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 22,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 22,
+        "encumbrance": 2,
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
+        "layers": [ "BELTED" ]
       }
     ],
     "variant_type": "generic",
@@ -419,7 +477,35 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 42,
         "encumbrance": [ 1, 1 ],
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ]
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 42,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 42,
+        "encumbrance": 2,
+        "specifically_covers": [
+          "tentacle_draped_lower_front_l",
+          "tentacle_draped_lower_middle_l",
+          "tentacle_draped_lower_rear_l",
+          "tentacle_draped_lower_front_r",
+          "tentacle_draped_lower_middle_r",
+          "tentacle_draped_lower_rear_r"
+        ],
+        "layers": [ "BELTED" ]
       }
     ],
     "pocket_data": [
@@ -441,7 +527,7 @@
     "warmth": 2,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY", "ALLOWS_SPIDER_ARMS" ]
+    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES", "ALLOWS_SPIDER_ARMS" ]
   },
   {
     "id": "apron_plastic",
@@ -493,7 +579,33 @@
         "coverage": 100,
         "encumbrance": [ 4, 5 ]
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 50 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 50,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 50,
+        "encumbrance": 2,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -513,7 +625,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ]
   },
   {
     "id": "blazer",
@@ -607,11 +719,37 @@
     "color": "blue",
     "faults": [ { "fault_group": "fabric_cotton" } ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_GASTROPOD_FOOT", "ALLOWS_LEG_TENTACLES" ],
     "armor": [
       { "coverage": 85, "covers": [ "torso" ] },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ], "coverage": 100 },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 25 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 25 },
+      {
+        "covers": [ "gastropod_foot" ],
+        "coverage": 50,
+        "specifically_covers": [ "leg_upper_gastropod" ],
+        "encumbrance": 2
+      },
+      {
+        "covers": [
+          "tentacle_lower_front_l",
+          "tentacle_lower_middle_l",
+          "tentacle_lower_rear_l",
+          "tentacle_lower_front_r",
+          "tentacle_lower_middle_r",
+          "tentacle_lower_rear_r"
+        ],
+        "coverage": 50,
+        "encumbrance": 2,
+        "specifically_covers": [
+          "tentacle_lower_front_base_l",
+          "tentacle_lower_middle_base_l",
+          "tentacle_lower_rear_base_l",
+          "tentacle_lower_front_base_r",
+          "tentacle_lower_middle_base_r",
+          "tentacle_lower_rear_base_r"
+        ]
+      }
     ]
   },
   {

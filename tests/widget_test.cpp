@@ -756,17 +756,17 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
         widget head_graph_w = widget_test_hp_head_graph.obj();
-        REQUIRE( ava.get_part_hp_max( head ) == 85 );
-        REQUIRE( ava.get_part_hp_cur( head ) == 85 );
+        REQUIRE( ava.get_part_hp_max( head ) == 55 );
+        REQUIRE( ava.get_part_hp_cur( head ) == 55 );
 
-        ava.set_part_hp_cur( head, 84 );
-        CHECK( head_num_w.layout( ava ) == "HEAD: 84" );
+        ava.set_part_hp_cur( head, 54 );
+        CHECK( head_num_w.layout( ava ) == "HEAD: 54" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: ||||\\" );
-        ava.set_part_hp_cur( head, 42 );
-        CHECK( head_num_w.layout( ava ) == "HEAD: 42" );
+        ava.set_part_hp_cur( head, 27 );
+        CHECK( head_num_w.layout( ava ) == "HEAD: 27" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: ||,,," );
-        ava.set_part_hp_cur( head, 17 );
-        CHECK( head_num_w.layout( ava ) == "HEAD: 17" );
+        ava.set_part_hp_cur( head, 11 );
+        CHECK( head_num_w.layout( ava ) == "HEAD: 11" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: |,,,," );
         ava.set_part_hp_cur( head, 0 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 0" );

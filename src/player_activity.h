@@ -116,6 +116,11 @@ class player_activity
         const activity_id &id() const {
             return type;
         }
+
+        // What, if any, vision/render-based limits are applied during this activity.
+        // Currently only supports total render shutdown.
+        bool render_blocked() const;
+
         bool rooted() const;
 
         // Question to ask when the activity is to be stopped,

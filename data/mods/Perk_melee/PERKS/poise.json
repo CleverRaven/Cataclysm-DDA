@@ -5,7 +5,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Defensive Stance" },
     "description": "You gain a stance meter that absorbs incoming melee attacks.  Dodging or taking melee damage reduces your stance, and when it reaches zero your stance is broken, causing you to take increased damage until you regain your footing.",
-    "flags": "MELEE_PERK_POISE",
+    "flags": [ "MELEE_PERK_POISE", "PERK" ],
     "enchantments": [ "melee_perk_ench_poise" ]
   },
   {
@@ -14,7 +14,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Shrug it off" },
     "description": "If your stance meter is full, you take 60% less damage from ballistic attacks.",
-    "flags": "MELEE_PERK_SHRUG_OFF",
+    "flags": [ "MELEE_PERK_SHRUG_OFF", "PERK" ],
     "enchantments": [ "melee_perk_ench_shrug_off" ]
   },
   {
@@ -23,7 +23,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "The Mountain" },
     "description": "Waiting actions refill your stance.  All movement actions reduce your stance by 1.",
-    "flags": "MELEE_PERK_POISE_MOUNTAIN"
+    "flags": [ "MELEE_PERK_POISE_MOUNTAIN", "PERK" ]
   },
   {
     "type": "mutation",
@@ -31,7 +31,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Perfect Parry" },
     "description": "If your stance meter is full, any successful block or parry will stagger your attacker for 2 turns.",
-    "flags": "MELEE_PERK_POISE_PARRY"
+    "flags": [ "MELEE_PERK_POISE_PARRY", "PERK" ]
   },
   {
     "type": "mutation",
@@ -39,7 +39,7 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Recklessness" },
     "description": "You stamina regeneration is tripled while stance broken.",
-    "flags": "MELEE_PERK_POISE_RECKLESS",
+    "flags": [ "MELEE_PERK_POISE_RECKLESS", "PERK" ],
     "enchantments": [ "melee_perk_ench_poise_reckless" ]
   },
   {
@@ -48,6 +48,6 @@
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Master's Footwork" },
     "description": "You regain stance on every automatic movement action you perform.",
-    "flags": "MELEE_PERK_POISE_FOOTWORK"
+    "flags": [ "MELEE_PERK_POISE_FOOTWORK", "PERK" ]
   }
 ]

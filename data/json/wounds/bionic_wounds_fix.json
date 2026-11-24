@@ -8,7 +8,7 @@
     "wounds_removed": [ "bionic_wound_damaged_plate_small" ],
     "success_msg": "You patch your metal plating.",
     "mod_hp": 15,
-    "skills": { "fabrication": 3 },
+    "skills": [ { "skill": "fabrication", "level": 3 } ],
     "requirements": [ [ "soldering_standard", 10 ], [ "metal_polish_any", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
@@ -24,7 +24,7 @@
     "wounds_removed": [ "bionic_wound_damaged_plate_small" ],
     "success_msg": "You patch your metal plating.",
     "mod_hp": 15,
-    "skills": { "fabrication": 3 },
+    "skills": [ { "skill": "fabrication", "level": 3 } ],
     "requirements": [ [ "metal_polish_any", 1 ], { "components": [ [ [ "glue_strong_metal", 30 ] ] ] } ],
     "proficiencies": [ { "proficiency": "prof_wp_cyborg", "time_save": 0.2, "is_mandatory": false } ]
   },
@@ -37,7 +37,7 @@
     "wounds_removed": [ "bionic_wound_damaged_plate_medium" ],
     "success_msg": "You patch your metal plating.",
     "mod_hp": 20,
-    "skills": { "fabrication": 5 },
+    "skills": [ { "skill": "fabrication", "level": 5 } ],
     "requirements": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic", "time_save": 0.2, "is_mandatory": false },
@@ -54,7 +54,7 @@
     "wounds_removed": [ "bionic_wound_circuit" ],
     "success_msg": "You repair the circuit.",
     "mod_hp": 10,
-    "skills": { "electronics": 6 },
+    "skills": [ { "skill": "electronics", "level": 6 } ],
     "requirements": [
       [ "soldering_standard", 5 ],
       { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "e_scrap", 1 ] ] ] }
@@ -75,7 +75,7 @@
     "wounds_removed": [ "bionic_wound_sensor" ],
     "success_msg": "You repair the sensor.",
     "mod_hp": 10,
-    "skills": { "electronics": 7 },
+    "skills": [ { "skill": "electronics", "level": 7 } ],
     "requirements": [ [ "soldering_standard", 5 ], { "components": [ [ [ "e_scrap", 2 ] ] ] } ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering", "time_save": 0.2, "is_mandatory": false },
@@ -90,7 +90,7 @@
     "name": "solder damaged wires",
     "description": "You can splice and solder the broken wires.",
     "time": "30 minutes",
-    "skills": { "electronics": 5 },
+    "skills": [ { "skill": "electronics", "level": 5 } ],
     "wounds_removed": [ "bionic_wound_wire" ],
     "success_msg": "You solder the wires back together.",
     "mod_hp": 10,
@@ -110,7 +110,7 @@
     "wounds_removed": [ "bionic_wound_actuator" ],
     "success_msg": "You repair the actuator.",
     "mod_hp": 10,
-    "skills": { "fabrication": 5, "mechanics": 5 },
+    "skills": [ { "skill": "fabrication", "level": 5 }, { "skill": "mechanics", "level": 5 } ],
     "requirements": [
       [ "soldering_standard", 5 ],
       { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "scrap", 1 ] ] ] }
@@ -129,7 +129,7 @@
     "wounds_removed": [ "bionic_wound_hydraulics" ],
     "success_msg": "You repair the broken hydraulics.",
     "mod_hp": 10,
-    "skills": { "fabrication": 5, "mechanics": 6 },
+    "skills": [ { "skill": "fabrication", "level": 5 }, { "skill": "mechanics", "level": 6 } ],
     "requirements": [
       [ "soldering_standard", 5 ],
       {

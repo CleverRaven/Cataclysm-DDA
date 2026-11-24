@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "mx_bare_rock",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": {
+        ".": [ [ "t_region_groundcover", 10 ], "t_rock_floor_no_roof" ],
+        ",": [ [ "t_region_groundcover", 4 ], "t_rock_floor_no_roof" ],
+        ";": [ "t_region_groundcover", [ "t_rock_floor_no_roof", 2 ] ],
+        "|": [ "t_region_groundcover", [ "t_rock_floor_no_roof", 10 ] ]
+      },
+      "furniture": {
+        ".": [ [ "f_null", 200 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+        ",": [ [ "f_null", 200 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+        ";": [ [ "f_null", 200 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+        "|": [ [ "f_null", 200 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ]
+      }
+    }
+  }
+]

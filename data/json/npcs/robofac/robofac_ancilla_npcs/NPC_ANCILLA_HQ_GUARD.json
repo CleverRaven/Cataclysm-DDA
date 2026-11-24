@@ -8,7 +8,8 @@
     "attitude": 0,
     "mission": "GUARD_PATROL",
     "chat": "TALK_ANCILLA_HQ_GUARD",
-    "faction": "robofac_auxiliaries"
+    "faction": "robofac_auxiliaries",
+    "death_eocs": [ "BEM_CHECK_MURDER" ]
   },
   {
     "id": [ "TALK_ANCILLA_HQ_GUARD", "TALK_ANCILLA_HQ_GUARD_AskJob", "TALK_ANCILLA_HQ_GUARD_AskJoin" ],

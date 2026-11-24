@@ -39,6 +39,7 @@ class activity_type
         bool was_loaded = false;
 
         activity_id id_;
+        bool render_blocked_ = false;
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool interruptable_ = true;
@@ -61,6 +62,9 @@ class activity_type
         }
         const std::set<distraction_type> &default_ignored_distractions() const {
             return default_ignored_distractions_;
+        }
+        bool render_blocked() const {
+            return render_blocked_;
         }
         bool rooted() const {
             return rooted_;
@@ -107,8 +111,6 @@ class activity_type
             return activity_level;
         }
         void call_do_turn( player_activity *, Character * ) const;
-        /** Returns whether it had a finish function or not */
-        bool call_finish( player_activity *, Character * ) const;
 
         /** JSON stuff */
         void load( const JsonObject &jo );

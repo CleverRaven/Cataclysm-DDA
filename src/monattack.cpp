@@ -4378,10 +4378,13 @@ bool mattack::kamikaze( monster *z )
         if( z->get_effect( effect_countdown ).get_duration() == 1_turns ) {
             z->die( &here, nullptr );
             // Timer is out, detonate
-            item i_explodes( act_bomb_type, calendar::turn );
-            i_explodes.active = true;
-            i_explodes.countdown_point = calendar::turn_zero;
-            i_explodes.process( here, nullptr, z->pos_bub() );
+            // TODO: remove if/when process will be more item_location aware
+            item_location i_explodes = here.add_item_or_charges_ret_loc( z->pos_bub(), item( act_bomb_type,
+                                       calendar::turn ) );
+            i_explodes->active = true;
+            i_explodes->countdown_point = calendar::turn_zero;
+            i_explodes->process( here, nullptr, z->pos_bub() );
+            i_explodes.remove_item();
             return false;
         }
         return false;

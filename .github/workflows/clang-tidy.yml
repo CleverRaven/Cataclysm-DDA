@@ -24,7 +24,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@04a1aebece824b56e6ad6a401d015479cd1c50b3 # master
+        uses: fkirc/skip-duplicate-actions@b974a9395958c231af965b70070979a577efa578 # v5.3.2
         with:
           cancel_others: 'true'
           skip_after_successful_duplicate: 'false'
@@ -42,7 +42,7 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: install LLVM 22
@@ -73,13 +73,13 @@ jobs:
       with:
         path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
         key: clang-tidy-plugin-llvm${{ steps.install-llvm.outputs.llvm_full_version }}-ubuntu2404-${{ hashFiles('tools/clang-tidy-plugin/**', 'build-scripts/clang-tidy-build.sh', 'CMakeLists.txt', 'CMakeModules/**') }}
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
     - name: build clang-tidy plugin
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && steps.plugin-cache.outputs.cache-hit != 'true' }}
       run: bash ./build-scripts/clang-tidy-build.sh
     - name: upload plugin
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && (github.event_name != 'pull_request' || github.event.pull_request.draft == false) }}
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
       with:
         name: cata-analyzer-plugin
         path: build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so
@@ -118,7 +118,7 @@ jobs:
           sudo ./llvm.sh 22
           sudo apt-get install -y clang-tidy-22 cmake ccache jq gettext
     - name: checkout repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: setup SDL3 stack
@@ -133,7 +133,7 @@ jobs:
         path: build/tools/clang-tidy-plugin/
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
       with:
         script: |
           var fs = require('fs');
@@ -149,7 +149,7 @@ jobs:
             console.log(path);
           }
           fs.writeFileSync("files_changed", files.join('\n') + '\n');
-    - uses: ammaraskar/gcc-problem-matcher@0f9c86f9e693db67dacf53986e1674de5f2e5f28 # master
+    - uses: ammaraskar/gcc-problem-matcher@cb2e3f949c41b7818628f35f8484a9b0acf90cf9 # Node24 point release
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy-run.sh
     - name: show most time consuming checks

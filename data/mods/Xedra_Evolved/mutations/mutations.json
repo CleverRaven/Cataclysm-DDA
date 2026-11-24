@@ -1327,6 +1327,10 @@
       {
         "condition": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" },
         "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight", "intensity": 1 } ]
+      },
+      {
+        "condition": { "not": { "test_eoc": "EOC_CONDITION_XE_VAMPIRE_AVOID_BURNING_IN_SUNLIGHT" } },
+        "ench_effects": [ { "effect": "effect_vampire_burn_to_death_in_sunlight_remover", "intensity": 1 } ]
       }
     ]
   },
@@ -1515,7 +1519,7 @@
     "id": "VAMPIRE_MIST_FORM",
     "name": { "str": "Shape of the Billowing Mists" },
     "points": 8,
-    "description": "You can transform yourself into a cloud of mist and flee any dangers.",
+    "description": "You can transform yourself into a cloud of mist and flee any dangers.  You will <color_yellow>exit this form if</color> if you're <color_red>being burned by sunlight</color>.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

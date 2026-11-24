@@ -527,7 +527,7 @@
     "effect": [
       {
         "set_string_var": "default",
-        "string_input": { "title": { "str": "teleport to dimension named:" }, "description": { "str": "empty for main dimension" } },
+        "string_input": { "title": { "str": "teleport to dimension named:" }, "description": { "str": "`default` for main dimension" } },
         "target_var": { "u_val": "destination_dimension" }
       },
       {

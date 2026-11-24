@@ -50,7 +50,7 @@ query to stop the activity, and strings that describe it, for example:
 `"verb": "mining"` or
 `"verb": { "ctxt": "instrument", "str": "playing" }`.
 
-* activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
+* activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`, `COMBAT_EXERCISE`.
 
 * interruptable (true): Can this be interrupted. If false, then popups related
 to e.g. pain or seeing monsters will be suppressed.
@@ -59,6 +59,8 @@ to e.g. pain or seeing monsters will be suppressed.
 
 * can_resume (true): If true, the activity can be resumed after an interruption,
 letting you continue from where you left off rather than from scratch.
+
+* render_blocked (false): If true, will block all rendering when that activity is being performed. Intended for activities like sleep, where there should obviously be no vision.
 
 * based_on: Can be 'time', 'speed', or 'neither'.
 

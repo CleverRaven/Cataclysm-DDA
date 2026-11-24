@@ -426,6 +426,39 @@ The New England Community Church uses an internal currency called icons, which t
 #### Missions
 Most missions involve helping with various tasks around the camp, and later personal matters of the members. A trusted individual may be able to assist in outside politicking or spreading the word of God, along with being a sort of postal worker to get things from the hostile world that nobody else wants to risk their neck for. Helena might also have some of her dirty work to be done.
 
+### Marloss Evangelists
+
+"A fanatic evangelist faction forcefully spreading the will of the Marloss to those they can reach."
+
+#### Description
+The Marloss Evangelists are a relatively new faction, that only began to spring up in local areas about a month before the cataclysm. Much of the membership were usually desperate, hungry citizens who were recruited into the Marloss Evangelists by earlier members for safety and food, who then further try to recruit other members.
+
+Much like the Mycus itself, the Marloss Evangelists rely on temptation and comradery than brute force. They're extremely charitable and nice, so long as you pledge yourself.
+
+#### Structure
+Marloss Evangelists often only consist of small communities. No one group has an official leader present, instead relying on community based descisions and 'messages' from the Marloss to decide specific actions. Because of their often pilgrimages, larger communities often shatter and split into smaller ones, with no singular group keeping a consistent size.
+
+#### Goals
+The Marloss Evangelists seek to recruit and reform as many people as possible before they inevitably die, by any means necessary. Despite their gentle appearance, they are not above kidnapping and ambushing people.
+
+#### Size
+A dozen or so groups, ranging from 10-20 people in each.  These numbers can fluctuate heavily.
+
+#### Attitudes
+Friendly towards any other faction accepting of them, with the side interest in trying to recruit their members into their own.
+
+Hostile towards the Old Guard, Hell's Raiders, and New England Chearch Community. Opposed to the triffids, zombies, and nether creatures.
+
+Specifically anti-mutant and anti-augmentation, except for Mycus mutants.
+
+#### Bases
+The Marloss Evangelists usually don't have bases, with the Collective Center being a rare exception of a Marloss evangelist community actively occupying a base. Most communities take over rural houses or cabins during their pilgrimages.
+
+#### Trade/Economics
+The Marloss Evangelists lack any formal or informal internal currency, adopting whatever currency is being used by any willing trading factions near them. They specifically desire medicines and travel equipment over other resources, selling off any useless foods or drinks in bulk when possible.
+
+#### Missions
+Their missions will often involve either dealing with specific monsters and bandits, recruiting members from other factions, or sabatoging other factions.
 
 ## Extradimensional and Alien Factions
 

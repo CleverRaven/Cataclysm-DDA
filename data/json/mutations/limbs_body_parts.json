@@ -22,7 +22,7 @@
     "encumbrance_limit": 75,
     "//2": "Squeamish is because your head is mostly eye.  Yuck!!",
     "squeamish_penalty": 30,
-    "base_hp": 50,
+    "base_hp": 25,
     "ugliness": 10,
     "drench_capacity": 700,
     "ugliness_mandatory": 6,
@@ -104,7 +104,7 @@
     "cold_morale_mod": 2.0,
     "fire_warmth_bonus": 0,
     "squeamish_penalty": 0,
-    "base_hp": 60,
+    "base_hp": 30,
     "drench_capacity": 3000,
     "smash_message": "You smash the %s with a firm headbutt.",
     "techniques": [ "tech_base_headbutt" ],
@@ -319,7 +319,7 @@
     "limb_types": "sensor",
     "side": "both",
     "squeamish_penalty": 0,
-    "base_hp": 60,
+    "base_hp": 30,
     "drench_capacity": 500,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
@@ -365,7 +365,7 @@
     "limb_scores": [ [ "breathing", 0.9 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 1.5 ] ],
     "side": "both",
     "similar_bodypart": "muzzle",
-    "base_hp": 75,
+    "base_hp": 35,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "muzzle_bear_lips", "muzzle_bear_nose", "muzzle_bear_cheeks", "muzzle_bear_chin" ],
@@ -387,7 +387,7 @@
     "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.1 ], [ "consume_solid", 1.2 ] ],
     "side": "both",
     "similar_bodypart": "muzzle",
-    "base_hp": 65,
+    "base_hp": 30,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "muzzle_lupine_lips", "muzzle_lupine_nose", "muzzle_lupine_cheeks", "muzzle_lupine_chin" ],
@@ -409,7 +409,7 @@
     "limb_scores": [ [ "breathing", 0.8 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.3 ], [ "consume_solid", 2.0 ] ],
     "side": "both",
     "similar_bodypart": "muzzle",
-    "base_hp": 75,
+    "base_hp": 35,
     "bionic_slots": 3,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "muzzle_long_lips", "muzzle_long_nostrils", "muzzle_long_cheeks", "muzzle_long_chin" ],
@@ -431,7 +431,7 @@
     "limb_scores": [ [ "breathing", 0.95 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.1 ], [ "consume_solid", 1.25 ] ],
     "side": "both",
     "similar_bodypart": "muzzle",
-    "base_hp": 75,
+    "base_hp": 35,
     "bionic_slots": 3,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "muzzle_rodent_lips", "muzzle_rodent_nose", "muzzle_rodent_cheeks", "muzzle_rodent_chin" ],
@@ -584,7 +584,7 @@
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 0,
-    "base_hp": 60,
+    "base_hp": 30,
     "drench_capacity": 500,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
@@ -1278,6 +1278,7 @@
     "is_limb": true,
     "base_hp": 40,
     "drench_capacity": 2400,
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW" ],
     "smash_message": "You whip the %s with your tentacle, smashing it.",
     "bionic_slots": 4,
     "effects_on_hit": [
@@ -1328,6 +1329,68 @@
     "sub_parts": [ "tentacle_right_base_r", "tentacle_right_middle_r", "tentacle_right_tip_r" ]
   },
   {
+    "id": "arm_tentacle_l_dual",
+    "copy-from": "arm_tentacle_l",
+    "type": "body_part",
+    "name": "left tentacle",
+    "name_multiple": "tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "left tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tentacles" },
+    "heading": "l. tentacle",
+    "heading_multiple": "tentacles",
+    "encumbrance_text": "Grasping is hindered.",
+    "main_part": "arm_tentacle_l_dual",
+    "opposite_part": "arm_tentacle_r_dual",
+    "limb_scores": [
+      [ "manip", 0.3, 0.6 ],
+      [ "grip", 0.4 ],
+      [ "lift", 0.4 ],
+      [ "balance", 0.15 ],
+      [ "block", 0.4 ],
+      [ "swim", 0.4 ],
+      [ "crawl", 0.6 ]
+    ],
+    "side": "left",
+    "sub_parts": [
+      "tentacle_left_dual_shoulder_l",
+      "tentacle_left_dual_base_l",
+      "tentacle_left_dual_middle_l",
+      "tentacle_left_dual_tip_l"
+    ],
+    "similar_bodypart": "arm_l"
+  },
+  {
+    "id": "arm_tentacle_r_dual",
+    "copy-from": "arm_tentacle_l",
+    "type": "body_part",
+    "name": "right tentacle",
+    "name_multiple": "tentacles",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "right tentacle" },
+    "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "tentacles" },
+    "heading": "r. tentacle",
+    "heading_multiple": "tentacles",
+    "encumbrance_text": "Grasping is hindered.",
+    "main_part": "arm_tentacle_r_dual",
+    "opposite_part": "arm_tentacle_l_dual",
+    "limb_scores": [
+      [ "manip", 0.3, 0.6 ],
+      [ "grip", 0.4 ],
+      [ "lift", 0.4 ],
+      [ "balance", 0.15 ],
+      [ "block", 0.4 ],
+      [ "swim", 0.4 ],
+      [ "crawl", 0.6 ]
+    ],
+    "side": "right",
+    "sub_parts": [
+      "tentacle_right_dual_shoulder_r",
+      "tentacle_right_dual_base_r",
+      "tentacle_right_dual_middle_r",
+      "tentacle_right_dual_tip_r"
+    ],
+    "similar_bodypart": "arm_r"
+  },
+  {
     "id": "arm_tentacle_l_2",
     "copy-from": "arm_tentacle_l",
     "type": "body_part",
@@ -1341,7 +1404,7 @@
     "main_part": "arm_tentacle_l_2",
     "opposite_part": "arm_tentacle_r_2",
     "side": "right",
-    "sub_parts": [ "tentacle_left_2_base_r", "tentacle_left_2_middle_r", "tentacle_left_2_tip_r" ]
+    "sub_parts": [ "tentacle_left_2_base_l", "tentacle_left_2_middle_l", "tentacle_left_2_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_2",
@@ -1372,8 +1435,9 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_3",
     "opposite_part": "arm_tentacle_r_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_3_base_r", "tentacle_left_3_middle_r", "tentacle_left_3_tip_r" ]
+    "sub_parts": [ "tentacle_left_3_base_l", "tentacle_left_3_middle_l", "tentacle_left_3_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_3",
@@ -1388,6 +1452,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_3",
     "opposite_part": "arm_tentacle_l_3",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_3_base_r", "tentacle_right_3_middle_r", "tentacle_right_3_tip_r" ]
   },
@@ -1404,8 +1469,9 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_l_4",
     "opposite_part": "arm_tentacle_r_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
-    "sub_parts": [ "tentacle_left_4_base_r", "tentacle_left_4_middle_r", "tentacle_left_4_tip_r" ]
+    "sub_parts": [ "tentacle_left_4_base_l", "tentacle_left_4_middle_l", "tentacle_left_4_tip_l" ]
   },
   {
     "id": "arm_tentacle_r_4",
@@ -1420,6 +1486,7 @@
     "encumbrance_text": "Grasping is hindered.",
     "main_part": "arm_tentacle_r_4",
     "opposite_part": "arm_tentacle_l_4",
+    "techniques": [ "TECH_TENTACLE_SLAP", "TECH_TENTACLE_SLAP_CLAWS", "TECH_TENTACLE_CLAW", "TECH_TENTACLE_GRAB_CRUSH" ],
     "side": "right",
     "sub_parts": [ "tentacle_right_4_base_r", "tentacle_right_4_middle_r", "tentacle_right_4_tip_r" ]
   },
@@ -1723,6 +1790,8 @@
       "ALWAYS_BLOCK",
       "NO_LIMB_FIRST_AID",
       "NON_FLESH_LIMB",
+      "PLANT_LIMB",
+      "VINE_LIMB",
       "HEAL_OVERRIDE",
       "MEND_LIMB",
       "LIMB_UPPER",
@@ -1759,17 +1828,6 @@
     "connected_to": "torso",
     "limb_types": "arm",
     "opposite_part": "vine_limb_upper_r",
-    "flags": [
-      "IGNORE_TEMP",
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_UPPER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "side": "left",
     "sub_parts": [ "vine_sublimb_ul" ]
   },
@@ -1790,17 +1848,6 @@
     "limb_types": "arm",
     "opposite_part": "vine_limb_lower_l",
     "side": "right",
-    "flags": [
-      "IGNORE_TEMP",
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_LOWER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "sub_parts": [ "vine_sublimb_lr" ]
   },
   {
@@ -1820,16 +1867,6 @@
     "limb_types": "arm",
     "opposite_part": "vine_limb_lower_r",
     "side": "left",
-    "flags": [
-      "ALWAYS_BLOCK",
-      "NO_LIMB_FIRST_AID",
-      "NON_FLESH_LIMB",
-      "HEAL_OVERRIDE",
-      "MEND_LIMB",
-      "LIMB_LOWER",
-      "NONSTANDARD_BLOCK",
-      "BONELESS"
-    ],
     "sub_parts": [ "vine_sublimb_ll" ]
   },
   {

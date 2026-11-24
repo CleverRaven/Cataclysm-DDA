@@ -69,7 +69,7 @@ static const itype_id itype_barrel_glock_short( "barrel_glock_short" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_bottle_plastic_small( "bottle_plastic_small" );
 static const itype_id itype_butter( "butter" );
-static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_cash_card_test( "cash_card_test" );
 static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
 static const itype_id itype_duffelbag( "duffelbag" );
@@ -171,9 +171,9 @@ TEST_CASE( "gun_with_gunmod_price_sums_components", "[item][price][gunmod]" )
 TEST_CASE( "stacking_cash_cards", "[item]" )
 {
     // Differently-charged cash cards should stack if neither is zero.
-    item cash0( itype_cash_card, calendar::turn_zero );
-    item cash1( itype_cash_card, calendar::turn_zero );
-    item cash2( itype_cash_card, calendar::turn_zero );
+    item cash0( itype_cash_card_test, calendar::turn_zero );
+    item cash1( itype_cash_card_test, calendar::turn_zero );
+    item cash2( itype_cash_card_test, calendar::turn_zero );
     cash1.put_in( item( itype_money, calendar::turn_zero, 1 ), pocket_type::MAGAZINE );
     cash2.put_in( item( itype_money, calendar::turn_zero, 2 ), pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );

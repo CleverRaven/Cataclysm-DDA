@@ -3,7 +3,6 @@
 #define CATA_SRC_WOUND_H
 
 #include <climits>
-#include <map>
 #include <optional>
 #include <set>
 #include <string>
@@ -35,7 +34,10 @@ struct wound_progress {
 
 struct wound_limb_score {
     limb_score_id score;
-    float value;
+    // additive, ie `0.1` will reduce score by 0.1, so so 1.00 -> 0.90 and 0.5 -> 0.4
+    float value = 0.f;
+    // multiplicative, ie `0.9` will multiply score, so 1.00 -> 0.90 and 0.5 -> 0.45
+    float mod = 0.f;
 
     void deserialize( const JsonObject &jo );
 };
@@ -116,7 +118,8 @@ class wound_type
 
         std::string get_name() const;
         std::string get_description() const;
-        int evaluate_pain() const;
+        // assigns the pain to the wound. Is modified by effects that work at wound application
+        int evaluate_pain( const Character *who, bodypart_str_id bp ) const;
         time_duration evaluate_healing_time() const;
         std::optional<std::pair<wound_type_id, time_duration>> evaluate_progress_timer() const;
 
@@ -193,7 +196,10 @@ class wound
 {
     public:
         wound() = default;
-        explicit wound( wound_type_id wd );
+        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp,
+                        dealt_damage_instance &di );
+        explicit wound( wound_type_id wd, const Character *who, bodypart_str_id bp,
+                        int hp_damage );
 
         wound_type_id type;
 
@@ -202,19 +208,26 @@ class wound
         // returns the wound healing progress divided by healing time
         float healing_percentage() const;
         void mod_pain( int mod );
-        // return how much pain this specific wound gives you, reduced depending on how long the wound presented.
-        int get_pain() const;
+        // return how much pain this specific wound gives you, reduced depending on how long the wound presented and character effects.
+        // not affected by limb pain_mod since this one was applied at evaluation
+        // painkillers are not applied as well, they are applied at character as a whole
+        int get_pain( const Character *who ) const;
+        // accessor to wound pain.
+        int get_pain_raw() const;
         // exposes healing_time
         time_duration get_healing_time() const;
         float get_healing_progress() const;
+        int get_hp_damage() const;
         // update the wound healing progress
         wound_update_ret update_wound( const Character *who, time_duration time_passed );
+
+        bool treatable_by( const Character &c ) const;
 
         float get_wound_healing_modifier( const Character *who ) const;
 
         wound &operator+=( const wound &wd ) {
-            pain += wd.get_pain();
-            // reset healing progress? maybe not necessary?
+            pain += wd.pain;
+            hp_damage += wd.hp_damage;
             healing_progress = 0.f;
 
             return *this;
@@ -228,14 +241,29 @@ class wound
         // how long it takes for this wound to heal. Can be adjusted by wound fix.
         time_duration healing_time;
         // how much time passed since this wound was applied, in seconds
-        float healing_progress;
+        float healing_progress = 0.0f;
         // how much pain this specific wound provide.
         int pain;
+
+        // how much hp this wound takes from the bodypart. Supposed to be equal to amount of damage that caused this wound
+        int hp_damage = 0;
+
 
     public:
 
         // our wound will transform into this one, in time
         std::optional<std::pair<wound_type_id, time_duration>> wound_progress_timer;
+
+        friend class medical_ui;
+};
+
+struct wound_skill {
+    skill_id skill;
+    int level;
+    float time_save = 1.f;
+    bool is_mandatory = false;
+
+    void deserialize( const JsonObject &jo );
 };
 
 struct wound_proficiency {
@@ -256,7 +284,7 @@ class wound_fix
         time_duration time = 0_seconds;
         // amount of hp that will be added to limb once the wound is fixes. Mainly for bionic
         int mod_hp = 0;
-        std::map<skill_id, int> skills; // map of skill_id to required level
+        std::vector<wound_skill> skills; // skills necessary for using this wound fix
         // this profs make stuff faster, TODO safer?, and may be mandatory to perform the treatment
         std::vector<wound_proficiency> proficiencies;
         std::set<wound_type_id> wounds_removed; // which wounds are removed on applying
@@ -267,6 +295,9 @@ class wound_fix
         bool was_loaded = false; // used by generic_factory
         static void load_wound_fixes( const JsonObject &jo, const std::string &src );
 
+        // first is if it is doable at all, second is time multiplier due to skill, etc)
+        // If first is false, the second won't necessarily be accurate.
+        std::pair<bool, float> doable_by( const Character &c ) const;
 
         std::string get_name() const;
         std::string get_description() const;

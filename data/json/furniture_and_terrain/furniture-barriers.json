@@ -228,6 +228,58 @@
   },
   {
     "type": "furniture",
+    "id": "f_hesco_barrier",
+    "name": "HESCO MIL 3 barrier",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "looks_like": "f_sandbag_half",
+    "//": "One MIL 3 (3939) cell: 1.0 m high, 1.0 m wide, about 1.2 m3 of fill.",
+    "description": "A single HESCO MIL 3 cell: a wire mesh cage lined with heavy geotextile and filled with sand and gravel.  It is waist high, so it can be climbed over, but it stops bullets and fragments and makes a steady rest for a mounted gun.",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
+    "examine_action": "chainfence",
+    "deconstruct": { "items": [ { "item": "hesco_mil3_cell", "count": 1 }, { "item": "material_soil", "count": [ 100, 160 ] } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "clang!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "material_soil", "count": [ 70, 110 ] },
+        { "item": "wire", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hesco_wall",
+    "name": "HESCO MIL 3 wall",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "looks_like": "f_sandbag_wall",
+    "//": "Two MIL 3 cells stacked: 2.0 m high, the maximum for a 1.0 m base.",
+    "description": "Two HESCO MIL 3 cells stacked and pinned together, a barrier two meters tall.  It blocks sight and wind, and the top is too high to climb.",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "BLOCK_WIND", "REDUCE_SCENT" ],
+    "deconstruct": { "items": [ { "item": "hesco_mil3_cell", "count": 2 }, { "item": "material_soil", "count": [ 200, 320 ] } ] },
+    "bash": {
+      "str_min": 36,
+      "str_max": 115,
+      "sound": "clang!",
+      "sound_fail": "thump.",
+      "furn_set": "f_hesco_barrier",
+      "items": [
+        { "item": "material_soil", "count": [ 70, 110 ] },
+        { "item": "wire", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_showjump",
     "name": "show jump",
     "symbol": "#",

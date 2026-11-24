@@ -510,6 +510,7 @@
           { "u_teleport": { "u_val": "player_location_safehouse_before_labyrinth" }, "force": true },
           { "clear_dimension": "netherum_labyrinth" },
           { "clear_dimension": "netherum_labyrinth2" },
+          { "remove_active_mission": "MISSION_nl_boiler" },
           { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
         ],
         "else": [
@@ -526,6 +527,7 @@
           },
           { "clear_dimension": "netherum_labyrinth" },
           { "clear_dimension": "netherum_labyrinth2" },
+          { "remove_active_mission": "MISSION_nl_boiler" },
           { "run_eocs": "EOC_DIMENSION_TELE_SICKNESS" }
         ]
       }
@@ -671,7 +673,10 @@
     "id": "EOC_LS_mission_boiler_teleport_to_labyrinth",
     "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_DIMENSIONAL_ANCHOR" }, { "not": "u_driving" } ] },
     "effect": [
-      { "u_message": "Zwoink.", "popup": true },
+      {
+        "u_message": "Zwoink.  You find yourself in a familiar-looking room.  The first thing you see is a metallic pillar covered in swirling patterns.  Perhaps you should examine it closer.",
+        "popup": true
+      },
       { "u_location_variable": { "u_val": "player_location_safehouse_before_labyrinth" } },
       { "u_add_var": "traveled_safehouse_to_labyrinth", "value": "yes" },
       {
@@ -1535,7 +1540,8 @@
       },
       { "u_teleport": { "global_val": "labyrinth_nl_new_loc" }, "fail_message": "Nope!", "force": true },
       { "math": [ "ls_exit_control_locked = 0" ] },
-      { "clear_dimension": "netherum_labyrinth" }
+      { "clear_dimension": "netherum_labyrinth" },
+      { "remove_active_mission": "MISSION_nl_boiler" }
     ]
   },
   {
@@ -1815,6 +1821,7 @@
         "target_max_radius": 250
       },
       { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
+      { "remove_active_mission": "MISSION_nl_boiler" },
       { "math": [ "nl_been_to_fixbot = 1" ] }
     ]
   },
@@ -1840,7 +1847,8 @@
         "u_message": "As you step onto the slope you lose your footing - literally, it vanishes into thin air.  The world around you spin, but before you can scramble for purchase you land on your feet, unharmed.",
         "popup": true
       },
-      { "clear_dimension": "netherum_labyrinth" }
+      { "clear_dimension": "netherum_labyrinth" },
+      { "remove_active_mission": "MISSION_nl_boiler" }
     ]
   },
   {
@@ -1887,7 +1895,8 @@
       { "mapgen_update": "teleport_labyrinth1_to_bridges", "target_var": { "context_val": "player_teleport_loc" } },
       { "u_teleport": { "context_val": "player_teleport_loc" }, "fail_message": "Nope!", "force": true },
       { "math": [ "ls_exit_control_locked = 0" ] },
-      { "clear_dimension": "netherum_labyrinth" }
+      { "clear_dimension": "netherum_labyrinth" },
+      { "remove_active_mission": "MISSION_nl_boiler" }
     ]
   },
   {

@@ -14,7 +14,9 @@
       { "math": [ "u_spell_level('summon_ion_gun') = -1" ] },
       { "math": [ "u_spell_level('spark_of_inspiration') = -1" ] },
       { "math": [ "u_spell_level('research_dreamdross') = -1" ] },
-      { "math": [ "u_spell_level('forge_dreamdross') = -1" ] }
+      { "math": [ "u_spell_level('forge_dreamdross') = -1" ] },
+      { "math": [ "u_spell_level('lightning_field') = -1" ] },
+      { "math": [ "u_spell_level('sylph_crash_of_lightning') = -1" ] }
     ]
   }
 ]

@@ -1396,7 +1396,7 @@ TEST_CASE( "EOC_run_inv_test", "[eoc]" )
     // Math function test for armor
     CHECK( effect_on_condition_EOC_armor_math_test->activate( d ) );
 
-    const item &check_item = get_avatar().worn.i_at( 0 );
+    const item &check_item = get_avatar().worn.front();
 
     REQUIRE( check_item.typeId() == itype_backpack );
     CHECK( get_avatar().get_value( "key1" ) == 27 );

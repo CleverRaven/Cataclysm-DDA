@@ -1720,9 +1720,9 @@
       "health_chance": [ 30 ],
       "h_mod_min": [ 1 ],
       "h_mod_chance": [ 80 ],
-      "health_tick": [ 30 ],
-      "healing_rate": [ 2 ]
-    }
+      "health_tick": [ 30 ]
+    },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 1 }, { "value": "REGEN_WOUND", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -2224,7 +2224,57 @@
           {
             "value": "MELEE_RANGE_MODIFIER",
             "add": {
-              "math": [ "( (u_spell_level('sylph_bonus_melee_range_spell') * 0.25 ) + 1 ) * scaling_factor( u_val('dexterity') )" ]
+              "math": [
+                "min( ( (1 + (u_spell_count('school': 'SYLPH') * 0.16) + (u_skill('gramarye') * 0.25) ) * scaling_factor(u_val('perception') ) ), 10)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_reduce_encumbrance",
+    "name": [ "Lighter than Air" ],
+    "desc": [ "Your gear is lightened by the essence of the wind." ],
+    "apply_message": "",
+    "remove_message": "Your gear weighs you down once more.",
+    "rating": "good",
+    "max_duration": "6 hours",
+    "enchantments": [
+      {
+        "encumbrance_modifier": [
+          {
+            "part": "all",
+            "multiply": {
+              "math": [
+                "max( ( (-0.2 + (u_spell_count('school': 'SYLPH') * -0.015) + (u_skill('gramarye') * -0.03) ) * scaling_factor(u_val('perception') ) ), -0.8)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_dodge_ranged_attacks",
+    "name": [ "Heart of the Hurricane" ],
+    "desc": [ "You are surrounded by roaring winds." ],
+    "apply_message": "",
+    "remove_message": "The wind around you dies down.",
+    "rating": "good",
+    "max_duration": "6 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( ( (0.2 + (u_spell_count('school': 'SYLPH') * 0.015) + (u_skill('gramarye') * 0.035) ) * scaling_factor(u_val('dexterity') ) ), 0.95)"
+              ]
             }
           }
         ]
@@ -2284,6 +2334,17 @@
     "desc": [ "" ],
     "rating": "good",
     "removes_effects": [ "grabbed", "slippery_terrain", "sap", "slimed", "webbed" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_avatar_of_the_storm",
+    "name": [ "Avatar of the Storm" ],
+    "desc": [ "A storm rages all around you." ],
+    "apply_message": "",
+    "remove_message": "Teh raging storm around you is calmed.",
+    "rating": "good",
+    "enchantments": [ { "emitter": "emit_shock_cloud_big" } ],
+    "flags": [ "ELECTRIC_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -3676,7 +3737,8 @@
           { "value": "SPEED", "multiply": -0.25 },
           { "value": "ARMOR_ALL", "multiply": 0.1 },
           { "value": "VISION_RANGE", "multiply": -0.35 },
-          { "value": "REGEN_HP", "multiply": -0.95 }
+          { "value": "REGEN_HP", "multiply": -0.95 },
+          { "value": "REGEN_WOUND", "multiply": -0.95 }
         ]
       }
     ],
@@ -3972,6 +4034,15 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "SUNBURN", "SUNBURN_SUPERNATURAL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight_remover",
+    "//": "Hidden effect because the burn effect persists for 10 seconds or so after gaining any anti-sun protection.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_vampire_burn_to_death_in_sunlight" ],
+    "blocks_effects": [ "effect_vampire_burn_to_death_in_sunlight" ]
   },
   {
     "type": "effect_type",

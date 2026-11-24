@@ -34,5 +34,16 @@
     "color": "blue",
     "autonote_visibility": "none",
     "flags": [ "PORTAL_STORM_DUNGEON" ]
+  },
+  {
+    "id": "mx_bare_rock",
+    "type": "map_extra",
+    "name": { "str": "bare rock" },
+    "description": "A patch of bare rock.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_bare_rock" },
+    "sym": "_",
+    "color": "dark_gray",
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "GOZU_HELL" ]
   }
 ]

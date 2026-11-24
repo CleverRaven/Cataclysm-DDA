@@ -1188,7 +1188,7 @@
     "components": [
       [ [ "string_36", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_black_powder", 6 ], [ "gunpowder", 60 ] ]
+      [ [ "chem_black_powder", 6 ], [ "red_phosphorous_small", 6 ], [ "gunpowder", 60 ] ]
     ]
   },
   {

@@ -35,6 +35,7 @@ files:
     - ZhilkinSerg
   'data/mods/Sky_Island/**':
     - gettingusedto
+    - thaelina
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
   'data/mods/translate-dialogue/**':
@@ -71,3 +72,5 @@ files:
     - Qrox
   'data/raw/keybindings{.json,/**}':
     - Qrox
+  'data/json/wounds/**':
+    - kuutekitty

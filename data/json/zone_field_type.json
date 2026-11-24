@@ -133,6 +133,13 @@
     "display_field": true
   },
   {
+    "id": "fd_dissection_work_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "dissection work zone", "sym": "x", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
     "id": "fd_drink_loot_zone",
     "type": "field_type",
     "intensity_levels": [ { "name": "drink loot zone", "sym": "d", "dangerous": false } ],

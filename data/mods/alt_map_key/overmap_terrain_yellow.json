@@ -1,21 +1,21 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_under", "shelter_under_unfinished" ],
+    "id": [ "shelter_under", "shelter_under_unfinished", "shelter_experienced_under" ],
     "copy-from": "shelter_under",
     "sym": "E",
     "color": "yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "shelter_roof",
+    "id": [ "shelter_roof", "shelter_experienced_roof" ],
     "copy-from": "shelter_roof",
     "sym": "E",
     "color": "yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_unfinished" ],
+    "id": [ "shelter", "shelter_unfinished", "shelter_experienced" ],
     "copy-from": "shelter",
     "sym": "E",
     "color": "yellow"

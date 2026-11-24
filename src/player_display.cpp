@@ -935,8 +935,6 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
         if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
             level_gap = 150.0f;
         }
-        float learning_bonus = 100.0f * std::max( ( 1.0f + you.get_int() / 40.0f ) - 0.1f *
-                               level.exercise() / level.knowledgeExperience(), 1.0f );
         if( level.isRusty() ) {
             info_text = string_format( _( "%s\n\nPractical level: %d (%d%%) " ), info_text,
                                        level.level(), level.exercise() );
@@ -944,6 +942,13 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
                 info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            level_gap );
             } else {
+                // Both XP totals can round down to 0% while the skill is rusty.
+                const int knowledge_xp = level.knowledgeExperience( true );
+                float learning_bonus = 100.0f;
+                if( knowledge_xp > 0 ) {
+                    learning_bonus *= std::max( 1.0f + you.get_int() / 40.0f -
+                                                0.1f * level.exercise( true ) / knowledge_xp, 1.0f );
+                }
                 info_text = string_format( _( "%s| Learning bonus: %.0f%%" ), info_text,
                                            learning_bonus );
             }

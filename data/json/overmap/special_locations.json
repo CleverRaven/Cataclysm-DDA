@@ -210,5 +210,10 @@
     "type": "overmap_location",
     "id": "portal_storm_dungeon",
     "terrains": [ "default_portal_storm_dungeon_overmap" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "gozu_hell",
+    "terrains": [ "gozu_hell_terrain" ]
   }
 ]
