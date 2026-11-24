@@ -176,16 +176,16 @@
       "mapgensize": [ 7, 7 ],
       "rows": [
         "#######",
-        "#sssss#",
-        "#s###s#",
-        "#s#>#s#",
-        "#s###s#",
-        "#sssss#",
+        "#######",
+        "#######",
+        "###>.##",
+        "#######",
+        "#######",
         "#######"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ">": "t_nl_stairs_down", "#": "t_nl_metal_wall", "s": "t_nl_mist" },
-      "place_traps": [ { "trap": "tr_nl_stairs_2_to_1", "x": 4, "y": 3 } ],
+      "terrain": { ">": "t_nl_stairs_down", "#": "t_nl_metal_wall", ".": "t_nl_metal_floor" },
+      "place_traps": [ { "trap": "tr_nl_mysterious_staircase", "x": 4, "y": 3 } ],
       "place_nested": [ { "chunks": [ [ "labyrinth_stairs_2_to_1_roof", 1 ] ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
