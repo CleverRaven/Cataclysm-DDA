@@ -1,43 +1,8 @@
 [
-  {
-    "id": "tac_fullhelmet",
-    "type": "ITEM",
-    "subtypes": [ "ARMOR" ],
-    "category": "armor",
-    "name": { "str": "tactical full helmet" },
-    "description": "An all-encompassing black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
-    "weight": "1594 g",
-    "volume": "2250 ml",
-    "price": "250 USD",
-    "price_postapoc": "25 USD",
-    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "material": [ "kevlar_rigid", "plastic" ],
-    "symbol": "[",
-    "looks_like": "helmet_motor",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ] },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
-    ],
-    "warmth": 25,
-    "material_thickness": 8,
-    "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES", "PADDED", "MODULE_HOLDER" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
-        "moves": 250,
-        "description": "Pocket for a front night vision attachment.",
-        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
-        "inherits_flags": false
-      }
-    ],
-    "melee_damage": { "bash": 1 }
-  }
+{
+  "type": "MIGRATION",
+  "id": "tac_fullhelmet",
+  "replace": "tac_helmet",
+  "contents": [ { "item": "kevlar_nape_protector", "count": 1 }, { "item": "ballistic_mandible_guard", "count": 1 }, { "item": "face_shield_tactical", "count": 1 } ]
+}
 ]
