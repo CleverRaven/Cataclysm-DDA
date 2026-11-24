@@ -1100,7 +1100,7 @@
     "subtypes": [ "ARMOR" ],
     "category": "armor",
     "name": { "str": "tactical face shield" },
-    "description": "A face shield that's meant to be attached to a ballistic helmet.  It's not particurarly protective and not designed to protect against gunfire.",
+    "description": "A face shield that's meant to be attached to a ballistic helmet.  It's not particurarly protective and not designed to protect against gunfire, but may save you from shrapnel.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": "400 USD",
