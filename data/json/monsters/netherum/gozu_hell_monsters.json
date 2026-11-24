@@ -54,9 +54,19 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "vision_day": 30,
+    "path_settings": { "avoid_sharp": true },
     "special_attacks": [ { "id": "impale", "cooldown": 10 } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s falls apart into a pile of sand." },
-    "flags": [ "SEES", "HEARS", "WARM" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GROUP_MORALE",
+      "ARTHROPOD_BLOOD",
+      "HIT_AND_RUN",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL"
+    ],
     "armor": { "bash": 2, "cut": 3, "electric": 2, "stab": 2 }
   }
 ]
