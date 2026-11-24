@@ -1,8 +1,0 @@
-[
-{
-  "type": "MIGRATION",
-  "id": "tac_fullhelmet",
-  "replace": "tac_helmet",
-  "contents": [ { "id": "kevlar_nape_protector", "count": 1 }, { "id": "ballistic_mandible_guard", "count": 1 }, { "id": "face_shield_tactical", "count": 1 } ]
-}
-]
