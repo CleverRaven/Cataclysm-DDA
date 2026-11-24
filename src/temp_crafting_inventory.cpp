@@ -111,6 +111,11 @@ const temp_crafting_inventory::type_index *temp_crafting_inventory::cached_index
             } );
             root.visit_items( [&]( const item_location & node ) {
                 idx.by_type[node->typeId()].charge_items.push_back( node );
+                const itype_id type = node->typeId();
+                const itype_id ammo = node->ammo_current();
+                if( !ammo.is_null() && ammo != type ) {
+                    idx.by_charge[ammo].push_back( node );
+                }
                 if( node->has_flag( flag_IS_UPS ) ) {
                     idx.ups.push_back( node );
                 }

@@ -142,6 +142,7 @@ class temp_crafting_inventory : public visitable
         // in `ups` when that subtree holds an IS_UPS item
         struct type_index {
             std::unordered_map<itype_id, type_buck> by_type;
+            std::unordered_map<itype_id, std::vector<item_location>> by_charge;
             std::vector<item_location> ups;
         };
         // true while a query_cache_scope is alive; resets caches from an earlier scope

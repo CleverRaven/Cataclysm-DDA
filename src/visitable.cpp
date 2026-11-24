@@ -1108,34 +1108,31 @@ static tool_stock_entry build_multimag_entry( const item &e )
     return out;
 }
 
-static void record_tool_charges(const item& e, const itype_id& id,
-    const item_filter& filter, bool in_tools,
-    const map& here, std::vector<tool_stock_entry>& entries,
-    int& raw_ups_charges)
+static void record_tool_charges( const item &e, const itype_id &id,
+                                 const item_filter &filter, bool in_tools,
+                                 const map &here, std::vector<tool_stock_entry> &entries,
+                                 int &raw_ups_charges )
 {
-    if ((id == e.typeId() || (in_tools && id == e.ammo_current()) ||
-        (id == itype_UPS && e.has_flag(flag_IS_UPS))) &&
-        filter(e) && !e.is_broken()) {
-        if (id == itype_UPS && e.has_flag(flag_IS_UPS)) {
-            raw_ups_charges = sum_no_wrap(raw_ups_charges,
-                e.ammo_remaining_linked(here, nullptr));
-        }
-        else if (id != itype_UPS) {
-            if (e.uses_firing_requirements()) {
-                entries.push_back(build_multimag_entry(e));
-            }
-            else {
+    if( ( id == e.typeId() || ( in_tools && id == e.ammo_current() ) ||
+          ( id == itype_UPS && e.has_flag( flag_IS_UPS ) ) ) &&
+        filter( e ) && !e.is_broken() ) {
+        if( id == itype_UPS && e.has_flag( flag_IS_UPS ) ) {
+            raw_ups_charges = sum_no_wrap( raw_ups_charges,
+                                           e.ammo_remaining_linked( here, nullptr ) );
+        } else if( id != itype_UPS ) {
+            if( e.uses_firing_requirements() ) {
+                entries.push_back( build_multimag_entry( e ) );
+            } else {
                 tool_stock_entry entry;
                 entry.kind = tool_stock_entry::kind_t::LEGACY;
-                if (e.count_by_charges()) {
+                if( e.count_by_charges() ) {
                     entry.local_charges = e.charges;
+                } else {
+                    entry.local_charges = e.ammo_remaining_linked( here, nullptr );
+                    entry.uses_ups = e.has_flag( json_flag_USE_UPS );
+                    entry.uses_bionic = e.has_flag( json_flag_USES_BIONIC_POWER );
                 }
-                else {
-                    entry.local_charges = e.ammo_remaining_linked(here, nullptr);
-                    entry.uses_ups = e.has_flag(json_flag_USE_UPS);
-                    entry.uses_bionic = e.has_flag(json_flag_USES_BIONIC_POWER);
-                }
-                entries.push_back(entry);
+                entries.push_back( entry );
             }
         }
     }
@@ -1406,33 +1403,104 @@ int temp_crafting_inventory::charges_of( const itype_id &what, int limit,
         const item_filter &filter,
         const std::function<void( int )> &visitor, bool in_tools ) const
 {
-    // Loaded ammo and `any` have no index entry, so those queries walk live
-    if( in_tools || what == itype_any ) {
+    if( limit <= 0 ) {
+        return 0;
+    }
+    if( what == itype_any ) {
         return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
     }
     const type_index *idx = cached_index();
     if( idx == nullptr ) {
         return read_only_visitable::charges_of( what, limit, filter, visitor, in_tools );
     }
-    const std::vector<item_location> *items = nullptr;
-    if( what == itype_UPS ) {
-        items = &idx->ups;
-    } else {
-        const auto found = idx->by_type.find( what );
-        if( found == idx->by_type.end() ) {
-            return 0;
-        }
-        items = &found->second.charge_items;
-    }
     const map &here = get_map();
+
+    if( what == itype_UPS ) {
+        int raw_ups_charges = 0;
+        for( const item_location &loc : idx->ups ) {
+            if( !loc ) {
+                continue;
+            }
+            const item &e = *loc;
+            if( filter( e ) && !e.is_broken() ) {
+                raw_ups_charges = sum_no_wrap( raw_ups_charges,
+                                               e.ammo_remaining_linked( here, nullptr ) );
+                if( raw_ups_charges >= limit ) {
+                    return limit;
+                }
+            }
+        }
+        return raw_ups_charges;
+    }
+
+    const auto found_type = idx->by_type.find( what );
+    const auto found_ammo = in_tools ? idx->by_charge.find( what ) : idx->by_charge.end();
+    const bool has_type = found_type != idx->by_type.end() &&
+                          !found_type->second.charge_items.empty();
+    const bool has_ammo = found_ammo != idx->by_charge.end();
+    if( !has_type && !has_ammo ) {
+        return 0;
+    }
+
+    int local_qty = 0;
+    bool any_ups = false;
+    bool any_bionic = false;
     std::vector<tool_stock_entry> entries;
-    int raw_ups_charges = 0;
-    for( const item_location &loc : *items ) {
-        if( loc ) {
-            record_tool_charges( *loc, what, filter, in_tools, here, entries, raw_ups_charges );
+
+    const auto visit_loc = [&]( const item_location & loc ) -> bool {
+        if( !loc )
+        {
+            return false;
+        }
+        const item &e = *loc;
+        if( !filter( e ) || e.is_broken() )
+        {
+            return false;
+        }
+        if( e.uses_firing_requirements() )
+        {
+            entries.push_back( build_multimag_entry( e ) );
+            return false;
+        }
+        if( e.count_by_charges() )
+        {
+            local_qty = sum_no_wrap( local_qty, e.charges );
+        } else
+        {
+            local_qty = sum_no_wrap( local_qty, e.ammo_remaining_linked( here, nullptr ) );
+            any_ups = any_ups || e.has_flag( json_flag_USE_UPS );
+            any_bionic = any_bionic || e.has_flag( json_flag_USES_BIONIC_POWER );
+        }
+        return local_qty >= limit;
+    };
+
+    if( has_type ) {
+        for( const item_location &loc : found_type->second.charge_items ) {
+            if( visit_loc( loc ) ) {
+                return limit;
+            }
         }
     }
-    return apply_external_pools( *this, entries, limit, visitor, raw_ups_charges );
+    if( has_ammo ) {
+        for( const item_location &loc : found_ammo->second ) {
+            if( visit_loc( loc ) ) {
+                return limit;
+            }
+        }
+    }
+
+    if( !any_ups && !any_bionic && entries.empty() ) {
+        return std::min( local_qty, limit );
+    }
+    if( local_qty > 0 || any_ups || any_bionic ) {
+        tool_stock_entry summary;
+        summary.kind = tool_stock_entry::kind_t::LEGACY;
+        summary.local_charges = local_qty;
+        summary.uses_ups = any_ups;
+        summary.uses_bionic = any_bionic;
+        entries.push_back( summary );
+    }
+    return apply_external_pools( *this, entries, limit, visitor, 0 );
 }
 
 /** @relates visitable */
