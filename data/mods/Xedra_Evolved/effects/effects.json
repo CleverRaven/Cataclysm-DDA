@@ -4037,6 +4037,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vampire_burn_to_death_in_sunlight_remover",
+    "//": "Hidden effect because the burn effect persists for 10 seconds or so after gaining any anti-sun protection.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_vampire_burn_to_death_in_sunlight" ],
+    "blocks_effects": [ "effect_vampire_burn_to_death_in_sunlight" ]
+  },
+  {
+    "type": "effect_type",
     "//": "Checks if you have every single vampiric power when trying to learn new ones.",
     "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
