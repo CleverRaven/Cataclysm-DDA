@@ -40,7 +40,7 @@
     "enchantments": [
       { "values": [ { "value": "WEIGHT", "multiply": -0.1 } ] },
       {
-        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('SYLPH') / 2 - 5), 0)" ] } } ]
+        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('SYLPH') / -2 + 5), 0)" ] } } ]
       }
     ],
     "integrated_armor": [ "integrated_cloud_skin" ]
@@ -71,7 +71,12 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "enchantments": [ { "values": [ { "value": "WEIGHT", "multiply": -0.2 } ] } ],
+    "enchantments": [
+      { "values": [ { "value": "WEIGHT", "multiply": -0.2 } ] },
+      {
+        "incoming_damage_mod": [ { "type": "electric", "add": { "math": [ "min( (u_sum_traits_of_category_char_has('SYLPH') / -2 + 5), 0)" ] } } ]
+      }
+    ],
     "integrated_armor": [ "integrated_storm_skin" ]
   },
   {
