@@ -2127,6 +2127,11 @@ void unload_talk_topics()
     json_talk_topics.clear();
 }
 
+void reset_talk_topic( const std::string &id )
+{
+    json_talk_topics.erase( id );
+}
+
 void load_talk_topic( const JsonObject &jo, std::string_view src )
 {
     if( jo.has_array( "id" ) ) {

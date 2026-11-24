@@ -164,6 +164,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_spl_config.h"
 #include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
@@ -793,6 +794,14 @@ bool game::start_game()
         gamemode = std::make_unique<special_game>();
     }
 
+    npc_spl::clear_pending_config();
+    if( !test_mode && !get_scenario()->has_flag( "LONE_START" ) ) {
+        npc_spl::npc_feature_config spl_config;
+        if( npc_spl::run_configuration_menu( spl_config ) ) {
+            npc_spl::set_pending_config( spl_config );
+        }
+    }
+
     seed = rng_bits();
     new_game = true;
     start_calendar();
@@ -1330,9 +1339,15 @@ void game::create_starting_npcs()
         return; //There is already an NPC in this starting location
     }
 
+    const std::optional<npc_spl::npc_feature_config> spl_config = npc_spl::take_pending_config();
+
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
-    tmp->randomize( one_in( 2 ) ? NC_DOCTOR : npc_class_id::NULL_ID() );
+    if( spl_config ) {
+        tmp->randomize( npc_spl::archetype_class( *spl_config ) );
+    } else {
+        tmp->randomize( one_in( 2 ) ? NC_DOCTOR : npc_class_id::NULL_ID() );
+    }
     // hardcoded, consistent NPC position
     // start_loc::place_player relies on this and must be updated if this is changed
     tmp->spawn_at_precise( u.pos_abs() + point::north_west );
@@ -1344,6 +1359,10 @@ void game::create_starting_npcs()
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_NPC_STARTING_NPC );
     tmp->set_fac( faction_no_faction );
+    if( spl_config ) {
+        npc_spl::apply_to_npc( *tmp, *spl_config );
+        return;
+    }
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->pos_abs_omt(),
                           tmp->getID() ) );
