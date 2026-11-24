@@ -4364,7 +4364,14 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
         if( to_turn<int>( calendar::turn ) % interval == 0 ) {
             consume_tool_uses( 1, here, pos, carrier );
         }
+        //more guardrails in case form_loc shits itself from a nullptr. This should've never ran unconditionally!!
+        if( type->tick_action.empty() ) {
+            return false;
+        }
         item_location loc = item_location::form_loc( carrier, &here, pos, *this );
+        if( !loc ) {
+            return false;
+        }
         const int charges_used = type->tick( carrier, loc, pos );
         const bool destroy = has_flag( flag_DESTROY_ON_CHARGE_USE );
         if( !destroy && charges_used > 0 ) {
