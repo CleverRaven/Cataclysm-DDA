@@ -570,6 +570,7 @@ class json_talk_topic
 
 void unload_talk_topics();
 void load_talk_topic( const JsonObject &jo, std::string_view src );
+void reset_talk_topic( const std::string &id );
 void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::string> &debug_info );
 
 #endif // CATA_SRC_DIALOGUE_H

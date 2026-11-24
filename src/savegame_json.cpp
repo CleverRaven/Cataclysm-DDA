@@ -97,6 +97,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npc_sleep.h"
+#include "npc_spl_config.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -2238,6 +2239,8 @@ void npc::load( const JsonObject &data )
             }
         }
     }
+
+    npc_spl::restore_npc_dialogue( *this );
 }
 
 /*
