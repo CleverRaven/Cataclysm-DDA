@@ -545,7 +545,7 @@ class crafting_ui_impl : public cataimgui::window
         void draw_recipe_info_panel();
         bool nav_clickable( const char *label, nc_color col );
         void draw_modifier_table( const recipe &recp, const availability &avail,
-                                  int batch_size );
+                                  int batch_size, int expected_turns, float success );
         void draw_requirement_tools( const requirement_data &req, const temp_crafting_inventory &inv,
                                      int batch_size, int group_offset );
         void draw_components( const requirement_data &req,
@@ -1047,6 +1047,9 @@ void crafting_ui_impl::draw_recipe_info_panel()
         // Batch size for all subsequent calculations
         const int batch_size = get_batch_size();
         float region_w = ImGui::GetContentRegionAvail().x;
+        const int expected_turns = !recp.is_nested() ? crafter->expected_time_to_craft( recp,
+                                   batch_size ) / to_moves<int>( 1_turns ) : 0;
+        const float success = !recp.is_nested() ? 100.f * crafter->recipe_success_chance( recp ) : 0.f;
 
         {
             // Line 2: centered source attribution
@@ -1137,9 +1140,6 @@ void crafting_ui_impl::draw_recipe_info_panel()
 
             // Line 3: centered natural-language stats
             if( !recp.is_nested() ) {
-                const int expected_turns = crafter->expected_time_to_craft( recp, batch_size )
-                                           / to_moves<int>( 1_turns );
-                const float success = 100.f * crafter->recipe_success_chance( recp );
                 const nc_color success_col = success < 25.f ? c_red :
                                              success < 50.f ? c_yellow :
                                              success < 75.f ? c_light_gray : c_green;
@@ -1270,7 +1270,7 @@ void crafting_ui_impl::draw_recipe_info_panel()
                 }
             }
             if( show_details ) {
-                draw_modifier_table( recp, avail, batch_size );
+                draw_modifier_table( recp, avail, batch_size, expected_turns, success );
 
                 // Practice-specific info after the modifier table
                 if( recp.is_practice() && recp.practice_data ) {
@@ -1540,7 +1540,8 @@ void crafting_ui_impl::draw_recipe_info_panel()
 // --- draw_modifier_table ---
 
 void crafting_ui_impl::draw_modifier_table( const recipe &recp,
-        const availability &avail, int batch_size )
+        const availability &avail, int batch_size,
+        int expected_turns, float success )
 {
     // Helper: time impact as percentage. Input is a time multiplier
     // (>1 = slower, <1 = faster). Shows "+50%" (red) or "-20%" (green).
@@ -1856,8 +1857,6 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
 
         // Total time
         {
-            const int expected_turns = crafter->expected_time_to_craft( recp, batch_size )
-                                       / to_moves<int>( 1_turns );
             ImGui::TableNextColumn();
             ImGui::TextColored( cataimgui::imvec4_from_color( c_cyan ), "%s",
                                 to_string( time_duration::from_turns( expected_turns ) ).c_str() );
@@ -1865,7 +1864,6 @@ void crafting_ui_impl::draw_modifier_table( const recipe &recp,
 
         // Total success + catastrophic failure stacked in Eff. skill cell
         {
-            float success = 100.f * crafter->recipe_success_chance( recp );
             nc_color success_col = success < 25.f ? c_red :
                                    success < 50.f ? c_yellow :
                                    success < 75.f ? c_light_gray : c_green;
