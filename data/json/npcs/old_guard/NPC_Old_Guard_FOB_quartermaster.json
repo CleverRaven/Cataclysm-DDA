@@ -77,7 +77,7 @@
       [ "helmet_army", 25 ],
       [ "tac_helmet", 20 ],
       [ "helmet_riot", 20 ],
-      [ "tac_fullhelmet", 10 ],
+      { "group": "tac_fullhelmet_group", "prob": 10 },
       [ "helmet_larmor", 15 ],
       [ "firehelmet", 5 ],
       [ "hood_rain", 15 ],

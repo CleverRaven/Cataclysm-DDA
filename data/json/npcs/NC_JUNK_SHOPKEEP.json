@@ -54,7 +54,7 @@
       { "item": "helmet_army", "prob": 25 },
       { "item": "tac_helmet", "prob": 20 },
       { "item": "helmet_riot", "prob": 20 },
-      { "item": "tac_fullhelmet", "prob": 10 },
+      { "group": "tac_fullhelmet_group", "prob": 10 },
       { "item": "helmet_larmor", "prob": 15 },
       { "item": "firehelmet", "prob": 5 },
       { "item": "hood_rain", "prob": 15 },

@@ -129,7 +129,7 @@
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
       [ "suppressor_compact", 20 ],
-      [ "tac_fullhelmet", 5 ],
+      { "group": "tac_fullhelmet_group", "prob": 5 },
       [ "tac_helmet", 10 ],
       { "item": "teargas_sprayer", "prob": 25, "charges": [ 1, 10 ] }
     ]
