@@ -3,6 +3,6 @@
   "type": "MIGRATION",
   "id": "tac_fullhelmet",
   "replace": "tac_helmet",
-  "contents": [ { "item": "kevlar_nape_protector", "count": 1 }, { "item": "ballistic_mandible_guard", "count": 1 }, { "item": "face_shield_tactical", "count": 1 } ]
+  "contents": [ { "id": "kevlar_nape_protector", "count": 1 }, { "id": "ballistic_mandible_guard", "count": 1 }, { "id": "face_shield_tactical", "count": 1 } ]
 }
 ]
