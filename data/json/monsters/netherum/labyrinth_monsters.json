@@ -998,7 +998,7 @@
   {
     "id": "mon_fleshborg_homonculus_1_0",
     "type": "MONSTER",
-    "name": { "str": "cyberbone homunculus", "str_pl": "cyberbone homunculi" },
+    "name": { "str": "cyber-homunculus", "str_pl": "cyber-homunculi" },
     "description": "A knee-high cybernetic horror.  Its ballooned head and grotesque, swollen hands are mostly fleshy, bulbous protrusions and cracked bone-like structures, pushing themselves free of paper-thin metal plates.  It throws its limbs all about, like a cheap, top-heavy robot that's lost its footing.",
     "default_faction": "nether_hate_humans",
     "volume": "30 L",
