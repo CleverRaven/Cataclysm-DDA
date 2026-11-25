@@ -183,6 +183,7 @@ enum accessor_flags_ {
     Access_Map_Current_Z              = 1 << 2,      // Everything on the current z-level (ignores reachability)
     Access_Map_All                    = 1 << 3,      // Everything on the map, all z-levels (ignores reachability)
     Access_Vehicle                    = 1 << 4,      // Everything on vehicles in the bubble *owned by that guy's faction* (ignores reachability)
+    Access_Vehicle_Around             = 1 << 5,      // Cargo from vehicles *owned by that guy's faction* (only reachable)
     Access_EVERYTHING                 = Access_Inventory | Access_Map_All | Access_Vehicle      // All of the above
 };
 
