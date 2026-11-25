@@ -251,9 +251,9 @@
         "    |6  c||||||||  |  c ",
         "  cc|h  c|¢¢¢(ll|  |  c ",
         "    |   c|7A (  |  |    ",
-        "2((||    |6ւ 2  =  ||2||",
+        "2((||    |6ւ 2  5  ||2||",
         "   2     |4  2  0  2    ",
-        "   2     |5  (  |  2    ",
+        "   2     |8  (  |  2    ",
         "2((||    |JōJ(iǴ|  ||2||",
         "   c|    ||||||||  |c   ",
         " c c|              |c c ",
@@ -277,7 +277,7 @@
         "7": "f_anesthetic",
         "6": "f_MRI",
         "4": "f_dialysis",
-        "5": "f_ventilator"
+        "8": "f_ventilator"
       },
       "vehicles": { "ւ": { "vehicle": "hospital_bed", "rotation": 270 } },
       "monster": { "ւ": { "monster": "mon_mi_go_captured" } },
@@ -303,7 +303,7 @@
         "0": {
           "name": "Specimen Processing",
           "security": 3,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
@@ -313,7 +313,7 @@
   {
     "type": "mapgen",
     "nested_mapgen_id": "microlab_serum_special_tile",
-    "weight": 25000,
+    "weight": 250,
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -330,9 +330,9 @@
         "2((||  (%%%%%%%%(  ||2||",
         "   2   (%%|55|%%(  2    ",
         "   2   |((|  |((|  2    ",
-        "2((||     |550    ||2||",
-        "   c|l  6d    d6  c|c   ",
-        " c c|l  h      h  c|c c ",
+        "2((||     |550     ||2||",
+        "   c|l 6d      d6 c|c   ",
+        " c c|l h        h c|c c ",
         " c c|l            c|c c ",
         "   c|l            c|F   ",
         "|||||dh h      h hd|||2|",
@@ -351,11 +351,11 @@
       },
       "furniture": {
         "%": [
-          [ "f_null", 50 ],
-          [ "f_alien_gasper", 4 ],
-          [ "f_alien_tendril", 2 ],
-          [ "f_alien_zapper", 2 ],
-          [ "f_alien_pod_resin", 2 ]
+          [ "f_null", 25 ],
+          [ "f_alien_gasper", 2 ],
+          [ "f_alien_tendril", 1 ],
+          [ "f_alien_zapper", 1 ],
+          [ "f_alien_pod_resin", 1 ]
         ]
       },
       "item": {
@@ -364,25 +364,25 @@
           { "item": "blood", "chance": 100 },
           { "item": "feeding_kit", "chance": 100 },
           { "item": "corpse_half_beheaded", "chance": 100 }
-        ],
-        "items": {
-          "l": [
-            { "item": "hazmat_suits", "chance": 95, "repeat": [ 1, 2 ] },
-            { "item": "hazmat_masks", "chance": 95, "repeat": [ 1, 2 ] }
-          ]
-        },
-        "place_monsters": [
-          { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 5 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
-          { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 19, 23 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
-          { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 15, 21 ], "repeat": [ 1, 3 ] }
-        ],
-        "computers": {
-          "θ": {
-            "name": "Storage for Gary",
-            "security": 3,
-            "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
-            "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-          }
+        ]
+      },
+      "items": {
+        "l": [
+          { "item": "hazmat_suits", "chance": 95, "repeat": [ 1, 2 ] },
+          { "item": "hazmat_masks", "chance": 95, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "place_monsters": [
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 5 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 19, 23 ], "y": [ 2, 21 ], "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_SERUM_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 15, 21 ], "repeat": [ 1, 3 ] }
+      ],
+      "computers": {
+        "0": {
+          "name": "Storage for Gary",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 6 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
     }
