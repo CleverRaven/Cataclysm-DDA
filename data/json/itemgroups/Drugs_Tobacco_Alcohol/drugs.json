@@ -914,14 +914,14 @@
     "id": "bleed_control_kit",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "bleed_control",
+    "container-item": { "item": "ipok", "variant": "bleed_control" },
     "entries": [
       { "item": "tourniquet_upper" },
-      { "group": "emergency_bandage" },
+      { "item": "emergency_bandage" },
       { "item": "bandages", "count": 2 },
       { "item": "medical_gauze", "count": 4 },
       { "item": "gloves_medical", "count": 2 },
-      { "item": "permanent_marker" },
+      { "item": "permanent_marker", "charges": [ 500, 500 ] },
       { "item": "scissors_medical" }
     ]
   }
