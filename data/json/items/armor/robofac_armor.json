@@ -1246,7 +1246,6 @@
     "material_thickness": 7,
     "faults": [ { "fault_group": "electronic_general" } ],
     "symbol": "[",
-    "looks_like": "tac_helmet",
     "color": "dark_gray",
     "environmental_protection": 16,
     "armor": [
