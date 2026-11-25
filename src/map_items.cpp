@@ -670,6 +670,19 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
     return *new_pos;
 }
 
+std::vector<item_location> map::i_loc_at( const tripoint_bub_ms &p )
+{
+    map_cursor mc( p );
+    std::vector<item_location> ret;
+
+    mc.visit_items( [&ret]( const item_location & node ) {
+        ret.emplace_back( node );
+        return VisitResponse::NEXT;
+    } );
+
+    return ret;
+}
+
 // NOLINTNEXTLINE(readability-make-member-function-const)
 item map::liquid_from( const tripoint_bub_ms &p ) const
 {
