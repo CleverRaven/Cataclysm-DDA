@@ -41,7 +41,7 @@
   },
   {
     "id": "bleed_scratch_bad_alternate_fix",
-    "copy-from": "bleed_wound_bad_alternate",
+    "copy-from": "bleed_wound_medium_alternate",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
     "description": "Use an absorbant material to apply pressure to the gouge and stop the bleeding.",
@@ -81,9 +81,9 @@
   },
   {
     "id": "bleed_scratch_bad_bandages_fix",
-    "copy-from": "bleed_wound_bad_bandages with bandages",
+    "copy-from": "bleed_wound_medium_bandages",
     "type": "wound_fix",
-    "name": "Staunch the bleeding",
+    "name": "Staunch the bleeding with bandages",
     "description": "Use bandages to apply pressure to the gouge and stop the bleeding.",
     "wounds_removed": [ "bleeding_scratch_bad" ],
     "wounds_added": [ "scratch_bad" ],
