@@ -15,7 +15,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -2,
     "quench": 0,
-    "material": [ "fruit", "veggy" ],
+    "material": [ "nl_fruit", "nl_veggy" ],
     "symbol": "%",
     "color": "green",
     "calories": 100,
