@@ -411,7 +411,7 @@ static consumption_result try_consume( npc &p, item_location &it, std::string &r
         debugmsg( "Unknown comestible type of item: %s\n", it->tname() );
     }
 
-    if( it->charges > 0 ) {
+    if( it.valid() && it->charges > 0 ) {
         return CONSUMED_SOME;
     }
 
