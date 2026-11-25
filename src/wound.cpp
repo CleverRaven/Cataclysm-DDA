@@ -265,6 +265,7 @@ void wound_limb_score::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "score", score );
     optional( jo, false, "value", value, 0.f );
+    optional( jo, false, "mod", mod, 0.f );
 }
 
 void wound_progress::deserialize( const JsonObject &jo )

@@ -1045,26 +1045,32 @@ std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type_id dtype )
 
 float bodypart::wound_adjusted_limb_value( const float val, const limb_score_id &score ) const
 {
-    double percent = static_cast<double>( get_hp_cur() ) /
-                     static_cast<double>( get_hp_max() );
+    float percent = static_cast<float>( get_hp_cur() ) /
+                    static_cast<float>( get_hp_max() );
 
-    float wound_score_penalty = 0.f;
+    float wound_score_penalty_flat = 0.f;
+    float wound_score_penalty_mult = 0.f;
 
     if( id->has_limb_score( score ) ) {
         for( const wound &wd : wounds ) {
             for( const wound_limb_score &s : wd.type->get_limb_scores() ) {
                 if( s.score == score ) {
-                    wound_score_penalty += s.value;
+                    wound_score_penalty_flat += s.value;
+                    wound_score_penalty_mult += s.mod;
                 }
             }
         }
     }
 
-    if( percent > 0.75 ) {
-        return val * ( 1 - wound_score_penalty );
-    }
+    // makes the penalty less harsh, i imagine?
     percent /= 0.75;
-    return val * ( static_cast<float>( percent ) - wound_score_penalty );
+
+    float ret = val * percent;
+    ret -= wound_score_penalty_flat;
+    ret *= std::max( ( 1.f - wound_score_penalty_mult ), 0.f );
+
+    // cannot return value higher than was passed
+    return std::clamp( ret, 0.f, val );
 }
 
 float bodypart::encumb_adjusted_limb_value( const Creature &mon, const float val ) const
@@ -1198,6 +1204,30 @@ bool bodypart::has_bleeding_wound() const
     } );
 }
 
+std::optional<wound_severity> bodypart::get_bleeding_wound_severity() const
+{
+    if( !has_bleeding_wound() ) {
+        return std::nullopt;
+    } else {
+        wound_severity severity = wound_severity::MINOR;
+
+        for( const wound &wd : wounds ) {
+            if( wd.type->is_bleeding_wound() && wd.type->severity > severity ) {
+                severity = wd.type->severity;
+            }
+        }
+
+        return severity;
+    }
+}
+
+bool bodypart::has_fixable_wound() const
+{
+    return std::any_of( wounds.begin(), wounds.end(), []( const wound & wd ) {
+        return !wd.type->fixes.empty();
+    } );
+}
+
 wound *bodypart::get_wound( const wound_type_id wd_id )
 {
     // picks the first one; maybe not desired?
@@ -1228,6 +1258,11 @@ void bodypart::remove_wound( const wound_type_id wd )
     if( it != wounds.end() ) {
         wounds.erase( it );
     }
+}
+
+void bodypart::remove_all_wounds()
+{
+    wounds.clear();
 }
 
 void bodypart::remove_all_wounds_of_type( const wound_type_id wd )

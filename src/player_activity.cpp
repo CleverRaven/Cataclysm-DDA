@@ -96,6 +96,11 @@ void player_activity::synchronize_type_with_actor()
     }
 }
 
+bool player_activity::render_blocked() const
+{
+    return type->render_blocked();
+}
+
 bool player_activity::rooted() const
 {
     return type->rooted();

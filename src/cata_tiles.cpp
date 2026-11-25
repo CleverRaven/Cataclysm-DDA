@@ -593,7 +593,8 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
                        color_block_overlay_container &color_blocks )
 {
     display_buffer_draw_scope draw_scope;
-    if( display_buffer_scope_is_invalid() || !g ) {
+    if( display_buffer_scope_is_invalid() || !g ||
+        get_player_character().activity_limits_rendering() ) {
         return;
     }
 

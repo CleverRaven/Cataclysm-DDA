@@ -419,6 +419,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
     "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
+    "//2": "Can't currently stage up wounds automatically, hence the mess below",
     "condition": { "math": [ "u_vitamin('vitamin_psionic_drain') >= 15" ] },
     "effect": [
       {
@@ -435,9 +436,41 @@
         "then": [
           { "u_message": "Your head begins to throb.", "type": "bad" },
           {
-            "u_add_effect": "psionic_overload",
-            "duration": {
-              "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
+            "if": {
+              "not": { "u_has_any_wound": [ "headache_small", "headache", "headache_severe", "headache_extreme" ], "bodypart": "head" }
+            },
+            "then": [
+              {
+                "if": { "math": [ "u_vitamin('vitamin_psionic_drain') > 200" ] },
+                "then": { "u_add_wound": "head", "wound_id": "headache_extreme" },
+                "else": [
+                  {
+                    "if": {
+                      "and": [
+                        { "math": [ "u_vitamin('vitamin_psionic_drain') <= 200" ] },
+                        { "math": [ "u_vitamin('vitamin_psionic_drain') > 150" ] }
+                      ]
+                    },
+                    "then": { "u_add_wound": "head", "wound_id": "headache_severe" },
+                    "else": [ { "u_add_wound": "head", "wound_id": "headache" } ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "if": { "u_has_any_wound": [ "headache_small" ], "bodypart": "head" },
+            "then": [ { "u_remove_wound": "head", "wound_id": [ "headache_small" ] }, { "u_add_wound": "head", "wound_id": "headache" } ],
+            "else": {
+              "if": { "u_has_any_wound": [ "headache" ], "bodypart": "head" },
+              "then": [ { "u_remove_wound": "head", "wound_id": [ "headache" ] }, { "u_add_wound": "head", "wound_id": "headache_severe" } ],
+              "else": {
+                "if": { "u_has_any_wound": [ "headache_severe" ], "bodypart": "head" },
+                "then": [
+                  { "u_remove_wound": "head", "wound_id": [ "headache_severe" ] },
+                  { "u_add_wound": "head", "wound_id": "headache_extreme" }
+                ]
+              }
             }
           }
         ]

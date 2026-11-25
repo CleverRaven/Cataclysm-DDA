@@ -60,6 +60,8 @@ to e.g. pain or seeing monsters will be suppressed.
 * can_resume (true): If true, the activity can be resumed after an interruption,
 letting you continue from where you left off rather than from scratch.
 
+* render_blocked (false): If true, will block all rendering when that activity is being performed. Intended for activities like sleep, where there should obviously be no vision.
+
 * based_on: Can be 'time', 'speed', or 'neither'.
 
     * time: The amount that `player_activity::moves_left` is

@@ -127,6 +127,8 @@ CBM slots enabled in main game; bionic limbs can hold more CBMs
 Followers and guards meet their needs without leaving you or their post
 New wound system, cut, bash, and stab wounds
 Add zone 'Work: Dissect Corpses'
+Implement partial dodge, make it possible to shield vital bodyparts, and make those bodyparts more fragile
+Some vanilla monsters can block
 
 
 ## Content:
@@ -231,6 +233,7 @@ Bionic wounds and ways to repair them
 Labyrinth expansion: sprawling buildings, raised walkways, and transitions to-and-fro
 Sci-fi horrors from imagined wars.
 Add Marloss evangelists.
+Marloss Evangelists
 
 
 ## Interface:
@@ -294,6 +297,8 @@ Scenarios are now divided into separate difficulty categories
 Display NPCs' current activity when looking at them
 Body Status Menu
 Rewrite wound text to be colorful and immersive
+Redirect to wound menu when trying to treat a bleeding wound by applying a bandage
+Faction reputation text corresponds to In-game effects
 
 
 ## Mods:
@@ -402,6 +407,7 @@ Aftershock: Remove multiverse references in high tech scrap.
 New Crafting System for Isolation Protocol
 Aftershock: Give UICA a military Aerodyne (potentially very stealable?)
 Aftershock: Pirate faction & Integrate them with  Smuggler scenario
+[Xedra Evolved] Rework elemental fae passive spell XP gain
 
 ## Balance:
 Fitness bands and smart watches are more common, while pocket watches and game watches are rarer.
@@ -473,6 +479,7 @@ make zombies able to move through guardrails
 Wounds stage down when healing
 Bruises stage down when healing
 Add actual weariness to life-or-death combat
+Bypassing faction security is shoot on sight
 
 ## Bugfixes:
 Fix forced traits being applied to NPCs
@@ -713,6 +720,7 @@ Smooth filtered lighting draws about as fast as smooth
 Speed up the repair and construction menus near large item piles
 Slightly reduce RAM usage of item class
 Lightweight game metrics report.
+Faster sleep by not drawing frames during sleep
 
 
 ## Infrastructure:

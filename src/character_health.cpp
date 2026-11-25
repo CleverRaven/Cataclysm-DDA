@@ -2573,6 +2573,17 @@ bool Character::has_bleeding_wound( const bodypart_str_id &part ) const
     return get_part( part )->has_bleeding_wound();
 }
 
+std::optional<wound_severity> Character::get_bleeding_wound_severity( const bodypart_str_id &part )
+const
+{
+    return get_part( part )->get_bleeding_wound_severity();
+}
+
+bool Character::has_fixable_wounds( const bodypart_str_id &part ) const
+{
+    return get_part( part )->has_fixable_wound();
+}
+
 bool Character::has_wounds( const bodypart_str_id &part ) const
 {
     return get_part( part )->has_wounds();
@@ -2595,6 +2606,13 @@ void Character::apply_wound( bodypart_id bp, wound wd, dealt_damage_instance &dd
     bodypart &body_bp = body.at( bp.id() );
     body_bp.add_or_worsen_wound( wd, this, ddi );
     morale->on_stat_change( "perceived_pain", get_perceived_pain() );
+}
+
+void Character::remove_all_wounds()
+{
+    for( auto& [bp_id, bp] : body ) {
+        bp.remove_all_wounds();
+    }
 }
 
 void Character::update_wounds( time_duration time_passed )

@@ -617,8 +617,8 @@
     "name": "Experienced",
     "points": 1,
     "description": "It's still strange for you to think of it, but it's been a good month or so since the world ended and not only are you still alive, you've managed to get a proper base set up for yourself.  Here's to many months more, you hope.",
-    "allowed_locs": [ "sloc_shelter_experienced" ],
-    "start_name": "Fortified Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_experienced", "sloc_gas_experienced" ],
+    "start_name": "Fortified Shelter",
     "start_of_cataclysm": { "hour": 0, "day": 56, "season": "spring", "year": 1 },
     "start_of_game": { "hour": 8, "day": 30, "season": "summer", "year": 1 },
     "add_professions": true,
@@ -1132,7 +1132,7 @@
     "id": "aircraft_carrier_start",
     "name": "Aircraft Carrier",
     "points": 4,
-    "description": "You were on a mission off the coast of North Korea when the aircraft carrier you were stationed on suddenly and inexplicably found itself in the middle of a lake.  You have no idea where you are or what's happened, but you have more important things to worry about: everyone else aboard seems to have become violently insane.  It might be time to abandon ship.",
+    "description": "You were on a mission off the coast of North Korea when the aircraft carrier you were stationed on suddenly and inexplicably found itself on the east coast of some country.  You have no idea where you are or what's happened, but you have more important things to worry about: everyone else aboard seems to have become violently insane.  It might be time to abandon ship.",
     "start_name": "Aircraft Carrier",
     "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
     "professions": [
@@ -1153,6 +1153,7 @@
     "requirement": "achievement_reach_aircraft_carrier",
     "reveal_locale": false,
     "distance_initial_visibility": 0,
+    "origin_offset": [ 10, 0 ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {

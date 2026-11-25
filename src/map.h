@@ -1194,6 +1194,10 @@ class map
         // Checks terrain or furniture
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
 
+        // terrain opening a gap in its level's floor
+        // floor cache and its rebuild check both read this one list
+        bool has_floor_gap_flag( const ter_t &terrain ) const;
+
         // Returns true if a and b are on matching stairs connecting them
         // across exactly one z-level (one has GOES_UP, the other GOES_DOWN).
         bool on_matching_stairs( const tripoint_bub_ms &a, const tripoint_bub_ms &b ) const;

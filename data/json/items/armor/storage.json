@@ -2687,7 +2687,7 @@
     "id": "suitcase_l",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
-    "name": { "str": "suitcase" },
+    "name": { "str": "large suitcase" },
     "//": "You drag it along with you, so it taking a hit is Rare.",
     "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
     "weight": "5000 g",

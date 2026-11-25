@@ -667,6 +667,7 @@ static void normalize_body( Character &u )
     u.set_stamina( u.get_stamina_max() );
     u.set_stored_kcal( u.get_healthy_kcal() );
     u.set_thirst( 0 );
+    u.remove_all_wounds();
 }
 
 static tripoint_abs_ms player_picks_tile()
@@ -2445,9 +2446,9 @@ static void character_edit_menu()
 
     enum {
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN, D_RADS,
-        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_CHECK_TRAUMA, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_CLEAR_WOUNDS, D_HEALTHY, D_STATUS, D_MISSION_ADD,
+        D_MISSION_EDIT, D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA,
+        D_PRINT_VARS, D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_CHECK_TRAUMA, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -2468,6 +2469,7 @@ static void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set health" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set needs" ) );
     nmenu.addentry( D_NORMALIZE_BODY, true, 'N', "%s", _( "Normalize body stats" ) );
+    nmenu.addentry( D_CLEAR_WOUNDS, true, 'R', "%s", _( "Remove all wounds" ) );
     nmenu.addentry( D_KILL_XP, true, 'X', "%s", _( "Set kill XP (for mods)" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "Mutate" ) );
     nmenu.addentry( D_BIONICS, true, 'b', "%s", _( "Edit [b]ionics" ) );
@@ -2605,6 +2607,9 @@ static void character_edit_menu()
             break;
         case D_NORMALIZE_BODY:
             normalize_body( you );
+            break;
+        case D_CLEAR_WOUNDS:
+            you.remove_all_wounds();
             break;
         case D_MUTATE: {
             uilist smenu;
