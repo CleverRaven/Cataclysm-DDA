@@ -1271,7 +1271,7 @@ static bool eat( item &food, Character &you, bool force )
         };
 
         std::unordered_set<item_location> all_valid_seasonings = get_map().all_items( legal_to_consume,
-                you, Access_Inventory | Access_Map_Around );
+                you, Access_Inventory | Access_Map_Around | Access_Vehicle_Around );
 
         for( const item_location &checked : all_valid_seasonings ) {
             // Always pick the best(highest fun) valid seasoning we find.

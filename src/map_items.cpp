@@ -254,7 +254,7 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
         }
     }
 
-    if( flags & Access_Vehicle )  {
+    if( flags & Access_Vehicle ) {
         for( wrapped_vehicle &v : get_vehicles() ) {
             vehicle *veh = v.v;
             if( veh ) {
@@ -262,6 +262,23 @@ std::unordered_set<item_location> map::all_items( const std::function<bool( cons
                     for( item &it : veh->get_items( vp.part() ) ) {
                         // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
                         item_location there( vehicle_cursor( *veh, vp.part_index() ), &it );
+                        recursive_add_contained_items( filter, there );
+                        if( filter( it ) ) {
+                            ret.emplace( there );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if( flags & Access_Vehicle_Around ) {
+        for( const tripoint_bub_ms &pt : reachable_flood_steps( who.pos_bub(), PICKUP_RANGE ) ) {
+            if( const optional_vpart_position vp = veh_at( pt ) ) {
+                if( std::optional<vpart_reference> cargo = vp.cargo() ) {
+                    for( item &it : cargo->items() ) {
+                        // We always want to recurse even if the top-level item doesn't pass our filter - the contained items still might!
+                        item_location there( vehicle_cursor( vp->vehicle(), cargo->part_index() ), &it );
                         recursive_add_contained_items( filter, there );
                         if( filter( it ) ) {
                             ret.emplace( there );
