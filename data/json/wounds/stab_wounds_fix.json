@@ -80,6 +80,46 @@
     "success_msg": "You spend a while applying pressure until the profuse bleeding is under control."
   },
   {
+    "id": "bleed_stab_small_bandages_fix",
+    "copy-from": "bleed_wound_medium_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the puncture and stop the bleeding.",
+    "wounds_removed": [ "bleeding_stab_small" ],
+    "wounds_added": [ "stab_small" ],
+    "success_msg": "You apply pressure, and the flow of blood from the puncture stops."
+  },
+  {
+    "id": "bleed_stab_medium_bandages_fix",
+    "copy-from": "bleed_wound_difficult_medium_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the deep puncture and stop the bleeding.",
+    "wounds_removed": [ "bleeding_stab_medium" ],
+    "wounds_added": [ "stab_medium" ],
+    "success_msg": "You apply pressure, and the flow of blood from the deep puncture stops."
+  },
+  {
+    "id": "bleed_stab_bad_bandages_fix",
+    "copy-from": "bleed_wound_difficult_bad_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the stab wound and stop the bleeding.",
+    "wounds_removed": [ "bleeding_stab_bad" ],
+    "wounds_added": [ "stab_bad" ],
+    "success_msg": "You apply pressure, and the flow of blood from the stab wound stops."
+  },
+  {
+    "id": "bleed_stab_terrible_bandages_fix",
+    "copy-from": "bleed_wound_difficult_terrible_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to your impaled limb and hope it stops the torrent of blood leaving your body.",
+    "wounds_removed": [ "bleeding_stab_terrible" ],
+    "wounds_added": [ "stab_terrible" ],
+    "success_msg": "You spend a while applying pressure until the profuse bleeding is under control."
+  },
+  {
     "id": "clean_stab_small_fix",
     "copy-from": "clean_wound_small",
     "type": "wound_fix",

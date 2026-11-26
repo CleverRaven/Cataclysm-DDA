@@ -41,7 +41,7 @@
   },
   {
     "id": "bleed_scratch_bad_alternate_fix",
-    "copy-from": "bleed_wound_bad_alternate",
+    "copy-from": "bleed_wound_medium_alternate",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
     "description": "Use an absorbant material to apply pressure to the gouge and stop the bleeding.",
@@ -75,6 +75,46 @@
     "type": "wound_fix",
     "name": "Staunch the bleeding",
     "description": "Use an absorbant material to apply pressure to the life-threatening gash and stop the bleeding.",
+    "wounds_removed": [ "bleeding_cut_terrible" ],
+    "wounds_added": [ "cut_terrible" ],
+    "success_msg": "It's not easy and it takes some time, but with enough pressure the flow of blood from the life-threatening gash stops."
+  },
+  {
+    "id": "bleed_scratch_bad_bandages_fix",
+    "copy-from": "bleed_wound_medium_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the gouge and stop the bleeding.",
+    "wounds_removed": [ "bleeding_scratch_bad" ],
+    "wounds_added": [ "scratch_bad" ],
+    "success_msg": "You apply pressure, and the flow of blood from the gouge stops."
+  },
+  {
+    "id": "bleed_cut_medium_bandages_fix",
+    "copy-from": "bleed_wound_medium_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the cut and stop the bleeding.",
+    "wounds_removed": [ "bleeding_cut_medium" ],
+    "wounds_added": [ "cut_medium" ],
+    "success_msg": "You apply pressure, and the flow of blood from the cut stops."
+  },
+  {
+    "id": "bleed_cut_bad_bandages_fix",
+    "copy-from": "bleed_wound_bad_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the gash and stop the bleeding.",
+    "wounds_removed": [ "bleeding_cut_bad" ],
+    "wounds_added": [ "cut_bad" ],
+    "success_msg": "You apply pressure, and the flow of blood from the gash stops."
+  },
+  {
+    "id": "bleed_cut_terrible_bandages_fix",
+    "copy-from": "bleed_wound_terrible_bandages",
+    "type": "wound_fix",
+    "name": "Staunch the bleeding with bandages",
+    "description": "Use bandages to apply pressure to the life-threatening gash and stop the bleeding.",
     "wounds_removed": [ "bleeding_cut_terrible" ],
     "wounds_added": [ "cut_terrible" ],
     "success_msg": "It's not easy and it takes some time, but with enough pressure the flow of blood from the life-threatening gash stops."
