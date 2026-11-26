@@ -5123,7 +5123,7 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
         du.amount -= mutation_armor( bp, du );
-        du.amount -= bp->damage_resistance( du );
+        du.amount -= get_part( bp )->get_damage_resistance( du );
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     du.amount -= mabuff_armor_bonus( du.type );

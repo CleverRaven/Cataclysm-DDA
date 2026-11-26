@@ -1421,6 +1421,37 @@ void bodypart::set_encumbrance_data( const encumbrance_data &set )
     encumb_data = set;
 }
 
+float bodypart::get_damage_resistance( const damage_unit &du ) const
+{
+    float ret = id->damage_resistance( du );
+
+    if( ret == 0.f ) {
+        return ret;
+    }
+
+    for( const wound &wd : wounds ) {
+        ret -= wd.get_armor_penalty( du.type );
+    }
+
+    return std::max( 0.f, ret );
+
+}
+
+float bodypart::get_damage_resistance( const damage_type_id &dt ) const
+{
+    float ret = id->damage_resistance( dt );
+
+    if( ret == 0.f ) {
+        return ret;
+    }
+
+    for( const wound &wd : wounds ) {
+        ret -= wd.get_armor_penalty( dt );
+    }
+
+    return std::max( 0.f, ret );
+}
+
 void bodypart::set_mut_drench( const std::pair<water_tolerance, int> &set )
 {
     if( set.first < WT_IGNORED || set.first > NUM_WATER_TOLERANCE ) {

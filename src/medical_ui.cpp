@@ -6,6 +6,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -249,6 +250,13 @@ void medical_ui::print_debug_wound_info( const Character &you, const bodypart_id
                     tooltip += "-----\n";
                 }
 
+                if( !wd.type->armor_penalty.empty() ) {
+                    tooltip += "armor penalty applied:\n";
+                    for( const std::pair<const damage_type_id, float> &res : wd.type->armor_penalty ) {
+                        tooltip += string_format( "%s: %.0f\n", res.first.str(), wd.get_armor_penalty( res.first ) );
+                    }
+                    tooltip += "-----\n";
+                }
 
                 ImGui::SetTooltip( "%s", tooltip.c_str() );
             }
