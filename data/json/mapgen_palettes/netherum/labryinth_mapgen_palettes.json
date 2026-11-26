@@ -529,7 +529,7 @@
       "X": [ [ "f_metal_crate_r", 1 ], [ "f_metal_crate_c", 3 ] ]
     },
     "monsters": {
-      ".": { "monster": "GROUP_Labyrinth_Room", "density": 0.00015 },
+      ".": { "monster": "GROUP_Labyrinth2_Room", "density": 0.00015 },
       "t": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 }
     },
     "nested": { "1": { "chunks": [ [ "null", 1 ], [ "ls_2x2_furniture", 3 ] ] } },
