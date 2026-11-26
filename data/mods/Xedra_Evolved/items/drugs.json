@@ -222,18 +222,16 @@
     "charges": 1,
     "weight": "5360 g",
     "color": "red",
-    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "SPAWN_ACTIVE" ],
     "symbol": "~",
     "price": "0 cent",
     "volume": "6000 ml",
-    "use_action": {
-      "target": "anathema_blood_catalyst",
-      "msg": "The vampire blood has completely devoured itself, leaving a small dose of very potent vampire blood behind.",
-      "moves": 50,
-      "type": "delayed_transform",
-      "transform_age": 345600,
-      "not_ready_msg": "The vampire blood is still devouring itself."
-    }
+    "countdown_interval": "4 days",
+    "countdown_action": {
+      "type": "message",
+      "message": "The vampire blood has completely devoured itself, leaving a small dose of very potent vampire blood behind."
+    },
+    "revert_to": "anathema_blood_catalyst"
   },
   {
     "type": "ITEM",
