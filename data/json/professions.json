@@ -1952,7 +1952,7 @@
         "entries": [
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "combat_shirt" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_fullhelmet_group" },
           { "item": "mask_ski" },
           { "item": "gloves_liner" },
           { "item": "gloves_tactical" },
@@ -3007,7 +3007,7 @@
       "both": {
         "entries": [
           { "item": "socks" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_fullhelmet_group" },
           { "item": "boots_combat" },
           { "item": "gloves_tactical" },
           { "item": "badge_swat" },
@@ -6740,7 +6740,7 @@
           { "item": "pants_army" },
           { "item": "undershirt" },
           { "item": "combat_shirt" },
-          { "item": "tac_fullhelmet" },
+          { "group": "tac_fullhelmet_group" },
           { "item": "armguard_hard" },
           { "item": "legguard_hard" },
           { "item": "mask_ski" },

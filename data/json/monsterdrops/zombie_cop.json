@@ -264,7 +264,7 @@
       { "item": "mask_gas", "prob": 10 },
       { "item": "helmet_riot", "prob": 20 },
       { "item": "tac_helmet", "prob": 10 },
-      { "item": "tac_fullhelmet", "prob": 5 }
+      { "group": "tac_fullhelmet_group", "prob": 5 }
     ]
   },
   {

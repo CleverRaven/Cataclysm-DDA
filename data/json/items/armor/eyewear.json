@@ -68,7 +68,7 @@
     "volume": "250 ml",
     "price": "75 USD",
     "price_postapoc": "5 USD",
-    "material": [ "hard_plastic_transp", "nylon" ],
+    "material": [ "hard_plastic_transp" ],
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "dark_gray",

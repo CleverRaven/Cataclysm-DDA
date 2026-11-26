@@ -1067,7 +1067,7 @@
   },
   {
     "id": "dreamforged_fullhelmet",
-    "copy-from": "tac_fullhelmet",
+    "copy-from": "tac_helmet",
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "category": "armor",
@@ -1077,7 +1077,7 @@
     "price": "250 USD",
     "price_postapoc": "0 cent",
     "material": [ "forged_dreamstuff" ],
-    "looks_like": "tac_fullhelmet",
+    "looks_like": "tac_helmet",
     "color": "dark_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "WELL_SUPPORTED", "RESTRICTS_NECK" ] },

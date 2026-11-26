@@ -773,7 +773,7 @@
       { "group": "bugout_bag", "prob": 2 },
       { "group": "full_survival_kit", "prob": 3 },
       { "item": "tac_helmet", "prob": 5 },
-      { "item": "tac_fullhelmet", "prob": 2 },
+      { "group": "tac_fullhelmet_group", "prob": 2 },
       { "group": "molle_papr_kit", "prob": 5 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },

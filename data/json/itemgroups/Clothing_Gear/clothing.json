@@ -1931,7 +1931,7 @@
       [ "helmet_army", 26 ],
       [ "tac_helmet", 22 ],
       [ "helmet_riot", 18 ],
-      [ "tac_fullhelmet", 8 ],
+      { "group": "tac_fullhelmet_group", "prob": 8 },
       [ "helmet_larmor", 14 ],
       [ "pickelhaube", 1 ],
       [ "firehelmet", 2 ],
