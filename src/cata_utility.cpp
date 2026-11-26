@@ -120,22 +120,21 @@ bool lcmatch( const translation &str, std::string_view qry )
     return lcmatch( str.translated(), qry );
 }
 
-bool match_include_exclude( std::string_view text, std::string filter )
+bool match_include_exclude( std::string_view text, std::string_view filter )
 {
-    size_t iPos;
     bool found = false;
 
-    if( filter.empty() ) {
-        return false;
-    }
+    while( !filter.empty() ) {
+        const size_t comma = filter.find( ',' );
+        std::string_view term = filter.substr( 0, comma );
+        filter.remove_prefix( comma == std::string_view::npos ? filter.size() : comma + 1 );
+        if( term.empty() ) {
+            continue;
+        }
 
-    do {
-        iPos = filter.find( ',' );
-
-        std::string term = iPos == std::string::npos ? filter : filter.substr( 0, iPos );
-        const bool exclude = term.substr( 0, 1 ) == "-";
+        const bool exclude = term.front() == '-';
         if( exclude ) {
-            term = term.substr( 1 );
+            term.remove_prefix( 1 );
         }
 
         if( ( !found || exclude ) && lcmatch( text, term ) ) {
@@ -145,11 +144,7 @@ bool match_include_exclude( std::string_view text, std::string filter )
 
             found = true;
         }
-
-        if( iPos != std::string::npos ) {
-            filter = filter.substr( iPos + 1, filter.size() );
-        }
-    } while( iPos != std::string::npos );
+    }
 
     return found;
 }
