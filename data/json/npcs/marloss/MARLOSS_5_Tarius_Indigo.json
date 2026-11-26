@@ -1,0 +1,298 @@
+[
+  {
+    "type": "npc",
+    "id": "marloss_evan_5",
+    "name_unique": "Tarius Indigo",
+    "//": "A man, constantly in a cycle of starvation and consumption.",
+    "gender": "male",
+    "name_suffix": "Evangelist",
+    "class": "MAR_EVAN_5",
+    "attitude": 0,
+    "mission": "GUARD",
+    "chat": "TALK_MARLOSS_EVAN_TARIUS_1",
+    "faction": "marloss",
+    "age": 27,
+    "height": 157,
+    "snip_bye": "…"
+  },
+  {
+    "type": "npc_class",
+    "id": "MAR_EVAN_5",
+    "name": { "str": "Evangelist" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All marloss evangelists are crippled by their fungal infections.",
+    "bonus_str": { "rng": [ -4, -2 ] },
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ -3, 0 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "MAR_EVAN_5_worn",
+    "carry_override": "MAR_EVAN_carry",
+    "weapon_override": "MAR_EVAN_weapon",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "SLOWHEALER" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "DISORGANIZED" },
+      { "trait": "BADCARDIO" },
+      { "trait": "MYOPIC" },
+      { "trait": "MARLOSS" },
+      { "trait": "MYCUS_FRIEND" },
+      { "group": "Appearance_Irish" }
+    ],
+    "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_weapon",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_carry",
+    "subtype": "collection",
+    "entries": [ { "item": "marloss_berry", "count": [ 1, 4 ] }, { "item": "mycenacean_hymns" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "MAR_EVAN_5_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "long_underpants" },
+      { "item": "socks" },
+      { "item": "jeans" },
+      { "item": "bra" },
+      { "item": "robe" },
+      { "item": "boots" },
+      { "item": "marloss_scarf" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_MARLOSS_EVAN_TARIUS_1a", "TALK_MARLOSS_EVAN_TARIUS_SETTLE", "TALK_MARLOSS_EVAN_TARIUS_SITUATION" ],
+    "responses": [
+      {
+        "text": "Why did you all decide to settle down here?",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_SETTLE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "How are things here?",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_SITUATION",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Tell me a bit about yourself.",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_SELF",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "<done_conversation_section>",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put him out of his misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      },
+      {
+        "text": "<end_talking_leave> Bye, Tarius.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_1",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "*Is casually chewing into a Marloss fruit, the pink berry leaking like an overfilled balloon from the bite wound.  Noticing you, he nearly chokes on the chunk he's swallowed, heavily thumping his chest to try to get it down.  \"Urgh, holy shit, scared the… Ahem, I mean, What's going on dude?  Is this your first time around?\"",
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": "*Looks noticeably pale, near ready to retch.  Large, pink splotches stain his clothes and fingernails, and he smells like puke.  Despite that, his face brightens up as soon as you approach.  \"Oh, what's going on dude?  Is this your first time around?\"",
+        "no": "&His skin is grey and withered, nails bitten far enough back to reveal the pink flesh beneath.  Small mushrooms have sprouted from every angle, bearing tiny, pulsing pink fruits."
+      }
+    },
+    "responses": [
+      {
+        "text": "No, I'm new around here.  My name is <u_name>.",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_1_Marloss",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      },
+      {
+        "text": "Put him out of his misery.",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 160" ] },
+        "effect": { "npc_die": { "remove_corpse": false, "supress_message": true } }
+      },
+      {
+        "text": "<end_talking_leave>",
+        "topic": "TALK_DONE",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_1_Marloss",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well then, <u_name>!  Have you ever tried a Marloss berry?  You gotta try one!  They're like a super food!  I don't think I've felt this good in ages.  Here, try one!  Try one!\"  He's already pushing one near your face.  \"Take a bite!  It's the best!",
+      "no": "New here?  So you've never tried a Marloss berry before?  here, eat one!  C'mon, don't be shy!  I wouldn't want anyone to miss out on this wonder!\"  He's insistently shoving one against your cheek.  \"Eat it.  Take a bite."
+    },
+    "responses": [
+      { "text": "I'd really rather not.", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" },
+      {
+        "text": "Uh, sure?",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1b",
+        "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+        "effect": { "run_eocs": "EOC_MARLOSS_BERRY_CONSUME" }
+      },
+      {
+        "text": "Uh, sure?",
+        "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1c",
+        "condition": { "u_has_flag": "MUTATION_THRESHOLD" },
+        "effect": { "run_eocs": "EOC_MARLOSS_REJECTION" }
+      },
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "dialogue_first_meet_Tarius_Indigo", "value": "yes" },
+        { "npc_first_topic": "TALK_MARLOSS_EVAN_TARIUS_1a" }
+      ]
+    },
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Oh, what?  Man, that's totally disappointing.  Let yourself live a little, you know?  It's the <the_cataclysm>, ain't no cops around!",
+      "no": "You're really shooting yourself in the foot, man.  Everyone needs some relaxants in these times."
+    },
+    "responses": [ { "text": "Moving on….", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1b",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "dialogue_first_meet_Tarius_Indigo", "value": "yes" },
+        { "npc_first_topic": "TALK_MARLOSS_EVAN_TARIUS_1a" }
+      ]
+    },
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.",
+      "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down."
+    },
+    "responses": [ { "text": "Yeah, thanks….", "topic": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1a" } ]
+  },
+  {
+    "//": "Expand on this later.",
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_MARLOSS_1c",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "&Before you can back out, he jams the entire Marloss fruit into your mouth, forcing you to swallow it.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up.",
+      "no": "&Before you can back out, he jams the entire Marloss fruit into your mouth, grabbing your jaw to make sure it goes down.  A heavy wave of disgust follows it down, before your nerves feel aflame.  You're knocked out by the pain long before you can throw it up."
+    },
+    "responses": [ { "text": "Black out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_1a",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": [ "Look who's hanging around!", "What's up, <u_name>?", "You here for a Marloss fruit?" ],
+      "no": {
+        "math": [ "time_since('cataclysm', 'unit':'days') <= 160" ],
+        "yes": [ "Yo.", "Welcome back, <u_name>." ],
+        "no": "&His skin is grey and withered, nails bitten far enough back to reveal the pink flesh beneath.  Small mushrooms have sprouted from every angle, bearing tiny, pulsing pink fruits."
+      }
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_SETTLE",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Why we settled here?  Well, the answer is painfully obvious.  These Marloss fruits!  They're delicious, nutritious, and damn easy to get, too.  I don't mind following whatever patron if it means I live out <the_cataclysm> like this, haha!",
+      "no": "Whuh?  It's real obvious.  Only place these Marloss berries seem to love growing.  Don't know why, but they usually stop sprouting after a few batches, but here, they've been growing nonstop.  We gotta stay here, it's basically a gold mine!"
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_SITUATION",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, I suppose we've been running real low on bandages and the like.  Luckily, we've got some explorers like you who come around, huh?",
+      "no": "Medicines become a bit of a royalty these days.  Y'know, I swear Siloc is holding out on us.  There's no way she isn't hiding something."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_SELF",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": [ "About me?  What do ya' wanna know?", "Oh, about me?", "Shoot, like what?" ],
+      "no": [ "About me?  Shoot.", "Go for it." ]
+    },
+    "responses": [
+      { "text": "How'd you end up here?", "topic": "TALK_MARLOSS_EVAN_TARIUS_AboutMe_Basic" },
+      { "text": "Why do you follow the Marloss?", "topic": "MARLOSS_EVAN_TARIUS_Marloss" },
+      { "text": "How do you feel about the other evangelists?", "topic": "MARLOSS_EVAN_TARIUS_OtherEvangelists" },
+      { "text": "How are you feeling?", "topic": "MARLOSS_EVAN_TARIUS_Health" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_EVAN_TARIUS_AboutMe_Basic",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Ooh, I like telling this one!  So it was a cold sunday morning when I heard just the loudest banging on the front door of my apartment.  But I was prepared!  I'd been constantly watching the news, and after hearing all them reports of the apocalypse, I wasn't risking it!  I ran straight to my bedroom window and jumped out of it!  Unfortunately I did live on the third floor, so I definitely sprained something.  But besides that, I then ran straight into the woods, so them damn zombies couldn't track my scent or something.  The rest of my journey here was basically just trudging around in soggy pajamas.  Luckily, the nice people here helped me out afterward!",
+      "no": "I could tell things were going bad when my dealer stopped coming around, and I was already on edge with all the news on the riots.  One day, I'm pretty sure a delivery man was at my doorstep, but I freaked out and jumped from my apartment window from three floors up.  Then I just blindly wandered into the forest until I eventually ended up here.  It's a bit embarassing, now that I'm recalling it."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_TARIUS_Marloss",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Well, there's hardly any reason not to!  Free food, friendship, and free shelter!  I mean, it'd be a bit foolish to pass this up, am I right?  Haha!",
+      "no": "Because I'd rather not starve to death.  Normal food's gotten so plain lately, I can't force myself to eat anything else.  Just goes to show you how great the Marloss is, right?  It's a super food in every way."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_TARIUS_OtherEvangelists",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "Real nice people!  Joth is a real nice dude, he remembers everyones birthday!  I ain't even got the memory for that.  And Sera is a sweetheart!  Amaides is a real dependable guy, Ameth is… well, she's going through some stuff, she tries.  Siloc definitely keeps this whole operation running.  Chor's real good at fixing stuff, and Ager is a great artist!",
+      "no": "They're good people, they all remind me a bit of myself.  Suppose that's why we all get along."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MARLOSS_EVAN_TARIUS_Health",
+    "dynamic_line": {
+      "math": [ "time_since('cataclysm', 'unit':'days') <= 80" ],
+      "yes": "I've been feeling better than ever!  These Marloss fruits really are a super food.  My back doesn't even hurt in the morning!",
+      "no": "Well, I've just been feeling so hungry all the time.  God, just so hungry."
+    },
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
+  }
+]
