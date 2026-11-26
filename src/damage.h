@@ -224,6 +224,7 @@ struct dealt_damage_instance {
     int type_damage( const damage_type_id &dt ) const;
     int total_damage() const;
     dealt_damage_instance &operator+=( const dealt_damage_instance &rhs );
+    bool fully_blocked = false;
 };
 
 struct resistances {
