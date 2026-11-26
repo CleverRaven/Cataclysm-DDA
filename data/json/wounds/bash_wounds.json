@@ -317,7 +317,7 @@
     "copy-from": "bone_broken_healing_partial",
     "type": "wound",
     "name": { "str": "regenerating bone" },
-    "description": "That drug you took is resetting and healing your bone.  You can tell because how badly it hurts.",
+    "description": "That drug you took is resetting and healing your bone.  You can tell because of how badly it hurts.",
     "pain": [ 30, 50 ],
     "//": "Remember that Locutus applies that and Locutus speeds wound healing by 50x, so it actually heals in 14 hours to 21 hours",
     "healing_time": [ "30 days", "45 days" ],

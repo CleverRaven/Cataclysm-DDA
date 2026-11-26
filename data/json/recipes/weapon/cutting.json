@@ -203,7 +203,7 @@
         "proficiencies": [ { "proficiency": "prof_bladesmith" } ]
       },
       {
-        "name": "Heating and thorough hardening blade",
+        "name": "Heating and thorough hardening of the blade",
         "time": "35 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]

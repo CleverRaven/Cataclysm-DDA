@@ -172,7 +172,7 @@
     "//": "30u for flour, 8u for fruit, 2u for sugar.",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "//": "Slice fruit to size for filling and dust workspace with flour",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
@@ -244,7 +244,7 @@
     "//": "30u for flour, 8u for fruit, 2u for sugar.",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_food_prep" } ]
@@ -311,7 +311,7 @@
     "//": "30u for flour, 12u for veggy (save some energy baking them with the bread)",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "//": "Chop vegetables to size for filling and dust workspace with flour",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
@@ -370,7 +370,7 @@
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ], [ "cookbook", 3 ] ],
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_food_prep" } ]
@@ -448,7 +448,7 @@
     "//": "30u for flour, 5 for meat",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "//": "Chop meat to size for filling and dust workspace with flour",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
@@ -520,7 +520,7 @@
     "book_learn": [ [ "baking_book", 2 ], [ "scots_cookbook", 3 ] ],
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_food_prep" } ]
@@ -589,7 +589,7 @@
     "//": "30u for flour, 2u for milk, 2u for syrup",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "//": "Measure out wet ingredients and dust workspace with flour",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
@@ -659,7 +659,7 @@
     "book_learn": [ [ "baking_book", 3 ], [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 7 ], [ "sweets_book", 3 ] ],
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_food_prep" } ]

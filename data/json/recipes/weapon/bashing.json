@@ -2161,7 +2161,7 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_metalworking" } ]
       },
       {
-        "name": "Heating and thorough-hardening hammer head",
+        "name": "Heating and thorough-hardening of the hammer head",
         "time": "20 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]
@@ -2405,7 +2405,7 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       {
-        "name": "Thorough hardening mace",
+        "name": "Thorough hardening of the mace",
         "time": "30 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]
@@ -2789,7 +2789,7 @@
         "proficiencies": [ { "proficiency": "prof_blacksmithing" } ]
       },
       {
-        "name": "Heating and thorough quenching rings",
+        "name": "Heating and thorough quenching of the rings",
         "time": "30 m",
         "activity_level": "NO_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_hardening" } ]

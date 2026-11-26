@@ -214,7 +214,7 @@
     "//": "20u for flour, 20u for the meat",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "//": "Chop organ meat for filling and dust workspace with flour",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
@@ -273,7 +273,7 @@
     "//": "20u for flour, 20u for the meat",
     "steps": [
       {
-        "name": "Preperation",
+        "name": "Preparation",
         "time": "2 m",
         "activity_level": "LIGHT_EXERCISE",
         "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ]

@@ -96,7 +96,7 @@
     "valid_targets": [ "self" ],
     "components": "spell_components_paraclesian_spell_make_gossamer",
     "caster_condition": { "and": [ { "not": "is_day" }, "u_is_outside", { "math": [ "moon_phase() != 0" ] } ] },
-    "caster_condition_fail_message": "You must be outdoors under the moonlight to turn cotton into gossamer",
+    "caster_condition_fail_message": "You must be outdoors under the moonlight to turn cotton into gossamer.",
     "skill": "deduction",
     "max_level": 8,
     "difficulty": 7,
