@@ -192,19 +192,23 @@
         {
           "id": "EOC_LS_Obelisk_fixbot_have",
           "condition": { "u_has_trait": "LS_Passcode_fixbot" },
-          "effect": [ { "u_message": "The obelisk is inert." } ]
+          "effect": [
+            {
+              "u_message": "As you approach the obelisk the world suddenly dissolves into fractals.  You find yourself falling into a sparkling chasm."
+            },
+            { "run_eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ] }
+          ]
         },
         {
           "id": "EOC_LS_Obelisk_fixbot_grant",
-          "condition": {
-            "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] }, { "not": { "u_has_trait": "LS_Passcode_1" } } ]
-          },
+          "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } ] },
           "effect": [
             {
-              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Friends Forever Passcode.",
+              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As you focus on it, you feel a burning sensation on your skin.  You have learned the Friends Forever Passcode.\n\nThen, in a fraction of a second, the world around you dissolves into fractals.  You find yourself falling into a sparkling chasm.",
               "popup": true
             },
-            { "u_add_trait": "LS_Passcode_fixbot" }
+            { "u_add_trait": "LS_Passcode_fixbot" },
+            { "run_eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ] }
           ]
         },
         {
@@ -212,11 +216,12 @@
           "condition": { "not": { "compare_string": [ "yes", { "u_val": "ls_had_a_passcode" } ] } },
           "effect": [
             {
-              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As your eyes are drawn to it, you feel a burning sensation on your skin.  Burned onto your skin is a pair of circles with multi-articulated arms, holding hands to form a semi-circle; it's the 'Friends Forever Passcode'.",
+              "u_message": "You see a massive cobalt pillar, crawling with nearly-microscopic black dots that swirl in ever changing patterns.  As your eyes are drawn to it, you feel a burning sensation on your skin.  Burned onto your skin is a pair of circles with multi-articulated arms, holding hands to form a semi-circle; it's the 'Friends Forever Passcode'.\n\nThen, in a fraction of a second, the world around you dissolves into fractals.  You find yourself falling into a sparkling chasm.",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_fixbot" },
-            { "u_add_var": "ls_had_a_passcode", "value": "yes" }
+            { "u_add_var": "ls_had_a_passcode", "value": "yes" },
+            { "run_eocs": [ "EOC_LS_Exit_labyrinth_sparkling_chasm" ] }
           ]
         }
       ]
