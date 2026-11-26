@@ -3,7 +3,7 @@
     "//": "Once wounds can reduce your armor, this will do that.",
     "id": "broken_bark_small",
     "type": "wound",
-    "name": { "str": "chipped bark" },
+    "name": { "str_sp": "chipped bark" },
     "description": "You have chipped bark on your %s.",
     "weight": 50,
     "limit": 8,
@@ -18,7 +18,7 @@
   {
     "id": "broken_bark_medium",
     "type": "wound",
-    "name": { "str": "cracked bark" },
+    "name": { "str_sp": "cracked bark" },
     "description": "You have cracked bark on your %s.",
     "weight": 50,
     "limit": 8,
@@ -36,7 +36,7 @@
   {
     "id": "broken_bark_bad",
     "type": "wound",
-    "name": { "str": "splintered bark" },
+    "name": { "str_sp": "splintered bark" },
     "description": "You have splintered bark on your %s.",
     "weight": 40,
     "limit": 8,

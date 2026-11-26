@@ -453,7 +453,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DAITYA_SPAWN_CLONES",
     "effect": [
-      { "message": "Devourer can spawn clones until it's hp goes too low.", "type": "debug" },
+      { "message": "Devourer can spawn clones until its hp goes too low.", "type": "debug" },
       { "u_cast_spell": { "id": "CLONE_DAMAGE" } },
       { "u_spawn_monster": "mon_devourer_daitya_clone", "real_count": 1, "min_radius": 1, "max_radius": 3 }
     ]
@@ -477,7 +477,7 @@
     "id": "mon_devourer_daitya_clone",
     "type": "MONSTER",
     "name": { "str": "daitya clone" },
-    "description": "A smaller version of the Daitya without clones straining to burst free from it's orifices.  Instead every opening on its body is filled with teeth.",
+    "description": "A smaller version of the Daitya without clones straining to burst free from its orifices.  Instead, every opening on its body is filled with teeth.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE" ],

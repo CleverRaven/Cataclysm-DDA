@@ -1778,7 +1778,7 @@
     "type": "ITEM",
     "subtypes": [ "ARMOR" ],
     "name": { "str": "clerical collar" },
-    "description": "A white plastic collar worn by Christian clergymen (or women).  Although it is most commonly associated with Catholic Priests, it is also worn by Anglicans, Lutherans, Presbyterians, and Methodists.  It represents the belief that the wearer is eternally bound in service to God",
+    "description": "A white plastic collar worn by Christian clergymen (or women).  Although it is most commonly associated with Catholic priests, it is also worn by Anglican, Lutheran, Presbyterian, and Methodist priests and pastors.  It represents the belief that the wearer is eternally bound in service to God.",
     "weight": "100 g",
     "volume": "100 ml",
     "price": "0 USD",

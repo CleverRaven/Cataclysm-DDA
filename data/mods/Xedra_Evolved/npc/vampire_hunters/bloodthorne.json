@@ -206,7 +206,7 @@
     "dynamic_line": [
       "\"And done\" Phyliss says.  \"You're now free from vampirism for the time being.  Take some time to recover, and ask Blaine if you ever want to buy a less painful cure from him.\""
     ],
-    "responses": [ { "text": "thanks.  <end_talking_bye>", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Thanks.  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_VAMPIRE_HUNTER_BLOODTHORNE_INTRO",

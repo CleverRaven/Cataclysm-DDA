@@ -233,7 +233,7 @@
     "description": "An organ that allows a mature Gracken to convert their legs back to a base state.",
     "use_action": {
       "type": "effect_on_conditions",
-      "menu_text": "Replace legss",
+      "menu_text": "Replace legs",
       "consume": true,
       "effect_on_conditions": [
         {

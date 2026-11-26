@@ -338,7 +338,7 @@
     "magic_type": "xedra_magic_generic",
     "max_level": 1,
     "caster_condition": { "math": [ "u_val('sleepiness') > 200" ] },
-    "caster_condition_fail_message": "You aren't sleepy",
+    "caster_condition_fail_message": "You aren't sleepy.",
     "skill": "deduction",
     "effect": "effect_on_condition",
     "effect_str": "EOC_LILIN_AVOID_SLEEP",

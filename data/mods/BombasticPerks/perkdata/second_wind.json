@@ -36,7 +36,7 @@
       { "u_assign_activity": "ACT_PERK_SECOND_WIND", "duration": "10 seconds" },
       { "u_message": "You take a moment and catch your breath.", "type": "good" }
     ],
-    "false_effect": [ { "u_message": "You need more time really rest before you can get your second wind back.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You need some time to really rest before you can get your second wind back.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

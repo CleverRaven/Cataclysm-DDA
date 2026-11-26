@@ -352,7 +352,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "angelfish" },
     "reproduction": { "baby_type": { "baby_egg": "egg_angelfish" }, "baby_count": 2, "baby_timer": 17 },
-    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fish and known to be semi-aggressive in captivity."
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angelfish and known to be semi-aggressive in captivity."
   },
   {
     "id": "mon_fry_angelfish",

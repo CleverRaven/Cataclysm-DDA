@@ -603,7 +603,7 @@
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
     "name": { "str": "feral test subject" },
-    "description": "Clad in the remnants of an orange jumpsuit, this feral swings a pipe as they walk.  They hold it in one hand and move it like it's a stick, despite the  fittings on the end that must be increasing its weight.",
+    "description": "Clad in the remnants of an orange jumpsuit, this feral swings a pipe as they walk.  They hold it in one hand and move it like it's a stick, despite the fittings on the end that must be increasing its weight.",
     "relative": { "melee_skill": 2, "melee_dice": 1, "melee_dice_sides": 2, "dodge": 2 },
     "//": "Much shorter half-life since Noonien both reduces healing and suppresses feelings of hunger",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
