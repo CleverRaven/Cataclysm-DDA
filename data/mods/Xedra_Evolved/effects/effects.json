@@ -3858,7 +3858,7 @@
         "values": [
           {
             "value": "SPEED",
-            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 5, 0 )" ] }
+            "add": { "math": [ "xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_chronal_acceleration'), 3, 0 )" ] }
           },
           {
             "value": "MAX_MANA",
