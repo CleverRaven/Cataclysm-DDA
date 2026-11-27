@@ -735,6 +735,20 @@
   {
     "type": "ITEM",
     "category": "other",
+    "id": "tea_spoon",
+    "ascii_picture": "spoon",
+    "name": { "str": "tea spoon" },
+    "description": "A small spoon.  Ideal to measure spices like salt.",
+    "weight": "23 g",
+    "volume": "5 ml",
+    "longest_side": "11 cm",
+    "price": "69 cent",
+    "copy-from": "base_silverware",
+    "//": "Based on coffee spoon (yes I know) from: https://carryhome.in/products/kishco-cutlery-ultima-deluxe-stainless-steel-tea-spoon-set-of-6"
+  },
+  {
+    "type": "ITEM",
+    "category": "other",
     "id": "knife_butter",
     "ascii_picture": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
