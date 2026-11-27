@@ -237,6 +237,13 @@ static std::optional<int> score_reservation_candidate(
     return 10000 + ( cand.nested ? 1000 : 0 ) + ( cand.it->is_favorite ? 1 : 0 );
 }
 
+
+static bool candidate_can_merge( const provider_candidate &cand )
+{
+    const item *it = candidate_item( cand );
+    return it != nullptr && it->made_of( phase_id::LIQUID );
+}
+
 // One candidate per merge class, so a group cannot be covered by two providers the gate
 // counts as one.  Reservation filtering has already run, so a claimed member never
 // represents its class, and a member this craft already holds keeps its own.
@@ -248,8 +255,14 @@ std::vector<provider_candidate> collapse_merge_classes(
     std::vector<const provider_candidate *> order;
     order.reserve( available.size() );
     for( const provider_candidate &cand : available ) {
-        order.push_back( &cand );
+        if( candidate_can_merge( cand ) ) {
+            order.push_back( &cand );
+        }
     }
+    if( order.size() < 2 ) {
+        return available;
+    }
+
     const auto best_score = [&requests, who]( const provider_candidate & cand ) {
         std::optional<int> best;
         for( const craft_reservation::binding &req : requests ) {
@@ -288,21 +301,26 @@ std::vector<provider_candidate> collapse_merge_classes(
     } );
 
     std::vector<const provider_candidate *> kept;
+    std::unordered_set<const provider_candidate *> dropped;
     for( const provider_candidate *cand : order ) {
         const bool merged = std::any_of( kept.begin(), kept.end(),
         [cand]( const provider_candidate * other ) {
             return candidate_merges_with( *cand, *other );
         } );
-        if( !merged ) {
+        if( merged ) {
+            dropped.insert( cand );
+        } else {
             kept.push_back( cand );
         }
     }
-
+    if( dropped.empty() ) {
+        return available;
+    }
     std::vector<provider_candidate> out;
-    out.reserve( kept.size() );
+    out.reserve( available.size() - dropped.size() );
     // Enumeration order, which class building and the fingerprint both depend on.
     for( const provider_candidate &cand : available ) {
-        if( std::find( kept.begin(), kept.end(), &cand ) != kept.end() ) {
+        if( dropped.count( &cand ) == 0 ) {
             out.push_back( cand );
         }
     }
@@ -339,31 +357,15 @@ static bool abstract_capacity_allows( const provider_candidate &cand,
 
 // What selecting a candidate takes out of the pool, so two candidates that look alike
 // but hide different things never collapse into one class.
-static std::string exclusion_signature( const provider_candidate &cand,
-                                        const std::vector<provider_candidate> &pool )
+static std::string exclusion_signature( const std::vector<const provider_candidate *> &members )
 {
     std::map<itype_id, int> charges;
     std::set<itype_id> tools;
-    for( const provider_candidate &other : pool ) {
-        const bool same_unit =
-            cand.kind == craft_reservation::provider_kind::item
-            ? other.kind == craft_reservation::provider_kind::item &&
-            other.root_uid == cand.root_uid
-            : cand.kind == craft_reservation::provider_kind::vehicle_part
-            ? other.kind == craft_reservation::provider_kind::vehicle_part &&
-            other.provider_uid == cand.provider_uid
-            // Both tile kinds, since provider_tile_reserved hides everything the tile
-            // offers rather than only the pseudo tools of one kind.
-            : cand.tile && other.tile == cand.tile &&
-            ( other.kind == craft_reservation::provider_kind::furniture ||
-              other.kind == craft_reservation::provider_kind::terrain );
-        if( !same_unit ) {
-            continue;
-        }
-        if( other.it != nullptr ) {
-            charges[other.it->typeId()] += other.it->ammo_remaining();
+    for( const provider_candidate *other : members ) {
+        if( other->it != nullptr ) {
+            charges[other->it->typeId()] += other->it->ammo_remaining();
         } else {
-            tools.insert( other.pseudo_type );
+            tools.insert( other->pseudo_type );
         }
     }
     std::string sig;
@@ -433,6 +435,8 @@ std::vector<candidate_class> build_candidate_classes(
     // Units are numbered rather than compared as text: the order only has to be stable.
     std::map<std::string, size_t> unit_ids;
     std::map<const provider_candidate *, size_t> unit_of;
+    std::map<std::string, std::vector<const provider_candidate *>> pool_by_unit;
+    std::map<std::string, std::string> sig_cache;
     for( const provider_candidate &cand : available ) {
         std::vector<std::optional<int>> scores;
         scores.reserve( requests.size() );
@@ -444,8 +448,29 @@ std::vector<candidate_class> build_candidate_classes(
         if( !usable ) {
             continue;
         }
-        const std::string signature =
-            provider_is_exclusive( cand ) ? exclusion_signature( cand, pool ) : std::string();
+        const std::string unit = exclusion_unit_key( cand );
+        std::string signature;
+        if( provider_is_exclusive( cand ) ) {
+            if( unit == "t" ) {
+                signature = "|";
+            } else {
+                if( pool_by_unit.empty() ) {
+                    for( const provider_candidate &other : pool ) {
+                        pool_by_unit[exclusion_unit_key( other )].push_back( &other );
+                    }
+                }
+                const auto cached = sig_cache.find( unit );
+                if( cached != sig_cache.end() ) {
+                    signature = cached->second;
+                } else {
+                    const auto bucket = pool_by_unit.find( unit );
+                    signature = bucket != pool_by_unit.end()
+                                ? exclusion_signature( bucket->second )
+                                : "|";
+                    sig_cache.emplace( unit, signature );
+                }
+            }
+        }
         const std::string key = candidate_class_key( cand, scores, signature );
         candidate_class &cls = by_key[key];
         cls.key = key;
@@ -455,7 +480,6 @@ std::vector<candidate_class> build_candidate_classes(
         if( provider_is_exclusive( cand ) && held_keys.count( provider_identity( cand ) ) > 0 ) {
             held_members.insert( &cand );
         }
-        const std::string unit = exclusion_unit_key( cand );
         const auto inserted = unit_ids.emplace( unit, unit_ids.size() );
         unit_of[&cand] = inserted.first->second;
     }
