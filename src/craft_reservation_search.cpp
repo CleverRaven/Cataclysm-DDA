@@ -237,6 +237,13 @@ static std::optional<int> score_reservation_candidate(
     return 10000 + ( cand.nested ? 1000 : 0 ) + ( cand.it->is_favorite ? 1 : 0 );
 }
 
+
+static bool candidate_can_merge( const provider_candidate &cand )
+{
+    const item *it = candidate_item( cand );
+    return it != nullptr && it->made_of( phase_id::LIQUID );
+}
+
 // One candidate per merge class, so a group cannot be covered by two providers the gate
 // counts as one.  Reservation filtering has already run, so a claimed member never
 // represents its class, and a member this craft already holds keeps its own.
@@ -248,8 +255,14 @@ std::vector<provider_candidate> collapse_merge_classes(
     std::vector<const provider_candidate *> order;
     order.reserve( available.size() );
     for( const provider_candidate &cand : available ) {
-        order.push_back( &cand );
+        if( candidate_can_merge( cand ) ) {
+            order.push_back( &cand );
+        }
     }
+    if( order.size() < 2 ) {
+        return available;
+    }
+
     const auto best_score = [&requests, who]( const provider_candidate & cand ) {
         std::optional<int> best;
         for( const craft_reservation::binding &req : requests ) {
@@ -288,16 +301,21 @@ std::vector<provider_candidate> collapse_merge_classes(
     } );
 
     std::vector<const provider_candidate *> kept;
+    std::unordered_set<const provider_candidate *> dropped;
     for( const provider_candidate *cand : order ) {
         const bool merged = std::any_of( kept.begin(), kept.end(),
         [cand]( const provider_candidate * other ) {
             return candidate_merges_with( *cand, *other );
         } );
-        if( !merged ) {
+        if( merged ) {
+            dropped.insert( cand );
+        } else {
             kept.push_back( cand );
         }
     }
-
+    if( dropped.empty() ) {
+        return available;
+    }
     std::vector<provider_candidate> out;
     out.reserve( kept.size() );
     // Enumeration order, which class building and the fingerprint both depend on.
@@ -339,31 +357,15 @@ static bool abstract_capacity_allows( const provider_candidate &cand,
 
 // What selecting a candidate takes out of the pool, so two candidates that look alike
 // but hide different things never collapse into one class.
-static std::string exclusion_signature( const provider_candidate &cand,
-                                        const std::vector<provider_candidate> &pool )
+static std::string exclusion_signature( const std::vector<const provider_candidate *> &members )
 {
     std::map<itype_id, int> charges;
     std::set<itype_id> tools;
-    for( const provider_candidate &other : pool ) {
-        const bool same_unit =
-            cand.kind == craft_reservation::provider_kind::item
-            ? other.kind == craft_reservation::provider_kind::item &&
-            other.root_uid == cand.root_uid
-            : cand.kind == craft_reservation::provider_kind::vehicle_part
-            ? other.kind == craft_reservation::provider_kind::vehicle_part &&
-            other.provider_uid == cand.provider_uid
-            // Both tile kinds, since provider_tile_reserved hides everything the tile
-            // offers rather than only the pseudo tools of one kind.
-            : cand.tile && other.tile == cand.tile &&
-            ( other.kind == craft_reservation::provider_kind::furniture ||
-              other.kind == craft_reservation::provider_kind::terrain );
-        if( !same_unit ) {
-            continue;
-        }
-        if( other.it != nullptr ) {
-            charges[other.it->typeId()] += other.it->ammo_remaining();
+    for( const provider_candidate *other : members ) {
+        if( other->it != nullptr ) {
+            charges[other->it->typeId()] += other->it->ammo_remaining();
         } else {
-            tools.insert( other.pseudo_type );
+            tools.insert( other->pseudo_type );
         }
     }
     std::string sig;
@@ -433,6 +435,8 @@ std::vector<candidate_class> build_candidate_classes(
     // Units are numbered rather than compared as text: the order only has to be stable.
     std::map<std::string, size_t> unit_ids;
     std::map<const provider_candidate *, size_t> unit_of;
+    std::map<std::string, std::vector<const provider_candidate *>> pool_by_unit;
+    std::map<std::string, std::string> sig_cache;
     for( const provider_candidate &cand : available ) {
         std::vector<std::optional<int>> scores;
         scores.reserve( requests.size() );
@@ -444,341 +448,373 @@ std::vector<candidate_class> build_candidate_classes(
         if( !usable ) {
             continue;
         }
-        const std::string signature =
-            provider_is_exclusive( cand ) ? exclusion_signature( cand, pool ) : std::string();
-        const std::string key = candidate_class_key( cand, scores, signature );
-        candidate_class &cls = by_key[key];
-        cls.key = key;
-        cls.scores = scores;
-        cls.abstract = !provider_is_exclusive( cand );
-        cls.members.push_back( &cand );
-        if( provider_is_exclusive( cand ) && held_keys.count( provider_identity( cand ) ) > 0 ) {
-            held_members.insert( &cand );
-        }
         const std::string unit = exclusion_unit_key( cand );
-        const auto inserted = unit_ids.emplace( unit, unit_ids.size() );
-        unit_of[&cand] = inserted.first->second;
+        std::string signature;
+
+        if( provider_is_exclusive( cand ) ) {
+            if( provider_is_exclusive( cand ) ) {
+                if( unit == "t" ) {
+                    signature = "|";
+                } else {
+                    if( pool_by_unit.empty() ) {
+                        for( const provider_candidate &other : pool ) {
+                            pool_by_unit[exclusion_unit_key( other )].push_back( &other );
+                        }
+                    }
+                    const auto cached = sig_cache.find( unit );
+                    if( cached != sig_cache.end() ) {
+                        signature = cached->second;
+                    } else {
+                        const auto bucket = pool_by_unit.find( unit );
+                        signature = bucket != pool_by_unit.end()
+                                    ? exclusion_signature( bucket->second )
+                                    : "|";
+                        sig_cache.emplace( unit, signature );
+                    }
+                }
+            }
+            const std::string key = candidate_class_key( cand, scores, signature );
+            const auto inserted = unit_ids.emplace( unit, unit_ids.size() );
+            unit_of[&cand] = inserted.first->second;
+        }
+
+        std::vector<candidate_class> classes;
+        classes.reserve( by_key.size() );
+        for( std::pair<const std::string, candidate_class> &entry : by_key ) {
+            candidate_class &cls = entry.second;
+            // Draining one unit before opening another hides strictly less, so the fixed
+            // order is optimal and never needs searching over.  A member already held hides
+            // nothing at all, which is why those come first.
+            std::stable_sort( cls.members.begin(), cls.members.end(),
+            [&unit_of, &held_members]( const provider_candidate * a, const provider_candidate * b ) {
+                const bool a_held = held_members.count( a ) > 0;
+                const bool b_held = held_members.count( b ) > 0;
+                if( a_held != b_held ) {
+                    return a_held;
+                }
+                if( unit_of[a] != unit_of[b] ) {
+                    return unit_of[a] < unit_of[b];
+                }
+                return provider_identity( *a ) < provider_identity( *b );
+            } );
+            cls.held = 0;
+            for( const provider_candidate *member : cls.members ) {
+                if( held_members.count( member ) > 0 ) {
+                    ++cls.held;
+                }
+            }
+            classes.push_back( std::move( cls ) );
+        }
+        return classes;
     }
 
-    std::vector<candidate_class> classes;
-    classes.reserve( by_key.size() );
-    for( std::pair<const std::string, candidate_class> &entry : by_key ) {
-        candidate_class &cls = entry.second;
-        // Draining one unit before opening another hides strictly less, so the fixed
-        // order is optimal and never needs searching over.  A member already held hides
-        // nothing at all, which is why those come first.
-        std::stable_sort( cls.members.begin(), cls.members.end(),
-        [&unit_of, &held_members]( const provider_candidate * a, const provider_candidate * b ) {
-            const bool a_held = held_members.count( a ) > 0;
-            const bool b_held = held_members.count( b ) > 0;
-            if( a_held != b_held ) {
-                return a_held;
+    // Fixed algorithm over a canonically ordered stream: the value is persisted, so a hash
+    // that varied with addresses or container order would force a search on every load.
+    static uint64_t fold_fingerprint( uint64_t hash, std::string_view bytes ) {
+        for( const char c : bytes ) {
+            hash ^= static_cast<uint64_t>( static_cast<unsigned char>( c ) );
+            hash *= 1099511628211ULL;
+        }
+        return hash;
+    }
+
+    // The whole root state the search reads, so a capped craft re-runs only when something
+    // it depends on moved.  Cardinality and unit multiplicity are in here because a second
+    // identical provider changes no class key and still flips a two-provider group.
+    uint64_t pool_fingerprint( const std::vector<candidate_class> &classes,
+                               const std::vector<provider_candidate> &available,
+                               Character * who ) {
+        uint64_t hash = 14695981039346656037ULL;
+        hash = fold_fingerprint( hash, std::to_string( craft_reservation::pool_fingerprint_version ) );
+        std::vector<std::string> rows;
+        rows.reserve( classes.size() );
+        for( const candidate_class &cls : classes ) {
+            // Per-unit counts, not just how many units there are: three members in one unit
+            // and two in each of two hide different amounts for the same total.
+            std::map<std::string, int> units;
+            for( const provider_candidate *member : cls.members ) {
+                ++units[exclusion_unit_key( *member )];
             }
-            if( unit_of[a] != unit_of[b] ) {
-                return unit_of[a] < unit_of[b];
+            std::vector<int> spread;
+            spread.reserve( units.size() );
+            for( const std::pair<const std::string, int> &unit : units ) {
+                spread.push_back( unit.second );
             }
-            return provider_identity( *a ) < provider_identity( *b );
+            std::sort( spread.begin(), spread.end() );
+            std::string row = cls.key + '#' + std::to_string( cls.members.size() ) + '#';
+            for( const int n : spread ) {
+                row += std::to_string( n ) + ',';
+            }
+            rows.push_back( row );
+        }
+        // Partitioned the way the debit is: player, map and both draw from different pools,
+        // so a charge source changing sides changes feasibility without changing a class.
+        std::map<std::pair<bool, itype_id>, int> pool;
+        std::set<itype_id> carried_types;
+        // Connected batteries get rows of their own rather than a term inside each tool's, so
+        // one battery two tools reach reads as one pool and moves the fingerprint once.
+        std::map<tripoint_abs_ms, int> linked_pools;
+        map &here = get_map();
+        for( const provider_candidate &cand : available ) {
+            if( cand.it != nullptr ) {
+                pool[ { cand.carried, cand.it->typeId() }] += cand.it->ammo_remaining();
+                if( linked_power_source( here, *cand.it ) != nullptr ) {
+                    linked_pools[cand.it->link().t_abs_pos] =
+                        cand.it->ammo_remaining_linked( here ) - cand.it->ammo_remaining();
+                }
+                if( cand.carried ) {
+                    carried_types.insert( cand.it->typeId() );
+                }
+            } else {
+                pool[ { cand.carried, cand.pseudo_type }] += 1;
+            }
+        }
+        // The carried side is read back the way feasibility reads it, so a UPS or a bionic
+        // reserve refilling changes the fingerprint even though every item stayed put and
+        // every class key is byte for byte the same.
+        if( who != nullptr ) {
+            for( const itype_id &type : carried_types ) {
+                pool[ { true, type }] = who->charges_of( type, INT_MAX, unreserved_filter );
+            }
+        }
+        for( const std::pair<const std::pair<bool, itype_id>, int> &entry : pool ) {
+            rows.push_back( std::string( "pool/" ) + ( entry.first.first ? 'p' : 'm' ) + '/' +
+                            entry.first.second.str() + '/' + std::to_string( entry.second ) );
+        }
+        for( const std::pair<const tripoint_abs_ms, int> &entry : linked_pools ) {
+            rows.push_back( "link/" + entry.first.to_string() + '/' + std::to_string( entry.second ) );
+        }
+        std::sort( rows.begin(), rows.end() );
+        for( const std::string &row : rows ) {
+            hash = fold_fingerprint( hash, row );
+        }
+        return hash == 0 ? 1 : hash;
+    }
+
+    // Which class a request prefers, so the search tries the cheapest branch first.
+    std::vector<size_t> classes_for_request( const std::vector<candidate_class> &classes,
+            size_t request_index ) {
+        std::vector<size_t> order;
+        for( size_t c = 0; c < classes.size(); ++c ) {
+            if( classes[c].scores[request_index] ) {
+                order.push_back( c );
+            }
+        }
+        std::stable_sort( order.begin(), order.end(), [&]( size_t a, size_t b ) {
+            return *classes[a].scores[request_index] < *classes[b].scores[request_index];
         } );
-        cls.held = 0;
-        for( const provider_candidate *member : cls.members ) {
-            if( held_members.count( member ) > 0 ) {
-                ++cls.held;
-            }
-        }
-        classes.push_back( std::move( cls ) );
+        return order;
     }
-    return classes;
-}
 
-// Fixed algorithm over a canonically ordered stream: the value is persisted, so a hash
-// that varied with addresses or container order would force a search on every load.
-static uint64_t fold_fingerprint( uint64_t hash, std::string_view bytes )
-{
-    for( const char c : bytes ) {
-        hash ^= static_cast<uint64_t>( static_cast<unsigned char>( c ) );
-        hash *= 1099511628211ULL;
-    }
-    return hash;
-}
-
-// The whole root state the search reads, so a capped craft re-runs only when something
-// it depends on moved.  Cardinality and unit multiplicity are in here because a second
-// identical provider changes no class key and still flips a two-provider group.
-uint64_t pool_fingerprint( const std::vector<candidate_class> &classes,
-                           const std::vector<provider_candidate> &available,
-                           Character *who )
-{
-    uint64_t hash = 14695981039346656037ULL;
-    hash = fold_fingerprint( hash, std::to_string( craft_reservation::pool_fingerprint_version ) );
-    std::vector<std::string> rows;
-    rows.reserve( classes.size() );
-    for( const candidate_class &cls : classes ) {
-        // Per-unit counts, not just how many units there are: three members in one unit
-        // and two in each of two hide different amounts for the same total.
-        std::map<std::string, int> units;
-        for( const provider_candidate *member : cls.members ) {
-            ++units[exclusion_unit_key( *member )];
+    // Two prefixes that took the same members of the same classes serve the same future
+    // groups, because every member of a class satisfies the same requests.  Only sound at
+    // group entry: mid-group the per-group identities decide what is still takeable, and
+    // they are not in the key.
+    static std::string memo_key( size_t depth, const search_state & state ) {
+        std::string key = std::to_string( depth ) + ':';
+        for( int used : state.usage ) {
+            key += std::to_string( used ) + ',';
         }
-        std::vector<int> spread;
-        spread.reserve( units.size() );
-        for( const std::pair<const std::string, int> &unit : units ) {
-            spread.push_back( unit.second );
-        }
-        std::sort( spread.begin(), spread.end() );
-        std::string row = cls.key + '#' + std::to_string( cls.members.size() ) + '#';
-        for( const int n : spread ) {
-            row += std::to_string( n ) + ',';
-        }
-        rows.push_back( row );
-    }
-    // Partitioned the way the debit is: player, map and both draw from different pools,
-    // so a charge source changing sides changes feasibility without changing a class.
-    std::map<std::pair<bool, itype_id>, int> pool;
-    std::set<itype_id> carried_types;
-    // Connected batteries get rows of their own rather than a term inside each tool's, so
-    // one battery two tools reach reads as one pool and moves the fingerprint once.
-    std::map<tripoint_abs_ms, int> linked_pools;
-    map &here = get_map();
-    for( const provider_candidate &cand : available ) {
-        if( cand.it != nullptr ) {
-            pool[ { cand.carried, cand.it->typeId() }] += cand.it->ammo_remaining();
-            if( linked_power_source( here, *cand.it ) != nullptr ) {
-                linked_pools[cand.it->link().t_abs_pos] =
-                    cand.it->ammo_remaining_linked( here ) - cand.it->ammo_remaining();
-            }
-            if( cand.carried ) {
-                carried_types.insert( cand.it->typeId() );
-            }
-        } else {
-            pool[ { cand.carried, cand.pseudo_type }] += 1;
-        }
-    }
-    // The carried side is read back the way feasibility reads it, so a UPS or a bionic
-    // reserve refilling changes the fingerprint even though every item stayed put and
-    // every class key is byte for byte the same.
-    if( who != nullptr ) {
-        for( const itype_id &type : carried_types ) {
-            pool[ { true, type }] = who->charges_of( type, INT_MAX, unreserved_filter );
-        }
-    }
-    for( const std::pair<const std::pair<bool, itype_id>, int> &entry : pool ) {
-        rows.push_back( std::string( "pool/" ) + ( entry.first.first ? 'p' : 'm' ) + '/' +
-                        entry.first.second.str() + '/' + std::to_string( entry.second ) );
-    }
-    for( const std::pair<const tripoint_abs_ms, int> &entry : linked_pools ) {
-        rows.push_back( "link/" + entry.first.to_string() + '/' + std::to_string( entry.second ) );
-    }
-    std::sort( rows.begin(), rows.end() );
-    for( const std::string &row : rows ) {
-        hash = fold_fingerprint( hash, row );
-    }
-    return hash == 0 ? 1 : hash;
-}
-
-// Which class a request prefers, so the search tries the cheapest branch first.
-std::vector<size_t> classes_for_request( const std::vector<candidate_class> &classes,
-        size_t request_index )
-{
-    std::vector<size_t> order;
-    for( size_t c = 0; c < classes.size(); ++c ) {
-        if( classes[c].scores[request_index] ) {
-            order.push_back( c );
-        }
-    }
-    std::stable_sort( order.begin(), order.end(), [&]( size_t a, size_t b ) {
-        return *classes[a].scores[request_index] < *classes[b].scores[request_index];
-    } );
-    return order;
-}
-
-// Two prefixes that took the same members of the same classes serve the same future
-// groups, because every member of a class satisfies the same requests.  Only sound at
-// group entry: mid-group the per-group identities decide what is still takeable, and
-// they are not in the key.
-static std::string memo_key( size_t depth, const search_state &state )
-{
-    std::string key = std::to_string( depth ) + ':';
-    for( int used : state.usage ) {
-        key += std::to_string( used ) + ',';
-    }
-    // Which multiset each held slot sits in, and which group minted it.  Two prefixes with
-    // equal usage counts can still leave a later group different slots to share, which
-    // decides whether it needs capacity of its own.
-    std::vector<std::string> slots;
-    for( const craft_reservation::binding &b : state.selected ) {
-        if( b.occurrence_slot < 0 ) {
-            continue;
-        }
-        slots.push_back( std::to_string( static_cast<int>( b.kind ) ) + '/' +
-                         std::to_string( b.intrinsic_owner.get_value() ) + '/' +
-                         b.qual.str() + '/' + std::to_string( b.level ) + '/' +
-                         b.pseudo_type.str() + '/' +
-                         std::to_string( b.group_index ) + '/' +
-                         std::to_string( b.occurrence_slot ) );
-    }
-    std::sort( slots.begin(), slots.end() );
-    key += '|';
-    for( const std::string &slot : slots ) {
-        key += slot + ';';
-    }
-    return key;
-}
-
-// Slots already held in one abstract multiset, keyed the way the multiset is: by
-// capability for an intrinsic quality, by type for everything else.
-static std::vector<std::pair<int, int>> abstract_slots_in_multiset(
-        const search_state &state, const provider_candidate &cand,
-        const craft_reservation::binding &req )
-{
-    std::vector<std::pair<int, int>> slots;
-    for( const craft_reservation::binding &b : state.selected ) {
-        if( b.occurrence_slot < 0 || b.kind != cand.kind ) {
-            continue;
-        }
-        const bool same_source =
-            cand.kind == craft_reservation::provider_kind::intrinsic
-            ? b.intrinsic_owner == cand.intrinsic_owner &&
-            ( req.req == craft_reservation::requirement_kind::presence_tool
-              ? b.pseudo_type == cand.pseudo_type
-              : b.qual == req.qual && b.level == req.level )
-            : b.pseudo_type == cand.pseudo_type;
-        if( same_source ) {
-            slots.emplace_back( b.group_index, b.occurrence_slot );
-        }
-    }
-    return slots;
-}
-
-// Providers this group already holds, so its slots stay distinct while reuse across
-// groups stays free.  Seeded from surviving bindings as well as this pass's picks.
-static std::set<provider_key> group_taken( const search_state &state, int group )
-{
-    std::set<provider_key> taken;
-    for( const craft_reservation::binding &b : state.selected ) {
-        if( b.group_index != group ) {
-            continue;
-        }
-        if( b.kind == craft_reservation::provider_kind::item ||
-            b.kind == craft_reservation::provider_kind::vehicle_part ) {
-            taken.insert( provider_key{ 1, b.provider_uid, tripoint_abs_ms() } );
-        } else if( b.tile ) {
-            taken.insert( provider_key{ 2, 0, *b.tile } );
-        }
-    }
-    return taken;
-}
-
-// Take one more provider for the group at `depth`, trying each class in score order.
-static selection_result take_one( selection_context &ctx, size_t depth, search_state &state )
-{
-    const int group = ctx.groups[depth].first;
-    const std::set<provider_key> taken = group_taken( state, group );
-    // A group is an OR of alternatives, so once one is chosen the rest of its providers
-    // come from that same alternative rather than a mixture.
-    int chosen_alternative = -1;
-    for( const craft_reservation::binding &b : state.selected ) {
-        if( b.group_index == group ) {
-            chosen_alternative = b.alternative_index;
-            break;
-        }
-    }
-    bool budget_ran_out = false;
-    for( size_t r = 0; r < ctx.requests->size(); ++r ) {
-        const craft_reservation::binding &req = ( *ctx.requests )[r];
-        if( req.group_index != group ||
-            ( chosen_alternative >= 0 && req.alternative_index != chosen_alternative ) ) {
-            continue;
-        }
-        // Scoped to the alternative: a class that cannot fill a wide alternative may
-        // still be all a narrow one needs.
-        std::set<size_t> tried;
-        for( size_t c : classes_for_request( *ctx.classes, r ) ) {
-            if( !tried.insert( c ).second ) {
+        // Which multiset each held slot sits in, and which group minted it.  Two prefixes with
+        // equal usage counts can still leave a later group different slots to share, which
+        // decides whether it needs capacity of its own.
+        std::vector<std::string> slots;
+        for( const craft_reservation::binding &b : state.selected ) {
+            if( b.occurrence_slot < 0 ) {
                 continue;
             }
-            const candidate_class &cls = ( *ctx.classes )[c];
-            const int used = state.usage[c];
-            // Members already taken by an earlier group are free to reuse and hide
-            // nothing further, so they are offered before opening a new one.
-            std::vector<int> choices;
-            choices.reserve( used + 1 );
-            for( int m = 0; m < used; ++m ) {
-                choices.push_back( m );
-            }
-            if( cls.abstract ) {
-                choices.push_back( 0 );
-            } else if( used < static_cast<int>( cls.members.size() ) ) {
-                choices.push_back( used );
-            }
+            slots.push_back( std::to_string( static_cast<int>( b.kind ) ) + '/' +
+                             std::to_string( b.intrinsic_owner.get_value() ) + '/' +
+                             b.qual.str() + '/' + std::to_string( b.level ) + '/' +
+                             b.pseudo_type.str() + '/' +
+                             std::to_string( b.group_index ) + '/' +
+                             std::to_string( b.occurrence_slot ) );
+        }
+        std::sort( slots.begin(), slots.end() );
+        key += '|';
+        for( const std::string &slot : slots ) {
+            key += slot + ';';
+        }
+        return key;
+    }
 
-            // A slot another group already minted for this source is reused rather than
-            // claiming the multiset's capacity twice.
-            std::vector<int> shared_slots;
-            int multiset_held = 0;
-            if( cls.abstract && !cls.members.empty() ) {
-                const std::vector<std::pair<int, int>> slots =
-                                                        abstract_slots_in_multiset( state, *cls.members[0], req );
-                std::set<int> own_slots;
-                std::set<int> distinct;
-                for( const std::pair<int, int> &held : slots ) {
-                    distinct.insert( held.second );
-                    if( held.first == group ) {
-                        own_slots.insert( held.second );
-                    }
-                }
-                // Capacity is spent per slot, and one slot may back several groups.
-                multiset_held = static_cast<int>( distinct.size() );
-                for( const std::pair<int, int> &held : slots ) {
-                    // A slot this group already holds cannot fill a second of its
-                    // occurrences, or one source would cover a two-provider group.
-                    if( held.first != group && own_slots.count( held.second ) == 0 ) {
-                        shared_slots.push_back( held.second );
-                    }
-                }
+    // Slots already held in one abstract multiset, keyed the way the multiset is: by
+    // capability for an intrinsic quality, by type for everything else.
+    static std::vector<std::pair<int, int>> abstract_slots_in_multiset(
+            const search_state & state, const provider_candidate & cand,
+    const craft_reservation::binding & req ) {
+        std::vector<std::pair<int, int>> slots;
+        for( const craft_reservation::binding &b : state.selected ) {
+            if( b.occurrence_slot < 0 || b.kind != cand.kind ) {
+                continue;
             }
+            const bool same_source =
+                cand.kind == craft_reservation::provider_kind::intrinsic
+                ? b.intrinsic_owner == cand.intrinsic_owner &&
+                ( req.req == craft_reservation::requirement_kind::presence_tool
+                  ? b.pseudo_type == cand.pseudo_type
+                  : b.qual == req.qual && b.level == req.level )
+                : b.pseudo_type == cand.pseudo_type;
+            if( same_source ) {
+                slots.emplace_back( b.group_index, b.occurrence_slot );
+            }
+        }
+        return slots;
+    }
 
-            for( const int member : choices ) {
-                const bool fresh = !cls.abstract && member == used;
-                const provider_candidate &cand = *cls.members[cls.abstract ? 0 : member];
-                if( provider_is_exclusive( cand ) &&
-                    taken.count( provider_identity( cand ) ) > 0 ) {
+    // Providers this group already holds, so its slots stay distinct while reuse across
+    // groups stays free.  Seeded from surviving bindings as well as this pass's picks.
+    static std::set<provider_key> group_taken( const search_state & state, int group ) {
+        std::set<provider_key> taken;
+        for( const craft_reservation::binding &b : state.selected ) {
+            if( b.group_index != group ) {
+                continue;
+            }
+            if( b.kind == craft_reservation::provider_kind::item ||
+                b.kind == craft_reservation::provider_kind::vehicle_part ) {
+                taken.insert( provider_key{ 1, b.provider_uid, tripoint_abs_ms() } );
+            } else if( b.tile ) {
+                taken.insert( provider_key{ 2, 0, *b.tile } );
+            }
+        }
+        return taken;
+    }
+
+    // Take one more provider for the group at `depth`, trying each class in score order.
+    static selection_result take_one( selection_context & ctx, size_t depth, search_state & state ) {
+        const int group = ctx.groups[depth].first;
+        const std::set<provider_key> taken = group_taken( state, group );
+        // A group is an OR of alternatives, so once one is chosen the rest of its providers
+        // come from that same alternative rather than a mixture.
+        int chosen_alternative = -1;
+        for( const craft_reservation::binding &b : state.selected ) {
+            if( b.group_index == group ) {
+                chosen_alternative = b.alternative_index;
+                break;
+            }
+        }
+        bool budget_ran_out = false;
+        for( size_t r = 0; r < ctx.requests->size(); ++r ) {
+            const craft_reservation::binding &req = ( *ctx.requests )[r];
+            if( req.group_index != group ||
+                ( chosen_alternative >= 0 && req.alternative_index != chosen_alternative ) ) {
+                continue;
+            }
+            // Scoped to the alternative: a class that cannot fill a wide alternative may
+            // still be all a narrow one needs.
+            std::set<size_t> tried;
+            for( size_t c : classes_for_request( *ctx.classes, r ) ) {
+                if( !tried.insert( c ).second ) {
                     continue;
                 }
-                const bool shares_slot = cls.abstract && !shared_slots.empty();
-                if( cls.abstract && !shares_slot &&
-                    !abstract_capacity_allows( cand, req, *ctx.src, *ctx.bindable,
-                                               multiset_held + 1 ) ) {
-                    continue;
+                const candidate_class &cls = ( *ctx.classes )[c];
+                const int used = state.usage[c];
+                // Members already taken by an earlier group are free to reuse and hide
+                // nothing further, so they are offered before opening a new one.
+                std::vector<int> choices;
+                choices.reserve( used + 1 );
+                for( int m = 0; m < used; ++m ) {
+                    choices.push_back( m );
+                }
+                if( cls.abstract ) {
+                    choices.push_back( 0 );
+                } else if( used < static_cast<int>( cls.members.size() ) ) {
+                    choices.push_back( used );
                 }
 
-                craft_reservation::binding bound = req;
-                bound.kind = cand.kind;
-                bound.provider_uid = cand.provider_uid;
-                bound.tile = cand.tile;
-                bound.furn = cand.furn;
-                bound.ter = cand.ter;
-                bound.intrinsic_owner = cand.intrinsic_owner;
-                if( cand.kind == craft_reservation::provider_kind::intrinsic ) {
-                    // Keyed by capability, so a quality binding names no item type.
-                    bound.pseudo_type = req.req == craft_reservation::requirement_kind::quality
-                                        ? itype_id::NULL_ID()
-                                        : cand.pseudo_type;
-                    bound.occurrence_slot = shares_slot ? shared_slots.front()
-                                            : state.next_abstract_slot++;
-                } else if( cand.kind == craft_reservation::provider_kind::environment ) {
-                    bound.pseudo_type = cand.pseudo_type;
-                    bound.occurrence_slot = shares_slot ? shared_slots.front()
-                                            : state.next_abstract_slot++;
-                } else if( cand.kind != craft_reservation::provider_kind::item ) {
-                    bound.pseudo_type = cand.pseudo_type;
+                // A slot another group already minted for this source is reused rather than
+                // claiming the multiset's capacity twice.
+                std::vector<int> shared_slots;
+                int multiset_held = 0;
+                if( cls.abstract && !cls.members.empty() ) {
+                    const std::vector<std::pair<int, int>> slots =
+                                                            abstract_slots_in_multiset( state, *cls.members[0], req );
+                    std::set<int> own_slots;
+                    std::set<int> distinct;
+                    for( const std::pair<int, int> &held : slots ) {
+                        distinct.insert( held.second );
+                        if( held.first == group ) {
+                            own_slots.insert( held.second );
+                        }
+                    }
+                    // Capacity is spent per slot, and one slot may back several groups.
+                    multiset_held = static_cast<int>( distinct.size() );
+                    for( const std::pair<int, int> &held : slots ) {
+                        // A slot this group already holds cannot fill a second of its
+                        // occurrences, or one source would cover a two-provider group.
+                        if( held.first != group && own_slots.count( held.second ) == 0 ) {
+                            shared_slots.push_back( held.second );
+                        }
+                    }
                 }
 
-                const bool claims_capacity = fresh || ( cls.abstract && !shares_slot );
-                state.selected.push_back( bound );
-                if( claims_capacity ) {
-                    ++state.usage[c];
-                }
-                if( ctx.expansions_left == 0 ) {
+                for( const int member : choices ) {
+                    const bool fresh = !cls.abstract && member == used;
+                    const provider_candidate &cand = *cls.members[cls.abstract ? 0 : member];
+                    if( provider_is_exclusive( cand ) &&
+                        taken.count( provider_identity( cand ) ) > 0 ) {
+                        continue;
+                    }
+                    const bool shares_slot = cls.abstract && !shared_slots.empty();
+                    if( cls.abstract && !shares_slot &&
+                        !abstract_capacity_allows( cand, req, *ctx.src, *ctx.bindable,
+                                                   multiset_held + 1 ) ) {
+                        continue;
+                    }
+
+                    craft_reservation::binding bound = req;
+                    bound.kind = cand.kind;
+                    bound.provider_uid = cand.provider_uid;
+                    bound.tile = cand.tile;
+                    bound.furn = cand.furn;
+                    bound.ter = cand.ter;
+                    bound.intrinsic_owner = cand.intrinsic_owner;
+                    if( cand.kind == craft_reservation::provider_kind::intrinsic ) {
+                        // Keyed by capability, so a quality binding names no item type.
+                        bound.pseudo_type = req.req == craft_reservation::requirement_kind::quality
+                                            ? itype_id::NULL_ID()
+                                            : cand.pseudo_type;
+                        bound.occurrence_slot = shares_slot ? shared_slots.front()
+                                                : state.next_abstract_slot++;
+                    } else if( cand.kind == craft_reservation::provider_kind::environment ) {
+                        bound.pseudo_type = cand.pseudo_type;
+                        bound.occurrence_slot = shares_slot ? shared_slots.front()
+                                                : state.next_abstract_slot++;
+                    } else if( cand.kind != craft_reservation::provider_kind::item ) {
+                        bound.pseudo_type = cand.pseudo_type;
+                    }
+
+                    const bool claims_capacity = fresh || ( cls.abstract && !shares_slot );
+                    state.selected.push_back( bound );
+                    if( claims_capacity ) {
+                        ++state.usage[c];
+                    }
+                    if( ctx.expansions_left == 0 ) {
+                        state.selected.pop_back();
+                        if( claims_capacity ) {
+                            --state.usage[c];
+                        }
+                        if( bound.occurrence_slot >= 0 && !shares_slot ) {
+                            --state.next_abstract_slot;
+                        }
+                        return selection_result::undetermined;
+                    }
+                    --ctx.expansions_left;
+                    const bool pool_ok = ctx.pool_feasible( state.selected );
+                    if( pool_ok ) {
+                        int held = 0;
+                        for( const craft_reservation::binding &b : state.selected ) {
+                            if( b.group_index == group ) {
+                                ++held;
+                            }
+                        }
+                        const int left = std::max( 0, std::max( 1, req.group_count ) - held );
+                        const selection_result rest = assign_from( ctx, depth, left, state );
+                        if( rest == selection_result::feasible ) {
+                            return rest;
+                        }
+                        budget_ran_out = budget_ran_out || rest == selection_result::undetermined;
+                    }
                     state.selected.pop_back();
                     if( claims_capacity ) {
                         --state.usage[c];
@@ -786,77 +822,49 @@ static selection_result take_one( selection_context &ctx, size_t depth, search_s
                     if( bound.occurrence_slot >= 0 && !shares_slot ) {
                         --state.next_abstract_slot;
                     }
-                    return selection_result::undetermined;
-                }
-                --ctx.expansions_left;
-                const bool pool_ok = ctx.pool_feasible( state.selected );
-                if( pool_ok ) {
-                    int held = 0;
-                    for( const craft_reservation::binding &b : state.selected ) {
-                        if( b.group_index == group ) {
-                            ++held;
-                        }
-                    }
-                    const int left = std::max( 0, std::max( 1, req.group_count ) - held );
-                    const selection_result rest = assign_from( ctx, depth, left, state );
-                    if( rest == selection_result::feasible ) {
-                        return rest;
-                    }
-                    budget_ran_out = budget_ran_out || rest == selection_result::undetermined;
-                }
-                state.selected.pop_back();
-                if( claims_capacity ) {
-                    --state.usage[c];
-                }
-                if( bound.occurrence_slot >= 0 && !shares_slot ) {
-                    --state.next_abstract_slot;
                 }
             }
         }
+        return budget_ran_out ? selection_result::undetermined : selection_result::infeasible;
     }
-    return budget_ran_out ? selection_result::undetermined : selection_result::infeasible;
-}
 
-selection_result assign_from( selection_context &ctx, size_t depth, int remaining,
-                              search_state &state )
-{
-    if( remaining > 0 ) {
-        // Only at group entry, where no per-group identity is held yet and the usage
-        // vector alone decides what the remainder can do.
-        const bool memoizable = remaining == ctx.groups[depth].second;
-        const std::string key = memoizable ? memo_key( depth, state ) : std::string();
-        if( memoizable && ctx.failed.count( key ) > 0 ) {
-            return selection_result::infeasible;
+    selection_result assign_from( selection_context & ctx, size_t depth, int remaining,
+                                  search_state & state ) {
+        if( remaining > 0 ) {
+            // Only at group entry, where no per-group identity is held yet and the usage
+            // vector alone decides what the remainder can do.
+            const bool memoizable = remaining == ctx.groups[depth].second;
+            const std::string key = memoizable ? memo_key( depth, state ) : std::string();
+            if( memoizable && ctx.failed.count( key ) > 0 ) {
+                return selection_result::infeasible;
+            }
+            const selection_result res = take_one( ctx, depth, state );
+            if( memoizable && res == selection_result::infeasible ) {
+                ctx.failed.insert( key );
+            }
+            return res;
         }
-        const selection_result res = take_one( ctx, depth, state );
-        if( memoizable && res == selection_result::infeasible ) {
-            ctx.failed.insert( key );
+        if( depth + 1 >= ctx.groups.size() ) {
+            return selection_result::feasible;
         }
-        return res;
+        return assign_from( ctx, depth + 1, ctx.groups[depth + 1].second, state );
     }
-    if( depth + 1 >= ctx.groups.size() ) {
-        return selection_result::feasible;
-    }
-    return assign_from( ctx, depth + 1, ctx.groups[depth + 1].second, state );
-}
 
-bool hidden_units::covers( const provider_candidate &cand ) const
-{
-    switch( cand.kind ) {
-        case craft_reservation::provider_kind::item:
-            return item_roots.count( cand.root_uid ) > 0;
-        case craft_reservation::provider_kind::vehicle_part:
-            return parts.count( cand.provider_uid ) > 0;
-        case craft_reservation::provider_kind::furniture:
-        case craft_reservation::provider_kind::terrain:
-            return cand.tile && tiles.count( *cand.tile ) > 0;
-        default:
-            return false;
+    bool hidden_units::covers( const provider_candidate & cand ) const {
+        switch( cand.kind ) {
+            case craft_reservation::provider_kind::item:
+                return item_roots.count( cand.root_uid ) > 0;
+            case craft_reservation::provider_kind::vehicle_part:
+                return parts.count( cand.provider_uid ) > 0;
+            case craft_reservation::provider_kind::furniture:
+            case craft_reservation::provider_kind::terrain:
+                return cand.tile && tiles.count( *cand.tile ) > 0;
+            default:
+                return false;
+        }
     }
-}
 
-// Per-item: draining charges touches only the item it names.
-bool unreserved_filter( const item &it )
-{
-    return craft_reservation::usable_by_automation( it );
-}
+    // Per-item: draining charges touches only the item it names.
+    bool unreserved_filter( const item & it ) {
+        return craft_reservation::usable_by_automation( it );
+    }
