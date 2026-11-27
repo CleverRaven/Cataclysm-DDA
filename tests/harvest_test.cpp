@@ -36,6 +36,11 @@ static const mtype_id mon_deer( "mon_deer" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
 
+static const proficiency_id proficiency_prof_butchering_adv( "prof_butchering_adv" );
+static const proficiency_id proficiency_prof_butchering_basic( "prof_butchering_basic" );
+static const proficiency_id proficiency_prof_skinning_adv( "prof_skinning_adv" );
+static const proficiency_id proficiency_prof_skinning_basic( "prof_skinning_basic" );
+
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
@@ -102,8 +107,11 @@ TEST_CASE( "Harvest_drops_from_dissecting_corpse", "[harvest]" )
     }
 }
 
+// Runs a butchery activity to completion and checks that the number of turns taken is
+// within 10% of expected_turns, with the proficiencies in `profs`.
 static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
-                                int skill, mtype_id mon_type )
+                                int skill, mtype_id mon_type,
+                                const std::vector<proficiency_id> &profs )
 {
     Character &u = get_player_character();
     map &here = get_map();
@@ -111,6 +119,10 @@ static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
     clear_character( u, true );
     u.set_skill_level( skill_firstaid, skill );
     u.set_skill_level( skill_survival, skill );
+    for( const proficiency_id &prof : profs ) {
+        u.add_proficiency( prof, true );
+        REQUIRE( u.has_proficiency( prof ) );
+    }
     u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
     u.i_add( item( itype_fake_lift_light ) );
     u.i_add( item( itype_hacksaw ) );
@@ -134,15 +146,46 @@ static void do_butchery_timing( int expected_turns, butcher_type butchery_type,
         p_act.do_turn( u );
         turns_taken++;
     }
+    CAPTURE( turns_taken );
+    CAPTURE( expected_turns );
     CHECK( turns_taken > expected_turns * 0.9 );
     CHECK( turns_taken < expected_turns * 1.1 );
     here.i_clear( animal_loc );
     u.move_to( orig_pos );
 }
 
+// Full butchery time scales with the butchering/skinning proficiencies (see
+// butcher_time_to_cut in butchery.cpp).  Per-tier multipliers relative to a character
+// with all four proficiencies:
+//   no proficiencies:             2.0x  (butchery penalty 2.0, skinning penalty 0.5)
+//   basic butchery + skinning:    1.2x  (butchery penalty 0.5, skinning penalty 0)
+//   all proficiencies (adv):      1.0x
 TEST_CASE( "butchery_speed", "[harvest]" )
 {
-    do_butchery_timing( 8 * 60 * 60, butcher_type::FULL, 5, mon_deer );
+    constexpr int base_turns = 16000;
+
+    const std::vector<proficiency_id> basic_profs = {
+        proficiency_prof_butchering_basic,
+        proficiency_prof_skinning_basic
+    };
+    const std::vector<proficiency_id> all_profs = {
+        proficiency_prof_butchering_basic,
+        proficiency_prof_butchering_adv,
+        proficiency_prof_skinning_basic,
+        proficiency_prof_skinning_adv
+    };
+
+    SECTION( "all butchering proficiencies" ) {
+        do_butchery_timing( base_turns, butcher_type::FULL, 5, mon_deer, all_profs );
+    }
+
+    SECTION( "basic proficiencies only" ) {
+        do_butchery_timing( base_turns * 6 / 5, butcher_type::FULL, 5, mon_deer, basic_profs );
+    }
+
+    SECTION( "no proficiencies" ) {
+        do_butchery_timing( base_turns * 2, butcher_type::FULL, 5, mon_deer, {} );
+    }
 }
 
 // Regression test for #85877 / #85136: butchering birds with sub-gram harvest
