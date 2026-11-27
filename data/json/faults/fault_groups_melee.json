@@ -180,5 +180,15 @@
       { "fault": "fault_cracked", "weight": 50 },
       { "fault": "fault_shattered", "weight": 15 }
     ]
+  },
+  {
+    "type": "fault_group",
+    "id": "rope_weapons",
+    "//": "Mechanical damage of rope weapons",
+    "group": [
+      { "fault": "fault_fraying_line", "weight": 100 },
+      { "fault": "fault_snapped_line", "weight": 15 },
+      { "fault": "fault_missing_weight", "weight": 5 }
+    ]
   }
 ]
