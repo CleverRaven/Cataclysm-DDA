@@ -1068,7 +1068,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
     unsigned char vol = 0;
     const vehicle *veh = nullptr;
 
-    here.for_noisy_vehicle( [&]( const vehicle &v ) {
+    here.for_noisy_vehicle( [&]( const vehicle & v ) {
         const int effective_noise =
             static_cast<int>( v.vehicle_noise ) - sound_distance( player_pos, v.pos_bub( here ) );
         if( effective_noise > noise_factor ) {
