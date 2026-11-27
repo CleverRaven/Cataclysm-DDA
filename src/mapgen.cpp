@@ -819,13 +819,15 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base,
             total );
 }
 
-void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
-                                   const point_rel_omt &offset, const point_rel_omt &total )
+std::shared_ptr<mapgen_function> load_and_add_mapgen_function(
+    const JsonObject &jio, const std::string &id_base,
+    const point_rel_omt &offset, const point_rel_omt &total )
 {
     std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, id_base, offset, total );
     if( f ) {
         oter_mapgen.add( id_base, f );
     }
+    return f;
 }
 
 static void load_nested_mapgen( JsonObject &&jio, const nested_mapgen_id &id_base )
@@ -862,6 +864,7 @@ void load_mapgen( const JsonObject &jo )
 {
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     static constexpr point_rel_omt point_one( 1, 1 );
+    std::shared_ptr<mapgen_function> single_mapgen_func;
 
     if( jo.has_array( "om_terrain" ) ) {
         JsonArray ja = jo.get_array( "om_terrain" );
@@ -877,22 +880,11 @@ void load_mapgen( const JsonObject &jo )
                 offset.x() = 0;
             }
         } else {
-            std::vector<std::string> mapgenid_list;
-            for( const std::string line : ja ) {
-                mapgenid_list.push_back( line );
-            }
-            if( !mapgenid_list.empty() ) {
-                const std::string mapgenid = mapgenid_list[0];
-                const auto mgfunc = load_mapgen_function( jo, mapgenid, point_rel_omt::zero, point_one );
-                if( mgfunc ) {
-                    for( auto &i : mapgenid_list ) {
-                        oter_mapgen.add( i, mgfunc );
-                    }
-                }
-            }
+            debugmsg( "mapgen entry \"om_terrain\" only supports single string or 2d array." );
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_rel_omt::zero, point_one );
+        single_mapgen_func = load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ),
+                             point_rel_omt::zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         std::string id_base = jo.get_string( "nested_mapgen_id" );
         JsonObject jo_copy = jo;
@@ -908,6 +900,16 @@ void load_mapgen( const JsonObject &jo )
     } else {
         debugmsg( "mapgen entry requires \"om_terrain\" or \"nested_mapgen_id\"(string, array of strings, or array of array of strings)\n%s\n",
                   jo.str() );
+        return;
+    }
+    // if we've loaded a single mapgen function, it can also be copied to other OMTs
+    if( jo.has_array( "copy_to_om_terrain" ) ) {
+        if( single_mapgen_func ) {
+            JsonArray ja = jo.get_array( "copy_to_om_terrain" );
+            for( const std::string &omt_entry : ja ) {
+                oter_mapgen.add( omt_entry, single_mapgen_func );
+            }
+        }
     }
 }
 
