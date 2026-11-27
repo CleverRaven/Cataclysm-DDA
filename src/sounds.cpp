@@ -1066,14 +1066,14 @@ void sfx::do_vehicle_exterior_engine_sfx()
     const tripoint_bub_ms player_pos = player_character.pos_bub( here );
     unsigned char noise_factor = 0;
     unsigned char vol = 0;
-    vehicle *veh = nullptr;
+    const vehicle *veh = nullptr;
 
-    here.for_noisy_vehicle( [&]( vehicle * v ) {
+    here.for_noisy_vehicle( [&]( const vehicle &v ) {
         const int effective_noise =
-            static_cast<int>( v->vehicle_noise ) - sound_distance( player_pos, v->pos_bub( here ) );
+            static_cast<int>( v.vehicle_noise ) - sound_distance( player_pos, v.pos_bub( here ) );
         if( effective_noise > noise_factor ) {
             noise_factor = static_cast<unsigned char>( effective_noise );
-            veh = v;
+            veh = &v;
         }
     } );
     if( !noise_factor || !veh ) {

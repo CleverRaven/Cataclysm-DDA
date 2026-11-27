@@ -913,7 +913,7 @@ class map
         VehicleList get_vehicles();
         bool place_vehicle( std::unique_ptr<vehicle> &&new_vehicle );
         void add_vehicle_to_cache( vehicle * );
-        void for_noisy_vehicle( const std::function<void( vehicle * )> &fn );
+        void for_noisy_vehicle( const std::function<void( const vehicle & )> &fn );
         bool has_moving_vehicles();
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint_bub_ms &pt );
         // clears all vehicle level caches

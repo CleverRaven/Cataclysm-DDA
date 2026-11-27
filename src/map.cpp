@@ -1892,7 +1892,7 @@ const furn_str_id &drawsq_params::furniture_override() const
     return furn_override;
 }
 
-void map::for_noisy_vehicle( const std::function<void( vehicle * )> &fn )
+void map::for_noisy_vehicle( const std::function<void( const vehicle & )> &fn )
 {
     const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
     const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
@@ -1903,7 +1903,7 @@ void map::for_noisy_vehicle( const std::function<void( vehicle * )> &fn )
         }
         for( vehicle *v : ch->vehicle_list ) {
             if( v != nullptr && v->vehicle_noise > 0 ) {
-                fn( v );
+                fn( *v );
             }
         }
     }
