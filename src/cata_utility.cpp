@@ -124,10 +124,7 @@ bool match_include_exclude( std::string_view text, std::string_view filter )
 {
     bool found = false;
 
-    while( !filter.empty() ) {
-        const size_t comma = filter.find( ',' );
-        std::string_view term = filter.substr( 0, comma );
-        filter.remove_prefix( comma == std::string_view::npos ? filter.size() : comma + 1 );
+    for( std::string_view term : string_split( filter, ',' ) ) {
         if( term.empty() ) {
             continue;
         }
