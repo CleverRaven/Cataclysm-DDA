@@ -151,6 +151,21 @@
     "color": "dark_gray"
   },
   {
+    "id": "improvpullfuse",
+    "type": "ITEM",
+    "category": "spare_parts",
+    "name": { "str_sp": "improvised pull fuse" },
+    "description": "A piece of fuse with a makeshift igniter loosely taped to one end of it, allowing you to light the fuse without any other ignition source needed. When the ring-shaped handle is pulled, a pair of matchheads slides over a striking strip, salvaged from either a matchbook or matchbox, causing a ignition of the remainder of the fuse. The fuse is long enough to give you enough time to get away from most explosions.",
+    "weight": "10 g",
+    "volume": "100 ml",
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
+    "material": [ "cotton" ],
+    "looks_like": "fuse",
+    "symbol": ",",
+    "color": "dark_gray"
+  },
+  {
     "type": "ITEM",
     "id": "sharp_rock",
     "symbol": "*",
