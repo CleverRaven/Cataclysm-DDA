@@ -528,5 +528,18 @@
     "material": [ "platinum", "flesh" ],
     "weight": "1000 g",
     "volume": "500 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_spine",
+    "color": "gray",
+    "symbol": "$",
+    "name": { "str": "nerve thing" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "a fronded, almost parasitic looking strand of golden wiring that ran within something's spinal cord.  It gives off a foul odor.",
+    "material": [ "gold", "platinum" ],
+    "weight": "15 g",
+    "volume": "20 ml"  
   }
 ]
