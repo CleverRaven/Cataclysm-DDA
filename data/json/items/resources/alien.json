@@ -488,5 +488,58 @@
     "price": "100 USD",
     "material": [ "plastic", "unobtanium" ],
     "category": "spare_parts"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_monolith",
+    "color": "light_gray",
+    "symbol": "@",
+    "name": { "str": "crowned one's head", "str_pl": "crowned one heads" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "A vaguely pyramidal monolith of smooth stone that was once the head of some abominable creature.  Its completely solid, with no indication it was attached to a living thing, and no clue as to how it functioned.",
+    "material": [ "stone" ],
+    "weight": "24000 g",
+    "volume": "20000 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_organ",
+    "color": "white",
+    "symbol": ",",
+    "name": { "str": "wiry peritoneum" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "Some unidentified internal tissue composed of fibrous silvery wires and stalks.  It appears inorganic, but naturally formed.",
+    "material": [ "platinum" ],
+    "weight": "45 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_orifice",
+    "color": "light_gray",
+    "symbol": "n",
+    "name": { "str": "metallic stoma", "str_pl": "metallic stomata" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "A ring of metal housing a partially organic valve or sphincter, which was once an opening for a bizarre digestive system.",
+    "//": "I know what you're thinking, and no.  This is it's mouth.",
+    "material": [ "platinum", "flesh" ],
+    "weight": "1000 g",
+    "volume": "500 ml"
+  },
+  {
+    "type": "ITEM",
+    "id": "crowned_spine",
+    "color": "yellow",
+    "symbol": "$",
+    "name": { "str": "nerve thing" },
+    "category": "other",
+    "price_postapoc": "0 cent",
+    "description": "a fronded, almost parasitic looking strand of golden wiring that ran within something's spinal cord.  It gives off a foul odor.",
+    "material": [ "gold", "glass" ],
+    "weight": "15 g",
+    "volume": "20 ml"
   }
 ]
