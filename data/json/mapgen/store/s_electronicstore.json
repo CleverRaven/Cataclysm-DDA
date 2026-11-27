@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_electronicstore" ],
+    "om_terrain": "s_electronicstore",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_electronicstore_2ndfloor" ],
+    "om_terrain": "s_electronicstore_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -105,7 +105,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_electronicstore_roof" ],
+    "om_terrain": "s_electronicstore_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

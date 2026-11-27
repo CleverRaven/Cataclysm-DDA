@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "fire_station" ],
+    "om_terrain": "fire_station",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -139,7 +139,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "fire_station_1" ],
+    "om_terrain": "fire_station_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

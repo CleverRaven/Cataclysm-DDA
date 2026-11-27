@@ -71,7 +71,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "state_park_1_0_1" ],
+    "om_terrain": "state_park_1_0_1",
     "object": {
       "rows": [
         "             ---        ",

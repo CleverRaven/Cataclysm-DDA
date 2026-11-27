@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "bowling_alley" ],
+    "om_terrain": "bowling_alley",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

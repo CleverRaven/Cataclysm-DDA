@@ -52,7 +52,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_open_sewer" ],
+    "om_terrain": "cs_open_sewer",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -118,7 +118,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_open_sewer_roof" ],
+    "om_terrain": "cs_open_sewer_roof",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

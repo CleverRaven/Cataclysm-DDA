@@ -139,7 +139,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_lot" ],
+    "om_terrain": "s_lot",
     "object": {
       "rows": [
         "........................",
@@ -174,7 +174,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_lot_no_sidewalk" ],
+    "om_terrain": "s_lot_no_sidewalk",
     "object": {
       "rows": [
         "........................",

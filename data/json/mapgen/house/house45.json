@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_45_0" ],
+    "om_terrain": "house_45_0",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_45_1" ],
+    "om_terrain": "house_45_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -72,7 +72,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_45_2" ],
+    "om_terrain": "house_45_2",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -107,7 +107,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_45_roof" ],
+    "om_terrain": "house_45_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

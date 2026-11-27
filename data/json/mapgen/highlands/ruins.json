@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "highland_ruins" ],
+    "om_terrain": "highland_ruins",
     "weight": 500,
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -48,7 +48,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "highland_ruins" ],
+    "om_terrain": "highland_ruins",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover",

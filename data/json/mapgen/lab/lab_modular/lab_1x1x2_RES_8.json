@@ -103,7 +103,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_1x1_RES_8_commons_SEC" ],
+    "om_terrain": "lab_1x1_RES_8_commons_SEC",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -235,7 +235,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_1x1_RES_8_commons_MAINT" ],
+    "om_terrain": "lab_1x1_RES_8_commons_MAINT",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",

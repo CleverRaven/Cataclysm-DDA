@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "post_office" ],
+    "om_terrain": "post_office",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -146,7 +146,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "post_office_1" ],
+    "om_terrain": "post_office_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

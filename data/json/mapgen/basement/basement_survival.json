@@ -16,7 +16,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "basement_survival" ],
+    "om_terrain": "basement_survival",
     "//": "matches house_26",
     "object": {
       "fill_ter": "t_soil",

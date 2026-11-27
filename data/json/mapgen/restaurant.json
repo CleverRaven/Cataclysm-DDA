@@ -288,7 +288,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_roof" ],
+    "om_terrain": "s_restaurant_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -393,7 +393,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_foodplace_roof" ],
+    "om_terrain": "s_restaurant_foodplace_roof",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -473,7 +473,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_foodplace_upper_roof" ],
+    "om_terrain": "s_restaurant_foodplace_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -526,7 +526,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_1" ],
+    "om_terrain": "s_restaurant_1",
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
@@ -639,7 +639,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_roof_1" ],
+    "om_terrain": "s_restaurant_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -688,7 +688,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_2" ],
+    "om_terrain": "s_restaurant_2",
     "//": "Buffet or family-style restaurant with a soup and salad bar.",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -789,7 +789,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_roof_2" ],
+    "om_terrain": "s_restaurant_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -843,7 +843,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_upper_roof_2" ],
+    "om_terrain": "s_restaurant_upper_roof_2",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

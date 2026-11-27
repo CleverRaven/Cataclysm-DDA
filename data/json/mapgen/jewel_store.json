@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_jewelry" ],
+    "om_terrain": "s_jewelry",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

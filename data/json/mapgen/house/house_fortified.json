@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_fortified" ],
+    "om_terrain": "house_fortified",
     "//": "fortified houses shouldn't be common",
     "object": {
       "fill_ter": "t_floor",

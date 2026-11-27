@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "c_cave_entrance" ],
+    "om_terrain": "c_cave_entrance",
     "object": {
       "fallback_predecessor_mapgen": "lake_shore",
       "rotation": [ 0, 3 ],

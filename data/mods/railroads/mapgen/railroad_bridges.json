@@ -46,7 +46,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "railroad_bridge" ],
+    "om_terrain": "railroad_bridge",
     "object": {
       "fill_ter": "t_water_moving_dp",
       "rows": [
@@ -80,7 +80,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "railroad_bridge_overpass" ],
+    "om_terrain": "railroad_bridge_overpass",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -114,7 +114,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "railroad_bridgehead_ground" ],
+    "om_terrain": "railroad_bridgehead_ground",
     "object": {
       "fill_ter": "t_water_moving_dp",
       "rows": [
@@ -148,7 +148,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "railroad_bridgehead_ramp" ],
+    "om_terrain": "railroad_bridgehead_ramp",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

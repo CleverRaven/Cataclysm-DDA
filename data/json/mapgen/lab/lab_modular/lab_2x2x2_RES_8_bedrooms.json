@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": [ "lab_res_8_NW" ],
+    "om_terrain": "lab_res_8_NW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -61,7 +61,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_res_8_NE" ],
+    "om_terrain": "lab_res_8_NE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -122,7 +122,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_res_8_SW" ],
+    "om_terrain": "lab_res_8_SW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -169,7 +169,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_res_8_SE" ],
+    "om_terrain": "lab_res_8_SE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",

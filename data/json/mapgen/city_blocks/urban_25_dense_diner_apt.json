@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "urban_25_sewer_connector" ],
+    "om_terrain": "urban_25_sewer_connector",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

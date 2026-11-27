@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_liquor" ],
+    "om_terrain": "s_liquor",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -87,7 +87,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_liquor" ],
+    "om_terrain": "s_liquor",
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -195,7 +195,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_liquor" ],
+    "om_terrain": "s_liquor",
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "warehouse" ],
+    "om_terrain": "warehouse",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -78,7 +78,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "warehouse_roof" ],
+    "om_terrain": "warehouse_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

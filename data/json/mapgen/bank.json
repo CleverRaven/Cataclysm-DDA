@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "bank" ],
+    "om_terrain": "bank",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -113,7 +113,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bank_1" ],
+    "om_terrain": "bank_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

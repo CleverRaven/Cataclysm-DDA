@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_fabricstore" ],
+    "om_terrain": "s_fabricstore",
     "//": "Fabric Outlet",
     "object": {
       "fill_ter": "t_floor",

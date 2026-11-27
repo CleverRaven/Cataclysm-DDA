@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor" ],
+    "om_terrain": "municipal_reactor",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -52,7 +52,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor_ware" ],
+    "om_terrain": "municipal_reactor_ware",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -93,7 +93,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor_b" ],
+    "om_terrain": "municipal_reactor_b",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -136,7 +136,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor_ware_b" ],
+    "om_terrain": "municipal_reactor_ware_b",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -180,7 +180,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor_b2" ],
+    "om_terrain": "municipal_reactor_b2",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -237,7 +237,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "municipal_reactor_b3" ],
+    "om_terrain": "municipal_reactor_b3",
     "object": {
       "rows": [
         "########################",

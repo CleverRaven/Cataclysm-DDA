@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_sub_station" ],
+    "om_terrain": "microlab_sub_station",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -89,7 +89,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_sub_station_ratkin" ],
+    "om_terrain": "microlab_sub_station_ratkin",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

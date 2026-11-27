@@ -39,7 +39,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bridge" ],
+    "om_terrain": "bridge",
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "river_center",
@@ -74,7 +74,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bridge_road" ],
+    "om_terrain": "bridge_road",
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fill_ter": "t_open_air",
@@ -113,7 +113,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bridgehead_ground" ],
+    "om_terrain": "bridgehead_ground",
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "river_north",
@@ -171,7 +171,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bridgehead_ramp" ],
+    "om_terrain": "bridgehead_ramp",
     "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fill_ter": "t_open_air",

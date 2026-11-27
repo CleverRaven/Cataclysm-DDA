@@ -296,7 +296,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "augustmoon_bar" ],
+    "om_terrain": "augustmoon_bar",
     "object": {
       "fill_ter": "t_metal_floor_heated",
       "rows": [
@@ -342,7 +342,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "augustmoon_docking_arm" ],
+    "om_terrain": "augustmoon_docking_arm",
     "object": {
       "fill_ter": "t_metal_floor_heated",
       "rows": [

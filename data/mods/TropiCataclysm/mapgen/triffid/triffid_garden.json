@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "triffid_garden" ],
+    "om_terrain": "triffid_garden",
     "object": {
       "rows": [
         "     ..............     ",

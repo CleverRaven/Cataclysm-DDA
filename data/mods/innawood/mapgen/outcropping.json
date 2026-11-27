@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop" ],
+    "om_terrain": "outcrop",
     "weight": 33,
     "object": {
       "rotation": [ 0, 3 ],
@@ -39,7 +39,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop" ],
+    "om_terrain": "outcrop",
     "weight": 33,
     "object": {
       "rotation": [ 0, 3 ],
@@ -77,7 +77,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop" ],
+    "om_terrain": "outcrop",
     "weight": 33,
     "object": {
       "rotation": [ 0, 3 ],

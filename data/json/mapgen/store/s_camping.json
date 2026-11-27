@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_camping" ],
+    "om_terrain": "s_camping",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -107,7 +107,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_camping_roof" ],
+    "om_terrain": "s_camping_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

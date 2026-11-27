@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_46" ],
+    "om_terrain": "house_46",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_46_roof" ],
+    "om_terrain": "house_46_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

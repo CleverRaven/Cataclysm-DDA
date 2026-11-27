@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_garage6" ],
+    "om_terrain": "house_garage6",
     "//": "two bedroom one bath single garage home.",
     "object": {
       "fill_ter": "t_floor",

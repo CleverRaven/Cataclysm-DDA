@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "small_storage_units" ],
+    "om_terrain": "small_storage_units",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -109,7 +109,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "small_storage_units_1" ],
+    "om_terrain": "small_storage_units_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

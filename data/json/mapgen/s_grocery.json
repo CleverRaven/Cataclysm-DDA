@@ -331,7 +331,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery_1" ],
+    "om_terrain": "s_grocery_1",
     "weight": 100,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -400,7 +400,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery_1" ],
+    "om_terrain": "s_grocery_1",
     "weight": 500,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -511,7 +511,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_grocery_1" ],
+    "om_terrain": "s_grocery_1",
     "weight": 300,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },

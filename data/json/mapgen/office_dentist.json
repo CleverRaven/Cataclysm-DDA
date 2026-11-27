@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "office_dentist" ],
+    "om_terrain": "office_dentist",
     "weight": 500,
     "object": {
       "fill_ter": "t_region_groundcover_urban",

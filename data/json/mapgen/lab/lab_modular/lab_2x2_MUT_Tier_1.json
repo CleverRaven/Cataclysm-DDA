@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": [ "lab_2x2_MUT_tier_1_NW" ],
+    "om_terrain": "lab_2x2_MUT_tier_1_NW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -62,7 +62,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_MUT_tier_1_NE" ],
+    "om_terrain": "lab_2x2_MUT_tier_1_NE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -125,7 +125,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_MUT_tier_1_SW" ],
+    "om_terrain": "lab_2x2_MUT_tier_1_SW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -192,7 +192,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_MUT_tier_1_SE" ],
+    "om_terrain": "lab_2x2_MUT_tier_1_SE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",

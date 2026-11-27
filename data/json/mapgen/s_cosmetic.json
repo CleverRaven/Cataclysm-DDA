@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_cosmetic" ],
+    "om_terrain": "s_cosmetic",
     "object": {
       "rows": [
         "__....................._",

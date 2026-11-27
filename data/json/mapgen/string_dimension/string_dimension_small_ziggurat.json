@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "string_dimension_small_ziggurat_1" ],
+    "om_terrain": "string_dimension_small_ziggurat_1",
     "object": {
       "fill_ter": "t_string_xyz",
       "rows": [
@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "string_dimension_small_ziggurat_0" ],
+    "om_terrain": "string_dimension_small_ziggurat_0",
     "object": {
       "rows": [
         "222222222222222222222222",
@@ -83,7 +83,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "string_dimension_small_ziggurat_-1" ],
+    "om_terrain": "string_dimension_small_ziggurat_-1",
     "object": {
       "fill_ter": "t_string_xyz",
       "rows": [
@@ -117,7 +117,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "string_dimension_small_ziggurat_-2" ],
+    "om_terrain": "string_dimension_small_ziggurat_-2",
     "object": {
       "fill_ter": "t_string_xyz",
       "rows": [
@@ -151,7 +151,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "string_dimension_small_ziggurat_-3" ],
+    "om_terrain": "string_dimension_small_ziggurat_-3",
     "object": {
       "fill_ter": "t_string_xyz",
       "rows": [

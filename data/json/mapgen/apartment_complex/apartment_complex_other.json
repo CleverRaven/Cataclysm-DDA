@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_courtyard" ],
+    "om_terrain": "apartment_complex_courtyard",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -116,7 +116,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_even_ground" ],
+    "om_terrain": "apartment_complex_center_stairs_even_ground",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -151,7 +151,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_even" ],
+    "om_terrain": "apartment_complex_center_stairs_even",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -187,7 +187,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_odd" ],
+    "om_terrain": "apartment_complex_center_stairs_odd",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

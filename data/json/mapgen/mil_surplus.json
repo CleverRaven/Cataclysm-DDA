@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus" ],
+    "om_terrain": "mil_surplus",
     "//": "Intact variant",
     "weight": 100,
     "object": {
@@ -40,7 +40,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus" ],
+    "om_terrain": "mil_surplus",
     "//": "Looted variant",
     "weight": 1000,
     "object": {
@@ -79,7 +79,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus" ],
+    "om_terrain": "mil_surplus",
     "//": "Boarded up variant",
     "weight": 500,
     "object": {
@@ -177,7 +177,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus_1" ],
+    "om_terrain": "mil_surplus_1",
     "//": "Intact variant",
     "weight": 100,
     "object": {
@@ -215,7 +215,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus_1" ],
+    "om_terrain": "mil_surplus_1",
     "//": "Looted variant",
     "weight": 1000,
     "object": {
@@ -253,7 +253,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_surplus_1" ],
+    "om_terrain": "mil_surplus_1",
     "//": "Boarded up variant",
     "weight": 500,
     "object": {

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_ravine_edge_bottom" ],
+    "om_terrain": "afs_tunnel_ravine_edge_bottom",
     "object": {
       "rows": [
         "##0.................####",
@@ -38,7 +38,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_ravine_edge" ],
+    "om_terrain": "afs_tunnel_ravine_edge",
     "object": {
       "rows": [
         "##0.................####",

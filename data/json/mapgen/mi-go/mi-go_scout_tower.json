@@ -92,7 +92,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mi-go_scout_tower_3" ],
+    "om_terrain": "mi-go_scout_tower_3",
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [

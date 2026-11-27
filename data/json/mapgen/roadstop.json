@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "roadstop" ],
+    "om_terrain": "roadstop",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -87,7 +87,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "roadstop_a" ],
+    "om_terrain": "roadstop_a",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -180,7 +180,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "roadstop_b" ],
+    "om_terrain": "roadstop_b",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [

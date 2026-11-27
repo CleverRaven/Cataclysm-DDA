@@ -136,7 +136,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_giant_tree_empty_z0" ],
+    "om_terrain": "druid_giant_tree_empty_z0",
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -172,7 +172,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_giant_tree_empty_z1" ],
+    "om_terrain": "druid_giant_tree_empty_z1",
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [
@@ -207,7 +207,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_giant_tree_empty_z2" ],
+    "om_terrain": "druid_giant_tree_empty_z2",
     "//": "This is workspaces and study rooms",
     "object": {
       "fill_ter": "t_barkfloor",
@@ -243,7 +243,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_giant_tree_empty_z3" ],
+    "om_terrain": "druid_giant_tree_empty_z3",
     "//": "This is the master bedroom",
     "object": {
       "fill_ter": "t_barkfloor",

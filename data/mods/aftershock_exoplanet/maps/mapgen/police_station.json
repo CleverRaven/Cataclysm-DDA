@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_enforcer_station_a1" ],
+    "om_terrain": "afs_enforcer_station_a1",
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -71,7 +71,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_enforcer_station_a1_floor2" ],
+    "om_terrain": "afs_enforcer_station_a1_floor2",
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -153,7 +153,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_enforcer_station_a1_roof" ],
+    "om_terrain": "afs_enforcer_station_a1_roof",
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [

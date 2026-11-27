@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "whately_lmoe" ],
+    "om_terrain": "whately_lmoe",
     "//": "Above ground",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "whately_lmoe_roof" ],
+    "om_terrain": "whately_lmoe_roof",
     "//": "Above ground",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -73,7 +73,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "whately_lmoe_under_first_floor" ],
+    "om_terrain": "whately_lmoe_under_first_floor",
     "//": "Residence of Cyrus Whately and his clan",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
@@ -110,7 +110,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "whately_lmoe_under_second_floor" ],
+    "om_terrain": "whately_lmoe_under_second_floor",
     "//": "Whately clan dwellings.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",

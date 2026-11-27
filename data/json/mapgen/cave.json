@@ -80,7 +80,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -117,7 +117,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -154,7 +154,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -192,7 +192,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -229,7 +229,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -267,7 +267,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -306,7 +306,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -344,7 +344,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -382,7 +382,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave" ],
+    "om_terrain": "cave",
     "weight": 1000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -421,7 +421,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
@@ -464,7 +464,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 1000,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -502,7 +502,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 800,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -539,7 +539,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 500,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -581,7 +581,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 250,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -642,7 +642,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 700,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -681,7 +681,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_rat_underground" ],
+    "om_terrain": "cave_rat_underground",
     "object": {
       "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
@@ -723,7 +723,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_rat" ],
+    "om_terrain": "cave_rat",
     "object": {
       "fill_ter": "t_rock_floor",
       "rotation": [ 0, 3 ],

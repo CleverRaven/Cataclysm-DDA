@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_hunting" ],
+    "om_terrain": "s_hunting",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

@@ -62,7 +62,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "TreeFarm_1a_roof" ],
+    "om_terrain": "TreeFarm_1a_roof",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

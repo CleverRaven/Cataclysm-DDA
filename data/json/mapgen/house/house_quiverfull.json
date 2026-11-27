@@ -15,7 +15,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_quiverfull" ],
+    "om_terrain": "house_quiverfull",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

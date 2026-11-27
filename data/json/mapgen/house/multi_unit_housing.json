@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "multi_unit_first_floor" ],
+    "om_terrain": "multi_unit_first_floor",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -43,7 +43,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "multi_unit_second_floor_of_three" ],
+    "om_terrain": "multi_unit_second_floor_of_three",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -79,7 +79,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "multi_unit_top_floor" ],
+    "om_terrain": "multi_unit_top_floor",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

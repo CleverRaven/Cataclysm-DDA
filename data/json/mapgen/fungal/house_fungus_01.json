@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_fungus_01" ],
+    "om_terrain": "house_fungus_01",
     "object": {
       "fill_ter": "t_fungus",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "shelter_experienced" ],
+    "om_terrain": "shelter_experienced",
     "//": "Made with the Experienced start in mind. Its own mapgen due to different furniture and item spawn locations, and because slocs can't specify a specific subnest",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -158,7 +158,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_gas_experienced" ],
+    "om_terrain": "s_gas_experienced",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

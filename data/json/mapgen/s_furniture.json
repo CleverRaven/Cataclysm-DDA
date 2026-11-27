@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "furniture" ],
+    "om_terrain": "furniture",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

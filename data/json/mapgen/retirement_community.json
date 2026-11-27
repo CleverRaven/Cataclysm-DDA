@@ -1892,7 +1892,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "retirement_community_road" ],
+    "om_terrain": "retirement_community_road",
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -1928,7 +1928,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "retirement_community_sewer" ],
+    "om_terrain": "retirement_community_sewer",
     "object": {
       "fill_ter": "t_soil",
       "rows": [

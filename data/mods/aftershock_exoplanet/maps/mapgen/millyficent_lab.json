@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mortuary_2story" ],
+    "om_terrain": "mortuary_2story",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -90,7 +90,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mortuary_basement" ],
+    "om_terrain": "mortuary_basement",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rotation": [ 0, 3 ],
@@ -195,7 +195,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mortuary_2story_second" ],
+    "om_terrain": "mortuary_2story_second",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",

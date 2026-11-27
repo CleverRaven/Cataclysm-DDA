@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": [ "lab_2x2_cargo_NW" ],
+    "om_terrain": "lab_2x2_cargo_NW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -68,7 +68,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_cargo_NE" ],
+    "om_terrain": "lab_2x2_cargo_NE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -122,7 +122,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_cargo_SW" ],
+    "om_terrain": "lab_2x2_cargo_SW",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -167,7 +167,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_2x2_cargo_SE" ],
+    "om_terrain": "lab_2x2_cargo_SE",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_linoleum_white",

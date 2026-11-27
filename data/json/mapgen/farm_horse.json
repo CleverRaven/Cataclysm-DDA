@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "farm_horse_house_1" ],
+    "om_terrain": "farm_horse_house_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -109,7 +109,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "farm_horse_greenhouse" ],
+    "om_terrain": "farm_horse_greenhouse",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -146,7 +146,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "farm_horse_greenhouse_roof" ],
+    "om_terrain": "farm_horse_greenhouse_roof",
     "object": {
       "fill_ter": "t_glass_roof",
       "rows": [
@@ -180,7 +180,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "farm_horse_stable_1" ],
+    "om_terrain": "farm_horse_stable_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -512,7 +512,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "paddock_C" ],
+    "om_terrain": "paddock_C",
     "//": "Flip to use with _gap versions",
     "object": {
       "fill_ter": "t_floor",

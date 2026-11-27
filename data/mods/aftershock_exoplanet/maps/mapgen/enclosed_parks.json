@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_park_dome_ground_floor" ],
+    "om_terrain": "afs_park_dome_ground_floor",
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -53,7 +53,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_park_dome_2nd_floor" ],
+    "om_terrain": "afs_park_dome_2nd_floor",
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -88,7 +88,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_park_dome_roof" ],
+    "om_terrain": "afs_park_dome_roof",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

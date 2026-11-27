@@ -103,7 +103,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "morgantown_forest" ],
+    "om_terrain": "morgantown_forest",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -156,7 +156,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "morgantown_forest_fence_s" ],
+    "om_terrain": "morgantown_forest_fence_s",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -218,7 +218,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "morgantown_forest_fence_entry" ],
+    "om_terrain": "morgantown_forest_fence_entry",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -283,7 +283,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "morgantown_forest_fence_entry_2" ],
+    "om_terrain": "morgantown_forest_fence_entry_2",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -337,7 +337,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "morgantown_forest_fence_corner" ],
+    "om_terrain": "morgantown_forest_fence_corner",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [

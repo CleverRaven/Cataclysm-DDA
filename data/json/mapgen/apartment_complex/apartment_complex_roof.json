@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner_roof" ],
+    "om_terrain": "apartment_complex_corner_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner_inner_roof" ],
+    "om_terrain": "apartment_complex_corner_inner_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -90,7 +90,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_roof" ],
+    "om_terrain": "apartment_complex_straight_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -145,7 +145,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_even_roof" ],
+    "om_terrain": "apartment_complex_straight_stairs_even_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -182,7 +182,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_odd_roof" ],
+    "om_terrain": "apartment_complex_straight_stairs_odd_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -219,7 +219,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_roof_+1" ],
+    "om_terrain": "apartment_complex_straight_stairs_roof_+1",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -253,7 +253,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_even_roof" ],
+    "om_terrain": "apartment_complex_center_stairs_even_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -290,7 +290,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_odd_roof" ],
+    "om_terrain": "apartment_complex_center_stairs_odd_roof",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -326,7 +326,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_center_stairs_roof_+1" ],
+    "om_terrain": "apartment_complex_center_stairs_roof_+1",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

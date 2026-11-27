@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "chemical_lab_ocu" ],
+    "om_terrain": "chemical_lab_ocu",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -42,7 +42,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "chemical_lab_roof_ocu" ],
+    "om_terrain": "chemical_lab_roof_ocu",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

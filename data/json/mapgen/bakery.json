@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "bakery" ],
+    "om_terrain": "bakery",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -123,7 +123,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bakery_roof" ],
+    "om_terrain": "bakery_roof",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -175,7 +175,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bakery_upper_roof" ],
+    "om_terrain": "bakery_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "pond_swamp_chocolate" ],
+    "om_terrain": "pond_swamp_chocolate",
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -88,7 +88,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "pond_swamp_chocolate" ],
+    "om_terrain": "pond_swamp_chocolate",
     "weight": 200,
     "object": {
       "fill_ter": "t_dirt",

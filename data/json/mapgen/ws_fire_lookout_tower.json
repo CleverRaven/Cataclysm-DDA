@@ -25,7 +25,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_base" ],
+    "om_terrain": "ws_fire_lookout_tower_base",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -95,7 +95,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_f1" ],
+    "om_terrain": "ws_fire_lookout_tower_f1",
     "object": {
       "rows": [
         "                        ",
@@ -136,7 +136,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_f2" ],
+    "om_terrain": "ws_fire_lookout_tower_f2",
     "object": {
       "rows": [
         "                        ",
@@ -176,7 +176,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_f3" ],
+    "om_terrain": "ws_fire_lookout_tower_f3",
     "object": {
       "rows": [
         "                        ",
@@ -216,7 +216,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_f4" ],
+    "om_terrain": "ws_fire_lookout_tower_f4",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -269,7 +269,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_fire_lookout_tower_f5" ],
+    "om_terrain": "ws_fire_lookout_tower_f5",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

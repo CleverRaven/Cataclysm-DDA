@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "office_doctor" ],
+    "om_terrain": "office_doctor",
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -143,7 +143,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "office_doctor_1" ],
+    "om_terrain": "office_doctor_1",
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -288,7 +288,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "office_doctor_2" ],
+    "om_terrain": "office_doctor_2",
     "weight": 200,
     "object": {
       "fill_ter": "t_dirt",

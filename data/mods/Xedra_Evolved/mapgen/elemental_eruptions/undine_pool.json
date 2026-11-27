@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "undine_warp_pool_surface" ],
+    "om_terrain": "undine_warp_pool_surface",
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "forest",
@@ -53,7 +53,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "undine_warp_pool_zneg_dirt" ],
+    "om_terrain": "undine_warp_pool_zneg_dirt",
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_soil",
@@ -90,7 +90,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "undine_warp_pool_zneg" ],
+    "om_terrain": "undine_warp_pool_zneg",
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
@@ -127,7 +127,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "undine_warp_pool_warper" ],
+    "om_terrain": "undine_warp_pool_warper",
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",

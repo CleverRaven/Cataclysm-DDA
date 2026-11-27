@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "dinoexhibit" ],
+    "om_terrain": "dinoexhibit",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -70,7 +70,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "dinoexhibit" ],
+    "om_terrain": "dinoexhibit",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -223,7 +223,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "dinoexhibit_roof" ],
+    "om_terrain": "dinoexhibit_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

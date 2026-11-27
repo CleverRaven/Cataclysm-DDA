@@ -246,7 +246,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "prison_island_1_3f_1" ],
+    "om_terrain": "prison_island_1_3f_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -314,7 +314,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "prison_island_1_3f_11" ],
+    "om_terrain": "prison_island_1_3f_11",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -348,7 +348,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "prison_island_1_3f_14" ],
+    "om_terrain": "prison_island_1_3f_14",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

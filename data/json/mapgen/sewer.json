@@ -280,7 +280,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 1000000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -322,7 +322,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 125000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -364,7 +364,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 20000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -405,7 +405,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 20000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -446,7 +446,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 10000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -486,7 +486,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 10000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -522,7 +522,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 50000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -564,7 +564,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 50000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -606,7 +606,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 20000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -648,7 +648,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 80000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -689,7 +689,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 20000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -731,7 +731,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_straight" ],
+    "om_terrain": "sewer_straight",
     "weight": 80000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -772,7 +772,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_end" ],
+    "om_terrain": "sewer_end",
     "weight": 1000000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -813,7 +813,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_end" ],
+    "om_terrain": "sewer_end",
     "weight": 100000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -854,7 +854,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_curved" ],
+    "om_terrain": "sewer_curved",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -889,7 +889,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_tee" ],
+    "om_terrain": "sewer_tee",
     "weight": 750000,
     "object": {
       "rotation": [ 1, 1 ],
@@ -931,7 +931,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_tee" ],
+    "om_terrain": "sewer_tee",
     "weight": 250000,
     "object": {
       "rotation": [ 1, 1 ],
@@ -973,7 +973,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_tee" ],
+    "om_terrain": "sewer_tee",
     "weight": 500000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1009,7 +1009,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_tee" ],
+    "om_terrain": "sewer_tee",
     "weight": 500000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1045,7 +1045,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_four_way" ],
+    "om_terrain": "sewer_four_way",
     "weight": 1000000,
     "object": {
       "rotation": [ 0, 3 ],
@@ -1086,7 +1086,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_four_way" ],
+    "om_terrain": "sewer_four_way",
     "weight": 1000000,
     "object": {
       "rotation": [ 0, 3 ],

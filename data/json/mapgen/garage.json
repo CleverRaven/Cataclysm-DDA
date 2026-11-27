@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_garage" ],
+    "om_terrain": "s_garage",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -126,7 +126,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_garage_1" ],
+    "om_terrain": "s_garage_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -235,7 +235,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_garage_2" ],
+    "om_terrain": "s_garage_2",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin" ],
+    "om_terrain": "cabin",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -72,7 +72,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_1" ],
+    "om_terrain": "cabin_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -158,7 +158,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_2" ],
+    "om_terrain": "cabin_2",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -583,7 +583,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_strange" ],
+    "om_terrain": "cabin_strange",
     "//": "Strange Cabin",
     "object": {
       "fill_ter": "t_floor",
@@ -657,7 +657,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_strange_b" ],
+    "om_terrain": "cabin_strange_b",
     "//": "Strange Cabin (basement)",
     "object": {
       "fill_ter": "t_rock_floor",
@@ -827,7 +827,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_prepper" ],
+    "om_terrain": "cabin_prepper",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -879,7 +879,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_prepper_shelter" ],
+    "om_terrain": "cabin_prepper_shelter",
     "//": "A lmoe shelter replica refitted for the cabin's dug-out basement.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
     "object": {
@@ -925,7 +925,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_cellar" ],
+    "om_terrain": "cabin_cellar",
     "//": "Used to clear out space to allow cellars to spawn without problems.",
     "object": {
       "fill_ter": "t_soil",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_cardealer" ],
+    "om_terrain": "s_cardealer",
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -71,7 +71,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_cardealer_roof" ],
+    "om_terrain": "s_cardealer_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

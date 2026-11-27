@@ -13,7 +13,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "highlands" ],
+    "om_terrain": "highlands",
     "weight": 3,
     "object": {
       "fill_ter": "t_highland_groundcover",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "gozu_hell_lava_pond" ],
+    "om_terrain": "gozu_hell_lava_pond",
     "object": {
       "rotation": [ 0, 3 ],
       "predecessor_mapgen": "gozu_hell_terrain",
@@ -58,7 +58,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop_gozu_hell" ],
+    "om_terrain": "outcrop_gozu_hell",
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
@@ -95,7 +95,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop_gozu_hell" ],
+    "om_terrain": "outcrop_gozu_hell",
     "weight": 100,
     "object": {
       "rotation": [ 0, 3 ],
@@ -132,7 +132,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outcrop_gozu_hell_bottom" ],
+    "om_terrain": "outcrop_gozu_hell_bottom",
     "object": {
       "fill_ter": "t_solid_sand",
       "rotation": [ 0, 3 ],
@@ -168,7 +168,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "standing_stones_highlands" ],
+    "om_terrain": "standing_stones_highlands",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -212,7 +212,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "standing_stones_gozu_hell" ],
+    "om_terrain": "standing_stones_gozu_hell",
     "weight": 750,
     "object": {
       "predecessor_mapgen": "forest",

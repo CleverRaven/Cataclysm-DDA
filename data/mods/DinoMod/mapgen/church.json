@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "church" ],
+    "om_terrain": "church",
     "//": "Swamper Church",
     "weight": 3000,
     "object": {

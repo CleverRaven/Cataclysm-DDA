@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "small_kindergarten" ],
+    "om_terrain": "small_kindergarten",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

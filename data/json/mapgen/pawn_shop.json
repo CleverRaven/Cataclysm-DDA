@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "pawn" ],
+    "om_terrain": "pawn",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -147,7 +147,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "pawn_1" ],
+    "om_terrain": "pawn_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -290,7 +290,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "pawn_pf" ],
+    "om_terrain": "pawn_pf",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -370,7 +370,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "pawn_pf_under" ],
+    "om_terrain": "pawn_pf_under",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -167,7 +167,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "car_theater_1_2_1" ],
+    "om_terrain": "car_theater_1_2_1",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -207,7 +207,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "car_theater_1_2_2" ],
+    "om_terrain": "car_theater_1_2_2",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

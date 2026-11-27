@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_B" ],
+    "om_terrain": "lab_maintenance_z-2&3_B",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,
@@ -53,7 +53,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_B" ],
+    "om_terrain": "lab_maintenance_z-2&3_B",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,
@@ -108,7 +108,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_B" ],
+    "om_terrain": "lab_maintenance_z-2&3_B",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,
@@ -160,7 +160,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_A" ],
+    "om_terrain": "lab_maintenance_z-2&3_A",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,
@@ -211,7 +211,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_A" ],
+    "om_terrain": "lab_maintenance_z-2&3_A",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,
@@ -257,7 +257,7 @@
     }
   },
   {
-    "om_terrain": [ "lab_maintenance_z-2&3_A" ],
+    "om_terrain": "lab_maintenance_z-2&3_A",
     "type": "mapgen",
     "//": "maintenance maze",
     "weight": 200,

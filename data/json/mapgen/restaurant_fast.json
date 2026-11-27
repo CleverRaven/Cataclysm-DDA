@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_fast" ],
+    "om_terrain": "s_restaurant_fast",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -107,7 +107,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_fast_roof" ],
+    "om_terrain": "s_restaurant_fast_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [
@@ -155,7 +155,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_fast_1" ],
+    "om_terrain": "s_restaurant_fast_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -252,7 +252,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_fast_roof_1" ],
+    "om_terrain": "s_restaurant_fast_roof_1",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

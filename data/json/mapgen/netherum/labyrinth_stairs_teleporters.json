@@ -83,7 +83,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth2_stairs" ],
+    "om_terrain": "labyrinth2_stairs",
     "object": {
       "predecessor_mapgen": "labyrinth2_north",
       "rows": [

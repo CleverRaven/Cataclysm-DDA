@@ -164,7 +164,7 @@
   {
     "type": "mapgen",
     "//": "level -4",
-    "om_terrain": [ "underground_lab_cargo_stationA" ],
+    "om_terrain": "underground_lab_cargo_stationA",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -206,7 +206,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_cargo_stationB" ],
+    "om_terrain": "underground_lab_cargo_stationB",
     "//": "level -4",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -263,7 +263,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-5W" ],
+    "om_terrain": "underground_lab_central_-5W",
     "//": "level -5",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -359,7 +359,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-5E" ],
+    "om_terrain": "underground_lab_central_-5E",
     "//": "level -5",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -402,7 +402,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-6W" ],
+    "om_terrain": "underground_lab_central_-6W",
     "//": "level -6",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -445,7 +445,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-6E" ],
+    "om_terrain": "underground_lab_central_-6E",
     "//": "level -6",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -487,7 +487,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-7W" ],
+    "om_terrain": "underground_lab_central_-7W",
     "//": "level -6",
     "object": {
       "fill_ter": "t_metal_floor",
@@ -522,7 +522,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_lab_central_-7E" ],
+    "om_terrain": "underground_lab_central_-7E",
     "//": "level -6",
     "object": {
       "fill_ter": "t_thconc_floor",

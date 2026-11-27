@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_crashed_cargo_shuttle" ],
+    "om_terrain": "afs_crashed_cargo_shuttle",
     "object": {
       "predecessor_mapgen": "glacial_field",
       "rows": [
@@ -54,7 +54,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_crashed_cargo_shuttle_wraitheon" ],
+    "om_terrain": "afs_crashed_cargo_shuttle_wraitheon",
     "object": {
       "predecessor_mapgen": "glacial_field",
       "rows": [

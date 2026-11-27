@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hunting_blind" ],
+    "om_terrain": "hunting_blind",
     "weight": 100,
     "object": {
       "predecessor_mapgen": "field",
@@ -108,7 +108,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hunting_blind" ],
+    "om_terrain": "hunting_blind",
     "weight": 100,
     "object": {
       "predecessor_mapgen": "field",

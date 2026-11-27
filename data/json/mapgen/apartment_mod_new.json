@@ -254,7 +254,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartments_mod_tower_shack_roof" ],
+    "om_terrain": "apartments_mod_tower_shack_roof",
     "//": "Level 6",
     "object": {
       "fill_ter": "t_flat_roof",

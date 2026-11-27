@@ -1,6 +1,6 @@
 [
   {
-    "om_terrain": [ "hab_unit_central" ],
+    "om_terrain": "hab_unit_central",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_concrete_light",

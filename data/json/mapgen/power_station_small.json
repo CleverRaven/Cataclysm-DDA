@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "pwr_sub_s" ],
+    "om_terrain": "pwr_sub_s",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

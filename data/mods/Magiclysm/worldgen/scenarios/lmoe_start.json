@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "last_mage_on_earth_shelter" ],
+    "om_terrain": "last_mage_on_earth_shelter",
     "//": "Empty LMOE shelter built for a wizard.",
     "object": {
       "fill_ter": "t_carpet_metal_purple",

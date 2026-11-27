@@ -389,7 +389,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "school_5_6" ],
+    "om_terrain": "school_5_6",
     "object": {
       "rows": [
         "                        ",

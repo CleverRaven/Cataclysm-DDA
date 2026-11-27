@@ -1113,7 +1113,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "farm_aenoren_stable_1" ],
+    "om_terrain": "farm_aenoren_stable_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

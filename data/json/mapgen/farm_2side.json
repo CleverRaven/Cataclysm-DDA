@@ -148,7 +148,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2farm_roof_3" ],
+    "om_terrain": "2farm_roof_3",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -447,7 +447,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2farm_roof_11" ],
+    "om_terrain": "2farm_roof_11",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

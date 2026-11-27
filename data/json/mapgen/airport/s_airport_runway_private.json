@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_air_helicopter_pad" ],
+    "om_terrain": "s_air_helicopter_pad",
     "object": {
       "fill_ter": "t_pavement",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_car_showroom" ],
+    "om_terrain": "cs_car_showroom",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

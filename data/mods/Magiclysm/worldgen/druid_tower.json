@@ -104,7 +104,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_ritual_home_z0" ],
+    "om_terrain": "druid_ritual_home_z0",
     "//": "This is common areas and eating places.",
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -171,7 +171,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_ritual_home_z1" ],
+    "om_terrain": "druid_ritual_home_z1",
     "//": "This is guest bedrooms and libraries",
     "object": {
       "fill_ter": "t_barkfloor",
@@ -230,7 +230,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_ritual_home_z2" ],
+    "om_terrain": "druid_ritual_home_z2",
     "//": "This is workspaces and study rooms",
     "object": {
       "fill_ter": "t_barkfloor",
@@ -302,7 +302,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_ritual_home_z3" ],
+    "om_terrain": "druid_ritual_home_z3",
     "//": "This is the master bedroom",
     "object": {
       "fill_ter": "t_barkfloor",
@@ -372,7 +372,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "druid_ritual_home_z4" ],
+    "om_terrain": "druid_ritual_home_z4",
     "//": "Roof over top",
     "object": {
       "fill_ter": "t_barkfloor",

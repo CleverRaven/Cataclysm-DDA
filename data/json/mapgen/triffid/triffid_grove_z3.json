@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "triffid_grove_z3" ],
+    "om_terrain": "triffid_grove_z3",
     "weight": 100,
     "object": {
       "fill_ter": "t_barkfloor",
@@ -72,7 +72,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "triffid_grove_z3" ],
+    "om_terrain": "triffid_grove_z3",
     "weight": 100,
     "object": {
       "fill_ter": "t_barkfloor",

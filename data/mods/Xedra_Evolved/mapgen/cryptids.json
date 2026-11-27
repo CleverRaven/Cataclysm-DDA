@@ -60,7 +60,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_sevenoclock" ],
+    "om_terrain": "cabin_sevenoclock",
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_floor",

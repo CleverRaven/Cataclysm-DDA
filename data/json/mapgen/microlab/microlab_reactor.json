@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_reactor" ],
+    "om_terrain": "microlab_reactor",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -44,7 +44,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_reactor_b" ],
+    "om_terrain": "microlab_reactor_b",
     "object": {
       "rows": [
         "########################",

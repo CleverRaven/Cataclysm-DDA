@@ -110,7 +110,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_baseballfield_a2_2" ],
+    "om_terrain": "s_baseballfield_a2_2",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

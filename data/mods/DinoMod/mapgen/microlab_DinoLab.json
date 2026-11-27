@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_DinoLab_sub_entry" ],
+    "om_terrain": "microlab_DinoLab_sub_entry",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

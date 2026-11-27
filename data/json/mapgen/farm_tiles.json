@@ -76,7 +76,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2silos" ],
+    "om_terrain": "2silos",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -120,7 +120,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2silos" ],
+    "om_terrain": "2silos",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -164,7 +164,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2silos_1" ],
+    "om_terrain": "2silos_1",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -198,7 +198,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2silos_2" ],
+    "om_terrain": "2silos_2",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -232,7 +232,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "2silos_roof" ],
+    "om_terrain": "2silos_roof",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -300,7 +300,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "coop_chicken" ],
+    "om_terrain": "coop_chicken",
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -338,7 +338,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "yard" ],
+    "om_terrain": "yard",
     "weight": 100,
     "object": {
       "//": "same as coop_chicken",
@@ -380,7 +380,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "yard" ],
+    "om_terrain": "yard",
     "weight": 100,
     "object": {
       "//": "hobby farm",
@@ -433,7 +433,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "yard" ],
+    "om_terrain": "yard",
     "weight": 150,
     "object": {
       "//": "regular yard",
@@ -489,7 +489,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_farm" ],
+    "om_terrain": "house_farm",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -541,7 +541,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_farm" ],
+    "om_terrain": "house_farm",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -593,7 +593,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_farm" ],
+    "om_terrain": "house_farm",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -644,7 +644,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_farm" ],
+    "om_terrain": "house_farm",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -696,7 +696,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_farm" ],
+    "om_terrain": "house_farm",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",

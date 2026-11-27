@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "office_cubical" ],
+    "om_terrain": "office_cubical",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -128,7 +128,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "office_cubical_1" ],
+    "om_terrain": "office_cubical_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

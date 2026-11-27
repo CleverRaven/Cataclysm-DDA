@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_generic" ],
+    "om_terrain": "microlab_generic",
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [

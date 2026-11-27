@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bunker" ],
+    "om_terrain": "bunker",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -102,7 +102,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bunker_basement_1" ],
+    "om_terrain": "bunker_basement_1",
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",

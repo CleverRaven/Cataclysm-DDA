@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "phavian_hospital_transition_tunnel_upper" ],
+    "om_terrain": "phavian_hospital_transition_tunnel_upper",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "phavian_hospital_transition_tunnel_lower" ],
+    "om_terrain": "phavian_hospital_transition_tunnel_lower",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

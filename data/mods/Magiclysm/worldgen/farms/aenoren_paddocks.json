@@ -134,7 +134,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "aenor_paddock_C" ],
+    "om_terrain": "aenor_paddock_C",
     "//": "Flip to use with _gap versions",
     "object": {
       "fill_ter": "t_floor",

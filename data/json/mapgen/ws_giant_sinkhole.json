@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_giant_sinkhole_1" ],
+    "om_terrain": "ws_giant_sinkhole_1",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_giant_sinkhole_2" ],
+    "om_terrain": "ws_giant_sinkhole_2",
     "object": {
       "fallback_predecessor_mapgen": "solid_earth",
       "rows": [

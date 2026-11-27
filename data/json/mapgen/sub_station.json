@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "sub_station" ],
+    "om_terrain": "sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -70,7 +70,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewer_sub_station" ],
+    "om_terrain": "sewer_sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -107,7 +107,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "underground_sub_station" ],
+    "om_terrain": "underground_sub_station",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

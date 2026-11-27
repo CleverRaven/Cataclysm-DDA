@@ -56,7 +56,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "xedra_fishing_shack_0" ],
+    "om_terrain": "xedra_fishing_shack_0",
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -157,7 +157,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "xedra_fishing_shack_1" ],
+    "om_terrain": "xedra_fishing_shack_1",
     "object": {
       "predecessor_mapgen": "open_air",
       "rows": [
@@ -218,7 +218,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "xedra_fishing_shack_2" ],
+    "om_terrain": "xedra_fishing_shack_2",
     "object": {
       "predecessor_mapgen": "open_air",
       "rows": [

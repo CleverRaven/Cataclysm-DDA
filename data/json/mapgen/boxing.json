@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "gym" ],
+    "om_terrain": "gym",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

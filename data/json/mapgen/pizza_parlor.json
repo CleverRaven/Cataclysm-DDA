@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_pizza_parlor" ],
+    "om_terrain": "s_pizza_parlor",
     "object": {
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
@@ -160,7 +160,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_pizza_parlor_1" ],
+    "om_terrain": "s_pizza_parlor_1",
     "object": {
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_2story_base" ],
+    "om_terrain": "house_2story_base",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -53,7 +53,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_2story_second" ],
+    "om_terrain": "house_2story_second",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

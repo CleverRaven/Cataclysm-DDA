@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "craft_shop_1" ],
+    "om_terrain": "craft_shop_1",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

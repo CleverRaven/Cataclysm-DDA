@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_modern_1" ],
+    "om_terrain": "house_modern_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

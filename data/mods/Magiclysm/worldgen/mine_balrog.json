@@ -203,7 +203,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mine_balrog_bottomless_pit" ],
+    "om_terrain": "mine_balrog_bottomless_pit",
     "object": {
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -236,7 +236,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mine_balrog_lava" ],
+    "om_terrain": "mine_balrog_lava",
     "object": {
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~",

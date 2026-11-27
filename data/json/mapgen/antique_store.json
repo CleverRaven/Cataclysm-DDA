@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_antique" ],
+    "om_terrain": "s_antique",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -59,7 +59,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_antique_roof" ],
+    "om_terrain": "s_antique_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

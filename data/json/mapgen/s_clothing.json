@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes" ],
+    "om_terrain": "s_clothes",
     "//": "All clothing",
     "object": {
       "fill_ter": "t_floor",
@@ -95,7 +95,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_1" ],
+    "om_terrain": "s_clothes_1",
     "//": "Suit Tailor",
     "object": {
       "fill_ter": "t_floor",
@@ -185,7 +185,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_2" ],
+    "om_terrain": "s_clothes_2",
     "//": "Fancy Furs",
     "object": {
       "fill_ter": "t_floor",
@@ -276,7 +276,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_3" ],
+    "om_terrain": "s_clothes_3",
     "//": "Shoes & Hats",
     "object": {
       "fill_ter": "t_floor",
@@ -413,7 +413,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_4" ],
+    "om_terrain": "s_clothes_4",
     "//": "Dress Tailor",
     "object": {
       "fill_ter": "t_floor",
@@ -547,7 +547,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_5" ],
+    "om_terrain": "s_clothes_5",
     "//": "Wedding Tailor",
     "object": {
       "fill_ter": "t_floor",
@@ -700,7 +700,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_clothes_6" ],
+    "om_terrain": "s_clothes_6",
     "//": "All clothing",
     "object": {
       "fill_ter": "t_floor",

@@ -110,7 +110,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "safe_house_basement" ],
+    "om_terrain": "safe_house_basement",
     "//": "Spy safehouse basement",
     "object": {
       "fill_ter": "t_soil",

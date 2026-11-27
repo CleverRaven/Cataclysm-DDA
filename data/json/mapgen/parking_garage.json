@@ -220,7 +220,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "parking_garage_roof_top" ],
+    "om_terrain": "parking_garage_roof_top",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

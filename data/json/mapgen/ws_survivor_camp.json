@@ -51,7 +51,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_camp" ],
+    "om_terrain": "ws_survivor_camp",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "field",
@@ -104,7 +104,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_camp" ],
+    "om_terrain": "ws_survivor_camp",
     "weight": 10,
     "object": {
       "predecessor_mapgen": "field",
@@ -154,7 +154,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_camp" ],
+    "om_terrain": "ws_survivor_camp",
     "weight": { "math": [ "clamp( ( (time_since('cataclysm', 'unit':'days') * 2) + 25 ), 25, 350)" ] },
     "object": {
       "fill_ter": "t_dirt",
