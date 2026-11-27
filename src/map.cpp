@@ -1891,3 +1891,38 @@ const furn_str_id &drawsq_params::furniture_override() const
 {
     return furn_override;
 }
+
+void map::for_noisy_vehicle( const std::function<void( vehicle * )> &fn )
+{
+    const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    for( int z = zmin; z <= zmax; ++z ) {
+        const level_cache *ch = get_cache_lazy( z );
+        if( ch == nullptr ) {
+            continue;
+        }
+        for( vehicle *v : ch->vehicle_list ) {
+            if( v != nullptr && v->vehicle_noise > 0 ) {
+                fn( v );
+            }
+        }
+    }
+}
+
+bool map::has_moving_vehicles()
+{
+    const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+    const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+    for( int z = zmin; z <= zmax; ++z ) {
+        const level_cache *ch = get_cache_lazy( z );
+        if( ch == nullptr ) {
+            continue;
+        }
+        for( const vehicle *v : ch->vehicle_list ) {
+            if( v != nullptr && v->is_moving() ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
