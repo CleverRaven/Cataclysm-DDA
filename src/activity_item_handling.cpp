@@ -147,6 +147,7 @@ static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
@@ -4722,6 +4723,10 @@ int get_auto_consume_moves( Character &you, const bool food )
             }
             if( it->get_comestible()->addictions.count( addiction_alcohol ) &&
                 !you.has_addiction( addiction_alcohol ) ) {
+                return VisitResponse::NEXT;
+            }
+            if( it->has_flag( flag_MYCUS_OK ) && !you.has_trait( trait_THRESH_MYCUS ) ) {
+                // prefer to not autoeat mycus stuff if not mycus yet
                 return VisitResponse::NEXT;
             }
 
