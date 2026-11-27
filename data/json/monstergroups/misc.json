@@ -469,6 +469,7 @@
       { "monster": "mon_shifting_mass" },
       { "monster": "mon_impossible_shape" },
       { "monster": "mon_dog_zombie_hulk" },
+      { "monster": "mon_zombie_panopticon_warden" },
       { "monster": "mon_zombear_skeleton" },
       { "monster": "mon_zoose_brute" },
       { "monster": "mon_zombie_nullfield" },
