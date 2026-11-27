@@ -81,9 +81,9 @@
     "material": [ "cotton", "steel" ],
     "symbol": "{",
     "color": "brown",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1", "WRAP" ],
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WRAP", "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "faults": [ { "fault_group": "rope_weapons" }, { "fault_group": "steel_smithed_craft_failures" } ],
     "weapon_category": [ "FLAILS" ],
     "melee_damage": { "bash": 14 }
