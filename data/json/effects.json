@@ -6030,7 +6030,7 @@
     "desc": [ "" ],
     "removes_effects": [ "effect_skeleton_hulk_charge_up" ],
     "remove_message": "message"
-  }
+  },
   {
     "id": "crowned_speaking",
     "type": "effect_type",

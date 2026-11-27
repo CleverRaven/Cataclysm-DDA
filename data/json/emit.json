@@ -508,7 +508,7 @@
     "field": "fd_labyrinth_fog",
     "intensity": 4,
     "qty": 300
-  }
+  },
   {
     "id": "emit_pain_field",
     "//": "used exclusively by the crowned ones.",
