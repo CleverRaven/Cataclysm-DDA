@@ -150,6 +150,6 @@
     "faults_removed": [ "fault_missing_weight" ],
     "mod_damage": -1000,
     "mod_degradation": -100,
-    "requirements": [ { "components": [ [ [ "steel_chunk", 1 ] ] ] } ]
+    "requirements": [ { "components": [ [ [ "steel_chunk_any", 1, "LIST" ] ] ] } ]
   }
 ]
