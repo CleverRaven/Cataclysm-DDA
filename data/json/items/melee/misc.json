@@ -65,7 +65,7 @@
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ]
   },
-{
+  {
     "id": "meteor_hammer",
     "type": "ITEM",
     "category": "weapons",
