@@ -9,6 +9,7 @@
 #include "character_attire.h"
 #include "debug.h"
 #include "item.h"
+#include "item_location.h"
 #include "map_helpers.h"
 #include "messages.h"
 #include "player_activity.h"
@@ -18,6 +19,7 @@
 
 static const efftype_id effect_sleep( "sleep" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_duffelbag( "duffelbag" );
 static const itype_id itype_test_lamp( "test_lamp" );
 
@@ -55,7 +57,8 @@ void action_schedule::do_turn( avatar &guy ) const
 
 void meal_schedule::setup( avatar &guy ) const
 {
-    item eaten( food );
+    guy.wear_item( item( itype_debug_backpack ), false, false );
+    item_location eaten = guy.i_add( item( food ) );
     guy.consume( eaten );
 }
 

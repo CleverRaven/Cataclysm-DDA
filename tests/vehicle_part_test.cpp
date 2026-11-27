@@ -41,6 +41,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -475,6 +476,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     clear_vehicles();
     set_time( midday );
     map &here = get_map();
+    get_weather().forced_temperature = 10_C;
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;

@@ -79,6 +79,7 @@ static const item_group_id Item_spawn_data_test_edevices_standard( "test_edevice
 
 static const itype_id itype_book_binder( "book_binder" );
 static const itype_id itype_glass_shard( "glass_shard" );
+static const itype_id itype_meat_cooked( "meat_cooked" );
 static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_oxyacetylene( "oxyacetylene" );
 static const itype_id itype_stethoscope( "stethoscope" );
@@ -101,7 +102,6 @@ static const itype_id itype_test_rock( "test_rock" );
 static const itype_id itype_test_shears( "test_shears" );
 static const itype_id itype_test_shears_off( "test_shears_off" );
 static const itype_id itype_test_weldtank( "test_weldtank" );
-static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
@@ -1956,7 +1956,12 @@ static const std::vector<std::function<player_activity()>> test_activities {
         item_location bookbinder = dummy->i_add( item( itype_book_binder, calendar::turn ) );
         return player_activity( bookbinder_copy_activity_actor( bookbinder, recipe_water_clean ) );
     },
-    [] { return player_activity( consume_activity_actor( item( itype_water_clean ) ) ); },
+    [] {
+        Character *dummy = get_avatar().as_character();
+        dummy->wear_item( item( itype_test_backpack ), false );
+        item_location it = dummy->i_add( item( itype_meat_cooked ) );
+        return player_activity( consume_activity_actor( it ) );
+    },
     //player_activity( craft_activity_actor() ),
     //player_activity( disable_activity_actor() ),
     //player_activity( disassemble_activity_actor( 1 ) ),

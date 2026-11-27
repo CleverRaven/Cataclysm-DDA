@@ -1429,6 +1429,10 @@ class map
         map_stack i_at( const point_bub_ms &p ) {
             return i_at( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+
+        // visits all items, including whatever is in containers in the visited items
+        std::vector<item_location> i_loc_at( const tripoint_bub_ms &p );
+
         item liquid_from( const tripoint_bub_ms &p ) const;
         void i_clear( const tripoint_bub_ms &p );
         void i_clear( const point_bub_ms &p ) {

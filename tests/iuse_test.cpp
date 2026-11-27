@@ -417,6 +417,7 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
 {
     avatar dummy;
     dummy.normalize();
+    dummy.worn.wear_item( dummy, item( itype_debug_backpack ), false, false );
 
     // Baseline sleepiness level before caffeinating
     int sleepiness_before = 200;
@@ -429,18 +430,23 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_rad() == 0 );
 
     SECTION( "coffee reduces sleepiness, but does not give stimulant effect" ) {
-        item coffee( itype_coffee, calendar::turn_zero, item::default_charges_tag{} );
+        item_location coffee = dummy.i_add( item( itype_coffee, calendar::turn_zero,
+                                            item::default_charges_tag{} ) );
+        const int coffee_sleepiness_mod = coffee->get_comestible()->sleepiness_mod;
+        const int coffee_stim = coffee->get_comestible()->stim;
         dummy.consume( coffee );
-        CHECK( dummy.get_sleepiness() == sleepiness_before - coffee.get_comestible()->sleepiness_mod );
-        CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
+        CHECK( dummy.get_sleepiness() == sleepiness_before - coffee_sleepiness_mod );
+        CHECK( dummy.get_stim() == coffee_stim );
     }
 
     SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
-        item atomic_coffee( itype_atomic_coffee, calendar::turn_zero, item::default_charges_tag{} );
+        item_location atomic_coffee = dummy.i_add( item( itype_atomic_coffee,
+                                      calendar::turn_zero, item::default_charges_tag{} ) );
+        const int atomic_coffee_sleepiness_mod = atomic_coffee->get_comestible()->sleepiness_mod;
+        const int atomic_coffee_stim = atomic_coffee->get_comestible()->stim;
         dummy.consume( atomic_coffee );
-        CHECK( dummy.get_sleepiness() == sleepiness_before -
-               atomic_coffee.get_comestible()->sleepiness_mod );
-        CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
+        CHECK( dummy.get_sleepiness() == sleepiness_before - atomic_coffee_sleepiness_mod );
+        CHECK( atomic_coffee_stim );
     }
 }
 

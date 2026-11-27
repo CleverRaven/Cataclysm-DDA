@@ -1910,11 +1910,7 @@ class Character : public Creature, public visitable
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
         trinary consume( item_location loc, bool force = false );
-
-        /** Used for eating a particular item that doesn't need to be in inventory.
-         *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
-         */
-        trinary consume( item &target, bool force = false );
+        trinary consume_internal( item_location &target, bool force = false );
 
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume.
@@ -2232,6 +2228,7 @@ class Character : public Creature, public visitable
          */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr,
                             const item *original_inventory_item = nullptr );
+
 
         /** Drops items at player location
         *  An optional qty can be provided (and will perform better than separate calls).

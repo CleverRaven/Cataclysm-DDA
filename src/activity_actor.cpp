@@ -6281,10 +6281,8 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
 
     if( consume_location ) {
         will_eat( *consume_location );
-    } else if( !consume_item.is_null() ) {
-        will_eat( consume_item );
     } else {
-        debugmsg( "Item/location to be consumed should not be null." );
+        debugmsg( "Item_location to be consumed should not be null." );
         was_canceled = true;
     }
 
@@ -6308,10 +6306,8 @@ void consume_activity_actor::finish( player_activity &act, Character &who )
     if( !was_canceled ) {
         if( consume_loc ) {
             who.consume( consume_loc, /*force=*/true );
-        } else if( !consume_item.is_null() ) {
-            who.consume( consume_item, /*force=*/true );
         } else {
-            debugmsg( "Item location/name to be consumed should not be null." );
+            debugmsg( "Item_location to be consumed should not be null." );
         }
     }
 
@@ -6352,7 +6348,6 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "consume_location", consume_location );
-    jsout.member( "consume_item", consume_item );
     jsout.member( "canceled", was_canceled );
     jsout.member( "reprompt_consume_menu", reprompt_consume_menu );
 
@@ -6367,7 +6362,6 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     JsonObject data = jsin.get_object();
 
     data.read( "consume_location", actor.consume_location );
-    data.read( "consume_item", actor.consume_item );
     data.read( "canceled", actor.was_canceled );
     if( data.has_member( "reprompt_consume_menu" ) ) {
         data.read( "reprompt_consume_menu", actor.reprompt_consume_menu );

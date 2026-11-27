@@ -7,8 +7,10 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "flag.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -23,6 +25,7 @@ static const efftype_id effect_flu( "flu" );
 static const itype_id itype_catfood( "catfood" );
 static const itype_id itype_coffee( "coffee" );
 static const itype_id itype_cola( "cola" );
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_dogfood( "dogfood" );
 static const itype_id itype_garlic( "garlic" );
 static const itype_id itype_icecream( "icecream" );
@@ -379,10 +382,10 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
     avatar dummy;
     std::pair<int, int> actual_fun;
 
-    // A big box of tasty toast-ems
+    dummy.worn.wear_item( dummy, item( itype_debug_backpack ), false, false );
     item toastem( itype_toastem_test, calendar::turn );
-    REQUIRE( toastem.is_comestible() );
 
+    REQUIRE( toastem.is_comestible() );
     // Base fun value and monotony penalty for toast-em
     int toastem_fun = toastem.get_comestible_fun();
     int toastem_penalty = toastem.get_comestible()->monotony_penalty;
@@ -403,7 +406,8 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
         }
 
         WHEN( "character has just eaten one" ) {
-            dummy.consume( toastem );
+            item_location toastem_loc = dummy.i_add( toastem );
+            dummy.consume( toastem_loc );
 
             THEN( "the next one is less enjoyable" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -411,7 +415,8 @@ TEST_CASE( "fun_for_food_eaten_too_often", "[fun_for][food][monotony]" )
             }
 
             AND_WHEN( "character has eaten another one" ) {
-                dummy.consume( toastem );
+                item_location toastem_loc_2 = dummy.i_add( toastem );
+                dummy.consume( toastem_loc_2 );
 
                 THEN( "the one after that is even less enjoyable" ) {
                     actual_fun = dummy.fun_for( toastem );
