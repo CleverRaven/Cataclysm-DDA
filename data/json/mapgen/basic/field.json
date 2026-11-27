@@ -1,7 +1,8 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "field", "isherwood_barry_rescue_field" ],
+    "om_terrain": "field",
+    "copy_to_om_terrain": [ "isherwood_barry_rescue_field" ],
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [

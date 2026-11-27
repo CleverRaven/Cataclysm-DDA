@@ -1,6 +1,7 @@
 [
   {
-    "om_terrain": [ "hw_fb_crossroad", "hw_fb_tee" ],
+    "om_terrain": "hw_fb_crossroad",
+    "copy_to_om_terrain": [ "hw_fb_tee" ],
     "type": "mapgen",
     "object": {
       "fallback_predecessor_mapgen": "field",

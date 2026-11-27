@@ -600,7 +600,8 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "road_four_way", "road_nesw_manhole" ],
+    "om_terrain": "road_four_way",
+    "copy_to_om_terrain": [ "road_nesw_manhole" ],
     "object": {
       "fill_ter": "t_concrete_wall",
       "rows": [
