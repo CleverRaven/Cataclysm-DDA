@@ -63,15 +63,6 @@
   },
   {
     "type": "addiction_type",
-    "id": "crack",
-    "name": "Crack Cocaine Withdrawal",
-    "type_name": "crack cocaine",
-    "description": "Perception - 2;   Intelligence - 2;   Frequent cravings.",
-    "craving_morale": "morale_craving_crack",
-    "builtin": "crack_effect"
-  },
-  {
-    "type": "addiction_type",
     "id": "mutagen",
     "name": "Mutation Withdrawal",
     "type_name": "mutation",

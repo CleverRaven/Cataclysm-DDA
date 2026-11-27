@@ -91,7 +91,7 @@
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your fix now?",
     "points": -2,
     "traits": [ "STIMBOOST" ],
-    "addictions": [ { "intensity": 20, "type": "crack" } ]
+    "addictions": [ { "intensity": 20, "type": "cocaine" } ]
   },
   {
     "type": "profession",
