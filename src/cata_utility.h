@@ -118,7 +118,7 @@ bool lcmatch( const translation &str, std::string_view qry );
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
  *
- * Multiple includes/excludes are possible
+ * Multiple includes/excludes are possible. Empty comma-separated entries are ignored.
  *
  * Examle: bank,-house,tank,-car
  * Will match text containing tank or bank while not containing house or car
@@ -128,7 +128,7 @@ bool lcmatch( const translation &str, std::string_view qry );
  *
  * @return true if include/exclude rules pass. See Example.
  */
-bool match_include_exclude( std::string_view text, std::string filter );
+bool match_include_exclude( std::string_view text, std::string_view filter );
 
 /**
  * Basic logistic function.
