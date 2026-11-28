@@ -437,5 +437,36 @@
     "degradation_mod": 40,
     "description": "The %1$s is cracked.",
     "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 } ]
+  },
+
+  {
+    "type": "fault",
+    "id": "fault_fraying_line",
+    "//": "This fault is meant for rope weapons.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Fraying line" },
+    "degradation_mod": 40,
+    "description": "The rope of the %1$s has begun to fray.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.8 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_snapped_line",
+    "//": "This fault is meant for rope weapons.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Snapped line" },
+    "degradation_mod": 80,
+    "description": "The rope of the %1$s has broken, and the weight at the end is practically detached.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.2 } ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_missing_weight",
+    "//": "This fault is meant for rope weapons.",
+    "fault_type": "mechanical_damage",
+    "name": { "str": "Missing weight" },
+    "degradation_mod": 100,
+    "description": "The part of the rope that held the weight has broken, and the weight has gone sailing off somewhere. You'll probably never find it.",
+    "melee_damage_mod": [ { "damage_id": "bash", "multiply": 0.1 } ]
   }
 ]

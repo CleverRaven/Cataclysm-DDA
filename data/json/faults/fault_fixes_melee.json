@@ -107,5 +107,49 @@
     "mod_damage": -1000,
     "mod_degradation": -100,
     "requirements": [ { "components": [ [ [ "pipe", 1 ] ], [ [ "pipe_fittings", 1 ] ] ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_steel_staff_bent_hand_straightening",
+    "name": "Straighten by hand",
+    "success_msg": "You successfully straighten your %s.",
+    "time": "5 m",
+    "faults_removed": [ "fault_steel_pipe_staff_bent" ],
+    "mod_damage": -1000,
+    "mod_degradation": -25,
+    "requirements": [ { "qualities": [ { "id": "VISE", "level": 1 } ] } ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fraying_line",
+    "name": "Mend the frayed spots.",
+    "success_msg": "You successfully mend the rope holding your %s.",
+    "time": "50 m",
+    "faults_removed": [ "fault_fraying_line" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "components": [ [ [ "thread", 6 ] ] ] }, { "qualities": [ { "id": "SEW", "level": 1 } ] } ]
+  },
+{
+    "type": "fault_fix",
+    "id": "mend_snapped_line",
+    "name": "Replace the broken rope.",
+    "success_msg": "You successfully replace the rope holding your %s.",
+    "time": "30 m",
+    "faults_removed": [ "fault_fraying_line", "fault_snapped_line" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "components": [ [ [ "rope_30", 1 ] ] ] } ]
+  },
+{
+    "type": "fault_fix",
+    "id": "mend_missing_weight",
+    "name": "Replace the striking head.",
+    "success_msg": "You successfully replace the weight of your %s.",
+    "time": "10 m",
+    "faults_removed": [ "fault_missing_weight" ],
+    "mod_damage": -1000,
+    "mod_degradation": -100,
+    "requirements": [ { "components": [ [ [ "steel_chunk_any", 1, "LIST" ] ] ] } ]
   }
 ]

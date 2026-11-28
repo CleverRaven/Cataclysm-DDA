@@ -64,5 +64,28 @@
     ],
     "melee_damage": { "bash": 6 },
     "tool_ammo": [ "battery" ]
+  },
+  {
+    "id": "meteor_hammer",
+    "type": "ITEM",
+    "category": "weapons",
+    "subtypes": [ "ARMOR" ],
+    "name": { "str": "meteor hammer" },
+    "description": "A length of rope attached to a small shaped piece of metal. One side is coiled around your non-dominant hand, letting you whip the weight out at your foes.",
+    "weight": "580 g",
+    "longest_side": "23 cm",
+    "volume": "800 ml",
+    "price": "45 USD",
+    "price_postapoc": "8 USD",
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "uneven" },
+    "material": [ "cotton", "steel" ],
+    "symbol": "{",
+    "color": "brown",
+    "techniques": [ "WBLOCK_1", "WRAP" ],
+    "qualities": [ [ "ROPE", 2 ] ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "faults": [ { "fault_group": "rope_weapons" }, { "fault_group": "steel_smithed_craft_failures" } ],
+    "weapon_category": [ "FLAILS" ],
+    "melee_damage": { "bash": 10 }
   }
 ]
