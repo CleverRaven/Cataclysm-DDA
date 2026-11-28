@@ -259,7 +259,7 @@
     "material": [ "cotton", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "SPIN", "WRAP" ],
+    "techniques": [ "SPIN", "WRAP", "OFFHAND" ],
     "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
     "extend": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
     "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" },
