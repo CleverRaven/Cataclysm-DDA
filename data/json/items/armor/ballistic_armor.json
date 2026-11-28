@@ -322,7 +322,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
@@ -356,7 +356,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE", "NO_REPAIR" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
@@ -386,7 +386,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
@@ -415,7 +415,7 @@
     "longest_side": "30 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY", "NO_SALVAGE", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
@@ -541,7 +541,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
@@ -570,7 +570,7 @@
     "longest_side": "20 cm",
     "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
     "repairs_with": [ "lc_steel" ],
-    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY", "NO_SALVAGE" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY", "NO_SALVAGE", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
