@@ -554,7 +554,7 @@ These branches are the valid `dreams` from [dreams.json](/data/json/dreams.json)
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
 - ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
-- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters.  Only applies to Mycus fruits by default.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters.  Only applies to Mycus fruits by default. Acts as `NO_AUTO_CONSUME` for pre Mycus Threshold characters as well.
 - ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat / auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
