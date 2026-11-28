@@ -280,20 +280,6 @@
     ]
   },
   {
-    "id": "swat_gear",
-    "type": "item_group",
-    "copy-from": "swat_gear",
-    "extend": {
-      "items": [
-        { "item": "xlswat_armor", "prob": 12 },
-        { "item": "afs_military_vestxl", "prob": 9 },
-        { "item": "xlboots_combat", "prob": 15 },
-        { "item": "xlgloves_tactical", "prob": 10 },
-        { "item": "tripaw_xlgloves_tactical", "prob": 8 }
-      ]
-    }
-  },
-  {
     "id": "mil_armor",
     "type": "item_group",
     "copy-from": "mil_armor",
