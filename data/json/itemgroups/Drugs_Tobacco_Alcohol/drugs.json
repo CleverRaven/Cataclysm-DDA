@@ -72,7 +72,7 @@
       { "item": "inhaler", "prob": 100, "charges": [ 10, 100 ] },
       { "prob": 50, "group": "quikclot_bag_plastic_1_6" },
       { "item": "smoxygen_tank", "prob": 70, "charges": [ 0, 12 ] },
-      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 40 }
+      { "prob": 40, "group": "bleed_control_kit" }
     ]
   },
   {
@@ -909,5 +909,20 @@
     "id": "any_cough_syrup_in_bottle_full",
     "subtype": "distribution",
     "entries": [ { "item": "nyquil", "container-item": "bottle_plastic_small" }, { "group": "nondrowsy_cough_syrup_in_bottle_full" } ]
+  },
+  {
+    "id": "bleed_control_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": { "item": "ipok", "variant": "bleed_control" },
+    "entries": [
+      { "item": "tourniquet_upper" },
+      { "item": "emergency_bandage" },
+      { "item": "bandages", "count": 2 },
+      { "item": "medical_gauze", "count": 4 },
+      { "item": "gloves_medical", "count": 2 },
+      { "item": "permanent_marker", "charges": [ 500, 500 ] },
+      { "item": "scissors_medical" }
+    ]
   }
 ]

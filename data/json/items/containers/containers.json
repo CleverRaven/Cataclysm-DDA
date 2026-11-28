@@ -4376,6 +4376,15 @@
         "watertight": true
       }
     ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bleed_control",
+        "name": { "str": "bleed control kit", "str_pl": "bleed control kits" },
+        "description": "This plastic pouch contains a bleed control kit, a first aid kit specialized to deal with bleeding.",
+        "weight": 0
+      }
+    ],
     "material": [ "plastic" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "symbol": ")",
