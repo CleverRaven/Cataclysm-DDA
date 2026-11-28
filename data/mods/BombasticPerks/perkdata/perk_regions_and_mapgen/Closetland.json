@@ -65,7 +65,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "closetland_nether_glass" ],
+    "om_terrain": "closetland_nether_glass",
     "weight": 3,
     "object": { "fill_ter": "t_nether_glass_floor" }
   },
@@ -80,7 +80,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "perk_closetland_closet_area" ],
+    "om_terrain": "perk_closetland_closet_area",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -123,7 +123,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "perk_closetland_closet_area_roof" ],
+    "om_terrain": "perk_closetland_closet_area_roof",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

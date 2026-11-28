@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "bar" ],
+    "om_terrain": "bar",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -135,7 +135,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "bar_1" ],
+    "om_terrain": "bar_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

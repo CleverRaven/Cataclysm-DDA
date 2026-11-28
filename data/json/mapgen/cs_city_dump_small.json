@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_city_dump_small" ],
+    "om_terrain": "cs_city_dump_small",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

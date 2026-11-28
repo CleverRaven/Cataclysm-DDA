@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -73,7 +73,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -111,7 +111,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -148,7 +148,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -185,7 +185,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -223,7 +223,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -260,7 +260,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest_thick",
@@ -298,7 +298,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_innawood" ],
+    "om_terrain": "cave_innawood",
     "weight": 50,
     "object": {
       "rotation": [ 0, 3 ],
@@ -349,7 +349,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 50,
     "object": {
       "rows": [
@@ -391,7 +391,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 1000,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -434,7 +434,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 800,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -471,7 +471,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 500,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -508,7 +508,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 250,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -553,7 +553,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground_innawood" ],
+    "om_terrain": "cave_underground_innawood",
     "weight": 700,
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -591,7 +591,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_rat_underground_innawood" ],
+    "om_terrain": "cave_rat_underground_innawood",
     "object": {
       "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
@@ -633,7 +633,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_rat_innawood" ],
+    "om_terrain": "cave_rat_innawood",
     "object": {
       "fill_ter": "t_rock_floor",
       "rotation": [ 0, 3 ],

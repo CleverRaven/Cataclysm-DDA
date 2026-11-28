@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_no_meat_generic_edge" ],
+    "om_terrain": "microlab_no_meat_generic_edge",
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
@@ -432,7 +432,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "microlab_no_meat_sub_station" ],
+    "om_terrain": "microlab_no_meat_sub_station",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "isolated_house_farm_gunsmith" ],
+    "om_terrain": "isolated_house_farm_gunsmith",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -87,7 +87,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "isolated_house_farm_blacksmith" ],
+    "om_terrain": "isolated_house_farm_blacksmith",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -132,7 +132,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "isolated_road_field_0" ],
+    "om_terrain": "isolated_road_field_0",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -176,7 +176,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "isolated_road_field_1" ],
+    "om_terrain": "isolated_road_field_1",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

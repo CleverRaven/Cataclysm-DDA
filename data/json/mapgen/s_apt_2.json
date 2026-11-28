@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_apt_2" ],
+    "om_terrain": "s_apt_2",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -74,7 +74,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_apt_2_2ndfloor" ],
+    "om_terrain": "s_apt_2_2ndfloor",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -137,7 +137,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_apt_2_roof" ],
+    "om_terrain": "s_apt_2_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -172,7 +172,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_apt_2_upper_roof" ],
+    "om_terrain": "s_apt_2_upper_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

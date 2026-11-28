@@ -15,7 +15,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_dogs" ],
+    "om_terrain": "house_dogs",
     "//": "uses house_08_basement",
     "object": {
       "fill_ter": "t_floor",

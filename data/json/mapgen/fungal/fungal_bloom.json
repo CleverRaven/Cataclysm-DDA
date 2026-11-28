@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "fungal_bloom" ],
+    "om_terrain": "fungal_bloom",
     "object": {
       "rows": [
         "     ..............     ",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "museum" ],
+    "om_terrain": "museum",
     "weight": 100,
     "object": {
       "fill_ter": "t_marble_floor",

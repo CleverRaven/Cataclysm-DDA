@@ -104,7 +104,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_8g2" ],
+    "om_terrain": "mil_base_8g2",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [
@@ -138,7 +138,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_3i2" ],
+    "om_terrain": "mil_base_3i2",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [
@@ -207,7 +207,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_8k2" ],
+    "om_terrain": "mil_base_8k2",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

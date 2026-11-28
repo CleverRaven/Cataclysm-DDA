@@ -41,7 +41,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailhead" ],
+    "om_terrain": "trailhead",
     "weight": 5,
     "object": {
       "rows": [
@@ -80,7 +80,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailhead" ],
+    "om_terrain": "trailhead",
     "weight": 5,
     "object": {
       "rows": [
@@ -119,7 +119,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailhead_outhouse_z0" ],
+    "om_terrain": "trailhead_outhouse_z0",
     "object": {
       "rows": [
         ",,,,,,,;;......,,,,,,;,,",
@@ -188,7 +188,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailhead_shack_z0" ],
+    "om_terrain": "trailhead_shack_z0",
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",

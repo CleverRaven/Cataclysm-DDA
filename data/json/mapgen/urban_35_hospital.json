@@ -873,7 +873,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "urban_35_33" ],
+    "om_terrain": "urban_35_33",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

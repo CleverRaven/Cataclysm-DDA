@@ -240,7 +240,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "prison_alcatraz_6_3f" ],
+    "om_terrain": "prison_alcatraz_6_3f",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -308,7 +308,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "prison_alcatraz_11_3f" ],
+    "om_terrain": "prison_alcatraz_11_3f",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

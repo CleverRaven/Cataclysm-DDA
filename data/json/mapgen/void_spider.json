@@ -198,7 +198,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "void_spider_lair" ],
+    "om_terrain": "void_spider_lair",
     "object": {
       "fill_ter": "t_nether_glass_floor",
       "rows": [

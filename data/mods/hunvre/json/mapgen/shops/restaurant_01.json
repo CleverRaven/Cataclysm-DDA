@@ -18,7 +18,7 @@
     "flags": [ "RISK_HIGH", "GENERIC_LOOT", "SIDEWALK", "SOURCE_FUEL" ]
   },
   {
-    "om_terrain": [ "store_unit" ],
+    "om_terrain": "store_unit",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_concrete",

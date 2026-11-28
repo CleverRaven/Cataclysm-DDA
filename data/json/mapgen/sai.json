@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "sai" ],
+    "om_terrain": "sai",
     "object": {
       "rows": [
         "........................",

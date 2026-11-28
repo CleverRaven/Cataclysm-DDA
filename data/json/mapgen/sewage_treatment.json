@@ -351,7 +351,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewage_treatment_1_0_upper_roof" ],
+    "om_terrain": "sewage_treatment_1_0_upper_roof",
     "object": {
       "rows": [
         "                        ",
@@ -506,7 +506,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewage_treatment_0_1_-1" ],
+    "om_terrain": "sewage_treatment_0_1_-1",
     "//": "10% chance of a hidden CHUD lair",
     "weight": 25,
     "object": {
@@ -554,7 +554,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "sewage_treatment_0_1_-1" ],
+    "om_terrain": "sewage_treatment_0_1_-1",
     "//": "Easter egg - TMNT reference",
     "weight": 1,
     "object": {

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_augmentation_clinic_n1" ],
+    "om_terrain": "afs_augmentation_clinic_n1",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -64,7 +64,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_augmentation_clinic_n2" ],
+    "om_terrain": "afs_augmentation_clinic_n2",
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

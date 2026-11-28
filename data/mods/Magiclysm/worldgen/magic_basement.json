@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "magic_basement" ],
+    "om_terrain": "magic_basement",
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [

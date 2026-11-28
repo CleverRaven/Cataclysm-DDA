@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_butcher" ],
+    "om_terrain": "s_butcher",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -180,7 +180,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_butcher_1" ],
+    "om_terrain": "s_butcher_1",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -371,7 +371,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_butcher_2" ],
+    "om_terrain": "s_butcher_2",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [

@@ -77,7 +77,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campground_roof" ],
+    "om_terrain": "campground_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

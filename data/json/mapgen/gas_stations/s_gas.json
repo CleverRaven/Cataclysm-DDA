@@ -184,7 +184,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_gas_1" ],
+    "om_terrain": "s_gas_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -325,7 +325,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_gas_rural" ],
+    "om_terrain": "s_gas_rural",
     "//": "Rural Gas Station",
     "object": {
       "fill_ter": "t_floor",

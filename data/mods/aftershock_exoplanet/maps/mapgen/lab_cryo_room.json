@@ -11,7 +11,7 @@
   {
     "//": "Aftershock - cryo pod room",
     "type": "mapgen",
-    "om_terrain": [ "afs_cryo_room" ],
+    "om_terrain": "afs_cryo_room",
     "weight": 120,
     "object": {
       "fill_ter": "t_thconc_floor",

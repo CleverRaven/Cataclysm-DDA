@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_elf_01" ],
+    "om_terrain": "house_elf_01",
     "//": "Pillar in the center is unavoidable to keep the tree structurally sound, even with magic",
     "object": {
       "fill_ter": "t_heartwood_floor",

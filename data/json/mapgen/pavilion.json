@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "pavilion" ],
+    "om_terrain": "pavilion",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -102,7 +102,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "pavilion_1" ],
+    "om_terrain": "pavilion_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

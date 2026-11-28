@@ -198,7 +198,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartments_con_tower_102" ],
+    "om_terrain": "apartments_con_tower_102",
     "weight": 15,
     "//": "Levels 1, 2, 3, 4, 5",
     "object": {

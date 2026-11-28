@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mom_shoggothed_world_default" ],
+    "om_terrain": "mom_shoggothed_world_default",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -82,7 +82,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mom_shoggothed_world_ravine_floor" ],
+    "om_terrain": "mom_shoggothed_world_ravine_floor",
     "object": {
       "fill_ter": "t_dirt_cracked",
       "place_monster": [ { "monster": "mon_shoggoth", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 350, 500 ] } ]

@@ -14,7 +14,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "skate_park" ],
+    "om_terrain": "skate_park",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -59,7 +59,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "skate_park_up" ],
+    "om_terrain": "skate_park_up",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -103,7 +103,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "skate_park_down" ],
+    "om_terrain": "skate_park_down",
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

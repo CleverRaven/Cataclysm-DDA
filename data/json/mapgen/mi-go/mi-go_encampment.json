@@ -88,7 +88,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mi-go_camp2-2" ],
+    "om_terrain": "mi-go_camp2-2",
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
@@ -122,7 +122,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mi-go_camp2-3" ],
+    "om_terrain": "mi-go_camp2-3",
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [

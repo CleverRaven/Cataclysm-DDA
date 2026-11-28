@@ -34,7 +34,7 @@
     }
   },
   {
-    "om_terrain": [ "full_mutagen_lab_roof" ],
+    "om_terrain": "full_mutagen_lab_roof",
     "type": "mapgen",
     "object": {
       "fill_ter": "t_flat_roof",
@@ -171,7 +171,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "lab_surface_parking_blockC0_roof" ],
+    "om_terrain": "lab_surface_parking_blockC0_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

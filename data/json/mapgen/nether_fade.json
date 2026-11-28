@@ -6,12 +6,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "nether_glass" ],
+    "om_terrain": "nether_glass",
     "object": { "fill_ter": "t_nether_glass_floor" }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "nether_glass_deep" ],
+    "om_terrain": "nether_glass_deep",
     "object": {
       "fill_ter": "t_nether_glass_floor",
       "place_nested": [
@@ -39,12 +39,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "nether_glass_impassable" ],
+    "om_terrain": "nether_glass_impassable",
     "object": { "fill_ter": "t_nether_glass_wall" }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "nether_glass_imperial_road" ],
+    "om_terrain": "nether_glass_imperial_road",
     "object": {
       "fill_ter": "t_nether_glass_floor",
       "place_nested": [

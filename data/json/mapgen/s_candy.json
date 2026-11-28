@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "candy_shop" ],
+    "om_terrain": "candy_shop",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -154,7 +154,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "candy_shop_1" ],
+    "om_terrain": "candy_shop_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

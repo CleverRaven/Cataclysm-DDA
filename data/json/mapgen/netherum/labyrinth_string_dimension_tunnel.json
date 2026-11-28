@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_start" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_start",
     "object": {
       "fill_ter": "t_nl_sd_2d_sky_walkable",
       "rows": [
@@ -35,7 +35,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_left" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_left",
     "object": {
       "fill_ter": "t_nl_sd_2d_sky_walkable",
       "rows": [
@@ -69,7 +69,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_right" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_right",
     "object": {
       "fill_ter": "t_nl_sd_2d_sky_walkable",
       "rows": [
@@ -103,7 +103,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_end" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_end",
     "object": {
       "fill_ter": "t_nl_sd_2d_sky_walkable",
       "rows": [
@@ -137,7 +137,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_under" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_under",
     "object": {
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%",
@@ -170,7 +170,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_over" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_over",
     "object": {
       "rows": [
         "........................",
@@ -203,7 +203,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_string_dimension_tunnel_portal" ],
+    "om_terrain": "labyrinth_string_dimension_tunnel_portal",
     "object": {
       "rows": [
         "########################",

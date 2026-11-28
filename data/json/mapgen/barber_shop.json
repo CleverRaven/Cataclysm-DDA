@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "barber_shop" ],
+    "om_terrain": "barber_shop",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -99,7 +99,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "barber_shop_roof" ],
+    "om_terrain": "barber_shop_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

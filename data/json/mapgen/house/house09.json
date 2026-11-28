@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_09" ],
+    "om_terrain": "house_09",
     "//": "uses bionic_basement",
     "object": {
       "fill_ter": "t_floor",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "portal_storm_dungeon_teleporter" ],
+    "om_terrain": "portal_storm_dungeon_teleporter",
     "object": {
       "rows": [
         "----Q---Q--oo----Q-----Q",
@@ -36,7 +36,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "portal_storm_dungeon_labyrinth_hallway_1" ],
+    "om_terrain": "portal_storm_dungeon_labyrinth_hallway_1",
     "object": {
       "rows": [
         "----Q---Q--oo----Q-----Q",
@@ -82,7 +82,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "portal_storm_dungeon_labyrinth_hallway_2" ],
+    "om_terrain": "portal_storm_dungeon_labyrinth_hallway_2",
     "object": {
       "rows": [
         "----Q---Q--oo----Q-----Q",

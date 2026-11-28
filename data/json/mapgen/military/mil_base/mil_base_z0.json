@@ -1301,7 +1301,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_road_entrance" ],
+    "om_terrain": "mil_base_road_entrance",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1341,7 +1341,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_n" ],
+    "om_terrain": "mil_base_minefield_n",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1379,7 +1379,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_ne" ],
+    "om_terrain": "mil_base_minefield_ne",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1419,7 +1419,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_e" ],
+    "om_terrain": "mil_base_minefield_e",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1457,7 +1457,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_se" ],
+    "om_terrain": "mil_base_minefield_se",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1497,7 +1497,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_s" ],
+    "om_terrain": "mil_base_minefield_s",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1535,7 +1535,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_sw" ],
+    "om_terrain": "mil_base_minefield_sw",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1575,7 +1575,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_w" ],
+    "om_terrain": "mil_base_minefield_w",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1613,7 +1613,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_nw" ],
+    "om_terrain": "mil_base_minefield_nw",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1653,7 +1653,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_gate_left" ],
+    "om_terrain": "mil_base_minefield_gate_left",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -1693,7 +1693,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_minefield_gate_right" ],
+    "om_terrain": "mil_base_minefield_gate_right",
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

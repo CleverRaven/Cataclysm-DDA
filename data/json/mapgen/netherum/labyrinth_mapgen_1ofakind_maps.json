@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_entrance" ],
+    "om_terrain": "labyrinth_entrance",
     "object": {
       "fill_ter": "t_nl_metal_floor",
       "rows": [
@@ -41,7 +41,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_nl_exit_boiler" ],
+    "om_terrain": "labyrinth_nl_exit_boiler",
     "object": {
       "fill_ter": "t_nl_metal_floor",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "lmoe" ],
+    "om_terrain": "lmoe",
     "//": "Above ground",
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -185,7 +185,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "lmoe_under_empty_prepperquest" ],
+    "om_terrain": "lmoe_under_empty_prepperquest",
     "//": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//2": "This terrain is the destination for the prepper_1 quest.  The front door is locked and can be unlocked by completing the quest.",
     "object": {

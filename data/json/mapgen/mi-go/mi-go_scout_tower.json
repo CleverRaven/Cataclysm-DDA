@@ -1,7 +1,8 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "barry_mi-go_scout_tower_1", "mi-go_scout_tower_1" ],
+    "om_terrain": "mi-go_scout_tower_1",
+    "copy_to_om_terrain": [ "barry_mi-go_scout_tower_1" ],
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
@@ -46,7 +47,8 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "barry_mi-go_scout_tower_2", "mi-go_scout_tower_2" ],
+    "om_terrain": "mi-go_scout_tower_2",
+    "copy_to_om_terrain": [ "barry_mi-go_scout_tower_2" ],
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
@@ -90,7 +92,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mi-go_scout_tower_3" ],
+    "om_terrain": "mi-go_scout_tower_3",
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [
@@ -185,7 +187,8 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "barry_mi-go_scout_tower_4", "mi-go_scout_tower_4" ],
+    "om_terrain": "mi-go_scout_tower_4",
+    "copy_to_om_terrain": [ "barry_mi-go_scout_tower_4" ],
     "object": {
       "fill_ter": "t_floor_resin",
       "rows": [

@@ -130,7 +130,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "football_field_C5" ],
+    "om_terrain": "football_field_C5",
     "object": {
       "rows": [
         "                        ",

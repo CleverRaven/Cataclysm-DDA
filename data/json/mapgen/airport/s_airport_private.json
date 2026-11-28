@@ -210,7 +210,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_air_atc_2" ],
+    "om_terrain": "s_air_atc_2",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -245,7 +245,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_air_atc_3" ],
+    "om_terrain": "s_air_atc_3",
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -289,7 +289,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_air_atc_4" ],
+    "om_terrain": "s_air_atc_4",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

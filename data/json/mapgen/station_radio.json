@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "station_radio" ],
+    "om_terrain": "station_radio",
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",
@@ -253,7 +253,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "station_radio_1" ],
+    "om_terrain": "station_radio_1",
     "//": "Eventually the exterior shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
       "fill_ter": "t_floor",

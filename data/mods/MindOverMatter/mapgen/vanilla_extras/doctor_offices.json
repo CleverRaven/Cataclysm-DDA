@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "office_doctor" ],
+    "om_terrain": "office_doctor",
     "weight": 75,
     "object": {
       "fill_ter": "t_floor",

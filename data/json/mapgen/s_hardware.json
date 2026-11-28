@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_hardware" ],
+    "om_terrain": "s_hardware",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -128,7 +128,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_hardware_1" ],
+    "om_terrain": "s_hardware_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -269,7 +269,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_hardware_2" ],
+    "om_terrain": "s_hardware_2",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -402,7 +402,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_hardware_3" ],
+    "om_terrain": "s_hardware_3",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

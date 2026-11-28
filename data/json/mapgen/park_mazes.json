@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "park_maze" ],
+    "om_terrain": "park_maze",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -47,7 +47,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "park_maze_2" ],
+    "om_terrain": "park_maze_2",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [

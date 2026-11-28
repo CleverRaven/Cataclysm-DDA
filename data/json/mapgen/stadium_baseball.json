@@ -515,7 +515,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "stadium_0_3_3" ],
+    "om_terrain": "stadium_0_3_3",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

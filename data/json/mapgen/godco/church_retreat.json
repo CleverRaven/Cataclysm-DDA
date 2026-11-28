@@ -328,7 +328,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "godco_1_3" ],
+    "om_terrain": "godco_1_3",
     "object": {
       "faction_owner": [ { "id": "gods_community", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_shingle_flat_roof",
@@ -364,7 +364,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "godco_enter" ],
+    "om_terrain": "godco_enter",
     "object": {
       "fill_ter": "t_region_soil",
       "predecessor_mapgen": "forest",

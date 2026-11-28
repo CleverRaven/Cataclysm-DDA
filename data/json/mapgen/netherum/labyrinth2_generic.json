@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth2" ],
+    "om_terrain": "labyrinth2",
     "object": {
       "fill_ter": "t_nl_metal_floor",
       "place_nested": [
@@ -26,7 +26,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth2_roof" ],
+    "om_terrain": "labyrinth2_roof",
     "object": {
       "fill_ter": "t_nl_roof",
       "furniture": { " ": "f_wreckage" },
@@ -55,7 +55,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth2_roof2" ],
+    "om_terrain": "labyrinth2_roof2",
     "object": {
       "fill_ter": "t_open_air",
       "place_nested": [

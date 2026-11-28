@@ -377,7 +377,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "inner_cabins_depths_sewer_sub_station" ],
+    "om_terrain": "inner_cabins_depths_sewer_sub_station",
     "object": {
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "predecessor_mapgen": "inner_cabins_depths_north",

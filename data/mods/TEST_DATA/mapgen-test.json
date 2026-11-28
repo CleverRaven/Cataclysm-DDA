@@ -113,7 +113,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mapgen-test" ],
+    "om_terrain": "mapgen-test",
     "object": {
       "//": "Some of the squares should have a frame, but not all.",
       "fill_ter": "t_grass",

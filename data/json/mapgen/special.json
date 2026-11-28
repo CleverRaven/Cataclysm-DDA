@@ -16,17 +16,20 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "special_field", "pasture", "special_field_highway" ],
+    "om_terrain": "special_field",
+    "copy_to_om_terrain": [ "pasture", "special_field_highway" ],
     "object": { "predecessor_mapgen": "field" }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "special_forest", "special_forest_isherwood" ],
+    "om_terrain": "special_forest",
+    "copy_to_om_terrain": [ "special_forest_isherwood" ],
     "object": { "predecessor_mapgen": "forest" }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "special_forest_thick", "special_forest_thick_isherwood" ],
+    "om_terrain": "special_forest_thick",
+    "copy_to_om_terrain": [ "special_forest_thick_isherwood" ],
     "object": { "predecessor_mapgen": "forest_thick" }
   },
   {

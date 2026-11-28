@@ -141,7 +141,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cemetery_4square_11_roof" ],
+    "om_terrain": "cemetery_4square_11_roof",
     "object": {
       "rows": [
         "                        ",

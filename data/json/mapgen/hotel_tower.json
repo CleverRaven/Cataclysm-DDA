@@ -456,7 +456,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hotel_tower_1_5B" ],
+    "om_terrain": "hotel_tower_1_5B",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -492,7 +492,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hotel_tower_flr2_1_5B" ],
+    "om_terrain": "hotel_tower_flr2_1_5B",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -526,7 +526,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hotel_tower_1_5C" ],
+    "om_terrain": "hotel_tower_1_5C",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -562,7 +562,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hotel_tower_flr2_1_5C" ],
+    "om_terrain": "hotel_tower_flr2_1_5C",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

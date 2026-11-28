@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_08" ],
+    "om_terrain": "house_08",
     "//": "Standard variant",
     "weight": 300,
     "object": {
@@ -62,7 +62,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_08" ],
+    "om_terrain": "house_08",
     "//": "Child birthday party variant",
     "weight": 15,
     "object": {

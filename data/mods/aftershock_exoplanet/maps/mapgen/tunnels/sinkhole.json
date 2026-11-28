@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_surface" ],
+    "om_terrain": "afs_tunnel_sinkhole_surface",
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -38,7 +38,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole" ],
+    "om_terrain": "afs_tunnel_sinkhole",
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -74,7 +74,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_1" ],
+    "om_terrain": "afs_tunnel_sinkhole_1",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -111,7 +111,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_2" ],
+    "om_terrain": "afs_tunnel_sinkhole_2",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -148,7 +148,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_3" ],
+    "om_terrain": "afs_tunnel_sinkhole_3",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -185,7 +185,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_4" ],
+    "om_terrain": "afs_tunnel_sinkhole_4",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -222,7 +222,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_tunnel_sinkhole_5" ],
+    "om_terrain": "afs_tunnel_sinkhole_5",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [

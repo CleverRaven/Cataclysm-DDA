@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_nether_cult" ],
+    "om_terrain": "cabin_nether_cult",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -85,7 +85,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_nether_cult_basement" ],
+    "om_terrain": "cabin_nether_cult_basement",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

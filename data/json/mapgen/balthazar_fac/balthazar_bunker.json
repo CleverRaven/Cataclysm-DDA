@@ -234,7 +234,7 @@
     }
   },
   {
-    "om_terrain": [ "balthazar_bunker_01_1" ],
+    "om_terrain": "balthazar_bunker_01_1",
     "type": "mapgen",
     "object": {
       "rows": [
@@ -268,7 +268,7 @@
     }
   },
   {
-    "om_terrain": [ "balthazar_bunker_01_2" ],
+    "om_terrain": "balthazar_bunker_01_2",
     "type": "mapgen",
     "object": {
       "rows": [

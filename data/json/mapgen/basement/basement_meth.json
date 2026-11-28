@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "basement_meth" ],
+    "om_terrain": "basement_meth",
     "//": "linked to house_27.",
     "weight": 20,
     "object": {
@@ -106,7 +106,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "basement_meth" ],
+    "om_terrain": "basement_meth",
     "//": "linked to house_27.",
     "weight": 250,
     "object": {
@@ -164,7 +164,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "basement_meth" ],
+    "om_terrain": "basement_meth",
     "//": "linked to house_27.",
     "weight": 250,
     "object": {

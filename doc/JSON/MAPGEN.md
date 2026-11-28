@@ -11,7 +11,8 @@
     - [Embedded mapgen](#embedded-mapgen)
     - [Standalone mapgen](#standalone-mapgen)
   - [Format and variables](#format-and-variables)
-    - [Define overmap terrain with "om_terrain" value, array, or nested array](#define-overmap-terrain-with-om_terrain-value-array-or-nested-array)
+    - [Define overmap terrain with "om_terrain" single ID or 2D array of IDs](#define-overmap-terrain-with-om_terrain-single-id-or-2d-array-of-ids)
+    - ["copy_to_om_terrain"](#copy_to_om_terrain)
     - ["om_terrain" for linear terrain](#om_terrain-for-linear-terrain)
     - [Define mapgen "weight"](#define-mapgen-weight)
   - [How "overmap_terrain" variables affect mapgen](#how-overmap_terrain-variables-affect-mapgen)
@@ -184,12 +185,12 @@ variables impact where and how often stuff gets applied:
 - om_terrain
 - weight
 
-### Define overmap terrain with "om_terrain" value, array, or nested array
+### Define overmap terrain with "om_terrain" single ID or 2D array of IDs
 
 **required for standalone**
 
-The `om_terrain` value may be declared in one of three forms: with a single overmap terrain ID, with a list of IDs, or
-with a nested list (of lists) of IDs.
+The `om_terrain` value may be declared in one of two forms: with a single overmap terrain ID, or
+with a grid of IDs.
 
 With the first form, simply give the ID of an overmap terrain from `overmap_terrain.json`:
 
@@ -197,15 +198,7 @@ With the first form, simply give the ID of an overmap terrain from `overmap_terr
 "om_terrain": "oter_id"
 ```
 
-In the second form, provide a list of IDs:
-
-```
-"om_terrain": [ "house", "house_base" ]
-```
-
-This creates duplicate overmap terrains by applying the same json mapgen to each of the listed overmap terrain IDs.
-
-The third option is a nested list:
+The second option is a grid, or 2D array:
 
 ```
 "om_terrain": [ [ "oter_id_1a", "oter_id_1b", ... ], [ "oter_id_2a", "oter_id_2b", ... ], ... ]
@@ -240,6 +233,15 @@ Example:
 
 In this example, the "rows" property should be 48x48, with each quadrant of 24x24 being associated with each of the four
 apartments_mod_tower overmap terrain ids specified.
+
+### "copy_to_om_terrain"
+
+```
+"om_terrain": "house",
+"copy_to_om_terrain": [ "house_base", "house_base2", "house_base3" ]
+```
+
+This creates duplicate overmap terrains by applying the same json mapgen to each of the listed overmap terrain IDs.
 
 ### "om_terrain" for linear terrain
 

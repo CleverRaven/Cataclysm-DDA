@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "synagogue" ],
+    "om_terrain": "synagogue",
     "//": "New England Synagogue",
     "object": {
       "fill_ter": "t_floor",

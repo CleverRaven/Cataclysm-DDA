@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "ogre_mound" ],
+    "om_terrain": "ogre_mound",
     "object": {
       "predecessor_mapgen": "forest_water",
       "rows": [
@@ -99,7 +99,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ogre_mound_roof" ],
+    "om_terrain": "ogre_mound_roof",
     "object": {
       "rows": [
         "                        ",

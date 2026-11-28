@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_flooded_entrance" ],
+    "om_terrain": "labyrinth_flooded_entrance",
     "object": {
       "fill_ter": "t_nl_bridge",
       "rows": [

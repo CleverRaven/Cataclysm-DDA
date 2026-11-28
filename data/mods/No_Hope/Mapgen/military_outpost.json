@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "outpost" ],
+    "om_terrain": "outpost",
     "weight": 100,
     "object": {
       "rows": [

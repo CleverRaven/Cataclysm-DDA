@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mil_base_3i3" ],
+    "om_terrain": "mil_base_3i3",
     "object": {
       "fill_ter": "t_metal_floor_no_roof",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_patio" ],
+    "om_terrain": "house_patio",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

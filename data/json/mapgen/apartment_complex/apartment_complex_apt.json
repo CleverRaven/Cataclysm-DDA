@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner_ground" ],
+    "om_terrain": "apartment_complex_corner_ground",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -41,7 +41,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner" ],
+    "om_terrain": "apartment_complex_corner",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -80,7 +80,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner_inner_ground" ],
+    "om_terrain": "apartment_complex_corner_inner_ground",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -119,7 +119,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_corner_inner" ],
+    "om_terrain": "apartment_complex_corner_inner",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -158,7 +158,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_ground" ],
+    "om_terrain": "apartment_complex_straight_ground",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -197,7 +197,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight" ],
+    "om_terrain": "apartment_complex_straight",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -236,7 +236,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_even_ground" ],
+    "om_terrain": "apartment_complex_straight_stairs_even_ground",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -275,7 +275,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_even" ],
+    "om_terrain": "apartment_complex_straight_stairs_even",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -314,7 +314,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "apartment_complex_straight_stairs_odd" ],
+    "om_terrain": "apartment_complex_straight_stairs_odd",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

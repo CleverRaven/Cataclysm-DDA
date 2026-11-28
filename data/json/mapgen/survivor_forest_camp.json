@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "survivor_forest_camp" ],
+    "om_terrain": "survivor_forest_camp",
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "rows": [
@@ -205,7 +205,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "survivor_forest_camp" ],
+    "om_terrain": "survivor_forest_camp",
     "weight": { "math": [ "clamp( ( time_since('cataclysm', 'unit':'days') + 100 ),100,250)" ] },
     "//": "This is meant to represent a camp that was attacked by the Shadow",
     "object": {

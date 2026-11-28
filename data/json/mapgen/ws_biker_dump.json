@@ -53,7 +53,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_biker_dump_3_0_roof" ],
+    "om_terrain": "ws_biker_dump_3_0_roof",
     "object": {
       "rows": [
         "                        ",

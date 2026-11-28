@@ -27,7 +27,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "standing_stones" ],
+    "om_terrain": "standing_stones",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -76,7 +76,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "standing_stones_highlands" ],
+    "om_terrain": "standing_stones_highlands",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

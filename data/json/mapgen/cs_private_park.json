@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_private_park" ],
+    "om_terrain": "cs_private_park",
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest",
@@ -79,7 +79,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_private_park" ],
+    "om_terrain": "cs_private_park",
     "//": "Survivor",
     "weight": 10,
     "object": {

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "---Q---Q---oo---Q----Q--",
@@ -34,7 +34,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "------Q----oo----Q--Q---",
@@ -67,7 +67,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "--Q----Q---oo-------Q---",
@@ -101,7 +101,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "----Q---Q--oo----Q-----Q",
@@ -134,7 +134,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "-q----Q----oo---Q-----q-",
@@ -167,7 +167,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "object": {
       "rows": [
         "---Q---Q--oo----Q--Q---Q",
@@ -200,7 +200,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "weight": 750,
     "object": {
       "rows": [
@@ -234,7 +234,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "weight": 650,
     "object": {
       "rows": [
@@ -269,7 +269,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "weight": 450,
     "object": {
       "rows": [
@@ -303,7 +303,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "default_portal_storm_dungeon_overmap" ],
+    "om_terrain": "default_portal_storm_dungeon_overmap",
     "weight": 250,
     "object": {
       "rows": [

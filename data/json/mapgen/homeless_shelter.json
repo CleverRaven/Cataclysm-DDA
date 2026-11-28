@@ -395,7 +395,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "homeless_0_0_4" ],
+    "om_terrain": "homeless_0_0_4",
     "object": {
       "rows": [
         "                        ",

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_coffee" ],
+    "om_terrain": "s_restaurant_coffee",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -122,7 +122,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_coffee_roof" ],
+    "om_terrain": "s_restaurant_coffee_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -166,7 +166,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_restaurant_coffee_1" ],
+    "om_terrain": "s_restaurant_coffee_1",
     "object": {
       "//": "Default fill is floor but some tables are outside",
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },

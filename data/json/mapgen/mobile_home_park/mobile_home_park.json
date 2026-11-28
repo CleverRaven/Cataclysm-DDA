@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_hub_10" ],
+    "om_terrain": "trailer_hub_10",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -38,7 +38,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_hub_10_roof" ],
+    "om_terrain": "trailer_hub_10_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -446,7 +446,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road" ],
+    "om_terrain": "trailer_road",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -482,7 +482,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road" ],
+    "om_terrain": "trailer_road",
     "weight": 50,
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -518,7 +518,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road_1parkway" ],
+    "om_terrain": "trailer_road_1parkway",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -554,7 +554,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road_2parkway" ],
+    "om_terrain": "trailer_road_2parkway",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -590,7 +590,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road_turn" ],
+    "om_terrain": "trailer_road_turn",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -625,7 +625,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road_3way" ],
+    "om_terrain": "trailer_road_3way",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover",
@@ -661,7 +661,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "trailer_road_3way" ],
+    "om_terrain": "trailer_road_3way",
     "weight": 33,
     "object": {
       "fill_ter": "t_region_groundcover",

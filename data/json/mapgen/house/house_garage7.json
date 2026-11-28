@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_garage7" ],
+    "om_terrain": "house_garage7",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

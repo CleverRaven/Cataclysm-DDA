@@ -624,7 +624,7 @@ class update_mapgen
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
         const std::string &id_base, const point_rel_omt &offset, const point_rel_omt &total );
-void load_and_add_mapgen_function(
+std::shared_ptr<mapgen_function> load_and_add_mapgen_function(
     const JsonObject &jio, const std::string &id_base, const point_rel_omt &offset,
     const point_rel_omt &total );
 /*

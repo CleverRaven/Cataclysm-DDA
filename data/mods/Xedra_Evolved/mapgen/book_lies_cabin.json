@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_book_lies" ],
+    "om_terrain": "cabin_book_lies",
     "object": {
       "rotation": [ 0, 3 ],
       "fill_ter": "t_floor",

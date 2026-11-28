@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_tire_shop" ],
+    "om_terrain": "cs_tire_shop",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "wasp_tower" ],
+    "om_terrain": "wasp_tower",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -39,7 +39,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "wasp_tower_1" ],
+    "om_terrain": "wasp_tower_1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

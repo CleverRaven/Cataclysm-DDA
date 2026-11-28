@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "debug_ramps" ],
+    "om_terrain": "debug_ramps",
     "object": {
       "rows": [
         "########................",

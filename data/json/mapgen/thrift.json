@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_thrift" ],
+    "om_terrain": "s_thrift",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

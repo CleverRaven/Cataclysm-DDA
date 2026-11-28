@@ -34,7 +34,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "animalpound" ],
+    "om_terrain": "animalpound",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -156,7 +156,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "animalpound_roof" ],
+    "om_terrain": "animalpound_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

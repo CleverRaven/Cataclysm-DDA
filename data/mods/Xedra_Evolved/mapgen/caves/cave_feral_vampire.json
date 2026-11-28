@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_underground" ],
+    "om_terrain": "cave_underground",
     "weight": 150,
     "object": {
       "fill_ter": "t_dirt_underground",

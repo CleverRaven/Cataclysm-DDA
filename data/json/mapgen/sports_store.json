@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_sports" ],
+    "om_terrain": "s_sports",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

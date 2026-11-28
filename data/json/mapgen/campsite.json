@@ -12,7 +12,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite" ],
+    "om_terrain": "campsite",
     "weight": 500,
     "object": {
       "predecessor_mapgen": "forest",
@@ -72,7 +72,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite" ],
+    "om_terrain": "campsite",
     "weight": 20,
     "object": {
       "predecessor_mapgen": "forest",
@@ -132,7 +132,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite_cabin_incomplete" ],
+    "om_terrain": "campsite_cabin_incomplete",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -193,7 +193,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite_cabin_incomplete_roof" ],
+    "om_terrain": "campsite_cabin_incomplete_roof",
     "object": {
       "rows": [
         "                        ",
@@ -226,7 +226,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite_field_biker" ],
+    "om_terrain": "campsite_field_biker",
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -280,7 +280,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite_field_biker_destroyed" ],
+    "om_terrain": "campsite_field_biker_destroyed",
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -348,7 +348,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "campsite_a" ],
+    "om_terrain": "campsite_a",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [

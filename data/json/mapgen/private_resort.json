@@ -102,7 +102,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "p_resort_1ww" ],
+    "om_terrain": "p_resort_1ww",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -412,7 +412,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "p_resort_0nw" ],
+    "om_terrain": "p_resort_0nw",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -467,7 +467,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "p_resort_0se" ],
+    "om_terrain": "p_resort_0se",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

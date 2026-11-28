@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_suicide" ],
+    "om_terrain": "house_suicide",
     "//": "uses house_10 basement",
     "object": {
       "fill_ter": "t_floor",

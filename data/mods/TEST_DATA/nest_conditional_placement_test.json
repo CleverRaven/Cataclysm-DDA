@@ -120,7 +120,8 @@
     }
   },
   {
-    "om_terrain": [ "ncpt_predecessors", "ncpt_flags", "ncpt_neighbors" ],
+    "om_terrain": "ncpt_predecessors",
+    "copy_to_om_terrain": [ "ncpt_flags", "ncpt_neighbors" ],
     "type": "mapgen",
     "object": { "fill_ter": "t_linoleum_gray" }
   },

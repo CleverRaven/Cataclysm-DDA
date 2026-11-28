@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "construction_site" ],
+    "om_terrain": "construction_site",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -41,7 +41,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "construction_site" ],
+    "om_terrain": "construction_site",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -81,7 +81,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "construction_site" ],
+    "om_terrain": "construction_site",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -124,7 +124,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "construction_site" ],
+    "om_terrain": "construction_site",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",
@@ -164,7 +164,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "construction_site" ],
+    "om_terrain": "construction_site",
     "weight": 100,
     "object": {
       "fill_ter": "t_region_soil",

@@ -93,7 +93,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "dirtroad1_aban1" ],
+    "om_terrain": "dirtroad1_aban1",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -138,7 +138,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "dirtroad2_aban1" ],
+    "om_terrain": "dirtroad2_aban1",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -187,7 +187,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "forest_aban1" ],
+    "om_terrain": "forest_aban1",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -237,7 +237,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_aban1" ],
+    "om_terrain": "cabin_aban1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -321,7 +321,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cabin_aban1_roof" ],
+    "om_terrain": "cabin_aban1_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -365,7 +365,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "car_corner_aban1" ],
+    "om_terrain": "car_corner_aban1",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -445,7 +445,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "car_corner_aban1_roof" ],
+    "om_terrain": "car_corner_aban1_roof",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -479,7 +479,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "dirtplaza_aban1" ],
+    "om_terrain": "dirtplaza_aban1",
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -529,7 +529,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "barn_aban1" ],
+    "om_terrain": "barn_aban1",
     "object": {
       "fill_ter": "t_dirtfloor",
       "rows": [
@@ -633,7 +633,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "barn_aban1_roof" ],
+    "om_terrain": "barn_aban1_roof",
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

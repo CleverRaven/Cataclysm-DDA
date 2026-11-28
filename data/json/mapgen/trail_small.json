@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "small_wooded_trail" ],
+    "om_terrain": "small_wooded_trail",
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -37,7 +37,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "small_wooded_trail_2" ],
+    "om_terrain": "small_wooded_trail_2",
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [

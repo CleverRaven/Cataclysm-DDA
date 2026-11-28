@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "spider_pit" ],
+    "om_terrain": "spider_pit",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -42,7 +42,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "spider_pit_under" ],
+    "om_terrain": "spider_pit_under",
     "object": {
       "rows": [
         "########################",

@@ -60,7 +60,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "cave_greed_and_hunger" ],
+    "om_terrain": "cave_greed_and_hunger",
     "weight": 300,
     "object": {
       "fill_ter": "t_dirt_underground",

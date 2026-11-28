@@ -43,7 +43,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "demon_spider_lair" ],
+    "om_terrain": "demon_spider_lair",
     "object": {
       "rows": [
         "         7              ",

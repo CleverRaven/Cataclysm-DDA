@@ -6,7 +6,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_arcade" ],
+    "om_terrain": "s_arcade",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

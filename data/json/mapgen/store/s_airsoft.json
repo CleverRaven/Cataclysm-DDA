@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "s_airsoft" ],
+    "om_terrain": "s_airsoft",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -94,7 +94,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "s_airsoft_roof" ],
+    "om_terrain": "s_airsoft_roof",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

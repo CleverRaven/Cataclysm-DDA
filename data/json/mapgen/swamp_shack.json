@@ -94,7 +94,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hunter_shack" ],
+    "om_terrain": "hunter_shack",
     "object": {
       "predecessor_mapgen": "forest_water",
       "rows": [
@@ -167,7 +167,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hunter_shack_1" ],
+    "om_terrain": "hunter_shack_1",
     "object": {
       "predecessor_mapgen": "forest_water",
       "rows": [

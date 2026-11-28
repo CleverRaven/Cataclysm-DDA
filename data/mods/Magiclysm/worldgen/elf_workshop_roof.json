@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "elf_workshop_roof" ],
+    "om_terrain": "elf_workshop_roof",
     "object": {
       "rows": [
         "||||||||||||||||||||||||",

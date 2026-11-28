@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mortuary" ],
+    "om_terrain": "mortuary",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",

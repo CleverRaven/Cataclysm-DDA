@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "labyrinth_safehouse" ],
+    "om_terrain": "labyrinth_safehouse",
     "object": {
       "fill_ter": "t_nl_chasm_no_trap",
       "rows": [

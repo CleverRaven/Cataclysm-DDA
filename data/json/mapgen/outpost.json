@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "outpost" ],
+    "om_terrain": "outpost",
     "object": {
       "rows": [
         ".L.....................L",
@@ -89,7 +89,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "outpost_parking" ],
+    "om_terrain": "outpost_parking",
     "object": {
       "rows": [
         ".,,,,,,,,,,,,,,,,,,,,,,,",

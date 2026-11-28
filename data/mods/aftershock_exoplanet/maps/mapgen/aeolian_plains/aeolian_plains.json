@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_aeolian_plain" ],
+    "om_terrain": "afs_aeolian_plain",
     "weight": 3,
     "object": { "predecessor_mapgen": "glacial_field" }
   },

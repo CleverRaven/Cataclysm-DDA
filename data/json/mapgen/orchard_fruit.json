@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "orchard" ],
+    "om_terrain": "orchard",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -56,7 +56,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "orchard_roof" ],
+    "om_terrain": "orchard_roof",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -91,7 +91,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "orchard_1" ],
+    "om_terrain": "orchard_1",
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -151,7 +151,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "orchard_roof_1" ],
+    "om_terrain": "orchard_roof_1",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

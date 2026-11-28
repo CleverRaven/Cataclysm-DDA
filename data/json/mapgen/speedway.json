@@ -822,7 +822,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "speedway_5_7_1" ],
+    "om_terrain": "speedway_5_7_1",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -856,7 +856,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "speedway_6_7_1" ],
+    "om_terrain": "speedway_6_7_1",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -894,7 +894,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "speedway_6_7_2" ],
+    "om_terrain": "speedway_6_7_2",
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [
@@ -929,7 +929,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "speedway_6_7_3" ],
+    "om_terrain": "speedway_6_7_3",
     "object": {
       "rows": [
         "                        ",

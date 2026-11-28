@@ -344,7 +344,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "hdwr_large_1_1_2" ],
+    "om_terrain": "hdwr_large_1_1_2",
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

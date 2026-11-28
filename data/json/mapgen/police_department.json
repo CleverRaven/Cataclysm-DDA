@@ -650,7 +650,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "police_dept_skyway" ],
+    "om_terrain": "police_dept_skyway",
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -686,7 +686,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "police_dept_skyway_roof" ],
+    "om_terrain": "police_dept_skyway_roof",
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "art_gallery" ],
+    "om_terrain": "art_gallery",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -76,7 +76,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "art_gallery" ],
+    "om_terrain": "art_gallery",
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -151,7 +151,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "art_gallery_roof" ],
+    "om_terrain": "art_gallery_roof",
     "object": {
       "fill_ter": "t_tile_flat_roof",
       "rows": [

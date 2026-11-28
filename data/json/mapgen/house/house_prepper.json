@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "house_prepper" ],
+    "om_terrain": "house_prepper",
     "weight": 100,
     "//": "very low weight due to the awesomeness within",
     "object": {
@@ -69,7 +69,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "house_prepper" ],
+    "om_terrain": "house_prepper",
     "weight": 10,
     "//": "extremely low weight due to the awesomeness within",
     "//2": "I'd handwave the utility light as being powered by a generator in the basement.  Besides, it's too easy to steal from the prepper in the dark.",

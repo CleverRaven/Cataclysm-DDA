@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "home_improvement" ],
+    "om_terrain": "home_improvement",
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

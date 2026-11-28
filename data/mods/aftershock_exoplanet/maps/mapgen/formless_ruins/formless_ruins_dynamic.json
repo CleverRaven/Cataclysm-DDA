@@ -16,7 +16,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_formless_ruins_dynamic" ],
+    "om_terrain": "afs_formless_ruins_dynamic",
     "weight": 500,
     "object": {
       "predecessor_mapgen": "glacial_field",
@@ -91,7 +91,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "afs_formless_ruins_dynamic" ],
+    "om_terrain": "afs_formless_ruins_dynamic",
     "weight": 100,
     "object": {
       "predecessor_mapgen": "glacial_field",

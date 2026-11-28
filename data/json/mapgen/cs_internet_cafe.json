@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_internet_cafe" ],
+    "om_terrain": "cs_internet_cafe",
     "object": {
       "fill_ter": "t_floor",
       "rows": [

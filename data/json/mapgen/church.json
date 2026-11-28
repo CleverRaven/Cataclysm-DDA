@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "church" ],
+    "om_terrain": "church",
     "//": "New England Church",
     "weight": 1000,
     "object": {
@@ -181,7 +181,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "church_1" ],
+    "om_terrain": "church_1",
     "//": "Gothic Church",
     "object": {
       "fill_ter": "t_thconc_floor",

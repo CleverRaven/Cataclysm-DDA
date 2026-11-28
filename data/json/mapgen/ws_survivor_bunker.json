@@ -10,7 +10,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_bunker_f0" ],
+    "om_terrain": "ws_survivor_bunker_f0",
     "object": {
       "predecessor_mapgen": "forest",
       "rows": [
@@ -45,7 +45,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_bunker_f-1" ],
+    "om_terrain": "ws_survivor_bunker_f-1",
     "object": {
       "fill_ter": "t_dirt_underground",
       "rows": [
@@ -107,7 +107,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "ws_survivor_bunker_f-1" ],
+    "om_terrain": "ws_survivor_bunker_f-1",
     "weight": 400,
     "//": "A bunker that's come a bit further along",
     "object": {
