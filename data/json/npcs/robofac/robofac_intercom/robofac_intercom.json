@@ -1570,6 +1570,7 @@
         { "npc_add_var": "dialogue_intercom_npc_intercom_trade", "value": "yes" },
         { "set_string_var": "yes", "target_var": { "global_val": "hub01_intercom_trade_unlocked" } },
         { "u_add_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" },
+        { "u_set_fac_relation": "share public goods" },
         { "finish_mission": "MISSION_ROBOFAC_INTERCOM_1", "success": true }
       ],
       "sentinel": "unlocked_trade"
