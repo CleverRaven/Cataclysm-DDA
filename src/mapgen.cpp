@@ -906,8 +906,8 @@ void load_mapgen( const JsonObject &jo )
     if( jo.has_array( "copy_to_om_terrain" ) ) {
         if( single_mapgen_func ) {
             JsonArray ja = jo.get_array( "copy_to_om_terrain" );
-            for( const std::string &omt_entry : ja ) {
-                oter_mapgen.add( omt_entry, single_mapgen_func );
+            for( const JsonValue &omt_entry : ja ) {
+                oter_mapgen.add( omt_entry.get_string(), single_mapgen_func );
             }
         }
     }
