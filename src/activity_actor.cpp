@@ -12383,7 +12383,7 @@ void vehicle_activity_actor::complete_vehicle( player_activity &act, Character &
 
             veh.unlink_cables( here, part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */
-                               appliance_removal || vpi.location == vpart_location_structure,
+                               appliance_removal || vpi.is_structure(),
                                appliance_removal || vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY ) );
 
             if( veh.part_count_real() <= 1 ) {
@@ -12632,7 +12632,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
 
     const temp_crafting_inventory &inv = p.crafting_inventory();
     for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != vpart_location_structure ) {
+        if( !vp.info().is_structure() ) {
             continue;
         }
         if( invalid_pos( vp.pos_bub( here ) ) ) {

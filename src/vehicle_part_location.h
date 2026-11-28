@@ -18,6 +18,8 @@ class vpart_location
 
         translation name;
         translation description;
+        // no parts may be installed on this location if there is not a part on the required location
+        vpart_location_id required_location;
         // Highest Z is rendered, potentially excluding roof. -1 never renders.
         int z_order = 0;
         // Display order in vehicle interact display, lowest first
