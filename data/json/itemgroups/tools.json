@@ -656,7 +656,8 @@
       { "item": "medical_gauze", "count": 3 },
       { "item": "bandages", "count": 1 },
       { "item": "gloves_medical" },
-      { "item": "tourniquet_upper" }
+      { "item": "tourniquet_upper" },
+      { "item": "emergency_bandage" }
     ]
   },
   {
@@ -705,7 +706,8 @@
       { "item": "adhesive_bandages", "count": 3 },
       { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical" },
-      { "item": "scissors_medical" }
+      { "item": "scissors_medical" },
+      { "item": "emergency_bandage" }
     ]
   },
   {
@@ -722,7 +724,8 @@
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
       { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical", "prob": 50 },
-      { "item": "scissors_medical", "prob": 30 }
+      { "item": "scissors_medical", "prob": 30 },
+      { "item": "emergency_bandage", "prob": 20 }
     ]
   },
   {

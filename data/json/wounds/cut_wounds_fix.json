@@ -1,7 +1,7 @@
 [
   {
     "id": "bleed_scratch_bad_fix",
-    "copy-from": "bleed_wound_bad",
+    "copy-from": "bleed_wound_medium",
     "type": "wound_fix",
     "name": "Staunch the bleeding",
     "description": "Use an absorbant material to apply pressure to the gouge and stop the bleeding.",
@@ -118,6 +118,86 @@
     "wounds_removed": [ "bleeding_cut_terrible" ],
     "wounds_added": [ "cut_terrible" ],
     "success_msg": "It's not easy and it takes some time, but with enough pressure the flow of blood from the life-threatening gash stops."
+  },
+  {
+    "id": "bleed_scratch_bad_pressure_fix",
+    "copy-from": "bleed_wound_medium_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the gouge and stop the bleeding.",
+    "wounds_removed": [ "bleeding_scratch_bad" ],
+    "wounds_added": [ "scratch_bad" ],
+    "success_msg": "You apply pressure, and the flow of blood from the gouge stops."
+  },
+  {
+    "id": "bleed_cut_medium_pressure_fix",
+    "copy-from": "bleed_wound_medium_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the cut and stop the bleeding.",
+    "wounds_removed": [ "bleeding_cut_medium" ],
+    "wounds_added": [ "cut_medium" ],
+    "success_msg": "You apply pressure and the flow of blood from the cut stops.  You should really be doing this with a bandage."
+  },
+  {
+    "id": "bleed_cut_bad_pressure_fix",
+    "copy-from": "bleed_wound_bad_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the gash and stop the bleeding.",
+    "wounds_removed": [ "bleeding_cut_bad" ],
+    "wounds_added": [ "cut_bad" ],
+    "success_msg": "You apply pressure and the flow of blood from the cut stops.  You should really be doing this with a bandage."
+  },
+  {
+    "id": "bleed_cut_terrible_pressure_fix",
+    "copy-from": "bleed_wound_terrible_pressure",
+    "type": "wound_fix",
+    "name": "Apply pressure with your hands",
+    "description": "Apply pressure to the life-threatening gash and stop the bleeding, you should really be doing this with a bandage.",
+    "wounds_removed": [ "bleeding_cut_terrible" ],
+    "wounds_added": [ "cut_terrible" ],
+    "success_msg": "It's not easy and it takes some time, but with enough pressure the flow of blood from the life-threatening gash stops.  You should really be doing this with a bandage."
+  },
+  {
+    "id": "bleed_scratch_bad_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Apply an emergency bandage to the gouge to stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_scratch_bad" ],
+    "wounds_added": [ "emergency_scratch_bad" ],
+    "success_msg": "You apply the emergency bandage.  The gouge should stop bleeding soon."
+  },
+  {
+    "id": "bleed_cut_medium_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Apply an emergency bandage to the cut to stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_cut_medium" ],
+    "wounds_added": [ "emergency_cut_medium" ],
+    "success_msg": "You apply the emergency bandage to your cut.  It should stop the bleeding before long."
+  },
+  {
+    "id": "bleed_cut_bad_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Apply an emergency bandage to the gash to stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_cut_bad" ],
+    "wounds_added": [ "emergency_cut_bad" ],
+    "success_msg": "You apply the emergency bandage to your gash.  It might stop the bleeding before you bleed out."
+  },
+  {
+    "id": "bleed_cut_terrible_emergency_fix",
+    "copy-from": "bleed_wound_emergency",
+    "type": "wound_fix",
+    "name": "Apply emergency bandage",
+    "description": "Apply an emergency bandage to the life-threatening gash to stop the bleeding, useful if you have multiple severe wounds, but this won't stop the bleeding immediately.",
+    "wounds_removed": [ "bleeding_cut_terrible" ],
+    "wounds_added": [ "emergency_cut_terrible" ],
+    "success_msg": "You apply the emergency bandage to your life threatening gash and hope it'll be enough."
   },
   {
     "id": "clean_scratch_small_fix",
