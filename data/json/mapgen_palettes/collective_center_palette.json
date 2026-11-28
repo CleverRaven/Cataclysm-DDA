@@ -37,7 +37,7 @@
       "R": "t_region_groundcover_urban"
     },
     "furniture": {
-      ";": [ [ "f_null", 20 ], [ "f_fungal_mass", 10 ], [ "f_fungal_clump", 5 ], [ "f_flower_fungal", 2 ] ],
+      ";": [ [ "f_null", 20 ], [ "f_fungal_clump", 5 ], [ "f_flower_fungal", 2 ] ],
       "`": [ [ "f_null", 20 ], [ "f_fungal_mass", 10 ], [ "f_fungal_clump", 5 ], [ "f_flower_fungal", 2 ] ],
       "4": "f_console",
       "6": "f_console_broken",
