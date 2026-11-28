@@ -334,6 +334,7 @@ void monmove()
     g->cleanup_dead();
     map &m = get_map();
     avatar &u = get_avatar();
+    const bool moving_vehicles = m.has_moving_vehicles();
 
     for( monster &critter : g->all_monsters() ) {
         if( !m.inbounds( critter.pos_abs() ) ) {
@@ -383,7 +384,7 @@ void monmove()
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
-                critter.plan();
+                critter.plan( moving_vehicles );
             } else {
                 critter.set_moves( 0 );
                 break;

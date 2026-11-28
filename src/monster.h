@@ -263,7 +263,7 @@ class monster : public Creature
         float rate_target( Creature &c, float best, bool smart = false ) const;
         // is it mating season?
         bool mating_angry() const;
-        void plan();
+        void plan( bool check_moving_vehicles = true );
         void anger_hostile_seen( const monster_plan &mon_plan );
         void anger_mating_season( const monster_plan &mon_plan );
         // will change mon_plan::dist

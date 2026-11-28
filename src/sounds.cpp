@@ -1063,21 +1063,19 @@ void sfx::do_vehicle_exterior_engine_sfx()
         return;
     }
 
-    VehicleList vehs = here.get_vehicles();
+    const tripoint_bub_ms player_pos = player_character.pos_bub( here );
     unsigned char noise_factor = 0;
     unsigned char vol = 0;
-    vehicle *veh = nullptr;
+    const vehicle *veh = nullptr;
 
-    for( wrapped_vehicle vehicle : vehs ) {
-        if( vehicle.v->vehicle_noise > 0 &&
-            vehicle.v->vehicle_noise -
-            sound_distance( player_character.pos_bub( here ), vehicle.v->pos_bub( here ) ) > noise_factor ) {
-
-            noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub( here ),
-                           vehicle.v->pos_bub( here ) );
-            veh = vehicle.v;
+    here.for_noisy_vehicle( [&]( const vehicle & v ) {
+        const int effective_noise =
+            static_cast<int>( v.vehicle_noise ) - sound_distance( player_pos, v.pos_bub( here ) );
+        if( effective_noise > noise_factor ) {
+            noise_factor = static_cast<unsigned char>( effective_noise );
+            veh = &v;
         }
-    }
+    } );
     if( !noise_factor || !veh ) {
         fade_audio_channel( ch, 300 );
         add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, NO NOISE" );

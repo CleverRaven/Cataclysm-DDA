@@ -385,7 +385,9 @@ void stop_reserved( sfx::channel slot, int fade_out_ms )
         // on every tick while the sound is still audible, so the guard
         // below lets an in-progress fade finish on its original
         // schedule.
-        if( MIX_GetTrackFadeFrames( track ) != 0 ) {
+        // Checking !MIX_TrackPlaying( track ) first skips GetTrackFadeFrames
+        // TrackMSToFrames, and StopTrack on every silent turn.
+        if( !MIX_TrackPlaying( track ) || MIX_GetTrackFadeFrames( track ) != 0 ) {
             return;
         }
         MIX_StopTrack( track, MIX_TrackMSToFrames( track, fade_out_ms ) );
