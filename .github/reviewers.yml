@@ -7,6 +7,8 @@ files:
     - John-Candlebury
   'data/mods/Backrooms/**':
     - onura46
+  'data/json/monsters/zed_lieutenant**':
+    - RenechCDDA
   'data/mods/DinoMod/**':
     - LyleSY
   'data/mods/BombasticPerks/**':
