@@ -1,6 +1,56 @@
 # Lines longer than 78 characters will be wrapped automatically
 # The following line is for reference
 ##############################################################################
+(<color_cyan>0.J</color>):</color>
+<color_white>Original author:</color>    <color_white>Project Manager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>Maya Granade</color>
+
+<color_white>Special thanks to:</color>
+top 30 contributors **BY COMMIT COUNT** - format me, prettify me, and figure out who to prune/add
+880, Standing-Storm
+726, dobbry-vechur
+331, ShnitzelX2
+286, Tektolnes
+280, RenechCDDA
+269, GuardianDll
+200, Maleclypse
+196, thaelina
+167, ehughsbaird
+163, BalthazarArgall
+144, Maya Granade
+135, John Candlebury
+110, Andrew Krieger
+109, PatrikLundell
+106, gettingusedto
+85, alef
+79, Blueflowers
+72, Clarence "Sparr" Risher
+69, Procyonae
+67, Holli
+64, dynst
+51, kuutekitty (nameless)
+50, anoobindisguise
+47, KorGgenT
+46, SariusSkelrets
+44, Sab Pyrope
+41, mqrause
+40, harakka
+38, evilbananas
+31, Milopetilo
+
+<color_white>Special thanks for art contributions:</color>
+Fill me in :)
+
+<color_white>For a full list of contributors please see:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+<color_cyan>https://github.com/I-am-Erk/CDDA-Tilesets/graphs/contributors</color>
+<color_cyan>https://github.com/pixel-32/CDDA-tileset/graphs/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+
+******************************************************************************
 (<color_cyan>0.I</color>):</color>
 <color_white>Original author:</color>    <color_white>Project Manager:</color>
 <color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
