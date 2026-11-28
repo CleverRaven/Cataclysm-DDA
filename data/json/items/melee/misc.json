@@ -77,7 +77,7 @@
     "volume": "800 ml",
     "price": "45 USD",
     "price_postapoc": "8 USD",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "uneven" },
     "material": [ "cotton", "steel" ],
     "symbol": "{",
     "color": "brown",
@@ -86,6 +86,6 @@
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "faults": [ { "fault_group": "rope_weapons" }, { "fault_group": "steel_smithed_craft_failures" } ],
     "weapon_category": [ "FLAILS" ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 10 }
   }
 ]
