@@ -156,7 +156,8 @@
     "name": "lost level",
     "color": "black",
     "sym": " ",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

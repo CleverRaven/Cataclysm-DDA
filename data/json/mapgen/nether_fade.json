@@ -11,6 +11,11 @@
   },
   {
     "type": "mapgen",
+    "om_terrain": [ "nether_glass_exit" ],
+    "object": { "fill_ter": "t_nether_glass_floor", "set": [ { "point": "terrain", "id": "t_string_point_big", "x": 12, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
     "om_terrain": [ "nether_glass_deep" ],
     "object": {
       "fill_ter": "t_nether_glass_floor",

@@ -424,21 +424,14 @@
     "effect": [
       { "u_message": "The cavern folds itself beyond perception.", "popup": true },
       {
-        "u_travel_to_dimension": "default",
+        "u_travel_to_dimension": "abyss",
         "npc_travel_radius": 0,
         "npc_travel_filter": "none",
         "fail_message": "Nothing seems to change.",
         "success_message": "The emptiness seems to expand into endlessness."
       },
-      {
-        "u_location_variable": { "global_val": "nether_glass" },
-        "target_params": { "om_terrain": "nether_glass_deep", "z": -10, "min_distance": 1 }
-      },
-      { "u_teleport": { "global_val": "nether_glass" }, "force": true },
-      {
-        "mapgen_update": "microlab_portal_elevator_physics_shift",
-        "om_terrain": "microlab_portal_elevator_physics_glass"
-      }
+      { "u_location_variable": { "context_val": "tp_loc" }, "z_adjust": -10, "z_override": true },
+      { "u_teleport": { "context_val": "tp_loc" } }
     ]
   },
   {
