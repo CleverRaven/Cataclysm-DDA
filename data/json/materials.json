@@ -903,6 +903,28 @@
   },
   {
     "type": "material",
+    "id": "nl_fruit",
+    "name": "Fruit-like Matter",
+    "density": 1.1,
+    "specific_heat_liquid": 3.9,
+    "specific_heat_solid": 1.9,
+    "latent_heat": 290,
+    "rotting": false,
+    "conductive": true,
+    "chip_resist": 1,
+    "dmg_adj": [ "lightly damaged", { "ctxt": "adjective", "str": "damaged" }, "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "bruised",
+    "cut_dmg_verb": { "str": "cut", "ctxt": "material cut damage verb" },
+    "vitamins": [ [ "vitC", 2 ] ],
+    "burn_data": [
+      { "fuel": 0, "smoke": 3, "burn": 0.004 },
+      { "fuel": 0, "smoke": 6, "burn": 0.004 },
+      { "fuel": 0, "smoke": 10, "burn": 0.01 }
+    ],
+    "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "material",
     "id": "fur",
     "name": "Fur",
     "density": 1.1,
@@ -2621,6 +2643,29 @@
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
       { "fuel": 0, "smoke": 3, "burn": 0.002 },
       { "fuel": 0, "smoke": 5, "burn": 0.005 }
+    ],
+    "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
+  },
+  {
+    "type": "material",
+    "id": "nl_veggy",
+    "name": "Plant-like Matter",
+    "density": 1.1,
+    "specific_heat_liquid": 3.9,
+    "specific_heat_solid": 1.9,
+    "latent_heat": 290,
+    "rotting": false,
+    "conductive": true,
+    "chip_resist": 2,
+    "breathability": "MOISTURE_WICKING",
+    "dmg_adj": [ "lightly damaged", { "ctxt": "adjective", "str": "damaged" }, "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "squished",
+    "cut_dmg_verb": { "str": "cut", "ctxt": "material cut damage verb" },
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitC", 0.5 ] ],
+    "burn_data": [
+      { "fuel": 0, "smoke": 2, "burn": 0.004 },
+      { "fuel": 0, "smoke": 6, "burn": 0.004 },
+      { "fuel": 0, "smoke": 10, "burn": 0.01 }
     ],
     "resist": { "bash": 1, "cut": 1, "acid": 2, "heat": 1, "bullet": 1 }
   },

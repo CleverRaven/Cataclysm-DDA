@@ -104,7 +104,8 @@
       },
       {
         "collection": [
-          { "//": "edibles based on exodii food.  Will need new definitions." },
+          { "item": "nl_protein_bar", "prob": 80 },
+          { "item": "nl_protein_shake", "prob": 80 },
           { "item": "dry_meat", "prob": 20 },
           { "item": "dry_fish", "prob": 30 },
           { "item": "dry_veggy", "prob": 40 },
@@ -189,6 +190,8 @@
     "//": "Filler.  Should contain several boxes of food and foodlike objects.",
     "subtype": "collection",
     "entries": [
+      { "item": "nl_protein_bar", "prob": 80 },
+      { "item": "nl_protein_shake", "prob": 80 },
       { "item": "dry_meat", "prob": 20 },
       { "item": "dry_fish", "prob": 30 },
       { "item": "dry_veggy", "prob": 40 },
